@@ -57,11 +57,12 @@
                        sortable="custom"
                        align="center"
                        :formatter="row => periodFormatter(row.total)" />
-      <el-table-column prop="time"
+      <!-- Bug exists while collecting -->
+      <!-- <el-table-column prop="time"
                        :label="$t('item.time')"
                        min-width="80px"
                        sortable="custom"
-                       align="center" />
+                       align="center" /> -->
     </el-table>
     <div class="pagination-container">
       <el-pagination @size-change="queryData"

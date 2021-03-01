@@ -10,10 +10,11 @@ database.refresh(() => {
     database.addOneTime(host)
     const waste: WastePerDay = database.getTodayOf(host)
 
-    const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
-        .replace('{host}', host)
-        .replace('{time}', waste.time.toString())
-    console.log(info0)
+    // Bug exists while collecting 
+    // const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
+    //     .replace('{host}', host)
+    //     .replace('{time}', waste.time.toString())
+    // console.log(info0)
 
     const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
     const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
