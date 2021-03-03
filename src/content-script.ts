@@ -1,6 +1,6 @@
 import database, { WastePerDay } from "./database"
 import { FOCUS, HOST_END, SAVE_FOCUS, UNFOCUS } from "./util/constant"
-import { formatSpec } from "./util/time"
+import { formatPeriod } from "./util/time"
 
 const host = document.location.host
 chrome.runtime.sendMessage({ code: 'hostStart', host })
@@ -14,9 +14,14 @@ database.refresh(() => {
         .replace('{host}', host)
         .replace('{time}', waste.time.toString())
     console.log(info0)
+
+    const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
+    const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
+    const secondMsg = chrome.i18n.getMessage('message_timeWithSecond')
+
     const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
-        .replace('{focus}', formatSpec(waste.focus))
-        .replace('{total}', formatSpec(waste.total))
+        .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
+        .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
     console.log(info1)
 })
 

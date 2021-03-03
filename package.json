@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Web timer",
   "main": "index.js",
   "scripts": {

@@ -2,7 +2,12 @@
   <div class="app">
     <v-chart :option="option" />
     <div class="option-container">
-      <el-switch v-model="onlyRoot" />
+      <el-link icon="el-icon-view"
+               @click="openDashboard()">{{ $t('popup.allData') }}</el-link>
+      <el-tooltip :content="$t('popup.mergeDomainLabel')">
+        <el-switch v-model="mergeDomain"
+                   style="margin-left:10px;" />
+      </el-tooltip>
       <el-select size="mini"
                  v-model="type"
                  style="margin-left:10px;width:100px;">
@@ -20,10 +25,10 @@ import VChart from "vue-echarts"
 import { use } from 'echarts/core'
 import { CanvasRenderer } from "echarts/renderers"
 import { PieChart } from "echarts/charts"
-import { TitleComponent, TooltipComponent, LegendComponent } from "echarts/components"
-import { formatSpec1 } from '../util/time'
+import { TitleComponent, TooltipComponent, LegendComponent, ToolboxComponent } from "echarts/components"
+import { formatPeriodCommon, formatTime } from '../util/time'
 
-use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
+use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, ToolboxComponent, LegendComponent])
 
 const DEFAULT_DATE_TYPE = 'focus'
 export default {
@@ -32,20 +37,24 @@ export default {
     VChart
   },
   data () {
+    const app = this.$t('app.name')
+    const today = formatTime(new Date(), '{y}_{m}_{d}')
+    const todayForShow = formatTime(new Date(), '{y}/{m}/{d}')
     return {
       tableData: [],
       type: DEFAULT_DATE_TYPE, // focus or total
-      onlyRoot: true,
+      mergeDomain: true,
       allTypes: ['focus', 'total'],
       option: {
         title: {
           text: this.$t('popup.title'),
+          subtext: `${todayForShow} @ ${app}`,
           left: 'center'
         },
         tooltip: {
           trigger: 'item',
           formatter ({ name, percent, value }) {
-            return `${name}<br/>${formatSpec1(value)} (${percent}%)`
+            return `${name}<br/>${formatPeriodCommon(value)} (${percent}%)`
           }
         },
         legend: {
@@ -62,7 +71,9 @@ export default {
             name: "Wasted Time",
             type: "pie",
             radius: "55%",
-            center: ["62%", "52%"],
+            center: ["64%", "52%"],
+            startAngle: 300,
+            minShowLabelAngle: 4,
             data: [],
             emphasis: {
               itemStyle: {
@@ -72,26 +83,36 @@ export default {
               },
             }
           }
-        ]
+        ],
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: this.$t('popup.saveAsImageTitle'),
+              name: this.$t('popup.fileName', { app, today }), // file name
+              excludeComponents: ['toolbox'],
+              pixelRatio: 2
+            }
+          }
+        }
       }
     }
   },
   created () {
-    database.refresh(items => {
-      this.queryData()
-    })
+    database.refresh(() => this.queryData())
   },
   watch: {
     type () {
       this.queryData()
     },
-    onlyRoot () {
+    mergeDomain () {
       this.queryData()
     }
   },
   methods: {
     queryData () {
-      this.tableData = database.select({ date: new Date(), byRoot: this.onlyRoot })
+      this.tableData = database.select({ date: new Date(), mergeDomain: this.mergeDomain, sort: this.type })
       this.calculateData()
     },
     dateFormatter ({ date }) {
@@ -106,6 +127,12 @@ export default {
       })
       this.option.legend.data = legendData
       this.option.series[0].data = series
+    },
+    openDashboard () {
+      const isFireFox = /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)
+      // FireFox use 'static' as prefix
+      const url = isFireFox ? 'dashboard.html' : 'static/dashboard.html'
+      chrome.tabs.create({ url })
     }
   }
 }
@@ -113,7 +140,7 @@ export default {
 <style scoped>
 .app {
   width: 750px;
-  height: 440px;
+  height: 500px;
 }
 .option-container {
   float: right;

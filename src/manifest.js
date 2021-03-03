@@ -7,7 +7,7 @@
 const { version, author, homepage } = require('../package.json')
 const { defaultLocale } = require('./locale/index')
 module.exports = {
-  name: '__MSG_app_name__',
+  name: '__MSG_app_marketName__',
   description: "__MSG_app_description__",
   version,
   author,

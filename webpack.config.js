@@ -100,7 +100,8 @@ const options = {
   entry: {
     background: './src/background.ts',
     content_scripts: './src/content-script.ts',
-    popup: './src/popup/main.js'
+    popup: './src/popup/main.js',
+    dashboard: './src/dashboard/main.js'
   },
   output: {
     path: path.join(__dirname, { 'production': 'dist_prod', 'development': 'dist_dev' }[env] || 'dist_dev'),

@@ -39,3 +39,11 @@ chrome.tabs.onActivated.addListener((tabInfo: chrome.tabs.TabActiveInfo) => {
     !!lastFocusTabId && chrome.tabs.sendMessage(lastFocusTabId, { code: UNFOCUS })
     lastFocusTabId = tabId
 })
+
+chrome.windows.onFocusChanged.addListener((windowId) => {
+    if (windowId === chrome.windows.WINDOW_ID_NONE) {
+        // All windows lost focus
+        !!lastFocusTabId && chrome.tabs.sendMessage(lastFocusTabId, { code: UNFOCUS })
+        lastFocusTabId = undefined
+    }
+})

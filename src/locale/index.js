@@ -2,20 +2,23 @@ const app = require('./components/app')
 const message = require('./components/message')
 const item = require('./components/item')
 const popup = require('./components/popup')
+const dashboard = require('./components/dashboard')
 const vueMessages = {
   en: {
     lang: { name: 'English' },
     app: app.en,
     message: message.en,
     item: item.en,
-    popup: popup.en
+    popup: popup.en,
+    dashboard: dashboard.en
   },
   zh_CN: {
     lang: { name: '简体中文' },
     app: app.zh_CN,
     message: message.zh_CN,
     item: item.zh_CN,
-    popup: popup.zh_CN
+    popup: popup.zh_CN,
+    dashboard: dashboard.zh_CN
   }
 }
 
