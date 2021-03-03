@@ -5,6 +5,6 @@ module.exports = {
     },
     zh_CN: {
         name: '网费很贵',
-        description: '做最好用的上网时间统计浏览器插件。'
+        description: '做最好用的上网时间统计工具。'
     }
 }
