@@ -26,10 +26,13 @@ const chromeLocale2ExtensionLocale = chromeLocale => {
     return chrome2I18n[chromeLocale] || chromeLocale
 }
 
+export const locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage()) || defaultLocale
+
 const option = {
     messages: vueMessages,
     fallbackLocale: defaultLocale,
-    locale: chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage()) || defaultLocale,
+    locale
 }
 
 export default new VueI18n(option)
+

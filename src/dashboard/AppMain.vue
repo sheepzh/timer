@@ -210,4 +210,11 @@ export default {
 .el-input__suffix {
   right: 30px !important;
 }
+.el-picker-panel__sidebar {
+  width: 130px !important;
+}
+.el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
+.el-picker-panel__sidebar + .el-picker-panel__body {
+  margin-left: 130px !important;
+}
 </style>

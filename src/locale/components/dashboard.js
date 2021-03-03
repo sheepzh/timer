@@ -14,11 +14,11 @@ module.exports = {
         title: 'Statistics',
         startDate: 'Start Date',
         endDate: 'End Date',
-        latestWeek: 'The Latest Week',
-        latest30Days: 'The Latest 30 Days',
-        mergeDate: 'Merge-Date',
-        mergeDomain: 'Merge-Subdomain',
-        displayBySecond: 'Display-By-Second',
-        hostPlaceholder: 'Input host please'
+        latestWeek: 'Latest Week',
+        latest30Days: 'Latest 30 Days',
+        mergeDate: 'Merge Date',
+        mergeDomain: 'Merge Subdomain',
+        displayBySecond: 'Displayed By Second',
+        hostPlaceholder: 'Host name'
     }
 }

@@ -10,7 +10,7 @@
       </el-tooltip>
       <el-select size="mini"
                  v-model="type"
-                 style="margin-left:10px;width:100px;">
+                 style="margin-left:10px;width:140px;">
         <el-option v-for="n in allTypes"
                    :key="n"
                    :value="n"
