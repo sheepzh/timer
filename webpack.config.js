@@ -11,6 +11,7 @@ const isProd = env === 'production'
 
 // Generate json files 
 const manifest = require('./src/manifest')
+isDev && (manifest.name = "IS DEV")
 const generateJsonPlugins = [new GenerateJsonPlugin('manifest.json', manifest)]
 // Resolve the locale json files
 const { chromeMessages } = require('./src/locale/index')

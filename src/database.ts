@@ -1,10 +1,15 @@
-import { uniqueSort } from "jquery"
 import { formatTime } from "./util/time"
 
 /**
  * Date format for storage
  */
 const DATE_FORMAT = '{y}{m}{d}'
+
+let OPEN_LOG = false
+
+function log(...args: any) {
+    OPEN_LOG && console.log(args)
+}
 
 /**
  * Time waste per day
@@ -102,8 +107,8 @@ class Database {
         this.refresh()
     }
 
-    private resolveTodayOf(host: string, resolver: (w: WastePerDay) => void) {
-        const key = formatTime(new Date(), DATE_FORMAT) + host
+    private resolveOf(host: string, date: Date | number, resolver: (w: WastePerDay) => void) {
+        const key = formatTime(date, DATE_FORMAT) + host
         const todayInfo = this.items[key] || new WastePerDay()
         resolver(todayInfo)
         this.items[key] = todayInfo
@@ -119,19 +124,37 @@ class Database {
         }
     }
 
-    public addTotal(host: string, total: number) {
-        this.resolveTodayOf(host, (i: WastePerDay) => i.total += total)
+
+    public increaseTime(host: string, start: number, increase: (i: WastePerDay, step: number) => void) {
+        const today = new Date()
+        const now = today.getTime()
+        const millPerDay = 3600 * 1000 * 24
+        let endOfDate = new Date(new Date(start).toLocaleDateString()).getTime() + millPerDay
+        while (endOfDate < now) {
+            this.resolveOf(host, endOfDate - 1, (i: WastePerDay) => increase(i, endOfDate - start))
+            start = endOfDate
+            endOfDate += millPerDay
+        }
+        this.resolveOf(host, now, (i: WastePerDay) => increase(i, now - start))
     }
 
-    public addFocus(host: string, focus: number) {
-        this.resolveTodayOf(host, (i: WastePerDay) => i.focus += focus)
+    public addTotal(host: string, start: number) {
+        log('addTotal:{host},{start}', host, new Date(start))
+        this.increaseTime(host, start, (i, step) => i.total += step)
     }
+
+    public addFocus(host: string, start: number) {
+        log('addFocus:{host},{start}', host, new Date(start))
+        this.increaseTime(host, start, (i, step) => i.focus += step)
+    }
+
 
     public addOneTime(host: string) {
-        this.resolveTodayOf(host, (i: WastePerDay) => i.time += 1)
+        this.resolveOf(host, new Date(), (i: WastePerDay) => i.time += 1)
     }
 
     public selectByPage(param?: QueryParam, page?: PageParam): PageInfo {
+        log("selectByPage:{param},{page}", param, page)
         const origin: Row[] = this.select(param)
         let pageNum = page.pageNum
         let pageSize = page.pageSize
@@ -147,6 +170,7 @@ class Database {
     }
 
     public select(param?: QueryParam): Row[] {
+        log("selectByPage:{param}", param)
         param = param || new QueryParam()
         let result: Row[] = []
         // 1st filter
@@ -195,7 +219,8 @@ class Database {
             if (paramHost && !host.includes(paramHost)) return false
 
             if (paramDate instanceof Date) {
-                if (!!param.date && formatTime(paramDate as Date, DATE_FORMAT) !== date) {
+                const paramDateStr = formatTime(paramDate as Date, DATE_FORMAT)
+                if (paramDateStr !== date) {
                     return false
                 }
             } else {
@@ -228,6 +253,7 @@ class Database {
 
         origin.forEach(o => {
             const host = o.host
+            const date = o.date
             let domain = host
             if (!ipAndPort.test(domain)) {
                 // not domain
@@ -241,7 +267,7 @@ class Database {
                 }
             }
 
-            this.merge(map, o, domain).host = domain
+            this.merge(map, o, domain + date).host = domain
         })
         for (let key in map) {
             newRows.push(map[key])
@@ -260,10 +286,10 @@ class Database {
         return newRows
     }
 
-    private merge(map: {}, origin: Row, host: string): Row {
-        let exist: Row = map[host]
+    private merge(map: {}, origin: Row, key: string): Row {
+        let exist: Row = map[key]
         if (exist === undefined) {
-            exist = map[host] = origin
+            exist = map[key] = origin
         } else {
             exist.time += origin.time
             exist.focus += origin.focus
@@ -278,3 +304,7 @@ class Database {
 }
 
 export default new Database()
+
+export function openLog() {
+    OPEN_LOG = true
+}

@@ -26,27 +26,29 @@ database.refresh(() => {
     console.log(info1)
 })
 
-
 let focusStart: number = new Date().getTime()
 
-window.onload = () => {
-    function saveFocus() {
-        const now = new Date().getTime()
-        focusStart !== undefined && chrome.runtime.sendMessage({ code: SAVE_FOCUS, host, focus: now - focusStart })
-        focusStart = undefined
-    }
-    function listener(obj) {
+function saveFocus() {
+    const now = new Date().getTime()
+    focusStart !== undefined && chrome.runtime.sendMessage({ code: SAVE_FOCUS, host, focusStart })
+    focusStart = undefined
+}
+
+window.addEventListener('load', () => {
+    function listener(obj: { code: string }, _: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
         const { code } = obj
         if (code === FOCUS) {
             focusStart = new Date().getTime()
         } else if (code === UNFOCUS) {
             saveFocus()
         }
+        sendResponse("ok")
     }
     chrome.runtime.onMessage.addListener(listener)
-    window.onunload = () => {
+
+    window.addEventListener('beforeunload', () => {
         saveFocus()
         chrome.runtime.sendMessage({ code: HOST_END, host })
         chrome.runtime.onMessage.removeListener(listener)
-    }
-}
+    })
+})
