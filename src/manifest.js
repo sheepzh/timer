@@ -2,7 +2,7 @@
  * Build the manifest.json in chrome extension directory via this file
  * 
  * @author zhy
- * @since 1.0.0
+ * @since 0.0.1
  */
 const { version, author, homepage } = require('../package.json')
 const { defaultLocale } = require('./locale/index')

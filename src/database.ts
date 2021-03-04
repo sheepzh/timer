@@ -14,7 +14,7 @@ function log(...args: any) {
 /**
  * Time waste per day
  * 
- * @since 1.0.0
+ * @since 0.0.1
  */
 export class WastePerDay {
     /**
