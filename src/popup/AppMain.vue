@@ -2,24 +2,34 @@
   <div class="app">
     <v-chart :option="option" />
     <div class="option-container">
-      <el-link icon="el-icon-view"
-               @click="openDashboard()">{{ $t('popup.allData') }}</el-link>
-      <el-tooltip :content="$t('popup.mergeDomainLabel')">
-        <el-switch v-model="mergeDomain"
-                   style="margin-left:10px;" />
-      </el-tooltip>
+      <span class="option-left"
+            style="color: #606266;font-size:12px;">
+        {{ `v${version}` }}
+        &ensp;
+        {{ $t('popup.totalTime', { totalTime }) }}
+      </span>
       <el-select size="mini"
                  v-model="type"
-                 style="margin-left:10px;width:140px;">
+                 class="option-right"
+                 style="width:140px;">
         <el-option v-for="n in allTypes"
                    :key="n"
                    :value="n"
                    :label="$t(`item.${n}`)" />
       </el-select>
+      <el-tooltip :content="$t('popup.mergeDomainLabel')">
+        <el-switch v-model="mergeDomain"
+                   style="margin-left:10px;"
+                   class="option-right" />
+      </el-tooltip>
+      <el-link icon="el-icon-view"
+               class="option-right"
+               @click="openDashboard()">{{ $t('popup.allData') }}</el-link>
     </div>
   </div>
 </template>
 <script>
+const { version } = require('../../package.json')
 import database from '../database'
 import VChart from "vue-echarts"
 import { use } from 'echarts/core'
@@ -41,6 +51,7 @@ export default {
     const today = formatTime(new Date(), '{y}_{m}_{d}')
     const todayForShow = formatTime(new Date(), '{y}/{m}/{d}')
     return {
+      version,
       tableData: [],
       type: DEFAULT_DATE_TYPE, // focus or total
       mergeDomain: true,
@@ -102,6 +113,11 @@ export default {
   created () {
     database.refresh(() => this.queryData())
   },
+  computed: {
+    totalTime () {
+      return formatPeriodCommon(this.tableData.map(d => d[this.type]).reduce((a, b) => a + b, 0))
+    }
+  },
   watch: {
     type () {
       this.queryData()
@@ -143,8 +159,22 @@ export default {
   height: 500px;
 }
 .option-container {
+  padding-bottom: 10px;
+  width: 95%;
+  margin: auto;
+  height: 30px;
+}
+.option-right {
+  margin-left: 10px;
   float: right;
-  margin-bottom: 10px;
-  margin-right: 20px;
+  height: 30px;
+  line-height: 30px;
+}
+.option-left {
+  margin-right: 10px;
+  height: 30px;
+  line-height: 30px;
+  padding-top: 8px;
+  float: left;
 }
 </style>
