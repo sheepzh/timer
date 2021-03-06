@@ -36,7 +36,8 @@ module.exports = {
   ],
   permissions: [
     'storage',
-    'tabs'
+    'tabs',
+    'notifications'
   ],
   browser_action: {
     default_popup: "static/popup.html",
