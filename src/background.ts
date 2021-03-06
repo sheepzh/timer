@@ -47,7 +47,7 @@ chrome.tabs.onActivated.addListener((tabInfo: chrome.tabs.TabActiveInfo) => {
         const url = tab.url
         // Judge has content_script
         const ofBrowser = /^(chrome(-error)?):\/\/*$/g.test(url)
-            || url.startsWith('about:')
+            || /^about:.*$/.test(url)
         !!lastFocusTabId && chrome.tabs.sendMessage(lastFocusTabId, { code: UNFOCUS })
         !ofBrowser && chrome.tabs.sendMessage(tabId, { code: FOCUS })
         lastFocusTabId = ofBrowser ? undefined : tabId
