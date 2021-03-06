@@ -7,3 +7,6 @@ dist_prod
 firefox_dev
 
 market_packages
+
+*.crx
+*.pem
