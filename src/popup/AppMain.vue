@@ -38,10 +38,20 @@ import { CanvasRenderer } from "echarts/renderers"
 import { PieChart } from "echarts/charts"
 import { TitleComponent, TooltipComponent, LegendComponent, ToolboxComponent } from "echarts/components"
 import { formatPeriodCommon, formatTime } from '../util/time'
+import { FAVICON } from '../util/constant'
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, ToolboxComponent, LegendComponent])
 
 const DEFAULT_DATE_TYPE = 'focus'
+
+/**
+ * If the percentage of target site is less than SHOW_ICON_THRESHOLD, don't show its icon
+ */
+const LABEL_FONT_SIZE = 13
+const LABEL_ICON_SIZE = 13
+
+const host2LabelStyle = host => host.replaceAll('.', '00').replaceAll('-', '01')
+
 export default {
   name: 'Main',
   components: {
@@ -80,6 +90,9 @@ export default {
         },
         series: [
           {
+            label: {
+              formatter: ({ name }) => this.mergeDomain ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
+            },
             name: "Wasted Time",
             type: "pie",
             radius: "55%",
@@ -138,12 +151,24 @@ export default {
     calculateData () {
       const legendData = []
       const series = []
+      const iconRich = {}
       this.tableData.forEach(d => {
-        legendData.push(d.host)
-        series.push({ name: d.host, value: d[this.type] || 0 })
+        const { host } = d
+        legendData.push(host)
+        series.push({ name: host, value: d[this.type] || 0 })
+        iconRich[host2LabelStyle(host)] = {
+          height: LABEL_ICON_SIZE,
+          width: LABEL_ICON_SIZE,
+          fontSize: LABEL_ICON_SIZE,
+          backgroundColor: { image: FAVICON(host) }
+        }
       })
       this.option.legend.data = legendData
       this.option.series[0].data = series
+      this.option.series[0].label.rich = {
+        a: { fontSize: LABEL_FONT_SIZE },
+        ...iconRich
+      }
     },
     openDashboard () {
       // FireFox use 'static' as prefix

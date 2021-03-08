@@ -44,7 +44,18 @@
                        :label="$t('item.host')"
                        min-width="170px"
                        sortable="custom"
-                       align="center" />
+                       align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.host }}</span>
+          <span style="height:23px;line-height:23px;padding-left:2px;">
+            <img v-if="!mergeDomain"
+                 :src="getFaviconUrl(row.host)"
+                 width="12px"
+                 height="12px"
+                 @error="this.style.display='none'">
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="focus"
                        :label="$t('item.focus')"
                        min-width="130px"
@@ -78,6 +89,7 @@
 </template>
 <script>
 import database, { QueryParam } from '../database'
+import { FAVICON } from '../util/constant'
 import { formatPeriodCommon } from '../util/time'
 const ELEMENT_SORT_2_DB = {
   descending: QueryParam.DESC,
@@ -172,6 +184,9 @@ export default {
       this.sort.prop = prop
       this.sort.order = order
       this.queryData()
+    },
+    getFaviconUrl (domain) {
+      return FAVICON(domain)
     }
   }
 }
