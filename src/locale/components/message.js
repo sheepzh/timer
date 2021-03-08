@@ -6,6 +6,7 @@ module.exports = {
         timeWithMinute: '{minute} 分 {second} 秒',
         timeWithSecond: '{second} 秒',
         updateNotification: '版本已更新，需要您授权将新功能应用到所有页面。',
+        updateNotificationForFirefox: '版本已更新，你需要重启浏览器来适应新功能。',
         notificationGrant: '授权'
     },
     en: {
@@ -15,6 +16,7 @@ module.exports = {
         timeWithMinute: '{minute} minute(s) {second} second(s)',
         timeWithSecond: '{second} second(s)',
         updateNotification: 'The extension updated and requires authorization to apply the new features to all pages.',
+        updateNotificationForFirefox: 'The extension updated and requires relaunch to apply the new features to all pages.',
         notificationGrant: 'OK, I GRANT'
     }
 }

@@ -1,3 +1,5 @@
+import { IS_FIREFOX } from "../util/constant";
+
 class ContentScript {
     matches?: string[];
     exclude_matches?: string[];
@@ -62,19 +64,29 @@ export default class InstalledHandler {
         const id = 'timer-installed-' + new Date().getTime()
         const iconUrl = '../static/images/icon.png'
         const title = chrome.i18n.getMessage('app_marketName')
-        const message = chrome.i18n.getMessage('message_updateNotification')
-        chrome.notifications.create(id, { title, message, iconUrl, type: 'basic', buttons: [{ title: chrome.i18n.getMessage('message_notificationGrant') }] })
 
-        chrome.notifications.onButtonClicked.addListener((_: string, __: number) => {
-            // Request permissions
-            chrome.permissions.request(PERMISSION_NEED_GRANTED, granted => {
-                console.log('granted', granted)
-                if (!granted) {
-                    // Not granted
-                    chrome.permissions.onAdded.addListener(doAfterPermissionGranted)
-                    return
-                }
+        const options: chrome.notifications.NotificationOptions = { iconUrl, title, type: 'basic' }
+
+        if (IS_FIREFOX) {
+            // Not firefox, only restart 
+            options.message = chrome.i18n.getMessage('message_updateNotificationForFirefox')
+        } else {
+            options.message = chrome.i18n.getMessage('message_updateNotification')
+            options.buttons = [{ title: chrome.i18n.getMessage('message_notificationGrant') }]
+
+            chrome.notifications.onButtonClicked.addListener(() => {
+                // Request permissions
+                chrome.permissions.request(PERMISSION_NEED_GRANTED, granted => {
+                    console.log('granted', granted)
+                    if (!granted) {
+                        // Not granted
+                        chrome.permissions.onAdded.addListener(doAfterPermissionGranted)
+                        return
+                    }
+                })
             })
-        })
+        }
+
+        chrome.notifications.create(id, options)
     }
 }

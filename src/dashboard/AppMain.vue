@@ -139,7 +139,7 @@ export default {
   },
   created () {
     document.title = this.$t('dashboard.title')
-    database.refresh(() => this.queryData())
+    this.queryData()
   },
   methods: {
     queryData () {
@@ -155,9 +155,11 @@ export default {
         pageSize: this.page.size,
         pageNum: this.page.num
       }
-      const { list, total } = database.selectByPage(param, page)
-      this.tableData = list
-      this.page.total = total
+      database.refresh(() => {
+        const { list, total } = database.selectByPage(param, page)
+        this.tableData = list
+        this.page.total = total
+      })
     },
     dateFormatter ({ date }) {
       if (!date) return '-'

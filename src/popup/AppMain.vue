@@ -30,6 +30,7 @@
 </template>
 <script>
 const { version } = require('../../package.json')
+import { IS_FIREFOX } from '../util/constant'
 import database from '../database'
 import VChart from "vue-echarts"
 import { use } from 'echarts/core'
@@ -145,9 +146,8 @@ export default {
       this.option.series[0].data = series
     },
     openDashboard () {
-      const isFireFox = /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)
       // FireFox use 'static' as prefix
-      const url = isFireFox ? 'dashboard.html' : 'static/dashboard.html'
+      const url = IS_FIREFOX ? 'dashboard.html' : 'static/dashboard.html'
       chrome.tabs.create({ url })
     }
   }
