@@ -98,7 +98,7 @@ export default {
             radius: "55%",
             center: ["64%", "52%"],
             startAngle: 300,
-            minShowLabelAngle: 4,
+            minShowLabelAngle: 7,
             data: [],
             emphasis: {
               itemStyle: {
