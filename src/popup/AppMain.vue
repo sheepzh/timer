@@ -52,6 +52,8 @@ const LABEL_ICON_SIZE = 13
 
 const host2LabelStyle = host => host.replaceAll('.', '00').replaceAll('-', '01')
 
+const OTHER_LABEL = 'OTHERS'
+
 export default {
   name: 'Main',
   components: {
@@ -91,14 +93,13 @@ export default {
         series: [
           {
             label: {
-              formatter: ({ name }) => this.mergeDomain ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
+              formatter: ({ name }) => this.mergeDomain || name === OTHER_LABEL ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
             },
             name: "Wasted Time",
             type: "pie",
             radius: "55%",
             center: ["64%", "52%"],
             startAngle: 300,
-            minShowLabelAngle: 7,
             data: [],
             emphasis: {
               itemStyle: {
@@ -142,7 +143,21 @@ export default {
   },
   methods: {
     queryData () {
-      this.tableData = database.select({ date: new Date(), mergeDomain: this.mergeDomain, sort: this.type })
+      const rows = database.select({ date: new Date(), mergeDomain: this.mergeDomain, sort: this.type })
+      this.tableData = []
+      const other = { host: OTHER_LABEL, focus: 0, total: 0 }
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i]
+        if (i < 10) {
+          this.tableData.push(row)
+        } else {
+          other.focus += row.focus
+          other.total += row.total
+        }
+      }
+      if (rows.length > 10) {
+        this.tableData.push(other)
+      }
       this.calculateData()
     },
     dateFormatter ({ date }) {
