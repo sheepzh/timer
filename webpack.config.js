@@ -156,9 +156,6 @@ const options = {
   },
   resolve: {
     extensions: [".tsx", '.ts', ".js", '.vue', 'css'],
-  },
-  optimization: {
-    minimize: false
   }
 }
 
