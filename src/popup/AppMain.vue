@@ -1,6 +1,8 @@
 <template>
   <div class="app">
-    <v-chart :option="option" />
+    <v-chart :option="option"
+             width="750"
+             height="500" />
     <div class="option-container">
       <span class="option-left"
             style="color: #606266;font-size:12px;">
