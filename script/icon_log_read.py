@@ -11,8 +11,6 @@
 import sys
 import os
 
-import argparse
-
 
 def split(line):
     result = []
