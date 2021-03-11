@@ -48,14 +48,14 @@ def parseLog(fileName, urls):
                 if http[0] != 'GET':
                     continue
                 url = http[1][1:]
-                if '?' in url or url.endswith('/') or url == 'favicon.ico' or url.endswith('.png'):
+                if '?' in url or url.endswith('/') or url == 'favicon.ico' or url.endswith('.png') or url == 'favicon-1256916044.cos.ap-guangzhou.myqcloud.com':
                     # Request by Tencent Cloud
                     continue
                 # print(cols[29])
                 if url and url not in urls:
                     try:
                         req = requests.get(
-                            'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/'+url
+                            'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/' + url
                         )
                         if req.status_code == 404:
                             req = requests.get('http://'+url+'/favicon.ico')
