@@ -10,3 +10,5 @@ market_packages
 
 *.crx
 *.pem
+
+script/icons

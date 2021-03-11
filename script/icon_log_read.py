@@ -1,15 +1,16 @@
 '''
     Read the log of website icon request and find the icon which doesn't exist.
-    
+
     How to use:
 
-        python3 icon_log_read.py {log_dir} 
-    
+        python3 icon_log_read.py {log_dir}
+
     @author zhy
     @date 20210310
 '''
 import sys
 import os
+import requests
 
 
 def split(line):
@@ -42,12 +43,30 @@ def parseLog(fileName, urls):
             res_code = cols[14].strip()
 
             if res_code == '404':
-                # /taptap.com?1231=12321
-                url = cols[29].split(' ')[1][1:]
-                if url.find('?') != -1:
-                    url = url[0:url.find('?')]
+                # /taptap.com
+                http = cols[29].split(' ')
+                if http[0] != 'GET':
+                    continue
+                url = http[1][1:]
+                if '?' in url or url.endswith('/') or url == 'favicon.ico' or url.endswith('.png'):
+                    # Request by Tencent Cloud
+                    continue
+                # print(cols[29])
                 if url and url not in urls:
-                    urls.append(url)
+                    try:
+                        req = requests.get(
+                            'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/'+url
+                        )
+                        if req.status_code == 404:
+                            req = requests.get('http://'+url+'/favicon.ico')
+                            if(req.status_code == 200):
+                                with open('./icons/'+url, 'wb') as f:
+                                    f.write(req.content)
+                            else:
+                                urls.append(url)
+                    except:
+                        urls.append(url)
+
     return urls
 
 
