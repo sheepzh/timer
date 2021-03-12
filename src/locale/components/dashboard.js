@@ -16,8 +16,8 @@ module.exports = {
         endDate: 'End Date',
         latestWeek: 'Latest Week',
         latest30Days: 'Latest 30 Days',
-        mergeDate: 'Merge Date',
-        mergeDomain: 'Merge Subdomain',
+        mergeDate: 'Merge Days',
+        mergeDomain: 'Merge Subdomains',
         displayBySecond: 'Displayed By Second',
         hostPlaceholder: 'Host name'
     }

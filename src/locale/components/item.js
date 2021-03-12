@@ -4,13 +4,33 @@ module.exports = {
         host: '域名',
         total: '运行时长',
         focus: '浏览时长',
-        time: '打开次数'
+        time: '打开次数',
+        operation: {
+            label: '操作',
+            delete: '删除',
+            add2Whitelist: '白名单',
+            confirmMsg: '好的',
+            cancelMsg: '不用了',
+            deleteConfirmMsgAll: '{url} 的所有访问记录将被删除',
+            deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除',
+            add2WhiteConfirmMsg: '如果你将 {url} 加入白名单，所有历史记录都将被删除'
+        }
     },
     en: {
         date: 'Date',
         host: 'Host Name',
         total: 'Run Time',
         focus: 'Browse Time',
-        time: 'Open Count'
+        time: 'Open Count',
+        operation: {
+            label: 'Operations',
+            delete: 'Delete',
+            add2Whitelist: 'Whitelist',
+            confirmMsg: 'OK',
+            cancelMsg: 'NO',
+            deleteConfirmMsgAll: 'All records of {url} will be deleted',
+            deleteConfirmMsg: 'The record of {url} on {date} will be deleted',
+            add2WhiteConfirmMsg: 'If you add {url} to the whitelist, all history records will be deleted.',
+        }
     }
 }
