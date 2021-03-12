@@ -58,7 +58,9 @@ def parseLog(fileName, urls):
                             'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/' + url
                         )
                         if req.status_code == 404:
-                            req = requests.get('http://'+url+'/favicon.ico')
+                            req = requests.get(
+                                'http://'+url+'/favicon.ico', timeout=1
+                            )
                             if(req.status_code == 200):
                                 with open('./icons/'+url, 'wb') as f:
                                     f.write(req.content)
