@@ -12,8 +12,8 @@ module.exports = {
     },
     en: {
         title: 'Statistics',
-        startDate: 'Start Date',
-        endDate: 'End Date',
+        startDate: 'Start date',
+        endDate: 'End date',
         latestWeek: 'Latest Week',
         latest30Days: 'Latest 30 Days',
         mergeDate: 'Merge Days',
