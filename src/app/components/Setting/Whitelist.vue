@@ -22,7 +22,7 @@
       <el-button v-else
                  class="button-new-tag"
                  size="small"
-                 @click="showInput">+ New Tag</el-button>
+                 @click="showInput">+ {{$t('setting.whitelist.newOne')}}</el-button>
     </div>
   </div>
 </template>

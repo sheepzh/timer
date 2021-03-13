@@ -7,7 +7,8 @@ module.exports = {
             confirmTitle: '操作确认',
             successMsg: '操作成功！',
             duplicateMsg: '请勿重复添加',
-            infoAlert: '白名单内的站点不进行访问统计。'
+            infoAlert: '白名单内的站点不进行访问统计。',
+            newOne: '新增'
         },
         scoreRequest: '给这个扩展打个分吧！🌟'
     },
@@ -20,7 +21,8 @@ module.exports = {
             successMsg: 'Successfully!',
             duplicateMsg: 'Duplicated',
             infoAlert: 'The sites in the whitelist are not counted',
-            scoreRequest: 'Point me, thanks！🌟'
+            scoreRequest: 'Point me, thanks！🌟',
+            newOne: 'New One'
         }
     }
 }
