@@ -1,6 +1,8 @@
 import InstalledHandler from './chrome/installed-handler'
-import database, { openLog } from './database'
+import { openLog } from './common/logger'
+import timeService from './service/timer-service'
 import { FOCUS, HOST_END, HOST_START, SAVE_FOCUS, UNFOCUS } from './util/constant'
+import { isBrowserUrl } from './util/pattern'
 
 openLog()
 
@@ -27,15 +29,14 @@ chrome.runtime.onMessage.addListener((data, _, sendResponse) => {
             hostStart[host] = undefined
         } else {
             const now = new Date().getTime()
-            database.addTotal(host, hostStart[host] || now)
+            timeService.addTotal(host, hostStart[host] || now)
             hostStart[host] = now
             hostCount[host] = count - 1
         }
 
     } else if (code === SAVE_FOCUS) {
-        database.addFocus(host, focusStart)
         const now = new Date().getTime()
-        database.addTotal(host, hostStart[host] || now)
+        timeService.addFocusAndTotal(host, focusStart, hostStart[host] || now)
         hostStart[host] = now
     }
     sendResponse("ok")
@@ -46,8 +47,7 @@ chrome.tabs.onActivated.addListener((tabInfo: chrome.tabs.TabActiveInfo) => {
     chrome.tabs.get(tabId, tab => {
         const url = tab.url
         // Judge has content_script
-        const ofBrowser = /^(chrome(-error)?):\/\/*$/g.test(url)
-            || /^about:.*$/.test(url)
+        const ofBrowser = isBrowserUrl(url)
         !!lastFocusTabId && chrome.tabs.sendMessage(lastFocusTabId, { code: UNFOCUS })
         !ofBrowser && chrome.tabs.sendMessage(tabId, { code: FOCUS })
         lastFocusTabId = ofBrowser ? undefined : tabId

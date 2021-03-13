@@ -12,8 +12,7 @@ module.exports = {
             confirmMsg: '好的',
             cancelMsg: '不用了',
             deleteConfirmMsgAll: '{url} 的所有访问记录将被删除',
-            deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除',
-            add2WhiteConfirmMsg: '如果你将 {url} 加入白名单，所有历史记录都将被删除'
+            deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除'
         }
     },
     en: {
@@ -27,10 +26,9 @@ module.exports = {
             delete: 'Delete',
             add2Whitelist: 'Whitelist',
             confirmMsg: 'OK',
-            cancelMsg: 'NO',
+            cancelMsg: 'NO!',
             deleteConfirmMsgAll: 'All records of {url} will be deleted',
-            deleteConfirmMsg: 'The record of {url} on {date} will be deleted',
-            add2WhiteConfirmMsg: 'If you add {url} to the whitelist, all history records will be deleted.',
+            deleteConfirmMsg: 'The record of {url} on {date} will be deleted'
         }
     }
 }

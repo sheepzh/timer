@@ -1,4 +1,5 @@
-import database, { WastePerDay } from "./database"
+import timerDatabase, { WastePerDay } from "./database/timer-database"
+import timeService from './service/timer-service'
 import { FOCUS, HOST_END, SAVE_FOCUS, UNFOCUS } from "./util/constant"
 import { formatPeriod } from "./util/time"
 
@@ -6,24 +7,17 @@ const host = document.location.host
 chrome.runtime.sendMessage({ code: 'hostStart', host })
 
 // init
-database.refresh(() => {
-    database.addOneTime(host)
-    const waste: WastePerDay = database.getTodayOf(host)
-
-    // Bug exists while collecting 
-    // const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
-    //     .replace('{host}', host)
-    //     .replace('{time}', waste.time.toString())
-    // console.log(info0)
-
+timerDatabase.refresh(() => {
+    timeService.addOneTime(host)
     const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
     const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
     const secondMsg = chrome.i18n.getMessage('message_timeWithSecond')
-
-    const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
-        .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
-        .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
-    console.log(info1)
+    timerDatabase.get(host, new Date(), (waste: WastePerDay) => {
+        const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
+            .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
+            .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
+        console.log(info1)
+    })
 })
 
 let focusStart: number = new Date().getTime()

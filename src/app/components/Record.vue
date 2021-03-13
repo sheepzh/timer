@@ -1,9 +1,9 @@
 <template>
-  <div class="app-container">
+  <div class="content-container">
     <div class="filter-container">
       <el-input class="filter-item"
                 v-model="host"
-                :placeholder="$t('dashboard.hostPlaceholder')"
+                :placeholder="$t('record.hostPlaceholder')"
                 clearable
                 @keyup.enter.native="queryData">
       </el-input>
@@ -13,17 +13,17 @@
                         format="yyyy/MM/dd"
                         range-separator="-"
                         :picker-options="pickerOptions"
-                        :start-placeholder="$t('dashboard.startDate')"
-                        :end-placeholder="$t('dashboard.endDate')">
+                        :start-placeholder="$t('record.startDate')"
+                        :end-placeholder="$t('record.endDate')">
         </el-date-picker>
       </span>
-      <a class="filter-name">{{ $t('dashboard.mergeDate') }}</a>
+      <a class="filter-name">{{ $t('record.mergeDate') }}</a>
       <el-switch class="filter-item"
                  v-model="mergeDate" />
-      <a class="filter-name">{{ $t('dashboard.mergeDomain') }}</a>
+      <a class="filter-name">{{ $t('record.mergeDomain') }}</a>
       <el-switch class="filter-item"
                  v-model="mergeDomain" />
-      <a class="filter-name">{{ $t('dashboard.displayBySecond') }}</a>
+      <a class="filter-name">{{ $t('record.displayBySecond') }}</a>
       <el-switch class="filter-item"
                  v-model="displayBySecond" />
     </div>
@@ -51,8 +51,7 @@
             <img v-if="!mergeDomain"
                  :src="getFaviconUrl(row.host)"
                  width="12px"
-                 height="12px"
-                 @error="this.style.display='none'">
+                 height="12px">
           </span>
         </template>
       </el-table-column>
@@ -68,6 +67,38 @@
                        sortable="custom"
                        align="center"
                        :formatter="row => periodFormatter(row.total)" />
+      <el-table-column :label="$t('item.operation.label')"
+                       min-width="100px"
+                       align="center"
+                       v-if="!mergeDomain">
+        <template slot-scope="{row}">
+          <el-popconfirm :confirm-button-text='$t("item.operation.confirmMsg")'
+                         :cancel-button-text="$t('item.operation.cancelMsg')"
+                         :title="deleteMsg"
+                         @confirm="deleteUrl(row)">
+            <el-button size="mini"
+                       slot="reference"
+                       type="warning"
+                       @click="changeDeleteConfirmUrl(row)"
+                       icon="el-icon-delete">
+              {{ $t('item.operation.delete') }}
+            </el-button>
+          </el-popconfirm>
+          <el-popconfirm :confirm-button-text='$t("item.operation.confirmMsg")'
+                         :cancel-button-text="$t('item.operation.cancelMsg')"
+                         :title="$t('setting.whitelist.addConfirmMsg',{ url: row.host })"
+                         icon="el-icon-info"
+                         icon-color="red"
+                         @confirm="add2Whitelist(row.host)">
+            <el-button size="mini"
+                       slot="reference"
+                       type="danger"
+                       icon="el-icon-plus">
+              {{ $t('item.operation.add2Whitelist') }}
+            </el-button>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
       <!-- Bug exists while collecting -->
       <!-- <el-table-column prop="time"
                        :label="$t('item.time')"
@@ -88,9 +119,10 @@
   </div>
 </template>
 <script>
-import database, { QueryParam } from '../database'
-import { FAVICON } from '../util/constant'
-import { formatPeriodCommon } from '../util/time'
+import timerDatabase, { QueryParam } from '../../database/timer-database'
+import whitelistService from '../../service/whitelist-service'
+import { FAVICON } from '../../util/constant'
+import { formatPeriodCommon } from '../../util/time'
 const ELEMENT_SORT_2_DB = {
   descending: QueryParam.DESC,
   ascending: QueryParam.ASC
@@ -100,8 +132,8 @@ export default {
   data () {
     return {
       host: '',
-      mergeDate: false,
-      mergeDomain: true,
+      mergeDate: true,
+      mergeDomain: false,
       displayBySecond: false,
       dateRange: [],
       sort: {
@@ -118,7 +150,7 @@ export default {
         disabledDate: date => date > new Date(),
         shortcuts: [
           {
-            text: this.$t('dashboard.latestWeek'),
+            text: this.$t('record.latestWeek'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()
@@ -126,7 +158,7 @@ export default {
               picker.$emit('pick', [start, end])
             }
           }, {
-            text: this.$t('dashboard.latest30Days'),
+            text: this.$t('record.latest30Days'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()
@@ -135,7 +167,11 @@ export default {
             }
           }
         ]
-      }
+      },
+      /**
+       * Confirm message to delete
+       */
+      deleteMsg: ''
     }
   },
   watch: {
@@ -150,7 +186,6 @@ export default {
     }
   },
   created () {
-    document.title = this.$t('dashboard.title')
     this.queryData()
   },
   methods: {
@@ -167,11 +202,10 @@ export default {
         pageSize: this.page.size,
         pageNum: this.page.num
       }
-      database.refresh(() => {
-        const { list, total } = database.selectByPage(param, page)
+      timerDatabase.selectByPage(({ list, total }) => {
         this.tableData = list
         this.page.total = total
-      })
+      }, param, page)
     },
     dateFormatter ({ date }) {
       if (!date) return '-'
@@ -187,42 +221,33 @@ export default {
     },
     getFaviconUrl (domain) {
       return FAVICON(domain)
+    },
+    changeDeleteConfirmUrl ({ host, date }) {
+      if (this.mergeDate) {
+        this.deleteMsg = this.$t('item.operation.deleteConfirmMsgAll', { url: host })
+      } else {
+        this.deleteMsg = this.$t('item.operation.deleteConfirmMsg', { url: host, date })
+      }
+    },
+    /**
+     * Delete the url
+     */
+    deleteUrl ({ host, date }) {
+      console.log(host, date)
+      this.mergeDate ?
+        timerDatabase.deleteByUrl(host, this.queryData) :
+        timerDatabase.deleteByUrlAndDate(host, date, this.queryData)
+    },
+    /**
+     * Add the url to whitelist
+     */
+    add2Whitelist (host) {
+      console.log(host)
+      whitelistService.add(host, () => this.queryData())
     }
   }
 }
 </script>
-<style scoped>
-.app-container {
-  width: 70%;
-  height: 100%;
-  margin: auto;
-  padding-top: 35px;
-}
-
-.filter-container {
-  padding-bottom: 10px;
-}
-
-.filter-item {
-  display: inline-block;
-  vertical-align: middle;
-  margin-bottom: 10px;
-  padding-right: 20px;
-}
-.filter-name {
-  color: #909399;
-  font-weight: bold;
-  font-size: 14px;
-}
-.filter-item.el-input {
-  width: 175px;
-}
-.pagination-container {
-  width: 100%;
-  text-align: center;
-  margin-top: 23px;
-}
-</style>
 <style>
 .el-input__suffix {
   right: 30px !important;
@@ -233,5 +258,8 @@ export default {
 .el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
 .el-picker-panel__sidebar + .el-picker-panel__body {
   margin-left: 130px !important;
+}
+.el-button [class*="el-icon-"] + span {
+  margin-left: 0px !important;
 }
 </style>

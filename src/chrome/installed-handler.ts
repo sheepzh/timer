@@ -1,4 +1,5 @@
 import { IS_FIREFOX } from "../util/constant";
+import { isBrowserUrl } from "../util/pattern";
 
 class ContentScript {
     matches?: string[];
@@ -49,7 +50,7 @@ function doAfterPermissionGranted(_: chrome.permissions.Permissions) {
                 last = last && j === tabs.length - 1
                 const tab: chrome.tabs.Tab = tabs[j]
                 const url = tab.url
-                if (/^(chrome(-error)?):\/\/*$/g.test(url) || /^about:.*$/.test(url)) {
+                if (isBrowserUrl(url)) {
                     // Needn't inject content_script
                     return
                 }

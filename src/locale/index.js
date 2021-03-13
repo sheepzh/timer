@@ -2,7 +2,9 @@ const app = require('./components/app')
 const message = require('./components/message')
 const item = require('./components/item')
 const popup = require('./components/popup')
-const dashboard = require('./components/dashboard')
+const menu = require('./components/menu')
+const record = require('./components/record')
+const setting = require('./components/setting')
 const vueMessages = {
   en: {
     lang: { name: 'English' },
@@ -10,7 +12,9 @@ const vueMessages = {
     message: message.en,
     item: item.en,
     popup: popup.en,
-    dashboard: dashboard.en
+    record: record.en,
+    menu: menu.en,
+    setting: setting.en
   },
   zh_CN: {
     lang: { name: '简体中文' },
@@ -18,7 +22,9 @@ const vueMessages = {
     message: message.zh_CN,
     item: item.zh_CN,
     popup: popup.zh_CN,
-    dashboard: dashboard.zh_CN
+    record: record.zh_CN,
+    menu: menu.zh_CN,
+    setting: setting.zh_CN
   }
 }
 
