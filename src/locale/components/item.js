@@ -7,6 +7,7 @@ module.exports = {
         time: '打开次数',
         operation: {
             label: '操作',
+            minWidth: '220px',
             delete: '删除',
             add2Whitelist: '白名单',
             confirmMsg: '好的',
@@ -23,6 +24,7 @@ module.exports = {
         time: 'Open Count',
         operation: {
             label: 'Operations',
+            minWidth: '240px',
             delete: 'Delete',
             add2Whitelist: 'Whitelist',
             confirmMsg: 'OK',
@@ -39,6 +41,7 @@ module.exports = {
         time: '訪問回数',
         operation: {
             label: '操作',
+            minWidth: '240px',
             delete: '削除',
             add2Whitelist: 'ホワイトリスト',
             confirmMsg: 'OK',

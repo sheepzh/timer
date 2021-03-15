@@ -74,7 +74,7 @@
                        align="center"
                        :formatter="row => row.time || 0" />
       <el-table-column :label="$t('item.operation.label')"
-                       min-width="100px"
+                       :width="$t('item.operation.minWidth')"
                        align="center"
                        v-if="!mergeDomain">
         <template slot-scope="{row}">
