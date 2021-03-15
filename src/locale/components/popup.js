@@ -18,5 +18,15 @@ module.exports = {
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
         otherLabel: 'Others'
+    },
+    ja: {
+        title: '今日のデータ',
+        mergeDomainLabel: 'URLをマージ',
+        viewMore: '続きを見る',
+        fileName: 'オンライン時間_{today}_by_{app}',
+        saveAsImageTitle: 'ダウンロード',
+        totalTime: '合計 {totalTime}',
+        totalCount: '合計 {totalCount} 回',
+        otherLabel: 'その他'
     }
 }

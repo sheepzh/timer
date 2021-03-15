@@ -18,5 +18,15 @@ module.exports = {
         updateNotification: 'The extension updated and requires authorization to apply the new features to all pages.',
         updateNotificationForFirefox: 'The extension updated and requires relaunch to apply the new features to all pages.',
         notificationGrant: 'OK, I GRANT'
+    },
+    ja: {
+        openTimesConsoleLog: '今日、あなたは {host} を {time} 回開きました。',
+        usedTimeInConsoleLog: 'それは今日あなたのコンピュータで {total} 実行されました、そのうちあなたはそれを閲覧するために {focus} を費やしました。',
+        timeWithHour: '{hour} 時間 {minute} 分 {second} 秒',
+        timeWithMinute: '{minute} 分 {second} 秒',
+        timeWithSecond: '{second} 秒',
+        updateNotification: 'バージョンが更新されており、すべてのページに新機能を適用するには承認が必要です。',
+        updateNotificationForFirefox: 'バージョンが更新されました。新しい機能に適応するには、ブラウザを再起動する必要があります。',
+        notificationGrant: '承認'
     }
 }

@@ -6,5 +6,9 @@ module.exports = {
     en: {
         record: 'My Records',
         setting: 'Options'
+    },
+    ja: {
+        record: '私のデータ',
+        setting: '拡張設定'
     }
 }

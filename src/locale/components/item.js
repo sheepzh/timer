@@ -30,5 +30,21 @@ module.exports = {
             deleteConfirmMsgAll: 'All records of {url} will be deleted',
             deleteConfirmMsg: 'The record of {url} on {date} will be deleted'
         }
+    },
+    ja: {
+        date: '日期',
+        host: 'URL',
+        total: '実行時間',
+        focus: '閲覧時間',
+        time: '訪問回数',
+        operation: {
+            label: '操作',
+            delete: '削除',
+            add2Whitelist: 'ホワイトリスト',
+            confirmMsg: 'OK',
+            cancelMsg: 'キャンセル',
+            deleteConfirmMsgAll: '{url} のすべての訪問記録が削除されます',
+            deleteConfirmMsg: '{date} の {url} の訪問記録は削除されます'
+        }
     }
 }

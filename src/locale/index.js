@@ -25,6 +25,16 @@ const vueMessages = {
     record: record.zh_CN,
     menu: menu.zh_CN,
     setting: setting.zh_CN
+  },
+  ja: {
+    lang: { name: '日本語' },
+    app: app.ja,
+    message: message.ja,
+    item: item.ja,
+    popup: popup.ja,
+    record: record.ja,
+    menu: menu.ja,
+    setting: setting.ja
   }
 }
 

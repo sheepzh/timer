@@ -10,7 +10,8 @@ module.exports = {
             infoAlert: '白名单内的站点不进行访问统计。',
             newOne: '新增'
         },
-        scoreRequest: '给这个扩展打个分吧！🌟'
+        scoreRequest: '给这个扩展打个分吧！🌟',
+        issueRequest: '提点宝贵的建议！💡'
     },
     en: {
         whitelist: {
@@ -21,8 +22,23 @@ module.exports = {
             successMsg: 'Successfully!',
             duplicateMsg: 'Duplicated',
             infoAlert: 'The sites in the whitelist are not counted',
-            scoreRequest: 'Point me, thanks！🌟',
             newOne: 'New One'
-        }
+        },
+        scoreRequest: 'Point me, thanks! 🌟',
+        issueRequest: 'Give some precious suggestions! 💡'
+    },
+    ja: {
+        whitelist: {
+            label: 'ホワイトリスト',
+            addConfirmMsg: '{url} がホワイトリストに追加されると、すべての履歴レコードが削除され、統計情報がなくなります。',
+            removeConfirmMsg: '{url} はホワイトリストから削除されます',
+            confirmTitle: '動作確認',
+            successMsg: '正常に動作しました！',
+            duplicateMsg: '繰り返し追加しないでください',
+            infoAlert: 'ホワイトリストのサイトは、訪問統計の対象ではありません。',
+            newOne: '追加'
+        },
+        scoreRequest: 'この拡張機能にポイントを与えてください！🌟',
+        issueRequest: '貴重な提案をする！💡'
     }
 }

@@ -20,5 +20,16 @@ module.exports = {
         mergeDomain: 'Merge Subdomains',
         displayBySecond: 'Displayed By Second',
         hostPlaceholder: 'Host name'
+    },
+    ja: {
+        title: '統計',
+        startDate: '開始日',
+        endDate: '終了日',
+        latestWeek: '先週',
+        latest30Days: '過去 30 日間',
+        mergeDate: 'マージ日',
+        mergeDomain: 'URLをマージ',
+        displayBySecond: '秒単位で表示',
+        hostPlaceholder: 'URL を入力してください'
     }
 }
