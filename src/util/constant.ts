@@ -30,4 +30,12 @@ if (IS_FIREFOX) {
     homePage = 'https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc'
 }
 
-export const HOME_PAGE = homePage 
+/**
+ * @since 0.0.5
+ */
+export const HOME_PAGE = homePage
+
+/**
+ * @since 0.0.6
+ */
+export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
