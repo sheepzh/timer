@@ -1,7 +1,7 @@
 import InstalledHandler from './chrome/installed-handler'
 import { openLog } from './common/logger'
 import timeService from './service/timer-service'
-import { FOCUS, HOST_END, HOST_START, SAVE_FOCUS, UNFOCUS } from './util/constant'
+import { FOCUS, SAVE_FOCUS, UNFOCUS } from './util/constant'
 import { isBrowserUrl } from './util/pattern'
 
 openLog()
@@ -16,24 +16,6 @@ chrome.runtime.onMessage.addListener((data, _, sendResponse) => {
     const { code, host, focusStart } = data
     if (!host) {
         // do nothing
-    } else if (code === HOST_START) {
-        const count = hostCount[host] || 0
-        if (!count) {
-            hostStart[host] = new Date().getTime()
-        }
-        hostCount[host] = count + 1
-    } else if (code === HOST_END) {
-        const count = hostCount[host]
-        if (!count) {
-            hostCount[host] = 0
-            hostStart[host] = undefined
-        } else {
-            const now = new Date().getTime()
-            timeService.addTotal(host, hostStart[host] || now)
-            hostStart[host] = now
-            hostCount[host] = count - 1
-        }
-
     } else if (code === SAVE_FOCUS) {
         const now = new Date().getTime()
         timeService.addFocusAndTotal(host, focusStart, hostStart[host] || now)

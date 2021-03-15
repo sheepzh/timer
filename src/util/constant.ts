@@ -1,7 +1,3 @@
-import { use } from "vue/types/umd"
-
-export const HOST_START = 'hostStart'
-
 export const HOST_END = 'hostEnd'
 
 export const SAVE_FOCUS = 'saveFocus'
