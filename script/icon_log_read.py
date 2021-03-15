@@ -82,7 +82,8 @@ def main():
     for parent, _, filenames in os.walk(work_dir,  followlinks=True):
         for filename in filenames:
             file_path = os.path.join(parent, filename)
-            parseLog(file_path, urls404)
+            if os.path.exists(file_path):
+                parseLog(file_path, urls404)
     print(urls404)
 
 
