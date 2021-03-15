@@ -65,7 +65,6 @@ export default {
             this.$message({ type: 'success', message: this.$t('setting.whitelist.successMsg') })
             const index = this.whitelist.indexOf(url)
             index !== -1 && this.whitelist.splice(index, 1)
-            console.log(this.whitelist, index, url)
           })
         }).catch(() => { })
     },

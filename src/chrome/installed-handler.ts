@@ -78,7 +78,6 @@ export default class InstalledHandler {
             chrome.notifications.onButtonClicked.addListener(() => {
                 // Request permissions
                 chrome.permissions.request(PERMISSION_NEED_GRANTED, granted => {
-                    console.log('granted', granted)
                     if (!granted) {
                         // Not granted
                         chrome.permissions.onAdded.addListener(doAfterPermissionGranted)

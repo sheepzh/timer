@@ -123,11 +123,9 @@ class TimeDatabase {
             updater(info)
             const toUpdate = {}
             toUpdate[key] = info
-            console.log('not use cache', toUpdate)
             this.localStorage.set(toUpdate)
         })
     }
-
 
     private increaseTime(host: string, start: number, increase: (i: WastePerDay, step: number) => void) {
         const today = new Date()
@@ -171,6 +169,7 @@ class TimeDatabase {
     }
 
     public addOneTime(host: string) {
+        log('addTime:{host}', host)
         this.updateOf(host, new Date(), (i: WastePerDay) => i.time += 1)
     }
 

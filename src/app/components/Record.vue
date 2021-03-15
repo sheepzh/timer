@@ -233,7 +233,6 @@ export default {
      * Delete the url
      */
     deleteUrl ({ host, date }) {
-      console.log(host, date)
       this.mergeDate ?
         timerDatabase.deleteByUrl(host, this.queryData) :
         timerDatabase.deleteByUrlAndDate(host, date, this.queryData)
@@ -242,7 +241,6 @@ export default {
      * Add the url to whitelist
      */
     add2Whitelist (host) {
-      console.log(host)
       whitelistService.add(host, () => this.queryData())
     }
   }
