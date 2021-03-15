@@ -9,6 +9,10 @@
               type="info"
               class="info-item point-item"
               @click="openHomePage()">{{ $t('setting.scoreRequest') }}</el-tag>
+      <el-tag size="small"
+              type="info"
+              class="info-item point-item"
+              @click="openIssuePage()">{{ $t('setting.issueRequest') }}</el-tag>
     </div>
     <el-tabs type="border-card">
       <el-tab-pane :label="$t('setting.whitelist.label')">
@@ -30,7 +34,7 @@
 </style>
 <script>
 const { version } = require('../../../../package.json')
-import { HOME_PAGE } from '../../../util/constant'
+import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant'
 import Whitelist from './Whitelist'
 export default {
   name: 'Setting',
@@ -38,12 +42,16 @@ export default {
   data () {
     return {
       version,
-      homePage: HOME_PAGE
+      homePage: HOME_PAGE,
+      issueAddPage: GITHUB_ISSUE_ADD
     }
   },
   methods: {
     openHomePage () {
       window.open(this.homePage, "_blank")
+    },
+    openIssuePage () {
+      window.open(this.issueAddPage, "_blank")
     }
   }
 }
