@@ -6,6 +6,7 @@ module.exports = {
         fileName: '上网时长清单_{today}_by_{app}',
         saveAsImageTitle: '保存',
         totalTime: '共 {totalTime}',
+        totalCount: '共 {totalCount} 次',
         otherLabel: '其他'
     },
     en: {
@@ -15,6 +16,7 @@ module.exports = {
         fileName: 'Web_Time_List_{today}_By_{app}',
         saveAsImageTitle: 'Save',
         totalTime: 'Total {totalTime}',
+        totalCount: 'Total {totalCount} times',
         otherLabel: 'Others'
     }
 }

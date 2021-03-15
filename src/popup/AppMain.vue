@@ -8,7 +8,7 @@
             style="color: #606266;font-size:12px;">
         {{ `v${version}` }}
         &ensp;
-        {{ $t('popup.totalTime', { totalTime }) }}
+        {{ totalInfo }}
       </span>
       <el-select size="mini"
                  v-model="type"
@@ -54,6 +54,8 @@ const LABEL_ICON_SIZE = 13
 
 const host2LabelStyle = host => host.replaceAll('.', '00').replaceAll('-', '01').replaceAll(':', '02')
 
+let outerType = DEFAULT_DATE_TYPE
+
 export default {
   name: 'Main',
   components: {
@@ -66,9 +68,9 @@ export default {
     return {
       version,
       tableData: [],
-      type: DEFAULT_DATE_TYPE, // focus or total
+      type: outerType, // focus or total
       mergeDomain: true,
-      allTypes: ['focus', 'total'],
+      allTypes: ['focus', 'total', 'time'],
       option: {
         title: {
           text: this.$t('popup.title'),
@@ -78,7 +80,7 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter ({ name, percent, value }) {
-            return `${name}<br/>${formatPeriodCommon(value)} (${percent}%)`
+            return `${name}<br/>${outerType === 'time' ? value || 0 : formatPeriodCommon(value)} (${percent}%)`
           }
         },
         legend: {
@@ -129,13 +131,20 @@ export default {
     this.queryData()
   },
   computed: {
-    totalTime () {
-      return formatPeriodCommon(this.tableData.map(d => d[this.type]).reduce((a, b) => a + b, 0))
+    totalInfo () {
+      if (this.type === 'time') {
+        const totalCount = this.tableData.map(d => d[this.type] || 0).reduce((a, b) => a + b, 0)
+        return this.$t('popup.totalCount', { totalCount })
+      } else {
+        const totalTime = formatPeriodCommon(this.tableData.map(d => d[this.type]).reduce((a, b) => a + b, 0))
+        return this.$t('popup.totalTime', { totalTime })
+      }
     }
   },
   watch: {
-    type () {
+    type (nv) {
       this.queryData()
+      outerType = nv
     },
     mergeDomain () {
       this.queryData()

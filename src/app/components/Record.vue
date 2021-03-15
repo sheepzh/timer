@@ -67,6 +67,12 @@
                        sortable="custom"
                        align="center"
                        :formatter="row => periodFormatter(row.total)" />
+      <el-table-column prop="time"
+                       :label="$t('item.time')"
+                       min-width="70px"
+                       sortable="custom"
+                       align="center"
+                       :formatter="row => row.time || 0" />
       <el-table-column :label="$t('item.operation.label')"
                        min-width="100px"
                        align="center"
