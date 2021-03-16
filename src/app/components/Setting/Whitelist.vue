@@ -4,14 +4,15 @@
               :title="$t('setting.whitelist.infoAlert')"
               style="margin-bottom:20px;" />
     <div class="icon-container">
-      <el-tag v-for="(white,i) in whitelist"
+      <el-tag class="white-item"
+              v-for="(white,i) in whitelist"
               type="primary"
               closable
               :key="i"
               @close="handleClose(white)">
         {{ white }}
       </el-tag>
-      <el-input class="input-new-tag"
+      <el-input class="input-new-tag white-item"
                 v-if="inputVisible"
                 v-model="inputValue"
                 ref="saveTagInput"
@@ -27,11 +28,11 @@
   </div>
 </template>
 <style>
-.el-tag + .el-tag {
-  margin-left: 10px;
+.el-tag {
+  margin-right: 10px;
 }
 .button-new-tag {
-  margin-left: 10px;
+  margin-right: 10px;
   height: 32px;
   line-height: 30px;
   padding-top: 0;
@@ -39,8 +40,10 @@
 }
 .input-new-tag {
   width: 140px;
-  margin-left: 10px;
   vertical-align: bottom;
+}
+.white-item {
+  margin-bottom: 9px;
 }
 </style>
 <script>
@@ -59,14 +62,17 @@ export default {
   },
   methods: {
     handleClose (url) {
-      this.$confirm(this.$t('setting.whitelist.removeConfirmMsg', { url }), this.$t('setting.whitelist.confirmTitle'))
-        .then(() => {
-          whitelistService.remove(url, () => {
-            this.$message({ type: 'success', message: this.$t('setting.whitelist.successMsg') })
-            const index = this.whitelist.indexOf(url)
-            index !== -1 && this.whitelist.splice(index, 1)
-          })
-        }).catch(() => { })
+      this.$confirm(
+        this.$t('setting.whitelist.removeConfirmMsg', { url: `${url}<img src="${FAVICON(url)}" width="15px" height="15px">` }),
+        this.$t('setting.whitelist.confirmTitle'),
+        { dangerouslyUseHTMLString: true }
+      ).then(() => {
+        whitelistService.remove(url, () => {
+          this.$message({ type: 'success', message: this.$t('setting.whitelist.successMsg') })
+          const index = this.whitelist.indexOf(url)
+          index !== -1 && this.whitelist.splice(index, 1)
+        })
+      }).catch(() => { })
     },
     showInput () {
       this.inputVisible = true
@@ -77,17 +83,18 @@ export default {
       if (inputValue) {
         if (this.whitelist.includes(inputValue)) {
           this.$message({ type: 'warning', message: this.$t('setting.whitelist.duplicateMsg') })
+        } else {
+          this.$confirm(
+            this.$t('setting.whitelist.addConfirmMsg', { url: `${inputValue}<img src="${FAVICON(inputValue)}" width="15px" height="15px">` }),
+            this.$t('setting.whitelist.confirmTitle'), { dangerouslyUseHTMLString: true }
+          )
+            .then(r => {
+              whitelistService.add(inputValue, () => {
+                this.whitelist.push(inputValue)
+                this.$message({ type: 'success', message: this.$t('setting.whitelist.successMsg') })
+              })
+            }).catch(() => { })
         }
-        this.$confirm(
-          this.$t('setting.whitelist.addConfirmMsg', { url: `${inputValue}<img src="${FAVICON(inputValue)}" width="15px" height="15px">` }),
-          this.$t('setting.whitelist.confirmTitle'), { dangerouslyUseHTMLString: true }
-        )
-          .then(r => {
-            whitelistService.add(inputValue, () => {
-              this.whitelist.push(inputValue)
-              this.$message({ type: 'success', message: this.$t('setting.whitelist.successMsg') })
-            })
-          }).catch(() => { })
       }
       // Clear input anyway
       this.inputVisible = false

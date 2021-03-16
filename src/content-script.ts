@@ -1,5 +1,6 @@
 import timerDatabase, { WastePerDay } from "./database/timer-database"
 import timeService from './service/timer-service'
+import whitelistService from "./service/whitelist-service"
 import { FOCUS, SAVE_FOCUS, UNFOCUS } from "./util/constant"
 import { formatPeriod } from "./util/time"
 
@@ -8,19 +9,24 @@ chrome.runtime.sendMessage({ code: 'hostStart', host })
 
 // init
 timerDatabase.refresh(() => {
-    timeService.addOneTime(host)
-    const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
-    const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
-    const secondMsg = chrome.i18n.getMessage('message_timeWithSecond')
-    timerDatabase.get(host, new Date(), (waste: WastePerDay) => {
-        const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
-            .replace('{time}', waste.time ? '' + waste.time : '-')
-            .replace('{host}', host)
-        const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
-            .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
-            .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
-        console.log(info0)
-        console.log(info1)
+    whitelistService.include(host, including => {
+        if (including) {
+            return
+        }
+        timeService.addOneTime(host)
+        const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
+        const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
+        const secondMsg = chrome.i18n.getMessage('message_timeWithSecond')
+        timerDatabase.get(host, new Date(), (waste: WastePerDay) => {
+            const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
+                .replace('{time}', waste.time ? '' + waste.time : '-')
+                .replace('{host}', host)
+            const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
+                .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
+                .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
+            console.log(info0)
+            console.log(info1)
+        })
     })
 })
 

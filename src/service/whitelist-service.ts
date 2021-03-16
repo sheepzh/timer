@@ -21,6 +21,13 @@ class WhitelistService {
     public remove(url: string, callback?: () => void) {
         whitelistDatabase.remove(url, callback)
     }
+
+    /**
+     * @since 0.0.7
+     */
+    public include(url: string, callback?: (including: boolean) => void) {
+        whitelistDatabase.includes(url, callback)
+    }
 }
 
 export default new WhitelistService()
