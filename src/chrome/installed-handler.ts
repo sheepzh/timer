@@ -69,7 +69,7 @@ export default class InstalledHandler {
         const options: chrome.notifications.NotificationOptions = { iconUrl, title, type: 'basic' }
 
         if (IS_FIREFOX) {
-            // Not firefox, only restart 
+            // Is firefox, only restart 
             options.message = chrome.i18n.getMessage('message_updateNotificationForFirefox')
         } else {
             options.message = chrome.i18n.getMessage('message_updateNotification')

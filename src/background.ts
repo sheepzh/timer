@@ -8,7 +8,6 @@ openLog()
 
 let lastFocusTabId: number = undefined
 const hostStart = {}
-const hostCount = {}
 
 chrome.runtime.onInstalled.addListener(new InstalledHandler().handle)
 
