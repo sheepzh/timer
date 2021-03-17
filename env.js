@@ -9,7 +9,11 @@ module.exports = __dirname => {
   // Get the env
   const argv = process.argv
   let env = 'production'
-  argv.filter(a => a.startsWith('--mode=')).map(a => a.substring(7)).forEach(a => env = a)
+  let analyze = false
+  argv.forEach(a => {
+    a.startsWith('--mode=') && (env = a.substring(7))
+    analyze |= a === '--analyze'
+  })
 
   // Read env variables 
   const envVariableFileName = path.join(__dirname, `.env.${env}`)
@@ -21,5 +25,5 @@ module.exports = __dirname => {
   }
   const variables = {}
   data.split(',').filter(a => !!a.trim() && !a.startsWith('#')).map(item => { return item.split('=') }).forEach(item => { variables[item[0]] = item[1] })
-  return { env, variables }
+  return { env, variables, analyze }
 }

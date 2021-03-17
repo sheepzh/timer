@@ -4,8 +4,9 @@ const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader-plugin')
 const FileManagerWebpackPlugin = require('filemanager-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require('webpack')
-const { env, variables } = require('./env')(__dirname)
+const { env, variables, analyze } = require('./env')(__dirname)
 const isDev = env === 'development'
 const isProd = env === 'production'
 
@@ -39,6 +40,7 @@ const plugins = [
   })
 ]
 
+analyze && plugins.push(new BundleAnalyzerPlugin())
 
 if (isProd) {
   const normalZipFilePath = `./market_packages/${name}-${version}.zip`
@@ -47,33 +49,38 @@ if (isProd) {
   const srcDir = ['public', 'src', 'env.js', 'package.json', 'tsconfig.json', 'webpack.config.js']
   const copyMapper = srcDir.map(path => { return { source: `./${path}`, destination: `./firefox/${path}` } })
 
+  // Delete license files
+  const onEnd = [{ delete: ['./dist_prod/*.LICENSE.txt'] }]
+  if (!analyze) {
+    // Not analyze, really production
+    onEnd.push(
+      // Define plugin to archive zip for differrent markets
+      {
+        delete: [normalZipFilePath],
+        archive: [{ source: './dist_prod', destination: normalZipFilePath }]
+      })
+    onEnd.push(
+      // Archive srouce code for FireFox
+      {
+        copy: [
+          { source: './doc/for-fire-fox.md', destination: './firefox/README.md' },
+          { source: './doc/for-fire-fox.md', destination: './firefox/doc/for-fire-fox.md' },
+          ...copyMapper
+        ],
+        archive: [
+          { source: './firefox', destination: sourceCodeForFireFox },
+        ],
+        delete: ['./firefox']
+      }
+    )
+  }
+
   plugins.push(
     new FileManagerWebpackPlugin({
       events: {
+        onStart: [{ delete: ['./dist_prod/*'] }],
         // Archive at the end
-        onEnd: [
-          // Delete license files
-          { delete: ['./dist_prod/*.LICENSE.txt'] },
-          // Define plugin to archive zip for differrent markets
-          {
-            delete: [normalZipFilePath],
-            archive: [
-              { source: './dist_prod', destination: normalZipFilePath },
-            ]
-          },
-          // Archive srouce code for FireFox
-          {
-            copy: [
-              { source: './doc/for-fire-fox.md', destination: './firefox/README.md' },
-              { source: './doc/for-fire-fox.md', destination: './firefox/doc/for-fire-fox.md' },
-              ...copyMapper
-            ],
-            archive: [
-              { source: './firefox', destination: sourceCodeForFireFox },
-            ],
-            delete: ['./firefox']
-          }
-        ]
+        onEnd
       }
     })
   )
@@ -82,15 +89,12 @@ if (isProd) {
   // Generate FireFox dev files
   plugins.push(new FileManagerWebpackPlugin({
     events: {
+      onStart: [{ delete: [firefoxDevDir + '/*', './dist_dev/*'] }],
       onEnd: [
         {
-          copy: [
-            { source: './dist_dev', destination: firefoxDevDir }
-          ],
+          copy: [{ source: './dist_dev/*', destination: firefoxDevDir }],
           delete: [`./dist_dev/${manifestFirefoxName}`, `${firefoxDevDir}/manifest.json`],
-          move: [
-            { source: `${firefoxDevDir}/${manifestFirefoxName}`, destination: `${firefoxDevDir}/manifest.json` }
-          ]
+          move: [{ source: `${firefoxDevDir}/${manifestFirefoxName}`, destination: `${firefoxDevDir}/manifest.json` }]
         }
       ]
     }
