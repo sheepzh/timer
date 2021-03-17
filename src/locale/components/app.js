@@ -1,7 +1,7 @@
 module.exports = {
     en: {
         name: 'Timer',
-        marketName: 'Timer - The Web Time Is Expensive',
+        marketName: 'Timer - Running & Browsing Time & Open Time',
         description: 'To be the BEST web timer.',
         currentVersion: 'Version: {version}'
     },
