@@ -10,7 +10,8 @@ module.exports = {
         mergeDate: '合并日期',
         mergeDomain: '合并子域名',
         displayBySecond: '按秒显示',
-        hostPlaceholder: '请输入域名'
+        hostPlaceholder: '请输入域名',
+        exportFileName: '我的上网时间'
     },
     en: {
         title: 'Statistics',
@@ -23,7 +24,8 @@ module.exports = {
         mergeDate: 'Merge Days',
         mergeDomain: 'Merge Subdomains',
         displayBySecond: 'Displayed By Second',
-        hostPlaceholder: 'Host name'
+        hostPlaceholder: 'Host name',
+        exportFileName: 'My_Web_Surfing_Data'
     },
     ja: {
         title: '統計',
@@ -36,6 +38,7 @@ module.exports = {
         mergeDate: 'マージ日',
         mergeDomain: 'URLをマージ',
         displayBySecond: '秒単位で表示',
-        hostPlaceholder: 'URL を入力してください'
+        hostPlaceholder: 'URL を入力してください',
+        exportFileName: '私のウェブ時間データ'
     }
 }

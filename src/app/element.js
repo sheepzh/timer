@@ -3,7 +3,7 @@ import {
     Alert, Aside,
     Button,
     Container,
-    DatePicker,
+    DatePicker, Dropdown, DropdownMenu, DropdownItem,
     Icon, Input,
     Main, Menu, MenuItem, Message, MessageBox,
     Option,
@@ -26,6 +26,15 @@ import 'element-ui/lib/theme-chalk/container.css'
 
 Vue.use(DatePicker)
 import 'element-ui/lib/theme-chalk/date-picker.css'
+
+Vue.use(Dropdown)
+import 'element-ui/lib/theme-chalk/dropdown.css'
+
+Vue.use(DropdownMenu)
+import 'element-ui/lib/theme-chalk/dropdown-menu.css'
+
+Vue.use(DropdownItem)
+import 'element-ui/lib/theme-chalk/dropdown-item.css'
 
 Vue.use(Icon)
 import 'element-ui/lib/theme-chalk/icon.css'

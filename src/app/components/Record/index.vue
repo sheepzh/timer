@@ -26,6 +26,20 @@
       <a class="filter-name">{{ $t('record.displayBySecond') }}</a>
       <el-switch class="filter-item"
                  v-model="displayBySecond" />
+      <el-dropdown class="export-dropdown"
+                   :show-timeout="100">
+        <el-button size="mini"
+                   class="export-dropdown-button">
+          <i class="el-icon-download export-dropdown-menu-icon" />
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item v-for="format in ['csv','json']"
+                            :key="format"
+                            @click.native="exportFile(format)">
+            {{ format }}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <!-- table -->
     <el-table :data="tableData"
@@ -123,6 +137,7 @@ import timerDatabase, { DATE_FORMAT, QueryParam } from '../../../database/timer-
 import whitelistService from '../../../service/whitelist-service'
 import { FAVICON } from '../../../util/constant'
 import { formatPeriodCommon, formatTime } from '../../../util/time'
+import { exportCsv, exportJson } from '../../../util/file'
 const ELEMENT_SORT_2_DB = {
   descending: QueryParam.DESC,
   ascending: QueryParam.ASC
@@ -191,14 +206,6 @@ export default {
   },
   methods: {
     queryData () {
-      const param = {
-        host: this.host,
-        date: this.dateRange,
-        mergeDomain: this.mergeDomain,
-        mergeDate: this.mergeDate,
-        sort: this.sort.prop,
-        sortOrder: ELEMENT_SORT_2_DB[this.sort.order]
-      }
       const page = {
         pageSize: this.page.size,
         pageNum: this.page.num
@@ -206,14 +213,20 @@ export default {
       timerDatabase.selectByPage(({ list, total }) => {
         this.tableData = list
         this.page.total = total
-      }, param, page)
+      }, this.queryParam, page)
     },
     dateFormatter ({ date }) {
       if (!date) return '-'
       return date.substring(0, 4) + '/' + date.substring(4, 6) + '/' + date.substring(6, 8)
     },
-    periodFormatter (val) {
-      return val === undefined ? '-' : this.displayBySecond ? (Math.floor(val / 1000) + ' s') : formatPeriodCommon(val)
+    periodFormatter (val, hideUnitOfSecond, force2DisplayBySecond) {
+      if (val === undefined) {
+        return force2DisplayBySecond ? '0' : '-'
+      } else {
+        const bySecond = this.displayBySecond || force2DisplayBySecond
+        const second = Math.floor(val / 1000)
+        return bySecond ? (second + (hideUnitOfSecond ? '' : ' s')) : formatPeriodCommon(val)
+      }
     },
     sortChangeHandler ({ prop, order }) {
       this.sort.prop = prop
@@ -273,6 +286,60 @@ export default {
      */
     add2Whitelist (host) {
       whitelistService.add(host, () => this.queryData())
+    },
+    /**
+     * Handle the command of dropdown
+     */
+    exportFile (format) {
+      timerDatabase.select(rows => {
+        if (format === 'json') {
+          rows.forEach(row => {
+            // Always display by seconds
+            row.total = this.periodFormatter(row.total, true, true)
+            row.focus = this.periodFormatter(row.focus, true, true)
+          })
+          exportJson(rows, this.exportFileName)
+        } else if (format === 'csv') {
+          let columnName = []
+          !this.mergeDate && columnName.push('date')
+          columnName = [...columnName, 'host', 'total', 'focus', 'time']
+          const data = [columnName.map(c => this.$t(`item.${c}`))]
+          rows.forEach(row => {
+            const csvR = []
+            !this.mergeDate && csvR.push(this.dateFormatter(row))
+            data.push([...csvR, row.host, this.periodFormatter(row.total, true), this.periodFormatter(row.focus, true), row.time])
+          })
+          exportCsv(data, this.exportFileName)
+        }
+      }, this.queryParam)
+    }
+  },
+  computed: {
+    queryParam () {
+      return {
+        host: this.host,
+        date: this.dateRange,
+        mergeDomain: this.mergeDomain,
+        mergeDate: this.mergeDate,
+        sort: this.sort.prop,
+        sortOrder: ELEMENT_SORT_2_DB[this.sort.order]
+      }
+    },
+    exportFileName () {
+      let baseName = this.$t('record.exportFileName')
+      if (this.dateRange && this.dateRange.length === 2) {
+        const start = this.dateRange[0]
+        const end = this.dateRange[1]
+        if (start === end) {
+          baseName += '_' + formatTime(start, '{y}{m}{d}')
+        } else {
+          baseName += '_' + formatTime(start, '{y}{m}{d}') + '_' + formatTime(end, '{y}{m}{d}')
+        }
+      }
+      this.mergeDate && (baseName += '_' + this.$t('record.mergeDate'))
+      this.mergeDomain && (baseName += '_' + this.$t('record.mergeDomain'))
+      this.displayBySecond && (baseName += '_' + this.$t('record.displayBySecond'))
+      return baseName
     }
   }
 }
@@ -290,5 +357,15 @@ export default {
 }
 .el-button [class*="el-icon-"] + span {
   margin-left: 0px !important;
+}
+.export-dropdown {
+  float: right;
+}
+.export-dropdown-menu-icon {
+  font-size: 16px;
+}
+.export-dropdown-button {
+  padding: 7px !important;
+  margin-top: 8px;
 }
 </style>
