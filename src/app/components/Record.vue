@@ -105,12 +105,6 @@
           </el-popconfirm>
         </template>
       </el-table-column>
-      <!-- Bug exists while collecting -->
-      <!-- <el-table-column prop="time"
-                       :label="$t('item.time')"
-                       min-width="80px"
-                       sortable="custom"
-                       align="center" /> -->
     </el-table>
     <div class="pagination-container">
       <el-pagination @size-change="queryData"
@@ -156,6 +150,12 @@ export default {
         disabledDate: date => date > new Date(),
         shortcuts: [
           {
+            text: this.$t('record.today'),
+            onClick (picker) {
+              const current = new Date().getTime()
+              picker.$emit('pick', [current, current])
+            }
+          }, {
             text: this.$t('record.latestWeek'),
             onClick (picker) {
               const end = new Date()
@@ -176,6 +176,7 @@ export default {
       },
       /**
        * Confirm message to delete
+       * Changes according to both this.mergeDate and the date of item to delete. So can't be computed
        */
       deleteMsg: ''
     }
