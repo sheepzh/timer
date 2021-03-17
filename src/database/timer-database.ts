@@ -5,7 +5,7 @@ import { REMAIN_WORD_PREFIX } from "./constant"
 /**
  * Date format for storage
  */
-const DATE_FORMAT = '{y}{m}{d}'
+export const DATE_FORMAT = '{y}{m}{d}'
 
 /**
  * Time waste per day
@@ -347,6 +347,28 @@ class TimeDatabase {
     }
 
     /**
+     * @param host host 
+     * @param start start date, inclusive
+     * @param end end date, inclusive
+     * @since 0.0.7
+     */
+    public deleteByUrlBetween(host: string, callback?: (date: string[]) => void, start?: string, end?: string) {
+        const dateFilter = (date: string) => (start ? start <= date : true)
+            && (end ? date <= end : true)
+        this.refresh(items => {
+            const keys = []
+            for (const key in items) {
+                // Key format: 20201112www.google.com
+                key.length === 8 + host.length
+                    && key.substring(8) === host
+                    && dateFilter(key.substring(0, 8))
+                    && keys.push(key)
+            }
+            this.localStorage.remove(keys, () => callback && callback(keys.map(k => k.substring(0, 8))))
+        })
+    }
+
+    /**
      * Delete the record
      * 
      * @param host host
@@ -354,16 +376,7 @@ class TimeDatabase {
      * @since 0.0.5
      */
     public deleteByUrl(host: string, callback?: (date: string[]) => void) {
-        this.refresh(items => {
-            const keys = []
-            for (const key in items) {
-                // Key format: 20201112www.google.com
-                if (key.length === 8 + host.length && key.substring(8) === host) {
-                    keys.push(key)
-                }
-            }
-            this.localStorage.remove(keys, () => callback && callback(keys.map(k => k.substring(0, 8))))
-        })
+        this.deleteByUrlBetween(host, callback)
     }
 }
 

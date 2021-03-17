@@ -119,17 +119,30 @@
   </div>
 </template>
 <script>
-import timerDatabase, { QueryParam } from '../../database/timer-database'
-import whitelistService from '../../service/whitelist-service'
-import { FAVICON } from '../../util/constant'
-import { formatPeriodCommon } from '../../util/time'
+import timerDatabase, { DATE_FORMAT, QueryParam } from '../../../database/timer-database'
+import whitelistService from '../../../service/whitelist-service'
+import { FAVICON } from '../../../util/constant'
+import { formatPeriodCommon, formatTime } from '../../../util/time'
 const ELEMENT_SORT_2_DB = {
   descending: QueryParam.DESC,
   ascending: QueryParam.ASC
 }
+const DISPLAY_DATE_FORMAT = '{y}/{m}/{d}'
 export default {
   name: 'Dashboard',
   data () {
+    const daysAgo = (start, end) => {
+      const timePerDay = 3600 * 1000 * 24
+      const current = new Date().getTime()
+      return [current - start * timePerDay, current - end * timePerDay]
+    }
+    const datePickerShortcut = (msg, agoOfStart, agoOfEnd) => {
+      return {
+        text: this.$t(`record.${msg}`),
+        onClick: picker => picker.$emit('pick', daysAgo(agoOfStart || 0, agoOfEnd || 0))
+      }
+    }
+
     return {
       host: '',
       mergeDate: true,
@@ -149,29 +162,10 @@ export default {
       pickerOptions: {
         disabledDate: date => date > new Date(),
         shortcuts: [
-          {
-            text: this.$t('record.today'),
-            onClick (picker) {
-              const current = new Date().getTime()
-              picker.$emit('pick', [current, current])
-            }
-          }, {
-            text: this.$t('record.latestWeek'),
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: this.$t('record.latest30Days'),
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(end.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }
+          datePickerShortcut('today'),
+          datePickerShortcut('yesterday', 1, 1),
+          datePickerShortcut('latestWeek', 7),
+          datePickerShortcut('latest30Days', 30)
         ]
       },
       /**
@@ -229,20 +223,50 @@ export default {
     getFaviconUrl (domain) {
       return FAVICON(domain)
     },
-    changeDeleteConfirmUrl ({ host, date }) {
+    changeDeleteConfirmUrl (row) {
+      const { host } = row
       if (this.mergeDate) {
-        this.deleteMsg = this.$t('item.operation.deleteConfirmMsgAll', { url: host })
+        if (!this.dateRange || !this.dateRange.length) {
+          // Delete all
+          this.deleteMsg = this.$t('item.operation.deleteConfirmMsgAll', { url: host })
+        } else {
+          const start = this.dateRange[0]
+          const end = this.dateRange[1]
+          if (start === end) {
+            // Among one day
+            this.deleteMsg = this.$t('item.operation.deleteConfirmMsg', { url: host, date: formatTime(start, DISPLAY_DATE_FORMAT) })
+          } else {
+            // Period
+            this.deleteMsg = this.$t('item.operation.deleteConfirmMsgRange',
+              { url: host, start: formatTime(start, DISPLAY_DATE_FORMAT), end: formatTime(end, DISPLAY_DATE_FORMAT) }
+            )
+          }
+        }
       } else {
-        this.deleteMsg = this.$t('item.operation.deleteConfirmMsg', { url: host, date })
+        // Not merge, delete one item
+        this.deleteMsg = this.$t('item.operation.deleteConfirmMsg', { url: host, date: this.dateFormatter(row) })
       }
     },
     /**
      * Delete the url
      */
     deleteUrl ({ host, date }) {
-      this.mergeDate ?
-        timerDatabase.deleteByUrl(host, this.queryData) :
+      if (this.mergeDate) {
+        if (!this.dateRange || !this.dateRange.length) {
+          // Delete all
+          timerDatabase.deleteByUrl(host, this.queryData)
+        } else {
+          // Delete by range
+          timerDatabase.deleteByUrlBetween(
+            host, this.queryData,
+            formatTime(this.dateRange[0], DATE_FORMAT),
+            formatTime(this.dateRange[1], DATE_FORMAT)
+          )
+        }
+      } else {
+        // Delete by date
         timerDatabase.deleteByUrlAndDate(host, date, this.queryData)
+      }
     },
     /**
      * Add the url to whitelist

@@ -13,6 +13,7 @@ module.exports = {
             confirmMsg: '好的',
             cancelMsg: '不用了',
             deleteConfirmMsgAll: '{url} 的所有访问记录将被删除',
+            deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的访问记录将被删除',
             deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除'
         }
     },
@@ -30,6 +31,7 @@ module.exports = {
             confirmMsg: 'OK',
             cancelMsg: 'NO!',
             deleteConfirmMsgAll: 'All records of {url} will be deleted',
+            deleteConfirmMsgRange: 'Records of {url} from {start} to {end} will be deleted',
             deleteConfirmMsg: 'The record of {url} on {date} will be deleted'
         }
     },
@@ -47,6 +49,7 @@ module.exports = {
             confirmMsg: 'OK',
             cancelMsg: 'キャンセル',
             deleteConfirmMsgAll: '{url} のすべての訪問記録が削除されます',
+            deleteConfirmMsgRange: '{url} {start} から {end} までの訪問記録は削除されます',
             deleteConfirmMsg: '{date} の {url} の訪問記録は削除されます'
         }
     }
