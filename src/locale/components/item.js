@@ -22,7 +22,7 @@ module.exports = {
         host: 'Host Name',
         total: 'Run Time',
         focus: 'Browse Time',
-        time: 'Open Count',
+        time: 'Visit Count',
         operation: {
             label: 'Operations',
             minWidth: '240px',
