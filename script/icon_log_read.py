@@ -9,8 +9,12 @@
     @date 20210310
 '''
 import sys
+# pip3 install validators
+import validators
 import os
+import re
 import requests
+import favicon
 
 
 def split(line):
@@ -35,7 +39,46 @@ def split(line):
     return result
 
 
-def parseLog(fileName, urls):
+second_domain_pattern = re.compile(r'[a-zA-Z0-9-_]{1,61}\.[a-zA-Z0-9-_]{1,61}')
+
+
+def resolve_icon(url, urls):
+    existIconUrl = 'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/' + url
+    response = requests.get(existIconUrl)
+    req_code = response.status_code % 100
+    if req_code is 2:
+        return
+    if req_code == 4:
+        all_fullurls = ['http://' + url + '/', 'https://' + url + '/']
+        if second_domain_pattern.match(url):
+            www_url = 'www.'+url
+            all_fullurls.append('http://' + www_url + '/')
+            all_fullurls.append('https://' + www_url + '/')
+        for fullurl in all_fullurls:
+            if find_and_save_icon(fullurl):
+                return
+        urls.append(url)
+
+
+def find_and_save_icon(url):
+    icons = favicon.get(url)
+    icons = filter(lambda icon: icon.width is not 0, icons)
+    if not len(icons):
+        return False
+    icons = sorted(icons, key=lambda icon: icon.width)
+    for icon in icons:
+        response = requests.get(icon.url)
+        if(response.status_code == 200):
+            with open('./icons/'+url, 'wb') as f:
+                f.write(response.content)
+            return True
+    return False
+
+
+INVALID_URLS = ['jzjs.5gzvip.idcfengye.com']
+
+
+def parse_log(fileName, urls):
     with open(fileName, 'r') as logFile:
         for line in logFile.readlines():
             # print(line)
@@ -43,7 +86,7 @@ def parseLog(fileName, urls):
             res_code = cols[14].strip()
 
             if res_code == '404':
-                # /taptap.com
+                # e.g. /taptap.com
                 http = cols[29].split(' ')
                 if http[0] != 'GET':
                     continue
@@ -53,19 +96,11 @@ def parseLog(fileName, urls):
                     continue
                 # print(cols[29])
                 if url and url not in urls:
+                    if not validators.domain(url) or url.endswith('gitee.io') or url.endswith('github.io') or url in INVALID_URLS:
+                        print("INVALID DOMAIN: " + url)
+                        continue
                     try:
-                        req = requests.get(
-                            'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/' + url
-                        )
-                        if req.status_code == 404:
-                            req = requests.get(
-                                'http://'+url+'/favicon.ico', timeout=1
-                            )
-                            if(req.status_code == 200):
-                                with open('./icons/'+url, 'wb') as f:
-                                    f.write(req.content)
-                            else:
-                                urls.append(url)
+                        resolve_icon(url, urls)
                     except:
                         urls.append(url)
 
@@ -83,7 +118,7 @@ def main():
         for filename in filenames:
             file_path = os.path.join(parent, filename)
             if os.path.exists(file_path):
-                parseLog(file_path, urls404)
+                parse_log(file_path, urls404)
     print(urls404)
 
 
