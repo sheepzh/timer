@@ -43,6 +43,7 @@ second_domain_pattern = re.compile(r'[a-zA-Z0-9-_]{1,61}\.[a-zA-Z0-9-_]{1,61}')
 
 
 def resolve_icon(url, urls):
+    print('Start: ' + url)
     existIconUrl = 'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/' + url
     response = requests.get(existIconUrl)
     req_code = response.status_code % 100
@@ -55,22 +56,23 @@ def resolve_icon(url, urls):
             all_fullurls.append('http://' + www_url + '/')
             all_fullurls.append('https://' + www_url + '/')
         for fullurl in all_fullurls:
-            if find_and_save_icon(fullurl):
+            if find_and_save_icon(fullurl, url):
                 return
         urls.append(url)
 
 
-def find_and_save_icon(url):
+def find_and_save_icon(url, domain):
+    print('Trying: ' + url)
     icons = favicon.get(url)
-    icons = filter(lambda icon: icon.width is not 0, icons)
     if not len(icons):
         return False
     icons = sorted(icons, key=lambda icon: icon.width)
     for icon in icons:
-        response = requests.get(icon.url)
-        if(response.status_code == 200):
-            with open('./icons/'+url, 'wb') as f:
+        response = requests.get(icon.url, timeout=1)
+        if response.status_code == 200:
+            with open('./icons/' + domain, 'wb') as f:
                 f.write(response.content)
+            print('Downloaded: ' + domain)
             return True
     return False
 
