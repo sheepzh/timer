@@ -1,4 +1,3 @@
-
 let OPEN_LOG = false
 
 /**
@@ -24,3 +23,8 @@ export function closeLog(): string {
     OPEN_LOG = false
     return 'Closed the log manually.'
 }
+
+/**
+ * @since 0.0.8
+ */
+export default { openLog, closeLog }

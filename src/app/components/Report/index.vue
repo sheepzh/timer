@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input class="filter-item"
                 v-model="host"
-                :placeholder="$t('record.hostPlaceholder')"
+                :placeholder="$t('report.hostPlaceholder')"
                 clearable
                 @keyup.enter.native="queryData">
       </el-input>
@@ -13,17 +13,17 @@
                         format="yyyy/MM/dd"
                         range-separator="-"
                         :picker-options="pickerOptions"
-                        :start-placeholder="$t('record.startDate')"
-                        :end-placeholder="$t('record.endDate')">
+                        :start-placeholder="$t('report.startDate')"
+                        :end-placeholder="$t('report.endDate')">
         </el-date-picker>
       </span>
-      <a class="filter-name">{{ $t('record.mergeDate') }}</a>
+      <a class="filter-name">{{ $t('report.mergeDate') }}</a>
       <el-switch class="filter-item"
                  v-model="mergeDate" />
-      <a class="filter-name">{{ $t('record.mergeDomain') }}</a>
+      <a class="filter-name">{{ $t('report.mergeDomain') }}</a>
       <el-switch class="filter-item"
                  v-model="mergeDomain" />
-      <a class="filter-name">{{ $t('record.displayBySecond') }}</a>
+      <a class="filter-name">{{ $t('report.displayBySecond') }}</a>
       <el-switch class="filter-item"
                  v-model="displayBySecond" />
       <el-dropdown class="export-dropdown"
@@ -138,6 +138,7 @@ import whitelistService from '../../../service/whitelist-service'
 import { FAVICON } from '../../../util/constant'
 import { formatPeriodCommon, formatTime } from '../../../util/time'
 import { exportCsv, exportJson } from '../../../util/file'
+import { MILL_PER_DAY } from '../../../util/time'
 const ELEMENT_SORT_2_DB = {
   descending: QueryParam.DESC,
   ascending: QueryParam.ASC
@@ -147,13 +148,12 @@ export default {
   name: 'Dashboard',
   data () {
     const daysAgo = (start, end) => {
-      const timePerDay = 3600 * 1000 * 24
       const current = new Date().getTime()
-      return [current - start * timePerDay, current - end * timePerDay]
+      return [current - start * MILL_PER_DAY, current - end * MILL_PER_DAY]
     }
     const datePickerShortcut = (msg, agoOfStart, agoOfEnd) => {
       return {
-        text: this.$t(`record.${msg}`),
+        text: this.$t(`report.${msg}`),
         onClick: picker => picker.$emit('pick', daysAgo(agoOfStart || 0, agoOfEnd || 0))
       }
     }
@@ -326,7 +326,7 @@ export default {
       }
     },
     exportFileName () {
-      let baseName = this.$t('record.exportFileName')
+      let baseName = this.$t('report.exportFileName')
       if (this.dateRange && this.dateRange.length === 2) {
         const start = this.dateRange[0]
         const end = this.dateRange[1]
@@ -336,9 +336,9 @@ export default {
           baseName += '_' + formatTime(start, '{y}{m}{d}') + '_' + formatTime(end, '{y}{m}{d}')
         }
       }
-      this.mergeDate && (baseName += '_' + this.$t('record.mergeDate'))
-      this.mergeDomain && (baseName += '_' + this.$t('record.mergeDomain'))
-      this.displayBySecond && (baseName += '_' + this.$t('record.displayBySecond'))
+      this.mergeDate && (baseName += '_' + this.$t('report.mergeDate'))
+      this.mergeDomain && (baseName += '_' + this.$t('report.mergeDomain'))
+      this.displayBySecond && (baseName += '_' + this.$t('report.displayBySecond'))
       return baseName
     }
   }

@@ -1,5 +1,5 @@
 import { log } from "../common/logger"
-import { formatTime } from "../util/time"
+import { formatTime, MILL_PER_DAY } from "../util/time"
 import { REMAIN_WORD_PREFIX } from "./constant"
 
 /**
@@ -49,9 +49,15 @@ export class QueryParam {
      */
     date?: Date | Date[]
     /**
-     * Host name for fuzzy query
+     * Host name for query
      */
     host?: string
+    /**
+     * Whether to enable full host search, default is false 
+     * 
+     * @since 0.0.8
+     */
+    fullHost?: boolean
     /**
      * Group by the root domain
      */
@@ -130,12 +136,11 @@ class TimeDatabase {
     private increaseTime(host: string, start: number, increase: (i: WastePerDay, step: number) => void) {
         const today = new Date()
         const now = today.getTime()
-        const millPerDay = 3600 * 1000 * 24
-        let endOfDate = new Date(new Date(start).toLocaleDateString()).getTime() + millPerDay
+        let endOfDate = new Date(new Date(start).toLocaleDateString()).getTime() + MILL_PER_DAY
         while (endOfDate < now) {
             this.updateOf(host, endOfDate - 1, (i: WastePerDay) => increase(i, endOfDate - start))
             start = endOfDate
-            endOfDate += millPerDay
+            endOfDate += MILL_PER_DAY
         }
         this.updateOf(host, now, (i: WastePerDay) => increase(i, now - start))
     }
@@ -149,8 +154,7 @@ class TimeDatabase {
         log('addFocusAndTotal:{host}, {focusStart}, {runStart}', host, new Date(focusStart), new Date(runStart))
         const today = new Date()
         const now = today.getTime()
-        const millPerDay = 3600 * 1000 * 24
-        let endOfDate = new Date(new Date(Math.min(focusStart, runStart)).toLocaleDateString()).getTime() + millPerDay
+        let endOfDate = new Date(new Date(Math.min(focusStart, runStart)).toLocaleDateString()).getTime() + MILL_PER_DAY
         while (true) {
             const hasFocus = endOfDate > focusStart
             const focusPeriod = endOfDate - focusStart
@@ -164,7 +168,7 @@ class TimeDatabase {
             if (currentDate === now) {
                 break
             }
-            endOfDate = Math.min(endOfDate + millPerDay, now)
+            endOfDate = Math.min(endOfDate + MILL_PER_DAY, now)
         }
     }
 
@@ -229,7 +233,7 @@ class TimeDatabase {
                     return order * (aa > bb ? 1 : -1)
                 })
             }
-            // 4th page
+            log('Result of select: ', result)
             return callback(result)
         })
     }
@@ -247,7 +251,14 @@ class TimeDatabase {
         const paramDate = param.date
         const paramHost = (param.host || '').trim()
 
-        if (paramHost && !host.includes(paramHost)) return false
+        if (paramHost) {
+            if (!!param.fullHost && host !== paramHost) {
+                return false
+            }
+            if (!param.fullHost && !host.includes(paramHost)) {
+                return false
+            }
+        }
 
         if (paramDate !== undefined) {
             if (paramDate instanceof Date) {

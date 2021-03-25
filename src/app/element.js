@@ -2,7 +2,7 @@ import Vue from 'vue'
 import {
     Alert, Aside,
     Button,
-    Container,
+    Card, Container,
     DatePicker, Dropdown, DropdownMenu, DropdownItem,
     Icon, Input,
     Main, Menu, MenuItem, Message, MessageBox,
@@ -21,6 +21,8 @@ import 'element-ui/lib/theme-chalk/aside.css'
 Vue.use(Button)
 import 'element-ui/lib/theme-chalk/button.css'
 
+Vue.use(Card)
+import 'element-ui/lib/theme-chalk/card.css'
 Vue.use(Container)
 import 'element-ui/lib/theme-chalk/container.css'
 

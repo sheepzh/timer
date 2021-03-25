@@ -71,3 +71,11 @@ export function formatPeriod(milliseconds: number, hourMsg: string, minuteMsg: s
 export function formatPeriodCommon(milliseconds: number): string {
     return formatPeriod(milliseconds, '{hour} h {minute} m {second}s', '{minute} m {second} s', '{second} s')
 }
+
+
+/**
+ * Millseconds per day
+ * 
+ * @since 0.0.8
+ */
+export const MILL_PER_DAY = 3600 * 1000 * 24

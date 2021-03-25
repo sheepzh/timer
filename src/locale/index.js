@@ -3,7 +3,8 @@ const message = require('./components/message')
 const item = require('./components/item')
 const popup = require('./components/popup')
 const menu = require('./components/menu')
-const record = require('./components/record')
+const report = require('./components/report')
+const trender = require('./components/trender')
 const setting = require('./components/setting')
 const vueMessages = {
   en: {
@@ -12,7 +13,8 @@ const vueMessages = {
     message: message.en,
     item: item.en,
     popup: popup.en,
-    record: record.en,
+    report: report.en,
+    trender: trender.en,
     menu: menu.en,
     setting: setting.en
   },
@@ -22,7 +24,8 @@ const vueMessages = {
     message: message.zh_CN,
     item: item.zh_CN,
     popup: popup.zh_CN,
-    record: record.zh_CN,
+    report: report.zh_CN,
+    trender: trender.zh_CN,
     menu: menu.zh_CN,
     setting: setting.zh_CN
   },
@@ -32,7 +35,8 @@ const vueMessages = {
     message: message.ja,
     item: item.ja,
     popup: popup.ja,
-    record: record.ja,
+    report: report.ja,
+    trender: trender.ja,
     menu: menu.ja,
     setting: setting.ja
   }

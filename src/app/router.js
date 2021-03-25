@@ -14,7 +14,7 @@ const routes = [
     // Needn't nested router 
     {
         path: '/data/report',
-        component: () => import('./components/Record')
+        component: () => import('./components/Report')
     }, {
         path: '/data/history',
         component: () => import('./components/Trender')

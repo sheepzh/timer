@@ -22,6 +22,20 @@
  npm run build:prod
 ```
 
+## DEBUG
+
++ 在控制台下可以开启日志
+
+```JavaScript
+window.timer.openLog()
+```
+
++ 关闭日志
+
+```JavaScript
+window.timer.closeLog()
+```
+
 ## 下载地址
 
 [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/make-zero/)&emsp;[Chrome](https://chrome.google.com/webstore/detail/make-zero-%E6%96%87%E5%AD%97%E5%8A%A0%E5%AF%86%E5%99%A8/ihpcojcdiclghnggnlkcinbmfpomefcc?hl=zh-CN)&emsp;[Edge](https://microsoftedge.microsoft.com/addons/detail/make-zero-decenc-your-/gkjmpdoddilgcfoeokeajfecogaaocol)
