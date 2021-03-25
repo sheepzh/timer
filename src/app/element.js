@@ -8,7 +8,7 @@ import {
     Main, Menu, MenuItem, Message, MessageBox,
     Option,
     Pagination, Popconfirm,
-    Switch,
+    Select, Submenu, Switch,
     Table, TableColumn, TabPane, Tabs, Tag
 } from 'element-ui'
 
@@ -60,6 +60,10 @@ Vue.use(Popconfirm)
 import 'element-ui/lib/theme-chalk/popconfirm.css'
 import 'element-ui/lib/theme-chalk/popover.css'
 
+Vue.use(Select)
+import 'element-ui/lib/theme-chalk/select.css'
+Vue.use(Submenu)
+import 'element-ui/lib/theme-chalk/submenu.css'
 Vue.use(Switch)
 import 'element-ui/lib/theme-chalk/switch.css'
 

@@ -6,10 +6,18 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        redirect: '/record'
+        redirect: '/data'
     }, {
-        path: '/record',
-        component: () => import('./components/Record'),
+        path: '/data',
+        redirect: '/data/report',
+    },
+    // Needn't nested router 
+    {
+        path: '/data/report',
+        component: () => import('./components/Record')
+    }, {
+        path: '/data/history',
+        component: () => import('./components/Trender')
     }, {
         path: '/setting',
         component: () => import('./components/Setting'),

@@ -192,6 +192,12 @@ class TimeDatabase {
 
     }
 
+    /**
+     * Select without page
+     * 
+     * @param callback  callback
+     * @param param     param
+     */
     public select(callback: (result: Row[]) => void, param?: QueryParam) {
         log("selectByPage:{param}", param)
         param = param || new QueryParam()
@@ -240,9 +246,10 @@ class TimeDatabase {
     private filterBefore(date: string, host: string, val: WastePerDay, param: QueryParam) {
         const paramDate = param.date
         const paramHost = (param.host || '').trim()
-        if (paramDate !== undefined) {
-            if (paramHost && !host.includes(paramHost)) return false
 
+        if (paramHost && !host.includes(paramHost)) return false
+
+        if (paramDate !== undefined) {
             if (paramDate instanceof Date) {
                 const paramDateStr = formatTime(paramDate as Date, DATE_FORMAT)
                 if (paramDateStr !== date) {
