@@ -22,7 +22,7 @@ module.exports = {
         latest30Days: 'Latest 30 days',
         latest90Days: 'Latest 90 days',
         history: {
-            title: 'History',
+            title: 'History trender',
             timeUnit: 'Time / second(s)',
             numberUnit: 'time(s)'
         }
