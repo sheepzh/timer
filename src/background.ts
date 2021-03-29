@@ -1,4 +1,3 @@
-import InstalledHandler from './chrome/installed-handler'
 import { openLog } from './common/logger'
 import timeService from './service/timer-service'
 import { FOCUS, SAVE_FOCUS, UNFOCUS } from './util/constant'
@@ -8,8 +7,6 @@ openLog()
 
 let lastFocusTabId: number = undefined
 const hostStart = {}
-
-chrome.runtime.onInstalled.addListener(new InstalledHandler().handle)
 
 chrome.runtime.onMessage.addListener((data, _, sendResponse) => {
     const { code, host, focusStart } = data
