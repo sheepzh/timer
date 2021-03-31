@@ -48,7 +48,13 @@ export default {
         },
         toolbox: {
           feature: {
-            saveAsImage: {}
+            saveAsImage: {
+              show: true,
+              title: this.$t('popup.saveAsImageTitle'),
+              excludeComponents: ['toolbox'],
+              pixelRatio: 2,
+              backgroundColor: '#fff'
+            }
           }
         },
         xAxis: {
