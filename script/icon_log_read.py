@@ -14,7 +14,8 @@ import validators
 import os
 import re
 import requests
-import favicon
+import favicon_getter as favicon
+import shutil
 
 
 def split(line):
@@ -58,6 +59,8 @@ def resolve_icon(url, urls):
         for fullurl in all_fullurls:
             if find_and_save_icon(fullurl, url):
                 return
+        # all not found
+        shutil.copy('./not_found.png', './icons/'+url)
         urls.append(url)
 
 
