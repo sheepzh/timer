@@ -12,7 +12,7 @@
 
 ## 下载地址
 
-[Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/make-zero/)&emsp;[Chrome](https://chrome.google.com/webstore/detail/make-zero-%E6%96%87%E5%AD%97%E5%8A%A0%E5%AF%86%E5%99%A8/ihpcojcdiclghnggnlkcinbmfpomefcc?hl=zh-CN)&emsp;[Edge](https://microsoftedge.microsoft.com/addons/detail/make-zero-decenc-your-/gkjmpdoddilgcfoeokeajfecogaaocol)
+[Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/)&emsp;[Chrome](https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm?hl=zh-CN)&emsp;[Edge](https://microsoftedge.microsoft.com/addons/detail/timer-running-browsin/fepjgblalcnepokjblgbgmapmlkgfahc)
 
 ## 编译
 
