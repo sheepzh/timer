@@ -33,6 +33,8 @@ LINK_RELS = [
     'shortcut icon',
     'apple-touch-icon',
     'apple-touch-icon-precomposed',
+    'alternate icon',
+    'icon'
 ]
 
 META_NAMES = ['msapplication-TileImage', 'og:image']
@@ -65,7 +67,7 @@ def get(url, *args, **request_kwargs):
     request_kwargs.setdefault('headers', HEADERS)
     request_kwargs.setdefault('allow_redirects', True)
 
-    response = requests.get(url, **request_kwargs)
+    response = requests.get(url, timeout=1, **request_kwargs)
     response.raise_for_status()
 
     icons = set()
