@@ -56,6 +56,10 @@ export default {
               title: 'menu.dataHistory',
               route: '/data/history',
               icon: 'stopwatch'
+            }, {
+              title: 'menu.dataClear',
+              route: '/data/clear',
+              icon: 'folder'
             }
           ]
         }, {

@@ -34,7 +34,7 @@
 </style>
 <script>
 const { version } = require('../../../../package.json')
-import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant'
+import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant/url'
 import Whitelist from './Whitelist'
 export default {
   name: 'Setting',

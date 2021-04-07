@@ -47,7 +47,7 @@
 }
 </style>
 <script>
-import { FAVICON } from '../../../util/constant'
+import { FAVICON } from '../../../util/constant/url'
 import whitelistService from '../../../service/whitelist-service'
 export default {
   data () {

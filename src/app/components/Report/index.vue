@@ -44,6 +44,7 @@
     <!-- table -->
     <el-table :data="tableData"
               border
+              size="mini"
               :default-sort="sort"
               @sort-change="sortChangeHandler"
               style="width: 100%">
@@ -135,7 +136,7 @@
 <script>
 import timerDatabase, { DATE_FORMAT, QueryParam } from '../../../database/timer-database'
 import whitelistService from '../../../service/whitelist-service'
-import { FAVICON } from '../../../util/constant'
+import { FAVICON } from '../../../util/constant/url'
 import { formatPeriodCommon, formatTime } from '../../../util/time'
 import { exportCsv, exportJson } from '../../../util/file'
 import { MILL_PER_DAY } from '../../../util/time'
@@ -345,16 +346,6 @@ export default {
 }
 </script>
 <style>
-.el-input__suffix {
-  right: 30px !important;
-}
-.el-picker-panel__sidebar {
-  width: 130px !important;
-}
-.el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
-.el-picker-panel__sidebar + .el-picker-panel__body {
-  margin-left: 130px !important;
-}
 .el-button [class*="el-icon-"] + span {
   margin-left: 0px !important;
 }

@@ -1,5 +1,7 @@
 import timerDatabase, { QueryParam } from '../database/timer-database'
 import whitelistDatabase from '../database/whitelist-database'
+import archivedDatabase from '../database/archived-database'
+import SiteInfo from '../entity/dto/site-info'
 
 /**
  * Service of timer
@@ -38,6 +40,20 @@ class TimeService {
             rows.forEach(row => result.add(row.host))
             callback(result)
         }, param)
+    }
+
+    /**
+     * Archive the data and delete all of them
+     * 
+     * @param rows rows
+     * @since 0.0.9
+     */
+    public archive(rows: SiteInfo[], callback?: () => void) {
+        archivedDatabase.updateArchived(rows,
+            () => {
+                timerDatabase.delete(rows, () => callback && callback())
+            }
+        )
     }
 }
 

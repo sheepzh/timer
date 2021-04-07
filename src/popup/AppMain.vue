@@ -32,7 +32,7 @@
 </template>
 <script>
 const { version } = require('../../package.json')
-import { IS_FIREFOX } from '../util/constant'
+import { IS_FIREFOX } from '../util/constant/environment'
 import timerDatabase from '../database/timer-database'
 import VChart from "vue-echarts"
 import { use } from 'echarts/core'
@@ -40,7 +40,7 @@ import { CanvasRenderer } from "echarts/renderers"
 import { PieChart } from "echarts/charts"
 import { TitleComponent, TooltipComponent, LegendComponent, ToolboxComponent } from "echarts/components"
 import { formatPeriodCommon, formatTime } from '../util/time'
-import { FAVICON } from '../util/constant'
+import { FAVICON } from '../util/constant/url'
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, ToolboxComponent, LegendComponent])
 
@@ -69,7 +69,7 @@ export default {
       version,
       tableData: [],
       type: outerType, // focus or total
-      mergeDomain: true,
+      mergeDomain: false,
       allTypes: ['focus', 'total', 'time'],
       option: {
         title: {

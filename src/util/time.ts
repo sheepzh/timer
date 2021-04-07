@@ -72,7 +72,6 @@ export function formatPeriodCommon(milliseconds: number): string {
     return formatPeriod(milliseconds, '{hour} h {minute} m {second}s', '{minute} m {second} s', '{second} s')
 }
 
-
 /**
  * Millseconds per day
  * 

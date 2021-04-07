@@ -148,10 +148,13 @@ const options = {
           loader: 'babel-loader',
           options: {
             plugins: [
-              ['import', {
-                "libraryName": "element-ui",
-                "style": false
-              }]
+              [
+                'component', {
+                  "libraryName": "element-ui",
+                  "styleLibraryName": "theme-chalk"
+                },
+                "element-ui"
+              ]
             ]
           }
         }

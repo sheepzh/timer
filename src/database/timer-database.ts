@@ -1,45 +1,13 @@
 import { log } from "../common/logger"
+import WastePerDay from "../entity/dao/waste-per-day"
+import SiteInfo from "../entity/dto/site-info"
 import { formatTime, MILL_PER_DAY } from "../util/time"
-import { REMAIN_WORD_PREFIX } from "./constant"
+import { ARCHIVED_PREFIX, REMAIN_WORD_PREFIX } from "./constant"
 
 /**
  * Date format for storage
  */
 export const DATE_FORMAT = '{y}{m}{d}'
-
-/**
- * Time waste per day
- * 
- * @since 0.0.1
- */
-export class WastePerDay {
-    /**
-     * Duration of visit
-     */
-    total: number
-    /**
-     * Duration of focus
-     */
-    focus: number
-    /**
-     * Visit times
-     */
-    time: number
-
-    constructor() {
-        this.total = 0
-        this.focus = 0
-        this.time = 0
-    }
-}
-
-export class Row {
-    host: string
-    date: string
-    total: number
-    focus: number
-    time: number
-}
 
 export class QueryParam {
     public static ASC = 1
@@ -52,6 +20,24 @@ export class QueryParam {
      * Host name for query
      */
     host?: string
+    /**
+     * Total range, millseconds
+     * 
+     * @since 0.0.9
+     */
+    totalRange?: number[]
+    /**
+     * Focus range, millseconds
+     * 
+     * @since 0.0.9
+     */
+    focusRange?: number[]
+    /**
+     * Time range
+     * 
+     * @since 0.0.9
+     */
+    timeRange?: number[]
     /**
      * Whether to enable full host search, default is false 
      * 
@@ -76,14 +62,14 @@ export class QueryParam {
     sortOrder?: number
 }
 
-class PageParam {
+declare class PageParam {
     pageNum?: number
     pageSize?: number
 }
 
 class PageInfo {
     total: number
-    list: Row[]
+    list: SiteInfo[]
 }
 
 class TimeDatabase {
@@ -94,17 +80,13 @@ class TimeDatabase {
         this.localStorage.get(result => {
             const items = {}
             for (let key in result) {
-                if (!key.startsWith(REMAIN_WORD_PREFIX)) {
+                if (!key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX)) {
                     // remain words
                     items[key] = result[key]
                 }
             }
             callback && callback(items)
         })
-    }
-
-    constructor() {
-        this.refresh()
     }
 
     /**
@@ -180,7 +162,7 @@ class TimeDatabase {
     public selectByPage(callback: (page: PageInfo) => void, param?: QueryParam, page?: PageParam) {
         log("selectByPage:{param},{page}", param, page)
         page = page || { pageNum: 1, pageSize: 10 }
-        this.select((origin: Row[]) => {
+        this.select((origin: SiteInfo[]) => {
             let pageNum = page.pageNum
             let pageSize = page.pageSize
             pageNum === undefined || pageNum < 1 && (pageNum = 1)
@@ -190,7 +172,7 @@ class TimeDatabase {
             const endIndex = (pageNum) * pageSize
 
             const total = origin.length
-            const list: Row[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
+            const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
             callback({ total, list })
         }, param)
 
@@ -200,13 +182,13 @@ class TimeDatabase {
      * Select without page
      * 
      * @param callback  callback
-     * @param param     param
+     * @param param     condition
      */
-    public select(callback: (result: Row[]) => void, param?: QueryParam) {
-        log("selectByPage:{param}", param)
+    public select(callback: (result: SiteInfo[]) => void, param?: QueryParam) {
+        log("select:{param}", param)
         param = param || new QueryParam()
-        this.refresh(items => {
-            let result: Row[] = []
+        this.refresh((items: { waste: WastePerDay }) => {
+            let result: SiteInfo[] = []
             // 1st filter
             for (let key in items) {
                 const date = key.substr(0, 8)
@@ -250,6 +232,9 @@ class TimeDatabase {
     private filterBefore(date: string, host: string, val: WastePerDay, param: QueryParam) {
         const paramDate = param.date
         const paramHost = (param.host || '').trim()
+        const paramTimeRange = param.timeRange
+        const paramTotalRange = param.totalRange
+        const paramFocusRange = param.focusRange
 
         if (paramHost) {
             if (!!param.fullHost && host !== paramHost) {
@@ -281,16 +266,57 @@ class TimeDatabase {
             }
         }
 
+        const { focus, total, time } = val
+
+        if (paramTimeRange instanceof Array) {
+            if (paramTimeRange.length === 2) {
+                const timeStart = paramTimeRange[0]
+                const timeEnd = paramTimeRange[1]
+                if (timeStart !== null && timeStart !== undefined && timeStart > time) {
+                    return false
+                }
+                if (timeEnd !== null && timeEnd !== undefined && timeEnd < time) {
+                    return false
+                }
+            }
+        }
+
+        if (paramTotalRange instanceof Array) {
+            if (paramTotalRange.length === 2) {
+                const totalStart = paramTotalRange[0]
+                const totalEnd = paramTotalRange[1]
+                if (totalStart !== null && totalStart !== undefined && totalStart > total) {
+                    return false
+                }
+                if (totalEnd !== null && totalEnd !== undefined && totalEnd < total) {
+                    return false
+                }
+            }
+        }
+
+        if (paramFocusRange instanceof Array) {
+            if (paramFocusRange.length === 2) {
+                const focusStart = paramFocusRange[0]
+                const focusEnd = paramFocusRange[1]
+                if (focusStart !== null && focusStart !== undefined && focusStart > focus) {
+                    return false
+                }
+                if (focusEnd !== null && focusEnd !== undefined && focusEnd < focus) {
+                    return false
+                }
+            }
+        }
+
         return true
     }
 
-    private filterAfter(origin: Row[], param: QueryParam) {
+    private filterAfter(origin: SiteInfo[], param: QueryParam) {
         const paramHost = (param.host || '').trim()
         return paramHost ? origin.filter(o => o.host.includes(paramHost)) : origin
     }
 
-    private mergeDomain(origin: Row[]): Row[] {
-        const newRows = []
+    private mergeDomain(origin: SiteInfo[]): SiteInfo[] {
+        const newSiteInfos = []
         const map = {}
         const ipAndPort = /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])(:\d{0,5})?$/
 
@@ -313,24 +339,24 @@ class TimeDatabase {
             this.merge(map, o, domain + date).host = domain
         })
         for (let key in map) {
-            newRows.push(map[key])
+            newSiteInfos.push(map[key])
         }
-        return newRows
+        return newSiteInfos
     }
 
-    private mergeDate(origin: Row[]): Row[] {
-        const newRows = []
+    private mergeDate(origin: SiteInfo[]): SiteInfo[] {
+        const newSiteInfos = []
         const map = {}
 
         origin.forEach(o => this.merge(map, o, o.host).date = undefined)
         for (let key in map) {
-            newRows.push(map[key])
+            newSiteInfos.push(map[key])
         }
-        return newRows
+        return newSiteInfos
     }
 
-    private merge(map: {}, origin: Row, key: string): Row {
-        let exist: Row = map[key]
+    private merge(map: {}, origin: SiteInfo, key: string): SiteInfo {
+        let exist: SiteInfo = map[key]
         if (exist === undefined) {
             exist = map[key] = origin
         } else {
@@ -346,7 +372,7 @@ class TimeDatabase {
      * 
      * @since 0.0.5 
      */
-    public get(host: string, date: Date | string, callback: (info: WastePerDay) => void) {
+    public get(host: string, date: Date | string, callback: (info: WastePerDay) => void): void {
         const key = this.generateKey(host, date)
         this.localStorage.get(items => callback(items[key] || new WastePerDay()))
     }
@@ -359,9 +385,27 @@ class TimeDatabase {
      * @param callback callback
      * @since 0.0.5
      */
-    public deleteByUrlAndDate(host: string, date: string, callback?: () => void) {
+    public deleteByUrlAndDate(host: string, date: string, callback?: () => void): void {
         const key = this.generateKey(host, date)
         this.localStorage.remove(key, () => callback && callback())
+    }
+
+    /**
+     * Delete by key
+     *  
+     * @param rows     site rows, the host and date mustn't be null
+     * @param callback callback
+     * @since 0.0.9
+     */
+    public delete(rows: SiteInfo[], callback?: () => void): void {
+        const keys = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => this.generateKey(host, date))
+
+        const promises: Promise<void>[] = keys.map(key =>
+            new Promise<void>((resolve, _) => {
+                this.localStorage.remove(key, resolve)
+            })
+        )
+        Promise.all(promises).then(callback)
     }
 
     /**

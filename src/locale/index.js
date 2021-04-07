@@ -6,6 +6,7 @@ const menu = require('./components/menu')
 const report = require('./components/report')
 const trender = require('./components/trender')
 const setting = require('./components/setting')
+const clear = require('./components/clear')
 const vueMessages = {
   en: {
     lang: { name: 'English' },
@@ -16,7 +17,8 @@ const vueMessages = {
     report: report.en,
     trender: trender.en,
     menu: menu.en,
-    setting: setting.en
+    setting: setting.en,
+    clear: clear.en
   },
   zh_CN: {
     lang: { name: '简体中文' },
@@ -27,7 +29,8 @@ const vueMessages = {
     report: report.zh_CN,
     trender: trender.zh_CN,
     menu: menu.zh_CN,
-    setting: setting.zh_CN
+    setting: setting.zh_CN,
+    clear: clear.zh_CN
   },
   ja: {
     lang: { name: '日本語' },
@@ -38,7 +41,8 @@ const vueMessages = {
     report: report.ja,
     trender: trender.ja,
     menu: menu.ja,
-    setting: setting.ja
+    setting: setting.ja,
+    clear: clear.ja
   }
 }
 

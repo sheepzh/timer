@@ -1,6 +1,6 @@
 import { openLog } from './common/logger'
 import timeService from './service/timer-service'
-import { FOCUS, SAVE_FOCUS, UNFOCUS } from './util/constant'
+import { FOCUS, SAVE_FOCUS, UNFOCUS } from './util/constant/message-tag'
 import { isBrowserUrl } from './util/pattern'
 
 openLog()

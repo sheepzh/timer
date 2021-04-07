@@ -42,6 +42,7 @@ a {
 
 .filter-container {
   padding-bottom: 10px;
+  user-select: none;
 }
 
 .filter-item {
@@ -50,6 +51,20 @@ a {
   margin-bottom: 10px;
   padding-right: 20px;
 }
+
+.filter-item {
+  .el-input__suffix {
+    right: 30px !important;
+  }
+  .el-picker-panel__sidebar {
+    width: 130px !important;
+  }
+  .el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
+  .el-picker-panel__sidebar + .el-picker-panel__body {
+    margin-left: 130px !important;
+  }
+}
+
 .filter-name {
   color: #909399;
   font-weight: bold;

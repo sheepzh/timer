@@ -6,7 +6,8 @@
 </template>
 <script>
 import { init } from 'echarts'
-import timerDatabase, { QueryParam, Row } from '../../../../database/timer-database'
+import timerDatabase, { QueryParam } from '../../../../database/timer-database'
+import SiteInfo from '../../../../entity/dto/site-info'
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from '../../../../util/time'
 
 // Get the timestamp of one timestamp of date
@@ -122,7 +123,7 @@ export default {
         const timeData = []
 
         allXAxis.forEach(date => {
-          const row = dateInfoMap[date] || new Row()
+          const row = dateInfoMap[date] || new SiteInfo()
           focusData.push(mill2Second(row.focus))
           totalData.push(mill2Second(row.total))
           timeData.push(row.time || 0)
@@ -142,6 +143,11 @@ export default {
      * Get the x-axis of date 
      */
     getAxias (format) {
+      if (!this.dateRange) {
+        // @since 0.0.9
+        // The dateRange is cleared, return empty data
+        return []
+      }
       const xAxisData = []
       const startTime = timestampOf(this.dateRange[0])
       const endTime = timestampOf(this.dateRange[1])

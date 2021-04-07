@@ -1,7 +1,8 @@
-import timerDatabase, { WastePerDay } from "./database/timer-database"
+import timerDatabase from "./database/timer-database"
+import WastePerDay from "./entity/dao/waste-per-day"
 import timeService from './service/timer-service'
 import whitelistService from "./service/whitelist-service"
-import { FOCUS, SAVE_FOCUS, UNFOCUS } from "./util/constant"
+import { FOCUS, SAVE_FOCUS, UNFOCUS } from "./util/constant/message-tag"
 import { formatPeriod } from "./util/time"
 
 const host = document.location.host

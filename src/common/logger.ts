@@ -1,3 +1,6 @@
+import { use } from "vue/types/umd"
+import { getUsedStorage } from "../database/memory-detector"
+
 let OPEN_LOG = false
 
 /**
@@ -25,6 +28,18 @@ export function closeLog(): string {
 }
 
 /**
+ * Show the memory info
+ * 
+ * @since 0.0.9
+ */
+export function showMemory() {
+    getUsedStorage((used, total) => {
+        console.log(`\t${used} / ${total} = ${Math.round(used * 100.0 / total * 100) / 100}%`)
+    })
+    return 'Memory used:'
+}
+
+/**
  * @since 0.0.8
  */
-export default { openLog, closeLog }
+export default { openLog, closeLog, showMemory }

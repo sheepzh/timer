@@ -19,6 +19,9 @@ const routes = [
         path: '/data/history',
         component: () => import('./components/Trender')
     }, {
+        path: '/data/clear',
+        component: () => import('./components/Clear')
+    }, {
         path: '/setting',
         component: () => import('./components/Setting'),
     }
