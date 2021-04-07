@@ -40,7 +40,8 @@ def split(line):
     return result
 
 
-second_domain_pattern = re.compile(r'[a-zA-Z0-9-_]{1,61}\.[a-zA-Z0-9-_]{1,61}')
+second_domain_pattern = re.compile(
+    r'^[a-zA-Z0-9-_]{1,61}\.[a-zA-Z0-9-_]{1,61}$')
 
 
 def resolve_icon(url, urls):
@@ -61,12 +62,23 @@ def resolve_icon(url, urls):
                 return
         # all not found
         shutil.copy('./not_found.png', './icons/'+url)
+        print('not found: ' + url)
         urls.append(url)
 
 
 def find_and_save_icon(url, domain):
     print('Trying: ' + url)
-    icons = favicon.get(url)
+    response = requests.get(url+'/favicon.ico')
+    if response.status_code == 200:
+        with open('./icons/' + domain, 'wb') as f:
+            f.write(response.content)
+        print('Downloaded: ' + domain)
+        return True
+    try:
+        icons = favicon.get(url)
+    except requests.exceptions.HTTPError:
+        print('HTTP ERROR')
+        return False
     if not len(icons):
         return False
     icons = sorted(icons, key=lambda icon: icon.width)
