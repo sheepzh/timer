@@ -2,11 +2,10 @@ import timerDatabase from "./database/timer-database"
 import WastePerDay from "./entity/dao/waste-per-day"
 import timeService from './service/timer-service'
 import whitelistService from "./service/whitelist-service"
-import { FOCUS, SAVE_FOCUS, UNFOCUS } from "./util/constant/message-tag"
+import { SAVE_FOCUS, HOST_START, UNFOCUS } from "./util/constant/message-tag"
 import { formatPeriod } from "./util/time"
 
 const host = document.location.host
-chrome.runtime.sendMessage({ code: 'hostStart', host })
 
 // init
 timerDatabase.refresh(() => {
@@ -31,19 +30,19 @@ timerDatabase.refresh(() => {
     })
 })
 
-let focusStart: number = new Date().getTime()
+// let focusStart: number = new Date().getTime()
 
 function saveFocus() {
-    focusStart !== undefined && chrome.runtime.sendMessage({ code: SAVE_FOCUS, host, focusStart })
-    focusStart = undefined
+    chrome.runtime.sendMessage({ code: SAVE_FOCUS, host })
+    // focusStart = undefined
 }
 
 window.addEventListener('load', () => {
+    chrome.runtime.sendMessage({ code: HOST_START, host })
     function listener(obj: { code: string }, _: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
         const { code } = obj
-        if (code === FOCUS) {
-            focusStart = new Date().getTime()
-        } else if (code === UNFOCUS) {
+        if (code === UNFOCUS) {
+            console.log('UNFOCUS')
             saveFocus()
         }
         sendResponse("ok")

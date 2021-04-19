@@ -133,8 +133,8 @@ class TimeDatabase {
     }
 
     public addFocusAndTotal(host: string, focusStart: number, runStart: number) {
-        log('addFocusAndTotal:{host}, {focusStart}, {runStart}', host, new Date(focusStart), new Date(runStart))
         const today = new Date()
+        log('addFocusAndTotal:{host}, {focusStart}, {runStart}, {now}', host, new Date(focusStart), new Date(runStart), today)
         const now = today.getTime()
         let endOfDate = new Date(new Date(Math.min(focusStart, runStart)).toLocaleDateString()).getTime() + MILL_PER_DAY
         while (true) {
