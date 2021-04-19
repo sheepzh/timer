@@ -39,5 +39,3 @@ window.timer.openLog()
 ```JavaScript
 window.timer.closeLog()
 ```
-
-欢迎 star 以及 [issue](https://github.com/sheepzh/timer/issues)
