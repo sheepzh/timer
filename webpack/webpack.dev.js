@@ -8,11 +8,11 @@ const outputDir = path.join(__dirname, '..', 'dist_dev')
 let manifest
 
 const options = optionGenerator(
-    outputDir,
-    baseManifest => {
-        baseManifest['name'] = 'IS DEV'
-        manifest = baseManifest
-    }
+  outputDir,
+  baseManifest => {
+    baseManifest['name'] = 'IS DEV'
+    manifest = baseManifest
+  }
 )
 
 const manifestFirefoxName = 'manifest-firefox.json'
@@ -22,16 +22,15 @@ options.plugins.push(firefoxManifestGeneratePlugin)
 const firefoxDevDir = path.join(__dirname, '..', 'firefox_dev')
 // Generate FireFox dev files
 options.plugins.push(new FileManagerWebpackPlugin({
-    events: {
-        onStart: [{ delete: [path.join(firefoxDevDir, '*'), path.join(outputDir, '*')] }],
-        onEnd: [
-            {
-                copy: [{ source: outputDir, destination: firefoxDevDir }],
-                delete: [path.join(outputDir, manifestFirefoxName), path.join(firefoxDevDir, 'manifest.json')],
-                move: [{ source: path.join(firefoxDevDir, manifestFirefoxName), destination: path.join(firefoxDevDir, 'manifest.json') }]
-            }
-        ]
-    }
+  events: {
+    onEnd: [
+      {
+        copy: [{ source: outputDir, destination: firefoxDevDir }],
+        delete: [path.join(outputDir, manifestFirefoxName), path.join(firefoxDevDir, 'manifest.json')],
+        move: [{ source: path.join(firefoxDevDir, manifestFirefoxName), destination: path.join(firefoxDevDir, 'manifest.json') }]
+      }
+    ]
+  }
 }))
 
 options.output.path = outputDir
