@@ -2,11 +2,11 @@
 
 用于上网时间统计的浏览器插件。
 
-+ 统计网站的运行时间
-+ 统计用户在不同网站上的浏览时间
-+ 统计用户打开网站的次数
-+ 网站白名单，过滤不需要统计的网站
-+ 报表导出
+- 统计网站的运行时间
+- 统计用户在不同网站上的浏览时间
+- 统计用户打开网站的次数
+- 网站白名单，过滤不需要统计的网站
+- 报表导出
 
 详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
 
@@ -19,22 +19,22 @@
 ```
  git clone https://github.com/sheepzh/timer.git
  cd timer
- npm install 
+ npm install
  # 开发编译，输出目录为 dist_dev
- npm run build
+ npm run dev
  # 生产编译，输出目录为 dist_prod 和 market_packages
  npm run build:prod
 ```
 
 ## DEBUG
 
-+ 在控制台下可以开启日志
+- 在控制台下可以开启日志
 
 ```JavaScript
 window.timer.openLog()
 ```
 
-+ 关闭日志
+- 关闭日志
 
 ```JavaScript
 window.timer.closeLog()
