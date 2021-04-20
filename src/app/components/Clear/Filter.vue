@@ -167,7 +167,6 @@ export default {
       const dateRange = this.dateRange
 
       if (hasError) {
-        console.log(this)
         this.$message({
           message: this.$t('clear.paramError'),
           type: 'warning'
