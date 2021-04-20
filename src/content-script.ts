@@ -42,7 +42,6 @@ window.addEventListener('load', () => {
     function listener(obj: { code: string }, _: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
         const { code } = obj
         if (code === UNFOCUS) {
-            console.log('UNFOCUS')
             saveFocus()
         }
         sendResponse("ok")
