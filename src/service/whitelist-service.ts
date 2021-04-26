@@ -9,9 +9,8 @@ import whitelistDatabase from "../database/whitelist-database"
 class WhitelistService {
 
     public add(url: string, callback?: () => void) {
-        whitelistDatabase.add(url, () => {
-            timerDatabase.deleteByUrl(url, callback)
-        })
+        // Just add to the white list, not to delete records since v0.1.1
+        whitelistDatabase.add(url, () => callback && callback())
     }
 
     public listAll(callback: (whitelist: string[]) => void) {
