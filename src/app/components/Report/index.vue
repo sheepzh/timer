@@ -106,6 +106,7 @@
             </el-button>
           </el-popconfirm>
           <el-popconfirm :confirm-button-text='$t("item.operation.confirmMsg")'
+                         v-if="!whitelist.includes(row.host)"
                          :cancel-button-text="$t('item.operation.cancelMsg')"
                          :title="$t('setting.whitelist.addConfirmMsg',{ url: row.host })"
                          icon="el-icon-info"
@@ -116,6 +117,20 @@
                        type="danger"
                        icon="el-icon-plus">
               {{ $t('item.operation.add2Whitelist') }}
+            </el-button>
+          </el-popconfirm>
+          <el-popconfirm v-else
+                         :confirm-button-text='$t("item.operation.confirmMsg")'
+                         :cancel-button-text="$t('item.operation.cancelMsg')"
+                         :title="$t('setting.whitelist.removeConfirmMsg',{ url: row.host })"
+                         icon="el-icon-info"
+                         icon-color="#409eff"
+                         @confirm="removeFromWhitelist(row.host)">
+            <el-button size="mini"
+                       slot="reference"
+                       type="primary"
+                       icon="el-icon-open">
+              {{ $t('item.operation.removeFromWhitelist') }}
             </el-button>
           </el-popconfirm>
         </template>
@@ -175,6 +190,7 @@ export default {
         total: 0
       },
       tableData: [],
+      whitelist: [],
       pickerOptions: {
         disabledDate: date => date > new Date(),
         shortcuts: [
@@ -203,7 +219,8 @@ export default {
     }
   },
   created () {
-    this.queryData()
+    // Query data afther the whitelist is queried
+    this.queryWhiteList(this.queryData)
   },
   methods: {
     queryData () {
@@ -215,6 +232,12 @@ export default {
         this.tableData = list
         this.page.total = total
       }, this.queryParam, page)
+    },
+    queryWhiteList (callback) {
+      whitelistService.listAll(whitelist => {
+        this.whitelist = whitelist
+        callback && callback()
+      })
     },
     dateFormatter ({ date }) {
       if (!date) return '-'
@@ -286,7 +309,22 @@ export default {
      * Add the url to whitelist
      */
     add2Whitelist (host) {
-      whitelistService.add(host, () => this.queryData())
+      whitelistService.add(host, () => {
+        this.queryWhiteList()
+        this.$message({
+          message: this.$t('report.added2Whitelist'),
+          type: 'success'
+        });
+      })
+    },
+    removeFromWhitelist (host) {
+      whitelistService.remove(host, () => {
+        this.queryWhiteList()
+        this.$message({
+          message: this.$t('report.removeFromWhitelist'),
+          type: 'success'
+        });
+      })
     },
     /**
      * Handle the command of dropdown

@@ -11,7 +11,9 @@ module.exports = {
         mergeDomain: '合并子域名',
         displayBySecond: '按秒显示',
         hostPlaceholder: '请输入域名',
-        exportFileName: '我的上网时间'
+        exportFileName: '我的上网时间',
+        added2Whitelist: '成功加入白名单',
+        removeFromWhitelist: '成功从白名单移除'
     },
     en: {
         title: 'Statistics',
@@ -25,7 +27,9 @@ module.exports = {
         mergeDomain: 'Merge Subdomains',
         displayBySecond: 'Displayed By Second',
         hostPlaceholder: 'Host name',
-        exportFileName: 'My_Web_Surfing_Data'
+        exportFileName: 'My_Web_Surfing_Data',
+        added2Whitelist: 'Added to the whitelist',
+        removeFromWhitelist: 'Removed from the whitelist'
     },
     ja: {
         title: '統計',
@@ -39,6 +43,8 @@ module.exports = {
         mergeDomain: 'URLをマージ',
         displayBySecond: '秒単位で表示',
         hostPlaceholder: 'URL を入力してください',
-        exportFileName: '私のウェブ時間データ'
+        exportFileName: '私のウェブ時間データ',
+        added2Whitelist: 'ホワイトリストに正常に追加されました',
+        removeFromWhitelist: 'ホワイトリストから正常に削除されました'
     }
 }

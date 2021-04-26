@@ -2,7 +2,7 @@ module.exports = {
     zh_CN: {
         whitelist: {
             label: '白名单',
-            addConfirmMsg: '{url} 加入白名单后，所有历史记录都将被删除，且不再统计',
+            addConfirmMsg: '{url} 加入白名单后，将不再统计该网站的数据',
             removeConfirmMsg: '{url} 将从白名单中移除',
             confirmTitle: '操作确认',
             successMsg: '操作成功！',
@@ -16,7 +16,7 @@ module.exports = {
     en: {
         whitelist: {
             label: 'Whitelist',
-            addConfirmMsg: 'After {url} is added to the whitelist, all records will be deleted and no more statistics',
+            addConfirmMsg: 'After {url} is added to the whitelist, no more statistics for it.',
             removeConfirmMsg: '{url} will be removed from the whitelist.',
             confirmTitle: 'Confirm',
             successMsg: 'Successfully!',
@@ -30,7 +30,7 @@ module.exports = {
     ja: {
         whitelist: {
             label: 'ホワイトリスト',
-            addConfirmMsg: '{url} がホワイトリストに追加されると、すべての履歴レコードが削除され、統計情報がなくなります。',
+            addConfirmMsg: '{url} がホワイトリストに追加されると、このWebサイトの統計はカウントされなくなります。',
             removeConfirmMsg: '{url} はホワイトリストから削除されます',
             confirmTitle: '動作確認',
             successMsg: '正常に動作しました！',
