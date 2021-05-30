@@ -1,0 +1,23 @@
+#app {
+  width: 750px;
+  height: 500px;
+}
+.option-container {
+  padding-bottom: 10px;
+  width: 95%;
+  margin: auto;
+  height: 30px;
+}
+.option-right {
+  margin-left: 10px;
+  float: right;
+  height: 30px;
+  line-height: 30px;
+}
+.option-left {
+  margin-right: 10px;
+  height: 30px;
+  line-height: 30px;
+  padding-top: 8px;
+  float: left;
+}

@@ -1,7 +1,6 @@
 const path = require('path')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader-plugin')
 
 // Generate json files 
 const manifest = require('../src/manifest')
@@ -18,7 +17,6 @@ for (const localeName in chromeMessages) {
 const optionGenerator = (outputPath, manifestHooker) => {
     manifestHooker && manifestHooker(manifest)
     const plugins = [
-        new VueLoaderPlugin(),
         ...generateJsonPlugins,
         // copy static resources
         new CopyWebpackPlugin({
@@ -29,10 +27,10 @@ const optionGenerator = (outputPath, manifestHooker) => {
     ]
     return {
         entry: {
-            background: './src/background.ts',
-            content_scripts: './src/content-script.ts',
-            popup: './src/popup/main.js',
-            app: './src/app/main.js'
+            background: './src/background',
+            content_scripts: './src/content-script',
+            popup: './src/popup',
+            app: './src/app/main'
         },
         output: {
             filename: '[name].js',
@@ -43,14 +41,7 @@ const optionGenerator = (outputPath, manifestHooker) => {
                 {
                     test: /\.tsx?$/,
                     exclude: '/node_modules/',
-                    use: ['ts-loader', {
-                        loader: 'ui-component-loader',
-                        options: {
-                            'element-ui': {
-                                'camel2': '-'
-                            }
-                        }
-                    }]
+                    use: ['ts-loader']
                 }, {
                     test: /\.css$/,
                     use: ["style-loader", "css-loader"],
@@ -62,32 +53,14 @@ const optionGenerator = (outputPath, manifestHooker) => {
                     // exclude: /node_modules/,
                     use: ['url-loader?limit=100000']
                 }, {
-                    test: /\.vue$/,
-                    exclude: /node_modules/,
-                    use: ['vue-loader']
-                }, {
                     test: /\.m?js$/,
                     exclude: /(node_modules)/,
-                    use:
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            plugins: [
-                                [
-                                    'component', {
-                                        "libraryName": "element-ui",
-                                        "styleLibraryName": "theme-chalk"
-                                    },
-                                    "element-ui"
-                                ]
-                            ]
-                        }
-                    }
+                    use: ['babel-loader']
                 }
             ]
         },
         resolve: {
-            extensions: [".tsx", '.ts', ".js", '.vue', 'css'],
+            extensions: ['.ts', ".js", '.css', '.scss'],
         }
     }
 }
