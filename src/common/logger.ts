@@ -41,4 +41,10 @@ export function showMemory() {
 /**
  * @since 0.0.8
  */
-export default { openLog, closeLog, showMemory }
+export default { openLog, closeLog, showMemory } as TimerLogger
+
+export type TimerLogger = {
+    openLog: () => string
+    closeLog: () => string
+    showMemory: () => void
+}
