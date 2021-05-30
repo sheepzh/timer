@@ -1,3 +1,7 @@
+export declare type SiteItem = 'total' | 'focus' | 'time'
+
+export const ALL_SITE_ITEMS: SiteItem[] = ['focus', 'total', 'time']
+
 export default class SiteInfo {
     host: string
     date: string

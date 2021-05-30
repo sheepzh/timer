@@ -1,4 +1,3 @@
-import { use } from "vue/types/umd"
 import { getUsedStorage } from "../database/memory-detector"
 
 let OPEN_LOG = false
