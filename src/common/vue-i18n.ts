@@ -29,7 +29,6 @@ const message: any = vueMessages[chromeLocale2ExtensionLocale(chrome.i18n.getUIL
 
 export declare type I18nResultItem = VNode | string
 
-
 function getI18nVal(keyPath: string): string {
   const levels = keyPath.split('.')
   let currentMessage: any = message

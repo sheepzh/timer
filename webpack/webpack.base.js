@@ -29,8 +29,10 @@ const optionGenerator = (outputPath, manifestHooker) => {
         entry: {
             background: './src/background',
             content_scripts: './src/content-script',
+            // The entrance of popup page
             popup: './src/popup',
-            app: './src/app/main'
+            // The entrance of app page
+            app: './src/app'
         },
         output: {
             filename: '[name].js',
@@ -46,7 +48,7 @@ const optionGenerator = (outputPath, manifestHooker) => {
                     test: /\.css$/,
                     use: ["style-loader", "css-loader"],
                 }, {
-                    test: /\.scss$/,
+                    test: /\.sc|ass$/,
                     use: ['style-loader', 'css-loader', 'sass-loader']
                 }, {
                     test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
@@ -60,7 +62,7 @@ const optionGenerator = (outputPath, manifestHooker) => {
             ]
         },
         resolve: {
-            extensions: ['.ts', ".js", '.css', '.scss'],
+            extensions: ['.ts', ".js", '.css', '.scss', '.sass'],
         }
     }
 }
