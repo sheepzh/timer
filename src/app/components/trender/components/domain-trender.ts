@@ -124,7 +124,8 @@ const updateXAxis = () => {
 
 const queryParam = computed(() => {
     return {
-        host: domainRef.value,
+        // If the domain is empty, no result will be queried with this param.
+        host: domainRef.value === '' ? '___foo_bar' : domainRef.value,
         fullHost: true,
         sort: 'date',
         sortOrder: SortDirect.ASC
@@ -132,10 +133,6 @@ const queryParam = computed(() => {
 })
 
 const queryData = () => {
-    if (domainRef.value === '') {
-        // Do nothing
-        return
-    }
     timerDatabase.select(rows => {
         const dateInfoMap = {}
         rows.forEach(row => dateInfoMap[row.date] = row)

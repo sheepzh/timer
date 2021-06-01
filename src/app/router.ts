@@ -16,10 +16,10 @@ const routes: RouteRecordRaw[] = [
     }, {
         path: '/data/history',
         component: () => import('./components/trender')
+    }, {
+        path: '/data/clear',
+        component: () => import('./components/clear')
     }//, {
-    //     path: '/data/clear',
-    //     component: () => import('./components/Clear')
-    // }, {
     //     path: '/setting',
     //     component: () => import('./components/Setting'),
     // }
