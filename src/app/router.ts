@@ -13,10 +13,10 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/data/report',
         component: () => import('./components/report')
-    }, //{
-    //     path: '/data/history',
-    //     component: () => import('./components/Trender')
-    // }, {
+    }, {
+        path: '/data/history',
+        component: () => import('./components/trender')
+    }//, {
     //     path: '/data/clear',
     //     component: () => import('./components/Clear')
     // }, {
