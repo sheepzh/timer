@@ -64,8 +64,7 @@ const pieOptions: () => EChartOption<EChartOption.SeriesPie> = () => {
         },
         tooltip: {
             trigger: 'item',
-            formatter(params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[],
-                ticket: string, callback: (ticket: string, html: string) => void) {
+            formatter(params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[]) {
                 const format: echarts.EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
                 const { name, value, percent } = format
                 return `${name}<br/>${typeRef.value === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)} (${percent}%)`
