@@ -1,4 +1,4 @@
-import timerDatabase from "../database/timer-database"
+import { log } from "../common/logger"
 import whitelistDatabase from "../database/whitelist-database"
 
 /**
@@ -9,6 +9,7 @@ import whitelistDatabase from "../database/whitelist-database"
 class WhitelistService {
 
     public add(url: string, callback?: () => void) {
+        log('add to whitelist: ' + url)
         // Just add to the white list, not to delete records since v0.1.1
         whitelistDatabase.add(url, () => callback && callback())
     }
