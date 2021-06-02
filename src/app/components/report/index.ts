@@ -121,7 +121,7 @@ export default defineComponent(() => {
             class: filterItemClz,
             onInput: (val: string) => hostRef.value = val.trim(),
             onClear: () => hostRef.value = '',
-            onKeyup: (event: KeyboardEvent) => event.key === 'enter' && queryData()
+            onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && queryData()
         })
 
     // date range
