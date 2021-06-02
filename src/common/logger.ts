@@ -32,7 +32,7 @@ export function closeLog(): string {
  * @since 0.0.9
  */
 export function showMemory() {
-    getUsedStorage((used, total) => {
+    getUsedStorage().then(({ used, total }) => {
         console.log(`\t${used} / ${total} = ${Math.round(used * 100.0 / total * 100) / 100}%`)
     })
     return 'Memory used:'

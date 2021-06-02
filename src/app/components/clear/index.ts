@@ -12,10 +12,12 @@ export default defineComponent(() => {
     const usedRef: Ref<number> = ref(0)
     const totalRef: Ref<number> = ref(1) // As the denominator of percentage, cannot be 0, so be 1
 
-    const queryData = () => getUsedStorage((used, total) => {
-        usedRef.value = used || 0
-        totalRef.value = total || 1
-    })
+    const queryData =
+        () => getUsedStorage()
+            .then(({ used, total }) => {
+                usedRef.value = used || 0
+                totalRef.value = total || 1
+            })
 
     queryData()
 

@@ -37,10 +37,12 @@ export default defineComponent(() => {
                     trenderDomainOptionsRef.value = []
                 } else {
                     trenderSearchingRef.value = true
-                    timerService.listDomains(query, domains => {
-                        trenderDomainOptionsRef.value = Array.from(domains)
-                        trenderSearchingRef.value = false
-                    })
+                    timerService
+                        .listDomains(query)
+                        .then(domains => {
+                            trenderDomainOptionsRef.value = Array.from(domains)
+                            trenderSearchingRef.value = false
+                        })
                 }
             },
             onChange: (val: string) => trenderDomainRef.value = val,
