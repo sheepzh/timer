@@ -19,16 +19,15 @@ const routes: RouteRecordRaw[] = [
     }, {
         path: '/data/clear',
         component: () => import('./components/clear')
-    }//, {
-    //     path: '/setting',
-    //     component: () => import('./components/Setting'),
-    // }
+    }, {
+        path: '/setting',
+        component: () => import('./components/setting'),
+    }
 ]
 
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
 })
-
 
 export default (app: App) => app.use(router)
