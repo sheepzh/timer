@@ -65,12 +65,12 @@ export class QueryParam {
     sortOrder?: SortDirect
 }
 
-declare class PageParam {
+declare type PageParam = {
     pageNum?: number
     pageSize?: number
 }
 
-class PageInfo {
+declare type PageInfo = {
     total: number
     list: SiteInfo[]
 }
@@ -79,16 +79,18 @@ class TimeDatabase {
 
     private localStorage = chrome.storage.local
 
-    public refresh(callback?: ({ }) => void) {
-        this.localStorage.get(result => {
-            const items = {}
-            for (let key in result) {
-                if (!key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX)) {
-                    // remain words
-                    items[key] = result[key]
+    refresh(): Promise<{}> {
+        return new Promise(resolve => {
+            this.localStorage.get(result => {
+                const items = {}
+                for (let key in result) {
+                    if (!key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX)) {
+                        // remain words
+                        items[key] = result[key]
+                    }
                 }
-            }
-            callback && callback(items)
+                resolve(items)
+            })
         })
     }
 
@@ -130,12 +132,12 @@ class TimeDatabase {
         this.updateOf(host, now, (i: WastePerDay) => increase(i, now - start))
     }
 
-    public addTotal(host: string, start: number) {
+    addTotal(host: string, start: number) {
         log('addTotal:{host},{start}', host, new Date(start))
         this.increaseTime(host, start, (i, step) => i.total += step)
     }
 
-    public addFocusAndTotal(host: string, focusStart: number, runStart: number) {
+    addFocusAndTotal(host: string, focusStart: number, runStart: number) {
         const today = new Date()
         log('addFocusAndTotal:{host}, {focusStart}, {runStart}, {now}', host, new Date(focusStart), new Date(runStart), today)
         const now = today.getTime()
@@ -157,70 +159,65 @@ class TimeDatabase {
         }
     }
 
-    public addOneTime(host: string) {
+    addOneTime(host: string) {
         log('addTime:{host}', host)
         this.updateOf(host, new Date(), (i: WastePerDay) => i.time += 1)
     }
 
-    public selectByPage(callback: (page: PageInfo) => void, param?: QueryParam, page?: PageParam) {
+    async selectByPage(param?: QueryParam, page?: PageParam): Promise<PageInfo> {
         log("selectByPage:{param},{page}", param, page)
         page = page || { pageNum: 1, pageSize: 10 }
-        this.select((origin: SiteInfo[]) => {
-            let pageNum = page.pageNum
-            let pageSize = page.pageSize
-            pageNum === undefined || pageNum < 1 && (pageNum = 1)
-            pageSize === undefined || pageSize < 1 && (pageSize = 10)
-
-            const startIndex = (pageNum - 1) * pageSize
-            const endIndex = (pageNum) * pageSize
-
-            const total = origin.length
-            const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
-            callback({ total, list })
-        }, param)
-
+        const origin = await this.select(param)
+        let pageNum = page.pageNum
+        let pageSize = page.pageSize
+        pageNum === undefined || pageNum < 1 && (pageNum = 1)
+        pageSize === undefined || pageSize < 1 && (pageSize = 10)
+        const startIndex = (pageNum - 1) * pageSize
+        const endIndex = (pageNum) * pageSize
+        const total = origin.length
+        const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
+        return Promise.resolve({ total, list })
     }
 
     /**
      * Select without page
      * 
-     * @param callback  callback
      * @param param     condition
      */
-    public select(callback: (result: SiteInfo[]) => void, param?: QueryParam) {
+    public async select(param?: QueryParam): Promise<SiteInfo[]> {
         log("select:{param}", param)
         param = param || new QueryParam()
-        this.refresh((items: { waste: WastePerDay }) => {
-            let result: SiteInfo[] = []
-            // 1st filter
-            for (let key in items) {
-                const date = key.substr(0, 8)
-                const host = key.substring(8)
-                const val: WastePerDay = items[key]
-                if (this.filterBefore(date, host, val, param)) {
-                    const { total, focus, time } = val
-                    result.push({ date, host, total, focus, time })
-                }
+        const items = await this.refresh()
+        let result: SiteInfo[] = []
+        // 1st filter
+        for (let key in items) {
+            const date = key.substr(0, 8)
+            const host = key.substring(8)
+            const val: WastePerDay = items[key]
+            if (this.filterBefore(date, host, val, param)) {
+                const { total, focus, time } = val
+                result.push({ date, host, total, focus, time })
             }
-            // 2nd merge
-            param.mergeDomain && (result = this.mergeDomain(result))
-            // filter again, cause of the exchange of the host, if the param.mergeDomain is true
-            param.mergeDomain && (result = this.filterAfter(result, param))
-            param.mergeDate && (result = this.mergeDate(result))
-            // 3st sort
-            const sort = param.sort
-            if (sort) {
-                const order = param.sortOrder || SortDirect.ASC
-                result.sort((a, b) => {
-                    const aa = a[sort]
-                    const bb = b[sort]
-                    if (aa === bb) return 0
-                    return order * (aa > bb ? 1 : -1)
-                })
-            }
-            log('Result of select: ', result)
-            return callback(result)
-        })
+        }
+        // 2nd merge
+        param.mergeDomain && (result = this.mergeDomain(result))
+        // filter again, cause of the exchange of the host, if the param.mergeDomain is true
+        param.mergeDomain && (result = this.filterAfter(result, param))
+        param.mergeDate && (result = this.mergeDate(result))
+        // 3st sort
+        const sort = param.sort
+        if (sort) {
+            const order = param.sortOrder || SortDirect.ASC
+            result.sort((a, b) => {
+                const aa = a[sort]
+                const bb = b[sort]
+                if (aa === bb)
+                    return 0
+                return order * (aa > bb ? 1 : -1)
+            })
+        }
+        log('Result of select: ', result)
+        return Promise.resolve(result)
     }
 
     /**
@@ -375,9 +372,9 @@ class TimeDatabase {
      * 
      * @since 0.0.5 
      */
-    public get(host: string, date: Date | string, callback: (info: WastePerDay) => void): void {
+    get(host: string, date: Date | string): Promise<WastePerDay> {
         const key = this.generateKey(host, date)
-        this.localStorage.get(items => callback(items[key] || new WastePerDay()))
+        return new Promise(resolve => this.localStorage.get(items => resolve(items[key] || new WastePerDay())))
     }
 
     /**
@@ -385,30 +382,28 @@ class TimeDatabase {
      * 
      * @param host host
      * @param date date
-     * @param callback callback
      * @since 0.0.5
      */
-    public deleteByUrlAndDate(host: string, date: string, callback?: () => void): void {
+    deleteByUrlAndDate(host: string, date: string): Promise<void> {
         const key = this.generateKey(host, date)
-        this.localStorage.remove(key, () => callback && callback())
+        return new Promise(resolve => this.localStorage.remove(key, resolve))
     }
 
     /**
      * Delete by key
      *  
      * @param rows     site rows, the host and date mustn't be null
-     * @param callback callback
      * @since 0.0.9
      */
-    public delete(rows: SiteInfo[], callback?: () => void): void {
+    async delete(rows: SiteInfo[]): Promise<void> {
         const keys = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => this.generateKey(host, date))
 
-        const promises: Promise<void>[] = keys.map(key =>
-            new Promise<void>((resolve, _) => {
-                this.localStorage.remove(key, resolve)
-            })
-        )
-        Promise.all(promises).then(callback)
+        const promises: Promise<void>[] = keys
+            .map(key =>
+                new Promise<void>(resolve => this.localStorage.remove(key, resolve))
+            )
+        await Promise.all(promises)
+        return Promise.resolve()
     }
 
     /**
@@ -417,31 +412,28 @@ class TimeDatabase {
      * @param end end date, inclusive
      * @since 0.0.7
      */
-    public deleteByUrlBetween(host: string, callback?: (date: string[]) => void, start?: string, end?: string) {
-        const dateFilter = (date: string) => (start ? start <= date : true)
-            && (end ? date <= end : true)
-        this.refresh(items => {
-            const keys = []
-            for (const key in items) {
-                // Key format: 20201112www.google.com
-                key.length === 8 + host.length
-                    && key.substring(8) === host
-                    && dateFilter(key.substring(0, 8))
-                    && keys.push(key)
-            }
-            this.localStorage.remove(keys, () => callback && callback(keys.map(k => k.substring(0, 8))))
-        })
+    async deleteByUrlBetween(host: string, start?: string, end?: string): Promise<string[]> {
+        const dateFilter = (date: string) => (start ? start <= date : true) && (end ? date <= end : true)
+        const items = await this.refresh()
+        const keys: string[] = []
+        for (const key in items) {
+            // Key format: 20201112www.google.com
+            key.length === 8 + host.length
+                && key.substring(8) === host
+                && dateFilter(key.substring(0, 8))
+                && keys.push(key)
+        }
+        return new Promise(resolve => this.localStorage.remove(keys, () => resolve(keys.map(k => k.substring(0, 8)))))
     }
 
     /**
      * Delete the record
      * 
      * @param host host
-     * @param callback callback
      * @since 0.0.5
      */
-    public deleteByUrl(host: string, callback?: (date: string[]) => void) {
-        this.deleteByUrlBetween(host, callback)
+    deleteByUrl(host: string): Promise<string[]> {
+        return this.deleteByUrlBetween(host)
     }
 }
 

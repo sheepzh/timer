@@ -8,30 +8,34 @@ import { formatPeriod } from "./util/time"
 const host = document.location.host
 
 // init
-timerDatabase.refresh(() => {
-    whitelistService.include(host, including => {
-        if (including) {
-            return
-        }
-        timeService.addOneTime(host)
-        const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
-        const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
-        const secondMsg = chrome.i18n.getMessage('message_timeWithSecond')
-        timerDatabase.get(host, new Date(), (waste: WastePerDay) => {
-            const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
-                .replace('{time}', waste.time ? '' + waste.time : '-')
-                .replace('{host}', host)
-            const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
-                .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
-                .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
-            console.log(info0)
-            console.log(info1)
+timerDatabase
+    .refresh()
+    .then(() => whitelistService
+        .include(host)
+        .then(including => {
+            if (including) {
+                return
+            }
+            timeService.addOneTime(host)
+            const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
+            const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
+            const secondMsg = chrome.i18n.getMessage('message_timeWithSecond')
+            timerDatabase
+                .get(host, new Date())
+                .then((waste: WastePerDay) => {
+                    const info0 = chrome.i18n.getMessage('message_openTimesConsoleLog')
+                        .replace('{time}', waste.time ? '' + waste.time : '-')
+                        .replace('{host}', host)
+                    const info1 = chrome.i18n.getMessage('message_usedTimeInConsoleLog')
+                        .replace('{focus}', formatPeriod(waste.focus, hourMsg, minuteMsg, secondMsg))
+                        .replace('{total}', formatPeriod(waste.total, hourMsg, minuteMsg, secondMsg))
+                    console.log(info0)
+                    console.log(info1)
+                })
         })
-    })
-})
+    )
 
 // let focusStart: number = new Date().getTime()
-
 function saveFocus() {
     chrome.runtime.sendMessage({ code: SAVE_FOCUS, host })
     // focusStart = undefined

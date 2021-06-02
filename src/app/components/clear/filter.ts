@@ -70,7 +70,7 @@ const generateParamAndSelect = () => {
         param.timeRange = timeRange
         param.date = dateRange
 
-        return new Promise<SiteInfo[]>(resolve => timerDatabase.select(resolve, param))
+        return timerDatabase.select(param)
     }
 }
 
@@ -139,13 +139,11 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
                         .then((result: SiteInfo[]) => {
                             const count = result.length
                             ElMessageBox.confirm(t('clear.archiveConfirm', { count }))
-                                .then(
-                                    () => timerService.archive(result, () => {
-                                        ElMessage(t('clear.archiveSuccess'))
-                                        onDateChanged()
-                                    })
-                                )
-                                .catch(() => { })
+                                .then(() => timerService.archive(result))
+                                .then(() => {
+                                    ElMessage(t('clear.archiveSuccess'))
+                                    onDateChanged()
+                                }).catch(() => { })
                         })
                 }
             },
@@ -161,13 +159,11 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
                     .then(result => {
                         const count = result.length
                         ElMessageBox.confirm(t('clear.deleteConfirm', { count }))
-                            .then(
-                                () => timerDatabase.delete(result, () => {
-                                    ElMessage(t('clear.deleteSuccess'))
-                                    onDateChanged()
-                                })
-                            )
-                            .catch(() => { })
+                            .then(() => timerDatabase.delete(result))
+                            .then(() => {
+                                ElMessage(t('clear.deleteSuccess'))
+                                onDateChanged()
+                            }).catch(() => { })
                     })
             }
         },
