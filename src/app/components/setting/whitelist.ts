@@ -6,7 +6,9 @@ import { FAVICON } from "../../../util/constant/url"
 import './style/whitelist'
 
 const whitelistRef: Ref<string[]> = ref([])
-whitelistService.listAll(list => whitelistRef.value = list)
+whitelistService
+    .listAll()
+    .then(list => whitelistRef.value = list)
 const inputVisibleRef: Ref<boolean> = ref(false)
 const inputValRef: Ref<string> = ref('')
 
@@ -21,10 +23,12 @@ const handleInputConfirm = () => {
                 t('setting.whitelist.addConfirmMsg', { url: `${inputValue}<img src="${FAVICON(inputValue)}" width="15px" height="15px">` }),
                 t('setting.whitelist.confirmTitle'), { dangerouslyUseHTMLString: true }
             ).then(r => {
-                whitelistService.add(inputValue, () => {
-                    whitelist.push(inputValue)
-                    ElMessage({ type: 'success', message: t('setting.whitelist.successMsg') })
-                })
+                whitelistService
+                    .add(inputValue)
+                    .then(() => {
+                        whitelist.push(inputValue)
+                        ElMessage({ type: 'success', message: t('setting.whitelist.successMsg') })
+                    })
             }).catch(() => { })
         }
     }
@@ -50,11 +54,13 @@ const _default = defineComponent(() => {
                                 t('setting.whitelist.confirmTitle'),
                                 { dangerouslyUseHTMLString: true }
                             ).then(() => {
-                                whitelistService.remove(white, () => {
-                                    ElMessage({ type: 'success', message: t('setting.whitelist.successMsg') })
-                                    const index = whitelistRef.value.indexOf(white)
-                                    index !== -1 && whitelistRef.value.splice(index, 1)
-                                })
+                                whitelistService
+                                    .remove(white)
+                                    .then(() => {
+                                        ElMessage({ type: 'success', message: t('setting.whitelist.successMsg') })
+                                        const index = whitelistRef.value.indexOf(white)
+                                        index !== -1 && whitelistRef.value.splice(index, 1)
+                                    })
                             }).catch(() => { })
                         }
                     },

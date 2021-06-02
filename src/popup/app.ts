@@ -33,24 +33,26 @@ const dataRef: Ref<SiteInfo[]> = ref([])
 // Query data and update the pie
 const queryDataAndUpdate = () => {
     const param: QueryParam = { date: new Date(), mergeDomain: mergeDomainRef.value, sort: typeRef.value, sortOrder: SortDirect.DESC }
-    timerDatabase.select(rows => {
-        const result = []
-        const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0 }
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i]
-            if (i < 10) {
-                result.push(row)
-            } else {
-                other.focus += row.focus
-                other.total += row.total
+    timerDatabase
+        .select(param)
+        .then(rows => {
+            const result = []
+            const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0 }
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i]
+                if (i < 10) {
+                    result.push(row)
+                } else {
+                    other.focus += row.focus
+                    other.total += row.total
+                }
             }
-        }
-        if (rows.length > 10) {
-            result.push(other)
-        }
-        dataRef.value = result
-        pie.setOption(pieOptions(), true, false)
-    }, param)
+            if (rows.length > 10) {
+                result.push(other)
+            }
+            dataRef.value = result
+            pie.setOption(pieOptions(), true, false)
+        })
 }
 
 // Echart options of pie

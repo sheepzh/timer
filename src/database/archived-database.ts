@@ -11,17 +11,19 @@ import { ARCHIVED_PREFIX } from './constant'
 class ArchivedDatabase {
     private localStorage = chrome.storage.local
 
-    public refresh(callback?: ({ }) => void) {
-        this.localStorage.get(result => {
-            const items = {}
-            for (let key in result) {
-                if (key.startsWith(ARCHIVED_PREFIX)) {
-                    items[key.substr(ARCHIVED_PREFIX.length)] = result[key]
+    refresh(): Promise<{}> {
+        return new Promise(resolve =>
+            this.localStorage.get(result => {
+                const items = {}
+                for (let key in result) {
+                    if (key.startsWith(ARCHIVED_PREFIX)) {
+                        items[key.substr(ARCHIVED_PREFIX.length)] = result[key]
+                    }
                 }
-            }
-            log('All archived', items)
-            callback && callback(items)
-        })
+                log('All archived', items)
+                resolve(items)
+            })
+        )
     }
 
     private generateKey(row: SiteInfo): string {
@@ -32,58 +34,56 @@ class ArchivedDatabase {
      * Archive by key
      *  
      * @param rows     site rows, the host and date mustn't be null
-     * @param callback callback
      */
-    public updateArchived(rows: SiteInfo[], callback?: () => void): void {
+    async updateArchived(rows: SiteInfo[]): Promise<void> {
         const domainSet: Set<string> = new Set()
         rows = rows.filter(({ date, host }) => !!host && !!date)
         rows.forEach(({ host }) => domainSet.add(host))
-        this.selectArchived((archived: SiteInfo[]) => {
-            const archiveMap = {}
-            archived.forEach(a => archiveMap[a.host] = a)
-            rows.forEach(row => {
-                const { host, focus, total, time } = row
-                let archive = archiveMap[host]
-                if (!archive) {
-                    archive = new SiteInfo(host)
-                    archiveMap[host] = archive
-                }
-                archive.focus += focus || 0
-                archive.total += total || 0
-                archive.time += time || 0
-            })
-            this.rewrite(Object.values(archiveMap), callback)
-        }, domainSet)
+        const archived = await this.selectArchived(domainSet)
+        const archiveMap = {}
+        archived.forEach(a => archiveMap[a.host] = a)
+        rows.forEach(row => {
+            const { host: host_2, focus, total, time } = row
+            let archive = archiveMap[host_2]
+            if (!archive) {
+                archive = new SiteInfo(host_2)
+                archiveMap[host_2] = archive
+            }
+            archive.focus += focus || 0
+            archive.total += total || 0
+            archive.time += time || 0
+        })
+        const archivedValues = Object.values(archiveMap) as SiteInfo[]
+        return await this.rewrite(archivedValues)
     }
 
-    private rewrite(toWrite: SiteInfo[], callback?: () => void) {
+    private async rewrite(toWrite: SiteInfo[]): Promise<void> {
         const promises: Promise<void>[] = toWrite.map(tw => {
             const object = {}
             const { total, focus, time } = tw
             object[this.generateKey(tw)] = { total, focus, time }
-            return new Promise((resolve, _) => this.localStorage.set(object, resolve))
+            return new Promise(resolve => this.localStorage.set(object, resolve))
         })
-        Promise.all(promises).then(callback)
+        await Promise.all(promises)
+        return await Promise.resolve()
     }
 
     /**
      * Select the archived data
      * 
-     * @param callback callback
      * @param domains  the domains which the key belongs to
      */
-    public selectArchived(callback: (archived: SiteInfo[]) => void, domains: Set<string>): void {
-        this.refresh((items: { waste: WastePerDay }) => {
-            const result: SiteInfo[] = []
-            for (const key in items) {
-                if (domains.has(key)) {
-                    const waste: WastePerDay = items[key]
-                    const { focus, total, time } = waste
-                    result.push({ focus, total, time, host: key, date: undefined })
-                }
+    async selectArchived(domains: Set<string>): Promise<SiteInfo[]> {
+        const items = await this.refresh()
+        const result: SiteInfo[] = []
+        for (const key in items) {
+            if (domains.has(key)) {
+                const waste: WastePerDay = items[key]
+                const { focus, total, time } = waste
+                result.push({ focus, total, time, host: key, date: undefined })
             }
-            callback(result)
-        })
+        }
+        return await Promise.resolve(result)
     }
 }
 
