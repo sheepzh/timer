@@ -1,6 +1,5 @@
-import { computed, defineComponent, h, onMounted } from "@vue/runtime-core"
+import { defineComponent, h, onMounted } from "vue"
 import { ElMenu, ElMenuItem, ElSubmenu } from "element-plus"
-import { Ref, ref } from "vue"
 import { RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router"
 import { t } from "../../common/vue-i18n"
 
@@ -41,12 +40,12 @@ const ALL_MENU: MenuItem[] = [
 
 const _default = defineComponent<{}, {}>(() => {
     const router = useRouter()
-    const currentRoute = useRoute().path
+    const currentRoute: RouteLocationNormalizedLoaded = useRoute()
 
     onMounted(() => document.title = t('menu.data'))
 
     const openMenu = (route: string, title: string) => {
-        if (currentRoute !== route) {
+        if (currentRoute.path !== route) {
             router.push(route)
             document.title = t(title)
         }
@@ -76,7 +75,7 @@ const _default = defineComponent<{}, {}>(() => {
 
     const menuItems = () => ALL_MENU.map(renderMenu)
 
-    return () => h(ElMenu, { defaultActive: currentRoute }, { default: menuItems })
+    return () => h(ElMenu, { defaultActive: currentRoute.path }, { default: menuItems })
 })
 
 export default _default

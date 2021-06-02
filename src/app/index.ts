@@ -4,8 +4,8 @@ import 'element-plus/lib/theme-chalk/index.css'
 import './styles' // global css
 import installRouter from './router'
 import '../common/console-logger'
+import '../common/element-plus'
 
 const app: App = createApp(Main)
-
 installRouter(app)
 app.mount('#app')

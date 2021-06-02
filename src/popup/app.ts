@@ -34,7 +34,6 @@ const dataRef: Ref<SiteInfo[]> = ref([])
 const queryDataAndUpdate = () => {
     const param = { date: new Date(), mergeDomain: mergeDomainRef.value, sort: typeRef.value }
     timerDatabase.select(rows => {
-        console.log(rows)
         const result = []
         const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0 }
         for (let i = 0; i < rows.length; i++) {
