@@ -8,25 +8,26 @@ import whitelistDatabase from "../database/whitelist-database"
  */
 class WhitelistService {
 
-    public add(url: string, callback?: () => void) {
+    add(url: string): Promise<void> {
         log('add to whitelist: ' + url)
         // Just add to the white list, not to delete records since v0.1.1
-        whitelistDatabase.add(url, () => callback && callback())
+        return whitelistDatabase.add(url)
     }
 
-    public listAll(callback: (whitelist: string[]) => void) {
-        whitelistDatabase.selectAll(callback)
+    listAll(): Promise<string[]> {
+        return whitelistDatabase.selectAll()
     }
 
-    public remove(url: string, callback?: () => void) {
-        whitelistDatabase.remove(url, callback)
+    remove(url: string): Promise<void> {
+        log('remove whitelist: ' + url)
+        return whitelistDatabase.remove(url)
     }
 
     /**
      * @since 0.0.7
      */
-    public include(url: string, callback?: (including: boolean) => void) {
-        whitelistDatabase.includes(url, callback)
+    include(url: string,): Promise<boolean> {
+        return whitelistDatabase.includes(url)
     }
 }
 

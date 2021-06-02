@@ -24,7 +24,7 @@ const dateFormatter = ({ date }) => date ? date.substring(0, 4) + '/' + date.sub
 
 const hostRef: Ref<string> = ref('')
 const dateRangeRef: Ref<Array<Date>> = ref([])
-const mergeDateRef: Ref<boolean> = ref(true)
+const mergeDateRef: Ref<boolean> = ref(false)
 const mergeDomainRef: Ref<boolean> = ref(false)
 const displayBySecondRef: Ref<boolean> = ref(false)
 const dataRef: Ref<SiteInfo[]> = ref([])
@@ -91,19 +91,17 @@ const queryData = () => {
         pageSize: pageRef.size,
         pageNum: pageRef.num
     }
-    timerDatabase.selectByPage(({ list, total }) => {
-        dataRef.value = list
-        pageRef.total = total
-    }, queryParam.value, page)
+    timerDatabase
+        .selectByPage(queryParam.value, page)
+        .then(({ list, total }) => {
+            dataRef.value = list
+            pageRef.total = total
+        })
 }
-const queryWhiteList = () => {
-    return new Promise<void>((resolve) =>
-        whitelistService
-            .listAll(whitelist => {
-                whitelistRef.value = whitelist
-                resolve()
-            })
-    )
+const queryWhiteList = async () => {
+    const whitelist = await whitelistService.listAll()
+    whitelistRef.value = whitelist
+    return await Promise.resolve()
 }
 
 export default defineComponent(() => {
@@ -274,18 +272,18 @@ export default defineComponent(() => {
                                 const dateRange = dateRangeRef.value
                                 if (!dateRange || !dateRange.length) {
                                     // Delete all
-                                    timerDatabase.deleteByUrl(host, queryData)
+                                    timerDatabase.deleteByUrl(host).then(queryData)
                                 } else {
                                     // Delete by range
                                     timerDatabase.deleteByUrlBetween(
-                                        host, queryData,
+                                        host,
                                         formatTime(dateRange[0], DATE_FORMAT),
                                         formatTime(dateRange[1], DATE_FORMAT)
-                                    )
+                                    ).then(queryData)
                                 }
                             } else {
                                 // Delete by date
-                                timerDatabase.deleteByUrlAndDate(host, date, queryData)
+                                timerDatabase.deleteByUrlAndDate(host, date).then(queryData)
                             }
                         }
                     }, {
@@ -305,10 +303,12 @@ export default defineComponent(() => {
                         icon: 'el-icon-info',
                         iconColor: 'red',
                         onConfirm: () => {
-                            whitelistService.add(host, () => {
-                                queryWhiteList().then(queryData)
-                                ElMessage({ message: t('report.added2Whitelist'), type: 'success' })
-                            })
+                            whitelistService
+                                .add(host)
+                                .then(() => {
+                                    queryWhiteList().then(queryData)
+                                    ElMessage({ message: t('report.added2Whitelist'), type: 'success' })
+                                })
                         }
                     }, {
                         reference: () => h(ElButton, { size: 'mini', type: 'danger', icon: 'el-icon-plus' }, () => t('item.operation.add2Whitelist'))
@@ -321,10 +321,12 @@ export default defineComponent(() => {
                         icon: 'el-icon-info',
                         iconColor: '#409eff',
                         onConfirm: () => {
-                            whitelistService.remove(host, () => {
-                                queryWhiteList()
-                                ElMessage({ message: t('report.removeFromWhitelist'), type: 'success' });
-                            })
+                            whitelistService
+                                .remove(host)
+                                .then(() => {
+                                    queryWhiteList()
+                                    ElMessage({ message: t('report.removeFromWhitelist'), type: 'success' });
+                                })
                         }
                     }, {
                         reference: () => h(ElButton, { size: 'mini', type: 'primary', icon: 'el-icon-open' }, () => t('item.operation.removeFromWhitelist'))

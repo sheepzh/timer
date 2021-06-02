@@ -15,7 +15,7 @@ let chartInstance: ECharts
 const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.Tooltip.Format[]) => {
     const format: EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
     const { seriesName, name, value } = format
-    return `${seriesName}<br/>${name}&ensp;-&ensp;${formatPeriodCommon((value instanceof Number ? value as number : 0) * 1000)}`
+    return `${seriesName}<br/>${name}&ensp;-&ensp;${formatPeriodCommon((typeof value === 'number' ? value : 0) * 1000)}`
 }
 
 const options: EChartOption<EChartOption.SeriesLine> = {
@@ -133,29 +133,31 @@ const queryParam = computed(() => {
 })
 
 const queryData = () => {
-    timerDatabase.select(rows => {
-        const dateInfoMap = {}
-        rows.forEach(row => dateInfoMap[row.date] = row)
-        const allXAxis = getAxias('{y}{m}{d}')
+    timerDatabase.select(queryParam.value)
+        .then(rows => {
+            const dateInfoMap = {}
+            rows.forEach(row => dateInfoMap[row.date] = row)
+            const allXAxis = getAxias('{y}{m}{d}')
 
-        const focusData = []
-        const totalData = []
-        const timeData = []
+            const focusData = []
+            const totalData = []
+            const timeData = []
 
-        allXAxis.forEach(date => {
-            const row = dateInfoMap[date] || {}
-            focusData.push(mill2Second(row.focus))
-            totalData.push(mill2Second(row.total))
-            timeData.push(row.time || 0)
+            allXAxis.forEach(date => {
+                const row = dateInfoMap[date] || {}
+
+                focusData.push(mill2Second(row.focus))
+                totalData.push(mill2Second(row.total))
+                timeData.push(row.time || 0)
+            })
+
+            const titleOption = options.title as EChartTitleOption
+            titleOption.subtext = domainRef.value
+            options.series[0].data = totalData
+            options.series[1].data = focusData
+            options.series[2].data = timeData
+            renderChart()
         })
-
-        const titleOption = options.title as EChartTitleOption
-        titleOption.subtext = domainRef.value
-        options.series[0].data = totalData
-        options.series[1].data = focusData
-        options.series[2].data = timeData
-        renderChart()
-    }, queryParam.value)
 }
 
 const _default = defineComponent((_, context: SetupContext) => {
