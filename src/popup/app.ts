@@ -3,7 +3,7 @@ import { EChartOption, ECharts, init } from "echarts"
 import { ElLink, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch, watchEffect } from "vue"
 import { t } from "../common/vue-i18n"
-import timerDatabase from "../database/timer-database"
+import timerDatabase, { QueryParam, SortDirect } from "../database/timer-database"
 import SiteInfo, { ALL_SITE_ITEMS, SiteItem } from "../entity/dto/site-info"
 import { IS_FIREFOX } from "../util/constant/environment"
 import { FAVICON } from "../util/constant/url"
@@ -32,7 +32,7 @@ const dataRef: Ref<SiteInfo[]> = ref([])
 
 // Query data and update the pie
 const queryDataAndUpdate = () => {
-    const param = { date: new Date(), mergeDomain: mergeDomainRef.value, sort: typeRef.value }
+    const param: QueryParam = { date: new Date(), mergeDomain: mergeDomainRef.value, sort: typeRef.value, sortOrder: SortDirect.DESC }
     timerDatabase.select(rows => {
         const result = []
         const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0 }
