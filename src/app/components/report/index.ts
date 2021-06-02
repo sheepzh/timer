@@ -1,4 +1,4 @@
-import { ElButton, ElDatePicker, ElInput, ElMessage, ElPopconfirm, ElSwitch, ElTable, ElTableColumn } from "element-plus"
+import { ElButton, ElDatePicker, ElInput, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn } from "element-plus"
 import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
 import { t } from "../../../common/vue-i18n"
 import timerDatabase, { DATE_FORMAT, SortDirect } from "../../../database/timer-database"
@@ -24,7 +24,7 @@ const dateFormatter = ({ date }) => date ? date.substring(0, 4) + '/' + date.sub
 
 const hostRef: Ref<string> = ref('')
 const dateRangeRef: Ref<Array<Date>> = ref([])
-const mergeDateRef: Ref<boolean> = ref(false)
+const mergeDateRef: Ref<boolean> = ref(true)
 const mergeDomainRef: Ref<boolean> = ref(false)
 const displayBySecondRef: Ref<boolean> = ref(false)
 const dataRef: Ref<SiteInfo[]> = ref([])
@@ -65,7 +65,6 @@ const changeDeleteConfirmUrl = (row: SiteInfo) => {
     }
 }
 
-
 const periodFormatter = (val: number, hideUnitOfSecond?: boolean, force2DisplayBySecond?: boolean) => {
     if (val === undefined) {
         return force2DisplayBySecond ? '0' : '-'
@@ -101,7 +100,6 @@ const queryWhiteList = () => {
     return new Promise<void>((resolve) =>
         whitelistService
             .listAll(whitelist => {
-                console.log(whitelist)
                 whitelistRef.value = whitelist
                 resolve()
             })
@@ -197,12 +195,12 @@ export default defineComponent(() => {
     const columns = () => {
         const result = []
         // Date column
-        !mergeDateRef.value && result.push(
+        mergeDateRef.value || result.push(
             h(ElTableColumn,
                 {
                     prop: 'date',
                     label: t('item.date'),
-                    minWidth: '100px',
+                    minWidth: 200,
                     align: 'center',
                     sortable: 'custom'
                 },
@@ -214,7 +212,7 @@ export default defineComponent(() => {
             h(ElTableColumn, {
                 prop: 'host',
                 label: t('item.host'),
-                minWidth: '170px',
+                minWidth: 300,
                 sortable: 'custom',
                 align: 'center'
             }, {
@@ -241,21 +239,21 @@ export default defineComponent(() => {
             h(ElTableColumn, {
                 prop: 'focus',
                 label: t('item.focus'),
-                minWidth: '130px',
+                minWidth: 220,
                 align: 'center',
                 sortable: 'custom'
             }, { default: ({ row }: { row: SiteInfo }) => periodFormatter(row.focus) }),
             h(ElTableColumn, {
                 prop: 'total',
                 label: t('item.total'),
-                minWidth: '130px',
+                minWidth: 220,
                 align: 'center',
                 sortable: 'custom'
             }, { default: ({ row }: { row: SiteInfo }) => periodFormatter(row.total) }),
             h(ElTableColumn, {
                 prop: 'time',
                 label: t('item.time'),
-                minWidth: '70px',
+                minWidth: 130,
                 align: 'center',
                 sortable: 'custom'
             }, { default: ({ row }: { row: SiteInfo }) => h('span', row.time || 0) })
@@ -336,7 +334,7 @@ export default defineComponent(() => {
             }
             result.push(h(ElTableColumn, {
                 label: t('item.operation.label'),
-                width: t('item.operation.minWidth'),
+                minWidth: 240,
                 align: 'center'
             }, {
                 default: (data: { row: SiteInfo }) => operations(data.row)
@@ -361,5 +359,26 @@ export default defineComponent(() => {
         }
     }, () => columns())
 
-    return () => h('div', { class: 'content-container' }, [filter(), table()])
+    const pagination = () => h('div',
+        { class: 'pagination-container' },
+        h(ElPagination,
+            {
+                onSizeChange: (size: number) => {
+                    pageRef.size = size
+                    queryData()
+                },
+                onCurrentChange: (pageNum: number) => {
+                    pageRef.num = pageNum
+                    queryData()
+                },
+                currentPage: pageRef.num,
+                pageSizes: [10, 20, 50],
+                pageSize: pageRef.size,
+                layout: "total, sizes, prev, pager, next, jumper",
+                total: pageRef.total
+            }
+        )
+    )
+
+    return () => h('div', { class: 'content-container' }, [filter(), table(), pagination()])
 })
