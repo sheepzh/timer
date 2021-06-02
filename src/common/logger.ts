@@ -1,4 +1,3 @@
-import { use } from "vue/types/umd"
 import { getUsedStorage } from "../database/memory-detector"
 
 let OPEN_LOG = false
@@ -42,4 +41,10 @@ export function showMemory() {
 /**
  * @since 0.0.8
  */
-export default { openLog, closeLog, showMemory }
+export default { openLog, closeLog, showMemory } as TimerLogger
+
+export type TimerLogger = {
+    openLog: () => string
+    closeLog: () => string
+    showMemory: () => void
+}

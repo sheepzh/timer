@@ -9,9 +9,12 @@ import { ARCHIVED_PREFIX, REMAIN_WORD_PREFIX } from "./constant"
  */
 export const DATE_FORMAT = '{y}{m}{d}'
 
+export enum SortDirect {
+    ASC = 1,
+    DESC = -1
+}
+
 export class QueryParam {
-    public static ASC = 1
-    public static DESC = -1
     /**
      * Date 
      */
@@ -59,7 +62,7 @@ export class QueryParam {
     /**
      * 1 asc, -1 desc
      */
-    sortOrder?: number
+    sortOrder?: SortDirect
 }
 
 declare class PageParam {
@@ -207,7 +210,7 @@ class TimeDatabase {
             // 3st sort
             const sort = param.sort
             if (sort) {
-                const order = param.sortOrder || QueryParam.DESC
+                const order = param.sortOrder || SortDirect.ASC
                 result.sort((a, b) => {
                     const aa = a[sort]
                     const bb = b[sort]
