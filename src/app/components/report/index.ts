@@ -1,8 +1,9 @@
 import { ElButton, ElDatePicker, ElInput, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn } from "element-plus"
 import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
 import { t } from "../../../common/vue-i18n"
-import timerDatabase, { DATE_FORMAT, SortDirect } from "../../../database/timer-database"
+import timerDatabase, { DATE_FORMAT } from "../../../database/timer-database"
 import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
+import timerService, { SortDirect } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
 import { FAVICON } from "../../../util/constant/url"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../util/time"
@@ -91,7 +92,7 @@ const queryData = () => {
         pageSize: pageRef.size,
         pageNum: pageRef.num
     }
-    timerDatabase
+    timerService
         .selectByPage(queryParam.value, page)
         .then(({ list, total }) => {
             dataRef.value = list
