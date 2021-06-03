@@ -9,12 +9,7 @@ import { ARCHIVED_PREFIX, REMAIN_WORD_PREFIX } from "./constant"
  */
 export const DATE_FORMAT = '{y}{m}{d}'
 
-export enum SortDirect {
-    ASC = 1,
-    DESC = -1
-}
-
-export class QueryParam {
+export type TimerCondition = {
     /**
      * Date 
      */
@@ -47,32 +42,6 @@ export class QueryParam {
      * @since 0.0.8
      */
     fullHost?: boolean
-    /**
-     * Group by the root domain
-     */
-    mergeDomain?: boolean
-    /**
-     * Merge items of the same host from different days
-     */
-    mergeDate?: boolean
-    /**
-     * The name of sorted column
-     */
-    sort?: string
-    /**
-     * 1 asc, -1 desc
-     */
-    sortOrder?: SortDirect
-}
-
-declare type PageParam = {
-    pageNum?: number
-    pageSize?: number
-}
-
-declare type PageInfo = {
-    total: number
-    list: SiteInfo[]
 }
 
 class TimeDatabase {
@@ -85,7 +54,6 @@ class TimeDatabase {
                 const items = {}
                 for (let key in result) {
                     if (!key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX)) {
-                        // remain words
                         items[key] = result[key]
                     }
                 }
@@ -164,58 +132,27 @@ class TimeDatabase {
         this.updateOf(host, new Date(), (i: WastePerDay) => i.time += 1)
     }
 
-    async selectByPage(param?: QueryParam, page?: PageParam): Promise<PageInfo> {
-        log("selectByPage:{param},{page}", param, page)
-        page = page || { pageNum: 1, pageSize: 10 }
-        const origin = await this.select(param)
-        let pageNum = page.pageNum
-        let pageSize = page.pageSize
-        pageNum === undefined || pageNum < 1 && (pageNum = 1)
-        pageSize === undefined || pageSize < 1 && (pageSize = 10)
-        const startIndex = (pageNum - 1) * pageSize
-        const endIndex = (pageNum) * pageSize
-        const total = origin.length
-        const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
-        return Promise.resolve({ total, list })
-    }
-
     /**
-     * Select without page
+     * Select
      * 
-     * @param param     condition
+     * @param condition     condition
      */
-    async select(param?: QueryParam): Promise<SiteInfo[]> {
-        log("select:{param}", param)
-        param = param || new QueryParam()
+    async select(condition?: TimerCondition): Promise<SiteInfo[]> {
+        log("select:{condition}", condition)
+        condition = condition || {}
         const items = await this.refresh()
         let result: SiteInfo[] = []
-        // 1st filter
+
         for (let key in items) {
             const date = key.substr(0, 8)
             const host = key.substring(8)
             const val: WastePerDay = items[key]
-            if (this.filterBefore(date, host, val, param)) {
+            if (this.filterBefore(date, host, val, condition)) {
                 const { total, focus, time } = val
                 result.push({ date, host, total, focus, time })
             }
         }
-        // 2nd merge
-        param.mergeDomain && (result = this.mergeDomain(result))
-        // filter again, cause of the exchange of the host, if the param.mergeDomain is true
-        param.mergeDomain && (result = this.filterAfter(result, param))
-        param.mergeDate && (result = this.mergeDate(result))
-        // 3st sort
-        const sort = param.sort
-        if (sort) {
-            const order = param.sortOrder || SortDirect.ASC
-            result.sort((a, b) => {
-                const aa = a[sort]
-                const bb = b[sort]
-                if (aa === bb)
-                    return 0
-                return order * (aa > bb ? 1 : -1)
-            })
-        }
+
         log('Result of select: ', result)
         return Promise.resolve(result)
     }
@@ -226,21 +163,21 @@ class TimeDatabase {
      * @param date date of item
      * @param host  host of item
      * @param val  val of item
-     * @param param  query parameters
+     * @param condition  query parameters
      * @return true if valid, or false  
      */
-    private filterBefore(date: string, host: string, val: WastePerDay, param: QueryParam) {
-        const paramDate = param.date
-        const paramHost = (param.host || '').trim()
-        const paramTimeRange = param.timeRange
-        const paramTotalRange = param.totalRange
-        const paramFocusRange = param.focusRange
+    private filterBefore(date: string, host: string, val: WastePerDay, condition: TimerCondition) {
+        const paramDate = condition.date
+        const paramHost = (condition.host || '').trim()
+        const paramTimeRange = condition.timeRange
+        const paramTotalRange = condition.totalRange
+        const paramFocusRange = condition.focusRange
 
         if (paramHost) {
-            if (!!param.fullHost && host !== paramHost) {
+            if (!!condition.fullHost && host !== paramHost) {
                 return false
             }
-            if (!param.fullHost && !host.includes(paramHost)) {
+            if (!condition.fullHost && !host.includes(paramHost)) {
                 return false
             }
         }
@@ -308,63 +245,6 @@ class TimeDatabase {
         }
 
         return true
-    }
-
-    private filterAfter(origin: SiteInfo[], param: QueryParam) {
-        const paramHost = (param.host || '').trim()
-        return paramHost ? origin.filter(o => o.host.includes(paramHost)) : origin
-    }
-
-    private mergeDomain(origin: SiteInfo[]): SiteInfo[] {
-        const newSiteInfos = []
-        const map = {}
-        const ipAndPort = /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])(:\d{0,5})?$/
-
-        origin.forEach(o => {
-            const host = o.host
-            const date = o.date
-            let domain = host
-            if (!ipAndPort.test(domain)) {
-                // not domain
-                let dotIndex = host.lastIndexOf('.')
-                if (dotIndex !== -1) {
-                    const pre = host.substring(0, dotIndex)
-                    dotIndex = pre.lastIndexOf('.')
-                    if (dotIndex !== -1) {
-                        domain = host.substring(dotIndex + 1)
-                    }
-                }
-            }
-
-            this.merge(map, o, domain + date).host = domain
-        })
-        for (let key in map) {
-            newSiteInfos.push(map[key])
-        }
-        return newSiteInfos
-    }
-
-    private mergeDate(origin: SiteInfo[]): SiteInfo[] {
-        const newSiteInfos = []
-        const map = {}
-
-        origin.forEach(o => this.merge(map, o, o.host).date = undefined)
-        for (let key in map) {
-            newSiteInfos.push(map[key])
-        }
-        return newSiteInfos
-    }
-
-    private merge(map: {}, origin: SiteInfo, key: string): SiteInfo {
-        let exist: SiteInfo = map[key]
-        if (exist === undefined) {
-            exist = map[key] = origin
-        } else {
-            exist.time += origin.time
-            exist.focus += origin.focus
-            exist.total += origin.total
-        }
-        return exist
     }
 
     /**

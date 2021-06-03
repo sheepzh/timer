@@ -1,7 +1,7 @@
 import { ElButton, ElDatePicker, ElInput, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import { defineComponent, h, ref, Ref, SetupContext, VNode } from "vue"
 import { t, tN } from "../../../common/vue-i18n"
-import timerDatabase, { QueryParam } from "../../../database/timer-database"
+import timerDatabase, { TimerCondition } from "../../../database/timer-database"
 import SiteInfo from "../../../entity/dto/site-info"
 import timerService from "../../../service/timer-service"
 import { formatTime, MILL_PER_DAY } from "../../../util/time"
@@ -64,13 +64,13 @@ const generateParamAndSelect = () => {
             type: 'warning'
         })
     } else {
-        const param = new QueryParam()
-        param.totalRange = totalRange
-        param.focusRange = focusRange
-        param.timeRange = timeRange
-        param.date = dateRange
+        const condition: TimerCondition = {}
+        condition.totalRange = totalRange
+        condition.focusRange = focusRange
+        condition.timeRange = timeRange
+        condition.date = dateRange
 
-        return timerDatabase.select(param)
+        return timerDatabase.select(condition)
     }
 }
 

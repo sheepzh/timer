@@ -1,8 +1,8 @@
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
 import { ElCard } from "element-plus"
-import { computed, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
+import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
 import { t } from "../../../../common/vue-i18n"
-import timerDatabase, { SortDirect } from "../../../../database/timer-database"
+import timerService, { TimerQueryParam, SortDirect } from "../../../../service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
 
 // Get the timestamp of one timestamp of date
@@ -122,7 +122,7 @@ const updateXAxis = () => {
     xAxis.data = getAxias('{m}/{d}')
 }
 
-const queryParam = computed(() => {
+const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
     return {
         // If the domain is empty, no result will be queried with this param.
         host: domainRef.value === '' ? '___foo_bar' : domainRef.value,
@@ -133,7 +133,7 @@ const queryParam = computed(() => {
 })
 
 const queryData = () => {
-    timerDatabase.select(queryParam.value)
+    timerService.select(queryParam.value)
         .then(rows => {
             const dateInfoMap = {}
             rows.forEach(row => dateInfoMap[row.date] = row)

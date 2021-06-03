@@ -1,10 +1,10 @@
 const { version } = require('../../package.json')
 import { EChartOption, ECharts, init } from "echarts"
 import { ElLink, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
-import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch, watchEffect } from "vue"
+import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { t } from "../common/vue-i18n"
-import timerDatabase, { QueryParam, SortDirect } from "../database/timer-database"
 import SiteInfo, { ALL_SITE_ITEMS, SiteItem } from "../entity/dto/site-info"
+import timerService, { SortDirect, TimerQueryParam } from "../service/timer-service"
 import { IS_FIREFOX } from "../util/constant/environment"
 import { FAVICON } from "../util/constant/url"
 import { formatPeriodCommon, formatTime } from "../util/time"
@@ -32,8 +32,13 @@ const dataRef: Ref<SiteInfo[]> = ref([])
 
 // Query data and update the pie
 const queryDataAndUpdate = () => {
-    const param: QueryParam = { date: new Date(), mergeDomain: mergeDomainRef.value, sort: typeRef.value, sortOrder: SortDirect.DESC }
-    timerDatabase
+    const param: TimerQueryParam = {
+        date: new Date(),
+        mergeDomain: mergeDomainRef.value,
+        sort: typeRef.value,
+        sortOrder: SortDirect.DESC
+    }
+    timerService
         .select(param)
         .then(rows => {
             const result = []
