@@ -12,7 +12,7 @@ class WhitelistDatabase {
         return new Promise(resolve => this.localStorage.set(obj, resolve))
     }
 
-    public selectAll(): Promise<string[]> {
+    selectAll(): Promise<string[]> {
         return new Promise(resolve => this.localStorage.get(items => resolve(items[WHITELIST_KEY] || [])))
     }
 
