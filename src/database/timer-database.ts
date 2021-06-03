@@ -184,7 +184,7 @@ class TimeDatabase {
      * 
      * @param param     condition
      */
-    public async select(param?: QueryParam): Promise<SiteInfo[]> {
+    async select(param?: QueryParam): Promise<SiteInfo[]> {
         log("select:{param}", param)
         param = param || new QueryParam()
         const items = await this.refresh()
