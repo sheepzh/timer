@@ -75,7 +75,10 @@ const _default = defineComponent<{}, {}>(() => {
 
     const menuItems = () => ALL_MENU.map(renderMenu)
 
-    return () => h(ElMenu, { defaultActive: currentRoute.path }, { default: menuItems })
+    return () => h(ElMenu,
+        { defaultActive: currentRoute.path, defaultOpeneds: ['/data'] },
+        { default: menuItems }
+    )
 })
 
 export default _default
