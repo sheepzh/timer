@@ -1,0 +1,21 @@
+---
+language: node_js
+sudo: true
+node_js:
+  - 14
+install:
+  - npm install
+  - npm install codecov
+script:
+  - npm run test-c
+after_success:
+  - codecov -f coverage/*.json
+branches:
+  only:
+    - main
+notifications:
+  slack:
+    on_success: never
+    on_failure: always
+  email:
+    - returnzhy1996@outlook.com
