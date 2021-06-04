@@ -1,6 +1,5 @@
 ---
 language: node_js
-sudo: true
 node_js:
   - 14
 install:
