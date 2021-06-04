@@ -3,6 +3,7 @@ import { defineComponent, h } from "vue"
 import { t } from "../../../common/vue-i18n"
 import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant/url'
 import Whitelist from './whitelist'
+import DomainMerge from './domain-merge'
 import './style'
 const { version } = require('../../../../package.json')
 
@@ -39,7 +40,10 @@ export default defineComponent(() => {
 
     const settingTabs = () => h(ElTabs,
         { type: 'border-card' },
-        () => h(ElTabPane, { label: t('setting.whitelist.label') }, () => h(Whitelist))
+        () => [
+            h(ElTabPane, { label: t('setting.whitelist.label') }, () => h(Whitelist)),
+            h(ElTabPane, { label: t('setting.merge.label') }, () => h(DomainMerge))
+        ]
     )
     return () => h('div', { class: 'content-container' }, [infoHead(), settingTabs()])
 })

@@ -3,7 +3,6 @@ import { defineComponent, h, ref, Ref } from "vue"
 import { t } from "../../../common/vue-i18n"
 import whitelistService from "../../../service/whitelist-service"
 import { FAVICON } from "../../../util/constant/url"
-import './style/whitelist'
 
 const whitelistRef: Ref<string[]> = ref([])
 whitelistService
@@ -21,14 +20,11 @@ const handleInputConfirm = () => {
         } else {
             ElMessageBox.confirm(
                 t('setting.whitelist.addConfirmMsg', { url: `${inputValue}<img src="${FAVICON(inputValue)}" width="15px" height="15px">` }),
-                t('setting.whitelist.confirmTitle'), { dangerouslyUseHTMLString: true }
-            ).then(r => {
-                whitelistService
-                    .add(inputValue)
-                    .then(() => {
-                        whitelist.push(inputValue)
-                        ElMessage({ type: 'success', message: t('setting.whitelist.successMsg') })
-                    })
+                t('setting.confirmTitle'), { dangerouslyUseHTMLString: true }
+            ).then(() => whitelistService.add(inputValue)
+            ).then(() => {
+                whitelist.push(inputValue)
+                ElMessage({ type: 'success', message: t('setting.successMsg') })
             }).catch(() => { })
         }
     }
@@ -37,36 +33,34 @@ const handleInputConfirm = () => {
     inputValRef.value = ''
 }
 
+// Render the tag items of whitelist 
+const generateTagItems = (whiteItem: string) => h(ElTag,
+    {
+        class: 'white-item',
+        type: 'primary',
+        closable: true,
+        onClose: () => {
+            const confirmMsg = t('setting.whitelist.removeConfirmMsg', { url: `${whiteItem}<img src="${FAVICON(whiteItem)}" width="15px" height="15px">` })
+            const confirmTitle = t('setting.confirmTitle')
+            ElMessageBox
+                .confirm(confirmMsg, confirmTitle, { dangerouslyUseHTMLString: true })
+                .then(() => whitelistService.remove(whiteItem))
+                .then(() => {
+                    ElMessage({ type: 'success', message: t('setting.successMsg') })
+                    const index = whitelistRef.value.indexOf(whiteItem)
+                    index !== -1 && whitelistRef.value.splice(index, 1)
+                })
+                .catch(() => { })
+        }
+    },
+    () => whiteItem
+)
+
 const _default = defineComponent(() => {
-    const alertInfo = () => h(ElAlert, { type: 'success', title: t('setting.whitelist.infoAlert'), style: 'margin-bottom: 20px;' })
+    const alertInfo = () => h(ElAlert, { type: 'success', title: t('setting.whitelist.infoAlert') })
     const tags = () => {
         const result = []
-        whitelistRef.value
-            .map(white =>
-                h(ElTag,
-                    {
-                        class: 'white-item',
-                        type: 'primary',
-                        closable: true,
-                        onClose: () => {
-                            ElMessageBox.confirm(
-                                t('setting.whitelist.removeConfirmMsg', { url: `${white}<img src="${FAVICON(white)}" width="15px" height="15px">` }),
-                                t('setting.whitelist.confirmTitle'),
-                                { dangerouslyUseHTMLString: true }
-                            ).then(() => {
-                                whitelistService
-                                    .remove(white)
-                                    .then(() => {
-                                        ElMessage({ type: 'success', message: t('setting.whitelist.successMsg') })
-                                        const index = whitelistRef.value.indexOf(white)
-                                        index !== -1 && whitelistRef.value.splice(index, 1)
-                                    })
-                            }).catch(() => { })
-                        }
-                    },
-                    () => white
-                )
-            ).forEach(tag => result.push(tag))
+        result.push(...whitelistRef.value.map(generateTagItems))
         // Display the input
         inputVisibleRef.value && result.push(
             h(ElInput,
@@ -89,7 +83,7 @@ const _default = defineComponent(() => {
                     class: 'button-new-tag white-item',
                     onClick: () => inputVisibleRef.value = true
                 },
-                () => `+ ${t('setting.whitelist.newOne')}`
+                () => `+ ${t('setting.newOne')}`
             )
         )
         return result
