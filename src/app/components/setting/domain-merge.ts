@@ -94,7 +94,7 @@ const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
 const _default = defineComponent(() => {
     const labels = () => [
         h(ElAlert,
-            { type: 'success', title: t('setting.merge.infoAlertTitle') },
+            { type: 'info', title: t('setting.merge.infoAlertTitle') },
             () => [
                 h('li', t('setting.merge.infoAlert0')),
                 h('li', t('setting.merge.infoAlert1')),
