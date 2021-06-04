@@ -1,7 +1,8 @@
-import { openLog, log } from './common/logger'
-import timeService from './service/timer-service'
-import { HOST_START, SAVE_FOCUS, UNFOCUS } from './util/constant/message-tag'
-import { isBrowserUrl } from './util/pattern'
+import { openLog, log } from '../common/logger'
+import timeService from '../service/timer-service'
+import { HOST_START, SAVE_FOCUS, UNFOCUS } from '../util/constant/message-tag'
+import { isBrowserUrl } from '../util/pattern'
+import versionManager from './version-manager'
 
 openLog()
 
@@ -62,3 +63,5 @@ chrome.windows.onFocusChanged.addListener((windowId) => {
         })
     }
 })
+
+chrome.runtime.onInstalled.addListener(detail => versionManager.onChromeInstalled(detail.reason))

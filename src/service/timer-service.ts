@@ -3,6 +3,9 @@ import whitelistDatabase from '../database/whitelist-database'
 import archivedDatabase from '../database/archived-database'
 import SiteInfo from '../entity/dto/site-info'
 import { log } from '../common/logger'
+import CustomizedDOmainMergeRuler from './domain-merge-ruler'
+import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
+import mergeRuleDatabase from '../database/merge-rule-database'
 
 declare type PageParam = {
     pageNum?: number
@@ -144,24 +147,15 @@ class TimeService {
     private async mergeDomain(origin: SiteInfo[]): Promise<SiteInfo[]> {
         const newSiteInfos = []
         const map = {}
-        const ipAndPort = /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])(:\d{0,5})?$/
+
+        // Generate ruler
+        const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
+        const mergeRuler = new CustomizedDOmainMergeRuler(mergeRuleItems)
 
         origin.forEach(o => {
             const host = o.host
             const date = o.date
-            let domain = host
-            if (!ipAndPort.test(domain)) {
-                // not domain
-                let dotIndex = host.lastIndexOf('.')
-                if (dotIndex !== -1) {
-                    const pre = host.substring(0, dotIndex)
-                    dotIndex = pre.lastIndexOf('.')
-                    if (dotIndex !== -1) {
-                        domain = host.substring(dotIndex + 1)
-                    }
-                }
-            }
-
+            let domain = mergeRuler.merge(host)
             this.merge(map, o, domain + date).host = domain
         })
         for (let key in map) {
