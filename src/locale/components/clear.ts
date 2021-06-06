@@ -1,4 +1,29 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type ClearMessage = {
+    totalMemoryAlert: string
+    usedMemoryAlert: string
+    operationAlert: string
+    filterItems: string
+    filterFocus: string
+    filterTotal: string
+    filterTime: string
+    filterDate: string
+    unlimited: string
+    archiveAlert: string
+    dateShortcut: {
+        tillYesturday: string
+        till7DaysAgo: string
+        till30DaysAgo: string
+    }
+    paramError: string
+    deleteConfirm: string
+    deleteSuccess: string
+    archiveConfirm: string
+    archiveSuccess: string
+}
+
+const _default: Messages<ClearMessage> = {
     zh_CN: {
         totalMemoryAlert: '浏览器为每个扩展提供 {size}MB 来存储本地数据',
         usedMemoryAlert: '当前已使用 {size}MB',
@@ -27,7 +52,7 @@ module.exports = {
         operationAlert: 'You can archive or delete those irrelevant data to reduce memory usage',
         filterItems: 'Filter data',
         filterFocus: 'The browse time of the day is between {start} seconds and {end} seconds.',
-        filterFocus: 'The run time of the day is between {start} seconds and {end} seconds.',
+        filterTotal: 'The run time of the day is between {start} seconds and {end} seconds.',
         filterTime: 'Opens on the day are between {start} and {end}.',
         filterDate: 'Generated between {picker}.',
         unlimited: 'Unlimited',
@@ -66,3 +91,5 @@ module.exports = {
         archiveSuccess: '正常にアーカイブされました'
     }
 }
+
+export default _default

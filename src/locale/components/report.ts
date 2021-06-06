@@ -1,4 +1,23 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type ReportMessage = {
+    title: string
+    startDate: string
+    endDate: string
+    latestWeek: string
+    latest30Days: string
+    today: string
+    yesterday: string
+    mergeDate: string
+    mergeDomain: string
+    displayBySecond: string
+    hostPlaceholder: string
+    exportFileName: string
+    added2Whitelist: string
+    removeFromWhitelist: string
+}
+
+const _default: Messages<ReportMessage> = {
     zh_CN: {
         title: '数据统计',
         startDate: '开始日期',
@@ -48,3 +67,5 @@ module.exports = {
         removeFromWhitelist: 'ホワイトリストから正常に削除されました'
     }
 }
+
+export default _default
