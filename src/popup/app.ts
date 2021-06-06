@@ -183,7 +183,7 @@ export default defineComponent(() => {
             size: 'mini',
             onChange: (val: SiteItem) => typeRef.value = val
         },
-        options()
+        options
     )
 
     // 3. merge domain switch
@@ -207,7 +207,7 @@ export default defineComponent(() => {
             // FireFox use 'static' as prefix
             onClick: () => chrome.tabs.create({ url: IS_FIREFOX ? 'app.html' : 'static/app.html' })
         },
-        t('popup.viewMore')
+        () => t('popup.viewMore')
     )
 
     const footer = () => h('div', { class: 'option-container' }, [versionAndTotalInfo(), typeSelect(), mergeDomainSwitch(), link()])
