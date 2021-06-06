@@ -1,4 +1,16 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type PopupMessage = {
+    title: string
+    mergeDomainLabel: string
+    viewMore: string
+    fileName: string
+    saveAsImageTitle: string
+    totalTime: string
+    totalCount: string
+    otherLabel: string
+}
+const _default: Messages<PopupMessage> = {
     zh_CN: {
         title: '今日数据',
         mergeDomainLabel: '合并子域名',
@@ -30,3 +42,5 @@ module.exports = {
         otherLabel: 'その他'
     }
 }
+
+export default _default

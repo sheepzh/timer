@@ -1,4 +1,13 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type AppMessage = {
+    name: string
+    marketName: string
+    description: string
+    currentVersion: string
+}
+
+const _default: Messages<AppMessage> = {
     en: {
         name: 'Timer',
         marketName: 'Timer - Running & Browsing Time & Visit count',
@@ -18,3 +27,5 @@ module.exports = {
         currentVersion: 'バージョン: v{version}'
     }
 }
+
+export default _default

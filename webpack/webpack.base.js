@@ -1,18 +1,11 @@
 const path = require('path')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
+const GenerateLocaleForChrome = require('./plugins/generate-locale-for-chrome')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // Generate json files 
 const manifest = require('../src/manifest')
-const generateJsonPlugins = [new GenerateJsonPlugin('manifest.json', manifest)]
-// Resolve the locale json files
-const { chromeMessages } = require('../src/locale/index')
-
-
-for (const localeName in chromeMessages) {
-    const locale = chromeMessages[localeName]
-    generateJsonPlugins.push(new GenerateJsonPlugin(path.join("_locales", localeName, "messages.json"), locale))
-}
+const generateJsonPlugins = [new GenerateJsonPlugin('manifest.json', manifest), new GenerateLocaleForChrome('locale', './src/locale')]
 
 const optionGenerator = (outputPath, manifestHooker) => {
     manifestHooker && manifestHooker(manifest)
@@ -41,7 +34,7 @@ const optionGenerator = (outputPath, manifestHooker) => {
         module: {
             rules: [
                 {
-                    test: /\.tsx?$/,
+                    test: /\.ts$/,
                     exclude: '/node_modules/',
                     use: ['ts-loader']
                 }, {

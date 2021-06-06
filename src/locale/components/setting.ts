@@ -1,4 +1,43 @@
-module.exports = {
+import { Messages } from "../constant"
+
+type WhitelistMessage = {
+    label: string
+    addConfirmMsg: string
+    removeConfirmMsg: string
+    duplicateMsg: string
+    infoAlert: string
+}
+
+type MergeMessage = {
+    label: string
+    resultOfOrigin: string
+    resultOfLevel: string
+    removeConfirmMsg: string
+    originPlaceholder: string
+    mergedPlaceholder: string
+    errorOrigin: string
+    duplicateMsg: string
+    addConfirmMsg: string
+    infoAlertTitle: string
+    infoAlert0: string
+    infoAlert1: string
+    infoAlert2: string
+    infoAlert3: string
+    infoAlert4: string
+    infoAlert5: string
+}
+export type SettingMessage = {
+    whitelist: WhitelistMessage
+    merge: MergeMessage
+    confirmTitle: string
+    successMsg: string
+    scoreRequest: string
+    issueRequest: string
+    newOne: string
+    save: string
+}
+
+const _default: Messages<SettingMessage> = {
     zh_CN: {
         whitelist: {
             label: '白名单',
@@ -99,3 +138,5 @@ module.exports = {
         save: '保存'
     }
 }
+
+export default _default

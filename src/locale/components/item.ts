@@ -1,4 +1,26 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type ItemMessage = {
+    date: string
+    host: string
+    total: string
+    focus: string
+    time: string
+    operation: {
+        label: string
+        delete: string
+        add2Whitelist: string
+        removeFromWhitelist: string
+        archive: string
+        confirmMsg: string
+        cancelMsg: string
+        deleteConfirmMsgAll: string
+        deleteConfirmMsgRange: string
+        deleteConfirmMsg: string
+    }
+}
+
+const _default: Messages<ItemMessage> = {
     zh_CN: {
         date: '日期',
         host: '域名',
@@ -57,3 +79,5 @@ module.exports = {
         }
     }
 }
+
+export default _default
