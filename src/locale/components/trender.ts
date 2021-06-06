@@ -1,4 +1,21 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type TrenderMessage = {
+    hostPlaceholder: string
+    startDate: string,
+    endDate: string
+    latestWeek: string
+    latest15Days: string
+    latest30Days: string
+    latest90Days: string
+    history: {
+        title: string
+        timeUnit: string
+        numberUnit: string
+    }
+}
+
+const _default: Messages<TrenderMessage> = {
     zh_CN: {
         hostPlaceholder: '输入并选择域名',
         startDate: '开始日期',
@@ -42,3 +59,5 @@ module.exports = {
         }
     }
 }
+
+export default _default

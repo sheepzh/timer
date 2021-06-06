@@ -1,4 +1,13 @@
-module.exports = {
+import { Messages } from "../constant"
+
+export type MenuMessage = {
+    data: string
+    dataReport: string
+    dataHistory: string
+    dataClear: string
+    setting: string
+}
+const _default: Messages<MenuMessage> = {
     zh_CN: {
         data: '我的数据',
         dataReport: '报表明细',
@@ -21,3 +30,5 @@ module.exports = {
         setting: '拡張設定',
     }
 }
+
+export default _default

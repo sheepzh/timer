@@ -151,7 +151,20 @@ export default defineComponent(() => {
     // pie container
     const pieChartContainer = () => h('div', { ref: chartContainerRef, style: `width:${width}; height:${height};` })
     queryDataAndUpdate()
-    onMounted(() => pie = init(chartContainerRef.value))
+    onMounted(() => {
+        pie = init(chartContainerRef.value)
+        // Bound the listener
+        pie.on('click', (params: { name: any; componentType: string; seriesType: string }) => {
+            const name = params.name
+            const componentType = params.componentType
+            if (componentType === 'series') {
+                // Not the other item
+                name !== t('popup.otherLabel')
+                    // Then open it
+                    && chrome.tabs.create({ url: `https://${name}` })
+            }
+        })
+    })
 
     // footer
     // 1. total info and version
@@ -183,7 +196,7 @@ export default defineComponent(() => {
             size: 'mini',
             onChange: (val: SiteItem) => typeRef.value = val
         },
-        options()
+        options
     )
 
     // 3. merge domain switch
@@ -207,7 +220,7 @@ export default defineComponent(() => {
             // FireFox use 'static' as prefix
             onClick: () => chrome.tabs.create({ url: IS_FIREFOX ? 'app.html' : 'static/app.html' })
         },
-        t('popup.viewMore')
+        () => t('popup.viewMore')
     )
 
     const footer = () => h('div', { class: 'option-container' }, [versionAndTotalInfo(), typeSelect(), mergeDomainSwitch(), link()])

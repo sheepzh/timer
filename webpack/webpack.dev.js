@@ -2,6 +2,7 @@ const path = require('path')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 const FileManagerWebpackPlugin = require('filemanager-webpack-plugin')
 const optionGenerator = require('./webpack.base')
+const webpack = require('webpack')
 
 
 const outputDir = path.join(__dirname, '..', 'dist_dev')
@@ -21,17 +22,23 @@ const firefoxManifestGeneratePlugin = new GenerateJsonPlugin(manifestFirefoxName
 options.plugins.push(firefoxManifestGeneratePlugin)
 const firefoxDevDir = path.join(__dirname, '..', 'firefox_dev')
 // Generate FireFox dev files
-options.plugins.push(new FileManagerWebpackPlugin({
-  events: {
-    onEnd: [
-      {
-        copy: [{ source: outputDir, destination: firefoxDevDir }],
-        delete: [path.join(outputDir, manifestFirefoxName), path.join(firefoxDevDir, 'manifest.json')],
-        move: [{ source: path.join(firefoxDevDir, manifestFirefoxName), destination: path.join(firefoxDevDir, 'manifest.json') }]
-      }
-    ]
-  }
-}))
+options.plugins.push(
+  new FileManagerWebpackPlugin({
+    events: {
+      onEnd: [
+        {
+          copy: [{ source: outputDir, destination: firefoxDevDir }],
+          delete: [path.join(outputDir, manifestFirefoxName), path.join(firefoxDevDir, 'manifest.json')],
+          move: [{ source: path.join(firefoxDevDir, manifestFirefoxName), destination: path.join(firefoxDevDir, 'manifest.json') }]
+        }
+      ]
+    }
+  }),
+  new webpack.DefinePlugin({
+    __VUE_OPTIONS_API__: false,
+    __VUE_PROD_DEVTOOLS__: false
+  })
+)
 
 options.output.path = outputDir
 
