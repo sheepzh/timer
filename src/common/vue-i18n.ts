@@ -1,17 +1,14 @@
 import { VNode } from 'vue'
-import { vueMessages, defaultLocale } from '../locale'
-
-export enum Locale {
-  ZH_CN = 'zh_CN',
-  EN = 'en'
-}
+import messages from '../locale'
+import { defaultLocale, Locale } from '../locale/constant'
 
 // Standardize the locale code according to the Chrome locale code
 const chrome2I18n: { [key: string]: Locale } = {
   'zh-CN': Locale.ZH_CN,
   'zh-TW': Locale.ZH_CN,
   'en-US': Locale.EN,
-  'en-GB': Locale.EN
+  'en-GB': Locale.EN,
+  'ja': Locale.JA
 }
 
 /**
@@ -31,7 +28,7 @@ const chromeLocale2ExtensionLocale = (chromeLocale: string) => {
 
 export const locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
 
-const message: any = vueMessages[locale] || {}
+const message: any = messages[locale] || {}
 
 export declare type I18nResultItem = VNode | string
 

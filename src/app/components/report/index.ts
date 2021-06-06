@@ -1,4 +1,4 @@
-import { ElButton, ElDatePicker, ElInput, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn } from "element-plus"
+import { ElButton, ElDatePicker, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn } from "element-plus"
 import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
 import { t } from "../../../common/vue-i18n"
 import timerDatabase, { DATE_FORMAT } from "../../../database/timer-database"
@@ -216,7 +216,12 @@ export default defineComponent(() => {
                 align: 'center'
             }, {
                 default: ({ row }: { row: SiteInfo }) => {
-                    const hostCell = [h('span', row.host)]
+                    const hostCell = [
+                        h(ElLink,
+                            { href: `https://${row.host}`, target: '_blank' },
+                            () => row.host
+                        )
+                    ]
                     !mergeDomainRef.value && hostCell.push(
                         h('span',
                             { style: 'height:23px;line-height:23px;padding-left:2px;' },
