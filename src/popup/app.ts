@@ -151,7 +151,20 @@ export default defineComponent(() => {
     // pie container
     const pieChartContainer = () => h('div', { ref: chartContainerRef, style: `width:${width}; height:${height};` })
     queryDataAndUpdate()
-    onMounted(() => pie = init(chartContainerRef.value))
+    onMounted(() => {
+        pie = init(chartContainerRef.value)
+        // Bound the listener
+        pie.on('click', (params: { name: any; componentType: string; seriesType: string }) => {
+            const name = params.name
+            const componentType = params.componentType
+            if (componentType === 'series') {
+                // Not the other item
+                name !== t('popup.otherLabel')
+                    // Then open it
+                    && chrome.tabs.create({ url: `https://${name}` })
+            }
+        })
+    })
 
     // footer
     // 1. total info and version
