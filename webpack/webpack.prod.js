@@ -21,7 +21,6 @@ const readmeForForfix = path.join(__dirname, '..', 'doc', 'for-fire-fox.md')
 options.plugins.push(
     new FileManagerWebpackPlugin({
         events: {
-            onStart: [{ delete: [path.join(outputDir, '*')] }],
             // Archive at the end
             onEnd: [
                 { delete: [path.join(outputDir, '*.LICENSE.txt')] },
