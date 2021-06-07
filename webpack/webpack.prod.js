@@ -1,4 +1,4 @@
-const optionGenerator = require('./webpack.base')
+const optionGenerator = require('./webpack.common')
 const path = require('path')
 const FileManagerWebpackPlugin = require('filemanager-webpack-plugin')
 
