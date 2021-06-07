@@ -1,67 +1,52 @@
 import { openLog, log } from '../common/logger'
-import timeService from '../service/timer-service'
-import { HOST_START, SAVE_FOCUS, UNFOCUS } from '../util/constant/message-tag'
-import { isBrowserUrl } from '../util/pattern'
+import timerService from '../service/timer-service'
+import { extractHostname, isBrowserUrl } from '../util/pattern'
 import versionManager from './version-manager'
 
 openLog()
 
-// issue #3: https://github.com/sheepzh/timer/issues/3
-// To resolve the incorrect start of tab focus after window returnes to activated from other application
-let focusStart = undefined
 
-let lastFocusTabId: number = undefined
-const hostStart = {}
+let lastLoopTime = Date.now()
 
-chrome.runtime.onMessage.addListener((data, { tab }, sendResponse) => {
-    const { code, host } = data
-    const now = new Date().getTime()
-    if (!host) {
-        // do nothing
-    } else if (code === SAVE_FOCUS) {
-        timeService.addFocusAndTotal(host, focusStart, hostStart[host] || now)
-        hostStart[host] = now
-        focusStart = now
-    } else if (code === HOST_START) {
-        timeService.addFocusAndTotal(host, now, hostStart[host] || now)
-        hostStart[host] = now
-        focusStart = now
-        lastFocusTabId = tab.id
-    }
-    sendResponse("ok")
-})
+let timeMap: { [host: string]: { focus: number, run: number } } = {}
 
-const handleTabActivated = (tabInfo: chrome.tabs.TabActiveInfo) => {
-    log(`tab activated: lastTabId=${lastFocusTabId}, tabId=${tabInfo.tabId}`)
-    const tabId: number = tabInfo.tabId
-    chrome.tabs.get(tabId, tab => {
-        const url = tab.url
-        // Judge has content_script
-        const ofBrowser = isBrowserUrl(url)
-        !!lastFocusTabId && chrome.tabs.sendMessage(lastFocusTabId, { code: UNFOCUS })
-        lastFocusTabId = ofBrowser ? undefined : tabId
-    })
-}
-
-chrome.tabs.onActivated.addListener(handleTabActivated)
-
-chrome.windows.onFocusChanged.addListener((windowId) => {
-    log(`window focus changed: windowId=${windowId}`)
-    if (windowId === chrome.windows.WINDOW_ID_NONE) {
-        console.log(new Date().getTime(), 'None')
-        // All windows lost focus
-        !!lastFocusTabId && chrome.tabs.sendMessage(lastFocusTabId, { code: UNFOCUS })
-        lastFocusTabId = undefined
-    } else {
-        // Some tab is focused
-        chrome.tabs.query({ active: true, windowId }, (tabs: chrome.tabs.Tab[]) => {
-            if (tabs && tabs.length) {
-                handleTabActivated({ tabId: tabs[0].id, windowId })
-            } else {
-                lastFocusTabId = undefined
-            }
+setInterval(() => {
+    const now = Date.now()
+    const realInterval = now - lastLoopTime
+    lastLoopTime = now
+    let focusHost = ''
+    chrome.windows.getAll(windows => {
+        const hostSet: Set<string> = new Set()
+        Promise.all(
+            windows.map(w => {
+                const isFocusWindow = !!w.focused
+                return new Promise<void>(resolve => {
+                    chrome.tabs.query({ windowId: w.id }, tabs => {
+                        tabs.forEach(tab => {
+                            const url = tab.url
+                            if (isBrowserUrl(url)) return
+                            const host = extractHostname(url)
+                            hostSet.add(host)
+                            isFocusWindow && tab.active && (focusHost = host)
+                        })
+                        resolve()
+                    })
+                })
+            })
+        ).then(() => {
+            hostSet.forEach(host => {
+                let data = timeMap[host]
+                !data && (timeMap[host] = data = { focus: 0, run: 0 })
+                focusHost === host && (data.focus += realInterval)
+                data.run += realInterval
+            })
         })
-    }
-})
+    })
+}, 512)
+
+setInterval(() => {
+    timerService.addFocusAndTotal(timeMap)
+    timeMap = {}
+}, 2048)
 
 chrome.runtime.onInstalled.addListener(detail => versionManager.onChromeInstalled(detail.reason))

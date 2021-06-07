@@ -1,4 +1,4 @@
-import { isBrowserUrl, isIpAndPort, isValidMergeOriginHost } from "../../src/util/pattern"
+import { extractHostname, isBrowserUrl, isIpAndPort, isValidMergeOriginHost } from "../../src/util/pattern"
 
 test('browser url', () => {
     // chrome
@@ -30,4 +30,8 @@ test('merge domain origin', () => {
     expect(isValidMergeOriginHost('wwdad.basd..*')).toBeFalsy()
     expect(isValidMergeOriginHost('wwdad*.*')).toBeFalsy()
     expect(isValidMergeOriginHost('wwdad.*.*')).toBeTruthy()
+})
+
+test("url", () => {
+    expect(extractHostname('https://www.baidu.com?1231=123')).toEqual('www.baidu.com')
 })

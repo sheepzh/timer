@@ -50,3 +50,18 @@ export function isValidMergeOriginHost(host: string) {
     const reg = /^((\*|([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9]))\.)*(\*|([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))$/
     return reg.test(host)
 }
+
+export function extractHostname(url: string) {
+    let hostname: string;
+
+    if (url.indexOf("//") > -1) {
+        hostname = url.split('/')[2];
+    } else {
+        hostname = url.split('/')[0];
+    }
+
+    hostname = hostname.split(':')[0];
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}

@@ -1,13 +1,10 @@
 /**
  * Parse the time to string
  */
-export function formatTime(time: Date | string | number, cFormat: string) {
-    if (arguments.length === 0 || !time) {
-        return null
-    }
+export function formatTime(time: Date | string | number, cFormat?: string) {
     const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
-    let date
-    if (typeof time === 'object') {
+    let date: Date
+    if (time instanceof Date) {
         date = time
     } else {
         if ((typeof time === 'string')) {
@@ -34,13 +31,13 @@ export function formatTime(time: Date | string | number, cFormat: string) {
         s: date.getSeconds(),
         a: date.getDay()
     }
-    const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+    const timeStr = format.replace(/{([ymdhisa])+}/g, (_result, key) => {
         const value = formatObj[key]
         // Note: getDay() returns 0 on Sunday
         if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
         return value.toString().padStart(2, '0')
     })
-    return time_str
+    return timeStr
 }
 
 /**
@@ -69,7 +66,7 @@ export function formatPeriod(milliseconds: number, hourMsg: string, minuteMsg: s
  * @return (xx+h)(xx+m)xx+s
  */
 export function formatPeriodCommon(milliseconds: number): string {
-    return formatPeriod(milliseconds, '{hour} h {minute} m {second}s', '{minute} m {second} s', '{second} s')
+    return formatPeriod(milliseconds, '{hour} h {minute} m {second} s', '{minute} m {second} s', '{second} s')
 }
 
 /**
