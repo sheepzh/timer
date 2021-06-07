@@ -45,11 +45,15 @@ second_domain_pattern = re.compile(
 
 
 def resolve_icon(url, urls):
+    if os.path.exists('./icons/{}'.format(url)) or os.path.exists('./icons_history/{}'.format(url)):
+        # Exists in locale file
+        return
     print('Start: ' + url)
     existIconUrl = 'https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/' + url
     response = requests.get(existIconUrl)
     req_code = response.status_code % 100
     if req_code is 2:
+        print('Exists')
         return
     if req_code == 4:
         all_fullurls = ['http://' + url + '/', 'https://' + url + '/']
@@ -69,6 +73,7 @@ def resolve_icon(url, urls):
 def find_and_save_icon(url, domain):
     print('Trying: ' + url)
     response = requests.get(url+'/favicon.ico')
+    print('direct request\'s status_code: {}', response.status_code)
     if response.status_code == 200:
         with open('./icons/' + domain, 'wb') as f:
             f.write(response.content)
@@ -131,6 +136,8 @@ def main():
         return
     work_dir = argvs[1]
     urls404 = []
+    if not os.path.exists('./icons'):
+        os.mkdir('./icons')
     for parent, _, filenames in os.walk(work_dir,  followlinks=True):
         for filename in filenames:
             file_path = os.path.join(parent, filename)
