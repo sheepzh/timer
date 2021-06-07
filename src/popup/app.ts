@@ -1,5 +1,13 @@
 const { version } = require('../../package.json')
-import { EChartOption, ECharts, init } from "echarts"
+import { ECharts, init, use } from "echarts/core"
+import { EChartOption } from "echarts/lib/echarts"
+import { PieChart } from 'echarts/charts'
+import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+// Register echarts
+use([TitleComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
+
 import { ElLink, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { t } from "../common/vue-i18n"
@@ -8,6 +16,7 @@ import timerService, { SortDirect, TimerQueryParam } from "../service/timer-serv
 import { IS_FIREFOX } from "../util/constant/environment"
 import { FAVICON } from "../util/constant/url"
 import { formatPeriodCommon, formatTime } from "../util/time"
+
 
 const DEFAULT_DATE_TYPE: SiteItem = 'focus'
 /**
@@ -61,7 +70,7 @@ const queryDataAndUpdate = () => {
 }
 
 // Echart options of pie
-const pieOptions: () => EChartOption<EChartOption.SeriesPie> = () => {
+const pieOptions: () => any = () => {
     const options: EChartOption<EChartOption.SeriesPie> = {
         title: {
             text: t('popup.title'),
@@ -154,7 +163,8 @@ export default defineComponent(() => {
     onMounted(() => {
         pie = init(chartContainerRef.value)
         // Bound the listener
-        pie.on('click', (params: { name: any; componentType: string; seriesType: string }) => {
+        pie.on('click', (_params: any) => {
+            const params = _params as { name: any; componentType: string; seriesType: string }
             const name = params.name
             const componentType = params.componentType
             if (componentType === 'series') {

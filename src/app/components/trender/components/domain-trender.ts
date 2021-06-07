@@ -1,4 +1,5 @@
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
+
 import { ElCard } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
 import { t } from "../../../../common/vue-i18n"
