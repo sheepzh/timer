@@ -1,7 +1,7 @@
 const path = require('path')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 const FileManagerWebpackPlugin = require('filemanager-webpack-plugin')
-const optionGenerator = require('./webpack.base')
+const optionGenerator = require('./webpack.common')
 const webpack = require('webpack')
 
 
