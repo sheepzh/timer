@@ -22,4 +22,16 @@ export default class WastePerDay {
         this.focus = 0
         this.time = 0
     }
+
+    static of(total: number, focus: number, time: number) {
+        const result: WastePerDay = new WastePerDay()
+        result.total = total
+        result.focus = focus
+        result.time = time
+        return result
+    }
+}
+
+export function merge(a: WastePerDay, b: WastePerDay) {
+    return WastePerDay.of(a.total + b.total, a.focus + b.focus, a.time + b.time)
 }

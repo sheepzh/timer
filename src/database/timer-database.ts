@@ -1,17 +1,13 @@
 import { log } from "../common/logger"
-import WastePerDay from "../entity/dao/waste-per-day"
+import WastePerDay, { merge } from "../entity/dao/waste-per-day"
 import SiteInfo from "../entity/dto/site-info"
 import { formatTime, MILL_PER_DAY } from "../util/time"
-import { ARCHIVED_PREFIX, REMAIN_WORD_PREFIX } from "./constant"
-
-/**
- * Date format for storage
- */
-export const DATE_FORMAT = '{y}{m}{d}'
+import { ARCHIVED_PREFIX, DATE_FORMAT, REMAIN_WORD_PREFIX } from "./constant"
 
 export type TimerCondition = {
     /**
-     * Date 
+     * Date
+     * {y}{m}{d} 
      */
     date?: Date | Date[]
     /**
@@ -68,68 +64,25 @@ class TimeDatabase {
      * @param host host
      * @param date date
      */
-    private generateKey(host: string, date: string | Date | number) {
-        if (typeof date === 'string') {
-            return date + host
-        } else {
-            return formatTime(date, DATE_FORMAT) + host
-        }
+    private generateKey(host: string, date: Date | string) {
+        const str = typeof date === 'object' ? formatTime(date as Date, DATE_FORMAT) : date
+        return str + host
     }
 
-    private updateOf(host: string, date: Date | number, updater: (w: WastePerDay) => void) {
+    /**
+     * @param host host
+     * @param data data: {date => waste_per_day}
+     * @since 0.1.3
+     */
+    accumulate(host: string, date: Date, item: WastePerDay) {
         const key = this.generateKey(host, date)
-        this.localStorage.get(items => {
-            // Double sync
-            let info = items[key] || new WastePerDay()
-            updater(info)
+        this.localStorage.get(key, items => {
+            const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
             const toUpdate = {}
-            toUpdate[key] = info
+            toUpdate[key] = exist
+            log('toUpdate', toUpdate)
             this.localStorage.set(toUpdate)
         })
-    }
-
-    private increaseTime(host: string, start: number, increase: (i: WastePerDay, step: number) => void) {
-        const today = new Date()
-        const now = today.getTime()
-        let endOfDate = new Date(new Date(start).toLocaleDateString()).getTime() + MILL_PER_DAY
-        while (endOfDate < now) {
-            this.updateOf(host, endOfDate - 1, (i: WastePerDay) => increase(i, endOfDate - start))
-            start = endOfDate
-            endOfDate += MILL_PER_DAY
-        }
-        this.updateOf(host, now, (i: WastePerDay) => increase(i, now - start))
-    }
-
-    addTotal(host: string, start: number) {
-        log('addTotal:{host},{start}', host, new Date(start))
-        this.increaseTime(host, start, (i, step) => i.total += step)
-    }
-
-    addFocusAndTotal(host: string, focusStart: number, runStart: number) {
-        const today = new Date()
-        log('addFocusAndTotal:{host}, {focusStart}, {runStart}, {now}', host, new Date(focusStart), new Date(runStart), today)
-        const now = today.getTime()
-        let endOfDate = new Date(new Date(Math.min(focusStart, runStart)).toLocaleDateString()).getTime() + MILL_PER_DAY
-        while (true) {
-            const hasFocus = endOfDate > focusStart
-            const focusPeriod = endOfDate - focusStart
-            const hasRun = endOfDate > runStart
-            const runPeriod = endOfDate - runStart
-            const currentDate = endOfDate === now ? now : endOfDate - 1
-            this.updateOf(host, currentDate, (i: WastePerDay) => {
-                hasFocus && (i.focus += focusPeriod)
-                hasRun && (i.total += runPeriod)
-            })
-            if (currentDate === now) {
-                break
-            }
-            endOfDate = Math.min(endOfDate + MILL_PER_DAY, now)
-        }
-    }
-
-    addOneTime(host: string) {
-        log('addTime:{host}', host)
-        this.updateOf(host, new Date(), (i: WastePerDay) => i.time += 1)
     }
 
     /**
@@ -252,7 +205,7 @@ class TimeDatabase {
      * 
      * @since 0.0.5 
      */
-    get(host: string, date: Date | string): Promise<WastePerDay> {
+    get(host: string, date: Date): Promise<WastePerDay> {
         const key = this.generateKey(host, date)
         return new Promise(resolve => this.localStorage.get(items => resolve(items[key] || new WastePerDay())))
     }
@@ -264,7 +217,7 @@ class TimeDatabase {
      * @param date date
      * @since 0.0.5
      */
-    deleteByUrlAndDate(host: string, date: string): Promise<void> {
+    deleteByUrlAndDate(host: string, date: Date | string): Promise<void> {
         const key = this.generateKey(host, date)
         return new Promise(resolve => this.localStorage.remove(key, resolve))
     }

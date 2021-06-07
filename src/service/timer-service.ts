@@ -6,6 +6,7 @@ import { log } from '../common/logger'
 import CustomizedDOmainMergeRuler from './domain-merge-ruler'
 import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
 import mergeRuleDatabase from '../database/merge-rule-database'
+import WastePerDay from '../entity/dao/waste-per-day'
 
 declare type PageParam = {
     pageNum?: number
@@ -47,27 +48,18 @@ export type TimerQueryParam = TimerCondition & {
  */
 class TimeService {
 
-    addTotal(url: string, start: number) {
-        this.notInWhitelistThen(url)
-            .then(() => timerDatabase.addTotal(url, start))
+    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }) {
+        const whitelist: string[] = await whitelistDatabase.selectAll()
+        for (const [host, item] of Object.entries(data)) {
+            if (!whitelist.includes(host)) {
+                timerDatabase.accumulate(host, new Date, WastePerDay.of(item.run, item.focus, 0))
+            }
+        }
     }
 
-    addFocusAndTotal(url: string, focusStart: number, runStart: number) {
-        this.notInWhitelistThen(url)
-            .then(() => timerDatabase.addFocusAndTotal(url, focusStart, runStart))
-    }
-
-    addOneTime(url: string) {
-        this.notInWhitelistThen(url)
-            .then(() => timerDatabase.addOneTime(url))
-    }
-
-    private notInWhitelistThen(url: string): Promise<void> {
-        return !!url && whitelistDatabase
-            .includes(url)
-            .then(include => {
-                if (!include) return Promise.resolve()
-            })
+    async addOneTime(host: string) {
+        const isWhitelist = await whitelistDatabase.includes(host)
+        !isWhitelist && timerDatabase.accumulate(host, new Date(), WastePerDay.of(0, 0, 1))
     }
 
     /**
