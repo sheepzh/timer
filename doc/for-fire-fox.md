@@ -1,18 +1,20 @@
-## How to Build for Development 
-``` shell
- npm install 
+## How to Build for Development
+
+```shell
+ npm install
  npm run build
 ```
-The output directory is *firefox_dev*
+
+The output directory is _firefox_dev_
 
 ## How to Build for Production
 
 ```shell
 npm install
-npm run build:prod
+npm run build
 ```
 
-The output directory is *dist_prod* and *market_packages*
+The output directory is _dist_prod_ and _market_packages_
 
 ## Another
 
