@@ -29,7 +29,7 @@ const _default: Messages<ReportMessage> = {
         mergeDate: '合并日期',
         mergeDomain: '合并子域名',
         displayBySecond: '按秒显示',
-        hostPlaceholder: '请输入域名',
+        hostPlaceholder: '请输入域名，然后回车',
         exportFileName: '我的上网时间',
         added2Whitelist: '成功加入白名单',
         removeFromWhitelist: '成功从白名单移除'
@@ -45,7 +45,7 @@ const _default: Messages<ReportMessage> = {
         mergeDate: 'Merge Days',
         mergeDomain: 'Merge Subdomains',
         displayBySecond: 'Displayed By Second',
-        hostPlaceholder: 'Host name',
+        hostPlaceholder: 'Host name then enter',
         exportFileName: 'My_Web_Surfing_Data',
         added2Whitelist: 'Added to the whitelist',
         removeFromWhitelist: 'Removed from the whitelist'

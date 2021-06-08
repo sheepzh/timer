@@ -120,7 +120,8 @@ export default defineComponent(() => {
             onInput: (val: string) => hostRef.value = val.trim(),
             onClear: () => hostRef.value = '',
             onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && queryData()
-        })
+        }
+    )
 
     // date range
     const daysAgo = (start: number, end: number) => {
@@ -153,9 +154,9 @@ export default defineComponent(() => {
             startPlaceholder: t('report.startDate'),
             endPlaceholder: t('report.endDate')
         })
-    const dateRange = () => h('span', { class: 'filter-item' }, [dateRangePicker()])
+    const dateRange = () => h('span', { class: filterItemClz }, [dateRangePicker()])
     // Merge date
-    const mergeDateName = () => h('a', { class: 'filter-name' }, t('report.mergeDate'))
+    const mergeDateName = () => h('a', { class: filterItemClz }, t('report.mergeDate'))
     const mergeDate = () => h(ElSwitch,
         {
             class: filterItemClz,
