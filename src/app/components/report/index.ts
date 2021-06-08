@@ -156,7 +156,7 @@ export default defineComponent(() => {
         })
     const dateRange = () => h('span', { class: filterItemClz }, [dateRangePicker()])
     // Merge date
-    const mergeDateName = () => h('a', { class: filterItemClz }, t('report.mergeDate'))
+    const mergeDateName = () => h('a', { class: 'filter-name' }, t('report.mergeDate'))
     const mergeDate = () => h(ElSwitch,
         {
             class: filterItemClz,
