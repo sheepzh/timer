@@ -3,6 +3,7 @@ import { extractHostname, isBrowserUrl, isIpAndPort, isValidMergeOriginHost } fr
 test('browser url', () => {
     // chrome
     expect(isBrowserUrl('chrome://settings/')).toBeTruthy()
+    expect(isBrowserUrl('chrome-extension://hkjmfadlepammjmjiihpongliebpcnba/static/app.html#/data/report')).toBeTruthy()
     // firefox
     expect(isBrowserUrl('about:addons')).toBeTruthy()
     // edge
