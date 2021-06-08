@@ -8,6 +8,14 @@ export default class SiteInfo {
     total: number
     focus: number
     time: number
+    /**
+     * The merged domains
+     * 
+     * Can't be empty if merged
+     * 
+     * @since 0.1.5
+     */
+    mergedHosts: string[]
 
     constructor(host: string, date?: string) {
         this.host = host
@@ -15,5 +23,6 @@ export default class SiteInfo {
         this.total = 0
         this.focus = 0
         this.time = 0
+        this.mergedHosts = []
     }
 }

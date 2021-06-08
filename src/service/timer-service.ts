@@ -148,7 +148,10 @@ class TimeService {
             const host = o.host
             const date = o.date
             let domain = mergeRuler.merge(host)
-            this.merge(map, o, domain + date).host = domain
+            const merged = this.merge(map, o, domain + date)
+            merged.host = domain
+            const mergedHosts = merged.mergedHosts || (merged.mergedHosts = [])
+            mergedHosts.push(host)
         })
         for (let key in map) {
             newSiteInfos.push(map[key])
@@ -160,7 +163,7 @@ class TimeService {
         const newSiteInfos = []
         const map = {}
 
-        origin.forEach(o => this.merge(map, o, o.host).date = undefined)
+        origin.forEach(o => this.merge(map, o, o.host).date = '')
         for (let key in map) {
             newSiteInfos.push(map[key])
         }
