@@ -1,4 +1,4 @@
-import { openLog, log } from '../common/logger'
+import { openLog } from '../common/logger'
 import timerService from '../service/timer-service'
 import { extractHostname, isBrowserUrl } from '../util/pattern'
 import versionManager from './version-manager'
