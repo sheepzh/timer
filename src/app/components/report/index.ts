@@ -151,7 +151,9 @@ type ExportInfo = {
     time?: number
 }
 
-const exportFile = (format: string) => {
+type FileFormat = 'json' | 'csv'
+
+const exportFile = (format: FileFormat) => {
     const rows = dataRef.value
     if (format === 'json') {
         const toExport: ExportInfo[] = rows.map(row => {
@@ -268,7 +270,8 @@ export default defineComponent(() => {
                 () => h('i', { class: 'el-icon-download export-dropdown-menu-icon' })
             ),
             dropdown: () => h(ElDropdownMenu, {},
-                () => ['csv', 'json'].map(format => h(ElDropdownItem, { onClick: () => exportFile(format) }, () => format))
+                () => (['csv', 'json'] as FileFormat[])
+                    .map(format => h(ElDropdownItem, { onClick: () => exportFile(format) }, () => format))
             )
         }
     )
