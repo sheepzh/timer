@@ -2,11 +2,11 @@ const { version } = require('../../package.json')
 import { ECharts, init, use } from "echarts/core"
 import { EChartOption } from "echarts/lib/echarts"
 import { PieChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
 // Register echarts
-use([TitleComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
+use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
 
 import { ElLink, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch } from "vue"
