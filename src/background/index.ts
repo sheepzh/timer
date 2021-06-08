@@ -26,8 +26,12 @@ setInterval(() => {
                             const url = tab.url
                             if (isBrowserUrl(url)) return
                             const host = extractHostname(url)
-                            hostSet.add(host)
-                            isFocusWindow && tab.active && (focusHost = host)
+                            if (host) {
+                                hostSet.add(host)
+                                isFocusWindow && tab.active && (focusHost = host)
+                            } else {
+                                console.log('Detect blank host:', url)
+                            }
                         })
                         resolve()
                     })
