@@ -4,9 +4,7 @@
  * @param url 
  */
 export function isBrowserUrl(url: string) {
-    return [/^(chrome(-error)?):\/\/.*$/g, /^about:.*$/, /^edge:.*/]
-        .map(p => p.test(url))
-        .reduce((a, b) => a || b)
+    return /^([(chrome)|(edge)].*?):\/\/.*$/g.test(url) || /^about(-.+)?:/.test(url)
 }
 
 const isNotValidPort = (portStr: string) => {
