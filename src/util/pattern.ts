@@ -57,8 +57,6 @@ export function extractHostname(url: string) {
     } else {
         hostname = url.split('/')[0];
     }
-
-    hostname = hostname.split(':')[0];
     hostname = hostname.split('?')[0];
 
     return hostname;

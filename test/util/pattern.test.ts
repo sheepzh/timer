@@ -35,4 +35,7 @@ test('merge domain origin', () => {
 
 test("url", () => {
     expect(extractHostname('https://www.baidu.com?1231=123')).toEqual('www.baidu.com')
+    expect(extractHostname('http://localhost:8087?1231=123')).toEqual('localhost:8087')
+    expect(extractHostname('http://localhost:8087/')).toEqual('localhost:8087')
+    expect(extractHostname('http://localhost:8087/?123=123')).toEqual('localhost:8087')
 })
