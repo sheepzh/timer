@@ -1,5 +1,5 @@
-import { ElButton, ElDatePicker, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn, ElTooltip } from "element-plus"
-import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef, VNode } from "vue"
+import { ElButton, ElDatePicker, ElDropdown, ElDropdownMenu, ElDropdownItem, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn, ElTooltip } from "element-plus"
+import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
 import { t } from "../../../common/vue-i18n"
 import { DATE_FORMAT } from "../../../database/constant"
 import timerDatabase from "../../../database/timer-database"
@@ -7,6 +7,7 @@ import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
 import timerService, { SortDirect } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
 import { FAVICON } from "../../../util/constant/url"
+import { exportCsv, exportJson } from "../../../util/file"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../util/time"
 import './styles/element'
 import './styles/filter'
@@ -88,6 +89,24 @@ const queryParam = computed(() => {
     }
 })
 
+const exportFileName = computed(() => {
+    let baseName = t('report.exportFileName')
+    const dateRange = dateRangeRef.value
+    if (dateRange && dateRange.length === 2) {
+        const start = dateRange[0]
+        const end = dateRange[1]
+        if (start === end) {
+            baseName += '_' + formatTime(start, '{y}{m}{d}')
+        } else {
+            baseName += '_' + formatTime(start, '{y}{m}{d}') + '_' + formatTime(end, '{y}{m}{d}')
+        }
+    }
+    mergeDateRef.value && (baseName += '_' + t('report.mergeDate'))
+    mergeDomainRef.value && (baseName += '_' + t('report.mergeDomain'))
+    displayBySecondRef.value && (baseName += '_' + t('report.displayBySecond'))
+    return baseName
+})
+
 const queryData = () => {
     const page = {
         pageSize: pageRef.size,
@@ -98,7 +117,6 @@ const queryData = () => {
         .then(({ list, total }) => {
             dataRef.value = list
             pageRef.total = total
-            console.log(list)
         })
 }
 const queryWhiteList = async () => {
@@ -123,6 +141,40 @@ const host2ElLink = (host: string) => {
         )
     )
     return [link, icon]
+}
+
+type ExportInfo = {
+    host: string
+    date?: string
+    total?: string
+    focus?: string
+    time?: number
+}
+
+const exportFile = (format: string) => {
+    const rows = dataRef.value
+    if (format === 'json') {
+        const toExport: ExportInfo[] = rows.map(row => {
+            const data: ExportInfo = { host: row.host }
+            // Always display by seconds
+            data.total = periodFormatter(row.total, true, true)
+            data.focus = periodFormatter(row.focus, true, true)
+            data.time = row.time
+            return data
+        })
+        exportJson(toExport, exportFileName.value)
+    } else if (format === 'csv') {
+        let columnName = []
+        !mergeDateRef.value && columnName.push('date')
+        columnName = [...columnName, 'host', 'total', 'focus', 'time']
+        const data = [columnName.map(c => t(`item.${c}`))]
+        rows.forEach(row => {
+            const csvR = []
+            !mergeDateRef.value && csvR.push(dateFormatter(row))
+            data.push([...csvR, row.host, periodFormatter(row.total, true), periodFormatter(row.focus, true), row.time])
+        })
+        exportCsv(data, exportFileName.value)
+    }
 }
 
 export default defineComponent(() => {
@@ -207,8 +259,21 @@ export default defineComponent(() => {
             onChange: (val: boolean) => displayBySecondRef.value = val
         }
     )
+
+    const downloadFile = () => h(ElDropdown,
+        { class: 'export-dropdown', showTimeout: 100 },
+        {
+            default: () => h(ElButton,
+                { size: 'mini', class: 'export-dropdown-button' },
+                () => h('i', { class: 'el-icon-download export-dropdown-menu-icon' })
+            ),
+            dropdown: () => h(ElDropdownMenu, {},
+                () => ['csv', 'json'].map(format => h(ElDropdownItem, { onClick: () => exportFile(format) }, () => format))
+            )
+        }
+    )
     const filter = () => h('div', { class: 'filter-container' },
-        [host(), dateRange(), mergeDateName(), mergeDate(), mergeDomainName(), mergeDomain(), displayBySecondName(), displayBySecond()]
+        [host(), dateRange(), mergeDateName(), mergeDate(), mergeDomainName(), mergeDomain(), displayBySecondName(), displayBySecond(), downloadFile()]
     )
 
     // Table
