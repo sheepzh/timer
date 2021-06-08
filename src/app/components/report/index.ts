@@ -1,5 +1,5 @@
-import { ElButton, ElDatePicker, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn } from "element-plus"
-import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
+import { ElButton, ElDatePicker, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn, ElTooltip } from "element-plus"
+import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef, VNode } from "vue"
 import { t } from "../../../common/vue-i18n"
 import { DATE_FORMAT } from "../../../database/constant"
 import timerDatabase from "../../../database/timer-database"
@@ -98,12 +98,31 @@ const queryData = () => {
         .then(({ list, total }) => {
             dataRef.value = list
             pageRef.total = total
+            console.log(list)
         })
 }
 const queryWhiteList = async () => {
     const whitelist = await whitelistService.listAll()
     whitelistRef.value = whitelist
     return await Promise.resolve()
+}
+
+const host2ElLink = (host: string) => {
+    const link = h(ElLink,
+        { href: `https://${host}`, target: '_blank' },
+        () => host
+    )
+    const icon = h('span',
+        { style: 'height:23px;line-height:23px;padding-left:2px;' },
+        h('img',
+            {
+                src: FAVICON(host),
+                width: 12,
+                height: 12
+            }
+        )
+    )
+    return [link, icon]
 }
 
 export default defineComponent(() => {
@@ -218,25 +237,24 @@ export default defineComponent(() => {
                 align: 'center'
             }, {
                 default: ({ row }: { row: SiteInfo }) => {
-                    const hostCell = [
-                        h(ElLink,
-                            { href: `https://${row.host}`, target: '_blank' },
-                            () => row.host
-                        )
-                    ]
-                    !mergeDomainRef.value && hostCell.push(
-                        h('span',
-                            { style: 'height:23px;line-height:23px;padding-left:2px;' },
-                            h('img',
-                                {
-                                    src: FAVICON(row.host),
-                                    width: 12,
-                                    height: 12
-                                }
-                            )
-                        )
-                    )
-                    return hostCell
+                    if (!mergeDomainRef.value) {
+                        return host2ElLink(row.host)
+                    } else {
+                        return h(ElTooltip,
+                            {
+                                placement: 'left',
+                                effect: 'light',
+                                offset: 10
+                            }, {
+                            default: () =>
+                                // Fake ElLink
+                                h('a',
+                                    { class: 'el-link el-link--default is-underline' },
+                                    h('span', { class: 'el-link--inner' }, row.host)
+                                ),
+                            content: () => h('div', { style: 'margin: 10px' }, row.mergedHosts.map(host => h('p', host2ElLink(host))))
+                        })
+                    }
                 }
             })
         )

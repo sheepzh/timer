@@ -102,7 +102,7 @@ class TimeDatabase {
             const val: WastePerDay = items[key]
             if (this.filterBefore(date, host, val, condition)) {
                 const { total, focus, time } = val
-                result.push({ date, host, total, focus, time })
+                result.push({ date, host, total, focus, time, mergedHosts: [] })
             }
         }
 

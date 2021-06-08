@@ -24,6 +24,7 @@ setInterval(() => {
                     chrome.tabs.query({ windowId: w.id }, tabs => {
                         tabs.forEach(tab => {
                             const url = tab.url
+                            if (!url) return
                             if (isBrowserUrl(url)) return
                             const host = extractHostname(url)
                             if (host) {

@@ -80,7 +80,7 @@ class ArchivedDatabase {
             if (domains.has(key)) {
                 const waste: WastePerDay = items[key]
                 const { focus, total, time } = waste
-                result.push({ focus, total, time, host: key, date: undefined })
+                result.push({ focus, total, time, host: key, date: '', mergedHosts: [] })
             }
         }
         return await Promise.resolve(result)

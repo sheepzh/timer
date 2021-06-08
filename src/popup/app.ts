@@ -51,7 +51,7 @@ const queryDataAndUpdate = () => {
         .select(param)
         .then(rows => {
             const result = []
-            const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0 }
+            const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
             for (let i = 0; i < rows.length; i++) {
                 const row = rows[i]
                 if (i < 10) {
