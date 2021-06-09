@@ -9,6 +9,7 @@ export type PopupMessage = {
     totalTime: string
     totalCount: string
     otherLabel: string
+    feedback: string
 }
 const _default: Messages<PopupMessage> = {
     zh_CN: {
@@ -19,7 +20,8 @@ const _default: Messages<PopupMessage> = {
         saveAsImageTitle: '保存',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
-        otherLabel: '其他'
+        otherLabel: '其他',
+        feedback: '使用反馈'
     },
     en: {
         title: 'Today\'s Data',
@@ -29,7 +31,8 @@ const _default: Messages<PopupMessage> = {
         saveAsImageTitle: 'Save',
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
-        otherLabel: 'Others'
+        otherLabel: 'Others',
+        feedback: 'Feedback'
     },
     ja: {
         title: '今日のデータ',
@@ -39,7 +42,8 @@ const _default: Messages<PopupMessage> = {
         saveAsImageTitle: 'ダウンロード',
         totalTime: '合計 {totalTime}',
         totalCount: '合計 {totalCount} 回',
-        otherLabel: 'その他'
+        otherLabel: 'その他',
+        feedback: 'フィードバック'
     }
 }
 

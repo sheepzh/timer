@@ -8,6 +8,7 @@ test('browser url', () => {
     expect(isBrowserUrl('about:addons')).toBeTruthy()
     // edge
     expect(isBrowserUrl('edge://extensions/')).toBeTruthy()
+    expect(isBrowserUrl('https://www.jss.com.cn/')).toBeFalsy()
 })
 
 test('ip and port', () => {

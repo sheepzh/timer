@@ -10,12 +10,13 @@ use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, Canvas
 
 import { ElLink, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch } from "vue"
-import { t } from "../common/vue-i18n"
+import { locale, t } from "../common/vue-i18n"
 import SiteInfo, { ALL_SITE_ITEMS, SiteItem } from "../entity/dto/site-info"
 import timerService, { SortDirect, TimerQueryParam } from "../service/timer-service"
 import { IS_FIREFOX } from "../util/constant/environment"
-import { FAVICON } from "../util/constant/url"
+import { FAVICON, ZH_FEEDBACK_PAGE } from "../util/constant/url"
 import { formatPeriodCommon, formatTime } from "../util/time"
+import { Locale } from "../locale/constant"
 
 
 const DEFAULT_DATE_TYPE: SiteItem = 'focus'
@@ -232,8 +233,21 @@ export default defineComponent(() => {
         },
         () => t('popup.viewMore')
     )
+    const feedback = () => h(ElLink,
+        {
+            icon: 'el-icon-edit',
+            class: 'option-right',
+            onClick: () => chrome.tabs.create({ url: ZH_FEEDBACK_PAGE })
+        },
+        () => t('popup.feedback'))
 
-    const footer = () => h('div', { class: 'option-container' }, [versionAndTotalInfo(), typeSelect(), mergeDomainSwitch(), link()])
+    const footerItems = () => {
+        const result = [versionAndTotalInfo(), typeSelect(), mergeDomainSwitch(), link()]
+        locale === Locale.ZH_CN && result.push(feedback())
+        return result
+    }
+
+    const footer = () => h('div', { class: 'option-container' }, footerItems())
 
     return () => h('div',
         { style: `width:${width}; height:${height};` },
