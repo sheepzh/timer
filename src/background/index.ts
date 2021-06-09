@@ -14,9 +14,9 @@ setInterval(() => {
     const now = Date.now()
     const realInterval = now - lastLoopTime
     lastLoopTime = now
-    let focusHost = ''
     chrome.windows.getAll(windows => {
         const hostSet: Set<string> = new Set()
+        let focusHost = ''
         Promise.all(
             windows.map(w => {
                 const isFocusWindow = !!w.focused
