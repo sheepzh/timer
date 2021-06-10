@@ -49,7 +49,7 @@ const queryDataAndUpdate = () => {
         sortOrder: SortDirect.DESC
     }
     timerService
-        .select(param)
+        .select(param, true)
         .then(rows => {
             const result = []
             const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
@@ -138,7 +138,7 @@ const pieOptions: () => any = () => {
             height: LABEL_ICON_SIZE,
             width: LABEL_ICON_SIZE,
             fontSize: LABEL_ICON_SIZE,
-            backgroundColor: { image: FAVICON(host) }
+            backgroundColor: { image: d.iconUrl || FAVICON(host) }
         }
     })
     options.legend.data = legendData

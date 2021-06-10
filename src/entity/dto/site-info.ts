@@ -15,7 +15,13 @@ export default class SiteInfo {
      * 
      * @since 0.1.5
      */
-    mergedHosts: string[]
+    mergedHosts: SiteInfo[]
+    /**
+     * Icon url
+     * 
+     * Must be undefined if merged
+     */
+    iconUrl?: string
 
     constructor(host: string, date?: string) {
         this.host = host

@@ -37,6 +37,7 @@ module.exports = {
   permissions: [
     'storage',
     'tabs',
+    'webNavigation'
   ],
   browser_action: {
     default_popup: "static/popup.html",
