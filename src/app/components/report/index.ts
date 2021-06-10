@@ -127,7 +127,7 @@ const queryWhiteList = async () => {
 
 const host2ElLink = (host: string, iconUrl: string) => {
     const link = h(ElLink,
-        { href: `https://${host}`, target: '_blank' },
+        { href: `http://${host}`, target: '_blank' },
         () => host
     )
     const icon = h('span',
