@@ -1,8 +1,7 @@
 {
   "name": "timer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Web timer",
-  "main": "index.js",
   "scripts": {
     "dev": "webpack --mode=development --config=webpack/webpack.dev.js --watch",
     "build": "webpack --mode=production --config=webpack/webpack.prod.js",
@@ -12,7 +11,7 @@
   "author": "zhy",
   "license": "MIT",
   "devDependencies": {
-    "@types/chrome": "0.0.144",
+    "@types/chrome": "0.0.145",
     "@types/jest": "^26.0.23",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.0",
@@ -32,8 +31,8 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "@types/echarts": "^4.9.7",
-    "echarts": "^5.1.1",
+    "@types/echarts": "^4.9.8",
+    "echarts": "^5.1.2",
     "element-plus": "*",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
