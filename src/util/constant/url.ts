@@ -1,14 +1,5 @@
 import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
 
-/**
- * @param domain domain
- * @return Url of domain's favicon
- * @deprecated 0.1.7
- */
-export function FAVICON(domain: string): string {
-    return `chrome://favicon/https://${domain}`
-}
-
 let homePage = undefined
 if (IS_FIREFOX) {
     homePage = 'https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/'

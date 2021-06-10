@@ -1,6 +1,7 @@
 import { openLog } from '../common/logger'
 import iconUrlDatabase from '../database/icon-url-database'
 import timerService from '../service/timer-service'
+import { IS_CHROME } from '../util/constant/environment'
 import { extractHostname, isBrowserUrl } from '../util/pattern'
 import versionManager from './version-manager'
 
@@ -69,7 +70,8 @@ chrome.webNavigation.onCompleted.addListener((detail) => {
         const domain = hostInfo.host
         const protocol = hostInfo.protocol
         if (!domain) return
-        const iconUrl = tab.favIconUrl || `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}`
+        const iconUrl = tab.favIconUrl
+            || (IS_CHROME ? `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}` : '')
         iconUrlDatabase.put(domain, iconUrl)
     })
 })

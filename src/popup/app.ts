@@ -14,7 +14,7 @@ import { locale, t } from "../common/vue-i18n"
 import SiteInfo, { ALL_SITE_ITEMS, SiteItem } from "../entity/dto/site-info"
 import timerService, { SortDirect, TimerQueryParam } from "../service/timer-service"
 import { IS_FIREFOX } from "../util/constant/environment"
-import { FAVICON, ZH_FEEDBACK_PAGE } from "../util/constant/url"
+import { ZH_FEEDBACK_PAGE } from "../util/constant/url"
 import { formatPeriodCommon, formatTime } from "../util/time"
 import { Locale } from "../locale/constant"
 
@@ -138,7 +138,7 @@ const pieOptions: () => any = () => {
             height: LABEL_ICON_SIZE,
             width: LABEL_ICON_SIZE,
             fontSize: LABEL_ICON_SIZE,
-            backgroundColor: { image: d.iconUrl || FAVICON(host) }
+            backgroundColor: { image: d.iconUrl }
         }
     })
     options.legend.data = legendData
