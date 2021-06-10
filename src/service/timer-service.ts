@@ -143,7 +143,11 @@ class TimeService {
         const endIndex = (pageNum) * pageSize
         const total = origin.length
         const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
-        await this.fillIconUrl(list)
+        if (param.mergeDomain) {
+            for (const origin of list) await this.fillIconUrl(origin.mergedHosts)
+        } else {
+            await this.fillIconUrl(list)
+        }
         return Promise.resolve({ total, list })
     }
 
@@ -189,11 +193,18 @@ class TimeService {
     private merge(map: {}, origin: SiteInfo, key: string): SiteInfo {
         let exist: SiteInfo = map[key]
         if (exist === undefined) {
-            exist = map[key] = origin
-        } else {
-            exist.time += origin.time
-            exist.focus += origin.focus
-            exist.total += origin.total
+            exist = map[key] = new SiteInfo(origin.host, origin.date)
+            exist.mergedHosts = origin.mergedHosts || []
+        }
+        exist.time += origin.time
+        exist.focus += origin.focus
+        exist.total += origin.total
+        if (origin.mergedHosts) {
+            for (const originHost of origin.mergedHosts) {
+                if (!exist.mergedHosts.find(existOrigin => existOrigin.host === originHost.host)) {
+                    exist.mergedHosts.push(originHost)
+                }
+            }
         }
         return exist
     }
