@@ -172,7 +172,7 @@ export default defineComponent(() => {
                 // Not the other item
                 name !== t('popup.otherLabel')
                     // Then open it
-                    && chrome.tabs.create({ url: `https://${name}` })
+                    && chrome.tabs.create({ url: `http://${name}` })
             }
         })
     })
