@@ -3,9 +3,10 @@ import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
 /**
  * @param domain domain
  * @return Url of domain's favicon
+ * @deprecated 0.1.7
  */
 export function FAVICON(domain: string): string {
-    return `https://favicon-1256916044.cos.ap-guangzhou.myqcloud.com/${domain}`
+    return `chrome://favicon/https://${domain}`
 }
 
 let homePage = undefined

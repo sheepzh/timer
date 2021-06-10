@@ -27,7 +27,7 @@ setInterval(() => {
                             const url = tab.url
                             if (!url) return
                             if (isBrowserUrl(url)) return
-                            const host = extractHostname(url)
+                            const host = extractHostname(url).host
                             if (host) {
                                 hostSet.add(host)
                                 isFocusWindow && tab.active && (focusHost = host)
@@ -63,9 +63,13 @@ chrome.webNavigation.onCompleted.addListener((detail) => {
         return
     }
     chrome.tabs.get(detail.tabId, tab => {
-        const domain = extractHostname(tab.url)
-        const iconUrl = tab.favIconUrl
-        if (!domain || !iconUrl) return
+        const url = tab.url
+        if (!url) return
+        const hostInfo = extractHostname(url)
+        const domain = hostInfo.host
+        const protocol = hostInfo.protocol
+        if (!domain) return
+        const iconUrl = tab.favIconUrl || `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}`
         iconUrlDatabase.put(domain, iconUrl)
     })
 })

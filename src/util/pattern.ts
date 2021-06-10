@@ -51,15 +51,30 @@ export function isValidMergeOriginHost(host: string) {
     return reg.test(host)
 }
 
-export function extractHostname(url: string) {
-    let hostname: string;
-
-    if (url.indexOf("//") > -1) {
-        hostname = url.split('/')[2];
-    } else {
-        hostname = url.split('/')[0];
-    }
-    hostname = hostname.split('?')[0];
-
-    return hostname;
+export type HostInfo = {
+    /**
+     * Including port
+     */
+    host: string
+    protocol: string
 }
+
+export function extractHostname(url: string): HostInfo {
+    let host: string
+    let protocol: string
+
+    const indexOfDoubleSlashes = url.indexOf("//")
+    if (indexOfDoubleSlashes > -1) {
+        const splited = url.split('/')
+        host = splited[2]
+        protocol = splited[0]
+        protocol = protocol.substr(0, protocol.length - 1)
+    } else {
+        host = url.split('/')[0]
+        protocol = ''
+    }
+    host = host.split('?')[0]
+
+    return { host, protocol }
+}
+
