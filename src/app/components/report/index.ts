@@ -125,7 +125,7 @@ const queryWhiteList = async () => {
     return await Promise.resolve()
 }
 
-const host2ElLink = (host: string) => {
+const host2ElLink = (host: string, iconUrl: string) => {
     const link = h(ElLink,
         { href: `https://${host}`, target: '_blank' },
         () => host
@@ -134,7 +134,7 @@ const host2ElLink = (host: string) => {
         { style: 'height:23px;line-height:23px;padding-left:2px;' },
         h('img',
             {
-                src: FAVICON(host),
+                src: iconUrl || FAVICON(host),
                 width: 12,
                 height: 12
             }
@@ -306,7 +306,7 @@ export default defineComponent(() => {
             }, {
                 default: ({ row }: { row: SiteInfo }) => {
                     if (!mergeDomainRef.value) {
-                        return host2ElLink(row.host)
+                        return host2ElLink(row.host, row.iconUrl)
                     } else {
                         return h(ElTooltip,
                             {
@@ -320,7 +320,7 @@ export default defineComponent(() => {
                                     { class: 'el-link el-link--default is-underline' },
                                     h('span', { class: 'el-link--inner' }, row.host)
                                 ),
-                            content: () => h('div', { style: 'margin: 10px' }, row.mergedHosts.map(host => h('p', host2ElLink(host))))
+                            content: () => h('div', { style: 'margin: 10px' }, row.mergedHosts.map(origin => h('p', host2ElLink(origin.host, origin.iconUrl))))
                         })
                     }
                 }

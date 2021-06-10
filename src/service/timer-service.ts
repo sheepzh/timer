@@ -7,6 +7,7 @@ import CustomizedDOmainMergeRuler from './domain-merge-ruler'
 import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
 import mergeRuleDatabase from '../database/merge-rule-database'
 import WastePerDay from '../entity/dao/waste-per-day'
+import iconUrlDatabase from '../database/icon-url-database'
 
 declare type PageParam = {
     pageNum?: number
@@ -88,8 +89,18 @@ class TimeService {
         return timerDatabase.delete(rows)
     }
 
-    async select(param?: TimerQueryParam): Promise<SiteInfo[]> {
+    private async fillIconUrl(siteInfos: SiteInfo[]): Promise<void> {
+        const hosts = siteInfos.map(o => o.host)
+        const iconUrlMap = await iconUrlDatabase.get(...hosts)
+        siteInfos.forEach(siteInfo => {
+            siteInfo.iconUrl = iconUrlMap[siteInfo.host]
+        })
+        return Promise.resolve()
+    }
+
+    async select(param?: TimerQueryParam, needIconUrl?: boolean): Promise<SiteInfo[]> {
         log("service: select:{param}", param)
+        param = param || {}
         let origin = await timerDatabase.select(param as TimerCondition)
         // Process after select
         // 1st merge
@@ -112,6 +123,10 @@ class TimeService {
                 return order * (aa > bb ? 1 : -1)
             })
         }
+        // 3rd get icon url if need
+        if (!param.mergeDomain && needIconUrl) {
+            await this.fillIconUrl(origin)
+        }
         return Promise.resolve(origin)
     }
 
@@ -128,6 +143,7 @@ class TimeService {
         const endIndex = (pageNum) * pageSize
         const total = origin.length
         const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
+        await this.fillIconUrl(list)
         return Promise.resolve({ total, list })
     }
 
@@ -151,7 +167,7 @@ class TimeService {
             const merged = this.merge(map, o, domain + date)
             merged.host = domain
             const mergedHosts = merged.mergedHosts || (merged.mergedHosts = [])
-            mergedHosts.push(host)
+            mergedHosts.push(o)
         })
         for (let key in map) {
             newSiteInfos.push(map[key])

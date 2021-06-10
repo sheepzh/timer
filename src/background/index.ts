@@ -1,4 +1,5 @@
 import { openLog } from '../common/logger'
+import iconUrlDatabase from '../database/icon-url-database'
 import timerService from '../service/timer-service'
 import { extractHostname, isBrowserUrl } from '../util/pattern'
 import versionManager from './version-manager'
@@ -55,3 +56,16 @@ setInterval(() => {
 }, 2048)
 
 chrome.runtime.onInstalled.addListener(detail => versionManager.onChromeInstalled(detail.reason))
+
+chrome.webNavigation.onCompleted.addListener((detail) => {
+    if (detail.frameId > 0) {
+        // we don't care about activity occurring within a subframe of a tab
+        return
+    }
+    chrome.tabs.get(detail.tabId, tab => {
+        const domain = extractHostname(tab.url)
+        const iconUrl = tab.favIconUrl
+        if (!domain || !iconUrl) return
+        iconUrlDatabase.put(domain, iconUrl)
+    })
+})
