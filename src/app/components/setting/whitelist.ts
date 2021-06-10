@@ -2,7 +2,6 @@ import { ElAlert, ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "elem
 import { defineComponent, h, ref, Ref } from "vue"
 import { t } from "../../../common/vue-i18n"
 import whitelistService from "../../../service/whitelist-service"
-import { FAVICON } from "../../../util/constant/url"
 
 const whitelistRef: Ref<string[]> = ref([])
 whitelistService
@@ -19,7 +18,7 @@ const handleInputConfirm = () => {
             ElMessage({ type: 'warning', message: t('setting.whitelist.duplicateMsg') })
         } else {
             ElMessageBox.confirm(
-                t('setting.whitelist.addConfirmMsg', { url: `${inputValue}<img src="${FAVICON(inputValue)}" width="15px" height="15px">` }),
+                t('setting.whitelist.addConfirmMsg', { url: inputValue }),
                 t('setting.confirmTitle'), { dangerouslyUseHTMLString: true }
             ).then(() => whitelistService.add(inputValue)
             ).then(() => {
@@ -40,7 +39,7 @@ const generateTagItems = (whiteItem: string) => h(ElTag,
         type: 'primary',
         closable: true,
         onClose: () => {
-            const confirmMsg = t('setting.whitelist.removeConfirmMsg', { url: `${whiteItem}<img src="${FAVICON(whiteItem)}" width="15px" height="15px">` })
+            const confirmMsg = t('setting.whitelist.removeConfirmMsg', { url: whiteItem })
             const confirmTitle = t('setting.confirmTitle')
             ElMessageBox
                 .confirm(confirmMsg, confirmTitle, { dangerouslyUseHTMLString: true })

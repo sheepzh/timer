@@ -6,6 +6,8 @@
 export function isBrowserUrl(url: string) {
     return /^chrome.*?:\/\/.*$/.test(url)
         || /^about(-.+)?:/.test(url)
+        // Firefox addons' pages
+        || /^moz-extension:/.test(url)
         || /^edge.*?:\/\/.*$/.test(url)
 }
 

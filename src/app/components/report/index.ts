@@ -6,7 +6,6 @@ import timerDatabase from "../../../database/timer-database"
 import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
 import timerService, { SortDirect } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
-import { FAVICON } from "../../../util/constant/url"
 import { exportCsv, exportJson } from "../../../util/file"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../util/time"
 import './styles/element'
@@ -134,7 +133,7 @@ const host2ElLink = (host: string, iconUrl: string) => {
         { style: 'height:23px;line-height:23px;padding-left:2px;' },
         h('img',
             {
-                src: iconUrl || FAVICON(host),
+                src: iconUrl,
                 width: 12,
                 height: 12
             }
