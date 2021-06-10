@@ -37,7 +37,8 @@ module.exports = {
   permissions: [
     'storage',
     'tabs',
-    'webNavigation'
+    'webNavigation',
+    'chrome://favicon/*'
   ],
   browser_action: {
     default_popup: "static/popup.html",
