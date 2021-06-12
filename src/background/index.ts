@@ -49,7 +49,7 @@ setInterval(() => {
             })
         })
     })
-}, 512)
+}, 555)
 
 setInterval(() => {
     timerService.addFocusAndTotal(timeMap)
@@ -64,6 +64,7 @@ chrome.webNavigation.onCompleted.addListener((detail) => {
         return
     }
     chrome.tabs.get(detail.tabId, tab => {
+        if (!tab) return
         const url = tab.url
         if (!url) return
         const hostInfo = extractHostname(url)
