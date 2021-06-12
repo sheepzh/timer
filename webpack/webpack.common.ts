@@ -1,13 +1,16 @@
-const path = require('path')
-const GenerateJsonPlugin = require('generate-json-webpack-plugin')
-const GenerateLocaleForChrome = require('./plugins/generate-locale-for-chrome')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-
+import * as  path from 'path'
+import GenerateJsonPlugin from 'generate-json-webpack-plugin'
+import GenerateLocaleForChrome from './plugins/generate-locale-for-chrome'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import * as webpack from 'webpack'
 // Generate json files 
-const manifest = require('../src/manifest')
-const generateJsonPlugins = [new GenerateJsonPlugin('manifest.json', manifest), new GenerateLocaleForChrome('locale', './src/locale')]
+import manifest from '../src/manifest'
+const generateJsonPlugins = [
+    new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance,
+    new GenerateLocaleForChrome('locale', './src/locale')
+]
 
-const optionGenerator = (outputPath, manifestHooker) => {
+const optionGenerator = (outputPath: string, manifestHooker?: (config: webpack.Configuration) => void) => {
     manifestHooker && manifestHooker(manifest)
     const plugins = [
         ...generateJsonPlugins,
@@ -18,7 +21,7 @@ const optionGenerator = (outputPath, manifestHooker) => {
             ]
         })
     ]
-    return {
+    const optionTemplate: webpack.Configuration = {
         entry: {
             background: './src/background',
             content_scripts: './src/content-script',
@@ -58,7 +61,7 @@ const optionGenerator = (outputPath, manifestHooker) => {
             extensions: ['.ts', ".js", '.css', '.scss', '.sass'],
         }
     }
+    return optionTemplate
 }
 
-
-module.exports = optionGenerator
+export default optionGenerator
