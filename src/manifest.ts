@@ -4,9 +4,10 @@
  * @author zhy
  * @since 0.0.1
  */
-const { version, author, homepage } = require('../package.json')
-// const { defaultLocale } = require('./locale/index')
-module.exports = {
+// @ts-ignore
+import * as packageInfo from '../package.json'
+const { version, author, homepage } = packageInfo as any
+export default {
   name: '__MSG_app_marketName__',
   description: "__MSG_app_description__",
   version,

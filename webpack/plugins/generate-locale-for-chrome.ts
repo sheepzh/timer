@@ -1,8 +1,9 @@
-const path = require('path')
-const fs = require('fs')
+import * as path from 'path'
+import * as fs from 'fs'
+import webpack from 'webpack'
 
 // Genearate the messages used by Chrome
-function translate (obj, parentKey = '') {
+function translate(obj: any, parentKey = ''): any {
     const result = {}
     if (typeof obj === 'object') {
         for (const key in obj) {
@@ -27,23 +28,25 @@ function translate (obj, parentKey = '') {
 /**
  * The plugin to generate locale message files for browser
  */
-class GenerateLocaleForChrome {
+class GenerateLocaleForChrome implements webpack.WebpackPluginInstance {
+    outputFileName: string
+    outputFileImport: string
     /**
      * @param {*} name        the file name to generate
      * @param {*} importFile 
      */
-    constructor(name, importFile) {
+    constructor(name: string, importFile: string) {
         this.outputFileName = `generate_locale_messages_for_chrome_${name}`
         this.outputFileImport = importFile
     }
-    async apply (compiler) {
+    async apply(compiler: webpack.Compiler) {
         const options = compiler.options
         options.entry[this.outputFileName] = { import: [this.outputFileImport] }
         const outputPath = options.output.path
         const outFilePath = path.join(outputPath, `${this.outputFileName}.js`)
         compiler.hooks.done.tap('GenerateLocaleForChromePlugin', () => {
             require(outFilePath)
-            const messages = global.exportsToChrome
+            const messages = (global as any).exportsToChrome
             for (const localeName in messages) {
                 // .e.g
                 // {
@@ -68,4 +71,4 @@ class GenerateLocaleForChrome {
     }
 }
 
-module.exports = GenerateLocaleForChrome
+export default GenerateLocaleForChrome

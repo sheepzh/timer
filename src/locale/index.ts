@@ -9,7 +9,7 @@ import trender, { TrenderMessage } from './components/trender'
 import menu, { MenuMessage } from './components/menu'
 import setting, { SettingMessage } from './components/setting'
 
-type I18nMessage = {
+export type I18nMessage = {
   lang: { name: string }
   app: AppMessage
   message: MsgMessage,
@@ -65,6 +65,5 @@ export default messages
 
 // Used for export json file of chrome 
 // @see [project-path]/webpack/plugins/generate-locale-for-chrome.js
-// And this can be auto injected via this plugin in the future
-const globalAny: any = global
+const globalAny = global as any
 globalAny.exportsToChrome = messages
