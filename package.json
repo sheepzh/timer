@@ -13,6 +13,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chrome": "0.0.145",
+    "@types/copy-webpack-plugin": "^8.0.0",
+    "@types/echarts": "^4.9.8",
+    "@types/generate-json-webpack-plugin": "^0.3.3",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
     "@types/webpack": "^5.28.0",
@@ -35,13 +38,8 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "@types/copy-webpack-plugin": "^8.0.0",
-    "@types/echarts": "^4.9.8",
-    "@types/generate-json-webpack-plugin": "^0.3.3",
     "echarts": "^5.1.2",
     "element-plus": "*",
-    "file-saver": "^2.0.5",
-    "jquery": "^3.6.0",
     "vue": "^3.0.11",
     "vue-router": "^4.0.8"
   }
