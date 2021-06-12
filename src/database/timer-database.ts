@@ -71,7 +71,6 @@ class TimeDatabase {
 
     /**
      * @param host host
-     * @param data data: {date => waste_per_day}
      * @since 0.1.3
      */
     accumulate(host: string, date: Date, item: WastePerDay) {
@@ -82,6 +81,33 @@ class TimeDatabase {
             toUpdate[key] = exist
             log('toUpdate', toUpdate)
             this.localStorage.set(toUpdate)
+        })
+    }
+
+    /**
+     * Batch accumulate
+     * 
+     * @param data data: {host=>waste_per_day}
+     * @param date date
+     * @since 0.1.8
+     */
+    accumulateBatch(data: { [host: string]: WastePerDay }, date: Date) {
+        const hosts = Object.keys(data)
+        if (!hosts.length) return
+        const dateStr = formatTime(date, DATE_FORMAT)
+        const keys: { [host: string]: string } = {}
+        hosts.forEach(host => keys[host] = this.generateKey(host, dateStr))
+
+        this.localStorage.get(Object.values(keys), items => {
+            const toUpdate = {}
+            Object.entries(keys).forEach(([host, key]) => {
+                const item = data[host]
+                const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
+                console.log(key, exist)
+                toUpdate[key] = exist
+            })
+            log('batchToUpdate', toUpdate)
+            Object.keys(toUpdate).length && this.localStorage.set(toUpdate)
         })
     }
 

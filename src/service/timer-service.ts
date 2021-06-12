@@ -51,11 +51,11 @@ class TimeService {
 
     async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }) {
         const whitelist: string[] = await whitelistDatabase.selectAll()
-        for (const [host, item] of Object.entries(data)) {
-            if (!whitelist.includes(host)) {
-                timerDatabase.accumulate(host, new Date, WastePerDay.of(item.run, item.focus, 0))
-            }
-        }
+        const toUpdate = {}
+        Object.entries(data)
+            .filter(([host]) => !whitelist.includes(host))
+            .forEach(([host, item]) => toUpdate[host] = WastePerDay.of(item.run, item.focus, 0))
+        timerDatabase.accumulateBatch(toUpdate, new Date())
     }
 
     async addOneTime(host: string) {
