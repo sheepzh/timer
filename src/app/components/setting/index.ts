@@ -5,7 +5,7 @@ import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant/url'
 import Whitelist from './whitelist'
 import DomainMerge from './domain-merge'
 import './style'
-const { version } = require('../../../../package.json')
+import { version } from '../../../../package.json'
 
 export default defineComponent(() => {
     const headItems = () => {

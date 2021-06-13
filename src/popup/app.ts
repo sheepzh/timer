@@ -1,4 +1,4 @@
-const { version } = require('../../package.json')
+import { version } from '../../package.json'
 import { ECharts, init, use } from "echarts/core"
 import { EChartOption } from "echarts/lib/echarts"
 import { PieChart } from 'echarts/charts'
@@ -14,9 +14,10 @@ import { locale, t } from "../common/vue-i18n"
 import SiteInfo, { ALL_SITE_ITEMS, SiteItem } from "../entity/dto/site-info"
 import timerService, { SortDirect, TimerQueryParam } from "../service/timer-service"
 import { IS_FIREFOX } from "../util/constant/environment"
-import { ZH_FEEDBACK_PAGE } from "../util/constant/url"
+import { UPDATE_PAGE, ZH_FEEDBACK_PAGE } from "../util/constant/url"
 import { formatPeriodCommon, formatTime } from "../util/time"
 import { Locale } from "../locale/constant"
+import { getLatestVersion } from "../api/version"
 
 
 const DEFAULT_DATE_TYPE: SiteItem = 'focus'
@@ -39,6 +40,10 @@ const host2LabelStyle = (host: string) => host.split('.').join('00').split('-').
 
 // Data
 const dataRef: Ref<SiteInfo[]> = ref([])
+
+// Latest version
+const latestVersionRef: Ref<string | null> = ref(null)
+getLatestVersion().then(latestVersion => latestVersionRef.value = latestVersion)
 
 // Query data and update the pie
 const queryDataAndUpdate = () => {
@@ -241,9 +246,25 @@ export default defineComponent(() => {
         },
         () => t('popup.feedback'))
 
+    const versionUpdate = () => h(ElTooltip,
+        { placement: 'top', effect: 'light' },
+        {
+            default: () => h(ElLink,
+                {
+                    type: 'success',
+                    icon: 'el-icon-download',
+                    class: 'option-right',
+                    onClick: () => chrome.tabs.create({ url: UPDATE_PAGE })
+                },
+                () => t('app.updateVersion')
+            ),
+            content: () => t('app.updateVersionInfo', { version: `v${latestVersionRef.value}` })
+        })
     const footerItems = () => {
         const result = [versionAndTotalInfo(), typeSelect(), mergeDomainSwitch(), link()]
         locale === Locale.ZH_CN && result.push(feedback())
+        const latestVersion = latestVersionRef.value
+        latestVersion && latestVersion !== version && result.push(versionUpdate())
         return result
     }
 

@@ -5,7 +5,7 @@
  * @since 0.0.1
  */
 // @ts-ignore
-import * as packageInfo from '../package.json'
+import packageInfo from '../package.json'
 const { version, author, homepage } = packageInfo as any
 export default {
   name: '__MSG_app_marketName__',
