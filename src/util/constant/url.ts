@@ -25,3 +25,20 @@ export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
  * @since 0.1.6
  */
 export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
+
+
+/**
+ * The page of extension detail
+ * @since 0.1.8
+ */
+let updatePage = 'https://github.com/sheepzh/timer'
+
+if (IS_CHROME) {
+    updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
+} else if (IS_EDGE) {
+    updatePage = 'edge://extensions'
+} else if (IS_FIREFOX) {
+    updatePage = "about:addons"
+}
+
+export const UPDATE_PAGE = updatePage
