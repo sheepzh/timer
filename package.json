@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Web timer",
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
@@ -39,6 +39,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "echarts": "^5.1.2",
     "element-plus": "*",
     "vue": "^3.0.11",
