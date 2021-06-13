@@ -1,8 +1,8 @@
-import * as  path from 'path'
+import path from 'path'
 import GenerateJsonPlugin from 'generate-json-webpack-plugin'
 import GenerateLocaleForChrome from './plugins/generate-locale-for-chrome'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import * as webpack from 'webpack'
+import webpack from 'webpack'
 // Generate json files 
 import manifest from '../src/manifest'
 const generateJsonPlugins = [

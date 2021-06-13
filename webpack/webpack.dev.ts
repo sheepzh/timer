@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import GenerateJsonPlugin from 'generate-json-webpack-plugin'
 import FileManagerWebpackPlugin from 'filemanager-webpack-plugin'
 import optionGenerator from './webpack.common'
