@@ -1,5 +1,5 @@
 import optionGenerator from './webpack.common'
-import * as path from 'path'
+import path from 'path'
 import FileManagerWebpackPlugin from 'filemanager-webpack-plugin'
 import webpack from 'webpack'
 
