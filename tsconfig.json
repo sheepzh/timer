@@ -15,6 +15,5 @@
         "node_modules",
         "dist"
     ],
-    "strict": true,
-    "esModuleInterop": true
+    "strict": true
 }
