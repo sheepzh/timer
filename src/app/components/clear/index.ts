@@ -1,9 +1,9 @@
 import { ElAlert, ElCard, ElProgress, ElRow, ElCol } from "element-plus"
 import Filter from './filter'
 import { computed, defineComponent, h, ref, Ref } from "vue"
-import { t } from "../../../common/vue-i18n"
 import { getUsedStorage } from "../../../database/memory-detector"
 import './style'
+import { t } from "../../locale"
 
 const byte2Mb = (size: number) => Math.round((size || 0) / 1024.0 / 1024.0 * 1000) / 1000
 
@@ -39,7 +39,7 @@ export default defineComponent(() => {
         }
     })
     // memory info
-    const memoryAlert = () => h(ElAlert, { showIcon: true, center: true, title: t('clear.totalMemoryAlert', { size: totalMbRef.value }) })
+    const memoryAlert = () => h(ElAlert, { showIcon: true, center: true, title: t(msg => msg.clear.totalMemoryAlert, { size: totalMbRef.value }) })
     const memoryProfress = () => h('div',
         { style: 'height:260px; padding-top:50px;' },
         h(ElProgress, { strokeWidth: 15, percentage: percentageRef.value, type: 'circle', color: typeColorRef.value })
@@ -48,7 +48,7 @@ export default defineComponent(() => {
         { style: 'user-select: none;' },
         h('h3',
             { style: `color:${typeColorRef.value};` },
-            t('clear.usedMemoryAlert', { size: usedMbRef.value })
+            t(msg => msg.clear.usedMemoryAlert, { size: usedMbRef.value })
         )
     )
 
@@ -57,7 +57,7 @@ export default defineComponent(() => {
         () => [memoryAlert(), memoryProfress(), usedAlert()]
     )
 
-    const clearAlert = () => h(ElAlert, { showIcon: true, center: true, title: t('clear.operationAlert'), closable: false, type: 'info' })
+    const clearAlert = () => h(ElAlert, { showIcon: true, center: true, title: t(msg => msg.clear.operationAlert), closable: false, type: 'info' })
     const clearFilter = () => h(Filter, { onDateChanged: queryData })
     const clearPanel = () => h(ElCard, { bodyStyle },
         () => [clearAlert(), clearFilter()]

@@ -1,4 +1,4 @@
-import { Messages } from "../constant"
+import { Messages } from ".."
 
 export type ItemMessage = {
     date: string

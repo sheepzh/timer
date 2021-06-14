@@ -1,14 +1,19 @@
 import path from 'path'
 import GenerateJsonPlugin from 'generate-json-webpack-plugin'
-import GenerateLocaleForChrome from './plugins/generate-locale-for-chrome'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import webpack from 'webpack'
 // Generate json files 
 import manifest from '../src/manifest'
+import i18nChrome from '../src/util/i18n/i18n-chrome'
+
 const generateJsonPlugins = [
-    new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance,
-    new GenerateLocaleForChrome('locale', './src/locale')
+    new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance
 ]
+
+const localeJsons = Object.entries(i18nChrome)
+    .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
+    .map(plugin => plugin as unknown as webpack.WebpackPluginInstance)
+generateJsonPlugins.push(...localeJsons)
 
 const optionGenerator = (outputPath: string, manifestHooker?: (config: webpack.Configuration) => void) => {
     manifestHooker && manifestHooker(manifest)

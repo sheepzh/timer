@@ -103,7 +103,6 @@ class TimeDatabase {
             Object.entries(keys).forEach(([host, key]) => {
                 const item = data[host]
                 const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
-                console.log(key, exist)
                 toUpdate[key] = exist
             })
             log('batchToUpdate', toUpdate)

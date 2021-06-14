@@ -1,17 +1,17 @@
 import { ElTabPane, ElTabs, ElTag } from "element-plus"
 import { defineComponent, h } from "vue"
-import { t } from "../../../common/vue-i18n"
+import { t } from "../../locale"
 import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant/url'
 import Whitelist from './whitelist'
 import DomainMerge from './domain-merge'
-import './style'
 import { version } from '../../../../package.json'
+import './style'
 
 export default defineComponent(() => {
     const headItems = () => {
         const result = []
         const commonProps = { size: 'small', type: 'info' }
-        result.push(h(ElTag, { ...commonProps, class: 'info-item' }, () => t('app.currentVersion', { version })))
+        result.push(h(ElTag, { ...commonProps, class: 'info-item' }, () => t(msg => msg.app.currentVersion, { version })))
         if (HOME_PAGE && HOME_PAGE !== '') {
             result.push(
                 h(ElTag,
@@ -20,7 +20,7 @@ export default defineComponent(() => {
                         class: 'info-item point-item',
                         onClick: () => window.open(HOME_PAGE, "_blank")
                     },
-                    () => t('setting.scoreRequest'))
+                    () => t(msg => msg.setting.scoreRequest))
             )
         }
         result.push(
@@ -30,7 +30,7 @@ export default defineComponent(() => {
                     class: 'info-item point-item',
                     onClick: () => window.open(GITHUB_ISSUE_ADD, "_blank")
                 },
-                () => t('setting.issueRequest')
+                () => t(msg => msg.setting.issueRequest)
             )
         )
         return result
@@ -41,8 +41,8 @@ export default defineComponent(() => {
     const settingTabs = () => h(ElTabs,
         { type: 'border-card' },
         () => [
-            h(ElTabPane, { label: t('setting.whitelist.label') }, () => h(Whitelist)),
-            h(ElTabPane, { label: t('setting.merge.label') }, () => h(DomainMerge))
+            h(ElTabPane, { label: t(msg => msg.setting.whitelist.label) }, () => h(Whitelist)),
+            h(ElTabPane, { label: t(msg => msg.setting.merge.label) }, () => h(DomainMerge))
         ]
     )
     return () => h('div', { class: 'content-container' }, [infoHead(), settingTabs()])

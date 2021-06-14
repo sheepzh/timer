@@ -10,15 +10,14 @@ use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, Canvas
 
 import { ElLink, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, Ref, ref, watch } from "vue"
-import { locale, t } from "../common/vue-i18n"
+import { locale, t } from "./locale"
 import SiteInfo, { ALL_SITE_ITEMS, SiteItem } from "../entity/dto/site-info"
 import timerService, { SortDirect, TimerQueryParam } from "../service/timer-service"
 import { IS_FIREFOX } from "../util/constant/environment"
 import { UPDATE_PAGE, ZH_FEEDBACK_PAGE } from "../util/constant/url"
 import { formatPeriodCommon, formatTime } from "../util/time"
-import { Locale } from "../locale/constant"
 import { getLatestVersion } from "../api/version"
-
+import { Locale } from '../util/i18n'
 
 const DEFAULT_DATE_TYPE: SiteItem = 'focus'
 /**
@@ -33,7 +32,7 @@ const mergeDomainRef: Ref<boolean> = ref(false)
 const chartContainerRef: Ref<HTMLDivElement> = ref()
 let pie: ECharts
 
-const app = t('app.name')
+const app = t(msg => msg.appName)
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 const todayForShow = formatTime(new Date(), '{y}/{m}/{d}')
 const host2LabelStyle = (host: string) => host.split('.').join('00').split('-').join('01').split(':').join('02')
@@ -57,7 +56,7 @@ const queryDataAndUpdate = () => {
         .select(param, true)
         .then(rows => {
             const result = []
-            const other: SiteInfo = { host: t('popup.otherLabel'), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
+            const other: SiteInfo = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
             for (let i = 0; i < rows.length; i++) {
                 const row = rows[i]
                 if (i < 10) {
@@ -79,7 +78,7 @@ const queryDataAndUpdate = () => {
 const pieOptions: () => any = () => {
     const options: EChartOption<EChartOption.SeriesPie> = {
         title: {
-            text: t('popup.title'),
+            text: t(msg => msg.title),
             subtext: `${todayForShow} @ ${app}`,
             left: 'center'
         },
@@ -102,7 +101,7 @@ const pieOptions: () => any = () => {
         series: [
             {
                 label: {
-                    formatter: ({ name }) => mergeDomainRef.value || name === t('popup.otherLabel') ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
+                    formatter: ({ name }) => mergeDomainRef.value || name === t(msg => msg.otherLabel) ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
                 },
                 name: "Wasted Time",
                 type: "pie",
@@ -124,8 +123,8 @@ const pieOptions: () => any = () => {
             feature: {
                 saveAsImage: {
                     show: true,
-                    title: t('popup.saveAsImageTitle'),
-                    name: t('popup.fileName', { app, today }), // file name
+                    title: t(msg => msg.saveAsImageTitle),
+                    name: t(msg => msg.fileName, { app, today }), // file name
                     excludeComponents: ['toolbox'],
                     pixelRatio: 2
                 }
@@ -175,7 +174,7 @@ export default defineComponent(() => {
             const componentType = params.componentType
             if (componentType === 'series') {
                 // Not the other item
-                name !== t('popup.otherLabel')
+                name !== t(msg => msg.otherLabel)
                     // Then open it
                     && chrome.tabs.create({ url: `http://${name}` })
             }
@@ -188,10 +187,10 @@ export default defineComponent(() => {
         const type = typeRef.value
         if (type === 'time') {
             const totalCount = dataRef.value.map(d => d[type] || 0).reduce((a, b) => a + b, 0)
-            return t('popup.totalCount', { totalCount })
+            return t(msg => msg.totalCount, { totalCount })
         } else {
             const totalTime = formatPeriodCommon(dataRef.value.map(d => d[type]).reduce((a, b) => a + b, 0))
-            return t('popup.totalTime', { totalTime })
+            return t(msg => msg.totalTime, { totalTime })
         }
     })
     const versionAndTotalInfo = () => h('span',
@@ -203,7 +202,7 @@ export default defineComponent(() => {
     )
 
     // 2. type select
-    const options = () => ALL_SITE_ITEMS.map(item => h(ElOption, { value: item, label: t(`item.${item}`) }))
+    const options = () => ALL_SITE_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
     const typeSelect = () => h(ElSelect,
         {
             modelValue: typeRef.value,
@@ -217,7 +216,7 @@ export default defineComponent(() => {
 
     // 3. merge domain switch
     const mergeDomainSwitch = () => h(ElTooltip,
-        { content: t('popup.mergeDomainLabel') },
+        { content: t(msg => msg.mergeDomainLabel) },
         () => h(ElSwitch,
             {
                 modelValue: mergeDomainRef.value,
@@ -236,7 +235,7 @@ export default defineComponent(() => {
             // FireFox use 'static' as prefix
             onClick: () => chrome.tabs.create({ url: IS_FIREFOX ? 'app.html' : 'static/app.html' })
         },
-        () => t('popup.viewMore')
+        () => t(msg => msg.viewMore)
     )
     const feedback = () => h(ElLink,
         {
@@ -244,7 +243,7 @@ export default defineComponent(() => {
             class: 'option-right',
             onClick: () => chrome.tabs.create({ url: ZH_FEEDBACK_PAGE })
         },
-        () => t('popup.feedback'))
+        () => t(msg => msg.feedback))
 
     const versionUpdate = () => h(ElTooltip,
         { placement: 'top', effect: 'light' },
@@ -256,9 +255,9 @@ export default defineComponent(() => {
                     class: 'option-right',
                     onClick: () => chrome.tabs.create({ url: UPDATE_PAGE })
                 },
-                () => t('app.updateVersion')
+                () => t(msg => msg.updateVersion)
             ),
-            content: () => t('app.updateVersionInfo', { version: `v${latestVersionRef.value}` })
+            content: () => t(msg => msg.updateVersionInfo, { version: `v${latestVersionRef.value}` })
         })
     const footerItems = () => {
         const result = [versionAndTotalInfo(), typeSelect(), mergeDomainSwitch(), link()]

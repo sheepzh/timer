@@ -2,7 +2,7 @@ import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
 
 import { ElCard } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
-import { t } from "../../../../common/vue-i18n"
+import { t } from "../../../locale"
 import timerService, { TimerQueryParam, SortDirect } from "../../../../service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
 
@@ -23,7 +23,7 @@ const options: EChartOption<EChartOption.SeriesLine> = {
     backgroundColor: 'rgba(0,0,0,0)',
     grid: { top: '100' },
     title: {
-        text: t('trender.history.title'),
+        text: t(msg => msg.trender.history.title),
         subtext: '',
         left: 'center'
     },
@@ -34,7 +34,7 @@ const options: EChartOption<EChartOption.SeriesLine> = {
         feature: {
             saveAsImage: {
                 show: true,
-                title: t('popup.saveAsImageTitle'),
+                title: t(msg => msg.trender.saveAsImageTitle),
                 excludeComponents: ['toolbox'],
                 pixelRatio: 2,
                 backgroundColor: '#fff'
@@ -46,17 +46,17 @@ const options: EChartOption<EChartOption.SeriesLine> = {
         data: []
     },
     yAxis: [
-        { name: t('trender.history.timeUnit'), type: 'value' },
-        { name: t('trender.history.numberUnit'), type: 'value' }
+        { name: t(msg => msg.trender.history.timeUnit), type: 'value' },
+        { name: t(msg => msg.trender.history.numberUnit), type: 'value' }
     ],
     legend: {
         left: 'left',
-        data: [t('item.total'), t('item.focus'), t('item.time')]
+        data: [t(msg => msg.item.total), t(msg => msg.item.focus), t(msg => msg.item.time)]
     },
     series: [
         // run time
         {
-            name: t('item.total'),
+            name: t(msg => msg.item.total),
             data: [],
             yAxisIndex: 0,
             type: 'line',
@@ -64,7 +64,7 @@ const options: EChartOption<EChartOption.SeriesLine> = {
             tooltip: { formatter: formatTimeOfEchart }
         },
         {
-            name: t('item.focus'),
+            name: t(msg => msg.item.focus),
             data: [],
             yAxisIndex: 0,
             type: 'line',
@@ -72,7 +72,7 @@ const options: EChartOption<EChartOption.SeriesLine> = {
             tooltip: { formatter: formatTimeOfEchart }
         },
         {
-            name: t('item.time'),
+            name: t(msg => msg.item.time),
             data: [],
             yAxisIndex: 1,
             type: 'line',

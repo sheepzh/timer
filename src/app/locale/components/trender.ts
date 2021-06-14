@@ -1,4 +1,4 @@
-import { Messages } from "../constant"
+import { Messages } from "../../../util/i18n"
 
 export type TrenderMessage = {
     hostPlaceholder: string
@@ -13,6 +13,7 @@ export type TrenderMessage = {
         timeUnit: string
         numberUnit: string
     }
+    saveAsImageTitle: string
 }
 
 const _default: Messages<TrenderMessage> = {
@@ -28,7 +29,8 @@ const _default: Messages<TrenderMessage> = {
             title: '历史记录',
             timeUnit: '时长 / 秒',
             numberUnit: '次'
-        }
+        },
+        saveAsImageTitle: '保存'
     },
     en: {
         hostPlaceholder: 'Search the domain',
@@ -42,7 +44,8 @@ const _default: Messages<TrenderMessage> = {
             title: 'History trender',
             timeUnit: 'Time / second(s)',
             numberUnit: 'time(s)'
-        }
+        },
+        saveAsImageTitle: 'Save'
     },
     ja: {
         hostPlaceholder: 'ドメイン名を検索',
@@ -56,7 +59,8 @@ const _default: Messages<TrenderMessage> = {
             title: '歴史記録',
             timeUnit: '時間 / 秒',
             numberUnit: '回'
-        }
+        },
+        saveAsImageTitle: 'ダウンロード'
     }
 }
 

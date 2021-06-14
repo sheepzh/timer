@@ -1,6 +1,6 @@
 import { ElButton, ElDatePicker, ElDropdown, ElDropdownMenu, ElDropdownItem, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn, ElTooltip } from "element-plus"
-import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
-import { t } from "../../../common/vue-i18n"
+import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from 'vue'
+import { t } from '../../locale'
 import { DATE_FORMAT } from "../../../database/constant"
 import timerDatabase from "../../../database/timer-database"
 import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
@@ -47,23 +47,23 @@ const changeDeleteConfirmUrl = (row: SiteInfo) => {
     if (mergeDateRef.value) {
         if (!dateRange.length) {
             // Delete all
-            deleteMsgRef.value = t('item.operation.deleteConfirmMsgAll', { url: host })
+            deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsgAll, { url: host })
         } else {
             const start = dateRange[0]
             const end = dateRange[1]
             if (start === end) {
                 // Among one day
-                deleteMsgRef.value = t('item.operation.deleteConfirmMsg', { url: host, date: formatTime(start, DISPLAY_DATE_FORMAT) })
+                deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsg, { url: host, date: formatTime(start, DISPLAY_DATE_FORMAT) })
             } else {
                 // Period
-                deleteMsgRef.value = t('item.operation.deleteConfirmMsgRange',
+                deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsgRange,
                     { url: host, start: formatTime(start, DISPLAY_DATE_FORMAT), end: formatTime(end, DISPLAY_DATE_FORMAT) }
                 )
             }
         }
     } else {
         // Not merge, delete one item
-        deleteMsgRef.value = t('item.operation.deleteConfirmMsg', { url: host, date: dateFormatter(row) })
+        deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsg, { url: host, date: dateFormatter(row) })
     }
 }
 
@@ -89,7 +89,7 @@ const queryParam = computed(() => {
 })
 
 const exportFileName = computed(() => {
-    let baseName = t('report.exportFileName')
+    let baseName = t(msg => msg.report.exportFileName)
     const dateRange = dateRangeRef.value
     if (dateRange && dateRange.length === 2) {
         const start = dateRange[0]
@@ -100,9 +100,9 @@ const exportFileName = computed(() => {
             baseName += '_' + formatTime(start, '{y}{m}{d}') + '_' + formatTime(end, '{y}{m}{d}')
         }
     }
-    mergeDateRef.value && (baseName += '_' + t('report.mergeDate'))
-    mergeDomainRef.value && (baseName += '_' + t('report.mergeDomain'))
-    displayBySecondRef.value && (baseName += '_' + t('report.displayBySecond'))
+    mergeDateRef.value && (baseName += '_' + t(msg => msg.report.mergeDate))
+    mergeDomainRef.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
+    displayBySecondRef.value && (baseName += '_' + t(msg => msg.report.displayBySecond))
     return baseName
 })
 
@@ -168,7 +168,7 @@ const exportFile = (format: FileFormat) => {
         let columnName = []
         !mergeDateRef.value && columnName.push('date')
         columnName = [...columnName, 'host', 'total', 'focus', 'time']
-        const data = [columnName.map(c => t(`item.${c}`))]
+        const data = [columnName.map(c => t(msg => msg.item[c]))]
         rows.forEach(row => {
             const csvR = []
             !mergeDateRef.value && csvR.push(dateFormatter(row))
@@ -185,7 +185,7 @@ export default defineComponent(() => {
     // host
     const host = () => h(ElInput,
         {
-            placeholder: t('report.hostPlaceholder'),
+            placeholder: t(msg => msg.report.hostPlaceholder),
             clearable: true,
             modelValue: hostRef.value,
             class: filterItemClz,
@@ -202,7 +202,7 @@ export default defineComponent(() => {
     }
     const datePickerShortcut = (msg: string, agoOfStart?: number, agoOfEnd?: number) => {
         return {
-            text: t(`report.${msg}`),
+            text: t(messages => messages.report[msg]),
             value: daysAgo(agoOfStart || 0, agoOfEnd || 0)
         }
     }
@@ -223,12 +223,12 @@ export default defineComponent(() => {
                 dateRangeRef.value = date
                 queryData()
             },
-            startPlaceholder: t('report.startDate'),
-            endPlaceholder: t('report.endDate')
+            startPlaceholder: t(msg => msg.report.startDate),
+            endPlaceholder: t(msg => msg.report.endDate)
         })
     const dateRange = () => h('span', { class: filterItemClz }, [dateRangePicker()])
     // Merge date
-    const mergeDateName = () => h('a', { class: 'filter-name' }, t('report.mergeDate'))
+    const mergeDateName = () => h('a', { class: 'filter-name' }, t(msg => msg.report.mergeDate))
     const mergeDate = () => h(ElSwitch,
         {
             class: filterItemClz,
@@ -240,7 +240,7 @@ export default defineComponent(() => {
         }
     )
     // Merge domain 
-    const mergeDomainName = () => h('a', { class: 'filter-name' }, t('report.mergeDomain'))
+    const mergeDomainName = () => h('a', { class: 'filter-name' }, t(msg => msg.report.mergeDomain))
     const mergeDomain = () => h(ElSwitch,
         {
             class: filterItemClz,
@@ -252,7 +252,7 @@ export default defineComponent(() => {
         }
     )
     // Display by second
-    const displayBySecondName = () => h('a', { class: 'filter-name' }, t('report.displayBySecond'))
+    const displayBySecondName = () => h('a', { class: 'filter-name' }, t(msg => msg.report.displayBySecond))
     const displayBySecond = () => h(ElSwitch,
         {
             class: filterItemClz,
@@ -286,7 +286,7 @@ export default defineComponent(() => {
             h(ElTableColumn,
                 {
                     prop: 'date',
-                    label: t('item.date'),
+                    label: t(msg => msg.item.date),
                     minWidth: 200,
                     align: 'center',
                     sortable: 'custom'
@@ -298,7 +298,7 @@ export default defineComponent(() => {
         result.push(
             h(ElTableColumn, {
                 prop: 'host',
-                label: t('item.host'),
+                label: t(msg => msg.item.host),
                 minWidth: 300,
                 sortable: 'custom',
                 align: 'center'
@@ -329,21 +329,21 @@ export default defineComponent(() => {
         result.push(
             h(ElTableColumn, {
                 prop: 'focus',
-                label: t('item.focus'),
+                label: t(msg => msg.item.focus),
                 minWidth: 220,
                 align: 'center',
                 sortable: 'custom'
             }, { default: ({ row }: { row: SiteInfo }) => periodFormatter(row.focus) }),
             h(ElTableColumn, {
                 prop: 'total',
-                label: t('item.total'),
+                label: t(msg => msg.item.total),
                 minWidth: 220,
                 align: 'center',
                 sortable: 'custom'
             }, { default: ({ row }: { row: SiteInfo }) => periodFormatter(row.total) }),
             h(ElTableColumn, {
                 prop: 'time',
-                label: t('item.time'),
+                label: t(msg => msg.item.time),
                 minWidth: 130,
                 align: 'center',
                 sortable: 'custom'
@@ -357,8 +357,8 @@ export default defineComponent(() => {
                 // Delete button 
                 operationButtons.push(h(ElPopconfirm,
                     {
-                        confirmButtonText: t('item.operation.confirmMsg'),
-                        cancelButtonText: t('item.operation.cancelMsg'),
+                        confirmButtonText: t(msg => msg.item.operation.confirmMsg),
+                        cancelButtonText: t(msg => msg.item.operation.cancelMsg),
                         title: deleteMsgRef.value,
                         onConfirm: () => {
                             if (mergeDateRef.value) {
@@ -385,14 +385,14 @@ export default defineComponent(() => {
                         type: 'warning',
                         onClick: () => changeDeleteConfirmUrl(row),
                         icon: 'el-icon-delete'
-                    }, () => t('item.operation.delete'))
+                    }, () => t(msg => msg.item.operation.delete))
                 }))
                 // Add 2 the whitelist
                 if (!whitelistRef.value.includes(host)) {
                     operationButtons.push(h(ElPopconfirm, {
-                        confirmButtonText: t("item.operation.confirmMsg"),
-                        cancelButtonText: t('item.operation.cancelMsg'),
-                        title: t('setting.whitelist.addConfirmMsg', { url: host }),
+                        confirmButtonText: t(msg => msg.item.operation.confirmMsg),
+                        cancelButtonText: t(msg => msg.item.operation.cancelMsg),
+                        title: t(msg => msg.setting.whitelist.addConfirmMsg, { url: host }),
                         icon: 'el-icon-info',
                         iconColor: 'red',
                         onConfirm: () => {
@@ -400,17 +400,17 @@ export default defineComponent(() => {
                                 .add(host)
                                 .then(() => {
                                     queryWhiteList().then(queryData)
-                                    ElMessage({ message: t('report.added2Whitelist'), type: 'success' })
+                                    ElMessage({ message: t(msg => msg.report.added2Whitelist), type: 'success' })
                                 })
                         }
                     }, {
-                        reference: () => h(ElButton, { size: 'mini', type: 'danger', icon: 'el-icon-plus' }, () => t('item.operation.add2Whitelist'))
+                        reference: () => h(ElButton, { size: 'mini', type: 'danger', icon: 'el-icon-plus' }, () => t(msg => msg.item.operation.add2Whitelist))
                     }))
                 } else {
                     operationButtons.push(h(ElPopconfirm, {
-                        confirmButtonText: t("item.operation.confirmMsg"),
-                        cancelButtonText: t('item.operation.cancelMsg'),
-                        title: t('setting.whitelist.removeConfirmMsg', { url: row.host }),
+                        confirmButtonText: t(msg => msg.item.operation.confirmMsg),
+                        cancelButtonText: t(msg => msg.item.operation.cancelMsg),
+                        title: t(msg => msg.setting.whitelist.removeConfirmMsg, { url: row.host }),
                         icon: 'el-icon-info',
                         iconColor: '#409eff',
                         onConfirm: () => {
@@ -418,17 +418,17 @@ export default defineComponent(() => {
                                 .remove(host)
                                 .then(() => {
                                     queryWhiteList()
-                                    ElMessage({ message: t('report.removeFromWhitelist'), type: 'success' });
+                                    ElMessage({ message: t(msg => msg.report.removeFromWhitelist), type: 'success' });
                                 })
                         }
                     }, {
-                        reference: () => h(ElButton, { size: 'mini', type: 'primary', icon: 'el-icon-open' }, () => t('item.operation.removeFromWhitelist'))
+                        reference: () => h(ElButton, { size: 'mini', type: 'primary', icon: 'el-icon-open' }, () => t(msg => msg.item.operation.removeFromWhitelist))
                     }))
                 }
                 return operationButtons
             }
             result.push(h(ElTableColumn, {
-                label: t('item.operation.label'),
+                label: t(msg => msg.item.operation.label),
                 minWidth: 240,
                 align: 'center'
             }, {
