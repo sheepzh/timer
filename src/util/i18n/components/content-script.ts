@@ -1,13 +1,13 @@
-import { Messages } from "../constant"
+import { Messages } from ".."
 
-export type MsgMessage = {
+export type ContentScriptMessage = {
     openTimesConsoleLog: string
     usedTimeInConsoleLog: string
     timeWithHour: string
     timeWithMinute: string
     timeWithSecond: string
 }
-const _default: Messages<MsgMessage> = {
+const _default: Messages<ContentScriptMessage> = {
     zh_CN: {
         openTimesConsoleLog: '今天您打开了 {time} 次 {host}。',
         usedTimeInConsoleLog: '它今天在您的电脑上运行了 {total}，其中您花费了 {focus}来浏览它。',

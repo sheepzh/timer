@@ -1,4 +1,4 @@
-import { Messages } from "../constant"
+import { Messages } from "../../../util/i18n"
 
 export type ClearMessage = {
     totalMemoryAlert: string

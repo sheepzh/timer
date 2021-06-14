@@ -1,10 +1,10 @@
 import { ElButton, ElDatePicker, ElInput, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
-import { defineComponent, h, ref, Ref, SetupContext, VNode } from "vue"
-import { t, tN } from "../../../common/vue-i18n"
+import { defineComponent, h, ref, Ref, SetupContext } from "vue"
 import timerDatabase, { TimerCondition } from "../../../database/timer-database"
 import SiteInfo from "../../../entity/dto/site-info"
 import timerService from "../../../service/timer-service"
 import { formatTime, MILL_PER_DAY } from "../../../util/time"
+import { I18nKey, t, tN } from "../../locale"
 import './style/filter'
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
@@ -16,7 +16,7 @@ birthdayOfBrowser.setMonth(12 - 1)
 birthdayOfBrowser.setDate(15)
 const datePickerShortcut = (msg: string, days: number) => {
     return {
-        text: t(`clear.dateShortcut.${msg}`),
+        text: t(messages => messages.clear.dateShortcut[msg]),
         value: [birthdayOfBrowser, daysBefore(days)]
     }
 }
@@ -60,7 +60,7 @@ const generateParamAndSelect = () => {
 
     if (hasError) {
         ElMessage({
-            message: t('clear.paramError'),
+            message: t(msg => msg.clear.paramError),
             type: 'warning'
         })
     } else {
@@ -77,7 +77,7 @@ const generateParamAndSelect = () => {
 const _default = defineComponent((_props, ctx: SetupContext) => {
     const onDateChanged = ctx.attrs.onDateChanged as () => void
 
-    const title = h('h3', t('clear.filterItems'))
+    const title = h('h3', t(msg => msg.clear.filterItems))
     const stepNo = 'step-no'
 
     const picker = () => h(ElDatePicker,
@@ -99,10 +99,10 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
         })
     const first = () => h('p', [
         h('a', { class: stepNo }, '1.'),
-        tN('clear.filterDate', { picker: picker() })
+        tN(msg => msg.clear.filterDate, { picker: picker() })
     ])
 
-    const startAndInput = (translateKey: string, startRef: Ref<string>, endRef: Ref<string>, lineNo: number) => h('p', [
+    const startAndInput = (translateKey: I18nKey, startRef: Ref<string>, endRef: Ref<string>, lineNo: number) => h('p', [
         h('a', { class: stepNo }, `${lineNo}.`),
         tN(translateKey, {
             start: h(ElInput, {
@@ -116,7 +116,7 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
                 onClear: () => startRef.value = ''
             }), end: h(ElInput, {
                 class: 'filter-input',
-                placeholder: t('clear.unlimited'),
+                placeholder: t(msg => msg.clear.unlimited),
                 min: startRef.value || '0',
                 clearable: true,
                 size: 'mini',
@@ -128,7 +128,7 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
     ])
 
     const archiveButton = () => h(ElTooltip,
-        { content: t('clear.archiveAlert') },
+        { content: t(msg => msg.clear.archiveAlert) },
         () => h(ElButton,
             {
                 icon: 'el-icon-document-add',
@@ -138,16 +138,16 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
                     generateParamAndSelect()
                         .then((result: SiteInfo[]) => {
                             const count = result.length
-                            ElMessageBox.confirm(t('clear.archiveConfirm', { count }))
+                            ElMessageBox.confirm(t(msg => msg.clear.archiveConfirm, { count }))
                                 .then(() => timerService.archive(result))
                                 .then(() => {
-                                    ElMessage(t('clear.archiveSuccess'))
+                                    ElMessage(t(msg => msg.clear.archiveSuccess))
                                     onDateChanged()
                                 }).catch(() => { })
                         })
                 }
             },
-            () => t('item.operation.archive')
+            () => t(msg => msg.item.operation.archive)
         ))
     const deleteButton = () => h(ElButton,
         {
@@ -158,16 +158,16 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
                 generateParamAndSelect()
                     .then(result => {
                         const count = result.length
-                        ElMessageBox.confirm(t('clear.deleteConfirm', { count }))
+                        ElMessageBox.confirm(t(msg => msg.clear.deleteConfirm, { count }))
                             .then(() => timerDatabase.delete(result))
                             .then(() => {
-                                ElMessage(t('clear.deleteSuccess'))
+                                ElMessage(t(msg => msg.clear.deleteSuccess))
                                 onDateChanged()
                             }).catch(() => { })
                     })
             }
         },
-        () => t('item.operation.delete')
+        () => t(msg => msg.item.operation.delete)
     )
 
     const footer = () => h('div', { class: 'filter-container', style: 'padding-top: 40px;' }, [archiveButton(), deleteButton()])
@@ -175,9 +175,9 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
     return () => h('div', { style: 'text-align:left; padding-left:30px; padding-top:20px;' },
         [
             title, first(),
-            startAndInput('clear.filterFocus', focusStartRef, focusEndRef, 2),
-            startAndInput('clear.filterTotal', totalStartRef, totalEndRef, 3),
-            startAndInput('clear.filterTime', timeStartRef, timeEndRef, 4),
+            startAndInput(msg => msg.clear.filterFocus, focusStartRef, focusEndRef, 2),
+            startAndInput(msg => msg.clear.filterTotal, totalStartRef, totalEndRef, 3),
+            startAndInput(msg => msg.clear.filterTime, timeStartRef, timeEndRef, 4),
             footer()
         ]
     )

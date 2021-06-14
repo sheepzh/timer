@@ -1,6 +1,6 @@
 import { ElAlert, ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { defineComponent, h, Ref, ref } from "vue"
-import { t } from "../../../common/vue-i18n"
+import { t } from "../../locale"
 import mergeRuleDatabase from "../../../database/merge-rule-database"
 import DomainMergeRuleItem from "../../../entity/dto/domain-merge-rule-item"
 import { isValidMergeOriginHost } from "../../../util/pattern"
@@ -15,18 +15,17 @@ mergeRuleDatabase
     .selectAll()
     .then(items => ruleItemsRef.value = [...items])
 
-
 const handleInputConfirm = () => {
     const origin = originValRef.value
     const merged = mergedValRef.value
 
     if (!isValidMergeOriginHost(origin)) {
-        ElMessage.warning(t('setting.merge.errorOrigin'))
+        ElMessage.warning(t(msg => msg.setting.merge.errorOrigin))
         return
     }
     const exists = ruleItemsRef.value.filter(item => item.origin === origin).length > 0
     if (exists) {
-        ElMessage.warning(t('setting.merge.duplicateMsg', { origin }))
+        ElMessage.warning(t(msg => msg.setting.merge.duplicateMsg, { origin }))
         return
     }
     let toInsert: DomainMergeRuleItem
@@ -46,12 +45,12 @@ const handleInputConfirm = () => {
     }
 
     ElMessageBox.confirm(
-        t('setting.merge.addConfirmMsg', { origin }),
-        t('setting.confirmTitle'), { dangerouslyUseHTMLString: true }
+        t(msg => msg.setting.merge.addConfirmMsg, { origin }),
+        t(msg => msg.setting.confirmTitle), { dangerouslyUseHTMLString: true }
     ).then(() => mergeRuleDatabase.add(toInsert)
     ).then(() => {
         ruleItemsRef.value.push(toInsert)
-        ElMessage({ type: 'success', message: t('setting.successMsg') })
+        ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
     }).catch(() => { })
 
     inputVisibleRef.value = false
@@ -66,21 +65,21 @@ const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
         ? 'success'
         : merged === '' ? 'info' : 'primary'
     const txt = typeof merged === 'number'
-        ? t('setting.merge.resultOfLevel', { level: merged + 1 })
-        : merged === '' ? t('setting.merge.resultOfOrigin') : merged
+        ? t(msg => msg.setting.merge.resultOfLevel, { level: merged + 1 })
+        : merged === '' ? t(msg => msg.setting.merge.resultOfOrigin) : merged
     return h(ElTag,
         {
             class: 'white-item',
             type,
             closable: true,
             onClose: () => {
-                const confirmMsg = t('setting.merge.removeConfirmMsg', { origin })
-                const confirmTitle = t('setting.confirmTitle')
+                const confirmMsg = t(msg => msg.setting.merge.removeConfirmMsg, { origin })
+                const confirmTitle = t(msg => msg.setting.confirmTitle)
                 ElMessageBox
                     .confirm(confirmMsg, confirmTitle)
                     .then(() => mergeRuleDatabase.remove(origin))
                     .then(() => {
-                        ElMessage({ type: 'success', message: t('setting.successMsg') })
+                        ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
                         const index = ruleItemsRef.value.indexOf(ruleItem)
                         index !== -1 && ruleItemsRef.value.splice(index, 1)
                     })
@@ -94,14 +93,14 @@ const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
 const _default = defineComponent(() => {
     const labels = () => [
         h(ElAlert,
-            { type: 'info', title: t('setting.merge.infoAlertTitle') },
+            { type: 'info', title: t(msg => msg.setting.merge.infoAlertTitle) },
             () => [
-                h('li', t('setting.merge.infoAlert0')),
-                h('li', t('setting.merge.infoAlert1')),
-                h('li', t('setting.merge.infoAlert2')),
-                h('li', t('setting.merge.infoAlert3')),
-                h('li', t('setting.merge.infoAlert4')),
-                h('li', t('setting.merge.infoAlert5'))
+                h('li', t(msg => msg.setting.merge.infoAlert0)),
+                h('li', t(msg => msg.setting.merge.infoAlert1)),
+                h('li', t(msg => msg.setting.merge.infoAlert2)),
+                h('li', t(msg => msg.setting.merge.infoAlert3)),
+                h('li', t(msg => msg.setting.merge.infoAlert4)),
+                h('li', t(msg => msg.setting.merge.infoAlert5))
             ]
         )
     ]
@@ -115,7 +114,7 @@ const _default = defineComponent(() => {
                 {
                     class: 'input-new-tag white-item origin-domain-input',
                     modelValue: originValRef.value,
-                    placeholder: t('setting.merge.originPlaceholder'),
+                    placeholder: t(msg => msg.setting.merge.originPlaceholder),
                     clearable: true,
                     onClear: () => originValRef.value = '',
                     onInput: (val: string) => originValRef.value = val.trim(),
@@ -124,7 +123,7 @@ const _default = defineComponent(() => {
             const mergedInput = h(ElInput, {
                 class: 'input-new-tag white-item merged-domain-input',
                 modelValue: mergedValRef.value,
-                placeholder: t('setting.merge.mergedPlaceholder'), clearable: true,
+                placeholder: t(msg => msg.setting.merge.mergedPlaceholder), clearable: true,
                 onClear: () => mergedValRef.value = '',
                 onInput: (val: string) => mergedValRef.value = val.trim()
             })
@@ -144,7 +143,7 @@ const _default = defineComponent(() => {
                         }
                     }
                 },
-                () => inputVisibleRef.value ? t('setting.save') : `+ ${t('setting.newOne')}`
+                () => inputVisibleRef.value ? t(msg => msg.setting.save) : `+ ${t(msg => msg.setting.newOne)}`
             )
         )
         return result

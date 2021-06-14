@@ -1,6 +1,6 @@
 import { ElAlert, ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
-import { t } from "../../../common/vue-i18n"
+import { t } from "../../locale"
 import whitelistService from "../../../service/whitelist-service"
 
 const whitelistRef: Ref<string[]> = ref([])
@@ -15,15 +15,15 @@ const handleInputConfirm = () => {
     const whitelist = whitelistRef.value
     if (inputValue) {
         if (whitelist.includes(inputValue)) {
-            ElMessage({ type: 'warning', message: t('setting.whitelist.duplicateMsg') })
+            ElMessage({ type: 'warning', message: t(msg => msg.setting.whitelist.duplicateMsg) })
         } else {
             ElMessageBox.confirm(
-                t('setting.whitelist.addConfirmMsg', { url: inputValue }),
-                t('setting.confirmTitle'), { dangerouslyUseHTMLString: true }
+                t(msg => msg.setting.whitelist.addConfirmMsg, { url: inputValue }),
+                t(msg => msg.setting.confirmTitle), { dangerouslyUseHTMLString: true }
             ).then(() => whitelistService.add(inputValue)
             ).then(() => {
                 whitelist.push(inputValue)
-                ElMessage({ type: 'success', message: t('setting.successMsg') })
+                ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
             }).catch(() => { })
         }
     }
@@ -39,13 +39,13 @@ const generateTagItems = (whiteItem: string) => h(ElTag,
         type: 'primary',
         closable: true,
         onClose: () => {
-            const confirmMsg = t('setting.whitelist.removeConfirmMsg', { url: whiteItem })
-            const confirmTitle = t('setting.confirmTitle')
+            const confirmMsg = t(msg => msg.setting.whitelist.removeConfirmMsg, { url: whiteItem })
+            const confirmTitle = t(msg => msg.setting.confirmTitle)
             ElMessageBox
                 .confirm(confirmMsg, confirmTitle, { dangerouslyUseHTMLString: true })
                 .then(() => whitelistService.remove(whiteItem))
                 .then(() => {
-                    ElMessage({ type: 'success', message: t('setting.successMsg') })
+                    ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
                     const index = whitelistRef.value.indexOf(whiteItem)
                     index !== -1 && whitelistRef.value.splice(index, 1)
                 })
@@ -56,7 +56,7 @@ const generateTagItems = (whiteItem: string) => h(ElTag,
 )
 
 const _default = defineComponent(() => {
-    const alertInfo = () => h(ElAlert, { type: 'success', title: t('setting.whitelist.infoAlert') })
+    const alertInfo = () => h(ElAlert, { type: 'success', title: t(msg => msg.setting.whitelist.infoAlert) })
     const tags = () => {
         const result = []
         result.push(...whitelistRef.value.map(generateTagItems))
@@ -82,7 +82,7 @@ const _default = defineComponent(() => {
                     class: 'button-new-tag white-item',
                     onClick: () => inputVisibleRef.value = true
                 },
-                () => `+ ${t('setting.newOne')}`
+                () => `+ ${t(msg => msg.setting.newOne)}`
             )
         )
         return result

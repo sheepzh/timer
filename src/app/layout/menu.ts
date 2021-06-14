@@ -1,10 +1,10 @@
 import { defineComponent, h, onMounted } from "vue"
 import { ElMenu, ElMenuItem, ElSubmenu } from "element-plus"
 import { RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router"
-import { t } from "../../common/vue-i18n"
+import { I18nKey, t } from "../locale"
 
 declare type MenuItem = {
-    title: string
+    title: I18nKey
     icon: string
     route: string
     children?: MenuItem[]
@@ -13,26 +13,26 @@ declare type MenuItem = {
 // All menu items
 const ALL_MENU: MenuItem[] = [
     {
-        title: 'menu.data',
+        title: msg => msg.menu.data,
         icon: 's-platform',
         route: '/data',
         children: [
             {
-                title: 'menu.dataReport',
+                title: msg => msg.menu.dataReport,
                 route: '/data/report',
                 icon: 'date'
             }, {
-                title: 'menu.dataHistory',
+                title: msg => msg.menu.dataHistory,
                 route: '/data/history',
                 icon: 'stopwatch'
             }, {
-                title: 'menu.dataClear',
+                title: msg => msg.menu.dataClear,
                 route: '/data/clear',
                 icon: 'folder'
             }
         ]
     }, {
-        title: 'menu.setting',
+        title: msg => msg.menu.setting,
         route: '/setting',
         icon: 'setting'
     }
@@ -42,9 +42,9 @@ const _default = defineComponent<{}, {}>(() => {
     const router = useRouter()
     const currentRoute: RouteLocationNormalizedLoaded = useRoute()
 
-    onMounted(() => document.title = t('menu.data'))
+    onMounted(() => document.title = t(msg => msg.menu.data))
 
-    const openMenu = (route: string, title: string) => {
+    const openMenu = (route: string, title: I18nKey) => {
         if (currentRoute.path !== route) {
             router.push(route)
             document.title = t(title)

@@ -1,4 +1,6 @@
-import { Messages } from "../constant"
+import { Messages } from '../../util/i18n'
+import chromeBase from '../../util/i18n/components/app'
+import itemMessages, { ItemMessage } from '../../util/i18n/components/item'
 
 export type PopupMessage = {
     title: string
@@ -9,8 +11,14 @@ export type PopupMessage = {
     totalTime: string
     totalCount: string
     otherLabel: string
-    feedback: string
+    feedback: String
+    updateVersion: string
+    updateVersionInfo: string
+    currentVersion: string
+    appName: string
+    item: ItemMessage
 }
+
 const _default: Messages<PopupMessage> = {
     zh_CN: {
         title: '今日数据',
@@ -21,7 +29,12 @@ const _default: Messages<PopupMessage> = {
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
         otherLabel: '其他',
-        feedback: '使用反馈'
+        feedback: '使用反馈',
+        updateVersion: '版本升级',
+        updateVersionInfo: '最新版本：{version}',
+        currentVersion: chromeBase.zh_CN.currentVersion,
+        appName: chromeBase.zh_CN.name,
+        item: itemMessages.zh_CN
     },
     en: {
         title: 'Today\'s Data',
@@ -32,7 +45,12 @@ const _default: Messages<PopupMessage> = {
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
         otherLabel: 'Others',
-        feedback: 'Feedback'
+        feedback: 'Feedback',
+        updateVersion: 'Updatable',
+        updateVersionInfo: 'Latest: {version}',
+        currentVersion: chromeBase.en.currentVersion,
+        appName: chromeBase.en.name,
+        item: itemMessages.en
     },
     ja: {
         title: '今日のデータ',
@@ -43,7 +61,12 @@ const _default: Messages<PopupMessage> = {
         totalTime: '合計 {totalTime}',
         totalCount: '合計 {totalCount} 回',
         otherLabel: 'その他',
-        feedback: 'フィードバック'
+        feedback: 'フィードバック',
+        updateVersion: '更新',
+        updateVersionInfo: '最新バージョン：{version}',
+        currentVersion: chromeBase.ja.currentVersion,
+        appName: chromeBase.ja.name,
+        item: itemMessages.ja
     }
 }
 
