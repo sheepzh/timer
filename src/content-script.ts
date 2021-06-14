@@ -10,7 +10,7 @@ timeService.addOneTime(host)
 
 whitelistService.include(host)
     .then(including => {
-        if (!including) return
+        if (including) return
 
         const hourMsg = chrome.i18n.getMessage('message_timeWithHour')
         const minuteMsg = chrome.i18n.getMessage('message_timeWithMinute')
