@@ -1,0 +1,64 @@
+let store = {}
+
+function resolveKey(key: string | Object | string[]) {
+    if (typeof key === 'string') {
+        const result = {}
+        result[key] = store[key]
+        return result
+    } else if (Array.isArray(key)) {
+        return key.reduce((acc, curr) => {
+            acc[curr] = store[curr]
+            return acc
+        }, {})
+    } else if (typeof key === 'object') {
+        return Object.keys(key).reduce((acc, curr) => {
+            acc[curr] = store[curr] || key[curr]
+            return acc
+        }, {})
+    }
+    throw new Error('Wrong key given')
+}
+
+const sync = {
+    get: jest.fn((...args) => {
+        let id: string | string[] | Object
+        let cb: (result: {}) => void
+        let result: {} = {}
+        if (args.length === 1) {
+            result = store
+            cb = args[0]
+        } else {
+            id = args[0]
+            result = resolveKey(id)
+            cb = args[1]
+        }
+        cb && cb(result)
+    }),
+    getBytesInUse: jest.fn(cb => cb && cb(0)),
+    set: jest.fn((payload, cb) => {
+        Object.keys(payload).forEach((key) => (store[key] = payload[key]))
+        cb && cb()
+    }),
+    remove: jest.fn((id, cb) => {
+        const idType = typeof id
+        const keys: string[] = idType === 'string' ? [id] : (Array.isArray(id) ? id : Object.keys(id))
+        keys.forEach((key: string) => delete store[key])
+        cb && cb()
+    }),
+    clear: jest.fn((cb) => {
+        store = {}
+        cb && cb()
+    })
+} as unknown as chrome.storage.SyncStorageArea
+
+const local = { ...sync, QUOTA_BYTES: 5 * 1024 * 1024 } as chrome.storage.LocalStorageArea
+
+const managed = sync
+
+const onChanged = {
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    hasListener: jest.fn()
+} as unknown as chrome.storage.StorageChangedEvent
+
+export default { local, sync, managed, onChanged }

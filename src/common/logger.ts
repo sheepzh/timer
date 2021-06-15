@@ -1,5 +1,3 @@
-import { getUsedStorage } from "../database/memory-detector"
-
 let OPEN_LOG = false
 
 /**
@@ -24,27 +22,4 @@ export function openLog(): string {
 export function closeLog(): string {
     OPEN_LOG = false
     return 'Closed the log manually.'
-}
-
-/**
- * Show the memory info
- * 
- * @since 0.0.9
- */
-export function showMemory() {
-    getUsedStorage().then(({ used, total }) => {
-        console.log(`\t${used} / ${total} = ${Math.round(used * 100.0 / total * 100) / 100}%`)
-    })
-    return 'Memory used:'
-}
-
-/**
- * @since 0.0.8
- */
-export default { openLog, closeLog, showMemory } as TimerLogger
-
-export type TimerLogger = {
-    openLog: () => string
-    closeLog: () => string
-    showMemory: () => void
 }

@@ -1,7 +1,6 @@
 import { ElButton, ElDatePicker, ElDropdown, ElDropdownMenu, ElDropdownItem, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn, ElTooltip } from "element-plus"
 import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from 'vue'
 import { t } from '../../locale'
-import { DATE_FORMAT } from "../../../database/constant"
 import timerDatabase from "../../../database/timer-database"
 import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
 import timerService, { SortDirect } from "../../../service/timer-service"
@@ -370,8 +369,8 @@ export default defineComponent(() => {
                                     // Delete by range
                                     timerDatabase.deleteByUrlBetween(
                                         host,
-                                        formatTime(dateRange[0], DATE_FORMAT),
-                                        formatTime(dateRange[1], DATE_FORMAT)
+                                        dateRange[0],
+                                        dateRange[1]
                                     ).then(queryData)
                                 }
                             } else {
