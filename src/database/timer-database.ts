@@ -1,4 +1,3 @@
-import chrome from "../../test/__mock__"
 import { log } from "../common/logger"
 import WastePerDay, { merge } from "../entity/dao/waste-per-day"
 import SiteInfo from "../entity/dto/site-info"
