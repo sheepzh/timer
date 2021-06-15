@@ -43,7 +43,7 @@ const optionGenerator = (outputPath: string, manifestHooker?: (config: webpack.C
             rules: [
                 {
                     test: /\.ts$/,
-                    exclude: '/node_modules/',
+                    exclude: /^(node_modules|test)/,
                     use: ['ts-loader']
                 }, {
                     test: /\.css$/,

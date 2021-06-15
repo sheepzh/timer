@@ -1,7 +1,8 @@
+import chrome from "../../test/__mock__"
 import { log } from "../common/logger"
 import WastePerDay, { merge } from "../entity/dao/waste-per-day"
 import SiteInfo from "../entity/dto/site-info"
-import { formatTime, MILL_PER_DAY } from "../util/time"
+import { formatTime } from "../util/time"
 import { ARCHIVED_PREFIX, DATE_FORMAT, REMAIN_WORD_PREFIX } from "./constant"
 
 export type TimerCondition = {
@@ -40,19 +41,71 @@ export type TimerCondition = {
     fullHost?: boolean
 }
 
+type _TimerCondition = TimerCondition & {
+    // Use exact date condition
+    useExactDate?: boolean
+    // date str
+    exactDateStr?: string
+    startDateStr?: string
+    endDateStr?: string
+    // time range
+    timeStart?: number
+    timeEnd?: number
+    focusStart?: number
+    focusEnd?: number
+    totalStart?: number
+    totalEnd?: number
+}
+
+function processCondition(condition: TimerCondition): _TimerCondition {
+    const result: _TimerCondition = { ...condition }
+    const paramDate = condition.date
+    if (paramDate) {
+        if (paramDate instanceof Date) {
+            result.useExactDate = true
+            result.exactDateStr = formatTime(paramDate as Date, DATE_FORMAT)
+        } else {
+            let startDate: Date = undefined
+            let endDate: Date = undefined
+            const dateArr = paramDate as Date[]
+            dateArr && dateArr.length >= 2 && (endDate = dateArr[1])
+            dateArr && dateArr.length >= 1 && (startDate = dateArr[0])
+            result.useExactDate = false
+            startDate && (result.startDateStr = formatTime(startDate, DATE_FORMAT))
+            endDate && (result.endDateStr = formatTime(endDate, DATE_FORMAT))
+        }
+    }
+    const paramTime = condition.timeRange
+    if (paramTime) {
+        paramTime.length >= 2 && (result.timeEnd = paramTime[1])
+        paramTime.length >= 1 && (result.timeStart = paramTime[0])
+    }
+    const paramTotal = condition.totalRange
+    if (paramTotal) {
+        paramTotal.length >= 2 && (result.totalEnd = paramTotal[1])
+        paramTotal.length >= 0 && (result.totalStart = paramTotal[0])
+    }
+    const paramFocus = condition.focusRange
+    if (paramFocus) {
+        paramFocus.length >= 2 && (result.focusEnd = paramFocus[1])
+        paramFocus.length >= 1 && (result.focusStart = paramFocus[0])
+    }
+    return result
+}
+
 class TimeDatabase {
 
-    private localStorage = chrome.storage.local
+    private localStorage: chrome.storage.StorageArea = chrome.storage.local
 
     refresh(): Promise<{}> {
         return new Promise(resolve => {
             this.localStorage.get(result => {
-                const items = {}
-                for (let key in result) {
-                    if (!key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX)) {
-                        items[key] = result[key]
-                    }
-                }
+                const items = Object.entries(result)
+                    .filter(([key]) => !key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX))
+                    .reduce((result, [key, value]) => {
+                        result[key] = value
+                        return result
+                    }, {})
                 resolve(items)
             })
         })
@@ -73,14 +126,16 @@ class TimeDatabase {
      * @param host host
      * @since 0.1.3
      */
-    accumulate(host: string, date: Date, item: WastePerDay) {
+    accumulate(host: string, date: Date, item: WastePerDay): Promise<void> {
         const key = this.generateKey(host, date)
-        this.localStorage.get(key, items => {
-            const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
-            const toUpdate = {}
-            toUpdate[key] = exist
-            log('toUpdate', toUpdate)
-            this.localStorage.set(toUpdate)
+        return new Promise(resolve => {
+            this.localStorage.get(key, items => {
+                const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
+                const toUpdate = {}
+                toUpdate[key] = exist
+                log('toUpdate', toUpdate)
+                this.localStorage.set(toUpdate, resolve)
+            })
         })
     }
 
@@ -91,22 +146,24 @@ class TimeDatabase {
      * @param date date
      * @since 0.1.8
      */
-    accumulateBatch(data: { [host: string]: WastePerDay }, date: Date) {
+    accumulateBatch(data: { [host: string]: WastePerDay }, date: Date): Promise<void> {
         const hosts = Object.keys(data)
         if (!hosts.length) return
         const dateStr = formatTime(date, DATE_FORMAT)
         const keys: { [host: string]: string } = {}
         hosts.forEach(host => keys[host] = this.generateKey(host, dateStr))
 
-        this.localStorage.get(Object.values(keys), items => {
-            const toUpdate = {}
-            Object.entries(keys).forEach(([host, key]) => {
-                const item = data[host]
-                const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
-                toUpdate[key] = exist
+        return new Promise(resolve => {
+            this.localStorage.get(Object.values(keys), items => {
+                const toUpdate = {}
+                Object.entries(keys).forEach(([host, key]) => {
+                    const item = data[host]
+                    const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
+                    toUpdate[key] = exist
+                })
+                log('batchToUpdate', toUpdate)
+                Object.keys(toUpdate).length && this.localStorage.set(toUpdate, resolve)
             })
-            log('batchToUpdate', toUpdate)
-            Object.keys(toUpdate).length && this.localStorage.set(toUpdate)
         })
     }
 
@@ -118,6 +175,7 @@ class TimeDatabase {
     async select(condition?: TimerCondition): Promise<SiteInfo[]> {
         log("select:{condition}", condition)
         condition = condition || {}
+        const _cond: _TimerCondition = processCondition(condition)
         const items = await this.refresh()
         let result: SiteInfo[] = []
 
@@ -125,7 +183,7 @@ class TimeDatabase {
             const date = key.substr(0, 8)
             const host = key.substring(8)
             const val: WastePerDay = items[key]
-            if (this.filterBefore(date, host, val, condition)) {
+            if (this.filterBefore(date, host, val, _cond)) {
                 const { total, focus, time } = val
                 result.push({ date, host, total, focus, time, mergedHosts: [] })
             }
@@ -144,83 +202,30 @@ class TimeDatabase {
      * @param condition  query parameters
      * @return true if valid, or false  
      */
-    private filterBefore(date: string, host: string, val: WastePerDay, condition: TimerCondition) {
-        const paramDate = condition.date
+    private filterBefore(date: string, host: string, val: WastePerDay, condition: _TimerCondition) {
         const paramHost = (condition.host || '').trim()
-        const paramTimeRange = condition.timeRange
-        const paramTotalRange = condition.totalRange
-        const paramFocusRange = condition.focusRange
-
+        // Host
         if (paramHost) {
-            if (!!condition.fullHost && host !== paramHost) {
-                return false
-            }
-            if (!condition.fullHost && !host.includes(paramHost)) {
-                return false
-            }
+            if (!!condition.fullHost && host !== paramHost) return false
+            if (!condition.fullHost && !host.includes(paramHost)) return false
         }
-
-        if (paramDate !== undefined) {
-            if (paramDate instanceof Date) {
-                const paramDateStr = formatTime(paramDate as Date, DATE_FORMAT)
-                if (paramDateStr !== date) {
-                    return false
-                }
-            } else {
-                let startDate: Date = undefined
-                let endDate: Date = undefined
-                const dateArr = paramDate as Date[]
-                dateArr && dateArr.length >= 2 && (endDate = dateArr[1])
-                dateArr && dateArr.length >= 1 && (startDate = dateArr[0])
-                if (startDate && formatTime(startDate, DATE_FORMAT) > date) {
-                    return false
-                }
-                if (endDate && formatTime(endDate, DATE_FORMAT) < date) {
-                    return false
-                }
-            }
+        // Date
+        if (condition.useExactDate) {
+            if (condition.exactDateStr !== date) return false
+        } else {
+            const { startDateStr, endDateStr } = condition
+            if (startDateStr && startDateStr > date) return false
+            if (endDateStr && endDateStr < date) return false
         }
-
+        // Item range 
         const { focus, total, time } = val
-
-        if (paramTimeRange instanceof Array) {
-            if (paramTimeRange.length === 2) {
-                const timeStart = paramTimeRange[0]
-                const timeEnd = paramTimeRange[1]
-                if (timeStart !== null && timeStart !== undefined && timeStart > time) {
-                    return false
-                }
-                if (timeEnd !== null && timeEnd !== undefined && timeEnd < time) {
-                    return false
-                }
-            }
-        }
-
-        if (paramTotalRange instanceof Array) {
-            if (paramTotalRange.length === 2) {
-                const totalStart = paramTotalRange[0]
-                const totalEnd = paramTotalRange[1]
-                if (totalStart !== null && totalStart !== undefined && totalStart > total) {
-                    return false
-                }
-                if (totalEnd !== null && totalEnd !== undefined && totalEnd < total) {
-                    return false
-                }
-            }
-        }
-
-        if (paramFocusRange instanceof Array) {
-            if (paramFocusRange.length === 2) {
-                const focusStart = paramFocusRange[0]
-                const focusEnd = paramFocusRange[1]
-                if (focusStart !== null && focusStart !== undefined && focusStart > focus) {
-                    return false
-                }
-                if (focusEnd !== null && focusEnd !== undefined && focusEnd < focus) {
-                    return false
-                }
-            }
-        }
+        const { timeStart, timeEnd, totalStart, totalEnd, focusStart, focusEnd } = condition
+        if (timeStart !== null && timeStart !== undefined && timeStart > time) return false
+        if (timeEnd !== null && timeEnd !== undefined && timeEnd < time) return false
+        if (totalStart !== null && totalStart !== undefined && totalStart > total) return false
+        if (totalEnd !== null && totalEnd !== undefined && totalEnd < total) return false
+        if (focusStart !== null && focusStart !== undefined && focusStart > focus) return false
+        if (focusEnd !== null && focusEnd !== undefined && focusEnd < focus) return false
 
         return true
     }
@@ -270,8 +275,10 @@ class TimeDatabase {
      * @param end end date, inclusive
      * @since 0.0.7
      */
-    async deleteByUrlBetween(host: string, start?: string, end?: string): Promise<string[]> {
-        const dateFilter = (date: string) => (start ? start <= date : true) && (end ? date <= end : true)
+    async deleteByUrlBetween(host: string, start?: Date, end?: Date): Promise<string[]> {
+        const startStr = start ? formatTime(start, DATE_FORMAT) : undefined
+        const endStr = end ? formatTime(end, DATE_FORMAT) : undefined
+        const dateFilter = (date: string) => (startStr ? startStr <= date : true) && (endStr ? date <= endStr : true)
         const items = await this.refresh()
         const keys: string[] = []
         for (const key in items) {
