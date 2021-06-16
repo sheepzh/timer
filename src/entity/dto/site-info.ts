@@ -23,12 +23,12 @@ export default class SiteInfo {
      */
     iconUrl?: string
 
-    constructor(host: string, date?: string) {
+    constructor(host: string, date?: string, total?: number, focus?: number, time?: number) {
         this.host = host
         this.date = date || ''
-        this.total = 0
-        this.focus = 0
-        this.time = 0
+        this.total = total || 0
+        this.focus = focus || 0
+        this.time = time || 0
         this.mergedHosts = []
     }
 }

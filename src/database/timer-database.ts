@@ -94,7 +94,11 @@ function processCondition(condition: TimerCondition): _TimerCondition {
 
 class TimeDatabase {
 
-    private localStorage: chrome.storage.StorageArea = chrome.storage.local
+    private localStorage: chrome.storage.StorageArea
+
+    constructor(storage: chrome.storage.StorageArea) {
+        this.localStorage = storage
+    }
 
     refresh(): Promise<{}> {
         return new Promise(resolve => {
@@ -301,4 +305,4 @@ class TimeDatabase {
     }
 }
 
-export default new TimeDatabase()
+export default TimeDatabase

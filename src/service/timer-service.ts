@@ -1,6 +1,6 @@
-import timerDatabase, { TimerCondition } from '../database/timer-database'
+import TimerDatabase, { TimerCondition } from '../database/timer-database'
 import whitelistDatabase from '../database/whitelist-database'
-import archivedDatabase from '../database/archived-database'
+import ArchivedDatabase from '../database/archived-database'
 import SiteInfo from '../entity/dto/site-info'
 import { log } from '../common/logger'
 import CustomizedDOmainMergeRuler from './domain-merge-ruler'
@@ -8,6 +8,9 @@ import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
 import mergeRuleDatabase from '../database/merge-rule-database'
 import WastePerDay from '../entity/dao/waste-per-day'
 import iconUrlDatabase from '../database/icon-url-database'
+
+const timerDatabase = new TimerDatabase(chrome.storage.local)
+const archivedDatabase = new ArchivedDatabase(chrome.storage.local)
 
 declare type PageParam = {
     pageNum?: number

@@ -1,7 +1,7 @@
 import { ElButton, ElDatePicker, ElDropdown, ElDropdownMenu, ElDropdownItem, ElInput, ElLink, ElMessage, ElPagination, ElPopconfirm, ElSwitch, ElTable, ElTableColumn, ElTooltip } from "element-plus"
 import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from 'vue'
 import { t } from '../../locale'
-import timerDatabase from "../../../database/timer-database"
+import TimerDatabase from "../../../database/timer-database"
 import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
 import timerService, { SortDirect } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
@@ -9,6 +9,8 @@ import { exportCsv, exportJson } from "../../../util/file"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../util/time"
 import './styles/element'
 import './styles/filter'
+
+const timerDatabase = new TimerDatabase(chrome.storage.local)
 
 enum ElSortDirect {
     ASC = 'ascending',
