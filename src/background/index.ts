@@ -1,5 +1,5 @@
 import { openLog } from '../common/logger'
-import iconUrlDatabase from '../database/icon-url-database'
+import IconUrlDatabase from '../database/icon-url-database'
 import timerService from '../service/timer-service'
 import { IS_CHROME } from '../util/constant/environment'
 import { extractHostname, isBrowserUrl } from '../util/pattern'
@@ -7,6 +7,7 @@ import versionManager from './version-manager'
 
 openLog()
 
+const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
 
 let lastLoopTime = Date.now()
 
@@ -71,7 +72,10 @@ chrome.webNavigation.onCompleted.addListener((detail) => {
         const domain = hostInfo.host
         const protocol = hostInfo.protocol
         if (!domain) return
-        const iconUrl = tab.favIconUrl
+        let favIconUrl = tab.favIconUrl
+        // localhost hosts with Chrome use cache, so keep the favIconurl undefined
+        IS_CHROME && /^localhost(:.+)?/.test(domain) && (favIconUrl = undefined)
+        const iconUrl = favIconUrl
             || (IS_CHROME ? `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}` : '')
         iconUrlDatabase.put(domain, iconUrl)
     })

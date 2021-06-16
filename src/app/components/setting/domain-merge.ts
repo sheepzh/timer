@@ -1,9 +1,11 @@
 import { ElAlert, ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { defineComponent, h, Ref, ref } from "vue"
 import { t } from "../../locale"
-import mergeRuleDatabase from "../../../database/merge-rule-database"
+import MergeRuleDatabase from "../../../database/merge-rule-database"
 import DomainMergeRuleItem from "../../../entity/dto/domain-merge-rule-item"
 import { isValidMergeOriginHost } from "../../../util/pattern"
+
+const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 const ruleItemsRef: Ref<DomainMergeRuleItem[]> = ref([])
 

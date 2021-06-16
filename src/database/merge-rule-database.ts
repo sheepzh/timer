@@ -11,7 +11,10 @@ type MergeRuleSet = { [key: string]: string | number }
  * @since 0.1.2
  */
 class MergeRuleDatabase {
-    private localStorage = chrome.storage.local
+    private localStorage: chrome.storage.StorageArea
+    constructor(storage: chrome.storage.StorageArea) {
+        this.localStorage = storage
+    }
 
     refresh(): Promise<MergeRuleSet> {
         return new Promise(resolve => {
@@ -56,4 +59,4 @@ class MergeRuleDatabase {
     }
 }
 
-export default new MergeRuleDatabase()
+export default MergeRuleDatabase
