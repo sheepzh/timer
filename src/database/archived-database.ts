@@ -9,19 +9,23 @@ import { ARCHIVED_PREFIX } from './constant'
  * @since 0.0.9
  */
 class ArchivedDatabase {
-    private localStorage = chrome.storage.local
+    private localStorage: chrome.storage.StorageArea
+
+    constructor(storage: chrome.storage.StorageArea) {
+        this.localStorage = storage
+    }
 
     refresh(): Promise<{}> {
         return new Promise(resolve =>
-            this.localStorage.get(result => {
-                const items = {}
-                for (let key in result) {
-                    if (key.startsWith(ARCHIVED_PREFIX)) {
-                        items[key.substr(ARCHIVED_PREFIX.length)] = result[key]
-                    }
-                }
-                log('All archived', items)
-                resolve(items)
+            this.localStorage.get(items => {
+                const result = Object.entries(items)
+                    .filter(([key]) => key.startsWith(ARCHIVED_PREFIX))
+                    .reduce((obj, [key, val]) => {
+                        obj[key.substr(ARCHIVED_PREFIX.length)] = val
+                        return obj
+                    }, {})
+                log('All archived', result)
+                resolve(result)
             })
         )
     }
@@ -43,29 +47,29 @@ class ArchivedDatabase {
         const archiveMap = {}
         archived.forEach(a => archiveMap[a.host] = a)
         rows.forEach(row => {
-            const { host: host_2, focus, total, time } = row
-            let archive = archiveMap[host_2]
+            const { host, focus, total, time } = row
+            let archive = archiveMap[host]
             if (!archive) {
-                archive = new SiteInfo(host_2)
-                archiveMap[host_2] = archive
+                archive = new SiteInfo(host)
+                archiveMap[host] = archive
             }
             archive.focus += focus || 0
             archive.total += total || 0
             archive.time += time || 0
         })
         const archivedValues = Object.values(archiveMap) as SiteInfo[]
-        return await this.rewrite(archivedValues)
+        return this.rewrite(archivedValues)
     }
 
     private async rewrite(toWrite: SiteInfo[]): Promise<void> {
-        const promises: Promise<void>[] = toWrite.map(tw => {
+        const promises = toWrite.map(tw => {
             const object = {}
             const { total, focus, time } = tw
             object[this.generateKey(tw)] = { total, focus, time }
-            return new Promise(resolve => this.localStorage.set(object, resolve))
+            return new Promise<void>(resolve => this.localStorage.set(object, resolve))
         })
         await Promise.all(promises)
-        return await Promise.resolve()
+        return Promise.resolve()
     }
 
     /**
@@ -75,16 +79,14 @@ class ArchivedDatabase {
      */
     async selectArchived(domains: Set<string>): Promise<SiteInfo[]> {
         const items = await this.refresh()
-        const result: SiteInfo[] = []
-        for (const key in items) {
-            if (domains.has(key)) {
-                const waste: WastePerDay = items[key]
-                const { focus, total, time } = waste
-                result.push({ focus, total, time, host: key, date: '', mergedHosts: [] })
-            }
-        }
+        const result: SiteInfo[] = Object.entries(items)
+            .filter(([key]) => domains.has(key))
+            .map(([host, waste]) => {
+                const { focus, total, time } = waste as WastePerDay
+                return { focus, total, time, host, date: '', mergedHosts: [] }
+            })
         return await Promise.resolve(result)
     }
 }
 
-export default new ArchivedDatabase()
+export default ArchivedDatabase

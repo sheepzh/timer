@@ -1,10 +1,10 @@
 import { DATE_FORMAT } from "../../src/database/constant"
-import timerDatabase, { TimerCondition } from "../../src/database/timer-database"
+import TimerDatabase, { TimerCondition } from "../../src/database/timer-database"
 import WastePerDay from "../../src/entity/dao/waste-per-day"
 import { formatTime, MILL_PER_DAY } from "../../src/util/time"
-import chrome from '../__mock__'
+import storage from '../__mock__/storage'
 
-const db = timerDatabase
+const db = new TimerDatabase(storage.local)
 const now = new Date()
 const nowStr = formatTime(now, DATE_FORMAT)
 const yesterday = new Date(now.getTime() - MILL_PER_DAY)
@@ -13,7 +13,7 @@ const baidu = 'www.baidu.com'
 const google = 'www.google.com.hk'
 
 describe('timer-database', () => {
-    beforeEach(async () => chrome.storage.local.clear())
+    beforeEach(async () => storage.local.clear())
 
     test('1', async () => {
         await db.accumulate(baidu, now, WastePerDay.of(100, 100, 0))
@@ -132,7 +132,6 @@ describe('timer-database', () => {
         await db.deleteByUrl(baidu)
         const cond: TimerCondition = { host: baidu, fullHost: true }
         // Nothing of baidu remained
-        console.log(await db.select(cond))
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
         cond.host = google

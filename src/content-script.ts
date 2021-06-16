@@ -1,9 +1,10 @@
-import timerDatabase from "./database/timer-database"
+import TimerDatabase from "./database/timer-database"
 import WastePerDay from "./entity/dao/waste-per-day"
 import timeService from './service/timer-service'
 import whitelistService from "./service/whitelist-service"
 import { formatPeriod } from "./util/time"
 
+const timerDatabase = new TimerDatabase(chrome.storage.local)
 const host = document.location.host
 
 timeService.addOneTime(host)

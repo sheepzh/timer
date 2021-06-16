@@ -1,11 +1,13 @@
 import { ElButton, ElDatePicker, ElInput, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
-import timerDatabase, { TimerCondition } from "../../../database/timer-database"
+import TimerDatabase, { TimerCondition } from "../../../database/timer-database"
 import SiteInfo from "../../../entity/dto/site-info"
 import timerService from "../../../service/timer-service"
 import { formatTime, MILL_PER_DAY } from "../../../util/time"
 import { I18nKey, t, tN } from "../../locale"
 import './style/filter'
+
+const timerDatabase = new TimerDatabase(chrome.storage.local)
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
 const daysBefore = (days: number) => new Date().getTime() - days * MILL_PER_DAY
