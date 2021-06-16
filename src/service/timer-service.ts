@@ -5,12 +5,14 @@ import SiteInfo from '../entity/dto/site-info'
 import { log } from '../common/logger'
 import CustomizedDOmainMergeRuler from './domain-merge-ruler'
 import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
-import mergeRuleDatabase from '../database/merge-rule-database'
+import MergeRuleDatabase from '../database/merge-rule-database'
 import WastePerDay from '../entity/dao/waste-per-day'
-import iconUrlDatabase from '../database/icon-url-database'
+import IconUrlDatabase from '../database/icon-url-database'
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 const archivedDatabase = new ArchivedDatabase(chrome.storage.local)
+const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
+const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 declare type PageParam = {
     pageNum?: number
@@ -95,9 +97,7 @@ class TimeService {
     private async fillIconUrl(siteInfos: SiteInfo[]): Promise<void> {
         const hosts = siteInfos.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
-        siteInfos.forEach(siteInfo => {
-            siteInfo.iconUrl = iconUrlMap[siteInfo.host]
-        })
+        siteInfos.forEach(siteInfo => siteInfo.iconUrl = iconUrlMap[siteInfo.host])
         return Promise.resolve()
     }
 

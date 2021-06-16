@@ -10,4 +10,14 @@ export default class DomainMergeRuleItem {
      * + Number means the count of kept dots, must be natural number (int & >=0)
      */
     merged: string | number
+
+    /**
+     * @since 0.1.9
+     */
+    static of(origin: string, merged?: string | number): DomainMergeRuleItem {
+        if (merged === undefined) {
+            merged = ''
+        }
+        return { origin, merged }
+    }
 }

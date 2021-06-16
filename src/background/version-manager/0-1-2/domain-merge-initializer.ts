@@ -1,5 +1,7 @@
-import mergeRuleDatabase from "../../../database/merge-rule-database"
+import MergeRuleDatabase from "../../../database/merge-rule-database"
 import IVersionProcessor from "../i-version-processor"
+
+const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 /**
  * v0.1.2

@@ -12,7 +12,11 @@ const urlOf = (key: string) => key.substring(DB_KEY_PREFIX.length)
  * @since 0.1.7
  */
 class IconUrlDatabase {
-    private localStorage = chrome.storage.local
+    private localStorage: chrome.storage.StorageArea
+
+    constructor(storage: chrome.storage.StorageArea) {
+        this.localStorage = storage
+    }
 
     /**
      * Replace or insert
@@ -45,4 +49,4 @@ class IconUrlDatabase {
     }
 }
 
-export default new IconUrlDatabase()
+export default IconUrlDatabase
