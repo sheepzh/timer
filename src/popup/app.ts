@@ -216,7 +216,10 @@ export default defineComponent(() => {
 
     // 3. merge domain switch
     const mergeDomainSwitch = () => h(ElTooltip,
-        { content: t(msg => msg.mergeDomainLabel) },
+        {
+            content: t(msg => msg.mergeDomainLabel),
+            placement: 'top'
+        },
         () => h(ElSwitch,
             {
                 modelValue: mergeDomainRef.value,
