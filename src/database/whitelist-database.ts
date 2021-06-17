@@ -1,13 +1,12 @@
 import { WHITELIST_KEY } from "./constant"
 
-
-const ruleId = '_timer_whitelist_db_change_rule_id'
-
 class WhitelistDatabase {
 
-    private localStorage = chrome.storage.local
+    private localStorage: chrome.storage.StorageArea
 
-    constructor() { }
+    constructor(storage: chrome.storage.StorageArea) {
+        this.localStorage = storage
+    }
 
     private update(selectAll: string[]): Promise<void> {
         const obj = {}
@@ -62,4 +61,4 @@ class WhitelistDatabase {
     }
 }
 
-export default new WhitelistDatabase()
+export default WhitelistDatabase
