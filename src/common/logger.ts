@@ -5,7 +5,7 @@ let OPEN_LOG = false
  * @param args arguments
  */
 export function log(...args: any) {
-    OPEN_LOG && console.log(args)
+    OPEN_LOG && console.log(...args)
 }
 
 /**

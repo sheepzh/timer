@@ -4,7 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import webpack from 'webpack'
 // Generate json files 
 import manifest from '../src/manifest'
-import i18nChrome from '../src/util/i18n/i18n-chrome'
+import i18nChrome from '../src/util/i18n/chrome'
 
 const generateJsonPlugins = [
     new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance

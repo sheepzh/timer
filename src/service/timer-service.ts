@@ -54,11 +54,18 @@ export type TimerQueryParam = TimerCondition & {
  */
 class TimeService {
 
+    private whitelist: string[] = []
+
+    constructor() {
+        const whitelistSetter = (whitelist: string[]) => this.whitelist = whitelist
+        whitelistDatabase.selectAll().then(whitelistSetter)
+        whitelistDatabase.addChangeListener(whitelistSetter)
+    }
+
     async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }) {
-        const whitelist: string[] = await whitelistDatabase.selectAll()
         const toUpdate = {}
         Object.entries(data)
-            .filter(([host]) => !whitelist.includes(host))
+            .filter(([host]) => !this.whitelist.includes(host))
             .forEach(([host, item]) => toUpdate[host] = WastePerDay.of(item.run, item.focus, 0))
         timerDatabase.accumulateBatch(toUpdate, new Date())
     }
