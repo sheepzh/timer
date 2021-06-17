@@ -17,3 +17,5 @@ script/icons_history
 **/__pycache__
 
 coverage
+
+package-lock.json
