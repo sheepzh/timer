@@ -23,7 +23,7 @@ class ContextMenusManager {
         })
         chrome.contextMenus.create(
             {
-                contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio', 'launcher'],
+                contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio'],
                 id: menuId,
                 checked: true,
                 title: 'foobar',
