@@ -37,7 +37,8 @@ if (IS_CHROME) {
 } else if (IS_EDGE) {
     updatePage = 'edge://extensions'
 } else if (IS_FIREFOX) {
-    updatePage = "about:addons"
+    // "about:*" is invalid in firefox
+    updatePage = HOME_PAGE
 }
 
 export const UPDATE_PAGE = updatePage
