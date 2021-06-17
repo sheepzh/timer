@@ -1,5 +1,8 @@
 import { WHITELIST_KEY } from "./constant"
 
+
+const ruleId = '_timer_whitelist_db_change_rule_id'
+
 class WhitelistDatabase {
 
     private localStorage = chrome.storage.local
@@ -40,6 +43,22 @@ class WhitelistDatabase {
     async includes(url: string): Promise<boolean> {
         const selectAll = await this.selectAll()
         return Promise.resolve(selectAll.includes(url))
+    }
+
+    /**
+     * Add listener to listen changes
+     * 
+     * @since 0.1.9
+     */
+    addChangeListener(listener: (whitelist: string[]) => void) {
+        const storageListener = (
+            changes: { [key: string]: chrome.storage.StorageChange; },
+            _areaName: "sync" | "local" | "managed"
+        ) => {
+            const changeInfo = changes[WHITELIST_KEY]
+            changeInfo && listener(changeInfo.newValue || [])
+        }
+        chrome.storage.onChanged.addListener(storageListener)
     }
 }
 
