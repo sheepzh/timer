@@ -1,6 +1,7 @@
 import { log } from "../common/logger"
-import whitelistDatabase from "../database/whitelist-database"
+import WhitelistDatabase from "../database/whitelist-database"
 
+const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
 /**
  * Service of whitelist
  * 

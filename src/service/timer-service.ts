@@ -1,5 +1,5 @@
 import TimerDatabase, { TimerCondition } from '../database/timer-database'
-import whitelistDatabase from '../database/whitelist-database'
+import WhitelistDatabase from '../database/whitelist-database'
 import ArchivedDatabase from '../database/archived-database'
 import SiteInfo from '../entity/dto/site-info'
 import { log } from '../common/logger'
@@ -13,6 +13,7 @@ const timerDatabase = new TimerDatabase(chrome.storage.local)
 const archivedDatabase = new ArchivedDatabase(chrome.storage.local)
 const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
+const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
 
 declare type PageParam = {
     pageNum?: number

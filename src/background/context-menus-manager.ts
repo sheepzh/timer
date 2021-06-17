@@ -1,8 +1,8 @@
-import whitelistDatabase from '../database/whitelist-database'
+import WhitelistDatabase from '../database/whitelist-database'
 import { t2Chrome } from '../util/i18n/chrome/t'
 import { extractHostname, isBrowserUrl } from '../util/pattern'
 
-const db = whitelistDatabase
+const db = new WhitelistDatabase(chrome.storage.local)
 
 const menuId = '_timer_menu_item_' + Date.now()
 
