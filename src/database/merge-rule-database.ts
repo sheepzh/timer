@@ -1,5 +1,6 @@
 import DomainMergeRuleItem from "../entity/dto/domain-merge-rule-item"
-import { REMAIN_WORD_PREFIX } from "./constant"
+import BaseDatabase from "./common/base-database"
+import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 const DB_KEY = REMAIN_WORD_PREFIX + 'MERGE_RULES'
 
@@ -10,25 +11,18 @@ type MergeRuleSet = { [key: string]: string | number }
  *
  * @since 0.1.2
  */
-class MergeRuleDatabase {
-    private localStorage: chrome.storage.StorageArea
-    constructor(storage: chrome.storage.StorageArea) {
-        this.localStorage = storage
+class MergeRuleDatabase extends BaseDatabase {
+
+    async refresh(): Promise<MergeRuleSet> {
+        const result = await this.storage.get(DB_KEY)
+        const rules = result[DB_KEY] || {}
+        return Promise.resolve(rules)
     }
 
-    refresh(): Promise<MergeRuleSet> {
-        return new Promise(resolve => {
-            this.localStorage.get(DB_KEY, result => {
-                const rules = result[DB_KEY] || {}
-                resolve(rules)
-            })
-        })
-    }
-
-    private update(data: MergeRuleSet): Promise<void> {
+    private async update(data: MergeRuleSet): Promise<void> {
         const toUpdate = {}
         toUpdate[DB_KEY] = data
-        return new Promise(resolve => this.localStorage.set(toUpdate, resolve))
+        return this.storage.set(toUpdate)
     }
 
     async selectAll(): Promise<DomainMergeRuleItem[]> {

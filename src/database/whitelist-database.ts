@@ -1,21 +1,17 @@
-import { WHITELIST_KEY } from "./constant"
+import BaseDatabase from "./common/base-database"
+import { WHITELIST_KEY } from "./common/constant"
 
-class WhitelistDatabase {
-
-    private localStorage: chrome.storage.StorageArea
-
-    constructor(storage: chrome.storage.StorageArea) {
-        this.localStorage = storage
-    }
+class WhitelistDatabase extends BaseDatabase {
 
     private update(selectAll: string[]): Promise<void> {
         const obj = {}
         obj[WHITELIST_KEY] = selectAll
-        return new Promise(resolve => this.localStorage.set(obj, resolve))
+        return this.storage.set(obj)
     }
 
-    selectAll(): Promise<string[]> {
-        return new Promise(resolve => this.localStorage.get(items => resolve(items[WHITELIST_KEY] || [])))
+    async selectAll(): Promise<string[]> {
+        const items = await this.storage.get(null)
+        return Promise.resolve(items[WHITELIST_KEY] || [])
     }
 
     async add(url: string): Promise<void> {
@@ -51,7 +47,7 @@ class WhitelistDatabase {
      */
     addChangeListener(listener: (whitelist: string[]) => void) {
         const storageListener = (
-            changes: { [key: string]: chrome.storage.StorageChange; },
+            changes: { [key: string]: chrome.storage.StorageChange },
             _areaName: "sync" | "local" | "managed"
         ) => {
             const changeInfo = changes[WHITELIST_KEY]

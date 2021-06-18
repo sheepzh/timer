@@ -1,7 +1,11 @@
+import StoragePromise from "../../src/database/common/storage-promise"
+
 let store = {}
 
-function resolveKey(key: string | Object | string[]) {
-    if (typeof key === 'string') {
+function resolveKey(key: string | Object | string[] | null) {
+    if (key === null) {
+        return store
+    } else if (typeof key === 'string') {
         const result = {}
         result[key] = store[key]
         return result
@@ -62,3 +66,5 @@ const onChanged = {
 } as unknown as chrome.storage.StorageChangedEvent
 
 export default { local, sync, managed, onChanged }
+
+export const localPromise = new StoragePromise(local)
