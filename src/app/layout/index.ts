@@ -3,11 +3,9 @@ import { defineComponent, h } from "vue"
 import Menu from './menu'
 import { RouterView } from "vue-router"
 
-export default defineComponent(() => {
-    return () => h(ElContainer, {},
-        () => [
-            h(ElAside, () => h(Menu)),
-            h(ElContainer, { class: 'app-container' }, () => h(RouterView))
-        ])
-})
+const layoutContent = () => [
+    h(ElAside, () => h(Menu)),
+    h(ElContainer, { class: 'app-container' }, () => h(RouterView))
+]
 
+export default defineComponent(() => () => h(ElContainer, {}, () => layoutContent()))

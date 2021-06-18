@@ -1,4 +1,4 @@
-import { DATE_FORMAT } from "../../src/database/constant"
+import { DATE_FORMAT } from "../../src/database/common/constant"
 import TimerDatabase, { TimerCondition } from "../../src/database/timer-database"
 import WastePerDay from "../../src/entity/dao/waste-per-day"
 import { formatTime, MILL_PER_DAY } from "../../src/util/time"

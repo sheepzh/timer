@@ -41,13 +41,19 @@ export function getI18nVal<MessageType>(messages: MessageType, keyPath: I18nKey<
     return typeof result === 'string' ? result : JSON.stringify(result)
 }
 
+export type TranslateProps<MessageType> = {
+    key: I18nKey<MessageType>,
+    param?: { [key: string]: string | number }
+}
+
 /**
  * Translate
  * @param key     keyPath 
  * @param param   param
  * @returns string or vnodes[]
  */
-export function t<MessageType>(messages: MessageType, key: I18nKey<MessageType>, param?: { [key: string]: string | number }): string {
+export function t<MessageType>(messages: MessageType, props: TranslateProps<MessageType>): string {
+    const { key, param } = props
     let result: string = getI18nVal(messages, key)
     if (param) {
         for (const [key, value] of Object.entries(param)) {

@@ -23,7 +23,12 @@ test('time', () => {
 })
 
 test('time', () => {
-    expect(formatPeriod(3666 * 1000, '{hour}时{minute}分{second}秒', '{minute}分{second}秒', '{second}秒')).toEqual('1时1分6秒')
+    const msg = {
+        hourMsg: '{hour}时{minute}分{second}秒',
+        minuteMsg: '{minute}分{second}秒',
+        secondMsg: '{second}秒'
+    }
+    expect(formatPeriod(3666 * 1000, msg)).toEqual('1时1分6秒')
     expect(formatPeriodCommon(3666 * 1000)).toEqual('1 h 1 m 6 s')
     expect(formatPeriodCommon(1)).toEqual('0 s')
 })

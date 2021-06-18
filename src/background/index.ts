@@ -1,5 +1,4 @@
 import { openLog } from '../common/logger'
-import { t2Chrome } from '../util/i18n/chrome/t'
 import ContextMenusManager from './context-menus-manager'
 import IconUrlCollector from './icon-url-collector'
 import Timer from './timer'
@@ -18,4 +17,4 @@ new IconUrlCollector().listen()
 new VersionManager().init()
 
 // Mange the context menus
-new ContextMenusManager().init()
+ContextMenusManager()
