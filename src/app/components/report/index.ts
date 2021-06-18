@@ -445,7 +445,7 @@ export default defineComponent(() => {
         border: true,
         size: 'mini',
         defaultSort: sortRef,
-        style: 'width:100%',
+        style: { width: '100%' },
         highlightCurrentRow: true,
         fit: true,
         onSortChange: (newSort: SortInfo) => {
