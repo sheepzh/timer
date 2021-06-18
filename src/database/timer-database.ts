@@ -164,7 +164,6 @@ class TimeDatabase {
                     const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
                     toUpdate[key] = exist
                 })
-                log('batchToUpdate', toUpdate)
                 Object.keys(toUpdate).length && this.localStorage.set(toUpdate, resolve)
             })
         })

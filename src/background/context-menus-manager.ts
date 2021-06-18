@@ -62,11 +62,12 @@ class ContextMenusManager {
                 // Else change the title
                 const existsInWhitelist = whitelist.includes(targetHost)
                 changeProp.visible = true
-                changeProp.title = existsInWhitelist
+                changeProp.title = (existsInWhitelist
                     ? t2Chrome(root => root.contextMenus.removeFromWhitelist)
-                    : t2Chrome(root => root.contextMenus.add2Whitelist)
+                    : t2Chrome(root => root.contextMenus.add2Whitelist)).replace('{host}', targetHost)
                 changeProp.onclick = () => removeOrAdd(existsInWhitelist, targetHost)
             }
+            console.log(changeProp)
             chrome.contextMenus.update(menuId, changeProp)
         }
     }
