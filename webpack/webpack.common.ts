@@ -6,8 +6,6 @@ import webpack from 'webpack'
 import manifest from '../src/manifest'
 import i18nChrome from '../src/util/i18n/chrome'
 
-console.log(i18nChrome)
-
 const generateJsonPlugins = [
     new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance
 ]
