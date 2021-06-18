@@ -29,6 +29,26 @@ const messages: Messages<ChromeMessage> = {
 
 export default messages
 
+const placeholder: ChromeMessage = {
+    app: {
+        name: '',
+        description: '',
+        marketName: '',
+        currentVersion: ''
+    },
+    message: {
+        openTimesConsoleLog: '',
+        usedTimeInConsoleLog: '',
+        timeWithHour: '',
+        timeWithMinute: '',
+        timeWithSecond: ''
+    },
+    contextMenus: {
+        add2Whitelist: '',
+        removeFromWhitelist: ''
+    }
+}
+
 function routerPath(root: any, parentPath = undefined) {
     Object.entries(root)
         .forEach(([key, value]) => {
@@ -42,4 +62,4 @@ function routerPath(root: any, parentPath = undefined) {
     return root
 }
 
-export const router: ChromeMessage = routerPath(messages.zh_CN) as unknown as ChromeMessage
+export const router: ChromeMessage = routerPath(placeholder) as unknown as ChromeMessage
