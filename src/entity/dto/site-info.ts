@@ -2,7 +2,14 @@ export declare type SiteItem = 'total' | 'focus' | 'time'
 
 export const ALL_SITE_ITEMS: SiteItem[] = ['focus', 'total', 'time']
 
-export default class SiteInfo {
+export type SiteItemVal = { [item in SiteItem]: number }
+
+export type SiteKeyVal = {
+    host: string
+    date?: string
+}
+
+export default class SiteInfo implements SiteItemVal {
     host: string
     date: string
     total: number
@@ -23,12 +30,13 @@ export default class SiteInfo {
      */
     iconUrl?: string
 
-    constructor(host: string, date?: string, total?: number, focus?: number, time?: number) {
-        this.host = host
-        this.date = date || ''
-        this.total = total || 0
-        this.focus = focus || 0
-        this.time = time || 0
+    constructor(key: SiteKeyVal, item?: SiteItemVal) {
+        this.host = key.host
+        this.date = key.date || ''
+
+        this.total = item && item.total || 0
+        this.focus = item && item.focus || 0
+        this.time = item && item.time || 0
         this.mergedHosts = []
     }
 }

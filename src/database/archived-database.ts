@@ -1,33 +1,25 @@
 import { log } from '../common/logger'
 import WastePerDay from '../entity/dao/waste-per-day'
 import SiteInfo from '../entity/dto/site-info'
-import { ARCHIVED_PREFIX } from './constant'
+import BaseDatabase from './common/base-database'
+import { ARCHIVED_PREFIX } from './common/constant'
 
 /**
  * Database of archived site
  *  
  * @since 0.0.9
  */
-class ArchivedDatabase {
-    private localStorage: chrome.storage.StorageArea
+class ArchivedDatabase extends BaseDatabase {
 
-    constructor(storage: chrome.storage.StorageArea) {
-        this.localStorage = storage
-    }
-
-    refresh(): Promise<{}> {
-        return new Promise(resolve =>
-            this.localStorage.get(items => {
-                const result = Object.entries(items)
-                    .filter(([key]) => key.startsWith(ARCHIVED_PREFIX))
-                    .reduce((obj, [key, val]) => {
-                        obj[key.substr(ARCHIVED_PREFIX.length)] = val
-                        return obj
-                    }, {})
-                log('All archived', result)
-                resolve(result)
-            })
-        )
+    async refresh(): Promise<{}> {
+        const items = await this.storage.get(null)
+        const result = {}
+        Object.entries(items)
+            .filter(([key]) => key.startsWith(ARCHIVED_PREFIX))
+            .map(([key, val]) => [key.substr(ARCHIVED_PREFIX.length), val])
+            .forEach(([key, val]) => result[key] = val)
+        log('All archived', result)
+        return Promise.resolve(result)
     }
 
     private generateKey(row: SiteInfo): string {
@@ -49,10 +41,9 @@ class ArchivedDatabase {
         rows.forEach(row => {
             const { host, focus, total, time } = row
             let archive = archiveMap[host]
-            if (!archive) {
-                archive = new SiteInfo(host)
-                archiveMap[host] = archive
-            }
+
+            !archive && (archiveMap[host] = archive = new SiteInfo({ host }))
+
             archive.focus += focus || 0
             archive.total += total || 0
             archive.time += time || 0
@@ -66,7 +57,7 @@ class ArchivedDatabase {
             const object = {}
             const { total, focus, time } = tw
             object[this.generateKey(tw)] = { total, focus, time }
-            return new Promise<void>(resolve => this.localStorage.set(object, resolve))
+            return this.storage.set(object)
         })
         await Promise.all(promises)
         return Promise.resolve()
