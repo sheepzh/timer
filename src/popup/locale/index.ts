@@ -7,7 +7,8 @@ const message = messages[_locale]
 export type I18nKey = _I18nKey<PopupMessage>
 
 export const t = (key: I18nKey, param?: any) => {
-    return _t<PopupMessage>(message, key, param)
+    const props = { key, param }
+    return _t<PopupMessage>(message, props)
 }
 
 export const locale = _locale

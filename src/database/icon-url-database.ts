@@ -1,4 +1,5 @@
-import { REMAIN_WORD_PREFIX } from "./constant"
+import BaseDatabase from "./common/base-database"
+import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 const DB_KEY_PREFIX = REMAIN_WORD_PREFIX + "ICON_URL"
 
@@ -11,12 +12,7 @@ const urlOf = (key: string) => key.substring(DB_KEY_PREFIX.length)
  * 
  * @since 0.1.7
  */
-class IconUrlDatabase {
-    private localStorage: chrome.storage.StorageArea
-
-    constructor(storage: chrome.storage.StorageArea) {
-        this.localStorage = storage
-    }
+class IconUrlDatabase extends BaseDatabase {
 
     /**
      * Replace or insert
@@ -27,25 +23,18 @@ class IconUrlDatabase {
     put(host: string, iconUrl: string): Promise<void> {
         const toUpdate = {}
         toUpdate[generateKey(host)] = iconUrl
-        return new Promise(resolve => this.localStorage.set(toUpdate, resolve))
+        return this.storage.set(toUpdate)
     }
 
     /**
      * @param hosts hosts
      */
-    get(...hosts: string[]): Promise<{ [host: string]: string }> {
+    async get(...hosts: string[]): Promise<{ [host: string]: string }> {
         const keys = hosts.map(generateKey)
-        return new Promise(resolve =>
-            this.localStorage.get(keys,
-                items => {
-                    const result = {}
-                    for (const [key, iconUrl] of Object.entries(items)) {
-                        result[urlOf(key)] = iconUrl
-                    }
-                    resolve(result)
-                }
-            )
-        )
+        const items = await this.storage.get(keys)
+        const result = {}
+        Object.entries(items).forEach(([key, iconUrl]) => result[urlOf(key)] = iconUrl)
+        return Promise.resolve(result)
     }
 }
 

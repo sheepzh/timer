@@ -37,25 +37,28 @@ type RegRuleItem = {
     result: string | number
 }
 
+
+const processRegStr = (regStr: string) => regStr.split('.').join('\\.').split('*').join('[^\\.]+')
+
+const convert = (dbItem: DomainMergeRuleItem) => {
+    const { origin, merged } = dbItem
+    if (origin.includes('*')) {
+        const regStr = processRegStr(origin)
+        const reg = new RegExp('^' + regStr + '$')
+        return { reg, result: merged } as RegRuleItem
+    } else {
+        return [origin, merged]
+    }
+}
+
 export default class CustomizedDOmainMergeRuler implements IDomainMergeRuler {
     private noRegMergeRules: { [origin: string]: string | number } = {}
 
     private regs: RegRuleItem[] = []
 
     constructor(rules: DomainMergeRuleItem[]) {
-        for (const { origin, merged } of rules) {
-            if (origin.includes('*')) {
-                const regStr = origin
-                    // replaceAll('.', '\\.')
-                    .split('.').join('\\.')
-                    // replaceAll('*', '.*')
-                    .split('*').join('[^\\.]+')
-                const reg = new RegExp('^' + regStr + '$')
-                this.regs.push({ reg, result: merged })
-            } else {
-                this.noRegMergeRules[origin] = merged
-            }
-        }
+        rules.map(item => convert(item))
+            .forEach(rule => Array.isArray(rule) ? (this.noRegMergeRules[rule[0]] = rule[1]) : (this.regs.push(rule)))
     }
 
     /**
@@ -66,22 +69,13 @@ export default class CustomizedDOmainMergeRuler implements IDomainMergeRuler {
         // First check the static rules
         let merged = this.noRegMergeRules[origin]
         // The check the regular rules
-        if (merged === undefined) {
-            for (const item of this.regs) {
-                if (item.reg.test(origin)) {
-                    merged = item.result
-                    break
-                }
-            }
-        }
+        let matchResult: undefined | RegRuleItem = undefined
+        merged === undefined && (matchResult = this.regs.find(item => item.reg.test(origin)))
+        matchResult && (merged = matchResult.result)
         return this.merge0(merged === undefined ? 1 : merged, origin)
     }
 
     private merge0(merged: string | number, origin: string): string {
-        if (typeof merged === 'string') {
-            return merged === '' ? origin : merged
-        } else {
-            return getTheSuffix(origin, merged)
-        }
+        return typeof merged === 'string' ? (merged === '' ? origin : merged) : getTheSuffix(origin, merged)
     }
 }

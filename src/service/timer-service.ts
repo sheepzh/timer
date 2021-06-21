@@ -72,8 +72,7 @@ class TimeService {
     }
 
     async addOneTime(host: string) {
-        const isWhitelist = await whitelistDatabase.includes(host)
-        !isWhitelist && timerDatabase.accumulate(host, new Date(), WastePerDay.of(0, 0, 1))
+        timerDatabase.accumulate(host, new Date(), WastePerDay.of(0, 0, 1))
     }
 
     /**
@@ -102,6 +101,19 @@ class TimeService {
         return timerDatabase.delete(rows)
     }
 
+    private processSort(origin: SiteInfo[], param: TimerQueryParam) {
+        const { sort, sortOrder } = param
+        if (!sort) return
+
+        const order = sortOrder || SortDirect.ASC
+        origin.sort((a, b) => {
+            const aa = a[sort]
+            const bb = b[sort]
+            if (aa === bb) return 0
+            return order * (aa > bb ? 1 : -1)
+        })
+    }
+
     private async fillIconUrl(siteInfos: SiteInfo[]): Promise<void> {
         const hosts = siteInfos.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
@@ -123,22 +135,10 @@ class TimeService {
         }
         param.mergeDate && (origin = this.mergeDate(origin))
         // 2nd sort
-        const sort = param.sort
-        if (sort) {
-            const order = param.sortOrder || SortDirect.ASC
-            origin.sort((a, b) => {
-                const aa = a[sort]
-                const bb = b[sort]
-                if (aa === bb)
-                    return 0
-                return order * (aa > bb ? 1 : -1)
-            })
-        }
+        this.processSort(origin, param)
         // 3rd get icon url if need
-        if (!param.mergeDomain && needIconUrl) {
-            await this.fillIconUrl(origin)
-        }
-        return Promise.resolve(origin)
+        !param.mergeDomain && needIconUrl && await this.fillIconUrl(origin)
+        return origin
     }
 
     async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageInfo> {
@@ -204,19 +204,16 @@ class TimeService {
     private merge(map: {}, origin: SiteInfo, key: string): SiteInfo {
         let exist: SiteInfo = map[key]
         if (exist === undefined) {
-            exist = map[key] = new SiteInfo(origin.host, origin.date)
+            exist = map[key] = new SiteInfo({ host: origin.host, date: origin.date })
             exist.mergedHosts = origin.mergedHosts || []
         }
         exist.time += origin.time
         exist.focus += origin.focus
         exist.total += origin.total
-        if (origin.mergedHosts) {
-            for (const originHost of origin.mergedHosts) {
-                if (!exist.mergedHosts.find(existOrigin => existOrigin.host === originHost.host)) {
-                    exist.mergedHosts.push(originHost)
-                }
-            }
-        }
+
+        origin.mergedHosts && origin.mergedHosts.forEach(originHost =>
+            !exist.mergedHosts.find(existOrigin => existOrigin.host === originHost.host) && exist.mergedHosts.push(originHost)
+        )
         return exist
     }
 }

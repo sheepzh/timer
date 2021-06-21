@@ -1,5 +1,5 @@
 import ArchivedDatabase from '../../src/database/archived-database'
-import { DATE_FORMAT } from '../../src/database/constant'
+import { DATE_FORMAT } from '../../src/database/common/constant'
 import SiteInfo from '../../src/entity/dto/site-info'
 import { formatTime, MILL_PER_DAY } from '../../src/util/time'
 import storage from '../__mock__/storage'
@@ -15,10 +15,10 @@ describe('archived-database', () => {
     beforeEach(async () => storage.local.clear())
     test('1', async () => {
         await archivedDatabase.updateArchived([
-            new SiteInfo(baidu, now, 1, 1, 0),
-            new SiteInfo(baidu, yesterday, 1, 0, 2),
+            new SiteInfo({ host: baidu, date: now }, { focus: 1, total: 1, time: 0 }),
+            new SiteInfo({ host: baidu, date: yesterday }, { focus: 1, total: 0, time: 2 }),
         ])
-        await archivedDatabase.updateArchived([new SiteInfo(baidu, beforeYesterday, 0, 1, 2)])
+        await archivedDatabase.updateArchived([new SiteInfo({ host: baidu, date: beforeYesterday }, { focus: 0, total: 1, time: 2 })])
         const result = await archivedDatabase.selectArchived(new Set([baidu]))
         expect(result.length).toEqual(1)
         const baiduInfo = result[0]
