@@ -1,3 +1,4 @@
+import periodService from "../service/period-service"
 import timerService from "../service/timer-service"
 import { isBrowserUrl, extractHostname } from "../util/pattern"
 
@@ -80,6 +81,10 @@ class Timer {
      */
     private save() {
         timerService.addFocusAndTotal(timeMap)
+        const focusEntry = Object.entries(timeMap).find(([_host, { focus }]) => focus)
+        // Add periodtime
+        console.log(focusEntry)
+        focusEntry && periodService.add(lastCollectTime, focusEntry[1].focus)
         timeMap = {}
     }
 

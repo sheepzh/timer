@@ -13,6 +13,7 @@ describe('timer-database', () => {
         expect(list.sort()).toEqual(['www.baidu.com', 'google.com'].sort())
         expect((await db.includes('www.baidu.com'))).toBeTruthy()
         await db.remove('www.baidu.com')
+        await db.remove('www.baidu.com111')
         expect((await db.selectAll())).toEqual(['google.com'])
         expect((await db.includes('www.baidu.com'))).toBeFalsy()
         await db.add('google.com')
