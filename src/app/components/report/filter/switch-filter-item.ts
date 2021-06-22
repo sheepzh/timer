@@ -12,7 +12,7 @@ export type SwitchFilterItemProps = {
     itemTitle: keyof ReportMessage
 }
 
-const name = () => h('a', { class: 'filter-name' }, t(msg => msg.report.mergeDate))
+const name = (itemTitle: keyof ReportMessage) => h('a', { class: 'filter-name' }, t(msg => msg.report[itemTitle]))
 
 const handleChange = (props: SwitchFilterItemProps, newVal: boolean) => {
     props.filterValRef.value = newVal
@@ -27,4 +27,4 @@ const elSwitch = (props: SwitchFilterItemProps) => h(ElSwitch,
     }
 )
 
-export default (props: SwitchFilterItemProps) => [name(), elSwitch(props)]
+export default (props: SwitchFilterItemProps) => [name(props.itemTitle), elSwitch(props)]
