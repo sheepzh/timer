@@ -1,4 +1,4 @@
-import { formatPeriod, formatPeriodCommon, formatTime } from "../../src/util/time"
+import { daysAgo, formatPeriod, formatPeriodCommon, formatTime } from "../../src/util/time"
 
 test('time', () => {
     const dateStr = '2020/05/01 00:00:01'
@@ -31,4 +31,11 @@ test('time', () => {
     expect(formatPeriod(3666 * 1000, msg)).toEqual('1时1分6秒')
     expect(formatPeriodCommon(3666 * 1000)).toEqual('1 h 1 m 6 s')
     expect(formatPeriodCommon(1)).toEqual('0 s')
+})
+
+
+test('time', () => {
+    const start = Math.floor(Math.random() * 100)
+    const range = daysAgo(start + 2, start)
+    expect(range[1].getTime() - range[0].getTime()).toEqual(1000/*ms/s*/ * 60/*s/min*/ * 60/*min/h*/ * 24/*h/day*/ * 2/*day*/)
 })
