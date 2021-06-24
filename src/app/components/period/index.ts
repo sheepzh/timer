@@ -9,12 +9,12 @@ import filter from './filter'
 
 const periodSizeRef: Ref<string> = ref('1')
 const dateRangeRef: Ref<Date[]> = ref(daysAgo(1, 0))
-const mergeRef: Ref<boolean> = ref(false)
+const averageRef: Ref<boolean> = ref(false)
 const periodSizeNumberRef: ComputedRef<number> = computed(() => Number.parseInt(periodSizeRef.value))
 const chartRef: Ref<HTMLDivElement> = ref()
 let bar: ECharts
 
-const filterProps = { dateRangeRef, periodSizeRef, mergeRef }
+const filterProps = { dateRangeRef, periodSizeRef, averageRef }
 const chartProps: ChartProps = { chartRef }
 
 const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
@@ -37,8 +37,8 @@ const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
 
     return {
         dateRange: dateRangeRef.value,
-        // Must query one by one, if merged
-        periodSize: mergeRef.value ? 1 : periodSizeNumberRef.value,
+        // Must query one by one, if average
+        periodSize: averageRef.value ? 1 : periodSizeNumberRef.value,
         periodStart,
         periodEnd
     }
@@ -46,11 +46,11 @@ const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
 
 const queryAndRenderChart = () => periodService.list(queryParamRef.value)
     .then(val => {
-        const newOptions = generateOptions({ data: val, merge: mergeRef.value, periodSize: periodSizeNumberRef.value })
+        const newOptions = generateOptions({ data: val, average: averageRef.value, periodSize: periodSizeNumberRef.value })
         bar.setOption(newOptions, true, false)
     })
 
-watch([dateRangeRef, mergeRef, periodSizeRef], () => queryAndRenderChart())
+watch([dateRangeRef, averageRef, periodSizeRef], () => queryAndRenderChart())
 
 
 const _default = defineComponent(() => {
