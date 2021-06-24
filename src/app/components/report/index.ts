@@ -5,7 +5,6 @@ import timerService, { SortDirect } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
 import { formatTime } from "../../../util/time"
 import './styles/element'
-import './styles/filter'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "./pagination"

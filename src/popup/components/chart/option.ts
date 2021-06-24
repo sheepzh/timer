@@ -69,7 +69,7 @@ const staticOptions: EChartOption<EChartOption.SeriesPie> = {
                 title: t(msg => msg.saveAsImageTitle),
                 name: t(msg => msg.fileName, { app, today }), // file name
                 excludeComponents: ['toolbox'],
-                pixelRatio: 2
+                pixelRatio: 1
             }
         }
     }
