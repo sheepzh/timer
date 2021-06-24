@@ -14,6 +14,9 @@ const routes: RouteRecordRaw[] = [
         path: '/data/report',
         component: () => import('./components/report')
     }, {
+        path: '/data/period',
+        component: () => import('./components/period')
+    }, {
         path: '/data/history',
         component: () => import('./components/trender')
     }, {

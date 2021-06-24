@@ -2,16 +2,21 @@ import StoragePromise from "../../src/database/common/storage-promise"
 
 let store = {}
 
+function resolveOneKey(key: string, result: {}) {
+    const val = store[key]
+    val !== undefined && (result[key] = val)
+}
+
 function resolveKey(key: string | Object | string[] | null) {
     if (key === null) {
         return store
     } else if (typeof key === 'string') {
         const result = {}
-        result[key] = store[key]
+        resolveOneKey(key, result)
         return result
     } else if (Array.isArray(key)) {
         return key.reduce((acc, curr) => {
-            acc[curr] = store[curr]
+            resolveOneKey(curr, acc)
             return acc
         }, {})
     } else if (typeof key === 'object') {

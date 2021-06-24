@@ -9,11 +9,13 @@ import MergeRuleDatabase from '../database/merge-rule-database'
 import WastePerDay from '../entity/dao/waste-per-day'
 import IconUrlDatabase from '../database/icon-url-database'
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
-const archivedDatabase = new ArchivedDatabase(chrome.storage.local)
-const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
-const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
-const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
+const storage = chrome.storage.local
+
+const timerDatabase = new TimerDatabase(storage)
+const archivedDatabase = new ArchivedDatabase(storage)
+const iconUrlDatabase = new IconUrlDatabase(storage)
+const mergeRuleDatabase = new MergeRuleDatabase(storage)
+const whitelistDatabase = new WhitelistDatabase(storage)
 
 declare type PageParam = {
     pageNum?: number

@@ -36,7 +36,7 @@ const options: EChartOption<EChartOption.SeriesLine> = {
                 show: true,
                 title: t(msg => msg.trender.saveAsImageTitle),
                 excludeComponents: ['toolbox'],
-                pixelRatio: 2,
+                pixelRatio: 1,
                 backgroundColor: '#fff'
             }
         }
@@ -179,7 +179,7 @@ const _default = defineComponent((_, context: SetupContext) => {
         queryData()
     })
 
-    return () => h(ElCard, { style: 'margin-top: 25px;' }, () => h('div', { style: 'width:100%;height:600px;', ref: chartRef }))
+    return () => h(ElCard, { class: 'chart-container-card' }, () => h('div', { class: 'chart-container', ref: chartRef }))
 })
 
 export default _default
