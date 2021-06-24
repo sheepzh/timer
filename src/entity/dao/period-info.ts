@@ -5,7 +5,7 @@
  */
 type FocusPerDay = {
     /**
-     * minute order => millseconds of focus 
+     * order => millseconds of focus 
      */
     [minuteOrder: number]: number
 }

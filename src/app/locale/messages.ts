@@ -5,6 +5,7 @@ import reportMessages, { ReportMessage } from './components/report'
 import chromeBase from '../../util/i18n/components/app'
 import trenderMessages, { TrenderMessage } from './components/trender'
 import menuMessages, { MenuMessage } from './components/menu'
+import periodMessages, { PeriodMessage } from './components/period'
 import { Messages } from '../../util/i18n'
 
 export type AppMessage = {
@@ -17,6 +18,7 @@ export type AppMessage = {
     setting: SettingMessage
     trender: TrenderMessage
     menu: MenuMessage
+    period: PeriodMessage
 }
 
 const _default: Messages<AppMessage> = {
@@ -28,7 +30,8 @@ const _default: Messages<AppMessage> = {
         report: reportMessages.zh_CN,
         setting: settingMessages.zh_CN,
         trender: trenderMessages.zh_CN,
-        menu: menuMessages.zh_CN
+        menu: menuMessages.zh_CN,
+        period: periodMessages.zh_CN
     },
     en: {
         app: { currentVersion: chromeBase.en.currentVersion },
@@ -37,7 +40,8 @@ const _default: Messages<AppMessage> = {
         report: reportMessages.en,
         setting: settingMessages.en,
         trender: trenderMessages.en,
-        menu: menuMessages.en
+        menu: menuMessages.en,
+        period: periodMessages.en
     },
     ja: {
         app: { currentVersion: chromeBase.ja.currentVersion },
@@ -46,7 +50,8 @@ const _default: Messages<AppMessage> = {
         report: reportMessages.ja,
         setting: settingMessages.ja,
         trender: trenderMessages.ja,
-        menu: menuMessages.ja
+        menu: menuMessages.ja,
+        period: periodMessages.ja
     }
 }
 
