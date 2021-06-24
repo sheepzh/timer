@@ -14,7 +14,7 @@ const datePickerShortcut = (msg: keyof PeriodMessage['dateRange'], agoOfStart: n
 type _Props = {
     dateRangeRef: Ref<Date[]>
     periodSizeRef: Ref<string>
-    mergeRef: Ref<boolean>
+    averageRef: Ref<boolean>
 }
 
 export type FilterProps = _Props
@@ -40,11 +40,18 @@ const periodSizeSelect = (periodSizeRef: Ref<string>) => h(ElSelect,
         onChange: (val: string) => periodSizeRef.value = val,
     }, selectOptions)
 
-const shortcuts = [
-    datePickerShortcut('latestDay', 1),
-    datePickerShortcut('latestWeek', 7),
-    datePickerShortcut('latest15Days', 15),
+type ShortCutProp = [label: keyof PeriodMessage['dateRange'], dayAgo: number]
+const shortcutProps: ShortCutProp[] = [
+    ['latestDay', 1],
+    ['latest3Days', 3],
+    ['latestWeek', 7],
+    ['latest15Days', 15],
+    ['latest30Days', 30],
+    ['latest60Days', 60]
 ]
+
+const shortcuts = shortcutProps.map(([label, dayAgo]) => datePickerShortcut(label, dayAgo))
+
 // Date picker
 const picker = (dateRangeRef: Ref<Date[]>) => h(ElDatePicker, {
     modelValue: dateRangeRef.value,
@@ -61,19 +68,19 @@ const picker = (dateRangeRef: Ref<Date[]>) => h(ElDatePicker, {
 })
 const datePickerItem = (dateRangeRef: Ref<Date[]>) => h('span', { class: 'filter-item' }, picker(dateRangeRef))
 
-const mergeName = () => h('a', { class: 'filter-name' }, t(msg => msg.period.merge.label))
-const mergeSwitch = (mergeRef: Ref<boolean>) => h(ElSwitch,
+const averageName = () => h('a', { class: 'filter-name' }, t(msg => msg.period.average.label))
+const averageSwitch = (averageRef: Ref<boolean>) => h(ElSwitch,
     {
         class: 'filter-item',
-        modelValue: mergeRef.value,
-        onChange: (val: boolean) => mergeRef.value = val
+        modelValue: averageRef.value,
+        onChange: (val: boolean) => averageRef.value = val
     }
 )
 
 const filterContainer = ({
     dateRangeRef,
     periodSizeRef,
-    mergeRef
+    averageRef
 }: _Props) => h('div',
     { class: 'filter-container' },
     [
@@ -81,8 +88,8 @@ const filterContainer = ({
         periodSizeSelect(periodSizeRef),
         // Date range picker
         datePickerItem(dateRangeRef),
-        // Merge date
-        mergeName(), mergeSwitch(mergeRef)
+        // Average by date
+        averageName(), averageSwitch(averageRef)
     ]
 )
 

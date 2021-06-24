@@ -6,13 +6,16 @@ export type PeriodMessage = {
         halfHour: string
         hour: string
     },
-    merge: {
+    average: {
         label: string
     },
     dateRange: {
         latestDay: string
+        latest3Days: string
         latestWeek: string
         latest15Days: string
+        latest30Days: string
+        latest60Days: string
     },
     chart: {
         title: string
@@ -28,13 +31,16 @@ const _default: Messages<PeriodMessage> = {
             halfHour: '按半小时统计',
             hour: '按一小时统计'
         },
-        merge: {
-            label: '按天合并'
+        average: {
+            label: '平均每天'
         },
         dateRange: {
             latestDay: '最近 24 小时',
+            latest3Days: '最近 3 天',
             latestWeek: '最近一周',
-            latest15Days: '最近 15 天'
+            latest15Days: '最近 15 天',
+            latest30Days: '最近 30 天',
+            latest60Days: '最近 60 天'
         },
         chart: {
             title: '上网习惯统计',
@@ -48,13 +54,16 @@ const _default: Messages<PeriodMessage> = {
             halfHour: 'By half hour',
             hour: 'By one hour'
         },
-        merge: {
-            label: 'Merged'
+        average: {
+            label: 'Daily average'
         },
         dateRange: {
             latestDay: 'Latest day',
+            latest3Days: 'Latest 3 days',
             latestWeek: 'Latest week',
-            latest15Days: 'Latest 15 days'
+            latest15Days: 'Latest 15 days',
+            latest30Days: 'Latest 30 days',
+            latest60Days: 'Latest 60 days'
         },
         chart: {
             title: 'Focus time-phased statistics',
@@ -68,13 +77,16 @@ const _default: Messages<PeriodMessage> = {
             halfHour: '30分で統計',
             hour: '1時間ごとの統計'
         },
-        merge: {
-            label: 'マージ'
+        average: {
+            label: '1日平均'
         },
         dateRange: {
             latestDay: '過去24時間',
+            latest3Days: '過去3日間',
             latestWeek: '先週',
-            latest15Days: '過去15日間'
+            latest15Days: '過去15日間',
+            latest30Days: '過去30日間',
+            latest60Days: '過去60日間'
         },
         chart: {
             title: '時系列の統計を閲覧する',
