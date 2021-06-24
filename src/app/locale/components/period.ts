@@ -37,7 +37,7 @@ const _default: Messages<PeriodMessage> = {
         dateRange: {
             latestDay: '最近 24 小时',
             latest3Days: '最近 3 天',
-            latestWeek: '最近一周',
+            latestWeek: '最近 7 天',
             latest15Days: '最近 15 天',
             latest30Days: '最近 30 天',
             latest60Days: '最近 60 天'

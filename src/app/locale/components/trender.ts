@@ -21,7 +21,7 @@ const _default: Messages<TrenderMessage> = {
         hostPlaceholder: '输入并选择域名',
         startDate: '开始日期',
         endDate: '结束日期',
-        latestWeek: '最近一周',
+        latestWeek: '最近 7 天',
         latest15Days: '最近 15 天',
         latest30Days: '最近 30 天',
         latest90Days: '最近 90 天',
