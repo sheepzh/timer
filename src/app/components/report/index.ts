@@ -11,7 +11,8 @@ import pagination, { PaginationProps } from "./pagination"
 import { PaginationInfo, QueryData } from './contants'
 
 const hostRef: Ref<string> = ref('')
-const dateRangeRef: Ref<Array<Date>> = ref([])
+const now = new Date()
+const dateRangeRef: Ref<Array<Date>> = ref([now, now])
 const mergeDateRef: Ref<boolean> = ref(false)
 const mergeDomainRef: Ref<boolean> = ref(false)
 const displayBySecondRef: Ref<boolean> = ref(false)
