@@ -2,9 +2,10 @@ import { defineComponent, h, onMounted, ref, Ref } from "vue"
 import { ElMenu, ElMenuItem, ElSubmenu } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "../locale"
+import { MenuMessage } from "../locale/components/menu"
 
 declare type MenuItem = {
-    title: I18nKey
+    title: keyof MenuMessage
     icon: string
     route: string
     children?: MenuItem[]
@@ -13,26 +14,30 @@ declare type MenuItem = {
 // All menu items
 const ALL_MENU: MenuItem[] = [
     {
-        title: msg => msg.menu.data,
+        title: 'data',
         icon: 's-platform',
         route: '/data',
         children: [
             {
-                title: msg => msg.menu.dataReport,
+                title: 'dataReport',
                 route: '/data/report',
                 icon: 'date'
             }, {
-                title: msg => msg.menu.dataHistory,
+                title: 'period',
+                route: '/data/period',
+                icon: 'aim'
+            }, {
+                title: 'dataHistory',
                 route: '/data/history',
                 icon: 'stopwatch'
             }, {
-                title: msg => msg.menu.dataClear,
+                title: 'dataClear',
                 route: '/data/clear',
                 icon: 'folder'
             }
         ]
     }, {
-        title: msg => msg.menu.setting,
+        title: 'setting',
         route: '/setting',
         icon: 'setting'
     }
@@ -52,10 +57,10 @@ const openMenu = (route: string, title: I18nKey) => {
 }
 
 const renderMenuLeaf = (menu: MenuItem) => h(ElMenuItem,
-    { index: menu.route, onClick: () => openMenu(menu.route, menu.title) },
+    { index: menu.route, onClick: () => openMenu(menu.route, msg => msg.menu[menu.title]) },
     {
         default: () => h('i', { class: `el-icon-${menu.icon}` }),
-        title: () => h('span', t(menu.title))
+        title: () => h('span', t(msg => msg.menu[menu.title]))
     }
 )
 
@@ -65,7 +70,7 @@ const renderMenu = (menu: MenuItem) => {
 
     const subMenuProps = { index: menu.route }
     const subMenuSlots = {
-        title: () => [h('i', { class: `el-icon-${menu.icon}` }), h('span', t(menu.title))],
+        title: () => [h('i', { class: `el-icon-${menu.icon}` }), h('span', t(msg => msg.menu[menu.title]))],
         default: () => menu.children.map(renderMenuLeaf)
     }
     return h(ElSubmenu, subMenuProps, subMenuSlots)

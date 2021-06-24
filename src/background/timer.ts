@@ -83,7 +83,6 @@ class Timer {
         timerService.addFocusAndTotal(timeMap)
         const focusEntry = Object.entries(timeMap).find(([_host, { focus }]) => focus)
         // Add periodtime
-        console.log(focusEntry)
         focusEntry && periodService.add(lastCollectTime, focusEntry[1].focus)
         timeMap = {}
     }

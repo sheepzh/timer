@@ -89,3 +89,9 @@ export const daysAgo = (start: number, end: number) => {
     const current = new Date().getTime()
     return [new Date(current - start * MILL_PER_DAY), new Date(current - end * MILL_PER_DAY)]
 }
+
+export function isSameDay(a: Date, b: Date): boolean {
+    return a.getFullYear() === b.getFullYear()
+        && a.getMonth() === b.getMonth()
+        && a.getDate() === b.getDate()
+}
