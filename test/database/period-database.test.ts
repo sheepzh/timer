@@ -33,4 +33,18 @@ describe('timer-database', () => {
         const yesterdayData: FocusPerDay = await db.get(yesterdayStr)
         expect(yesterdayData).toEqual({ 95: 2 })
     })
+
+    test('getBatch', async () => {
+        const date = new Date(2021, 5, 7)
+        const yesterday = new Date(2021, 5, 6)
+        const toAdd: PeriodInfo[] = [
+            PeriodKey.of(date, 0).produce(56999),
+            PeriodKey.of(date, 1).produce(2),
+            PeriodKey.of(yesterday, 95).produce(2)
+        ]
+        await db.accumulate(toAdd)
+
+        let list = await db.getBatch(['20210607', '20210606'])
+        expect(list.length).toEqual(3)
+    })
 })

@@ -22,6 +22,13 @@ export class PeriodKey {
 
     private _id: number
 
+    private initId() {
+        this._id = (this.year << 18)
+            | (this.month << 14)
+            | (this.date << 8)
+            | this.order
+    }
+
     static of(time: Date | number, order?: number): PeriodKey {
         const date = time instanceof Date ? time : new Date(time)
         const result = new PeriodKey()
@@ -32,11 +39,8 @@ export class PeriodKey {
             ? date.getHours() * 4 + Math.floor(date.getMinutes() / MINUTES_PER_PERIOD)
             : order
         // YEAR 16 BIT, MONTH 4 BIT, DATE 6 BIT, ORDER 8 BIT
-        result._id = (result.year << 18)
-            | (result.month << 14)
-            | (result.date << 8)
-            | order
         result.order = order
+        result.initId()
         return result
     }
 
@@ -44,6 +48,7 @@ export class PeriodKey {
         const result = new PeriodKey()
         Object.assign(result, old)
         result.order = newOrder
+        result.initId()
         return result
     }
 
@@ -94,10 +99,6 @@ export class PeriodKey {
 
     public getDateString() {
         return `${this.year}${this.month < 10 ? '0' : ''}${this.month}${this.date < 10 ? '0' : ''}${this.date}`
-    }
-
-    public getMinuteOfDate() {
-        return this.order * MINUTES_PER_PERIOD
     }
 }
 

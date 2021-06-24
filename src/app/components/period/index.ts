@@ -25,11 +25,10 @@ const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
-    let periodEnd = endIsToday ? PeriodKey.of(now) : PeriodKey.of(endDate, MAX_PERIOD_ORDER)
+    let periodEnd = endIsToday ? PeriodKey.of(now).before(1) : PeriodKey.of(endDate, MAX_PERIOD_ORDER)
     let periodStart = endIsToday ? PeriodKey.of(startDate, periodEnd.order).after(1) : PeriodKey.of(startDate, 0)
 
     const remainder = (periodEnd.order + 1) % periodSizeNumberRef.value
-
     if (remainder) {
         periodEnd = periodEnd.before(remainder)
         periodStart = periodStart.before(remainder)
