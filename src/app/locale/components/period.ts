@@ -5,6 +5,7 @@ export type PeriodMessage = {
         fifteen: string
         halfHour: string
         hour: string
+        twoHour: string
     },
     average: {
         label: string
@@ -29,7 +30,8 @@ const _default: Messages<PeriodMessage> = {
         sizes: {
             fifteen: '按十五分钟统计',
             halfHour: '按半小时统计',
-            hour: '按一小时统计'
+            hour: '按一小时统计',
+            twoHour: '按两小时统计'
         },
         average: {
             label: '平均每天'
@@ -52,7 +54,8 @@ const _default: Messages<PeriodMessage> = {
         sizes: {
             fifteen: 'By 15 minute',
             halfHour: 'By half hour',
-            hour: 'By one hour'
+            hour: 'By one hour',
+            twoHour: 'By two hours'
         },
         average: {
             label: 'Daily average'
@@ -75,7 +78,8 @@ const _default: Messages<PeriodMessage> = {
         sizes: {
             fifteen: '15分で統計',
             halfHour: '30分で統計',
-            hour: '1時間ごとの統計'
+            hour: '1時間ごとの統計',
+            twoHour: '2時間ごとの統計'
         },
         average: {
             label: '1日平均'

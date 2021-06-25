@@ -24,7 +24,8 @@ const trenderSearchingRef: Ref<boolean> = ref(false)
 const options: { [size: string]: keyof PeriodMessage['sizes'] } = {
     1: 'fifteen',
     2: 'halfHour',
-    4: 'hour'
+    4: 'hour',
+    8: 'twoHour'
 }
 
 // Period size select
