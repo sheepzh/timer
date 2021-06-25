@@ -23,10 +23,6 @@ const ALL_MENU: MenuItem[] = [
                 route: '/data/report',
                 icon: 'date'
             }, {
-                title: 'period',
-                route: '/data/period',
-                icon: 'aim'
-            }, {
                 title: 'dataHistory',
                 route: '/data/history',
                 icon: 'stopwatch'
@@ -34,6 +30,21 @@ const ALL_MENU: MenuItem[] = [
                 title: 'dataClear',
                 route: '/data/clear',
                 icon: 'folder'
+            }
+        ]
+    }, {
+        title: 'behavior',
+        icon: 'user-solid',
+        route: '/behavior',
+        children: [
+            {
+                title: 'habit',
+                route: '/behavior/habit',
+                icon: 'aim'
+            }, {
+                title: 'limit',
+                route: '/behavior/limit',
+                icon: 'time'
             }
         ]
     }, {
