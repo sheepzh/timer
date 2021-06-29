@@ -26,6 +26,7 @@
     "eslint": "^7.28.0",
     "filemanager-webpack-plugin": "^5.0.0",
     "generate-json-webpack-plugin": "^2.0.0",
+    "jest": "^27.0.6",
     "node-sass": "^6.0.0",
     "sass-loader": "^12.1.0",
     "style-loader": "^2.0.0",
