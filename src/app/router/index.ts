@@ -1,5 +1,6 @@
 import { App } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { TRENDER_ROUTE } from './constants'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -12,19 +13,19 @@ const routes: RouteRecordRaw[] = [
     // Needn't nested router 
     {
         path: '/data/report',
-        component: () => import('./components/report')
+        component: () => import('../components/report')
     }, {
         path: '/data/period',
-        component: () => import('./components/period')
+        component: () => import('../components/period')
     }, {
-        path: '/data/history',
-        component: () => import('./components/trender')
+        path: TRENDER_ROUTE,
+        component: () => import('../components/trender')
     }, {
         path: '/data/clear',
-        component: () => import('./components/clear')
+        component: () => import('../components/clear')
     }, {
         path: '/setting',
-        component: () => import('./components/setting'),
+        component: () => import('../components/setting'),
     }
 ]
 

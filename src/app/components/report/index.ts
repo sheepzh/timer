@@ -9,6 +9,7 @@ import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "./pagination"
 import { PaginationInfo, QueryData } from './contants'
+import { useRouter } from 'vue-router'
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -79,7 +80,8 @@ const tableProps: TableProps = {
     whitelistRef,
     dateRangeRef,
     dataRef,
-    sortRef
+    sortRef,
+    router: undefined
 }
 
 const filterProps: FilterProps = {
@@ -104,4 +106,8 @@ const childNodes = () => [
 
 const render = () => h('div', { class: 'content-container' }, childNodes())
 
-export default defineComponent(() => render)
+export default defineComponent(() => {
+    const router = useRouter()
+    tableProps.router = router
+    return render
+})

@@ -15,6 +15,7 @@ export type TrenderMessage = {
     }
     saveAsImageTitle: string
     defaultSubTitle: string
+    merged: string
 }
 
 const _default: Messages<TrenderMessage> = {
@@ -32,7 +33,8 @@ const _default: Messages<TrenderMessage> = {
             numberUnit: '次'
         },
         saveAsImageTitle: '保存',
-        defaultSubTitle: '请先在左上角选择需要分析的域名'
+        defaultSubTitle: '请先在左上角选择需要分析的域名',
+        merged: '合并'
     },
     en: {
         hostPlaceholder: 'Search the domain',
@@ -48,7 +50,8 @@ const _default: Messages<TrenderMessage> = {
             numberUnit: 'time(s)'
         },
         saveAsImageTitle: 'Save',
-        defaultSubTitle: 'Select the host to analyze on the top-left corner, pls'
+        defaultSubTitle: 'Select the host to analyze on the top-left corner, pls',
+        merged: 'Merged'
     },
     ja: {
         hostPlaceholder: 'ドメイン名を検索',
@@ -64,7 +67,8 @@ const _default: Messages<TrenderMessage> = {
             numberUnit: '回'
         },
         saveAsImageTitle: 'ダウンロード',
-        defaultSubTitle: 'まず、左上隅で分析するドメイン名を選択します'
+        defaultSubTitle: 'まず、左上隅で分析するドメイン名を選択します',
+        merged: '合并'
     }
 }
 
