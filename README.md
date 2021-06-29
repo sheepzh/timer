@@ -38,16 +38,7 @@
 
 - 欢迎大家 PR， PR 之前请先创建 ISSUE
 
-## DEBUG
+## TODO
 
-- 在控制台下可以开启数据存取日志
+请查看 [功能迭代 RoadMap](https://github.com/sheepzh/timer/projects/1) 项目
 
-```JavaScript
-window.timer.openLog()
-```
-
-- 关闭日志
-
-```JavaScript
-window.timer.closeLog()
-```
