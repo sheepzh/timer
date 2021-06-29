@@ -19,12 +19,14 @@ const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.T
     return `${seriesName}<br/>${name}&ensp;-&ensp;${formatPeriodCommon((typeof value === 'number' ? value : 0) * 1000)}`
 }
 
+const defaultSubTitle = t(msg => msg.trender.defaultSubTitle)
+
 const options: EChartOption<EChartOption.SeriesLine> = {
     backgroundColor: 'rgba(0,0,0,0)',
     grid: { top: '100' },
     title: {
         text: t(msg => msg.trender.history.title),
-        subtext: '',
+        subtext: defaultSubTitle,
         left: 'center'
     },
     tooltip: {
@@ -153,7 +155,7 @@ const queryData = () => {
             })
 
             const titleOption = options.title as EChartTitleOption
-            titleOption.subtext = domainRef.value
+            titleOption.subtext = domainRef.value || defaultSubTitle
             options.series[0].data = totalData
             options.series[1].data = focusData
             options.series[2].data = timeData
