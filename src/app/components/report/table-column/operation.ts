@@ -1,5 +1,5 @@
 /**
- * Generate operation butons
+ * Generate operation buttons
  */
 import { h, ref, Ref } from 'vue'
 import { ElButton, ElMessage, ElPopconfirm, ElTableColumn } from "element-plus"
@@ -12,6 +12,8 @@ import { formatTime } from '../../../../util/time'
 import { dateFormatter } from '../formatter'
 import { ReportMessage } from '../../../locale/components/report'
 import { QueryData } from '../contants'
+import { LocationQueryRaw, Router } from 'vue-router'
+import { TRENDER_ROUTE } from '../../../router/constants'
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -23,7 +25,9 @@ type Props = {
     queryData: QueryData
     whitelistRef: Ref<string[]>
     mergeDateRef: Ref<boolean>
+    mergeDomainRef: Ref<boolean>
     dateRangeRef: Ref<Array<Date>>
+    router: Router
 }
 
 export type OperationButtonColumnProps = Props
@@ -116,7 +120,6 @@ const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButto
 })
 
 // Remove from whitelist
-
 const removeFromWhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
     confirmTitle: t(msg => msg.setting.whitelist.removeConfirmMsg, { url: host }),
     buttonType: 'primary',
@@ -125,24 +128,44 @@ const removeFromWhitelistButton = (props: Props, { host }: SiteInfo) => operatio
     onConfirm: () => operateTheWhitelist(whitelistService.remove(host), props, 'removeFromWhitelist')
 })
 
+function handleClickJump(props: Props, { host }: SiteInfo) {
+    const query: LocationQueryRaw = {
+        host,
+        merge: props.mergeDomainRef.value ? '1' : '0',
+    }
+    props.router.push({ path: TRENDER_ROUTE, query })
+}
+
+// Jump to the trender
+const jumpTowardTheTrender = (props: Props, row: SiteInfo) => h(ElButton, {
+    icon: 'el-icon-stopwatch',
+    size: 'mini',
+    type: 'primary',
+    onClick: () => handleClickJump(props, row)
+}, () => t(msg => msg.item.operation.jumpToTrender))
+
 const operationContainer = (props: Props, row: SiteInfo) => {
     const operationButtons = []
-    const { host, date } = row
-    // Delete button 
-    operationButtons.push(deleteButton(props, row))
+    const { host } = row
+    operationButtons.push(jumpTowardTheTrender(props, row))
+    if (!props.mergeDomainRef.value) {
+        // Delete button 
+        operationButtons.push(deleteButton(props, row))
 
-    const existsInWhitelist = props.whitelistRef.value.includes(host)
-    const whitelistButton = existsInWhitelist ? removeFromWhitelistButton(props, row) : add2WhitelistButton(props, row)
-    operationButtons.push(whitelistButton)
+        const existsInWhitelist = props.whitelistRef.value.includes(host)
+        const whitelistButton = existsInWhitelist ? removeFromWhitelistButton(props, row) : add2WhitelistButton(props, row)
+        operationButtons.push(whitelistButton)
+    }
     return operationButtons
 }
 
 const tableColumnProps = {
     label: t(msg => msg.item.operation.label),
-    minWidth: 240,
-    align: 'center'
+    align: 'center',
+    fixed: 'right'
 }
-const _default = (props: Props) => h(ElTableColumn, tableColumnProps,
+const _default = (props: Props) => h(ElTableColumn,
+    { minWidth: props.mergeDomainRef.value ? 100 : 280, ...tableColumnProps },
     {
         default: (data: { row: SiteInfo }) => operationContainer(props, data.row)
     }
