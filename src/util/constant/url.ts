@@ -35,7 +35,7 @@ let updatePage = 'https://github.com/sheepzh/timer'
 if (IS_CHROME) {
     updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
 } else if (IS_EDGE) {
-    updatePage = 'edge://extensions'
+    updatePage = `edge://extensions/?id=${chrome.runtime.id}`
 } else if (IS_FIREFOX) {
     // "about:*" is invalid in firefox
     updatePage = HOME_PAGE
