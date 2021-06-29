@@ -161,7 +161,6 @@ class TimeService {
         !param.mergeDomain && needIconUrl && await this.fillIconUrl(origin)
         // Filter merged domain if fullhost
         fullhost && (origin = origin.filter(siteinfo => siteinfo.host === fullhost))
-        console.log(origin, fullhost, param)
         return origin
     }
 
