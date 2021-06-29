@@ -14,11 +14,12 @@ export type TrenderMessage = {
         numberUnit: string
     }
     saveAsImageTitle: string
+    defaultSubTitle: string
 }
 
 const _default: Messages<TrenderMessage> = {
     zh_CN: {
-        hostPlaceholder: '输入并选择域名',
+        hostPlaceholder: '搜索你想分析的域名',
         startDate: '开始日期',
         endDate: '结束日期',
         latestWeek: '最近 7 天',
@@ -30,7 +31,8 @@ const _default: Messages<TrenderMessage> = {
             timeUnit: '时长 / 秒',
             numberUnit: '次'
         },
-        saveAsImageTitle: '保存'
+        saveAsImageTitle: '保存',
+        defaultSubTitle: '请先在左上角选择需要分析的域名'
     },
     en: {
         hostPlaceholder: 'Search the domain',
@@ -45,7 +47,8 @@ const _default: Messages<TrenderMessage> = {
             timeUnit: 'Time / second(s)',
             numberUnit: 'time(s)'
         },
-        saveAsImageTitle: 'Save'
+        saveAsImageTitle: 'Save',
+        defaultSubTitle: 'Select the host to analyze on the top-left corner, pls'
     },
     ja: {
         hostPlaceholder: 'ドメイン名を検索',
@@ -60,7 +63,8 @@ const _default: Messages<TrenderMessage> = {
             timeUnit: '時間 / 秒',
             numberUnit: '回'
         },
-        saveAsImageTitle: 'ダウンロード'
+        saveAsImageTitle: 'ダウンロード',
+        defaultSubTitle: 'まず、左上隅で分析するドメイン名を選択します'
     }
 }
 
