@@ -39,8 +39,9 @@ export default {
     'storage',
     'tabs',
     'webNavigation',
-    'chrome://favicon/*',
-    'contextMenus'
+    'contextMenus',
+    // @since 0.2.2
+    'idle'
   ],
   browser_action: {
     default_popup: "static/popup.html",

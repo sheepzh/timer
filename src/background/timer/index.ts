@@ -1,15 +1,23 @@
-import collect from "./collect"
+import TimeCollector from "./collector"
+import IdleListener from "./idle-listener"
 import save from "./save"
-import TimerContext from "./timer-context"
+import TimerContext from "./context"
 
 /**
  * Timer
  */
 class Timer {
-    private context: TimerContext = new TimerContext()
+    private context: TimerContext
+
+    constructor() {
+        this.context = new TimerContext()
+    }
 
     start() {
-        setInterval(() => collect(this.context), 555)
+        new IdleListener(this.context).listen()
+        const collector = new TimeCollector(this.context)
+
+        setInterval(() => collector.collect(), 555)
         setInterval(() => save(this.context), 2048)
     }
 }
