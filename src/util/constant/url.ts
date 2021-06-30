@@ -42,3 +42,15 @@ if (IS_CHROME) {
 }
 
 export const UPDATE_PAGE = updatePage
+
+/**
+ * @since 0.2.2
+ * @returns icon url in the browser
+ */
+export function iconUrlOfBrowser(protocol: string, domain: string) {
+    if (IS_CHROME) {
+        return `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}`
+    } else if (IS_EDGE) {
+        return `edge://favicon/${protocol ? protocol + '://' : ''}${domain}`
+    } else return ''
+}
