@@ -49,11 +49,13 @@ const handleListChange = (newWhitelist: string[]) => {
     updateContextMenu(currentActiveId)
 }
 
-const handleTabUpdated = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: number | chrome.tabs.Tab) =>
+const handleTabUpdated = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: number | chrome.tabs.Tab) => {
+    if (chrome.runtime.lastError) { /** prevent it from throwing error */ }
     // Current active tab updated
     tabId === currentActiveId
-    && changeInfo.status === 'loading'
-    && updateContextMenu(tab)
+        && changeInfo.status === 'loading'
+        && updateContextMenu(tab)
+}
 
 const handleTabActivated = (activeInfo: chrome.tabs.TabActiveInfo) => updateContextMenu(currentActiveId = activeInfo.tabId)
 

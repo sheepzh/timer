@@ -14,7 +14,7 @@ const dataCol = (itemKey: keyof ItemMessage, propName: keyof SiteItemVal, fomatt
     h(ElTableColumn, {
         prop: propName,
         label: t(msg => msg.item[itemKey]),
-        minWidth: 220,
+        minWidth: 130,
         align: 'center',
         sortable: 'custom'
     }, { default: ({ row }: { row: SiteInfo }) => fomatter(row[propName]) })
