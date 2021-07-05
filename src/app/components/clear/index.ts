@@ -4,6 +4,7 @@ import { computed, defineComponent, h, ref, Ref } from "vue"
 import { getUsedStorage } from "../../../database/memory-detector"
 import './style'
 import { t } from "../../locale"
+import { renderContentContainer } from "../common/content-container"
 
 const byte2Mb = (size: number) => Math.round((size || 0) / 1024.0 / 1024.0 * 1000) / 1000
 
@@ -65,4 +66,4 @@ const firstRow = () => h(ElRow, { gutter: 20 },
     ]
 )
 
-export default defineComponent(() => () => h('div', { class: 'content-container' }, firstRow()))
+export default defineComponent(() => renderContentContainer(firstRow))

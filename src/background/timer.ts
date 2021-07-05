@@ -1,3 +1,4 @@
+import limitService from "../service/limit-service"
 import periodService from "../service/period-service"
 import timerService from "../service/timer-service"
 import { isBrowserUrl, extractHostname } from "../util/pattern"
@@ -9,6 +10,7 @@ class WindowPromiseFactory {
     private hostSet: Set<string>
     private isFocusWindow: boolean
     private focusHostSetter: (val: string) => void
+    private focusUrlSetter: (val: string) => void
 
     private handleTab(tab: chrome.tabs.Tab) {
         const url = tab.url
@@ -17,7 +19,10 @@ class WindowPromiseFactory {
         const host = extractHostname(url).host
         if (host) {
             this.hostSet.add(host)
-            this.isFocusWindow && tab.active && (this.focusHostSetter(host))
+            if (this.isFocusWindow && tab.active) {
+                this.focusHostSetter(host)
+                this.focusUrlSetter(url)
+            }
         } else {
             console.log('Detect blank host:', url)
         }
@@ -33,12 +38,14 @@ class WindowPromiseFactory {
     constructor(windowId: number,
         hostSet: Set<string>,
         isFocusWindow: boolean,
-        focusHostSetter: (val: string) => void) {
+        focusHostSetter: (val: string) => void,
+        focusUrlSetter: (val: string) => void) {
 
         this.windowId = windowId
         this.hostSet = hostSet
         this.isFocusWindow = isFocusWindow
         this.focusHostSetter = focusHostSetter
+        this.focusUrlSetter = focusUrlSetter
     }
 
     public produce() {
@@ -51,6 +58,7 @@ class Timer {
     private realInterval: number
 
     private focusHost: string
+    private focusUrl: string
 
     /**
      * Collect the time once
@@ -66,10 +74,11 @@ class Timer {
             data.run += this.realInterval
         }
         chrome.windows.getAll(async windows => {
+            // Init
             const hostSet: Set<string> = new Set()
             this.focusHost = ''
             const windowPromises = windows
-                .map(w => new WindowPromiseFactory(w.id, hostSet, !!w.focused, val => this.focusHost = val))
+                .map(w => new WindowPromiseFactory(w.id, hostSet, !!w.focused, val => this.focusHost = val, val => this.focusUrl = val))
                 .map(factory => factory.produce())
             await Promise.all(windowPromises)
             hostSet.forEach(host => processHost(host))
@@ -82,8 +91,12 @@ class Timer {
     private save() {
         timerService.addFocusAndTotal(timeMap)
         const focusEntry = Object.entries(timeMap).find(([_host, { focus }]) => focus)
-        // Add periodtime
-        focusEntry && periodService.add(lastCollectTime, focusEntry[1].focus)
+        if (focusEntry) {
+            // Add periodtime
+            periodService.add(lastCollectTime, focusEntry[1].focus)
+            // Add limit time
+            limitService.addFocusTime(this.focusHost, this.focusUrl, focusEntry[1].focus)
+        }
         timeMap = {}
     }
 

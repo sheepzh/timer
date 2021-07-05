@@ -1,6 +1,6 @@
 import { ElPagination } from "element-plus"
 import { h, UnwrapRef } from "vue"
-import { PaginationInfo, QueryData } from "./contants"
+import { PaginationInfo, QueryData } from "../common/constants"
 
 export type PaginationProps = {
     queryData: QueryData

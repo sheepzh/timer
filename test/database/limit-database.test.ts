@@ -1,5 +1,5 @@
 import LimitDatabase from '../../src/database/limit-database'
-import TimeLimit from '../../src/entity/dao/time-limit'
+import { TimeLimit } from '../../src/entity/dao/time-limit'
 import storage from '../__mock__/storage'
 
 const db = new LimitDatabase(storage.local)
@@ -12,7 +12,7 @@ describe('archived-database', () => {
             time: 20,
             enabled: true
         }
-        await db.add(toAdd)
+        await db.save(toAdd)
         let all: TimeLimit[] = await db.all()
         expect(all.length).toEqual(1)
         expect(all[0]).toEqual(toAdd)
@@ -22,7 +22,7 @@ describe('archived-database', () => {
             enabled: true
         }
         // Not rewrited
-        await db.add(toRewrite)
+        await db.save(toRewrite)
         all = await db.all()
         expect(all[0]).toEqual(toAdd)
 

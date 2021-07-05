@@ -3,7 +3,7 @@ import { h, Ref } from "vue"
 import { daysAgo } from "../../../../util/time"
 import { t } from "../../../locale"
 import { ReportMessage } from "../../../locale/components/report"
-import { QueryData } from "../contants"
+import { QueryData } from "../../common/constants"
 
 export type DateRangeFilterItemProps = {
     dateRangeRef: Ref<Date[]>

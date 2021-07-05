@@ -8,7 +8,8 @@ import './styles/element'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "./pagination"
-import { PaginationInfo, QueryData } from './contants'
+import { renderContentContainer } from '../common/content-container'
+import { QueryData, PaginationInfo } from '../common/constants'
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -98,10 +99,6 @@ const paginationProps: PaginationProps = {
     pageRef
 }
 
-const childNodes = () => [
-    filter(filterProps), table(tableProps), pagination(paginationProps)
-]
+const childNodes = () => [filter(filterProps), table(tableProps), pagination(paginationProps)]
 
-const render = () => h('div', { class: 'content-container' }, childNodes())
-
-export default defineComponent(() => render)
+export default defineComponent(() => renderContentContainer(childNodes))

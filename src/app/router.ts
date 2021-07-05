@@ -1,5 +1,6 @@
 import { App } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { LIMIT_ROUTE } from '../common/constants'
 
 const dataRoutes: RouteRecordRaw[] = [
     {
@@ -27,8 +28,8 @@ const behaviorRoutes: RouteRecordRaw[] = [
         path: '/behavior/habit',
         component: () => import('./components/habit')
     }, {
-        path: '/behavior/period',
-        component: () => import('./components/habit')
+        path: LIMIT_ROUTE,
+        component: () => import('./components/limit')
     }
 ]
 

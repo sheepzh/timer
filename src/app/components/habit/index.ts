@@ -3,6 +3,7 @@ import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, watch }
 import { MAX_PERIOD_ORDER, PeriodKey } from "../../../entity/dto/period-info"
 import periodService, { PeriodQueryParam } from "../../../service/period-service"
 import { daysAgo, isSameDay } from "../../../util/time"
+import { renderContentContainer } from "../common/content-container"
 import chart, { ChartProps } from "./chart"
 import generateOptions from "./chart/option"
 import filter from './filter'
@@ -25,8 +26,15 @@ const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
-    let periodEnd = endIsToday ? PeriodKey.of(now).before(1) : PeriodKey.of(endDate, MAX_PERIOD_ORDER)
-    let periodStart = endIsToday ? PeriodKey.of(startDate, periodEnd.order).after(1) : PeriodKey.of(startDate, 0)
+    let periodEnd: PeriodKey, periodStart: PeriodKey
+    if (endIsToday) {
+        periodEnd = PeriodKey.of(now)
+        periodStart = PeriodKey.of(startDate, periodEnd.order)
+        periodEnd = periodEnd.before(1)
+    } else {
+        periodEnd = PeriodKey.of(endDate, MAX_PERIOD_ORDER)
+        periodStart = PeriodKey.of(startDate, 0)
+    }
 
     const remainder = (periodEnd.order + 1) % periodSizeNumberRef.value
     if (remainder) {
@@ -51,14 +59,15 @@ const queryAndRenderChart = () => periodService.list(queryParamRef.value)
 
 watch([dateRangeRef, averageRef, periodSizeRef], () => queryAndRenderChart())
 
+const handleMounted = () => {
+    bar = init(chartRef.value)
+    queryAndRenderChart()
+}
 
 const _default = defineComponent(() => {
-    onMounted(() => {
-        bar = init(chartRef.value)
-        queryAndRenderChart()
-    })
-
-    return () => h('div', { class: 'content-container' }, [filter(filterProps), chart(chartProps)])
+    // Must use closure, not functaion variable
+    onMounted(() => handleMounted())
+    return renderContentContainer(() => [filter(filterProps), chart(chartProps)])
 })
 
 export default _default

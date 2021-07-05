@@ -1,6 +1,6 @@
 import { Messages } from "../../../util/i18n"
 
-export type PeriodMessage = {
+export type HabitMessage = {
     sizes: {
         fifteen: string
         halfHour: string
@@ -25,7 +25,7 @@ export type PeriodMessage = {
     }
 }
 
-const _default: Messages<PeriodMessage> = {
+const _default: Messages<HabitMessage> = {
     zh_CN: {
         sizes: {
             fifteen: '按十五分钟统计',

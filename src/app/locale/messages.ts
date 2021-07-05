@@ -1,12 +1,13 @@
+import { Messages } from '../../util/i18n'
+import chromeBase from '../../util/i18n/components/app'
 import itemMessages, { ItemMessage } from '../../util/i18n/components/item'
 import clearMessages, { ClearMessage } from './components/clear'
 import settingMessages, { SettingMessage } from './components/setting'
 import reportMessages, { ReportMessage } from './components/report'
-import chromeBase from '../../util/i18n/components/app'
 import trenderMessages, { TrenderMessage } from './components/trender'
 import menuMessages, { MenuMessage } from './components/menu'
-import periodMessages, { PeriodMessage } from './components/period'
-import { Messages } from '../../util/i18n'
+import habitMessages, { HabitMessage } from './components/habit'
+import limitMessages, { LimitMessage } from './components/limit'
 
 export type AppMessage = {
     app: {
@@ -18,7 +19,8 @@ export type AppMessage = {
     setting: SettingMessage
     trender: TrenderMessage
     menu: MenuMessage
-    period: PeriodMessage
+    habit: HabitMessage
+    limit: LimitMessage
 }
 
 const _default: Messages<AppMessage> = {
@@ -31,7 +33,8 @@ const _default: Messages<AppMessage> = {
         setting: settingMessages.zh_CN,
         trender: trenderMessages.zh_CN,
         menu: menuMessages.zh_CN,
-        period: periodMessages.zh_CN
+        habit: habitMessages.zh_CN,
+        limit: limitMessages.zh_CN
     },
     en: {
         app: { currentVersion: chromeBase.en.currentVersion },
@@ -41,7 +44,8 @@ const _default: Messages<AppMessage> = {
         setting: settingMessages.en,
         trender: trenderMessages.en,
         menu: menuMessages.en,
-        period: periodMessages.en
+        habit: habitMessages.en,
+        limit: limitMessages.en
     },
     ja: {
         app: { currentVersion: chromeBase.ja.currentVersion },
@@ -51,7 +55,8 @@ const _default: Messages<AppMessage> = {
         setting: settingMessages.ja,
         trender: trenderMessages.ja,
         menu: menuMessages.ja,
-        period: periodMessages.ja
+        habit: habitMessages.ja,
+        limit: limitMessages.ja
     }
 }
 
