@@ -1,17 +1,14 @@
-import TimerDatabase from "./database/timer-database"
-import WastePerDay from "./entity/dao/waste-per-day"
-import timeService from './service/timer-service'
-import whitelistService from "./service/whitelist-service"
-import { t2Chrome } from "./util/i18n/chrome/t"
-import { formatPeriod } from "./util/time"
+import TimerDatabase from "../database/timer-database"
+import WastePerDay from "../entity/dao/waste-per-day"
+import { t2Chrome } from "../util/i18n/chrome/t"
+import { formatPeriod } from "../util/time"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
-const host = document.location.host
 
 /**
  * Print info of today
  */
-async function printInfo() {
+export default async function printInfo(host: string) {
     const waste: WastePerDay = await timerDatabase.get(host, new Date())
     const hourMsg = t2Chrome(root => root.message.timeWithHour)
     const minuteMsg = t2Chrome(root => root.message.timeWithMinute)
@@ -28,15 +25,3 @@ async function printInfo() {
     console.log(info0)
     console.log(info1)
 }
-
-async function main() {
-    if (!host) return
-
-    const isWhitelist = await whitelistService.include(host)
-    if (isWhitelist) return
-
-    timeService.addOneTime(host)
-    printInfo()
-}
-
-main()

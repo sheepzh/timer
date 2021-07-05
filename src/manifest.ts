@@ -40,6 +40,7 @@ export default {
     'tabs',
     'webNavigation',
     'contextMenus',
+    'chrome://favicon/**',
     // @since 0.2.2
     'idle'
   ],

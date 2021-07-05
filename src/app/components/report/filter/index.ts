@@ -1,4 +1,5 @@
 import { h } from "vue"
+import { renderFilterContainer } from "../../common/filter"
 import dateRange, { DateRangeFilterItemProps } from "./date-range-filter-item"
 import displayBySecond, { DisplayBySecondFilterItemProps } from "./display-by-second-filter-item"
 import downloadFile, { DownloadFileProps } from "./download-file"
@@ -13,15 +14,14 @@ export type FilterProps = HostFilterItemProps
     & DisplayBySecondFilterItemProps
     & DownloadFileProps
 
-const filter = (props: FilterProps) => {
-    const childNodes = [
-        host(props), dateRange(props),
+const childNodes = (props: FilterProps) =>
+    [
+        host(props),
+        dateRange(props),
         ...mergeDate(props),
         ...mergeDomain(props),
         ...displayBySecond(props),
         downloadFile(props)
     ]
-    return h('div', { class: 'filter-container' }, childNodes)
-}
 
-export default filter
+export default renderFilterContainer(childNodes)

@@ -41,7 +41,8 @@ const placeholder: ChromeMessage = {
         usedTimeInConsoleLog: '',
         timeWithHour: '',
         timeWithMinute: '',
-        timeWithSecond: ''
+        timeWithSecond: '',
+        timeLimitMsg: ''
     },
     contextMenus: {
         add2Whitelist: '',

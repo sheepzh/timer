@@ -13,7 +13,7 @@ const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.T
     return `${formatPeriodCommon(value[1] * 1000)}<br/>${start}-${end}`
 }
 
-const title = t(msg => msg.period.chart.title)
+const title = t(msg => msg.habit.chart.title)
 const baseOptions: EChartOption<EChartOption.SeriesBar> = {
     title: {
         text: title,
@@ -25,7 +25,7 @@ const baseOptions: EChartOption<EChartOption.SeriesBar> = {
         feature: {
             saveAsImage: {
                 show: true,
-                title: t(msg => msg.period.chart.saveAsImageTitle),
+                title: t(msg => msg.habit.chart.saveAsImageTitle),
                 name: title, // file name
                 excludeComponents: ['toolbox'],
                 pixelRatio: 1
@@ -40,7 +40,7 @@ const baseOptions: EChartOption<EChartOption.SeriesBar> = {
         }
     },
     yAxis: {
-        name: t(msg => msg.period.chart.yAxisName),
+        name: t(msg => msg.habit.chart.yAxisName),
         type: 'value'
     },
     series: [{

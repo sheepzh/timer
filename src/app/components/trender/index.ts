@@ -1,6 +1,7 @@
 import { defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { daysAgo } from "../../../util/time"
+import { renderContentContainer } from "../common/content-container"
 import DomainTrender from './components/domain-trender'
 import filterContainer, { addToFilterOption, FilterProps } from "./components/filter"
 import DomainOptionInfo from "./domain-option-info"
@@ -42,6 +43,6 @@ export default defineComponent(() => {
 
     // chart 
     const chart = () => h(DomainTrender, { ref: chartRef })
-    return () => h('div', { class: 'content-container' }, [filterContainer(filterProps), chart()])
+    return renderContentContainer(() => [filterContainer(filterProps), chart()])
 })
 

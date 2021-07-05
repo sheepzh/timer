@@ -6,7 +6,9 @@ export type MenuMessage = {
     dataHistory: string
     dataClear: string
     setting: string
-    period: string
+    behavior: string
+    habit: string
+    limit: string
 }
 const _default: Messages<MenuMessage> = {
     zh_CN: {
@@ -15,7 +17,9 @@ const _default: Messages<MenuMessage> = {
         dataHistory: '历史趋势',
         dataClear: '内存管理',
         setting: '扩展选项',
-        period: '上网习惯'
+        behavior: '上网行为',
+        habit: '上网习惯',
+        limit: '每日时限设置'
     },
     en: {
         data: 'My datas',
@@ -23,7 +27,9 @@ const _default: Messages<MenuMessage> = {
         dataHistory: 'Historical trend',
         dataClear: 'Memory situation',
         setting: 'Options',
-        period: 'Internet habits'
+        behavior: 'User behavior',
+        habit: 'Habits',
+        limit: 'Time limit'
     },
     ja: {
         data: '私のデータ',
@@ -31,7 +37,9 @@ const _default: Messages<MenuMessage> = {
         dataHistory: '歴史傾向',
         dataClear: '記憶状況',
         setting: '拡張設定',
-        period: '閲覧の習慣'
+        behavior: 'ユーザーの行動',
+        habit: '閲覧の習慣',
+        limit: '閲覧の制限'
     }
 }
 
