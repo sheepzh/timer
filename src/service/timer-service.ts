@@ -51,6 +51,11 @@ export type TimerQueryParam = TimerCondition & {
     sortOrder?: SortDirect
 }
 
+export type DomainSet = {
+    origin: Set<string>
+    merged: Set<string>
+}
+
 /**
  * Service of timer
  * @since 0.0.5
@@ -83,13 +88,19 @@ class TimeService {
      * @param fuzzyQuery the part of domain name
      * @since 0.0.8
      */
-    async listDomains(fuzzyQuery: string): Promise<Set<string>> {
+    async listDomains(fuzzyQuery: string): Promise<DomainSet> {
         const condition: TimerCondition = {}
         condition.host = fuzzyQuery
         const rows = await timerDatabase.select(condition)
-        const result: Set<string> = new Set()
-        rows.forEach(row => result.add(row.host))
-        return Promise.resolve(result)
+        // Generate ruler
+        const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
+        const mergeRuler = new CustomizedDOmainMergeRuler(mergeRuleItems)
+
+        const origin: Set<string> = new Set()
+        const merged: Set<string> = new Set()
+        rows.forEach(({ host }) => origin.add(host) && merged.add(mergeRuler.merge(host)))
+
+        return Promise.resolve({ origin, merged })
     }
 
     /**
@@ -125,6 +136,14 @@ class TimeService {
 
     async select(param?: TimerQueryParam, needIconUrl?: boolean): Promise<SiteInfo[]> {
         log("service: select:{param}", param)
+
+        // Need match fullhost after merged
+        let fullhost = undefined
+        // If merged and fullhost
+        // Then set the host blank
+        // And filter them after merge
+        param.mergeDomain && param.fullHost && !(param.fullHost = false) && (fullhost = param.host) && (param.host = undefined)
+
         param = param || {}
         let origin = await timerDatabase.select(param as TimerCondition)
         // Process after select
@@ -140,6 +159,8 @@ class TimeService {
         this.processSort(origin, param)
         // 3rd get icon url if need
         !param.mergeDomain && needIconUrl && await this.fillIconUrl(origin)
+        // Filter merged domain if fullhost
+        fullhost && (origin = origin.filter(siteinfo => siteinfo.host === fullhost))
         return origin
     }
 

@@ -11,7 +11,7 @@ import { dateFormatter } from "../formatter"
 const dateColProp = {
     prop: 'date',
     label: t(msg => msg.item.date),
-    minWidth: 200,
+    minWidth: 135,
     align: 'center',
     sortable: 'custom'
 }

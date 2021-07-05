@@ -1,6 +1,7 @@
 import { App } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { LIMIT_ROUTE } from '../common/constants'
+import { LIMIT_ROUTE } from '../../common/constants'
+import { TRENDER_ROUTE } from './constants'
 
 const dataRoutes: RouteRecordRaw[] = [
     {
@@ -10,13 +11,13 @@ const dataRoutes: RouteRecordRaw[] = [
     // Needn't nested router 
     {
         path: '/data/report',
-        component: () => import('./components/report')
+        component: () => import('../components/report')
     }, {
-        path: '/data/history',
-        component: () => import('./components/trender')
+        path: TRENDER_ROUTE,
+        component: () => import('../components/trender')
     }, {
         path: '/data/clear',
-        component: () => import('./components/clear')
+        component: () => import('../components/clear')
     }
 ]
 
@@ -26,10 +27,10 @@ const behaviorRoutes: RouteRecordRaw[] = [
         redirect: '/behavior/habit'
     }, {
         path: '/behavior/habit',
-        component: () => import('./components/habit')
+        component: () => import('../components/habit')
     }, {
         path: LIMIT_ROUTE,
-        component: () => import('./components/limit')
+        component: () => import('../components/limit')
     }
 ]
 
@@ -42,7 +43,7 @@ const routes: RouteRecordRaw[] = [
     ...behaviorRoutes,
     {
         path: '/setting',
-        component: () => import('./components/setting'),
+        component: () => import('../components/setting'),
     }
 ]
 

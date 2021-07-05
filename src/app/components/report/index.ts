@@ -10,6 +10,7 @@ import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "./pagination"
 import { renderContentContainer } from '../common/content-container'
 import { QueryData, PaginationInfo } from '../common/constants'
+import { useRouter } from 'vue-router'
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -80,7 +81,8 @@ const tableProps: TableProps = {
     whitelistRef,
     dateRangeRef,
     dataRef,
-    sortRef
+    sortRef,
+    router: undefined
 }
 
 const filterProps: FilterProps = {
@@ -101,4 +103,9 @@ const paginationProps: PaginationProps = {
 
 const childNodes = () => [filter(filterProps), table(tableProps), pagination(paginationProps)]
 
-export default defineComponent(() => renderContentContainer(childNodes))
+export default defineComponent(() => {
+    const router = useRouter()
+    tableProps.router = router
+    console.log(router)
+    return renderContentContainer(() => childNodes())
+})

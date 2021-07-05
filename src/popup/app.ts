@@ -56,6 +56,7 @@ const computedQueryParamRef = computed(() => {
     return param
 })
 
+const ITEM_COUNT = 10
 // Query data and update the pie
 const queryDataAndUpdate = async () => {
     const rows = await timerService.select(computedQueryParamRef.value, true)
@@ -63,15 +64,16 @@ const queryDataAndUpdate = async () => {
     const other: SiteInfo = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        if (i < 10) {
+        if (i < ITEM_COUNT) {
             result.push(row)
         } else {
             other.focus += row.focus
             other.total += row.total
         }
     }
-    rows.length > 10 && result.push(other)
-    dataRef.value = result
+    result.push(other)
+    const type = typeRef.value
+    dataRef.value = result.filter(item => item[type])
 
     const pieOptionProps: PieOptionProps = {
         typeRef,
