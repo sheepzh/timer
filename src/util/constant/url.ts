@@ -35,10 +35,22 @@ let updatePage = 'https://github.com/sheepzh/timer'
 if (IS_CHROME) {
     updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
 } else if (IS_EDGE) {
-    updatePage = 'edge://extensions'
+    updatePage = `edge://extensions/?id=${chrome.runtime.id}`
 } else if (IS_FIREFOX) {
     // "about:*" is invalid in firefox
     updatePage = HOME_PAGE
 }
 
 export const UPDATE_PAGE = updatePage
+
+/**
+ * @since 0.2.2
+ * @returns icon url in the browser
+ */
+export function iconUrlOfBrowser(protocol: string, domain: string) {
+    if (IS_CHROME) {
+        return `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}`
+    } else if (IS_EDGE) {
+        return `edge://favicon/${protocol ? protocol + '://' : ''}${domain}`
+    } else return ''
+}

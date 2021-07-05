@@ -1,0 +1,1 @@
+export const TRENDER_ROUTE = '/data/history'
