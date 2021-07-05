@@ -15,7 +15,7 @@ describe('archived-database', () => {
         await db.save(toAdd)
         let all: TimeLimit[] = await db.all()
         expect(all.length).toEqual(1)
-        expect(all[0]).toEqual(toAdd)
+        expect(all[0]).toEqual({ ...toAdd, latestDate: "", wasteTime: 0 })
         const toRewrite = {
             cond: '123',
             time: 21,
@@ -24,7 +24,7 @@ describe('archived-database', () => {
         // Not rewrited
         await db.save(toRewrite)
         all = await db.all()
-        expect(all[0]).toEqual(toAdd)
+        expect(all[0]).toEqual({ ...toAdd, latestDate: "", wasteTime: 0 })
 
         await db.remove('123')
 
