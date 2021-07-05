@@ -14,13 +14,7 @@ const host2ElLink = (host: string, iconUrl: string) => {
     )
     const icon = h('span',
         { style: 'height:23px;line-height:23px;padding-left:2px;' },
-        h('img',
-            {
-                src: iconUrl,
-                width: 12,
-                height: 12
-            }
-        )
+        h('img', { src: iconUrl, width: 12, height: 12 })
     )
     return [link, icon]
 }
@@ -28,7 +22,7 @@ const host2ElLink = (host: string, iconUrl: string) => {
 const hostColProp = {
     prop: 'host',
     label: t(msg => msg.item.host),
-    minWidth: 300,
+    minWidth: 210,
     sortable: 'custom',
     align: 'center'
 }

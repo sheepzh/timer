@@ -10,7 +10,7 @@ const columns = (props: ColumnProps) => {
     props.mergeDateRef.value || result.push(dateCol())
     result.push(hostCol(props))
     result.push(...itemColumns(props))
-    !props.mergeDomainRef.value && result.push(operationButtons(props))
+    result.push(operationButtons(props))
     return result
 }
 

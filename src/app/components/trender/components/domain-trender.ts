@@ -1,10 +1,10 @@
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
-
 import { ElCard } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
 import { t } from "../../../locale"
 import timerService, { TimerQueryParam, SortDirect } from "../../../../service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
+import DomainOptionInfo from "../domain-option-info"
 
 // Get the timestamp of one timestamp of date
 const timestampOf = (d: Date) => d.getTime()
@@ -19,12 +19,14 @@ const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.T
     return `${seriesName}<br/>${name}&ensp;-&ensp;${formatPeriodCommon((typeof value === 'number' ? value : 0) * 1000)}`
 }
 
+const defaultSubTitle = t(msg => msg.trender.defaultSubTitle)
+
 const options: EChartOption<EChartOption.SeriesLine> = {
     backgroundColor: 'rgba(0,0,0,0)',
     grid: { top: '100' },
     title: {
         text: t(msg => msg.trender.history.title),
-        subtext: '',
+        subtext: defaultSubTitle,
         left: 'center'
     },
     tooltip: {
@@ -90,8 +92,14 @@ const options: EChartOption<EChartOption.SeriesLine> = {
 
 const renderChart = () => chartInstance && chartInstance.setOption(options, true)
 
-const domainRef: Ref<string> = ref('')
+const domainRef: Ref<DomainOptionInfo> = ref(DomainOptionInfo.empty())
 const dateRangeRef: Ref<Array<Date>> = ref([])
+
+watch(domainRef, () => queryData())
+watch(dateRangeRef, () => {
+    updateXAxis()
+    queryData()
+})
 
 /**
 * Get the x-axis of date 
@@ -117,7 +125,8 @@ const getAxias = (format: string) => {
  */
 const updateXAxis = () => {
     const xAxis: EChartOption.XAxis = options.xAxis as EChartOption.XAxis
-    if (!domainRef.value || domainRef.value.length !== 2) {
+    const host = domainRef.value.host
+    if (!host || dateRangeRef.value.length !== 2) {
         xAxis.data = []
     }
     xAxis.data = getAxias('{m}/{d}')
@@ -126,7 +135,8 @@ const updateXAxis = () => {
 const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
     return {
         // If the domain is empty, no result will be queried with this param.
-        host: domainRef.value === '' ? '___foo_bar' : domainRef.value,
+        host: domainRef.value.host === '' ? '___foo_bar' : domainRef.value.host,
+        mergeDomain: domainRef.value.merged,
         fullHost: true,
         sort: 'date',
         sortOrder: SortDirect.ASC
@@ -153,7 +163,7 @@ const queryData = () => {
             })
 
             const titleOption = options.title as EChartTitleOption
-            titleOption.subtext = domainRef.value
+            titleOption.subtext = domainRef.value.host || defaultSubTitle
             options.series[0].data = totalData
             options.series[1].data = focusData
             options.series[2].data = timeData
@@ -163,7 +173,7 @@ const queryData = () => {
 
 const _default = defineComponent((_, context: SetupContext) => {
     context.expose({
-        setDomain: (domain: string) => domainRef.value = domain,
+        setDomain: (key: string) => domainRef.value = DomainOptionInfo.from(key),
         setDateRange: (dateRange: Date[]) => dateRangeRef.value = dateRange
     })
 
@@ -171,12 +181,6 @@ const _default = defineComponent((_, context: SetupContext) => {
         chartInstance = init(chartRef.value)
         updateXAxis()
         renderChart()
-    })
-
-    watch(domainRef, queryData)
-    watch(dateRangeRef, () => {
-        updateXAxis()
-        queryData()
     })
 
     return () => h(ElCard, { class: 'chart-container-card' }, () => h('div', { class: 'chart-container', ref: chartRef }))

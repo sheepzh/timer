@@ -33,6 +33,7 @@ const basePickerProps = {
     size: 'mini',
     style: 'width:250px;',
     startPlaceholder: '1994/12/15',
+    format: "YYYY/MM/DD",
     endPlaceholder: yesterdayMsg,
     type: 'daterange',
     disabledDate(date: Date) { return date.getTime() > yesterday },
