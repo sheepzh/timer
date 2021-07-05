@@ -8,7 +8,8 @@ import './styles/element'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "./pagination"
-import { PaginationInfo, QueryData } from './contants'
+import { renderContentContainer } from '../common/content-container'
+import { QueryData, PaginationInfo } from '../common/constants'
 import { useRouter } from 'vue-router'
 
 const hostRef: Ref<string> = ref('')
@@ -100,14 +101,11 @@ const paginationProps: PaginationProps = {
     pageRef
 }
 
-const childNodes = () => [
-    filter(filterProps), table(tableProps), pagination(paginationProps)
-]
-
-const render = () => h('div', { class: 'content-container' }, childNodes())
+const childNodes = () => [filter(filterProps), table(tableProps), pagination(paginationProps)]
 
 export default defineComponent(() => {
     const router = useRouter()
     tableProps.router = router
-    return render
+    console.log(router)
+    return renderContentContainer(() => childNodes())
 })

@@ -1,7 +1,7 @@
 
 import { Ref } from "vue"
-import { QueryData } from "../contants"
-import switchFilterItem from "./switch-filter-item"
+import { QueryData } from "../../common/constants"
+import { switchFilterItem } from "../../common/filter"
 
 type _Props = {
     displayBySecondRef: Ref<boolean>
@@ -10,8 +10,7 @@ type _Props = {
 
 export type DisplayBySecondFilterItemProps = _Props
 
-export default (props: DisplayBySecondFilterItemProps) => switchFilterItem({
-    queryData: props.queryData,
-    filterValRef: props.displayBySecondRef,
-    itemTitle: 'displayBySecond'
-})
+export default ({
+    displayBySecondRef,
+    queryData
+}: DisplayBySecondFilterItemProps) => switchFilterItem(displayBySecondRef, msg => msg.report.displayBySecond, queryData)

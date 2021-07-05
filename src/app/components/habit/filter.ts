@@ -2,11 +2,12 @@ import { ElDatePicker, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { ref, Ref, h } from "vue"
 import { daysAgo } from "../../../util/time"
 import { t } from "../../locale"
-import { PeriodMessage } from "../../locale/components/period"
+import { HabitMessage } from "../../locale/components/habit"
+import { renderFilterContainer, switchFilterItem } from "../common/filter"
 
-const datePickerShortcut = (msg: keyof PeriodMessage['dateRange'], agoOfStart: number) => {
+const datePickerShortcut = (msg: keyof HabitMessage['dateRange'], agoOfStart: number) => {
     return {
-        text: t(messages => messages.period.dateRange[msg]),
+        text: t(messages => messages.habit.dateRange[msg]),
         value: daysAgo(agoOfStart, 0)
     }
 }
@@ -21,15 +22,16 @@ export type FilterProps = _Props
 
 const trenderSearchingRef: Ref<boolean> = ref(false)
 
-const options: { [size: string]: keyof PeriodMessage['sizes'] } = {
+const options: { [size: string]: keyof HabitMessage['sizes'] } = {
     1: 'fifteen',
     2: 'halfHour',
-    4: 'hour'
+    4: 'hour',
+    8: 'twoHour'
 }
 
 // Period size select
 const selectOptions = () => Object.entries(options)
-    .map(([size, msg]) => h(ElOption, { label: t(root => root.period.sizes[msg]), value: size }))
+    .map(([size, msg]) => h(ElOption, { label: t(root => root.habit.sizes[msg]), value: size }))
 const periodSizeSelect = (periodSizeRef: Ref<string>) => h(ElSelect,
     {
         placeholder: t(msg => msg.trender.hostPlaceholder),
@@ -40,7 +42,7 @@ const periodSizeSelect = (periodSizeRef: Ref<string>) => h(ElSelect,
         onChange: (val: string) => periodSizeRef.value = val,
     }, selectOptions)
 
-type ShortCutProp = [label: keyof PeriodMessage['dateRange'], dayAgo: number]
+type ShortCutProp = [label: keyof HabitMessage['dateRange'], dayAgo: number]
 const shortcutProps: ShortCutProp[] = [
     ['latestDay', 1],
     ['latest3Days', 3],
@@ -68,29 +70,17 @@ const picker = (dateRangeRef: Ref<Date[]>) => h(ElDatePicker, {
 })
 const datePickerItem = (dateRangeRef: Ref<Date[]>) => h('span', { class: 'filter-item' }, picker(dateRangeRef))
 
-const averageName = () => h('a', { class: 'filter-name' }, t(msg => msg.period.average.label))
-const averageSwitch = (averageRef: Ref<boolean>) => h(ElSwitch,
-    {
-        class: 'filter-item',
-        modelValue: averageRef.value,
-        onChange: (val: boolean) => averageRef.value = val
-    }
-)
-
-const filterContainer = ({
+const childNodes = ({
     dateRangeRef,
     periodSizeRef,
     averageRef
-}: _Props) => h('div',
-    { class: 'filter-container' },
-    [
+}: _Props) => [
         // Size select
         periodSizeSelect(periodSizeRef),
         // Date range picker
         datePickerItem(dateRangeRef),
         // Average by date
-        averageName(), averageSwitch(averageRef)
+        ...switchFilterItem(averageRef, msg => msg.habit.average.label)
     ]
-)
 
-export default filterContainer
+export default renderFilterContainer(childNodes)

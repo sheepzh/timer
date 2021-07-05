@@ -4,6 +4,11 @@ export enum Locale {
     JA = 'ja'
 }
 
+/**
+ * @since 0.2.2
+ */
+const FEEDBACK_LOCALE = Locale.EN
+
 export const defaultLocale = Locale.ZH_CN
 
 export type Messages<T> = {
@@ -27,11 +32,11 @@ const chrome2I18n: { [key: string]: Locale } = {
  * 
  * They are different, so translate
  */
-const chromeLocale2ExtensionLocale = (chromeLocale: string) => {
+const chromeLocale2ExtensionLocale: (chromeLocale: string) => Locale = (chromeLocale: string) => {
     if (!chromeLocale) {
         return defaultLocale
     }
-    return chrome2I18n[chromeLocale] || chromeLocale
+    return chrome2I18n[chromeLocale] || FEEDBACK_LOCALE
 }
 
 export const locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())

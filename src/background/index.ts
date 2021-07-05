@@ -1,6 +1,7 @@
 import { openLog } from '../common/logger'
 import ContextMenusManager from './context-menus-manager'
 import IconUrlCollector from './icon-url-collector'
+import MessageListener from './message-listener'
 import Timer from './timer'
 import VersionManager from './version-manager'
 
@@ -12,6 +13,9 @@ new Timer().start()
 
 // Collect the icon url
 new IconUrlCollector().listen()
+
+// Message listener
+new MessageListener().listen()
 
 // Process version
 new VersionManager().init()
