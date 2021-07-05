@@ -42,3 +42,9 @@ if (IS_CHROME) {
 }
 
 export const UPDATE_PAGE = updatePage
+
+/**
+ * chrome.tabs.create({ url: APP_PAGE_URL })
+ * @since 0.2.2
+ */
+export const APP_PAGE_URL = IS_FIREFOX ? 'app.html' : 'static/app.html'

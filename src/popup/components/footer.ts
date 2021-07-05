@@ -3,8 +3,7 @@ import { ElOption, ElSelect, ElTooltip, ElSwitch, ElLink } from "element-plus"
 import { locale, t } from "../locale"
 import { ComputedRef, h, Ref } from "vue"
 import { ALL_SITE_ITEMS, SiteItem } from "../../entity/dto/site-info"
-import { IS_FIREFOX } from "../../util/constant/environment"
-import { ZH_FEEDBACK_PAGE, UPDATE_PAGE } from "../../util/constant/url"
+import { ZH_FEEDBACK_PAGE, UPDATE_PAGE, APP_PAGE_URL } from "../../util/constant/url"
 import { Locale } from "../../util/i18n"
 
 type _Props = {
@@ -56,7 +55,7 @@ const linkProps = {
     icon: 'el-icon-view',
     class: 'option-right',
     // FireFox use 'static' as prefix
-    onClick: () => chrome.tabs.create({ url: IS_FIREFOX ? 'app.html' : 'static/app.html' })
+    onClick: () => chrome.tabs.create({ url: APP_PAGE_URL })
 }
 const link = () => h(ElLink, linkProps, () => t(msg => msg.viewMore))
 // 5. feedback

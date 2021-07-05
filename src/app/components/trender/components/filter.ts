@@ -3,6 +3,7 @@ import { ref, Ref, h } from "vue"
 import timerService from "../../../../service/timer-service"
 import { daysAgo, MILL_PER_DAY } from "../../../../util/time"
 import { t } from "../../../locale"
+import { renderFilterContainer } from "../../common/filter"
 
 const datePickerShortcut = (msg: string, agoOfStart?: number, agoOfEnd?: number) => {
     return {
@@ -68,6 +69,6 @@ const picker = ({ dateRangeRef }: _Props) => h(ElDatePicker, {
 })
 const datePickerItem = (props: _Props) => h('span', { class: 'filter-item' }, picker(props))
 
-const filterContainer = (props: _Props) => h('div', { class: 'filter-container' }, [domainSelect(props), datePickerItem(props)])
+const filterItems = (props: _Props) => [domainSelect(props), datePickerItem(props)]
 
-export default filterContainer
+export default renderFilterContainer(filterItems)

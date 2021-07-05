@@ -11,7 +11,7 @@ import whitelistService from '../../../../service/whitelist-service'
 import { formatTime } from '../../../../util/time'
 import { dateFormatter } from '../formatter'
 import { ReportMessage } from '../../../locale/components/report'
-import { QueryData } from '../contants'
+import { QueryData } from '../../common/constants'
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
