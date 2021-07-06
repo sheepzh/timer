@@ -8,6 +8,7 @@ export type PopupMessage = {
     viewMore: string
     fileName: string
     saveAsImageTitle: string
+    restoreTitle: string
     totalTime: string
     totalCount: string
     otherLabel: string
@@ -26,6 +27,7 @@ const _default: Messages<PopupMessage> = {
         viewMore: '更多内容',
         fileName: '上网时长清单_{today}_by_{app}',
         saveAsImageTitle: '保存',
+        restoreTitle: '刷新',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
         otherLabel: '其他',
@@ -42,6 +44,7 @@ const _default: Messages<PopupMessage> = {
         viewMore: 'More',
         fileName: 'Web_Time_List_{today}_By_{app}',
         saveAsImageTitle: 'Save',
+        restoreTitle: 'Restore',
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
         otherLabel: 'Others',
@@ -58,6 +61,7 @@ const _default: Messages<PopupMessage> = {
         viewMore: '続きを見る',
         fileName: 'オンライン時間_{today}_by_{app}',
         saveAsImageTitle: 'ダウンロード',
+        restoreTitle: '刷新',
         totalTime: '合計 {totalTime}',
         totalCount: '合計 {totalCount} 回',
         otherLabel: 'その他',

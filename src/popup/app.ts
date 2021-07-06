@@ -85,7 +85,6 @@ const queryDataAndUpdate = async () => {
 
 queryDataAndUpdate()
 
-
 const footerProps: FooterProps = {
     totalInfo,
     latestVersionRef,
@@ -101,7 +100,10 @@ export default defineComponent(() => {
     onMounted(() => {
         pie = init(chartContainerRef.value)
         // Bound the listener
+        // Click the item, then foward to the host
         pie.on('click', handleClick)
+        // Click the restore button, then query data
+        pie.on('restore', () => { queryDataAndUpdate() })
     })
 
     return () => h('div',

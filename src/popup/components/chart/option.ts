@@ -64,6 +64,10 @@ const staticOptions: EChartOption<EChartOption.SeriesPie> = {
     toolbox: {
         show: true,
         feature: {
+            restore: {
+                show: true,
+                title: t(msg => msg.restoreTitle)
+            },
             saveAsImage: {
                 show: true,
                 title: t(msg => msg.saveAsImageTitle),
