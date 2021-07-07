@@ -1,3 +1,5 @@
+import { t } from "../../locale"
+
 /**
  * @since 0.2.2
  */
@@ -28,6 +30,13 @@ class DomainOptionInfo {
 
     key(): string {
         return (this.merged ? "1" : '0') + (this.host || '')
+    }
+
+    toString(): string {
+        const { host, merged } = this
+        if (!host) return ''
+        const mergedLabel = merged ? `[${t(msg => msg.trender.merged)}]` : ''
+        return `${host}${mergedLabel}`
     }
 }
 

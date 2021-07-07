@@ -163,7 +163,7 @@ const queryData = () => {
             })
 
             const titleOption = options.title as EChartTitleOption
-            titleOption.subtext = domainRef.value.host || defaultSubTitle
+            titleOption.subtext = domainRef.value.toString() || defaultSubTitle
             options.series[0].data = totalData
             options.series[1].data = focusData
             options.series[2].data = timeData

@@ -24,11 +24,8 @@ const trenderSearchingRef: Ref<boolean> = ref(false)
 const trenderDomainOptionsRef: Ref<DomainOptionInfo[]> = ref([])
 
 // Domain select
-const renderOption = (domainInfo: DomainOptionInfo) => {
-    const { host, merged } = domainInfo
-    const suffix = merged ? `[${t(msg => msg.trender.merged)}]` : ''
-    return h(ElOption, { value: domainInfo.key(), label: `${host}${suffix}` })
-}
+const renderOption = (domainInfo: DomainOptionInfo) => h(ElOption, { value: domainInfo.key(), label: domainInfo.toString() })
+
 const domainSelectOptions = () => trenderDomainOptionsRef.value.map(domainInfo => renderOption(domainInfo))
 const handleRemoteSearch = async (queryStr: string) => {
     if (!queryStr) {
