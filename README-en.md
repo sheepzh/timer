@@ -6,40 +6,36 @@
 [![](https://img.shields.io/badge/license-Anti%20996-blue)](https://github.com/996icu/996.ICU)
 [![](https://img.shields.io/github/v/release/sheepzh/timer)](https://github.com/sheepzh/timer/releases)
 
-\[ 简体中文 | [English](./README-en.md) \]
+\[ English | [简体中文](./README.md) \]
 
-用于上网时间统计的浏览器插件。
+One browser extension to track the time user spent browsing the web.
 
-- 统计网站的运行时间
-- 统计用户在不同网站上的浏览时间
-- 统计用户打开网站的次数
-- 网站白名单，过滤不需要统计的网站
-- 自定义域名合并统计的规则
-- 分时段统计分析用户的上网行为并以直方图展示
-- 报表导出
+- Counts running time of each website.
+- Counts focus time of user on each website.
+- Counts visits, like the famous extension _History Trends_
+- Supports whitelist to filter out websites that not need count.
+- Combines multiple statistics, and supports to customize the rules of combination.
+- Analyzes the habits of user by time period and display it as a histogram.
+- Supports to set the maximum time for browsing a specific website each day.
+- Supports to export files formatted _.csv_ and _.json_
 
-详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
-
-## 下载地址
+## Download
 
 [![Chrome](https://img.shields.io/chrome-web-store/v/dkdhhcbjijekmneelocdllcldcpmekmm?label=Google%20Chrome)](https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm?hl=zh-CN)
 [![Firefox](https://img.shields.io/amo/v/2690100?color=green&label=Mozilla%20Firefox)](https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/)
 [![Edge](https://img.shields.io/badge/dynamic/json?label=Microsoft%20Edge&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Ffepjgblalcnepokjblgbgmapmlkgfahc)](https://microsoftedge.microsoft.com/addons/detail/timer-running-browsin/fepjgblalcnepokjblgbgmapmlkgfahc)
 
-## 开发
+## Development
 
 ```
- git clone https://github.com/sheepzh/timer.git
- cd timer
  npm install
- # 开发编译，输出目录为 dist_dev
  npm run dev
- # 生产编译，输出目录为 dist_prod 和 market_packages
- npm run build:prod
 ```
 
-- 欢迎大家 PR， PR 之前请先创建 ISSUE
+The output folder is _dist_dev_
+
+> Welcome to PRs
 
 ## TODO
 
-请查看 [功能迭代 RoadMap](https://github.com/sheepzh/timer/projects/1) 项目
+See the project, _[RoadMap](https://github.com/sheepzh/timer/projects/1)_, pls.
