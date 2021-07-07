@@ -89,16 +89,24 @@ class TimeService {
      * @since 0.0.8
      */
     async listDomains(fuzzyQuery: string): Promise<DomainSet> {
-        const condition: TimerCondition = {}
-        condition.host = fuzzyQuery
-        const rows = await timerDatabase.select(condition)
+        const rows = await timerDatabase.select()
+        const allHosts: Set<string> = new Set()
+        rows.map(row => row.host).forEach(host => allHosts.add(host))
         // Generate ruler
         const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
         const mergeRuler = new CustomizedDOmainMergeRuler(mergeRuleItems)
 
         const origin: Set<string> = new Set()
         const merged: Set<string> = new Set()
-        rows.forEach(({ host }) => origin.add(host) && merged.add(mergeRuler.merge(host)))
+
+        const allHostArr = Array.from(allHosts)
+        allHostArr
+            .filter(host => host.includes(fuzzyQuery))
+            .forEach(host => origin.add(host))
+        allHostArr
+            .map(host => mergeRuler.merge(host))
+            .filter(host => host.includes(fuzzyQuery))
+            .forEach(host => merged.add(host))
 
         return Promise.resolve({ origin, merged })
     }
