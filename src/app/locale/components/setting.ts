@@ -6,6 +6,7 @@ type WhitelistMessage = {
     removeConfirmMsg: string
     duplicateMsg: string
     infoAlert: string
+    placeholder: string
 }
 
 type MergeMessage = {
@@ -44,7 +45,8 @@ const _default: Messages<SettingMessage> = {
             addConfirmMsg: '{url} 加入白名单后，将不再统计该网站的数据',
             removeConfirmMsg: '{url} 将从白名单中移除',
             duplicateMsg: '已存在白名单中',
-            infoAlert: '白名单内的站点不进行访问统计。'
+            infoAlert: '白名单内的站点不进行访问统计。',
+            placeholder: '域名'
         },
         merge: {
             label: '子域名合并',
@@ -74,28 +76,29 @@ const _default: Messages<SettingMessage> = {
     en: {
         whitelist: {
             label: 'Whitelist',
-            addConfirmMsg: 'After {url} is added to the whitelist, no more statistics for it.',
+            addConfirmMsg: '{url} won\'t be counted after added into the whitelist any more.',
             removeConfirmMsg: '{url} will be removed from the whitelist.',
             duplicateMsg: 'Duplicated',
-            infoAlert: 'The sites in the whitelist are not counted'
+            infoAlert: 'Sites in the whitelist are not counted',
+            placeholder: 'Site'
         },
         merge: {
-            label: 'Subdomain Merge',
+            label: 'Merge-site Rules',
             resultOfOrigin: 'Not Merge',
             resultOfLevel: 'Keep Level {level}',
-            removeConfirmMsg: '{origin} will be removed from customized domain merge rules.',
-            originPlaceholder: 'Origin domain',
-            mergedPlaceholder: 'Merged domain',
-            errorOrigin: 'The format of origin domain is invalid.',
+            removeConfirmMsg: '{origin} will be removed from customized merge rules.',
+            originPlaceholder: 'Origin site',
+            mergedPlaceholder: 'Merged',
+            errorOrigin: 'The format of origin site is invalid.',
             duplicateMsg: 'The rule already exists: {origin}',
-            addConfirmMsg: 'Custom merge rules will be set for {origin}',
-            infoAlertTitle: 'This page can configure the merge rules of subdomains',
-            infoAlert0: 'Click the Add button, and the input box for the original domain name and the merged domain name will display, fill in them and save this rule',
-            infoAlert1: 'The original domain name can be filled with a specific domain name or regular expression, such as www.baidu.com, *.baidu.com, *.google.com.*, to determine which domains will use this rule when merging',
-            infoAlert2: 'The merged domain name can be filled with a specific domain name, number, or blank',
-            infoAlert3: 'Number means the level of merged domain name. For example, there is a rule "*.*.edu.cn >>> 3", then "www.hust.edu.cn" will be merged to "hust.edu.cn"',
-            infoAlert4: 'Blank means the origin domain will not be merge',
-            infoAlert5: 'If no rules are matched, it will be merged into the second-level domain name by default'
+            addConfirmMsg: 'Customized merge rules will be set for {origin}',
+            infoAlertTitle: 'This page can set the merge rules of sites while for statistics',
+            infoAlert0: 'Click the [New One] button, and the input box for the origin site and the merged site will display, fill in them and save this rule',
+            infoAlert1: 'The origin site can be filled with a specific site or regular expression, such as www.baidu.com, *.baidu.com, *.google.com.*, to determine which sites will match this rule while merging',
+            infoAlert2: 'The merged site can be filled with a specific site, number, or blank',
+            infoAlert3: 'Number means the level of merged site. For example, there is a rule "*.*.edu.cn >>> 3", then "www.hust.edu.cn" will be merged to "hust.edu.cn"',
+            infoAlert4: 'Blank means the origin site will not be merged',
+            infoAlert5: 'If no rule are matched, sites will be merged into the second-level domain name by default'
         },
         confirmTitle: 'Confirm',
         successMsg: 'Successfully!',
@@ -110,7 +113,8 @@ const _default: Messages<SettingMessage> = {
             addConfirmMsg: '{url} がホワイトリストに追加されると、このWebサイトの統計はカウントされなくなります。',
             removeConfirmMsg: '{url} はホワイトリストから削除されます',
             duplicateMsg: '繰り返される',
-            infoAlert: 'ホワイトリストのサイトは、訪問統計の対象ではありません。'
+            infoAlert: 'ホワイトリストのサイトは、訪問統計の対象ではありません。',
+            placeholder: 'URL'
         },
         merge: {
             label: 'ドメイン合併',

@@ -22,14 +22,14 @@ const _default: Messages<MenuMessage> = {
         limit: '每日时限设置'
     },
     en: {
-        data: 'My datas',
-        dataReport: 'Report',
-        dataHistory: 'Historical trend',
-        dataClear: 'Memory situation',
+        data: 'My Data',
+        dataReport: 'Record',
+        dataHistory: 'Trender',
+        dataClear: 'Memory Situation',
         setting: 'Options',
-        behavior: 'User behavior',
+        behavior: 'User Behavior',
         habit: 'Habits',
-        limit: 'Time limit'
+        limit: 'Browsing Limit'
     },
     ja: {
         data: '私のデータ',

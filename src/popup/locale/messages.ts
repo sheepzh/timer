@@ -40,8 +40,8 @@ const _default: Messages<PopupMessage> = {
     },
     en: {
         title: 'Today\'s Data',
-        mergeDomainLabel: 'Merge Subdomain',
-        viewMore: 'More',
+        mergeDomainLabel: 'Merge Sites',
+        viewMore: 'All Functions',
         fileName: 'Web_Time_List_{today}_By_{app}',
         saveAsImageTitle: 'Save',
         restoreTitle: 'Restore',

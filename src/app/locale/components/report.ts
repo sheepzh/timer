@@ -1,7 +1,6 @@
 import { Messages } from "../../../util/i18n"
 
 export type ReportMessage = {
-    title: string
     startDate: string
     endDate: string
     latestWeek: string
@@ -19,7 +18,6 @@ export type ReportMessage = {
 
 const _default: Messages<ReportMessage> = {
     zh_CN: {
-        title: '数据统计',
         startDate: '开始日期',
         endDate: '结束日期',
         latestWeek: '最近一周',
@@ -35,23 +33,21 @@ const _default: Messages<ReportMessage> = {
         removeFromWhitelist: '成功从白名单移除'
     },
     en: {
-        title: 'Statistics',
         startDate: 'Start date',
         endDate: 'End date',
         latestWeek: 'Latest Week',
         latest30Days: 'Latest 30 Days',
         today: 'Today',
         yesterday: 'Yesterday',
-        mergeDate: 'Merge Days',
-        mergeDomain: 'Merge Subdomains',
-        displayBySecond: 'Displayed By Second',
-        hostPlaceholder: 'Host name then enter',
-        exportFileName: 'My_Web_Surfing_Data',
-        added2Whitelist: 'Added to the whitelist',
+        mergeDate: 'Merge Dates',
+        mergeDomain: 'Merge Sites',
+        displayBySecond: 'Display By Second',
+        hostPlaceholder: 'Input website, then enter',
+        exportFileName: 'Timer_Data',
+        added2Whitelist: 'Added into the whitelist',
         removeFromWhitelist: 'Removed from the whitelist'
     },
     ja: {
-        title: '統計',
         startDate: '開始日',
         endDate: '終了日',
         latestWeek: '先週',

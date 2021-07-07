@@ -37,7 +37,7 @@ const _default: Messages<TrenderMessage> = {
         merged: '合并'
     },
     en: {
-        hostPlaceholder: 'Search the domain',
+        hostPlaceholder: 'Input the website',
         startDate: 'Start date',
         endDate: 'End date',
         latestWeek: 'Latest Week',
@@ -45,12 +45,12 @@ const _default: Messages<TrenderMessage> = {
         latest30Days: 'Latest 30 days',
         latest90Days: 'Latest 90 days',
         history: {
-            title: 'History trender',
+            title: 'Trender',
             timeUnit: 'Time / second(s)',
-            numberUnit: 'time(s)'
+            numberUnit: 'Visits'
         },
-        saveAsImageTitle: 'Save',
-        defaultSubTitle: 'Select the host to analyze on the top-left corner, pls',
+        saveAsImageTitle: 'Download',
+        defaultSubTitle: 'Search and select one site to analyze on the top-left corner, pls',
         merged: 'Merged'
     },
     ja: {
