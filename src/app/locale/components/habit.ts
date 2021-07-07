@@ -52,13 +52,13 @@ const _default: Messages<HabitMessage> = {
     },
     en: {
         sizes: {
-            fifteen: 'By 15 minute',
-            halfHour: 'By half hour',
-            hour: 'By one hour',
-            twoHour: 'By two hours'
+            fifteen: 'Per 15 minutes',
+            halfHour: 'Per half hour',
+            hour: 'Per one hour',
+            twoHour: 'Per two hours'
         },
         average: {
-            label: 'Daily average'
+            label: 'Daily Average'
         },
         dateRange: {
             latestDay: 'Latest day',
@@ -69,9 +69,9 @@ const _default: Messages<HabitMessage> = {
             latest60Days: 'Latest 60 days'
         },
         chart: {
-            title: 'Focus time-phased statistics',
-            saveAsImageTitle: 'Save',
-            yAxisName: 'Focus time [second]'
+            title: 'Time-phased Statistics of Browsing',
+            saveAsImageTitle: 'Download',
+            yAxisName: 'Browsing Time / second(s)'
         }
     },
     ja: {

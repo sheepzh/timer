@@ -44,10 +44,10 @@ const _default: Messages<ItemMessage> = {
     },
     en: {
         date: 'Date',
-        host: 'Host Name',
-        total: 'Run Time',
-        focus: 'Browse Time',
-        time: 'Visit Count',
+        host: 'Website',
+        total: 'Running time',
+        focus: 'Browsing Time',
+        time: 'Visits',
         operation: {
             label: 'Operations',
             delete: 'Delete',
@@ -57,9 +57,9 @@ const _default: Messages<ItemMessage> = {
             jumpToTrender: 'Trender',
             confirmMsg: 'OK',
             cancelMsg: 'NO!',
-            deleteConfirmMsgAll: 'All records of {url} will be deleted',
-            deleteConfirmMsgRange: 'Records of {url} from {start} to {end} will be deleted',
-            deleteConfirmMsg: 'The record of {url} on {date} will be deleted'
+            deleteConfirmMsgAll: 'All all records on {url} will be deleted!',
+            deleteConfirmMsgRange: 'All the Records on {url} from {start} to {end} will be deleted!',
+            deleteConfirmMsg: 'The record on {url} on {date} will be deleted!'
         }
     },
     ja: {

@@ -68,19 +68,19 @@ const _default: Messages<LimitMessage> = {
     },
     en: {
         conditionFilter: 'URL',
-        filterDisabled: 'Only enabled',
+        filterDisabled: 'Only Enabled',
         item: {
             condition: 'Limitted URL',
-            time: 'Limitted time / day',
-            waste: 'Focus time today',
+            time: 'Limitted time per day',
+            waste: 'Browsed today',
             enabled: 'Enabled',
             operation: 'Operations'
         },
         button: {
-            add: 'Add',
+            add: 'New',
             test: 'Test URL',
             paste: 'Paste',
-            save: 'Save',
+            save: 'Download',
             delete: 'Delete'
         },
         addTitle: 'New',
@@ -94,7 +94,7 @@ const _default: Messages<LimitMessage> = {
             saved: 'Saved successfully',
             noUrl: 'Unfilled limitted URL',
             noTime: 'Unfilled limitted time per day',
-            deleteConfirm: 'Do you want to delete the limit of {cond}?',
+            deleteConfirm: 'Do you want to delete the rule of {cond}?',
             deleted: 'Deleted successfully'
         }
     },
