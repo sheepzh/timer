@@ -1,7 +1,8 @@
 import { Messages } from "../../../util/i18n"
 
-export type ClearMessage = {
+export type DataManageMessage = {
     totalMemoryAlert: string
+    totalMemoryAlert1: string
     usedMemoryAlert: string
     operationAlert: string
     filterItems: string
@@ -21,11 +22,15 @@ export type ClearMessage = {
     deleteSuccess: string
     archiveConfirm: string
     archiveSuccess: string
+    migrationAlert: string
+    importError: string
+    migrated: string
 }
 
-const _default: Messages<ClearMessage> = {
+const _default: Messages<DataManageMessage> = {
     zh_CN: {
         totalMemoryAlert: '浏览器为每个扩展提供 {size}MB 来存储本地数据',
+        totalMemoryAlert1: '无法确定浏览器允许的最大可用内存',
         usedMemoryAlert: '当前已使用 {size}MB',
         operationAlert: '您可以归档或者删除那些无关紧要的数据，来减小内存空间',
         filterItems: '数据筛选',
@@ -44,10 +49,14 @@ const _default: Messages<ClearMessage> = {
         deleteConfirm: '共筛选出 {count} 条数据，是否全部删除？',
         deleteSuccess: '删除成功',
         archiveConfirm: '共筛选出 {count} 条数据，是否全部归档？',
-        archiveSuccess: '归档成功'
+        archiveSuccess: '归档成功',
+        migrationAlert: '使用导入/导出在不同浏览器之间迁移数据',
+        importError: '文件格式错误',
+        migrated: '成功导入'
     },
     en: {
         totalMemoryAlert: 'The browser provides {size}MB to store local data for each extension',
+        totalMemoryAlert1: 'Unable to determine the maximum memory available allowed by the browser',
         usedMemoryAlert: '{Size}MB is currently used',
         operationAlert: 'You can archive or delete those irrelevant data to reduce memory usage',
         filterItems: 'Filter data',
@@ -66,10 +75,14 @@ const _default: Messages<ClearMessage> = {
         deleteConfirm: 'A total of {count} details have been filtered out, delete all of them?',
         deleteSuccess: 'Successfully deleted',
         archiveConfirm: 'A total of {count} details have been filtered out, archive all of them?',
-        archiveSuccess: 'Archived successfully'
+        archiveSuccess: 'Archived successfully',
+        migrationAlert: 'Use import & export to migrate data between different browsers',
+        importError: 'File format error',
+        migrated: 'Successfully imported!'
     },
     ja: {
         totalMemoryAlert: 'ブラウザは、データを保存するために各拡張機能に {size}MB のメモリを提供します',
+        totalMemoryAlert1: 'ブラウザで許可されている各拡張機能で使用可能な最大メモリを特定できません',
         usedMemoryAlert: '現在 {size}MB が使用されています',
         operationAlert: 'これらの無関係なデータをアーカイブまたは削除して、メモリ使用量を減らすことができます',
         filterItems: 'データフィルタリング',
@@ -88,7 +101,10 @@ const _default: Messages<ClearMessage> = {
         deleteConfirm: '合計 {count} 個のデータが除外されました。すべて削除しますか？',
         deleteSuccess: '正常に削除されました',
         archiveConfirm: '合計 {count} 個のデータが除外されました。それらはすべてアーカイブされていますか？',
-        archiveSuccess: '正常にアーカイブされました'
+        archiveSuccess: '正常にアーカイブされました',
+        migrationAlert: 'インポート/エクスポートを使用して、異なるブラウザ間でデータを移行します',
+        importError: 'ファイル形式エラー',
+        migrated: '正常にインポートされました'
     }
 }
 

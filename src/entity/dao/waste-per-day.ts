@@ -30,6 +30,10 @@ export default class WastePerDay {
         result.time = time
         return result
     }
+
+    static zero() {
+        return new WastePerDay()
+    }
 }
 
 export function merge(a: WastePerDay, b: WastePerDay) {

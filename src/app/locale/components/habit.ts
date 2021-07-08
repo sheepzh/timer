@@ -70,7 +70,7 @@ const _default: Messages<HabitMessage> = {
         },
         chart: {
             title: 'Time-phased Statistics of Browsing',
-            saveAsImageTitle: 'Download',
+            saveAsImageTitle: 'Snapshot',
             yAxisName: 'Browsing Time / second(s)'
         }
     },

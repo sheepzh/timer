@@ -16,8 +16,8 @@ const dataRoutes: RouteRecordRaw[] = [
         path: TRENDER_ROUTE,
         component: () => import('../components/trender')
     }, {
-        path: '/data/clear',
-        component: () => import('../components/clear')
+        path: '/data/manage',
+        component: () => import('../components/data-manage')
     }
 ]
 

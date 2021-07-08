@@ -100,7 +100,23 @@ function processCondition(condition: TimerCondition): _TimerCondition {
     return result
 }
 
-class TimeDatabase extends BaseDatabase {
+function mergeMigration(exist: WastePerDay | undefined, another: any) {
+    exist = exist || WastePerDay.zero()
+    return merge(exist, WastePerDay.of(another.total || 0, another.focus || 0, another.time || 0))
+}
+
+function migrate(exists: { [key: string]: WastePerDay }, data: any): { [key: string]: WastePerDay } {
+    const result = {}
+    Object.entries(data)
+        .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
+        .forEach(([key, value]) => {
+            const exist = exists[key]
+            result[key] = mergeMigration(exist, value)
+        })
+    return result
+}
+
+class TimerDatabase extends BaseDatabase {
 
     async refresh(): Promise<{}> {
         const result = await this.storage.get(null)
@@ -300,6 +316,13 @@ class TimeDatabase extends BaseDatabase {
     deleteByUrl(host: string): Promise<string[]> {
         return this.deleteByUrlBetween(host)
     }
+
+    async importData(data: any): Promise<void> {
+        const items = await this.storage.get()
+        const toSave = migrate(items, data)
+        this.storage.set(toSave)
+        // Object.keys(toSave) 
+    }
 }
 
-export default TimeDatabase
+export default TimerDatabase

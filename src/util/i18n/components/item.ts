@@ -18,6 +18,8 @@ export type ItemMessage = {
         deleteConfirmMsgRange: string
         deleteConfirmMsg: string
         jumpToTrender: string
+        exportWholeData: string
+        importWholeData: string
     }
 }
 
@@ -40,6 +42,8 @@ const _default: Messages<ItemMessage> = {
             deleteConfirmMsgAll: '{url} 的所有访问记录将被删除',
             deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的访问记录将被删除',
             deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除',
+            exportWholeData: '导出数据',
+            importWholeData: '导入数据'
         }
     },
     en: {
@@ -59,7 +63,9 @@ const _default: Messages<ItemMessage> = {
             cancelMsg: 'NO!',
             deleteConfirmMsgAll: 'All all records on {url} will be deleted!',
             deleteConfirmMsgRange: 'All the Records on {url} from {start} to {end} will be deleted!',
-            deleteConfirmMsg: 'The record on {url} on {date} will be deleted!'
+            deleteConfirmMsg: 'The record on {url} on {date} will be deleted!',
+            exportWholeData: 'Export Data',
+            importWholeData: 'Import Data'
         }
     },
     ja: {
@@ -79,7 +85,9 @@ const _default: Messages<ItemMessage> = {
             cancelMsg: 'キャンセル',
             deleteConfirmMsgAll: '{url} のすべての訪問記録が削除されます',
             deleteConfirmMsgRange: '{url} {start} から {end} までの訪問記録は削除されます',
-            deleteConfirmMsg: '{date} の {url} の訪問記録は削除されます'
+            deleteConfirmMsg: '{date} の {url} の訪問記録は削除されます',
+            exportWholeData: 'インポート',
+            importWholeData: '書き出す'
         }
     }
 }

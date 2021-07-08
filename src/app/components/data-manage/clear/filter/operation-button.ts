@@ -1,11 +1,11 @@
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import _Button from "element-plus/lib/el-button"
 import { Ref, h } from "vue"
-import TimerDatabase, { TimerCondition } from "../../../../database/timer-database"
-import SiteInfo from "../../../../entity/dto/site-info"
-import { ItemMessage } from "../../../../util/i18n/components/item"
-import { t } from "../../../locale"
-import { ClearMessage } from "../../../locale/components/clear"
+import TimerDatabase, { TimerCondition } from "../../../../../database/timer-database"
+import SiteInfo from "../../../../../entity/dto/site-info"
+import { ItemMessage } from "../../../../../util/i18n/components/item"
+import { t } from "../../../../locale"
+import { DataManageMessage } from "../../../../locale/components/data-manage"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -24,9 +24,9 @@ type _Props = BaseFilterProps & {
     onDateChanged: () => void
 
     confirm: {
-        message: keyof ClearMessage
+        message: keyof DataManageMessage
         operation: (result: SiteInfo[]) => Promise<any>
-        resultMessage: keyof ClearMessage
+        resultMessage: keyof DataManageMessage
     }
 
     button: {
@@ -35,7 +35,7 @@ type _Props = BaseFilterProps & {
         message: keyof ItemMessage['operation']
     }
 
-    tooltipMessage?: keyof ClearMessage
+    tooltipMessage?: keyof DataManageMessage
 }
 
 export type OperationButtonProps = _Props
@@ -84,7 +84,7 @@ const generateParamAndSelect = (props: _Props) => {
     const dateRange = dateRangeRef.value
 
     if (hasError) {
-        ElMessage({ message: t(msg => msg.clear.paramError), type: 'warning' })
+        ElMessage({ message: t(msg => msg.dataManage.paramError), type: 'warning' })
         return
     }
 
@@ -101,10 +101,10 @@ const handleClick = async (props: _Props) => {
     const result: SiteInfo[] = await generateParamAndSelect(props)
 
     const count = result.length
-    ElMessageBox.confirm(t(msg => msg.clear[props.confirm.message], { count }))
+    ElMessageBox.confirm(t(msg => msg.dataManage[props.confirm.message], { count }))
         .then(async () => {
             await props.confirm.operation(result)
-            ElMessage(t(msg => msg.clear[props.confirm.resultMessage]))
+            ElMessage(t(msg => msg.dataManage[props.confirm.resultMessage]))
             props.onDateChanged()
         }).catch(() => { })
 }
@@ -120,7 +120,7 @@ const button = (props: _Props) => h(ElButton,
 )
 
 const buttonWithTooltip = (props: _Props) => h(ElTooltip,
-    { content: t(msg => msg.clear[props.tooltipMessage]) },
+    { content: t(msg => msg.dataManage[props.tooltipMessage]) },
     () => button(props)
 )
 

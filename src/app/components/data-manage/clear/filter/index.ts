@@ -1,8 +1,8 @@
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
-import TimerDatabase from "../../../../database/timer-database"
-import timerService from "../../../../service/timer-service"
-import { t } from "../../../locale"
-import '../style/filter'
+import TimerDatabase from "../../../../../database/timer-database"
+import timerService from "../../../../../service/timer-service"
+import { t } from "../../../../locale"
+import '../../style/filter'
 import dateFilter from "./date-filter"
 import numberFilter from "./number-filter"
 import operationButton, { BaseFilterProps } from "./operation-button"
@@ -17,7 +17,7 @@ const totalEndRef: Ref<string> = ref('')
 const timeStartRef: Ref<string> = ref('0')
 const timeEndRef: Ref<string> = ref('')
 
-const title = h('h3', t(msg => msg.clear.filterItems))
+const title = h('h3', t(msg => msg.dataManage.filterItems))
 
 const filterRefs: BaseFilterProps = {
     dateRangeRef,
