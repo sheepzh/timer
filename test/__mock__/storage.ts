@@ -8,7 +8,7 @@ function resolveOneKey(key: string, result: {}) {
 }
 
 function resolveKey(key: string | Object | string[] | null) {
-    if (key === null) {
+    if (key === null || key === undefined) {
         return store
     } else if (typeof key === 'string') {
         const result = {}
