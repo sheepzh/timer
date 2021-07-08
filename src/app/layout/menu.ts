@@ -28,7 +28,7 @@ const ALL_MENU: MenuItem[] = [
                 icon: 'stopwatch'
             }, {
                 title: 'dataClear',
-                route: '/data/clear',
+                route: '/data/manage',
                 icon: 'folder'
             }
         ]

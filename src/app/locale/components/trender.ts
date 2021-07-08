@@ -49,7 +49,7 @@ const _default: Messages<TrenderMessage> = {
             timeUnit: 'Time / second(s)',
             numberUnit: 'Visits'
         },
-        saveAsImageTitle: 'Download',
+        saveAsImageTitle: 'Snapshot',
         defaultSubTitle: 'Search and select one site to analyze on the top-left corner, pls',
         merged: 'Merged'
     },

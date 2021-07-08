@@ -55,6 +55,14 @@ class WhitelistDatabase extends BaseDatabase {
         }
         chrome.storage.onChanged.addListener(storageListener)
     }
+
+    async importData(data: any): Promise<void> {
+        const toMigrate = data[WHITELIST_KEY]
+        if (!Array.isArray(toMigrate)) return
+        const exist = await this.selectAll()
+        toMigrate.forEach(white => !exist.includes(white) && exist.push(white))
+        this.update(exist)
+    }
 }
 
 export default WhitelistDatabase

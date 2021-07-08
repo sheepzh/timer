@@ -1,7 +1,7 @@
 import { ElInput } from "element-plus"
 import { Ref, h } from "vue"
-import { I18nKey, t, tN } from "../../../locale"
-import { ClearMessage } from "../../../locale/components/clear"
+import { t, tN } from "../../../../locale"
+import { DataManageMessage } from "../../../../locale/components/data-manage"
 import { stepNoClz } from "./consts"
 
 const elInput = (valRef: Ref<string>, placeholder: string, min?: Ref<string>) =>
@@ -16,11 +16,11 @@ const elInput = (valRef: Ref<string>, placeholder: string, min?: Ref<string>) =>
         onClear: () => valRef.value = ''
     })
 
-const numberFilter = (translateKey: keyof ClearMessage, startRef: Ref<string>, endRef: Ref<string>, lineNo: number) => h('p', [
+const numberFilter = (translateKey: keyof DataManageMessage, startRef: Ref<string>, endRef: Ref<string>, lineNo: number) => h('p', [
     h('a', { class: stepNoClz }, `${lineNo}.`),
-    tN(msg => msg.clear[translateKey], {
+    tN(msg => msg.dataManage[translateKey], {
         start: elInput(startRef, '0'),
-        end: elInput(endRef, t(msg => msg.clear.unlimited), startRef)
+        end: elInput(endRef, t(msg => msg.dataManage.unlimited), startRef)
     })
 ])
 

@@ -106,6 +106,5 @@ const childNodes = () => [filter(filterProps), table(tableProps), pagination(pag
 export default defineComponent(() => {
     const router = useRouter()
     tableProps.router = router
-    console.log(router)
     return renderContentContainer(() => childNodes())
 })

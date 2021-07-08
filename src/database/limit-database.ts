@@ -27,6 +27,16 @@ type Item = {
     [cond: string]: ItemValue
 }
 
+function migrate(exist: Item, toMigrate: any) {
+    Object.entries(toMigrate).forEach(([cond, value]) => {
+        // Not rewrite
+        if (exist[cond]) return
+        const itemValue: ItemValue = value as ItemValue
+        const { t, e, d, w } = itemValue
+        exist[cond] = { t: t || 0, e: !!e, d, w: w || 0 }
+    })
+}
+
 /**
  * Time limit 
  * 
@@ -76,6 +86,16 @@ class LimitDatabase extends BaseDatabase {
             entry.w = waste
         })
         this.update(items)
+    }
+
+    async importData(data: any): Promise<void> {
+        const toImport = data[KEY]
+        // Not import
+        if (typeof toImport !== 'object') return
+        const result = await this.storage.get(KEY)
+        const exists: Item = result[KEY] || {}
+        migrate(exists, toImport)
+        this.setByKey(KEY, exists)
     }
 }
 

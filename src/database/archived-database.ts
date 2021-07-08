@@ -10,9 +10,8 @@ import { ARCHIVED_PREFIX } from './common/constant'
  * @since 0.0.9
  */
 class ArchivedDatabase extends BaseDatabase {
-
     async refresh(): Promise<{}> {
-        const items = await this.storage.get(null)
+        const items = await this.storage.get()
         const result = {}
         Object.entries(items)
             .filter(([key]) => key.startsWith(ARCHIVED_PREFIX))
@@ -77,6 +76,23 @@ class ArchivedDatabase extends BaseDatabase {
                 return { focus, total, time, host, date: '', mergedHosts: [] }
             })
         return await Promise.resolve(result)
+    }
+
+    async importData(data: any): Promise<void> {
+        const items = await this.storage.get()
+        const toSave = {}
+        Object.entries(data).filter(([key]) => key.startsWith(ARCHIVED_PREFIX))
+            .forEach(([key, value]) => {
+                const exist = items[key] || {}
+                const { total, focus, time } = value as { total?: number, focus?: number, time?: number }
+                const migrated = {
+                    total: (exist.total || 0) + (total || 0),
+                    focus: (exist.focus || 0) + (focus || 0),
+                    time: (exist.time || 0) + (time || 0)
+                }
+                toSave[key] = migrated
+            })
+        await this.storage.set(toSave)
     }
 }
 

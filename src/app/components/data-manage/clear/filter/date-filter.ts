@@ -1,7 +1,7 @@
 import { ElDatePicker } from "element-plus"
 import { Ref, h } from "vue"
-import { formatTime, MILL_PER_DAY } from "../../../../util/time"
-import { t, tN } from "../../../locale"
+import { formatTime, MILL_PER_DAY } from "../../../../../util/time"
+import { t, tN } from "../../../../locale"
 import { stepNoClz } from "./consts"
 
 export type DateFilterProps = {
@@ -18,7 +18,7 @@ birthdayOfBrowser.setMonth(12 - 1)
 birthdayOfBrowser.setDate(15)
 
 const datePickerShortcut = (msg: string, days: number) => {
-    const text = t(messages => messages.clear.dateShortcut[msg])
+    const text = t(messages => messages.dataManage.dateShortcut[msg])
     const value = [birthdayOfBrowser, daysBefore(days)]
     return { text, value }
 }
@@ -49,7 +49,7 @@ const picker = ({ dateRangeRef }: DateFilterProps) => h(ElDatePicker, {
 
 const dateFilter = (props: DateFilterProps) => h('p', [
     h('a', { class: stepNoClz }, '1.'),
-    tN(msg => msg.clear.filterDate, { picker: picker(props) })
+    tN(msg => msg.dataManage.filterDate, { picker: picker(props) })
 ])
 
 export default dateFilter

@@ -18,7 +18,7 @@ export function exportCsv(titleAndData: any[][], fileName: string) {
  * @param fileName  the name of file
  * @since 0.0.7
  */
-export function exportJson(data: any[], fileName: string) {
+export function exportJson(data: any, fileName: string) {
     const jsonStr = JSON.stringify(data)
     var blob = new Blob([jsonStr], { type: 'text/json' })
 
@@ -37,4 +37,19 @@ function exporrtBlob(blob: Blob, fileName: string) {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+}
+
+/**
+ * Check json string and 
+ * 
+ * @param jsonStr json 
+ * @since 0.0.5
+ */
+export function deserialize(jsonStr: string): any | undefined {
+    let data: any
+    try {
+        return JSON.parse(jsonStr)
+    } catch {
+        return undefined
+    }
 }

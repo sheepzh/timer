@@ -51,6 +51,19 @@ class MergeRuleDatabase extends BaseDatabase {
         toAdd.forEach(item => set[item.origin] === undefined && (set[item.origin] = item.merged))
         return this.update(set)
     }
+
+    async importData(data: any): Promise<void> {
+        const toMigrate = data[DB_KEY]
+        if (!toMigrate) return
+        const exist = await this.refresh()
+        const valueTypes = ['string', 'number']
+        Object.entries(toMigrate as MergeRuleSet)
+            .filter(([_key, value]) => valueTypes.includes(typeof value))
+            // Not rewrite
+            .filter(([key]) => !exist[key])
+            .forEach(([key, value]) => exist[key] = value)
+        this.update(exist)
+    }
 }
 
 export default MergeRuleDatabase

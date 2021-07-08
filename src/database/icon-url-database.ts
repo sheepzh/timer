@@ -1,3 +1,4 @@
+import { IS_FIREFOX } from "../util/constant/environment"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -35,6 +36,17 @@ class IconUrlDatabase extends BaseDatabase {
         const result = {}
         Object.entries(items).forEach(([key, iconUrl]) => result[urlOf(key)] = iconUrl)
         return Promise.resolve(result)
+    }
+
+    async importData(data: any): Promise<void> {
+        const items = await this.storage.get()
+        const toSave = {}
+        const chromeEdgeIconUrlReg = /^(chrome|edge):\/\/favicon/
+        Object.entries(data)
+            .filter(([key, value]) => key.startsWith(DB_KEY_PREFIX) && !!value && !items[key])
+            .filter(([_key, value]) => !IS_FIREFOX || !chromeEdgeIconUrlReg.test(value as string))
+            .forEach(([key, value]) => toSave[key] = value)
+        await this.storage.set(toSave)
     }
 }
 

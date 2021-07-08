@@ -43,7 +43,7 @@ const _default: Messages<PopupMessage> = {
         mergeDomainLabel: 'Merge Sites',
         viewMore: 'All Functions',
         fileName: 'Web_Time_List_{today}_By_{app}',
-        saveAsImageTitle: 'Save',
+        saveAsImageTitle: 'Snapshot',
         restoreTitle: 'Restore',
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',

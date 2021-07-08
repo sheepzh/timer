@@ -1,6 +1,6 @@
 import StoragePromise from "./storage-promise"
 
-export default class BaseDatabase {
+export default abstract class BaseDatabase {
     storage: StoragePromise
     constructor(storageArea: chrome.storage.StorageArea) {
         this.storage = new StoragePromise(storageArea)
@@ -17,4 +17,12 @@ export default class BaseDatabase {
         toUpdate[key] = obj
         return this.storage.set(toUpdate)
     }
+
+    /**
+     * Import data
+     * 
+     * @since 0.2.5
+     * @param data backup data
+     */
+    abstract importData(data: any): Promise<void>
 }
