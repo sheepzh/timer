@@ -8,15 +8,24 @@ export default class StoragePromise {
         this.storage = storage
     }
 
-    public get(keys: string | string[] | Object | null): Promise<{ [key: string]: any }> {
+    get(keys?: string | string[] | Object | null): Promise<{ [key: string]: any }> {
         return new Promise(resolve => this.storage.get(keys, resolve))
     }
 
-    public set(obj: Object): Promise<void> {
+    set(obj: Object): Promise<void> {
         return new Promise<void>(resolve => this.storage.set(obj, resolve))
     }
 
-    public remove(key: string | string[]): Promise<void> {
+    remove(key: string | string[]): Promise<void> {
         return new Promise(resolve => this.storage.remove(key, resolve))
+    }
+
+    async getUsedMemory(): Promise<number> {
+        if (this.storage.getBytesInUse) {
+            return new Promise(resolve => this.storage.getBytesInUse(resolve))
+        } else {
+            const store = await this.get()
+            return JSON.stringify(store).length
+        }
     }
 }
