@@ -1,3 +1,5 @@
+import StoragePromise from "./common/storage-promise";
+
 /**
  * User memory of this extension
  */
@@ -12,15 +14,17 @@ export declare type MemoryInfo = {
     total: number
 }
 
-const total: number = chrome.storage.local.QUOTA_BYTES
+/**
+ * 'QUOTA_BYTES' Not supported in Firefox
+ */
+const total: number = chrome.storage.local.QUOTA_BYTES || 0
 
 /**
  * Get the used memory by bytes
  * 
  * @since 0.0.9
  */
-export function getUsedStorage(): Promise<MemoryInfo> {
-    return new Promise(
-        resolve => chrome.storage.local.getBytesInUse(used => resolve({ used, total }))
-    )
+export async function getUsedStorage(): Promise<MemoryInfo> {
+    const used = await new StoragePromise(chrome.storage.local).getUsedMemory()
+    return { used, total }
 }
