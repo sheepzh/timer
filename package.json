@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "webpack --mode=development --config=webpack/webpack.dev.ts --watch",
     "build": "webpack --mode=production --config=webpack/webpack.prod.ts",
-    "test": "jest",
-    "test-c": "jest --coverage"
+    "test": "jest --env=jsdom",
+    "test-c": "jest --coverage --env=jsdom"
   },
   "author": "zhy",
   "license": "MIT",
