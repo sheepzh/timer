@@ -1,4 +1,4 @@
-import PeriodInfo, { PeriodKey } from "../../../src/entity/dto/period-info"
+import { PeriodKey } from "../../../src/entity/dto/period-info"
 
 test('with', () => {
     const key1 = PeriodKey.of(new Date(), 0)
