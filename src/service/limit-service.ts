@@ -3,7 +3,7 @@ import LimitDatabase from "../database/limit-database"
 import WhitelistDatabase from "../database/whitelist-database"
 import { TimeLimit } from "../entity/dao/time-limit"
 import TimeLimitItem from "../entity/dto/time-limit-item"
-import { formatTime } from "../util/time"
+import { formatPeriod, formatTime } from "../util/time"
 
 const storage = chrome.storage.local
 const db: LimitDatabase = new LimitDatabase(storage)
@@ -55,6 +55,16 @@ async function addFocusTime(url: string, focusTime: number) {
     return db.updateWaste(formatTime(new Date, DATE_FORMAT), toUpdate)
 }
 
+async function moreMinutes(url: string, rules: TimeLimitItem[]): Promise<void> {
+    const date = formatTime(new Date(), DATE_FORMAT)
+    const toUpdate: { [cond: string]: number } = {}
+    rules.forEach(({ cond, waste }) => {
+        const updatedWaste = (waste || 0) - 5 * 60 * 1000
+        toUpdate[cond] = updatedWaste < 0 ? 0 : updatedWaste
+    })
+    await db.updateWaste(date, toUpdate)
+}
+
 class LimitService {
     private whitelist: string[] = []
 
@@ -64,6 +74,7 @@ class LimitService {
         whitelistDatabase.addChangeListener(whitelistSetter)
     }
 
+    moreMinutes = moreMinutes
     getLimitted = getLimitted
     update = update
     select = select
