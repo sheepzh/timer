@@ -42,7 +42,8 @@ const placeholder: ChromeMessage = {
         timeWithHour: '',
         timeWithMinute: '',
         timeWithSecond: '',
-        timeLimitMsg: ''
+        timeLimitMsg: '',
+        more5Minutes: ''
     },
     contextMenus: {
         add2Whitelist: '',

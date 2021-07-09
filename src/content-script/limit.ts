@@ -27,8 +27,9 @@ function messageCode(url: string): ChromeMessage<string> {
     return { code: 'openLimitPage', data: encodeURIComponent(url) }
 }
 
-function generateMask(url: string): HTMLDivElement {
-    const modalMask = document.createElement('div')
+let mask: HTMLDivElement
+
+function link2Setup(url: string): HTMLParagraphElement {
     const link = document.createElement('a')
     Object.assign(link.style, linkStyle)
     link.setAttribute('href', 'javascript:void(0)')
@@ -36,8 +37,32 @@ function generateMask(url: string): HTMLDivElement {
         .replace('{appName}', t2Chrome(msg => msg.app.name))
     link.innerText = text
     link.onclick = () => chrome.runtime.sendMessage(messageCode(url))
+    const p = document.createElement('p')
+    p.append(link)
+    return p
+}
+
+function moreMinutes(url: string, limittedRules: TimeLimitItem[]): HTMLParagraphElement {
+    const link = document.createElement('a')
+    Object.assign(link.style, linkStyle)
+    link.setAttribute('href', 'javascript:void(0)')
+    const text = t2Chrome(msg => msg.message.more5Minutes)
+    link.innerText = text
+    link.onclick = async () => {
+        await limitService.moreMinutes(url, limittedRules)
+        mask.remove()
+        document.body.style.overflow = ''
+    }
+    const p = document.createElement('p')
+    p.style.marginTop = '100px'
+    p.append(link)
+    return p
+}
+
+function generateMask(url: string, limittedRules: TimeLimitItem[]): HTMLDivElement {
+    const modalMask = document.createElement('div')
     modalMask.id = "_timer_mask"
-    modalMask.append(link)
+    modalMask.append(link2Setup(url), moreMinutes(url, limittedRules))
     Object.assign(modalMask.style, maskStyle)
     return modalMask
 }
@@ -45,7 +70,7 @@ function generateMask(url: string): HTMLDivElement {
 export default async function processLimit(url: string) {
     const limittedRules: TimeLimitItem[] = await limitService.getLimitted(url)
     if (!limittedRules.length) return
-    const mask = generateMask(url)
+    mask = generateMask(url, limittedRules)
     window.onload = () => {
         document.body.append(mask)
         document.body.style.overflow = 'hidden'
