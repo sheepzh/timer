@@ -6,6 +6,7 @@ import IconUrlDatabase from '../database/icon-url-database'
 import LimitDatabase from '../database/limit-database'
 import MergeRuleDatabase from '../database/merge-rule-database'
 import PeriodDatabase from '../database/period-database'
+import RouterDatabase from '../database/router-database'
 import TimerDatabase from '../database/timer-database'
 import WhitelistDatabase from '../database/whitelist-database'
 
@@ -26,7 +27,8 @@ function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
         new ArchivedDatabase(storage),
         new LimitDatabase(storage),
         new MergeRuleDatabase(storage),
-        new WhitelistDatabase(storage)
+        new WhitelistDatabase(storage),
+        new RouterDatabase(storage)
     ]
 
     return result

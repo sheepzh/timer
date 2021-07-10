@@ -1,6 +1,7 @@
 import { App } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { LIMIT_ROUTE } from '../../common/constants'
+import RouterDatabase from '../../database/router-database'
 import { TRENDER_ROUTE } from './constants'
 
 const dataRoutes: RouteRecordRaw[] = [
@@ -52,4 +53,23 @@ const router = createRouter({
     routes,
 })
 
-export default (app: App) => app.use(router)
+const db: RouterDatabase = new RouterDatabase(chrome.storage.local)
+
+async function handleChange() {
+    await router.isReady()
+    router.afterEach((to, from, failure: Error | void) => {
+        if (failure || to.fullPath === from.fullPath) return
+        db.update(to.fullPath)
+    })
+}
+
+async function initRoute() {
+    const lastRoute = await db.getHistory()
+    if (lastRoute) router.replace(lastRoute)
+}
+
+export default (app: App) => {
+    app.use(router)
+    initRoute()
+    handleChange()
+}
