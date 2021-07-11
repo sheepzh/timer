@@ -12,7 +12,7 @@ export default {
   description: "__MSG_app_description__",
   version,
   author,
-  default_locale: 'zh_CN',
+  default_locale: 'en',
   homepage_url: homepage,
   manifest_version: 2,
   icons: {
