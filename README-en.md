@@ -40,3 +40,7 @@ The output folder is _dist_dev_
 ## TODO
 
 See the project, _[RoadMap](https://github.com/sheepzh/timer/projects/1)_, pls.
+
+## Thanks 
+
+<a href="https://www.producthunt.com/posts/timer?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-timer" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=303723&theme=light" alt="Timer - Count your browsing time and visits on every sites | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
