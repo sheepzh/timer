@@ -1,1 +1,1 @@
-export const TRENDER_ROUTE = '/data/history'
+export const TREND_ROUTE = '/data/history'

@@ -4,7 +4,7 @@ import itemMessages, { ItemMessage } from '../../util/i18n/components/item'
 import dataManageMessages, { DataManageMessage } from './components/data-manage'
 import settingMessages, { SettingMessage } from './components/setting'
 import reportMessages, { ReportMessage } from './components/report'
-import trenderMessages, { TrenderMessage } from './components/trender'
+import trendMessages, { TrendMessage } from './components/trend'
 import menuMessages, { MenuMessage } from './components/menu'
 import habitMessages, { HabitMessage } from './components/habit'
 import limitMessages, { LimitMessage } from './components/limit'
@@ -17,7 +17,7 @@ export type AppMessage = {
     item: ItemMessage
     report: ReportMessage
     setting: SettingMessage
-    trender: TrenderMessage
+    trend: TrendMessage
     menu: MenuMessage
     habit: HabitMessage
     limit: LimitMessage
@@ -31,7 +31,7 @@ const _default: Messages<AppMessage> = {
         item: itemMessages.zh_CN,
         report: reportMessages.zh_CN,
         setting: settingMessages.zh_CN,
-        trender: trenderMessages.zh_CN,
+        trend: trendMessages.zh_CN,
         menu: menuMessages.zh_CN,
         habit: habitMessages.zh_CN,
         limit: limitMessages.zh_CN
@@ -42,7 +42,7 @@ const _default: Messages<AppMessage> = {
         item: itemMessages.en,
         report: reportMessages.en,
         setting: settingMessages.en,
-        trender: trenderMessages.en,
+        trend: trendMessages.en,
         menu: menuMessages.en,
         habit: habitMessages.en,
         limit: limitMessages.en
@@ -53,7 +53,7 @@ const _default: Messages<AppMessage> = {
         item: itemMessages.ja,
         report: reportMessages.ja,
         setting: settingMessages.ja,
-        trender: trenderMessages.ja,
+        trend: trendMessages.ja,
         menu: menuMessages.ja,
         habit: habitMessages.ja,
         limit: limitMessages.ja

@@ -14,5 +14,11 @@
   "prettier.eslintIntegration": true,
   "prettier.semi": false,
   "prettier.singleQuote": true,
-  "javascript.format.insertSpaceBeforeFunctionParenthesis": true
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "cSpell.words": [
+    "Echart",
+    "daterange",
+    "emsp",
+    "ensp"
+  ]
 }

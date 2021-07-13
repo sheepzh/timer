@@ -35,7 +35,7 @@ class DomainOptionInfo {
     toString(): string {
         const { host, merged } = this
         if (!host) return ''
-        const mergedLabel = merged ? `[${t(msg => msg.trender.merged)}]` : ''
+        const mergedLabel = merged ? `[${t(msg => msg.trend.merged)}]` : ''
         return `${host}${mergedLabel}`
     }
 }

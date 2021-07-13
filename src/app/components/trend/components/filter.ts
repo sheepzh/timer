@@ -8,7 +8,7 @@ import DomainOptionInfo from "../domain-option-info"
 
 const datePickerShortcut = (msg: string, agoOfStart?: number, agoOfEnd?: number) => {
     return {
-        text: t(messages => messages.trender[msg]),
+        text: t(messages => messages.trend[msg]),
         value: daysAgo(agoOfStart || 0, agoOfEnd || 0)
     }
 }
@@ -20,36 +20,36 @@ type _Props = {
 
 export type FilterProps = _Props
 
-const trenderSearchingRef: Ref<boolean> = ref(false)
-const trenderDomainOptionsRef: Ref<DomainOptionInfo[]> = ref([])
+const trendSearchingRef: Ref<boolean> = ref(false)
+const trendDomainOptionsRef: Ref<DomainOptionInfo[]> = ref([])
 
 // Domain select
 const renderOption = (domainInfo: DomainOptionInfo) => h(ElOption, { value: domainInfo.key(), label: domainInfo.toString() })
 
-const domainSelectOptions = () => trenderDomainOptionsRef.value.map(domainInfo => renderOption(domainInfo))
+const domainSelectOptions = () => trendDomainOptionsRef.value.map(domainInfo => renderOption(domainInfo))
 const handleRemoteSearch = async (queryStr: string) => {
     if (!queryStr) {
-        trenderDomainOptionsRef.value = []
+        trendDomainOptionsRef.value = []
         return
     }
-    trenderSearchingRef.value = true
+    trendSearchingRef.value = true
     const domains: DomainSet = await timerService.listDomains(queryStr)
     const options: DomainOptionInfo[] = []
     domains.origin.forEach(host => options.push(DomainOptionInfo.origin(host)))
     domains.merged.forEach(host => options.push(DomainOptionInfo.merged(host)))
-    trenderDomainOptionsRef.value = options
-    trenderSearchingRef.value = false
+    trendDomainOptionsRef.value = options
+    trendSearchingRef.value = false
 }
 
 const domainSelect = ({ domainKeyRef }: _Props) => h(ElSelect,
     {
-        placeholder: t(msg => msg.trender.hostPlaceholder),
+        placeholder: t(msg => msg.trend.hostPlaceholder),
         class: 'filter-item',
         modelValue: domainKeyRef.value,
         clearable: true,
         filterable: true,
         remote: true,
-        loading: trenderSearchingRef.value,
+        loading: trendSearchingRef.value,
         remoteMethod: (query: string) => handleRemoteSearch(query),
         onChange: (key: string) => domainKeyRef.value = key,
         onClear: () => domainKeyRef.value = ''
@@ -67,8 +67,8 @@ const picker = ({ dateRangeRef }: _Props) => h(ElDatePicker, {
     type: 'daterange',
     format: 'YYYY/MM/DD',
     rangeSeparator: '-',
-    startPlaceholder: t(msg => msg.trender.startDate),
-    endPlaceholder: t(msg => msg.trender.endDate),
+    startPlaceholder: t(msg => msg.trend.startDate),
+    endPlaceholder: t(msg => msg.trend.endDate),
     unlinkPanels: true,
     disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
     shortcuts,
@@ -80,4 +80,4 @@ const filterItems = (props: _Props) => [domainSelect(props), datePickerItem(prop
 
 export default renderFilterContainer(filterItems)
 
-export function addToFilterOption(option: DomainOptionInfo) { trenderDomainOptionsRef.value.push(option) }
+export function addToFilterOption(option: DomainOptionInfo) { trendDomainOptionsRef.value.push(option) }
