@@ -13,7 +13,7 @@ import { dateFormatter } from '../formatter'
 import { ReportMessage } from '../../../locale/components/report'
 import { QueryData } from '../../common/constants'
 import { LocationQueryRaw, Router } from 'vue-router'
-import { TRENDER_ROUTE } from '../../../router/constants'
+import { TREND_ROUTE } from '../../../router/constants'
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -133,21 +133,21 @@ function handleClickJump(props: Props, { host }: SiteInfo) {
         host,
         merge: props.mergeDomainRef.value ? '1' : '0',
     }
-    props.router.push({ path: TRENDER_ROUTE, query })
+    props.router.push({ path: TREND_ROUTE, query })
 }
 
-// Jump to the trender
-const jumpTowardTheTrender = (props: Props, row: SiteInfo) => h(ElButton, {
+// Jump to the trend
+const jumpTowardTheTrend = (props: Props, row: SiteInfo) => h(ElButton, {
     icon: 'el-icon-stopwatch',
     size: 'mini',
     type: 'primary',
     onClick: () => handleClickJump(props, row)
-}, () => t(msg => msg.item.operation.jumpToTrender))
+}, () => t(msg => msg.item.operation.jumpToTrend))
 
 const operationContainer = (props: Props, row: SiteInfo) => {
     const operationButtons = []
     const { host } = row
-    operationButtons.push(jumpTowardTheTrender(props, row))
+    operationButtons.push(jumpTowardTheTrend(props, row))
     if (!props.mergeDomainRef.value) {
         // Delete button 
         operationButtons.push(deleteButton(props, row))

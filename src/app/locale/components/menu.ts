@@ -24,7 +24,7 @@ const _default: Messages<MenuMessage> = {
     en: {
         data: 'My Data',
         dataReport: 'Record',
-        dataHistory: 'Trender',
+        dataHistory: 'Trend',
         dataClear: 'Memory Situation',
         setting: 'Options',
         behavior: 'User Behavior',

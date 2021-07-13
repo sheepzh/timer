@@ -1,6 +1,6 @@
 import { Messages } from "../../../util/i18n"
 
-export type TrenderMessage = {
+export type TrendMessage = {
     hostPlaceholder: string
     startDate: string,
     endDate: string
@@ -18,7 +18,7 @@ export type TrenderMessage = {
     merged: string
 }
 
-const _default: Messages<TrenderMessage> = {
+const _default: Messages<TrendMessage> = {
     zh_CN: {
         hostPlaceholder: '搜索你想分析的域名',
         startDate: '开始日期',
@@ -45,7 +45,7 @@ const _default: Messages<TrenderMessage> = {
         latest30Days: 'Latest 30 days',
         latest90Days: 'Latest 90 days',
         history: {
-            title: 'Trender',
+            title: 'Trend',
             timeUnit: 'Time / second(s)',
             numberUnit: 'Visits'
         },

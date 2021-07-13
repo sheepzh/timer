@@ -20,7 +20,7 @@ type _Props = {
 
 export type FilterProps = _Props
 
-const trenderSearchingRef: Ref<boolean> = ref(false)
+const trendSearchingRef: Ref<boolean> = ref(false)
 
 const options: { [size: string]: keyof HabitMessage['sizes'] } = {
     1: 'fifteen',
@@ -34,11 +34,11 @@ const selectOptions = () => Object.entries(options)
     .map(([size, msg]) => h(ElOption, { label: t(root => root.habit.sizes[msg]), value: size }))
 const periodSizeSelect = (periodSizeRef: Ref<string>) => h(ElSelect,
     {
-        placeholder: t(msg => msg.trender.hostPlaceholder),
+        placeholder: t(msg => msg.trend.hostPlaceholder),
         class: 'filter-item',
         modelValue: periodSizeRef.value,
         filterable: true,
-        loading: trenderSearchingRef.value,
+        loading: trendSearchingRef.value,
         onChange: (val: string) => periodSizeRef.value = val,
     }, selectOptions)
 
@@ -61,8 +61,8 @@ const picker = (dateRangeRef: Ref<Date[]>) => h(ElDatePicker, {
     format: 'YYYY/MM/DD',
     clearable: false,
     rangeSeparator: '-',
-    startPlaceholder: t(msg => msg.trender.startDate),
-    endPlaceholder: t(msg => msg.trender.endDate),
+    startPlaceholder: t(msg => msg.trend.startDate),
+    endPlaceholder: t(msg => msg.trend.endDate),
     unlinkPanels: true,
     disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
     shortcuts,

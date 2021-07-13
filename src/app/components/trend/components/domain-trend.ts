@@ -19,13 +19,13 @@ const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.T
     return `${seriesName}<br/>${name}&ensp;-&ensp;${formatPeriodCommon((typeof value === 'number' ? value : 0) * 1000)}`
 }
 
-const defaultSubTitle = t(msg => msg.trender.defaultSubTitle)
+const defaultSubTitle = t(msg => msg.trend.defaultSubTitle)
 
 const options: EChartOption<EChartOption.SeriesLine> = {
     backgroundColor: 'rgba(0,0,0,0)',
     grid: { top: '100' },
     title: {
-        text: t(msg => msg.trender.history.title),
+        text: t(msg => msg.trend.history.title),
         subtext: defaultSubTitle,
         left: 'center'
     },
@@ -36,7 +36,7 @@ const options: EChartOption<EChartOption.SeriesLine> = {
         feature: {
             saveAsImage: {
                 show: true,
-                title: t(msg => msg.trender.saveAsImageTitle),
+                title: t(msg => msg.trend.saveAsImageTitle),
                 excludeComponents: ['toolbox'],
                 pixelRatio: 1,
                 backgroundColor: '#fff'
@@ -48,8 +48,8 @@ const options: EChartOption<EChartOption.SeriesLine> = {
         data: []
     },
     yAxis: [
-        { name: t(msg => msg.trender.history.timeUnit), type: 'value' },
-        { name: t(msg => msg.trender.history.numberUnit), type: 'value' }
+        { name: t(msg => msg.trend.history.timeUnit), type: 'value' },
+        { name: t(msg => msg.trend.history.numberUnit), type: 'value' }
     ],
     legend: {
         left: 'left',
