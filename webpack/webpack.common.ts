@@ -10,10 +10,10 @@ const generateJsonPlugins = [
     new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance
 ]
 
-const localeJsons = Object.entries(i18nChrome)
+const localeJsonFiles = Object.entries(i18nChrome)
     .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
     .map(plugin => plugin as unknown as webpack.WebpackPluginInstance)
-generateJsonPlugins.push(...localeJsons)
+generateJsonPlugins.push(...localeJsonFiles)
 
 const staticOptions = {
     entry: {
