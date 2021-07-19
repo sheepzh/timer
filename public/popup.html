@@ -1,10 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
-  <script src="../popup.js"></script>
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <div id="app">
+    <div id="chart-container"></div>
+    <div class="option-container">
+      <span id="total-info" class="option-left"></span>
+      <!-- select -->
+      <div id="select-container" class="el-select el-select--mini option-right" style="width: 140px">
+        <div class="select-trigger">
+          <div class="el-input el-input--mini el-input--suffix">
+            <input id="type-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
+            <span class="el-input__suffix">
+              <span class="el-input__suffix-inner">
+                <i id="select-arrow" class="el-select__caret el-input__icon el-icon-arrow-up"></i>
+              </span>
+          </div>
+        </div>
+      </div>
+      <!-- merge domain -->
+      <div id="merge-domain-switch" class="el-switch option-right" role="switch" style="margin-left: 10px;">
+        <input class="el-switch__input" type="checkbox" name="" true-value="true" false-value="false">
+        <span class="el-switch__core" style="width: 40px;">
+          <div class="el-switch__action"></div>
+        </span>
+      </div>
+      <!-- All functions -->
+      <a class="el-link el-link--default is-underline option-right">
+        <i class="el-icon-view"></i>
+        <span id="all-function-link" class="el-link--inner">
+          <!--更多内容-->
+        </span>
+      </a>
+      <!-- Feedback -->
+      <a id="feedback-container" class="el-link el-link--default is-underline option-right" style="display: none;">
+        <i class="el-icon-edit"></i>
+        <span id="feedback-link" class="el-link--inner">
+          <!--使用反馈-->
+        </span>
+      </a>
+      <!-- Upgrade -->
+      <a id="upgrade-container" class="el-link el-link--success is-underline option-right" style="display: none;">
+        <i class="el-icon-download"></i>
+        <span id="upgrade-link" class="el-link--inner">
+          <!-- 版本升级 -->
+        </span>
+      </a>
+    </div>
+  </div>
+  <!-- Select options -->
+  <div id="type-select-popup" class="el-select__popper el-popper is-light is-pure" style="display: none;">
+    <div class="el-select-dropdown" style="min-width: 140px;">
+      <div class="el-scrollbar">
+        <div class="el-select-dropdown__wrap el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+          <ul id="type-select-options" class="el-scrollbar__view el-select-dropdown__list"> </ul>
+        </div>
+        <div class="el-scrollbar__bar is-horizontal" style="display: none;">
+          <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+        </div>
+        <div class="el-scrollbar__bar is-vertical" style="display: none;">
+          <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div>
+        </div>
+      </div>
+    </div>
+    <div class="el-popper__arrow"></div>
+  </div>
+  <!-- Switch popup -->
+  <div id="merge-domain-popup-container" class="el-popper is-dark"
+    style="z-index: 2012; position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(529px, -52px); display: none;">
+    <a id="merge-domain-popup-info">
+      <!-- 合并子域名 -->
+    </a>
+    <div class="el-popper__arrow" style="position: absolute; left: 0px; transform: translate(35px, 0px);"></div>
+  </div>
+  <!-- Upgrade popup -->
+  <div id="upgrade-popup-container" class="el-popper is-light"
+    style="z-index: 2004; position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(275px, -52px); display: none;">
+    <a id="latest-info">
+      <!-- 最新版本：v0.2.6 -->
+    </a>
+    <div class="el-popper__arrow" style="position: absolute; left: 0px; transform: translate(51px, 0px);"></div>
+  </div>
+</body>
+<script src="../popup.js"></script>
+
 </html>

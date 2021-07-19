@@ -1,14 +1,28 @@
-import { Ref, h } from "vue"
+import { ECharts, init, use } from "echarts/core"
+import { PieChart } from 'echarts/charts'
+import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
 
-type _Props = {
-    chartContainerRef: Ref<HTMLElement>
-    width: string
-    height: string
+// Register echarts
+use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
+import { QueryResult } from "../../popup"
+import handleClick from "./click-handler"
+import { pieOptions } from "./option"
+
+const chartContainer = document.getElementById('chart-container')
+const pie: ECharts = init(chartContainer)
+
+// Bound the listener
+// Click the item, then forward to the host
+pie.on('click', handleClick)
+
+export const handleRestore = (handler: () => void) => {
+    // Click the restore button, then query data
+    pie.on('restore', handler)
 }
 
-export type ChartProps = _Props
+function renderChart(queryResult: QueryResult) {
+    pie.setOption(pieOptions(queryResult), true, false)
+}
 
-// pie container
-export const pieChartContainer = ({ chartContainerRef, width, height }: _Props) => h('div',
-    { ref: chartContainerRef, style: `width:${width}; height:${height};` }
-)
+export default renderChart
