@@ -3,15 +3,10 @@ import { Ref } from "vue"
 import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
 import { formatPeriodCommon, formatTime } from "../../../util/time"
 import { t } from "../../locale"
+import { QueryResult } from "../../popup"
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 const todayForShow = formatTime(new Date(), '{y}/{m}/{d}')
-
-export type PieOptionProps = {
-    typeRef: Ref<SiteItem>
-    mergeDomainRef: Ref<boolean>
-    dataRef: Ref<SiteInfo[]>
-}
 
 /**
  * If the percentage of target site is less than SHOW_ICON_THRESHOLD, don't show its icon
@@ -23,10 +18,10 @@ const app = t(msg => msg.appName)
 
 const host2LabelStyle = (host: string) => host.split('.').join('00').split('-').join('01').split(':').join('02')
 
-const toolTipFormatter = ({ typeRef }: PieOptionProps, params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[]) => {
+const toolTipFormatter = ({ type }: QueryResult, params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[]) => {
     const format: echarts.EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
-    return `${name}<br/>${typeRef.value === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)} (${percent}%)`
+    return `${name}<br/>${type === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)} (${percent}%)`
 }
 
 const staticOptions: EChartOption<EChartOption.SeriesPie> = {
@@ -79,8 +74,8 @@ const staticOptions: EChartOption<EChartOption.SeriesPie> = {
     }
 }
 
-export const pieOptions = (props: PieOptionProps) => {
-    const { typeRef, mergeDomainRef, dataRef } = props
+export const pieOptions = (props: QueryResult) => {
+    const { type, mergeDomain, data } = props
     const options: EChartOption<EChartOption.SeriesPie> = {
         title: staticOptions.title,
         tooltip: {
@@ -91,7 +86,7 @@ export const pieOptions = (props: PieOptionProps) => {
         series: [{
             ...staticOptions.series[0],
             label: {
-                formatter: ({ name }) => mergeDomainRef.value || name === t(msg => msg.otherLabel) ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
+                formatter: ({ name }) => mergeDomain || name === t(msg => msg.otherLabel) ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
             }
         }],
         toolbox: staticOptions.toolbox
@@ -99,10 +94,10 @@ export const pieOptions = (props: PieOptionProps) => {
     const legendData = []
     const series = []
     const iconRich = {}
-    dataRef.value.forEach(d => {
+    data.forEach(d => {
         const { host } = d
         legendData.push(host)
-        series.push({ name: host, value: d[typeRef.value] || 0 })
+        series.push({ name: host, value: d[type] || 0 })
         iconRich[host2LabelStyle(host)] = {
             height: LABEL_ICON_SIZE,
             width: LABEL_ICON_SIZE,
