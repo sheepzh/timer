@@ -5,6 +5,7 @@ import initMergeDomain, { mergedDomain } from './merge-domain'
 import './feedback'
 import './all-function'
 import './upgrade'
+import './meat'
 
 import './total-info'
 import timerService, { SortDirect, TimerQueryParam } from '../../../service/timer-service'
