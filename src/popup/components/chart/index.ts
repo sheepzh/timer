@@ -9,7 +9,7 @@ import { QueryResult } from "../../popup"
 import handleClick from "./click-handler"
 import { pieOptions } from "./option"
 
-const chartContainer = document.getElementById('chart-container')
+const chartContainer = document.getElementById('chart-container') as HTMLDivElement
 const pie: ECharts = init(chartContainer)
 
 // Bound the listener
@@ -22,7 +22,7 @@ export const handleRestore = (handler: () => void) => {
 }
 
 function renderChart(queryResult: QueryResult) {
-    pie.setOption(pieOptions(queryResult), true, false)
+    pie.setOption(pieOptions(queryResult, chartContainer), true, false)
 }
 
 export default renderChart
