@@ -60,3 +60,8 @@ export function iconUrlOfBrowser(protocol: string, domain: string) {
         return `edge://favicon/${protocol ? protocol + '://' : ''}${domain}`
     } else return ''
 }
+
+/**
+ * @since 0.2.9
+ */
+export const MEAT_URL = 'https://dun.mianbaoduo.com/@yangyang'
