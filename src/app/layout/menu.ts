@@ -96,7 +96,7 @@ const _default = defineComponent<{}, {}>(() => {
     onMounted(() => document.title = t(msg => msg.menu.data))
 
     return () => h(ElMenu,
-        { defaultActive: currentRouteRef.value.path, defaultOpeneds: ['/data'] },
+        { defaultActive: currentRouteRef.value.path, defaultOpeneds: ['/data', '/behavior'] },
         { default: menuItems }
     )
 })
