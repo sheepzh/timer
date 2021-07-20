@@ -1,8 +1,10 @@
 $width: 750px;
 $height: 500px;
+$footerHeight: 40px;
+
 #app {
   width: $width;
-  height: $height;
+  height: calc($height + $footerHeight);
 }
 
 #chart-container{
@@ -10,11 +12,12 @@ $height: 500px;
   height: $height;
 }
 
+$optionPadding: 10px;
 .option-container {
-  padding-bottom: 10px;
+  padding-bottom: $optionPadding;
   width: 95%;
   margin: auto;
-  height: 30px;
+  height: calc($footerHeight - $optionPadding);
   #total-info{
     color: rgb(96, 98, 102); 
     font-size: 12px;

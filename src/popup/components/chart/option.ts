@@ -1,6 +1,4 @@
 import { EChartOption } from "echarts"
-import { Ref } from "vue"
-import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
 import { formatPeriodCommon, formatTime } from "../../../util/time"
 import { t } from "../../locale"
 import { QueryResult } from "../../popup"
@@ -74,13 +72,35 @@ const staticOptions: EChartOption<EChartOption.SeriesPie> = {
     }
 }
 
-export const pieOptions = (props: QueryResult) => {
+const maxWidth = 750
+
+function calcPositionOfTooltip(container: HTMLDivElement, point: (number | string)[]): (number | string)[] | echarts.EChartOption.Tooltip.Position.Obj {
+    let p: number | string = point[0]
+    const pN: number = typeof p === 'number' ? p : Number.parseFloat(p)
+    const tooltip = container.children.item(1) as HTMLDivElement
+    let tooltipWidth = 0
+    if (tooltip) {
+        tooltipWidth = tooltip.offsetWidth
+        if (!tooltipWidth) {
+            const styleWidth = tooltip.style.width
+            tooltipWidth = Number.parseFloat(styleWidth.endsWith('px') ? styleWidth.substr(0, styleWidth.length) : styleWidth)
+        }
+        tooltipWidth = tooltipWidth || 0
+    }
+    if (maxWidth - pN - tooltipWidth - 10 < 0) {
+        point[0] = pN - tooltipWidth - 20
+    }
+    return [...point]
+}
+
+export const pieOptions = (props: QueryResult, container: HTMLDivElement) => {
     const { type, mergeDomain, data } = props
     const options: EChartOption<EChartOption.SeriesPie> = {
         title: staticOptions.title,
         tooltip: {
             ...staticOptions.tooltip,
-            formatter: params => toolTipFormatter(props, params)
+            formatter: params => toolTipFormatter(props, params),
+            position: (point: (number | string)[]) => calcPositionOfTooltip(container, point)
         },
         legend: staticOptions.legend,
         series: [{
