@@ -25,7 +25,7 @@ const chrome2I18n: { [key: string]: Locale } = {
 }
 
 /**
- * Codes returend by getUILanguage() are defined by Chrome browser
+ * Codes returned by getUILanguage() are defined by Chrome browser
  * @see https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc 
  * But supported locale codes in Chrome extension
  * @see https://developer.chrome.com/docs/webstore/i18n/#localeTable

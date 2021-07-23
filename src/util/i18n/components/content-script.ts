@@ -21,7 +21,7 @@ const _default: Messages<ContentScriptMessage> = {
     },
     en: {
         openTimesConsoleLog: 'You have open {host} for {time} time(s) today.',
-        usedTimeInConsoleLog: 'And it rans on your PC for {total} today, and is browsed for {focus}.',
+        usedTimeInConsoleLog: 'And it runs on your PC for {total} today, and is browsed for {focus}.',
         timeWithHour: '{hour} hour(s) {minute} minute(s) {second} second(s)',
         timeWithMinute: '{minute} minute(s) {second} second(s)',
         timeWithSecond: '{second} second(s)',

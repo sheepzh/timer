@@ -9,7 +9,7 @@ export default function save(context: TimerContext) {
     const focusEntry = context.findFocus()
 
     if (focusEntry) {
-        // Add periodtime
+        // Add period time
         periodService.add(context.lastCollectTime, focusEntry[1].focus)
         // Add limit time
         limitService.addFocusTime(this.focusHost, this.focusUrl, focusEntry[1].focus)

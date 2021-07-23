@@ -100,7 +100,7 @@ describe('timer-database', () => {
         cond.totalRange = [2,]
         expect((await db.select(cond)).length).toEqual(5)
 
-        // focus [0,10] && total [2, unlimitted)
+        // focus [0,10] && total [2, unlimited)
         cond.focusRange = [0, 10]
         expect((await db.select(cond)).length).toEqual(2)
 
@@ -118,10 +118,10 @@ describe('timer-database', () => {
         await db.accumulate(baidu, now, WastePerDay.of(10, 10, 0))
         await db.accumulate(baidu, yesterday, WastePerDay.of(10, 12, 0))
         expect((await db.select()).length).toEqual(2)
-        // Delete yesturday's data
+        // Delete yesterday's data
         await db.deleteByUrlAndDate(baidu, yesterday)
         expect((await db.select()).length).toEqual(1)
-        // Delete yesturday's data again, nothing changed
+        // Delete yesterday's data again, nothing changed
         await db.deleteByUrlAndDate(baidu, yesterday)
         expect((await db.get(baidu, now)).focus).toEqual(10)
         // Add one again, and another

@@ -20,7 +20,7 @@ const progressStyle: Partial<CSSStyleDeclaration> = {
     height: '260px',
     paddingTop: '50px'
 }
-const memoryProfress = (percentage: number, typeColor: string) =>
+const memoryProgress = (percentage: number, typeColor: string) =>
     h('div', { style: progressStyle },
         h(ElProgress, { strokeWidth: 15, percentage, type: 'circle', color: typeColor })
     )
@@ -51,7 +51,7 @@ const memoryInfo = (props: _Props) => {
     else if (percentage < 75) typeColor = '#E6A23C'
     // Specially, show warning color if not detect the max memory
     if (!total) typeColor = '#E6A23C'
-    return h(ElCard, { bodyStyle }, () => [memoryAlert(totalMb), memoryProfress(percentage, typeColor), usedAlert(usedMb, typeColor)])
+    return h(ElCard, { bodyStyle }, () => [memoryAlert(totalMb), memoryProgress(percentage, typeColor), usedAlert(usedMb, typeColor)])
 }
 
 export default memoryInfo

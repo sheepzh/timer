@@ -2,7 +2,7 @@ import { ElInput } from "element-plus"
 import { Ref, h } from "vue"
 import { t, tN } from "../../../../locale"
 import { DataManageMessage } from "../../../../locale/components/data-manage"
-import { stepNoClz } from "./consts"
+import { stepNoClz } from "./constants"
 
 const elInput = (valRef: Ref<string>, placeholder: string, min?: Ref<string>) =>
     h(ElInput, {

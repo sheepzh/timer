@@ -3,7 +3,7 @@ import WhitelistDatabase from '../database/whitelist-database'
 import ArchivedDatabase from '../database/archived-database'
 import SiteInfo from '../entity/dto/site-info'
 import { log } from '../common/logger'
-import CustomizedDOmainMergeRuler from './domain-merge-ruler'
+import CustomizedDomainMergeRuler from './domain-merge-ruler'
 import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
 import MergeRuleDatabase from '../database/merge-rule-database'
 import WastePerDay from '../entity/dao/waste-per-day'
@@ -94,7 +94,7 @@ class TimeService {
         rows.map(row => row.host).forEach(host => allHosts.add(host))
         // Generate ruler
         const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
-        const mergeRuler = new CustomizedDOmainMergeRuler(mergeRuleItems)
+        const mergeRuler = new CustomizedDomainMergeRuler(mergeRuleItems)
 
         const origin: Set<string> = new Set()
         const merged: Set<string> = new Set()
@@ -145,12 +145,12 @@ class TimeService {
     async select(param?: TimerQueryParam, needIconUrl?: boolean): Promise<SiteInfo[]> {
         log("service: select:{param}", param)
 
-        // Need match fullhost after merged
-        let fullhost = undefined
-        // If merged and fullhost
+        // Need match full host after merged
+        let fullHost = undefined
+        // If merged and full host
         // Then set the host blank
         // And filter them after merge
-        param.mergeDomain && param.fullHost && !(param.fullHost = false) && (fullhost = param.host) && (param.host = undefined)
+        param.mergeDomain && param.fullHost && !(param.fullHost = false) && (fullHost = param.host) && (param.host = undefined)
 
         param = param || {}
         let origin = await timerDatabase.select(param as TimerCondition)
@@ -167,8 +167,8 @@ class TimeService {
         this.processSort(origin, param)
         // 3rd get icon url if need
         !param.mergeDomain && needIconUrl && await this.fillIconUrl(origin)
-        // Filter merged domain if fullhost
-        fullhost && (origin = origin.filter(siteinfo => siteinfo.host === fullhost))
+        // Filter merged domain if full host
+        fullHost && (origin = origin.filter(siteInfo => siteInfo.host === fullHost))
         return origin
     }
 
@@ -204,7 +204,7 @@ class TimeService {
 
         // Generate ruler
         const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
-        const mergeRuler = new CustomizedDOmainMergeRuler(mergeRuleItems)
+        const mergeRuler = new CustomizedDomainMergeRuler(mergeRuleItems)
 
         origin.forEach(o => {
             const host = o.host

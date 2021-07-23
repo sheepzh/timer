@@ -17,6 +17,7 @@
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "cSpell.words": [
     "Echart",
+    "cond",
     "daterange",
     "emsp",
     "ensp"

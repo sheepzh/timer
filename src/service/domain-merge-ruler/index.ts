@@ -51,14 +51,14 @@ const convert = (dbItem: DomainMergeRuleItem) => {
     }
 }
 
-export default class CustomizedDOmainMergeRuler implements IDomainMergeRuler {
+export default class CustomizedDomainMergeRuler implements IDomainMergeRuler {
     private noRegMergeRules: { [origin: string]: string | number } = {}
 
-    private regs: RegRuleItem[] = []
+    private regulars: RegRuleItem[] = []
 
     constructor(rules: DomainMergeRuleItem[]) {
         rules.map(item => convert(item))
-            .forEach(rule => Array.isArray(rule) ? (this.noRegMergeRules[rule[0]] = rule[1]) : (this.regs.push(rule)))
+            .forEach(rule => Array.isArray(rule) ? (this.noRegMergeRules[rule[0]] = rule[1]) : (this.regulars.push(rule)))
     }
 
     /**
@@ -70,7 +70,7 @@ export default class CustomizedDOmainMergeRuler implements IDomainMergeRuler {
         let merged = this.noRegMergeRules[origin]
         // The check the regular rules
         let matchResult: undefined | RegRuleItem = undefined
-        merged === undefined && (matchResult = this.regs.find(item => item.reg.test(origin)))
+        merged === undefined && (matchResult = this.regulars.find(item => item.reg.test(origin)))
         matchResult && (merged = matchResult.result)
         return this.merge0(merged === undefined ? 1 : merged, origin)
     }

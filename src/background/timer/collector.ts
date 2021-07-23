@@ -6,7 +6,7 @@ class CollectContext {
     timerContext: TimerContext
     hostSet: Set<string>
     /**
-     * The focust host while last collection
+     * The focus host while last collection
      */
     focusHost: string
 

@@ -6,12 +6,12 @@ import timeFormItem from "./time-limit"
 import urlFormItem, { FormUrlProps, Protocol } from './url'
 import UrlPathItem from "./url-path-item"
 
-// Limitted time
+// Limited time
 const hourRef: Ref<number> = ref()
 const minuteRef: Ref<number> = ref()
 const secondRef: Ref<number> = ref()
 
-// Limitted url
+// Limited url
 const protocolRef: Ref<string> = ref()
 const pathItemsRef: Ref<UrlPathItem[]> = ref([])
 const urlRef: ComputedRef<string> = computed(() => pathItemsRef.value.map(i => i.toString()).join('/'))

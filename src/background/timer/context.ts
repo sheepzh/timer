@@ -48,7 +48,7 @@ export default class TimerContext {
     }
 
     /**
-     * Reset the timemap
+     * Reset the time map
      */
     resetTimeMap(): void { this.timeMap = {} }
 

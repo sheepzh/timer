@@ -10,17 +10,17 @@ export type ItemColumnProps = {
 }
 
 // focus total time
-const dataCol = (itemKey: keyof ItemMessage, propName: keyof SiteItemVal, fomatter: (val: number) => string) =>
+const dataCol = (itemKey: keyof ItemMessage, propName: keyof SiteItemVal, formatter: (val: number) => string) =>
     h(ElTableColumn, {
         prop: propName,
         label: t(msg => msg.item[itemKey]),
         minWidth: 130,
         align: 'center',
         sortable: 'custom'
-    }, { default: ({ row }: { row: SiteInfo }) => fomatter(row[propName]) })
+    }, { default: ({ row }: { row: SiteInfo }) => formatter(row[propName]) })
 
-const focusCol = (props: ItemColumnProps) => dataCol('focus', 'focus', millsecond => periodFormatter(millsecond, props.displayBySecondRef.value))
-const totalCol = (props: ItemColumnProps) => dataCol("total", "total", millsecond => periodFormatter(millsecond, props.displayBySecondRef.value))
+const focusCol = (props: ItemColumnProps) => dataCol('focus', 'focus', millisecond => periodFormatter(millisecond, props.displayBySecondRef.value))
+const totalCol = (props: ItemColumnProps) => dataCol("total", "total", millisecond => periodFormatter(millisecond, props.displayBySecondRef.value))
 const timeCol = () => dataCol('time', 'time', val => val ? val.toString() : '0')
 
 const itemColumns = (props: ItemColumnProps) => [focusCol(props), totalCol(props), timeCol()]

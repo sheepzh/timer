@@ -10,7 +10,7 @@ export default class TimeLimitItem {
     time: number
     enabled: boolean
     /**
-     * Waste today, millseconds
+     * Waste today, milliseconds
      */
     waste?: number
 
@@ -28,7 +28,7 @@ export default class TimeLimitItem {
         return this.regular.test(url)
     }
 
-    hasLimitted() {
+    hasLimited() {
         return this.waste >= this.time * 1000
     }
 }

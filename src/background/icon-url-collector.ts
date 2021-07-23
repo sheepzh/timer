@@ -17,7 +17,7 @@ function processTabInfo(tab: chrome.tabs.Tab) {
     const protocol = hostInfo.protocol
     if (!domain) return
     let favIconUrl = tab.favIconUrl
-    // localhost hosts with Chrome use cache, so keep the favIconurl undefined
+    // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(domain) && (favIconUrl = undefined)
     const iconUrl = favIconUrl || iconUrlOfBrowser(protocol, domain)
     iconUrlDatabase.put(domain, iconUrl)
@@ -28,7 +28,7 @@ function processTabInfo(tab: chrome.tabs.Tab) {
  */
 function handleWebNavigationCompleted(detail: chrome.webNavigation.WebNavigationFramedCallbackDetails) {
     if (detail.frameId > 0) {
-        // we don't care about activity occurring within a subframe of a tab
+        // we don't care about activity occurring within a sub frame of a tab
         return
     }
     chrome.tabs.get(detail.tabId, processTabInfo)

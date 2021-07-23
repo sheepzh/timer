@@ -10,11 +10,11 @@ const generateKey = (date: string) => KEY_PREFIX + date
 
 function merge(exists: { [dateKey: string]: FocusPerDay }, toMerge: PeriodInfo[]) {
     toMerge.forEach(period => {
-        const { order, millseconds } = period
+        const { order, milliseconds } = period
         const key = generateKey(period.getDateString())
         const exist = exists[key] || {}
         const previous = exist[order] || 0
-        exist[order] = previous + millseconds
+        exist[order] = previous + milliseconds
         exists[key] = exist
     })
 }
@@ -30,7 +30,7 @@ function db2PeriodInfos(data: { [dateKey: string]: FocusPerDay }): PeriodInfo[] 
         )
         Object
             .entries(val)
-            .forEach(([order, millseconds]) => result.push(PeriodKey.of(date, Number.parseInt(order)).produce(millseconds)))
+            .forEach(([order, milliseconds]) => result.push(PeriodKey.of(date, Number.parseInt(order)).produce(milliseconds)))
     }))
     return result
 }
@@ -40,18 +40,13 @@ function db2PeriodInfos(data: { [dateKey: string]: FocusPerDay }): PeriodInfo[] 
  */
 class PeriodDatabase extends BaseDatabase {
 
-    public async get(date: string): Promise<FocusPerDay> {
+    async get(date: string): Promise<FocusPerDay> {
         const key = generateKey(date)
         const items = await this.storage.get(key)
         return items[key] || {}
     }
 
-    /**
-     * @param date date
-     * @param minuteOrder minuteOrder  
-     * @param millseconds millseconds to accumulate
-     */
-    public async accumulate(items: PeriodInfo[]): Promise<void> {
+    async accumulate(items: PeriodInfo[]): Promise<void> {
         const dates = Array.from(new Set(items.map(item => item.getDateString())))
         const exists = await this.getBatch0(dates)
         merge(exists, items)
@@ -88,8 +83,8 @@ class PeriodDatabase extends BaseDatabase {
 
 type _Value = { [key: string]: number }
 
-function migrate(exsit: _Value | undefined, toMigrate: _Value) {
-    const result: _Value = exsit || {}
+function migrate(exist: _Value | undefined, toMigrate: _Value) {
+    const result: _Value = exist || {}
     Object.entries(toMigrate)
         .filter(([key]) => /^\d{1,2}$/.test(key))
         .forEach(([key, value]) => {

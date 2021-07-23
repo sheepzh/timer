@@ -41,9 +41,9 @@ type _Props = BaseFilterProps & {
 export type OperationButtonProps = _Props
 
 /**
- * Assert query param with numberic range
+ * Assert query param with numeric range
  * 
- * @param range       numberic range, 2-length array
+ * @param range       numeric range, 2-length array
  * @param mustInteger must be integer?
  * @returns true when has error, or false
  */
@@ -70,14 +70,14 @@ const str2Range = (startAndEnd: Ref<string>[], numAmplifier?: (origin: number) =
     return [start, end]
 }
 
-const seconds2MillSeconds = (a: number) => a * 1000
+const seconds2Milliseconds = (a: number) => a * 1000
 
 const generateParamAndSelect = (props: _Props) => {
     const { totalStartRef, totalEndRef, focusStartRef, focusEndRef, timeStartRef, timeEndRef, dateRangeRef } = props
     let hasError = false
-    const totalRange = str2Range([totalStartRef, totalEndRef], seconds2MillSeconds)
+    const totalRange = str2Range([totalStartRef, totalEndRef], seconds2Milliseconds)
     hasError = hasError || assertQueryParam(totalRange)
-    const focusRange = str2Range([focusStartRef, focusEndRef], seconds2MillSeconds)
+    const focusRange = str2Range([focusStartRef, focusEndRef], seconds2Milliseconds)
     hasError = hasError || assertQueryParam(focusRange)
     const timeRange = str2Range([timeStartRef, timeEndRef])
     hasError = hasError || assertQueryParam(timeRange, true)

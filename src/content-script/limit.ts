@@ -42,14 +42,14 @@ function link2Setup(url: string): HTMLParagraphElement {
     return p
 }
 
-function moreMinutes(url: string, limittedRules: TimeLimitItem[]): HTMLParagraphElement {
+function moreMinutes(url: string, limitedRules: TimeLimitItem[]): HTMLParagraphElement {
     const link = document.createElement('a')
     Object.assign(link.style, linkStyle)
     link.setAttribute('href', 'javascript:void(0)')
     const text = t2Chrome(msg => msg.message.more5Minutes)
     link.innerText = text
     link.onclick = async () => {
-        await limitService.moreMinutes(url, limittedRules)
+        await limitService.moreMinutes(url, limitedRules)
         mask.remove()
         document.body.style.overflow = ''
     }
@@ -59,18 +59,18 @@ function moreMinutes(url: string, limittedRules: TimeLimitItem[]): HTMLParagraph
     return p
 }
 
-function generateMask(url: string, limittedRules: TimeLimitItem[]): HTMLDivElement {
+function generateMask(url: string, limitedRules: TimeLimitItem[]): HTMLDivElement {
     const modalMask = document.createElement('div')
     modalMask.id = "_timer_mask"
-    modalMask.append(link2Setup(url), moreMinutes(url, limittedRules))
+    modalMask.append(link2Setup(url), moreMinutes(url, limitedRules))
     Object.assign(modalMask.style, maskStyle)
     return modalMask
 }
 
 export default async function processLimit(url: string) {
-    const limittedRules: TimeLimitItem[] = await limitService.getLimitted(url)
-    if (!limittedRules.length) return
-    mask = generateMask(url, limittedRules)
+    const limitedRules: TimeLimitItem[] = await limitService.getLimited(url)
+    if (!limitedRules.length) return
+    mask = generateMask(url, limitedRules)
     window.onload = () => {
         document.body.append(mask)
         document.body.style.overflow = 'hidden'
