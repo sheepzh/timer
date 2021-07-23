@@ -6,7 +6,7 @@ const KEY = REMAIN_WORD_PREFIX + 'LIMIT'
 
 type ItemValue = {
     /**
-        * Limitted time, second
+        * Limited time, second
         */
     t: number
     /**
@@ -18,7 +18,7 @@ type ItemValue = {
      */
     d: string
     /**
-     * Wasted time, millseconds
+     * Wasted time, milliseconds
      */
     w: number
 }

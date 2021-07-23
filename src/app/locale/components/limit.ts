@@ -70,8 +70,8 @@ const _default: Messages<LimitMessage> = {
         conditionFilter: 'URL',
         filterDisabled: 'Only Enabled',
         item: {
-            condition: 'Limitted URL',
-            time: 'Limitted time per day',
+            condition: 'Limited URL',
+            time: 'Limited time per day',
             waste: 'Browsed today',
             enabled: 'Enabled',
             operation: 'Operations'
@@ -92,8 +92,8 @@ const _default: Messages<LimitMessage> = {
         },
         message: {
             saved: 'Saved successfully',
-            noUrl: 'Unfilled limitted URL',
-            noTime: 'Unfilled limitted time per day',
+            noUrl: 'Unfilled limited URL',
+            noTime: 'Unfilled limited time per day',
             deleteConfirm: 'Do you want to delete the rule of {cond}?',
             deleted: 'Deleted successfully'
         }

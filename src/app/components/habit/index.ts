@@ -65,7 +65,7 @@ const handleMounted = () => {
 }
 
 const _default = defineComponent(() => {
-    // Must use closure, not functaion variable
+    // Must use closure, not function variable
     onMounted(() => handleMounted())
     return renderContentContainer(() => [filter(filterProps), chart(chartProps)])
 })

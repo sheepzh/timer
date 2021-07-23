@@ -1,4 +1,3 @@
-import { h } from "vue"
 import { renderFilterContainer } from "../../common/filter"
 import dateRange, { DateRangeFilterItemProps } from "./date-range-filter-item"
 import displayBySecond, { DisplayBySecondFilterItemProps } from "./display-by-second-filter-item"

@@ -15,8 +15,8 @@ export type PeriodQueryParam = {
     periodEnd: PeriodKey
 }
 
-function add(timestamp: number, millseconds: number): Promise<void> {
-    const results = calculate(timestamp, millseconds)
+function add(timestamp: number, milliseconds: number): Promise<void> {
+    const results = calculate(timestamp, milliseconds)
     return periodDatabase.accumulate(results)
 }
 

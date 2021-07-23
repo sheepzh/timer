@@ -3,11 +3,11 @@ import PeriodResult from "../entity/dto/period-result"
 
 /**
  * @param timestamp current ts
- * @param millseconds millseconds 
- * @returns results, can't be empty if millseconds is positive
+ * @param milliseconds milliseconds 
+ * @returns results, can't be empty if milliseconds is positive
  */
-export function calculate(timestamp: number, millseconds: number): PeriodInfo[] {
-    if (millseconds <= 0) return []
+export function calculate(timestamp: number, milliseconds: number): PeriodInfo[] {
+    if (milliseconds <= 0) return []
 
     const key = PeriodKey.of(timestamp)
     const start = key.getStart().getTime()
@@ -15,16 +15,16 @@ export function calculate(timestamp: number, millseconds: number): PeriodInfo[] 
     const currentResult = key.produce(0)
     const extraMill = timestamp - start
     const result: PeriodInfo[] = []
-    if (extraMill < millseconds) {
-        // millseconds including before period
+    if (extraMill < milliseconds) {
+        // milliseconds including before period
         // 1st. add before ones
-        const before = calculate(timestamp - extraMill - 1, millseconds - extraMill)
+        const before = calculate(timestamp - extraMill - 1, milliseconds - extraMill)
         result.push(...before)
-        // 2nd. shorten millseconds
-        currentResult.millseconds = extraMill
+        // 2nd. shorten milliseconds
+        currentResult.milliseconds = extraMill
     } else {
         // All is in current minute
-        currentResult.millseconds = millseconds
+        currentResult.milliseconds = milliseconds
     }
     result.push(currentResult)
     return result
@@ -62,7 +62,7 @@ export function merge(periods: PeriodInfo[], config: MergeConfig): PeriodResult[
     const result: PeriodResult[] = []
     let { start, end, windowSize } = config
     const map: Map<number, number> = new Map()
-    periods.forEach(p => map.set(p.mapKey(), p.millseconds))
+    periods.forEach(p => map.set(p.mapKey(), p.milliseconds))
     let millSum = 0, periodNum = 0
     for (; start.compare(end) <= 0; start = start.after(1)) {
         const mill = map.get(start.mapKey())

@@ -30,7 +30,7 @@ test('', () => {
     const realLast: PeriodInfo = PeriodKey.of(base, 13 * 4).produce(1)
     expect(last).toEqual(realLast)
     current = result[1]
-    realCurrent.millseconds = (7 * 60 + 56) * 1000 + 876
+    realCurrent.milliseconds = (7 * 60 + 56) * 1000 + 876
     expect(current).toEqual(realCurrent)
 })
 
@@ -88,9 +88,9 @@ test('merge', () => {
 
     let result = merge(toMerge, { windowSize: 1, start: PeriodKey.of(start, 0), end: PeriodKey.of(end, 3) })
     expect(result.length).toEqual(30 * PERIODS_PER_DATE + 4)
-    expect(result.filter(p => p.date === '20200506' && p.millseconds > 0).length).toEqual(3)
-    let millseconds = result.filter(p => p.date === '20200506').map(p => p.millseconds).reduce((a, b) => a + b, 0)
-    expect(millseconds).toEqual(60)
+    expect(result.filter(p => p.date === '20200506' && p.milliseconds > 0).length).toEqual(3)
+    let milliseconds = result.filter(p => p.date === '20200506').map(p => p.milliseconds).reduce((a, b) => a + b, 0)
+    expect(milliseconds).toEqual(60)
 
     result = merge(toMerge, { windowSize: 4, start: PeriodKey.of(new Date(2020, 4, 11), 0), end: PeriodKey.of(end, 3) })
     expect(result.length).toEqual(20 * PERIODS_PER_DATE / 4 + 4 / 4)

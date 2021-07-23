@@ -1,10 +1,10 @@
-import CustomizedDOmainMergeRuler from "../../../src/service/domain-merge-ruler"
+import CustomizedDomainMergeRuler from "../../../src/service/domain-merge-ruler"
 
 const test0 = (domain: string, expected: string) =>
-    expect(new CustomizedDOmainMergeRuler([]).merge(domain)).toEqual(expected)
+    expect(new CustomizedDomainMergeRuler([]).merge(domain)).toEqual(expected)
 
 const test1 = (origin: string, result: string | number, domain: string, expected: string) =>
-    expect(new CustomizedDOmainMergeRuler([{ origin, merged: result }]).merge(domain)).toEqual(expected)
+    expect(new CustomizedDomainMergeRuler([{ origin, merged: result }]).merge(domain)).toEqual(expected)
 
 test('default merge', () => {
     const ip = '123.123.123.123'

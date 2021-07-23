@@ -3,7 +3,7 @@ import LimitDatabase from "../database/limit-database"
 import WhitelistDatabase from "../database/whitelist-database"
 import { TimeLimit } from "../entity/dao/time-limit"
 import TimeLimitItem from "../entity/dto/time-limit-item"
-import { formatPeriod, formatTime } from "../util/time"
+import { formatTime } from "../util/time"
 
 const storage = chrome.storage.local
 const db: LimitDatabase = new LimitDatabase(storage)
@@ -35,18 +35,18 @@ function remove(cond: string): Promise<void> {
     return db.remove(cond)
 }
 
-async function getLimitted(url: string): Promise<TimeLimitItem[]> {
+async function getLimited(url: string): Promise<TimeLimitItem[]> {
     const list: TimeLimitItem[] = (await select())
         .filter(item => item.enabled)
         .filter(item => item.matches(url))
-        .filter(item => item.hasLimitted())
+        .filter(item => item.hasLimited())
     return list
 }
 
 /**
  * Add time
  * @param url url 
- * @param focusTime time, millseconds 
+ * @param focusTime time, milliseconds 
  */
 async function addFocusTime(url: string, focusTime: number) {
     const allEnabled = await select({ filterDisabled: true, url })
@@ -75,7 +75,7 @@ class LimitService {
     }
 
     moreMinutes = moreMinutes
-    getLimitted = getLimitted
+    getLimited = getLimited
     update = update
     select = select
     remove = remove

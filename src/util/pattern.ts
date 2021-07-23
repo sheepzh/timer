@@ -67,9 +67,9 @@ export function extractHostname(url: string): HostInfo {
 
     const indexOfDoubleSlashes = url.indexOf("//")
     if (indexOfDoubleSlashes > -1) {
-        const splited = url.split('/')
-        host = splited[2]
-        protocol = splited[0]
+        const splits = url.split('/')
+        host = splits[2]
+        protocol = splits[0]
         protocol = protocol.substr(0, protocol.length - 1)
     } else {
         host = url.split('/')[0]

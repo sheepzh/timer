@@ -68,7 +68,7 @@ const averageByDay = (data: PeriodResult[], periodSize: number) => {
     data.forEach(item => {
         const key = Math.floor(item.getStartOrder() / periodSize)
         const val = map.get(key) || 0
-        map.set(key, val + item.millseconds)
+        map.set(key, val + item.milliseconds)
     })
     const result = []
     let period = PeriodKey.of(new Date(), 0)
@@ -97,7 +97,7 @@ const generateOptions = ({ data, average, periodSize }: _Props) => {
     periodData.forEach((item) => {
         const startTime = item.startTime.getTime()
         const endTime = item.endTime.getTime()
-        const seconds = Math.floor(item.millseconds / 1000)
+        const seconds = Math.floor(item.milliseconds / 1000)
         const x = (startTime + endTime) / 2
         valueData.push([x, seconds, startTime, endTime])
     })

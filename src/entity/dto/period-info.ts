@@ -82,10 +82,10 @@ export class PeriodKey {
         return new Date(this.year, this.month - 1, this.date, 0, MINUTES_PER_PERIOD * this.order)
     }
 
-    public produce(millseconds: number): PeriodInfo {
+    public produce(milliseconds: number): PeriodInfo {
         const result: PeriodInfo = new PeriodInfo()
         Object.assign(result, this)
-        result.millseconds = millseconds
+        result.milliseconds = milliseconds
         return result
     }
 
@@ -107,5 +107,5 @@ export default class PeriodInfo extends PeriodKey {
      * 1~900000
      * ps. 900000 = 15min * 60s/min * 1000ms/s
      */
-    millseconds: number
+    milliseconds: number
 }

@@ -41,7 +41,7 @@ export function formatTime(time: Date | string | number, cFormat?: string) {
 }
 
 /**
- * Format millseconds for display
+ * Format milliseconds for display
  */
 export function formatPeriod(milliseconds: number, message: { hourMsg: string, minuteMsg: string, secondMsg: string }): string {
     const { hourMsg, minuteMsg, secondMsg } = message
@@ -76,14 +76,14 @@ export function formatPeriodCommon(milliseconds: number): string {
 }
 
 /**
- * Millseconds per day
+ * Milliseconds per day
  * 
  * @since 0.0.8
  */
 export const MILL_PER_DAY = 3600 * 1000 * 24
 
 /**
- * Date range between {start} dayes ago and {end} days ago
+ * Date range between {start} days ago and {end} days ago
  */
 export const daysAgo = (start: number, end: number) => {
     const current = new Date().getTime()

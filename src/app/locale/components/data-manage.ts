@@ -13,7 +13,7 @@ export type DataManageMessage = {
     unlimited: string
     archiveAlert: string
     dateShortcut: {
-        tillYesturday: string
+        tillYesterday: string
         till7DaysAgo: string
         till30DaysAgo: string
     }
@@ -41,7 +41,7 @@ const _default: Messages<DataManageMessage> = {
         unlimited: '无限',
         archiveAlert: '归档后的数据不再按天统计，将累加至域名的归档数据中。',
         dateShortcut: {
-            tillYesturday: '直到昨天',
+            tillYesterday: '直到昨天',
             till7DaysAgo: '直到7天前',
             till30DaysAgo: '直到30天前'
         },
@@ -67,7 +67,7 @@ const _default: Messages<DataManageMessage> = {
         unlimited: '∞',
         archiveAlert: 'The archived details will be accumulated to its domain and not recorded daily.',
         dateShortcut: {
-            tillYesturday: 'Until yesterday',
+            tillYesterday: 'Until yesterday',
             till7DaysAgo: 'Until 7 days ago',
             till30DaysAgo: 'Until 30 days ago'
         },
@@ -93,7 +93,7 @@ const _default: Messages<DataManageMessage> = {
         unlimited: '無制限',
         archiveAlert: 'アーカイブされたデータは毎日カウントされなくなり、ドメイン名のアーカイブされたデータに追加されます。',
         dateShortcut: {
-            tillYesturday: '昨日まで',
+            tillYesterday: '昨日まで',
             till7DaysAgo: '7日前まで',
             till30DaysAgo: '30日前まで'
         },

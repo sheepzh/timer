@@ -4,7 +4,7 @@ import { I18nKey, t } from "../../locale"
 import { QueryData } from "./constants"
 
 /**
- * @returns the render function of filtr containers
+ * @returns the render function of filter containers
  */
 export function renderFilterContainer<Props>(childNodes: (props: Props) => VNode[]): (props: Props) => VNode {
     //  The container render function

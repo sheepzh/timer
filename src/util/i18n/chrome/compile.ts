@@ -1,4 +1,4 @@
-// Genearate the messages used by Chrome
+// Generate the messages used by Chrome
 function compile(obj: any, parentKey = ''): any {
     const result = {}
     if (typeof obj === 'object') {

@@ -21,7 +21,7 @@ describe('archived-database', () => {
             time: 21,
             enabled: true
         }
-        // Not rewrited
+        // Not rewrite
         await db.save(toRewrite)
         all = await db.all()
         expect(all[0]).toEqual({ ...toAdd, latestDate: "", wasteTime: 0 })

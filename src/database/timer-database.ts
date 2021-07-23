@@ -16,13 +16,13 @@ export type TimerCondition = {
      */
     host?: string
     /**
-     * Total range, millseconds
+     * Total range, milliseconds
      * 
      * @since 0.0.9
      */
     totalRange?: number[]
     /**
-     * Focus range, millseconds
+     * Focus range, milliseconds
      * 
      * @since 0.0.9
      */
@@ -128,7 +128,7 @@ class TimerDatabase extends BaseDatabase {
     }
 
     /**
-     * Generate the key in localstorage by host and date
+     * Generate the key in local storage by host and date
      * 
      * @param host host
      * @param date date

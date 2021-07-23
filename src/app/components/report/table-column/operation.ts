@@ -42,7 +42,7 @@ type OperationButtonProps = {
     onClick?: () => void
 }
 const operationButton = (props: OperationButtonProps) => {
-    const popConfirmpProps = {
+    const popConfirmProps = {
         confirmButtonText: t(msg => msg.item.operation.confirmMsg),
         cancelButtonText: t(msg => msg.item.operation.cancelMsg),
         title: props.confirmTitle,
@@ -54,7 +54,7 @@ const operationButton = (props: OperationButtonProps) => {
         onClick: props.onClick,
         icon: `el-icon-${props.buttonIcon}`
     }, () => t(msg => msg.item.operation[props.buttonMessage]))
-    return h(ElPopconfirm, popConfirmpProps, { reference })
+    return h(ElPopconfirm, popConfirmProps, { reference })
 }
 // Delete button
 const deleteOneRow = async (props: Props, host: string, date: string | Date) => {
