@@ -4,7 +4,7 @@ import MergeRuleDatabase from "../../../../database/merge-rule-database"
 import DomainMergeRuleItem from "../../../../entity/dto/domain-merge-rule-item"
 import { isValidMergeOriginHost } from "../../../../util/pattern"
 import { t } from "../../../locale"
-import { SettingMessage } from "../../../locale/components/setting"
+import { AdditionalMessage } from "../../../locale/components/additional"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
@@ -23,12 +23,12 @@ const handleInputConfirm = () => {
     const merged = mergedValRef.value
 
     if (!isValidMergeOriginHost(origin)) {
-        ElMessage.warning(t(msg => msg.setting.merge.errorOrigin))
+        ElMessage.warning(t(msg => msg.additional.merge.errorOrigin))
         return
     }
     const exists = ruleItemsRef.value.filter(item => item.origin === origin).length > 0
     if (exists) {
-        ElMessage.warning(t(msg => msg.setting.merge.duplicateMsg, { origin }))
+        ElMessage.warning(t(msg => msg.additional.merge.duplicateMsg, { origin }))
         return
     }
     let toInsert: DomainMergeRuleItem
@@ -42,12 +42,12 @@ const handleInputConfirm = () => {
     }
 
     ElMessageBox.confirm(
-        t(msg => msg.setting.merge.addConfirmMsg, { origin }),
-        t(msg => msg.setting.confirmTitle), { dangerouslyUseHTMLString: true }
+        t(msg => msg.additional.merge.addConfirmMsg, { origin }),
+        t(msg => msg.additional.confirmTitle), { dangerouslyUseHTMLString: true }
     ).then(() => mergeRuleDatabase.add(toInsert)
     ).then(() => {
         ruleItemsRef.value.push(toInsert)
-        ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
+        ElMessage({ type: 'success', message: t(msg => msg.additional.successMsg) })
     }).catch(() => { })
 
     inputVisibleRef.value = false
@@ -58,13 +58,13 @@ const handleInputConfirm = () => {
 // Render the tag items
 const handleTagClose = (ruleItem: DomainMergeRuleItem) => {
     const { origin } = ruleItem
-    const confirmMsg = t(msg => msg.setting.merge.removeConfirmMsg, { origin })
-    const confirmTitle = t(msg => msg.setting.confirmTitle)
+    const confirmMsg = t(msg => msg.additional.merge.removeConfirmMsg, { origin })
+    const confirmTitle = t(msg => msg.additional.confirmTitle)
     ElMessageBox
         .confirm(confirmMsg, confirmTitle)
         .then(() => mergeRuleDatabase.remove(origin))
         .then(() => {
-            ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.additional.successMsg) })
             const index = ruleItemsRef.value.indexOf(ruleItem)
             index !== -1 && ruleItemsRef.value.splice(index, 1)
         })
@@ -74,8 +74,8 @@ const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
     const { origin, merged } = ruleItem
     const type = typeof merged === 'number' ? 'success' : merged === '' ? 'info' : 'primary'
     const txt = typeof merged === 'number'
-        ? t(msg => msg.setting.merge.resultOfLevel, { level: merged + 1 })
-        : merged === '' ? t(msg => msg.setting.merge.resultOfOrigin) : merged
+        ? t(msg => msg.additional.merge.resultOfLevel, { level: merged + 1 })
+        : merged === '' ? t(msg => msg.additional.merge.resultOfOrigin) : merged
     const tagProps = {
         class: 'white-item',
         type,
@@ -85,10 +85,10 @@ const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
     return h(ElTag, tagProps, () => `${origin}  >>>  ${txt}`)
 }
 
-const inputVal = (modelValue: Ref<string>, placeholder: keyof SettingMessage['merge']) => h(ElInput, {
+const inputVal = (modelValue: Ref<string>, placeholder: keyof AdditionalMessage['merge']) => h(ElInput, {
     class: 'input-new-tag white-item origin-domain-input',
     modelValue: modelValue.value,
-    placeholder: t(msg => msg.setting.merge[placeholder]),
+    placeholder: t(msg => msg.additional.merge[placeholder]),
     clearable: true,
     onClear: () => modelValue.value = '',
     onInput: (val: string) => modelValue.value = val.trim(),
@@ -103,7 +103,7 @@ const buttonProps = {
     class: 'button-new-tag white-item',
     onClick: () => inputVisibleRef.value ? handleInputConfirm() : (inputVisibleRef.value = true)
 }
-const buttonMessage = () => inputVisibleRef.value ? t(msg => msg.setting.save) : `+ ${t(msg => msg.setting.newOne)}`
+const buttonMessage = () => inputVisibleRef.value ? t(msg => msg.additional.save) : `+ ${t(msg => msg.additional.newOne)}`
 
 const inputButton = () => h(ElButton, buttonProps, buttonMessage)
 

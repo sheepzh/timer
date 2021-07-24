@@ -13,16 +13,16 @@ const inputValRef: Ref<string> = ref('')
 const handleInputSave = (inputValue: string) => {
     const whitelist = whitelistRef.value
     if (whitelist.includes(inputValue)) {
-        ElMessage({ type: 'warning', message: t(msg => msg.setting.whitelist.duplicateMsg) })
+        ElMessage({ type: 'warning', message: t(msg => msg.additional.whitelist.duplicateMsg) })
         return
     }
-    const msg = t(msg => msg.setting.whitelist.addConfirmMsg, { url: inputValue })
-    const title = t(msg => msg.setting.confirmTitle)
+    const msg = t(msg => msg.additional.whitelist.addConfirmMsg, { url: inputValue })
+    const title = t(msg => msg.additional.confirmTitle)
     ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
         .then(() => whitelistService.add(inputValue))
         .then(() => {
             whitelist.push(inputValue)
-            ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.additional.successMsg) })
         }).catch(() => { })
 }
 
@@ -35,13 +35,13 @@ const handleInputConfirm = () => {
 }
 
 const handleClose = (whiteItem: string) => {
-    const confirmMsg = t(msg => msg.setting.whitelist.removeConfirmMsg, { url: whiteItem })
-    const confirmTitle = t(msg => msg.setting.confirmTitle)
+    const confirmMsg = t(msg => msg.additional.whitelist.removeConfirmMsg, { url: whiteItem })
+    const confirmTitle = t(msg => msg.additional.confirmTitle)
     ElMessageBox
         .confirm(confirmMsg, confirmTitle, { dangerouslyUseHTMLString: true })
         .then(() => whitelistService.remove(whiteItem))
         .then(() => {
-            ElMessage({ type: 'success', message: t(msg => msg.setting.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.additional.successMsg) })
             const index = whitelistRef.value.indexOf(whiteItem)
             index !== -1 && whitelistRef.value.splice(index, 1)
         })
@@ -58,14 +58,14 @@ const generateTagItems = (whiteItem: string) => h(ElTag,
     () => whiteItem
 )
 
-const alertInfo = () => h(ElAlert, { type: 'success', title: t(msg => msg.setting.whitelist.infoAlert) })
+const alertInfo = () => h(ElAlert, { type: 'success', title: t(msg => msg.additional.whitelist.infoAlert) })
 
 const whiteItemInput = () => h(ElInput,
     {
         class: 'input-new-tag white-item',
         modelValue: inputValRef.value,
         clearable: true,
-        placeholder: t(msg => msg.setting.whitelist.placeholder),
+        placeholder: t(msg => msg.additional.whitelist.placeholder),
         onClear: () => inputValRef.value = '',
         onInput: (val: string) => inputValRef.value = val.trim(),
         onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && handleInputConfirm(),
@@ -79,7 +79,7 @@ const whiteItemDisplayButton = () => h(ElButton,
         class: 'button-new-tag white-item',
         onClick: () => inputVisibleRef.value = true
     },
-    () => `+ ${t(msg => msg.setting.newOne)}`
+    () => `+ ${t(msg => msg.additional.newOne)}`
 )
 const tags = () => {
     const result = []
