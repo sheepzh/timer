@@ -1,5 +1,6 @@
 import { openLog } from '../common/logger'
-import ContextMenusManager from './context-menus-manager'
+import WhitelistMenuManager from './whitelist-menu-manager'
+import BrowserActionMenuManager from './browser-action-menu-manager'
 import IconUrlCollector from './icon-url-collector'
 import MessageListener from './message-listener'
 import Timer from './timer'
@@ -21,4 +22,7 @@ new MessageListener().listen()
 new VersionManager().init()
 
 // Mange the context menus
-ContextMenusManager()
+WhitelistMenuManager()
+
+// Browser action menu
+BrowserActionMenuManager()
