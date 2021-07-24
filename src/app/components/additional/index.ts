@@ -19,7 +19,7 @@ const headItems = () => {
                     class: 'info-item point-item',
                     onClick: () => window.open(HOME_PAGE, "_blank")
                 },
-                () => t(msg => msg.setting.scoreRequest))
+                () => t(msg => msg.additional.scoreRequest))
         )
     }
     result.push(
@@ -29,7 +29,7 @@ const headItems = () => {
                 class: 'info-item point-item',
                 onClick: () => window.open(GITHUB_ISSUE_ADD, "_blank")
             },
-            () => t(msg => msg.setting.issueRequest)
+            () => t(msg => msg.additional.issueRequest)
         )
     )
     return result
@@ -40,8 +40,8 @@ const infoHead = () => h('div', { class: 'info-head' }, [headItems()])
 const settingTabs = () => h(ElTabs,
     { type: 'border-card' },
     () => [
-        h(ElTabPane, { label: t(msg => msg.setting.whitelist.label) }, () => h(Whitelist)),
-        h(ElTabPane, { label: t(msg => msg.setting.merge.label) }, () => h(DomainMerge))
+        h(ElTabPane, { label: t(msg => msg.additional.whitelist.label) }, () => h(Whitelist)),
+        h(ElTabPane, { label: t(msg => msg.additional.merge.label) }, () => h(DomainMerge))
     ]
 )
 export default defineComponent(() => renderContentContainer(() => [infoHead(), settingTabs()]))

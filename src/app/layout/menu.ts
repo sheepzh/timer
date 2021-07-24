@@ -48,9 +48,9 @@ const ALL_MENU: MenuItem[] = [
             }
         ]
     }, {
-        title: 'setting',
-        route: '/setting',
-        icon: 'setting'
+        title: 'additional',
+        route: '/additional',
+        icon: 'present'
     }
 ]
 

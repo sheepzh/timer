@@ -27,7 +27,7 @@ type MergeMessage = {
     infoAlert4: string
     infoAlert5: string
 }
-export type SettingMessage = {
+export type AdditionalMessage = {
     whitelist: WhitelistMessage
     merge: MergeMessage
     confirmTitle: string
@@ -38,7 +38,7 @@ export type SettingMessage = {
     save: string
 }
 
-const _default: Messages<SettingMessage> = {
+const _default: Messages<AdditionalMessage> = {
     zh_CN: {
         whitelist: {
             label: '白名单',

@@ -2,7 +2,7 @@ import { Messages } from '../../util/i18n'
 import chromeBase from '../../util/i18n/components/app'
 import itemMessages, { ItemMessage } from '../../util/i18n/components/item'
 import dataManageMessages, { DataManageMessage } from './components/data-manage'
-import settingMessages, { SettingMessage } from './components/setting'
+import additionalMessages, { AdditionalMessage } from './components/additional'
 import reportMessages, { ReportMessage } from './components/report'
 import trendMessages, { TrendMessage } from './components/trend'
 import menuMessages, { MenuMessage } from './components/menu'
@@ -16,7 +16,7 @@ export type AppMessage = {
     dataManage: DataManageMessage
     item: ItemMessage
     report: ReportMessage
-    setting: SettingMessage
+    additional: AdditionalMessage
     trend: TrendMessage
     menu: MenuMessage
     habit: HabitMessage
@@ -24,13 +24,12 @@ export type AppMessage = {
 }
 
 const _default: Messages<AppMessage> = {
-
     zh_CN: {
         app: { currentVersion: chromeBase.zh_CN.currentVersion },
         dataManage: dataManageMessages.zh_CN,
         item: itemMessages.zh_CN,
         report: reportMessages.zh_CN,
-        setting: settingMessages.zh_CN,
+        additional: additionalMessages.zh_CN,
         trend: trendMessages.zh_CN,
         menu: menuMessages.zh_CN,
         habit: habitMessages.zh_CN,
@@ -41,7 +40,7 @@ const _default: Messages<AppMessage> = {
         dataManage: dataManageMessages.en,
         item: itemMessages.en,
         report: reportMessages.en,
-        setting: settingMessages.en,
+        additional: additionalMessages.en,
         trend: trendMessages.en,
         menu: menuMessages.en,
         habit: habitMessages.en,
@@ -52,7 +51,7 @@ const _default: Messages<AppMessage> = {
         dataManage: dataManageMessages.ja,
         item: itemMessages.ja,
         report: reportMessages.ja,
-        setting: settingMessages.ja,
+        additional: additionalMessages.ja,
         trend: trendMessages.ja,
         menu: menuMessages.ja,
         habit: habitMessages.ja,

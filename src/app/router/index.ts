@@ -43,8 +43,8 @@ const routes: RouteRecordRaw[] = [
     ...dataRoutes,
     ...behaviorRoutes,
     {
-        path: '/setting',
-        component: () => import('../components/setting'),
+        path: '/additional',
+        component: () => import('../components/additional'),
     }
 ]
 
