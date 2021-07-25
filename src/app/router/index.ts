@@ -45,6 +45,9 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/additional',
         component: () => import('../components/additional'),
+    }, {
+        path: '/option',
+        component: () => import('../components/option')
     }
 ]
 
