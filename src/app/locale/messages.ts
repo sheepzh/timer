@@ -8,6 +8,7 @@ import trendMessages, { TrendMessage } from './components/trend'
 import menuMessages, { MenuMessage } from './components/menu'
 import habitMessages, { HabitMessage } from './components/habit'
 import limitMessages, { LimitMessage } from './components/limit'
+import optionMessages, { OptionMessage } from './components/option'
 
 export type AppMessage = {
     app: {
@@ -17,6 +18,7 @@ export type AppMessage = {
     item: ItemMessage
     report: ReportMessage
     additional: AdditionalMessage
+    option: OptionMessage
     trend: TrendMessage
     menu: MenuMessage
     habit: HabitMessage
@@ -30,6 +32,7 @@ const _default: Messages<AppMessage> = {
         item: itemMessages.zh_CN,
         report: reportMessages.zh_CN,
         additional: additionalMessages.zh_CN,
+        option: optionMessages.zh_CN,
         trend: trendMessages.zh_CN,
         menu: menuMessages.zh_CN,
         habit: habitMessages.zh_CN,
@@ -41,6 +44,7 @@ const _default: Messages<AppMessage> = {
         item: itemMessages.en,
         report: reportMessages.en,
         additional: additionalMessages.en,
+        option: optionMessages.en,
         trend: trendMessages.en,
         menu: menuMessages.en,
         habit: habitMessages.en,
@@ -52,6 +56,7 @@ const _default: Messages<AppMessage> = {
         item: itemMessages.ja,
         report: reportMessages.ja,
         additional: additionalMessages.ja,
+        option: optionMessages.ja,
         trend: trendMessages.ja,
         menu: menuMessages.ja,
         habit: habitMessages.ja,
