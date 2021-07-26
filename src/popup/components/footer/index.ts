@@ -14,6 +14,7 @@ import { t } from '../../locale'
 import { QueryResult } from '../../popup'
 import { formatPeriodCommon } from '../../../util/time'
 import { updateTotal } from './total-info'
+import optionService from '../../../service/option-service'
 
 export function getQueryParam() {
     const param: TimerQueryParam = {
@@ -46,15 +47,15 @@ const getTotalInfo = (data: SiteInfo[], type: SiteItem) => {
     }
 }
 
-const ITEM_COUNT = 10
 async function query() {
+    const itemCount = await optionService.getPopupMax()
     const queryParam = getQueryParam()
     const rows = await timerService.select(queryParam, true)
     const result = []
     const other: SiteInfo = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        if (i < ITEM_COUNT) {
+        if (i < itemCount) {
             result.push(row)
         } else {
             other.focus += row.focus
