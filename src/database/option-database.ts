@@ -20,11 +20,14 @@ class OptionDatabase extends BaseDatabase {
 
     async getOption(): Promise<Partial<Timer.Option>> {
         const data = await this.storage.get(DB_KEY)
-        if (!data) return {}
-        return data as Partial<Timer.Option>
+        const option = data[DB_KEY]
+        if (!option) return {}
+        return option as Partial<Timer.Option>
     }
 
     async setOption(option: Timer.Option): Promise<void> {
         option && await this.setByKey(DB_KEY, option)
     }
 }
+
+export default OptionDatabase
