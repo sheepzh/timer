@@ -19,13 +19,29 @@
 - 分时段统计分析用户的上网行为并以直方图展示
 - 报表导出
 
-详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
-
 ## 下载地址
 
 [![Chrome](https://img.shields.io/chrome-web-store/v/dkdhhcbjijekmneelocdllcldcpmekmm?label=Google%20Chrome)](https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm?hl=zh-CN)
 [![Firefox](https://img.shields.io/amo/v/2690100?color=green&label=Mozilla%20Firefox)](https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/)
 [![Edge](https://img.shields.io/badge/dynamic/json?label=Microsoft%20Edge&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Ffepjgblalcnepokjblgbgmapmlkgfahc)](https://microsoftedge.microsoft.com/addons/detail/timer-running-browsin/fepjgblalcnepokjblgbgmapmlkgfahc)
+
+## 截图
+
+> 弹窗页展示今日数据
+
+<div align="center">
+	<img src="./doc/screenshot/popup.png" width="100%">
+</div>
+
+> 所有功能
+
+<div align="center">
+	<img src="./doc/screenshot/app.png" width="100%">
+</div>
+
+---
+
+详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
 
 ## 开发
 
