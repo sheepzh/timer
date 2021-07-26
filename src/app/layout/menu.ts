@@ -51,6 +51,10 @@ const ALL_MENU: MenuItem[] = [
         title: 'additional',
         route: '/additional',
         icon: 'present'
+    }, {
+        title: 'option',
+        route: '/option',
+        icon: 'set-up'
     }
 ]
 
