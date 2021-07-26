@@ -57,7 +57,7 @@ const _default: Messages<DataManageMessage> = {
     en: {
         totalMemoryAlert: 'The browser provides {size}MB to store local data for each extension',
         totalMemoryAlert1: 'Unable to determine the maximum memory available allowed by the browser',
-        usedMemoryAlert: '{Size}MB is currently used',
+        usedMemoryAlert: '{size}MB is currently used',
         operationAlert: 'You can archive or delete those irrelevant data to reduce memory usage',
         filterItems: 'Filter data',
         filterFocus: 'The browsing time of the day is between {start} seconds and {end} seconds.',
