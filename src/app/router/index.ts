@@ -2,7 +2,7 @@ import { App } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { LIMIT_ROUTE } from '../../common/constants'
 import RouterDatabase from '../../database/router-database'
-import { TREND_ROUTE } from './constants'
+import { OPTION_ROUTE, TREND_ROUTE } from './constants'
 
 const dataRoutes: RouteRecordRaw[] = [
     {
@@ -46,7 +46,7 @@ const routes: RouteRecordRaw[] = [
         path: '/additional',
         component: () => import('../components/additional'),
     }, {
-        path: '/option',
+        path: OPTION_ROUTE,
         component: () => import('../components/option')
     }
 ]

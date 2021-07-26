@@ -48,7 +48,8 @@ const placeholder: ChromeMessage = {
     contextMenus: {
         add2Whitelist: '',
         removeFromWhitelist: '',
-        allFunctions: ''
+        allFunctions: '',
+        optionPage: ''
     }
 }
 
