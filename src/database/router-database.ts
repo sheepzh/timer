@@ -2,7 +2,6 @@ import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 const KEY = REMAIN_WORD_PREFIX + "app_router"
-
 class RouterDatabase extends BaseDatabase {
     async getHistory(): Promise<string | undefined> {
         const items = await this.storage.get(KEY)
