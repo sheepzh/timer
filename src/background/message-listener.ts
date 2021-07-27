@@ -1,4 +1,4 @@
-import { LIMIT_ROUTE } from "../common/constants"
+import { LIMIT_ROUTE } from "../app/router/constants"
 import { APP_PAGE_URL } from "../util/constant/url"
 import { ChromeMessage } from "../util/message"
 

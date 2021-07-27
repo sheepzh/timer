@@ -39,7 +39,7 @@ const options = () => [
 
 const _default = defineComponent(() => {
     return () => h(ElCard, {}, {
-        header: renderHeader(msg => msg.popup.title, () => optionService.setPopupOption(optionRef.value = defaultValue())),
+        header: () => renderHeader(msg => msg.popup.title, () => optionService.setPopupOption(optionRef.value = defaultValue())),
         default: options
     })
 })
