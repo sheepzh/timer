@@ -1,7 +1,7 @@
-import SiteInfo, { SiteItem } from "../entity/dto/site-info"
+import SiteInfo from "../entity/dto/site-info"
 
 declare type QueryResult = {
-    type: SiteItem
+    type: Timer.SiteItem
     mergeDomain: boolean
     data: SiteInfo[]
 }

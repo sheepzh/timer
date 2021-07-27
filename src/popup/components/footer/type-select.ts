@@ -1,5 +1,6 @@
 // Type select
-import { ALL_SITE_ITEMS, SiteItem } from "../../../entity/dto/site-info"
+import { ALL_SITE_ITEMS } from "../../../entity/dto/site-info"
+import optionService from "../../../service/option-service"
 import { t } from "../../locale"
 
 const typeSelect = document.getElementById('select-container')
@@ -44,9 +45,9 @@ typeSelect.onclick = () => isOpen ? hidePopup() : openPopup()
 /////////// Options
 const SELECTED_CLASS = 'selected'
 const optionList = document.getElementById('type-select-options')
-const optionItems: Map<SiteItem, HTMLLIElement> = new Map()
+const optionItems: Map<Timer.SiteItem, HTMLLIElement> = new Map()
 
-function selected(item: SiteItem): void {
+function selected(item: Timer.SiteItem): void {
     currentSelected = item
     Array.from(optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
     optionItems.get(item).classList.add(SELECTED_CLASS)
@@ -65,11 +66,11 @@ for (const item of ALL_SITE_ITEMS) {
     optionList.append(li)
     optionItems.set(item, li)
 }
-let currentSelected: SiteItem = undefined
+let currentSelected: Timer.SiteItem = undefined
 
-export function getSelectedType(): SiteItem { return currentSelected }
+export function getSelectedType(): Timer.SiteItem { return currentSelected }
 
-selected('focus')
+optionService.getPopupOption().then((option: Timer.PopupOption) => selected(option.defaultType))
 
 let handleSelected: () => void
 function _default(handleSelected_: () => void) {

@@ -1,4 +1,4 @@
-export declare type SiteItem = 'total' | 'focus' | 'time'
+type SiteItem = Timer.SiteItem
 
 export const ALL_SITE_ITEMS: SiteItem[] = ['focus', 'total', 'time']
 

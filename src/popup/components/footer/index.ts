@@ -9,7 +9,7 @@ import './meat'
 
 import './total-info'
 import timerService, { SortDirect, TimerQueryParam } from '../../../service/timer-service'
-import SiteInfo, { SiteItem } from '../../../entity/dto/site-info'
+import SiteInfo from '../../../entity/dto/site-info'
 import { t } from '../../locale'
 import { QueryResult } from '../../popup'
 import { formatPeriodCommon } from '../../../util/time'
@@ -37,7 +37,7 @@ function _default(handleQuery: (result: QueryResult) => void) {
  * @param type type
  * @returns total alert text
  */
-const getTotalInfo = (data: SiteInfo[], type: SiteItem) => {
+const getTotalInfo = (data: SiteInfo[], type: Timer.SiteItem) => {
     if (type === 'time') {
         const totalCount = data.map(d => d[type] || 0).reduce((a, b) => a + b, 0)
         return t(msg => msg.totalCount, { totalCount })
@@ -48,7 +48,7 @@ const getTotalInfo = (data: SiteInfo[], type: SiteItem) => {
 }
 
 async function query() {
-    const itemCount = await optionService.getPopupMax()
+    const itemCount = (await optionService.getPopupOption()).popupMax
     const queryParam = getQueryParam()
     const rows = await timerService.select(queryParam, true)
     const result = []
@@ -63,7 +63,7 @@ async function query() {
         }
     }
     result.push(other)
-    const type = queryParam.sort as SiteItem
+    const type = queryParam.sort as Timer.SiteItem
     const data = result.filter(item => item[type])
 
     const queryResult: QueryResult = {
