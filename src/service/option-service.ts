@@ -3,23 +3,24 @@ import { defaultValue } from '../util/constant/option'
 
 const db = new OptionDatabase(chrome.storage.local)
 
-async function getPopupMax(): Promise<number> {
+async function getPopupOption(): Promise<Timer.PopupOption> {
     const exist: Partial<Timer.Option> = await db.getOption()
-    return exist.popupMax || defaultValue().popupMax
+    const defaultOption: Timer.PopupOption = defaultValue() as Timer.PopupOption
+    Object.entries(exist).forEach(([key, val]) => defaultOption[key] = val)
+    return defaultOption
 }
 
-async function setPopupMax(max: number): Promise<void> {
+async function setPopupOption(option: Timer.PopupOption): Promise<void> {
     const exist: Partial<Timer.Option> = await db.getOption()
-    exist.popupMax = max
     const toSet = defaultValue()
     Object.entries(exist).forEach(([key, val]) => toSet[key] = val)
-    toSet.popupMax = max
+    Object.entries(option).forEach(([key, val]) => toSet[key] = val)
     await db.setOption(toSet)
 }
 
 class OptionService {
-    getPopupMax = getPopupMax
-    setPopupMax = setPopupMax
+    getPopupOption = getPopupOption
+    setPopupOption = setPopupOption
 }
 
 export default new OptionService()

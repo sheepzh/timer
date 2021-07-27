@@ -1,6 +1,6 @@
 import { ElTable } from "element-plus"
 import { h, Ref, UnwrapRef } from "vue"
-import SiteInfo, { SiteItem } from "../../../entity/dto/site-info"
+import SiteInfo from "../../../entity/dto/site-info"
 import columns, { ColumnProps } from "./table-column"
 
 export enum ElSortDirect {
@@ -9,7 +9,7 @@ export enum ElSortDirect {
 }
 
 export type SortInfo = {
-    prop: SiteItem | 'host'
+    prop: Timer.SiteItem | 'host'
     order: ElSortDirect
 }
 
