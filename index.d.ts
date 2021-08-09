@@ -23,5 +23,15 @@ declare namespace Timer {
          */
         defaultType: SiteItem
     }
-    type Option = PopupOption
+
+    type AdditionalOption = {
+        /**
+         * Whether to display the whitelist button in the context menu
+         * 
+         * @since 0.3.2
+         */
+        displayWhitelistMenu: boolean
+    }
+
+    type Option = PopupOption & AdditionalOption
 }
