@@ -18,7 +18,10 @@ const realFeedbackLink: string = locale === Locale.ZH_CN ? ZH_FEEDBACK_PAGE : GI
 
 const headItems = () => {
     const result = []
-    const commonProps = { size: 'small', type: 'info' }
+    const commonProps: {
+        size: 'small'
+        type: 'info'
+    } = { size: 'small', type: 'info' }
     result.push(h(ElTag, { ...commonProps, class: 'info-item' }, () => t(msg => msg.app.currentVersion, { version })))
     if (HOME_PAGE && HOME_PAGE !== '') {
         result.push(

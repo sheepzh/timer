@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Web timer",
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
@@ -13,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {
     "@jest/types": "^27.0.2",
-    "@types/chrome": "0.0.145",
+    "@types/chrome": "0.0.154",
     "@types/copy-webpack-plugin": "^8.0.0",
     "@types/echarts": "^4.9.8",
     "@types/generate-json-webpack-plugin": "^0.3.3",
@@ -43,7 +43,7 @@
     "axios": "^0.21.1",
     "clipboardy": "^2.3.0",
     "echarts": "^5.1.2",
-    "element-plus": "^1.0.2-beta.48",
+    "element-plus": "1.0.2-beta.70",
     "vue": "^3.0.11",
     "vue-router": "^4.0.8"
   }
