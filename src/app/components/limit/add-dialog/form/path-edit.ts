@@ -27,7 +27,7 @@ const item2Tag = (item: UrlPathItem, index: number, arr: UrlPathItem[]) => {
     const isNotHost: boolean = !!index
     return h(ElTag,
         {
-            type: isNotHost ? 'primary' : 'info',
+            type: isNotHost ? '' : 'info',
             closable: isNotHost,
             onClose: () => arr.splice(index),
             style: tabStyle
