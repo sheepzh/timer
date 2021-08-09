@@ -72,7 +72,7 @@ const handleTagClose = (ruleItem: DomainMergeRuleItem) => {
 }
 const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
     const { origin, merged } = ruleItem
-    const type = typeof merged === 'number' ? 'success' : merged === '' ? 'info' : 'primary'
+    const type: '' | 'info' | 'success' = typeof merged === 'number' ? 'success' : merged === '' ? 'info' : ''
     const txt = typeof merged === 'number'
         ? t(msg => msg.additional.merge.resultOfLevel, { level: merged + 1 })
         : merged === '' ? t(msg => msg.additional.merge.resultOfOrigin) : merged
