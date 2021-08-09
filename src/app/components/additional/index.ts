@@ -1,12 +1,21 @@
 import { ElTabPane, ElTabs, ElTag } from "element-plus"
 import { defineComponent, h } from "vue"
-import { t } from "../../locale"
-import { HOME_PAGE, GITHUB_ISSUE_ADD } from '../../../util/constant/url'
+import { locale, t } from "../../locale"
+import { HOME_PAGE, GITHUB_ISSUE_ADD, ZH_FEEDBACK_PAGE } from '../../../util/constant/url'
 import Whitelist from './whitelist'
 import DomainMerge from './domain-merge'
 import { version } from '../../../../package.json'
 import './style'
 import { renderContentContainer } from "../common/content-container"
+import { Locale } from "../../../util/i18n"
+
+/**
+ * Use ZH_FEEDBACK_PAGE, if the locale is Chinese
+ * 
+ * @since 0.3.2
+ */
+const realFeedbackLink: string = locale === Locale.ZH_CN ? ZH_FEEDBACK_PAGE : GITHUB_ISSUE_ADD
+
 const headItems = () => {
     const result = []
     const commonProps = { size: 'small', type: 'info' }
@@ -27,7 +36,7 @@ const headItems = () => {
             {
                 ...commonProps,
                 class: 'info-item point-item',
-                onClick: () => window.open(GITHUB_ISSUE_ADD, "_blank")
+                onClick: () => window.open(realFeedbackLink, "_blank")
             },
             () => t(msg => msg.additional.issueRequest)
         )
