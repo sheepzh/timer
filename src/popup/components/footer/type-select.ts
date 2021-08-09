@@ -70,7 +70,7 @@ let currentSelected: Timer.SiteItem = undefined
 
 export function getSelectedType(): Timer.SiteItem { return currentSelected }
 
-optionService.getPopupOption().then((option: Timer.PopupOption) => selected(option.defaultType))
+optionService.getAllOption().then((option: Timer.PopupOption) => selected(option.defaultType))
 
 let handleSelected: () => void
 function _default(handleSelected_: () => void) {

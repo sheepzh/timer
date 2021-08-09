@@ -2,12 +2,12 @@ import { ElCard, ElDivider, ElInputNumber, ElOption, ElSelect } from "element-pl
 import { t } from "../../../locale"
 import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "../../../../service/option-service"
-import { defaultValue } from "../../../../util/constant/option"
 import { ALL_SITE_ITEMS } from "../../../../entity/dto/site-info"
 import { renderOptionItem, renderHeader } from "../common"
+import { defaultPopup } from "../../../../util/constant/option"
 
-const optionRef: Ref<Timer.PopupOption> = ref(defaultValue())
-optionService.getPopupOption().then(option => optionRef.value = option)
+const optionRef: Ref<Timer.PopupOption> = ref(defaultPopup())
+optionService.getAllOption().then(option => optionRef.value = option)
 
 const popupMaxInput = () => h(ElInputNumber, {
     modelValue: optionRef.value.popupMax,
@@ -32,14 +32,14 @@ const typeSelect = () => h(ElSelect, {
 }, { default: typeOptions })
 
 const options = () => [
-    renderOptionItem(typeSelect(), msg => msg.popup.type, t(msg => msg.item[defaultValue().defaultType])),
+    renderOptionItem(typeSelect(), msg => msg.popup.type, t(msg => msg.item[defaultPopup().defaultType])),
     h(ElDivider),
-    renderOptionItem(popupMaxInput(), msg => msg.popup.max, defaultValue().popupMax)
+    renderOptionItem(popupMaxInput(), msg => msg.popup.max, defaultPopup().popupMax)
 ]
 
 const _default = defineComponent(() => {
     return () => h(ElCard, {}, {
-        header: () => renderHeader(msg => msg.popup.title, () => optionService.setPopupOption(optionRef.value = defaultValue())),
+        header: () => renderHeader(msg => msg.popup.title, () => optionService.setPopupOption(optionRef.value = defaultPopup())),
         default: options
     })
 })

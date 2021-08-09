@@ -48,7 +48,7 @@ const getTotalInfo = (data: SiteInfo[], type: Timer.SiteItem) => {
 }
 
 async function query() {
-    const itemCount = (await optionService.getPopupOption()).popupMax
+    const itemCount = (await optionService.getAllOption()).popupMax
     const queryParam = getQueryParam()
     const rows = await timerService.select(queryParam, true)
     const result = []
