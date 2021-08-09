@@ -51,7 +51,6 @@ const handleClose = (whiteItem: string) => {
 const generateTagItems = (whiteItem: string) => h(ElTag,
     {
         class: 'white-item',
-        type: 'primary',
         closable: true,
         onClose: () => handleClose(whiteItem)
     },

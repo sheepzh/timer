@@ -1,4 +1,8 @@
-export const alertProps = {
+export const alertProps: {
+    center: boolean
+    closable: boolean
+    type: 'info' | 'warning'
+} = {
     center: true,
     closable: false,
     type: 'info'
@@ -7,7 +11,4 @@ export const alertProps = {
 /**
  * Card body style
  */
-export const bodyStyle: Partial<CSSStyleDeclaration> = {
-    height: '450px',
-    textAlign: 'center'
-}
+export const bodyStyle: string = 'height:450px; text-align:center'
