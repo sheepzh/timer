@@ -1,12 +1,18 @@
 {
     "compilerOptions": {
+        "baseUrl": "./",
         "module": "commonjs",
         "target": "es5",
         "esModuleInterop": true,
         "sourceMap": true,
         "resolveJsonModule": true,
         "importHelpers": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "paths": {
+            "*": [
+                "types/*"
+            ]
+        }
     },
     "lib": [
         "dom"
