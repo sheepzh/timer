@@ -41,8 +41,8 @@ const staticOptions = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             }, {
                 test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
-                // exclude: /node_modules/,
-                use: ['url-loader?limit=100000']
+                exclude: /node_modules/,
+                use: ['url-loader']
             }, {
                 test: /\.m?js$/,
                 exclude: /(node_modules)/,
