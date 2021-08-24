@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Web timer",
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
@@ -18,13 +18,13 @@
     "@types/echarts": "^4.9.10",
     "@types/generate-json-webpack-plugin": "^0.3.3",
     "@types/jest": "^27.0.1",
-    "@types/node": "^16.6.2",
+    "@types/node": "^16.7.1",
     "@types/webpack": "^5.28.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "eslint": "^7.32.0",
-    "filemanager-webpack-plugin": "^6.1.5",
+    "filemanager-webpack-plugin": "^6.1.6",
     "generate-json-webpack-plugin": "^2.0.0",
     "jest": "^27.0.6",
     "node-sass": "^6.0.1",
