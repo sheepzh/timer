@@ -42,7 +42,9 @@ export default {
     'contextMenus',
     'chrome://favicon/**',
     // @since 0.2.2
-    'idle'
+    'idle',
+    // @since 0.3.3
+    'clipboardRead'
   ],
   browser_action: {
     default_popup: "static/popup.html",
