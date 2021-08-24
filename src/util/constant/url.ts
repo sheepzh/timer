@@ -44,10 +44,12 @@ if (IS_CHROME) {
 export const UPDATE_PAGE = updatePage
 
 /**
- * chrome.tabs.create({ url: APP_PAGE_URL })
+ * chrome.tabs.create({ url: getAppPageUrl() })
+ * 
+ * @param isInBackground invoke in background environment
  * @since 0.2.2
  */
-export const APP_PAGE_URL = IS_FIREFOX ? 'app.html' : 'static/app.html'
+export const getAppPageUrl = (isInBackground: boolean) => IS_FIREFOX && !isInBackground ? 'app.html' : 'static/app.html'
 
 /**
  * @since 0.2.2
