@@ -1,5 +1,5 @@
 import { ElForm } from "element-plus"
-import { computed, ComputedRef, defineComponent, h, ref, Ref, useContext } from "vue"
+import { computed, ComputedRef, defineComponent, h, ref, Ref, SetupContext } from "vue"
 import '../style/el-input'
 import pathEdit from "./path-edit"
 import timeFormItem from "./time-limit"
@@ -59,12 +59,14 @@ const handleGetData = () => {
     return result
 }
 
-const _default = defineComponent(() => {
-    useContext().expose({
-        getData: () => handleGetData(),
-        clean: () => init()
-    })
-    return render
+const exposeOption = {
+    getData: () => handleGetData(),
+    clean: () => init()
+}
+
+const _default = defineComponent({
+    setup: (_, context: SetupContext) => context.expose(exposeOption),
+    render
 })
 
 export default _default
