@@ -39,3 +39,10 @@ export default class WastePerDay {
 export function merge(a: WastePerDay, b: WastePerDay) {
     return WastePerDay.of(a.total + b.total, a.focus + b.focus, a.time + b.time)
 }
+
+/**
+ * Waste data
+ * 
+ * @since 0.3.3
+ */
+export type WasteData = { [host: string]: WastePerDay }

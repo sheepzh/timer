@@ -5,6 +5,8 @@ import IconUrlCollector from './icon-url-collector'
 import MessageListener from './message-listener'
 import Timer from './timer'
 import VersionManager from './version-manager'
+import ActiveTabListener from './active-tab-listener'
+import badgeTextManager from './badge-text-manager'
 
 // Open the log of console
 openLog()
@@ -26,3 +28,11 @@ WhitelistMenuManager()
 
 // Browser action menu
 BrowserActionMenuManager()
+
+// Badge manager
+badgeTextManager.init()
+
+// Listen to tab active changed
+new ActiveTabListener()
+    .register(({ host }) => badgeTextManager.forceUpdate(host))
+    .listen()

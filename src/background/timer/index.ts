@@ -17,8 +17,8 @@ class Timer {
         new IdleListener(this.context).listen()
         const collector = new TimeCollector(this.context)
 
-        setInterval(() => collector.collect(), 555)
-        setInterval(() => save(this.context), 2048)
+        setInterval(() => collector.collect(), 1000)
+        setInterval(() => save(this.context), 1000)
     }
 }
 

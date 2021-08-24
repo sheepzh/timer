@@ -6,8 +6,9 @@ export function defaultPopup(): Timer.PopupOption {
     }
 }
 
-export function defaultAdditional(): Timer.AdditionalOption {
+export function defaultAppearance(): Timer.AppearanceOption {
     return {
-        displayWhitelistMenu: true
+        displayWhitelistMenu: true,
+        displayBadgeText: false
     }
 }

@@ -1,10 +1,10 @@
 import OptionDatabase from "../database/option-database"
-import { defaultAdditional, defaultPopup } from "../util/constant/option"
+import { defaultAppearance, defaultPopup } from "../util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
 
 const defaultOption = () => {
-    return { ...defaultAdditional(), ...defaultPopup() }
+    return { ...defaultAppearance(), ...defaultPopup() }
 }
 
 async function getAllOption(): Promise<Timer.Option> {
@@ -18,7 +18,7 @@ async function setPopupOption(option: Timer.PopupOption): Promise<void> {
     await setOption(option)
 }
 
-async function setAdditionalOption(option: Timer.AdditionalOption): Promise<void> {
+async function setAppearanceOption(option: Timer.AppearanceOption): Promise<void> {
     await setOption(option)
 }
 
@@ -33,7 +33,7 @@ async function setOption(option: Partial<Timer.Option>): Promise<void> {
 class OptionService {
     getAllOption = getAllOption
     setPopupOption = setPopupOption
-    setAdditionalOption = setAdditionalOption
+    setAppearanceOption = setAppearanceOption
     addOptionChangeListener = db.addOptionChangeListener
 }
 

@@ -1,5 +1,5 @@
 import { log } from "../common/logger"
-import WastePerDay, { merge } from "../entity/dao/waste-per-day"
+import WastePerDay, { merge, WasteData } from "../entity/dao/waste-per-day"
 import SiteInfo from "../entity/dto/site-info"
 import { formatTime } from "../util/time"
 import BaseDatabase from "./common/base-database"
@@ -159,7 +159,7 @@ class TimerDatabase extends BaseDatabase {
      * @param date date
      * @since 0.1.8
      */
-    async accumulateBatch(data: { [host: string]: WastePerDay }, date: Date): Promise<void> {
+    async accumulateBatch(data: WasteData, date: Date): Promise<WasteData> {
         const hosts = Object.keys(data)
         if (!hosts.length) return
         const dateStr = formatTime(date, DATE_FORMAT)
@@ -169,12 +169,14 @@ class TimerDatabase extends BaseDatabase {
         const items = await this.storage.get(Object.values(keys))
 
         const toUpdate = {}
+        const afterUpdated: WasteData = {}
         Object.entries(keys).forEach(([host, key]) => {
             const item = data[host]
             const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
-            toUpdate[key] = exist
+            toUpdate[key] = afterUpdated[host] = exist
         })
         Object.keys(toUpdate).length && await this.storage.set(toUpdate)
+        return afterUpdated
     }
 
     /**

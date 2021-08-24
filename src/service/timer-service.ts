@@ -6,7 +6,7 @@ import { log } from '../common/logger'
 import CustomizedDomainMergeRuler from './domain-merge-ruler'
 import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
 import MergeRuleDatabase from '../database/merge-rule-database'
-import WastePerDay from '../entity/dao/waste-per-day'
+import WastePerDay, { WasteData } from '../entity/dao/waste-per-day'
 import IconUrlDatabase from '../database/icon-url-database'
 
 const storage = chrome.storage.local
@@ -70,12 +70,12 @@ class TimeService {
         whitelistDatabase.addChangeListener(whitelistSetter)
     }
 
-    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }) {
+    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<WasteData> {
         const toUpdate = {}
         Object.entries(data)
             .filter(([host]) => !this.whitelist.includes(host))
             .forEach(([host, item]) => toUpdate[host] = WastePerDay.of(item.run, item.focus, 0))
-        timerDatabase.accumulateBatch(toUpdate, new Date())
+        return timerDatabase.accumulateBatch(toUpdate, new Date())
     }
 
     async addOneTime(host: string) {

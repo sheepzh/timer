@@ -1,8 +1,9 @@
 import RouterDatabase from "../../../database/router-database"
-import { APP_PAGE_URL } from "../../../util/constant/url"
+import { getAppPageUrl } from "../../../util/constant/url"
 import { t } from "../../locale"
 
 const db: RouterDatabase = new RouterDatabase(chrome.storage.local)
+const APP_PAGE_URL = getAppPageUrl(false)
 
 const allFunctionLink = document.getElementById('all-function-link')
 allFunctionLink.onclick = async () => {
