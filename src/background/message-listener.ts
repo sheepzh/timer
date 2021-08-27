@@ -7,7 +7,7 @@ function listen<T>(message: ChromeMessage<T>, _sender: chrome.runtime.MessageSen
     if (message.code === 'openLimitPage') {
         const data: T = message.data
         const url = data ? data.toString() : ''
-        const pageUrl = `${getAppPageUrl(false)}#${LIMIT_ROUTE}?url=${encodeURI(url)}`
+        const pageUrl = `${getAppPageUrl(true)}#${LIMIT_ROUTE}?url=${encodeURI(url)}`
         chrome.tabs.create({ url: pageUrl })
     }
     sendResponse('ok')
