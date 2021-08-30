@@ -8,7 +8,7 @@ const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
 /**
  * Process the tab
  */
-function processTabInfo(tab: chrome.tabs.Tab) {
+async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     if (!tab) return
     const url = tab.url
     if (!url) return
@@ -19,7 +19,7 @@ function processTabInfo(tab: chrome.tabs.Tab) {
     let favIconUrl = tab.favIconUrl
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(domain) && (favIconUrl = undefined)
-    const iconUrl = favIconUrl || iconUrlOfBrowser(protocol, domain)
+    const iconUrl = favIconUrl || await iconUrlOfBrowser(protocol, domain)
     iconUrlDatabase.put(domain, iconUrl)
 }
 

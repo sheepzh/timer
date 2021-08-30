@@ -55,11 +55,9 @@ export const getAppPageUrl = (isInBackground: boolean) => IS_FIREFOX && !isInBac
  * @since 0.2.2
  * @returns icon url in the browser
  */
-export function iconUrlOfBrowser(protocol: string, domain: string) {
-    if (IS_CHROME) {
-        return `chrome://favicon/${protocol ? protocol + '://' : ''}${domain}`
-    } else if (IS_EDGE) {
-        return `edge://favicon/${protocol ? protocol + '://' : ''}${domain}`
+export function iconUrlOfBrowser(protocol: string, domain: string): string {
+    if (IS_CHROME || IS_EDGE) {
+        return `${IS_CHROME ? 'chrome' : 'edge'}://favicon/${protocol ? protocol + '://' : ''}${domain}`
     } else return ''
 }
 

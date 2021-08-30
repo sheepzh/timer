@@ -3,7 +3,7 @@ import { read as readClipboardy } from 'clipboardy'
 import { t } from "../../../../locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import UrlPathItem from "./url-path-item"
-import { checkOrRequestPermission } from "../../../../permissions"
+import { checkOrRequestPermission } from "../../../../../permissions"
 
 export enum Protocol {
     HTTP = 'http://',
@@ -36,8 +36,10 @@ const url2PathItems = (url: string) => {
     return url.split('/').filter(path => path).map(path => UrlPathItem.of(path))
 }
 
+const PERMISSION = 'clipboardRead'
+
 const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) => {
-    const granted = await checkOrRequestPermission('clipboardRead')
+    const granted = await checkOrRequestPermission(PERMISSION)
 
     if (!granted) {
         alert('Can\'t read the clipboard, please contact the developer via email to returnzhy1996@outlook.com')

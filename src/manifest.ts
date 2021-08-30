@@ -40,10 +40,15 @@ export default {
     'tabs',
     'webNavigation',
     'contextMenus',
-    'chrome://favicon/**',
-    // @since 0.2.2
-    'idle',
-    // @since 0.3.3
+    /**
+     * @since 0.2.2
+     **/
+    'idle'
+  ],
+  /**
+   * @since 0.3.4
+   */
+  optional_permissions: [
     'clipboardRead'
   ],
   browser_action: {
