@@ -9,10 +9,10 @@
 
 \[ English | [简体中文](./README.md) \]
 
-One browser extension to track the time user spent browsing the web.
+One browser extension to track the time you spent browsing the web.
 
 - Counts running time of each website.
-- Counts focus time of user on each website.
+- Counts focus time on each website.
 - Counts visits, like the famous extension _History Trends_
 - Supports whitelist to filter out websites that not need count.
 - Combines multiple statistics, and supports to customize the rules of combination.
