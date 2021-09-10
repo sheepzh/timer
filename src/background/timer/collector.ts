@@ -1,47 +1,13 @@
 import { isBrowserUrl, extractHostname } from "../../util/pattern"
-import TimerContext, { TimeInfo } from "./context"
-
-class CollectContext {
-    realInterval: number
-    timerContext: TimerContext
-    hostSet: Set<string>
-    /**
-     * The focus host while last collection
-     */
-    focusHost: string
-
-    init() {
-        const now = Date.now()
-        this.realInterval = now - this.timerContext.lastCollectTime
-        this.timerContext.lastCollectTime = now
-    }
-
-    constructor(timerContext: TimerContext) {
-        this.timerContext = timerContext
-        this.hostSet = new Set()
-        this.init()
-    }
-
-    collectHost(host: string) { this.hostSet.add(host) }
-
-    resetFocusHost(focusHost: string) { this.focusHost = focusHost }
-
-    accumulateAll() {
-        const interval = this.realInterval
-        this.hostSet.forEach((host: string) => {
-            const info = TimeInfo.of(interval, this.focusHost === host ? interval : 0)
-            this.timerContext.accumulate(host, info)
-        })
-    }
-}
+import CollectionContext from "./collection-context"
 
 /**
  * The promise for window query
  */
-function WindowPromise(window: chrome.windows.Window, context: CollectContext) {
+function WindowPromise(window: chrome.windows.Window, context: CollectionContext) {
     return new Promise(resolve => handleWindow(resolve, window, context))
 }
-function handleWindow(resolve: (val?: unknown) => void, window: chrome.windows.Window, context: CollectContext) {
+function handleWindow(resolve: (val?: unknown) => void, window: chrome.windows.Window, context: CollectionContext) {
     const windowId = window.id
     const windowFocused = !!window.focused
     chrome.tabs.query({ windowId }, tabs => {
@@ -52,7 +18,7 @@ function handleWindow(resolve: (val?: unknown) => void, window: chrome.windows.W
         resolve()
     })
 }
-function handleTab(tab: chrome.tabs.Tab, isFocusWindow: boolean, context: CollectContext) {
+function handleTab(tab: chrome.tabs.Tab, isFocusWindow: boolean, context: CollectionContext) {
     const url = tab.url
     if (!url) return
     if (isBrowserUrl(url)) return
@@ -60,17 +26,17 @@ function handleTab(tab: chrome.tabs.Tab, isFocusWindow: boolean, context: Collec
     if (host) {
         context.collectHost(host)
         const isFocus = isFocusWindow && tab.active
-        isFocus && context.resetFocusHost(host)
+        isFocus && context.resetFocus(host, url)
     } else {
         console.log('Detect blank host:', url)
     }
 }
 
 export default class TimeCollector {
-    context: CollectContext
+    context: CollectionContext
 
-    constructor(timerContext: TimerContext) {
-        this.context = new CollectContext(timerContext)
+    constructor(context: CollectionContext) {
+        this.context = context
     }
 
     collect() {
@@ -80,7 +46,7 @@ export default class TimeCollector {
     }
 }
 
-async function processWindows(windows: chrome.windows.Window[], context: CollectContext) {
+async function processWindows(windows: chrome.windows.Window[], context: CollectionContext) {
     context.focusHost = ''
     const windowPromises = windows.map(w => WindowPromise(w, context))
     await Promise.all(windowPromises)
