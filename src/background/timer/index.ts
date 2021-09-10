@@ -2,23 +2,20 @@ import TimeCollector from "./collector"
 import IdleListener from "./idle-listener"
 import save from "./save"
 import TimerContext from "./context"
+import CollectionContext from "./collection-context"
 
 /**
  * Timer
  */
 class Timer {
-    private context: TimerContext
-
-    constructor() {
-        this.context = new TimerContext()
-    }
-
     start() {
-        new IdleListener(this.context).listen()
-        const collector = new TimeCollector(this.context)
+        const collectionContext = new CollectionContext()
+        const timerContext: TimerContext = collectionContext.timerContext
+        new IdleListener(timerContext).listen()
+        const collector = new TimeCollector(collectionContext)
 
         setInterval(() => collector.collect(), 1000)
-        setInterval(() => save(this.context), 1000)
+        setInterval(() => save(collectionContext), 1000)
     }
 }
 
