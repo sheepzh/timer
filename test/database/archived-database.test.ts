@@ -26,4 +26,34 @@ describe('archived-database', () => {
         expect(baiduInfo.total).toEqual(2)
         expect(baiduInfo.time).toEqual(4)
     })
+
+    test('2', async () => {
+        const key = `_a_${baidu}`
+        const toImport = {}
+        toImport[key] = {
+            focus: 1,
+            time: 2,
+            total: 3
+        }
+        await archivedDatabase.importData(toImport)
+        const result = await archivedDatabase.selectArchived(new Set([baidu]))
+        expect(result.length).toEqual(1)
+        const baiduInfo = result[0]
+        expect(baiduInfo.focus).toEqual(1)
+        expect(baiduInfo.time).toEqual(2)
+        expect(baiduInfo.total).toEqual(3)
+    })
+
+    test('3', async () => {
+        const key = `_a_${baidu}`
+        const toImport = {}
+        toImport[key] = {}
+        await archivedDatabase.importData(toImport)
+        const result = await archivedDatabase.selectArchived(new Set([baidu]))
+        expect(result.length).toEqual(1)
+        const baiduInfo = result[0]
+        expect(baiduInfo.focus).toEqual(0)
+        expect(baiduInfo.time).toEqual(0)
+        expect(baiduInfo.total).toEqual(0)
+    })
 })
