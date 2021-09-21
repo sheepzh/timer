@@ -2,6 +2,7 @@ import { formatTime } from "../../util/time"
 import TimerContext from "./context"
 
 function listen(context: TimerContext, newState: chrome.idle.IdleState) {
+    console.log(`idle status changed: ${newState}, ${formatTime(Date.now())}`)
     if (newState === 'active') {
         context.resume()
     } else if (newState === 'locked') {
