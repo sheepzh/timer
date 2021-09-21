@@ -59,7 +59,7 @@ export type FilterButtonProps = {
     icon?: string
 }
 
-export const buttonFilterItem = ({ onClick, type, label, icon }: FilterButtonProps) => h(ElButton, {
+export const buttonFilterItem = ({ onClick, type, label, icon }: FilterButtonProps) => h<{}>(ElButton, {
     class: 'filter-item',
     type,
     icon: `el-icon-${icon}`,

@@ -48,7 +48,7 @@ const operationButton = (props: OperationButtonProps) => {
         title: props.confirmTitle,
         onConfirm: props.onConfirm
     }
-    const reference = () => h(ElButton, {
+    const reference = () => h<{}>(ElButton, {
         size: 'mini',
         type: props.buttonType,
         onClick: props.onClick,
@@ -137,7 +137,7 @@ function handleClickJump(props: Props, { host }: SiteInfo) {
 }
 
 // Jump to the trend
-const jumpTowardTheTrend = (props: Props, row: SiteInfo) => h(ElButton, {
+const jumpTowardTheTrend = (props: Props, row: SiteInfo) => h<{}>(ElButton, {
     icon: 'el-icon-stopwatch',
     size: 'mini',
     type: 'primary',

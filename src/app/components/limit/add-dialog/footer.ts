@@ -2,7 +2,7 @@ import { ElButton } from "element-plus"
 import { defineComponent, h, SetupContext } from "vue"
 import { t } from "../../../locale"
 
-const saveButton = (onClick: () => void) => h(ElButton,
+const saveButton = (onClick: () => void) => h<{}>(ElButton,
     {
         onClick,
         type: 'primary',

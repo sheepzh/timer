@@ -1,5 +1,5 @@
 import { defineComponent, h, onMounted, ref, Ref } from "vue"
-import { ElMenu, ElMenuItem, ElSubmenu } from "element-plus"
+import { ElMenu, ElMenuItem, ElSubMenu } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "../locale"
 import { MenuMessage } from "../locale/components/menu"
@@ -88,7 +88,7 @@ const renderMenu = (menu: MenuItem) => {
         title: () => [h('i', { class: `el-icon-${menu.icon}` }), h('span', t(msg => msg.menu[menu.title]))],
         default: () => menu.children.map(renderMenuLeaf)
     }
-    return h(ElSubmenu, subMenuProps, subMenuSlots)
+    return h(ElSubMenu, subMenuProps, subMenuSlots)
 }
 
 const menuItems = () => ALL_MENU.map(renderMenu)

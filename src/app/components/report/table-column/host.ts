@@ -45,7 +45,7 @@ const hostColSlots = (props: HostColumnProps, row: SiteInfo) => {
     const tooltipContent = () => h('div', { style: 'margin: 10px' }, originLinks)
     const slots = { default: tooltipInner, content: tooltipContent }
 
-    return h(ElTooltip, toolTipProp, slots)
+    return h<{}>(ElTooltip, toolTipProp, slots)
 }
 const hostCol = (props: HostColumnProps) => h(ElTableColumn, hostColProp, { default: ({ row }: { row: SiteInfo }) => hostColSlots(props, row) })
 

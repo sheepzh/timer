@@ -31,7 +31,7 @@ const renderButtons = (row: TimeLimitItem, queryData: QueryData) => {
         icon: 'el-icon-delete',
         onClick: () => handleDelete(row.cond, queryData)
     }
-    const deleteButton = h(ElButton, deleteProps, () => t(msg => msg.limit.button.delete))
+    const deleteButton = h<{}>(ElButton, deleteProps, () => t(msg => msg.limit.button.delete))
     return [deleteButton]
 }
 

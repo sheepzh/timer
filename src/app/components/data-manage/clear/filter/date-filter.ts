@@ -42,7 +42,7 @@ const basePickerProps = {
     rangeSeparator: '-'
 }
 
-const picker = ({ dateRangeRef }: DateFilterProps) => h(ElDatePicker, {
+const picker = ({ dateRangeRef }: DateFilterProps) => h<{}>(ElDatePicker, {
     modelValue: dateRangeRef.value,
     "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
     ...basePickerProps
