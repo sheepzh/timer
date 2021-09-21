@@ -1,12 +1,14 @@
+import { formatTime } from "../../util/time"
 import TimerContext from "./context"
 
 function listen(context: TimerContext, newState: chrome.idle.IdleState) {
-    if (newState !== 'active') {
-        // If not active then pause
-        context.pause()
-    } else {
-        // Or resume
+    if (newState === 'active') {
         context.resume()
+    } else if (newState === 'locked') {
+        // If locked then pause
+        context.pause()
+    } else if (newState === 'idle') {
+        // do nothing
     }
 }
 
