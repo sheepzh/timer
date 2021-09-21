@@ -126,7 +126,7 @@ const getAxias = (format: string) => {
 const updateXAxis = () => {
     const xAxis: EChartOption.XAxis = options.xAxis as EChartOption.XAxis
     const host = domainRef.value.host
-    if (!host || dateRangeRef.value.length !== 2) {
+    if (!host || !dateRangeRef.value || dateRangeRef.value.length !== 2) {
         xAxis.data = []
     }
     xAxis.data = getAxias('{m}/{d}')
