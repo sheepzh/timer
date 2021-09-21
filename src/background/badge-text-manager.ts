@@ -15,7 +15,6 @@ function mill2Str(milliseconds: number) {
 }
 
 function setBadgeText(milliseconds: number | undefined) {
-    console.log('mills', milliseconds)
     const text = milliseconds === undefined ? '' : mill2Str(milliseconds)
     chrome.browserAction
         && chrome.browserAction.setBadgeText
