@@ -6,6 +6,7 @@ import { t } from "../../../locale"
 import { renderHeader, renderOptionItem, tagText } from "../common"
 
 const optionRef: Ref<Timer.StatisticsOption> = ref(defaultStatistics())
+optionService.getAllOption().then(option => optionRef.value = option)
 
 function updateOptionVal(key: keyof Timer.StatisticsOption, newVal: boolean) {
     const value = optionRef.value
