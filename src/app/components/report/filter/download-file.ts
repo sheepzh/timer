@@ -62,7 +62,7 @@ const exportFile = (props: _Props, format: FileFormat) => {
     format === 'csv' && exportCsv(generateCsvData(rows, props.mergeDateRef.value), fileName)
 }
 
-const dropButton = () => h(ElButton,
+const dropButton = () => h<{}>(ElButton,
     { size: 'mini', class: 'export-dropdown-button' },
     () => h('i', { class: 'el-icon-download export-dropdown-menu-icon' })
 )

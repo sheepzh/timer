@@ -25,7 +25,7 @@ const resetButtonProps = {
     icon: 'el-icon-refresh'
 }
 const resetButtonMsg = () => t(msg => msg.option.resetButton)
-const renderResetButton = (handleClick: () => PromiseLike<any>) => h(ElButton, {
+const renderResetButton = (handleClick: () => PromiseLike<any>) => h<{}>(ElButton, {
     ...resetButtonProps, async onClick() {
         await handleClick()
         ElMessage.success(t(msg => msg.option.resetSuccess))

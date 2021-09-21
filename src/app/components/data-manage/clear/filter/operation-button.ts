@@ -1,5 +1,4 @@
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
-import _Button from "element-plus/lib/el-button"
 import { Ref, h } from "vue"
 import TimerDatabase, { TimerCondition } from "../../../../../database/timer-database"
 import SiteInfo from "../../../../../entity/dto/site-info"
@@ -109,7 +108,7 @@ const handleClick = async (props: _Props) => {
         }).catch(() => { })
 }
 
-const button = (props: _Props) => h(ElButton,
+const button = (props: _Props) => h<{}>(ElButton,
     {
         icon: `el-icon-${props.button.icon}`,
         type: props.button.type,

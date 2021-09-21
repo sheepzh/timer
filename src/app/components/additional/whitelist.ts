@@ -72,7 +72,7 @@ const whiteItemInput = () => h(ElInput,
     }
 )
 
-const whiteItemDisplayButton = () => h(ElButton,
+const whiteItemDisplayButton = () => h<{}>(ElButton,
     {
         size: 'small',
         class: 'button-new-tag white-item',

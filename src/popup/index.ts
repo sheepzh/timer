@@ -1,4 +1,4 @@
-import 'element-plus/lib/theme-chalk/index.css'
+import 'element-plus/theme-chalk/index.css'
 
 // Customized css after element's css
 import './style' // global css

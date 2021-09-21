@@ -105,7 +105,7 @@ const buttonProps = {
 }
 const buttonMessage = () => inputVisibleRef.value ? t(msg => msg.additional.save) : `+ ${t(msg => msg.additional.newOne)}`
 
-const inputButton = () => h(ElButton, buttonProps, buttonMessage)
+const inputButton = () => h<{}>(ElButton, buttonProps, buttonMessage)
 
 const tags = () => {
     const result = []

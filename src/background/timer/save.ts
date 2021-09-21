@@ -2,7 +2,6 @@ import limitService from "../../service/limit-service"
 import periodService from "../../service/period-service"
 import timerService from "../../service/timer-service"
 import CollectionContext from "./collection-context"
-import TimerContext from "./context"
 
 export default function save(collectionContext: CollectionContext) {
     const context = collectionContext.timerContext
@@ -14,7 +13,7 @@ export default function save(collectionContext: CollectionContext) {
         // Add period time
         periodService.add(context.lastCollectTime, focusEntry[1].focus)
         // Add limit time
-        limitService.addFocusTime(collectionContext.focusHost, this.focusUrl, focusEntry[1].focus)
+        limitService.addFocusTime(collectionContext.focusHost, collectionContext.focusUrl, focusEntry[1].focus)
     }
     context.resetTimeMap()
 }

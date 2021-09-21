@@ -52,7 +52,7 @@ const alert = () => h(ElAlert, alertProps, () => t(msg => msg.dataManage.migrati
 
 
 const exportButtonText = () => t(msg => msg.item.operation.exportWholeData)
-const exportButton = () => h(ElButton,
+const exportButton = () => h<{}>(ElButton,
     {
         ...buttonProps,
         type: 'success',
@@ -72,7 +72,7 @@ const fileInput = (queryData: any) => h('input', {
     onChange: () => handleFileSelected(queryData)
 })
 const importButtonText = (queryData: any) => [t(msg => msg.item.operation.importWholeData), fileInput(queryData)]
-const importButton = (queryData: any) => h(ElButton,
+const importButton = (queryData: any) => h<{}>(ElButton,
     {
         ...buttonProps,
         type: 'primary',
