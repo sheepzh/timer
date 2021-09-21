@@ -71,9 +71,9 @@ export default class TimerContext {
 
     isPaused(): boolean {
         if (this.idleState === 'active') {
-            return true
-        } else if (this.idleState === 'locked') {
             return false
+        } else if (this.idleState === 'locked') {
+            return true
         } else if (this.idleState === 'idle') {
             return !countWhenIdle
         }
