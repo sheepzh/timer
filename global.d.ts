@@ -35,5 +35,12 @@ declare namespace Timer {
         displayBadgeText: boolean
     }
 
-    type Option = PopupOption & AppearanceOption
+    type StatisticsOption = {
+        /**
+         * Count when idle
+         */
+        countWhenIdle: boolean
+    }
+
+    type Option = PopupOption & AppearanceOption & StatisticsOption
 }

@@ -19,6 +19,12 @@ export type OptionMessage = {
         icon: string
         badgeTextContent: string
     }
+    statistics: {
+        title: string
+        countWhenIdle: string
+        idleTime: string
+        idleTimeInfo: string
+    }
     resetButton: string
     resetSuccess: string
     defaultValue: string
@@ -42,6 +48,12 @@ const _default: Messages<OptionMessage> = {
             icon: '扩展图标',
             badgeTextContent: '当前网站的今日浏览时长'
         },
+        statistics: {
+            title: '统计',
+            countWhenIdle: '{input}  是否统计 {idleTime} {info}',
+            idleTime: '休眠时间',
+            idleTimeInfo: '长时间不操作（比如全屏观看视频），浏览器会自动进入休眠状态'
+        },
         resetButton: '恢复默认',
         resetSuccess: '成功重置为默认值',
         defaultValue: '默认值： {default}'
@@ -62,6 +74,12 @@ const _default: Messages<OptionMessage> = {
             displayBadgeText: '{input}  Whether to display {timeInfo} in {icon}',
             icon: 'the icon of extension',
             badgeTextContent: 'the browsing time of current website'
+        },
+        statistics: {
+            title: 'Statistics',
+            countWhenIdle: '{input}  Whether to count {idleTime} {info}',
+            idleTime: 'idle time',
+            idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state'
         },
         resetButton: 'Reset',
         resetSuccess: 'Reset to default successfully!',
@@ -84,6 +102,12 @@ const _default: Messages<OptionMessage> = {
             displayBadgeText: '{input}  Whether to display {timeInfo} in {icon}',
             icon: 'the icon of extension',
             badgeTextContent: 'the browsing time of current website'
+        },
+        statistics: {
+            title: '統計',
+            countWhenIdle: '{input}  Whether to count {idleTime} {info}',
+            idleTime: 'idle time',
+            idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state'
         },
         resetButton: 'リセット',
         resetSuccess: 'デフォルトに正常にリセット',

@@ -12,3 +12,9 @@ export function defaultAppearance(): Timer.AppearanceOption {
         displayBadgeText: false
     }
 }
+
+export function defaultStatistics(): Timer.StatisticsOption {
+    return {
+        countWhenIdle: false
+    }
+}

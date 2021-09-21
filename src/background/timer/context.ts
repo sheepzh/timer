@@ -1,3 +1,5 @@
+import optionService from "../../service/option-service"
+
 export class TimeInfo {
     focus: number
     run: number
@@ -18,6 +20,14 @@ export class TimeInfo {
         this.run += another.run
     }
 }
+
+
+let countWhenIdle: boolean = false
+
+const setCountWhenIdle = (op: Timer.Option) => countWhenIdle = op.countWhenIdle
+optionService.getAllOption().then(setCountWhenIdle)
+optionService.addOptionChangeListener(setCountWhenIdle)
+
 /**
  * Context of timer
  */
@@ -30,13 +40,11 @@ export default class TimerContext {
      * The last collect time
      */
     lastCollectTime: number
-    /**
-     * Whether to time
-     */
-    private timing: boolean
+
+    private idleState: chrome.idle.IdleState
 
     constructor() {
-        this.timing = true
+        this.idleState = 'active'
         this.lastCollectTime = new Date().getTime()
         this.resetTimeMap()
     }
@@ -59,14 +67,17 @@ export default class TimerContext {
         return Object.entries(this.timeMap).find(([_host, { focus }]) => focus)
     }
 
-    /**
-     * Pause timing
-     */
-    pause() { this.timing = false }
-    /**
-     * Resume timing
-     */
-    resume() { this.timing = true }
+    setIdle(idleNow: chrome.idle.IdleState) { this.idleState = idleNow }
 
-    isPaused(): boolean { return !this.timing }
+    isPaused(): boolean {
+        if (this.idleState === 'active') {
+            return true
+        } else if (this.idleState === 'locked') {
+            return false
+        } else if (this.idleState === 'idle') {
+            return !countWhenIdle
+        }
+        // Never happen
+        return false
+    }
 }
