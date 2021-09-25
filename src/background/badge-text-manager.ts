@@ -8,9 +8,13 @@ const optionDb: OptionDatabase = new OptionDatabase(storage)
 
 function mill2Str(milliseconds: number) {
     if (milliseconds < 60000) {
+        // no more than 1 minutes
         return `${Math.round(milliseconds / 1000)}s`
-    } else {
+    } else if (milliseconds < 3600000) {
+        // no more than 1 hour
         return `${Math.round(milliseconds / 60000)}m`
+    } else {
+        return `${(milliseconds / 3600000).toFixed(1)}h`
     }
 }
 
