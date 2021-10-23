@@ -1,5 +1,5 @@
 import { h, Ref } from "vue"
-import { read as readClipboardy } from 'clipboardy'
+import clipboardy from 'clipboardy'
 import { t } from "../../../../locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import UrlPathItem from "./url-path-item"
@@ -46,7 +46,7 @@ const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathIt
         return
     }
 
-    let url = await readClipboardy(), protocol = Protocol.ALL
+    let url = await clipboardy.read(), protocol = Protocol.ALL
 
     url = decodeURI(url)
     if (url.startsWith(Protocol.HTTP)) {
