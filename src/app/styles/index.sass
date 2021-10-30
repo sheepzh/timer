@@ -1,5 +1,7 @@
+$bodyMargin: 8px
 body
   height: 100%
+  margin: $bodyMargin
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
   text-rendering: optimizeLegibility
@@ -20,11 +22,12 @@ a
   padding-top: 0 !important
   padding-left: 45px !important
 
+$appContainerPadding: 5px
 .app-container
   width: 100%
-  height: calc( 100vh - 5px )
+  height: calc(100vh - $bodyMargin - $appContainerPadding)
   margin: auto
-  padding-top: 5px
+  padding-top: $appContainerPadding
 
 .content-container
   width: calc(100% - 60px)
