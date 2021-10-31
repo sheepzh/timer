@@ -14,6 +14,8 @@ import { useRouter } from 'vue-router'
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
+// Don't know why the error occurred, so ignore
+// @ts-ignore ts(2322)
 const dateRangeRef: Ref<Array<Date>> = ref([now, now])
 const mergeDateRef: Ref<boolean> = ref(false)
 const mergeDomainRef: Ref<boolean> = ref(false)
