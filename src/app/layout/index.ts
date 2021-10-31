@@ -4,7 +4,7 @@ import Menu from './menu'
 import { RouterView } from "vue-router"
 
 const layoutContent = () => [
-    h(ElAside, () => h(Menu)),
+    h(ElAside, { width: '270px' }, () => h(Menu)),
     h(ElContainer, { class: 'app-container' }, () => h(RouterView))
 ]
 
