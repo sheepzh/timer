@@ -9,6 +9,7 @@ import generateOptions from "./chart/option"
 import filter from './filter'
 
 const periodSizeRef: Ref<string> = ref('1')
+//@ts-ignore ts(2322)
 const dateRangeRef: Ref<Date[]> = ref(daysAgo(1, 0))
 const averageRef: Ref<boolean> = ref(false)
 const periodSizeNumberRef: ComputedRef<number> = computed(() => Number.parseInt(periodSizeRef.value))

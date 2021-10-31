@@ -39,7 +39,9 @@ const options = () => [
 ]
 
 const _default = defineComponent(() => {
-    return () => h(ElCard, {}, {
+    return () => h(ElCard, {
+        shadow: 'never'
+    }, {
         header: () => renderHeader(msg => msg.appearance.title, () => optionService.setAppearanceOption(optionRef.value = defaultAppearance())),
         default: options
     })

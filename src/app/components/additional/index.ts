@@ -50,7 +50,7 @@ const headItems = () => {
 const infoHead = () => h('div', { class: 'info-head' }, [headItems()])
 
 const settingTabs = () => h(ElTabs,
-    { type: 'border-card' },
+    {},
     () => [
         h(ElTabPane, { label: t(msg => msg.additional.whitelist.label) }, () => h(Whitelist)),
         h(ElTabPane, { label: t(msg => msg.additional.merge.label) }, () => h(DomainMerge))
