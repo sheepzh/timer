@@ -28,7 +28,9 @@ const options = () => [
 ]
 
 const _default = defineComponent(() => {
-    return () => h(ElCard, {}, {
+    return () => h(ElCard, {
+        shadow: 'never'
+    }, {
         header: () => renderHeader(
             msg => msg.statistics.title,
             () => optionService.setStatisticsOption(optionRef.value = defaultStatistics())),

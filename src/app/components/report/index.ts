@@ -8,9 +8,10 @@ import './styles/element'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "./pagination"
-import { renderContentContainer } from '../common/content-container'
+import { contentContainerCardStyle, renderContentContainer } from '../common/content-container'
 import { QueryData, PaginationInfo } from '../common/constants'
 import { useRouter } from 'vue-router'
+import { ElCard } from 'element-plus'
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -103,7 +104,12 @@ const paginationProps: PaginationProps = {
     pageRef
 }
 
-const childNodes = () => [filter(filterProps), table(tableProps), pagination(paginationProps)]
+const tableCard = (tableProps: TableProps, paginationProps: PaginationProps) => h(ElCard,
+    contentContainerCardStyle,
+    () => [table(tableProps), pagination(paginationProps)]
+)
+
+const childNodes = () => [filter(filterProps), tableCard(tableProps, paginationProps)]
 
 export default defineComponent(() => {
     const router = useRouter()

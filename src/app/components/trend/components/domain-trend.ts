@@ -5,6 +5,7 @@ import { t } from "../../../locale"
 import timerService, { TimerQueryParam, SortDirect } from "../../../../service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
 import DomainOptionInfo from "../domain-option-info"
+import { contentContainerCardStyle } from "../../common/content-container"
 
 // Get the timestamp of one timestamp of date
 const timestampOf = (d: Date) => d.getTime()
@@ -183,7 +184,10 @@ const _default = defineComponent((_, context: SetupContext) => {
         renderChart()
     })
 
-    return () => h(ElCard, { class: 'chart-container-card' }, () => h('div', { class: 'chart-container', ref: chartRef }))
+    return () => h(ElCard,
+        contentContainerCardStyle,
+        () => h('div', { class: 'chart-container', ref: chartRef })
+    )
 })
 
 export default _default

@@ -15,7 +15,7 @@ const clearAlert = () => h(ElAlert,
     })
 const clearFilter = (queryData: () => Promise<void> | void) => h(Filter, { onDateChanged: queryData })
 const clearPanel = (props: _Props) => h(ElCard,
-    { bodyStyle },
+    { bodyStyle, shadow: 'never' },
     () => [clearAlert(), clearFilter(props.queryData)]
 )
 
