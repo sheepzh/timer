@@ -1,7 +1,6 @@
-$bodyMargin: 8px
 body
-  height: 100%
-  margin: $bodyMargin
+  height: calc(100vh - 8px)
+  margin: 0
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
   text-rendering: optimizeLegibility
@@ -21,13 +20,10 @@ a
 .el-main
   padding-top: 0 !important
   padding-left: 45px !important
-
-$appContainerPadding: 5px
 .app-container
   width: 100%
-  height: calc(100vh - $bodyMargin - $appContainerPadding)
+  height: calc(100vh - 13px)
   margin: auto
-  padding-top: $appContainerPadding
 
 .content-container
   width: calc(100% - 60px)
@@ -37,6 +33,10 @@ $appContainerPadding: 5px
 
 #app
   height: 100%
+  padding-top: 8px
+
+.el-container
+  height: calc(100% - 8px)
 
 .filter-container
   padding-bottom: 10px
@@ -83,3 +83,6 @@ $appContainerPadding: 5px
   .chart-container
     width: 100%
     height: 600px
+
+.el-menu
+  height: 100%
