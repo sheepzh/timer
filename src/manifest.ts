@@ -6,6 +6,7 @@
  */
 // @ts-ignore
 import packageInfo from '../package.json'
+import { OPTION_ROUTE } from './app/router/constants'
 const { version, author, homepage } = packageInfo as any
 export default {
   name: '__MSG_app_marketName__',
@@ -55,5 +56,9 @@ export default {
   browser_action: {
     default_popup: "static/popup.html",
     default_icon: "static/images/icon.png"
-  }
+  },
+  /**
+   * @since 0.4.0
+   */
+  options_page: 'static/app.html#' + OPTION_ROUTE
 }
