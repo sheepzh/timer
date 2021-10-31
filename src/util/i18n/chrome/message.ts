@@ -49,7 +49,8 @@ const placeholder: ChromeMessage = {
         add2Whitelist: '',
         removeFromWhitelist: '',
         allFunctions: '',
-        optionPage: ''
+        optionPage: '',
+        repoPage: ''
     }
 }
 

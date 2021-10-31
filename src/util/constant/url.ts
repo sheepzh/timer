@@ -15,6 +15,11 @@ if (IS_FIREFOX) {
 export const HOME_PAGE = homePage
 
 /**
+ * @since 0.4.0
+ */
+export const SOURCE_CODE_PAGE = 'https://github.com/sheepzh/timer'
+
+/**
  * @since 0.0.6
  */
 export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
@@ -30,7 +35,7 @@ export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
  * The page of extension detail
  * @since 0.1.8
  */
-let updatePage = 'https://github.com/sheepzh/timer'
+let updatePage = SOURCE_CODE_PAGE
 
 if (IS_CHROME) {
     updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
