@@ -51,10 +51,10 @@ const memoryInfo = (props: _Props) => {
     else if (percentage < 75) typeColor = '#E6A23C'
     // Specially, show warning color if not detect the max memory
     if (!total) typeColor = '#E6A23C'
-    return h(ElCard, {
-        bodyStyle,
-        // shadow: 'never'
-    }, () => [memoryAlert(totalMb), memoryProgress(percentage, typeColor), usedAlert(usedMb, typeColor)])
+    return h(ElCard,
+        { bodyStyle },
+        () => [memoryAlert(totalMb), memoryProgress(percentage, typeColor), usedAlert(usedMb, typeColor)]
+    )
 }
 
 export default memoryInfo

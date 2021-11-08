@@ -7,7 +7,4 @@ export function renderContentContainer(childNodes: () => VNode[] | VNode): () =>
     return () => h('div', { class: 'content-container' }, childNodes())
 }
 
-export const contentContainerCardStyle = {
-    class: 'container-card',
-    // shadow: 'never'
-}
+export const contentContainerCardStyle = { class: 'container-card' }

@@ -93,8 +93,8 @@ const buttonContainer = (queryData: () => void | Promise<void>) => h(ElMain,
 )
 
 export default (props: _Props) => {
-    return h(ElCard, {
-        bodyStyle,
-        // shadow: 'never'
-    }, () => buttonContainer(props.queryData))
+    return h(ElCard,
+        { bodyStyle },
+        () => buttonContainer(props.queryData)
+    )
 }
