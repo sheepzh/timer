@@ -53,7 +53,7 @@ const memoryInfo = (props: _Props) => {
     if (!total) typeColor = '#E6A23C'
     return h(ElCard, {
         bodyStyle,
-        shadow: 'never'
+        // shadow: 'never'
     }, () => [memoryAlert(totalMb), memoryProgress(percentage, typeColor), usedAlert(usedMb, typeColor)])
 }
 
