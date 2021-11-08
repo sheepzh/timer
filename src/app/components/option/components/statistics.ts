@@ -29,7 +29,6 @@ const options = () => [
 
 const _default = defineComponent(() => {
     return () => h(ElCard, {
-        // shadow: 'never'
     }, {
         header: () => renderHeader(
             msg => msg.statistics.title,
