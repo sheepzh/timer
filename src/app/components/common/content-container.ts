@@ -9,5 +9,5 @@ export function renderContentContainer(childNodes: () => VNode[] | VNode): () =>
 
 export const contentContainerCardStyle = {
     class: 'container-card',
-    shadow: 'never'
+    // shadow: 'never'
 }

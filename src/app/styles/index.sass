@@ -1,5 +1,5 @@
 body
-  height: calc(100vh - 8px)
+  height: 100vh
   margin: 0
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
@@ -20,26 +20,27 @@ a
 .el-main
   padding-top: 0 !important
   padding-left: 45px !important
+.el-aside
+  width: 240px
+
 .app-container
   width: 100%
-  height: calc(100vh - 13px)
   margin: auto
 
 .content-container
+  margin-top: 30px
   width: calc(100% - 60px)
-  height: 100%
+  height: calc(100% - 30px)
   padding: 0 30px
-  padding-bottom: 10px
+  overflow-y: auto
 
 #app
   height: 100%
-  padding-top: 8px
 
 .el-container
-  height: calc(100% - 8px)
+  height: 100%
 
 .filter-container
-  padding-bottom: 10px
   user-select: none
 
 .filter-name
@@ -79,10 +80,33 @@ a
 // charts
 
 .container-card
-  margin-top: 20px
+  margin-top: 15px
   .chart-container
     width: 100%
     height: 600px
 
 .el-menu
   height: 100%
+
+.el-menu
+  background: rgb(29, 34, 45)
+  border: none
+  padding-top: 10px
+
+.el-menu-item
+  height: 48px
+  line-height: 44px
+  font-size: 14px
+  color: #c1c6c8
+  font-family: Roboto,San Francisco,Helvetica Neue,Helvetica,Arial,PingFangSC-Light,Hiragina Sans GB,WenQuanYi Micro Hei,microsoft yahei ui,microsoft yahei,sans-serif
+
+.el-menu-item [class^=el-icon-]
+  font-size: 16px
+  line-height: 44px
+
+.el-menu-item.is-active
+  color: #c1c6c8
+  background: #0a6cfa
+
+.el-menu-item:hover
+  background: #262f3e
