@@ -8,7 +8,7 @@
 import packageInfo from '../package.json'
 import { OPTION_ROUTE } from './app/router/constants'
 const { version, author, homepage } = packageInfo as any
-export default {
+const _default: chrome.runtime.ManifestV2 = {
   name: '__MSG_app_marketName__',
   description: "__MSG_app_description__",
   version,
@@ -62,3 +62,5 @@ export default {
    */
   options_page: 'static/app.html#' + OPTION_ROUTE
 }
+
+export default _default
