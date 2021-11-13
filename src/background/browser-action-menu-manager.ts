@@ -31,8 +31,6 @@ const repoPageProps: chrome.contextMenus.CreateProperties = {
     ...baseProps
 }
 
-console.log(navigator.userAgent, IS_FIREFOX)
-
 function init() {
     chrome.contextMenus.create(allFunctionProps)
     chrome.contextMenus.create(repoPageProps)

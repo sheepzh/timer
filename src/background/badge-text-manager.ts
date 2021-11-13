@@ -20,9 +20,7 @@ function mill2Str(milliseconds: number) {
 
 function setBadgeText(milliseconds: number | undefined) {
     const text = milliseconds === undefined ? '' : mill2Str(milliseconds)
-    chrome.browserAction
-        && chrome.browserAction.setBadgeText
-        && chrome.browserAction.setBadgeText({ text })
+    chrome.browserAction?.setBadgeText?.({ text })
 }
 
 async function findActiveHost(): Promise<string> {

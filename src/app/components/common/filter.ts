@@ -30,7 +30,7 @@ export const inputFilterItem = (modelValue: Ref<string>, placeholder: _I18nKey, 
         clearable: true,
         onClear: () => modelValue.value = '',
         onInput: (val: string) => modelValue.value = val.trim(),
-        onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && queryData && queryData()
+        onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && queryData?.()
     }
 )
 
@@ -42,7 +42,7 @@ const elSwitch = (modelValue: Ref<boolean>, queryData?: QueryData) => h(ElSwitch
         modelValue: modelValue.value,
         onChange: (val: boolean) => {
             modelValue.value = val
-            queryData && queryData()
+            queryData?.()
         }
     }
 )
