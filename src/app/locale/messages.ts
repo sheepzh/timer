@@ -1,5 +1,4 @@
 import { Messages } from '../../util/i18n'
-import chromeBase from '../../util/i18n/components/app'
 import itemMessages, { ItemMessage } from '../../util/i18n/components/item'
 import dataManageMessages, { DataManageMessage } from './components/data-manage'
 import additionalMessages, { AdditionalMessage } from './components/additional'
@@ -11,9 +10,6 @@ import limitMessages, { LimitMessage } from './components/limit'
 import optionMessages, { OptionMessage } from './components/option'
 
 export type AppMessage = {
-    app: {
-        currentVersion: string
-    }
     dataManage: DataManageMessage
     item: ItemMessage
     report: ReportMessage
@@ -27,7 +23,6 @@ export type AppMessage = {
 
 const _default: Messages<AppMessage> = {
     zh_CN: {
-        app: { currentVersion: chromeBase.zh_CN.currentVersion },
         dataManage: dataManageMessages.zh_CN,
         item: itemMessages.zh_CN,
         report: reportMessages.zh_CN,
@@ -39,7 +34,6 @@ const _default: Messages<AppMessage> = {
         limit: limitMessages.zh_CN
     },
     en: {
-        app: { currentVersion: chromeBase.en.currentVersion },
         dataManage: dataManageMessages.en,
         item: itemMessages.en,
         report: reportMessages.en,
@@ -51,7 +45,6 @@ const _default: Messages<AppMessage> = {
         limit: limitMessages.en
     },
     ja: {
-        app: { currentVersion: chromeBase.ja.currentVersion },
         dataManage: dataManageMessages.ja,
         item: itemMessages.ja,
         report: reportMessages.ja,

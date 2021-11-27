@@ -4,7 +4,6 @@ import { locale, t } from "../../locale"
 import { HOME_PAGE, GITHUB_ISSUE_ADD, ZH_FEEDBACK_PAGE } from '../../../util/constant/url'
 import Whitelist from './whitelist'
 import DomainMerge from './domain-merge'
-import { version } from '../../../../package.json'
 import './style'
 import { renderContentContainer } from "../common/content-container"
 import { Locale } from "../../../util/i18n"
@@ -22,7 +21,6 @@ const headItems = () => {
         size: 'small'
         type: 'info'
     } = { size: 'small', type: 'info' }
-    result.push(h(ElTag, { ...commonProps, class: 'info-item' }, () => t(msg => msg.app.currentVersion, { version })))
     if (HOME_PAGE && HOME_PAGE !== '') {
         result.push(
             h(ElTag,
