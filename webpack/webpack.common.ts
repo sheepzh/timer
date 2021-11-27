@@ -55,8 +55,8 @@ const staticOptions = {
     }
 }
 
-const optionGenerator = (outputPath: string, manifestHooker?: (config: webpack.Configuration) => void) => {
-    manifestHooker && manifestHooker(manifest)
+const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.runtime.ManifestV2) => void) => {
+    manifestHooker?.(manifest)
     const plugins = [
         ...generateJsonPlugins,
         // copy static resources
