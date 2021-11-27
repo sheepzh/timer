@@ -1,4 +1,4 @@
-import { ElButton, ElInput, ElSwitch } from "element-plus"
+import { ElButton, ElCard, ElInput, ElSwitch } from "element-plus"
 import { h, Ref, VNode } from "vue"
 import { I18nKey, t } from "../../locale"
 import { QueryData } from "./constants"
@@ -8,10 +8,9 @@ import { QueryData } from "./constants"
  */
 export function renderFilterContainer<Props>(childNodes: (props: Props) => VNode[]): (props: Props) => VNode {
     //  The container render function
-    return (props: Props) => h(
-        'div',
-        { class: 'filter-container' },
-        childNodes(props)
+    return (props: Props) => h(ElCard,
+        { bodyStyle: { paddingBottom: '10px', paddingTop: '18px' } },
+        () => childNodes(props)
     )
 }
 
