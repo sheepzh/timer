@@ -43,19 +43,25 @@ function link2Setup(url: string): HTMLParagraphElement {
 }
 
 function moreMinutes(url: string, limitedRules: TimeLimitItem[]): HTMLParagraphElement {
-    const link = document.createElement('a')
-    Object.assign(link.style, linkStyle)
-    link.setAttribute('href', 'javascript:void(0)')
-    const text = t2Chrome(msg => msg.message.more5Minutes)
-    link.innerText = text
-    link.onclick = async () => {
-        await limitService.moreMinutes(url, limitedRules)
-        mask.remove()
-        document.body.style.overflow = ''
-    }
     const p = document.createElement('p')
     p.style.marginTop = '100px'
-    p.append(link)
+    const canDelayRules = limitedRules.filter(r => r.allowDelay)
+
+    if (canDelayRules && canDelayRules.length) {
+        // Only delay-allowed rules exist, can delay
+        // @since 0.4.0
+        const link = document.createElement('a')
+        Object.assign(link.style, linkStyle)
+        link.setAttribute('href', 'javascript:void(0)')
+        const text = t2Chrome(msg => msg.message.more5Minutes)
+        link.innerText = text
+        link.onclick = async () => {
+            await limitService.moreMinutes(url, canDelayRules)
+            mask.remove()
+            document.body.style.overflow = ''
+        }
+        p.append(link)
+    }
     return p
 }
 

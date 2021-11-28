@@ -10,7 +10,8 @@ describe('archived-database', () => {
         const toAdd: TimeLimit = {
             cond: '123',
             time: 20,
-            enabled: true
+            enabled: true,
+            allowDelay: false
         }
         await db.save(toAdd)
         let all: TimeLimit[] = await db.all()
@@ -19,7 +20,8 @@ describe('archived-database', () => {
         const toRewrite = {
             cond: '123',
             time: 21,
-            enabled: true
+            enabled: true,
+            allowDelay: false
         }
         // Not rewrite
         await db.save(toRewrite)

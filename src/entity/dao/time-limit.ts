@@ -8,6 +8,10 @@ export type TimeLimit = {
      */
     time: number
     enabled: boolean
+    /**
+     * Allow to delay 5 minutes if time over
+     */
+    allowDelay: boolean
 }
 
 export type TimeLimitInfo = TimeLimit & {

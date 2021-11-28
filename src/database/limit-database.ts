@@ -6,8 +6,8 @@ const KEY = REMAIN_WORD_PREFIX + 'LIMIT'
 
 type ItemValue = {
     /**
-        * Limited time, second
-        */
+     * Limited time, second
+     */
     t: number
     /**
      * Enabled flag
@@ -21,6 +21,11 @@ type ItemValue = {
      * Wasted time, milliseconds
      */
     w: number
+    /**
+     * Allow to delay
+     * @since 0.4.0
+     */
+    ad: boolean
 }
 
 type Item = {
@@ -32,8 +37,8 @@ function migrate(exist: Item, toMigrate: any) {
         // Not rewrite
         if (exist[cond]) return
         const itemValue: ItemValue = value as ItemValue
-        const { t, e, d, w } = itemValue
-        exist[cond] = { t: t || 0, e: !!e, d, w: w || 0 }
+        const { t, e, ad, d, w } = itemValue
+        exist[cond] = { t: t || 0, e: !!e, ad: !!ad, d, w: w || 0 }
     })
 }
 
@@ -57,7 +62,7 @@ class LimitDatabase extends BaseDatabase {
         const items = await this.getItems()
         return Object.entries(items).map(([cond, info]) => {
             const item: ItemValue = info as ItemValue
-            return { cond, time: item.t, enabled: item.e, wasteTime: item.w, latestDate: item.d } as TimeLimitInfo
+            return { cond, time: item.t, enabled: item.e, allowDelay: !!item.ad, wasteTime: item.w, latestDate: item.d } as TimeLimitInfo
         })
     }
 
@@ -67,7 +72,7 @@ class LimitDatabase extends BaseDatabase {
             // Not rewrite
             return
         }
-        items[data.cond] = { t: data.time, e: data.enabled, w: 0, d: '' }
+        items[data.cond] = { t: data.time, e: data.enabled, ad: data.allowDelay, w: 0, d: '' }
         this.update(items)
     }
 
@@ -86,6 +91,15 @@ class LimitDatabase extends BaseDatabase {
             entry.w = waste
         })
         this.update(items)
+    }
+
+    async updateDelay(cond: string, allowDelay: boolean) {
+        const items = await this.getItems()
+        if (!items[cond]) {
+            return
+        }
+        items[cond].ad = allowDelay
+        await this.update(items)
     }
 
     async importData(data: any): Promise<void> {

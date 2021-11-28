@@ -7,6 +7,8 @@ export type LimitMessage = {
         condition: string
         time: string
         enabled: string
+        delayAllowed: string
+        delayAllowedInfo: string
         waste: string
         operation: string
     },
@@ -42,6 +44,8 @@ const _default: Messages<LimitMessage> = {
             time: '每日限制时长',
             waste: '今日浏览时长',
             enabled: '是否有效',
+            delayAllowed: '再看 5 分钟',
+            delayAllowedInfo: '上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。',
             operation: '操作'
         },
         button: {
@@ -74,6 +78,8 @@ const _default: Messages<LimitMessage> = {
             time: 'Limited time per day',
             waste: 'Browsed today',
             enabled: 'Enabled',
+            delayAllowed: 'More 5 minutes',
+            delayAllowedInfo: 'Allow to delay 5 minutes temporarily if time over',
             operation: 'Operations'
         },
         button: {
@@ -106,6 +112,8 @@ const _default: Messages<LimitMessage> = {
             waste: '今日の時間を閲覧する',
             time: '1日あたりの制限',
             enabled: '有效',
+            delayAllowed: 'さらに5分間閲覧する',
+            delayAllowedInfo: '時間が経過した場合は、一時的に5分遅らせることができます',
             operation: '操作'
         },
         button: {
