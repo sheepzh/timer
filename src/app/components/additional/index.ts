@@ -1,51 +1,11 @@
-import { ElTabPane, ElTabs, ElTag } from "element-plus"
+import { ElTabPane, ElTabs } from "element-plus"
 import { defineComponent, h } from "vue"
-import { locale, t } from "../../locale"
-import { HOME_PAGE, GITHUB_ISSUE_ADD, ZH_FEEDBACK_PAGE } from '../../../util/constant/url'
+import { t } from "../../locale"
 import Whitelist from './whitelist'
 import DomainMerge from './domain-merge'
 import './style'
 import { renderContentContainer } from "../common/content-container"
-import { Locale } from "../../../util/i18n"
 
-/**
- * Use ZH_FEEDBACK_PAGE, if the locale is Chinese
- * 
- * @since 0.3.2
- */
-const realFeedbackLink: string = locale === Locale.ZH_CN ? ZH_FEEDBACK_PAGE : GITHUB_ISSUE_ADD
-
-const headItems = () => {
-    const result = []
-    const commonProps: {
-        size: 'small'
-        type: 'info'
-    } = { size: 'small', type: 'info' }
-    if (HOME_PAGE && HOME_PAGE !== '') {
-        result.push(
-            h(ElTag,
-                {
-                    ...commonProps,
-                    class: 'info-item point-item',
-                    onClick: () => window.open(HOME_PAGE, "_blank")
-                },
-                () => t(msg => msg.additional.scoreRequest))
-        )
-    }
-    result.push(
-        h(ElTag,
-            {
-                ...commonProps,
-                class: 'info-item point-item',
-                onClick: () => window.open(realFeedbackLink, "_blank")
-            },
-            () => t(msg => msg.additional.issueRequest)
-        )
-    )
-    return result
-}
-
-const infoHead = () => h('div', { class: 'info-head' }, [headItems()])
 
 const settingTabs = () => h(ElTabs,
     {},
@@ -54,4 +14,4 @@ const settingTabs = () => h(ElTabs,
         h(ElTabPane, { label: t(msg => msg.additional.merge.label) }, () => h(DomainMerge))
     ]
 )
-export default defineComponent(() => renderContentContainer(() => [infoHead(), settingTabs()]))
+export default defineComponent(() => renderContentContainer(() => [settingTabs()]))
