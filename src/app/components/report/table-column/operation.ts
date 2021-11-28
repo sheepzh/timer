@@ -112,7 +112,7 @@ const operateTheWhitelist = async (operation: Promise<any>, props: Props, succes
 
 // add 2 whitelist
 const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
-    confirmTitle: t(msg => msg.additional.whitelist.addConfirmMsg, { url: host }),
+    confirmTitle: t(msg => msg.whitelist.addConfirmMsg, { url: host }),
     buttonType: 'danger',
     buttonIcon: 'plus',
     buttonMessage: 'add2Whitelist',
@@ -121,7 +121,7 @@ const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButto
 
 // Remove from whitelist
 const removeFromWhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
-    confirmTitle: t(msg => msg.additional.whitelist.removeConfirmMsg, { url: host }),
+    confirmTitle: t(msg => msg.whitelist.removeConfirmMsg, { url: host }),
     buttonType: 'primary',
     buttonIcon: 'open',
     buttonMessage: 'removeFromWhitelist',

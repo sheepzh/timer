@@ -36,47 +36,48 @@ HOME_PAGE && OTHER_MENU_ITEMS.push({
     icon: 'sugar'
 })
 
+
 // All menu items
 const ALL_MENU: MenuGroup[] = [
     {
         title: 'data',
-        children: [
-            {
-                title: 'dataReport',
-                route: '/data/report',
-                icon: 'date'
-            }, {
-                title: 'dataHistory',
-                route: '/data/history',
-                icon: 'stopwatch'
-            }, {
-                title: 'dataClear',
-                route: '/data/manage',
-                icon: 'folder'
-            }
-        ]
+        children: [{
+            title: 'dataReport',
+            route: '/data/report',
+            icon: 'date'
+        }, {
+            title: 'dataHistory',
+            route: '/data/history',
+            icon: 'stopwatch'
+        }, {
+            title: 'dataClear',
+            route: '/data/manage',
+            icon: 'folder'
+        }]
     }, {
         title: 'behavior',
-        children: [
-            {
-                title: 'habit',
-                route: '/behavior/habit',
-                icon: 'aim'
-            }, {
-                title: 'limit',
-                route: '/behavior/limit',
-                icon: 'time'
-            }
-        ]
+        children: [{
+            title: 'habit',
+            route: '/behavior/habit',
+            icon: 'aim'
+        }, {
+            title: 'limit',
+            route: '/behavior/limit',
+            icon: 'time'
+        }]
     }, {
         title: 'additional',
         children: [{
-            title: 'additional',
-            route: '/additional',
-            icon: 'present'
+            title: 'whitelist',
+            route: '/additional/whitelist',
+            icon: 'tickets'
+        }, {
+            title: 'mergeRule',
+            route: '/additional/rule-merge',
+            icon: 'rank'
         }, {
             title: 'option',
-            route: '/option',
+            route: '/additional/option',
             icon: 'set-up'
         }]
     }, {
