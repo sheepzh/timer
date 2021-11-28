@@ -23,7 +23,7 @@ const countWhenIdle = () => h(ElSwitch, {
 const countWhenIdleTooltip = () => h(ElTooltip, {
     content: t(msg => msg.option.statistics.idleTimeInfo)
 }, {
-    default: () => h(ElIcon, { size: 15 }, h(InfoFilled))
+    default: () => h(ElIcon, { size: 15 }, () => h(InfoFilled))
 })
 
 const options = () => [
