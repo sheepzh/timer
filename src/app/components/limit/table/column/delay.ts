@@ -21,7 +21,7 @@ const headerAlert = () => h(ElTooltip, {
     content: t(msg => msg.limit.item.delayAllowedInfo),
     placement: 'top'
 }, {
-    default: () => h(ElIcon, { size: 14, style: { paddingLeft: '4px' } }, h(InfoFilled))
+    default: () => h(ElIcon, { size: 14, style: { paddingLeft: '4px' } }, () => h(InfoFilled))
 })
 
 const slots = {

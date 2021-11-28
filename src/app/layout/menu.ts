@@ -115,7 +115,7 @@ const handleClick = (menuItem: MenuItem) => {
 }
 
 const iconStyle: Partial<CSSStyleDeclaration> = {
-    paddingRight: '9px',
+    paddingRight: '4px',
     paddingLeft: '4px',
     height: '1em',
     lineHeight: '0.83em'
@@ -127,14 +127,13 @@ const renderMenuLeaf = (menu: MenuItem) => {
     route && (props.index = route)
     return h(ElMenuItem, props,
         {
-            default: () => h(ElIcon, { size: 16, style: iconStyle }, h(icon)),
+            default: () => h(ElIcon, { size: 15, style: iconStyle }, () => h(icon)),
             title: () => h('span', t(msg => msg.menu[title]))
         }
     )
 }
 
 const renderMenu = (menu: MenuGroup) => {
-
     const title = t(msg => msg.menu[menu.title])
     const subMenuSlots = {
         default: () => menu.children.map(renderMenuLeaf)

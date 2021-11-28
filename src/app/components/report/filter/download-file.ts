@@ -65,7 +65,7 @@ const exportFile = (props: _Props, format: FileFormat) => {
 
 const dropButton = () => h<{}>(ElButton,
     { size: 'mini', class: 'export-dropdown-button' },
-    () => h(ElIcon, { size: 17, style: { padding: '0 1px' } }, h(Download))
+    () => h(ElIcon, { size: 17, style: { padding: '0 1px' } }, () => h(Download))
 )
 
 const dropdownMenuItem = (format: FileFormat, props: _Props) => h(ElDropdownItem, { onClick: () => exportFile(props, format) }, () => format)

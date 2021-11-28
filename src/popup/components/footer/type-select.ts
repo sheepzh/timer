@@ -7,7 +7,6 @@ const typeSelect = document.getElementById('select-container')
 const typeSelectPopup = document.getElementById('type-select-popup')
 const typeSelectInput: HTMLInputElement = document.getElementById('type-select-input') as HTMLInputElement
 
-const arrowIcon = document.getElementById('select-arrow')
 
 const ARROW_UP = 'el-icon-arrow-up'
 const ARROW_DOWN = 'el-icon-arrow-down'
@@ -20,10 +19,6 @@ const toShowStyle: Partial<CSSStyleDeclaration> = {
 function openPopup() {
     // Show popup
     Object.assign(typeSelectPopup.style, toShowStyle)
-    // Change the icon
-    arrowIcon.classList.remove(ARROW_UP)
-    arrowIcon.classList.add(ARROW_DOWN)
-
     isOpen = true
 }
 
@@ -31,12 +26,8 @@ const toHideStyle: Partial<CSSStyleDeclaration> = {
     display: 'none'
 }
 function hidePopup() {
-    // Show popup
+    // Hide popup
     Object.assign(typeSelectPopup.style, toHideStyle)
-    // Change the icon
-    arrowIcon.classList.remove(ARROW_DOWN)
-    arrowIcon.classList.add(ARROW_UP)
-
     isOpen = false
 }
 

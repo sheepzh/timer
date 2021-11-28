@@ -30,13 +30,29 @@ type Props = {
     router: Router
 }
 
+import {
+    DefineComponent,
+    ComponentOptionsMixin as Mixin,
+    EmitsOptions,
+    VNodeProps,
+    AllowedComponentProps,
+    ComponentCustomProps
+} from "vue"
+import { Delete, Open, Plus, Stopwatch } from '@element-plus/icons'
+
+type IconPublicProps = VNodeProps & AllowedComponentProps & ComponentCustomProps
+
+type IconProps = Readonly<{} & {} & {}>
+
+type ButtonIcon = DefineComponent<{}, {}, {}, {}, {}, Mixin, Mixin, EmitsOptions, string, IconPublicProps, IconProps, {}>
+
 export type OperationButtonColumnProps = Props
 
 // Generate operationButton
 type OperationButtonProps = {
     confirmTitle: string
     buttonType: string
-    buttonIcon: string
+    buttonIcon: ButtonIcon
     buttonMessage: keyof ItemMessage['operation']
     onConfirm: () => void
     onClick?: () => void
@@ -52,7 +68,7 @@ const operationButton = (props: OperationButtonProps) => {
         size: 'mini',
         type: props.buttonType,
         onClick: props.onClick,
-        icon: `el-icon-${props.buttonIcon}`
+        icon: props.buttonIcon
     }, () => t(msg => msg.item.operation[props.buttonMessage]))
     return h(ElPopconfirm, popConfirmProps, { reference })
 }
@@ -96,7 +112,7 @@ const changeDeleteConfirmUrl = (props: Props, host: string, date: string) => {
 const deleteButton = (props: Props, row: SiteInfo) => operationButton(
     {
         buttonType: 'warning',
-        buttonIcon: 'delete',
+        buttonIcon: Delete,
         buttonMessage: 'delete',
         confirmTitle: deleteMsgRef.value,
         onConfirm: () => deleteConfirm(props, row.host, row.date),
@@ -114,7 +130,7 @@ const operateTheWhitelist = async (operation: Promise<any>, props: Props, succes
 const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
     confirmTitle: t(msg => msg.whitelist.addConfirmMsg, { url: host }),
     buttonType: 'danger',
-    buttonIcon: 'plus',
+    buttonIcon: Plus,
     buttonMessage: 'add2Whitelist',
     onConfirm: () => operateTheWhitelist(whitelistService.add(host), props, 'added2Whitelist')
 })
@@ -123,7 +139,7 @@ const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButto
 const removeFromWhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
     confirmTitle: t(msg => msg.whitelist.removeConfirmMsg, { url: host }),
     buttonType: 'primary',
-    buttonIcon: 'open',
+    buttonIcon: Open,
     buttonMessage: 'removeFromWhitelist',
     onConfirm: () => operateTheWhitelist(whitelistService.remove(host), props, 'removeFromWhitelist')
 })
@@ -138,7 +154,7 @@ function handleClickJump(props: Props, { host }: SiteInfo) {
 
 // Jump to the trend
 const jumpTowardTheTrend = (props: Props, row: SiteInfo) => h<{}>(ElButton, {
-    icon: 'el-icon-stopwatch',
+    icon: Stopwatch,
     size: 'mini',
     type: 'primary',
     onClick: () => handleClickJump(props, row)
