@@ -1,14 +1,16 @@
 import { defineComponent, h, onMounted, ref, Ref } from "vue"
-import { ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
+import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t, locale } from "../locale"
 import { Locale } from '../../util/i18n'
 import { MenuMessage } from "../locale/components/menu"
 import { GITHUB_ISSUE_ADD, HOME_PAGE, ZH_FEEDBACK_PAGE } from "../../util/constant/url"
+import { Aim, Calendar, ChatSquare, Folder, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
+import MenuIcon from "./menu-icon"
 
 declare type MenuItem = {
     title: keyof MenuMessage
-    icon: string
+    icon: MenuIcon
     route?: string
     href?: string
 }
@@ -28,12 +30,12 @@ const realFeedbackLink: string = locale === Locale.ZH_CN ? ZH_FEEDBACK_PAGE : GI
 const OTHER_MENU_ITEMS: MenuItem[] = [{
     title: 'feedback',
     href: realFeedbackLink,
-    icon: 'chat-square'
+    icon: ChatSquare
 }]
 HOME_PAGE && OTHER_MENU_ITEMS.push({
     title: 'rate',
     href: HOME_PAGE,
-    icon: 'sugar'
+    icon: Sugar
 })
 
 
@@ -44,41 +46,41 @@ const ALL_MENU: MenuGroup[] = [
         children: [{
             title: 'dataReport',
             route: '/data/report',
-            icon: 'date'
+            icon: Calendar
         }, {
             title: 'dataHistory',
             route: '/data/history',
-            icon: 'stopwatch'
+            icon: Stopwatch
         }, {
             title: 'dataClear',
             route: '/data/manage',
-            icon: 'folder'
+            icon: Folder
         }]
     }, {
         title: 'behavior',
         children: [{
             title: 'habit',
             route: '/behavior/habit',
-            icon: 'aim'
+            icon: Aim
         }, {
             title: 'limit',
             route: '/behavior/limit',
-            icon: 'time'
+            icon: Timer
         }]
     }, {
         title: 'additional',
         children: [{
             title: 'whitelist',
             route: '/additional/whitelist',
-            icon: 'tickets'
+            icon: Tickets
         }, {
             title: 'mergeRule',
             route: '/additional/rule-merge',
-            icon: 'rank'
+            icon: Rank
         }, {
             title: 'option',
             route: '/additional/option',
-            icon: 'set-up'
+            icon: SetUp
         }]
     }, {
         title: 'other',
@@ -112,13 +114,20 @@ const handleClick = (menuItem: MenuItem) => {
     }
 }
 
+const iconStyle: Partial<CSSStyleDeclaration> = {
+    paddingRight: '9px',
+    paddingLeft: '4px',
+    height: '1em',
+    lineHeight: '0.83em'
+}
+
 const renderMenuLeaf = (menu: MenuItem) => {
     const { route, title, icon } = menu
     const props: { onClick: (item: MenuItemRegistered) => void; index?: string } = { onClick: (_item) => handleClick(menu) }
     route && (props.index = route)
     return h(ElMenuItem, props,
         {
-            default: () => h('i', { class: `el-icon-${icon}` }),
+            default: () => h(ElIcon, { size: 16, style: iconStyle }, h(icon)),
             title: () => h('span', t(msg => msg.menu[title]))
         }
     )
