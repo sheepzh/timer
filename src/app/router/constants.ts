@@ -1,6 +1,6 @@
 export const TREND_ROUTE = '/data/history'
 
-export const OPTION_ROUTE = '/option'
+export const OPTION_ROUTE = '/additional/option'
 
 /**
  * Use in the app page and background script

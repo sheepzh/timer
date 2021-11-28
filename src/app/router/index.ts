@@ -34,20 +34,27 @@ const behaviorRoutes: RouteRecordRaw[] = [
     }
 ]
 
-const routes: RouteRecordRaw[] = [
-    {
-        path: '/',
-        redirect: '/data'
-    },
-    ...dataRoutes,
-    ...behaviorRoutes,
+const additionalRoutes: RouteRecordRaw[] = [
     {
         path: '/additional',
-        component: () => import('../components/additional'),
+        redirect: '/additional/whitelist'
+    }, {
+        path: '/additional/whitelist',
+        component: () => import('../components/whitelist')
+    }, {
+        path: '/additional/rule-merge',
+        component: () => import('../components/rule-merge')
     }, {
         path: OPTION_ROUTE,
         component: () => import('../components/option')
     }
+]
+
+const routes: RouteRecordRaw[] = [
+    { path: '/', redirect: '/data' },
+    ...dataRoutes,
+    ...behaviorRoutes,
+    ...additionalRoutes
 ]
 
 const router = createRouter({

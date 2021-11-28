@@ -1,6 +1,6 @@
-import { ElAlert, ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
-import { defineComponent, h, ref, Ref } from "vue"
+import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { t } from "../../locale"
+import { h, ref, Ref, VNode } from "vue"
 import whitelistService from "../../../service/whitelist-service"
 
 const whitelistRef: Ref<string[]> = ref([])
@@ -13,16 +13,16 @@ const inputValRef: Ref<string> = ref('')
 const handleInputSave = (inputValue: string) => {
     const whitelist = whitelistRef.value
     if (whitelist.includes(inputValue)) {
-        ElMessage({ type: 'warning', message: t(msg => msg.additional.whitelist.duplicateMsg) })
+        ElMessage({ type: 'warning', message: t(msg => msg.whitelist.duplicateMsg) })
         return
     }
-    const msg = t(msg => msg.additional.whitelist.addConfirmMsg, { url: inputValue })
-    const title = t(msg => msg.additional.confirmTitle)
+    const msg = t(msg => msg.whitelist.addConfirmMsg, { url: inputValue })
+    const title = t(msg => msg.whitelist.confirmTitle)
     ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
         .then(() => whitelistService.add(inputValue))
         .then(() => {
             whitelist.push(inputValue)
-            ElMessage({ type: 'success', message: t(msg => msg.additional.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.whitelist.successMsg) })
         }).catch(() => { })
 }
 
@@ -35,13 +35,13 @@ const handleInputConfirm = () => {
 }
 
 const handleClose = (whiteItem: string) => {
-    const confirmMsg = t(msg => msg.additional.whitelist.removeConfirmMsg, { url: whiteItem })
-    const confirmTitle = t(msg => msg.additional.confirmTitle)
+    const confirmMsg = t(msg => msg.whitelist.removeConfirmMsg, { url: whiteItem })
+    const confirmTitle = t(msg => msg.whitelist.confirmTitle)
     ElMessageBox
         .confirm(confirmMsg, confirmTitle, { dangerouslyUseHTMLString: true })
         .then(() => whitelistService.remove(whiteItem))
         .then(() => {
-            ElMessage({ type: 'success', message: t(msg => msg.additional.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.whitelist.successMsg) })
             const index = whitelistRef.value.indexOf(whiteItem)
             index !== -1 && whitelistRef.value.splice(index, 1)
         })
@@ -57,14 +57,12 @@ const generateTagItems = (whiteItem: string) => h(ElTag,
     () => whiteItem
 )
 
-const alertInfo = () => h(ElAlert, { type: 'success', title: t(msg => msg.additional.whitelist.infoAlert) })
-
 const whiteItemInput = () => h(ElInput,
     {
         class: 'input-new-tag white-item',
         modelValue: inputValRef.value,
         clearable: true,
-        placeholder: t(msg => msg.additional.whitelist.placeholder),
+        placeholder: t(msg => msg.whitelist.placeholder),
         onClear: () => inputValRef.value = '',
         onInput: (val: string) => inputValRef.value = val.trim(),
         onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && handleInputConfirm(),
@@ -78,15 +76,14 @@ const whiteItemDisplayButton = () => h<{}>(ElButton,
         class: 'button-new-tag white-item',
         onClick: () => inputVisibleRef.value = true
     },
-    () => `+ ${t(msg => msg.additional.newOne)}`
+    () => `+ ${t(msg => msg.whitelist.newOne)}`
 )
-const tags = () => {
+
+const tags: () => VNode[] = () => {
     const result = []
     result.push(...whitelistRef.value.map(generateTagItems))
     result.push(inputVisibleRef.value ? whiteItemInput() : whiteItemDisplayButton())
     return result
 }
 
-const _default = defineComponent(() => () => h('div', [alertInfo(), tags()]))
-
-export default _default
+export default tags
