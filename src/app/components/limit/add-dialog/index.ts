@@ -26,7 +26,7 @@ const handleSave = async (ctx: { $emit: (arg0: string) => void }) => {
         ElMessage.warning(t(msg => msg.limit.message.noTime))
         return
     }
-    const toInsert: TimeLimit = { cond: url, time: timeLimit, enabled: true }
+    const toInsert: TimeLimit = { cond: url, time: timeLimit, enabled: true, allowDelay: true }
     await db.save(toInsert)
     dialogVisibleRef.value = false
     ElMessage.success(t(msg => msg.limit.message.saved))

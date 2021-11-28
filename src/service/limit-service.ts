@@ -19,16 +19,23 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
     const today = formatTime(new Date(), DATE_FORMAT)
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
-        .map(({ cond, time, enabled, wasteTime, latestDate }) =>
-            TimeLimitItem.of(cond, time, enabled, latestDate === today ? wasteTime : 0)
+        .map(({ cond, time, enabled, wasteTime, latestDate, allowDelay }) =>
+            TimeLimitItem.of(cond, time, enabled, latestDate === today ? wasteTime : 0, allowDelay)
         )
         // If use url, then test it
         .filter(item => url ? item.matches(url) : true)
 }
 
-async function update({ cond, time, enabled }: TimeLimitItem): Promise<void> {
-    const limit: TimeLimit = { cond, time, enabled }
-    await db.save(limit, true)
+async function update({ cond, time, enabled, allowDelay }: TimeLimitItem, rewrite?: boolean): Promise<void> {
+    if (rewrite === undefined) {
+        rewrite = true
+    }
+    const limit: TimeLimit = { cond, time, enabled, allowDelay }
+    await db.save(limit, rewrite)
+}
+
+async function updateDelay(item: TimeLimitItem) {
+    await db.updateDelay(item.cond, item.allowDelay)
 }
 
 function remove(cond: string): Promise<void> {
@@ -77,6 +84,7 @@ class LimitService {
     moreMinutes = moreMinutes
     getLimited = getLimited
     update = update
+    updateDelay = updateDelay
     select = select
     remove = remove
     addFocusTime = (host: string, url: string, focusTime: number) => !this.whitelist.includes(host) && addFocusTime(url, focusTime)

@@ -9,17 +9,19 @@ export default class TimeLimitItem {
      */
     time: number
     enabled: boolean
+    allowDelay: boolean
     /**
      * Waste today, milliseconds
      */
     waste?: number
 
-    static of(cond: string, time: number, enabled?: boolean, waste?: number) {
+    static of(cond: string, time: number, enabled?: boolean, waste?: number, allowDelay?: boolean) {
         const result = new TimeLimitItem()
         result.cond = cond
         result.regular = new RegExp(`^${cond.split('*').join('.*')}`)
         result.time = time
         result.enabled = enabled === undefined ? true : enabled
+        result.allowDelay = allowDelay === undefined ? true : allowDelay
         result.waste = waste || 0
         return result
     }
