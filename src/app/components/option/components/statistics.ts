@@ -1,9 +1,10 @@
-import { ElCard, ElSwitch, ElTooltip } from "element-plus"
+import { ElCard, ElIcon, ElSwitch, ElTooltip } from "element-plus"
 import optionService from "../../../../service/option-service"
 import { defaultStatistics } from "../../../../util/constant/option"
 import { defineComponent, h, Ref, ref } from "vue"
 import { t } from "../../../locale"
 import { renderHeader, renderOptionItem, tagText } from "../common"
+import { InfoFilled } from "@element-plus/icons"
 
 const optionRef: Ref<Timer.StatisticsOption> = ref(defaultStatistics())
 optionService.getAllOption().then(option => optionRef.value = option)
@@ -19,11 +20,17 @@ const countWhenIdle = () => h(ElSwitch, {
     onChange: (newVal: boolean) => updateOptionVal('countWhenIdle', newVal)
 })
 
+const countWhenIdleTooltip = () => h(ElTooltip, {
+    content: t(msg => msg.option.statistics.idleTimeInfo)
+}, {
+    default: () => h(ElIcon, { size: 15 }, h(InfoFilled))
+})
+
 const options = () => [
     renderOptionItem({
         input: countWhenIdle(),
         idleTime: tagText(msg => msg.option.statistics.idleTime),
-        info: h(ElTooltip, { content: t(msg => msg.option.statistics.idleTimeInfo) }, { default: () => h('i', { class: 'el-icon-info' }) })
+        info: countWhenIdleTooltip()
     }, msg => msg.statistics.countWhenIdle, t(msg => msg.option.no))
 ]
 

@@ -1,4 +1,5 @@
-import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu } from "element-plus"
+import { Download } from "@element-plus/icons"
+import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { Ref, h } from "vue"
 import SiteInfo from "../../../../entity/dto/site-info"
 import { exportCsv, exportJson } from "../../../../util/file"
@@ -64,8 +65,9 @@ const exportFile = (props: _Props, format: FileFormat) => {
 
 const dropButton = () => h<{}>(ElButton,
     { size: 'mini', class: 'export-dropdown-button' },
-    () => h('i', { class: 'el-icon-download export-dropdown-menu-icon' })
+    () => h(ElIcon, { size: 17, style: { padding: '0 1px' } }, h(Download))
 )
+
 const dropdownMenuItem = (format: FileFormat, props: _Props) => h(ElDropdownItem, { onClick: () => exportFile(props, format) }, () => format)
 
 const dropdownMenu = (props: _Props) => h(ElDropdownMenu, {},
