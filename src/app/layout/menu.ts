@@ -13,6 +13,7 @@ declare type MenuItem = {
     icon: MenuIcon
     route?: string
     href?: string
+    index?: string
 }
 
 declare type MenuGroup = {
@@ -30,12 +31,14 @@ const realFeedbackLink: string = locale === Locale.ZH_CN ? ZH_FEEDBACK_PAGE : GI
 const OTHER_MENU_ITEMS: MenuItem[] = [{
     title: 'feedback',
     href: realFeedbackLink,
-    icon: ChatSquare
+    icon: ChatSquare,
+    index: '_feedback'
 }]
 HOME_PAGE && OTHER_MENU_ITEMS.push({
     title: 'rate',
     href: HOME_PAGE,
-    icon: Sugar
+    icon: Sugar,
+    index: '_rate'
 })
 
 
@@ -122,9 +125,12 @@ const iconStyle: Partial<CSSStyleDeclaration> = {
 }
 
 const renderMenuLeaf = (menu: MenuItem) => {
-    const { route, title, icon } = menu
-    const props: { onClick: (item: MenuItemRegistered) => void; index?: string } = { onClick: (_item) => handleClick(menu) }
-    route && (props.index = route)
+    const { route, title, icon, index } = menu
+    const props: { onClick: (item: MenuItemRegistered) => void; index?: string } = {
+        onClick: (_item) => handleClick(menu)
+    }
+    const realIndex = index || route
+    realIndex && (props.index = realIndex)
     return h(ElMenuItem, props,
         {
             default: () => h(ElIcon, { size: 15, style: iconStyle }, () => h(icon)),
