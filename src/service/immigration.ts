@@ -9,6 +9,7 @@ import PeriodDatabase from '../database/period-database'
 import RouterDatabase from '../database/router-database'
 import TimerDatabase from '../database/timer-database'
 import WhitelistDatabase from '../database/whitelist-database'
+import DomainAliasDatabase from '../database/domain-alias-database'
 
 type MetaInfo = {
     version: string
@@ -28,7 +29,8 @@ function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
         new LimitDatabase(storage),
         new MergeRuleDatabase(storage),
         new WhitelistDatabase(storage),
-        new RouterDatabase(storage)
+        new RouterDatabase(storage),
+        new DomainAliasDatabase(storage)
     ]
 
     return result

@@ -1,9 +1,24 @@
+import { DomainSource } from "../entity/dto/domain-alias"
+import DomainAliasDatabase from "../database/domain-alias-database"
 import IconUrlDatabase from "../database/icon-url-database"
 import { IS_CHROME } from "../util/constant/environment"
 import { iconUrlOfBrowser } from "../util/constant/url"
-import { extractHostname } from "../util/pattern"
+import { extractHostname, isHomepage } from "../util/pattern"
 
 const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
+const domainAliasDatabase = new DomainAliasDatabase(chrome.storage.local)
+
+function detectAlias(domain: string, tab: chrome.tabs.Tab) {
+    let title = tab.title
+    if (!title) return
+    if (title.includes('-')) {
+        title = title.split('-').map(a => a.trim()).sort((a, b) => a.length - b.length)[0]
+    }
+    if (title.includes('|')) {
+        title = title.split('|').map(a => a.trim()).sort((a, b) => a.length - b.length)[0]
+    }
+    domainAliasDatabase.update({ name: title, domain, source: DomainSource.DETECTED })
+}
 
 /**
  * Process the tab
@@ -21,6 +36,8 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     IS_CHROME && /^localhost(:.+)?/.test(domain) && (favIconUrl = undefined)
     const iconUrl = favIconUrl || await iconUrlOfBrowser(protocol, domain)
     iconUrlDatabase.put(domain, iconUrl)
+
+    isHomepage(url) && detectAlias(domain, tab)
 }
 
 /**
@@ -41,8 +58,8 @@ function listen() {
 /**
  * Collect the favicon of host
  */
-class IconUrlCollector {
+class IconAndAliasCollector {
     listen = listen
 }
 
-export default IconUrlCollector
+export default IconAndAliasCollector
