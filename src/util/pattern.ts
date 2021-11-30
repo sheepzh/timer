@@ -80,3 +80,26 @@ export function extractHostname(url: string): HostInfo {
     return { host, protocol }
 }
 
+/**
+ * Judge whether homepage 
+ * e.g.
+ *  1. https://baidu.com/  =  true
+ *  2. http://baidu.com    =  true
+ *  3. www.baidu.com       =  true
+ *  4. https://baidu.com/a =  false
+ *  5. http://qq.com?a=1   =  false
+ * 
+ * @since 0.4.1
+ */
+export function isHomepage(url: string) {
+    if (url.includes('?')) {
+        return false
+    }
+    const indexOfDoubleSlashes = url.indexOf("//")
+    let hostStr = url
+    if (indexOfDoubleSlashes > -1) {
+        hostStr = url.substr(indexOfDoubleSlashes + 2)
+    }
+    const indexOfSlash = hostStr.indexOf("/")
+    return indexOfSlash < 0 || indexOfSlash === hostStr.length - 1
+}

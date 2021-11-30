@@ -1,4 +1,4 @@
-import { extractHostname, isBrowserUrl, isIpAndPort, isValidMergeOriginHost } from "../../src/util/pattern"
+import { extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidMergeOriginHost } from "../../src/util/pattern"
 
 test('browser url', () => {
     // chrome
@@ -40,4 +40,16 @@ test("url", () => {
     expect(extractHostname('http://localhost:8087/')).toEqual({ host: 'localhost:8087', protocol: 'http' })
     expect(extractHostname('http://localhost:8087/?123=123')).toEqual({ host: 'localhost:8087', protocol: 'http' })
     expect(extractHostname('localhost:8087/?123=123')).toEqual({ host: 'localhost:8087', protocol: '' })
+})
+
+test("homepage", () => {
+    expect(isHomepage("http://baidu.com")).toBeTruthy()
+    expect(isHomepage("http://baidu.com/")).toBeTruthy()
+    expect(isHomepage("https://baidu.com/")).toBeTruthy()
+    expect(isHomepage("baidu.com/")).toBeTruthy()
+
+    expect(isHomepage("baidu.com/a")).toBeFalsy()
+    expect(isHomepage("https://baidu.com/a")).toBeFalsy()
+    expect(isHomepage("https://baidu.com/a?a=2")).toBeFalsy()
+    expect(isHomepage("https://baidu.com?a=2")).toBeFalsy()
 })

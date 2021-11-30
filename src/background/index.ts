@@ -1,7 +1,7 @@
 import { openLog } from '../common/logger'
 import WhitelistMenuManager from './whitelist-menu-manager'
 import BrowserActionMenuManager from './browser-action-menu-manager'
-import IconUrlCollector from './icon-url-collector'
+import IconAndAliasCollector from './icon-and-alias-collector'
 import MessageListener from './message-listener'
 import Timer from './timer'
 import VersionManager from './version-manager'
@@ -14,8 +14,8 @@ openLog()
 // Start the timer
 new Timer().start()
 
-// Collect the icon url
-new IconUrlCollector().listen()
+// Collect the icon url and title
+new IconAndAliasCollector().listen()
 
 // Message listener
 new MessageListener().listen()

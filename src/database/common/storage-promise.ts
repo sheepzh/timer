@@ -12,8 +12,24 @@ export default class StoragePromise {
         return new Promise(resolve => this.storage.get(keys, resolve))
     }
 
+    /**
+     * @since 0.4.1
+     */
+    async getOne(key: string): Promise<any | undefined> {
+        return (await this.get(key))[key]
+    }
+
     set(obj: Object): Promise<void> {
         return new Promise<void>(resolve => this.storage.set(obj, resolve))
+    }
+
+    /**
+     * @since 0.4.1
+     */
+    put(key: string, val: Object): Promise<void> {
+        const toUpdate = {}
+        toUpdate[key] = val
+        return this.set(toUpdate)
     }
 
     remove(key: string | string[]): Promise<void> {
