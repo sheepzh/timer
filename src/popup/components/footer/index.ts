@@ -2,7 +2,6 @@ import initTypeSelect, { getSelectedType } from './type-select'
 import initMergeDomain, { mergedDomain } from './merge-domain'
 
 // Links
-import './feedback'
 import './all-function'
 import './upgrade'
 import './meat'

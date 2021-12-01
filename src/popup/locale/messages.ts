@@ -12,7 +12,6 @@ export type PopupMessage = {
     totalTime: string
     totalCount: string
     otherLabel: string
-    feedback: String
     updateVersion: string
     updateVersionInfo: string
     currentVersion: string
@@ -24,14 +23,13 @@ const _default: Messages<PopupMessage> = {
     zh_CN: {
         title: '今日数据',
         mergeDomainLabel: '合并子域名',
-        viewMore: '更多内容',
+        viewMore: '所有功能',
         fileName: '上网时长清单_{today}_by_{app}',
         saveAsImageTitle: '保存',
         restoreTitle: '刷新',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
         otherLabel: '其他',
-        feedback: '使用反馈',
         updateVersion: '版本升级',
         updateVersionInfo: '最新版本：{version}',
         currentVersion: chromeBase.zh_CN.currentVersion,
@@ -48,7 +46,6 @@ const _default: Messages<PopupMessage> = {
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
         otherLabel: 'Others',
-        feedback: 'Feedback',
         updateVersion: 'Updatable',
         updateVersionInfo: 'Latest: {version}',
         currentVersion: chromeBase.en.currentVersion,
@@ -65,7 +62,6 @@ const _default: Messages<PopupMessage> = {
         totalTime: '合計 {totalTime}',
         totalCount: '合計 {totalCount} 回',
         otherLabel: 'その他',
-        feedback: 'フィードバック',
         updateVersion: '更新',
         updateVersionInfo: '最新バージョン：{version}',
         currentVersion: chromeBase.ja.currentVersion,
