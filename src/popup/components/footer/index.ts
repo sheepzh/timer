@@ -8,7 +8,7 @@ import './upgrade'
 import './meat'
 
 import './total-info'
-import timerService, { SortDirect, TimerQueryParam } from '../../../service/timer-service'
+import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from '../../../service/timer-service'
 import SiteInfo from '../../../entity/dto/site-info'
 import { t } from '../../locale'
 import { QueryResult } from '../../popup'
@@ -47,10 +47,12 @@ const getTotalInfo = (data: SiteInfo[], type: Timer.SiteItem) => {
     }
 }
 
+const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: true, alias: true }
+
 async function query() {
     const itemCount = (await optionService.getAllOption()).popupMax
     const queryParam = getQueryParam()
-    const rows = await timerService.select(queryParam, true)
+    const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
     const result = []
     const other: SiteInfo = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
     for (let i = 0; i < rows.length; i++) {
@@ -72,7 +74,7 @@ async function query() {
         type
     }
     updateTotal(getTotalInfo(data, type))
-    afterQuery && afterQuery(queryResult)
+    afterQuery?.(queryResult)
 }
 
 query()

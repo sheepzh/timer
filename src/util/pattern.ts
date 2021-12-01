@@ -92,7 +92,7 @@ export function extractHostname(url: string): HostInfo {
  * @since 0.4.1
  */
 export function isHomepage(url: string) {
-    if (url.includes('?')) {
+    if (url.includes('?') || url.includes('#')) {
         return false
     }
     const indexOfDoubleSlashes = url.indexOf("//")

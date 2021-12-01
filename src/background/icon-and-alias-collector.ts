@@ -3,13 +3,18 @@ import DomainAliasDatabase from "../database/domain-alias-database"
 import IconUrlDatabase from "../database/icon-url-database"
 import { IS_CHROME } from "../util/constant/environment"
 import { iconUrlOfBrowser } from "../util/constant/url"
-import { extractHostname, isHomepage } from "../util/pattern"
+import { extractHostname, isBrowserUrl, isHomepage } from "../util/pattern"
 
 const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
 const domainAliasDatabase = new DomainAliasDatabase(chrome.storage.local)
 
+function isUrl(title: string) {
+    return title.startsWith('https://') || title.startsWith('http://') || title.startsWith('ftp://')
+}
+
 function detectAlias(domain: string, tab: chrome.tabs.Tab) {
     let title = tab.title
+    if (isUrl(title)) return
     if (!title) return
     if (title.includes('-')) {
         title = title.split('-').map(a => a.trim()).sort((a, b) => a.length - b.length)[0]
@@ -27,6 +32,7 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     if (!tab) return
     const url = tab.url
     if (!url) return
+    if (isBrowserUrl(url)) return
     const hostInfo = extractHostname(url)
     const domain = hostInfo.host
     const protocol = hostInfo.protocol

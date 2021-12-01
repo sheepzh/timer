@@ -7,9 +7,6 @@ const typeSelect = document.getElementById('select-container')
 const typeSelectPopup = document.getElementById('type-select-popup')
 const typeSelectInput: HTMLInputElement = document.getElementById('type-select-input') as HTMLInputElement
 
-
-const ARROW_UP = 'el-icon-arrow-up'
-const ARROW_DOWN = 'el-icon-arrow-down'
 let isOpen = false
 
 const toShowStyle: Partial<CSSStyleDeclaration> = {

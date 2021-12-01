@@ -29,6 +29,10 @@ export default class SiteInfo implements SiteItemVal {
      * Must be undefined if merged
      */
     iconUrl?: string
+    /**
+     * The alias name of this Site, always is the title of its homepage by detected
+     */
+    alias?: string
 
     constructor(key: SiteKeyVal, item?: SiteItemVal) {
         this.host = key.host

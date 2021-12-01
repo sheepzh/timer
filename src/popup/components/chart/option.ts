@@ -14,7 +14,13 @@ const LABEL_ICON_SIZE = 13
 
 const app = t(msg => msg.appName)
 
-const host2LabelStyle = (host: string) => host.split('.').join('00').split('-').join('01').split(':').join('02')
+const legend2LabelStyle = (legend: string) => {
+    const code = []
+    for (let i = 0; i < legend.length; i++) {
+        code.push(legend.charCodeAt(i).toString(36).padStart(3, '0'))
+    }
+    return code.join('')
+}
 
 const toolTipFormatter = ({ type }: QueryResult, params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[]) => {
     const format: echarts.EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
@@ -106,7 +112,7 @@ export const pieOptions = (props: QueryResult, container: HTMLDivElement) => {
         series: [{
             ...staticOptions.series[0],
             label: {
-                formatter: ({ name }) => mergeDomain || name === t(msg => msg.otherLabel) ? name : `{${host2LabelStyle(name)}|} {a|${name}}`
+                formatter: ({ name }) => mergeDomain || name === t(msg => msg.otherLabel) ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`
             }
         }],
         toolbox: staticOptions.toolbox
@@ -115,10 +121,11 @@ export const pieOptions = (props: QueryResult, container: HTMLDivElement) => {
     const series = []
     const iconRich = {}
     data.forEach(d => {
-        const { host } = d
-        legendData.push(host)
-        series.push({ name: host, value: d[type] || 0 })
-        iconRich[host2LabelStyle(host)] = {
+        const { host, alias } = d
+        const legend = alias || host
+        legendData.push(legend)
+        series.push({ name: legend, value: d[type] || 0 })
+        iconRich[legend2LabelStyle(legend)] = {
             height: LABEL_ICON_SIZE,
             width: LABEL_ICON_SIZE,
             fontSize: LABEL_ICON_SIZE,

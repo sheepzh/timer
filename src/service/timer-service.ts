@@ -8,12 +8,14 @@ import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
 import MergeRuleDatabase from '../database/merge-rule-database'
 import WastePerDay, { WasteData } from '../entity/dao/waste-per-day'
 import IconUrlDatabase from '../database/icon-url-database'
+import DomainAliasDatabase from '../database/domain-alias-database'
 
 const storage = chrome.storage.local
 
 const timerDatabase = new TimerDatabase(storage)
 const archivedDatabase = new ArchivedDatabase(storage)
 const iconUrlDatabase = new IconUrlDatabase(storage)
+const domainAliasDatabase = new DomainAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
 const whitelistDatabase = new WhitelistDatabase(storage)
 
@@ -49,6 +51,20 @@ export type TimerQueryParam = TimerCondition & {
      * 1 asc, -1 desc
      */
     sortOrder?: SortDirect
+}
+
+/**
+ * @since 0.4.1
+ */
+export type FillFlagParam = {
+    /**
+     * Whether to fill the icon url
+     */
+    iconUrl?: boolean
+    /**
+     * Whether to fill the alias
+     */
+    alias?: boolean
 }
 
 export type DomainSet = {
@@ -139,10 +155,15 @@ class TimeService {
         const hosts = siteInfos.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
         siteInfos.forEach(siteInfo => siteInfo.iconUrl = iconUrlMap[siteInfo.host])
-        return Promise.resolve()
     }
 
-    async select(param?: TimerQueryParam, needIconUrl?: boolean): Promise<SiteInfo[]> {
+    private async fillAlias(siteInfos: SiteInfo[]): Promise<void> {
+        const hosts: string[] = siteInfos.map(o => o.host)
+        const aliasMap = await domainAliasDatabase.get(...hosts)
+        siteInfos.forEach(siteInfo => siteInfo.alias = aliasMap[siteInfo.host]?.name)
+    }
+
+    async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<SiteInfo[]> {
         log("service: select:{param}", param)
 
         // Need match full host after merged
@@ -150,7 +171,7 @@ class TimeService {
         // If merged and full host
         // Then set the host blank
         // And filter them after merge
-        param.mergeDomain && param.fullHost && !(param.fullHost = false) && (fullHost = param.host) && (param.host = undefined)
+        param?.mergeDomain && param?.fullHost && !(param.fullHost = false) && (fullHost = param?.host) && (param.host = undefined)
 
         param = param || {}
         let origin = await timerDatabase.select(param as TimerCondition)
@@ -165,8 +186,11 @@ class TimeService {
         param.mergeDate && (origin = this.mergeDate(origin))
         // 2nd sort
         this.processSort(origin, param)
-        // 3rd get icon url if need
-        !param.mergeDomain && needIconUrl && await this.fillIconUrl(origin)
+        // 3rd get icon url and alias if need
+        if (!param.mergeDomain) {
+            flagParam?.iconUrl && await this.fillIconUrl(origin)
+            flagParam?.alias && await this.fillAlias(origin)
+        }
         // Filter merged domain if full host
         fullHost && (origin = origin.filter(siteInfo => siteInfo.host === fullHost))
         return origin
