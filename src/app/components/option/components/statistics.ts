@@ -1,10 +1,9 @@
-import { ElCard, ElIcon, ElSwitch, ElTooltip } from "element-plus"
+import { ElCard, ElDivider, ElSwitch } from "element-plus"
 import optionService from "../../../../service/option-service"
 import { defaultStatistics } from "../../../../util/constant/option"
 import { defineComponent, h, Ref, ref } from "vue"
 import { t } from "../../../locale"
-import { renderHeader, renderOptionItem, tagText } from "../common"
-import { InfoFilled } from "@element-plus/icons"
+import { renderHeader, renderOptionItem, tagText, tooltip } from "../common"
 
 const optionRef: Ref<Timer.StatisticsOption> = ref(defaultStatistics())
 optionService.getAllOption().then(option => optionRef.value = option)
@@ -20,18 +19,23 @@ const countWhenIdle = () => h(ElSwitch, {
     onChange: (newVal: boolean) => updateOptionVal('countWhenIdle', newVal)
 })
 
-const countWhenIdleTooltip = () => h(ElTooltip, {
-    content: t(msg => msg.option.statistics.idleTimeInfo)
-}, {
-    default: () => h(ElIcon, { size: 15 }, () => h(InfoFilled))
+const collectSiteName = () => h(ElSwitch, {
+    modelValue: optionRef.value.collectSiteName,
+    onChange: (newVal: boolean) => updateOptionVal('collectSiteName', newVal)
 })
 
 const options = () => [
     renderOptionItem({
         input: countWhenIdle(),
         idleTime: tagText(msg => msg.option.statistics.idleTime),
-        info: countWhenIdleTooltip()
-    }, msg => msg.statistics.countWhenIdle, t(msg => msg.option.no))
+        info: tooltip(msg => msg.option.statistics.idleTimeInfo)
+    }, msg => msg.statistics.countWhenIdle, t(msg => msg.option.no)),
+    h(ElDivider),
+    renderOptionItem({
+        input: collectSiteName(),
+        siteName: tagText(msg => msg.option.statistics.siteName),
+        siteNameUsage: tooltip(msg => msg.option.statistics.siteNameUsage)
+    }, msg => msg.statistics.collectSiteName, t(msg => msg.option.yes))
 ]
 
 const _default = defineComponent(() => {

@@ -17,7 +17,7 @@ const _default: Messages<ContextMenusMessage> = {
         removeFromWhitelist: '将{host}从白名单移出',
         allFunctions: '所有功能',
         optionPage: '扩展选项',
-        repoPage: '插件源码'
+        repoPage: '扩展源码'
     },
     en: {
         add2Whitelist: 'Add {host} to the whitelist',

@@ -33,8 +33,8 @@ const repoPageProps: chrome.contextMenus.CreateProperties = {
 
 function init() {
     chrome.contextMenus.create(allFunctionProps)
-    chrome.contextMenus.create(repoPageProps)
     chrome.contextMenus.create(optionPageProps)
+    chrome.contextMenus.create(repoPageProps)
 }
 
 export default init

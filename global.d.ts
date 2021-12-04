@@ -18,6 +18,13 @@ declare namespace Timer {
          * The default to display
          */
         defaultType: SiteItem
+        /**
+         * Replace the domain name with site name which is detected automatically from the title of site homepages,
+         * or modified manually by the user
+         * 
+         * @since 0.4.1
+         */
+        displaySiteName: boolean
     }
 
     type AppearanceOption = {
@@ -40,6 +47,12 @@ declare namespace Timer {
          * Count when idle
          */
         countWhenIdle: boolean
+        /**
+         * Whether to collect the site name
+         * 
+         * @since 0.4.1
+         */
+        collectSiteName: boolean
     }
 
     type Option = PopupOption & AppearanceOption & StatisticsOption
