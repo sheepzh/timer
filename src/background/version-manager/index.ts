@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import IVersionProcessor from "./i-version-processor";
-import DomainMergeInitializer from "./0-1-2/domain-merge-initializer";
+import IVersionProcessor from "./i-version-processor"
+import DomainMergeInitializer from "./0-1-2/domain-merge-initializer"
 
 /**
  * Version manager

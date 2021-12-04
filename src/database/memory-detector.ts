@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import StoragePromise from "./common/storage-promise";
+import StoragePromise from "./common/storage-promise"
 
 /**
  * User memory of this extension
