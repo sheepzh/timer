@@ -16,11 +16,13 @@ import { ElAlert } from "element-plus"
 import { t } from "../../locale"
 import { WhitelistMessage } from "../../locale/components/whitelist"
 
-const liKeys: (keyof WhitelistMessage)[] = ['infoAlert0', 'infoAlert1']
+const title = t(msg => msg.whitelist.infoAlertTitle)
 
+const liKeys: (keyof WhitelistMessage)[] = ['infoAlert0', 'infoAlert1']
+const generateList = () => liKeys.map(key => h('li', t(msg => msg.whitelist[key])))
 const alertInfo = () => h(ElAlert,
-    { type: 'info', title: t(msg => msg.whitelist.infoAlertTitle) },
-    () => liKeys.map(key => h('li', t(msg => msg.whitelist[key])))
+    { type: 'info', title },
+    generateList
 )
 
 export default alertInfo
