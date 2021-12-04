@@ -1,4 +1,11 @@
 /**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
+/**
  * Wrap the storage with promise
  */
 export default class StoragePromise {

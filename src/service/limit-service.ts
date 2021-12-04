@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { DATE_FORMAT } from "../database/common/constant"
 import LimitDatabase from "../database/limit-database"
 import WhitelistDatabase from "../database/whitelist-database"

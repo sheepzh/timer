@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { defineComponent, h, onMounted, ref, Ref } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
@@ -40,7 +47,6 @@ HOME_PAGE && OTHER_MENU_ITEMS.push({
     icon: Sugar,
     index: '_rate'
 })
-
 
 // All menu items
 const ALL_MENU: MenuGroup[] = [

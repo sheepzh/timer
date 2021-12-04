@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
 
 import { I18nKey as _I18nKey, locale as _locale, t as _t } from "../../util/i18n"
 import messages, { PopupMessage } from "./messages"

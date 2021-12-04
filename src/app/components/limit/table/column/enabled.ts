@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElSwitch, ElTableColumn } from "element-plus"
 import { h } from "vue"
 import TimeLimitItem from "../../../../../entity/dto/time-limit-item"

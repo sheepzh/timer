@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ECharts, init, use } from "echarts/core"
 import { PieChart } from 'echarts/charts'
 import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from 'echarts/components'

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElTableColumn } from "element-plus"
 import SiteInfo, { SiteItemVal } from "../../../../entity/dto/site-info"
 import { ItemMessage } from "../../../../util/i18n/components/item"

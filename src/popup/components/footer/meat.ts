@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { MEAT_URL } from "../../../util/constant/url"
 import { Locale, locale } from "../../../util/i18n"
 const nowHour = new Date().getHours()

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import OptionDatabase from "../database/option-database"
 import { defaultAppearance, defaultPopup, defaultStatistics } from "../util/constant/option"
 

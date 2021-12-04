@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import TimerDatabase from "../database/timer-database"
 import WastePerDay from "../entity/dao/waste-per-day"
 import { t2Chrome } from "../util/i18n/chrome/t"

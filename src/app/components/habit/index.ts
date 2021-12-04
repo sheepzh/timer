@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ECharts, init } from "echarts"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, watch } from "vue"
 import { MAX_PERIOD_ORDER, PeriodKey } from "../../../entity/dto/period-info"

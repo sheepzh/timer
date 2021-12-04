@@ -1,4 +1,19 @@
 /**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
+/**
+ * Copyright (c) 2017-present PanJiaChen
+ * 
+ * This function is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ * 
+ * Created by PanJiaChen on 16/11/18.
+ * @see https://github.com/PanJiaChen/vue-element-admin/blob/HEAD/src/utils/index.js
+ * 
  * Parse the time to string
  */
 export function formatTime(time: Date | string | number, cFormat?: string) {

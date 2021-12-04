@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 function checkPermission(permission: string): Promise<boolean> {
     return new Promise(
         resolve => chrome.permissions.contains({ permissions: [permission] }, (granted: boolean) => resolve(granted))

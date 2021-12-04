@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { openLog } from '../common/logger'
 import WhitelistMenuManager from './whitelist-menu-manager'
 import BrowserActionMenuManager from './browser-action-menu-manager'

@@ -1,8 +1,14 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { getLatestVersion } from "../../../api/version"
 import { version } from "../../../../package.json"
 import { t } from "../../locale"
 import { UPDATE_PAGE } from "../../../util/constant/url"
-
 
 function showUpgradeButton(latestVersion: string) {
     const upgrade = document.getElementById('upgrade-container')

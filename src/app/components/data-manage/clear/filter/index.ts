@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
 import TimerDatabase from "../../../../../database/timer-database"
 import timerService from "../../../../../service/timer-service"

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { MILLS_PER_PERIOD, MINUTES_PER_PERIOD, PeriodKey } from "./period-info"
 
 export default class PeriodResult {

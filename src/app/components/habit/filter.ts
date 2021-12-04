@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElDatePicker, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { ref, Ref, h } from "vue"
 import { daysAgo } from "../../../util/time"

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElCard, ElDivider, ElSwitch } from "element-plus"
 import optionService from "../../../../service/option-service"
 import { defaultStatistics } from "../../../../util/constant/option"

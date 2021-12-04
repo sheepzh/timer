@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElDatePicker } from "element-plus"
 import { Ref, h } from "vue"
 import { formatTime, MILL_PER_DAY } from "../../../../../util/time"

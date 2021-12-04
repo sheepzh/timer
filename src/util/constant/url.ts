@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
 
 let homePage = undefined

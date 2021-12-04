@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElAlert, ElCard } from "element-plus"
 import { h } from "vue"
 import { t } from "../../../locale"

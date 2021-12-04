@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import WhitelistDatabase from '../database/whitelist-database'
 import optionService from '../service/option-service'
 import { t2Chrome } from '../util/i18n/chrome/t'

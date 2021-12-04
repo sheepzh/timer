@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { InfoFilled } from "@element-plus/icons"
 import { ElIcon, ElSwitch, ElTableColumn, ElTooltip } from "element-plus"
 import { h } from "vue"

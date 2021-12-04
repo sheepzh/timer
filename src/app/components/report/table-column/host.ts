@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElLink, ElTableColumn, ElTooltip } from "element-plus"
 import { Ref, h } from "vue"
 import SiteInfo from "../../../../entity/dto/site-info"

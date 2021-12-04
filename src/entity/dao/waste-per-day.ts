@@ -1,4 +1,11 @@
 /**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
+/**
  * Time waste per day. Reconstructed at v0.0.9
  * 
  * @since 0.0.1

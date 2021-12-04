@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { h, Ref, ref } from "vue"
 import { ElAlert, ElButton, ElCard, ElLoading, ElMain, ElMessage } from "element-plus"
 import { t } from "../../locale"
@@ -17,7 +24,6 @@ const handleExport = async () => {
     const timestamp = formatTime(new Date(), '{y}{m}{d}_{h}{i}{s}')
     exportJson(data, `timer_backup_${timestamp}`)
 }
-
 
 const fileInputRef: Ref<HTMLInputElement> = ref()
 const handleFileSelected = async (queryData: () => void) => {
@@ -49,7 +55,6 @@ const buttonProps = {
 }
 
 const alert = () => h(ElAlert, alertProps, () => t(msg => msg.dataManage.migrationAlert))
-
 
 const exportButtonText = () => t(msg => msg.item.operation.exportWholeData)
 const exportButton = () => h<{}>(ElButton,

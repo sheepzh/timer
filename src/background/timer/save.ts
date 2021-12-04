@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import limitService from "../../service/limit-service"
 import periodService from "../../service/period-service"
 import timerService from "../../service/timer-service"
