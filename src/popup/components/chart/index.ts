@@ -8,9 +8,19 @@ use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, Canvas
 import { QueryResult } from "../../popup"
 import handleClick from "./click-handler"
 import { pieOptions } from "./option"
+import { defaultStatistics } from "../../../util/constant/option"
+import OptionDatabase from "../../../database/option-database"
+
+const optionDatabase = new OptionDatabase(chrome.storage.local)
 
 const chartContainer = document.getElementById('chart-container') as HTMLDivElement
 const pie: ECharts = init(chartContainer)
+
+// Initialize
+let displaySiteName: boolean = defaultStatistics().collectSiteName
+const setDisplaySiteName = (opt: Timer.Option) => displaySiteName = opt.displaySiteName
+optionDatabase.getOption().then(setDisplaySiteName)
+optionDatabase.addOptionChangeListener(setDisplaySiteName)
 
 // Bound the listener
 // Click the item, then forward to the host
@@ -22,7 +32,7 @@ export const handleRestore = (handler: () => void) => {
 }
 
 function renderChart(queryResult: QueryResult) {
-    pie.setOption(pieOptions(queryResult, chartContainer), true, false)
+    pie.setOption(pieOptions({ ...queryResult, displaySiteName }, chartContainer), true, false)
 }
 
 export default renderChart

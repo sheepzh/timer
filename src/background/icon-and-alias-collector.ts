@@ -1,28 +1,40 @@
 import { DomainSource } from "../entity/dto/domain-alias"
 import DomainAliasDatabase from "../database/domain-alias-database"
 import IconUrlDatabase from "../database/icon-url-database"
+import OptionDatabase from "../database/option-database"
 import { IS_CHROME } from "../util/constant/environment"
 import { iconUrlOfBrowser } from "../util/constant/url"
 import { extractHostname, isBrowserUrl, isHomepage } from "../util/pattern"
+import { defaultStatistics } from "../util/constant/option"
 
-const iconUrlDatabase = new IconUrlDatabase(chrome.storage.local)
-const domainAliasDatabase = new DomainAliasDatabase(chrome.storage.local)
+const storage: chrome.storage.StorageArea = chrome.storage.local
+const iconUrlDatabase = new IconUrlDatabase(storage)
+const domainAliasDatabase = new DomainAliasDatabase(storage)
+const optionDatabase = new OptionDatabase(storage)
+
+let collectAliasEnabled = defaultStatistics().collectSiteName
+const setCollectAliasEnabled = (opt: Timer.Option) => collectAliasEnabled = opt.collectSiteName
+optionDatabase.getOption().then(setCollectAliasEnabled)
+optionDatabase.addOptionChangeListener(setCollectAliasEnabled)
 
 function isUrl(title: string) {
     return title.startsWith('https://') || title.startsWith('http://') || title.startsWith('ftp://')
 }
 
-function detectAlias(domain: string, tab: chrome.tabs.Tab) {
-    let title = tab.title
-    if (isUrl(title)) return
-    if (!title) return
-    if (title.includes('-')) {
-        title = title.split('-').map(a => a.trim()).sort((a, b) => a.length - b.length)[0]
+const splitTitle = (title: string, separator: string) => title.split(separator)
+    .filter(s => !s.includes('个人') && !s.includes('我的') && !s.includes('主页'))
+    .sort((a, b) => a.length - b.length)[0]
+
+function collectAlias(domain: string, tabTitle: string) {
+    if (isUrl(tabTitle)) return
+    if (!tabTitle) return
+    if (tabTitle.includes('-')) {
+        tabTitle = splitTitle(tabTitle, '-')
     }
-    if (title.includes('|')) {
-        title = title.split('|').map(a => a.trim()).sort((a, b) => a.length - b.length)[0]
+    if (tabTitle.includes('|')) {
+        tabTitle = splitTitle(tabTitle, '|')
     }
-    domainAliasDatabase.update({ name: title, domain, source: DomainSource.DETECTED })
+    tabTitle && domainAliasDatabase.update({ name: tabTitle, domain, source: DomainSource.DETECTED })
 }
 
 /**
@@ -43,7 +55,7 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     const iconUrl = favIconUrl || await iconUrlOfBrowser(protocol, domain)
     iconUrlDatabase.put(domain, iconUrl)
 
-    isHomepage(url) && detectAlias(domain, tab)
+    collectAliasEnabled && !isBrowserUrl(url) && isHomepage(url) && collectAlias(domain, tab.title)
 }
 
 /**

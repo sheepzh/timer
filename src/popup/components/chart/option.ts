@@ -99,8 +99,12 @@ function calcPositionOfTooltip(container: HTMLDivElement, point: (number | strin
     return [...point]
 }
 
-export const pieOptions = (props: QueryResult, container: HTMLDivElement) => {
-    const { type, mergeDomain, data } = props
+export type PipProps = QueryResult & {
+    displaySiteName: boolean
+}
+
+export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
+    const { type, mergeDomain, data, displaySiteName } = props
     const options: EChartOption<EChartOption.SeriesPie> = {
         title: staticOptions.title,
         tooltip: {
@@ -122,7 +126,7 @@ export const pieOptions = (props: QueryResult, container: HTMLDivElement) => {
     const iconRich = {}
     data.forEach(d => {
         const { host, alias } = d
-        const legend = alias || host
+        const legend = displaySiteName ? (alias || host) : host
         legendData.push(legend)
         series.push({ name: legend, value: d[type] || 0 })
         iconRich[legend2LabelStyle(legend)] = {
@@ -140,4 +144,3 @@ export const pieOptions = (props: QueryResult, container: HTMLDivElement) => {
     }
     return options as any
 }
-

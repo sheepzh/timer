@@ -2,7 +2,8 @@ export function defaultPopup(): Timer.PopupOption {
     // Use template
     return {
         popupMax: 10,
-        defaultType: 'focus'
+        defaultType: 'focus',
+        displaySiteName: true
     }
 }
 
@@ -15,6 +16,7 @@ export function defaultAppearance(): Timer.AppearanceOption {
 
 export function defaultStatistics(): Timer.StatisticsOption {
     return {
-        countWhenIdle: false
+        countWhenIdle: false,
+        collectSiteName: true
     }
 }

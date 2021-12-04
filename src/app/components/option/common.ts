@@ -1,4 +1,5 @@
-import { ElTag, ElButton, ElMessage } from "element-plus"
+import { InfoFilled } from "@element-plus/icons"
+import { ElTag, ElButton, ElMessage, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
 import { tN, t, I18nKey } from "../../locale"
 import { OptionMessage } from "../../locale/components/option"
@@ -52,4 +53,16 @@ export function renderHeader(title: (msg: OptionMessage) => string, handleReset:
  */
 export function tagText(text: I18nKey): VNode {
     return h('a', { style: { color: '#F56C6C' } }, t(text))
+}
+
+/**
+ * Render the tooltip with message
+ *
+ * @param content content 
+ * @since 0.4.1
+ */
+export function tooltip(content: I18nKey): VNode {
+    return h(ElTooltip, { content: t(content) }, {
+        default: () => h(ElIcon, { size: 15 }, () => h(InfoFilled))
+    })
 }
