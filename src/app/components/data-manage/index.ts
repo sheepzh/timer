@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElRow, ElCol } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
 import { getUsedStorage } from "../../../database/memory-detector"

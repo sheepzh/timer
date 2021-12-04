@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import TimerDatabase, { TimerCondition } from '../database/timer-database'
 import WhitelistDatabase from '../database/whitelist-database'
 import ArchivedDatabase from '../database/archived-database'

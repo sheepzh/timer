@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import DomainMergeRuleItem from "../../entity/dto/domain-merge-rule-item"
 import { isIpAndPort } from "../../util/pattern"
 
@@ -36,7 +43,6 @@ type RegRuleItem = {
     reg: RegExp
     result: string | number
 }
-
 
 const processRegStr = (regStr: string) => regStr.split('.').join('\\.').split('*').join('[^\\.]+')
 

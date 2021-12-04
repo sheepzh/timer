@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import TimeLimitItem from "../entity/dto/time-limit-item"
 import limitService from "../service/limit-service"
 import { t2Chrome } from "../util/i18n/chrome/t"

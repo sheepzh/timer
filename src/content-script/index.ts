@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import timeService from '../service/timer-service'
 import whitelistService from "../service/whitelist-service"
 import processLimit from './limit'

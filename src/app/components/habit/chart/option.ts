@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { EChartOption } from "echarts"
 import { PeriodKey, PERIODS_PER_DATE } from "../../../../entity/dto/period-info"
 import PeriodResult from "../../../../entity/dto/period-result"

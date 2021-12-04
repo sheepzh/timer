@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { InfoFilled } from "@element-plus/icons"
 import { ElTag, ElButton, ElMessage, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
@@ -18,7 +25,6 @@ export function renderOptionItem(input: VNode | { [key: string]: VNode }, label:
     const defaultArcher = h('a', { class: 'option-default' }, tN(msg => msg.option.defaultValue, { default: defaultTag }))
     return h('div', { class: 'option-line' }, [labelArcher, defaultArcher])
 }
-
 
 const resetButtonProps = {
     type: 'text',

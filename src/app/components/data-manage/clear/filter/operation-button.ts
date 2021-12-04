@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import { Ref, h } from "vue"
 import TimerDatabase, { TimerCondition } from "../../../../../database/timer-database"
@@ -17,7 +24,6 @@ export type BaseFilterProps = {
     timeEndRef: Ref<string>
     dateRangeRef: Ref<Date[]>
 }
-
 
 type _Props = BaseFilterProps & {
     onDateChanged: () => void

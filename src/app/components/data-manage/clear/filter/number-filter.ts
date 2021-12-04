@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElInput } from "element-plus"
 import { Ref, h } from "vue"
 import { t, tN } from "../../../../locale"

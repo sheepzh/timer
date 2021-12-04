@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { Messages } from ".."
 import appMessages, { AppMessage } from "../components/app"
 import contentScriptMessages, { ContentScriptMessage } from "../components/content-script"

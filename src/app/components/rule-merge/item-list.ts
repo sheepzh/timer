@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { MergeRuleMessage } from "../../locale/components/merge-rule"
 import { Ref, ref, h } from "vue"

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { daysAgo } from "../../../util/time"

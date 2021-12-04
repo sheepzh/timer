@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import axios, { AxiosResponse } from 'axios'
 import { IS_CHROME, IS_EDGE, IS_FIREFOX } from '../util/constant/environment'
 

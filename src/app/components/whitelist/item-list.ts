@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { t } from "../../locale"
 import { h, ref, Ref, VNode } from "vue"

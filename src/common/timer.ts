@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { getUsedStorage } from '../database/memory-detector'
 import { openLog, closeLog } from './logger'
 
@@ -12,7 +19,6 @@ export function showMemory() {
     })
     return 'Memory used:'
 }
-
 
 export type Timer = {
     openLog: () => string

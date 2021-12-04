@@ -1,7 +1,13 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { getAppPageUrl } from "../util/constant/url"
 import { LIMIT_ROUTE } from "../app/router/constants"
 import { ChromeMessage } from "../util/message"
-
 
 function listen<T>(message: ChromeMessage<T>, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
     if (message.code === 'openLimitPage') {

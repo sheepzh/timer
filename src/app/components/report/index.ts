@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from 'vue'
 import { t } from '../../locale'
 import SiteInfo from "../../../entity/dto/site-info"

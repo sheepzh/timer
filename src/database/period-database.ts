@@ -1,4 +1,10 @@
-import { exists } from "fs"
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import FocusPerDay from "../entity/dao/period-info"
 import PeriodInfo, { MAX_PERIOD_ORDER, PeriodKey } from "../entity/dto/period-info"
 import BaseDatabase from "./common/base-database"

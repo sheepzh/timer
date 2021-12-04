@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElForm } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, ref, Ref, SetupContext } from "vue"
 import '../style/el-input'

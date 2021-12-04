@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { renderFilterContainer } from "../../common/filter"
 import dateRange, { DateRangeFilterItemProps } from "./date-range-filter-item"
 import displayBySecond, { DisplayBySecondFilterItemProps } from "./display-by-second-filter-item"

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import IVersionProcessor from "./i-version-processor";
 import DomainMergeInitializer from "./0-1-2/domain-merge-initializer";
 

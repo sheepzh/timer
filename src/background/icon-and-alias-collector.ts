@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { DomainSource } from "../entity/dto/domain-alias"
 import DomainAliasDatabase from "../database/domain-alias-database"
 import IconUrlDatabase from "../database/icon-url-database"

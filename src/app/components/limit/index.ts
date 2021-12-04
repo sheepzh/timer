@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { defineComponent, h, ref, Ref, watch } from "vue"
 import { renderContentContainer, contentContainerCardStyle } from "../common/content-container"
 import filter, { FilterProps } from "./filter"

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElCard, ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "../../../locale"
 import { defineComponent, h, Ref, ref } from "vue"
@@ -38,7 +45,6 @@ const displaySiteName = () => h(ElSwitch, {
         optionService.setPopupOption(optionRef.value)
     }
 })
-
 
 const options = () => [
     renderOptionItem(typeSelect(), msg => msg.popup.type, t(msg => msg.item[defaultPopup().defaultType])),

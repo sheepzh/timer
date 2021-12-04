@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
 import { ElCard } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"

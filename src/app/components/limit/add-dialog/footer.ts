@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElButton } from "element-plus"
 import { defineComponent, h, SetupContext } from "vue"
 import { t } from "../../../locale"

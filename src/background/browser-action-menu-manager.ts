@@ -1,4 +1,10 @@
-import { IS_FIREFOX } from "../util/constant/environment"
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { OPTION_ROUTE } from "../app/router/constants"
 import { getAppPageUrl, SOURCE_CODE_PAGE } from "../util/constant/url"
 import { t2Chrome } from "../util/i18n/chrome/t"

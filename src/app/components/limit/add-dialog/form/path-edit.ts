@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { ElSwitch, ElTag, ElTooltip } from "element-plus"
 import { h, Ref, VNode } from "vue"
 import { t } from "../../../../locale"

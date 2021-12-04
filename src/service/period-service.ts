@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import PeriodDatabase from "../database/period-database"
 import PeriodInfo, { PeriodKey } from "../entity/dto/period-info"
 import PeriodResult from "../entity/dto/period-result"

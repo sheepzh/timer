@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 // Generate the messages used by Chrome
 function compile(obj: any, parentKey = ''): any {
     const result = {}
@@ -20,6 +27,5 @@ function compile(obj: any, parentKey = ''): any {
     }
     return result
 }
-
 
 export default compile
