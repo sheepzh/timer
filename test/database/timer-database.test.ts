@@ -165,5 +165,3 @@ describe('timer-database', () => {
         expect((await db.select()).length).toEqual(2)
     })
 })
-
-

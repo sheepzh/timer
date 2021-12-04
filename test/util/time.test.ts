@@ -33,7 +33,6 @@ test('time', () => {
     expect(formatPeriodCommon(1)).toEqual('0 s')
 })
 
-
 test('time', () => {
     const start = Math.floor(Math.random() * 100)
     const range = daysAgo(start + 2, start)

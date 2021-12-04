@@ -7,7 +7,6 @@ import storage from "../__mock__/storage"
 
 const db = new PeriodDatabase(storage.local)
 
-
 describe('timer-database', () => {
     beforeEach(async () => storage.local.clear())
 
