@@ -6,7 +6,7 @@
  */
 
 import IVersionProcessor from "./i-version-processor"
-import DomainMergeInitializer from "./0-1-2/domain-merge-initializer"
+import HostMergeInitializer from "./0-1-2/host-merge-initializer"
 
 /**
  * Version manager
@@ -17,7 +17,7 @@ class VersionManager {
     processorChain: IVersionProcessor[] = []
 
     constructor() {
-        this.processorChain.push(new DomainMergeInitializer())
+        this.processorChain.push(new HostMergeInitializer())
         this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }
 

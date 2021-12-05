@@ -22,10 +22,6 @@ export type MergeRuleMessage = {
     infoAlert3: string
     infoAlert4: string
     infoAlert5: string
-    confirmTitle: string
-    successMsg: string
-    newOne: string
-    save: string
 }
 
 const _default: Messages<MergeRuleMessage> = {
@@ -44,11 +40,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: '合并后域名可填具体的域名，或者填数字，或者不填',
         infoAlert3: '如果填数字，则表示合并后域名的级数。比如存在规则【 *.*.edu.cn >>> 3 】，那么 www.hust.edu.cn 将被合并至 hust.edu.cn',
         infoAlert4: '如果不填，则表示原域名不会被合并',
-        infoAlert5: '如果没有匹配任何规则，则默认合并至 2 级域名',
-        confirmTitle: '操作确认',
-        successMsg: '操作成功！',
-        newOne: '新增',
-        save: '保存'
+        infoAlert5: '如果没有匹配任何规则，则默认合并至 2 级域名'
     },
     en: {
         resultOfOrigin: 'Not Merge',
@@ -65,11 +57,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: 'The merged site can be filled with a specific site, number, or blank',
         infoAlert3: 'Number means the level of merged site. For example, there is a rule "*.*.edu.cn >>> 3", then "www.hust.edu.cn" will be merged to "hust.edu.cn"',
         infoAlert4: 'Blank means the origin site will not be merged',
-        infoAlert5: 'If no rule are matched, sites will be merged into the second-level domain name by default',
-        confirmTitle: 'Confirm',
-        successMsg: 'Successfully!',
-        newOne: 'New One',
-        save: 'Save'
+        infoAlert5: 'If no rule are matched, sites will be merged into the second-level domain name by default'
     },
     ja: {
         resultOfOrigin: '不合并',
@@ -86,11 +74,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: '統合されたドメイン名の後、特定のドメイン名を入力するか、番号を入力するか、空白のままにすることができます',
         infoAlert3: '数字を記入する場合は、ドメイン名のレベルが予約されていることを意味します。 たとえば、ルール [*.*.edu.cn >>> 3 ] がある場合、www.hust.edu.cn は hust.edu.cn にマージされます。',
         infoAlert4: '記入しない場合は、元のドメイン名が統合されないことを意味します',
-        infoAlert5: '一致するルールがない場合、デフォルトで第 2 レベル ドメイン名にマージされます',
-        confirmTitle: '動作確認',
-        successMsg: '正常に動作しました！',
-        newOne: '追加',
-        save: '保存'
+        infoAlert5: '一致するルールがない場合、デフォルトで第 2 レベル ドメイン名にマージされます'
     }
 }
 

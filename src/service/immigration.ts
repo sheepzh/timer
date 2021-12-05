@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { version } from '../../package.json'
-import ArchivedDatabase from '../database/archived-database'
-import BaseDatabase from '../database/common/base-database'
+import { version } from "../../package.json"
+import ArchivedDatabase from "../database/archived-database"
+import BaseDatabase from "../database/common/base-database"
 import StoragePromise from "../database/common/storage-promise"
-import IconUrlDatabase from '../database/icon-url-database'
-import LimitDatabase from '../database/limit-database'
-import MergeRuleDatabase from '../database/merge-rule-database'
-import PeriodDatabase from '../database/period-database'
-import RouterDatabase from '../database/router-database'
-import TimerDatabase from '../database/timer-database'
-import WhitelistDatabase from '../database/whitelist-database'
-import DomainAliasDatabase from '../database/domain-alias-database'
+import IconUrlDatabase from "../database/icon-url-database"
+import LimitDatabase from "../database/limit-database"
+import MergeRuleDatabase from "../database/merge-rule-database"
+import PeriodDatabase from "../database/period-database"
+import RouterDatabase from "../database/router-database"
+import TimerDatabase from "../database/timer-database"
+import WhitelistDatabase from "../database/whitelist-database"
+import HostAliasDatabase from "../database/host-alias-database"
 
 type MetaInfo = {
     version: string
@@ -37,7 +37,7 @@ function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
         new MergeRuleDatabase(storage),
         new WhitelistDatabase(storage),
         new RouterDatabase(storage),
-        new DomainAliasDatabase(storage)
+        new HostAliasDatabase(storage)
     ]
 
     return result

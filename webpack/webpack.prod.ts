@@ -1,7 +1,7 @@
-import optionGenerator from './webpack.common'
-import path from 'path'
-import FileManagerWebpackPlugin from 'filemanager-webpack-plugin'
-import webpack from 'webpack'
+import optionGenerator from "./webpack.common"
+import path from "path"
+import FileManagerWebpackPlugin from "filemanager-webpack-plugin"
+import webpack from "webpack"
 
 const { name, version } = require(path.join(__dirname, '..', 'package.json'))
 

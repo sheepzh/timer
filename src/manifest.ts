@@ -12,8 +12,8 @@
  * @since 0.0.1
  */
 // @ts-ignore
-import packageInfo from '../package.json'
-import { OPTION_ROUTE } from './app/router/constants'
+import packageInfo from "../package.json"
+import { OPTION_ROUTE } from "./app/router/constants"
 const { version, author, homepage } = packageInfo as any
 const _default: chrome.runtime.ManifestV2 = {
   name: '__MSG_app_marketName__',

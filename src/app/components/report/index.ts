@@ -5,20 +5,20 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from 'vue'
-import { t } from '../../locale'
-import SiteInfo from "../../../entity/dto/site-info"
+import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
+import { t } from "../../locale"
+import DataItem from "../../../entity/dto/data-item"
 import timerService, { SortDirect } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
 import { formatTime } from "../../../util/time"
 import './styles/element'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
-import pagination, { PaginationProps } from "./pagination"
-import { contentContainerCardStyle, renderContentContainer } from '../common/content-container'
-import { QueryData, PaginationInfo } from '../common/constants'
-import { useRouter } from 'vue-router'
-import { ElCard } from 'element-plus'
+import pagination, { PaginationProps } from "../common/pagination"
+import { contentContainerCardStyle, renderContentContainer } from "../common/content-container"
+import { QueryData, PaginationInfo } from "../common/constants"
+import { useRouter } from "vue-router"
+import { ElCard } from "element-plus"
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -26,9 +26,9 @@ const now = new Date()
 // @ts-ignore ts(2322)
 const dateRangeRef: Ref<Array<Date>> = ref([now, now])
 const mergeDateRef: Ref<boolean> = ref(false)
-const mergeDomainRef: Ref<boolean> = ref(false)
+const mergeHostRef: Ref<boolean> = ref(false)
 const displayBySecondRef: Ref<boolean> = ref(false)
-const dataRef: Ref<SiteInfo[]> = ref([])
+const dataRef: Ref<DataItem[]> = ref([])
 const whitelistRef: Ref<Array<string>> = ref([])
 const sortRef: UnwrapRef<SortInfo> = reactive({
     prop: 'focus',
@@ -44,7 +44,7 @@ const queryParam = computed(() => {
     return {
         host: hostRef.value,
         date: dateRangeRef.value,
-        mergeDomain: mergeDomainRef.value,
+        mergeDomain: mergeHostRef.value,
         mergeDate: mergeDateRef.value,
         sort: sortRef.prop,
         sortOrder: sortRef.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
@@ -61,7 +61,7 @@ const exportFileName = computed(() => {
         baseName += '_' + formatTime(end, '{y}{m}{d}')
     }
     mergeDateRef.value && (baseName += '_' + t(msg => msg.report.mergeDate))
-    mergeDomainRef.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
+    mergeHostRef.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
     displayBySecondRef.value && (baseName += '_' + t(msg => msg.report.displayBySecond))
     return baseName
 })
@@ -84,7 +84,7 @@ queryWhiteList().then(queryData)
 
 const tableProps: TableProps = {
     mergeDateRef,
-    mergeDomainRef,
+    mergeHostRef,
     displayBySecondRef,
     queryWhiteList,
     queryData,
@@ -97,7 +97,7 @@ const tableProps: TableProps = {
 
 const filterProps: FilterProps = {
     mergeDateRef,
-    mergeDomainRef,
+    mergeHostRef,
     displayBySecondRef,
     queryData,
     dataRef,

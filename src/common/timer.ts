@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getUsedStorage } from '../database/memory-detector'
-import { openLog, closeLog } from './logger'
+import { getUsedStorage } from "../database/memory-detector"
+import { openLog, closeLog } from "./logger"
 
 /**
  * Show the memory info

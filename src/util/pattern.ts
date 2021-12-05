@@ -43,11 +43,11 @@ export function isIpAndPort(host: string) {
 }
 
 /**
- * Test whether the host is a valid origin host to merge
+ * Test whether the host is a valid host
  * 
  * @param host 
  */
-export function isValidMergeOriginHost(host: string) {
+export function isValidHost(host: string) {
     const indexOfColon = host.indexOf(':')
     if (indexOfColon > -1) {
         const portStr = host.substr(indexOfColon + 1)

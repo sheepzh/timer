@@ -7,11 +7,11 @@
 
 import { ElDatePicker, ElOption, ElSelect } from "element-plus"
 import { ref, Ref, h } from "vue"
-import timerService, { DomainSet } from "../../../../service/timer-service"
+import timerService, { HostSet } from "../../../../service/timer-service"
 import { daysAgo } from "../../../../util/time"
 import { t } from "../../../locale"
 import { renderFilterContainer } from "../../common/filter"
-import DomainOptionInfo from "../domain-option-info"
+import HostOptionInfo from "../host-option-info"
 
 const datePickerShortcut = (msg: string, agoOfStart?: number, agoOfEnd?: number) => {
     return {
@@ -28,10 +28,10 @@ type _Props = {
 export type FilterProps = _Props
 
 const trendSearchingRef: Ref<boolean> = ref(false)
-const trendDomainOptionsRef: Ref<DomainOptionInfo[]> = ref([])
+const trendDomainOptionsRef: Ref<HostOptionInfo[]> = ref([])
 
-// Domain select
-const renderOption = (domainInfo: DomainOptionInfo) => h(ElOption, { value: domainInfo.key(), label: domainInfo.toString() })
+// Host select
+const renderOption = (hostInfo: HostOptionInfo) => h(ElOption, { value: hostInfo.key(), label: hostInfo.toString() })
 
 const domainSelectOptions = () => trendDomainOptionsRef.value.map(domainInfo => renderOption(domainInfo))
 const handleRemoteSearch = async (queryStr: string) => {
@@ -40,10 +40,10 @@ const handleRemoteSearch = async (queryStr: string) => {
         return
     }
     trendSearchingRef.value = true
-    const domains: DomainSet = await timerService.listDomains(queryStr)
-    const options: DomainOptionInfo[] = []
-    domains.origin.forEach(host => options.push(DomainOptionInfo.origin(host)))
-    domains.merged.forEach(host => options.push(DomainOptionInfo.merged(host)))
+    const domains: HostSet = await timerService.listHosts(queryStr)
+    const options: HostOptionInfo[] = []
+    domains.origin.forEach(host => options.push(HostOptionInfo.origin(host)))
+    domains.merged.forEach(host => options.push(HostOptionInfo.merged(host)))
     trendDomainOptionsRef.value = options
     trendSearchingRef.value = false
 }
@@ -87,4 +87,4 @@ const filterItems = (props: _Props) => [domainSelect(props), datePickerItem(prop
 
 export default renderFilterContainer(filterItems)
 
-export function addToFilterOption(option: DomainOptionInfo) { trendDomainOptionsRef.value.push(option) }
+export function addToFilterOption(option: HostOptionInfo) { trendDomainOptionsRef.value.push(option) }

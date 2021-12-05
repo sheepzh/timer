@@ -15,19 +15,19 @@ const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
  * 
  * Initialize the merge rules
  */
-export default class DomainMergeInitializer implements IVersionProcessor {
+export default class HostMergeInitializer implements IVersionProcessor {
     since(): string {
         return '0.1.2'
     }
 
     process(): void {
         mergeRuleDatabase.add(
-            // Google's regional domain names 
+            // Google's regional hosts 
             { origin: '*.google.com.*', merged: 'google.com' },
             // level-3 of .edu.cn
             { origin: '*.*.edu.cn', merged: 2 },
             // not merge wx2.qq.com 
             { origin: 'wx2.qq.com', merged: '' }
-        ).then(() => console.log('Domain merge rules initialized'))
+        ).then(() => console.log('Host merge rules initialized'))
     }
 }

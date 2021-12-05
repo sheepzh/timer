@@ -7,7 +7,7 @@
 
 import { log } from "../common/logger"
 import WastePerDay, { merge, WasteData } from "../entity/dao/waste-per-day"
-import SiteInfo from "../entity/dto/site-info"
+import DataItem from "../entity/dto/data-item"
 import { formatTime } from "../util/time"
 import BaseDatabase from "./common/base-database"
 import { ARCHIVED_PREFIX, DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
@@ -191,12 +191,12 @@ class TimerDatabase extends BaseDatabase {
      * 
      * @param condition     condition
      */
-    async select(condition?: TimerCondition): Promise<SiteInfo[]> {
+    async select(condition?: TimerCondition): Promise<DataItem[]> {
         log("select:{condition}", condition)
         condition = condition || {}
         const _cond: _TimerCondition = processCondition(condition)
         const items = await this.refresh()
-        let result: SiteInfo[] = []
+        let result: DataItem[] = []
 
         for (let key in items) {
             const date = key.substr(0, 8)
@@ -288,7 +288,7 @@ class TimerDatabase extends BaseDatabase {
      * @param rows     site rows, the host and date mustn't be null
      * @since 0.0.9
      */
-    async delete(rows: SiteInfo[]): Promise<void> {
+    async delete(rows: DataItem[]): Promise<void> {
         const keys: string[] = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => this.generateKey(host, date))
         return this.storage.remove(keys)
     }

@@ -8,7 +8,7 @@
 import { Download } from "@element-plus/icons"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { Ref, h } from "vue"
-import SiteInfo from "../../../../entity/dto/site-info"
+import DataItem from "../../../../entity/dto/data-item"
 import { exportCsv, exportJson } from "../../../../util/file"
 import { t } from "../../../locale"
 import { dateFormatter, periodFormatter } from "../formatter"
@@ -25,7 +25,7 @@ type ExportInfo = {
 
 type _Props = {
     mergeDateRef: Ref<boolean>
-    dataRef: Ref<SiteInfo[]>
+    dataRef: Ref<DataItem[]>
     exportFileName: Ref<string>
 }
 
@@ -35,7 +35,7 @@ export type DownloadFileProps = _Props
  * @param rows row data
  * @returns data with json format 
  */
-const generateJsonData = (rows: SiteInfo[]) => {
+const generateJsonData = (rows: DataItem[]) => {
     return rows.map(row => {
         const data: ExportInfo = { host: row.host }
         // Always display by seconds
@@ -50,8 +50,8 @@ const generateJsonData = (rows: SiteInfo[]) => {
  * @param rows row data
  * @returns data with csv format 
  */
-const generateCsvData = (rows: SiteInfo[], mergeDate: boolean) => {
-    let columnName: Array<keyof SiteInfo> = []
+const generateCsvData = (rows: DataItem[], mergeDate: boolean) => {
+    let columnName: Array<keyof DataItem> = []
     !mergeDate && columnName.push('date')
     columnName = [...columnName, 'host', 'total', 'focus', 'time']
     const data = [columnName.map(c => t(msg => msg.item[c]))]

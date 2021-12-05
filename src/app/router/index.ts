@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { App } from 'vue'
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import RouterDatabase from '../../database/router-database'
-import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE } from './constants'
+import { App } from "vue"
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
+import RouterDatabase from "../../database/router-database"
+import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE } from "./constants"
 
 const dataRoutes: RouteRecordRaw[] = [
     {
@@ -45,6 +45,9 @@ const additionalRoutes: RouteRecordRaw[] = [
     {
         path: '/additional',
         redirect: '/additional/whitelist'
+    }, {
+        path: '/additional/site-manage',
+        component: () => import('../components/site-manage')
     }, {
         path: '/additional/whitelist',
         component: () => import('../components/whitelist')

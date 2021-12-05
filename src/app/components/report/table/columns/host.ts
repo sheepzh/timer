@@ -7,11 +7,11 @@
 
 import { ElLink, ElTableColumn, ElTooltip } from "element-plus"
 import { Ref, h } from "vue"
-import SiteInfo from "../../../../entity/dto/site-info"
-import { t } from "../../../locale"
+import DataItem from "../../../../../entity/dto/data-item"
+import { t } from "../../../../locale"
 
 export type HostColumnProps = {
-    mergeDomainRef: Ref<boolean>
+    mergeHostRef: Ref<boolean>
 }
 
 const host2ElLink = (host: string, iconUrl: string) => {
@@ -39,9 +39,9 @@ const toolTipProp = {
     effect: 'light',
     offset: 10
 }
-const hostColSlots = (props: HostColumnProps, row: SiteInfo) => {
-    // if not merge domain, then only show the link
-    if (!props.mergeDomainRef.value) return host2ElLink(row.host, row.iconUrl)
+const hostColSlots = (props: HostColumnProps, row: DataItem) => {
+    // if not merge host, then only show the link
+    if (!props.mergeHostRef.value) return host2ElLink(row.host, row.iconUrl)
     // Else show the origin hosts in tooltip
     // Fake ElLink
     const elLinkClass = { class: 'el-link el-link--default is-underline' }
@@ -54,6 +54,6 @@ const hostColSlots = (props: HostColumnProps, row: SiteInfo) => {
 
     return h<{}>(ElTooltip, toolTipProp, slots)
 }
-const hostCol = (props: HostColumnProps) => h(ElTableColumn, hostColProp, { default: ({ row }: { row: SiteInfo }) => hostColSlots(props, row) })
+const hostCol = (props: HostColumnProps) => h(ElTableColumn, hostColProp, { default: ({ row }: { row: DataItem }) => hostColSlots(props, row) })
 
 export default hostCol

@@ -9,13 +9,15 @@
  * @since 0.4.1
  * @author zhy
  */
-export enum DomainSource {
+export enum HostAliasSource {
     USER = 'USER',        // By user
     DETECTED = 'DETECTED' // Auto-detected
 }
 
-export type DomainAlias = {
-    domain: string
+type HostAlias = {
+    host: string
     name: string
-    source: DomainSource
+    source: HostAliasSource
 }
+
+export default HostAlias

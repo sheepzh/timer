@@ -10,7 +10,7 @@ import { computed, ComputedRef, defineComponent, h, ref, Ref, SetupContext } fro
 import '../style/el-input'
 import pathEdit from "./path-edit"
 import timeFormItem from "./time-limit"
-import urlFormItem, { FormUrlProps, Protocol } from './url'
+import urlFormItem, { FormUrlProps, Protocol } from "./url"
 import UrlPathItem from "./url-path-item"
 
 // Limited time

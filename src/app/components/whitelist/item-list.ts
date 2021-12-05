@@ -24,12 +24,12 @@ const handleInputSave = (inputValue: string) => {
         return
     }
     const msg = t(msg => msg.whitelist.addConfirmMsg, { url: inputValue })
-    const title = t(msg => msg.whitelist.confirmTitle)
+    const title = t(msg => msg.operation.confirmTitle)
     ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
         .then(() => whitelistService.add(inputValue))
         .then(() => {
             whitelist.push(inputValue)
-            ElMessage({ type: 'success', message: t(msg => msg.whitelist.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
         }).catch(() => { })
 }
 
@@ -43,12 +43,12 @@ const handleInputConfirm = () => {
 
 const handleClose = (whiteItem: string) => {
     const confirmMsg = t(msg => msg.whitelist.removeConfirmMsg, { url: whiteItem })
-    const confirmTitle = t(msg => msg.whitelist.confirmTitle)
+    const confirmTitle = t(msg => msg.operation.confirmTitle)
     ElMessageBox
         .confirm(confirmMsg, confirmTitle, { dangerouslyUseHTMLString: true })
         .then(() => whitelistService.remove(whiteItem))
         .then(() => {
-            ElMessage({ type: 'success', message: t(msg => msg.whitelist.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
             const index = whitelistRef.value.indexOf(whiteItem)
             index !== -1 && whitelistRef.value.splice(index, 1)
         })
@@ -83,7 +83,7 @@ const whiteItemDisplayButton = () => h<{}>(ElButton,
         class: 'button-new-tag white-item',
         onClick: () => inputVisibleRef.value = true
     },
-    () => `+ ${t(msg => msg.whitelist.newOne)}`
+    () => `+ ${t(msg => msg.operation.newOne)}`
 )
 
 const tags: () => VNode[] = () => {

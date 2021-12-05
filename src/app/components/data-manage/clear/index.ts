@@ -9,7 +9,7 @@ import { ElAlert, ElCard } from "element-plus"
 import { h } from "vue"
 import { t } from "../../../locale"
 import { alertProps, bodyStyle } from "../common"
-import Filter from './filter'
+import Filter from "./filter"
 
 type _Props = {
     queryData: () => Promise<void> | void

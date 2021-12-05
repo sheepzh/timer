@@ -6,7 +6,7 @@
  */
 
 import { h, Ref } from "vue"
-import clipboardy from 'clipboardy'
+import clipboardy from "clipboardy"
 import { t } from "../../../../locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import UrlPathItem from "./url-path-item"

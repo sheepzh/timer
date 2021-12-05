@@ -8,8 +8,8 @@
 import { ElDialog, ElMessage } from "element-plus"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
 import { t } from "../../../locale"
-import Form, { FormData } from './form'
-import Footer from './footer'
+import Form, { FormData } from "./form"
+import Footer from "./footer"
 import LimitDatabase from "../../../../database/limit-database"
 import { TimeLimit } from "../../../../entity/dao/time-limit"
 

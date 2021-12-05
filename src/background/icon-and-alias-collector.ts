@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { DomainSource } from "../entity/dto/domain-alias"
-import DomainAliasDatabase from "../database/domain-alias-database"
+import { HostAliasSource } from "../entity/dto/host-alias"
+import HostAliasDatabase from "../database/host-alias-database"
 import IconUrlDatabase from "../database/icon-url-database"
 import OptionDatabase from "../database/option-database"
 import { IS_CHROME } from "../util/constant/environment"
@@ -16,7 +16,7 @@ import { defaultStatistics } from "../util/constant/option"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const iconUrlDatabase = new IconUrlDatabase(storage)
-const domainAliasDatabase = new DomainAliasDatabase(storage)
+const hostAliasDatabase = new HostAliasDatabase(storage)
 const optionDatabase = new OptionDatabase(storage)
 
 let collectAliasEnabled = defaultStatistics().collectSiteName
@@ -32,7 +32,7 @@ const splitTitle = (title: string, separator: string) => title.split(separator)
     .filter(s => !s.includes('个人') && !s.includes('我的') && !s.includes('主页'))
     .sort((a, b) => a.length - b.length)[0]
 
-function collectAlias(domain: string, tabTitle: string) {
+function collectAlias(host: string, tabTitle: string) {
     if (isUrl(tabTitle)) return
     if (!tabTitle) return
     if (tabTitle.includes('-')) {
@@ -41,7 +41,7 @@ function collectAlias(domain: string, tabTitle: string) {
     if (tabTitle.includes('|')) {
         tabTitle = splitTitle(tabTitle, '|')
     }
-    tabTitle && domainAliasDatabase.update({ name: tabTitle, domain, source: DomainSource.DETECTED })
+    tabTitle && hostAliasDatabase.update({ name: tabTitle, host, source: HostAliasSource.DETECTED })
 }
 
 /**
@@ -53,16 +53,16 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     if (!url) return
     if (isBrowserUrl(url)) return
     const hostInfo = extractHostname(url)
-    const domain = hostInfo.host
+    const host = hostInfo.host
     const protocol = hostInfo.protocol
-    if (!domain) return
+    if (!host) return
     let favIconUrl = tab.favIconUrl
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
-    IS_CHROME && /^localhost(:.+)?/.test(domain) && (favIconUrl = undefined)
-    const iconUrl = favIconUrl || await iconUrlOfBrowser(protocol, domain)
-    iconUrlDatabase.put(domain, iconUrl)
+    IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
+    const iconUrl = favIconUrl || iconUrlOfBrowser(protocol, host)
+    iconUrlDatabase.put(host, iconUrl)
 
-    collectAliasEnabled && !isBrowserUrl(url) && isHomepage(url) && collectAlias(domain, tab.title)
+    collectAliasEnabled && !isBrowserUrl(url) && isHomepage(url) && collectAlias(host, tab.title)
 }
 
 /**

@@ -8,7 +8,7 @@
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import { Ref, h } from "vue"
 import TimerDatabase, { TimerCondition } from "../../../../../database/timer-database"
-import SiteInfo from "../../../../../entity/dto/site-info"
+import DataItem from "../../../../../entity/dto/data-item"
 import { ItemMessage } from "../../../../../util/i18n/components/item"
 import { t } from "../../../../locale"
 import { DataManageMessage } from "../../../../locale/components/data-manage"
@@ -30,7 +30,7 @@ type _Props = BaseFilterProps & {
 
     confirm: {
         message: keyof DataManageMessage
-        operation: (result: SiteInfo[]) => Promise<any>
+        operation: (result: DataItem[]) => Promise<any>
         resultMessage: keyof DataManageMessage
     }
 
@@ -103,7 +103,7 @@ const generateParamAndSelect = (props: _Props) => {
 }
 
 const handleClick = async (props: _Props) => {
-    const result: SiteInfo[] = await generateParamAndSelect(props)
+    const result: DataItem[] = await generateParamAndSelect(props)
 
     const count = result.length
     ElMessageBox.confirm(t(msg => msg.dataManage[props.confirm.message], { count }))

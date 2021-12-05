@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DomainMergeRuleItem from "../entity/dto/domain-merge-rule-item"
+import HostMergeRuleItem from "../entity/dto/host-merge-rule-item"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -14,7 +14,7 @@ const DB_KEY = REMAIN_WORD_PREFIX + 'MERGE_RULES'
 type MergeRuleSet = { [key: string]: string | number }
 
 /**
- * Rules to merge domain
+ * Rules to merge host
  *
  * @since 0.1.2
  */
@@ -32,9 +32,9 @@ class MergeRuleDatabase extends BaseDatabase {
         return this.storage.set(toUpdate)
     }
 
-    async selectAll(): Promise<DomainMergeRuleItem[]> {
+    async selectAll(): Promise<HostMergeRuleItem[]> {
         const set: MergeRuleSet = await this.refresh()
-        const result: DomainMergeRuleItem[] = []
+        const result: HostMergeRuleItem[] = []
         for (const [key, value] of Object.entries(set)) {
             result.push({ origin: key, merged: value })
         }
@@ -52,7 +52,7 @@ class MergeRuleDatabase extends BaseDatabase {
      * 
      * @param toAdd 
      */
-    async add(...toAdd: DomainMergeRuleItem[]): Promise<void> {
+    async add(...toAdd: HostMergeRuleItem[]): Promise<void> {
         const set = await this.refresh()
         // Not rewrite
         toAdd.forEach(item => set[item.origin] === undefined && (set[item.origin] = item.merged))

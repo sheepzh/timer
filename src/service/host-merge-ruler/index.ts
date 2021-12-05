@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DomainMergeRuleItem from "../../entity/dto/domain-merge-rule-item"
+import HostMergeRuleItem from "../../entity/dto/host-merge-rule-item"
 import { isIpAndPort } from "../../util/pattern"
 
 /**
- * Ruler to merge domain
+ * Ruler to merge host
  */
-export interface IDomainMergeRuler {
-    merge(domain: string): string
+export interface IHostMergeRuler {
+    merge(host: string): string
 }
 
 /**
- * @param domain domain
+ * @param host host
  * @param dotCount the count of dots to remain 
  */
 const getTheSuffix = (origin: string, dotCount: number) => {
@@ -46,7 +46,7 @@ type RegRuleItem = {
 
 const processRegStr = (regStr: string) => regStr.split('.').join('\\.').split('*').join('[^\\.]+')
 
-const convert = (dbItem: DomainMergeRuleItem) => {
+const convert = (dbItem: HostMergeRuleItem) => {
     const { origin, merged } = dbItem
     if (origin.includes('*')) {
         const regStr = processRegStr(origin)
@@ -57,19 +57,19 @@ const convert = (dbItem: DomainMergeRuleItem) => {
     }
 }
 
-export default class CustomizedDomainMergeRuler implements IDomainMergeRuler {
+export default class CustomizedHostMergeRuler implements IHostMergeRuler {
     private noRegMergeRules: { [origin: string]: string | number } = {}
 
     private regulars: RegRuleItem[] = []
 
-    constructor(rules: DomainMergeRuleItem[]) {
+    constructor(rules: HostMergeRuleItem[]) {
         rules.map(item => convert(item))
             .forEach(rule => Array.isArray(rule) ? (this.noRegMergeRules[rule[0]] = rule[1]) : (this.regulars.push(rule)))
     }
 
     /**
-     * @param domain origin domain host
-     * @returns merged domain host
+     * @param host origin host
+     * @returns merged host
      */
     merge(origin: string): string {
         // First check the static rules

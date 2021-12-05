@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import initTypeSelect, { getSelectedType } from './type-select'
-import initMergeDomain, { mergedDomain } from './merge-domain'
+import initTypeSelect, { getSelectedType } from "./type-select"
+import initMergeHost, { mergedHost } from "./merge-host"
 
 // Links
 import './all-function'
@@ -14,18 +14,18 @@ import './upgrade'
 import './meat'
 
 import './total-info'
-import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from '../../../service/timer-service'
-import SiteInfo from '../../../entity/dto/site-info'
-import { t } from '../../locale'
-import { QueryResult } from '../../popup'
-import { formatPeriodCommon } from '../../../util/time'
-import { updateTotal } from './total-info'
-import optionService from '../../../service/option-service'
+import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "../../../service/timer-service"
+import DataItem from "../../../entity/dto/data-item"
+import { t } from "../../locale"
+import { QueryResult } from "../../popup"
+import { formatPeriodCommon } from "../../../util/time"
+import { updateTotal } from "./total-info"
+import optionService from "../../../service/option-service"
 
 export function getQueryParam() {
     const param: TimerQueryParam = {
         date: new Date(),
-        mergeDomain: mergedDomain(),
+        mergeHost: mergedHost(),
         sort: getSelectedType(),
         sortOrder: SortDirect.DESC
     }
@@ -43,7 +43,7 @@ function _default(handleQuery: (result: QueryResult) => void) {
  * @param type type
  * @returns total alert text
  */
-const getTotalInfo = (data: SiteInfo[], type: Timer.SiteItem) => {
+const getTotalInfo = (data: DataItem[], type: Timer.DataDimension) => {
     if (type === 'time') {
         const totalCount = data.map(d => d[type] || 0).reduce((a, b) => a + b, 0)
         return t(msg => msg.totalCount, { totalCount })
@@ -60,7 +60,7 @@ async function query() {
     const queryParam = getQueryParam()
     const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
     const result = []
-    const other: SiteInfo = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
+    const other: DataItem = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
         if (i < itemCount) {
@@ -71,12 +71,12 @@ async function query() {
         }
     }
     result.push(other)
-    const type = queryParam.sort as Timer.SiteItem
+    const type = queryParam.sort as Timer.DataDimension
     const data = result.filter(item => item[type])
 
     const queryResult: QueryResult = {
         data,
-        mergeDomain: queryParam.mergeDomain,
+        mergeHost: queryParam.mergeHost,
         type
     }
     updateTotal(getTotalInfo(data, type))
@@ -86,7 +86,7 @@ async function query() {
 query()
 
 initTypeSelect(query)
-initMergeDomain(query)
+initMergeHost(query)
 
 export const queryInfo = query
 

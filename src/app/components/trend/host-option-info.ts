@@ -10,7 +10,7 @@ import { t } from "../../locale"
 /**
  * @since 0.2.2
  */
-class DomainOptionInfo {
+class HostOptionInfo {
     host: string
     merged: boolean
 
@@ -19,20 +19,20 @@ class DomainOptionInfo {
         this.merged = merged || false
     }
 
-    static empty = () => DomainOptionInfo.origin('')
+    static empty = () => HostOptionInfo.origin('')
 
     static origin(host: string) {
-        return new DomainOptionInfo(host)
+        return new HostOptionInfo(host)
     }
 
     static merged(host: string) {
-        return new DomainOptionInfo(host, true)
+        return new HostOptionInfo(host, true)
     }
 
     static from(key: string) {
         if (!key || !key.length) return this.empty()
         const merged = key.charAt(0) === '1'
-        return new DomainOptionInfo(key.substr(1), merged)
+        return new HostOptionInfo(key.substr(1), merged)
     }
 
     key(): string {
@@ -47,4 +47,4 @@ class DomainOptionInfo {
     }
 }
 
-export default DomainOptionInfo
+export default HostOptionInfo

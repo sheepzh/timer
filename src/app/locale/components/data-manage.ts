@@ -72,7 +72,7 @@ const _default: Messages<DataManageMessage> = {
         filterTime: 'Visit count on the day is between {start} and {end}.',
         filterDate: 'Recorded between {picker}.',
         unlimited: '∞',
-        archiveAlert: 'The archived details will be accumulated to its domain and not recorded daily.',
+        archiveAlert: 'The archived details will be accumulated to its host and not recorded daily.',
         dateShortcut: {
             tillYesterday: 'Until yesterday',
             till7DaysAgo: 'Until 7 days ago',

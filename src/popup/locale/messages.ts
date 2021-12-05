@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from '../../util/i18n'
-import chromeBase from '../../util/i18n/components/app'
-import itemMessages, { ItemMessage } from '../../util/i18n/components/item'
+import { Messages } from "../../util/i18n"
+import chromeBase from "../../util/i18n/components/app"
+import itemMessages, { ItemMessage } from "../../util/i18n/components/item"
 
 export type PopupMessage = {
     title: string
-    mergeDomainLabel: string
+    mergeHostLabel: string
     viewMore: string
     fileName: string
     saveAsImageTitle: string
@@ -29,7 +29,7 @@ export type PopupMessage = {
 const _default: Messages<PopupMessage> = {
     zh_CN: {
         title: '今日数据',
-        mergeDomainLabel: '合并子域名',
+        mergeHostLabel: '合并子域名',
         viewMore: '所有功能',
         fileName: '上网时长清单_{today}_by_{app}',
         saveAsImageTitle: '保存',
@@ -45,7 +45,7 @@ const _default: Messages<PopupMessage> = {
     },
     en: {
         title: 'Today\'s Data',
-        mergeDomainLabel: 'Merge Sites',
+        mergeHostLabel: 'Merge Sites',
         viewMore: 'All Functions',
         fileName: 'Web_Time_List_{today}_By_{app}',
         saveAsImageTitle: 'Snapshot',
@@ -61,7 +61,7 @@ const _default: Messages<PopupMessage> = {
     },
     ja: {
         title: '今日のデータ',
-        mergeDomainLabel: 'URLをマージ',
+        mergeHostLabel: 'URLをマージ',
         viewMore: '続きを見る',
         fileName: 'オンライン時間_{today}_by_{app}',
         saveAsImageTitle: 'ダウンロード',

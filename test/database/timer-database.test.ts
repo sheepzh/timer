@@ -2,7 +2,7 @@ import { DATE_FORMAT } from "../../src/database/common/constant"
 import TimerDatabase, { TimerCondition } from "../../src/database/timer-database"
 import WastePerDay from "../../src/entity/dao/waste-per-day"
 import { formatTime, MILL_PER_DAY } from "../../src/util/time"
-import storage from '../__mock__/storage'
+import storage from "../__mock__/storage"
 
 const db = new TimerDatabase(storage.local)
 const now = new Date()

@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import timeService from '../service/timer-service'
+import timerService from "../service/timer-service"
 import whitelistService from "../service/whitelist-service"
-import processLimit from './limit'
+import processLimit from "./limit"
 import printInfo from "./printer"
 
 const host = document.location.host
@@ -19,7 +19,7 @@ async function main() {
     const isWhitelist = await whitelistService.include(host)
     if (isWhitelist) return
 
-    timeService.addOneTime(host)
+    timerService.addOneTime(host)
     printInfo(host)
     processLimit(url)
 }

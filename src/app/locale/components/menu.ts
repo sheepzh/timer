@@ -16,6 +16,7 @@ export type MenuMessage = {
     habit: string
     limit: string
     additional: string
+    siteManage: string
     whitelist: string
     mergeRule: string
     option: string
@@ -30,6 +31,7 @@ const _default: Messages<MenuMessage> = {
         dataHistory: '历史趋势',
         dataClear: '内存管理',
         additional: '附加功能',
+        siteManage: '网站名称管理',
         whitelist: '白名单管理',
         mergeRule: '子域名合并',
         option: '扩展选项',
@@ -49,6 +51,7 @@ const _default: Messages<MenuMessage> = {
         habit: 'Habits',
         limit: 'Browsing Limit',
         additional: 'Additional Functions',
+        siteManage: 'Site Management',
         whitelist: 'Whitelist',
         mergeRule: 'Merge-site Rules',
         other: 'Other Features',
@@ -65,6 +68,7 @@ const _default: Messages<MenuMessage> = {
         habit: '閲覧の習慣',
         limit: '閲覧の制限',
         additional: 'その他の機能',
+        siteManage: 'ウェブサイト管理',
         whitelist: 'Webホワイトリスト',
         mergeRule: 'ドメイン合併',
         other: 'その他の機能',

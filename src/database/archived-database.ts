@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { log } from '../common/logger'
-import WastePerDay from '../entity/dao/waste-per-day'
-import SiteInfo from '../entity/dto/site-info'
-import BaseDatabase from './common/base-database'
-import { ARCHIVED_PREFIX } from './common/constant'
+import { log } from "../common/logger"
+import WastePerDay from "../entity/dao/waste-per-day"
+import DataItem from "../entity/dto/data-item"
+import BaseDatabase from "./common/base-database"
+import { ARCHIVED_PREFIX } from "./common/constant"
 
 /**
  * Database of archived site
@@ -28,7 +28,7 @@ class ArchivedDatabase extends BaseDatabase {
         return Promise.resolve(result)
     }
 
-    private generateKey(row: SiteInfo): string {
+    private generateKey(row: DataItem): string {
         return ARCHIVED_PREFIX + row.host
     }
 
@@ -37,7 +37,7 @@ class ArchivedDatabase extends BaseDatabase {
      *  
      * @param rows     site rows, the host and date mustn't be null
      */
-    async updateArchived(rows: SiteInfo[]): Promise<void> {
+    async updateArchived(rows: DataItem[]): Promise<void> {
         const domainSet: Set<string> = new Set()
         rows = rows.filter(({ date, host }) => !!host && !!date)
         rows.forEach(({ host }) => domainSet.add(host))
@@ -48,17 +48,17 @@ class ArchivedDatabase extends BaseDatabase {
             const { host, focus, total, time } = row
             let archive = archiveMap[host]
 
-            !archive && (archiveMap[host] = archive = new SiteInfo({ host }))
+            !archive && (archiveMap[host] = archive = new DataItem({ host }))
 
             archive.focus += focus || 0
             archive.total += total || 0
             archive.time += time || 0
         })
-        const archivedValues = Object.values(archiveMap) as SiteInfo[]
+        const archivedValues = Object.values(archiveMap) as DataItem[]
         return this.rewrite(archivedValues)
     }
 
-    private async rewrite(toWrite: SiteInfo[]): Promise<void> {
+    private async rewrite(toWrite: DataItem[]): Promise<void> {
         const promises = toWrite.map(tw => {
             const object = {}
             const { total, focus, time } = tw
@@ -74,9 +74,9 @@ class ArchivedDatabase extends BaseDatabase {
      * 
      * @param domains  the domains which the key belongs to
      */
-    async selectArchived(domains: Set<string>): Promise<SiteInfo[]> {
+    async selectArchived(domains: Set<string>): Promise<DataItem[]> {
         const items = await this.refresh()
-        const result: SiteInfo[] = Object.entries(items)
+        const result: DataItem[] = Object.entries(items)
             .filter(([key]) => domains.has(key))
             .map(([host, waste]) => {
                 const { focus, total, time } = waste as WastePerDay
