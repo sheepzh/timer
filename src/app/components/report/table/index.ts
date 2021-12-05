@@ -7,8 +7,8 @@
 
 import { ElTable } from "element-plus"
 import { h, Ref, UnwrapRef } from "vue"
-import SiteInfo from "../../../entity/dto/site-info"
-import columns, { ColumnProps } from "./table-column"
+import DataItem from "../../../../entity/dto/data-item"
+import columns, { ColumnProps } from "./columns"
 
 export enum ElSortDirect {
     ASC = 'ascending',
@@ -16,13 +16,13 @@ export enum ElSortDirect {
 }
 
 export type SortInfo = {
-    prop: Timer.SiteItem | 'host'
+    prop: Timer.DataDimension | 'host'
     order: ElSortDirect
 }
 
 export type TableProps = ColumnProps &
 {
-    dataRef: Ref<SiteInfo[]>
+    dataRef: Ref<DataItem[]>
     sortRef: UnwrapRef<SortInfo>
 }
 

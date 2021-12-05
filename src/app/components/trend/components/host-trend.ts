@@ -11,7 +11,7 @@ import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupCo
 import { t } from "../../../locale"
 import timerService, { TimerQueryParam, SortDirect } from "../../../../service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
-import DomainOptionInfo from "../domain-option-info"
+import HostOptionInfo from "../host-option-info"
 import { contentContainerCardStyle } from "../../common/content-container"
 
 // Get the timestamp of one timestamp of date
@@ -100,10 +100,10 @@ const options: EChartOption<EChartOption.SeriesLine> = {
 
 const renderChart = () => chartInstance && chartInstance.setOption(options, true)
 
-const domainRef: Ref<DomainOptionInfo> = ref(DomainOptionInfo.empty())
+const hostRef: Ref<HostOptionInfo> = ref(HostOptionInfo.empty())
 const dateRangeRef: Ref<Array<Date>> = ref([])
 
-watch(domainRef, () => queryData())
+watch(hostRef, () => queryData())
 watch(dateRangeRef, () => {
     updateXAxis()
     queryData()
@@ -133,7 +133,7 @@ const getAxias = (format: string) => {
  */
 const updateXAxis = () => {
     const xAxis: EChartOption.XAxis = options.xAxis as EChartOption.XAxis
-    const host = domainRef.value.host
+    const host = hostRef.value.host
     if (!host || !dateRangeRef.value || dateRangeRef.value.length !== 2) {
         xAxis.data = []
     }
@@ -142,9 +142,9 @@ const updateXAxis = () => {
 
 const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
     return {
-        // If the domain is empty, no result will be queried with this param.
-        host: domainRef.value.host === '' ? '___foo_bar' : domainRef.value.host,
-        mergeDomain: domainRef.value.merged,
+        // If the host is empty, no result will be queried with this param.
+        host: hostRef.value.host === '' ? '___foo_bar' : hostRef.value.host,
+        mergeDomain: hostRef.value.merged,
         fullHost: true,
         sort: 'date',
         sortOrder: SortDirect.ASC
@@ -171,7 +171,7 @@ const queryData = () => {
             })
 
             const titleOption = options.title as EChartTitleOption
-            titleOption.subtext = domainRef.value.toString() || defaultSubTitle
+            titleOption.subtext = hostRef.value.toString() || defaultSubTitle
             options.series[0].data = totalData
             options.series[1].data = focusData
             options.series[2].data = timeData
@@ -181,7 +181,7 @@ const queryData = () => {
 
 const _default = defineComponent((_, context: SetupContext) => {
     context.expose({
-        setDomain: (key: string) => domainRef.value = DomainOptionInfo.from(key),
+        setDomain: (key: string) => hostRef.value = HostOptionInfo.from(key),
         setDateRange: (dateRange: Date[]) => dateRangeRef.value = dateRange
     })
 

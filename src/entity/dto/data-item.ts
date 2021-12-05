@@ -5,18 +5,21 @@
  * https://opensource.org/licenses/MIT
  */
 
-type SiteItem = Timer.SiteItem
+type DataDimension = Timer.DataDimension
 
-export const ALL_SITE_ITEMS: SiteItem[] = ['focus', 'total', 'time']
+export const ALL_DATA_ITEMS: DataDimension[] = ['focus', 'total', 'time']
 
-export type SiteItemVal = { [item in SiteItem]: number }
+export type DataItemVal = { [item in DataDimension]: number }
 
-export type SiteKeyVal = {
+/**
+ * The unique key of data item
+ */
+export type DataItemUk = {
     host: string
     date?: string
 }
 
-export default class SiteInfo implements SiteItemVal {
+export default class DataItem implements DataItemVal {
     host: string
     date: string
     total: number
@@ -29,7 +32,7 @@ export default class SiteInfo implements SiteItemVal {
      * 
      * @since 0.1.5
      */
-    mergedHosts: SiteInfo[]
+    mergedHosts: DataItem[]
     /**
      * Icon url
      * 
@@ -41,7 +44,7 @@ export default class SiteInfo implements SiteItemVal {
      */
     alias?: string
 
-    constructor(key: SiteKeyVal, item?: SiteItemVal) {
+    constructor(key: DataItemUk, item?: DataItemVal) {
         this.host = key.host
         this.date = key.date || ''
 

@@ -9,7 +9,7 @@ import { ElCard, ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "
 import { t } from "../../../locale"
 import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "../../../../service/option-service"
-import { ALL_SITE_ITEMS } from "../../../../entity/dto/site-info"
+import { ALL_DATA_ITEMS } from "../../../../entity/dto/data-item"
 import { renderOptionItem, renderHeader, tagText } from "../common"
 import { defaultPopup } from "../../../../util/constant/option"
 
@@ -27,12 +27,12 @@ const popupMaxInput = () => h(ElInputNumber, {
     }
 })
 
-const typeOptions = () => ALL_SITE_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
+const typeOptions = () => ALL_DATA_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
 const typeSelect = () => h(ElSelect, {
     modelValue: optionRef.value.defaultType,
     size: 'mini',
     style: { width: '140px' },
-    onChange: (val: Timer.SiteItem) => {
+    onChange: (val: Timer.DataDimension) => {
         optionRef.value.defaultType = val
         optionService.setPopupOption(optionRef.value)
     }

@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { App, createApp, defineComponent, h } from 'vue'
-import Main from './layout'
+import { App, createApp, defineComponent, h } from "vue"
+import Main from "./layout"
 import 'element-plus/theme-chalk/index.css'
 import './styles' // global css
-import installRouter from './router'
+import installRouter from "./router"
 import '../common/timer'
-import { useLocale, useLocaleProps } from 'element-plus'
-import { locale as appLocale, Locale } from '../util/i18n'
+import { useLocale, useLocaleProps } from "element-plus"
+import { locale as appLocale, Locale } from "../util/i18n"
 
 const locales: { [locale in Locale]: () => Promise<{ default: unknown }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),

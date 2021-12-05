@@ -5,24 +5,24 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimerDatabase, { TimerCondition } from '../database/timer-database'
-import WhitelistDatabase from '../database/whitelist-database'
-import ArchivedDatabase from '../database/archived-database'
-import SiteInfo from '../entity/dto/site-info'
-import { log } from '../common/logger'
-import CustomizedDomainMergeRuler from './domain-merge-ruler'
-import DomainMergeRuleItem from '../entity/dto/domain-merge-rule-item'
-import MergeRuleDatabase from '../database/merge-rule-database'
-import WastePerDay, { WasteData } from '../entity/dao/waste-per-day'
-import IconUrlDatabase from '../database/icon-url-database'
-import DomainAliasDatabase from '../database/domain-alias-database'
+import TimerDatabase, { TimerCondition } from "../database/timer-database"
+import WhitelistDatabase from "../database/whitelist-database"
+import ArchivedDatabase from "../database/archived-database"
+import DataItem from "../entity/dto/data-item"
+import { log } from "../common/logger"
+import CustomizedHostMergeRuler from "./host-merge-ruler"
+import HostMergeRuleItem from "../entity/dto/host-merge-rule-item"
+import MergeRuleDatabase from "../database/merge-rule-database"
+import WastePerDay, { WasteData } from "../entity/dao/waste-per-day"
+import IconUrlDatabase from "../database/icon-url-database"
+import HostAliasDatabase from "../database/host-alias-database"
 
 const storage = chrome.storage.local
 
 const timerDatabase = new TimerDatabase(storage)
 const archivedDatabase = new ArchivedDatabase(storage)
 const iconUrlDatabase = new IconUrlDatabase(storage)
-const domainAliasDatabase = new DomainAliasDatabase(storage)
+const hostAliasDatabase = new HostAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
 const whitelistDatabase = new WhitelistDatabase(storage)
 
@@ -33,7 +33,7 @@ declare type PageParam = {
 
 declare type PageInfo = {
     total: number
-    list: SiteInfo[]
+    list: DataItem[]
 }
 
 export enum SortDirect {
@@ -43,9 +43,9 @@ export enum SortDirect {
 
 export type TimerQueryParam = TimerCondition & {
     /**
-     * Group by the root domain
+     * Group by the root host
      */
-    mergeDomain?: boolean
+    mergeHost?: boolean
     /**
      * Merge items of the same host from different days
      */
@@ -74,7 +74,7 @@ export type FillFlagParam = {
     alias?: boolean
 }
 
-export type DomainSet = {
+export type HostSet = {
     origin: Set<string>
     merged: Set<string>
 }
@@ -83,7 +83,7 @@ export type DomainSet = {
  * Service of timer
  * @since 0.0.5
  */
-class TimeService {
+class TimerService {
 
     private whitelist: string[] = []
 
@@ -106,18 +106,18 @@ class TimeService {
     }
 
     /**
-     * Query domain names
+     * Query hosts
      * 
-     * @param fuzzyQuery the part of domain name
+     * @param fuzzyQuery the part of host
      * @since 0.0.8
      */
-    async listDomains(fuzzyQuery: string): Promise<DomainSet> {
+    async listHosts(fuzzyQuery: string): Promise<HostSet> {
         const rows = await timerDatabase.select()
         const allHosts: Set<string> = new Set()
         rows.map(row => row.host).forEach(host => allHosts.add(host))
         // Generate ruler
-        const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
-        const mergeRuler = new CustomizedDomainMergeRuler(mergeRuleItems)
+        const mergeRuleItems: HostMergeRuleItem[] = await mergeRuleDatabase.selectAll()
+        const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
         const origin: Set<string> = new Set()
         const merged: Set<string> = new Set()
@@ -140,12 +140,12 @@ class TimeService {
      * @param rows rows
      * @since 0.0.9
      */
-    async archive(rows: SiteInfo[]): Promise<void> {
+    async archive(rows: DataItem[]): Promise<void> {
         await archivedDatabase.updateArchived(rows)
         return timerDatabase.delete(rows)
     }
 
-    private processSort(origin: SiteInfo[], param: TimerQueryParam) {
+    private processSort(origin: DataItem[], param: TimerQueryParam) {
         const { sort, sortOrder } = param
         if (!sort) return
 
@@ -158,19 +158,19 @@ class TimeService {
         })
     }
 
-    private async fillIconUrl(siteInfos: SiteInfo[]): Promise<void> {
-        const hosts = siteInfos.map(o => o.host)
+    private async fillIconUrl(DataItems: DataItem[]): Promise<void> {
+        const hosts = DataItems.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
-        siteInfos.forEach(siteInfo => siteInfo.iconUrl = iconUrlMap[siteInfo.host])
+        DataItems.forEach(DataItem => DataItem.iconUrl = iconUrlMap[DataItem.host])
     }
 
-    private async fillAlias(siteInfos: SiteInfo[]): Promise<void> {
-        const hosts: string[] = siteInfos.map(o => o.host)
-        const aliasMap = await domainAliasDatabase.get(...hosts)
-        siteInfos.forEach(siteInfo => siteInfo.alias = aliasMap[siteInfo.host]?.name)
+    private async fillAlias(DataItems: DataItem[]): Promise<void> {
+        const hosts: string[] = DataItems.map(o => o.host)
+        const aliasMap = await hostAliasDatabase.get(...hosts)
+        DataItems.forEach(DataItem => DataItem.alias = aliasMap[DataItem.host]?.name)
     }
 
-    async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<SiteInfo[]> {
+    async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<DataItem[]> {
         log("service: select:{param}", param)
 
         // Need match full host after merged
@@ -178,35 +178,35 @@ class TimeService {
         // If merged and full host
         // Then set the host blank
         // And filter them after merge
-        param?.mergeDomain && param?.fullHost && !(param.fullHost = false) && (fullHost = param?.host) && (param.host = undefined)
+        param?.mergeHost && param?.fullHost && !(param.fullHost = false) && (fullHost = param?.host) && (param.host = undefined)
 
         param = param || {}
         let origin = await timerDatabase.select(param as TimerCondition)
         // Process after select
         // 1st merge
-        if (param.mergeDomain) {
+        if (param.mergeHost) {
             // Merge with rules
-            origin = await this.mergeDomain(origin)
-            // filter again, cause of the exchange of the host, if the param.mergeDomain is true
+            origin = await this.mergeHost(origin)
+            // filter again, cause of the exchange of the host, if the param.mergeHost is true
             origin = this.filter(origin, param)
         }
         param.mergeDate && (origin = this.mergeDate(origin))
         // 2nd sort
         this.processSort(origin, param)
         // 3rd get icon url and alias if need
-        if (!param.mergeDomain) {
+        if (!param.mergeHost) {
             flagParam?.iconUrl && await this.fillIconUrl(origin)
             flagParam?.alias && await this.fillAlias(origin)
         }
-        // Filter merged domain if full host
-        fullHost && (origin = origin.filter(siteInfo => siteInfo.host === fullHost))
+        // Filter merged host if full host
+        fullHost && (origin = origin.filter(DataItem => DataItem.host === fullHost))
         return origin
     }
 
     async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageInfo> {
         log("selectByPage:{param},{page}", param, page)
         page = page || { pageNum: 1, pageSize: 10 }
-        const origin: SiteInfo[] = await this.select(param)
+        const origin: DataItem[] = await this.select(param)
         // Page
         let pageNum = page.pageNum
         let pageSize = page.pageSize
@@ -215,8 +215,8 @@ class TimeService {
         const startIndex = (pageNum - 1) * pageSize
         const endIndex = (pageNum) * pageSize
         const total = origin.length
-        const list: SiteInfo[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
-        if (param.mergeDomain) {
+        const list: DataItem[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
+        if (param.mergeHost) {
             for (const origin of list) await this.fillIconUrl(origin.mergedHosts)
         } else {
             await this.fillIconUrl(list)
@@ -224,49 +224,49 @@ class TimeService {
         return Promise.resolve({ total, list })
     }
 
-    private filter(origin: SiteInfo[], param: TimerCondition) {
+    private filter(origin: DataItem[], param: TimerCondition) {
         const paramHost = (param.host || '').trim()
         return paramHost ? origin.filter(o => o.host.includes(paramHost)) : origin
     }
 
-    private async mergeDomain(origin: SiteInfo[]): Promise<SiteInfo[]> {
-        const newSiteInfos = []
+    private async mergeHost(origin: DataItem[]): Promise<DataItem[]> {
+        const newDataItems = []
         const map = {}
 
         // Generate ruler
-        const mergeRuleItems: DomainMergeRuleItem[] = await mergeRuleDatabase.selectAll()
-        const mergeRuler = new CustomizedDomainMergeRuler(mergeRuleItems)
+        const mergeRuleItems: HostMergeRuleItem[] = await mergeRuleDatabase.selectAll()
+        const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
         origin.forEach(o => {
             const host = o.host
             const date = o.date
-            let domain = mergeRuler.merge(host)
-            const merged = this.merge(map, o, domain + date)
-            merged.host = domain
+            let mergedHost = mergeRuler.merge(host)
+            const merged = this.merge(map, o, mergedHost + date)
+            merged.host = mergedHost
             const mergedHosts = merged.mergedHosts || (merged.mergedHosts = [])
             mergedHosts.push(o)
         })
         for (let key in map) {
-            newSiteInfos.push(map[key])
+            newDataItems.push(map[key])
         }
-        return newSiteInfos
+        return newDataItems
     }
 
-    private mergeDate(origin: SiteInfo[]): SiteInfo[] {
-        const newSiteInfos = []
+    private mergeDate(origin: DataItem[]): DataItem[] {
+        const newDataItems = []
         const map = {}
 
         origin.forEach(o => this.merge(map, o, o.host).date = '')
         for (let key in map) {
-            newSiteInfos.push(map[key])
+            newDataItems.push(map[key])
         }
-        return newSiteInfos
+        return newDataItems
     }
 
-    private merge(map: {}, origin: SiteInfo, key: string): SiteInfo {
-        let exist: SiteInfo = map[key]
+    private merge(map: {}, origin: DataItem, key: string): DataItem {
+        let exist: DataItem = map[key]
         if (exist === undefined) {
-            exist = map[key] = new SiteInfo({ host: origin.host, date: origin.date })
+            exist = map[key] = new DataItem({ host: origin.host, date: origin.date })
             exist.mergedHosts = origin.mergedHosts || []
         }
         exist.time += origin.time
@@ -280,4 +280,4 @@ class TimeService {
     }
 }
 
-export default new TimeService()
+export default new TimerService()

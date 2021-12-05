@@ -111,7 +111,7 @@ export type PipProps = QueryResult & {
 }
 
 export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
-    const { type, mergeDomain, data, displaySiteName } = props
+    const { type, mergeHost, data, displaySiteName } = props
     const options: EChartOption<EChartOption.SeriesPie> = {
         title: staticOptions.title,
         tooltip: {
@@ -123,7 +123,7 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
         series: [{
             ...staticOptions.series[0],
             label: {
-                formatter: ({ name }) => mergeDomain || name === t(msg => msg.otherLabel) ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`
+                formatter: ({ name }) => mergeHost || name === t(msg => msg.otherLabel) ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`
             }
         }],
         toolbox: staticOptions.toolbox

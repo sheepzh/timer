@@ -1,8 +1,8 @@
-import path from 'path'
-import GenerateJsonPlugin from 'generate-json-webpack-plugin'
-import FileManagerWebpackPlugin from 'filemanager-webpack-plugin'
-import optionGenerator from './webpack.common'
-import webpack from 'webpack'
+import path from "path"
+import GenerateJsonPlugin from "generate-json-webpack-plugin"
+import FileManagerWebpackPlugin from "filemanager-webpack-plugin"
+import optionGenerator from "./webpack.common"
+import webpack from "webpack"
 
 const outputDir = path.join(__dirname, '..', 'dist_dev')
 let manifest: any

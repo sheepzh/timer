@@ -6,9 +6,9 @@
  */
 
 import { ECharts, init, use } from "echarts/core"
-import { PieChart } from 'echarts/charts'
-import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
+import { PieChart } from "echarts/charts"
+import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from "echarts/components"
+import { CanvasRenderer } from "echarts/renderers"
 
 // Register echarts
 use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])

@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElCard } from 'element-plus'
-import { h, Ref } from 'vue'
-import { contentContainerCardStyle } from '../../common/content-container'
+import { ElCard } from "element-plus"
+import { h, Ref } from "vue"
+import { contentContainerCardStyle } from "../../common/content-container"
 
 export type ChartProps = {
     chartRef: Ref<HTMLDivElement>

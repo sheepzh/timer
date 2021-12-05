@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import SiteInfo from "../entity/dto/site-info"
+import DataItem from "../entity/dto/data-item"
 
 declare type QueryResult = {
-    type: Timer.SiteItem
-    mergeDomain: boolean
-    data: SiteInfo[]
+    type: Timer.DataDimension
+    mergeHost: boolean
+    data: DataItem[]
 }

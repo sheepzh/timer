@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, h } from 'vue'
-import Popup from './components/popup'
-import Appearance from './components/appearance'
-import Statistics from './components/statistics'
+import { defineComponent, h } from "vue"
+import Popup from "./components/popup"
+import Appearance from "./components/appearance"
+import Statistics from "./components/statistics"
 import './style'
 
 export default defineComponent(() => {

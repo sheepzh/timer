@@ -1,10 +1,10 @@
-import path from 'path'
-import GenerateJsonPlugin from 'generate-json-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
-import webpack from 'webpack'
+import path from "path"
+import GenerateJsonPlugin from "generate-json-webpack-plugin"
+import CopyWebpackPlugin from "copy-webpack-plugin"
+import webpack from "webpack"
 // Generate json files 
-import manifest from '../src/manifest'
-import i18nChrome from '../src/util/i18n/chrome'
+import manifest from "../src/manifest"
+import i18nChrome from "../src/util/i18n/chrome"
 
 const generateJsonPlugins = [
     new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance

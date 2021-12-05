@@ -8,19 +8,19 @@
 /**
  * Generate operation buttons
  */
-import { h, ref, Ref } from 'vue'
+import { h, ref, Ref } from "vue"
 import { ElButton, ElMessage, ElPopconfirm, ElTableColumn } from "element-plus"
-import { ItemMessage } from "../../../../util/i18n/components/item"
-import { t } from "../../../locale"
-import SiteInfo from '../../../../entity/dto/site-info'
-import TimerDatabase from '../../../../database/timer-database'
-import whitelistService from '../../../../service/whitelist-service'
-import { formatTime } from '../../../../util/time'
-import { dateFormatter } from '../formatter'
-import { ReportMessage } from '../../../locale/components/report'
-import { QueryData } from '../../common/constants'
-import { LocationQueryRaw, Router } from 'vue-router'
-import { TREND_ROUTE } from '../../../router/constants'
+import { ItemMessage } from "../../../../../util/i18n/components/item"
+import { t } from "../../../../locale"
+import DataItem from "../../../../../entity/dto/data-item"
+import TimerDatabase from "../../../../../database/timer-database"
+import whitelistService from "../../../../../service/whitelist-service"
+import { formatTime } from "../../../../../util/time"
+import { dateFormatter } from "../../formatter"
+import { ReportMessage } from "../../../../locale/components/report"
+import { QueryData } from "../../../common/constants"
+import { LocationQueryRaw, Router } from "vue-router"
+import { TREND_ROUTE } from "../../../../router/constants"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -32,7 +32,7 @@ type Props = {
     queryData: QueryData
     whitelistRef: Ref<string[]>
     mergeDateRef: Ref<boolean>
-    mergeDomainRef: Ref<boolean>
+    mergeHostRef: Ref<boolean>
     dateRangeRef: Ref<Array<Date>>
     router: Router
 }
@@ -45,7 +45,7 @@ import {
     AllowedComponentProps,
     ComponentCustomProps
 } from "vue"
-import { Delete, Open, Plus, Stopwatch } from '@element-plus/icons'
+import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons"
 
 type IconPublicProps = VNodeProps & AllowedComponentProps & ComponentCustomProps
 
@@ -116,7 +116,7 @@ const changeDeleteConfirmUrl = (props: Props, host: string, date: string) => {
     deleteMsgRef.value = msg
 }
 
-const deleteButton = (props: Props, row: SiteInfo) => operationButton(
+const deleteButton = (props: Props, row: DataItem) => operationButton(
     {
         buttonType: 'warning',
         buttonIcon: Delete,
@@ -134,7 +134,7 @@ const operateTheWhitelist = async (operation: Promise<any>, props: Props, succes
 }
 
 // add 2 whitelist
-const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
+const add2WhitelistButton = (props: Props, { host }: DataItem) => operationButton({
     confirmTitle: t(msg => msg.whitelist.addConfirmMsg, { url: host }),
     buttonType: 'danger',
     buttonIcon: Plus,
@@ -143,7 +143,7 @@ const add2WhitelistButton = (props: Props, { host }: SiteInfo) => operationButto
 })
 
 // Remove from whitelist
-const removeFromWhitelistButton = (props: Props, { host }: SiteInfo) => operationButton({
+const removeFromWhitelistButton = (props: Props, { host }: DataItem) => operationButton({
     confirmTitle: t(msg => msg.whitelist.removeConfirmMsg, { url: host }),
     buttonType: 'primary',
     buttonIcon: Open,
@@ -151,27 +151,27 @@ const removeFromWhitelistButton = (props: Props, { host }: SiteInfo) => operatio
     onConfirm: () => operateTheWhitelist(whitelistService.remove(host), props, 'removeFromWhitelist')
 })
 
-function handleClickJump(props: Props, { host }: SiteInfo) {
+function handleClickJump(props: Props, { host }: DataItem) {
     const query: LocationQueryRaw = {
         host,
-        merge: props.mergeDomainRef.value ? '1' : '0',
+        merge: props.mergeHostRef.value ? '1' : '0',
     }
     props.router.push({ path: TREND_ROUTE, query })
 }
 
 // Jump to the trend
-const jumpTowardTheTrend = (props: Props, row: SiteInfo) => h<{}>(ElButton, {
+const jumpTowardTheTrend = (props: Props, row: DataItem) => h<{}>(ElButton, {
     icon: Stopwatch,
     size: 'mini',
     type: 'primary',
     onClick: () => handleClickJump(props, row)
 }, () => t(msg => msg.item.operation.jumpToTrend))
 
-const operationContainer = (props: Props, row: SiteInfo) => {
+const operationContainer = (props: Props, row: DataItem) => {
     const operationButtons = []
     const { host } = row
     operationButtons.push(jumpTowardTheTrend(props, row))
-    if (!props.mergeDomainRef.value) {
+    if (!props.mergeHostRef.value) {
         // Delete button 
         operationButtons.push(deleteButton(props, row))
 
@@ -188,9 +188,9 @@ const tableColumnProps = {
     fixed: 'right'
 }
 const _default = (props: Props) => h(ElTableColumn,
-    { minWidth: props.mergeDomainRef.value ? 100 : 280, ...tableColumnProps },
+    { minWidth: props.mergeHostRef.value ? 100 : 280, ...tableColumnProps },
     {
-        default: (data: { row: SiteInfo }) => operationContainer(props, data.row)
+        default: (data: { row: DataItem }) => operationContainer(props, data.row)
     }
 )
 

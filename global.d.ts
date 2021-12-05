@@ -5,7 +5,7 @@
  * @since 0.3.0
  */
 declare namespace Timer {
-    type SiteItem = 'total' | 'focus' | 'time'
+    type DataDimension = 'total' | 'focus' | 'time'
     /**
      * Options used for the popup page
      */
@@ -17,9 +17,9 @@ declare namespace Timer {
         /**
          * The default to display
          */
-        defaultType: SiteItem
+        defaultType: DataDimension
         /**
-         * Replace the domain name with site name which is detected automatically from the title of site homepages,
+         * Replace the host name with site name which is detected automatically from the title of site homepages,
          * or modified manually by the user
          * 
          * @since 0.4.1

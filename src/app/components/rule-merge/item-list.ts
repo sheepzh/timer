@@ -9,12 +9,12 @@ import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { MergeRuleMessage } from "../../locale/components/merge-rule"
 import { Ref, ref, h } from "vue"
 import MergeRuleDatabase from "../../../database/merge-rule-database"
-import DomainMergeRuleItem from "../../../entity/dto/domain-merge-rule-item"
-import { isValidMergeOriginHost } from "../../../util/pattern"
+import HostMergeRuleItem from "../../../entity/dto/host-merge-rule-item"
+import { isValidHost } from "../../../util/pattern"
 import { t } from "../../locale"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
-const ruleItemsRef: Ref<DomainMergeRuleItem[]> = ref([])
+const ruleItemsRef: Ref<HostMergeRuleItem[]> = ref([])
 mergeRuleDatabase
     .selectAll()
     .then(items => ruleItemsRef.value = [...items])
@@ -27,7 +27,7 @@ const handleInputConfirm = () => {
     const origin = originValRef.value
     const merged = mergedValRef.value
 
-    if (!isValidMergeOriginHost(origin)) {
+    if (!isValidHost(origin)) {
         ElMessage.warning(t(msg => msg.mergeRule.errorOrigin))
         return
     }
@@ -36,7 +36,7 @@ const handleInputConfirm = () => {
         ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
         return
     }
-    let toInsert: DomainMergeRuleItem
+    let toInsert: HostMergeRuleItem
     if (/^[0-9]+$/.test(merged)) {
         let mergedDotCount = parseInt(merged)
         mergedDotCount < 1 ? (mergedDotCount = 0) : (mergedDotCount--)
@@ -48,11 +48,11 @@ const handleInputConfirm = () => {
 
     ElMessageBox.confirm(
         t(msg => msg.mergeRule.addConfirmMsg, { origin }),
-        t(msg => msg.mergeRule.confirmTitle), { dangerouslyUseHTMLString: true }
+        t(msg => msg.operation.confirmTitle), { dangerouslyUseHTMLString: true }
     ).then(() => mergeRuleDatabase.add(toInsert)
     ).then(() => {
         ruleItemsRef.value.push(toInsert)
-        ElMessage({ type: 'success', message: t(msg => msg.mergeRule.successMsg) })
+        ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
     }).catch(() => { })
 
     inputVisibleRef.value = false
@@ -61,21 +61,22 @@ const handleInputConfirm = () => {
 }
 
 // Render the tag items
-const handleTagClose = (ruleItem: DomainMergeRuleItem) => {
+const handleTagClose = (ruleItem: HostMergeRuleItem) => {
     const { origin } = ruleItem
     const confirmMsg = t(msg => msg.mergeRule.removeConfirmMsg, { origin })
-    const confirmTitle = t(msg => msg.mergeRule.confirmTitle)
+    const confirmTitle = t(msg => msg.operation.confirmTitle)
     ElMessageBox
         .confirm(confirmMsg, confirmTitle)
         .then(() => mergeRuleDatabase.remove(origin))
         .then(() => {
-            ElMessage({ type: 'success', message: t(msg => msg.mergeRule.successMsg) })
+            ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
             const index = ruleItemsRef.value.indexOf(ruleItem)
             index !== -1 && ruleItemsRef.value.splice(index, 1)
         })
         .catch(() => { })
 }
-const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
+
+const generateTagItems = (ruleItem: HostMergeRuleItem) => {
     const { origin, merged } = ruleItem
     const type: '' | 'info' | 'success' = typeof merged === 'number' ? 'success' : merged === '' ? 'info' : ''
     const txt = typeof merged === 'number'
@@ -91,7 +92,7 @@ const generateTagItems = (ruleItem: DomainMergeRuleItem) => {
 }
 
 const inputVal = (modelValue: Ref<string>, placeholder: keyof MergeRuleMessage) => h(ElInput, {
-    class: 'input-new-tag white-item origin-domain-input',
+    class: 'input-new-tag white-item origin-host-input',
     modelValue: modelValue.value,
     placeholder: t(msg => msg.mergeRule[placeholder]),
     clearable: true,
@@ -108,7 +109,7 @@ const buttonProps = {
     class: 'button-new-tag white-item',
     onClick: () => inputVisibleRef.value ? handleInputConfirm() : (inputVisibleRef.value = true)
 }
-const buttonMessage = () => inputVisibleRef.value ? t(msg => msg.mergeRule.save) : `+ ${t(msg => msg.mergeRule.newOne)}`
+const buttonMessage = () => inputVisibleRef.value ? t(msg => msg.operation.save) : `+ ${t(msg => msg.operation.newOne)}`
 
 const inputButton = () => h<{}>(ElButton, buttonProps, buttonMessage)
 

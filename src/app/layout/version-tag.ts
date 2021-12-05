@@ -6,7 +6,7 @@
  */
 
 import { defineComponent, h } from "vue"
-import { version } from '../../../package.json'
+import { version } from "../../../package.json"
 
 const style: Partial<CSSStyleDeclaration> = {
     width: '100px',

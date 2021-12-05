@@ -80,7 +80,7 @@ const _default: Messages<OptionMessage> = {
             title: 'Today\'s Data',
             max: 'Show the first {input} data items of today',
             type: 'Show {input} when opened',
-            displaySiteName: '{input}  Whether to display {siteName} instead of domain name'
+            displaySiteName: '{input}  Whether to display {siteName} instead of host'
         },
         appearance: {
             title: 'Appearance',
@@ -98,7 +98,7 @@ const _default: Messages<OptionMessage> = {
             idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
             collectSiteName: '{input}  Whether to automatically collect the name of the website when visiting the homepage of the website',
             siteName: 'site name',
-            siteNameUsage: 'The data only exists locally and will be used for display instead of the domain name to increase recognition.'
+            siteNameUsage: 'The data only exists locally and will be used for display instead of the host to increase recognition.'
                 + 'Of course you can customize the name of each website.'
         },
         resetButton: 'Reset',
@@ -113,7 +113,7 @@ const _default: Messages<OptionMessage> = {
             max: '今日のデータは、最初の {input} データを示しています',
             type: '開くと {input} が表示されます',
             // Not translated
-            displaySiteName: '{input}  Whether to display {siteName} instead of domain name'
+            displaySiteName: '{input}  Whether to display {siteName} instead of host'
         },
         appearance: {
             title: '外観',
@@ -132,7 +132,7 @@ const _default: Messages<OptionMessage> = {
             idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
             collectSiteName: '{input}  Whether to automatically collect the name of the website when visiting the homepage of the website',
             siteName: 'site name',
-            siteNameUsage: 'The data only exists locally and will be used for display instead of the domain name to increase recognition.'
+            siteNameUsage: 'The data only exists locally and will be used for display instead of the host to increase recognition.'
                 + 'Of course you can customize the name of each website.'
         },
         resetButton: 'リセット',

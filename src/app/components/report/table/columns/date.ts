@@ -10,9 +10,9 @@
  */
 import { ElTableColumn } from "element-plus"
 import { h } from "vue"
-import SiteInfo from "../../../../entity/dto/site-info"
-import { t } from "../../../locale"
-import { dateFormatter } from "../formatter"
+import DataItem from "../../../../../entity/dto/data-item"
+import { t } from "../../../../locale"
+import { dateFormatter } from "../../formatter"
 
 // Date column
 const dateColProp = {
@@ -22,6 +22,6 @@ const dateColProp = {
     align: 'center',
     sortable: 'custom'
 }
-const dateColSlots = { default: ({ row }: { row: SiteInfo }) => h('span', dateFormatter(row.date)) }
+const dateColSlots = { default: ({ row }: { row: DataItem }) => h('span', dateFormatter(row.date)) }
 const dateCol = () => h(ElTableColumn, dateColProp, dateColSlots)
 export default dateCol

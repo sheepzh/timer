@@ -6,7 +6,7 @@
  */
 
 import { I18nKey as _I18nKey, locale as _locale, t as _t } from "../../util/i18n"
-import { tN as _tN } from '../../util/i18n/i18n-vue'
+import { tN as _tN } from "../../util/i18n/i18n-vue"
 import messages, { AppMessage } from "./messages"
 
 const message = messages[_locale]

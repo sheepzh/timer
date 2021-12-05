@@ -9,10 +9,10 @@ import { defineComponent, h, onMounted, ref, Ref } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t, locale } from "../locale"
-import { Locale } from '../../util/i18n'
+import { Locale } from "../../util/i18n"
 import { MenuMessage } from "../locale/components/menu"
 import { GITHUB_ISSUE_ADD, HOME_PAGE, ZH_FEEDBACK_PAGE } from "../../util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
+import { Aim, Calendar, ChatSquare, Folder, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
 import MenuIcon from "./menu-icon"
 
 declare type MenuItem = {
@@ -79,6 +79,10 @@ const ALL_MENU: MenuGroup[] = [
     }, {
         title: 'additional',
         children: [{
+            title: 'siteManage',
+            route: '/additional/site-manage',
+            icon: HotWater
+        }, {
             title: 'whitelist',
             route: '/additional/whitelist',
             icon: Tickets

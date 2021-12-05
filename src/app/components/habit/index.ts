@@ -13,7 +13,7 @@ import { daysAgo, isSameDay } from "../../../util/time"
 import { renderContentContainer } from "../common/content-container"
 import chart, { ChartProps } from "./chart"
 import generateOptions from "./chart/option"
-import filter from './filter'
+import filter from "./filter"
 
 const periodSizeRef: Ref<string> = ref('1')
 //@ts-ignore ts(2322)

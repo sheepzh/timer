@@ -1,4 +1,4 @@
-import { extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidMergeOriginHost } from "../../src/util/pattern"
+import { extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost } from "../../src/util/pattern"
 
 test('browser url', () => {
     // chrome
@@ -23,15 +23,15 @@ test('ip and port', () => {
     expect(isIpAndPort('222.222.22.2:65536')).toBeFalsy()
 })
 
-test('merge domain origin', () => {
-    expect(isValidMergeOriginHost('wwdad.basd.com.111:12345')).toBeTruthy()
-    expect(isValidMergeOriginHost('wwdad.basd.com.a111a:12345')).toBeTruthy()
-    expect(isValidMergeOriginHost('wwdad.basd.**:12345')).toBeFalsy()
-    expect(isValidMergeOriginHost('wwdad.basd.**:65536')).toBeFalsy()
-    expect(isValidMergeOriginHost('wwdad.basd.*.*')).toBeTruthy()
-    expect(isValidMergeOriginHost('wwdad.basd..*')).toBeFalsy()
-    expect(isValidMergeOriginHost('wwdad*.*')).toBeFalsy()
-    expect(isValidMergeOriginHost('wwdad.*.*')).toBeTruthy()
+test('merge host origin', () => {
+    expect(isValidHost('wwdad.basd.com.111:12345')).toBeTruthy()
+    expect(isValidHost('wwdad.basd.com.a111a:12345')).toBeTruthy()
+    expect(isValidHost('wwdad.basd.**:12345')).toBeFalsy()
+    expect(isValidHost('wwdad.basd.**:65536')).toBeFalsy()
+    expect(isValidHost('wwdad.basd.*.*')).toBeTruthy()
+    expect(isValidHost('wwdad.basd..*')).toBeFalsy()
+    expect(isValidHost('wwdad*.*')).toBeFalsy()
+    expect(isValidHost('wwdad.*.*')).toBeTruthy()
 })
 
 test("url", () => {

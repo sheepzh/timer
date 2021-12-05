@@ -9,7 +9,7 @@ import cond from "./cond"
 import waste from "./waste"
 import time from "./time"
 import enabled from "./enabled"
-import delay from './delay'
+import delay from "./delay"
 import operations from "./operation"
 import { QueryData } from "../../../common/constants"
 

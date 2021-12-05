@@ -9,9 +9,9 @@ import { defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { daysAgo } from "../../../util/time"
 import { renderContentContainer } from "../common/content-container"
-import DomainTrend from './components/domain-trend'
+import DomainTrend from "./components/host-trend"
 import filterContainer, { addToFilterOption, FilterProps } from "./components/filter"
-import DomainOptionInfo from "./domain-option-info"
+import HostOptionInfo from "./host-option-info"
 
 const domainKeyRef: Ref<string> = ref('')
 const dateRangeRef: Ref<Date[]> = ref()
@@ -38,7 +38,7 @@ export default defineComponent(() => {
         const { host, merge } = query
         // Init with queries
         if (host) {
-            const option = new DomainOptionInfo(host, merge === '1' || false)
+            const option = new HostOptionInfo(host, merge === '1' || false)
             addToFilterOption(option)
             domainKeyRef.value = option.key()
         } else {
