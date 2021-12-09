@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { computed, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
+import { computed, ComputedRef, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
 import { t } from "../../locale"
 import DataItem from "../../../entity/dto/data-item"
-import timerService, { SortDirect } from "../../../service/timer-service"
+import timerService, { SortDirect, TimerQueryParam } from "../../../service/timer-service"
 import whitelistService from "../../../service/whitelist-service"
 import { formatTime } from "../../../util/time"
 import './styles/element'
@@ -40,11 +40,11 @@ const pageRef: UnwrapRef<PaginationInfo> = reactive({
     total: 0
 })
 
-const queryParam = computed(() => {
+const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
     return {
         host: hostRef.value,
         date: dateRangeRef.value,
-        mergeDomain: mergeHostRef.value,
+        mergeHost: mergeHostRef.value,
         mergeDate: mergeDateRef.value,
         sort: sortRef.prop,
         sortOrder: sortRef.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
