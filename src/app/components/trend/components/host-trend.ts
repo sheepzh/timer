@@ -144,7 +144,7 @@ const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
     return {
         // If the host is empty, no result will be queried with this param.
         host: hostRef.value.host === '' ? '___foo_bar' : hostRef.value.host,
-        mergeDomain: hostRef.value.merged,
+        mergeHost: hostRef.value.merged,
         fullHost: true,
         sort: 'date',
         sortOrder: SortDirect.ASC
