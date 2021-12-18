@@ -61,7 +61,7 @@ async function handleSave(ctx: { $emit: (arg0: string, ...args: any[]) => void }
     }
     const isNew = isNewRef.value
     const host = formDataRef.host
-    const name = formDataRef.name
+    const name = formDataRef.name.trim()
     if (isNew && await service.exist(host)) {
         ElMessage({
             type: 'warning',
@@ -144,7 +144,7 @@ const renderName = () => h(ElFormItem,
     { prop: 'name', label: t(msg => msg.siteManage.column.alias) },
     () => h(ElInput, {
         modelValue: formDataRef.name,
-        onInput: (newVal: string) => formDataRef.name = newVal.trim()
+        onInput: (newVal: string) => formDataRef.name = newVal.trimStart()
     })
 )
 
