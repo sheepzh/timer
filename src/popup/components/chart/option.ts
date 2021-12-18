@@ -135,7 +135,7 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
         const { host, alias } = d
         const legend = displaySiteName ? (alias || host) : host
         legendData.push(legend)
-        series.push({ name: legend, value: d[type] || 0 })
+        series.push({ name: legend, value: d[type] || 0, host })
         iconRich[legend2LabelStyle(legend)] = {
             height: LABEL_ICON_SIZE,
             width: LABEL_ICON_SIZE,
