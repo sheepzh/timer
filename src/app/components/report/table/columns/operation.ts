@@ -21,6 +21,15 @@ import { ReportMessage } from "../../../../locale/components/report"
 import { QueryData } from "../../../common/constants"
 import { LocationQueryRaw, Router } from "vue-router"
 import { TREND_ROUTE } from "../../../../router/constants"
+import {
+    DefineComponent,
+    ComponentOptionsMixin as Mixin,
+    EmitsOptions,
+    VNodeProps,
+    AllowedComponentProps,
+    ComponentCustomProps
+} from "vue"
+import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -36,16 +45,6 @@ type Props = {
     dateRangeRef: Ref<Array<Date>>
     router: Router
 }
-
-import {
-    DefineComponent,
-    ComponentOptionsMixin as Mixin,
-    EmitsOptions,
-    VNodeProps,
-    AllowedComponentProps,
-    ComponentCustomProps
-} from "vue"
-import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons"
 
 type IconPublicProps = VNodeProps & AllowedComponentProps & ComponentCustomProps
 

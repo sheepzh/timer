@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { InfoFilled } from "@element-plus/icons"
+import { InfoFilled, Refresh } from "@element-plus/icons"
 import { ElTag, ElButton, ElMessage, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
 import { tN, t, I18nKey } from "../../locale"
@@ -29,7 +29,7 @@ export function renderOptionItem(input: VNode | { [key: string]: VNode }, label:
 const resetButtonProps = {
     type: 'text',
     class: 'reset-button',
-    icon: 'el-icon-refresh'
+    icon: Refresh
 }
 const resetButtonMsg = () => t(msg => msg.option.resetButton)
 const renderResetButton = (handleClick: () => PromiseLike<any>) => h<{}>(ElButton, {

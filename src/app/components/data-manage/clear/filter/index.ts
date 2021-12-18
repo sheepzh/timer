@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { Delete, DocumentAdd } from "@element-plus/icons"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
 import TimerDatabase from "../../../../../database/timer-database"
 import timerService from "../../../../../service/timer-service"
@@ -45,7 +46,7 @@ const archiveButton = (onDateChanged: () => void) => operationButton({
 
     button: {
         message: 'archive',
-        icon: 'document-add',
+        icon: DocumentAdd,
         type: 'primary'
     },
 
@@ -64,7 +65,7 @@ const deleteButton = (onDateChanged: () => void) => operationButton({
 
     button: {
         message: 'delete',
-        icon: 'delete',
+        icon: Delete,
         type: 'danger'
     }
 })

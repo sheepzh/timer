@@ -158,16 +158,16 @@ class TimerService {
         })
     }
 
-    private async fillIconUrl(DataItems: DataItem[]): Promise<void> {
-        const hosts = DataItems.map(o => o.host)
+    private async fillIconUrl(items: DataItem[]): Promise<void> {
+        const hosts = items.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
-        DataItems.forEach(DataItem => DataItem.iconUrl = iconUrlMap[DataItem.host])
+        items.forEach(dataItem => dataItem.iconUrl = iconUrlMap[dataItem.host])
     }
 
-    private async fillAlias(DataItems: DataItem[]): Promise<void> {
-        const hosts: string[] = DataItems.map(o => o.host)
+    private async fillAlias(items: DataItem[]): Promise<void> {
+        const hosts: string[] = items.map(o => o.host)
         const aliasMap = await hostAliasDatabase.get(...hosts)
-        DataItems.forEach(DataItem => DataItem.alias = aliasMap[DataItem.host]?.name)
+        items.forEach(dataItem => dataItem.alias = aliasMap[dataItem.host]?.name)
     }
 
     async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<DataItem[]> {
@@ -220,6 +220,7 @@ class TimerService {
             for (const origin of list) await this.fillIconUrl(origin.mergedHosts)
         } else {
             await this.fillIconUrl(list)
+            await this.fillAlias(list)
         }
         return Promise.resolve({ total, list })
     }

@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { Check } from "@element-plus/icons"
 import { ElButton } from "element-plus"
 import { defineComponent, h, SetupContext } from "vue"
 import { t } from "../../../locale"
@@ -13,7 +14,7 @@ const saveButton = (onClick: () => void) => h<{}>(ElButton,
     {
         onClick,
         type: 'primary',
-        icon: 'el-icon-check'
+        icon: Check
     },
     () => t(msg => msg.limit.button.save)
 )

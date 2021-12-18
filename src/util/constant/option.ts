@@ -10,7 +10,7 @@ export function defaultPopup(): Timer.PopupOption {
     return {
         popupMax: 10,
         defaultType: 'focus',
-        displaySiteName: true
+        displaySiteName: false
     }
 }
 

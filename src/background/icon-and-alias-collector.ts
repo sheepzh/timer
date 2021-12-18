@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { HostAliasSource } from "../entity/dto/host-alias"
+import { HostAliasSource } from "../entity/dao/host-alias"
 import HostAliasDatabase from "../database/host-alias-database"
 import IconUrlDatabase from "../database/icon-url-database"
 import OptionDatabase from "../database/option-database"

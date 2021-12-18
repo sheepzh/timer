@@ -6,6 +6,7 @@
  */
 
 import { ElButton, ElCard, ElInput, ElSwitch } from "element-plus"
+import ElementIcon from "../../../app/element-ui/icon"
 import { h, Ref, VNode } from "vue"
 import { I18nKey, t } from "../../locale"
 import { QueryData } from "./constants"
@@ -62,12 +63,12 @@ export type FilterButtonProps = {
     onClick: () => void
     type?: 'primary' | 'info' | 'success' | 'warning' | 'danger'
     label: _I18nKey
-    icon?: string
+    icon?: ElementIcon
 }
 
 export const buttonFilterItem = ({ onClick, type, label, icon }: FilterButtonProps) => h<{}>(ElButton, {
     class: 'filter-item',
     type,
-    icon: `el-icon-${icon}`,
+    icon: icon,
     onClick
 }, () => processI18nKey(label))

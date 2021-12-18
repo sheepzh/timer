@@ -12,6 +12,7 @@ import { alertProps, bodyStyle } from "./common"
 import { deserialize, exportJson } from "../../../util/file"
 import { formatTime } from "../../../util/time"
 import Immigration from "../../../service/immigration"
+import { Download, Upload } from "@element-plus/icons"
 
 type _Props = {
     queryData: () => void | Promise<void>
@@ -61,7 +62,7 @@ const exportButton = () => h<{}>(ElButton,
     {
         ...buttonProps,
         type: 'success',
-        icon: 'el-icon-download',
+        icon: Download,
         onClick: handleExport
     },
     exportButtonText)
@@ -81,7 +82,7 @@ const importButton = (queryData: any) => h<{}>(ElButton,
     {
         ...buttonProps,
         type: 'primary',
-        icon: 'el-icon-upload2',
+        icon: Upload,
         onClick: () => fileInputRef.value.click()
     },
     () => importButtonText(queryData))

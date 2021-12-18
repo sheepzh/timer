@@ -5,25 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElLink, ElTableColumn, ElTooltip } from "element-plus"
+import { ElTableColumn, ElTooltip } from "element-plus"
+import { host2ElLink } from "../../../../../app/components/common/table"
 import { Ref, h } from "vue"
 import DataItem from "../../../../../entity/dto/data-item"
 import { t } from "../../../../locale"
 
 export type HostColumnProps = {
     mergeHostRef: Ref<boolean>
-}
-
-const host2ElLink = (host: string, iconUrl: string) => {
-    const link = h(ElLink,
-        { href: `http://${host}`, target: '_blank' },
-        () => host
-    )
-    const icon = h('span',
-        { style: 'height:23px;line-height:23px;padding-left:2px;' },
-        h('img', { src: iconUrl, width: 12, height: 12 })
-    )
-    return [link, icon]
 }
 
 const hostColProp = {

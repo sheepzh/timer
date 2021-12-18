@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { Plus } from "@element-plus/icons"
 import { Ref } from "vue"
 import { buttonFilterItem, inputFilterItem, renderFilterContainer, switchFilterItem } from "../common/filter"
 
@@ -20,7 +21,7 @@ export type FilterProps = _Props
 const filterItems = (props: _Props) => [
     inputFilterItem(props.urlRef, msg => msg.limit.conditionFilter),
     ...switchFilterItem(props.onlyEnabledRef, msg => msg.limit.filterDisabled),
-    buttonFilterItem({ type: 'success', label: msg => msg.limit.button.add, onClick: props.handleAdd, icon: 'plus' }),
+    buttonFilterItem({ type: 'success', label: msg => msg.limit.button.add, onClick: props.handleAdd, icon: Plus }),
     // todo
     // buttonFilterItem({ type: 'primary', label: msg => msg.limit.button.test, onClick: props.handleTest, icon: 'search' })
 ]

@@ -54,7 +54,7 @@ const options = () => [
     renderOptionItem({
         input: displaySiteName(),
         siteName: tagText(msg => msg.option.statistics.siteName)
-    }, msg => msg.popup.displaySiteName, t(msg => msg.option.yes))
+    }, msg => msg.popup.displaySiteName, t(msg => msg.option.no))
 ]
 
 const _default = defineComponent(() => {
