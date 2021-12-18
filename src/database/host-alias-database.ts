@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostAlias, { HostAliasSource } from "../entity/dto/host-alias"
+import HostAlias, { HostAliasSource } from "../entity/dao/host-alias"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -31,6 +31,12 @@ function valueOf(host: string, value: string): HostAlias {
         source: ABBR_MAP[abbr],
         name: value.substr(1)
     }
+}
+
+export type HostAliasCondition = {
+    host?: string
+    alias?: string
+    source?: HostAliasSource
 }
 
 /**
@@ -62,6 +68,13 @@ class HostAliasDatabase extends BaseDatabase {
     }
 
     async selectAll(): Promise<HostAlias[]> {
+        return this.select()
+    }
+
+    async select(queryParam?: HostAliasCondition): Promise<HostAlias[]> {
+        const host = queryParam?.host
+        const alias = queryParam?.alias
+        const source = queryParam?.source
         const data = await this.storage.get()
         return Object.keys(data)
             .filter(key => key.startsWith(DB_KEY_PREFIX))
@@ -69,6 +82,12 @@ class HostAliasDatabase extends BaseDatabase {
                 const host = hostOf(key)
                 const value = data[key]
                 return valueOf(host, value)
+            })
+            .filter(hostAlias => {
+                if (host && !hostAlias.host.includes(host)) return false
+                if (alias && !hostAlias.name.includes(alias)) return false
+                if (source && source !== hostAlias.source) return false
+                return true
             })
     }
 
@@ -81,6 +100,20 @@ class HostAliasDatabase extends BaseDatabase {
             result[host] = valueOf(host, value)
         })
         return Promise.resolve(result)
+    }
+
+    async exist(host: string): Promise<boolean> {
+        const key = generateKey(host)
+        const items = await this.storage.get(key)
+        return !!items[key]
+    }
+
+    async existBatch(hosts: string[]): Promise<{ [host: string]: boolean }> {
+        const keys = hosts.map(generateKey)
+        const items = await this.storage.get(keys)
+        const result = {}
+        Object.entries(items).map(([key]) => hostOf(key)).forEach(host => result[host] = true)
+        return result
     }
 
     async remove(host: string) {

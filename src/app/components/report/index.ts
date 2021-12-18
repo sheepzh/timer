@@ -18,7 +18,9 @@ import pagination, { PaginationProps } from "../common/pagination"
 import { contentContainerCardStyle, renderContentContainer } from "../common/content-container"
 import { QueryData, PaginationInfo } from "../common/constants"
 import { useRouter } from "vue-router"
-import { ElCard } from "element-plus"
+import { ElCard, ElLoadingService } from "element-plus"
+
+const TABLE_CARD_DOM_ID = "report-table-container"
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -67,11 +69,13 @@ const exportFileName = computed(() => {
 })
 
 const queryData: QueryData = async () => {
+    const loading = ElLoadingService({ target: `#${TABLE_CARD_DOM_ID}`, text: "LOADING..." })
     const page = { pageSize: pageRef.size, pageNum: pageRef.num }
     const pageResult = await timerService.selectByPage(queryParam.value, page)
     const { list, total } = pageResult
     dataRef.value = list
     pageRef.total = total
+    loading.close()
 }
 
 const queryWhiteList = async () => {
@@ -112,7 +116,7 @@ const paginationProps: PaginationProps = {
 }
 
 const tableCard = (tableProps: TableProps, paginationProps: PaginationProps) => h(ElCard,
-    contentContainerCardStyle,
+    { ...contentContainerCardStyle, id: TABLE_CARD_DOM_ID },
     () => [table(tableProps), pagination(paginationProps)]
 )
 

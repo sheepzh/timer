@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import aliasCol from "./alias"
 import dateCol from "./date"
 import hostCol, { HostColumnProps } from "./host"
 import itemColumns, { ItemColumnProps } from "./item-columns"
@@ -16,6 +17,7 @@ const columns = (props: ColumnProps) => {
     const result = []
     props.mergeDateRef.value || result.push(dateCol())
     result.push(hostCol(props))
+    result.push(aliasCol())
     result.push(...itemColumns(props))
     result.push(operationButtons(props))
     return result

@@ -23,6 +23,7 @@ export type MenuMessage = {
     other: string
     feedback: string
     rate: string
+    meat: string
 }
 const _default: Messages<MenuMessage> = {
     zh_CN: {
@@ -40,7 +41,8 @@ const _default: Messages<MenuMessage> = {
         limit: '每日时限设置',
         other: '其他',
         feedback: '有什么反馈吗？',
-        rate: '打个分吧！'
+        rate: '打个分吧！',
+        meat: '请作者吃饭~'
     },
     en: {
         data: 'My Data',
@@ -57,7 +59,8 @@ const _default: Messages<MenuMessage> = {
         other: 'Other Features',
         option: 'Options',
         feedback: 'Feedback',
-        rate: 'Rate It'
+        rate: 'Rate It',
+        meat: 'Invite the author to dinner'
     },
     ja: {
         data: '私のデータ',
@@ -74,7 +77,8 @@ const _default: Messages<MenuMessage> = {
         other: 'その他の機能',
         option: '拡張設定',
         feedback: 'フィードバック',
-        rate: 'それを評価'
+        rate: 'それを評価',
+        meat: '著者を夕食に招待する'
     }
 }
 

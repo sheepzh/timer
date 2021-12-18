@@ -11,13 +11,13 @@ import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-
 import { I18nKey, t, locale } from "../locale"
 import { Locale } from "../../util/i18n"
 import { MenuMessage } from "../locale/components/menu"
-import { GITHUB_ISSUE_ADD, HOME_PAGE, ZH_FEEDBACK_PAGE } from "../../util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
-import MenuIcon from "./menu-icon"
+import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, ZH_FEEDBACK_PAGE } from "../../util/constant/url"
+import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
+import ElementIcon from "../element-ui/icon"
 
 declare type MenuItem = {
     title: keyof MenuMessage
-    icon: MenuIcon
+    icon: ElementIcon
     route?: string
     href?: string
     index?: string
@@ -46,6 +46,12 @@ HOME_PAGE && OTHER_MENU_ITEMS.push({
     href: HOME_PAGE,
     icon: Sugar,
     index: '_rate'
+})
+OTHER_MENU_ITEMS.push({
+    title: 'meat',
+    href: MEAT_URL,
+    icon: Food,
+    index: '_meat'
 })
 
 // All menu items

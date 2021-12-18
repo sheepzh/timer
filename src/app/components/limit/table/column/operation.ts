@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { Delete } from "@element-plus/icons"
 import { ElButton, ElMessage, ElMessageBox, ElTableColumn } from "element-plus"
 import { h } from "vue"
 import TimeLimitItem from "../../../../../entity/dto/time-limit-item"
@@ -35,7 +36,7 @@ const renderButtons = (row: TimeLimitItem, queryData: QueryData) => {
     const deleteProps = {
         type: 'danger',
         size: 'mini',
-        icon: 'el-icon-delete',
+        icon: Delete,
         onClick: () => handleDelete(row.cond, queryData)
     }
     const deleteButton = h<{}>(ElButton, deleteProps, () => t(msg => msg.limit.button.delete))

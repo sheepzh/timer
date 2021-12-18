@@ -6,6 +6,7 @@
  */
 
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
+import ElementIcon from "../../../../../app/element-ui/icon"
 import { Ref, h } from "vue"
 import TimerDatabase, { TimerCondition } from "../../../../../database/timer-database"
 import DataItem from "../../../../../entity/dto/data-item"
@@ -35,7 +36,7 @@ type _Props = BaseFilterProps & {
     }
 
     button: {
-        icon: string
+        icon: ElementIcon
         type: string
         message: keyof ItemMessage['operation']
     }
@@ -116,7 +117,7 @@ const handleClick = async (props: _Props) => {
 
 const button = (props: _Props) => h<{}>(ElButton,
     {
-        icon: `el-icon-${props.button.icon}`,
+        icon: props.button.icon,
         type: props.button.type,
         size: 'mini',
         onClick: () => handleClick(props)
