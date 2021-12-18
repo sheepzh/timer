@@ -29,18 +29,17 @@ function isUrl(title: string) {
 }
 
 const splitTitle = (title: string, separator: string) => title.split(separator)
-    .filter(s => !s.includes('个人') && !s.includes('我的') && !s.includes('主页'))
+    .filter(s => !s.includes('个人') && !s.includes('我的') && !s.includes('主页') && !separator.includes('首页'))
     .sort((a, b) => a.length - b.length)[0]
 
+const SEPARATORS = ['-', '|', '_']
 function collectAlias(host: string, tabTitle: string) {
     if (isUrl(tabTitle)) return
     if (!tabTitle) return
-    if (tabTitle.includes('-')) {
-        tabTitle = splitTitle(tabTitle, '-')
-    }
-    if (tabTitle.includes('|')) {
-        tabTitle = splitTitle(tabTitle, '|')
-    }
+    SEPARATORS.forEach(
+        separator => tabTitle.includes(separator) && (tabTitle = splitTitle(tabTitle, separator))
+    )
+
     tabTitle && hostAliasDatabase.update({ name: tabTitle, host, source: HostAliasSource.DETECTED })
 }
 
