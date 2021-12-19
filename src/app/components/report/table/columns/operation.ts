@@ -65,8 +65,8 @@ type OperationButtonProps = {
 }
 const operationButton = (props: OperationButtonProps) => {
     const popConfirmProps = {
-        confirmButtonText: t(msg => msg.item.operation.confirmMsg),
-        cancelButtonText: t(msg => msg.item.operation.cancelMsg),
+        confirmButtonText: t(msg => msg.confirm.confirmMsg),
+        cancelButtonText: t(msg => msg.confirm.cancelMsg),
         title: props.confirmTitle,
         onConfirm: props.onConfirm
     }

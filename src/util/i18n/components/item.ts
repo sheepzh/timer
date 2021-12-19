@@ -19,8 +19,6 @@ export type ItemMessage = {
         add2Whitelist: string
         removeFromWhitelist: string
         archive: string
-        confirmMsg: string
-        cancelMsg: string
         deleteConfirmMsgAll: string
         deleteConfirmMsgRange: string
         deleteConfirmMsg: string
@@ -44,8 +42,6 @@ const _default: Messages<ItemMessage> = {
             removeFromWhitelist: '启用',
             archive: '归档',
             jumpToTrend: '趋势',
-            confirmMsg: '好的',
-            cancelMsg: '不用了',
             deleteConfirmMsgAll: '{url} 的所有访问记录将被删除',
             deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的访问记录将被删除',
             deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除',
@@ -66,8 +62,6 @@ const _default: Messages<ItemMessage> = {
             removeFromWhitelist: 'Enable',
             archive: 'Archive',
             jumpToTrend: 'Trend',
-            confirmMsg: 'OK',
-            cancelMsg: 'NO!',
             deleteConfirmMsgAll: 'All all records on {url} will be deleted!',
             deleteConfirmMsgRange: 'All the Records on {url} from {start} to {end} will be deleted!',
             deleteConfirmMsg: 'The record on {url} on {date} will be deleted!',
@@ -88,8 +82,6 @@ const _default: Messages<ItemMessage> = {
             removeFromWhitelist: '有効にする',
             archive: 'アーカイブ',
             jumpToTrend: '傾向',
-            confirmMsg: 'OK',
-            cancelMsg: 'キャンセル',
             deleteConfirmMsgAll: '{url} のすべての訪問記録が削除されます',
             deleteConfirmMsgRange: '{url} {start} から {end} までの訪問記録は削除されます',
             deleteConfirmMsg: '{date} の {url} の訪問記録は削除されます',

@@ -22,9 +22,9 @@ export type OperationButtonColumnProps = _Props
 
 const deleteButton = (props: _Props, row: HostAliasInfo) => {
     const popConfirmProps = {
-        confirmButtonText: t(msg => msg.siteManage.operation.confirmMsg),
-        cancelButtonText: t(msg => msg.siteManage.operation.cancelMsg),
-        title: t(msg => msg.siteManage.operation.deleteConfirmMsg, { host: row.host }),
+        confirmButtonText: t(msg => msg.confirm.confirmMsg),
+        cancelButtonText: t(msg => msg.confirm.cancelMsg),
+        title: t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host }),
         onConfirm: async () => {
             await props.handleDelete(row)
             await props.queryData()

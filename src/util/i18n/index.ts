@@ -58,6 +58,16 @@ export type TranslateProps<MessageType> = {
     param?: { [key: string]: string | number }
 }
 
+function fillWithParam(result: string, param: { [key: string]: string | number }) {
+    if (!result) {
+        return ''
+    }
+    Object.entries(param)
+        .filter(([_key, value]) => !!value)
+        .forEach(([key, value]) => result = result.replace(`{${key}}`, value.toString()))
+    return result
+}
+
 /**
  * Translate
  * @param key     keyPath 
@@ -67,12 +77,7 @@ export type TranslateProps<MessageType> = {
 export function t<MessageType>(messages: MessageType, props: TranslateProps<MessageType>): string {
     const { key, param } = props
     let result: string = getI18nVal(messages, key)
-    if (param) {
-        for (const [key, value] of Object.entries(param)) {
-            result = (result as string).replace(`{${key}}`, value.toString())
-        }
-    }
-    return result
+    return param ? fillWithParam(result, param) : result
 }
 
 export type I18nKey<MessageType> = (messages: MessageType) => any
