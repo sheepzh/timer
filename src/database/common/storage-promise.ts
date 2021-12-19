@@ -20,7 +20,7 @@ export default class StoragePromise {
     }
 
     /**
-     * @since 0.4.1
+     * @since 0.5.0
      */
     async getOne(key: string): Promise<any | undefined> {
         return (await this.get(key))[key]
@@ -31,7 +31,7 @@ export default class StoragePromise {
     }
 
     /**
-     * @since 0.4.1
+     * @since 0.5.0
      */
     put(key: string, val: Object): Promise<void> {
         const toUpdate = {}

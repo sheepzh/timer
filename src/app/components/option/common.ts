@@ -65,7 +65,7 @@ export function tagText(text: I18nKey): VNode {
  * Render the tooltip with message
  *
  * @param content content 
- * @since 0.4.1
+ * @since 0.5.0
  */
 export function tooltip(content: I18nKey): VNode {
     return h(ElTooltip, { content: t(content) }, {

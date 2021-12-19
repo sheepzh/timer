@@ -96,7 +96,7 @@ export function extractHostname(url: string): HostInfo {
  *  4. https://baidu.com/a =  false
  *  5. http://qq.com?a=1   =  false
  * 
- * @since 0.4.1
+ * @since 0.5.0
  */
 export function isHomepage(url: string) {
     if (url.includes('?') || url.includes('#')) {

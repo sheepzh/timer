@@ -22,7 +22,7 @@ declare namespace Timer {
          * Replace the host name with site name which is detected automatically from the title of site homepages,
          * or modified manually by the user
          * 
-         * @since 0.4.1
+         * @since 0.5.0
          */
         displaySiteName: boolean
     }
@@ -50,7 +50,7 @@ declare namespace Timer {
         /**
          * Whether to collect the site name
          * 
-         * @since 0.4.1
+         * @since 0.5.0
          */
         collectSiteName: boolean
     }
