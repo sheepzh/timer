@@ -10,6 +10,7 @@ import { Messages } from "../../../util/i18n"
 export type SiteManageMessage = {
     hostPlaceholder: string
     aliasPlaceholder: string
+    onlyDetected: string
     column: {
         host: string
         alias: string
@@ -45,6 +46,7 @@ export type SiteManageMessage = {
 const en: SiteManageMessage = {
     hostPlaceholder: "Search by host",
     aliasPlaceholder: "Search by name",
+    onlyDetected: 'Only Detected',
     column: {
         host: "Host",
         alias: "Site Name",
@@ -81,6 +83,7 @@ const messages: Messages<SiteManageMessage> = {
     zh_CN: {
         hostPlaceholder: "请输入域名，然后回车",
         aliasPlaceholder: "请输入网站名，然后回车",
+        onlyDetected: '只看自动抓取',
         column: {
             host: "网站域名",
             alias: "网站名称",
