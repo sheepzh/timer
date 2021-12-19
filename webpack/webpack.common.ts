@@ -15,7 +15,7 @@ const localeJsonFiles = Object.entries(i18nChrome)
     .map(plugin => plugin as unknown as webpack.WebpackPluginInstance)
 generateJsonPlugins.push(...localeJsonFiles)
 
-const staticOptions = {
+const staticOptions: webpack.Configuration = {
     entry: {
         background: './src/background',
         content_scripts: './src/content-script',
