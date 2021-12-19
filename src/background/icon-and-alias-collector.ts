@@ -13,6 +13,7 @@ import { IS_CHROME } from "../util/constant/environment"
 import { iconUrlOfBrowser } from "../util/constant/url"
 import { extractHostname, isBrowserUrl, isHomepage } from "../util/pattern"
 import { defaultStatistics } from "../util/constant/option"
+import { extractSiteName } from "../util/site"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const iconUrlDatabase = new IconUrlDatabase(storage)
@@ -28,19 +29,11 @@ function isUrl(title: string) {
     return title.startsWith('https://') || title.startsWith('http://') || title.startsWith('ftp://')
 }
 
-const splitTitle = (title: string, separator: string) => title.split(separator)
-    .filter(s => !s.includes('个人') && !s.includes('我的') && !s.includes('主页') && !separator.includes('首页'))
-    .sort((a, b) => a.length - b.length)[0]
-
-const SEPARATORS = ['-', '–', '|', '_']
 function collectAlias(host: string, tabTitle: string) {
     if (isUrl(tabTitle)) return
     if (!tabTitle) return
-    SEPARATORS.forEach(
-        separator => tabTitle.includes(separator) && (tabTitle = splitTitle(tabTitle, separator))
-    )
-
-    tabTitle && hostAliasDatabase.update({ name: tabTitle, host, source: HostAliasSource.DETECTED })
+    const siteName = extractSiteName(tabTitle)
+    siteName && hostAliasDatabase.update({ name: siteName, host, source: HostAliasSource.DETECTED })
 }
 
 /**
