@@ -11,6 +11,7 @@ export type SiteManageMessage = {
     hostPlaceholder: string
     aliasPlaceholder: string
     onlyDetected: string
+    deleteConfirmMsg: string
     column: {
         host: string
         alias: string
@@ -20,11 +21,6 @@ export type SiteManageMessage = {
     source: {
         user: string
         detected: string
-    }
-    operation: {
-        deleteConfirmMsg: string
-        confirmMsg: string
-        cancelMsg: string
     }
     button: {
         add: string
@@ -47,6 +43,7 @@ const en: SiteManageMessage = {
     hostPlaceholder: "Search by host",
     aliasPlaceholder: "Search by name",
     onlyDetected: 'Only Detected',
+    deleteConfirmMsg: 'The name of {host} will be deleted',
     column: {
         host: "Host",
         alias: "Site Name",
@@ -56,11 +53,6 @@ const en: SiteManageMessage = {
     source: {
         user: 'USER',
         detected: 'DETECTED'
-    },
-    operation: {
-        deleteConfirmMsg: 'The name of {host} will be deleted',
-        confirmMsg: 'OK',
-        cancelMsg: 'Cancel'
     },
     button: {
         add: 'New',
@@ -84,6 +76,7 @@ const messages: Messages<SiteManageMessage> = {
         hostPlaceholder: "请输入域名，然后回车",
         aliasPlaceholder: "请输入网站名，然后回车",
         onlyDetected: '只看自动抓取',
+        deleteConfirmMsg: '{host} 的名称设置将会被删除',
         column: {
             host: "网站域名",
             alias: "网站名称",
@@ -93,11 +86,6 @@ const messages: Messages<SiteManageMessage> = {
         source: {
             user: '手动设置',
             detected: '自动抓取'
-        },
-        operation: {
-            deleteConfirmMsg: '{host} 的名称设置将会被删除',
-            confirmMsg: '好的',
-            cancelMsg: '不用了'
         },
         button: {
             add: '新增',

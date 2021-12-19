@@ -18,6 +18,7 @@ import whitelistMessages, { WhitelistMessage } from "./components/whitelist"
 import mergeRuleMessages, { MergeRuleMessage } from "./components/merge-rule"
 import siteManageManages, { SiteManageMessage } from "./components/site-manage"
 import operationMessages, { OperationMessage } from './components/operation'
+import confirmMessages, { ConfirmMessage } from './components/confirm'
 
 export type AppMessage = {
     dataManage: DataManageMessage
@@ -32,6 +33,7 @@ export type AppMessage = {
     limit: LimitMessage
     siteManage: SiteManageMessage
     operation: OperationMessage
+    confirm: ConfirmMessage
 }
 
 const _default: Messages<AppMessage> = {
@@ -47,7 +49,8 @@ const _default: Messages<AppMessage> = {
         habit: habitMessages.zh_CN,
         limit: limitMessages.zh_CN,
         siteManage: siteManageManages.zh_CN,
-        operation: operationMessages.zh_CN
+        operation: operationMessages.zh_CN,
+        confirm: confirmMessages.zh_CN
     },
     en: {
         dataManage: dataManageMessages.en,
@@ -61,7 +64,8 @@ const _default: Messages<AppMessage> = {
         habit: habitMessages.en,
         limit: limitMessages.en,
         siteManage: siteManageManages.en,
-        operation: operationMessages.en
+        operation: operationMessages.en,
+        confirm: confirmMessages.en
     },
     ja: {
         dataManage: dataManageMessages.ja,
@@ -75,7 +79,8 @@ const _default: Messages<AppMessage> = {
         habit: habitMessages.ja,
         limit: limitMessages.ja,
         siteManage: siteManageManages.ja,
-        operation: operationMessages.ja
+        operation: operationMessages.ja,
+        confirm: confirmMessages.ja
     }
 }
 

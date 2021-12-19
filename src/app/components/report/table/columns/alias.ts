@@ -16,9 +16,11 @@ import { t } from "../../../../locale"
 // Alias column
 const aliasColProp = {
     label: t(msg => msg.siteManage.column.alias),
-    minWidth: 135,
+    minWidth: 140,
     align: 'center'
 }
-const aliasColSlots = { default: ({ row }: { row: DataItem }) => h('span', row.alias || '-') }
+const aliasColSlots = {
+    default: ({ row }: { row: DataItem }) => h('span', row.alias || '-')
+}
 const aliasCol = () => h(ElTableColumn, aliasColProp, aliasColSlots)
 export default aliasCol

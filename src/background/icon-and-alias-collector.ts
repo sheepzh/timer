@@ -32,7 +32,7 @@ function isUrl(title: string) {
 function collectAlias(host: string, tabTitle: string) {
     if (isUrl(tabTitle)) return
     if (!tabTitle) return
-    const siteName = extractSiteName(tabTitle)
+    const siteName = extractSiteName(tabTitle, host)
     siteName && hostAliasDatabase.update({ name: siteName, host, source: HostAliasSource.DETECTED })
 }
 
