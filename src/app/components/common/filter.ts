@@ -64,10 +64,11 @@ export type FilterButtonProps = {
     type?: 'primary' | 'info' | 'success' | 'warning' | 'danger'
     label: _I18nKey
     icon?: ElementIcon
+    right?: boolean
 }
 
-export const buttonFilterItem = ({ onClick, type, label, icon }: FilterButtonProps) => h<{}>(ElButton, {
-    class: 'filter-item',
+export const buttonFilterItem = ({ onClick, type, label, icon, right }: FilterButtonProps) => h<{}>(ElButton, {
+    class: 'filter-item' + (right ? ' filter-item-right' : ''),
     type,
     icon: icon,
     onClick
