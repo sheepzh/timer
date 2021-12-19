@@ -61,7 +61,7 @@ export type TimerQueryParam = TimerCondition & {
 }
 
 /**
- * @since 0.4.1
+ * @since 0.5.0
  */
 export type FillFlagParam = {
     /**
