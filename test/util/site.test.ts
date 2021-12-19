@@ -12,4 +12,5 @@ test('extract site name', () => {
     expect(extractSiteName('Product Hunt – The - best new products in tech.')).toEqual('The')
 
     expect(extractSiteName('Office 365 登录 | Microsoft Office')).toEqual('Microsoft Office')
+    expect(extractSiteName('首页 - 知乎')).toEqual('知乎')
 })
