@@ -1,4 +1,4 @@
-import { extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost } from "@util/pattern"
+import { extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost } from "../../src/util/pattern"
 
 test('browser url', () => {
     // chrome

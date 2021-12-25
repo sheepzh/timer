@@ -1,7 +1,7 @@
-import ArchivedDatabase from "@db/archived-database"
-import { DATE_FORMAT } from "@db/common/constant"
-import DataItem from "@entity/dto/data-item"
-import { formatTime, MILL_PER_DAY } from "@util/time"
+import ArchivedDatabase from "../../src/database/archived-database"
+import { DATE_FORMAT } from "../../src/database/common/constant"
+import DataItem from "../../src/entity/dto/data-item"
+import { formatTime, MILL_PER_DAY } from "../../src/util/time"
 import storage from "../__mock__/storage"
 
 const archivedDatabase = new ArchivedDatabase(storage.local)

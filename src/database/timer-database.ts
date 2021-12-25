@@ -306,9 +306,9 @@ class TimerDatabase extends BaseDatabase {
         const items = await this.refresh()
 
         // Key format: 20201112www.google.com
-        const keyReg = RegExp('\d{8}' + host)
+        const keyReg = RegExp('\\d{8}' + host)
         const keys: string[] = Object.keys(items)
-            .filter(key => keyReg.test(key) && dateFilter(key))
+            .filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
 
         await this.storage.remove(keys)
         return Promise.resolve(keys.map(k => k.substring(0, 8)))

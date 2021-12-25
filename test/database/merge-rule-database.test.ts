@@ -1,5 +1,5 @@
-import MergeRuleDatabase from "@db/merge-rule-database"
-import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
+import MergeRuleDatabase from "../../src/database/merge-rule-database"
+import HostMergeRuleItem from "../../src/entity/dto/host-merge-rule-item"
 import storage from "../__mock__/storage"
 
 const db = new MergeRuleDatabase(storage.local)
