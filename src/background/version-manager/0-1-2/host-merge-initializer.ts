@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import MergeRuleDatabase from "../../../database/merge-rule-database"
+import MergeRuleDatabase from "@db/merge-rule-database"
 import IVersionProcessor from "../i-version-processor"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)

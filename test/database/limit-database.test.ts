@@ -1,5 +1,5 @@
-import LimitDatabase from "../../src/database/limit-database"
-import { TimeLimit } from "../../src/entity/dao/time-limit"
+import LimitDatabase from "@db/limit-database"
+import { TimeLimit } from "@entity/dao/time-limit"
 import storage from "../__mock__/storage"
 
 const db = new LimitDatabase(storage.local)

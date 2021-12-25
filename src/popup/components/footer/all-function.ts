@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import RouterDatabase from "../../../database/router-database"
-import { getAppPageUrl } from "../../../util/constant/url"
-import { t } from "../../locale"
+import RouterDatabase from "@db/router-database"
+import { getAppPageUrl } from "@util/constant/url"
+import { t } from "@src/popup/locale"
 
 const db: RouterDatabase = new RouterDatabase(chrome.storage.local)
 const APP_PAGE_URL = getAppPageUrl(false)

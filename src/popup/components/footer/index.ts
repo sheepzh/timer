@@ -14,13 +14,13 @@ import './upgrade'
 import './meat'
 
 import './total-info'
-import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "../../../service/timer-service"
+import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "@service/timer-service"
 import DataItem from "../../../entity/dto/data-item"
 import { t } from "../../locale"
 import { QueryResult } from "../../popup"
 import { formatPeriodCommon } from "../../../util/time"
 import { updateTotal } from "./total-info"
-import optionService from "../../../service/option-service"
+import optionService from "@service/option-service"
 
 export function getQueryParam() {
     const param: TimerQueryParam = {

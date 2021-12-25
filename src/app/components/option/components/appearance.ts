@@ -7,7 +7,7 @@
 
 import { ElCard, ElDivider, ElSwitch } from "element-plus"
 import { defineComponent, h, Ref, ref } from "vue"
-import optionService from "../../../../service/option-service"
+import optionService from "@service/option-service"
 import { defaultAppearance } from "../../../../util/constant/option"
 import { t } from "../../../locale"
 import { renderHeader, renderOptionItem, tagText } from "../common"

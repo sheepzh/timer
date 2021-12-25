@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostAlias, { HostAliasSource } from "../entity/dao/host-alias"
-import HostAliasDatabase, { HostAliasCondition } from "../database/host-alias-database"
-import IconUrlDatabase from "../database/icon-url-database"
-import { HostAliasInfo } from "../entity/dto/host-alias-info"
-import { PageParam, PageResult, slicePageResult } from "./page/page-info"
+import HostAlias, { HostAliasSource } from "@entity/dao/host-alias"
+import HostAliasDatabase, { HostAliasCondition } from "@db/host-alias-database"
+import IconUrlDatabase from "@db/icon-url-database"
+import { HostAliasInfo } from "@entity/dto/host-alias-info"
+import { PageParam, PageResult, slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
 const hostAliasDatabase = new HostAliasDatabase(storage)

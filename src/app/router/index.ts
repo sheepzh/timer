@@ -7,7 +7,7 @@
 
 import { App } from "vue"
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
-import RouterDatabase from "../../database/router-database"
+import RouterDatabase from "@db/router-database"
 import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE } from "./constants"
 
 const dataRoutes: RouteRecordRaw[] = [

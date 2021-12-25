@@ -10,17 +10,18 @@
  */
 import { h, ref, Ref } from "vue"
 import { ElButton, ElMessage, ElPopconfirm, ElTableColumn } from "element-plus"
-import { ItemMessage } from "../../../../../util/i18n/components/item"
-import { t } from "../../../../locale"
-import DataItem from "../../../../../entity/dto/data-item"
-import TimerDatabase from "../../../../../database/timer-database"
-import whitelistService from "../../../../../service/whitelist-service"
-import { formatTime } from "../../../../../util/time"
-import { dateFormatter } from "../../formatter"
-import { ReportMessage } from "../../../../locale/components/report"
-import { QueryData } from "../../../common/constants"
+import { ItemMessage } from "@util/i18n/components/item"
+import DataItem from "@entity/dto/data-item"
+import TimerDatabase from "@db/timer-database"
+import whitelistService from "@service/whitelist-service"
+import { formatTime } from "@util/time"
+import { t } from "@app/locale"
+import { ReportMessage } from "@app/locale/components/report"
+import { QueryData } from "@app/components/common/constants"
 import { LocationQueryRaw, Router } from "vue-router"
-import { TREND_ROUTE } from "../../../../router/constants"
+import { TREND_ROUTE } from "@app/router/constants"
+import { dateFormatter } from "../../formatter"
+
 import {
     DefineComponent,
     ComponentOptionsMixin as Mixin,

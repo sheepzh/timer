@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimerDatabase, { TimerCondition } from "../database/timer-database"
-import WhitelistDatabase from "../database/whitelist-database"
-import ArchivedDatabase from "../database/archived-database"
+import TimerDatabase, { TimerCondition } from "@db/timer-database"
+import WhitelistDatabase from "@db/whitelist-database"
+import ArchivedDatabase from "@db/archived-database"
 import DataItem from "../entity/dto/data-item"
 import { log } from "../common/logger"
-import CustomizedHostMergeRuler from "./host-merge-ruler"
+import CustomizedHostMergeRuler from "./components/host-merge-ruler"
 import HostMergeRuleItem from "../entity/dto/host-merge-rule-item"
-import MergeRuleDatabase from "../database/merge-rule-database"
+import MergeRuleDatabase from "@db/merge-rule-database"
 import WastePerDay, { WasteData } from "../entity/dao/waste-per-day"
-import IconUrlDatabase from "../database/icon-url-database"
-import HostAliasDatabase from "../database/host-alias-database"
-import { PageParam, PageResult, slicePageResult } from "./page/page-info"
+import IconUrlDatabase from "@db/icon-url-database"
+import HostAliasDatabase from "@db/host-alias-database"
+import { PageParam, PageResult, slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
 

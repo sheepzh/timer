@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { DATE_FORMAT } from "../database/common/constant"
-import LimitDatabase from "../database/limit-database"
-import WhitelistDatabase from "../database/whitelist-database"
-import { TimeLimit } from "../entity/dao/time-limit"
-import TimeLimitItem from "../entity/dto/time-limit-item"
-import { formatTime } from "../util/time"
+import { DATE_FORMAT } from "@db/common/constant"
+import LimitDatabase from "@db/limit-database"
+import WhitelistDatabase from "@db/whitelist-database"
+import { TimeLimit } from "@entity/dao/time-limit"
+import TimeLimitItem from "@entity/dto/time-limit-item"
+import { formatTime } from "@util/time"
 
 const storage = chrome.storage.local
 const db: LimitDatabase = new LimitDatabase(storage)

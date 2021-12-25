@@ -52,6 +52,16 @@ const staticOptions: webpack.Configuration = {
     },
     resolve: {
         extensions: ['.ts', ".js", '.css', '.scss', '.sass'],
+        alias: {
+            // The alias of path
+            // @see $root_path/tsconfig.json
+            '@src': path.resolve(__dirname, '..', 'src'),
+            '@db': path.resolve(__dirname, '..', 'src', 'database'),
+            '@service': path.resolve(__dirname, '..', 'src', 'service'),
+            "@entity": path.resolve(__dirname, '..', 'src', 'entity'),
+            "@util": path.resolve(__dirname, '..', 'src', 'util'),
+            "@app": path.resolve(__dirname, '..', 'src', 'app'),
+        }
     }
 }
 

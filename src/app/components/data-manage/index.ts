@@ -7,7 +7,7 @@
 
 import { ElRow, ElCol } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
-import { getUsedStorage } from "../../../database/memory-detector"
+import { getUsedStorage } from "@db/memory-detector"
 import './style'
 import { renderContentContainer } from "../common/content-container"
 import migration from "./migration"

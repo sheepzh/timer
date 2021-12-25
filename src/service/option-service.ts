@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import OptionDatabase from "../database/option-database"
-import { defaultAppearance, defaultPopup, defaultStatistics } from "../util/constant/option"
+import OptionDatabase from "@db/option-database"
+import { defaultAppearance, defaultPopup, defaultStatistics } from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
 

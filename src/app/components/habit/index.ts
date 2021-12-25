@@ -8,7 +8,7 @@
 import { ECharts, init } from "echarts"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, watch } from "vue"
 import { MAX_PERIOD_ORDER, PeriodKey } from "../../../entity/dto/period-info"
-import periodService, { PeriodQueryParam } from "../../../service/period-service"
+import periodService, { PeriodQueryParam } from "@service/period-service"
 import { daysAgo, isSameDay } from "../../../util/time"
 import { renderContentContainer } from "../common/content-container"
 import chart, { ChartProps } from "./chart"

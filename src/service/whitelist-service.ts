@@ -6,7 +6,7 @@
  */
 
 import { log } from "../common/logger"
-import WhitelistDatabase from "../database/whitelist-database"
+import WhitelistDatabase from "@db/whitelist-database"
 
 const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
 /**

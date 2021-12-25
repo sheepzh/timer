@@ -1,4 +1,4 @@
-import IconUrlDatabase from "../../src/database/icon-url-database"
+import IconUrlDatabase from "@db/icon-url-database"
 import storage from "../__mock__/storage"
 
 const db = new IconUrlDatabase(storage.local)

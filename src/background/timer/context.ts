@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import optionService from "../../service/option-service"
+import optionService from "@service/option-service"
 
 export class TimeInfo {
     focus: number

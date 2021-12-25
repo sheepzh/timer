@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import timerService from "../service/timer-service"
-import whitelistService from "../service/whitelist-service"
+import timerService from "@service/timer-service"
+import whitelistService from "@service/whitelist-service"
 import processLimit from "./limit"
 import printInfo from "./printer"
 

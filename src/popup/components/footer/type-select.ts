@@ -7,7 +7,7 @@
 
 // Type select
 import { ALL_DATA_ITEMS } from "../../../entity/dto/data-item"
-import optionService from "../../../service/option-service"
+import optionService from "@service/option-service"
 import { t } from "../../locale"
 
 const typeSelect = document.getElementById('select-container')
