@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import OptionDatabase from "../database/option-database"
-import TimerDatabase from "../database/timer-database"
-import { extractHostname } from "../util/pattern"
+import OptionDatabase from "@db/option-database"
+import TimerDatabase from "@db/timer-database"
+import { extractHostname } from "@util/pattern"
 
 const storage = chrome.storage.local
 const timerDb: TimerDatabase = new TimerDatabase(storage)

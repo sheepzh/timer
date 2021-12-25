@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import limitService from "../../service/limit-service"
-import periodService from "../../service/period-service"
-import timerService from "../../service/timer-service"
+import limitService from "@service/limit-service"
+import periodService from "@service/period-service"
+import timerService from "@service/timer-service"
 import CollectionContext from "./collection-context"
 
 export default function save(collectionContext: CollectionContext) {

@@ -11,7 +11,7 @@ import { t } from "../../locale"
 import { alertProps, bodyStyle } from "./common"
 import { deserialize, exportJson } from "../../../util/file"
 import { formatTime } from "../../../util/time"
-import Immigration from "../../../service/immigration"
+import Immigration from "@service/components/immigration"
 import { Download, Upload } from "@element-plus/icons"
 
 type _Props = {

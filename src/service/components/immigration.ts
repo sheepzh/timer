@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { version } from "../../package.json"
-import ArchivedDatabase from "../database/archived-database"
-import BaseDatabase from "../database/common/base-database"
-import StoragePromise from "../database/common/storage-promise"
-import IconUrlDatabase from "../database/icon-url-database"
-import LimitDatabase from "../database/limit-database"
-import MergeRuleDatabase from "../database/merge-rule-database"
-import PeriodDatabase from "../database/period-database"
-import RouterDatabase from "../database/router-database"
-import TimerDatabase from "../database/timer-database"
-import WhitelistDatabase from "../database/whitelist-database"
-import HostAliasDatabase from "../database/host-alias-database"
+import { version } from "../../../package.json"
+import ArchivedDatabase from "@db/archived-database"
+import BaseDatabase from "@db/common/base-database"
+import StoragePromise from "@db/common/storage-promise"
+import IconUrlDatabase from "@db/icon-url-database"
+import LimitDatabase from "@db/limit-database"
+import MergeRuleDatabase from "@db/merge-rule-database"
+import PeriodDatabase from "@db/period-database"
+import RouterDatabase from "@db/router-database"
+import TimerDatabase from "@db/timer-database"
+import WhitelistDatabase from "@db/whitelist-database"
+import HostAliasDatabase from "@db/host-alias-database"
 
 type MetaInfo = {
     version: string

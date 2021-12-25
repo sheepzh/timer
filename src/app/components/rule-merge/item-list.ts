@@ -6,12 +6,12 @@
  */
 
 import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
-import { MergeRuleMessage } from "../../locale/components/merge-rule"
+import { MergeRuleMessage } from "@app/locale/components/merge-rule"
 import { Ref, ref, h } from "vue"
-import MergeRuleDatabase from "../../../database/merge-rule-database"
-import HostMergeRuleItem from "../../../entity/dto/host-merge-rule-item"
-import { isValidHost } from "../../../util/pattern"
-import { t } from "../../locale"
+import MergeRuleDatabase from "@db/merge-rule-database"
+import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
+import { isValidHost } from "@util/pattern"
+import { t } from "@app/locale"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 const ruleItemsRef: Ref<HostMergeRuleItem[]> = ref([])

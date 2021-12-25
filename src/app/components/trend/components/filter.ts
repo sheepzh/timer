@@ -7,7 +7,7 @@
 
 import { ElDatePicker, ElOption, ElSelect } from "element-plus"
 import { ref, Ref, h } from "vue"
-import timerService, { HostSet } from "../../../../service/timer-service"
+import timerService, { HostSet } from "@service/timer-service"
 import { daysAgo } from "../../../../util/time"
 import { t } from "../../../locale"
 import { renderFilterContainer } from "../../common/filter"

@@ -8,8 +8,8 @@
 import { computed, ComputedRef, defineComponent, h, reactive, Ref, ref, UnwrapRef } from "vue"
 import { t } from "../../locale"
 import DataItem from "../../../entity/dto/data-item"
-import timerService, { SortDirect, TimerQueryParam } from "../../../service/timer-service"
-import whitelistService from "../../../service/whitelist-service"
+import timerService, { SortDirect, TimerQueryParam } from "@service/timer-service"
+import whitelistService from "@service/whitelist-service"
 import { formatTime } from "../../../util/time"
 import './styles/element'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"

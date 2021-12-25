@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimerDatabase from "../database/timer-database"
-import WastePerDay from "../entity/dao/waste-per-day"
-import { t2Chrome } from "../util/i18n/chrome/t"
-import { formatPeriod } from "../util/time"
+import TimerDatabase from "@db/timer-database"
+import WastePerDay from "@entity/dao/waste-per-day"
+import { t2Chrome } from "@util/i18n/chrome/t"
+import { formatPeriod } from "@util/time"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 

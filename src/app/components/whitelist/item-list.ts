@@ -8,7 +8,7 @@
 import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
 import { t } from "../../locale"
 import { h, ref, Ref, VNode } from "vue"
-import whitelistService from "../../../service/whitelist-service"
+import whitelistService from "@service/whitelist-service"
 
 const whitelistRef: Ref<string[]> = ref([])
 whitelistService

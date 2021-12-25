@@ -11,7 +11,25 @@
         "paths": {
             "*": [
                 "types/*"
-            ]
+            ],
+            "@src/*": [
+                "src/*"
+            ],
+            "@db/*": [
+                "src/database/*"
+            ],
+            "@service/*": [
+                "src/service/*"
+            ],
+            "@entity/*": [
+                "src/entity/*"
+            ],
+            "@util/*": [
+                "src/util/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
         }
     },
     "lib": [

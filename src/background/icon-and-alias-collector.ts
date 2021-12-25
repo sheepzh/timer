@@ -5,15 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { HostAliasSource } from "../entity/dao/host-alias"
-import HostAliasDatabase from "../database/host-alias-database"
-import IconUrlDatabase from "../database/icon-url-database"
-import OptionDatabase from "../database/option-database"
-import { IS_CHROME } from "../util/constant/environment"
-import { iconUrlOfBrowser } from "../util/constant/url"
-import { extractHostname, isBrowserUrl, isHomepage } from "../util/pattern"
-import { defaultStatistics } from "../util/constant/option"
-import { extractSiteName } from "../util/site"
+import { HostAliasSource } from "@entity/dao/host-alias"
+import HostAliasDatabase from "@db/host-alias-database"
+import IconUrlDatabase from "@db/icon-url-database"
+import OptionDatabase from "@db/option-database"
+import { IS_CHROME } from "@util/constant/environment"
+import { iconUrlOfBrowser } from "@util/constant/url"
+import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
+import { defaultStatistics } from "@util/constant/option"
+import { extractSiteName } from "@util/site"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const iconUrlDatabase = new IconUrlDatabase(storage)

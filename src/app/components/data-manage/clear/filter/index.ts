@@ -7,8 +7,8 @@
 
 import { Delete, DocumentAdd } from "@element-plus/icons"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
-import TimerDatabase from "../../../../../database/timer-database"
-import timerService from "../../../../../service/timer-service"
+import TimerDatabase from "@db/timer-database"
+import timerService from "@service/timer-service"
 import { t } from "../../../../locale"
 import '../../style/filter'
 import dateFilter from "./date-filter"

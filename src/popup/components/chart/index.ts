@@ -15,8 +15,8 @@ use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, Canvas
 import { QueryResult } from "../../popup"
 import handleClick from "./click-handler"
 import { pieOptions } from "./option"
-import { defaultStatistics } from "../../../util/constant/option"
-import OptionDatabase from "../../../database/option-database"
+import { defaultStatistics } from "@util/constant/option"
+import OptionDatabase from "@db/option-database"
 
 const optionDatabase = new OptionDatabase(chrome.storage.local)
 

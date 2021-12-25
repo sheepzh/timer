@@ -11,7 +11,7 @@ import filter, { FilterProps } from "./filter"
 import table from "./table"
 import AddDialog from "./add-dialog"
 import TimeLimitItem from "../../../entity/dto/time-limit-item"
-import limitService from "../../../service/limit-service"
+import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { ElCard } from "element-plus"
 

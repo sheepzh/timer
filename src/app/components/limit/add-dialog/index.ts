@@ -7,11 +7,11 @@
 
 import { ElDialog, ElMessage } from "element-plus"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
-import { t } from "../../../locale"
 import Form, { FormData } from "./form"
 import Footer from "./footer"
-import LimitDatabase from "../../../../database/limit-database"
-import { TimeLimit } from "../../../../entity/dao/time-limit"
+import LimitDatabase from "@db/limit-database"
+import { TimeLimit } from "@entity/dao/time-limit"
+import { t } from "@app/locale"
 
 const db = new LimitDatabase(chrome.storage.local)
 

@@ -8,7 +8,7 @@
 import { ElCard, ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "../../../locale"
 import { defineComponent, h, Ref, ref } from "vue"
-import optionService from "../../../../service/option-service"
+import optionService from "@service/option-service"
 import { ALL_DATA_ITEMS } from "../../../../entity/dto/data-item"
 import { renderOptionItem, renderHeader, tagText } from "../common"
 import { defaultPopup } from "../../../../util/constant/option"

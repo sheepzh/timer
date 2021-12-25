@@ -6,7 +6,7 @@
  */
 
 import TimeLimitItem from "../entity/dto/time-limit-item"
-import limitService from "../service/limit-service"
+import limitService from "@service/limit-service"
 import { t2Chrome } from "../util/i18n/chrome/t"
 import { ChromeMessage } from "../util/message"
 

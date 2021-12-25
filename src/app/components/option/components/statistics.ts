@@ -6,7 +6,7 @@
  */
 
 import { ElCard, ElDivider, ElSwitch } from "element-plus"
-import optionService from "../../../../service/option-service"
+import optionService from "@service/option-service"
 import { defaultStatistics } from "../../../../util/constant/option"
 import { defineComponent, h, Ref, ref } from "vue"
 import { t } from "../../../locale"

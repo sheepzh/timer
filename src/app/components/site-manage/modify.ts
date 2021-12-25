@@ -11,8 +11,8 @@ import { t } from "../../locale"
 import { HostAliasInfo } from "../../../entity/dto/host-alias-info"
 import { Check } from "@element-plus/icons"
 import HostAlias from "../../../entity/dao/host-alias"
-import hostAliasDatabase from "../../../service/host-alias-service"
-import timerService from "../../../service/timer-service"
+import hostAliasDatabase from "@service/host-alias-service"
+import timerService from "@service/timer-service"
 
 const dialogVisibleRef: Ref<boolean> = ref(false)
 const isNewRef: Ref<boolean> = ref(false)
