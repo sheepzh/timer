@@ -50,4 +50,4 @@ class HostAliasService {
     }
 }
 
-export default HostAliasService
+export default new HostAliasService()
