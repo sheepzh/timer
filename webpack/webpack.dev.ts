@@ -15,6 +15,8 @@ const options = optionGenerator(
   }
 )
 
+options.mode = 'development'
+
 const manifestFirefoxName = 'manifest-firefox.json'
 // The manifest.json is different from Chrome's with add-on ID
 const firefoxManifestGeneratePlugin = new GenerateJsonPlugin(

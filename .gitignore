@@ -1,8 +1,8 @@
 node_modules
-
+dist
 dist_dev
-
 dist_prod
+dist_analyze
 
 firefox_dev
 
