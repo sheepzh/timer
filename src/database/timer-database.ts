@@ -304,14 +304,12 @@ class TimerDatabase extends BaseDatabase {
         const endStr = end ? formatTime(end, DATE_FORMAT) : undefined
         const dateFilter = (date: string) => (startStr ? startStr <= date : true) && (endStr ? date <= endStr : true)
         const items = await this.refresh()
-        const keys: string[] = []
-        for (const key in items) {
-            // Key format: 20201112www.google.com
-            key.length === 8 + host.length
-                && key.substring(8) === host
-                && dateFilter(key.substring(0, 8))
-                && keys.push(key)
-        }
+
+        // Key format: 20201112www.google.com
+        const keyReg = RegExp('\d{8}' + host)
+        const keys: string[] = Object.keys(items)
+            .filter(key => keyReg.test(key) && dateFilter(key))
+
         await this.storage.remove(keys)
         return Promise.resolve(keys.map(k => k.substring(0, 8)))
     }
