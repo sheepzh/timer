@@ -10,7 +10,7 @@ let manifest: any
 const options = optionGenerator(
   outputDir,
   baseManifest => {
-    baseManifest['name'] = 'IS DEV'
+    baseManifest.name = 'IS DEV'
     manifest = baseManifest
   }
 )
