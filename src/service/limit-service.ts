@@ -25,8 +25,13 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
     const today = formatTime(new Date(), DATE_FORMAT)
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
-        .map(({ cond, time, enabled, wasteTime, latestDate, allowDelay }) =>
-            TimeLimitItem.of(cond, time, enabled, latestDate === today ? wasteTime : 0, allowDelay)
+        .map(({ cond, time, enabled, wasteTime, latestDate, allowDelay }) => TimeLimitItem.builder()
+            .cond(cond)
+            .time(time)
+            .enabled(enabled)
+            .waste(latestDate === today ? wasteTime : 0)
+            .allowDelay(allowDelay)
+            .build()
         )
         // If use url, then test it
         .filter(item => url ? item.matches(url) : true)
