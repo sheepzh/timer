@@ -5,16 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, ElOption, ElSelect, ElTag } from "element-plus"
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, ElOption, ElSelect } from "element-plus"
 import { defineComponent, h, reactive, ref, Ref, SetupContext, UnwrapRef } from "vue"
 import { t } from "../../locale"
 import { HostAliasInfo } from "../../../entity/dto/host-alias-info"
 import { Check } from "@element-plus/icons"
 import HostAlias from "../../../entity/dao/host-alias"
-import HostAliasService from "../../../service/host-alias-service"
-import timerService, { HostSet } from "../../../service/timer-service"
-
-const service = new HostAliasService()
+import hostAliasDatabase from "../../../service/host-alias-service"
+import timerService from "../../../service/timer-service"
 
 const dialogVisibleRef: Ref<boolean> = ref(false)
 const isNewRef: Ref<boolean> = ref(false)
@@ -62,7 +60,7 @@ async function handleSave(ctx: { $emit: (arg0: string, ...args: any[]) => void }
     const isNew = isNewRef.value
     const host = formDataRef.host
     const name = formDataRef.name.trim()
-    if (isNew && await service.exist(host)) {
+    if (isNew && await hostAliasDatabase.exist(host)) {
         ElMessage({
             type: 'warning',
             message: t(msg => msg.siteManage.msg.hostExistWarn, { host }),
@@ -71,7 +69,7 @@ async function handleSave(ctx: { $emit: (arg0: string, ...args: any[]) => void }
         })
         return
     }
-    await service.change(host, name)
+    await hostAliasDatabase.change(host, name)
     ElMessage.success(t(msg => msg.siteManage.msg.saved))
     ctx.$emit('saved', isNew, host, name)
     dialogVisibleRef.value = false
@@ -104,7 +102,7 @@ async function handleRemoteSearchHost(query: string): Promise<void> {
     hostSearchingRef.value = true
     const hostSet: Set<string> = (await timerService.listHosts(query)).origin
     const allHost: string[] = Array.from(hostSet)
-    const existedInfo: { [host: string]: boolean } = await service.existBatch(allHost)
+    const existedInfo: { [host: string]: boolean } = await hostAliasDatabase.existBatch(allHost)
     const existedOptions = []
     const notExistedOptions = []
     allHost.forEach(host => {
