@@ -63,7 +63,7 @@ function fillWithParam(result: string, param: { [key: string]: string | number }
         return ''
     }
     Object.entries(param)
-        .filter(([_key, value]) => !!value)
+        .filter(([_key, value]) => value !== null && value !== undefined)
         .forEach(([key, value]) => result = result.replace(`{${key}}`, value.toString()))
     return result
 }
