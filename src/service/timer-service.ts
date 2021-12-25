@@ -16,6 +16,7 @@ import MergeRuleDatabase from "../database/merge-rule-database"
 import WastePerDay, { WasteData } from "../entity/dao/waste-per-day"
 import IconUrlDatabase from "../database/icon-url-database"
 import HostAliasDatabase from "../database/host-alias-database"
+import { PageParam, PageResult, slicePageResult } from "./page/page-info"
 
 const storage = chrome.storage.local
 
@@ -25,16 +26,6 @@ const iconUrlDatabase = new IconUrlDatabase(storage)
 const hostAliasDatabase = new HostAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
 const whitelistDatabase = new WhitelistDatabase(storage)
-
-declare type PageParam = {
-    pageNum?: number
-    pageSize?: number
-}
-
-declare type PageInfo = {
-    total: number
-    list: DataItem[]
-}
 
 export enum SortDirect {
     ASC = 1,
@@ -203,26 +194,18 @@ class TimerService {
         return origin
     }
 
-    async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageInfo> {
+    async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageResult<DataItem>> {
         log("selectByPage:{param},{page}", param, page)
-        page = page || { pageNum: 1, pageSize: 10 }
         const origin: DataItem[] = await this.select(param)
-        // Page
-        let pageNum = page.pageNum
-        let pageSize = page.pageSize
-        pageNum === undefined || pageNum < 1 && (pageNum = 1)
-        pageSize === undefined || pageSize < 1 && (pageSize = 10)
-        const startIndex = (pageNum - 1) * pageSize
-        const endIndex = (pageNum) * pageSize
-        const total = origin.length
-        const list: DataItem[] = startIndex >= total ? [] : origin.slice(startIndex, Math.min(endIndex, total))
+        const result: PageResult<DataItem> = slicePageResult(origin, page)
+        const list = result.list
         if (param.mergeHost) {
-            for (const origin of list) await this.fillIconUrl(origin.mergedHosts)
+            for (const beforeMerge of list) await this.fillIconUrl(beforeMerge.mergedHosts)
         } else {
             await this.fillIconUrl(list)
             await this.fillAlias(list)
         }
-        return Promise.resolve({ total, list })
+        return Promise.resolve(result)
     }
 
     private filter(origin: DataItem[], param: TimerCondition) {
