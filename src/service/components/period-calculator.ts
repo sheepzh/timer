@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import PeriodInfo, { PeriodKey } from "@entity/dto/period-info"
-import PeriodResult from "@entity/dto/period-result"
+import PeriodInfo, { PeriodKey } from "../../entity/dto/period-info"
+import PeriodResult from "../../entity/dto/period-result"
 
 /**
  * @param timestamp current ts

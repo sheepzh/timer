@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { extractSiteName } from "@util/site"
+import { extractSiteName } from "../../src/util/site"
 
 test('extract site name', () => {
     expect(extractSiteName('Product Hunt – The best new products in tech.')).toEqual('Product Hunt')

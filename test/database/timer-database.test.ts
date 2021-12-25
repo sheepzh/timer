@@ -1,7 +1,7 @@
-import { DATE_FORMAT } from "@db/common/constant"
-import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import WastePerDay from "@entity/dao/waste-per-day"
-import { formatTime, MILL_PER_DAY } from "@util/time"
+import { DATE_FORMAT } from "../../src/database/common/constant"
+import TimerDatabase, { TimerCondition } from "../../src/database/timer-database"
+import WastePerDay from "../../src/entity/dao/waste-per-day"
+import { formatTime, MILL_PER_DAY } from "../../src/util/time"
 import storage from "../__mock__/storage"
 
 const db = new TimerDatabase(storage.local)

@@ -1,6 +1,6 @@
-import PeriodInfo, { PeriodKey, PERIODS_PER_DATE } from "@entity/dto/period-info"
-import { calculate, getMaxDivisiblePeriod, merge } from "@service/components/period-calculator"
-import { MILL_PER_DAY } from "@util/time"
+import PeriodInfo, { PeriodKey, PERIODS_PER_DATE } from "../../src/entity/dto/period-info"
+import { calculate, getMaxDivisiblePeriod, merge } from "../../src/service/components/period-calculator"
+import { MILL_PER_DAY } from "../../src/util/time"
 
 function timestampOf(base: Date, hour: number, minute: number, second: number, mill: number) {
     const date = new Date(base)
