@@ -6,7 +6,8 @@ import webpack from "webpack"
 const { name, version } = require(path.join(__dirname, '..', 'package.json'))
 
 const outputDir = path.resolve(__dirname, '..', 'dist_prod')
-const options = optionGenerator(outputDir)
+const option = optionGenerator(outputDir)
+option.mode = 'production'
 
 const normalZipFilePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}.zip`)
 const sourceCodeForFireFox = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.zip`)
@@ -45,8 +46,8 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
     }
 })
 
-options.plugins.push(filemanagerWebpackPlugin as webpack.WebpackPluginInstance)
+option.plugins.push(filemanagerWebpackPlugin as webpack.WebpackPluginInstance)
 
-options.output.path = outputDir
+option.output.path = outputDir
 
-export default options
+export default option
