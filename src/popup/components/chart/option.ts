@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import DataItem from "@src/entity/dto/data-item"
 import { EChartOption } from "echarts"
 import { formatPeriodCommon, formatTime } from "../../../util/time"
 import { t } from "../../locale"
@@ -32,7 +33,14 @@ const legend2LabelStyle = (legend: string) => {
 const toolTipFormatter = ({ type }: QueryResult, params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[]) => {
     const format: echarts.EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
-    return `${name}<br/>${type === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)} (${percent}%)`
+    const data = format.data as DataItem
+    const host = data.host
+    let dimensionName = name
+    if (host && host !== name) {
+        dimensionName = `${name} (${host})`
+    }
+    const valueText = type === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)
+    return `${dimensionName}<br/>${valueText} (${percent}%)`
 }
 
 const staticOptions: EChartOption<EChartOption.SeriesPie> = {

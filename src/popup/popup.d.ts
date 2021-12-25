@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DataItem from "../entity/dto/data-item"
+import DataItem from "@entity/dto/data-item"
 
 declare type QueryResult = {
     type: Timer.DataDimension
