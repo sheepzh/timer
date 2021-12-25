@@ -22,15 +22,8 @@ export default class TimeLimitItem {
      */
     waste?: number
 
-    static of(cond: string, time: number, enabled?: boolean, waste?: number, allowDelay?: boolean) {
-        const result = new TimeLimitItem()
-        result.cond = cond
-        result.regular = new RegExp(`^${cond.split('*').join('.*')}`)
-        result.time = time
-        result.enabled = enabled === undefined ? true : enabled
-        result.allowDelay = allowDelay === undefined ? true : allowDelay
-        result.waste = waste || 0
-        return result
+    static builder(): _Builder {
+        return new _Builder
     }
 
     matches(url: string) {
@@ -39,5 +32,52 @@ export default class TimeLimitItem {
 
     hasLimited() {
         return this.waste >= this.time * 1000
+    }
+}
+
+/**
+ * Inner builder
+ */
+class _Builder {
+    private _cond: string
+    private _time: number
+    private _enabled: boolean
+    private _allowDelay: boolean
+    private _waste?: number
+
+    cond(newVal: string): _Builder {
+        this._cond = newVal
+        return this
+    }
+
+    time(newVal: number): _Builder {
+        this._time = newVal
+        return this
+    }
+
+    enabled(newVal: boolean): _Builder {
+        this._enabled = newVal
+        return this
+    }
+
+    allowDelay(newVal: boolean): _Builder {
+        this._allowDelay = newVal
+        return this
+    }
+
+    waste(newVal: number): _Builder {
+        this._waste = newVal
+        return this
+    }
+
+    build(): TimeLimitItem {
+        const result = new TimeLimitItem()
+        result.cond = this._cond
+        result.regular = new RegExp(`^${this._cond.split('*').join('.*')}`)
+        result.time = this._time
+        result.enabled = this._enabled === undefined ? true : this._enabled
+        result.allowDelay = this._allowDelay === undefined ? true : this._allowDelay
+        result.waste = this._waste || 0
+        return result
     }
 }
