@@ -7,14 +7,13 @@
 
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
-import WhitelistDatabase from "@db/whitelist-database"
 import { TimeLimit } from "@entity/dao/time-limit"
 import TimeLimitItem from "@entity/dto/time-limit-item"
 import { formatTime } from "@util/time"
+import whitelistHolder from './components/whitelist-holder'
 
 const storage = chrome.storage.local
 const db: LimitDatabase = new LimitDatabase(storage)
-const whitelistDatabase = new WhitelistDatabase(storage)
 
 export type QueryParam = {
     filterDisabled: boolean
@@ -80,21 +79,13 @@ async function moreMinutes(url: string, rules: TimeLimitItem[]): Promise<void> {
 }
 
 class LimitService {
-    private whitelist: string[] = []
-
-    constructor() {
-        const whitelistSetter = (whitelist: string[]) => this.whitelist = whitelist
-        whitelistDatabase.selectAll().then(whitelistSetter)
-        whitelistDatabase.addChangeListener(whitelistSetter)
-    }
-
     moreMinutes = moreMinutes
     getLimited = getLimited
     update = update
     updateDelay = updateDelay
     select = select
     remove = remove
-    addFocusTime = (host: string, url: string, focusTime: number) => !this.whitelist.includes(host) && addFocusTime(url, focusTime)
+    addFocusTime = (host: string, url: string, focusTime: number) => whitelistHolder.notContains(host) && addFocusTime(url, focusTime)
 }
 
 export default new LimitService()

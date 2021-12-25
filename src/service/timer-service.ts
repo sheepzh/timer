@@ -6,7 +6,6 @@
  */
 
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import WhitelistDatabase from "@db/whitelist-database"
 import ArchivedDatabase from "@db/archived-database"
 import DataItem from "../entity/dto/data-item"
 import { log } from "../common/logger"
@@ -17,6 +16,7 @@ import WastePerDay, { WasteData } from "../entity/dao/waste-per-day"
 import IconUrlDatabase from "@db/icon-url-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { PageParam, PageResult, slicePageResult } from "./components/page-info"
+import whitelistHolder from './components/whitelist-holder'
 
 const storage = chrome.storage.local
 
@@ -25,7 +25,6 @@ const archivedDatabase = new ArchivedDatabase(storage)
 const iconUrlDatabase = new IconUrlDatabase(storage)
 const hostAliasDatabase = new HostAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
-const whitelistDatabase = new WhitelistDatabase(storage)
 
 export enum SortDirect {
     ASC = 1,
@@ -76,18 +75,10 @@ export type HostSet = {
  */
 class TimerService {
 
-    private whitelist: string[] = []
-
-    constructor() {
-        const whitelistSetter = (whitelist: string[]) => this.whitelist = whitelist
-        whitelistDatabase.selectAll().then(whitelistSetter)
-        whitelistDatabase.addChangeListener(whitelistSetter)
-    }
-
     async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<WasteData> {
         const toUpdate = {}
         Object.entries(data)
-            .filter(([host]) => !this.whitelist.includes(host))
+            .filter(([host]) => whitelistHolder.notContains(host))
             .forEach(([host, item]) => toUpdate[host] = WastePerDay.of(item.run, item.focus, 0))
         return timerDatabase.accumulateBatch(toUpdate, new Date())
     }

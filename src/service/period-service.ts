@@ -6,9 +6,9 @@
  */
 
 import PeriodDatabase from "@db/period-database"
-import PeriodInfo, { PeriodKey } from "../entity/dto/period-info"
-import PeriodResult from "../entity/dto/period-result"
-import { MILL_PER_DAY } from "../util/time"
+import PeriodInfo, { PeriodKey } from "@entity/dto/period-info"
+import PeriodResult from "@entity/dto/period-result"
+import { MILL_PER_DAY } from "@util/time"
 import { calculate, merge, getMaxDivisiblePeriod } from "./components/period-calculator"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
