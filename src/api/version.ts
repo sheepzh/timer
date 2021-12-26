@@ -6,7 +6,7 @@
  */
 
 import axios, { AxiosResponse } from "axios"
-import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "../util/constant/environment"
+import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "@util/constant/environment"
 
 async function getFirefoxVersion(): Promise<string | null> {
     const response: AxiosResponse<any> = await axios.get('https://addons.mozilla.org/api/v3/addons/addon/2690100')

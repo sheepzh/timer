@@ -7,7 +7,7 @@
 
 import RouterDatabase from "@db/router-database"
 import { getAppPageUrl } from "@util/constant/url"
-import { t } from "@src/popup/locale"
+import { t } from "@popup/locale"
 
 const db: RouterDatabase = new RouterDatabase(chrome.storage.local)
 const APP_PAGE_URL = getAppPageUrl(false)

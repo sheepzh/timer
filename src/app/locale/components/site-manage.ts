@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from "../../../util/i18n"
+import { Messages } from "@util/i18n"
 
 export type SiteManageMessage = {
     hostPlaceholder: string
@@ -42,7 +42,7 @@ export type SiteManageMessage = {
 const en: SiteManageMessage = {
     hostPlaceholder: "Search by host",
     aliasPlaceholder: "Search by name",
-    onlyDetected: 'Only Detected',
+    onlyDetected: 'Only detected',
     deleteConfirmMsg: 'The name of {host} will be deleted',
     column: {
         host: "Site URL",

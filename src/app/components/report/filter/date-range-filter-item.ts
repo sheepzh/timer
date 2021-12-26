@@ -7,10 +7,10 @@
 
 import { ElDatePicker } from "element-plus"
 import { h, Ref } from "vue"
-import { daysAgo } from "../../../../util/time"
-import { t } from "../../../locale"
-import { ReportMessage } from "../../../locale/components/report"
-import { QueryData } from "../../common/constants"
+import { daysAgo } from "@util/time"
+import { t } from "@app/locale"
+import { ReportMessage } from "@app/locale/components/report"
+import { QueryData } from "@app/components/common/constants"
 
 export type DateRangeFilterItemProps = {
     dateRangeRef: Ref<Date[]>
@@ -27,8 +27,8 @@ const datePickerShortcut = (msg: keyof ReportMessage, agoOfStart?: number, agoOf
 const shortcuts = [
     datePickerShortcut('today'),
     datePickerShortcut('yesterday', 1, 1),
-    datePickerShortcut('latestWeek', 7),
-    datePickerShortcut('latest30Days', 30)
+    datePickerShortcut('lateWeek', 7),
+    datePickerShortcut('late30Days', 30)
 ]
 
 const handleUpdate = (props: DateRangeFilterItemProps, date: Array<Date>) => {

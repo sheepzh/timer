@@ -7,7 +7,7 @@
 
 import { defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
-import { daysAgo } from "../../../util/time"
+import { daysAgo } from "@util/time"
 import { renderContentContainer } from "../common/content-container"
 import DomainTrend from "./components/host-trend"
 import filterContainer, { addToFilterOption, FilterProps } from "./components/filter"

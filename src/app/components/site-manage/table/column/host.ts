@@ -6,10 +6,10 @@
  */
 
 import { ElTableColumn } from "element-plus"
-import { host2ElLink } from "../../../../../app/components/common/table"
-import { HostAliasInfo } from "../../../../../entity/dto/host-alias-info"
+import { host2ElLink } from "@app/components/common/table"
+import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { h } from "vue"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 
 const columnProps = {
     prop: 'host',

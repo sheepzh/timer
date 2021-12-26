@@ -6,9 +6,9 @@
  */
 
 import { ElIcon, ElTableColumn, ElTooltip } from "element-plus"
-import { HostAliasInfo } from "../../../../../entity/dto/host-alias-info"
+import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { h } from "vue"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons"
 
 const columnProps = {

@@ -7,10 +7,10 @@
 
 import { h, Ref } from "vue"
 import clipboardy from "clipboardy"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import UrlPathItem from "./url-path-item"
-import { checkOrRequestPermission } from "../../../../../permissions"
+import { checkOrRequestPermission } from "@src/permissions"
 
 export enum Protocol {
     HTTP = 'http://',

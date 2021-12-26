@@ -8,10 +8,10 @@
 import { Delete } from "@element-plus/icons"
 import { ElButton, ElMessage, ElMessageBox, ElTableColumn } from "element-plus"
 import { h } from "vue"
-import TimeLimitItem from "../../../../../entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
-import { t } from "../../../../locale"
-import { QueryData } from "../../../common/constants"
+import { t } from "@app/locale"
+import { QueryData } from "@app/components/common/constants"
 
 const columnProps = {
     prop: 'operations',

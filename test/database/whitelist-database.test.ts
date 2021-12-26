@@ -1,4 +1,4 @@
-import WhitelistDatabase from "../../src/database/whitelist-database"
+import WhitelistDatabase from "@db/whitelist-database"
 import storage from "../__mock__/storage"
 
 const db = new WhitelistDatabase(storage.local)

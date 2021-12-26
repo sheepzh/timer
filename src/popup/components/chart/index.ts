@@ -12,11 +12,11 @@ import { CanvasRenderer } from "echarts/renderers"
 
 // Register echarts
 use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
-import { QueryResult } from "../../popup"
-import handleClick from "./click-handler"
-import { pieOptions } from "./option"
+import QueryResult from "@popup/common/query-result"
 import { defaultStatistics } from "@util/constant/option"
 import OptionDatabase from "@db/option-database"
+import handleClick from "./click-handler"
+import { pieOptions } from "./option"
 
 const optionDatabase = new OptionDatabase(chrome.storage.local)
 

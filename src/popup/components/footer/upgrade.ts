@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getLatestVersion } from "../../../api/version"
-import { version } from "../../../../package.json"
-import { t } from "../../locale"
-import { UPDATE_PAGE } from "../../../util/constant/url"
+import { getLatestVersion } from "@src/api/version"
+import packageInfo from "@src/package"
+import { t } from "@popup/locale"
+import { UPDATE_PAGE } from "@util/constant/url"
 
 function showUpgradeButton(latestVersion: string) {
     const upgrade = document.getElementById('upgrade-container')
@@ -25,4 +25,4 @@ function showUpgradeButton(latestVersion: string) {
     latestInfo.innerText = t(msg => msg.updateVersionInfo, { version: `v${latestVersion}` })
 }
 
-getLatestVersion().then(latestVersion => version !== latestVersion && showUpgradeButton(latestVersion))
+getLatestVersion().then(latestVersion => packageInfo.version !== latestVersion && showUpgradeButton(latestVersion))

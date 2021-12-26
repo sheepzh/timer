@@ -6,11 +6,11 @@
  */
 
 import { ElButton, ElPopconfirm, ElTableColumn } from "element-plus"
-import { t } from "../../../../../app/locale"
+import { t } from "@app/locale"
 import { h } from "vue"
-import { HostAliasInfo } from "../../../../../entity/dto/host-alias-info"
+import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { Delete, Edit } from "@element-plus/icons"
-import { QueryData } from "../../../../../app/components/common/constants"
+import { QueryData } from "@app/components/common/constants"
 
 type _Props = {
     handleDelete: (row: HostAliasInfo) => Promise<void>

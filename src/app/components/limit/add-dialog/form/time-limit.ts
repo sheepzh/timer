@@ -7,7 +7,7 @@
 
 import { ElCol, ElFormItem, ElInput, ElRow } from "element-plus"
 import { Ref, h } from "vue"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 
 type _Props = {
     hourRef: Ref<number>

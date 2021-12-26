@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { version } from "../../../../package.json"
+import packageInfo from "@src/package"
 
 const totalInfoSpan: HTMLSpanElement = document.getElementById('total-info') as HTMLSpanElement
 
 export function updateTotal(totalInfo: string): void {
-    totalInfoSpan.innerText = `v${version} ${totalInfo}`
+    totalInfoSpan.innerText = `v${packageInfo.version} ${totalInfo}`
 }

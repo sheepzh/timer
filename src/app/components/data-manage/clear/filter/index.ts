@@ -9,7 +9,7 @@ import { Delete, DocumentAdd } from "@element-plus/icons"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
 import TimerDatabase from "@db/timer-database"
 import timerService from "@service/timer-service"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 import '../../style/filter'
 import dateFilter from "./date-filter"
 import numberFilter from "./number-filter"

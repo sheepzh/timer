@@ -1,4 +1,4 @@
-import compile from "../../../src/util/i18n/chrome/compile"
+import compile from "../@util/i18n/chrome/compile"
 
 test('1', () => {
     const messages = { app: '123', foo: { bar: '234' } }

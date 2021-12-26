@@ -1,4 +1,4 @@
-import StoragePromise from "../../src/database/common/storage-promise"
+import StoragePromise from "@db/common/storage-promise"
 
 let store = {}
 

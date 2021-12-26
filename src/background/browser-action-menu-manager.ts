@@ -6,8 +6,8 @@
  */
 
 import { OPTION_ROUTE } from "../app/router/constants"
-import { getAppPageUrl, SOURCE_CODE_PAGE } from "../util/constant/url"
-import { t2Chrome } from "../util/i18n/chrome/t"
+import { getAppPageUrl, SOURCE_CODE_PAGE } from "@util/constant/url"
+import { t2Chrome } from "@util/i18n/chrome/t"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 

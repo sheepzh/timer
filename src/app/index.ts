@@ -12,7 +12,7 @@ import './styles' // global css
 import installRouter from "./router"
 import '../common/timer'
 import ElementPlus from 'element-plus'
-import { locale as appLocale, Locale } from "../util/i18n"
+import { locale as appLocale, Locale } from "@util/i18n"
 
 const locales: { [locale in Locale]: () => Promise<{ default: unknown }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),

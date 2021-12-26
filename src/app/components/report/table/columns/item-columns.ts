@@ -6,9 +6,9 @@
  */
 
 import { ElTableColumn } from "element-plus"
-import DataItem, { DataItemVal } from "../../../../../entity/dto/data-item"
-import { ItemMessage } from "../../../../../util/i18n/components/item"
-import { t } from "../../../../locale"
+import DataItem, { DataItemVal } from "@entity/dto/data-item"
+import { ItemMessage } from "@util/i18n/components/item"
+import { t } from "@app/locale"
 import { h, Ref } from "vue"
 import { periodFormatter } from "../../formatter"
 

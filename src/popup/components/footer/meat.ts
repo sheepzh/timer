@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { MEAT_URL } from "../../../util/constant/url"
-import { Locale, locale } from "../../../util/i18n"
+import { MEAT_URL } from "@util/constant/url"
+import { Locale, locale } from "@util/i18n"
 const nowHour = new Date().getHours()
 
 if ((nowHour === 17 || nowHour === 18 || nowHour === 12) && locale === Locale.ZH_CN) {

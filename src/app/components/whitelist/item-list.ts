@@ -6,7 +6,7 @@
  */
 
 import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
-import { t } from "../../locale"
+import { t } from "@app/locale"
 import { h, ref, Ref, VNode } from "vue"
 import whitelistService from "@service/whitelist-service"
 

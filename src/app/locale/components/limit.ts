@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from "../../../util/i18n"
+import { Messages } from "@util/i18n"
 
 export type LimitMessage = {
     conditionFilter: string
@@ -79,7 +79,7 @@ const _default: Messages<LimitMessage> = {
     },
     en: {
         conditionFilter: 'URL',
-        filterDisabled: 'Only Enabled',
+        filterDisabled: 'Only enabled',
         item: {
             condition: 'Limited URL',
             time: 'Limited time per day',

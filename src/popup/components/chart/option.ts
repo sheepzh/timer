@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DataItem from "@src/entity/dto/data-item"
+import DataItem from "@entity/dto/data-item"
 import { EChartOption } from "echarts"
-import { formatPeriodCommon, formatTime } from "../../../util/time"
-import { t } from "../../locale"
-import { QueryResult } from "../../popup"
+import { formatPeriodCommon, formatTime } from "@util/time"
+import { t } from "@popup/locale"
+import QueryResult from "@popup/common/query-result"
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 const todayForShow = formatTime(new Date(), '{y}/{m}/{d}')

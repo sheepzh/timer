@@ -8,9 +8,9 @@
 import { InfoFilled } from "@element-plus/icons"
 import { ElIcon, ElSwitch, ElTableColumn, ElTooltip } from "element-plus"
 import { h } from "vue"
-import TimeLimitItem from "../../../../../entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 
 const columnProps = {
     prop: 'delayClosed',

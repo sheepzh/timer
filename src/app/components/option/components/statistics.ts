@@ -7,9 +7,9 @@
 
 import { ElCard, ElDivider, ElSwitch } from "element-plus"
 import optionService from "@service/option-service"
-import { defaultStatistics } from "../../../../util/constant/option"
+import { defaultStatistics } from "@util/constant/option"
 import { defineComponent, h, Ref, ref } from "vue"
-import { t } from "../../../locale"
+import { t } from "@app/locale"
 import { renderHeader, renderOptionItem, tagText, tooltip } from "../common"
 
 const optionRef: Ref<Timer.StatisticsOption> = ref(defaultStatistics())

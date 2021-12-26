@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem from "../entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
-import { t2Chrome } from "../util/i18n/chrome/t"
-import { ChromeMessage } from "../util/message"
+import { t2Chrome } from "@util/i18n/chrome/t"
+import { ChromeMessage } from "@util/message"
 
 const maskStyle: Partial<CSSStyleDeclaration> = {
     width: "100%",

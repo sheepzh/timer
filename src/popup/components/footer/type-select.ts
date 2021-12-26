@@ -6,9 +6,9 @@
  */
 
 // Type select
-import { ALL_DATA_ITEMS } from "../../../entity/dto/data-item"
+import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
 import optionService from "@service/option-service"
-import { t } from "../../locale"
+import { t } from "@app/locale"
 
 const typeSelect = document.getElementById('select-container')
 const typeSelectPopup = document.getElementById('type-select-popup')

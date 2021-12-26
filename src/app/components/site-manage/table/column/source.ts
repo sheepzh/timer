@@ -7,8 +7,8 @@
 
 import { ElTableColumn, ElTag } from "element-plus"
 import { h } from "vue"
-import HostAlias, { HostAliasSource } from "../../../../../entity/dao/host-alias"
-import { I18nKey, t } from "../../../../locale"
+import HostAlias, { HostAliasSource } from "@entity/dao/host-alias"
+import { I18nKey, t } from "@app/locale"
 
 const columnProps = {
     prop: 'source',

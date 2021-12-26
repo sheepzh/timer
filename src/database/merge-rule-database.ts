@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostMergeRuleItem from "../entity/dto/host-merge-rule-item"
+import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 

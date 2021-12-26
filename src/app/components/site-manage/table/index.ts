@@ -6,7 +6,7 @@
  */
 
 import { ElTable } from "element-plus"
-import HostAlias from "../../../../entity/dao/host-alias"
+import HostAlias from "@entity/dao/host-alias"
 import { h, Ref } from "vue"
 import columns, { ColumnProps } from "./column"
 

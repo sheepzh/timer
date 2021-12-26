@@ -6,9 +6,9 @@
  */
 
 import { ElAlert } from "element-plus"
-import { t } from "../../locale"
+import { t } from "@app/locale"
 import { h } from "vue"
-import { MergeRuleMessage } from "../../locale/components/merge-rule"
+import { MergeRuleMessage } from "@app/locale/components/merge-rule"
 
 const liKeys: (keyof MergeRuleMessage)[] = ['infoAlert0', 'infoAlert1', 'infoAlert2', 'infoAlert3', 'infoAlert4', 'infoAlert5']
 

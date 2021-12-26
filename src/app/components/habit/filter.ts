@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElDatePicker, ElOption, ElSelect, ElSwitch } from "element-plus"
+import { ElDatePicker, ElOption, ElSelect } from "element-plus"
 import { ref, Ref, h } from "vue"
-import { daysAgo } from "../../../util/time"
-import { t } from "../../locale"
-import { HabitMessage } from "../../locale/components/habit"
+import { daysAgo } from "@util/time"
+import { t } from "@app/locale"
+import { HabitMessage } from "@app/locale/components/habit"
 import { renderFilterContainer, switchFilterItem } from "../common/filter"
 
 const datePickerShortcut = (msg: keyof HabitMessage['dateRange'], agoOfStart: number) => {
@@ -51,12 +51,12 @@ const periodSizeSelect = (periodSizeRef: Ref<string>) => h(ElSelect,
 
 type ShortCutProp = [label: keyof HabitMessage['dateRange'], dayAgo: number]
 const shortcutProps: ShortCutProp[] = [
-    ['latestDay', 1],
-    ['latest3Days', 3],
-    ['latestWeek', 7],
-    ['latest15Days', 15],
-    ['latest30Days', 30],
-    ['latest60Days', 60]
+    ["lateDay", 1],
+    ["late3Days", 3],
+    ["lateWeek", 7],
+    ["late15Days", 15],
+    ["late30Days", 30],
+    ["late60Days", 60]
 ]
 
 const shortcuts = shortcutProps.map(([label, dayAgo]) => datePickerShortcut(label, dayAgo))

@@ -6,10 +6,10 @@
  */
 
 import { ElTableColumn, ElTooltip } from "element-plus"
-import { host2ElLink } from "../../../../../app/components/common/table"
+import { host2ElLink } from "@app/components/common/table"
 import { Ref, h } from "vue"
-import DataItem from "../../../../../entity/dto/data-item"
-import { t } from "../../../../locale"
+import DataItem from "@entity/dto/data-item"
+import { t } from "@app/locale"
 
 export type HostColumnProps = {
     mergeHostRef: Ref<boolean>

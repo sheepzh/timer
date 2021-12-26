@@ -7,7 +7,7 @@
 
 import { ElSwitch, ElTag, ElTooltip } from "element-plus"
 import { h, Ref, VNode } from "vue"
-import { t } from "../../../../locale"
+import { t } from "@app/locale"
 import UrlPathItem from "./url-path-item"
 
 type _Props = {

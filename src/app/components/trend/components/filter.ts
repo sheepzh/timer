@@ -8,9 +8,9 @@
 import { ElDatePicker, ElOption, ElSelect } from "element-plus"
 import { ref, Ref, h } from "vue"
 import timerService, { HostSet } from "@service/timer-service"
-import { daysAgo } from "../../../../util/time"
-import { t } from "../../../locale"
-import { renderFilterContainer } from "../../common/filter"
+import { daysAgo } from "@util/time"
+import { t } from "@app/locale"
+import { renderFilterContainer } from "@app/components/common/filter"
 import HostOptionInfo from "../host-option-info"
 
 const datePickerShortcut = (msg: string, agoOfStart?: number, agoOfEnd?: number) => {
