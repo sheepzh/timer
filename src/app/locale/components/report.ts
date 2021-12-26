@@ -10,8 +10,8 @@ import { Messages } from "../../../util/i18n"
 export type ReportMessage = {
     startDate: string
     endDate: string
-    latestWeek: string
-    latest30Days: string
+    lateWeek: string
+    late30Days: string
     today: string
     yesterday: string
     mergeDate: string
@@ -27,8 +27,8 @@ const _default: Messages<ReportMessage> = {
     zh_CN: {
         startDate: '开始日期',
         endDate: '结束日期',
-        latestWeek: '最近一周',
-        latest30Days: '最近 30 天',
+        lateWeek: '最近一周',
+        late30Days: '最近 30 天',
         today: '今天',
         yesterday: '昨天',
         mergeDate: '合并日期',
@@ -42,14 +42,14 @@ const _default: Messages<ReportMessage> = {
     en: {
         startDate: 'Start date',
         endDate: 'End date',
-        latestWeek: 'Latest Week',
-        latest30Days: 'Latest 30 Days',
+        lateWeek: 'Late week',
+        late30Days: 'Late 30 days',
         today: 'Today',
         yesterday: 'Yesterday',
-        mergeDate: 'Merge Dates',
-        mergeDomain: 'Merge Sites',
-        displayBySecond: 'Display By Second',
-        hostPlaceholder: 'Input website, then enter',
+        mergeDate: 'Merge date',
+        mergeDomain: 'Merge sub-URL',
+        displayBySecond: 'Display in seconds',
+        hostPlaceholder: 'Input URL, press enter',
         exportFileName: 'Timer_Data',
         added2Whitelist: 'Added into the whitelist',
         removeFromWhitelist: 'Removed from the whitelist'
@@ -57,8 +57,8 @@ const _default: Messages<ReportMessage> = {
     ja: {
         startDate: '開始日',
         endDate: '終了日',
-        latestWeek: '先週',
-        latest30Days: '過去 30 日間',
+        lateWeek: '先週',
+        late30Days: '過去 30 日間',
         today: '今日',
         yesterday: '昨日',
         mergeDate: 'マージ日',
