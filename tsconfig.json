@@ -9,11 +9,8 @@
         "importHelpers": true,
         "moduleResolution": "node",
         "paths": {
-            "*": [
-                "types/*"
-            ],
-            "@src/*": [
-                "src/*"
+            "@app/*": [
+                "src/app/*"
             ],
             "@db/*": [
                 "src/database/*"
@@ -27,8 +24,11 @@
             "@util/*": [
                 "src/util/*"
             ],
-            "@app/*": [
-                "src/app/*"
+            "@src/*": [
+                "src/*"
+            ],
+            "*": [
+                "types/*"
             ]
         }
     },
