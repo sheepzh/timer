@@ -45,9 +45,9 @@ const en: SiteManageMessage = {
     onlyDetected: 'Only Detected',
     deleteConfirmMsg: 'The name of {host} will be deleted',
     column: {
-        host: "Host",
+        host: "Site URL",
         alias: "Site Name",
-        aliasInfo: "The site name will be shown on the report page and the popup page",
+        aliasInfo: "The site name will be shown on the record page and the popup page",
         source: "Source"
     },
     source: {
@@ -62,7 +62,7 @@ const en: SiteManageMessage = {
     },
     form: {
         emptyAlias: 'Please input the site name',
-        emptyHost: 'Please input the host'
+        emptyHost: 'Please input the website'
     },
     msg: {
         hostExistWarn: '{host} exists',

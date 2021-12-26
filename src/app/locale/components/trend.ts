@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from "../../../util/i18n"
+import { Messages } from "@util/i18n"
 
 export type TrendMessage = {
     hostPlaceholder: string
     startDate: string,
     endDate: string
-    latestWeek: string
-    latest15Days: string
-    latest30Days: string
-    latest90Days: string
+    lateWeek: string
+    late15Days: string
+    late30Days: string
+    late90Days: string
     history: {
         title: string
         timeUnit: string
@@ -30,10 +30,10 @@ const _default: Messages<TrendMessage> = {
         hostPlaceholder: '搜索你想分析的域名',
         startDate: '开始日期',
         endDate: '结束日期',
-        latestWeek: '最近 7 天',
-        latest15Days: '最近 15 天',
-        latest30Days: '最近 30 天',
-        latest90Days: '最近 90 天',
+        lateWeek: '最近 7 天',
+        late15Days: '最近 15 天',
+        late30Days: '最近 30 天',
+        late90Days: '最近 90 天',
         history: {
             title: '历史记录',
             timeUnit: '时长 / 秒',
@@ -44,30 +44,30 @@ const _default: Messages<TrendMessage> = {
         merged: '合并'
     },
     en: {
-        hostPlaceholder: 'Input the website',
+        hostPlaceholder: 'Enter URL',
         startDate: 'Start date',
         endDate: 'End date',
-        latestWeek: 'Latest Week',
-        latest15Days: 'Latest 15 days',
-        latest30Days: 'Latest 30 days',
-        latest90Days: 'Latest 90 days',
+        lateWeek: 'Late week',
+        late15Days: 'Late 15 days',
+        late30Days: 'Late 30 days',
+        late90Days: 'Late 90 days',
         history: {
             title: 'Trend',
             timeUnit: 'Time / second(s)',
-            numberUnit: 'Visits'
+            numberUnit: 'Visit Counts'
         },
         saveAsImageTitle: 'Snapshot',
-        defaultSubTitle: 'Search and select one site to analyze on the top-left corner, pls',
+        defaultSubTitle: 'Search and select one URL to analyze on the top-left corner, pls',
         merged: 'Merged'
     },
     ja: {
         hostPlaceholder: 'ドメイン名を検索',
         startDate: '開始日',
         endDate: '終了日',
-        latestWeek: '先週',
-        latest15Days: '過去 15 日間',
-        latest30Days: '過去 30 日間',
-        latest90Days: '過去 90 日間',
+        lateWeek: '先週',
+        late15Days: '過去 15 日間',
+        late30Days: '過去 30 日間',
+        late90Days: '過去 90 日間',
         history: {
             title: '歴史記録',
             timeUnit: '時間 / 秒',

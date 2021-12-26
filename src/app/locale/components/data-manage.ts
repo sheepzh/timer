@@ -67,7 +67,7 @@ const _default: Messages<DataManageMessage> = {
         usedMemoryAlert: '{size}MB is currently used',
         operationAlert: 'You can archive or delete those irrelevant data to reduce memory usage',
         filterItems: 'Filter data',
-        filterFocus: 'The browsing time of the day is between {start} seconds and {end} seconds.',
+        filterFocus: 'The browse time of the day is between {start} seconds and {end} seconds.',
         filterTotal: 'The running time of the day is between {start} seconds and {end} seconds.',
         filterTime: 'Visit count on the day is between {start} and {end}.',
         filterDate: 'Recorded between {picker}.',

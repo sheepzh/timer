@@ -89,7 +89,7 @@ const _default: Messages<OptionMessage> = {
             contextMenu: 'the context menu',
             displayBadgeText: '{input}  Whether to display {timeInfo} in {icon}',
             icon: 'the icon of extension',
-            badgeTextContent: 'the browsing time of current website'
+            badgeTextContent: 'the browse time of current website'
         },
         statistics: {
             title: 'Statistics',
@@ -97,7 +97,7 @@ const _default: Messages<OptionMessage> = {
             idleTime: 'idle time',
             idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
             collectSiteName: '{input}  Whether to automatically collect the name of the website when visiting the homepage of the website',
-            siteName: 'site name',
+            siteName: 'Site Name',
             siteNameUsage: 'The data only exists locally and will be used for display instead of the host to increase recognition.'
                 + 'Of course you can customize the name of each website.'
         },
@@ -123,7 +123,7 @@ const _default: Messages<OptionMessage> = {
             contextMenu: 'the context menu',
             displayBadgeText: '{input}  Whether to display {timeInfo} in {icon}',
             icon: 'the icon of extension',
-            badgeTextContent: 'the browsing time of current website'
+            badgeTextContent: 'the browse time of current website'
         },
         statistics: {
             title: '統計',
