@@ -5,6 +5,8 @@ import webpack from "webpack"
 // Generate json files 
 import manifest from "../src/manifest"
 import i18nChrome from "../src/util/i18n/chrome"
+import tsConfig from '../tsconfig.json'
+const tsPathAlias = tsConfig.compilerOptions.paths
 
 const generateJsonPlugins = [
     new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance
@@ -14,6 +16,29 @@ const localeJsonFiles = Object.entries(i18nChrome)
     .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
     .map(plugin => plugin as unknown as webpack.WebpackPluginInstance)
 generateJsonPlugins.push(...localeJsonFiles)
+
+// Process the alias of typescript modules
+const resolveAlias: { [index: string]: string | false | string[] } = {}
+const aliasPattern = /^(@.*)\/\*$/
+const sourcePattern = /^(src(\/.*)?)\/\*$/
+Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
+    // Only process the alias starts with '@'
+    if (!aliasPattern.test(alias)) {
+        return
+    }
+    if (!sourceArr.length) {
+        return
+    }
+    const index = alias.match(aliasPattern)[1]
+    const webpackSourceArr = sourceArr
+        .filter(source => sourcePattern.test(source))
+        // Only set alias which is in /src folder
+        .map(source => source.match(sourcePattern)[1])
+        .map(folder => path.resolve(__dirname, '..', folder))
+    resolveAlias[index] = webpackSourceArr
+})
+console.log("Alias of typescript: ")
+console.log(resolveAlias)
 
 const staticOptions: webpack.Configuration = {
     entry: {
@@ -52,16 +77,7 @@ const staticOptions: webpack.Configuration = {
     },
     resolve: {
         extensions: ['.ts', ".js", '.css', '.scss', '.sass'],
-        alias: {
-            // The alias of path
-            // @see $root_path/tsconfig.json
-            '@src': path.resolve(__dirname, '..', 'src'),
-            '@db': path.resolve(__dirname, '..', 'src', 'database'),
-            '@service': path.resolve(__dirname, '..', 'src', 'service'),
-            "@entity": path.resolve(__dirname, '..', 'src', 'entity'),
-            "@util": path.resolve(__dirname, '..', 'src', 'util'),
-            "@app": path.resolve(__dirname, '..', 'src', 'app'),
-        }
+        alias: resolveAlias
     }
 }
 
