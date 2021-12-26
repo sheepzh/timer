@@ -6,9 +6,9 @@
  */
 
 import { log } from "../common/logger"
-import WastePerDay, { merge, WasteData } from "../entity/dao/waste-per-day"
-import DataItem from "../entity/dto/data-item"
-import { formatTime } from "../util/time"
+import WastePerDay, { merge, WasteData } from "@entity/dao/waste-per-day"
+import DataItem from "@entity/dto/data-item"
+import { formatTime } from "@util/time"
 import BaseDatabase from "./common/base-database"
 import { ARCHIVED_PREFIX, DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
 

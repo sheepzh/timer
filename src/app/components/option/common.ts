@@ -8,8 +8,8 @@
 import { InfoFilled, Refresh } from "@element-plus/icons"
 import { ElTag, ElButton, ElMessage, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
-import { tN, t, I18nKey } from "../../locale"
-import { OptionMessage } from "../../locale/components/option"
+import { tN, t, I18nKey } from "@app/locale"
+import { OptionMessage } from "@app/locale/components/option"
 
 /**
  * Render the option item

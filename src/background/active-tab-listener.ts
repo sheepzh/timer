@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { extractHostname, HostInfo } from "../util/pattern"
+import { extractHostname, HostInfo } from "@util/pattern"
 
 type _Param = {
     url: string,

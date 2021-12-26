@@ -6,9 +6,9 @@
  */
 
 import { ElButton, ElCard, ElInput, ElSwitch } from "element-plus"
-import ElementIcon from "../../../app/element-ui/icon"
+import ElementIcon from "@app/element-ui/icon"
 import { h, Ref, VNode } from "vue"
-import { I18nKey, t } from "../../locale"
+import { I18nKey, t } from "@app/locale"
 import { QueryData } from "./constants"
 
 /**

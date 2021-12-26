@@ -13,8 +13,8 @@
  */
 import { h } from "vue"
 import { ElAlert } from "element-plus"
-import { t } from "../../locale"
-import { WhitelistMessage } from "../../locale/components/whitelist"
+import { t } from "@app/locale"
+import { WhitelistMessage } from "@app/locale/components/whitelist"
 
 const title = t(msg => msg.whitelist.infoAlertTitle)
 

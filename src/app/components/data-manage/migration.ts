@@ -7,10 +7,10 @@
 
 import { h, Ref, ref } from "vue"
 import { ElAlert, ElButton, ElCard, ElLoading, ElMain, ElMessage } from "element-plus"
-import { t } from "../../locale"
+import { t } from "@app/locale"
 import { alertProps, bodyStyle } from "./common"
-import { deserialize, exportJson } from "../../../util/file"
-import { formatTime } from "../../../util/time"
+import { deserialize, exportJson } from "@util/file"
+import { formatTime } from "@util/time"
 import Immigration from "@service/components/immigration"
 import { Download, Upload } from "@element-plus/icons"
 

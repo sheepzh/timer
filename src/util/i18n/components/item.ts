@@ -51,10 +51,10 @@ const _default: Messages<ItemMessage> = {
     },
     en: {
         date: 'Date',
-        host: 'Website',
+        host: 'Site URL',
         total: 'Running time',
-        focus: 'Browsing Time',
-        time: 'Visits',
+        focus: 'Browse Time',
+        time: 'Visit Count',
         operation: {
             label: 'Operations',
             delete: 'Delete',
@@ -62,9 +62,9 @@ const _default: Messages<ItemMessage> = {
             removeFromWhitelist: 'Enable',
             archive: 'Archive',
             jumpToTrend: 'Trend',
-            deleteConfirmMsgAll: 'All all records on {url} will be deleted!',
-            deleteConfirmMsgRange: 'All the Records on {url} from {start} to {end} will be deleted!',
-            deleteConfirmMsg: 'The record on {url} on {date} will be deleted!',
+            deleteConfirmMsgAll: 'All the records of {url} will be deleted!',
+            deleteConfirmMsgRange: 'All the records of {url} between {start} and {end} will be deleted!',
+            deleteConfirmMsg: 'The record of {url} on {date} will be deleted!',
             exportWholeData: 'Export Data',
             importWholeData: 'Import Data'
         }

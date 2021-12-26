@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from "../../../util/i18n"
+import { Messages } from "@util/i18n"
 
 export type HabitMessage = {
     sizes: {
@@ -65,7 +65,7 @@ const _default: Messages<HabitMessage> = {
             twoHour: 'Per two hours'
         },
         average: {
-            label: 'Daily Average'
+            label: 'Daily average'
         },
         dateRange: {
             lateDay: 'Late day',

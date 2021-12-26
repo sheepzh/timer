@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from "../../util/i18n"
-import chromeBase from "../../util/i18n/components/app"
-import itemMessages, { ItemMessage } from "../../util/i18n/components/item"
+import { Messages } from "@util/i18n"
+import chromeBase from "@util/i18n/components/app"
+import itemMessages, { ItemMessage } from "@util/i18n/components/item"
 
 export type PopupMessage = {
     title: string

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostAlias, { HostAliasSource } from "../entity/dao/host-alias"
+import HostAlias, { HostAliasSource } from "@entity/dao/host-alias"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 

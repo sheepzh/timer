@@ -6,12 +6,12 @@
  */
 
 import { ElCard, ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { t } from "../../../locale"
+import { t } from "@app/locale"
 import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "@service/option-service"
-import { ALL_DATA_ITEMS } from "../../../../entity/dto/data-item"
+import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
 import { renderOptionItem, renderHeader, tagText } from "../common"
-import { defaultPopup } from "../../../../util/constant/option"
+import { defaultPopup } from "@util/constant/option"
 
 const optionRef: Ref<Timer.PopupOption> = ref(defaultPopup())
 optionService.getAllOption().then(option => optionRef.value = option)

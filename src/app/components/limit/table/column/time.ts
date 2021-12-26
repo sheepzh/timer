@@ -7,9 +7,9 @@
 
 import { ElTableColumn } from "element-plus"
 import { h } from "vue"
-import TimeLimitItem from "../../../../../entity/dto/time-limit-item"
-import { formatPeriodCommon } from "../../../../../util/time"
-import { t } from "../../../../locale"
+import TimeLimitItem from "@entity/dto/time-limit-item"
+import { formatPeriodCommon } from "@util/time"
+import { t } from "@app/locale"
 
 const columnProps = {
     prop: 'limit',

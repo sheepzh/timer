@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostMergeRuleItem from "../../entity/dto/host-merge-rule-item"
-import { isIpAndPort } from "../../util/pattern"
+import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
+import { isIpAndPort } from "@util/pattern"
 
 /**
  * Ruler to merge host

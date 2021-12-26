@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { formatTime } from "../../util/time"
+import { formatTime } from "@util/time"
 import TimerContext from "./context"
 
 function listen(context: TimerContext, newState: chrome.idle.IdleState) {

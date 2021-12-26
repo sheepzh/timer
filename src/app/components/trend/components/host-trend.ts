@@ -8,11 +8,11 @@
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
 import { ElCard } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
-import { t } from "../../../locale"
+import { t } from "@app/locale"
 import timerService, { TimerQueryParam, SortDirect } from "@service/timer-service"
-import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
+import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import HostOptionInfo from "../host-option-info"
-import { contentContainerCardStyle } from "../../common/content-container"
+import { contentContainerCardStyle } from "@app/components/common/content-container"
 
 // Get the timestamp of one timestamp of date
 const timestampOf = (d: Date) => d.getTime()

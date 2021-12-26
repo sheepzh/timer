@@ -6,7 +6,7 @@
  */
 
 
-import { Messages } from "../../../util/i18n"
+import { Messages } from "@util/i18n"
 
 export type ConfirmMessage = {
     confirmMsg: string

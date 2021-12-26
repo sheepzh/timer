@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { version } from "../../../package.json"
+import packageInfo from "@src/package"
 import ArchivedDatabase from "@db/archived-database"
 import BaseDatabase from "@db/common/base-database"
 import StoragePromise from "@db/common/storage-promise"
@@ -60,7 +60,7 @@ class Immigration {
 
     async getExportingData(): Promise<BackupData> {
         const data = await this.storage.get() as BackupData
-        const meta: MetaInfo = { version, ts: Date.now() }
+        const meta: MetaInfo = { version: packageInfo.version, ts: Date.now() }
         data.__meta__ = meta
         return data
     }

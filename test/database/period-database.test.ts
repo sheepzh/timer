@@ -1,8 +1,8 @@
-import { DATE_FORMAT } from "../../src/database/common/constant"
-import PeriodDatabase from "../../src/database/period-database"
-import FocusPerDay from "../../src/entity/dao/period-info"
-import PeriodInfo, { PeriodKey } from "../../src/entity/dto/period-info"
-import { formatTime } from "../../src/util/time"
+import { DATE_FORMAT } from "@db/common/constant"
+import PeriodDatabase from "@db/period-database"
+import FocusPerDay from "@entity/dao/period-info"
+import PeriodInfo, { PeriodKey } from "@entity/dto/period-info"
+import { formatTime } from "@util/time"
 import storage from "../__mock__/storage"
 
 const db = new PeriodDatabase(storage.local)

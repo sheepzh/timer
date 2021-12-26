@@ -6,7 +6,7 @@
  */
 
 import { defineComponent, h } from "vue"
-import { version } from "../../../package.json"
+import packageInfo from "@src/package"
 
 const style: Partial<CSSStyleDeclaration> = {
     width: '100px',
@@ -19,7 +19,7 @@ const style: Partial<CSSStyleDeclaration> = {
 }
 
 const _default = defineComponent(() => {
-    return () => h('div', { style }, h('p', { style: { fontSize: '10px' } }, `v${version}`))
+    return () => h('div', { style }, h('p', { style: { fontSize: '10px' } }, `v${packageInfo.version}`))
 })
 
 export default _default

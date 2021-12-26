@@ -10,8 +10,8 @@
  */
 import { ElTableColumn } from "element-plus"
 import { h } from "vue"
-import DataItem from "../../../../../entity/dto/data-item"
-import { t } from "../../../../locale"
+import DataItem from "@entity/dto/data-item"
+import { t } from "@app/locale"
 
 // Alias column
 const aliasColProp = {

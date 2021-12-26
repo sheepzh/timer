@@ -1,4 +1,4 @@
-import WastePerDay, { merge } from "../../../src/entity/dao/waste-per-day"
+import WastePerDay, { merge } from "@entity/dao/waste-per-day"
 
 test('default values of WastePerDay', () => {
     const newOne = new WastePerDay()

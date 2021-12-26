@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { TimeLimit, TimeLimitInfo } from "../entity/dao/time-limit"
+import { TimeLimit, TimeLimitInfo } from "@entity/dao/time-limit"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 

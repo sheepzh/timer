@@ -7,8 +7,8 @@
 
 import { ElTableColumn } from "element-plus"
 import { h } from "vue"
-import TimeLimitItem from "../../../../../entity/dto/time-limit-item"
-import { t } from "../../../../locale"
+import TimeLimitItem from "@entity/dto/time-limit-item"
+import { t } from "@app/locale"
 
 const columnProps = {
     prop: 'cond',

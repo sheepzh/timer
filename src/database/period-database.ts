@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import FocusPerDay from "../entity/dao/period-info"
-import PeriodInfo, { MAX_PERIOD_ORDER, PeriodKey } from "../entity/dto/period-info"
+import FocusPerDay from "@entity/dao/period-info"
+import PeriodInfo, { MAX_PERIOD_ORDER, PeriodKey } from "@entity/dto/period-info"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 

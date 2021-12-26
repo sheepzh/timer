@@ -7,8 +7,10 @@
 
 import DataItem from "@entity/dto/data-item"
 
-declare type QueryResult = {
+type QueryResult = {
     type: Timer.DataDimension
     mergeHost: boolean
     data: DataItem[]
 }
+
+export default QueryResult

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "../../locale"
+import { t } from "@popup/locale"
 
 const mergeHostSwitch = document.getElementById('merge-host-switch')
 const mergeHostPopup = document.getElementById('merge-host-popup-container')

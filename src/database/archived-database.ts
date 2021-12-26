@@ -6,8 +6,8 @@
  */
 
 import { log } from "../common/logger"
-import WastePerDay from "../entity/dao/waste-per-day"
-import DataItem from "../entity/dto/data-item"
+import WastePerDay from "@entity/dao/waste-per-day"
+import DataItem from "@entity/dto/data-item"
 import BaseDatabase from "./common/base-database"
 import { ARCHIVED_PREFIX } from "./common/constant"
 

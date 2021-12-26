@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey as _I18nKey, locale as _locale, t as _t } from "../../util/i18n"
+import { I18nKey as _I18nKey, locale as _locale, t as _t } from "@util/i18n"
 import messages, { PopupMessage } from "./messages"
 
 const message = messages[_locale]

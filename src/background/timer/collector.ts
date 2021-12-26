@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { isBrowserUrl, extractHostname } from "../../util/pattern"
+import { isBrowserUrl, extractHostname } from "@util/pattern"
 import CollectionContext from "./collection-context"
 
 /**

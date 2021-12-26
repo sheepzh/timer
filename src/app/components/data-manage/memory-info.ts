@@ -7,7 +7,7 @@
 
 import { ElAlert, ElCard, ElProgress } from "element-plus"
 import { h, Ref } from "vue"
-import { t } from "../../locale"
+import { t } from "@app/locale"
 import { alertProps, bodyStyle } from "./common"
 
 type _Props = {

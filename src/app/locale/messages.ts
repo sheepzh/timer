@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from "../../util/i18n"
-import itemMessages, { ItemMessage } from "../../util/i18n/components/item"
+import { Messages } from "@util/i18n"
+import itemMessages, { ItemMessage } from "@util/i18n/components/item"
 import dataManageMessages, { DataManageMessage } from "./components/data-manage"
 import reportMessages, { ReportMessage } from "./components/report"
 import trendMessages, { TrendMessage } from "./components/trend"

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { inputFilterItem, renderFilterContainer } from "../../common/filter"
+import { inputFilterItem, renderFilterContainer } from "@app/components/common/filter"
 import dateRange, { DateRangeFilterItemProps } from "./date-range-filter-item"
 import displayBySecond, { DisplayBySecondFilterItemProps } from "./display-by-second-filter-item"
 import downloadFile, { DownloadFileProps } from "./download-file"

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { IS_FIREFOX } from "../util/constant/environment"
+import { IS_FIREFOX } from "@util/constant/environment"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 

@@ -7,7 +7,7 @@
 
 import { ElAlert, ElCard } from "element-plus"
 import { h } from "vue"
-import { t } from "../../../locale"
+import { t } from "@app/locale"
 import { alertProps, bodyStyle } from "../common"
 import Filter from "./filter"
 

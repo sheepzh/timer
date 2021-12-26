@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { formatPeriodCommon } from "../../../util/time"
+import { formatPeriodCommon } from "@util/time"
 
 /**
  * @param date date string {yyyy}{mm}{dd}

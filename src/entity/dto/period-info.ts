@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { MILL_PER_DAY } from "../../util/time"
+import { MILL_PER_DAY } from "@util/time"
 
 export const MILL_PER_MINUTE = 1000 * 60
 

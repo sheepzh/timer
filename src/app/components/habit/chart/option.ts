@@ -6,10 +6,10 @@
  */
 
 import { EChartOption } from "echarts"
-import { PeriodKey, PERIODS_PER_DATE } from "../../../../entity/dto/period-info"
-import PeriodResult from "../../../../entity/dto/period-result"
-import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "../../../../util/time"
-import { t } from "../../../locale"
+import { PeriodKey, PERIODS_PER_DATE } from "@entity/dto/period-info"
+import PeriodResult from "@entity/dto/period-result"
+import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
+import { t } from "@app/locale"
 
 const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.Tooltip.Format[], average: boolean) => {
     const format: EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params

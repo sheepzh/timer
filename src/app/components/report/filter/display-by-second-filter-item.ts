@@ -6,8 +6,8 @@
  */
 
 import { Ref } from "vue"
-import { QueryData } from "../../common/constants"
-import { switchFilterItem } from "../../common/filter"
+import { QueryData } from "@app/components/common/constants"
+import { switchFilterItem } from "@app/components/common/filter"
 
 type _Props = {
     displayBySecondRef: Ref<boolean>

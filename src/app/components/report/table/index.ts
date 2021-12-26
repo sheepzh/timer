@@ -7,7 +7,7 @@
 
 import { ElTable } from "element-plus"
 import { h, Ref, UnwrapRef } from "vue"
-import DataItem from "../../../../entity/dto/data-item"
+import DataItem from "@entity/dto/data-item"
 import columns, { ColumnProps } from "./columns"
 
 export enum ElSortDirect {

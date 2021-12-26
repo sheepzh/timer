@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "../../locale"
+import { t } from "@app/locale"
 
 /**
  * @since 0.2.2

@@ -8,9 +8,9 @@
 import { Download } from "@element-plus/icons"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { Ref, h } from "vue"
-import DataItem from "../../../../entity/dto/data-item"
-import { exportCsv, exportJson } from "../../../../util/file"
-import { t } from "../../../locale"
+import DataItem from "@entity/dto/data-item"
+import { exportCsv, exportJson } from "@util/file"
+import { t } from "@app/locale"
 import { dateFormatter, periodFormatter } from "../formatter"
 
 type FileFormat = 'json' | 'csv'

@@ -12,6 +12,9 @@
             "@app/*": [
                 "src/app/*"
             ],
+            "@popup/*": [
+                "src/popup/*"
+            ],
             "@db/*": [
                 "src/database/*"
             ],
