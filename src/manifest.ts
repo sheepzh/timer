@@ -11,7 +11,8 @@
  * @author zhy
  * @since 0.0.1
  */
-import packageInfo from "@src/package"
+// Not use path alias in manifest.json 
+import packageInfo from "./package"
 import { OPTION_ROUTE } from "./app/router/constants"
 const { version, author, homepage } = packageInfo
 const _default: chrome.runtime.ManifestV2 = {
