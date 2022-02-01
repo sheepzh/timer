@@ -13,6 +13,7 @@ import DataItem from "@entity/dto/data-item"
 import { ItemMessage } from "@util/i18n/components/item"
 import { t } from "@src/app/locale"
 import { DataManageMessage } from "@src/app/locale/components/data-manage"
+import { MILL_PER_DAY } from "@util/time"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -53,7 +54,7 @@ export type OperationButtonProps = _Props
  * @param mustInteger must be integer?
  * @returns true when has error, or false
  */
-const assertQueryParam = (range: number[], mustInteger?: boolean) => {
+function assertQueryParam(range: number[], mustInteger?: boolean): boolean {
     const reg = mustInteger ? /^[0-9]+$/ : /^[0-9]+.?[0-9]*$/
     const start = range[0]
     const end = range[1]
@@ -78,7 +79,7 @@ const str2Range = (startAndEnd: Ref<string>[], numAmplifier?: (origin: number) =
 
 const seconds2Milliseconds = (a: number) => a * 1000
 
-const generateParamAndSelect = (props: _Props) => {
+function checkParam(props: _Props): TimerCondition | undefined {
     const { totalStartRef, totalEndRef, focusStartRef, focusEndRef, timeStartRef, timeEndRef, dateRangeRef } = props
     let hasError = false
     const totalRange = str2Range([totalStartRef, totalEndRef], seconds2Milliseconds)
@@ -87,18 +88,30 @@ const generateParamAndSelect = (props: _Props) => {
     hasError = hasError || assertQueryParam(focusRange)
     const timeRange = str2Range([timeStartRef, timeEndRef])
     hasError = hasError || assertQueryParam(timeRange, true)
-    const dateRange = dateRangeRef.value
-
     if (hasError) {
-        ElMessage({ message: t(msg => msg.dataManage.paramError), type: 'warning' })
-        return
+        return undefined
     }
-
     const condition: TimerCondition = {}
     condition.totalRange = totalRange
     condition.focusRange = focusRange
     condition.timeRange = timeRange
-    condition.date = dateRange
+    return condition
+}
+
+function generateParamAndSelect(props: _Props): Promise<DataItem[]> | undefined {
+    const condition = checkParam(props)
+    if (!condition) {
+        ElMessage({ message: t(msg => msg.dataManage.paramError), type: 'warning' })
+        return
+    }
+
+    const { dateRangeRef } = props
+    let [dateStart, dateEnd] = dateRangeRef?.value || []
+    if (dateEnd == null) {
+        // default end time is the yesterday
+        dateEnd = new Date(new Date().getTime() - MILL_PER_DAY)
+    }
+    condition.date = [dateStart, dateEnd]
 
     return timerDatabase.select(condition)
 }
