@@ -57,7 +57,7 @@
  # 开发编译，输出目录为 dist_dev
  npm run dev
  # 生产编译，输出目录为 dist_prod 和 market_packages
- npm run build:prod
+ npm run build
 ```
 
 - 欢迎大家 PR， PR 之前请先创建 ISSUE
