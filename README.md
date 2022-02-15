@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/sheepzh/timer/branch/main/graph/badge.svg?token=S98QSBSKCR&style=flat-square)](https://codecov.io/gh/sheepzh/timer)
 [![codebeat badge](https://codebeat.co/badges/69a88b51-2a07-4944-98dc-603a99d8a9f9)](https://codebeat.co/projects/github-com-sheepzh-timer-main)
 [![](https://www.travis-ci.com/sheepzh/timer.svg?branch=main)](https://www.travis-ci.com/sheepzh/timer.svg?branch=main)
-[![](https://img.shields.io/badge/dynamic/json?color=red&label=users&query=total&url=http%3A%2F%2F148.70.16.14%3A12345%2Fusercount%2Ftimer)](http://148.70.16.14:12345/usercount/timer)
+[![](https://img.shields.io/badge/dynamic/json?color=red&label=ActiveUser&query=total&url=http%3A%2F%2F148.70.16.14%3A12345%2Fusercount%2Ftimer)](http://148.70.16.14:12345/usercount/timer)
 [![](https://img.shields.io/badge/license-Anti%20996-blue)](https://github.com/996icu/996.ICU)
 [![](https://img.shields.io/github/v/release/sheepzh/timer)](https://github.com/sheepzh/timer/releases)
 
