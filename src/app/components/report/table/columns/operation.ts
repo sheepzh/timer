@@ -105,8 +105,9 @@ const changeDeleteConfirmUrl = (props: Props, host: string, date: string) => {
         deleteMsgRef.value = msg
         return
     }
+    const hasDateRange = dateRange?.length
     // Delete all
-    if (!dateRange.length) return deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsgAll, { url: host })
+    if (!hasDateRange) return deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsgAll, { url: host })
 
     const start = dateRange[0]
     const end = dateRange[1]
