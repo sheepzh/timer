@@ -32,6 +32,8 @@ export type DataManageMessage = {
     migrationAlert: string
     importError: string
     migrated: string
+    operationCancel: string
+    operationConfirm: string
 }
 
 const _default: Messages<DataManageMessage> = {
@@ -59,13 +61,15 @@ const _default: Messages<DataManageMessage> = {
         archiveSuccess: '归档成功',
         migrationAlert: '使用导入/导出在不同浏览器之间迁移数据',
         importError: '文件格式错误',
-        migrated: '成功导入'
+        migrated: '成功导入',
+        operationCancel: "取消",
+        operationConfirm: "确认",
     },
     en: {
         totalMemoryAlert: 'The browser provides {size}MB to store local data for each extension',
         totalMemoryAlert1: 'Unable to determine the maximum memory available allowed by the browser',
         usedMemoryAlert: '{size}MB is currently used',
-        operationAlert: 'You can archive or delete those irrelevant data to reduce memory usage',
+        operationAlert: 'You can delete those irrelevant data to reduce memory usage',
         filterItems: 'Filter data',
         filterFocus: 'The browse time of the day is between {start} seconds and {end} seconds.',
         filterTotal: 'The running time of the day is between {start} seconds and {end} seconds.',
@@ -85,13 +89,15 @@ const _default: Messages<DataManageMessage> = {
         archiveSuccess: 'Archived successfully',
         migrationAlert: 'Use import & export to migrate data between different browsers',
         importError: 'File format error',
-        migrated: 'Successfully imported!'
+        migrated: 'Successfully imported!',
+        operationCancel: "Cancel",
+        operationConfirm: "Confirm",
     },
     ja: {
         totalMemoryAlert: 'ブラウザは、データを保存するために各拡張機能に {size}MB のメモリを提供します',
         totalMemoryAlert1: 'ブラウザで許可されている各拡張機能で使用可能な最大メモリを特定できません',
         usedMemoryAlert: '現在 {size}MB が使用されています',
-        operationAlert: 'これらの無関係なデータをアーカイブまたは削除して、メモリ使用量を減らすことができます',
+        operationAlert: '不要なデータを削除してメモリ容量を減らすことができます',
         filterItems: 'データフィルタリング',
         filterFocus: '当日の閲覧時間は、{start} 秒から {end} 秒の間です。',
         filterTotal: '当日の実行時間は、{start} 秒から {end} 秒の間です。',
@@ -111,7 +117,9 @@ const _default: Messages<DataManageMessage> = {
         archiveSuccess: '正常にアーカイブされました',
         migrationAlert: 'インポート/エクスポートを使用して、異なるブラウザ間でデータを移行します',
         importError: 'ファイル形式エラー',
-        migrated: '正常にインポートされました'
+        migrated: '正常にインポートされました',
+        operationCancel: "取消",
+        operationConfirm: "確認",
     }
 }
 

@@ -116,16 +116,22 @@ function generateParamAndSelect(props: _Props): Promise<DataItem[]> | undefined 
     return timerDatabase.select(condition)
 }
 
+const operationCancelMsg = t(msg => msg.dataManage.operationCancel)
+const operationConfirmMsg = t(msg => msg.dataManage.operationConfirm)
+
 const handleClick = async (props: _Props) => {
     const result: DataItem[] = await generateParamAndSelect(props)
 
     const count = result.length
-    ElMessageBox.confirm(t(msg => msg.dataManage[props.confirm.message], { count }))
-        .then(async () => {
-            await props.confirm.operation(result)
-            ElMessage(t(msg => msg.dataManage[props.confirm.resultMessage]))
-            props.onDateChanged()
-        }).catch(() => { })
+    const confirmMsg = t(msg => msg.dataManage[props.confirm.message], { count })
+    ElMessageBox.confirm(confirmMsg, {
+        cancelButtonText: operationCancelMsg,
+        confirmButtonText: operationConfirmMsg
+    }).then(async () => {
+        await props.confirm.operation(result)
+        ElMessage(t(msg => msg.dataManage[props.confirm.resultMessage]))
+        props.onDateChanged()
+    }).catch(() => { })
 }
 
 const button = (props: _Props) => h<{}>(ElButton,
