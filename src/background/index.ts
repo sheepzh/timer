@@ -14,6 +14,7 @@ import Timer from "./timer"
 import VersionManager from "./version-manager"
 import ActiveTabListener from "./active-tab-listener"
 import badgeTextManager from "./badge-text-manager"
+import metaService from "@service/meta-service"
 
 // Open the log of console
 openLog()
@@ -43,3 +44,6 @@ badgeTextManager.init()
 new ActiveTabListener()
     .register(({ host }) => badgeTextManager.forceUpdate(host))
     .listen()
+
+// Collect the install time
+chrome.runtime.onInstalled.addListener(detail => detail.reason === "install" && metaService.updateInstallTime(new Date()))

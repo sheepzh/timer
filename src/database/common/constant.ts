@@ -26,6 +26,12 @@ export const REMAIN_WORD_PREFIX = '__timer__'
 export const WHITELIST_KEY = REMAIN_WORD_PREFIX + 'WHITELIST'
 
 /**
+ * Key of metadata
+ * @since 0.6.0
+ */
+export const META_KEY = REMAIN_WORD_PREFIX + 'META'
+
+/**
  * Date format for storage
  */
 export const DATE_FORMAT = '{y}{m}{d}'

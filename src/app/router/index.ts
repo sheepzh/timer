@@ -9,6 +9,7 @@ import { App } from "vue"
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 import RouterDatabase from "@db/router-database"
 import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE } from "./constants"
+import metaService from "@service/meta-service"
 
 const dataRoutes: RouteRecordRaw[] = [
     {
@@ -77,10 +78,12 @@ const db: RouterDatabase = new RouterDatabase(chrome.storage.local)
 async function handleChange() {
     await router.isReady()
     const current = router.currentRoute.value.fullPath
+    current && metaService.increaseApp(current)
     current && await db.update(current)
     router.afterEach((to, from, failure: Error | void) => {
         if (failure || to.fullPath === from.fullPath) return
         db.update(to.fullPath)
+        metaService.increaseApp(to.fullPath)
     })
 }
 
