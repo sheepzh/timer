@@ -8,27 +8,21 @@
 // Type select
 import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
 import optionService from "@service/option-service"
-import { t } from "@app/locale"
+import { t } from "@popup/locale"
+import { toHideStyle, toShowStyle } from "./common"
 
-const typeSelect = document.getElementById('select-container')
+const typeSelect = document.getElementById('type-select-container')
 const typeSelectPopup = document.getElementById('type-select-popup')
 const typeSelectInput: HTMLInputElement = document.getElementById('type-select-input') as HTMLInputElement
 
 let isOpen = false
 
-const toShowStyle: Partial<CSSStyleDeclaration> = {
-    display: 'block',
-    position: 'absolute',
-}
 function openPopup() {
     // Show popup
     Object.assign(typeSelectPopup.style, toShowStyle)
     isOpen = true
 }
 
-const toHideStyle: Partial<CSSStyleDeclaration> = {
-    display: 'none'
-}
 function hidePopup() {
     // Hide popup
     Object.assign(typeSelectPopup.style, toHideStyle)

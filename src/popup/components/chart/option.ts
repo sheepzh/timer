@@ -12,7 +12,6 @@ import { t } from "@popup/locale"
 import QueryResult from "@popup/common/query-result"
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
-const todayForShow = formatTime(new Date(), '{y}/{m}/{d}')
 
 /**
  * If the percentage of target site is less than SHOW_ICON_THRESHOLD, don't show its icon
@@ -44,11 +43,6 @@ const toolTipFormatter = ({ type }: QueryResult, params: echarts.EChartOption.To
 }
 
 const staticOptions: EChartOption<EChartOption.SeriesPie> = {
-    title: {
-        text: t(msg => msg.title),
-        subtext: `${todayForShow} @ ${app}`,
-        left: 'center'
-    },
     tooltip: {
         trigger: 'item'
     },
@@ -118,10 +112,36 @@ export type PipProps = QueryResult & {
     displaySiteName: boolean
 }
 
+const Y_M_D = "{y}/{m}/{d}"
+function calculateSubTitleText(date: Date | Date[]) {
+    if (date instanceof Array) {
+        const [start, _] = date
+        const startStr = formatTime(start, Y_M_D)
+        let endStr = formatTime(new Date(), Y_M_D)
+        if (startStr === endStr) {
+            return startStr
+        } else {
+            if (startStr.substr(0, 4) === endStr.substr(0, 4)) {
+                // the same year
+                endStr = endStr.substr(5)
+            }
+            return `${startStr}-${endStr}`
+        }
+    } else {
+        return formatTime(date, Y_M_D)
+    }
+}
+
 export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
-    const { type, mergeHost, data, displaySiteName } = props
+    const { type, mergeHost, data, displaySiteName, chartTitle, date } = props
+    const titleText = chartTitle
+    const subTitleText = `${calculateSubTitleText(date)} @ ${app}`
     const options: EChartOption<EChartOption.SeriesPie> = {
-        title: staticOptions.title,
+        title: {
+            text: titleText,
+            subtext: subTitleText,
+            left: 'center'
+        },
         tooltip: {
             ...staticOptions.tooltip,
             formatter: params => toolTipFormatter(props, params),

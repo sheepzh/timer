@@ -11,14 +11,29 @@
         <span id="total-info" class="option-left"></span>
         <!-- select -->
         <div
-          id="select-container"
+          id="type-select-container"
           class="el-select el-select--mini option-right"
-          style="width: 140px"
         >
           <div class="select-trigger">
             <div class="el-input el-input--mini el-input--suffix">
               <input
                 id="type-select-input"
+                class="el-input__inner"
+                type="text"
+                readonly=""
+                autocomplete="off"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          id="time-select-container"
+          class="el-select el-select--mini option-right"
+        >
+          <div class="select-trigger">
+            <div class="el-input el-input--mini el-input--suffix">
+              <input
+                id="time-select-input"
                 class="el-input__inner"
                 type="text"
                 readonly=""
@@ -139,7 +154,7 @@
       class="el-select__popper el-popper is-light is-pure"
       style="display: none"
     >
-      <div class="el-select-dropdown" style="min-width: 140px">
+      <div class="el-select-dropdown">
         <div class="el-scrollbar">
           <div
             class="
@@ -149,6 +164,40 @@
           >
             <ul
               id="type-select-options"
+              class="el-scrollbar__view el-select-dropdown__list"
+            ></ul>
+          </div>
+          <div class="el-scrollbar__bar is-horizontal" style="display: none">
+            <div
+              class="el-scrollbar__thumb"
+              style="transform: translateX(0%)"
+            ></div>
+          </div>
+          <div class="el-scrollbar__bar is-vertical" style="display: none">
+            <div
+              class="el-scrollbar__thumb"
+              style="transform: translateY(0%)"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Time range -->
+    <div
+      id="time-select-popup"
+      class="el-select__popper el-popper is-light is-pure"
+      style="display: none"
+    >
+      <div class="el-select-dropdown">
+        <div class="el-scrollbar">
+          <div
+            class="
+              el-select-dropdown__wrap
+              el-scrollbar__wrap el-scrollbar__wrap--hidden-default
+            "
+          >
+            <ul
+              id="time-select-options"
               class="el-scrollbar__view el-select-dropdown__list"
             ></ul>
           </div>

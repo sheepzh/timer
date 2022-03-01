@@ -110,3 +110,41 @@ export function isSameDay(a: Date, b: Date): boolean {
         && a.getMonth() === b.getMonth()
         && a.getDate() === b.getDate()
 }
+
+/**
+ * Get the start time and end time of this week
+ * @param now the specific time
+ * @returns [startTime, endTime]
+ * 
+ * @since 0.6.0
+ */
+export function getWeekTime(now: Date): [Date, Date] {
+    const date = new Date(now)
+    const day = date.getDay() // 0-6
+
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    const startTime = date.getTime() - (day - 1) * MILL_PER_DAY;
+    const endTime = date.getTime() + (7 - day) * MILL_PER_DAY;
+    return [new Date(startTime), new Date(endTime - 1)]
+}
+
+
+/**
+ * Get the start time and end time of this month
+ * 
+ * @param now the specific time
+ * @returns [startTime, endTime]
+ * 
+ * @since 0.6.0
+ */
+export function getMonthTime(now: Date): [Date, Date] {
+    const currentMonth = now.getMonth()
+    const currentYear = now.getFullYear()
+    const start = new Date(currentYear, currentMonth, 1)
+    const endTime = new Date(currentYear, currentMonth + 1, 1).getTime()
+    const end = new Date(endTime - 1)
+    return [start, end]
+}

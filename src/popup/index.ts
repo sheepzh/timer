@@ -12,6 +12,7 @@ import './style' // global css
 
 import renderChart, { handleRestore } from "./components/chart"
 import initFooter, { queryInfo } from "./components/footer"
+import "../common/timer"
 
 handleRestore(queryInfo)
 initFooter(renderChart)

@@ -5,7 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import initTypeSelect, { getSelectedType } from "./type-select"
+import initTypeSelect, { getSelectedType } from "./select/type-select"
+import initTimeSelect, { getSelectedTime } from "./select/time-select"
 import initMergeHost, { mergedHost } from "./merge-host"
 
 // Links
@@ -19,15 +20,36 @@ import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "@servi
 import DataItem from "@entity/dto/data-item"
 import { t } from "@popup/locale"
 import QueryResult from "@popup/common/query-result"
-import { formatPeriodCommon } from "@util/time"
+import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
 import optionService from "@service/option-service"
 
-export function getQueryParam() {
-    const param: TimerQueryParam = {
-        date: new Date(),
+type FooterParam = TimerQueryParam & {
+    chartTitle: string
+}
+
+function calculateDateRange(duration: Timer.PopupDuration): Date | Date[] {
+    const now = new Date()
+    if (duration == 'today') {
+        return now
+    } else if (duration == 'thisWeek') {
+        return getWeekTime(now)
+    } else if (duration == 'thisMonth') {
+        return getMonthTime(now)
+    }
+}
+
+function calculateChartTitle(duration: Timer.PopupDuration): string {
+    return t(msg => msg.title[duration])
+}
+
+export function getQueryParam(): FooterParam {
+    const duration: Timer.PopupDuration = getSelectedTime()
+    const param: FooterParam = {
+        date: calculateDateRange(duration),
         mergeHost: mergedHost(),
         sort: getSelectedType(),
-        sortOrder: SortDirect.DESC
+        sortOrder: SortDirect.DESC,
+        chartTitle: calculateChartTitle(duration)
     }
     return param
 }
@@ -77,7 +99,9 @@ async function query() {
     const queryResult: QueryResult = {
         data,
         mergeHost: queryParam.mergeHost,
-        type
+        type,
+        date: queryParam.date,
+        chartTitle: queryParam.chartTitle
     }
     updateTotal(getTotalInfo(data, type))
     afterQuery?.(queryResult)
@@ -86,6 +110,7 @@ async function query() {
 query()
 
 initTypeSelect(query)
+initTimeSelect(query)
 initMergeHost(query)
 
 export const queryInfo = query
