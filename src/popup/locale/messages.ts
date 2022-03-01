@@ -8,9 +8,10 @@
 import { Messages } from "@util/i18n"
 import chromeBase from "@util/i18n/components/app"
 import itemMessages, { ItemMessage } from "@util/i18n/components/item"
+import popupDurationMessages, { PopupDurationMessage } from "@util/i18n/components/popup-duration"
 
 export type PopupMessage = {
-    title: string
+    title: { [key in Timer.PopupDuration]: string }
     mergeHostLabel: string
     viewMore: string
     fileName: string
@@ -24,11 +25,16 @@ export type PopupMessage = {
     currentVersion: string
     appName: string
     item: ItemMessage
+    timeDuration: PopupDurationMessage
 }
 
 const _default: Messages<PopupMessage> = {
     zh_CN: {
-        title: '今日数据',
+        title: {
+            today: "今日数据",
+            thisWeek: "本周数据",
+            thisMonth: "本月数据"
+        },
         mergeHostLabel: '合并子域名',
         viewMore: '所有功能',
         fileName: '上网时长清单_{today}_by_{app}',
@@ -41,10 +47,15 @@ const _default: Messages<PopupMessage> = {
         updateVersionInfo: '最新版本：{version}',
         currentVersion: chromeBase.zh_CN.currentVersion,
         appName: chromeBase.zh_CN.name,
-        item: itemMessages.zh_CN
+        item: itemMessages.zh_CN,
+        timeDuration: popupDurationMessages.zh_CN
     },
     en: {
-        title: 'Today\'s Data',
+        title: {
+            today: 'Today\'s Data',
+            thisWeek: "This Week\'s Data",
+            thisMonth: "This Month\'s Data"
+        },
         mergeHostLabel: 'Merge Sites',
         viewMore: 'All Functions',
         fileName: 'Web_Time_List_{today}_By_{app}',
@@ -57,10 +68,15 @@ const _default: Messages<PopupMessage> = {
         updateVersionInfo: 'Latest: {version}',
         currentVersion: chromeBase.en.currentVersion,
         appName: chromeBase.en.name,
-        item: itemMessages.en
+        item: itemMessages.en,
+        timeDuration: popupDurationMessages.en
     },
     ja: {
-        title: '今日のデータ',
+        title: {
+            today: "今日のデータ",
+            thisWeek: "今週のデータ",
+            thisMonth: "今月のデータ"
+        },
         mergeHostLabel: 'URLをマージ',
         viewMore: '続きを見る',
         fileName: 'オンライン時間_{today}_by_{app}',
@@ -73,7 +89,8 @@ const _default: Messages<PopupMessage> = {
         updateVersionInfo: '最新バージョン：{version}',
         currentVersion: chromeBase.ja.currentVersion,
         appName: chromeBase.ja.name,
-        item: itemMessages.ja
+        item: itemMessages.ja,
+        timeDuration: popupDurationMessages.ja
     }
 }
 

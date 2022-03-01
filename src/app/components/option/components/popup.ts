@@ -12,6 +12,7 @@ import optionService from "@service/option-service"
 import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
 import { renderOptionItem, renderHeader, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"
+import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
 const optionRef: Ref<Timer.PopupOption> = ref(defaultPopup())
 optionService.getAllOption().then(option => optionRef.value = option)
@@ -31,12 +32,23 @@ const typeOptions = () => ALL_DATA_ITEMS.map(item => h(ElOption, { value: item, 
 const typeSelect = () => h(ElSelect, {
     modelValue: optionRef.value.defaultType,
     size: 'mini',
-    style: { width: '140px' },
+    style: { width: '120px' },
     onChange: (val: Timer.DataDimension) => {
         optionRef.value.defaultType = val
         optionService.setPopupOption(optionRef.value)
     }
 }, { default: typeOptions })
+
+const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.option.popup.duration[item]) }))
+const durationSelect = () => h(ElSelect, {
+    modelValue: optionRef.value.defaultDuration,
+    size: 'mini',
+    style: { width: '80px' },
+    onChange: (val: Timer.PopupDuration) => {
+        optionRef.value.defaultDuration = val
+        optionService.setPopupOption(optionRef.value)
+    }
+}, { default: durationOptions })
 
 const displaySiteName = () => h(ElSwitch, {
     modelValue: optionRef.value.displaySiteName,
@@ -46,10 +58,20 @@ const displaySiteName = () => h(ElSwitch, {
     }
 })
 
+const defaultPopOptions = defaultPopup()
+const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
+const defaultDurationLabel = t(msg => msg.option.popup.duration[defaultPopOptions.defaultDuration])
+const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 const options = () => [
-    renderOptionItem(typeSelect(), msg => msg.popup.type, t(msg => msg.item[defaultPopup().defaultType])),
+    renderOptionItem({
+        duration: durationSelect(),
+        type: typeSelect()
+    },
+        msg => msg.popup.defaultDisplay,
+        displayDefaultLabel
+    ),
     h(ElDivider),
-    renderOptionItem(popupMaxInput(), msg => msg.popup.max, defaultPopup().popupMax),
+    renderOptionItem(popupMaxInput(), msg => msg.popup.max, defaultPopOptions.popupMax),
     h(ElDivider),
     renderOptionItem({
         input: displaySiteName(),

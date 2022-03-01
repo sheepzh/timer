@@ -10,6 +10,7 @@ export function defaultPopup(): Timer.PopupOption {
     return {
         popupMax: 10,
         defaultType: 'focus',
+        defaultDuration: "today",
         /**
          * Change the default value to 'true' since v0.5.4
          */

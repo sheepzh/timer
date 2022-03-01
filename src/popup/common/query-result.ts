@@ -11,6 +11,9 @@ type QueryResult = {
     type: Timer.DataDimension
     mergeHost: boolean
     data: DataItem[]
+    // Filter items
+    chartTitle: string
+    date: Date | Date[]
 }
 
 export default QueryResult

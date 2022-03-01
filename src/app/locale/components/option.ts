@@ -6,6 +6,7 @@
  */
 
 import { Messages } from "@util/i18n"
+import popupDurationMessages, { PopupDurationMessage } from "@util/i18n/components/popup-duration"
 
 export type OptionMessage = {
     yes: string
@@ -13,8 +14,9 @@ export type OptionMessage = {
     popup: {
         title: string
         max: string
-        type: string
+        defaultDisplay: string
         displaySiteName: string
+        duration: PopupDurationMessage
     }
     appearance: {
         title: string
@@ -48,8 +50,9 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: '今日数据',
             max: '只显示前 {input} 条今日数据，剩下的条目合并显示',
-            type: '打开时显示 {input}',
-            displaySiteName: '{input}  显示时是否使用 {siteName} 来代替域名'
+            defaultDisplay: "打开时显示 {duration} {type}",
+            displaySiteName: '{input}  显示时是否使用 {siteName} 来代替域名',
+            duration: popupDurationMessages.zh_CN
         },
         appearance: {
             title: '外观',
@@ -79,8 +82,9 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: 'Today\'s Data',
             max: 'Show the first {input} data items of today',
-            type: 'Show {input} when opened',
-            displaySiteName: '{input}  Whether to display {siteName} instead of host'
+            defaultDisplay: "Show {duration} {type} when opened",
+            displaySiteName: '{input}  Whether to display {siteName} instead of host',
+            duration: popupDurationMessages.en
         },
         appearance: {
             title: 'Appearance',
@@ -111,9 +115,10 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: '今日のデータ',
             max: '今日のデータは、最初の {input} データを示しています',
-            type: '開くと {input} が表示されます',
+            defaultDisplay: "開くと {duration} {type} が表示されます",
             // Not translated
-            displaySiteName: '{input}  Whether to display {siteName} instead of host'
+            displaySiteName: '{input}  Whether to display {siteName} instead of host',
+            duration: popupDurationMessages.ja
         },
         appearance: {
             title: '外観',
