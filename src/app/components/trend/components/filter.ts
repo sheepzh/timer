@@ -12,8 +12,9 @@ import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { renderFilterContainer } from "@app/components/common/filter"
 import HostOptionInfo from "../host-option-info"
+import { TrendMessage } from "@app/locale/components/trend"
 
-const datePickerShortcut = (msg: string, agoOfStart?: number, agoOfEnd?: number) => {
+const datePickerShortcut = (msg: keyof TrendMessage, agoOfStart?: number, agoOfEnd?: number) => {
     return {
         text: t(messages => messages.trend[msg]),
         value: daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -63,10 +64,10 @@ const domainSelect = ({ domainKeyRef }: _Props) => h(ElSelect,
     }, domainSelectOptions)
 
 const shortcuts = [
-    datePickerShortcut('latestWeek', 7),
-    datePickerShortcut('latest15Days', 15),
-    datePickerShortcut('latest30Days', 30),
-    datePickerShortcut('latest90Days', 90)
+    datePickerShortcut('lateWeek', 7),
+    datePickerShortcut('late15Days', 15),
+    datePickerShortcut('late30Days', 30),
+    datePickerShortcut("late90Days", 90)
 ]
 // Date picker
 const picker = ({ dateRangeRef }: _Props) => h(ElDatePicker, {
