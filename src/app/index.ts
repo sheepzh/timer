@@ -13,8 +13,9 @@ import installRouter from "./router"
 import '../common/timer'
 import ElementPlus from 'element-plus'
 import { locale as appLocale, Locale } from "@util/i18n"
+import { Language } from "element-plus/lib/locale"
 
-const locales: { [locale in Locale]: () => Promise<{ default: unknown }> } = {
+const locales: { [locale in Locale]: () => Promise<{ default: Language }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
     en: () => import('element-plus/lib/locale/lang/en'),
     ja: () => import('element-plus/lib/locale/lang/ja')
