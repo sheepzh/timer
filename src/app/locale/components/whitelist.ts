@@ -14,6 +14,7 @@ export type WhitelistMessage = {
     infoAlert0: string
     infoAlert1: string
     placeholder: string
+    errorInput: string
 }
 
 const _default: Messages<WhitelistMessage> = {
@@ -24,7 +25,8 @@ const _default: Messages<WhitelistMessage> = {
         infoAlertTitle: '你可以在这里配置网站白名单',
         infoAlert0: '白名单内网站的上网时长和打开次数不会被统计',
         infoAlert1: '白名单内网站的上网时间也不会被限制',
-        placeholder: '域名'
+        placeholder: '域名',
+        errorInput: "域名格式错误"
     },
     en: {
         addConfirmMsg: '{url} won\'t be counted after added into the whitelist any more.',
@@ -33,7 +35,8 @@ const _default: Messages<WhitelistMessage> = {
         infoAlertTitle: 'You can set the whitelist of site in this page',
         infoAlert0: 'Sites in the whitelist will not be counted',
         infoAlert1: 'Sites in the whitelist will not be limited',
-        placeholder: 'Site'
+        placeholder: 'Site',
+        errorInput: "Invalid site"
     },
     ja: {
         addConfirmMsg: '{url} がホワイトリストに追加されると、このWebサイトの統計はカウントされなくなります。',
@@ -42,7 +45,8 @@ const _default: Messages<WhitelistMessage> = {
         infoAlertTitle: 'You can set the whitelist of site in this page',
         infoAlert0: 'Sites in the whitelist will not be counted.',
         infoAlert1: 'Sites in the whitelist will not be limited.',
-        placeholder: 'URL'
+        placeholder: 'URL',
+        errorInput: "Invalid URL"
     }
 }
 
