@@ -80,7 +80,7 @@ const whiteItemInput = () => h(ElInput,
 const whiteItemDisplayButton = () => h<{}>(ElButton,
     {
         size: 'small',
-        class: 'button-new-tag white-item',
+        class: 'item-check-button white-item',
         onClick: () => inputVisibleRef.value = true
     },
     () => `+ ${t(msg => msg.operation.newOne)}`
