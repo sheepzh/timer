@@ -2,7 +2,7 @@
 
 ```shell
  npm install
- npm run build
+ npm run dev
 ```
 
 The output directory is _firefox_dev_
@@ -20,4 +20,4 @@ The output directory is _dist_prod_ and _market_packages_
 
 Also you could visit the repository in GitHub
 
-[sheepzh/make-zero](https://github.com/sheepzh/make-zero)
+[sheepzh/timer](https://github.com/sheepzh/timer)
