@@ -6,7 +6,6 @@
  */
 
 import { t } from "@app/locale"
-import { tryParseInteger } from "@util/number"
 import { ElButton } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
 import ItemInput from './item-input'
@@ -14,12 +13,11 @@ import ItemInput from './item-input'
 const buttonText = `+ ${t(msg => msg.operation.newOne)}`
 
 const _default = defineComponent({
-    name: "MergeRuleAddButton",
+    name: "WhitelistAddButton",
     emits: ["saved"],
     setup(_props, ctx) {
         const editing: Ref<boolean> = ref(false)
-        const origin: Ref<string> = ref('')
-        const merged: Ref<string | number> = ref('')
+        const white: Ref<string> = ref('')
         ctx.expose({
             closeEdit() {
                 editing.value = false
@@ -27,13 +25,10 @@ const _default = defineComponent({
         })
         return () => editing.value
             ? h(ItemInput, {
-                origin: origin.value,
-                merged: merged.value,
-                onSaved: (newOrigin, newMerged) => {
-                    const newMergedVal = tryParseInteger(newMerged?.trim())[1]
-                    merged.value = newMergedVal
-                    origin.value = newOrigin
-                    ctx.emit('saved', newOrigin, newMergedVal)
+                white: white.value,
+                onSaved: (newWhite) => {
+                    white.value = newWhite
+                    ctx.emit('saved', newWhite)
                 },
                 onCanceled: () => editing.value = false
             })
@@ -41,8 +36,7 @@ const _default = defineComponent({
                 size: "small",
                 class: "editable-item item-add-button",
                 onClick: () => {
-                    origin.value = ""
-                    merged.value = ""
+                    white.value
                     editing.value = true
                 }
             },

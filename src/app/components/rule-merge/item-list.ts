@@ -25,7 +25,6 @@ function queryData() {
 queryData()
 
 const handleInputConfirm = (origin: string, merged: string | number, addButtonRef: Ref) => {
-    console.log(origin, merged)
     const exists = ruleItemsRef.value.filter(item => item.origin === origin).length > 0
     if (exists) {
         ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
@@ -68,8 +67,7 @@ async function handleChange(origin: string, merged: string | number, index: numb
     const hasDuplicate = ruleItemsRef.value.find((o, i) => o.origin === origin && i != index)
     if (hasDuplicate) {
         ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
-        console.log(ref)
-        ref.value.forceEdit("1", 2)
+        ref.value.forceEdit()
         return
     }
     const beforeItem = ruleItemsRef.value[index]

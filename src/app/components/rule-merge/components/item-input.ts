@@ -15,7 +15,7 @@ import './style.sass'
 const invalidTxt = t(msg => msg.mergeRule.errorOrigin)
 
 const _default = defineComponent({
-    name: "WhitelistItemInput",
+    name: "MergeRuleItemInput",
     props: {
         origin: {
             type: String,
@@ -32,7 +32,7 @@ const _default = defineComponent({
         const merged: Ref<string> = ref(props.merged?.toString())
         return () => h('div', { class: "item-input-container" }, [
             h(ElInput, {
-                class: 'input-new-tag white-item merge-origin-input',
+                class: 'input-new-tag editable-item merge-origin-input',
                 modelValue: origin.value,
                 placeholder: t(msg => msg.mergeRule.originPlaceholder),
                 clearable: true,
@@ -40,7 +40,7 @@ const _default = defineComponent({
                 onInput: (val: string) => origin.value = val.trim(),
             }),
             h(ElInput, {
-                class: 'input-new-tag white-item merge-merged-input',
+                class: 'input-new-tag editable-item merge-merged-input',
                 modelValue: merged.value,
                 placeholder: t(msg => msg.mergeRule.mergedPlaceholder),
                 clearable: true,
@@ -50,7 +50,7 @@ const _default = defineComponent({
             h(ElButton, {
                 size: 'small',
                 icon: Close,
-                class: 'item-cancel-button white-item',
+                class: 'item-cancel-button editable-item',
                 onClick: () => {
                     origin.value = props.origin
                     merged.value = props.merged?.toString()
@@ -60,7 +60,7 @@ const _default = defineComponent({
             h(ElButton, {
                 size: 'small',
                 icon: Check,
-                class: 'item-check-button white-item',
+                class: 'item-check-button editable-item',
                 onClick: () => isValidHost(origin.value) ? ctx.emit("saved", origin.value, merged.value) : ElMessage.warning(invalidTxt)
             })
         ])

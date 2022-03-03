@@ -24,7 +24,7 @@ function computeTxt(mergedVal: number | string) {
 }
 
 const _default = defineComponent({
-    name: "WhitelistItem",
+    name: "MergeRuleItem",
     props: {
         origin: {
             type: String
@@ -34,10 +34,6 @@ const _default = defineComponent({
         },
         index: {
             type: Number
-        },
-        isNew: {
-            type: Boolean,
-            defaultValue: false
         }
     },
     emits: ["changed", "deleted"],
@@ -75,7 +71,7 @@ const _default = defineComponent({
                 }
             })
             : h(ElTag, {
-                class: 'white-item',
+                class: 'editable-item',
                 type: type.value,
                 closable: true,
                 onClose: () => ctx.emit("deleted", origin.value)

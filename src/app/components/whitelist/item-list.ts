@@ -5,41 +5,20 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElButton, ElInput, ElMessage, ElMessageBox, ElTag } from "element-plus"
+import { ElMessage, ElMessageBox } from "element-plus"
 import { t } from "@app/locale"
 import { h, ref, Ref, VNode } from "vue"
 import whitelistService from "@service/whitelist-service"
+import Item from './components/item'
+import AddButton from './components/add-button'
 
 const whitelistRef: Ref<string[]> = ref([])
-whitelistService
-    .listAll()
-    .then(list => whitelistRef.value = list)
-const inputVisibleRef: Ref<boolean> = ref(false)
-const inputValRef: Ref<string> = ref('')
 
-const handleInputSave = (inputValue: string) => {
-    const whitelist = whitelistRef.value
-    if (whitelist.includes(inputValue)) {
-        ElMessage({ type: 'warning', message: t(msg => msg.whitelist.duplicateMsg) })
-        return
-    }
-    const msg = t(msg => msg.whitelist.addConfirmMsg, { url: inputValue })
-    const title = t(msg => msg.operation.confirmTitle)
-    ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
-        .then(() => whitelistService.add(inputValue))
-        .then(() => {
-            whitelist.push(inputValue)
-            ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
-        }).catch(() => { })
+function queryData() {
+    whitelistService.listAll().then(list => whitelistRef.value = list)
 }
 
-const handleInputConfirm = () => {
-    const inputValue = inputValRef.value
-    inputValue && handleInputSave(inputValue)
-    // Clear input anyway
-    inputVisibleRef.value = false
-    inputValRef.value = ''
-}
+queryData()
 
 const handleClose = (whiteItem: string) => {
     const confirmMsg = t(msg => msg.whitelist.removeConfirmMsg, { url: whiteItem })
@@ -54,42 +33,55 @@ const handleClose = (whiteItem: string) => {
         })
         .catch(() => { })
 }
-// Render the tag items of whitelist 
-const generateTagItems = (whiteItem: string) => h(ElTag,
-    {
-        class: 'white-item',
-        closable: true,
-        onClose: () => handleClose(whiteItem)
-    },
-    () => whiteItem
-)
 
-const whiteItemInput = () => h(ElInput,
-    {
-        class: 'input-new-tag white-item',
-        modelValue: inputValRef.value,
-        clearable: true,
-        placeholder: t(msg => msg.whitelist.placeholder),
-        onClear: () => inputValRef.value = '',
-        onInput: (val: string) => inputValRef.value = val.trim(),
-        onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && handleInputConfirm(),
-        onBlur: () => handleInputConfirm()
+async function handleChanged(inputValue: string, index: number, ref: Ref) {
+    const duplicate = whitelistRef.value.find((white, i) => white === inputValue && i !== index)
+    if (duplicate) {
+        ElMessage({ type: 'warning', message: t(msg => msg.whitelist.duplicateMsg) })
+        // Reopen
+        ref.value.forceEdit()
+        return
     }
-)
+    await whitelistService.remove(whitelistRef.value[index])
+    await whitelistService.add(inputValue)
+    whitelistRef.value[index] = inputValue
+    ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
+}
 
-const whiteItemDisplayButton = () => h<{}>(ElButton,
-    {
-        size: 'small',
-        class: 'item-check-button white-item',
-        onClick: () => inputVisibleRef.value = true
-    },
-    () => `+ ${t(msg => msg.operation.newOne)}`
-)
+function handleAdd(inputValue: string, ref: Ref) {
+    const whitelist = whitelistRef.value
+    const exists = whitelist.filter(item => item === inputValue).length > 0
+    if (exists) {
+        ElMessage.warning(t(msg => msg.whitelist.duplicateMsg))
+        return
+    }
+    const msg = t(msg => msg.whitelist.addConfirmMsg, { url: inputValue })
+    const title = t(msg => msg.operation.confirmTitle)
+    ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
+        .then(async () => {
+            await whitelistService.add(inputValue)
+            whitelist.push(inputValue)
+            ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
+            ref.value.closeEdit()
+        }).catch(() => { })
+}
 
 const tags: () => VNode[] = () => {
     const result = []
-    result.push(...whitelistRef.value.map(generateTagItems))
-    result.push(inputVisibleRef.value ? whiteItemInput() : whiteItemDisplayButton())
+    whitelistRef.value.forEach((white: string, index: number) => {
+        const itemRef: Ref = ref()
+        const item = h(Item, {
+            white, index, ref: itemRef,
+            onChanged: (newVal, index) => handleChanged(newVal, index, itemRef),
+            onDeleted: (val: string) => handleClose(val)
+        })
+        result.push(item)
+    })
+    const addButtonRef: Ref = ref()
+    result.push(h(AddButton, {
+        ref: addButtonRef,
+        onSaved: (inputVal: string) => handleAdd(inputVal, addButtonRef)
+    }))
     return result
 }
 
