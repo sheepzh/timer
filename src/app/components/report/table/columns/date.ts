@@ -9,19 +9,26 @@
  * Column of date 
  */
 import { ElTableColumn } from "element-plus"
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 import { dateFormatter } from "../../formatter"
 
-// Date column
-const dateColProp = {
-    prop: 'date',
-    label: t(msg => msg.item.date),
-    minWidth: 135,
-    align: 'center',
-    sortable: 'custom'
-}
-const dateColSlots = { default: ({ row }: { row: DataItem }) => h('span', dateFormatter(row.date)) }
-const dateCol = () => h(ElTableColumn, dateColProp, dateColSlots)
-export default dateCol
+const columnLabel = t(msg => msg.item.date)
+
+const _default = defineComponent({
+    name: "DateColumn",
+    setup() {
+        return () => h(ElTableColumn, {
+            prop: "date",
+            label: columnLabel,
+            minWidth: 135,
+            align: "center",
+            sortable: "custom"
+        }, {
+            default: ({ row }: { row: DataItem }) => h('span', dateFormatter(row.date))
+        })
+    }
+})
+
+export default _default
