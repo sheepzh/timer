@@ -49,7 +49,8 @@ export function getQueryParam(): FooterParam {
         mergeHost: mergedHost(),
         sort: getSelectedType(),
         sortOrder: SortDirect.DESC,
-        chartTitle: calculateChartTitle(duration)
+        chartTitle: calculateChartTitle(duration),
+        mergeDate: true,
     }
     return param
 }
