@@ -9,18 +9,23 @@
  * Column of date 
  */
 import { ElTableColumn } from "element-plus"
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 
-// Alias column
-const aliasColProp = {
-    label: t(msg => msg.siteManage.column.alias),
-    minWidth: 140,
-    align: 'center'
-}
-const aliasColSlots = {
-    default: ({ row }: { row: DataItem }) => h('span', row.alias || '-')
-}
-const aliasCol = () => h(ElTableColumn, aliasColProp, aliasColSlots)
-export default aliasCol
+const columnLabel = t(msg => msg.siteManage.column.alias)
+
+const _default = defineComponent({
+    name: "AliasColumn",
+    setup() {
+        return () => h(ElTableColumn, {
+            label: columnLabel,
+            minWidth: 140,
+            align: "center"
+        }, {
+            default: ({ row }: { row: DataItem }) => h('span', row.alias || '-')
+        })
+    }
+})
+
+export default _default
