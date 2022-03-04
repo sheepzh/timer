@@ -5,18 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { h } from "vue"
 import aliasCol from "./alias"
 import dateCol from "./date"
-import hostCol, { HostColumnProps } from "./host"
+import HostColumn from "./host"
 import itemColumns, { ItemColumnProps } from "./item-columns"
 import operationButtons, { OperationButtonColumnProps } from "./operation"
 
-export type ColumnProps = HostColumnProps & ItemColumnProps & OperationButtonColumnProps
+export type ColumnProps = ItemColumnProps & OperationButtonColumnProps
 
 const columns = (props: ColumnProps) => {
     const result = []
     props.mergeDateRef.value || result.push(dateCol())
-    result.push(hostCol(props))
+    result.push(h(HostColumn, { mergeHost: props.mergeHostRef.value }))
     props.mergeHostRef.value || result.push(aliasCol())
     result.push(...itemColumns(props))
     result.push(operationButtons(props))

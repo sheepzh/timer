@@ -5,44 +5,39 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElTableColumn, ElTooltip } from "element-plus"
-import { host2ElLink } from "@app/components/common/table"
-import { Ref, h } from "vue"
+import { ElTableColumn } from "element-plus"
+import { h, defineComponent } from "vue"
 import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
+import HostAlert from "@app/components/common/host-alert"
+import HostMergedAlert from './host-merged-alert'
 
-export type HostColumnProps = {
-    mergeHostRef: Ref<boolean>
-}
+const columnLabel = t(msg => msg.item.host)
 
-const hostColProp = {
-    prop: 'host',
-    label: t(msg => msg.item.host),
-    minWidth: 210,
-    sortable: 'custom',
-    align: 'center'
-}
+const _default = defineComponent({
+    name: "HostColumn",
+    props: {
+        mergeHost: {
+            type: Boolean,
+            required: true
+        }
+    },
+    setup(props) {
+        return () => h(ElTableColumn, {
+            prop: "host",
+            label: columnLabel,
+            minWidth: 210,
+            sortable: "custom",
+            align: "center"
+        }, {
+            default: ({ row }: { row: DataItem }) => props.mergeHost
+                ? h(HostMergedAlert,
+                    { mergedHost: row.host },
+                    () => row.mergedHosts.map(origin => h('p', h(HostAlert, { host: origin.host, iconUrl: origin.iconUrl })))
+                )
+                : h(HostAlert, { host: row.host, iconUrl: row.iconUrl })
+        })
+    }
+})
 
-const toolTipProp = {
-    placement: 'left',
-    effect: 'light',
-    offset: 10
-}
-const hostColSlots = (props: HostColumnProps, row: DataItem) => {
-    // if not merge host, then only show the link
-    if (!props.mergeHostRef.value) return host2ElLink(row.host, row.iconUrl)
-    // Else show the origin hosts in tooltip
-    // Fake ElLink
-    const elLinkClass = { class: 'el-link el-link--default is-underline' }
-    const fakeLink = () => h('span', { class: 'el-link--inner' }, row.host)
-    const tooltipInner = () => h('a', elLinkClass, fakeLink())
-    // Origin links
-    const originLinks = row.mergedHosts.map(origin => h('p', host2ElLink(origin.host, origin.iconUrl)))
-    const tooltipContent = () => h('div', { style: 'margin: 10px' }, originLinks)
-    const slots = { default: tooltipInner, content: tooltipContent }
-
-    return h<{}>(ElTooltip, toolTipProp, slots)
-}
-const hostCol = (props: HostColumnProps) => h(ElTableColumn, hostColProp, { default: ({ row }: { row: DataItem }) => hostColSlots(props, row) })
-
-export default hostCol
+export default _default
