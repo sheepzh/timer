@@ -21,7 +21,7 @@ const HOST_ICON_STYLE: Partial<CSSStyleDeclaration> = {
  * @param iconUrl   icon url
  * @returns VNode[]
  */
-export const host2ElLink = (host: string, iconUrl: string) => {
+const host2ElLink = (host: string, iconUrl: string) => {
     const link = h(ElLink,
         { href: `http://${host}`, target: '_blank' },
         () => host

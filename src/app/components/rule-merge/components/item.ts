@@ -13,7 +13,6 @@ import { computed, defineComponent, h, ref, Ref, watch } from "vue"
 import ItemInput from "./item-input"
 
 function computeType(mergedVal: number | string): '' | 'info' | 'success' {
-    console.log(mergedVal, typeof mergedVal)
     return typeof mergedVal === 'number' ? 'success' : mergedVal === '' ? 'info' : ''
 }
 
