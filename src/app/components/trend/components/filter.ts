@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElDatePicker, ElOption, ElSelect } from "element-plus"
+import { ElOption, ElSelect } from "element-plus"
 import { ref, Ref, h } from "vue"
 import timerService, { HostSet } from "@service/timer-service"
 import { daysAgo } from "@util/time"
@@ -13,13 +13,8 @@ import { t } from "@app/locale"
 import { renderFilterContainer } from "@app/components/common/filter"
 import HostOptionInfo from "../host-option-info"
 import { TrendMessage } from "@app/locale/components/trend"
-
-const datePickerShortcut = (msg: keyof TrendMessage, agoOfStart?: number, agoOfEnd?: number) => {
-    return {
-        text: t(messages => messages.trend[msg]),
-        value: daysAgo(agoOfStart || 0, agoOfEnd || 0)
-    }
-}
+import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
+import { ElementDatePickerShortcut } from "@app/element-ui/date"
 
 type _Props = {
     dateRangeRef: Ref<Date[]>
@@ -63,6 +58,12 @@ const domainSelect = ({ domainKeyRef }: _Props) => h(ElSelect,
         onClear: () => domainKeyRef.value = ''
     }, domainSelectOptions)
 
+function datePickerShortcut(msg: keyof TrendMessage, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
+    return {
+        text: t(messages => messages.trend[msg]),
+        value: daysAgo(agoOfStart || 0, agoOfEnd || 0)
+    }
+}
 const shortcuts = [
     datePickerShortcut('lateWeek', 7),
     datePickerShortcut('late15Days', 15),
@@ -70,19 +71,15 @@ const shortcuts = [
     datePickerShortcut("late90Days", 90)
 ]
 // Date picker
-const picker = ({ dateRangeRef }: _Props) => h(ElDatePicker, {
-    modelValue: dateRangeRef.value,
-    type: 'daterange',
-    format: 'YYYY/MM/DD',
-    rangeSeparator: '-',
-    startPlaceholder: t(msg => msg.trend.startDate),
-    endPlaceholder: t(msg => msg.trend.endDate),
-    unlinkPanels: true,
-    disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
+const startPlaceholder = t(msg => msg.trend.startDate)
+const endPlaceholder = t(msg => msg.trend.endDate)
+const datePickerItem = (props: _Props) => h(DateRangeFilterItem, {
+    startPlaceholder,
+    endPlaceholder,
     shortcuts,
-    'onUpdate:modelValue': (newVal: Date[]) => dateRangeRef.value = newVal
+    onChange: (newVal: Date[]) => props.dateRangeRef.value = newVal,
+    disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
 })
-const datePickerItem = (props: _Props) => h('span', { class: 'filter-item' }, picker(props))
 
 const filterItems = (props: _Props) => [domainSelect(props), datePickerItem(props)]
 

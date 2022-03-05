@@ -5,20 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElDatePicker, ElOption, ElSelect } from "element-plus"
+import { ElOption, ElSelect } from "element-plus"
 import { ref, Ref, h } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { HabitMessage } from "@app/locale/components/habit"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import { renderFilterContainer } from "../common/filter"
-
-const datePickerShortcut = (msg: keyof HabitMessage['dateRange'], agoOfStart: number) => {
-    return {
-        text: t(messages => messages.habit.dateRange[msg]),
-        value: daysAgo(agoOfStart, 0)
-    }
-}
+import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 
 type _Props = {
     dateRangeRef: Ref<Date[]>
@@ -59,26 +54,17 @@ const shortcutProps: ShortCutProp[] = [
     ["late30Days", 30],
     ["late60Days", 60]
 ]
-
-const shortcuts = shortcutProps.map(([label, dayAgo]) => datePickerShortcut(label, dayAgo))
-
-// Date picker
-const picker = (dateRangeRef: Ref<Date[]>) => h(ElDatePicker, {
-    modelValue: dateRangeRef.value,
-    type: 'daterange',
-    format: 'YYYY/MM/DD',
-    clearable: false,
-    rangeSeparator: '-',
-    startPlaceholder: t(msg => msg.trend.startDate),
-    endPlaceholder: t(msg => msg.trend.endDate),
-    unlinkPanels: true,
-    disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
-    shortcuts,
-    'onUpdate:modelValue': (newVal: Date[]) => dateRangeRef.value = newVal
-})
-const datePickerItem = (dateRangeRef: Ref<Date[]>) => h('span', { class: 'filter-item' }, picker(dateRangeRef))
+function datePickerShortcut(msg: keyof HabitMessage['dateRange'], agoOfStart: number): ElementDatePickerShortcut {
+    return {
+        text: t(messages => messages.habit.dateRange[msg]),
+        value: daysAgo(agoOfStart, 0)
+    }
+}
+const shortcuts: ElementDatePickerShortcut[] = shortcutProps.map(([label, dayAgo]) => datePickerShortcut(label, dayAgo))
 
 const averageLabel = t(msg => msg.habit.average.label)
+const dateRangeStartPlaceholder = t(msg => msg.trend.startDate)
+const dateRangeEndPlaceholder = t(msg => msg.trend.endDate)
 const childNodes = ({
     dateRangeRef,
     periodSizeRef,
@@ -87,7 +73,13 @@ const childNodes = ({
         // Size select
         periodSizeSelect(periodSizeRef),
         // Date range picker
-        datePickerItem(dateRangeRef),
+        h(DateRangeFilterItem, {
+            startPlaceholder: dateRangeStartPlaceholder,
+            endPlaceholder: dateRangeEndPlaceholder,
+            disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
+            shortcuts,
+            onChange: (newVal: Date[]) => dateRangeRef.value = newVal
+        }),
         // Average by date
         h(SwitchFilterItem, {
             label: averageLabel,
