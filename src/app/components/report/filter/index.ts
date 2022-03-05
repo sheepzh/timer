@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { inputFilterItem, renderFilterContainer } from "@app/components/common/filter"
+import { renderFilterContainer } from "@app/components/common/filter"
 import dateRange, { DateRangeFilterItemProps } from "./date-range-filter-item"
 import displayBySecond, { DisplayBySecondFilterItemProps } from "./display-by-second-filter-item"
 import DownloadFile, { FileFormat } from "./download-file"
@@ -16,6 +16,7 @@ import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 import { dateFormatter, periodFormatter } from "../formatter"
 import { exportCsv, exportJson } from "@util/file"
+import InputFilterItem from '@app/components/common/input-filter-item'
 
 export type FilterProps = DateRangeFilterItemProps
     & MergeDateFilterItemProps
@@ -67,9 +68,21 @@ const generateJsonData = (rows: DataItem[]) => {
     })
 }
 
+const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const childNodes = (props: FilterProps) =>
     [
-        inputFilterItem(props.hostRef, msg => msg.report.hostPlaceholder, props.queryData),
+        h(InputFilterItem, {
+            placeholder: hostPlaceholder,
+            onClear() {
+                props.hostRef.value = ""
+                props.queryData?.()
+            },
+            onEnter(newVal: string) {
+                props.hostRef.value = newVal
+                props.queryData?.()
+            }
+        }),
+        // inputFilterItem(props.hostRef, msg => msg.report.hostPlaceholder, props.queryData),
         dateRange(props),
         ...mergeDate(props),
         ...mergeHost(props),
