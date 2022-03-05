@@ -19,11 +19,11 @@ const _default = defineComponent({
     props: {
         origin: {
             type: String,
-            defaultValue: ""
+            default: ""
         },
         merged: {
             type: [String, Number],
-            defaultValue: ""
+            default: ""
         }
     },
     emits: ["saved", "canceled"],

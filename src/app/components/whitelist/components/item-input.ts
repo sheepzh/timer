@@ -19,7 +19,7 @@ const _default = defineComponent({
     props: {
         white: {
             type: String,
-            defaultValue: ""
+            default: ""
         }
     },
     emits: ["saved", "canceled"],

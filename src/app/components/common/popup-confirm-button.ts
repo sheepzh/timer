@@ -23,7 +23,7 @@ const _default = defineComponent({
         buttonIcon: Object as PropType<ElementIcon>,
         visible: {
             type: Boolean,
-            defaultValue: true
+            default: true
         }
     },
     emits: ["confirm", "referenceClick"],
