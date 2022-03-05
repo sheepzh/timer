@@ -5,12 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElButton, ElPopconfirm, ElTableColumn } from "element-plus"
+import { ElButton, ElTableColumn } from "element-plus"
 import { t } from "@app/locale"
 import { h } from "vue"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { Delete, Edit } from "@element-plus/icons"
 import { QueryData } from "@app/components/common/constants"
+import PopupConfirmButton from "@app/components/common/popup-confirm-button"
 
 type _Props = {
     handleDelete: (row: HostAliasInfo) => Promise<void>
@@ -20,32 +21,25 @@ type _Props = {
 
 export type OperationButtonColumnProps = _Props
 
-const deleteButton = (props: _Props, row: HostAliasInfo) => {
-    const popConfirmProps = {
-        confirmButtonText: t(msg => msg.confirm.confirmMsg),
-        cancelButtonText: t(msg => msg.confirm.cancelMsg),
-        title: t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host }),
-        onConfirm: async () => {
-            await props.handleDelete(row)
-            await props.queryData()
-        }
+const deleteButtonText = t(msg => msg.siteManage.button.delete)
+const deleteButton = (props: _Props, row: HostAliasInfo) => h(PopupConfirmButton, {
+    buttonIcon: Delete,
+    buttonType: "danger",
+    buttonText: deleteButtonText,
+    confirmText: t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host }),
+    onConfirm: async () => {
+        await props.handleDelete(row)
+        await props.queryData()
     }
-    const reference = () => h<{}>(ElButton, {
-        size: 'mini',
-        type: "danger",
-        icon: Delete
-    }, () => t(msg => msg.siteManage.button.delete))
-    return h(ElPopconfirm, popConfirmProps, { reference })
-}
+})
 
-const modifyButton = (props: _Props, row: HostAliasInfo) => {
-    return h(ElButton, {
-        size: 'mini',
-        type: "primary",
-        icon: Edit,
-        onClick: () => props.handleModify(row)
-    }, () => t(msg => msg.siteManage.button.modify))
-}
+const modifyButtonText = t(msg => msg.siteManage.button.modify)
+const modifyButton = (props: _Props, row: HostAliasInfo) => h(ElButton, {
+    size: 'mini',
+    type: "primary",
+    icon: Edit,
+    onClick: () => props.handleModify(row)
+}, () => modifyButtonText)
 
 const tableColumnProps = {
     label: t(msg => msg.item.operation.label),
