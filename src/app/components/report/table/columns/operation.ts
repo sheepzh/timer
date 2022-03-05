@@ -11,8 +11,7 @@
  * @todo !!!! Remaining code of optimizing performance
  */
 import { h, ref, Ref } from "vue"
-import { ElButton, ElMessage, ElPopconfirm, ElTableColumn } from "element-plus"
-import { ItemMessage } from "@util/i18n/components/item"
+import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import DataItem from "@entity/dto/data-item"
 import TimerDatabase from "@db/timer-database"
 import whitelistService from "@service/whitelist-service"
@@ -24,15 +23,8 @@ import { LocationQueryRaw, Router } from "vue-router"
 import { TREND_ROUTE } from "@app/router/constants"
 import { dateFormatter } from "../../formatter"
 
-import {
-    DefineComponent,
-    ComponentOptionsMixin as Mixin,
-    EmitsOptions,
-    VNodeProps,
-    AllowedComponentProps,
-    ComponentCustomProps
-} from "vue"
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons"
+import OperationPopupConfirmButton from "./operation-popup-confirm-button"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -49,38 +41,8 @@ type Props = {
     router: Router
 }
 
-type IconPublicProps = VNodeProps & AllowedComponentProps & ComponentCustomProps
-
-type IconProps = Readonly<{} & {} & {}>
-
-type ButtonIcon = DefineComponent<{}, {}, {}, {}, {}, Mixin, Mixin, EmitsOptions, string, IconPublicProps, IconProps, {}>
-
 export type OperationButtonColumnProps = Props
 
-// Generate operationButton
-type OperationButtonProps = {
-    confirmTitle: string
-    buttonType: string
-    buttonIcon: ButtonIcon
-    buttonMessage: keyof ItemMessage['operation']
-    onConfirm: () => void
-    onClick?: () => void
-}
-const operationButton = (props: OperationButtonProps) => {
-    const popConfirmProps = {
-        confirmButtonText: t(msg => msg.confirm.confirmMsg),
-        cancelButtonText: t(msg => msg.confirm.cancelMsg),
-        title: props.confirmTitle,
-        onConfirm: props.onConfirm
-    }
-    const reference = () => h<{}>(ElButton, {
-        size: 'mini',
-        type: props.buttonType,
-        onClick: props.onClick,
-        icon: props.buttonIcon
-    }, () => t(msg => msg.item.operation[props.buttonMessage]))
-    return h(ElPopconfirm, popConfirmProps, { reference })
-}
 // Delete button
 const deleteOneRow = async (props: Props, host: string, date: string | Date) => {
     // Delete by date
@@ -119,16 +81,15 @@ const changeDeleteConfirmUrl = (props: Props, host: string, date: string) => {
     deleteMsgRef.value = msg
 }
 
-const deleteButton = (props: Props, row: DataItem) => operationButton(
-    {
-        buttonType: 'warning',
-        buttonIcon: Delete,
-        buttonMessage: 'delete',
-        confirmTitle: deleteMsgRef.value,
-        onConfirm: () => deleteConfirm(props, row.host, row.date),
-        onClick: () => changeDeleteConfirmUrl(props, row.host, row.date)
-    }
-)
+const deleteButtonText = t(msg => msg.item.operation.delete)
+const deleteButton = (props: Props, row: DataItem) => h(OperationPopupConfirmButton, {
+    buttonIcon: Delete,
+    buttonType: "warning",
+    buttonText: deleteButtonText,
+    confirmText: deleteMsgRef.value,
+    onConfirm: () => deleteConfirm(props, row.host, row.date),
+    onReferenceClick: () => changeDeleteConfirmUrl(props, row.host, row.date)
+})
 
 const operateTheWhitelist = async (operation: Promise<any>, props: Props, successMsg: keyof ReportMessage) => {
     await operation
@@ -137,20 +98,22 @@ const operateTheWhitelist = async (operation: Promise<any>, props: Props, succes
 }
 
 // add 2 whitelist
-const add2WhitelistButton = (props: Props, { host }: DataItem) => operationButton({
-    confirmTitle: t(msg => msg.whitelist.addConfirmMsg, { url: host }),
-    buttonType: 'danger',
+const add2WhitelistButtonText = t(msg => msg.item.operation.add2Whitelist)
+const add2WhitelistButton = (props: Props, { host }: DataItem) => h(OperationPopupConfirmButton, {
     buttonIcon: Plus,
-    buttonMessage: 'add2Whitelist',
+    buttonType: "danger",
+    buttonText: add2WhitelistButtonText,
+    confirmText: t(msg => msg.whitelist.addConfirmMsg, { url: host }),
     onConfirm: () => operateTheWhitelist(whitelistService.add(host), props, 'added2Whitelist')
 })
 
 // Remove from whitelist
-const removeFromWhitelistButton = (props: Props, { host }: DataItem) => operationButton({
-    confirmTitle: t(msg => msg.whitelist.removeConfirmMsg, { url: host }),
-    buttonType: 'primary',
+const removeFromWhitelistButtonText = t(msg => msg.item.operation.removeFromWhitelist)
+const removeFromWhitelistButton = (props: Props, { host }: DataItem) => h(OperationPopupConfirmButton, {
     buttonIcon: Open,
-    buttonMessage: 'removeFromWhitelist',
+    buttonType: "primary",
+    buttonText: removeFromWhitelistButtonText,
+    confirmText: t(msg => msg.whitelist.removeConfirmMsg, { url: host }),
     onConfirm: () => operateTheWhitelist(whitelistService.remove(host), props, 'removeFromWhitelist')
 })
 
