@@ -10,26 +10,21 @@
  * 
  * @todo !!!! Remaining code of optimizing performance
  */
-import { h, ref, Ref } from "vue"
+import { h, Ref } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import DataItem from "@entity/dto/data-item"
 import TimerDatabase from "@db/timer-database"
 import whitelistService from "@service/whitelist-service"
-import { formatTime } from "@util/time"
 import { t } from "@app/locale"
 import { ReportMessage } from "@app/locale/components/report"
 import { QueryData } from "@app/components/common/constants"
 import { LocationQueryRaw, Router } from "vue-router"
 import { TREND_ROUTE } from "@app/router/constants"
-import { dateFormatter } from "../../formatter"
-
-import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons"
+import { Open, Plus, Stopwatch } from "@element-plus/icons"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
+import OperationDeleteButton from "./operation-delete-button"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
-
-const deleteMsgRef: Ref<string> = ref('')
-const DISPLAY_DATE_FORMAT = '{y}/{m}/{d}'
 
 type Props = {
     queryWhiteList: () => Promise<void>
@@ -61,34 +56,12 @@ const deleteConfirm = async (props: Props, host: string, date: string | Date) =>
     props.queryData()
 }
 
-const changeDeleteConfirmUrl = (props: Props, host: string, date: string) => {
-    const dateRange = props.dateRangeRef.value
-    // Not merge, delete one item
-    if (!props.mergeDateRef.value) {
-        const msg = t(msg => msg.item.operation.deleteConfirmMsg, { url: host, date: dateFormatter(date) })
-        deleteMsgRef.value = msg
-        return
-    }
-    const hasDateRange = dateRange?.length
-    // Delete all
-    if (!hasDateRange) return deleteMsgRef.value = t(msg => msg.item.operation.deleteConfirmMsgAll, { url: host })
-
-    const start = dateRange[0]
-    const end = dateRange[1]
-    let msg = t(msg => msg.item.operation.deleteConfirmMsgRange,
-        { url: host, start: formatTime(start, DISPLAY_DATE_FORMAT), end: formatTime(end, DISPLAY_DATE_FORMAT) }
-    )
-    deleteMsgRef.value = msg
-}
-
-const deleteButtonText = t(msg => msg.item.operation.delete)
-const deleteButton = (props: Props, row: DataItem) => h(OperationPopupConfirmButton, {
-    buttonIcon: Delete,
-    buttonType: "warning",
-    buttonText: deleteButtonText,
-    confirmText: deleteMsgRef.value,
-    onConfirm: () => deleteConfirm(props, row.host, row.date),
-    onReferenceClick: () => changeDeleteConfirmUrl(props, row.host, row.date)
+const deleteButton = (props: Props, row: DataItem) => h(OperationDeleteButton, {
+    mergeDate: props.mergeDateRef.value,
+    itemUrl: row.host,
+    itemDate: row.date,
+    dateRange: props.dateRangeRef.value,
+    onConfirm: () => deleteConfirm(props, row.host, row.date)
 })
 
 const operateTheWhitelist = async (operation: Promise<any>, props: Props, successMsg: keyof ReportMessage) => {
