@@ -27,7 +27,7 @@ function computeSingleConfirmText(url: string, date: string): string {
 }
 
 function computeRangeConfirmText(url: string, dateRange: Array<Date>): string {
-    const hasDateRange = dateRange?.length
+    const hasDateRange = dateRange?.length === 2 && (dateRange[0] || dateRange[1])
     if (!hasDateRange) {
         // Delete all
         return t(msg => msg.item.operation.deleteConfirmMsgAll, { url })

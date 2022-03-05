@@ -6,7 +6,6 @@
  */
 
 import { renderFilterContainer } from "@app/components/common/filter"
-import dateRange, { DateRangeFilterItemProps } from "./date-range-filter-item"
 import DownloadFile, { FileFormat } from "./download-file"
 import { Ref, h } from "vue"
 import DataItem from "@entity/dto/data-item"
@@ -15,16 +14,22 @@ import { dateFormatter, periodFormatter } from "../formatter"
 import { exportCsv, exportJson } from "@util/file"
 import InputFilterItem from '@app/components/common/input-filter-item'
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
+import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
+import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { daysAgo } from "@util/time"
+import { ReportMessage } from "@app/locale/components/report"
+import { QueryData } from "@app/components/common/constants"
 
-export type FilterProps = DateRangeFilterItemProps
-    & {
-        displayBySecondRef: Ref<boolean>
-        hostRef: Ref<string>
-        dataRef: Ref<DataItem[]>
-        mergeHostRef: Ref<boolean>
-        mergeDateRef: Ref<boolean>
-        exportFileName: Ref<string>
-    }
+export type FilterProps = {
+    displayBySecondRef: Ref<boolean>
+    hostRef: Ref<string>
+    dataRef: Ref<DataItem[]>
+    mergeHostRef: Ref<boolean>
+    mergeDateRef: Ref<boolean>
+    exportFileName: Ref<string>
+    queryData: QueryData
+    dateRangeRef: Ref<Date[]>
+}
 
 /** 
  * @param rows row data
@@ -70,6 +75,21 @@ const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
 const displayBySecondLabel = t(msg => msg.report.displayBySecond)
+// Date range
+const dateStartPlaceholder = t(msg => msg.report.startDate)
+const dateEndPlaceholder = t(msg => msg.report.endDate)
+// date range
+function datePickerShortcut(msg: keyof ReportMessage, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
+    const text = t(messages => messages.report[msg])
+    const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
+    return { text, value }
+}
+const dateShortcuts: ElementDatePickerShortcut[] = [
+    datePickerShortcut('today'),
+    datePickerShortcut('yesterday', 1, 1),
+    datePickerShortcut('lateWeek', 7),
+    datePickerShortcut('late30Days', 30)
+]
 const childNodes = (props: FilterProps) => [
     h(InputFilterItem, {
         placeholder: hostPlaceholder,
@@ -82,7 +102,16 @@ const childNodes = (props: FilterProps) => [
             props.queryData?.()
         }
     }),
-    dateRange(props),
+    h(DateRangeFilterItem, {
+        startPlaceholder: dateStartPlaceholder,
+        endPlaceholder: dateEndPlaceholder,
+        disabledDate: (date: Date | number) => new Date(date) > new Date(),
+        shortcuts: dateShortcuts,
+        onChange(newVal: Date[]) {
+            props.dateRangeRef.value = newVal
+            props.queryData()
+        }
+    }),
     h(SwitchFilterItem, {
         label: mergeDateLabel,
         defaultValue: props.mergeDateRef.value,

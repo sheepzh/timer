@@ -100,7 +100,7 @@ export const MILL_PER_DAY = 3600 * 1000 * 24
 /**
  * Date range between {start} days ago and {end} days ago
  */
-export const daysAgo = (start: number, end: number) => {
+export const daysAgo = (start: number, end: number): [Date, Date] => {
     const current = new Date().getTime()
     return [new Date(current - start * MILL_PER_DAY), new Date(current - end * MILL_PER_DAY)]
 }
