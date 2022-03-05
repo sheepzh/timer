@@ -5,10 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElButton, ElCard } from "element-plus"
-import ElementIcon from "@app/element-ui/icon"
+import { ElCard } from "element-plus"
 import { h, VNode } from "vue"
-import { I18nKey, t } from "@app/locale"
 
 /**
  * @returns the render function of filter containers
@@ -20,22 +18,3 @@ export function renderFilterContainer<Props>(childNodes: (props: Props) => VNode
         () => childNodes(props)
     )
 }
-
-type _I18nKey = I18nKey | string
-
-const processI18nKey = (key: _I18nKey) => typeof key !== 'string' ? t(key) : key
-
-type FilterButtonProps = {
-    onClick: () => void
-    type?: 'primary' | 'info' | 'success' | 'warning' | 'danger'
-    label: _I18nKey
-    icon?: ElementIcon
-    right?: boolean
-}
-
-export const buttonFilterItem = ({ onClick, type, label, icon, right }: FilterButtonProps) => h<{}>(ElButton, {
-    class: 'filter-item' + (right ? ' filter-item-right' : ''),
-    type,
-    icon: icon,
-    onClick
-}, () => processI18nKey(label))
