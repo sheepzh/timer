@@ -6,8 +6,10 @@
  */
 
 import { Plus } from "@element-plus/icons"
-import { Ref } from "vue"
-import { buttonFilterItem, inputFilterItem, renderFilterContainer, switchFilterItem } from "../common/filter"
+import { Ref, h } from "vue"
+import InputFilterItem from "@app/components/common/input-filter-item"
+import { buttonFilterItem, renderFilterContainer, switchFilterItem } from "../common/filter"
+import { t } from "@app/locale"
 
 type _Props = {
     urlRef: Ref<string>
@@ -18,8 +20,13 @@ type _Props = {
 
 export type FilterProps = _Props
 
+const urlPlaceholder = t(msg => msg.limit.conditionFilter)
 const filterItems = (props: _Props) => [
-    inputFilterItem(props.urlRef, msg => msg.limit.conditionFilter),
+    h(InputFilterItem, {
+        placeholder: urlPlaceholder,
+        onClear: () => props.urlRef.value = "",
+        onEnter: (newVal: string) => props.urlRef.value = newVal
+    }),
     ...switchFilterItem(props.onlyEnabledRef, msg => msg.limit.filterDisabled),
     buttonFilterItem({ type: 'success', label: msg => msg.limit.button.add, onClick: props.handleAdd, icon: Plus, right: true }),
     // todo

@@ -26,21 +26,6 @@ type _I18nKey = I18nKey | string
 
 const processI18nKey = (key: _I18nKey) => typeof key !== 'string' ? t(key) : key
 
-/** 
- * @returns filter item input VNode 
- */
-export const inputFilterItem = (modelValue: Ref<string>, placeholder: _I18nKey, queryData?: QueryData) => h(ElInput,
-    {
-        class: 'filter-item',
-        modelValue: modelValue.value,
-        placeholder: processI18nKey(placeholder),
-        clearable: true,
-        onClear: () => modelValue.value = '',
-        onInput: (val: string) => modelValue.value = val.trim(),
-        onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && queryData?.()
-    }
-)
-
 const switchLabel = (label: string) => h('a', { class: 'filter-name' }, label)
 
 const elSwitch = (modelValue: Ref<boolean>, queryData?: QueryData) => h(ElSwitch,
