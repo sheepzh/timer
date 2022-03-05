@@ -8,8 +8,9 @@
 import { HostAliasSource } from "@entity/dao/host-alias"
 import { QueryData } from "@app/components/common/constants"
 import InputFilterItem from "@app/components/common/input-filter-item"
-import { buttonFilterItem, renderFilterContainer, switchFilterItem } from "../common/filter"
-import { computed, Ref, h } from "vue"
+import SwitchFilterItem from "@app/components/common/switch-filter-item"
+import { buttonFilterItem, renderFilterContainer } from "../common/filter"
+import { computed, Ref, h, watch } from "vue"
 import { Plus } from "@element-plus/icons"
 import { t } from "@app/locale"
 
@@ -23,11 +24,13 @@ export type FilterProps = {
 
 const hostPlaceholder = t(msg => msg.siteManage.hostPlaceholder)
 const aliasPlaceholder = t(msg => msg.siteManage.aliasPlaceholder)
+const onlyDetectedLabel = t(msg => msg.siteManage.onlyDetected)
 const childNodes = (props: FilterProps) => {
     const onlyDetected: Ref<boolean> = computed({
         get: () => props.sourceRef.value === HostAliasSource.DETECTED,
         set: newVal => props.sourceRef.value = newVal ? HostAliasSource.DETECTED : undefined
     })
+    watch(onlyDetected, () => props.queryData())
     return [
         h(InputFilterItem, {
             placeholder: hostPlaceholder,
@@ -51,7 +54,11 @@ const childNodes = (props: FilterProps) => {
                 props.queryData()
             }
         }),
-        ...switchFilterItem(onlyDetected, msg => msg.siteManage.onlyDetected, props.queryData),
+        h(SwitchFilterItem, {
+            label: onlyDetectedLabel,
+            defaultValue: false,
+            onChange: (newVal: boolean) => onlyDetected.value = newVal
+        }),
         buttonFilterItem({ type: 'success', label: msg => msg.siteManage.button.add, onClick: props.handleAdd, icon: Plus, right: true }),
     ]
 }

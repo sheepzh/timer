@@ -10,7 +10,8 @@ import { ref, Ref, h } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { HabitMessage } from "@app/locale/components/habit"
-import { renderFilterContainer, switchFilterItem } from "../common/filter"
+import SwitchFilterItem from "@app/components/common/switch-filter-item"
+import { renderFilterContainer } from "../common/filter"
 
 const datePickerShortcut = (msg: keyof HabitMessage['dateRange'], agoOfStart: number) => {
     return {
@@ -77,6 +78,7 @@ const picker = (dateRangeRef: Ref<Date[]>) => h(ElDatePicker, {
 })
 const datePickerItem = (dateRangeRef: Ref<Date[]>) => h('span', { class: 'filter-item' }, picker(dateRangeRef))
 
+const averageLabel = t(msg => msg.habit.average.label)
 const childNodes = ({
     dateRangeRef,
     periodSizeRef,
@@ -87,7 +89,11 @@ const childNodes = ({
         // Date range picker
         datePickerItem(dateRangeRef),
         // Average by date
-        ...switchFilterItem(averageRef, msg => msg.habit.average.label)
+        h(SwitchFilterItem, {
+            label: averageLabel,
+            defaultValue: averageRef.value,
+            onChange: (newVal: boolean) => averageRef.value = newVal
+        })
     ]
 
 export default renderFilterContainer(childNodes)
