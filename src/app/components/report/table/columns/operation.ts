@@ -24,7 +24,7 @@ import { TREND_ROUTE } from "@app/router/constants"
 import { dateFormatter } from "../../formatter"
 
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons"
-import OperationPopupConfirmButton from "./operation-popup-confirm-button"
+import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
