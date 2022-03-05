@@ -12,9 +12,16 @@ import HostColumn from "./host"
 import FocusColumn from './focus'
 import TotalColumn from './total'
 import TimeColumn from "./time"
-import operationButtons, { OperationButtonColumnProps } from "./operation"
+import OperationColumn from "./operation"
+import { QueryData } from "@app/components/common/constants"
 
-export type ColumnProps = OperationButtonColumnProps & {
+export type ColumnProps = {
+    queryWhiteList: () => Promise<void>
+    queryData: QueryData
+    whitelistRef: Ref<string[]>
+    mergeDateRef: Ref<boolean>
+    mergeHostRef: Ref<boolean>
+    dateRangeRef: Ref<Array<Date>>
     displayBySecondRef: Ref<boolean>
 }
 
@@ -26,7 +33,14 @@ const columns = (props: ColumnProps) => {
     result.push(h(FocusColumn, { displayBySecond: props.displayBySecondRef.value }))
     result.push(h(TotalColumn, { displayBySecond: props.displayBySecondRef.value }))
     result.push(h(TimeColumn))
-    result.push(operationButtons(props))
+    result.push(h(OperationColumn, {
+        mergeDate: props.mergeDateRef.value,
+        mergeHost: props.mergeHostRef.value,
+        dateRange: props.dateRangeRef.value,
+        whitelist: props.whitelistRef.value,
+        onDelete: () => props.queryData(),
+        onChangeWhitelist: () => props.queryWhiteList()
+    }))
     return result
 }
 

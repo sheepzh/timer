@@ -10,15 +10,13 @@
  * 
  * @todo !!!! Remaining code of optimizing performance
  */
-import { h, Ref } from "vue"
+import { computed, defineComponent, h, PropType } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import DataItem from "@entity/dto/data-item"
 import TimerDatabase from "@db/timer-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
-import { ReportMessage } from "@app/locale/components/report"
-import { QueryData } from "@app/components/common/constants"
-import { LocationQueryRaw, Router } from "vue-router"
+import { LocationQueryRaw, Router, useRouter } from "vue-router"
 import { TREND_ROUTE } from "@app/router/constants"
 import { Open, Plus, Stopwatch } from "@element-plus/icons"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
@@ -26,111 +24,102 @@ import OperationDeleteButton from "./operation-delete-button"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
-type Props = {
-    queryWhiteList: () => Promise<void>
-    queryData: QueryData
-    whitelistRef: Ref<string[]>
-    mergeDateRef: Ref<boolean>
-    mergeHostRef: Ref<boolean>
-    dateRangeRef: Ref<Array<Date>>
-    router: Router
-}
-
-export type OperationButtonColumnProps = Props
-
-// Delete button
-const deleteOneRow = async (props: Props, host: string, date: string | Date) => {
-    // Delete by date
-    if (!props.mergeDateRef.value) return await timerDatabase.deleteByUrlAndDate(host, date)
-    const dateRange = props.dateRangeRef.value
+async function handleDeleteByRange(itemHost2Delete: string, dateRange: Array<Date>): Promise<string[]> {
     // Delete all
-    if (!dateRange || !dateRange.length) return await timerDatabase.deleteByUrl(host)
+    if (!dateRange || !dateRange.length) {
+        return await timerDatabase.deleteByUrl(itemHost2Delete)
+    }
     // Delete by range
     const start = dateRange[0]
     const end = dateRange[1]
-    await timerDatabase.deleteByUrlBetween(host, start, end)
+    await timerDatabase.deleteByUrlBetween(itemHost2Delete, start, end)
 }
 
-const deleteConfirm = async (props: Props, host: string, date: string | Date) => {
-    await deleteOneRow(props, host, date)
-    props.queryData()
-}
+const columnLabel = t(msg => msg.item.operation.label)
+const trendButtonText = t(msg => msg.item.operation.jumpToTrend)
 
-const deleteButton = (props: Props, row: DataItem) => h(OperationDeleteButton, {
-    mergeDate: props.mergeDateRef.value,
-    itemUrl: row.host,
-    itemDate: row.date,
-    dateRange: props.dateRangeRef.value,
-    onConfirm: () => deleteConfirm(props, row.host, row.date)
-})
-
-const operateTheWhitelist = async (operation: Promise<any>, props: Props, successMsg: keyof ReportMessage) => {
-    await operation
-    await props.queryWhiteList()
-    ElMessage({ message: t(msg => msg.report[successMsg]), type: 'success' })
-}
-
-// add 2 whitelist
+// Whitelist texts
 const add2WhitelistButtonText = t(msg => msg.item.operation.add2Whitelist)
-const add2WhitelistButton = (props: Props, { host }: DataItem) => h(OperationPopupConfirmButton, {
-    buttonIcon: Plus,
-    buttonType: "danger",
-    buttonText: add2WhitelistButtonText,
-    confirmText: t(msg => msg.whitelist.addConfirmMsg, { url: host }),
-    onConfirm: () => operateTheWhitelist(whitelistService.add(host), props, 'added2Whitelist')
-})
-
-// Remove from whitelist
+const add2WhitelistSuccessMsg = t(msg => msg.report.added2Whitelist)
 const removeFromWhitelistButtonText = t(msg => msg.item.operation.removeFromWhitelist)
-const removeFromWhitelistButton = (props: Props, { host }: DataItem) => h(OperationPopupConfirmButton, {
-    buttonIcon: Open,
-    buttonType: "primary",
-    buttonText: removeFromWhitelistButtonText,
-    confirmText: t(msg => msg.whitelist.removeConfirmMsg, { url: host }),
-    onConfirm: () => operateTheWhitelist(whitelistService.remove(host), props, 'removeFromWhitelist')
+const removeFromWhitelistSuccessMsg = t(msg => msg.report.removeFromWhitelist)
+const _default = defineComponent({
+    name: "OperationColumn",
+    props: {
+        mergeDate: Boolean,
+        mergeHost: Boolean,
+        dateRange: Array as PropType<Array<Date>>,
+        whitelist: Array as PropType<Array<String>>
+    },
+    emits: ["changeWhitelist", "delete"],
+    setup(props, ctx) {
+        const canOperate = computed(() => !props.mergeHost)
+        const minWidth = computed(() => props.mergeHost ? 100 : 200)
+        const router: Router = useRouter()
+        return () => h(ElTableColumn, {
+            minWidth: minWidth.value,
+            label: columnLabel,
+            align: "center",
+            fixed: "right"
+        }, {
+            default: ({ row }: { row: DataItem }) => [
+                // Trend
+                h(ElButton, {
+                    icon: Stopwatch,
+                    size: 'mini',
+                    type: 'primary',
+                    onClick() {
+                        const query: LocationQueryRaw = {
+                            host: row.host,
+                            merge: props.mergeHost ? '1' : '0',
+                        }
+                        router.push({ path: TREND_ROUTE, query })
+                    }
+                }, () => trendButtonText),
+                // Delete button
+                h(OperationDeleteButton, {
+                    mergeDate: props.mergeDate,
+                    itemUrl: row.host,
+                    itemDate: row.date,
+                    dateRange: props.dateRange,
+                    visible: canOperate.value,
+                    async onConfirm() {
+                        const host = row.host
+                        props.mergeDate
+                            ? await handleDeleteByRange(host, props.dateRange)
+                            : await timerDatabase.deleteByUrlAndDate(host, row.date)
+                        ctx.emit("delete", row)
+                    }
+                }),
+                // Add 2 whitelist
+                h(OperationPopupConfirmButton, {
+                    buttonIcon: Plus,
+                    buttonType: "danger",
+                    buttonText: add2WhitelistButtonText,
+                    confirmText: t(msg => msg.whitelist.addConfirmMsg, { url: row.host }),
+                    visible: canOperate.value && !props.whitelist?.includes(row.host),
+                    async onConfirm() {
+                        await whitelistService.add(row.host)
+                        ElMessage({ message: add2WhitelistSuccessMsg, type: 'success' })
+                        ctx.emit("changeWhitelist", row.host)
+                    }
+                }),
+                // Remove from whitelist
+                h(OperationPopupConfirmButton, {
+                    buttonIcon: Open,
+                    buttonType: "primary",
+                    buttonText: removeFromWhitelistButtonText,
+                    confirmText: t(msg => msg.whitelist.removeConfirmMsg, { url: row.host }),
+                    visible: canOperate.value && props.whitelist?.includes(row.host),
+                    async onConfirm() {
+                        await whitelistService.remove(row.host)
+                        ElMessage({ message: removeFromWhitelistSuccessMsg, type: 'success' })
+                        ctx.emit("changeWhitelist", row.host)
+                    }
+                })
+            ]
+        })
+    }
 })
-
-function handleClickJump(props: Props, { host }: DataItem) {
-    const query: LocationQueryRaw = {
-        host,
-        merge: props.mergeHostRef.value ? '1' : '0',
-    }
-    props.router.push({ path: TREND_ROUTE, query })
-}
-
-// Jump to the trend
-const jumpTowardTheTrend = (props: Props, row: DataItem) => h<{}>(ElButton, {
-    icon: Stopwatch,
-    size: 'mini',
-    type: 'primary',
-    onClick: () => handleClickJump(props, row)
-}, () => t(msg => msg.item.operation.jumpToTrend))
-
-const operationContainer = (props: Props, row: DataItem) => {
-    const operationButtons = []
-    const { host } = row
-    operationButtons.push(jumpTowardTheTrend(props, row))
-    if (!props.mergeHostRef.value) {
-        // Delete button 
-        operationButtons.push(deleteButton(props, row))
-
-        const existsInWhitelist = props.whitelistRef.value.includes(host)
-        const whitelistButton = existsInWhitelist ? removeFromWhitelistButton(props, row) : add2WhitelistButton(props, row)
-        operationButtons.push(whitelistButton)
-    }
-    return operationButtons
-}
-
-const tableColumnProps = {
-    label: t(msg => msg.item.operation.label),
-    align: 'center',
-    fixed: 'right'
-}
-const _default = (props: Props) => h(ElTableColumn,
-    { minWidth: props.mergeHostRef.value ? 100 : 280, ...tableColumnProps },
-    {
-        default: (data: { row: DataItem }) => operationContainer(props, data.row)
-    }
-)
 
 export default _default
