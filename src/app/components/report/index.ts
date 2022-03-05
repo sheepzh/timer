@@ -17,7 +17,6 @@ import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "../common/pagination"
 import { contentContainerCardStyle, renderContentContainer } from "../common/content-container"
 import { QueryData, PaginationInfo } from "../common/constants"
-import { useRouter } from "vue-router"
 import { ElCard, ElLoadingService } from "element-plus"
 
 const TABLE_CARD_DOM_ID = "report-table-container"
@@ -95,8 +94,7 @@ const tableProps: TableProps = {
     whitelistRef,
     dateRangeRef,
     dataRef,
-    sortRef,
-    router: undefined
+    sortRef
 }
 
 const filterProps: FilterProps = {
@@ -123,7 +121,5 @@ const tableCard = (tableProps: TableProps, paginationProps: PaginationProps) => 
 const childNodes = () => [filter(filterProps), tableCard(tableProps, paginationProps)]
 
 export default defineComponent(() => {
-    const router = useRouter()
-    tableProps.router = router
     return renderContentContainer(() => childNodes())
 })

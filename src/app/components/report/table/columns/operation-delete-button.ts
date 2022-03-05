@@ -50,7 +50,8 @@ const _default = defineComponent({
         // Filter of date range
         dateRange: Array as PropType<Array<Date>>,
         itemUrl: String,
-        itemDate: String
+        itemDate: String,
+        visible: Boolean
     },
     setup(props, ctx) {
         const deleteMsg: Ref<string> = computed(() => {
@@ -64,6 +65,7 @@ const _default = defineComponent({
             buttonType: "warning",
             buttonText: deleteButtonText,
             confirmText: deleteMsg.value,
+            visible: props.visible,
             onConfirm: () => ctx.emit("confirm"),
         })
     }
