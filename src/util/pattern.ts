@@ -5,6 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { IS_CHROME, IS_EDGE } from "./constant/environment"
+import { SUFFIX_HOST_MAP } from "./constant/remain-host"
+
 /**
  * Test whether the url belongs to the browser
  * 
@@ -85,6 +88,21 @@ export function extractHostname(url: string): HostInfo {
     host = host.split('?')[0]
 
     return { host, protocol }
+}
+
+/**
+ * @since 0.7.0
+ */
+export function extractFileHost(url: string): string {
+    if (!url.startsWith("file://")) {
+        return undefined
+    }
+    const dotIdx = url.lastIndexOf(".")
+    if (dotIdx < 0) {
+        return undefined
+    }
+    const suffix = url.substr(dotIdx + 1)?.toLowerCase()
+    return suffix ? SUFFIX_HOST_MAP[suffix] : undefined
 }
 
 /**

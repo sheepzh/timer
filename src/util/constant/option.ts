@@ -28,6 +28,7 @@ export function defaultAppearance(): Timer.AppearanceOption {
 export function defaultStatistics(): Timer.StatisticsOption {
     return {
         countWhenIdle: false,
-        collectSiteName: true
+        collectSiteName: true,
+        countLocalFiles: false
     }
 }

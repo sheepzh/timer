@@ -26,6 +26,11 @@ const countWhenIdle = () => h(ElSwitch, {
     onChange: (newVal: boolean) => updateOptionVal('countWhenIdle', newVal)
 })
 
+const countLocalFiles = () => h(ElSwitch, {
+    modelValue: optionRef.value.countLocalFiles,
+    onChange: (newVal: boolean) => updateOptionVal("countLocalFiles", newVal)
+})
+
 const collectSiteName = () => h(ElSwitch, {
     modelValue: optionRef.value.collectSiteName,
     onChange: (newVal: boolean) => updateOptionVal('collectSiteName', newVal)
@@ -37,6 +42,12 @@ const options = () => [
         idleTime: tagText(msg => msg.option.statistics.idleTime),
         info: tooltip(msg => msg.option.statistics.idleTimeInfo)
     }, msg => msg.statistics.countWhenIdle, t(msg => msg.option.no)),
+    h(ElDivider),
+    renderOptionItem({
+        input: countLocalFiles(),
+        localFileTime: tagText(msg => msg.option.statistics.localFilesTime),
+        info: tooltip(msg => msg.option.statistics.localFilesInfo)
+    }, msg => msg.statistics.countLocalFiles, t(msg => msg.option.no)),
     h(ElDivider),
     renderOptionItem({
         input: collectSiteName(),

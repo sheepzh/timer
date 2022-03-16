@@ -40,6 +40,9 @@ test("url", () => {
     expect(extractHostname('http://localhost:8087/')).toEqual({ host: 'localhost:8087', protocol: 'http' })
     expect(extractHostname('http://localhost:8087/?123=123')).toEqual({ host: 'localhost:8087', protocol: 'http' })
     expect(extractHostname('localhost:8087/?123=123')).toEqual({ host: 'localhost:8087', protocol: '' })
+    // the url of local files in firefox
+    expect(extractHostname("file:///home/zhy/%E4%B8%8B%E8%BD%BD/%E6%88%91%E7%9A%84%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4_20220305_20220305.json"))
+        .toEqual({ host: "", protocol: "file" })
 })
 
 test("homepage", () => {

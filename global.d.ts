@@ -59,6 +59,11 @@ declare namespace Timer {
          * @since 0.5.0
          */
         collectSiteName: boolean
+        /**
+         * Whether to count the local files
+         * @since 0.7.0
+         */
+        countLocalFiles: boolean
     }
 
     type Option = PopupOption & AppearanceOption & StatisticsOption

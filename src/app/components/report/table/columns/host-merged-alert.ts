@@ -11,7 +11,7 @@ import { defineComponent, h } from "vue"
 /**
  * Merged host column
  * 
- * @since 0.6.2
+ * @since 0.7.0
  */
 const _default = defineComponent({
     name: "HostMergedAlert",
