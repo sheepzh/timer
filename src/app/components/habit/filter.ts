@@ -11,7 +11,6 @@ import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { HabitMessage } from "@app/locale/components/habit"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
-import { renderFilterContainer } from "../common/filter"
 import { ElementDatePickerShortcut } from "@app/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 
@@ -76,6 +75,7 @@ const childNodes = ({
         h(DateRangeFilterItem, {
             startPlaceholder: dateRangeStartPlaceholder,
             endPlaceholder: dateRangeEndPlaceholder,
+            clearable: false,
             disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
             shortcuts,
             onChange: (newVal: Date[]) => dateRangeRef.value = newVal
@@ -88,4 +88,4 @@ const childNodes = ({
         })
     ]
 
-export default renderFilterContainer(childNodes)
+export default (props: _Props) => childNodes(props)

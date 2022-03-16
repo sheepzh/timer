@@ -10,7 +10,6 @@ import { ref, Ref, h } from "vue"
 import timerService, { HostSet } from "@service/timer-service"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
-import { renderFilterContainer } from "@app/components/common/filter"
 import HostOptionInfo from "../host-option-info"
 import { TrendMessage } from "@app/locale/components/trend"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
@@ -83,6 +82,6 @@ const datePickerItem = (props: _Props) => h(DateRangeFilterItem, {
 
 const filterItems = (props: _Props) => [domainSelect(props), datePickerItem(props)]
 
-export default renderFilterContainer(filterItems)
+export default (props: _Props) => filterItems(props)
 
 export function addToFilterOption(option: HostOptionInfo) { trendDomainOptionsRef.value.push(option) }

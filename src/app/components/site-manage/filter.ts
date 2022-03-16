@@ -10,7 +10,6 @@ import { QueryData } from "@app/components/common/constants"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import ButtonFilterItem from "@app/components/common/button-filter-item"
-import { renderFilterContainer } from "../common/filter"
 import { computed, Ref, h, watch } from "vue"
 import { Plus } from "@element-plus/icons"
 import { t } from "@app/locale"
@@ -70,4 +69,4 @@ const childNodes = (props: FilterProps) => {
     ]
 }
 
-export default renderFilterContainer(childNodes)
+export default (props: FilterProps) => childNodes(props)

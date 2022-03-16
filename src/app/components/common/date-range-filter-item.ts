@@ -15,7 +15,11 @@ const _default = defineComponent({
         disabledDate: Function,
         startPlaceholder: String,
         endPlaceholder: String,
-        shortcuts: Array as PropType<Array<ElementDatePickerShortcut>>
+        shortcuts: Array as PropType<Array<ElementDatePickerShortcut>>,
+        clearable: {
+            type: Boolean,
+            default: true
+        }
     },
     emits: ["change"],
     setup(props, ctx) {
@@ -30,7 +34,8 @@ const _default = defineComponent({
                 shortcuts: props.shortcuts,
                 'onUpdate:modelValue': (newVal: Array<Date>) => ctx.emit("change", dateRange.value = newVal),
                 startPlaceholder: props.startPlaceholder,
-                endPlaceholder: props.endPlaceholder
+                endPlaceholder: props.endPlaceholder,
+                clearable: props.clearable
             }
         ))
     }

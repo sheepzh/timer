@@ -15,11 +15,9 @@ import './styles/element'
 import table, { ElSortDirect, SortInfo, TableProps } from "./table"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "../common/pagination"
-import { contentContainerCardStyle, renderContentContainer } from "../common/content-container"
+import ContentContainer from "../common/content-container"
 import { QueryData, PaginationInfo } from "../common/constants"
-import { ElCard, ElLoadingService } from "element-plus"
-
-const TABLE_CARD_DOM_ID = "report-table-container"
+import { ElLoadingService } from "element-plus"
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -68,7 +66,7 @@ const exportFileName = computed(() => {
 })
 
 const queryData: QueryData = async () => {
-    const loading = ElLoadingService({ target: `#${TABLE_CARD_DOM_ID}`, text: "LOADING..." })
+    const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
     const page = { pageSize: pageRef.size, pageNum: pageRef.num }
     const pageResult = await timerService.selectByPage(queryParam.value, page)
     const { list, total } = pageResult
@@ -113,13 +111,14 @@ const paginationProps: PaginationProps = {
     pageRef
 }
 
-const tableCard = (tableProps: TableProps, paginationProps: PaginationProps) => h(ElCard,
-    { ...contentContainerCardStyle, id: TABLE_CARD_DOM_ID },
-    () => [table(tableProps), pagination(paginationProps)]
-)
-
-const childNodes = () => [filter(filterProps), tableCard(tableProps, paginationProps)]
-
-export default defineComponent(() => {
-    return renderContentContainer(() => childNodes())
+const _default = defineComponent({
+    name: "Report",
+    setup() {
+        return () => h(ContentContainer, {}, {
+            filter: () => filter(filterProps),
+            content: () => [table(tableProps), pagination(paginationProps)]
+        })
+    }
 })
+
+export default _default

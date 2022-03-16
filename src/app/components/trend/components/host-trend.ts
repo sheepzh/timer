@@ -6,13 +6,11 @@
  */
 
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
-import { ElCard } from "element-plus"
 import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
 import { t } from "@app/locale"
 import timerService, { TimerQueryParam, SortDirect } from "@service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import HostOptionInfo from "../host-option-info"
-import { contentContainerCardStyle } from "@app/components/common/content-container"
 
 // Get the timestamp of one timestamp of date
 const timestampOf = (d: Date) => d.getTime()
@@ -191,10 +189,7 @@ const _default = defineComponent((_, context: SetupContext) => {
         renderChart()
     })
 
-    return () => h(ElCard,
-        contentContainerCardStyle,
-        () => h('div', { class: 'chart-container', ref: chartRef })
-    )
+    return () => h('div', { class: 'chart-container', ref: chartRef })
 })
 
 export default _default

@@ -10,7 +10,6 @@ import { Ref, h } from "vue"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import ButtonFilterItem from "@app/components/common/button-filter-item"
-import { renderFilterContainer } from "../common/filter"
 import { t } from "@app/locale"
 
 type _Props = {
@@ -46,4 +45,4 @@ const filterItems = (props: _Props) => [
     // buttonFilterItem({ type: 'primary', label: msg => msg.limit.button.test, onClick: props.handleTest, icon: 'search' })
 ]
 
-export default renderFilterContainer(filterItems)
+export default (props: _Props) => filterItems(props)
