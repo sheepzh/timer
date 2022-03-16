@@ -34,6 +34,9 @@ export type OptionMessage = {
         countWhenIdle: string
         idleTime: string
         idleTimeInfo: string
+        countLocalFiles: string
+        localFilesTime: string
+        localFilesInfo: string
         collectSiteName: string
         siteNameUsage: string
         siteName: string
@@ -68,6 +71,9 @@ const _default: Messages<OptionMessage> = {
             countWhenIdle: '{input}  是否统计 {idleTime} {info}',
             idleTime: '休眠时间',
             idleTimeInfo: '长时间不操作（比如全屏观看视频），浏览器会自动进入休眠状态',
+            countLocalFiles: '{input}  是否统计使用浏览器 {localFileTime} {info}',
+            localFilesTime: '阅读本地文件的时间',
+            localFilesInfo: '支持 PDF、图片、txt 以及 json 等格式',
             collectSiteName: '{input}  访问网站主页时，是否自动收集 {siteName} {siteNameUsage}',
             siteName: '网站的名称',
             siteNameUsage: '数据只存放在本地，将代替域名用于展示，增加辨识度。当然您可以自定义每个网站的名称'
@@ -100,6 +106,9 @@ const _default: Messages<OptionMessage> = {
             countWhenIdle: '{input}  Whether to count {idleTime} {info}',
             idleTime: 'idle time',
             idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
+            countLocalFiles: '{input}  Whether to count the time spent {localFilesTime} {info} in the browser',
+            localFilesTime: ' reading the local file ',
+            localFilesInfo: 'Contains formats such as PDF, image, txt and json',
             collectSiteName: '{input}  Whether to automatically collect the name of the website when visiting the homepage of the website',
             siteName: 'Site Name',
             siteNameUsage: 'The data only exists locally and will be used for display instead of the host to increase recognition.'
@@ -135,6 +144,9 @@ const _default: Messages<OptionMessage> = {
             countWhenIdle: '{input}  Whether to count {idleTime} {info}',
             idleTime: 'idle time',
             idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
+            countLocalFiles: '{input}  Whether to count the time spent {localFilesTime} {info} in the browser',
+            localFilesTime: ' reading the local file ',
+            localFilesInfo: 'Contains formats such as PDF, image, txt and json',
             collectSiteName: '{input}  Whether to automatically collect the name of the website when visiting the homepage of the website',
             siteName: 'site name',
             siteNameUsage: 'The data only exists locally and will be used for display instead of the host to increase recognition.'

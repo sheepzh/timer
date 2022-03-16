@@ -5,8 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { isBrowserUrl, extractHostname } from "@util/pattern"
+import { isBrowserUrl, extractHostname, extractFileHost } from "@util/pattern"
 import CollectionContext from "./collection-context"
+import optionService from "@service/option-service"
+
+let countLocalFiles: boolean
+optionService.getAllOption().then(option => countLocalFiles = !!option.countLocalFiles)
+optionService.addOptionChangeListener((newVal => countLocalFiles = !!newVal.countLocalFiles))
 
 /**
  * The promise for window query
@@ -29,7 +34,11 @@ function handleTab(tab: chrome.tabs.Tab, isFocusWindow: boolean, context: Collec
     const url = tab.url
     if (!url) return
     if (isBrowserUrl(url)) return
-    const host = extractHostname(url).host
+    let host = extractHostname(url).host
+    if (!host && countLocalFiles) {
+        // Not host, try to detect the local files
+        host = extractFileHost(url)
+    }
     if (host) {
         context.collectHost(host)
         const isFocus = isFocusWindow && tab.active

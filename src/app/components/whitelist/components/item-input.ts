@@ -7,6 +7,7 @@
 
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons"
+import { isRemainHost } from "@util/constant/remain-host"
 import { isValidHost } from "@util/pattern"
 import { ElButton, ElInput, ElMessage } from "element-plus"
 import { defineComponent, Ref, ref, h } from "vue"
@@ -47,7 +48,9 @@ const _default = defineComponent({
                 size: 'small',
                 icon: Check,
                 class: 'item-check-button editable-item',
-                onClick: () => isValidHost(white.value) ? ctx.emit("saved", white.value) : ElMessage.warning(invalidTxt)
+                onClick: () => (isRemainHost(white.value) || isValidHost(white.value))
+                    ? ctx.emit("saved", white.value)
+                    : ElMessage.warning(invalidTxt)
             })
         ])
     }
