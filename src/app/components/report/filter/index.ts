@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { renderFilterContainer } from "@app/components/common/filter"
 import DownloadFile, { FileFormat } from "./download-file"
 import { Ref, h } from "vue"
 import DataItem from "@entity/dto/data-item"
@@ -146,4 +145,4 @@ const childNodes = (props: FilterProps) => [
     })
 ]
 
-export default renderFilterContainer(childNodes)
+export default (props: FilterProps) => childNodes(props)

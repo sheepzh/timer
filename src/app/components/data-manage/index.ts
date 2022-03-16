@@ -9,7 +9,7 @@ import { ElRow, ElCol } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
 import { getUsedStorage } from "@db/memory-detector"
 import './style'
-import { renderContentContainer } from "../common/content-container"
+import ContentContainer from "../common/content-container"
 import migration from "./migration"
 import memoryInfo from "./memory-info"
 import clearPanel from "./clear"
@@ -34,4 +34,6 @@ const firstRow = () => h(ElRow, { gutter: 20 },
     ]
 )
 
-export default defineComponent(() => renderContentContainer(firstRow))
+export default defineComponent(() => {
+    return () => h(ContentContainer, {}, { default: () => firstRow() })
+})

@@ -5,11 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef, VNode } from "vue"
-import { contentContainerCardStyle, renderContentContainer } from "../common/content-container"
+import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef } from "vue"
+import ContentContainer from "../common/content-container"
 import filter, { FilterProps } from "./filter"
 import pagination, { PaginationProps } from "../common/pagination"
-import { ElCard } from "element-plus"
 import table, { TableProps } from "./table"
 import { HostAliasSource } from "@entity/dao/host-alias"
 import { PaginationInfo } from "../common/constants"
@@ -60,18 +59,19 @@ const dialog = () => h(Modify, {
     onSaved: queryData
 })
 
-const tableCard = (tableProps: TableProps, paginationProps: PaginationProps) => h(ElCard,
-    contentContainerCardStyle,
-    () => [
-        table(tableProps),
-        pagination(paginationProps),
-        dialog()
-    ]
-)
+const content = (tableProps: TableProps, paginationProps: PaginationProps) => [
+    table(tableProps),
+    pagination(paginationProps),
+    dialog()
+]
 
-const childNodes = () => [filter(filterProps), tableCard(tableProps, paginationProps)]
-
-export default defineComponent(() => {
-    queryData()
-    return renderContentContainer(() => childNodes())
+export default defineComponent({
+    name: "SiteManage",
+    setup() {
+        queryData()
+        return () => h(ContentContainer, {}, {
+            filter: () => filter(filterProps),
+            content: () => content(tableProps, paginationProps)
+        })
+    }
 })

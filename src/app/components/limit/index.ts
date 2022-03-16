@@ -6,14 +6,13 @@
  */
 
 import { defineComponent, h, ref, Ref, watch } from "vue"
-import { renderContentContainer, contentContainerCardStyle } from "../common/content-container"
+import ContentContainer from "../common/content-container"
 import filter, { FilterProps } from "./filter"
 import table from "./table"
 import AddDialog from "./add-dialog"
 import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
-import { ElCard } from "element-plus"
 
 const urlRef: Ref<string> = ref('')
 const onlyEnabledRef: Ref<boolean> = ref(false)
@@ -38,25 +37,22 @@ const filterProps: FilterProps = {
     handleTest: () => { }
 }
 
-const card = (listRef: Ref<TimeLimitItem[]>, addDialogRef: Ref) => h(ElCard,
-    contentContainerCardStyle,
-    () => [
-        table({ list: listRef, queryData }),
-        h(AddDialog, { ref: addDialogRef, onSaved: queryData })
-    ]
-)
-
-const childNodes = () => [
-    filter(filterProps),
-    card(listRef, addDialogRef)
+const content = (listRef: Ref<TimeLimitItem[]>, addDialogRef: Ref) => [
+    table({ list: listRef, queryData }),
+    h(AddDialog, { ref: addDialogRef, onSaved: queryData })
 ]
 
-const _default = defineComponent(() => {
-    const url = useRoute().query['url'] as string
-    // Remove all the query params
-    useRouter().replace({ query: {} })
-    url && (urlRef.value = decodeURIComponent(url))
-    return renderContentContainer(childNodes)
+const _default = defineComponent({
+    name: "Limit",
+    setup() {
+        const url = useRoute().query['url'] as string
+        useRouter().replace({ query: {} })
+        url && (urlRef.value = decodeURIComponent(url))
+        return () => h(ContentContainer, {}, {
+            filter: () => filter(filterProps),
+            content: () => content(listRef, addDialogRef)
+        })
+    }
 })
 
 export default _default
