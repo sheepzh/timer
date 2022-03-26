@@ -6,13 +6,14 @@
  */
 
 import { Check, Close, Edit } from "@element-plus/icons"
-import { defineComponent, h, watch } from "@vue/runtime-core"
+import { defineComponent, h, nextTick, watch } from "@vue/runtime-core"
 import { ElButton, ElIcon, ElInput } from "element-plus"
 import { Ref, ref, SetupContext } from "vue"
 
 type _Data = {
     editing: Ref<boolean>
     val: Ref<string>
+    input: Ref
     outVal: string
 }
 
@@ -21,6 +22,7 @@ type _Emits = "change"
 function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
     return h(ElInput, {
         size: "mini",
+        ref: data.input,
         modelValue: data.val.value,
         onInput: (newVal: string) => data.val.value = newVal?.trimStart()
     }, {
@@ -53,7 +55,11 @@ function renderText(data: _Data) {
         size: 17,
         class: "edit-btn"
     }, () => h(Edit, {
-        onClick: () => data.editing.value = true
+        onClick: () => {
+            data.editing.value = true
+            // Auto focus
+            nextTick(() => data.input.value?.focus?.())
+        }
     })))
     return result
 }
@@ -81,10 +87,11 @@ const _default = defineComponent({
         const editing = ref(false)
         const val = ref(props.modelValue)
         const outVal = props.modelValue
+        const input = ref()
         watch(() => props.modelValue, (newVal) => {
             val.value = newVal
         })
-        return () => render({ editing, val, outVal }, ctx)
+        return () => render({ editing, val, outVal, input }, ctx)
     }
 })
 
