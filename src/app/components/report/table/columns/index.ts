@@ -18,6 +18,7 @@ import { QueryData } from "@app/components/common/constants"
 export type ColumnProps = {
     queryWhiteList: () => Promise<void>
     queryData: QueryData
+    handleAliasChange: (host: string, newAlias: string) => void
     whitelistRef: Ref<string[]>
     mergeDateRef: Ref<boolean>
     mergeHostRef: Ref<boolean>
@@ -29,7 +30,7 @@ const columns = (props: ColumnProps) => {
     const result = []
     props.mergeDateRef.value || result.push(h(DateColumn))
     result.push(h(HostColumn, { mergeHost: props.mergeHostRef.value }))
-    props.mergeHostRef.value || result.push(h(AliasColumn))
+    props.mergeHostRef.value || result.push(h(AliasColumn, { onAliasChange: props.handleAliasChange }))
     result.push(h(FocusColumn, { displayBySecond: props.displayBySecondRef.value }))
     result.push(h(TotalColumn, { displayBySecond: props.displayBySecondRef.value }))
     result.push(h(TimeColumn))
