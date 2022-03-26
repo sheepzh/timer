@@ -11,6 +11,7 @@ import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 import HostAlert from "@app/components/common/host-alert"
 import HostMergedAlert from './host-merged-alert'
+import { isRemainHost } from "@util/constant/remain-host"
 
 const columnLabel = t(msg => msg.item.host)
 
@@ -33,9 +34,11 @@ const _default = defineComponent({
             default: ({ row }: { row: DataItem }) => props.mergeHost
                 ? h(HostMergedAlert,
                     { mergedHost: row.host },
-                    () => row.mergedHosts.map(origin => h('p', h(HostAlert, { host: origin.host, iconUrl: origin.iconUrl })))
+                    () => row.mergedHosts.map(origin =>
+                        h('p', h(HostAlert, { host: origin.host, iconUrl: origin.iconUrl, clickable: !isRemainHost(origin.host) }))
+                    )
                 )
-                : h(HostAlert, { host: row.host, iconUrl: row.iconUrl })
+                : h(HostAlert, { host: row.host, iconUrl: row.iconUrl, clickable: !isRemainHost(row.host) })
         })
     }
 })

@@ -6,7 +6,7 @@
  */
 
 import { ElLink } from "element-plus"
-import { defineComponent, h } from "vue"
+import { computed, ComputedRef, defineComponent, h } from "vue"
 
 const HOST_ICON_STYLE: Partial<CSSStyleDeclaration> = {
     height: "23px",
@@ -24,12 +24,29 @@ const _default = defineComponent({
         iconUrl: {
             type: String,
             required: false
+        },
+        /**
+         * Whether to jump towards {@param host} if users click this component
+         * 
+         * @since 0.7.1
+         */
+        clickable: {
+            type: Boolean,
+            default: true
         }
     },
     setup(props) {
+        const href: ComputedRef<string> = computed(() => props.clickable ? `http://${props.host}` : '')
+        const target: ComputedRef<string> = computed(() => props.clickable ? '_blank' : '')
+        const cursor: ComputedRef<string> = computed(() => props.clickable ? "cursor" : "default")
         return () => h('div', [
             h(ElLink,
-                { href: `http://${props.host}`, target: '_blank' },
+                {
+                    href: href.value,
+                    target: target.value,
+                    underline: props.clickable,
+                    style: { cursor: cursor.value }
+                },
                 () => props.host
             ), h('span',
                 { style: HOST_ICON_STYLE },
