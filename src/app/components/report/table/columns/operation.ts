@@ -54,10 +54,10 @@ const _default = defineComponent({
     emits: ["changeWhitelist", "delete"],
     setup(props, ctx) {
         const canOperate = computed(() => !props.mergeHost)
-        const minWidth = computed(() => props.mergeHost ? 100 : 200)
+        const width = computed(() => props.mergeHost ? 110 : 290)
         const router: Router = useRouter()
         return () => h(ElTableColumn, {
-            minWidth: minWidth.value,
+            width: width.value,
             label: columnLabel,
             align: "center",
             fixed: "right"
