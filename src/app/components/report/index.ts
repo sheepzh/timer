@@ -18,6 +18,7 @@ import pagination, { PaginationProps } from "../common/pagination"
 import ContentContainer from "../common/content-container"
 import { QueryData, PaginationInfo } from "../common/constants"
 import { ElLoadingService } from "element-plus"
+import hostAliasService from "@service/host-alias-service"
 
 const hostRef: Ref<string> = ref('')
 const now = new Date()
@@ -75,6 +76,16 @@ const queryData: QueryData = async () => {
     loading.close()
 }
 
+async function handleAliasChange(host: string, newAlias: string) {
+    newAlias = newAlias?.trim?.()
+    if (!newAlias) {
+        await hostAliasService.remove(host)
+    } else {
+        await hostAliasService.change(host, newAlias)
+    }
+    dataRef.value.filter(item => item.host === host).forEach(item => item.alias = newAlias)
+}
+
 const queryWhiteList = async () => {
     const whitelist = await whitelistService.listAll()
     whitelistRef.value = whitelist
@@ -89,6 +100,7 @@ const tableProps: TableProps = {
     displayBySecondRef,
     queryWhiteList,
     queryData,
+    handleAliasChange,
     whitelistRef,
     dateRangeRef,
     dataRef,
