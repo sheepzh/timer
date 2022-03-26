@@ -12,9 +12,9 @@ import { Ref, ref, SetupContext } from "vue"
 
 type _Data = {
     editing: Ref<boolean>
-    val: Ref<string>
+    originVal: Ref<string>
+    inputVal: Ref<string>
     input: Ref
-    outVal: string
 }
 
 type _Emits = "change"
@@ -23,8 +23,15 @@ function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
     return h(ElInput, {
         size: "mini",
         ref: data.input,
-        modelValue: data.val.value,
-        onInput: (newVal: string) => data.val.value = newVal?.trimStart()
+        modelValue: data.inputVal.value,
+        onInput: (newVal: string) => data.inputVal.value = newVal?.trimStart(),
+        onKeyup(event: KeyboardEvent) {
+            if (event.key !== 'Enter') {
+                return
+            }
+            data.editing.value = false
+            ctx.emit("change", data.inputVal.value)
+        }
     }, {
         append: () => [
             h(ElButton, {
@@ -32,6 +39,7 @@ function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
                 icon: Close,
                 onClick: () => {
                     data.editing.value = false
+                    data.inputVal.value = data.originVal.value
                 }
             }),
             h(ElButton, {
@@ -39,7 +47,7 @@ function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
                 icon: Check,
                 onClick: () => {
                     data.editing.value = false
-                    ctx.emit("change", data.val.value?.trim())
+                    ctx.emit("change", data.inputVal.value?.trim())
                 }
             })
         ]
@@ -48,9 +56,9 @@ function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
 
 function renderText(data: _Data) {
     const result = []
-    data.val.value && result.push(h("span", {
+    data.inputVal.value && result.push(h("span", {
         style: { paddingRight: "4px" }
-    }, data.val.value))
+    }, data.inputVal.value))
     result.push(h(ElIcon, {
         size: 17,
         class: "edit-btn"
@@ -85,13 +93,13 @@ const _default = defineComponent({
     emits: ['change'],
     setup(props, ctx) {
         const editing = ref(false)
-        const val = ref(props.modelValue)
-        const outVal = props.modelValue
+        const originVal = ref(props.modelValue)
+        const inputVal = ref(originVal.value)
         const input = ref()
         watch(() => props.modelValue, (newVal) => {
-            val.value = newVal
+            inputVal.value = originVal.value = newVal
         })
-        return () => render({ editing, val, outVal, input }, ctx)
+        return () => render({ editing, originVal, inputVal, input }, ctx)
     }
 })
 
