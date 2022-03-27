@@ -8,12 +8,12 @@
 import { defineComponent, h, onMounted, ref, Ref } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
-import { I18nKey, t, locale } from "@app/locale"
-import { Locale } from "@util/i18n"
+import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
 import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, ZH_FEEDBACK_PAGE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
 import ElementIcon from "../element-ui/icon"
+import { locale } from "@util/i18n"
 
 declare type MenuItem = {
     title: keyof MenuMessage
@@ -33,7 +33,7 @@ declare type MenuGroup = {
  * 
  * @since 0.3.2
  */
-const realFeedbackLink: string = locale === Locale.ZH_CN ? ZH_FEEDBACK_PAGE : GITHUB_ISSUE_ADD
+const realFeedbackLink: string = locale === "zh_CN" ? ZH_FEEDBACK_PAGE : GITHUB_ISSUE_ADD
 
 const OTHER_MENU_ITEMS: MenuItem[] = [{
     title: 'feedback',

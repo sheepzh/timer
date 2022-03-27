@@ -42,11 +42,11 @@ const _default: Messages<WhitelistMessage> = {
         addConfirmMsg: '{url} がホワイトリストに追加されると、このWebサイトの統計はカウントされなくなります。',
         removeConfirmMsg: '{url} はホワイトリストから削除されます',
         duplicateMsg: '繰り返される',
-        infoAlertTitle: 'You can set the whitelist of site in this page',
-        infoAlert0: 'Sites in the whitelist will not be counted.',
-        infoAlert1: 'Sites in the whitelist will not be limited.',
+        infoAlertTitle: 'このページでサイトのホワイトリストを設定できます',
+        infoAlert0: 'ホワイトリストのサイトはカウントされません。',
+        infoAlert1: 'ホワイトリストのサイトは制限されません。',
         placeholder: 'URL',
-        errorInput: "Invalid URL"
+        errorInput: "無効なURL"
     }
 }
 

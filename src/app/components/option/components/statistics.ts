@@ -45,7 +45,7 @@ const options = () => [
     h(ElDivider),
     renderOptionItem({
         input: countLocalFiles(),
-        localFileTime: tagText(msg => msg.option.statistics.localFilesTime),
+        localFileTime: tagText(msg => msg.option.statistics.localFileTime),
         info: tooltip(msg => msg.option.statistics.localFilesInfo)
     }, msg => msg.statistics.countLocalFiles, t(msg => msg.option.no)),
     h(ElDivider),
