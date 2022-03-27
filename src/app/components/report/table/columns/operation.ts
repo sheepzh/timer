@@ -21,6 +21,7 @@ import { TREND_ROUTE } from "@app/router/constants"
 import { Open, Plus, Stopwatch } from "@element-plus/icons"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import OperationDeleteButton from "./operation-delete-button"
+import { locale } from "@util/i18n"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -54,7 +55,7 @@ const _default = defineComponent({
     emits: ["changeWhitelist", "delete"],
     setup(props, ctx) {
         const canOperate = computed(() => !props.mergeHost)
-        const width = computed(() => props.mergeHost ? 110 : 290)
+        const width = computed(() => props.mergeHost ? 110 : locale === "zh_CN" ? 290 : 330)
         const router: Router = useRouter()
         return () => h(ElTableColumn, {
             width: width.value,
