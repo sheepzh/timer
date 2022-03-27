@@ -10,7 +10,7 @@ import { Messages } from ".."
 /**
  * Meta info of locales
  *
- * @since 0.7.2
+ * @since 0.8.0
  */
 export type LocaleMessage = {
     name: string

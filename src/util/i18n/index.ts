@@ -59,7 +59,7 @@ function handleLocaleOption(option: Timer.Option) {
 
 /**
  * Please invoke this function before doing anything
- * @since 0.7.2
+ * @since 0.8.0
  */
 export async function initLocale() {
     const option = await optionService.getAllOption()

@@ -49,7 +49,7 @@ declare namespace Timer {
         /**
          * The language of this extension
          * 
-         * @since 0.7.2
+         * @since 0.8.0
          */
         locale: LocaleOption
     }
@@ -75,11 +75,11 @@ declare namespace Timer {
     type Option = PopupOption & AppearanceOption & StatisticsOption
 
     /**
-     * @since 0.7.2
+     * @since 0.8.0
      */
     type Locale = 'zh_CN' | 'en' | 'ja'
     /**
-     * @since 0.7.2
+     * @since 0.8.0
      */
     type LocaleOption = Locale | "default"
 }

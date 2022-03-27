@@ -30,6 +30,6 @@ export const IS_EDGE: boolean = isEdge
 export const IS_CHROME: boolean = isChrome
 
 /**
- * @since 0.7.2
+ * @since 0.8.0
  */
 export const IS_OPERA: boolean = isOpera
