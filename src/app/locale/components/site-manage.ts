@@ -71,6 +71,38 @@ const en: SiteManageMessage = {
     }
 }
 
+const ja: SiteManageMessage = {
+    hostPlaceholder: "ドメイン名で検索",
+    aliasPlaceholder: "サイト名で検索",
+    onlyDetected: '検出されただけ',
+    deleteConfirmMsg: '{host} の名前が削除されます',
+    column: {
+        host: "サイトのURL",
+        alias: "サイト名",
+        aliasInfo: "サイト名はレコードページとポップアップページに表示されます",
+        source: "ソース"
+    },
+    source: {
+        user: '手动输入',
+        detected: 'システム検出'
+    },
+    button: {
+        add: '追加',
+        delete: '削除',
+        modify: '変更',
+        save: '保存',
+    },
+    form: {
+        emptyAlias: 'サイト名を入力してください',
+        emptyHost: 'ドメイン名を入力してください'
+    },
+    msg: {
+        hostExistWarn: '{host} が存在します',
+        saved: '保存しました',
+        existedTag: '既存'
+    }
+}
+
 const messages: Messages<SiteManageMessage> = {
     zh_CN: {
         hostPlaceholder: "请输入域名，然后回车",
@@ -105,7 +137,7 @@ const messages: Messages<SiteManageMessage> = {
     },
     en,
     // Feedback
-    ja: en
+    ja
 }
 
 export default messages
