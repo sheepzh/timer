@@ -46,6 +46,12 @@ declare namespace Timer {
          * @since 0.3.3
          */
         displayBadgeText: boolean
+        /**
+         * The language of this extension
+         * 
+         * @since 0.7.2
+         */
+        locale: LocaleOption
     }
 
     type StatisticsOption = {
@@ -67,4 +73,13 @@ declare namespace Timer {
     }
 
     type Option = PopupOption & AppearanceOption & StatisticsOption
+
+    /**
+     * @since 0.7.2
+     */
+    type Locale = 'zh_CN' | 'en' | 'ja'
+    /**
+     * @since 0.7.2
+     */
+    type LocaleOption = Locale | "default"
 }

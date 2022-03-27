@@ -7,6 +7,7 @@
 
 import timerService from "@service/timer-service"
 import whitelistService from "@service/whitelist-service"
+import { initLocale } from "@util/i18n"
 import processLimit from "./limit"
 import printInfo from "./printer"
 
@@ -20,6 +21,8 @@ async function main() {
     if (isWhitelist) return
 
     timerService.addOneTime(host)
+
+    await initLocale()
     printInfo(host)
     processLimit(url)
 }

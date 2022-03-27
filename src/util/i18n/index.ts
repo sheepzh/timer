@@ -5,30 +5,30 @@
  * https://opensource.org/licenses/MIT
  */
 
-export enum Locale {
-    ZH_CN = 'zh_CN',
-    EN = 'en',
-    JA = 'ja'
-}
+import optionService from "@service/option-service"
 
+/**
+ * Not to import this one if not necessary
+ */
+export type FakedLocale = Timer.Locale
 /**
  * @since 0.2.2
  */
-const FEEDBACK_LOCALE = Locale.EN
+const FEEDBACK_LOCALE: Timer.Locale = "en"
 
-export const defaultLocale = Locale.ZH_CN
+export const defaultLocale: Timer.Locale = "zh_CN"
 
 export type Messages<T> = {
-    [key in Locale]: T
+    [key in Timer.Locale]: T
 }
 
 // Standardize the locale code according to the Chrome locale code
-const chrome2I18n: { [key: string]: Locale } = {
-    'zh-CN': Locale.ZH_CN,
-    'zh-TW': Locale.ZH_CN,
-    'en-US': Locale.EN,
-    'en-GB': Locale.EN,
-    'ja': Locale.JA
+const chrome2I18n: { [key: string]: Timer.Locale } = {
+    'zh-CN': "zh_CN",
+    'zh-TW': "zh_CN",
+    'en-US': "en",
+    'en-GB': "en",
+    'ja': "ja"
 }
 
 /**
@@ -39,14 +39,34 @@ const chrome2I18n: { [key: string]: Locale } = {
  * 
  * They are different, so translate
  */
-const chromeLocale2ExtensionLocale: (chromeLocale: string) => Locale = (chromeLocale: string) => {
+function chromeLocale2ExtensionLocale(chromeLocale: string): Timer.Locale {
     if (!chromeLocale) {
         return defaultLocale
     }
     return chrome2I18n[chromeLocale] || FEEDBACK_LOCALE
 }
 
-export const locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+export let locale: Timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+
+function handleLocaleOption(option: Timer.Option) {
+    const localOption: Timer.LocaleOption = option.locale
+    if (!localOption || localOption === "default") {
+        locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+    } else {
+        locale = localOption as Timer.Locale
+    }
+}
+
+/**
+ * Please invoke this function before doing anything
+ * @since 0.7.2
+ */
+export async function initLocale() {
+    const option = await optionService.getAllOption()
+    handleLocaleOption(option)
+}
+
+optionService.addOptionChangeListener(handleLocaleOption)
 
 export function getI18nVal<MessageType>(messages: MessageType, keyPath: I18nKey<MessageType>): string {
     const result = keyPath(messages)

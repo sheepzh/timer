@@ -43,7 +43,7 @@ const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value
 const durationSelect = () => h(ElSelect, {
     modelValue: optionRef.value.defaultDuration,
     size: 'mini',
-    style: { width: '80px' },
+    style: { width: t(msg => msg.option.popup.durationWidth) },
     onChange: (val: Timer.PopupDuration) => {
         optionRef.value.defaultDuration = val
         optionService.setPopupOption(optionRef.value)
