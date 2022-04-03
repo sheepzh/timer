@@ -26,17 +26,23 @@ async function getEdgeVersion(): Promise<string | null> {
     }
 }
 
-async function getChromeVersion() {
+function getChromeVersion(): Promise<string> {
     // Get info from shields.io
-    const response: AxiosResponse<any> = await axios.get('https://img.shields.io/chrome-web-store/v/dkdhhcbjijekmneelocdllcldcpmekmm?label=Google%20Chrome')
-    if (response.status !== 200) {
-        return Promise.resolve(null)
-    } else {
-        const data = response.data
-        const pattern = /:\sv(\d+\.\d+\.\d+)/
-        const matchResult = pattern.exec(data)
-        return Promise.resolve(matchResult.length === 2 ? matchResult[1] : null)
-    }
+    return new Promise(resolve =>
+        axios.get('https://img.shields.io/chrome-web-store/v/dkdhhcbjijekmneelocdllcldcpmekmm?label=Google%20Chrome')
+            .then((response: AxiosResponse<any>) => {
+                if (response.status !== 200) {
+                    resolve(null)
+                } else {
+                    const data = response.data
+                    const pattern = /:\sv(\d+\.\d+\.\d+)/
+                    const matchResult = pattern.exec(data)
+                    resolve(matchResult.length === 2 ? matchResult[1] : null)
+                }
+            }).catch(_ => {
+                resolve(null)
+            })
+    )
 }
 
 export function getLatestVersion(): Promise<string | null> {
