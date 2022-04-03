@@ -118,17 +118,14 @@ export function isSameDay(a: Date, b: Date): boolean {
  * 
  * @since 0.6.0
  */
-export function getWeekTime(now: Date): [Date, Date] {
+export function getWeekTime(now: Date, isChinese: boolean): [Date, Date] {
     const date = new Date(now)
-    const day = date.getDay() // 0-6
-
-    date.setHours(0)
-    date.setMinutes(0)
-    date.setSeconds(0)
-    date.setMilliseconds(0)
-    const startTime = date.getTime() - (day - 1) * MILL_PER_DAY;
-    const endTime = date.getTime() + (7 - day) * MILL_PER_DAY;
-    return [new Date(startTime), new Date(endTime - 1)]
+    const nowWeekday = isChinese
+        // Trans 2 chinese weekday
+        ? (date.getDay() + 6) % 7
+        : date.getDay()
+    const startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() - nowWeekday)
+    return [new Date(startTime), now]
 }
 
 
