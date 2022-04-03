@@ -18,7 +18,7 @@ import { updateTotal } from "./total-info"
 
 import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "@service/timer-service"
 import DataItem from "@entity/dto/data-item"
-import { t } from "@popup/locale"
+import { locale, t } from "@popup/locale"
 import QueryResult from "@popup/common/query-result"
 import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
 import optionService from "@service/option-service"
@@ -32,7 +32,7 @@ function calculateDateRange(duration: Timer.PopupDuration): Date | Date[] {
     if (duration == 'today') {
         return now
     } else if (duration == 'thisWeek') {
-        return getWeekTime(now)
+        return getWeekTime(now, locale === 'zh_CN')
     } else if (duration == 'thisMonth') {
         return getMonthTime(now)
     }
