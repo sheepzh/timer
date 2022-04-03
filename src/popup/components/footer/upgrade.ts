@@ -25,4 +25,4 @@ function showUpgradeButton(latestVersion: string) {
     latestInfo.innerText = t(msg => msg.updateVersionInfo, { version: `v${latestVersion}` })
 }
 
-getLatestVersion().then(latestVersion => packageInfo.version !== latestVersion && showUpgradeButton(latestVersion))
+getLatestVersion().then(latestVersion => latestVersion && packageInfo.version !== latestVersion && showUpgradeButton(latestVersion))
