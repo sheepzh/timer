@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { InfoFilled, Refresh } from "@element-plus/icons"
+import { InfoFilled, Refresh } from "@element-plus/icons-vue"
 import { ElTag, ElButton, ElMessage, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
 import { tN, t, I18nKey } from "@app/locale"

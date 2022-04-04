@@ -12,7 +12,7 @@ import { alertProps, bodyStyle } from "./common"
 import { deserialize, exportJson } from "@util/file"
 import { formatTime } from "@util/time"
 import Immigration from "@service/components/immigration"
-import { Download, Upload } from "@element-plus/icons"
+import { Download, Upload } from "@element-plus/icons-vue"
 
 type _Props = {
     queryData: () => void | Promise<void>

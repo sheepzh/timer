@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Plus } from "@element-plus/icons"
+import { Plus } from "@element-plus/icons-vue"
 import { Ref, h } from "vue"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"

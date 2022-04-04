@@ -11,7 +11,7 @@ import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import ButtonFilterItem from "@app/components/common/button-filter-item"
 import { computed, Ref, h, watch } from "vue"
-import { Plus } from "@element-plus/icons"
+import { Plus } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
 
 export type FilterProps = {

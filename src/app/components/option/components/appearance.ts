@@ -12,7 +12,7 @@ import { defaultAppearance } from "@util/constant/option"
 import { t } from "@app/locale"
 import { renderHeader, renderOptionItem, tagText, tooltip } from "../common"
 import localeMessages from "@util/i18n/components/locale"
-import { InfoFilled } from "@element-plus/icons"
+import { InfoFilled } from "@element-plus/icons-vue"
 
 const optionRef: Ref<Timer.AppearanceOption> = ref(defaultAppearance())
 optionService.getAllOption().then(option => optionRef.value = option)

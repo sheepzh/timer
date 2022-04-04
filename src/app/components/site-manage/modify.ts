@@ -9,7 +9,7 @@ import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, ElOption, E
 import { defineComponent, h, reactive, ref, Ref, SetupContext, UnwrapRef } from "vue"
 import { t } from "@app/locale"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
-import { Check } from "@element-plus/icons"
+import { Check } from "@element-plus/icons-vue"
 import HostAlias from "@entity/dao/host-alias"
 import hostAliasDatabase from "@service/host-alias-service"
 import timerService from "@service/timer-service"

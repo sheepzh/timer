@@ -11,7 +11,7 @@ import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
 import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, ZH_FEEDBACK_PAGE } from "@util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons"
+import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
 

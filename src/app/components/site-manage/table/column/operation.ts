@@ -9,7 +9,7 @@ import { ElButton, ElTableColumn } from "element-plus"
 import { t } from "@app/locale"
 import { h } from "vue"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
-import { Delete, Edit } from "@element-plus/icons"
+import { Delete, Edit } from "@element-plus/icons-vue"
 import { QueryData } from "@app/components/common/constants"
 import PopupConfirmButton from "@app/components/common/popup-confirm-button"
 
