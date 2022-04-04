@@ -98,7 +98,7 @@ function calcPositionOfTooltip(container: HTMLDivElement, point: (number | strin
         tooltipWidth = tooltip.offsetWidth
         if (!tooltipWidth) {
             const styleWidth = tooltip.style.width
-            tooltipWidth = Number.parseFloat(styleWidth.endsWith('px') ? styleWidth.substr(0, styleWidth.length) : styleWidth)
+            tooltipWidth = Number.parseFloat(styleWidth.endsWith('px') ? styleWidth.substring(0, styleWidth.length) : styleWidth)
         }
         tooltipWidth = tooltipWidth || 0
     }
@@ -121,9 +121,9 @@ function calculateSubTitleText(date: Date | Date[]) {
         if (startStr === endStr) {
             return startStr
         } else {
-            if (startStr.substr(0, 4) === endStr.substr(0, 4)) {
+            if (startStr.substring(0, 4) === endStr.substring(0, 4)) {
                 // the same year
-                endStr = endStr.substr(5)
+                endStr = endStr.substring(5)
             }
             return `${startStr}-${endStr}`
         }

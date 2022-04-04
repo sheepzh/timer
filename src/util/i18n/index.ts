@@ -88,12 +88,6 @@ function fillWithParam(result: string, param: { [key: string]: string | number }
     return result
 }
 
-/**
- * Translate
- * @param key     keyPath 
- * @param param   param
- * @returns string or vnodes[]
- */
 export function t<MessageType>(messages: MessageType, props: TranslateProps<MessageType>): string {
     const { key, param } = props
     let result: string = getI18nVal(messages, key)

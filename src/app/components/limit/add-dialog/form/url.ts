@@ -37,9 +37,9 @@ const protocolSelect = (protocolRef: Ref<string>) => h(ElSelect, {
 
 const url2PathItems = (url: string) => {
     const querySign = url.indexOf('?')
-    querySign > -1 && (url = url.substr(0, querySign))
+    querySign > -1 && (url = url.substring(0, querySign))
     const hashSign = url.indexOf('#')
-    hashSign > -1 && (url = url.substr(0, hashSign))
+    hashSign > -1 && (url = url.substring(0, hashSign))
     return url.split('/').filter(path => path).map(path => UrlPathItem.of(path))
 }
 
@@ -58,10 +58,10 @@ const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathIt
     url = decodeURI(url)
     if (url.startsWith(Protocol.HTTP)) {
         protocol = Protocol.HTTP
-        url = url.substr(Protocol.HTTP.length)
+        url = url.substring(Protocol.HTTP.length)
     } else if (url.startsWith(Protocol.HTTPS)) {
         protocol = Protocol.HTTPS
-        url = url.substr(Protocol.HTTPS.length)
+        url = url.substring(Protocol.HTTPS.length)
     }
     protocolRef.value = protocol
     pathItemsRef.value = url2PathItems(url)

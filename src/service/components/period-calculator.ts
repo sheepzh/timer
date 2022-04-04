@@ -40,7 +40,7 @@ export function calculate(timestamp: number, milliseconds: number): PeriodInfo[]
 /**
  * Found the max divisible period
  * 
- * @param date date  
+ * @param period key
  * @param periodWindowSize divisor
  */
 export function getMaxDivisiblePeriod(period: PeriodKey, periodWindowSize: number): PeriodKey {

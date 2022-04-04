@@ -199,7 +199,7 @@ class TimerDatabase extends BaseDatabase {
         let result: DataItem[] = []
 
         for (let key in items) {
-            const date = key.substr(0, 8)
+            const date = key.substring(0, 8)
             const host = key.substring(8)
             const val: WastePerDay = items[key]
             if (this.filterBefore(date, host, val, _cond)) {
