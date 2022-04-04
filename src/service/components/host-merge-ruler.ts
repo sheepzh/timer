@@ -16,8 +16,8 @@ export interface IHostMergeRuler {
 }
 
 /**
- * @param host host
- * @param dotCount the count of dots to remain 
+ * @param origin origin host
+ * @param dotCount the count of dots to remain
  */
 const getTheSuffix = (origin: string, dotCount: number) => {
     if (isIpAndPort(origin)) return origin
@@ -33,7 +33,7 @@ const getTheSuffix = (origin: string, dotCount: number) => {
         }
 
         const index = origin.lastIndexOf('.')
-        result.push(origin.substr(index + 1))
+        result.push(origin.substring(index + 1))
         origin = origin.substring(0, index)
     }
     return result.reverse().join('.')
@@ -68,7 +68,7 @@ export default class CustomizedHostMergeRuler implements IHostMergeRuler {
     }
 
     /**
-     * @param host origin host
+     * @param origin origin host
      * @returns merged host
      */
     merge(origin: string): string {

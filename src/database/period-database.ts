@@ -28,11 +28,11 @@ function merge(exists: { [dateKey: string]: FocusPerDay }, toMerge: PeriodInfo[]
 function db2PeriodInfos(data: { [dateKey: string]: FocusPerDay }): PeriodInfo[] {
     const result: PeriodInfo[] = []
     Object.entries(data).forEach((([dateKey, val]) => {
-        const dateStr = dateKey.substr(KEY_PREFIX_LENGTH)
+        const dateStr = dateKey.substring(KEY_PREFIX_LENGTH)
         const date = new Date(
-            Number.parseInt(dateStr.substr(0, 4)),
-            Number.parseInt(dateStr.substr(4, 2)) - 1,
-            Number.parseInt(dateStr.substr(6, 2))
+            Number.parseInt(dateStr.substring(0, 4)),
+            Number.parseInt(dateStr.substring(4, 6)) - 1,
+            Number.parseInt(dateStr.substring(6, 8))
         )
         Object
             .entries(val)

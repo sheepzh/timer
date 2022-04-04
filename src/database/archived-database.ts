@@ -22,7 +22,7 @@ class ArchivedDatabase extends BaseDatabase {
         const result = {}
         Object.entries(items)
             .filter(([key]) => key.startsWith(ARCHIVED_PREFIX))
-            .map(([key, val]) => [key.substr(ARCHIVED_PREFIX.length), val])
+            .map(([key, val]) => [key.substring(ARCHIVED_PREFIX.length), val])
             .forEach(([key, val]) => result[key] = val)
         log('All archived', result)
         return Promise.resolve(result)

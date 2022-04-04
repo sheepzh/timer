@@ -32,7 +32,7 @@ class HostOptionInfo {
     static from(key: string) {
         if (!key || !key.length) return this.empty()
         const merged = key.charAt(0) === '1'
-        return new HostOptionInfo(key.substr(1), merged)
+        return new HostOptionInfo(key.substring(1), merged)
     }
 
     key(): string {

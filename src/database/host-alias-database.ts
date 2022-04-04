@@ -24,12 +24,12 @@ const ABBR_MAP = {
 const generateKey = (host: string) => DB_KEY_PREFIX + host
 const hostOf = (key: string) => key.substring(DB_KEY_PREFIX_LENGTH)
 function valueOf(host: string, value: string): HostAlias {
-    const abbr = value.substr(0, 1)
+    const abbr = value.substring(0, 1)
 
     return {
         host,
         source: ABBR_MAP[abbr],
-        name: value.substr(1)
+        name: value.substring(1)
     }
 }
 
