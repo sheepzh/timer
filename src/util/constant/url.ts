@@ -47,7 +47,8 @@ let updatePage = SOURCE_CODE_PAGE
 if (IS_CHROME) {
     updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
 } else if (IS_EDGE) {
-    updatePage = `edge://extensions/?id=${chrome.runtime.id}`
+    // In the management page with devlop-mode open
+    updatePage = 'edge://extensions'
 } else if (IS_FIREFOX) {
     // "about:*" is invalid in firefox
     updatePage = HOME_PAGE
