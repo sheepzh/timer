@@ -43,7 +43,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@element-plus/icons": "^0.0.11",
+    "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.24.0",
     "clipboardy": "^3.0.0",
     "echarts": "^5.2.2",

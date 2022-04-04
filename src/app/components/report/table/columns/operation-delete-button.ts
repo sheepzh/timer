@@ -7,7 +7,7 @@
 
 import { computed, defineComponent, h, PropType, Ref } from "vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
-import { Delete } from "@element-plus/icons"
+import { Delete } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
 import { dateFormatter } from "../../formatter"
 import { formatTime } from "@util/time"

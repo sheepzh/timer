@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Download } from "@element-plus/icons"
+import { Download } from "@element-plus/icons-vue"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { h, defineComponent } from "vue"
 

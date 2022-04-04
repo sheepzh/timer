@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { Edit } from "@element-plus/icons"
+import { Edit } from "@element-plus/icons-vue"
 import { tryParseInteger } from "@util/number"
 import { ElTag } from "element-plus"
 import { computed, defineComponent, h, ref, Ref, watch } from "vue"

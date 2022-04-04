@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { Check, Close } from "@element-plus/icons"
+import { Check, Close } from "@element-plus/icons-vue"
 import { isRemainHost } from "@util/constant/remain-host"
 import { isValidHost } from "@util/pattern"
 import { ElButton, ElInput, ElMessage } from "element-plus"

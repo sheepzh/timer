@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Delete } from "@element-plus/icons"
+import { Delete } from "@element-plus/icons-vue"
 import { ElButton, ElMessage, ElMessageBox, ElTableColumn } from "element-plus"
 import { h } from "vue"
 import TimeLimitItem from "@entity/dto/time-limit-item"

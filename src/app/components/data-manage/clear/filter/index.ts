@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Delete, DocumentAdd } from "@element-plus/icons"
+import { Delete, DocumentAdd } from "@element-plus/icons-vue"
 import { defineComponent, h, ref, Ref, SetupContext } from "vue"
 import TimerDatabase from "@db/timer-database"
 import timerService from "@service/timer-service"

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Edit } from "@element-plus/icons"
+import { Edit } from "@element-plus/icons-vue"
 import { ElTag } from "element-plus"
 import { defineComponent, h, ref, Ref, watch } from "vue"
 import ItemInput from "./item-input"

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Check } from "@element-plus/icons"
+import { Check } from "@element-plus/icons-vue"
 import { ElButton } from "element-plus"
 import { defineComponent, h, SetupContext } from "vue"
 import { t } from "@app/locale"
