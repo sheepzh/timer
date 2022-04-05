@@ -12,123 +12,170 @@ import timerService, { SortDirect, TimerQueryParam } from "@service/timer-servic
 import whitelistService from "@service/whitelist-service"
 import { formatTime } from "@util/time"
 import './styles/element'
-import table, { ElSortDirect, SortInfo, TableProps } from "./table"
-import filter, { FilterProps } from "./filter"
-import pagination, { PaginationProps } from "../common/pagination"
+import ReportTable, { ElSortDirect, SortInfo } from "./table"
+import ReportFilter, { ReportFilterOption } from "./filter"
+import { component as Pagination, PaginationInfo } from "../common/pagination"
 import ContentContainer from "../common/content-container"
-import { QueryData, PaginationInfo } from "../common/constants"
 import { ElLoadingService } from "element-plus"
 import hostAliasService from "@service/host-alias-service"
+import { FileFormat } from "./filter/download-file"
+import { exportCsv, exportJson } from "@util/file"
+import { periodFormatter } from "./formatter"
 
-const hostRef: Ref<string> = ref('')
-const now = new Date()
-// Don't know why the error occurred, so ignore
-// @ts-ignore ts(2322)
-const dateRangeRef: Ref<Array<Date>> = ref([now, now])
-const mergeDateRef: Ref<boolean> = ref(false)
-const mergeHostRef: Ref<boolean> = ref(false)
-const displayBySecondRef: Ref<boolean> = ref(false)
-const dataRef: Ref<DataItem[]> = ref([])
-const whitelistRef: Ref<Array<string>> = ref([])
-const sortRef: UnwrapRef<SortInfo> = reactive({
-    prop: 'focus',
-    order: ElSortDirect.DESC
-})
-const pageRef: UnwrapRef<PaginationInfo> = reactive({
-    size: 10,
-    num: 1,
-    total: 0
-})
-
-const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
-    return {
-        host: hostRef.value,
-        date: dateRangeRef.value,
-        mergeHost: mergeHostRef.value,
-        mergeDate: mergeDateRef.value,
-        sort: sortRef.prop,
-        sortOrder: sortRef.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
-    }
-})
-
-const exportFileName = computed(() => {
-    let baseName = t(msg => msg.report.exportFileName)
-    const dateRange = dateRangeRef.value
-    if (dateRange && dateRange.length === 2) {
-        const start = dateRange[0]
-        const end = dateRange[1]
-        baseName += '_' + formatTime(start, '{y}{m}{d}')
-        baseName += '_' + formatTime(end, '{y}{m}{d}')
-    }
-    mergeDateRef.value && (baseName += '_' + t(msg => msg.report.mergeDate))
-    mergeHostRef.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
-    displayBySecondRef.value && (baseName += '_' + t(msg => msg.report.displayBySecond))
-    return baseName
-})
-
-const queryData: QueryData = async () => {
+async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<DataItem[]>, page: UnwrapRef<PaginationInfo>) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
-    const page = { pageSize: pageRef.size, pageNum: pageRef.num }
-    const pageResult = await timerService.selectByPage(queryParam.value, page)
+    const pageInfo = { pageSize: page.size, pageNum: page.num }
+    const pageResult = await timerService.selectByPage(queryParam.value, pageInfo)
     const { list, total } = pageResult
-    dataRef.value = list
-    pageRef.total = total
+    data.value = list
+    page.total = total
     loading.close()
 }
 
-async function handleAliasChange(host: string, newAlias: string) {
+async function handleAliasChange(host: string, newAlias: string, data: Ref<DataItem[]>) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
         await hostAliasService.remove(host)
     } else {
         await hostAliasService.change(host, newAlias)
     }
-    dataRef.value.filter(item => item.host === host).forEach(item => item.alias = newAlias)
+    data.value.filter(item => item.host === host).forEach(item => item.alias = newAlias)
 }
 
-const queryWhiteList = async () => {
-    const whitelist = await whitelistService.listAll()
-    whitelistRef.value = whitelist
-    return await Promise.resolve()
+async function queryWhiteList(whitelist: Ref<string[]>): Promise<void> {
+    const value = await whitelistService.listAll()
+    whitelist.value = value
 }
 
-queryWhiteList().then(queryData)
-
-const tableProps: TableProps = {
-    mergeDateRef,
-    mergeHostRef,
-    displayBySecondRef,
-    queryWhiteList,
-    queryData,
-    handleAliasChange,
-    whitelistRef,
-    dateRangeRef,
-    dataRef,
-    sortRef
+type _ExportInfo = {
+    host: string
+    date?: string
+    total?: string
+    focus?: string
+    time?: number
 }
 
-const filterProps: FilterProps = {
-    mergeDateRef,
-    mergeHostRef,
-    displayBySecondRef,
-    queryData,
-    dataRef,
-    exportFileName,
-    hostRef,
-    dateRangeRef
+/** 
+ * @param rows row data
+ * @returns data with json format 
+ */
+const generateJsonData = (rows: DataItem[]) => {
+    return rows.map(row => {
+        const data: _ExportInfo = { host: row.host }
+        // Always display by seconds
+        data.total = periodFormatter(row.total, true, true)
+        data.focus = periodFormatter(row.focus, true, true)
+        data.time = row.time
+        return data
+    })
 }
 
-const paginationProps: PaginationProps = {
-    queryData,
-    pageRef
+/** 
+ * @param rows row data
+ * @returns data with csv format 
+ */
+const generateCsvData = (rows: DataItem[], mergeDate: boolean) => {
+    let columnName: Array<keyof DataItem> = []
+    !mergeDate && columnName.push('date')
+    columnName = [...columnName, 'host', 'total', 'focus', 'time']
+    const data = [columnName.map(c => t(msg => msg.item[c]))]
+    return data
 }
 
 const _default = defineComponent({
     name: "Report",
     setup() {
+        const host: Ref<string> = ref('')
+        const now = new Date()
+        // Don't know why the error occurred, so ignore
+        // @ts-ignore ts(2322)
+        const dateRange: Ref<Array<Date>> = ref([now, now])
+        const mergeDate: Ref<boolean> = ref(false)
+        const mergeHost: Ref<boolean> = ref(false)
+        const displayBySecond: Ref<boolean> = ref(false)
+        const data: Ref<DataItem[]> = ref([])
+        const whitelist: Ref<Array<string>> = ref([])
+        const sort: UnwrapRef<SortInfo> = reactive({
+            prop: 'focus',
+            order: ElSortDirect.DESC
+        })
+        const page: UnwrapRef<PaginationInfo> = reactive({ size: 10, num: 1, total: 0 })
+        const queryParam: ComputedRef<TimerQueryParam> = computed(() => ({
+            host: host.value,
+            date: dateRange.value,
+            mergeHost: mergeHost.value,
+            mergeDate: mergeDate.value,
+            sort: sort.prop,
+            sortOrder: sort.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
+        }))
+        const exportFileName = computed(() => {
+            let baseName = t(msg => msg.report.exportFileName)
+            const dateRangeVal = dateRange.value
+            if (dateRangeVal && dateRangeVal.length === 2) {
+                const start = dateRangeVal[0]
+                const end = dateRangeVal[1]
+                baseName += '_' + formatTime(start, '{y}{m}{d}')
+                baseName += '_' + formatTime(end, '{y}{m}{d}')
+            }
+            mergeDate.value && (baseName += '_' + t(msg => msg.report.mergeDate))
+            mergeHost.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
+            displayBySecond.value && (baseName += '_' + t(msg => msg.report.displayBySecond))
+            return baseName
+        })
+
+        const query = () => queryData(queryParam, data, page)
+        // Init first
+        queryWhiteList(whitelist).then(query)
+
         return () => h(ContentContainer, {}, {
-            filter: () => filter(filterProps),
-            content: () => [table(tableProps), pagination(paginationProps)]
+            filter: () => h(ReportFilter, {
+                host: host.value,
+                dateRange: dateRange.value,
+                mergeDate: mergeDate.value,
+                mergeHost: mergeHost.value,
+                displayBySecond: displayBySecond.value,
+                onChange: (newFilterOption: ReportFilterOption) => {
+                    host.value = newFilterOption.host
+                    dateRange.value = newFilterOption.dateRange
+                    mergeDate.value = newFilterOption.mergeDate
+                    mergeHost.value = newFilterOption.mergeHost
+                    displayBySecond.value = newFilterOption.displayBySecond
+                    query()
+                },
+                onDownload: (format: FileFormat) => {
+                    const rows = data.value
+                    const fileName = exportFileName.value
+                    format === 'json' && exportJson(generateJsonData(rows), fileName)
+                    format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value), fileName)
+                }
+            }),
+            content: () => [
+                h(ReportTable, {
+                    whitelist: whitelist.value,
+                    mergeDate: mergeDate.value,
+                    mergeHost: mergeHost.value,
+                    displayBySecond: displayBySecond.value,
+                    dateRange: dateRange.value,
+                    data: data.value,
+                    defaultSort: sort,
+                    onItemDelete: (_deleted: DataItem) => query(),
+                    onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
+                    onAliasChange: (host: string, newAlias: string) => handleAliasChange(host, newAlias, data)
+                }),
+                h(Pagination, {
+                    total: page.total,
+                    size: page.size,
+                    num: page.num,
+                    onNumChange(newNum: number) {
+                        page.num = newNum
+                        query()
+                    },
+                    onSizeChange(newSize: number) {
+                        page.size = newSize
+                        query()
+                    }
+                })
+            ]
         })
     }
 })

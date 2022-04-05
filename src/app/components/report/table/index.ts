@@ -6,9 +6,15 @@
  */
 
 import { ElTable } from "element-plus"
-import { h, Ref, UnwrapRef } from "vue"
+import { defineComponent, h, PropType } from "vue"
 import DataItem from "@entity/dto/data-item"
-import columns, { ColumnProps } from "./columns"
+import DateColumn from "./columns/date"
+import HostColumn from "./columns/host"
+import AliasColumn from "./columns/alias"
+import FocusColumn from "./columns/focus"
+import TotalColumn from "./columns/total"
+import TimeColumn from "./columns/time"
+import OperationColumn from "./columns/operation"
 
 export enum ElSortDirect {
     ASC = 'ascending',
@@ -20,29 +26,49 @@ export type SortInfo = {
     order: ElSortDirect
 }
 
-export type TableProps = ColumnProps &
-{
-    dataRef: Ref<DataItem[]>
-    sortRef: UnwrapRef<SortInfo>
-}
-
-const table = (props: TableProps) => {
-    const handleSortChange = (newSort: SortInfo) => {
-        props.sortRef.order = newSort.order
-        props.sortRef.prop = newSort.prop
-        props.queryData()
+const _default = defineComponent({
+    name: "ReportTable",
+    props: {
+        data: Array as PropType<DataItem[]>,
+        defaultSort: Object as PropType<SortInfo>,
+        mergeDate: Boolean,
+        mergeHost: Boolean,
+        displayBySecond: Boolean,
+        dateRange: Array as PropType<Date[]>,
+        whitelist: Array as PropType<string[]>
+    },
+    emits: ["sortChange", "aliasChange", "itemDelete", "whitelistChange"],
+    setup(props, ctx) {
+        return () => h(ElTable, {
+            data: props.data,
+            border: true,
+            size: 'mini',
+            defaultSort: props.defaultSort,
+            style: { width: '100%' },
+            highlightCurrentRow: true,
+            fit: true,
+            onSortChange: (newSortInfo: SortInfo) => ctx.emit("sortChange", newSortInfo)
+        }, () => {
+            const result = []
+            props.mergeDate || result.push(h(DateColumn))
+            result.push(h(HostColumn, { mergeHost: props.mergeHost }))
+            props.mergeHost || result.push(h(AliasColumn, {
+                onAliasChange: (host: string, newAlias: string) => ctx.emit("aliasChange", host, newAlias)
+            }))
+            result.push(h(FocusColumn, { displayBySecond: props.displayBySecond }))
+            result.push(h(TotalColumn, { displayBySecond: props.displayBySecond }))
+            result.push(h(TimeColumn))
+            result.push(h(OperationColumn, {
+                mergeDate: props.mergeDate,
+                mergeHost: props.mergeHost,
+                dateRange: props.dateRange,
+                whitelist: props.whitelist,
+                onDelete: (row: DataItem) => ctx.emit("itemDelete", row),
+                onWhitelistChange: (host: string, addOrRemove: boolean) => ctx.emit("whitelistChange", host, addOrRemove)
+            }))
+            return result
+        })
     }
-    const elTableProps = {
-        data: props.dataRef.value,
-        border: true,
-        size: 'mini',
-        defaultSort: props.sortRef,
-        style: { width: '100%' },
-        highlightCurrentRow: true,
-        fit: true,
-        onSortChange: handleSortChange
-    }
-    return h(ElTable, elTableProps, () => columns(props))
-}
+})
 
-export default table
+export default _default
