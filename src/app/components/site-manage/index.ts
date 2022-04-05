@@ -8,10 +8,9 @@
 import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef } from "vue"
 import ContentContainer from "../common/content-container"
 import filter, { FilterProps } from "./filter"
-import pagination, { PaginationProps } from "../common/pagination"
+import pagination, { PaginationInfo, PaginationProps } from "../common/pagination"
 import table, { TableProps } from "./table"
 import { HostAliasSource } from "@entity/dao/host-alias"
-import { PaginationInfo } from "../common/constants"
 import hostAliasService, { HostAliasQueryParam } from "@service/host-alias-service"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import Modify from './modify'

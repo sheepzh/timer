@@ -6,12 +6,18 @@
  */
 
 import { ElPagination } from "element-plus"
-import { h, UnwrapRef } from "vue"
-import { PaginationInfo, QueryData } from "./constants"
+import { defineComponent, h, UnwrapRef } from "vue"
+import { QueryData } from "./constants"
 
 export type PaginationProps = {
     queryData: QueryData
     pageRef: UnwrapRef<PaginationInfo>
+}
+
+export type PaginationInfo = {
+    size: number
+    num: number
+    total: number
 }
 
 const handleSizeChange = (props: PaginationProps, size: number) => {
@@ -37,5 +43,30 @@ const elPagination = (props: PaginationProps) => h(ElPagination,
 )
 
 const pagination = (props: PaginationProps) => h('div', { class: 'pagination-container' }, elPagination(props))
+
+const _default = defineComponent({
+    name: "Pagination",
+    props: {
+        num: Number,
+        size: Number,
+        total: Number
+    },
+    emits: ["sizeChange", "numChange"],
+    setup(props, ctx) {
+        return () => h('div', { class: 'pagination-container' }, h(ElPagination,
+            {
+                currentPage: props.num,
+                pageSizes: [10, 20, 50],
+                pageSize: props.size,
+                layout: "total, sizes, prev, pager, next, jumper",
+                total: props.total,
+                onSizeChange: (size: number) => ctx.emit("sizeChange", size),
+                onCurrentChange: (pageNum: number) => ctx.emit("numChange", pageNum)
+            }
+        ))
+    }
+})
+
+export const component = _default
 
 export default pagination

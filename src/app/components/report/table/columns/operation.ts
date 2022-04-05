@@ -52,7 +52,7 @@ const _default = defineComponent({
         dateRange: Array as PropType<Array<Date>>,
         whitelist: Array as PropType<Array<String>>
     },
-    emits: ["changeWhitelist", "delete"],
+    emits: ["whitelistChange", "delete"],
     setup(props, ctx) {
         const canOperate = computed(() => !props.mergeHost)
         const width = computed(() => props.mergeHost ? 110 : locale === "zh_CN" ? 290 : 330)
@@ -102,7 +102,7 @@ const _default = defineComponent({
                     async onConfirm() {
                         await whitelistService.add(row.host)
                         ElMessage({ message: add2WhitelistSuccessMsg, type: 'success' })
-                        ctx.emit("changeWhitelist", row.host)
+                        ctx.emit("whitelistChange", row.host, true)
                     }
                 }),
                 // Remove from whitelist
@@ -115,7 +115,7 @@ const _default = defineComponent({
                     async onConfirm() {
                         await whitelistService.remove(row.host)
                         ElMessage({ message: removeFromWhitelistSuccessMsg, type: 'success' })
-                        ctx.emit("changeWhitelist", row.host)
+                        ctx.emit("whitelistChange", row.host, false)
                     }
                 })
             ]
