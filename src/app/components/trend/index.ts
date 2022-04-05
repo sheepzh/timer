@@ -14,7 +14,8 @@ import filterContainer, { addToFilterOption, FilterProps } from "./components/fi
 import HostOptionInfo from "./host-option-info"
 
 const domainKeyRef: Ref<string> = ref('')
-const dateRangeRef: Ref<Date[]> = ref()
+// @ts-ignore
+const dateRangeRef: Ref<Date[]> = ref(daysAgo(7, 0))
 const chartRef: Ref = ref()
 
 watch(domainKeyRef, () => chartRef.value.setDomain(domainKeyRef.value))
@@ -44,8 +45,6 @@ export default defineComponent(() => {
         } else {
             domainKeyRef.value = ''
         }
-        // Must init here, I don't know why ... XD
-        dateRangeRef.value = daysAgo(7, 0)
     })
 
     // chart 
