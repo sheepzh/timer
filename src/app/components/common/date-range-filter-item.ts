@@ -12,6 +12,7 @@ import { ElementDatePickerShortcut } from "@app/element-ui/date"
 const _default = defineComponent({
     name: "DateRangeFilterItem",
     props: {
+        defaultRange: Array as PropType<Date[]>,
         disabledDate: Function,
         startPlaceholder: String,
         endPlaceholder: String,
@@ -23,7 +24,8 @@ const _default = defineComponent({
     },
     emits: ["change"],
     setup(props, ctx) {
-        const dateRange: Ref<Date[]> = ref([undefined, undefined])
+        // @ts-ignore
+        const dateRange: Ref<Date[]> = ref(props.defaultRange || [undefined, undefined])
         return () => h('span', { class: 'filter-item' }, h(ElDatePicker,
             {
                 modelValue: dateRange.value,

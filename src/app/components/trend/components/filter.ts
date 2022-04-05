@@ -73,6 +73,7 @@ const shortcuts = [
 const startPlaceholder = t(msg => msg.trend.startDate)
 const endPlaceholder = t(msg => msg.trend.endDate)
 const datePickerItem = (props: _Props) => h(DateRangeFilterItem, {
+    defaultRange: props.dateRangeRef.value,
     startPlaceholder,
     endPlaceholder,
     shortcuts,
