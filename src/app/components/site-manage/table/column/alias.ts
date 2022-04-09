@@ -7,27 +7,31 @@
 
 import { ElIcon, ElTableColumn, ElTooltip } from "element-plus"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
 
-const columnProps = {
-    prop: 'host',
-    minWidth: 100,
-    align: 'center',
-}
+const label = t(msg => msg.siteManage.column.alias)
+const tooltip = t(msg => msg.siteManage.column.aliasInfo)
 
-const slots = {
-    default: ({ row }: { row: HostAliasInfo }) => h('span', row.name),
-    header: () => {
-        const infoTooltip = h(ElTooltip,
-            { content: t(msg => msg.siteManage.column.aliasInfo), placement: 'top' },
-            () => h(ElIcon, { size: 11 }, () => h(InfoFilled))
-        )
-        return [t(msg => msg.siteManage.column.alias), ' ', infoTooltip]
+const _default = defineComponent({
+    name: "AliasColumn",
+    setup() {
+        return () => h(ElTableColumn, {
+            prop: 'host',
+            minWidth: 100,
+            align: 'center',
+        }, {
+            default: ({ row }: { row: HostAliasInfo }) => h('span', row.name),
+            header: () => {
+                const infoTooltip = h(ElTooltip,
+                    { content: tooltip, placement: 'top' },
+                    () => h(ElIcon, { size: 11 }, () => h(InfoFilled))
+                )
+                return [label, ' ', infoTooltip]
+            }
+        })
     }
-}
-
-const _default = () => h(ElTableColumn, columnProps, slots)
+})
 
 export default _default

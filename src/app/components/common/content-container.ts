@@ -6,7 +6,7 @@
  */
 
 import { ElCard } from "element-plus"
-import { defineComponent, h, useSlots, VNode } from "vue"
+import { defineComponent, h, useSlots } from "vue"
 
 const _default = defineComponent({
     name: "ContentContainer",
