@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef } from "vue"
+import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef, WritableComputedRef } from "vue"
 import ContentContainer from "../common/content-container"
-import filter, { FilterProps } from "./filter"
+import SiteManageFilter, { SiteManageFilterOption } from "./filter"
 import Pagination, { PaginationInfo } from "../common/pagination"
 import SiteManageTable from "./table"
 import { HostAliasSource } from "@entity/dao/host-alias"
@@ -18,6 +18,10 @@ import Modify from './modify'
 const hostRef: Ref<string> = ref()
 const aliasRef: Ref<string> = ref()
 const sourceRef: Ref<HostAliasSource> = ref()
+const onlyDetectedRef: WritableComputedRef<boolean> = computed({
+    get: () => sourceRef.value == HostAliasSource.DETECTED,
+    set: (val: boolean) => sourceRef.value = val ? HostAliasSource.DETECTED : undefined
+})
 const dataRef: Ref<HostAliasInfo[]> = ref([])
 const modifyDialogRef: Ref = ref()
 
@@ -36,10 +40,6 @@ async function queryData() {
     dataRef.value = list
     pageRef.total = total
 }
-
-const handleAdd = async () => modifyDialogRef.value.add()
-
-const filterProps: FilterProps = { hostRef, aliasRef, sourceRef, queryData, handleAdd }
 
 const pageRef: UnwrapRef<PaginationInfo> = reactive({
     size: 10,
@@ -82,7 +82,20 @@ export default defineComponent({
     setup() {
         queryData()
         return () => h(ContentContainer, {}, {
-            filter: () => filter(filterProps),
+            filter: () => h(SiteManageFilter, {
+                host: hostRef.value,
+                alias: aliasRef.value,
+                onlyDetected: onlyDetectedRef.value,
+                onChange(option: SiteManageFilterOption) {
+                    hostRef.value = option.host
+                    aliasRef.value = option.alias
+                    onlyDetectedRef.value = option.onlyDetected
+                    queryData()
+                },
+                onCreate() {
+                    modifyDialogRef.value.add?.()
+                }
+            }),
             content: () => content()
         })
     }
