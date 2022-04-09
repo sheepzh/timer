@@ -14,7 +14,7 @@ import { formatTime } from "@util/time"
 import './styles/element'
 import ReportTable, { ElSortDirect, SortInfo } from "./table"
 import ReportFilter, { ReportFilterOption } from "./filter"
-import { component as Pagination, PaginationInfo } from "../common/pagination"
+import Pagination, { PaginationInfo } from "../common/pagination"
 import ContentContainer from "../common/content-container"
 import { ElLoadingService } from "element-plus"
 import hostAliasService from "@service/host-alias-service"

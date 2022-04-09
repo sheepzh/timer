@@ -8,7 +8,7 @@
 import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef } from "vue"
 import ContentContainer from "../common/content-container"
 import filter, { FilterProps } from "./filter"
-import pagination, { PaginationInfo, PaginationProps } from "../common/pagination"
+import Pagination, { PaginationInfo } from "../common/pagination"
 import table, { TableProps } from "./table"
 import { HostAliasSource } from "@entity/dao/host-alias"
 import hostAliasService, { HostAliasQueryParam } from "@service/host-alias-service"
@@ -51,16 +51,26 @@ const pageRef: UnwrapRef<PaginationInfo> = reactive({
     total: 0
 })
 
-const paginationProps: PaginationProps = { queryData, pageRef }
-
 const dialog = () => h(Modify, {
     ref: modifyDialogRef,
-    onSaved: queryData
+    onSave: queryData
 })
 
-const content = (tableProps: TableProps, paginationProps: PaginationProps) => [
+const content = (tableProps: TableProps) => [
     table(tableProps),
-    pagination(paginationProps),
+    h(Pagination, {
+        size: pageRef.size,
+        num: pageRef.num,
+        total: pageRef.total,
+        onNumChange(newNum: number) {
+            pageRef.num = newNum
+            queryData()
+        },
+        onSizeChange(newSize: number) {
+            pageRef.size = newSize
+            queryData()
+        }
+    }),
     dialog()
 ]
 
@@ -70,7 +80,7 @@ export default defineComponent({
         queryData()
         return () => h(ContentContainer, {}, {
             filter: () => filter(filterProps),
-            content: () => content(tableProps, paginationProps)
+            content: () => content(tableProps)
         })
     }
 })
