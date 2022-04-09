@@ -10,7 +10,7 @@ import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
 import { t } from "@app/locale"
-import { renderHeader, renderOptionItem, tagText, tooltip } from "../common"
+import { renderHeader, renderOptionItem, tagText } from "../common"
 import localeMessages from "@util/i18n/components/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
 
@@ -46,7 +46,9 @@ const locale = () => h(ElSelect, {
             type: "success",
             confirmButtonText: t(msg => msg.option.appearance.locale.reloadButton),
             // Cant close this on press ESC
-            closeOnPressEscape: false
+            closeOnPressEscape: false,
+            // Cant close this on clicking modal
+            closeOnClickModal: false
         }).then(() => { location.reload?.() })
             .catch(() => {/* do nothing */ })
     }
