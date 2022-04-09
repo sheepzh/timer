@@ -5,68 +5,80 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { HostAliasSource } from "@entity/dao/host-alias"
-import { QueryData } from "@app/components/common/constants"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import ButtonFilterItem from "@app/components/common/button-filter-item"
-import { computed, Ref, h, watch } from "vue"
+import { Ref, h, defineComponent, ref } from "vue"
 import { Plus } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
-
-export type FilterProps = {
-    hostRef: Ref<string>,
-    aliasRef: Ref<string>,
-    sourceRef: Ref<HostAliasSource>
-    queryData: QueryData
-    handleAdd: () => Promise<void>
-}
 
 const hostPlaceholder = t(msg => msg.siteManage.hostPlaceholder)
 const aliasPlaceholder = t(msg => msg.siteManage.aliasPlaceholder)
 const onlyDetectedLabel = t(msg => msg.siteManage.onlyDetected)
 const addButtonText = t(msg => msg.siteManage.button.add)
-const childNodes = (props: FilterProps) => {
-    const onlyDetected: Ref<boolean> = computed({
-        get: () => props.sourceRef.value === HostAliasSource.DETECTED,
-        set: newVal => props.sourceRef.value = newVal ? HostAliasSource.DETECTED : undefined
-    })
-    watch(onlyDetected, () => props.queryData())
-    return [
-        h(InputFilterItem, {
-            placeholder: hostPlaceholder,
-            onClear() {
-                props.hostRef.value = ""
-                props.queryData()
-            },
-            onEnter(newVal: string) {
-                props.hostRef.value = newVal
-                props.queryData()
-            }
-        }),
-        h(InputFilterItem, {
-            placeholder: aliasPlaceholder,
-            onClear() {
-                props.aliasRef.value = ""
-                props.queryData()
-            },
-            onEnter(newVal: string) {
-                props.aliasRef.value = newVal
-                props.queryData()
-            }
-        }),
-        h(SwitchFilterItem, {
-            label: onlyDetectedLabel,
-            defaultValue: false,
-            onChange: (newVal: boolean) => onlyDetected.value = newVal
-        }),
-        h(ButtonFilterItem, {
-            text: addButtonText,
-            icon: Plus,
-            type: "success",
-            onClick: () => props.handleAdd?.()
-        })
-    ]
+
+export type SiteManageFilterOption = {
+    host: string,
+    alias: string,
+    onlyDetected: boolean,
 }
 
-export default (props: FilterProps) => childNodes(props)
+const _default = defineComponent({
+    name: "SiteManageFilter",
+    props: {
+        host: String,
+        alias: String,
+        onlyDetected: Boolean
+    },
+    emits: ["change", "create"],
+    setup(props, ctx) {
+        const host: Ref<string> = ref(props.host)
+        const alias: Ref<string> = ref(props.alias)
+        const onlyDetected: Ref<boolean> = ref(props.onlyDetected || false)
+        const handleChange = () => ctx.emit("change", {
+            host: host.value,
+            alias: alias.value,
+            onlyDetected: onlyDetected.value
+        } as SiteManageFilterOption)
+        return () => [
+            h(InputFilterItem, {
+                placeholder: hostPlaceholder,
+                onClear() {
+                    host.value = ""
+                    handleChange()
+                },
+                onEnter(newVal: string) {
+                    host.value = newVal
+                    handleChange()
+                }
+            }),
+            h(InputFilterItem, {
+                placeholder: aliasPlaceholder,
+                onClear() {
+                    alias.value = ""
+                    handleChange()
+                },
+                onEnter(newVal: string) {
+                    alias.value = newVal
+                    handleChange()
+                }
+            }),
+            h(SwitchFilterItem, {
+                label: onlyDetectedLabel,
+                defaultValue: false,
+                onChange(newVal: boolean) {
+                    onlyDetected.value = newVal
+                    handleChange()
+                }
+            }),
+            h(ButtonFilterItem, {
+                text: addButtonText,
+                icon: Plus,
+                type: "success",
+                onClick: () => ctx.emit("create")
+            })
+        ]
+    }
+})
+
+export default _default
