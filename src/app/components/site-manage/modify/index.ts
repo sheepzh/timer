@@ -92,6 +92,14 @@ const _default = defineComponent({
             },
             hide: () => visible.value = false
         })
+        const save = async () => {
+            const valid: boolean = await validateForm(formRef)
+            if (!valid) {
+                return false
+            }
+            const saved = await handleSave(context, isNew.value, formData)
+            saved && (visible.value = false)
+        }
         return () => h(ElDialog, {
             width: '450px',
             title: buttonText.value,
@@ -114,21 +122,15 @@ const _default = defineComponent({
                     // Name form item
                     h(SiteManageNameFormItem, {
                         modelValue: formData.name,
-                        onInput: (newVal: string) => formData.name = newVal
+                        onInput: (newVal: string) => formData.name = newVal,
+                        onEnter: save
                     })
                 ]
             )),
             footer: () => h(ElButton, {
                 type: 'primary',
                 icon: Check,
-                async onClick() {
-                    const valid: boolean = await validateForm(formRef)
-                    if (!valid) {
-                        return false
-                    }
-                    const saved = await handleSave(context, isNew.value, formData)
-                    saved && (visible.value = false)
-                }
+                onClick: save
             }, () => t(msg => msg.siteManage.button.save))
         })
     }

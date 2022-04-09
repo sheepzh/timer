@@ -9,7 +9,7 @@ import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRe
 import ContentContainer from "../common/content-container"
 import filter, { FilterProps } from "./filter"
 import Pagination, { PaginationInfo } from "../common/pagination"
-import table, { TableProps } from "./table"
+import SiteManageTable from "./table"
 import { HostAliasSource } from "@entity/dao/host-alias"
 import hostAliasService, { HostAliasQueryParam } from "@service/host-alias-service"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
@@ -37,12 +37,8 @@ async function queryData() {
     pageRef.total = total
 }
 
-const handleDelete = (row: HostAliasInfo) => hostAliasService.remove(row.host)
-const handleModify = async (row: HostAliasInfo) => modifyDialogRef.value.modify(row)
-
 const handleAdd = async () => modifyDialogRef.value.add()
 
-const tableProps: TableProps = { dataRef, queryData, handleDelete, handleModify }
 const filterProps: FilterProps = { hostRef, aliasRef, sourceRef, queryData, handleAdd }
 
 const pageRef: UnwrapRef<PaginationInfo> = reactive({
@@ -56,8 +52,15 @@ const dialog = () => h(Modify, {
     onSave: queryData
 })
 
-const content = (tableProps: TableProps) => [
-    table(tableProps),
+const content = () => [
+    h(SiteManageTable, {
+        data: dataRef.value,
+        onRowModify: async (row: HostAliasInfo) => modifyDialogRef.value.modify(row),
+        onRowDelete: async (row: HostAliasInfo) => {
+            await hostAliasService.remove(row.host)
+            queryData()
+        }
+    }),
     h(Pagination, {
         size: pageRef.size,
         num: pageRef.num,
@@ -80,7 +83,7 @@ export default defineComponent({
         queryData()
         return () => h(ContentContainer, {}, {
             filter: () => filter(filterProps),
-            content: () => content(tableProps)
+            content: () => content()
         })
     }
 })

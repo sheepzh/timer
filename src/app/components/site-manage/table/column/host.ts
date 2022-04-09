@@ -8,18 +8,23 @@
 import { ElTableColumn } from "element-plus"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import HostAlert from "@app/components/common/host-alert"
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 
-const columnProps = {
-    prop: 'host',
-    label: t(msg => msg.siteManage.column.host),
-    minWidth: 120,
-    align: 'center',
-}
+const label = t(msg => msg.siteManage.column.host)
 
-const slots = { default: ({ row }: { row: HostAliasInfo }) => h(HostAlert, { host: row.host, iconUrl: row.iconUrl }) }
-
-const _default = () => h(ElTableColumn, columnProps, slots)
+const _default = defineComponent({
+    name: "AliasColumn",
+    setup() {
+        return () => h(ElTableColumn, {
+            prop: 'host',
+            label,
+            minWidth: 120,
+            align: 'center',
+        }, {
+            default: ({ row }: { row: HostAliasInfo }) => h(HostAlert, { host: row.host, iconUrl: row.iconUrl })
+        })
+    }
+})
 
 export default _default

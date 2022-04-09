@@ -6,29 +6,32 @@
  */
 
 import { ElTableColumn, ElTag } from "element-plus"
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import HostAlias, { HostAliasSource } from "@entity/dao/host-alias"
-import { I18nKey, t } from "@app/locale"
+import { t } from "@app/locale"
 
-const columnProps = {
-    prop: 'source',
-    label: t(msg => msg.siteManage.column.source),
-    minWidth: 70,
-    align: 'center',
-}
-
-const SOURCE_I18N_KEY: { [source in HostAliasSource]: I18nKey } = {
-    USER: msg => msg.siteManage.source.user,
-    DETECTED: msg => msg.siteManage.source.detected
+const SOURCE_DESC: { [source in HostAliasSource]: string } = {
+    USER: t(msg => msg.siteManage.source.user),
+    DETECTED: t(msg => msg.siteManage.source.detected)
 }
 
 function renderSource(source: HostAliasSource) {
     const type = source === HostAliasSource.USER ? '' : 'info'
-    return h(ElTag, { type, size: 'mini' }, () => t(SOURCE_I18N_KEY[source]))
+    return h(ElTag, { type, size: 'mini' }, () => SOURCE_DESC[source])
 }
 
-const slots = { default: ({ row }: { row: HostAlias }) => renderSource(row.source) }
-
-const _default = () => h(ElTableColumn, columnProps, slots)
+const _default = defineComponent({
+    name: "SourceColumn",
+    setup() {
+        return () => h(ElTableColumn, {
+            prop: 'source',
+            label: t(msg => msg.siteManage.column.source),
+            minWidth: 70,
+            align: 'center',
+        }, {
+            default: ({ row }: { row: HostAlias }) => renderSource(row.source)
+        })
+    }
+})
 
 export default _default

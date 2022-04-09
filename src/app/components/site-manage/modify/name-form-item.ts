@@ -15,13 +15,14 @@ const _default = defineComponent({
     props: {
         modelValue: String
     },
-    emits: ["input"],
+    emits: ["input", "enter"],
     setup(props, ctx) {
         return () => h(ElFormItem,
             { prop: 'name', label: LABEL },
             () => h(ElInput, {
                 modelValue: props.modelValue,
-                onInput: (newVal: string) => ctx.emit("input", newVal.trimStart())
+                onInput: (newVal: string) => ctx.emit("input", newVal.trimStart()),
+                onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && ctx.emit("enter")
             })
         )
     }
