@@ -9,7 +9,7 @@ import { defineComponent, h, ref, Ref } from "vue"
 import ContentContainer from "../common/content-container"
 import LimitFilter, { LimitFilterOption } from "./filter"
 import LimitTable from "./table"
-import AddDialog from "./add-dialog"
+import Modify from "./modify"
 import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
@@ -21,7 +21,6 @@ const _default = defineComponent({
     setup() {
         const url: Ref<string> = ref('')
         const onlyEnabled: Ref<boolean> = ref(false)
-        const dialogRef: Ref = ref()
         const data: Ref<TimeLimitItem[]> = ref([])
         // Init and query
         const queryData = async () => {
@@ -34,6 +33,8 @@ const _default = defineComponent({
         useRouter().replace({ query: {} })
         urlParam && (url.value = decodeURIComponent(urlParam))
 
+        const modify: Ref = ref()
+
         return () => h(ContentContainer, {}, {
             filter: () => h(LimitFilter, {
                 url: url.value,
@@ -43,7 +44,7 @@ const _default = defineComponent({
                     onlyEnabled.value = option.onlyEnabled
                     queryData()
                 },
-                onCreate: () => dialogRef.value?.show?.()
+                onCreate: () => modify.value?.show?.()
             }),
             content: () => [
                 h(LimitTable, {
@@ -56,9 +57,9 @@ const _default = defineComponent({
                         queryData()
                     }
                 }),
-                h(AddDialog, {
-                    ref: dialogRef,
-                    onSaved: queryData
+                h(Modify, {
+                    ref: modify,
+                    onSave: queryData
                 })
             ]
         })
