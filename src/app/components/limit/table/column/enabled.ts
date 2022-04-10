@@ -6,30 +6,31 @@
  */
 
 import { ElSwitch, ElTableColumn } from "element-plus"
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import TimeLimitItem from "@entity/dto/time-limit-item"
-import limitService from "@service/limit-service"
 import { t } from "@app/locale"
 
-const columnProps = {
-    prop: 'enabled',
-    label: t(msg => msg.limit.item.enabled),
-    minWidth: 80,
-    align: 'center',
-}
+const label = t(msg => msg.limit.item.enabled)
 
-const handleChange = (row: TimeLimitItem, val: boolean) => {
-    row.enabled = val
-    limitService.update(row)
-}
-
-const slots = {
-    default: ({ row }: { row: TimeLimitItem }) => h(ElSwitch, {
-        modelValue: row.enabled,
-        onChange: (val: boolean) => handleChange(row, val)
-    })
-}
-
-const _default = () => h(ElTableColumn, columnProps, slots)
+const _default = defineComponent({
+    name: "LimitEnabledColumn",
+    emits: ["rowChange"],
+    setup(_, ctx) {
+        return () => h(ElTableColumn, {
+            prop: 'enabled',
+            label,
+            minWidth: 80,
+            align: 'center',
+        }, {
+            default: ({ row }: { row: TimeLimitItem }) => h(ElSwitch, {
+                modelValue: row.enabled,
+                onChange(val: boolean) {
+                    row.enabled = val
+                    ctx.emit("rowChange", row, val)
+                }
+            })
+        })
+    }
+})
 
 export default _default

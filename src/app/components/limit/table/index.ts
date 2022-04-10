@@ -6,26 +6,45 @@
  */
 
 import { ElTable } from "element-plus"
-import { h, Ref } from "vue"
+import { defineComponent, h, PropType } from "vue"
 import TimeLimitItem from "@entity/dto/time-limit-item"
-import { QueryData } from "@app/components/common/constants"
-import columns from "./column"
+import LimitCondColumn from "./column/cond"
+import LimitTimeColumn from "./column/time"
+import LimitWasteColumn from "./column/waste"
+import LimitDelayColumn from "./column/delay"
+import LimitEnabledColumn from "./column/enabled"
+import LimitOperationColumn from "./column/operation"
 
-type _Props = {
-    list: Ref<TimeLimitItem[]>
-    queryData: QueryData
-}
-
-export type TableProps = _Props
-
-const elTableProps = {
-    border: true,
-    size: 'mini',
-    style: { width: '100%' },
-    highlightCurrentRow: true,
-    fit: true
-}
-
-const _default = ({ list, queryData }: _Props) => h(ElTable, { ...elTableProps, data: list.value }, () => columns(queryData))
+const _default = defineComponent({
+    name: "LimitTable",
+    props: {
+        data: Array as PropType<TimeLimitItem[]>
+    },
+    emits: ["delayChange", "enabledChange", "delete"],
+    setup(props, ctx) {
+        return () => h(ElTable, {
+            border: true,
+            size: 'mini',
+            style: { width: '100%' },
+            highlightCurrentRow: true,
+            fit: true,
+            data: props.data
+        }, () => [
+            h(LimitCondColumn),
+            h(LimitTimeColumn),
+            h(LimitWasteColumn),
+            h(LimitDelayColumn, {
+                onRowChange: (row: TimeLimitItem, _allowDelay: boolean) => ctx.emit("delayChange", row)
+            }),
+            h(LimitEnabledColumn, {
+                onRowChange: (row: TimeLimitItem, _enabled: boolean) => ctx.emit("enabledChange", row)
+            }),
+            h(LimitOperationColumn, {
+                onRowDelete: (row: TimeLimitItem, _cond: string) => ctx.emit("delete", row)
+            })
+        ])
+    }
+})
 
 export default _default
+
