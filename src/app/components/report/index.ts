@@ -167,8 +167,8 @@ const _default = defineComponent({
                     displayBySecond.value = newFilterOption.displayBySecond
                     query()
                 },
-                onDownload: (format: FileFormat) => {
-                    const rows = data.value
+                onDownload: async (format: FileFormat) => {
+                    const rows = await timerService.select(queryParam.value, { alias: true })
                     const fileName = exportFileName.value
                     format === 'json' && exportJson(generateJsonData(rows), fileName)
                     format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value, mergeHost.value), fileName)
