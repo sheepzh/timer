@@ -49,6 +49,7 @@ async function queryWhiteList(whitelist: Ref<string[]>): Promise<void> {
 
 type _ExportInfo = {
     host: string
+    alias?: string
     date?: string
     total?: string
     focus?: string
@@ -62,6 +63,8 @@ type _ExportInfo = {
 const generateJsonData = (rows: DataItem[]) => {
     return rows.map(row => {
         const data: _ExportInfo = { host: row.host }
+        data.date = row.date
+        data.alias = row.alias
         // Always display by seconds
         data.total = periodFormatter(row.total, true, true)
         data.focus = periodFormatter(row.focus, true, true)
@@ -72,13 +75,35 @@ const generateJsonData = (rows: DataItem[]) => {
 
 /** 
  * @param rows row data
- * @returns data with csv format 
+ * @returns data with csv format
  */
-const generateCsvData = (rows: DataItem[], mergeDate: boolean) => {
-    let columnName: Array<keyof DataItem> = []
-    !mergeDate && columnName.push('date')
-    columnName = [...columnName, 'host', 'total', 'focus', 'time']
-    const data = [columnName.map(c => t(msg => msg.item[c]))]
+const generateCsvData = (rows: DataItem[], mergeDate: boolean, mergeHost: boolean) => {
+    const columnName: string[] = []
+    if (!mergeDate) {
+        columnName.push(t(msg => msg.item.date))
+    }
+    columnName.push(t(msg => msg.item.host))
+    if (!mergeHost) {
+        columnName.push(t(msg => msg.siteManage.column.alias))
+    }
+    columnName.push(t(msg => msg.item.total))
+    columnName.push(t(msg => msg.item.focus))
+    columnName.push(t(msg => msg.item.time))
+    const data = [columnName]
+    rows.forEach(row => {
+        const line = []
+        if (!mergeDate) {
+            line.push(row.date)
+        }
+        line.push(row.host)
+        if (!mergeHost) {
+            line.push(row.alias || '')
+        }
+        line.push(periodFormatter(row.total, true, true))
+        line.push(periodFormatter(row.focus, true, true))
+        line.push(row.time)
+        data.push(line)
+    })
     return data
 }
 
@@ -146,7 +171,7 @@ const _default = defineComponent({
                     const rows = data.value
                     const fileName = exportFileName.value
                     format === 'json' && exportJson(generateJsonData(rows), fileName)
-                    format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value), fileName)
+                    format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value, mergeHost.value), fileName)
                 }
             }),
             content: () => [
