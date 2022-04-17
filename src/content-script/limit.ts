@@ -5,10 +5,69 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem from "@entity/dto/time-limit-item"
+import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import { t2Chrome } from "@util/i18n/chrome/t"
-import { ChromeMessage } from "@util/message"
+import { ChromeCallback, ChromeMessage, ChromeResult } from "@util/message"
+
+class _Modal {
+    url: string
+    mask: HTMLDivElement
+    delayContainer: HTMLParagraphElement
+    visible: boolean = false
+    constructor(url: string) {
+        this.mask = document.createElement('div')
+        this.mask.id = "_timer_mask"
+        this.mask.append(link2Setup(url))
+        this.url = url
+        Object.assign(this.mask.style, maskStyle)
+    }
+
+    showModal(showDelay: boolean) {
+        const _thisUrl = this.url
+        if (showDelay && this.mask.childElementCount === 1) {
+            this.delayContainer = document.createElement('p')
+            this.delayContainer.style.marginTop = '100px'
+
+            // Only delay-allowed rules exist, can delay
+            // @since 0.4.0
+            const link = document.createElement('a')
+            Object.assign(link.style, linkStyle)
+            link.setAttribute('href', 'javascript:void(0)')
+            const text = t2Chrome(msg => msg.message.more5Minutes)
+            link.innerText = text
+            link.onclick = async () => {
+                await limitService.moreMinutes(_thisUrl)
+                this.hideModal()
+            }
+            this.delayContainer.append(link)
+            this.mask.append(this.delayContainer)
+        }
+        if (this.visible) {
+            return
+        }
+        document.body.append(this.mask)
+        document.body.style.overflow = 'hidden'
+        this.visible = true
+    }
+
+    hideModal() {
+        if (!this.visible) {
+            return
+        }
+        this.mask.remove()
+        document.body.style.overflow = ''
+        this.visible = false
+    }
+
+    process(data: TimeLimitItem[]) {
+        const anyMatch = data.map(item => item.matches(this.url)).reduce((a, b) => a || b)
+        if (anyMatch) {
+            const anyDelay = data.map(item => item.matches(this.url) && item.allowDelay).reduce((a, b) => a || b)
+            this.showModal(anyDelay)
+        }
+    }
+}
 
 const maskStyle: Partial<CSSStyleDeclaration> = {
     width: "100%",
@@ -34,8 +93,6 @@ function messageCode(url: string): ChromeMessage<string> {
     return { code: 'openLimitPage', data: encodeURIComponent(url) }
 }
 
-let mask: HTMLDivElement
-
 function link2Setup(url: string): HTMLParagraphElement {
     const link = document.createElement('a')
     Object.assign(link.style, linkStyle)
@@ -49,44 +106,24 @@ function link2Setup(url: string): HTMLParagraphElement {
     return p
 }
 
-function moreMinutes(url: string, limitedRules: TimeLimitItem[]): HTMLParagraphElement {
-    const p = document.createElement('p')
-    p.style.marginTop = '100px'
-    const canDelayRules = limitedRules.filter(r => r.allowDelay)
-
-    if (canDelayRules && canDelayRules.length) {
-        // Only delay-allowed rules exist, can delay
-        // @since 0.4.0
-        const link = document.createElement('a')
-        Object.assign(link.style, linkStyle)
-        link.setAttribute('href', 'javascript:void(0)')
-        const text = t2Chrome(msg => msg.message.more5Minutes)
-        link.innerText = text
-        link.onclick = async () => {
-            await limitService.moreMinutes(url, canDelayRules)
-            mask.remove()
-            document.body.style.overflow = ''
-        }
-        p.append(link)
-    }
-    return p
-}
-
-function generateMask(url: string, limitedRules: TimeLimitItem[]): HTMLDivElement {
-    const modalMask = document.createElement('div')
-    modalMask.id = "_timer_mask"
-    modalMask.append(link2Setup(url), moreMinutes(url, limitedRules))
-    Object.assign(modalMask.style, maskStyle)
-    return modalMask
-}
-
 export default async function processLimit(url: string) {
+    const modal = new _Modal(url)
     const limitedRules: TimeLimitItem[] = await limitService.getLimited(url)
-    if (!limitedRules.length) return
-    mask = generateMask(url, limitedRules)
-    window.onload = () => {
-        document.body.append(mask)
-        document.body.style.overflow = 'hidden'
+    if (limitedRules?.length) {
+        window.onload = () => modal.showModal(!!limitedRules?.filter?.(item => item.allowDelay).length)
     }
+    chrome.runtime.onMessage.addListener((msg: ChromeMessage<TimeLimitItemLike[]>, _sender, sendResponse: ChromeCallback) => {
+        if (msg.code !== "limitTimeMeet") {
+            sendResponse({ code: "ignore" })
+            return
+        }
+        const itemLikes: TimeLimitItemLike[] = msg.data
+        if (!itemLikes) {
+            sendResponse({ code: "fail", msg: "Empty time limit item" })
+        }
+        const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
+        modal.process(items)
+        sendResponse({ code: "success" })
+    })
 }
 
