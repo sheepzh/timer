@@ -45,6 +45,9 @@ export default defineComponent(() => {
         } else {
             domainKeyRef.value = ''
         }
+
+        // Init here
+        chartRef.value.setDateRange(dateRangeRef.value)
     })
 
     // chart 
