@@ -55,7 +55,7 @@ const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathIt
 
     let url = await clipboardy.read(), protocol = Protocol.ALL
 
-    url = decodeURI(url)
+    url = decodeURI(url)?.trim()
     if (url.startsWith(Protocol.HTTP)) {
         protocol = Protocol.HTTP
         url = url.substring(Protocol.HTTP.length)
