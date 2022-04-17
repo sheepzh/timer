@@ -65,15 +65,29 @@ async function getLimited(url: string): Promise<TimeLimitItem[]> {
  * Add time
  * @param url url 
  * @param focusTime time, milliseconds 
+ * @returns the rules is limit cause of this operation
  */
 async function addFocusTime(url: string, focusTime: number) {
-    const allEnabled = await select({ filterDisabled: true, url })
+    const allEnabled: TimeLimitItem[] = await select({ filterDisabled: true, url })
     const toUpdate: { [cond: string]: number } = {}
-    allEnabled.forEach(item => toUpdate[item.cond] = item.waste += focusTime)
-    return db.updateWaste(formatTime(new Date, DATE_FORMAT), toUpdate)
+    const result: TimeLimitItem[] = []
+    allEnabled.forEach(item => {
+        const limitBefore = item.hasLimited()
+        toUpdate[item.cond] = item.waste += focusTime
+        const limitAfter = item.hasLimited()
+        if (!limitBefore && limitAfter) {
+            result.push(item)
+        }
+    })
+    await db.updateWaste(formatTime(new Date, DATE_FORMAT), toUpdate)
+    return result
 }
 
-async function moreMinutes(url: string, rules: TimeLimitItem[]): Promise<void> {
+async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<void> {
+    if (rules === undefined || rules === null) {
+        rules = (await select({ url: url, filterDisabled: true }))
+            .filter(item => item.hasLimited() && item.allowDelay)
+    }
     const date = formatTime(new Date(), DATE_FORMAT)
     const toUpdate: { [cond: string]: number } = {}
     rules.forEach(({ cond, waste }) => {
@@ -90,7 +104,16 @@ class LimitService {
     updateDelay = updateDelay
     select = select
     remove = remove
-    addFocusTime = (host: string, url: string, focusTime: number) => whitelistHolder.notContains(host) && addFocusTime(url, focusTime)
+    /**
+     * @returns The rules limited cause of this operation
+     */
+    async addFocusTime(host: string, url: string, focusTime: number): Promise<TimeLimitItem[]> {
+        if (whitelistHolder.notContains(host)) {
+            return addFocusTime(url, focusTime)
+        } else {
+            return []
+        }
+    }
 }
 
 export default new LimitService()

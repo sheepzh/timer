@@ -5,10 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-export default class TimeLimitItem {
+/**
+ * @since 0.8.4
+ */
+export type TimeLimitItemLike = {
     /**
-     * Condition, can be regular expression with star signs
-     */
+         * Condition, can be regular expression with star signs
+         */
     cond: string
     regular: RegExp
     /**
@@ -21,6 +24,25 @@ export default class TimeLimitItem {
      * Waste today, milliseconds
      */
     waste?: number
+}
+
+export default class TimeLimitItem implements TimeLimitItemLike {
+    cond: string
+    regular: RegExp
+    time: number
+    enabled: boolean
+    allowDelay: boolean
+    waste?: number
+
+    static of(like: TimeLimitItemLike) {
+        return new _Builder()
+            .cond(like.cond)
+            .time(like.time)
+            .enabled(like.enabled)
+            .allowDelay(like.allowDelay)
+            .waste(like.waste)
+            .build()
+    }
 
     static builder(): _Builder {
         return new _Builder
