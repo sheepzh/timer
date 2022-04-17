@@ -74,6 +74,8 @@ const urlPaste = (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) =>
     () => pasteButtonText
 )
 
+const placeholder = t(msg => msg.limit.urlPlaceholder)
+
 const urlInput = ({ protocolRef, urlRef, pathItemsRef }: _Props) => h(ElInput,
     {
         modelValue: urlRef.value,
@@ -83,7 +85,8 @@ const urlInput = ({ protocolRef, urlRef, pathItemsRef }: _Props) => h(ElInput,
         // @see ../style/el-input.sass
         // @see this.onInput
         // disabled: true,
-        onInput: (_val: string) => { /** Do nothing */ }
+        onInput: (_val: string) => { /** Do nothing */ },
+        placeholder
     },
     {
         prefix: () => protocolSelect(protocolRef),

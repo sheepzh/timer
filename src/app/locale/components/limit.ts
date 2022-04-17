@@ -40,6 +40,7 @@ export type LimitMessage = {
         deleteConfirm: string
         deleted: string
     }
+    urlPlaceholder: string
 }
 
 const _default: Messages<LimitMessage> = {
@@ -75,7 +76,8 @@ const _default: Messages<LimitMessage> = {
             noTime: '未填写每日限制时长',
             deleteConfirm: '是否删除限制：{cond}？',
             deleted: '删除成功'
-        }
+        },
+        urlPlaceholder: "请直接粘贴网址 ➡️"
     },
     en: {
         conditionFilter: 'URL',
@@ -109,7 +111,8 @@ const _default: Messages<LimitMessage> = {
             noTime: 'Unfilled limited time per day',
             deleteConfirm: 'Do you want to delete the rule of {cond}?',
             deleted: 'Deleted successfully'
-        }
+        },
+        urlPlaceholder: "Please paste the URL directly ➡️"
     },
     ja: {
         conditionFilter: 'URL',
@@ -143,7 +146,8 @@ const _default: Messages<LimitMessage> = {
             saved: '正常に保存',
             deleteConfirm: '{cond} の制限を削除しますか？',
             deleted: '正常に削除'
-        }
+        },
+        urlPlaceholder: "URLを直接貼り付けてください➡️"
     }
 }
 
