@@ -21,7 +21,8 @@ export function defaultPopup(): Timer.PopupOption {
 export function defaultAppearance(): Timer.AppearanceOption {
     return {
         displayWhitelistMenu: true,
-        displayBadgeText: false,
+        // Change false to true @since 0.8.4
+        displayBadgeText: true,
         locale: "default"
     }
 }
