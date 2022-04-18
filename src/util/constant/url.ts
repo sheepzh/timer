@@ -39,6 +39,13 @@ export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
 export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
 
 /**
+ * Feedback powered by support.qq.com
+ * 
+ * @since 0.8.5
+ */
+export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
+
+/**
  * The page of extension detail
  * @since 0.1.8
  */

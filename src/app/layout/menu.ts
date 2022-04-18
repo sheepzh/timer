@@ -10,10 +10,11 @@ import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from 
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
-import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, ZH_FEEDBACK_PAGE } from "@util/constant/url"
+import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, TU_CAO_PAGE, ZH_FEEDBACK_PAGE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
+import { IS_EDGE } from "@util/constant/environment"
 
 declare type MenuItem = {
     title: keyof MenuMessage
@@ -33,7 +34,12 @@ declare type MenuGroup = {
  * 
  * @since 0.3.2
  */
-const realFeedbackLink: string = locale === "zh_CN" ? ZH_FEEDBACK_PAGE : GITHUB_ISSUE_ADD
+let realFeedbackLink: string = GITHUB_ISSUE_ADD
+if (locale === 'zh_CN') {
+    // Gray for new feedback page
+    // todo
+    realFeedbackLink = IS_EDGE ? TU_CAO_PAGE : ZH_FEEDBACK_PAGE
+}
 
 const OTHER_MENU_ITEMS: MenuItem[] = [{
     title: 'feedback',
