@@ -6,7 +6,7 @@
  */
 
 import { OPTION_ROUTE } from "../app/router/constants"
-import { getAppPageUrl, SOURCE_CODE_PAGE } from "@util/constant/url"
+import { getAppPageUrl, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
 import { t2Chrome } from "@util/i18n/chrome/t"
 
 const APP_PAGE_URL = getAppPageUrl(true)
@@ -37,10 +37,18 @@ const repoPageProps: chrome.contextMenus.CreateProperties = {
     ...baseProps
 }
 
+const feedbackPageProps: chrome.contextMenus.CreateProperties = {
+    id: '_timer_menu_item_feedback_link',
+    title: '😿 ' + t2Chrome(msg => msg.contextMenus.feedbackPage),
+    onclick: () => chrome.tabs.create({ url: TU_CAO_PAGE }),
+    ...baseProps
+}
+
 function init() {
     chrome.contextMenus.create(allFunctionProps)
     chrome.contextMenus.create(optionPageProps)
     chrome.contextMenus.create(repoPageProps)
+    chrome.contextMenus.create(feedbackPageProps)
 }
 
 export default init

@@ -16,6 +16,7 @@ export type ContextMenusMessage = {
     allFunctions: string
     optionPage: string
     repoPage: string
+    feedbackPage: string
 }
 
 const _default: Messages<ContextMenusMessage> = {
@@ -24,21 +25,24 @@ const _default: Messages<ContextMenusMessage> = {
         removeFromWhitelist: '将{host}从白名单移出',
         allFunctions: '所有功能',
         optionPage: '扩展选项',
-        repoPage: '扩展源码'
+        repoPage: '源码下载',
+        feedbackPage: '吐槽一下'
     },
     en: {
         add2Whitelist: 'Add {host} to the whitelist',
         removeFromWhitelist: 'Remove {host} from the whitelist',
         allFunctions: 'All Functions',
         optionPage: 'Options',
-        repoPage: 'Source Code'
+        repoPage: 'Source Code',
+        feedbackPage: 'Issues'
     },
     ja: {
         add2Whitelist: 'ホワイトリスト',
         removeFromWhitelist: 'ホワイトリストから削除する',
         allFunctions: 'すべての機能',
         optionPage: '拡張設定',
-        repoPage: 'ソースコード'
+        repoPage: 'ソースコード',
+        feedbackPage: 'フィードバックの欠如'
     }
 }
 

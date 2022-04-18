@@ -57,7 +57,8 @@ const placeholder: ChromeMessage = {
         removeFromWhitelist: '',
         allFunctions: '',
         optionPage: '',
-        repoPage: ''
+        repoPage: '',
+        feedbackPage: '',
     }
 }
 
