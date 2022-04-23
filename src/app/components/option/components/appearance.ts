@@ -97,7 +97,7 @@ const options = () => [
         input: displayBadgeText(),
         timeInfo: tagText(msg => msg.option.appearance.badgeTextContent),
         icon: tagText(msg => msg.option.appearance.icon)
-    }, msg => msg.appearance.displayBadgeText, t(msg => msg.option.no)),
+    }, msg => msg.appearance.displayBadgeText, t(msg => msg.option.yes)),
     h(ElDivider),
     renderOptionItem({
         input: printInConsole(),
