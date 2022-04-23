@@ -52,6 +52,12 @@ declare namespace Timer {
          * @since 0.8.0
          */
         locale: LocaleOption
+        /**
+         * Whether to print the info in the console
+         * 
+         * @since 0.8.6
+         */
+        printInConsole: boolean
     }
 
     type StatisticsOption = {

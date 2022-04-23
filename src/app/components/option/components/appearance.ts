@@ -33,6 +33,14 @@ const displayBadgeText = () => h(ElSwitch, {
     }
 })
 
+const printInConsole = () => h(ElSwitch, {
+    modelValue: optionRef.value.printInConsole,
+    onChange: (newVal: boolean) => {
+        optionRef.value.printInConsole = newVal
+        optionService.setAppearanceOption(optionRef.value)
+    }
+})
+
 const allLocaleOptions: Timer.LocaleOption[] = ["default", "zh_CN", "en", "ja"]
 const locale = () => h(ElSelect, {
     modelValue: optionRef.value.locale,
@@ -89,7 +97,11 @@ const options = () => [
         input: displayBadgeText(),
         timeInfo: tagText(msg => msg.option.appearance.badgeTextContent),
         icon: tagText(msg => msg.option.appearance.icon)
-    }, msg => msg.appearance.displayBadgeText, t(msg => msg.option.no))
+    }, msg => msg.appearance.displayBadgeText, t(msg => msg.option.no)),
+    h(ElDivider),
+    renderOptionItem({
+        input: printInConsole(),
+    }, msg => msg.appearance.printInConsole, t(msg => msg.option.yes))
 ]
 
 const _default = defineComponent(() => {
