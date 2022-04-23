@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import optionService from "@service/option-service"
 import timerService from "@service/timer-service"
 import whitelistService from "@service/whitelist-service"
 import { initLocale } from "@util/i18n"
@@ -23,7 +24,10 @@ async function main() {
     timerService.addOneTime(host)
 
     await initLocale()
-    printInfo(host)
+    const option = await optionService.getAllOption()
+    if (!!option.printInConsole) {
+        printInfo(host)
+    }
     processLimit(url)
 }
 

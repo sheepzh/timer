@@ -37,6 +37,7 @@ export type OptionMessage = {
             infoL1: string
             infoL2: string
         }
+        printInConsole: string
     }
     statistics: {
         title: string
@@ -82,7 +83,8 @@ const _default: Messages<OptionMessage> = {
                 default: "跟随浏览器",
                 changeConfirm: "语言设置成功，请刷新页面！",
                 reloadButton: "刷新"
-            }
+            },
+            printInConsole: '{input}  是否在浏览器的控制台里打印当前网站的今日访问信息'
         },
         statistics: {
             title: '统计',
@@ -126,7 +128,8 @@ const _default: Messages<OptionMessage> = {
                 default: "Same as browser",
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
-            }
+            },
+            printInConsole: '{input}  Whether to print the visit count of the current website today in the console'
         },
         statistics: {
             title: 'Statistics',
@@ -173,7 +176,8 @@ const _default: Messages<OptionMessage> = {
                 infoL2: "ポップアップページの言語切り替えを実現するために、以降のバージョンでコードをリファクタリングします。もうしばらくお待ちください。❤️❤️",
                 changeConfirm: "言語が正常に変更されました。このページをリロードしてください。",
                 reloadButton: "リロード"
-            }
+            },
+            printInConsole: '{input}  現在のWebサイトへのアクセス数をコンソールに印刷するかどうか'
         },
         statistics: {
             title: '統計',

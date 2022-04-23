@@ -23,7 +23,8 @@ export function defaultAppearance(): Timer.AppearanceOption {
         displayWhitelistMenu: true,
         // Change false to true @since 0.8.4
         displayBadgeText: true,
-        locale: "default"
+        locale: "default",
+        printInConsole: true
     }
 }
 
