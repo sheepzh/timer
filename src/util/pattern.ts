@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { IS_CHROME, IS_EDGE } from "./constant/environment"
 import { SUFFIX_HOST_MAP } from "./constant/remain-host"
 
 /**
@@ -54,7 +53,7 @@ export function isValidHost(host: string) {
     const indexOfColon = host.indexOf(':')
     if (indexOfColon > -1) {
         const portStr = host.substring(indexOfColon + 1)
-        if (isNotValidPort(portStr)) {
+        if (portStr !== '*' && isNotValidPort(portStr)) {
             return false
         }
         host = host.substring(0, indexOfColon)

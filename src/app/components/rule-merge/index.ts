@@ -8,7 +8,7 @@
 import '../common/editable-tag'
 import { defineComponent } from "vue"
 import ContentContainer from "../common/content-container"
-import alertInfo from "./alert-info"
+import RuleMergeAlertInfo from "./alert-info"
 import itemList from "./item-list"
 import { ElCard } from "element-plus"
 import { h } from "vue"
@@ -16,10 +16,10 @@ import { h } from "vue"
 const _default = defineComponent({
     name: "RuleMerge",
     setup() {
-        return () => h(ContentContainer, {},
-            {
-                default: () => h(ElCard, {}, () => [alertInfo(), itemList()])
-            })
+        return () => h(ContentContainer, () => h(ElCard, () => [
+            h(RuleMergeAlertInfo),
+            itemList()
+        ]))
     }
 })
 

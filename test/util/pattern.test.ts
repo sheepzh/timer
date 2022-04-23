@@ -21,11 +21,14 @@ test('ip and port', () => {
     expect(isIpAndPort('222.222.22.2:65535')).toBeTruthy()
     // 65536 is invalid port
     expect(isIpAndPort('222.222.22.2:65536')).toBeFalsy()
+    // Regular expression is not valid
+    expect(isIpAndPort('222.222.22.2:*')).toBeFalsy()
 })
 
 test('merge host origin', () => {
     expect(isValidHost('wwdad.basd.com.111:12345')).toBeTruthy()
     expect(isValidHost('wwdad.basd.com.a111a:12345')).toBeTruthy()
+    expect(isValidHost('wwdad.basd.com.a111a:*')).toBeTruthy()
     expect(isValidHost('wwdad.basd.**:12345')).toBeFalsy()
     expect(isValidHost('wwdad.basd.**:65536')).toBeFalsy()
     expect(isValidHost('wwdad.basd.*.*')).toBeTruthy()
