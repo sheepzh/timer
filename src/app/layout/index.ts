@@ -11,10 +11,15 @@ import Menu from "./menu"
 import VersionTag from "./version-tag"
 import { RouterView } from "vue-router"
 
-const layoutContent = () => [
-    h(ElAside, { width: '270px' }, () => h(Menu)),
-    h(ElContainer, { class: 'app-container' }, () => h(RouterView)),
-    h(VersionTag)
-]
+const _default = defineComponent({
+    name: "Layout",
+    render() {
+        return h(ElContainer, {}, () => [
+            h(ElAside, { width: `270px` }, () => h(Menu)),
+            h(ElContainer, { class: 'app-container' }, () => h(RouterView)),
+            h(VersionTag)
+        ])
+    }
+})
 
-export default defineComponent(() => () => h(ElContainer, {}, () => layoutContent()))
+export default _default

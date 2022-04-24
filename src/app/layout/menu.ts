@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, h, onMounted, ref, Ref } from "vue"
+import { defineComponent, h, onMounted, reactive, ref, Ref, UnwrapRef } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "@app/locale"
@@ -16,7 +16,7 @@ import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
 import { IS_EDGE } from "@util/constant/environment"
 
-declare type MenuItem = {
+type _MenuItem = {
     title: keyof MenuMessage
     icon: ElementIcon
     route?: string
@@ -24,9 +24,14 @@ declare type MenuItem = {
     index?: string
 }
 
-declare type MenuGroup = {
+type _MenuGroup = {
     title: keyof MenuMessage
-    children: MenuItem[]
+    children: _MenuItem[]
+}
+
+type _RouteProps = {
+    router: Router
+    current: RouteLocationNormalizedLoaded
 }
 
 /**
@@ -41,7 +46,7 @@ if (locale === 'zh_CN') {
     realFeedbackLink = IS_EDGE ? TU_CAO_PAGE : ZH_FEEDBACK_PAGE
 }
 
-const OTHER_MENU_ITEMS: MenuItem[] = [{
+const OTHER_MENU_ITEMS: _MenuItem[] = [{
     title: 'feedback',
     href: realFeedbackLink,
     icon: ChatSquare,
@@ -61,7 +66,7 @@ OTHER_MENU_ITEMS.push({
 })
 
 // All menu items
-const ALL_MENU: MenuGroup[] = [
+const ALL_MENU: _MenuGroup[] = [
     {
         title: 'data',
         children: [{
@@ -113,15 +118,11 @@ const ALL_MENU: MenuGroup[] = [
     }
 ]
 
-const routerRef: Ref<Router> = ref()
-
-const currentRouteRef: Ref<RouteLocationNormalizedLoaded> = ref()
-
-const openMenu = (route: string, title: I18nKey) => {
-    const router = routerRef.value
-    const currentRoute = currentRouteRef.value
-    if (currentRoute && currentRoute.path !== route) {
-        router && router.push(route)
+function openMenu(route: string, title: I18nKey, routeProps: UnwrapRef<_RouteProps>) {
+    const routerVal = routeProps.router
+    const currentRouteVal = routeProps.current
+    if (currentRouteVal && currentRouteVal.path !== route) {
+        routerVal && routerVal.push(route)
         document.title = t(title)
     }
 }
@@ -130,10 +131,10 @@ const openHref = (href: string) => {
     chrome.tabs.create({ url: href })
 }
 
-const handleClick = (menuItem: MenuItem) => {
-    const { route, title, href } = menuItem
+function handleClick(_MenuItem: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
+    const { route, title, href } = _MenuItem
     if (route) {
-        openMenu(route, msg => msg.menu[title])
+        openMenu(route, msg => msg.menu[title], routeProps)
     } else {
         openHref(href)
     }
@@ -146,10 +147,10 @@ const iconStyle: Partial<CSSStyleDeclaration> = {
     lineHeight: '0.83em'
 }
 
-const renderMenuLeaf = (menu: MenuItem) => {
+function renderMenuLeaf(menu: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
     const { route, title, icon, index } = menu
     const props: { onClick: (item: MenuItemRegistered) => void; index?: string } = {
-        onClick: (_item) => handleClick(menu)
+        onClick: (_item) => handleClick(menu, routeProps)
     }
     const realIndex = index || route
     realIndex && (props.index = realIndex)
@@ -161,26 +162,26 @@ const renderMenuLeaf = (menu: MenuItem) => {
     )
 }
 
-const renderMenu = (menu: MenuGroup) => {
+function renderMenu(menu: _MenuGroup, props: UnwrapRef<_RouteProps>) {
     const title = t(msg => msg.menu[menu.title])
-    const subMenuSlots = {
-        default: () => menu.children.map(renderMenuLeaf)
-    }
-    return h(ElMenuItemGroup, { title }, subMenuSlots)
+    return h(ElMenuItemGroup, { title }, () => menu.children.map(item => renderMenuLeaf(item, props)))
 }
 
-const menuItems = () => ALL_MENU.map(renderMenu)
+const _default = defineComponent({
+    name: "LayoutMenu",
+    setup() {
+        const routeProps: UnwrapRef<_RouteProps> = reactive({
+            router: useRouter(),
+            current: useRoute()
+        })
 
-const _default = defineComponent<{}, {}>(() => {
-    routerRef.value = useRouter()
-    currentRouteRef.value = useRoute()
+        onMounted(() => document.title = t(msg => msg.menu.data))
 
-    onMounted(() => document.title = t(msg => msg.menu.data))
-
-    return () => h(ElMenu,
-        { defaultActive: currentRouteRef.value.path },
-        { default: menuItems }
-    )
+        return () => h(ElMenu,
+            { defaultActive: routeProps.current.path },
+            () => ALL_MENU.map(menu => renderMenu(menu, routeProps))
+        )
+    }
 })
 
 export default _default
