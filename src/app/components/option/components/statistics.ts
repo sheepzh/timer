@@ -56,14 +56,16 @@ const options = () => [
     }, msg => msg.statistics.collectSiteName, t(msg => msg.option.yes))
 ]
 
-const _default = defineComponent(() => {
-    return () => h(ElCard, {
-    }, {
-        header: () => renderHeader(
-            msg => msg.statistics.title,
-            () => optionService.setStatisticsOption(optionRef.value = defaultStatistics())),
-        default: options
-    })
+const _default = defineComponent({
+    name: "StatisticsOptionContainer",
+    render() {
+        return h(ElCard, {}, {
+            header: () => renderHeader(
+                msg => msg.statistics.title,
+                () => optionService.setStatisticsOption(optionRef.value = defaultStatistics())),
+            default: options
+        })
+    }
 })
 
 export default _default

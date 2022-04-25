@@ -79,12 +79,17 @@ const options = () => [
     }, msg => msg.popup.displaySiteName, t(msg => msg.option.yes))
 ]
 
-const _default = defineComponent(() => {
-    return () => h(ElCard, {
-    }, {
-        header: () => renderHeader(msg => msg.popup.title, () => optionService.setPopupOption(optionRef.value = defaultPopup())),
-        default: options
-    })
+const _default = defineComponent({
+    name: "PopupOptionContainer",
+    render() {
+        return h(ElCard, {}, {
+            header: () => renderHeader(
+                msg => msg.popup.title,
+                () => optionService.setPopupOption(optionRef.value = defaultPopup())
+            ),
+            default: options
+        })
+    }
 })
 
 export default _default
