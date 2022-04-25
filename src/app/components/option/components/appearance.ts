@@ -107,7 +107,9 @@ const options = () => [
     h(ElDivider),
     renderOptionItem({
         input: printInConsole(),
-    }, msg => msg.appearance.printInConsole, t(msg => msg.option.yes))
+        console: tagText(msg => msg.option.appearance.printInConsole.console),
+        info: tagText(msg => msg.option.appearance.printInConsole.info)
+    }, msg => msg.appearance.printInConsole.label, t(msg => msg.option.yes))
 ]
 
 const _default = defineComponent({

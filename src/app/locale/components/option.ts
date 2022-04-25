@@ -37,7 +37,11 @@ export type OptionMessage = {
             infoL1: string
             infoL2: string
         }
-        printInConsole: string
+        printInConsole: {
+            label: string
+            console: string
+            info: string
+        }
     }
     statistics: {
         title: string
@@ -84,7 +88,11 @@ const _default: Messages<OptionMessage> = {
                 changeConfirm: "语言设置成功，请刷新页面！",
                 reloadButton: "刷新"
             },
-            printInConsole: '{input}  是否在浏览器的控制台里打印当前网站的今日访问信息'
+            printInConsole: {
+                label: '{input}  是否在 {console} 里打印当前网站的 {info}',
+                console: '浏览器的控制台',
+                info: '今日访问信息'
+            }
         },
         statistics: {
             title: '统计',
@@ -129,7 +137,11 @@ const _default: Messages<OptionMessage> = {
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
             },
-            printInConsole: '{input}  Whether to print the visit count of the current website today in the console'
+            printInConsole: {
+                label: '{input}  Whether to print {info} in the {console}',
+                console: 'console',
+                info: 'the visit count of the current website today'
+            }
         },
         statistics: {
             title: 'Statistics',
@@ -177,7 +189,11 @@ const _default: Messages<OptionMessage> = {
                 changeConfirm: "言語が正常に変更されました。このページをリロードしてください。",
                 reloadButton: "リロード"
             },
-            printInConsole: '{input}  現在のWebサイトへのアクセス数をコンソールに印刷するかどうか'
+            printInConsole: {
+                label: '{input}  現在のウェブサイトの {info} を {console} に印刷するかどうか',
+                console: 'コンソール',
+                info: '今日の情報をご覧ください'
+            }
         },
         statistics: {
             title: '統計',
