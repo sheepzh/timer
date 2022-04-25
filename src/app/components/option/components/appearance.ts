@@ -9,10 +9,11 @@ import { ElCard, ElDivider, ElIcon, ElMessageBox, ElOption, ElSelect, ElSwitch, 
 import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
-import { t } from "@app/locale"
+import { t, tWith } from "@app/locale"
 import { renderHeader, renderOptionItem, tagText } from "../common"
 import localeMessages from "@util/i18n/components/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
+import { chromeLocale2ExtensionLocale } from "@util/i18n"
 
 const optionRef: Ref<Timer.AppearanceOption> = ref(defaultAppearance())
 optionService.getAllOption().then(option => optionRef.value = option)
@@ -49,8 +50,13 @@ const locale = () => h(ElSelect, {
     onChange: async (newVal: Timer.LocaleOption) => {
         optionRef.value.locale = newVal
         await optionService.setAppearanceOption(optionRef.value)
+        // await maybe not work in Firefox, so calculate the real locale again
+        // GG Firefox
+        const realLocale: Timer.Locale = newVal === "default"
+            ? chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+            : newVal
         ElMessageBox({
-            message: t(msg => msg.option.appearance.locale.changeConfirm),
+            message: tWith(msg => msg.option.appearance.locale.changeConfirm, realLocale),
             type: "success",
             confirmButtonText: t(msg => msg.option.appearance.locale.reloadButton),
             // Cant close this on press ESC
@@ -104,12 +110,18 @@ const options = () => [
     }, msg => msg.appearance.printInConsole, t(msg => msg.option.yes))
 ]
 
-const _default = defineComponent(() => {
-    return () => h(ElCard, {
-    }, {
-        header: () => renderHeader(msg => msg.appearance.title, () => optionService.setAppearanceOption(optionRef.value = defaultAppearance())),
-        default: options
-    })
+const _default = defineComponent({
+    name: "AppearanceOptionContainer",
+    render() {
+        return h(ElCard, {
+        }, {
+            header: () => renderHeader(
+                msg => msg.appearance.title,
+                () => optionService.setAppearanceOption(optionRef.value = defaultAppearance())
+            ),
+            default: options
+        })
+    }
 })
 
 export default _default
