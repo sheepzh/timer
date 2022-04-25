@@ -10,7 +10,8 @@ import clipboardy from "clipboardy"
 import { t } from "@app/locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import UrlPathItem from "./url-path-item"
-import { checkOrRequestPermission } from "@src/permissions"
+import { checkPermission, requestPermission } from "@src/permissions"
+import { IS_FIREFOX } from "@util/constant/environment"
 
 export enum Protocol {
     HTTP = 'http://',
@@ -44,9 +45,22 @@ const url2PathItems = (url: string) => {
 }
 
 const PERMISSION = 'clipboardRead'
+const FIREFOX_NO_PERMISSION_MSG = t(msg => msg.limit.message.noPermissionFirefox)
 
 const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) => {
-    const granted = await checkOrRequestPermission(PERMISSION)
+    let granted = await checkPermission(PERMISSION)
+
+    if (!granted) {
+        if (IS_FIREFOX) {
+            // Can't request permission here in Firefox
+            // The reason maybe is @see https://stackoverflow.com/a/47729896
+            // GG, Firefox
+            alert(FIREFOX_NO_PERMISSION_MSG)
+            return
+        } else {
+            granted = await requestPermission(PERMISSION)
+        }
+    }
 
     if (!granted) {
         alert('Can\'t read the clipboard, please contact the developer via email to returnzhy1996@outlook.com')

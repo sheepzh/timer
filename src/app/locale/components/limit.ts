@@ -39,6 +39,7 @@ export type LimitMessage = {
         saved: string
         deleteConfirm: string
         deleted: string
+        noPermissionFirefox: string
     }
     urlPlaceholder: string
 }
@@ -75,7 +76,8 @@ const _default: Messages<LimitMessage> = {
             noUrl: '未填写限制网址',
             noTime: '未填写每日限制时长',
             deleteConfirm: '是否删除限制：{cond}？',
-            deleted: '删除成功'
+            deleted: '删除成功',
+            noPermissionFirefox: "请先在插件管理页[about:addons]开启该插件的粘贴板权限"
         },
         urlPlaceholder: "请直接粘贴网址 ➡️"
     },
@@ -110,7 +112,8 @@ const _default: Messages<LimitMessage> = {
             noUrl: 'Unfilled limited URL',
             noTime: 'Unfilled limited time per day',
             deleteConfirm: 'Do you want to delete the rule of {cond}?',
-            deleted: 'Deleted successfully'
+            deleted: 'Deleted successfully',
+            noPermissionFirefox: "Please enable the clipboard permission of this addon on the management page (about:addons) first"
         },
         urlPlaceholder: "Please paste the URL directly ➡️"
     },
@@ -145,7 +148,8 @@ const _default: Messages<LimitMessage> = {
             noTime: '1日の制限時間を記入しない',
             saved: '正常に保存',
             deleteConfirm: '{cond} の制限を削除しますか？',
-            deleted: '正常に削除'
+            deleted: '正常に削除',
+            noPermissionFirefox: "最初にプラグイン管理ページでプラグインのペーストボード権限を有効にしてください"
         },
         urlPlaceholder: "URLを直接貼り付けてください➡️"
     }
