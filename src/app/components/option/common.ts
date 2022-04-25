@@ -26,18 +26,16 @@ export function renderOptionItem(input: VNode | { [key: string]: VNode }, label:
     return h('div', { class: 'option-line' }, [labelArcher, defaultArcher])
 }
 
-const resetButtonProps = {
+const resetButtonMsg = t(msg => msg.option.resetButton)
+const renderResetButton = (handleClick: () => PromiseLike<any>) => h(ElButton, {
     type: 'text',
     class: 'reset-button',
-    icon: Refresh
-}
-const resetButtonMsg = () => t(msg => msg.option.resetButton)
-const renderResetButton = (handleClick: () => PromiseLike<any>) => h<{}>(ElButton, {
-    ...resetButtonProps, async onClick() {
+    icon: Refresh,
+    async onClick() {
         await handleClick()
         ElMessage.success(t(msg => msg.option.resetSuccess))
     }
-}, resetButtonMsg)
+}, () => resetButtonMsg)
 
 /**
  * Render the header 

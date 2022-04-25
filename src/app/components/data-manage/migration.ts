@@ -50,22 +50,20 @@ const buttonStyle: Partial<CSSStyleDeclaration> = {
     height: '30%',
     marginLeft: '0px'
 }
-const buttonProps = {
-    style: buttonStyle,
-    size: 'large'
-}
 
 const alert = () => h(ElAlert, alertProps, () => t(msg => msg.dataManage.migrationAlert))
 
-const exportButtonText = () => t(msg => msg.item.operation.exportWholeData)
-const exportButton = () => h<{}>(ElButton,
+const exportButtonText = t(msg => msg.item.operation.exportWholeData)
+const exportButton = () => h(ElButton,
     {
-        ...buttonProps,
+        style: buttonStyle,
+        size: 'large',
         type: 'success',
         icon: Download,
         onClick: handleExport
     },
-    exportButtonText)
+    () => exportButtonText
+)
 
 const fileInputProps = {
     ref: fileInputRef,
@@ -78,14 +76,16 @@ const fileInput = (queryData: any) => h('input', {
     onChange: () => handleFileSelected(queryData)
 })
 const importButtonText = (queryData: any) => [t(msg => msg.item.operation.importWholeData), fileInput(queryData)]
-const importButton = (queryData: any) => h<{}>(ElButton,
+const importButton = (queryData: any) => h(ElButton,
     {
-        ...buttonProps,
+        style: buttonStyle,
+        size: 'large',
         type: 'primary',
         icon: Upload,
         onClick: () => fileInputRef.value.click()
     },
-    () => importButtonText(queryData))
+    () => importButtonText(queryData)
+)
 
 const mainStyle: Partial<CSSStyleDeclaration> = {
     height: '100%',
