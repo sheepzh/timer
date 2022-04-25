@@ -97,7 +97,7 @@ const _default: Messages<LimitMessage> = {
             add: 'New',
             test: 'Test URL',
             paste: 'Paste',
-            save: 'Download',
+            save: 'Save',
             delete: 'Delete'
         },
         addTitle: 'New',
