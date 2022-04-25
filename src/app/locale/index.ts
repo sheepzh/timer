@@ -16,6 +16,14 @@ export function t(key: I18nKey, param?: any) {
     return _t<AppMessage>(messages[locale], props)
 }
 
+/**
+ * @since 0.8.8
+ */
+export function tWith(key: I18nKey, specLocale: Timer.Locale, param?: any) {
+    const props = { key, param }
+    return _t<AppMessage>(messages[specLocale], props)
+}
+
 export function tN(key: I18nKey, param?: any) {
     return _tN<AppMessage>(messages[locale], { key, param })
 }

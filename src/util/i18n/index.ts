@@ -39,7 +39,7 @@ const chrome2I18n: { [key: string]: Timer.Locale } = {
  * 
  * They are different, so translate
  */
-function chromeLocale2ExtensionLocale(chromeLocale: string): Timer.Locale {
+export function chromeLocale2ExtensionLocale(chromeLocale: string): Timer.Locale {
     if (!chromeLocale) {
         return defaultLocale
     }
