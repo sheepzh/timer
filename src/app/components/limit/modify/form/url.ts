@@ -81,7 +81,7 @@ const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathIt
     pathItemsRef.value = url2PathItems(url)
 }
 const pasteButtonText = t(msg => msg.limit.button.paste)
-const urlPaste = (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) => h<{}>(ElButton,
+const urlPaste = (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) => h(ElButton,
     {
         onClick: () => handlePaste(protocolRef, pathItemsRef)
     },

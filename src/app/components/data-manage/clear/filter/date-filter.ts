@@ -37,7 +37,9 @@ const pickerShortcuts = [
     datePickerShortcut('till30DaysAgo', 30)
 ]
 
-const basePickerProps = {
+const picker = ({ dateRangeRef }: DateFilterProps) => h(ElDatePicker, {
+    modelValue: dateRangeRef.value,
+    "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
     size: 'mini',
     style: 'width:250px;',
     startPlaceholder: '1994/12/15',
@@ -47,12 +49,6 @@ const basePickerProps = {
     disabledDate(date: Date) { return date.getTime() > yesterday },
     shortcuts: pickerShortcuts,
     rangeSeparator: '-'
-}
-
-const picker = ({ dateRangeRef }: DateFilterProps) => h<{}>(ElDatePicker, {
-    modelValue: dateRangeRef.value,
-    "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
-    ...basePickerProps
 })
 
 const dateFilter = (props: DateFilterProps) => h('p', [

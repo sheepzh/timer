@@ -14,6 +14,7 @@ import { ItemMessage } from "@util/i18n/components/item"
 import { t } from "@src/app/locale"
 import { DataManageMessage } from "@src/app/locale/components/data-manage"
 import { MILL_PER_DAY } from "@util/time"
+import { ElementButtonType } from "@app/element-ui/button"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -38,7 +39,7 @@ type _Props = BaseFilterProps & {
 
     button: {
         icon: ElementIcon
-        type: string
+        type: ElementButtonType
         message: keyof ItemMessage['operation']
     }
 
@@ -134,7 +135,7 @@ const handleClick = async (props: _Props) => {
     }).catch(() => { })
 }
 
-const button = (props: _Props) => h<{}>(ElButton,
+const button = (props: _Props) => h(ElButton,
     {
         icon: props.button.icon,
         type: props.button.type,
