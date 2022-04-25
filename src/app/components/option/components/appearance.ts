@@ -113,8 +113,7 @@ const options = () => [
 const _default = defineComponent({
     name: "AppearanceOptionContainer",
     render() {
-        return h(ElCard, {
-        }, {
+        return h(ElCard, {}, {
             header: () => renderHeader(
                 msg => msg.appearance.title,
                 () => optionService.setAppearanceOption(optionRef.value = defaultAppearance())
