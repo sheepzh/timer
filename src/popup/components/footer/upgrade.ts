@@ -9,6 +9,7 @@ import { getLatestVersion } from "@src/api/version"
 import packageInfo from "@src/package"
 import { t } from "@popup/locale"
 import { UPDATE_PAGE } from "@util/constant/url"
+import { IS_FIREFOX } from "@util/constant/environment"
 
 function showUpgradeButton(latestVersion: string) {
     const upgrade = document.getElementById('upgrade-container')
@@ -21,8 +22,16 @@ function showUpgradeButton(latestVersion: string) {
     upgrade.onmouseout = () => upgradePopup.style.display = 'none'
 
     upgradeLink.innerText = t(msg => msg.updateVersion)
-    upgradeLink.onclick = () => chrome.tabs.create({ url: UPDATE_PAGE })
-    latestInfo.innerText = t(msg => msg.updateVersionInfo, { version: `v${latestVersion}` })
+    const versionLabel = `v${latestVersion}`
+    if (IS_FIREFOX) {
+        // Can't jump to about:addons in Firefox
+        // So no jump, only show tooltip text
+        upgrade.classList.add("firefox-upgrade-no-underline")
+        latestInfo.innerText = t(msg => msg.updateVersionInfo4Firefox, { version: versionLabel })
+    } else {
+        upgradeLink.onclick = () => chrome.tabs.create({ url: UPDATE_PAGE })
+        latestInfo.innerText = t(msg => msg.updateVersionInfo, { version: versionLabel })
+    }
 }
 
 getLatestVersion().then(latestVersion => latestVersion && packageInfo.version !== latestVersion && showUpgradeButton(latestVersion))

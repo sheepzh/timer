@@ -57,9 +57,6 @@ if (IS_CHROME) {
 } else if (IS_EDGE) {
     // In the management page with developing-mode open
     updatePage = 'edge://extensions'
-} else if (IS_FIREFOX) {
-    // "about:*" is invalid in firefox
-    updatePage = HOME_PAGE
 }
 
 export const UPDATE_PAGE = updatePage
