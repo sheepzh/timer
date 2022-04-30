@@ -66,7 +66,7 @@ const _default: Messages<OptionMessage> = {
         no: '否',
         popup: {
             title: '今日数据',
-            max: '只显示前 {input} 条今日数据，剩下的条目合并显示',
+            max: '只显示前 {input} 条数据，剩下的条目合并显示',
             defaultDisplay: "打开时显示 {duration} {type}",
             displaySiteName: '{input}  显示时是否使用 {siteName} 来代替域名',
             duration: popupDurationMessages.zh_CN,
@@ -115,7 +115,7 @@ const _default: Messages<OptionMessage> = {
         no: 'No',
         popup: {
             title: 'Today\'s Data',
-            max: 'Show the first {input} data items of today',
+            max: 'Show the first {input} data items',
             defaultDisplay: "Show {duration} {type} when opened",
             displaySiteName: '{input}  Whether to display {siteName} instead of host',
             duration: popupDurationMessages.en,
@@ -165,16 +165,14 @@ const _default: Messages<OptionMessage> = {
         no: 'いいえ',
         popup: {
             title: '今日のデータ',
-            max: '今日のデータは、最初の {input} データを示しています',
+            max: '最初の {input} 個のデータのみを表示し、残りのエントリは結合されます',
             defaultDisplay: "開くと {duration} {type} が表示されます",
-            // Not translated
             displaySiteName: '{input}  ホストの代わりに {siteName} を表示するかどうか',
             duration: popupDurationMessages.ja,
             durationWidth: "100px"
         },
         appearance: {
             title: '外観',
-            // Not translated
             displayWhitelist: '{input}  {contextMenu} に {whitelist} を表示するかどうか',
             whitelistItem: 'ホワイトリスト機能',
             contextMenu: 'コンテキストメニュー',
