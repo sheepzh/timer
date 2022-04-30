@@ -35,6 +35,7 @@ export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
  * Feedback powered by www.wjx.cn
  * 
  * @since 0.1.6
+ * @deprecated 0.9.0
  */
 export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
 
