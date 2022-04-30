@@ -8,7 +8,7 @@
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
 import { TimeLimit } from "@entity/dao/time-limit"
-import TimeLimitItem from "@entity/dto/time-limit-item"
+import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
 import { formatTime } from "@util/time"
 import whitelistHolder from './components/whitelist-holder'
 
@@ -83,18 +83,20 @@ async function addFocusTime(url: string, focusTime: number) {
     return result
 }
 
-async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<void> {
+async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<TimeLimitItemLike[]> {
     if (rules === undefined || rules === null) {
         rules = (await select({ url: url, filterDisabled: true }))
             .filter(item => item.hasLimited() && item.allowDelay)
     }
     const date = formatTime(new Date(), DATE_FORMAT)
     const toUpdate: { [cond: string]: number } = {}
-    rules.forEach(({ cond, waste }) => {
+    rules.forEach(rule => {
+        const { cond, waste } = rule
         const updatedWaste = (waste || 0) - 5 * 60 * 1000
-        toUpdate[cond] = updatedWaste < 0 ? 0 : updatedWaste
+        rule.waste = toUpdate[cond] = updatedWaste < 0 ? 0 : updatedWaste
     })
     await db.updateWaste(date, toUpdate)
+    return rules
 }
 
 class LimitService {
