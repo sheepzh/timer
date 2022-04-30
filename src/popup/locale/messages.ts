@@ -22,6 +22,7 @@ export type PopupMessage = {
     otherLabel: string
     updateVersion: string
     updateVersionInfo: string
+    updateVersionInfo4Firefox: string
     currentVersion: string
     appName: string
     item: ItemMessage
@@ -45,6 +46,7 @@ const _default: Messages<PopupMessage> = {
         otherLabel: '其他',
         updateVersion: '版本升级',
         updateVersionInfo: '最新版本：{version}',
+        updateVersionInfo4Firefox: '新版本 {version} 已发布\n\n您可以前往插件管理页进行更新',
         currentVersion: chromeBase.zh_CN.currentVersion,
         appName: chromeBase.zh_CN.name,
         item: itemMessages.zh_CN,
@@ -66,6 +68,7 @@ const _default: Messages<PopupMessage> = {
         otherLabel: 'Others',
         updateVersion: 'Updatable',
         updateVersionInfo: 'Latest: {version}',
+        updateVersionInfo4Firefox: 'Upgrade to {version} in the management page, about:addons, pls',
         currentVersion: chromeBase.en.currentVersion,
         appName: chromeBase.en.name,
         item: itemMessages.en,
@@ -87,6 +90,7 @@ const _default: Messages<PopupMessage> = {
         otherLabel: 'その他',
         updateVersion: '更新',
         updateVersionInfo: '最新バージョン：{version}',
+        updateVersionInfo4Firefox: '管理ページで {version} にアップグレードしてください',
         currentVersion: chromeBase.ja.currentVersion,
         appName: chromeBase.ja.name,
         item: itemMessages.ja,
