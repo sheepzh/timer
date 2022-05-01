@@ -5,56 +5,53 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElCard, ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
+import { ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "@app/locale"
 import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "@service/option-service"
 import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
-import { renderOptionItem, renderHeader, tagText } from "../common"
+import { renderOptionItem, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
-const optionRef: Ref<Timer.PopupOption> = ref(defaultPopup())
-optionService.getAllOption().then(option => optionRef.value = option)
-
-const popupMaxInput = () => h(ElInputNumber, {
-    modelValue: optionRef.value.popupMax,
+const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
+    modelValue: option.value.popupMax,
     size: 'mini',
     min: 5,
     max: 30,
     onChange: (val: number) => {
-        optionRef.value.popupMax = val
-        optionService.setPopupOption(optionRef.value)
+        option.value.popupMax = val
+        optionService.setPopupOption(option.value)
     }
 })
 
 const typeOptions = () => ALL_DATA_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
-const typeSelect = () => h(ElSelect, {
-    modelValue: optionRef.value.defaultType,
+const typeSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
+    modelValue: option.value.defaultType,
     size: 'mini',
     style: { width: '120px' },
     onChange: (val: Timer.DataDimension) => {
-        optionRef.value.defaultType = val
-        optionService.setPopupOption(optionRef.value)
+        option.value.defaultType = val
+        optionService.setPopupOption(option.value)
     }
 }, { default: typeOptions })
 
 const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.option.popup.duration[item]) }))
-const durationSelect = () => h(ElSelect, {
-    modelValue: optionRef.value.defaultDuration,
+const durationSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
+    modelValue: option.value.defaultDuration,
     size: 'mini',
     style: { width: t(msg => msg.option.popup.durationWidth) },
     onChange: (val: Timer.PopupDuration) => {
-        optionRef.value.defaultDuration = val
-        optionService.setPopupOption(optionRef.value)
+        option.value.defaultDuration = val
+        optionService.setPopupOption(option.value)
     }
 }, { default: durationOptions })
 
-const displaySiteName = () => h(ElSwitch, {
-    modelValue: optionRef.value.displaySiteName,
+const displaySiteName = (option: Ref<Timer.PopupOption>) => h(ElSwitch, {
+    modelValue: option.value.displaySiteName,
     onChange: (newVal: boolean) => {
-        optionRef.value.displaySiteName = newVal
-        optionService.setPopupOption(optionRef.value)
+        option.value.displaySiteName = newVal
+        optionService.setPopupOption(option.value)
     }
 })
 
@@ -62,33 +59,34 @@ const defaultPopOptions = defaultPopup()
 const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
 const defaultDurationLabel = t(msg => msg.option.popup.duration[defaultPopOptions.defaultDuration])
 const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
-const options = () => [
-    renderOptionItem({
-        duration: durationSelect(),
-        type: typeSelect()
-    },
-        msg => msg.popup.defaultDisplay,
-        displayDefaultLabel
-    ),
-    h(ElDivider),
-    renderOptionItem(popupMaxInput(), msg => msg.popup.max, defaultPopOptions.popupMax),
-    h(ElDivider),
-    renderOptionItem({
-        input: displaySiteName(),
-        siteName: tagText(msg => msg.option.statistics.siteName)
-    }, msg => msg.popup.displaySiteName, t(msg => msg.option.yes))
-]
 
 const _default = defineComponent({
     name: "PopupOptionContainer",
-    render() {
-        return h(ElCard, {}, {
-            header: () => renderHeader(
-                msg => msg.popup.title,
-                () => optionService.setPopupOption(optionRef.value = defaultPopup())
-            ),
-            default: options
+    setup(_props, ctx) {
+        const option: Ref<Timer.PopupOption> = ref(defaultPopup())
+        optionService.getAllOption().then(currentVal => option.value = currentVal)
+        ctx.expose({
+            async reset() {
+                option.value = defaultPopup()
+                await optionService.setPopupOption(option.value)
+            }
         })
+        return () => h('div', [
+            renderOptionItem({
+                duration: durationSelect(option),
+                type: typeSelect(option)
+            },
+                msg => msg.popup.defaultDisplay,
+                displayDefaultLabel
+            ),
+            h(ElDivider),
+            renderOptionItem(popupMaxInput(option), msg => msg.popup.max, defaultPopOptions.popupMax),
+            h(ElDivider),
+            renderOptionItem({
+                input: displaySiteName(option),
+                siteName: tagText(msg => msg.option.statistics.siteName)
+            }, msg => msg.popup.displaySiteName, t(msg => msg.option.yes))
+        ])
     }
 })
 
