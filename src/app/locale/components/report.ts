@@ -39,6 +39,21 @@ const _default: Messages<ReportMessage> = {
         added2Whitelist: '成功加入白名单',
         removeFromWhitelist: '成功从白名单移除'
     },
+    zh_TW: {
+        startDate: '開始日期',
+        endDate: '結束日期',
+        lateWeek: '最近一週',
+        late30Days: '最近 30 天',
+        today: '今天',
+        yesterday: '昨天',
+        mergeDate: '合並日期',
+        mergeDomain: '合並子域名',
+        displayBySecond: '按秒顯示',
+        hostPlaceholder: '請輸入域名，然後回車',
+        exportFileName: '我的上網時間',
+        added2Whitelist: '成功加入白名單',
+        removeFromWhitelist: '成功從白名單移除'
+    },
     en: {
         startDate: 'Start date',
         endDate: 'End date',

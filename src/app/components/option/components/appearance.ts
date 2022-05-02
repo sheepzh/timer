@@ -13,7 +13,7 @@ import { t, tWith } from "@app/locale"
 import { renderOptionItem, tagText } from "../common"
 import localeMessages from "@util/i18n/components/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
-import { chromeLocale2ExtensionLocale } from "@util/i18n"
+import { localeSameAsBrowser } from "@util/i18n"
 
 const displayWhitelist = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
     modelValue: option.value.displayWhitelistMenu,
@@ -39,7 +39,11 @@ const printInConsole = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
     }
 })
 
-const allLocaleOptions: Timer.LocaleOption[] = ["default", "zh_CN", "en", "ja"]
+const allLocales: Timer.Locale[] = (["zh_CN", "zh_TW", "en", "ja"] as Timer.Locale[])
+    // Keep the locale same as this browser first position
+    .sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
+const allLocaleOptions: Timer.LocaleOption[] = ["default", ...allLocales]
+
 const locale = (option: Ref<Timer.AppearanceOption>) => h(ElSelect, {
     modelValue: option.value.locale,
     size: 'mini',
@@ -50,7 +54,7 @@ const locale = (option: Ref<Timer.AppearanceOption>) => h(ElSelect, {
         // await maybe not work in Firefox, so calculate the real locale again
         // GG Firefox
         const realLocale: Timer.Locale = newVal === "default"
-            ? chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+            ? localeSameAsBrowser
             : newVal
         ElMessageBox({
             message: tWith(msg => msg.option.appearance.locale.changeConfirm, realLocale),

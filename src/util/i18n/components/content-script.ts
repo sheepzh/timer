@@ -26,6 +26,15 @@ const _default: Messages<ContentScriptMessage> = {
         timeLimitMsg: '您已被【{appName}】限制上网',
         more5Minutes: '再看 5 分钟！！我保证！'
     },
+    zh_TW: {
+        openTimesConsoleLog: '今天您打開了 {time} 次 {host}。',
+        usedTimeInConsoleLog: '它今天在您的電腦上運行了 {total}，其中您花費了 {focus}來瀏覽它。',
+        timeWithHour: '{hour} 小時 {minute} 分 {second} 秒',
+        timeWithMinute: '{minute} 分 {second} 秒',
+        timeWithSecond: '{second} 秒',
+        timeLimitMsg: '您已被【{appName}】限製上網',
+        more5Minutes: '再看 5 分鐘！！我保証！'
+    },
     en: {
         openTimesConsoleLog: 'You have open {host} for {time} time(s) today.',
         usedTimeInConsoleLog: 'And it runs on your PC for {total} today, and is browsed for {focus}.',

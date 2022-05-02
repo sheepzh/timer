@@ -57,6 +57,30 @@ const _default: Messages<HabitMessage> = {
             yAxisName: '浏览时长 / 秒'
         }
     },
+    zh_TW: {
+        sizes: {
+            fifteen: '按十五分鐘統計',
+            halfHour: '按半小時統計',
+            hour: '按一小時統計',
+            twoHour: '按兩小時統計'
+        },
+        average: {
+            label: '平均每天'
+        },
+        dateRange: {
+            lateDay: '最近 24 小時',
+            late3Days: '最近 3 天',
+            lateWeek: '最近 7 天',
+            late15Days: '最近 15 天',
+            late30Days: '最近 30 天',
+            late60Days: '最近 60 天'
+        },
+        chart: {
+            title: '上網習慣統計',
+            saveAsImageTitle: '保存',
+            yAxisName: '瀏覽時長 / 秒'
+        }
+    },
     en: {
         sizes: {
             fifteen: 'Per 15 minutes',

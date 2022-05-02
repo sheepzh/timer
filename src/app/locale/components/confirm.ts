@@ -18,6 +18,10 @@ const _default: Messages<ConfirmMessage> = {
         confirmMsg: '好的',
         cancelMsg: '不用了',
     },
+    zh_TW: {
+        confirmMsg: '好的',
+        cancelMsg: '不用了',
+    },
     en: {
         confirmMsg: 'OK',
         cancelMsg: 'NO!',

@@ -15,6 +15,11 @@ const _default: Messages<PopupDurationMessage> = {
         thisWeek: "本周",
         thisMonth: "本月"
     },
+    zh_TW: {
+        today: "今日",
+        thisWeek: "本週",
+        thisMonth: "本月"
+    },
     en: {
         today: "Today's",
         thisWeek: "This Week's",

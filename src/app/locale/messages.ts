@@ -52,6 +52,21 @@ const _default: Messages<AppMessage> = {
         operation: operationMessages.zh_CN,
         confirm: confirmMessages.zh_CN
     },
+    zh_TW: {
+        dataManage: dataManageMessages.zh_TW,
+        item: itemMessages.zh_TW,
+        report: reportMessages.zh_TW,
+        whitelist: whitelistMessages.zh_TW,
+        mergeRule: mergeRuleMessages.zh_TW,
+        option: optionMessages.zh_TW,
+        trend: trendMessages.zh_TW,
+        menu: menuMessages.zh_TW,
+        habit: habitMessages.zh_TW,
+        limit: limitMessages.zh_TW,
+        siteManage: siteManageManages.zh_TW,
+        operation: operationMessages.zh_TW,
+        confirm: confirmMessages.zh_TW
+    },
     en: {
         dataManage: dataManageMessages.en,
         item: itemMessages.en,

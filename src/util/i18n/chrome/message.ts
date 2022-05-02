@@ -22,6 +22,11 @@ const messages: Messages<ChromeMessage> = {
         message: contentScriptMessages.zh_CN,
         contextMenus: contextMenusMessages.zh_CN
     },
+    zh_TW: {
+        app: appMessages.zh_TW,
+        message: contentScriptMessages.zh_TW,
+        contextMenus: contextMenusMessages.zh_TW
+    },
     en: {
         app: appMessages.en,
         message: contentScriptMessages.en,

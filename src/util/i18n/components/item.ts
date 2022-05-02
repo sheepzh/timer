@@ -49,6 +49,26 @@ const _default: Messages<ItemMessage> = {
             importWholeData: '导入数据'
         }
     },
+    zh_TW: {
+        date: '日期',
+        host: '域名',
+        total: '運行時長',
+        focus: '瀏覽時長',
+        time: '打開次數',
+        operation: {
+            label: '操作',
+            delete: '刪除',
+            add2Whitelist: '白名單',
+            removeFromWhitelist: '啟用',
+            archive: '歸檔',
+            jumpToTrend: '趨勢',
+            deleteConfirmMsgAll: '{url} 的所有訪問記錄將被刪除',
+            deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的訪問記錄將被刪除',
+            deleteConfirmMsg: '{url} 在 {date} 的訪問記錄將被刪除',
+            exportWholeData: '導出數據',
+            importWholeData: '導入數據'
+        }
+    },
     en: {
         date: 'Date',
         host: 'Site URL',

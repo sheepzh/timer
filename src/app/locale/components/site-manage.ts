@@ -135,6 +135,37 @@ const messages: Messages<SiteManageMessage> = {
             existedTag: '已存在'
         }
     },
+    zh_TW: {
+        hostPlaceholder: "請輸入網域，然後回車",
+        aliasPlaceholder: "請輸入網站名，然後回車",
+        onlyDetected: '隻看自動抓取',
+        deleteConfirmMsg: '{host} 的名稱設置將會被刪除',
+        column: {
+            host: "網站域名",
+            alias: "網站名稱",
+            aliasInfo: "網站名稱會在報表以及今日數據（需要在擴展選項裡設置）裡展示，方便您快速識別網域",
+            source: "來源"
+        },
+        source: {
+            user: '手動設置',
+            detected: '自動抓取'
+        },
+        button: {
+            add: '新增',
+            delete: '刪除',
+            modify: '修改',
+            save: '保存'
+        },
+        form: {
+            emptyAlias: '請輸入網站名稱',
+            emptyHost: '請輸入網站域名'
+        },
+        msg: {
+            hostExistWarn: '{host} 已經存在',
+            saved: '已保存',
+            existedTag: '已存在'
+        }
+    },
     en,
     // Feedback
     ja
