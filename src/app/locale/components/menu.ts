@@ -44,6 +44,24 @@ const _default: Messages<MenuMessage> = {
         rate: '打个分吧！',
         meat: '请作者吃饭~'
     },
+    zh_TW: {
+        data: '我的數據',
+        dataReport: '報表明細',
+        dataHistory: '曆史趨勢',
+        dataClear: '內存管理',
+        additional: '附加功能',
+        siteManage: '網站名稱管理',
+        whitelist: '白名單管理',
+        mergeRule: '子域名合並',
+        option: '擴展選項',
+        behavior: '上網行爲',
+        habit: '上網習慣',
+        limit: '每日時限設置',
+        other: '其他',
+        feedback: '有什麼反饋嗎？',
+        rate: '打個分吧！',
+        meat: '請作者吃飯~'
+    },
     en: {
         data: 'My Data',
         dataReport: 'Record',

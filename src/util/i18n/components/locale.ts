@@ -20,6 +20,9 @@ const _default: Messages<LocaleMessage> = {
     zh_CN: {
         name: "简体中文",
     },
+    zh_TW: {
+        name: "正體中文",
+    },
     en: {
         name: "English"
     },

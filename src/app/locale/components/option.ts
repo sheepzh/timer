@@ -110,6 +110,55 @@ const _default: Messages<OptionMessage> = {
         resetSuccess: '成功重置为默认值',
         defaultValue: '默认值： {default}'
     },
+    zh_TW: {
+        yes: '是',
+        no: '否',
+        popup: {
+            title: '今日數據',
+            max: '隻顯示前 {input} 條數據，剩下的條目合並顯示',
+            defaultDisplay: "打開時顯示 {duration} {type}",
+            displaySiteName: '{input}  顯示時是否使用 {siteName} 來代替域名',
+            duration: popupDurationMessages.zh_CN,
+            durationWidth: "80px"
+        },
+        appearance: {
+            title: '外觀',
+            displayWhitelist: '{input}  是否在 {contextMenu} 裡，顯示 {whitelist} 相關功能',
+            whitelistItem: '白名單',
+            contextMenu: '瀏覽器的右鍵菜單',
+            displayBadgeText: '{input}  是否在 {icon} 上，顯示 {timeInfo}',
+            icon: '擴展圖標',
+            badgeTextContent: '當前網站的今日瀏覽時長',
+            locale: {
+                label: "語言設置 {info}  {input}",
+                infoL1: "由於源碼的結構缺陷，語言設置功能目前隻對功能頁有效，今日數據彈窗頁的語言設置始終跟隨瀏覽器。",
+                infoL2: "作者將在後續版本中重構代碼，實現彈窗頁的語言切換功能，謝謝您的包涵！❤️❤️",
+                default: "跟隨瀏覽器",
+                changeConfirm: "語言設置成功，請刷新頁麵！",
+                reloadButton: "刷新"
+            },
+            printInConsole: {
+                label: '{input}  是否在 {console} 裡打印當前網站的 {info}',
+                console: '瀏覽器的控製颱',
+                info: '今日訪問信息'
+            }
+        },
+        statistics: {
+            title: '統計',
+            countWhenIdle: '{input}  是否統計 {idleTime} {info}',
+            idleTime: '休眠時間',
+            idleTimeInfo: '長時間不操作（比如全屏觀看視頻），瀏覽器會自動進入休眠狀態',
+            countLocalFiles: '{input}  是否統計使用瀏覽器 {localFileTime} {info}',
+            localFileTime: '閱讀本地文件的時間',
+            localFilesInfo: '支持 PDF、圖片、txt 以及 json 等格式',
+            collectSiteName: '{input}  訪問網站主頁時，是否自動收集 {siteName} {siteNameUsage}',
+            siteName: '網站的名稱',
+            siteNameUsage: '數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱'
+        },
+        resetButton: '恢複默認',
+        resetSuccess: '成功重置爲默認值',
+        defaultValue: '默認值： {default}'
+    },
     en: {
         yes: 'Yes',
         no: 'No',

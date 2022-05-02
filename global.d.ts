@@ -83,7 +83,12 @@ declare namespace Timer {
     /**
      * @since 0.8.0
      */
-    type Locale = 'zh_CN' | 'en' | 'ja'
+    type Locale =
+        | 'zh_CN'
+        | 'en'
+        | 'ja'
+        // @since 0.9.0
+        | 'zh_TW'
     /**
      * @since 0.8.0
      */

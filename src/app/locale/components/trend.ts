@@ -43,6 +43,23 @@ const _default: Messages<TrendMessage> = {
         defaultSubTitle: '请先在左上角选择需要分析的域名',
         merged: '合并'
     },
+    zh_TW: {
+        hostPlaceholder: '蒐索你想分析的網域',
+        startDate: '開始日期',
+        endDate: '結束日期',
+        lateWeek: '最近 7 天',
+        late15Days: '最近 15 天',
+        late30Days: '最近 30 天',
+        late90Days: '最近 90 天',
+        history: {
+            title: '曆史記錄',
+            timeUnit: '時長 / 秒',
+            numberUnit: '次'
+        },
+        saveAsImageTitle: '保存',
+        defaultSubTitle: '請先在左上角選擇需要分析的網域',
+        merged: '合並'
+    },
     en: {
         hostPlaceholder: 'Enter URL',
         startDate: 'Start date',

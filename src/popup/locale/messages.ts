@@ -52,6 +52,28 @@ const _default: Messages<PopupMessage> = {
         item: itemMessages.zh_CN,
         timeDuration: popupDurationMessages.zh_CN
     },
+    zh_TW: {
+        title: {
+            today: "今日數據",
+            thisWeek: "本週數據",
+            thisMonth: "本月數據"
+        },
+        mergeHostLabel: '合並子網域',
+        viewMore: '所有功能',
+        fileName: '上網時長清單_{today}_by_{app}',
+        saveAsImageTitle: '保存',
+        restoreTitle: '刷新',
+        totalTime: '共 {totalTime}',
+        totalCount: '共 {totalCount} 次',
+        otherLabel: '其他',
+        updateVersion: '版本昇級',
+        updateVersionInfo: '最新版本：{version}',
+        updateVersionInfo4Firefox: '新版本 {version} 已髮佈\n\n您可以前往插件管理頁進行更新',
+        currentVersion: chromeBase.zh_TW.currentVersion,
+        appName: chromeBase.zh_TW.name,
+        item: itemMessages.zh_TW,
+        timeDuration: popupDurationMessages.zh_TW
+    },
     en: {
         title: {
             today: 'Today\'s Data',
