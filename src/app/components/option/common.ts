@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { InfoFilled, Refresh } from "@element-plus/icons-vue"
-import { ElTag, ElButton, ElMessage, ElTooltip, ElIcon } from "element-plus"
+import { InfoFilled } from "@element-plus/icons-vue"
+import { ElTag, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
 import { tN, t, I18nKey } from "@app/locale"
 import { OptionMessage } from "@app/locale/components/option"
@@ -24,30 +24,6 @@ export function renderOptionItem(input: VNode | { [key: string]: VNode }, label:
     const defaultTag = h(ElTag, { size: 'mini' }, () => defaultValue)
     const defaultArcher = h('a', { class: 'option-default' }, tN(msg => msg.option.defaultValue, { default: defaultTag }))
     return h('div', { class: 'option-line' }, [labelArcher, defaultArcher])
-}
-
-const resetButtonMsg = t(msg => msg.option.resetButton)
-const renderResetButton = (handleClick: () => PromiseLike<any>) => h(ElButton, {
-    type: 'text',
-    class: 'reset-button',
-    icon: Refresh,
-    async onClick() {
-        await handleClick()
-        ElMessage.success(t(msg => msg.option.resetSuccess))
-    }
-}, () => resetButtonMsg)
-
-/**
- * Render the header 
- * 
- * @param title title text 
- * @param handleReset reset click handler
- * @returns VNode
- */
-export function renderHeader(title: (msg: OptionMessage) => string, handleReset: () => PromiseLike<any>): VNode {
-    const titleSpan = h('span', { class: 'card-title' }, t(msg => title(msg.option)))
-    const resetButton = renderResetButton(handleReset)
-    return h('div', { class: 'card-header' }, [titleSpan, resetButton])
 }
 
 /**

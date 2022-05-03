@@ -43,6 +43,14 @@ class HostAliasService {
         return hostAliasDatabase.existBatch(hosts)
     }
 
+    /**
+     * @since 0.9.0
+     */
+    async get(host: string): Promise<HostAlias | undefined> {
+        const result = await hostAliasDatabase.get(host)
+        return result[host]
+    }
+
     private async fillIconUrl(items: HostAliasInfo[]): Promise<void> {
         const hosts = items.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)

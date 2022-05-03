@@ -37,7 +37,11 @@ class _Modal {
             const text = t2Chrome(msg => msg.message.more5Minutes)
             link.innerText = text
             link.onclick = async () => {
-                await limitService.moreMinutes(_thisUrl)
+                const delayRules = await limitService.moreMinutes(_thisUrl)
+                const wakingRules = delayRules
+                    .map(like => TimeLimitItem.of(like))
+                    .filter(rule => !rule.hasLimited())
+                chrome.runtime.sendMessage<ChromeMessage<TimeLimitItemLike[]>, ChromeResult>(wakingMessage(wakingRules))
                 this.hideModal()
             }
             this.delayContainer.append(link)
@@ -67,6 +71,14 @@ class _Modal {
             this.showModal(anyDelay)
         }
     }
+
+    isVisible(): boolean {
+        return !!this.visible
+    }
+}
+
+function wakingMessage(rules: TimeLimitItemLike[]): ChromeMessage<TimeLimitItemLike[]> {
+    return { code: 'limitWaking', data: rules }
 }
 
 const maskStyle: Partial<CSSStyleDeclaration> = {
@@ -89,7 +101,7 @@ const linkStyle: Partial<CSSStyleDeclaration> = {
     fontSize: '16px !important'
 }
 
-function messageCode(url: string): ChromeMessage<string> {
+function openLimitPageMessage(url: string): ChromeMessage<string> {
     return { code: 'openLimitPage', data: encodeURIComponent(url) }
 }
 
@@ -100,7 +112,7 @@ function link2Setup(url: string): HTMLParagraphElement {
     const text = t2Chrome(msg => msg.message.timeLimitMsg)
         .replace('{appName}', t2Chrome(msg => msg.app.name))
     link.innerText = text
-    link.onclick = () => chrome.runtime.sendMessage(messageCode(url))
+    link.onclick = () => chrome.runtime.sendMessage(openLimitPageMessage(url))
     const p = document.createElement('p')
     p.append(link)
     return p
@@ -120,9 +132,34 @@ export default async function processLimit(url: string) {
         const itemLikes: TimeLimitItemLike[] = msg.data
         if (!itemLikes) {
             sendResponse({ code: "fail", msg: "Empty time limit item" })
+            return
         }
         const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
         modal.process(items)
+        sendResponse({ code: "success" })
+    })
+    chrome.runtime.onMessage.addListener((msg: ChromeMessage<TimeLimitItemLike[]>, _sender, sendResponse: ChromeCallback) => {
+        if (msg.code !== "limitWaking") {
+            sendResponse({ code: "ignore" })
+            return
+        }
+        if (!modal.isVisible()) {
+            sendResponse({ code: "ignore" })
+            return
+        }
+        const itemLikes: TimeLimitItemLike[] = msg.data
+        if (!itemLikes || !itemLikes.length) {
+            sendResponse({ code: "success", msg: "Empty time limit item" })
+            return
+        }
+        const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
+        for (let index in items) {
+            const item = items[index]
+            if (item.matches(modal.url) && !item.hasLimited()) {
+                modal.hideModal()
+                break
+            }
+        }
         sendResponse({ code: "success" })
     })
 }

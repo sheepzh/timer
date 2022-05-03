@@ -35,6 +35,7 @@ export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
  * Feedback powered by www.wjx.cn
  * 
  * @since 0.1.6
+ * @deprecated 0.9.0
  */
 export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
 
@@ -54,11 +55,8 @@ let updatePage = SOURCE_CODE_PAGE
 if (IS_CHROME) {
     updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
 } else if (IS_EDGE) {
-    // In the management page with devlop-mode open
+    // In the management page with developing-mode open
     updatePage = 'edge://extensions'
-} else if (IS_FIREFOX) {
-    // "about:*" is invalid in firefox
-    updatePage = HOME_PAGE
 }
 
 export const UPDATE_PAGE = updatePage

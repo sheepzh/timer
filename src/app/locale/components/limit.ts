@@ -81,6 +81,42 @@ const _default: Messages<LimitMessage> = {
         },
         urlPlaceholder: "请直接粘贴网址 ➡️"
     },
+    zh_TW: {
+        conditionFilter: '輸入網址，然後回車',
+        filterDisabled: '過濾無效規則',
+        item: {
+            condition: '限製網址',
+            time: '每日限製時長',
+            waste: '今日瀏覽時長',
+            enabled: '是否有效',
+            delayAllowed: '再看 5 分鐘',
+            delayAllowedInfo: '上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。',
+            operation: '操作'
+        },
+        button: {
+            add: '新增',
+            test: '網址測試',
+            paste: '粘貼',
+            save: '保存',
+            delete: '刪除'
+        },
+        addTitle: '新增限製',
+        useWildcard: '是否使用通配符',
+        timeUnit: {
+            hour: '小時',
+            minute: '分鐘',
+            second: '秒'
+        },
+        message: {
+            saved: '保存成功',
+            noUrl: '未填冩限製網址',
+            noTime: '未填冩每日限製時長',
+            deleteConfirm: '是否刪除限製：{cond}？',
+            deleted: '刪除成功',
+            noPermissionFirefox: "請先在插件管理頁[about:addons]開啟該插件的粘貼闆權限"
+        },
+        urlPlaceholder: "請直接粘貼網址 ➡️"
+    },
     en: {
         conditionFilter: 'URL',
         filterDisabled: 'Only enabled',

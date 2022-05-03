@@ -5,7 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-export type ChromeMessageCode = 'openLimitPage' | 'limitTimeMeet'
+export type ChromeMessageCode =
+    | 'openLimitPage'
+    | 'limitTimeMeet'
+    // @since 0.9.0
+    | 'limitWaking'
 
 export type ChromeResultCode = "success" | "fail" | "ignore"
 

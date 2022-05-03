@@ -17,6 +17,7 @@ import { Language } from "element-plus/lib/locale"
 
 const locales: { [locale in Timer.Locale]: () => Promise<{ default: Language }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
+    zh_TW: () => import('element-plus/lib/locale/lang/zh-tw'),
     en: () => import('element-plus/lib/locale/lang/en'),
     ja: () => import('element-plus/lib/locale/lang/ja')
 }

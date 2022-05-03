@@ -28,6 +28,16 @@ const _default: Messages<WhitelistMessage> = {
         placeholder: '域名',
         errorInput: "域名格式错误"
     },
+    zh_TW: {
+        addConfirmMsg: '{url} 加入白名單後，將不再統計該網站的數據',
+        removeConfirmMsg: '{url} 將從白名單中移除',
+        duplicateMsg: '已存在白名單中',
+        infoAlertTitle: '你可以在這裡配置網站白名單',
+        infoAlert0: '白名單內網站的上網時長和打開次數不會被統計',
+        infoAlert1: '白名單內網站的上網時間也不會被限製',
+        placeholder: '網域',
+        errorInput: "網域格式錯誤"
+    },
     en: {
         addConfirmMsg: '{url} won\'t be counted after added into the whitelist any more.',
         removeConfirmMsg: '{url} will be removed from the whitelist.',
