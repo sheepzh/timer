@@ -6,7 +6,7 @@
  */
 
 import { EChartOption, ECharts, EChartTitleOption, init } from "echarts"
-import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, SetupContext, watch } from "vue"
+import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, watch } from "vue"
 import { t } from "@app/locale"
 import timerService, { TimerQueryParam, SortDirect } from "@service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
@@ -17,7 +17,6 @@ const timestampOf = (d: Date) => d.getTime()
 
 const mill2Second = (mill: number) => Math.floor((mill || 0) / 1000)
 
-const chartRef: Ref<HTMLDivElement> = ref()
 let chartInstance: ECharts
 const formatTimeOfEchart = (params: EChartOption.Tooltip.Format | EChartOption.Tooltip.Format[]) => {
     const format: EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
@@ -98,20 +97,10 @@ const options: EChartOption<EChartOption.SeriesLine> = {
 
 const renderChart = () => chartInstance && chartInstance.setOption(options, true)
 
-const hostRef: Ref<HostOptionInfo> = ref(HostOptionInfo.empty())
-const dateRangeRef: Ref<Array<Date>> = ref([])
-
-watch(hostRef, () => queryData())
-watch(dateRangeRef, () => {
-    updateXAxis()
-    queryData()
-})
-
 /**
 * Get the x-axis of date 
 */
-const getAxias = (format: string) => {
-    const dateRange = dateRangeRef.value
+function getAxias(format: string, dateRange: Date[] | undefined) {
     if (!dateRange || !dateRange.length) {
         // @since 0.0.9
         // The dateRange is cleared, return empty data
@@ -129,32 +118,22 @@ const getAxias = (format: string) => {
 /**
  * Update the x-axis
  */
-const updateXAxis = () => {
+function updateXAxis(hostOptionInfo: HostOptionInfo, dateRange: Date[]) {
     const xAxis: EChartOption.XAxis = options.xAxis as EChartOption.XAxis
-    const host = hostRef.value.host
-    if (!host || !dateRangeRef.value || dateRangeRef.value.length !== 2) {
+    const host = hostOptionInfo.host
+    if (!host || !dateRange || dateRange.length !== 2) {
         xAxis.data = []
     }
-    xAxis.data = getAxias('{m}/{d}')
+    xAxis.data = getAxias('{m}/{d}', dateRange)
 }
 
-const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
-    return {
-        // If the host is empty, no result will be queried with this param.
-        host: hostRef.value.host === '' ? '___foo_bar' : hostRef.value.host,
-        mergeHost: hostRef.value.merged,
-        fullHost: true,
-        sort: 'date',
-        sortOrder: SortDirect.ASC
-    }
-})
 
-const queryData = () => {
-    timerService.select(queryParam.value)
+function queryData(queryParam: TimerQueryParam, host: HostOptionInfo, dateRange: Date[]) {
+    timerService.select(queryParam)
         .then(rows => {
             const dateInfoMap = {}
             rows.forEach(row => dateInfoMap[row.date] = row)
-            const allXAxis = getAxias('{y}{m}{d}')
+            const allXAxis = getAxias('{y}{m}{d}', dateRange)
 
             const focusData = []
             const totalData = []
@@ -169,7 +148,7 @@ const queryData = () => {
             })
 
             const titleOption = options.title as EChartTitleOption
-            titleOption.subtext = hostRef.value.toString() || defaultSubTitle
+            titleOption.subtext = host.toString() || defaultSubTitle
             options.series[0].data = totalData
             options.series[1].data = focusData
             options.series[2].data = timeData
@@ -177,19 +156,43 @@ const queryData = () => {
         })
 }
 
-const _default = defineComponent((_, context: SetupContext) => {
-    context.expose({
-        setDomain: (key: string) => hostRef.value = HostOptionInfo.from(key),
-        setDateRange: (dateRange: Date[]) => dateRangeRef.value = dateRange
-    })
+const _default = defineComponent({
+    name: "TrendChart",
+    setup(_, ctx) {
+        const chart: Ref<HTMLDivElement> = ref()
+        const host: Ref<HostOptionInfo> = ref(HostOptionInfo.empty())
+        const dateRange: Ref<Array<Date>> = ref([])
 
-    onMounted(() => {
-        chartInstance = init(chartRef.value)
-        updateXAxis()
-        renderChart()
-    })
+        const queryParam: ComputedRef<TimerQueryParam> = computed(() => {
+            return {
+                // If the host is empty, no result will be queried with this param.
+                host: host.value.host === '' ? '___foo_bar' : host.value.host,
+                mergeHost: host.value.merged,
+                fullHost: true,
+                sort: 'date',
+                sortOrder: SortDirect.ASC
+            }
+        })
 
-    return () => h('div', { class: 'chart-container', ref: chartRef })
+        watch(host, () => queryData(queryParam.value, host.value, dateRange.value))
+        watch(dateRange, () => {
+            updateXAxis(host.value, dateRange.value)
+            queryData(queryParam.value, host.value, dateRange.value)
+        })
+
+        ctx.expose({
+            setDomain: (key: string) => host.value = HostOptionInfo.from(key),
+            setDateRange: (newVal: Date[]) => dateRange.value = newVal
+        })
+
+        onMounted(() => {
+            chartInstance = init(chart.value)
+            updateXAxis(host.value, dateRange.value)
+            renderChart()
+        })
+
+        return () => h('div', { class: 'chart-container', ref: chart })
+    }
 })
 
 export default _default
