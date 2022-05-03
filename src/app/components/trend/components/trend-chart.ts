@@ -11,6 +11,9 @@ import { t } from "@app/locale"
 import timerService, { TimerQueryParam, SortDirect } from "@service/timer-service"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import HostOptionInfo from "../host-option-info"
+import DataItem from "@entity/dto/data-item"
+import hostAliasService from "@service/host-alias-service"
+import HostAlias from "@entity/dao/host-alias"
 
 // Get the timestamp of one timestamp of date
 const timestampOf = (d: Date) => d.getTime()
@@ -128,32 +131,46 @@ function updateXAxis(hostOptionInfo: HostOptionInfo, dateRange: Date[]) {
 }
 
 
-function queryData(queryParam: TimerQueryParam, host: HostOptionInfo, dateRange: Date[]) {
-    timerService.select(queryParam)
-        .then(rows => {
-            const dateInfoMap = {}
-            rows.forEach(row => dateInfoMap[row.date] = row)
-            const allXAxis = getAxias('{y}{m}{d}', dateRange)
+async function queryData(queryParam: TimerQueryParam, host: HostOptionInfo, dateRange: Date[]) {
+    const rows: DataItem[] = await timerService.select(queryParam)
+    const dateInfoMap = {}
+    rows.forEach(row => dateInfoMap[row.date] = row)
+    const allXAxis = getAxias('{y}{m}{d}', dateRange)
 
-            const focusData = []
-            const totalData = []
-            const timeData = []
+    const focusData = []
+    const totalData = []
+    const timeData = []
 
-            allXAxis.forEach(date => {
-                const row = dateInfoMap[date] || {}
+    allXAxis.forEach(date => {
+        const row = dateInfoMap[date] || {}
+        focusData.push(mill2Second(row.focus))
+        totalData.push(mill2Second(row.total))
+        timeData.push(row.time || 0)
+    })
 
-                focusData.push(mill2Second(row.focus))
-                totalData.push(mill2Second(row.total))
-                timeData.push(row.time || 0)
-            })
+    await processSubtitle(host)
 
-            const titleOption = options.title as EChartTitleOption
-            titleOption.subtext = host.toString() || defaultSubTitle
-            options.series[0].data = totalData
-            options.series[1].data = focusData
-            options.series[2].data = timeData
-            renderChart()
-        })
+    options.series[0].data = totalData
+    options.series[1].data = focusData
+    options.series[2].data = timeData
+    renderChart()
+}
+
+async function processSubtitle(host: HostOptionInfo) {
+    const titleOption = options.title as EChartTitleOption
+    let subtitle = host.toString()
+    if (!subtitle) {
+        titleOption.subtext = defaultSubTitle
+        return
+    }
+    if (!host.merged) {
+        // If not merged, append the site name to the original subtitle
+        // @since 0.9.0
+        const hostAlias: HostAlias = await hostAliasService.get(host.host)
+        const siteName = hostAlias?.name
+        siteName && (subtitle += ` / ${siteName}`)
+    }
+    titleOption.subtext = subtitle
 }
 
 const _default = defineComponent({
