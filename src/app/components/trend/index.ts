@@ -9,29 +9,16 @@ import { defineComponent, h, onMounted, Ref, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { daysAgo } from "@util/time"
 import ContentContainer from "../common/content-container"
-import DomainTrend from "./components/host-trend"
+import DomainTrend from "./components/trend-chart"
 import filterContainer, { addToFilterOption, FilterProps } from "./components/filter"
 import HostOptionInfo from "./host-option-info"
-
-const domainKeyRef: Ref<string> = ref('')
-// @ts-ignore
-const dateRangeRef: Ref<Date[]> = ref(daysAgo(7, 0))
-const chartRef: Ref = ref()
-
-watch(domainKeyRef, () => chartRef.value.setDomain(domainKeyRef.value))
-watch(dateRangeRef, () => chartRef.value.setDateRange(dateRangeRef.value))
-
-const filterProps: FilterProps = {
-    dateRangeRef,
-    domainKeyRef,
-}
 
 type QueryParam = {
     host: string
     merge: '1' | '0' | undefined
 }
 
-export default defineComponent(() => {
+function initWithQuery(domainKey: Ref<string>, dateRange: Ref<Date[]>, chart: Ref) {
     // Process the query param
     const query: QueryParam = useRoute().query as unknown as QueryParam
     useRouter().replace({ query: {} })
@@ -41,20 +28,39 @@ export default defineComponent(() => {
         if (host) {
             const option = new HostOptionInfo(host, merge === '1' || false)
             addToFilterOption(option)
-            domainKeyRef.value = option.key()
+            domainKey.value = option.key()
         } else {
-            domainKeyRef.value = ''
+            domainKey.value = ''
         }
 
         // Init here
-        chartRef.value.setDateRange(dateRangeRef.value)
+        chart.value.setDateRange(dateRange.value)
     })
+}
 
-    // chart 
-    const chart = () => h(DomainTrend, { ref: chartRef })
-    return () => h(ContentContainer, {}, {
-        filter: () => filterContainer(filterProps),
-        content: () => chart()
-    })
+const _default = defineComponent({
+    name: "Trend",
+    setup() {
+        const domainKey: Ref<string> = ref('')
+        // @ts-ignore
+        const dateRange: Ref<Date[]> = ref(daysAgo(7, 0))
+        const chart: Ref = ref()
+
+        watch(domainKey, () => chart.value.setDomain(domainKey.value))
+        watch(dateRange, () => chart.value.setDateRange(dateRange.value))
+
+        const filterProps: FilterProps = {
+            dateRangeRef: dateRange,
+            domainKeyRef: domainKey,
+        }
+
+        initWithQuery(domainKey, dateRange, chart)
+
+        return () => h(ContentContainer, {}, {
+            filter: () => filterContainer(filterProps),
+            content: () => h(DomainTrend, { ref: chart })
+        })
+    }
 })
 
+export default _default

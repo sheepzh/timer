@@ -21,6 +21,12 @@ const messages: Messages<OperationMessage> = {
         newOne: '新增',
         save: '保存'
     },
+    zh_TW: {
+        confirmTitle: '操作確認',
+        successMsg: '操作成功！',
+        newOne: '新增',
+        save: '保存'
+    },
     en: {
         confirmTitle: 'Confirm',
         successMsg: 'Successfully!',

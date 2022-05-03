@@ -7,14 +7,38 @@
 
 import { getAppPageUrl } from "@util/constant/url"
 import { LIMIT_ROUTE } from "../app/router/constants"
-import { ChromeMessage } from "@util/message"
+import { ChromeMessage, ChromeResult } from "@util/message"
+import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
 
-function listen<T>(message: ChromeMessage<T>, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
+function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
+    const { url } = tab
+    const anyMatch = rules.map(rule => rule.matches(url)).reduce((a, b) => a || b, false)
+    if (!anyMatch) {
+        return
+    }
+    chrome.tabs.sendMessage<ChromeMessage<TimeLimitItemLike[]>, ChromeResult>(tab.id, {
+        code: "limitWaking",
+        data: rules
+    }, result => {
+        if (result?.code === "fail") {
+            console.error(`Failed to wake with limit rule: rules=${JSON.stringify(rules)}, msg=${result.msg}`)
+        } else if (result?.code === "success") {
+            console.log(`Waked tab[id=${tab.id}]`)
+        }
+    })
+}
+
+function listen(message: ChromeMessage<any>, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
     if (message.code === 'openLimitPage') {
-        const data: T = message.data
-        const url = data ? data.toString() : ''
+        const url: string = message.data as string
         const pageUrl = `${getAppPageUrl(true)}#${LIMIT_ROUTE}?url=${encodeURI(url)}`
         chrome.tabs.create({ url: pageUrl })
+    } else if (message.code === "limitWaking") {
+        const rules = (message.data as TimeLimitItemLike[] || [])
+            .map(like => TimeLimitItem.of(like))
+        chrome.tabs.query({ status: "complete" }, tabs => {
+            tabs.forEach(tab => processLimitWaking(rules, tab))
+        })
     }
     sendResponse('ok')
 }

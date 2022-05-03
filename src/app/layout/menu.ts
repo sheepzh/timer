@@ -10,7 +10,7 @@ import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from 
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
-import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, TU_CAO_PAGE, ZH_FEEDBACK_PAGE } from "@util/constant/url"
+import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, TU_CAO_PAGE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
@@ -35,15 +35,13 @@ type _RouteProps = {
 }
 
 /**
- * Use ZH_FEEDBACK_PAGE, if the locale is Chinese
+ * Use TU_CAO_PAGE, if the locale is Chinese
  * 
  * @since 0.3.2
  */
 let realFeedbackLink: string = GITHUB_ISSUE_ADD
 if (locale === 'zh_CN') {
-    // Gray for new feedback page
-    // todo
-    realFeedbackLink = IS_EDGE ? TU_CAO_PAGE : ZH_FEEDBACK_PAGE
+    realFeedbackLink = TU_CAO_PAGE
 }
 
 const OTHER_MENU_ITEMS: _MenuItem[] = [{
@@ -154,12 +152,10 @@ function renderMenuLeaf(menu: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
     }
     const realIndex = index || route
     realIndex && (props.index = realIndex)
-    return h(ElMenuItem, props,
-        {
-            default: () => h(ElIcon, { size: 15, style: iconStyle }, () => h(icon)),
-            title: () => h('span', t(msg => msg.menu[title]))
-        }
-    )
+    return h(ElMenuItem, props, {
+        default: () => h(ElIcon, { size: 15, style: iconStyle }, () => h(icon)),
+        title: () => h('span', t(msg => msg.menu[title]))
+    })
 }
 
 function renderMenu(menu: _MenuGroup, props: UnwrapRef<_RouteProps>) {

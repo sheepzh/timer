@@ -25,7 +25,7 @@ export type Messages<T> = {
 // Standardize the locale code according to the Chrome locale code
 const chrome2I18n: { [key: string]: Timer.Locale } = {
     'zh-CN': "zh_CN",
-    'zh-TW': "zh_CN",
+    'zh-TW': "zh_TW",
     'en-US': "en",
     'en-GB': "en",
     'ja': "ja"
@@ -46,7 +46,15 @@ export function chromeLocale2ExtensionLocale(chromeLocale: string): Timer.Locale
     return chrome2I18n[chromeLocale] || FEEDBACK_LOCALE
 }
 
-export let locale: Timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+/**
+ * @since 0.9.0
+ */
+export let localeSameAsBrowser: Timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+
+/**
+ * Real locale with locale option
+ */
+export let locale: Timer.Locale = localeSameAsBrowser
 
 function handleLocaleOption(option: Timer.Option) {
     const localOption: Timer.LocaleOption = option.locale

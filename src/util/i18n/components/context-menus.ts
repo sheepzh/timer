@@ -28,6 +28,14 @@ const _default: Messages<ContextMenusMessage> = {
         repoPage: '源码下载',
         feedbackPage: '吐槽一下'
     },
+    zh_TW: {
+        add2Whitelist: '將{host}加入白名單',
+        removeFromWhitelist: '將{host}從白名單移出',
+        allFunctions: '所有功能',
+        optionPage: '擴展選項',
+        repoPage: '源碼下載',
+        feedbackPage: '吐槽一下'
+    },
     en: {
         add2Whitelist: 'Add {host} to the whitelist',
         removeFromWhitelist: 'Remove {host} from the whitelist',

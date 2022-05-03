@@ -42,6 +42,23 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert4: '如果不填，则表示原域名不会被合并',
         infoAlert5: '如果没有匹配任何规则，则默认合并至 2 级域名'
     },
+    zh_TW: {
+        resultOfOrigin: '不合並',
+        resultOfLevel: '{level} 級網域',
+        removeConfirmMsg: '自定義合並規則 {origin} 將被移除',
+        originPlaceholder: '原網域',
+        mergedPlaceholder: '合並後網域',
+        errorOrigin: '原網域格式錯誤',
+        duplicateMsg: '合並規則已存在：{origin}',
+        addConfirmMsg: '將爲 {origin} 設置自定義合並規則',
+        infoAlertTitle: '該頁麵可以配置子網域的合並規則',
+        infoAlert0: '點擊新增按鈕，會彈出原網域和合並後網域的輸入框，填冩並保存規則',
+        infoAlert1: '原網域可填具體的網域或者正則表達式，比如 www.baidu.com，*.baidu.com，*.google.com.*。以此確定哪些網域在合並時會使用該條規則',
+        infoAlert2: '合並後網域可填具體的網域，或者填數字，或者不填',
+        infoAlert3: '如果填數字，則表示合並後網域的級數。比如存在規則【 *.*.edu.cn >>> 3 】，那麼 www.hust.edu.cn 將被合並至 hust.edu.cn',
+        infoAlert4: '如果不填，則表示原網域不會被合並',
+        infoAlert5: '如果沒有匹配任何規則，則默認合並至 2 級網域'
+    },
     en: {
         resultOfOrigin: 'Not Merge',
         resultOfLevel: 'Keep Level {level}',

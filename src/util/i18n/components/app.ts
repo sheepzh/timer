@@ -31,6 +31,12 @@ const _default: Messages<AppMessage> = {
         description: '做最好用的上网时间统计工具。',
         currentVersion: '版本: v{version}',
     },
+    zh_TW: {
+        name: '網費很貴',
+        marketName: '網費很貴 - 上網時間統計',
+        description: '做最好用的上網時間統計工具。',
+        currentVersion: '版本: v{version}',
+    },
     ja: {
         name: 'Web時間統計',
         marketName: 'Web時間統計',
