@@ -37,7 +37,7 @@ type _RouteProps = {
 /**
  * Use TU_CAO_PAGE, if the locale is Chinese
  * 
- * @since 0.3.2
+ * @since 0.9.0
  */
 let realFeedbackLink: string = GITHUB_ISSUE_ADD
 if (locale === 'zh_CN') {
