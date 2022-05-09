@@ -31,7 +31,7 @@ function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
 function listen(message: ChromeMessage<any>, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
     if (message.code === 'openLimitPage') {
         const url: string = message.data as string
-        const pageUrl = `${getAppPageUrl(true)}#${LIMIT_ROUTE}?url=${encodeURI(url)}`
+        const pageUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(url) })
         chrome.tabs.create({ url: pageUrl })
     } else if (message.code === "limitWaking") {
         const rules = (message.data as TimeLimitItemLike[] || [])

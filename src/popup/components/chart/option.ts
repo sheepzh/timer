@@ -160,10 +160,10 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
     const series = []
     const iconRich = {}
     data.forEach(d => {
-        const { host, alias } = d
+        const { host, alias, isOther } = d
         const legend = displaySiteName ? (alias || host) : host
         legendData.push(legend)
-        series.push({ name: legend, value: d[type] || 0, host })
+        series.push({ name: legend, value: d[type] || 0, host, isOther })
         iconRich[legend2LabelStyle(legend)] = {
             height: LABEL_ICON_SIZE,
             width: LABEL_ICON_SIZE,

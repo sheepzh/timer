@@ -7,10 +7,12 @@
 
 import DataItem from "@entity/dto/data-item"
 
+export type PopupItem = DataItem & { isOther?: boolean }
+
 type QueryResult = {
     type: Timer.DataDimension
     mergeHost: boolean
-    data: DataItem[]
+    data: PopupItem[]
     // Filter items
     chartTitle: string
     date: Date | Date[]

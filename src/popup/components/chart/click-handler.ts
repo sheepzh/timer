@@ -5,13 +5,48 @@
  * https://opensource.org/licenses/MIT
  */
 
-const handleClick = (_params: any) => {
-    console.log(_params)
-    const params = _params as { data: any; componentType: string; seriesType: string }
-    const host = params.data?.host
+import { ReportQuery } from "@app/components/report"
+import { REPORT_ROUTE } from "@app/router/constants"
+import QueryResult, { PopupItem } from "@popup/common/query-result"
+import { getAppPageUrl } from "@util/constant/url"
+import { CallbackDataParams } from "echarts/types/dist/shared"
+
+function generateUrl(data: PopupItem, queryResult: QueryResult): string {
+    const { host, isOther } = data
+    if (!isOther) {
+        return host ? `http://${host}` : undefined
+    }
+    const query: ReportQuery = {}
+    // Merge host
+    queryResult.mergeHost && (query.mh = "1")
+    // Date
+    const date = queryResult.date
+    if (Array.isArray(date)) {
+        if (date.length === 1) {
+            query.ds = query.de = date[0]?.getTime?.()?.toString?.()
+        } else if (date.length === 2) {
+            query.ds = date[0]?.getTime?.()?.toString?.()
+            // End is now
+            // Not the end of this week/month
+            query.de = new Date().getTime().toString()
+        }
+    } else if (!!date) {
+        query.ds = query.de = date.getTime?.()?.toString?.()
+    }
+    // Sorted column
+    query.sc = queryResult.type
+    return getAppPageUrl(false, REPORT_ROUTE, query)
+}
+
+function handleClick(params: CallbackDataParams, queryResult: QueryResult) {
+    const data: PopupItem = params.data as PopupItem
+    if (!data) {
+        return
+    }
     const componentType = params.componentType
     if (componentType === 'series') {
-        host && chrome.tabs.create({ url: `http://${host}` })
+        const url = generateUrl(data, queryResult)
+        url && chrome.tabs.create({ url })
     }
 }
 
