@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Web timer",
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
