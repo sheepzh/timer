@@ -18,4 +18,4 @@ export const LIMIT_ROUTE = '/behavior/limit'
 /**
  * @since 0.9.1
  */
-export const REPORT_ROUTE = '/behavior/report'
+export const REPORT_ROUTE = '/data/report'
