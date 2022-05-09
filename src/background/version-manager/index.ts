@@ -22,14 +22,14 @@ class VersionManager {
         this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }
 
-    private onChromeInstalled(reason: string) {
+    private onChromeInstalled(reason: chrome.runtime.OnInstalledReason) {
         const version: string = chrome.runtime.getManifest().version
         if (reason === 'update') {
             // Update, process the latest version, which equals to current version
             this.processorChain
                 .filter(processor => processor.since() === version)
                 .forEach(processor => processor.process(reason))
-        } else if (reason === 'installed') {
+        } else if (reason === 'install') {
             // All 
             this.processorChain.forEach(processor => processor.process(reason))
         }
