@@ -53,9 +53,6 @@ const _default: chrome.runtime.ManifestV3 = {
      **/
     'idle'
   ],
-  host_permissions: [
-    'chrome://favicon/**',
-  ],
   /**
    * @since 0.3.4
    */
