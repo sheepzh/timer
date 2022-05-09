@@ -86,6 +86,7 @@ const _default = defineComponent({
                 endPlaceholder: dateEndPlaceholder,
                 disabledDate: (date: Date | number) => new Date(date) > new Date(),
                 shortcuts: dateShortcuts,
+                defaultRange: dateRange.value,
                 onChange(newVal: Date[]) {
                     dateRange.value = newVal
                     handleChange()

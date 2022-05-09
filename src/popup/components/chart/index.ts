@@ -17,6 +17,7 @@ import { defaultStatistics } from "@util/constant/option"
 import OptionDatabase from "@db/option-database"
 import handleClick from "./click-handler"
 import { pieOptions } from "./option"
+import { CallbackDataParams } from "echarts/types/dist/shared"
 
 const optionDatabase = new OptionDatabase(chrome.storage.local)
 
@@ -31,14 +32,18 @@ optionDatabase.addOptionChangeListener(setDisplaySiteName)
 
 // Bound the listener
 // Click the item, then forward to the host
-pie.on('click', handleClick)
+pie.on('click', params => handleClick(params as CallbackDataParams, _queryResult))
 
 export const handleRestore = (handler: () => void) => {
     // Click the restore button, then query data
     pie.on('restore', handler)
 }
 
+// Store
+let _queryResult: QueryResult
+
 function renderChart(queryResult: QueryResult) {
+    _queryResult = queryResult
     pie.setOption(pieOptions({ ...queryResult, displaySiteName }, chartContainer), true, false)
 }
 

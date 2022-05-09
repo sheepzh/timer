@@ -19,7 +19,7 @@ import { updateTotal } from "./total-info"
 import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "@service/timer-service"
 import DataItem from "@entity/dto/data-item"
 import { locale, t } from "@popup/locale"
-import QueryResult from "@popup/common/query-result"
+import QueryResult, { PopupItem } from "@popup/common/query-result"
 import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
 import optionService from "@service/option-service"
 
@@ -82,8 +82,16 @@ async function query() {
     const itemCount = (await optionService.getAllOption()).popupMax
     const queryParam = getQueryParam()
     const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
-    const result = []
-    const other: DataItem = { host: t(msg => msg.otherLabel), focus: 0, total: 0, date: '0000-00-00', time: 0, mergedHosts: [] }
+    const result: PopupItem[] = []
+    const other: PopupItem = {
+        host: t(msg => msg.otherLabel),
+        focus: 0,
+        total: 0,
+        date: '0000-00-00',
+        time: 0,
+        mergedHosts: [],
+        isOther: true,
+    }
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
         if (i < itemCount) {

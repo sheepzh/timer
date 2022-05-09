@@ -8,7 +8,7 @@
 import { App } from "vue"
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 import RouterDatabase from "@db/router-database"
-import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE } from "./constants"
+import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE, REPORT_ROUTE } from "./constants"
 import metaService from "@service/meta-service"
 
 const dataRoutes: RouteRecordRaw[] = [
@@ -18,7 +18,7 @@ const dataRoutes: RouteRecordRaw[] = [
     },
     // Needn't nested router 
     {
-        path: '/data/report',
+        path: REPORT_ROUTE,
         component: () => import('../components/report')
     }, {
         path: TREND_ROUTE,

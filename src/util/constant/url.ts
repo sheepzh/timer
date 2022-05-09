@@ -67,7 +67,13 @@ export const UPDATE_PAGE = updatePage
  * @param isInBackground invoke in background environment
  * @since 0.2.2
  */
-export const getAppPageUrl = (isInBackground: boolean) => IS_FIREFOX && !isInBackground ? 'app.html' : 'static/app.html'
+export function getAppPageUrl(isInBackground: boolean, route?: string, query?: any): string {
+    let url = IS_FIREFOX && !isInBackground ? 'app.html' : 'static/app.html'
+    const queries = query ? Object.entries(query).map(([k, v]) => `${k}=${v}`).join('&') : ''
+    route && (url += '#' + route)
+    queries && (url += '?' + queries)
+    return url
+}
 
 /**
  * @since 0.2.2

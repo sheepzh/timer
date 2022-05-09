@@ -21,6 +21,7 @@ import hostAliasService from "@service/host-alias-service"
 import { FileFormat } from "./filter/download-file"
 import { exportCsv, exportJson } from "@util/file"
 import { periodFormatter } from "./formatter"
+import { useRoute, useRouter } from "vue-router"
 
 async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<DataItem[]>, page: UnwrapRef<PaginationInfo>) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
@@ -107,21 +108,48 @@ const generateCsvData = (rows: DataItem[], mergeDate: boolean, mergeHost: boolea
     return data
 }
 
+export type ReportQuery = {
+    /**
+     * Merge host
+     */
+    mh?: string
+    /**
+     * Date start
+     */
+    ds?: string
+    /**
+     * Date end
+     */
+    de?: string
+    /**
+     * Sorted column
+     */
+    sc?: Timer.DataDimension
+}
+
 const _default = defineComponent({
     name: "Report",
     setup() {
+        // Init with route query
+        const routeQuery: ReportQuery = useRoute().query as unknown as ReportQuery
+        const { mh, ds, de, sc } = routeQuery
+        const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
+        const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
+        // Remove queries
+        useRouter().replace({ query: {} })
+
         const host: Ref<string> = ref('')
         const now = new Date()
         // Don't know why the error occurred, so ignore
         // @ts-ignore ts(2322)
-        const dateRange: Ref<Array<Date>> = ref([now, now])
+        const dateRange: Ref<Array<Date>> = ref([dateStart || now, dateEnd || now])
         const mergeDate: Ref<boolean> = ref(false)
-        const mergeHost: Ref<boolean> = ref(false)
+        const mergeHost: Ref<boolean> = ref(mh === "true" || mh === "1")
         const displayBySecond: Ref<boolean> = ref(false)
         const data: Ref<DataItem[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
         const sort: UnwrapRef<SortInfo> = reactive({
-            prop: 'focus',
+            prop: sc || 'focus',
             order: ElSortDirect.DESC
         })
         const page: UnwrapRef<PaginationInfo> = reactive({ size: 10, num: 1, total: 0 })
