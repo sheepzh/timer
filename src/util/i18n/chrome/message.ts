@@ -9,33 +9,39 @@ import { Messages } from ".."
 import appMessages, { AppMessage } from "../components/app"
 import contentScriptMessages, { ContentScriptMessage } from "../components/content-script"
 import contextMenusMessages, { ContextMenusMessage } from "../components/context-menus"
+import initialMessages, { InitialMessage } from "../components/initial"
 
 export type ChromeMessage = {
     app: AppMessage
-    message: ContentScriptMessage,
+    message: ContentScriptMessage
     contextMenus: ContextMenusMessage
+    initial: InitialMessage
 }
 
 const messages: Messages<ChromeMessage> = {
     zh_CN: {
         app: appMessages.zh_CN,
         message: contentScriptMessages.zh_CN,
-        contextMenus: contextMenusMessages.zh_CN
+        contextMenus: contextMenusMessages.zh_CN,
+        initial: initialMessages.zh_CN,
     },
     zh_TW: {
         app: appMessages.zh_TW,
         message: contentScriptMessages.zh_TW,
-        contextMenus: contextMenusMessages.zh_TW
+        contextMenus: contextMenusMessages.zh_TW,
+        initial: initialMessages.zh_TW,
     },
     en: {
         app: appMessages.en,
         message: contentScriptMessages.en,
-        contextMenus: contextMenusMessages.en
+        contextMenus: contextMenusMessages.en,
+        initial: initialMessages.en,
     },
     ja: {
         app: appMessages.ja,
         message: contentScriptMessages.ja,
-        contextMenus: contextMenusMessages.ja
+        contextMenus: contextMenusMessages.ja,
+        initial: initialMessages.ja,
     }
 }
 
@@ -64,6 +70,14 @@ const placeholder: ChromeMessage = {
         optionPage: '',
         repoPage: '',
         feedbackPage: '',
+    },
+    initial: {
+        localFile: {
+            pdf: '',
+            json: '',
+            pic: '',
+            txt: '',
+        }
     }
 }
 
