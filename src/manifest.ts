@@ -15,22 +15,22 @@
 import packageInfo from "./package"
 import { OPTION_ROUTE } from "./app/router/constants"
 const { version, author, homepage } = packageInfo
-const _default: chrome.runtime.ManifestV2 = {
+const _default: chrome.runtime.ManifestV3 = {
   name: '__MSG_app_marketName__',
   description: "__MSG_app_description__",
   version,
   author,
   default_locale: 'en',
   homepage_url: homepage,
-  manifest_version: 2,
+  manifest_version: 3,
   icons: {
     16: "static/images/icon.png",
     48: "static/images/icon.png",
     128: "static/images/icon.png"
   },
   background: {
-    scripts: ['background.js'],
-    persistent: true
+    service_worker: 'background.js',
+    type: "module"
   },
   content_scripts: [
     {
@@ -48,7 +48,6 @@ const _default: chrome.runtime.ManifestV2 = {
     'tabs',
     'webNavigation',
     'contextMenus',
-    'chrome://favicon/**',
     /**
      * @since 0.2.2
      **/
