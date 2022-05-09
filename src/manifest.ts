@@ -53,13 +53,16 @@ const _default: chrome.runtime.ManifestV3 = {
      **/
     'idle'
   ],
+  host_permissions: [
+    'chrome://favicon/**',
+  ],
   /**
    * @since 0.3.4
    */
   optional_permissions: [
     'clipboardRead'
   ],
-  browser_action: {
+  action: {
     default_popup: "static/popup.html",
     default_icon: "static/images/icon.png"
   },
