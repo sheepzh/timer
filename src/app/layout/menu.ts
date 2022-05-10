@@ -11,10 +11,9 @@ import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
 import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, TU_CAO_PAGE } from "@util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
+import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
-import { IS_EDGE } from "@util/constant/environment"
 
 type _MenuItem = {
     title: keyof MenuMessage
@@ -68,6 +67,10 @@ const ALL_MENU: _MenuGroup[] = [
     {
         title: 'data',
         children: [{
+            title: 'dashboard',
+            route: '/data/dashboard',
+            icon: TrendCharts
+        }, {
             title: 'dataReport',
             route: '/data/report',
             icon: Calendar
@@ -171,7 +174,7 @@ const _default = defineComponent({
             current: useRoute()
         })
 
-        onMounted(() => document.title = t(msg => msg.menu.data))
+        onMounted(() => document.title = t(msg => msg.menu.dashboard))
 
         return () => h(ElMenu,
             { defaultActive: routeProps.current.path },

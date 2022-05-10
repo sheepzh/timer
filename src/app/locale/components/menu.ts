@@ -8,6 +8,7 @@
 import { Messages } from "@util/i18n"
 
 export type MenuMessage = {
+    dashboard: string
     data: string
     dataReport: string
     dataHistory: string
@@ -27,6 +28,7 @@ export type MenuMessage = {
 }
 const _default: Messages<MenuMessage> = {
     zh_CN: {
+        dashboard: '仪表盘',
         data: '我的数据',
         dataReport: '报表明细',
         dataHistory: '历史趋势',
@@ -45,6 +47,7 @@ const _default: Messages<MenuMessage> = {
         meat: '请作者吃饭~'
     },
     zh_TW: {
+        dashboard: '儀錶盤',
         data: '我的數據',
         dataReport: '報表明細',
         dataHistory: '曆史趨勢',
@@ -63,6 +66,7 @@ const _default: Messages<MenuMessage> = {
         meat: '請作者吃飯~'
     },
     en: {
+        dashboard: "Dashboard",
         data: 'My Data',
         dataReport: 'Record',
         dataHistory: 'Trend',
@@ -81,6 +85,7 @@ const _default: Messages<MenuMessage> = {
         meat: 'Invite the author to dinner'
     },
     ja: {
+        dashboard: 'ダッシュボード',
         data: '私のデータ',
         dataReport: '報告する',
         dataHistory: '歴史傾向',
