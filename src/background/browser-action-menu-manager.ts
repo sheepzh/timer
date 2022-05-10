@@ -12,7 +12,10 @@ import { t2Chrome } from "@util/i18n/chrome/t"
 const APP_PAGE_URL = getAppPageUrl(true)
 
 const baseProps: Partial<chrome.contextMenus.CreateProperties> = {
-    contexts: ['browser_action'],
+    // Cast unknown to fix the error with manifestV2
+    // Because 'browser_action' will be replaced with 'action' in union type chrome.contextMenus.ContextType since V3
+    // But 'action' does not work in V2
+    contexts: ['browser_action'] as unknown as chrome.contextMenus.ContextType[],
     visible: true
 }
 
