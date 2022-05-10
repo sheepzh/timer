@@ -29,8 +29,7 @@ const _default: chrome.runtime.ManifestV3 = {
     128: "static/images/icon.png"
   },
   background: {
-    service_worker: 'background.js',
-    type: "module"
+    service_worker: 'background.js'
   },
   content_scripts: [
     {

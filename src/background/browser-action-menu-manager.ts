@@ -12,7 +12,7 @@ import { t2Chrome } from "@util/i18n/chrome/t"
 const APP_PAGE_URL = getAppPageUrl(true)
 
 const baseProps: Partial<chrome.contextMenus.CreateProperties> = {
-    contexts: ['browser_action'],
+    contexts: ['action'],
     visible: true
 }
 
@@ -31,7 +31,7 @@ const optionPageProps: chrome.contextMenus.CreateProperties = {
 }
 
 const repoPageProps: chrome.contextMenus.CreateProperties = {
-    id: '__timer_menu_item_repo_link',
+    id: '_timer_menu_item_repo_link',
     title: '🍻 ' + t2Chrome(msg => msg.contextMenus.repoPage),
     onclick: () => chrome.tabs.create({ url: SOURCE_CODE_PAGE }),
     ...baseProps
@@ -45,10 +45,25 @@ const feedbackPageProps: chrome.contextMenus.CreateProperties = {
 }
 
 function init() {
-    chrome.contextMenus.create(allFunctionProps)
-    chrome.contextMenus.create(optionPageProps)
-    chrome.contextMenus.create(repoPageProps)
-    chrome.contextMenus.create(feedbackPageProps)
+    const allProps = [
+        allFunctionProps,
+        optionPageProps,
+        repoPageProps,
+        feedbackPageProps,
+    ]
+    const handleClick = {}
+
+    allProps.forEach(props => {
+        handleClick[props.id] = props.onclick
+        // Not set onclick for MV3
+        delete props.onclick
+        chrome.contextMenus.create(props)
+    })
+
+    chrome.contextMenus.onClicked.addListener((info: chrome.contextMenus.OnClickData) => {
+        const { menuItemId } = info
+        handleClick[menuItemId]?.()
+    })
 }
 
 export default init
