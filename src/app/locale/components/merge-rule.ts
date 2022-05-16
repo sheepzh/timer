@@ -40,7 +40,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: '合并后域名可填具体的域名，或者填数字，或者不填',
         infoAlert3: '如果填数字，则表示合并后域名的级数。比如存在规则【 *.*.edu.cn >>> 3 】，那么 www.hust.edu.cn 将被合并至 hust.edu.cn',
         infoAlert4: '如果不填，则表示原域名不会被合并',
-        infoAlert5: '如果没有匹配任何规则，则默认合并至 2 级域名'
+        infoAlert5: '如果没有匹配任何规则，则默认会合并至 {psl} 的前一级'
     },
     zh_TW: {
         resultOfOrigin: '不合並',
@@ -57,7 +57,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: '合並後網域可填具體的網域，或者填數字，或者不填',
         infoAlert3: '如果填數字，則表示合並後網域的級數。比如存在規則【 *.*.edu.cn >>> 3 】，那麼 www.hust.edu.cn 將被合並至 hust.edu.cn',
         infoAlert4: '如果不填，則表示原網域不會被合並',
-        infoAlert5: '如果沒有匹配任何規則，則默認合並至 2 級網域'
+        infoAlert5: '如果沒有匹配任何規則，則默認會合並至 {psl} 的前一級',
     },
     en: {
         resultOfOrigin: 'Not Merge',
@@ -74,7 +74,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: 'The merged site can be filled with a specific site, number, or blank',
         infoAlert3: 'Number means the level of merged site. For example, there is a rule "*.*.edu.cn >>> 3", then "www.hust.edu.cn" will be merged to "hust.edu.cn"',
         infoAlert4: 'Blank means the origin site will not be merged',
-        infoAlert5: 'If no rule are matched, sites will be merged into the second-level domain name by default'
+        infoAlert5: 'If no rule is matched, it will default to the level before {psl}'
     },
     ja: {
         resultOfOrigin: '不合并',
@@ -91,7 +91,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: '統合されたドメイン名の後、特定のドメイン名を入力するか、番号を入力するか、空白のままにすることができます',
         infoAlert3: '数字を記入する場合は、ドメイン名のレベルが予約されていることを意味します。 たとえば、ルール [*.*.edu.cn >>> 3 ] がある場合、www.hust.edu.cn は hust.edu.cn にマージされます。',
         infoAlert4: '記入しない場合は、元のドメイン名が統合されないことを意味します',
-        infoAlert5: '一致するルールがない場合、デフォルトで第 2 レベル ドメイン名にマージされます'
+        infoAlert5: '一致するルールがない場合、デフォルトで {psl} より前のレベルになります'
     }
 }
 
