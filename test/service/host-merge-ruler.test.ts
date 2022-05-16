@@ -21,9 +21,9 @@ test('specify merged url', () => {
     test1('www.baidu.com', targetUrl, 'www.baidu.com', targetUrl)
     test1('www.*.com', targetUrl, 'www.baidu.com', targetUrl)
     test1('www.*.*', targetUrl, 'www.baidu.123', targetUrl)
-    // Not match
+    // Not match, so merged with the public suffix
     test1('www.*.*', targetUrl, 'www1.baidu.123', 'baidu.123')
-    test1('www.baidu.com', targetUrl, 'www.baidu.com.hk', 'com.hk')
+    test1('www.baidu.com', targetUrl, 'www.baidu.com.hk', 'baidu.com.hk')
 })
 
 test('specify kept dots', () => {
@@ -38,6 +38,6 @@ test('specify kept dots', () => {
 test('specify nothing', () => {
     test1('*.*.edu.cn', '', 'www.hust.edu.cn', 'www.hust.edu.cn')
     test1('*.*.edu.cn', '', '123.hust.edu.cn', '123.hust.edu.cn')
-    // Not match
-    test1('*.*.edu.cn', '', 'hust.edu.cn', 'edu.cn')
+    // Not match, so merged with the public suffix
+    test1('*.*.edu.cn', '', 'xx.xx.hust.edu.cn', 'hust.edu.cn')
 })
