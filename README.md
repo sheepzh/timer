@@ -71,7 +71,7 @@
 
 #### 完善翻译
 
-除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [Crowdin](https://crowdin.com/project/wangfeihengui_timer) 上提交翻译建议。
+除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [issue](https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes) 里提交翻译建议。
 
 #### 好评鼓励
 
