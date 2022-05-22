@@ -13,7 +13,7 @@ const _default = defineComponent({
     props: {
         placeholder: String
     },
-    emits: ["clear", "enter"],
+    emits: ["search"],
     setup(props, ctx) {
         const modelValue: Ref<string> = ref("")
         return () => h(ElInput, {
@@ -23,10 +23,11 @@ const _default = defineComponent({
             clearable: true,
             onClear() {
                 modelValue.value = ''
-                ctx.emit("clear")
+                ctx.emit("search", "")
             },
             onInput: (val: string) => modelValue.value = val.trim(),
-            onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && ctx.emit("enter", modelValue.value)
+            onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && ctx.emit("search", modelValue.value),
+            onBlur: (_event: FocusEvent) => ctx.emit("search", modelValue.value),
         })
     }
 })

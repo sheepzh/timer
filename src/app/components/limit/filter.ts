@@ -38,14 +38,10 @@ const _default = defineComponent({
         return () => [
             h(InputFilterItem, {
                 placeholder: urlPlaceholder,
-                onClear() {
-                    url.value = ""
+                onSearch(searchVal: string) {
+                    url.value = searchVal
                     handleChange()
                 },
-                onEnter(newVal: string) {
-                    url.value = newVal
-                    handleChange()
-                }
             }),
             h(SwitchFilterItem, {
                 label: onlyEnabledLabel,
