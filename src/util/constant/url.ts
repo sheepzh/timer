@@ -98,4 +98,4 @@ export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
 /**
  * @since 0.9.3
  */
-export const TRANSLATION_ISSUE_PAGE = 'https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes'
+export const TRANSLATION_ISSUE_PAGE = 'https://docs.google.com/forms/d/e/1FAIpQLSdZSmEZp6Xfmb5v-3H4hsubgeCReDayDOuWDWWU5C1W80exGA/viewform?usp=sf_link'
