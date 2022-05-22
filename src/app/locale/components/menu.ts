@@ -25,6 +25,7 @@ export type MenuMessage = {
     feedback: string
     rate: string
     meat: string
+    translationMistake: string
 }
 const _default: Messages<MenuMessage> = {
     zh_CN: {
@@ -44,7 +45,8 @@ const _default: Messages<MenuMessage> = {
         other: '其他',
         feedback: '有什么反馈吗？',
         rate: '打个分吧！',
-        meat: '请作者吃饭~'
+        meat: '请作者吃饭~',
+        translationMistake: '提交翻译错误'
     },
     zh_TW: {
         dashboard: '儀錶盤',
@@ -63,7 +65,8 @@ const _default: Messages<MenuMessage> = {
         other: '其他',
         feedback: '有什麼反饋嗎？',
         rate: '打個分吧！',
-        meat: '請作者吃飯~'
+        meat: '請作者吃飯~',
+        translationMistake: '改善翻译~'
     },
     en: {
         dashboard: "Dashboard",
@@ -82,7 +85,8 @@ const _default: Messages<MenuMessage> = {
         option: 'Options',
         feedback: 'Feedback',
         rate: 'Rate It',
-        meat: 'Invite the author to dinner'
+        meat: 'Invite the author to dinner',
+        translationMistake: 'Improve translation'
     },
     ja: {
         dashboard: 'ダッシュボード',
@@ -101,7 +105,8 @@ const _default: Messages<MenuMessage> = {
         option: '拡張設定',
         feedback: 'フィードバック',
         rate: 'それを評価',
-        meat: '著者を夕食に招待する'
+        meat: '著者を夕食に招待する',
+        translationMistake: '翻訳を改善する'
     }
 }
 

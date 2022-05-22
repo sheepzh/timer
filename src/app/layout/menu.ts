@@ -10,7 +10,7 @@ import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from 
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
-import { GITHUB_ISSUE_ADD, HOME_PAGE, MEAT_URL, TU_CAO_PAGE } from "@util/constant/url"
+import { HOME_PAGE, MEAT_URL, TU_CAO_PAGE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
@@ -34,37 +34,46 @@ type _RouteProps = {
 }
 
 /**
- * Use TU_CAO_PAGE, if the locale is Chinese
- * 
- * @since 0.9.0
+ * Generate menu items after locale initialized
  */
-let realFeedbackLink: string = GITHUB_ISSUE_ADD
-if (locale === 'zh_CN') {
-    realFeedbackLink = TU_CAO_PAGE
-}
+function generateMenus(): _MenuGroup[] {
+    /**
+     * Use TU_CAO_PAGE, if the locale is Chinese
+     * 
+     * @since 0.9.0
+     */
+    const isZhCn = locale === "zh_CN"
 
-const OTHER_MENU_ITEMS: _MenuItem[] = [{
-    title: 'feedback',
-    href: realFeedbackLink,
-    icon: ChatSquare,
-    index: '_feedback'
-}]
-HOME_PAGE && OTHER_MENU_ITEMS.push({
-    title: 'rate',
-    href: HOME_PAGE,
-    icon: Sugar,
-    index: '_rate'
-})
-OTHER_MENU_ITEMS.push({
-    title: 'meat',
-    href: MEAT_URL,
-    icon: Food,
-    index: '_meat'
-})
+    const otherMenuItems: _MenuItem[] = []
+    HOME_PAGE && otherMenuItems.push({
+        title: 'rate',
+        href: HOME_PAGE,
+        icon: Sugar,
+        index: '_rate'
+    })
+    if (isZhCn) {
+        otherMenuItems.push({
+            title: 'feedback',
+            href: TU_CAO_PAGE,
+            icon: ChatSquare,
+            index: '_feedback'
+        }, {
+            title: 'meat',
+            href: MEAT_URL,
+            icon: Food,
+            index: '_meat'
+        })
+    } else {
+        otherMenuItems.push({
+            title: 'translationMistake',
+            href: 'https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes',
+            icon: ChatSquare,
+            index: '_i18n'
+        })
+    }
 
-// All menu items
-const ALL_MENU: _MenuGroup[] = [
-    {
+    // All menu items
+    return [{
         title: 'data',
         children: [{
             title: 'dashboard',
@@ -115,9 +124,9 @@ const ALL_MENU: _MenuGroup[] = [
         }]
     }, {
         title: 'other',
-        children: OTHER_MENU_ITEMS
-    }
-]
+        children: otherMenuItems
+    }]
+}
 
 function openMenu(route: string, title: I18nKey, routeProps: UnwrapRef<_RouteProps>) {
     const routerVal = routeProps.router
@@ -178,7 +187,7 @@ const _default = defineComponent({
 
         return () => h(ElMenu,
             { defaultActive: routeProps.current.path },
-            () => ALL_MENU.map(menu => renderMenu(menu, routeProps))
+            () => generateMenus().map(menu => renderMenu(menu, routeProps))
         )
     }
 })
