@@ -81,7 +81,9 @@ export default class CustomizedHostMergeRuler implements IHostMergeRuler {
         matchResult && (merged = matchResult.result)
         if (merged === undefined) {
             // No rule matched
-            return isIpAndPort(origin) ? origin : psl.get(origin)
+            return isIpAndPort(origin)
+                ? origin
+                : psl.get(origin) || this.merge0(2, origin)
         } else {
             return this.merge0(merged, origin)
         }
