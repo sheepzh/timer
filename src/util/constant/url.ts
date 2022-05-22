@@ -94,3 +94,8 @@ export const MEAT_URL = 'https://dun.mianbaoduo.com/@yangyang'
  * @since 0.9.3
  */
 export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
+
+/**
+ * @since 0.9.3
+ */
+export const TRANSLATION_ISSUE_PAGE = 'https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes'
