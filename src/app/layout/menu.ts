@@ -10,7 +10,7 @@ import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from 
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
-import { HOME_PAGE, MEAT_URL, TU_CAO_PAGE } from "@util/constant/url"
+import { HOME_PAGE, MEAT_URL, TU_CAO_PAGE, TRANSLATION_ISSUE_PAGE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
@@ -66,7 +66,7 @@ function generateMenus(): _MenuGroup[] {
     } else {
         otherMenuItems.push({
             title: 'translationMistake',
-            href: 'https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes',
+            href: TRANSLATION_ISSUE_PAGE,
             icon: ChatSquare,
             index: '_i18n'
         })
