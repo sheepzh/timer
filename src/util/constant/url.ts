@@ -77,6 +77,7 @@ export function getAppPageUrl(isInBackground: boolean, route?: string, query?: a
 
 /**
  * @since 0.2.2
+ * @deprecated mv3
  * @returns icon url in the browser
  */
 export function iconUrlOfBrowser(protocol: string, host: string): string {

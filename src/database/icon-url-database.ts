@@ -15,6 +15,8 @@ const generateKey = (host: string) => DB_KEY_PREFIX + host
 
 const urlOf = (key: string) => key.substring(DB_KEY_PREFIX.length)
 
+const CHROME_FAVICON_PATTERN = /^(chrome|edge):\/\/favicon/
+
 /**
  * The icon url of hosts
  * 
@@ -41,17 +43,28 @@ class IconUrlDatabase extends BaseDatabase {
         const keys = hosts.map(generateKey)
         const items = await this.storage.get(keys)
         const result = {}
-        Object.entries(items).forEach(([key, iconUrl]) => result[urlOf(key)] = iconUrl)
+        const keys2Remove = []
+        Object.entries(items).forEach(([key, iconUrl]) => {
+            if (CHROME_FAVICON_PATTERN.test(iconUrl)) {
+                // Remove the icon url starting with chrome://favicon
+                // Because this protocol is invalid since mv3 
+                // And this will be removed in some version
+                keys2Remove.push(key)
+            } else {
+                result[urlOf(key)] = iconUrl
+            }
+        })
+        // Remove asynchronously
+        keys2Remove.length && this.storage.remove(keys2Remove)
         return Promise.resolve(result)
     }
 
     async importData(data: any): Promise<void> {
         const items = await this.storage.get()
         const toSave = {}
-        const chromeEdgeIconUrlReg = /^(chrome|edge):\/\/favicon/
         Object.entries(data)
             .filter(([key, value]) => key.startsWith(DB_KEY_PREFIX) && !!value && !items[key])
-            .filter(([_key, value]) => !IS_FIREFOX || !chromeEdgeIconUrlReg.test(value as string))
+            .filter(([_key, value]) => !IS_FIREFOX || !CHROME_FAVICON_PATTERN.test(value as string))
             .forEach(([key, value]) => toSave[key] = value)
         await this.storage.set(toSave)
     }
