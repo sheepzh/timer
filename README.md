@@ -34,7 +34,6 @@
 [![](https://img.shields.io/amo/rating/2690100?color=green)](https://addons.mozilla.org/en-US/firefox/addon/2690100)
 [![Mozilla Add-on](https://img.shields.io/amo/users/2690100?color=green)](https://addons.mozilla.org/en-US/firefox/addon/2690100)
 
-
 ## 截图
 
 > 弹窗页展示今日数据
@@ -53,23 +52,29 @@
 
 详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
 
-## 开发
+## 贡献指南
 
-```
- git clone https://github.com/sheepzh/timer.git
- cd timer
- npm install
- # 开发编译，输出目录为 dist_dev
- npm run dev
- # 生产编译，输出目录为 dist_prod 和 market_packages
- npm run build
-```
+如果你想参与到该项目的开源建设，可以考虑以下几种方式
 
-- 欢迎大家 PR， PR 之前请先创建 ISSUE
+#### 提交 Issue
 
-## TODO
+如果您有一些好的想法，或者 bug 反馈，可以新建一条 [issue](https://github.com/sheepzh/timer/issues) 。作者会在第一时间进行回复。
 
-请查看 [功能迭代 RoadMap](https://github.com/sheepzh/timer/projects/1) 项目
+#### 参与开发
+
+如果你知道如何开发浏览器扩展，并且熟悉该项目的技术栈 ( TypeScript + vue3 + ElementPlus )，也可以贡献代码
+
+参见[开发指南](./doc/dev-guide.md)。
+
+> 当然也欢迎新手同学使用该项目作为学习项目自己练手
+
+#### 完善翻译
+
+除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [issue](https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes) 里提交翻译建议。
+
+#### 好评鼓励
+
+至于最简单粗暴的贡献方式，当然是在 [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/) / [Chrome](https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm) / [Edge](https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc) 好评三连啦 XXD
 
 ## 致谢
 

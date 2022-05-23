@@ -43,23 +43,15 @@ const _default = defineComponent({
         return () => [
             h(InputFilterItem, {
                 placeholder: hostPlaceholder,
-                onClear() {
-                    host.value = ""
+                onSearch(searchVal: string) {
+                    host.value = searchVal
                     handleChange()
                 },
-                onEnter(newVal: string) {
-                    host.value = newVal
-                    handleChange()
-                }
             }),
             h(InputFilterItem, {
                 placeholder: aliasPlaceholder,
-                onClear() {
-                    alias.value = ""
-                    handleChange()
-                },
-                onEnter(newVal: string) {
-                    alias.value = newVal
+                onSearch(searchVal: string) {
+                    alias.value = searchVal
                     handleChange()
                 }
             }),

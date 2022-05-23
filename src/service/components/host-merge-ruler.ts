@@ -7,6 +7,7 @@
 
 import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import { isIpAndPort } from "@util/pattern"
+import psl from "psl"
 
 /**
  * Ruler to merge host
@@ -74,11 +75,18 @@ export default class CustomizedHostMergeRuler implements IHostMergeRuler {
     merge(origin: string): string {
         // First check the static rules
         let merged = this.noRegMergeRules[origin]
-        // The check the regular rules
+        // Then check the regular rules
         let matchResult: undefined | RegRuleItem = undefined
         merged === undefined && (matchResult = this.regulars.find(item => item.reg.test(origin)))
         matchResult && (merged = matchResult.result)
-        return this.merge0(merged === undefined ? 1 : merged, origin)
+        if (merged === undefined) {
+            // No rule matched
+            return isIpAndPort(origin)
+                ? origin
+                : psl.get(origin) || this.merge0(2, origin)
+        } else {
+            return this.merge0(merged, origin)
+        }
     }
 
     private merge0(merged: string | number, origin: string): string {

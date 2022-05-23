@@ -89,3 +89,13 @@ export function iconUrlOfBrowser(protocol: string, host: string): string {
  * @since 0.2.9
  */
 export const MEAT_URL = 'https://dun.mianbaoduo.com/@yangyang'
+
+/**
+ * @since 0.9.3
+ */
+export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
+
+/**
+ * @since 0.9.3
+ */
+export const TRANSLATION_ISSUE_PAGE = 'https://docs.google.com/forms/d/e/1FAIpQLSdZSmEZp6Xfmb5v-3H4hsubgeCReDayDOuWDWWU5C1W80exGA/viewform?usp=sf_link'
