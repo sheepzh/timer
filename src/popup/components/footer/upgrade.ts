@@ -9,7 +9,7 @@ import { getLatestVersion } from "@src/api/version"
 import packageInfo from "@src/package"
 import { t } from "@popup/locale"
 import { UPDATE_PAGE } from "@util/constant/url"
-import { IS_FIREFOX } from "@util/constant/environment"
+import { IS_FIREFOX, IS_FROM_STORE } from "@util/constant/environment"
 
 function showUpgradeButton(latestVersion: string) {
     const upgrade = document.getElementById('upgrade-container')
@@ -34,4 +34,10 @@ function showUpgradeButton(latestVersion: string) {
     }
 }
 
-getLatestVersion().then(latestVersion => latestVersion && packageInfo.version !== latestVersion && showUpgradeButton(latestVersion))
+getLatestVersion()
+    .then(latestVersion => latestVersion
+        && packageInfo.version !== latestVersion
+        // Must from store
+        && IS_FROM_STORE
+        && showUpgradeButton(latestVersion)
+    )
