@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { CHROME_ID, EDGE_ID, FIREFOX_ID } from "./meta"
+
 const { userAgent } = navigator
 let isFirefox = false
 let isChrome = false
@@ -33,3 +35,12 @@ export const IS_CHROME: boolean = isChrome
  * @since 0.8.0
  */
 export const IS_OPERA: boolean = isOpera
+
+const id = chrome.runtime.id
+
+/**
+ * @since 0.9.6
+ */
+export const IS_FROM_STORE = (isChrome && id === CHROME_ID)
+    || (isEdge && id === EDGE_ID)
+    || (isFirefox && id === FIREFOX_ID)
