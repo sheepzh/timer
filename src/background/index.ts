@@ -35,7 +35,7 @@ new VersionManager().init()
 WhitelistMenuManager()
 
 // Browser action menu
-BrowserActionMenuManager()
+chrome.runtime.onInstalled.addListener(_detail => BrowserActionMenuManager())
 
 // Badge manager
 badgeTextManager.init()
