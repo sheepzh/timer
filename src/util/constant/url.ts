@@ -56,6 +56,16 @@ export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in Timer.Locale]: string 
 }
 
 /**
+ * @since 0.9.6
+ */
+export const UNINSTALL_QUESTIONNAIRE: { [locale in Timer.Locale]: string } = {
+    zh_CN: 'https://www.wjx.cn/vj/YDgY9Yz.aspx',
+    zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdK93q-548dK-2naoS3DaArdc7tEGoUY9JQvaXP5Kpov8h6-A/viewform?usp=sf_link',
+    ja: 'https://docs.google.com/forms/d/e/1FAIpQLSdsB3onZuleNf6j7KJJLbcote647WV6yeUr-9m7Db5QXakfpg/viewform?usp=sf_link',
+    en: 'https://docs.google.com/forms/d/e/1FAIpQLSflhZAFTw1rTUjAEwgxqCaBuhLBBthwEK9fIjvmwWfITLSK9A/viewform?usp=sf_link'
+}
+
+/**
  * The page of extension detail
  * @since 0.1.8
  */
