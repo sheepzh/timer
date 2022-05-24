@@ -79,7 +79,7 @@ const _default: Messages<MenuMessage> = {
         mergeRule: 'Merge-site Rules',
         other: 'Other Features',
         option: 'Options',
-        feedback: 'Feedback',
+        feedback: 'Feedback Questionnaire',
         rate: 'Rate It',
         meat: 'Invite the author to dinner',
         translationMistake: 'Improve translation'
@@ -98,7 +98,7 @@ const _default: Messages<MenuMessage> = {
         mergeRule: 'ドメイン合併',
         other: 'その他の機能',
         option: '拡張設定',
-        feedback: 'フィードバック',
+        feedback: 'フィードバックアンケート',
         rate: 'それを評価',
         meat: '著者を夕食に招待する',
         translationMistake: '翻訳を改善する'
