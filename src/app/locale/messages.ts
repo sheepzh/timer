@@ -19,6 +19,8 @@ import mergeRuleMessages, { MergeRuleMessage } from "./components/merge-rule"
 import siteManageManages, { SiteManageMessage } from "./components/site-manage"
 import operationMessages, { OperationMessage } from './components/operation'
 import confirmMessages, { ConfirmMessage } from './components/confirm'
+import dashboardMessages, { DashboardMessage } from "./components/dashboard"
+import calendarMessages, { CalendarMessage } from "@util/i18n/components/calendar"
 
 export type AppMessage = {
     dataManage: DataManageMessage
@@ -34,6 +36,8 @@ export type AppMessage = {
     siteManage: SiteManageMessage
     operation: OperationMessage
     confirm: ConfirmMessage
+    dashboard: DashboardMessage
+    calendar: CalendarMessage
 }
 
 const _default: Messages<AppMessage> = {
@@ -50,7 +54,9 @@ const _default: Messages<AppMessage> = {
         limit: limitMessages.zh_CN,
         siteManage: siteManageManages.zh_CN,
         operation: operationMessages.zh_CN,
-        confirm: confirmMessages.zh_CN
+        confirm: confirmMessages.zh_CN,
+        dashboard: dashboardMessages.zh_CN,
+        calendar: calendarMessages.zh_CN,
     },
     zh_TW: {
         dataManage: dataManageMessages.zh_TW,
@@ -65,7 +71,9 @@ const _default: Messages<AppMessage> = {
         limit: limitMessages.zh_TW,
         siteManage: siteManageManages.zh_TW,
         operation: operationMessages.zh_TW,
-        confirm: confirmMessages.zh_TW
+        confirm: confirmMessages.zh_TW,
+        dashboard: dashboardMessages.zh_TW,
+        calendar: calendarMessages.zh_TW,
     },
     en: {
         dataManage: dataManageMessages.en,
@@ -80,7 +88,9 @@ const _default: Messages<AppMessage> = {
         limit: limitMessages.en,
         siteManage: siteManageManages.en,
         operation: operationMessages.en,
-        confirm: confirmMessages.en
+        confirm: confirmMessages.en,
+        dashboard: dashboardMessages.en,
+        calendar: calendarMessages.en,
     },
     ja: {
         dataManage: dataManageMessages.ja,
@@ -95,7 +105,9 @@ const _default: Messages<AppMessage> = {
         limit: limitMessages.ja,
         siteManage: siteManageManages.ja,
         operation: operationMessages.ja,
-        confirm: confirmMessages.ja
+        confirm: confirmMessages.ja,
+        dashboard: dashboardMessages.ja,
+        calendar: calendarMessages.ja,
     }
 }
 
