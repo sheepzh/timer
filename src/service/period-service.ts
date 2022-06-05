@@ -60,17 +60,17 @@ async function list(inParam?: PeriodQueryParam): Promise<PeriodResult[]> {
     const originData: PeriodInfo[] = await periodDatabase.getBatch(allDates)
 
     const windowSize = param.periodSize
-    if (windowSize <= 0) return Promise.resolve([])
+    if (windowSize <= 0) return []
     const maxPeriod = getMaxDivisiblePeriod(end, windowSize)
     // Get ride of the latest ones can't be merged into one window
     const realData = originData.filter(data => data.compare(maxPeriod) <= 0 && data.compare(start) >= 0)
     const mergeConfig = { start, end: maxPeriod, windowSize }
-    return Promise.resolve(merge(realData, mergeConfig))
+    return merge(realData, mergeConfig)
 }
 
 class PeriodService {
-    public add = add
-    public list = list
+    add = add
+    list = list
 }
 
 export default new PeriodService()
