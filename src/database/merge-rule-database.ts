@@ -60,7 +60,7 @@ class MergeRuleDatabase extends BaseDatabase {
     }
 
     async importData(data: any): Promise<void> {
-        const toMigrate = data[DB_KEY]
+        const toMigrate = data?.[DB_KEY]
         if (!toMigrate) return
         const exist = await this.refresh()
         const valueTypes = ['string', 'number']
