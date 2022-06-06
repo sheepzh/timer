@@ -5,13 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ECharts, init, use } from "echarts/core"
+import type { ECharts } from "echarts/core"
+
+import { init, use } from "echarts/core"
 import { PieChart } from "echarts/charts"
 import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from "echarts/components"
 import { CanvasRenderer } from "echarts/renderers"
 
 // Register echarts
 use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
+
 import QueryResult from "@popup/common/query-result"
 import { defaultStatistics } from "@util/constant/option"
 import OptionDatabase from "@db/option-database"

@@ -5,11 +5,27 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { ComposeOption } from "echarts/core"
+import type { PieSeriesOption } from "echarts/charts"
+import type {
+    TitleComponentOption,
+    ToolboxComponentOption,
+    TooltipComponentOption,
+    LegendComponentOption,
+} from "echarts/components"
+
 import DataItem from "@entity/dto/data-item"
-import { EChartOption } from "echarts"
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
 import QueryResult from "@popup/common/query-result"
+
+type EcOption = ComposeOption<
+    | PieSeriesOption
+    | TitleComponentOption
+    | ToolboxComponentOption
+    | TooltipComponentOption
+    | LegendComponentOption
+>
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 
@@ -42,7 +58,7 @@ const toolTipFormatter = ({ type }: QueryResult, params: echarts.EChartOption.To
     return `${dimensionName}<br/>${valueText} (${percent}%)`
 }
 
-const staticOptions: EChartOption<EChartOption.SeriesPie> = {
+const staticOptions: EcOption = {
     tooltip: {
         trigger: 'item'
     },
@@ -52,7 +68,6 @@ const staticOptions: EChartOption<EChartOption.SeriesPie> = {
         left: 15,
         top: 20,
         bottom: 20,
-        data: []
     },
     series: [{
         name: "Wasted Time",
@@ -136,7 +151,7 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
     const { type, mergeHost, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
     const subTitleText = `${calculateSubTitleText(date)} @ ${app}`
-    const options: EChartOption<EChartOption.SeriesPie> = {
+    const options: EcOption = {
         title: {
             text: titleText,
             subtext: subTitleText,
@@ -156,13 +171,11 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
         }],
         toolbox: staticOptions.toolbox
     }
-    const legendData = []
     const series = []
     const iconRich = {}
     data.forEach(d => {
         const { host, alias, isOther } = d
         const legend = displaySiteName ? (alias || host) : host
-        legendData.push(legend)
         series.push({ name: legend, value: d[type] || 0, host, isOther })
         iconRich[legend2LabelStyle(legend)] = {
             height: LABEL_ICON_SIZE,
@@ -171,7 +184,6 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
             backgroundColor: { image: d.iconUrl }
         }
     })
-    options.legend.data = legendData
     options.series[0].data = series
     options.series[0].label.rich = {
         a: { fontSize: LABEL_FONT_SIZE },
