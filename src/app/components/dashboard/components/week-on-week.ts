@@ -4,7 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { Ref } from "vue"
+import type { TimerQueryParam } from "@service/timer-service"
 import type { ECharts } from "echarts/core"
+
 import { init, use, ComposeOption } from "echarts/core"
 import { CandlestickChart, CandlestickSeriesOption } from "echarts/charts"
 import {
@@ -18,8 +21,6 @@ use([CandlestickChart, GridComponent, TitleComponent, TooltipComponent])
 import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
-import type { Ref } from "vue"
-import type { TimerQueryParam } from "@service/timer-service"
 import timerService from "@service/timer-service"
 import DataItem from "@entity/dto/data-item"
 import { groupBy, sum } from "@util/array"
