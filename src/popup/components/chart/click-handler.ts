@@ -5,7 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ReportQuery } from "@app/components/report"
+import type { ReportQuery } from "@app/components/report"
+
 import { REPORT_ROUTE } from "@app/router/constants"
 import QueryResult, { PopupItem } from "@popup/common/query-result"
 import { getAppPageUrl } from "@util/constant/url"
