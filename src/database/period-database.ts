@@ -6,7 +6,7 @@
  */
 
 import FocusPerDay from "@entity/dao/period-info"
-import PeriodInfo, { MAX_PERIOD_ORDER, PeriodKey } from "@entity/dto/period-info"
+import PeriodInfo, { MAX_PERIOD_ORDER, MILLS_PER_PERIOD, PeriodKey } from "@entity/dto/period-info"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -89,13 +89,14 @@ class PeriodDatabase extends BaseDatabase {
     }
 
     async importData(data: any): Promise<void> {
+        if (typeof data !== "object") return
         const items = await this.storage.get()
-        const keyReg = new RegExp(`${KEY_PREFIX}20\d{2}[01]\d[0-3]\d`)
+        const keyReg = new RegExp(`^${KEY_PREFIX}20\\d{2}[01]\\d[0-3]\\d$`)
         const toSave = {}
         Object.entries(data)
             .filter(([key]) => keyReg.test(key))
             .forEach(([key, value]) => toSave[key] = migrate(items[key], value as _Value))
-        this.storage.get(toSave)
+        this.storage.set(toSave)
     }
 }
 
@@ -107,8 +108,13 @@ function migrate(exist: _Value | undefined, toMigrate: _Value) {
         .filter(([key]) => /^\d{1,2}$/.test(key))
         .forEach(([key, value]) => {
             const index = Number.parseInt(key)
-            if (index <= 0 || index >> MAX_PERIOD_ORDER) return
-            result[key] = (result[key] || 0) + value
+            if (index < 0 || index > MAX_PERIOD_ORDER) return
+            let mills: number = (result[key] || 0) + (typeof value === "number" ? value : parseInt(value || "0"))
+            if (isNaN(mills) || mills <= 0) return
+            if (mills > MILLS_PER_PERIOD) {
+                mills = MILLS_PER_PERIOD
+            }
+            result[key] = mills
         })
     return result
 }
