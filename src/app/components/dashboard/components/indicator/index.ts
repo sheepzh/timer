@@ -78,7 +78,18 @@ async function query(): Promise<_Value> {
         browsingTime,
         most2Hour
     }
-    const installTime = await metaService.getInstallTime()
+    // 1. Get install time from metaService
+    let installTime = await metaService.getInstallTime()
+    if (!installTime) {
+        // 2. if not exist, calculate from all data items
+        const firstDate = allData.map(a => a.date).sort()[0]
+        if (firstDate && firstDate.length === 8) {
+            const year = parseInt(firstDate.substr(0, 4))
+            const month = parseInt(firstDate.substr(4, 2)) - 1
+            const date = parseInt(firstDate.substr(6, 2))
+            installTime = new Date(year, month, date)
+        }
+    }
     installTime && (result.installedDays = calculateInstallDays(installTime, new Date()))
     return result
 }
