@@ -51,7 +51,7 @@ class IconUrlDatabase extends BaseDatabase {
         const chromeEdgeIconUrlReg = /^(chrome|edge):\/\/favicon/
         Object.entries(data)
             .filter(([key, value]) => key.startsWith(DB_KEY_PREFIX) && !!value && !items[key])
-            .filter(([_key, value]) => !IS_FIREFOX || !chromeEdgeIconUrlReg.test(value as string))
+            .filter(([_key, value]) => !chromeEdgeIconUrlReg.test(value as string))
             .forEach(([key, value]) => toSave[key] = value)
         await this.storage.set(toSave)
     }

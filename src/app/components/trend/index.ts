@@ -5,12 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, h, onMounted, Ref, ref, watch } from "vue"
+import type { Ref } from "vue"
+import type { FilterProps } from "./components/filter"
+
+import { defineComponent, h, onMounted, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { daysAgo } from "@util/time"
 import ContentContainer from "../common/content-container"
-import DomainTrend from "./components/trend-chart"
-import filterContainer, { addToFilterOption, FilterProps } from "./components/filter"
+import TrendChart from "./components/chart"
+import filterContainer, { addToFilterOption } from "./components/filter"
 import HostOptionInfo from "./host-option-info"
 
 type QueryParam = {
@@ -58,7 +61,7 @@ const _default = defineComponent({
 
         return () => h(ContentContainer, {}, {
             filter: () => filterContainer(filterProps),
-            content: () => h(DomainTrend, { ref: chart })
+            content: () => h(TrendChart, { ref: chart })
         })
     }
 })
