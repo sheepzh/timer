@@ -43,7 +43,7 @@ export type TimerQueryParam = TimerCondition & {
     /**
      * The name of sorted column
      */
-    sort?: string
+    sort?: keyof DataItem
     /**
      * 1 asc, -1 desc
      */
@@ -113,7 +113,7 @@ class TimerService {
             .filter(host => host.includes(fuzzyQuery))
             .forEach(host => merged.add(host))
 
-        return Promise.resolve({ origin, merged })
+        return { origin, merged }
     }
 
     /**
@@ -196,7 +196,7 @@ class TimerService {
             await this.fillIconUrl(list)
             await this.fillAlias(list)
         }
-        return Promise.resolve(result)
+        return result
     }
 
     private filter(origin: DataItem[], param: TimerCondition) {

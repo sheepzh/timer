@@ -120,28 +120,62 @@ export function isSameDay(a: Date, b: Date): boolean {
  */
 export function getWeekTime(now: Date, isChinese: boolean): [Date, Date] {
     const date = new Date(now)
-    const nowWeekday = isChinese
-        // Trans 2 chinese weekday
-        ? (date.getDay() + 6) % 7
-        : date.getDay()
+    const nowWeekday = getWeekDay(date, isChinese)
     const startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() - nowWeekday)
     return [new Date(startTime), now]
 }
 
+/**
+ * Get the start time {@param weekCount} weeks ago
+ * 
+ * @param now the specific time
+ * @param weekCount weekCount
+ * @since 1.0.0
+ */
+export function getWeeksAgo(now: Date, isChinese: boolean, weekCount: number): Date {
+    const date = new Date(now)
+    const nowWeekday = getWeekDay(date, isChinese)
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() - nowWeekday - weekCount * 7)
+}
+
+/**
+ * @returns 0 to 6, means Monday to Sunday if Chinese, or Sunday to Saturday
+ */
+function getWeekDay(now: Date, isChinese: boolean): number {
+    const date = new Date(now)
+    return isChinese
+        // Trans 2 chinese weekday
+        ? (date.getDay() + 6) % 7
+        : date.getDay()
+}
 
 /**
  * Get the start time and end time of this month
  * 
- * @param now the specific time
+ * @param target the specific time
  * @returns [startTime, endTime]
  * 
  * @since 0.6.0
  */
-export function getMonthTime(now: Date): [Date, Date] {
-    const currentMonth = now.getMonth()
-    const currentYear = now.getFullYear()
+export function getMonthTime(target: Date): [Date, Date] {
+    const currentMonth = target.getMonth()
+    const currentYear = target.getFullYear()
     const start = new Date(currentYear, currentMonth, 1)
     const endTime = new Date(currentYear, currentMonth + 1, 1).getTime()
     const end = new Date(endTime - 1)
     return [start, end]
+}
+
+/**
+ * Get the start time of this day
+ * 
+ * @param target the specific time
+ * @returns the start of this day
+ * @since 1.0.0
+ */
+export function getStartOfDay(target: Date) {
+    const currentMonth = target.getMonth()
+    const currentYear = target.getFullYear()
+    const currentDate = target.getDate()
+    return new Date(currentYear, currentMonth, currentDate)
 }
