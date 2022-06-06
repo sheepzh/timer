@@ -164,4 +164,54 @@ describe('timer-database', () => {
         await db.deleteByUrlBetween(baidu, now, beforeYesterday) // Invalid
         expect((await db.select()).length).toEqual(2)
     })
+
+    test("importData", async () => {
+        const foo = WastePerDay.of(1, 1, 1)
+        await db.accumulate(baidu, now, foo)
+        const data2Import = await db.storage.get()
+        storage.local.clear()
+
+        data2Import.foo = "bar"
+        await db.importData(data2Import)
+        const data = await db.select({})
+        expect(data.length).toEqual(1)
+        const item = data[0]
+        expect(item.date).toEqual(formatTime(now, "{y}{m}{d}"))
+        expect(item.host).toEqual(baidu)
+        expect(item.focus).toEqual(1)
+        expect(item.total).toEqual(1)
+        expect(item.time).toEqual(1)
+    })
+
+    test("importData2", async () => {
+        await db.importData({
+            // Valid
+            "20210910github.com": {
+                focus: 1,
+                time: 1,
+                total: 1
+            },
+            // Valid
+            "20210911github.com": {
+                focus: 1
+            },
+            // Invalid
+            "20210912github.com": "foobar",
+            // Invalid
+            "20210913github.com": undefined,
+            // Ignored with zero info
+            "20210914github.com": {}
+        })
+        const imported = await db.select()
+        expect(imported.length).toEqual(2)
+    })
+
+    test("importData3", async () => {
+        await db.importData([])
+        expect(await db.select()).toEqual([])
+        await db.importData({ foo: "bar" })
+        expect(await db.select()).toEqual([])
+        await db.importData(false)
+        expect(await db.select()).toEqual([])
+    })
 })

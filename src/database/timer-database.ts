@@ -117,8 +117,10 @@ function migrate(exists: { [key: string]: WastePerDay }, data: any): { [key: str
     Object.entries(data)
         .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
         .forEach(([key, value]) => {
+            if (typeof value !== "object") return
             const exist = exists[key]
-            result[key] = mergeMigration(exist, value)
+            const merged = mergeMigration(exist, value)
+            merged && merged.isNotZero() && (result[key] = mergeMigration(exist, value))
         })
     return result
 }
@@ -182,7 +184,7 @@ class TimerDatabase extends BaseDatabase {
             const exist: WastePerDay = merge(items[key] as WastePerDay || new WastePerDay(), item)
             toUpdate[key] = afterUpdated[host] = exist
         })
-        Object.keys(toUpdate).length && await this.storage.set(toUpdate)
+        await this.storage.set(toUpdate)
         return afterUpdated
     }
 
@@ -325,10 +327,10 @@ class TimerDatabase extends BaseDatabase {
     }
 
     async importData(data: any): Promise<void> {
+        if (typeof data !== "object") return
         const items = await this.storage.get()
         const toSave = migrate(items, data)
         this.storage.set(toSave)
-        // Object.keys(toSave) 
     }
 }
 
