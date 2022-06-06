@@ -138,6 +138,9 @@ export function getWeeksAgo(now: Date, isChinese: boolean, weekCount: number): D
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() - nowWeekday - weekCount * 7)
 }
 
+/**
+ * @returns 0 to 6, means Monday to Sunday if Chinese, or Sunday to Saturday
+ */
 function getWeekDay(now: Date, isChinese: boolean): number {
     const date = new Date(now)
     return isChinese
