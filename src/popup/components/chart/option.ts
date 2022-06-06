@@ -13,11 +13,11 @@ import type {
     TooltipComponentOption,
     LegendComponentOption,
 } from "echarts/components"
+import type QueryResult from "@popup/common/query-result"
 
 import DataItem from "@entity/dto/data-item"
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
-import QueryResult from "@popup/common/query-result"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -45,8 +45,8 @@ const legend2LabelStyle = (legend: string) => {
     return code.join('')
 }
 
-const toolTipFormatter = ({ type }: QueryResult, params: echarts.EChartOption.Tooltip.Format | echarts.EChartOption.Tooltip.Format[]) => {
-    const format: echarts.EChartOption.Tooltip.Format = params instanceof Array ? params[0] : params
+const toolTipFormatter = ({ type }: QueryResult, params: any) => {
+    const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
     const data = format.data as DataItem
     const host = data.host
@@ -104,7 +104,7 @@ const staticOptions: EcOption = {
 
 const maxWidth = 750
 
-function calcPositionOfTooltip(container: HTMLDivElement, point: (number | string)[]): (number | string)[] | echarts.EChartOption.Tooltip.Position.Obj {
+function calcPositionOfTooltip(container: HTMLDivElement, point: (number | string)[]) {
     let p: number | string = point[0]
     const pN: number = typeof p === 'number' ? p : Number.parseFloat(p)
     const tooltip = container.children.item(1) as HTMLDivElement
@@ -147,7 +147,7 @@ function calculateSubTitleText(date: Date | Date[]) {
     }
 }
 
-export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
+export function pieOptions(props: PipProps, container: HTMLDivElement): EcOption {
     const { type, mergeHost, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
     const subTitleText = `${calculateSubTitleText(date)} @ ${app}`
@@ -189,5 +189,5 @@ export const pieOptions = (props: PipProps, container: HTMLDivElement) => {
         a: { fontSize: LABEL_FONT_SIZE },
         ...iconRich
     }
-    return options as any
+    return options
 }
