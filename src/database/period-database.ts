@@ -57,7 +57,6 @@ class PeriodDatabase extends BaseDatabase {
         const exists = await this.getBatch0(dates)
         merge(exists, items)
         this.updateBatch(exists)
-        return Promise.resolve()
     }
 
     private updateBatch(data: { [dateKey: string]: FocusPerDay }): Promise<void> {
@@ -74,6 +73,19 @@ class PeriodDatabase extends BaseDatabase {
 
     async getBatch(dates: string[]): Promise<PeriodInfo[]> {
         return db2PeriodInfos(await this.getBatch0(dates))
+    }
+
+    /**
+     * @since 1.0.0
+     * @returns all period items
+     */
+    async getAll(): Promise<PeriodInfo[]> {
+        const allItems = await this.storage.get()
+        const periodItems: { [dateKey: string]: FocusPerDay } = {}
+        Object.entries(allItems)
+            .filter(([key]) => key.startsWith(KEY_PREFIX))
+            .forEach(([key, val]) => periodItems[key] = val)
+        return db2PeriodInfos(periodItems)
     }
 
     async importData(data: any): Promise<void> {

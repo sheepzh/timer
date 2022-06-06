@@ -47,6 +47,25 @@ export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
 export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
 
 /**
+ * @since 0.9.6
+ */
+export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in Timer.Locale]: string }> = {
+    zh_CN: TU_CAO_PAGE,
+    zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdfvG6ExLj331YOLZIKO3x98k3kMxpkkLW1RgFuRGmUnZCGRQ/viewform?usp=sf_link',
+    en: 'https://docs.google.com/forms/d/e/1FAIpQLSdNq4gnSY7uxYkyqOPqyYF3Bqlc3ZnWCLDi5DI5xGjPeVCNiw/viewform?usp=sf_link',
+}
+
+/**
+ * @since 0.9.6
+ */
+export const UNINSTALL_QUESTIONNAIRE: { [locale in Timer.Locale]: string } = {
+    zh_CN: 'https://www.wjx.cn/vj/YDgY9Yz.aspx',
+    zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdK93q-548dK-2naoS3DaArdc7tEGoUY9JQvaXP5Kpov8h6-A/viewform?usp=sf_link',
+    ja: 'https://docs.google.com/forms/d/e/1FAIpQLSdsB3onZuleNf6j7KJJLbcote647WV6yeUr-9m7Db5QXakfpg/viewform?usp=sf_link',
+    en: 'https://docs.google.com/forms/d/e/1FAIpQLSflhZAFTw1rTUjAEwgxqCaBuhLBBthwEK9fIjvmwWfITLSK9A/viewform?usp=sf_link'
+}
+
+/**
  * The page of extension detail
  * @since 0.1.8
  */
@@ -100,3 +119,8 @@ export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
  * @since 0.9.3
  */
 export const TRANSLATION_ISSUE_PAGE = 'https://docs.google.com/forms/d/e/1FAIpQLSdZSmEZp6Xfmb5v-3H4hsubgeCReDayDOuWDWWU5C1W80exGA/viewform?usp=sf_link'
+
+/**
+ * @since 1.0.0
+ */
+export const DASHBOARD_FEEDBACK_PAGE = 'https://www.wjx.cn/vm/wn0tj2s.aspx'

@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { IS_FIREFOX } from "@util/constant/environment"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -64,7 +63,7 @@ class IconUrlDatabase extends BaseDatabase {
         const toSave = {}
         Object.entries(data)
             .filter(([key, value]) => key.startsWith(DB_KEY_PREFIX) && !!value && !items[key])
-            .filter(([_key, value]) => !IS_FIREFOX || !CHROME_FAVICON_PATTERN.test(value as string))
+            .filter(([_key, value]) => !CHROME_FAVICON_PATTERN.test(value as string))
             .forEach(([key, value]) => toSave[key] = value)
         await this.storage.set(toSave)
     }

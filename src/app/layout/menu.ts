@@ -10,8 +10,8 @@ import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from 
 import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
 import { I18nKey, t } from "@app/locale"
 import { MenuMessage } from "@app/locale/components/menu"
-import { HOME_PAGE, MEAT_URL, TU_CAO_PAGE, TRANSLATION_ISSUE_PAGE } from "@util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
+import { HOME_PAGE, MEAT_URL, TRANSLATION_ISSUE_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
+import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, MagicStick, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
 import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
 
@@ -51,13 +51,15 @@ function generateMenus(): _MenuGroup[] {
         icon: Sugar,
         index: '_rate'
     })
+    const questionnairePage = FEEDBACK_QUESTIONNAIRE[locale]
+    questionnairePage && otherMenuItems.push({
+        title: 'feedback',
+        href: questionnairePage,
+        icon: ChatSquare,
+        index: '_feedback'
+    })
     if (isZhCn) {
         otherMenuItems.push({
-            title: 'feedback',
-            href: TU_CAO_PAGE,
-            icon: ChatSquare,
-            index: '_feedback'
-        }, {
             title: 'meat',
             href: MEAT_URL,
             icon: Food,
@@ -67,7 +69,7 @@ function generateMenus(): _MenuGroup[] {
         otherMenuItems.push({
             title: 'translationMistake',
             href: TRANSLATION_ISSUE_PAGE,
-            icon: ChatSquare,
+            icon: MagicStick,
             index: '_i18n'
         })
     }
@@ -76,6 +78,10 @@ function generateMenus(): _MenuGroup[] {
     return [{
         title: 'data',
         children: [{
+            title: 'dashboard',
+            route: '/data/dashboard',
+            icon: TrendCharts
+        }, {
             title: 'dataReport',
             route: '/data/report',
             icon: Calendar
@@ -179,7 +185,7 @@ const _default = defineComponent({
             current: useRoute()
         })
 
-        onMounted(() => document.title = t(msg => msg.menu.data))
+        onMounted(() => document.title = t(msg => msg.menu.dashboard))
 
         return () => h(ElMenu,
             { defaultActive: routeProps.current.path },

@@ -15,6 +15,7 @@ import VersionManager from "./version-manager"
 import ActiveTabListener from "./active-tab-listener"
 import badgeTextManager from "./badge-text-manager"
 import metaService from "@service/meta-service"
+import UninstallListener from "./uninstall-listener"
 
 // Open the log of console
 openLog()
@@ -46,4 +47,8 @@ new ActiveTabListener()
     .listen()
 
 // Collect the install time
-chrome.runtime.onInstalled.addListener(detail => detail.reason === "install" && metaService.updateInstallTime(new Date()))
+chrome.runtime.onInstalled.addListener(async detail => {
+    detail.reason === "install" && await metaService.updateInstallTime(new Date())
+    // Questionnaire for uninstall
+    new UninstallListener().listen()
+})

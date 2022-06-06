@@ -8,6 +8,7 @@
 import { Messages } from "@util/i18n"
 
 export type MenuMessage = {
+    dashboard: string
     data: string
     dataReport: string
     dataHistory: string
@@ -28,6 +29,7 @@ export type MenuMessage = {
 }
 const _default: Messages<MenuMessage> = {
     zh_CN: {
+        dashboard: '仪表盘',
         data: '我的数据',
         dataReport: '报表明细',
         dataHistory: '历史趋势',
@@ -47,6 +49,7 @@ const _default: Messages<MenuMessage> = {
         translationMistake: '提交翻译错误'
     },
     zh_TW: {
+        dashboard: '儀錶盤',
         data: '我的數據',
         dataReport: '報表明細',
         dataHistory: '曆史趨勢',
@@ -66,6 +69,7 @@ const _default: Messages<MenuMessage> = {
         translationMistake: '改善翻译~'
     },
     en: {
+        dashboard: "Dashboard",
         data: 'My Data',
         dataReport: 'Record',
         dataHistory: 'Trend',
@@ -79,12 +83,13 @@ const _default: Messages<MenuMessage> = {
         mergeRule: 'Merge-site Rules',
         other: 'Other Features',
         option: 'Options',
-        feedback: 'Feedback',
+        feedback: 'Feedback Questionnaire',
         rate: 'Rate It',
         meat: 'Invite the author to dinner',
         translationMistake: 'Improve translation'
     },
     ja: {
+        dashboard: 'ダッシュボード',
         data: '私のデータ',
         dataReport: '報告する',
         dataHistory: '歴史傾向',
@@ -98,7 +103,7 @@ const _default: Messages<MenuMessage> = {
         mergeRule: 'ドメイン合併',
         other: 'その他の機能',
         option: '拡張設定',
-        feedback: 'フィードバック',
+        feedback: 'フィードバックアンケート',
         rate: 'それを評価',
         meat: '著者を夕食に招待する',
         translationMistake: '翻訳を改善する'
