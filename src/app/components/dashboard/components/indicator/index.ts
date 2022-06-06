@@ -15,7 +15,7 @@ import PeriodInfo, { MILL_PER_MINUTE } from "@entity/dto/period-info"
 import { groupBy } from "@util/array"
 import NumberGrow from "@app/components/common/number-grow"
 import "./style"
-import { tN, t } from "@app/locale"
+import { tN } from "@app/locale"
 import IndicatorHeaderIcon from "./header-icon"
 
 const CONTAINER_ID = "__timer-indicator-container"
