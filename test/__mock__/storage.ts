@@ -41,22 +41,22 @@ const sync = {
             result = resolveKey(id)
             cb = args[1]
         }
-        cb && cb(result)
+        cb?.(result)
     }),
     getBytesInUse: jest.fn(cb => cb && cb(0)),
     set: jest.fn((payload, cb) => {
         Object.keys(payload).forEach((key) => (store[key] = payload[key]))
-        cb && cb()
+        cb?.()
     }),
     remove: jest.fn((id, cb) => {
         const idType = typeof id
         const keys: string[] = idType === 'string' ? [id] : (Array.isArray(id) ? id : Object.keys(id))
         keys.forEach((key: string) => delete store[key])
-        cb && cb()
+        cb?.()
     }),
-    clear: jest.fn((cb) => {
+    clear: jest.fn(cb => {
         store = {}
-        cb && cb()
+        cb?.()
     })
 } as unknown as chrome.storage.SyncStorageArea
 
