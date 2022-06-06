@@ -100,8 +100,19 @@ test("get month time", () => {
     // 2022/05/02
     const now = new Date(2022, 4, 2)
     const [start, end] = getMonthTime(now)
-    expect(start.toLocaleString()).toEqual('2022/5/1 00:00:00')
-    expect(end.toLocaleString()).toEqual('2022/5/31 23:59:59')
+    expect(start.getMonth()).toEqual(4)
+    expect(start.getDate()).toEqual(1)
+    expect(start.getHours()).toEqual(0)
+    expect(start.getMinutes()).toEqual(0)
+    expect(start.getSeconds()).toEqual(0)
+    expect(start.getMilliseconds()).toEqual(0)
+
+    expect(end.getMonth()).toEqual(4)
+    expect(end.getDate()).toEqual(31)
+    expect(end.getHours()).toEqual(23)
+    expect(end.getMinutes()).toEqual(59)
+    expect(end.getSeconds()).toEqual(59)
+    expect(end.getMilliseconds()).toEqual(999)
 })
 
 test("get start of day", () => {
@@ -109,5 +120,10 @@ test("get start of day", () => {
     const now = new Date(2022, 4, 2)
     now.setHours(11, 30, 29, 999)
     const start = getStartOfDay(now)
-    expect(start.toLocaleString()).toEqual('2022/5/2 00:00:00')
+    expect(start.getMonth()).toEqual(4)
+    expect(start.getDate()).toEqual(2)
+    expect(start.getHours()).toEqual(0)
+    expect(start.getMinutes()).toEqual(0)
+    expect(start.getSeconds()).toEqual(0)
+    expect(start.getMilliseconds()).toEqual(0)
 })
