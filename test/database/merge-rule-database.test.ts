@@ -26,4 +26,29 @@ describe('merge-rule-database.test', () => {
         expect(list.length).toEqual(1)
         expect(list[0]).toEqual(HostMergeRuleItem.of('3', ''))
     })
+
+    test("importData", async () => {
+        await db.add(
+            HostMergeRuleItem.of("www.baidu.com", 2),
+            HostMergeRuleItem.of("www.google.com", "google.com")
+        )
+        const data2Import = await db.storage.get()
+        data2Import.foo = "bar"
+        await storage.local.clear()
+        expect(await db.selectAll()).toEqual([])
+
+        await db.importData(data2Import)
+        const imported: HostMergeRuleItem[] = await db.selectAll()
+        expect(imported).toEqual([
+            { origin: "www.baidu.com", merged: 2 },
+            { origin: "www.google.com", merged: "google.com" }
+        ])
+    })
+
+    test("importData2", async () => {
+        await db.importData(undefined)
+        expect(await db.selectAll()).toEqual([])
+        await db.importData({ foo: "bar" })
+        expect(await db.selectAll()).toEqual([])
+    })
 })
