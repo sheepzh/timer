@@ -31,6 +31,7 @@
     "generate-json-webpack-plugin": "^2.0.0",
     "jest": "^28.0.3",
     "jest-environment-jsdom": "^28.0.2",
+    "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",

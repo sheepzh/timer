@@ -6,11 +6,12 @@
  */
 
 import type { ReportQuery } from "@app/components/report"
+import type QueryResult from "@popup/common/query-result"
+import type { PopupItem } from "@popup/common/query-result"
+import type { CallbackDataParams } from "echarts/types/dist/shared"
 
 import { REPORT_ROUTE } from "@app/router/constants"
-import QueryResult, { PopupItem } from "@popup/common/query-result"
 import { getAppPageUrl } from "@util/constant/url"
-import { CallbackDataParams } from "echarts/types/dist/shared"
 
 function generateUrl(data: PopupItem, queryResult: QueryResult): string {
     const { host, isOther } = data

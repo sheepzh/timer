@@ -27,6 +27,9 @@
             "@util/*": [
                 "src/util/*"
             ],
+            "@echarts/*": [
+                "src/echarts/*"
+            ],
             "@src/*": [
                 "src/*"
             ],

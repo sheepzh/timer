@@ -1,263 +1,153 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-  </head>
 
-  <body>
-    <div id="app">
-      <div id="chart-container"></div>
-      <div class="option-container">
-        <span id="total-info" class="option-left"></span>
-        <!-- select -->
-        <div
-          id="type-select-container"
-          class="el-select el-select--mini option-right"
-        >
-          <div class="select-trigger">
-            <div class="el-input el-input--mini el-input--suffix">
-              <input
-                id="type-select-input"
-                class="el-input__inner"
-                type="text"
-                readonly=""
-                autocomplete="off"
-              />
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="../popup.css">
+</head>
+
+<body>
+  <div id="app">
+    <div id="chart-container"></div>
+    <div class="option-container">
+      <span id="total-info" class="option-left"></span>
+      <!-- select -->
+      <div id="type-select-container" class="el-select el-select--mini option-right">
+        <div class="select-trigger">
+          <div class="el-input el-input--mini el-input--suffix">
+            <input id="type-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
           </div>
         </div>
-        <div
-          id="time-select-container"
-          class="el-select el-select--mini option-right"
-        >
-          <div class="select-trigger">
-            <div class="el-input el-input--mini el-input--suffix">
-              <input
-                id="time-select-input"
-                class="el-input__inner"
-                type="text"
-                readonly=""
-                autocomplete="off"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- merge host -->
-        <div
-          id="merge-host-switch"
-          class="el-switch option-right"
-          role="switch"
-          style="margin-left: 10px"
-        >
-          <input
-            class="el-switch__input"
-            type="checkbox"
-            name=""
-            true-value="true"
-            false-value="false"
-          />
-          <span class="el-switch__core" style="width: 40px">
-            <div class="el-switch__action"></div>
-          </span>
-        </div>
-        <!-- All functions -->
-        <a class="el-link el-link--default is-underline option-right">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1024 1024"
-            data-v-394d1fd8=""
-            width="15px"
-            height="15px"
-            class="el-svg-icon"
-          >
-            <path
-              fill="currentColor"
-              d="M512 160c320 0 512 352 512 352S832 864 512 864 0 512 0 512s192-352 512-352zm0 64c-225.28 0-384.128 208.064-436.8 288 52.608 79.872 211.456 288 436.8 288 225.28 0 384.128-208.064 436.8-288-52.608-79.872-211.456-288-436.8-288zm0 64a224 224 0 1 1 0 448 224 224 0 0 1 0-448zm0 64a160.192 160.192 0 0 0-160 160c0 88.192 71.744 160 160 160s160-71.808 160-160-71.744-160-160-160z"
-            ></path>
-          </svg>
-          <span id="all-function-link" class="el-link--inner">
-            <!--更多内容-->
-          </span>
-        </a>
-        <!-- Feedback -->
-        <a
-          id="feedback-container"
-          class="el-link el-link--default is-underline option-right"
-          style="display: none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1024 1024"
-            data-v-394d1fd8=""
-            width="15px"
-            height="15px"
-            class="el-svg-icon"
-          >
-            <path
-              fill="currentColor"
-              d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640V512z"
-            ></path>
-            <path
-              fill="currentColor"
-              d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-            ></path>
-          </svg>
-        </a>
-        <a
-          id="meat-container"
-          class="el-link el-link--default is-underline option-right"
-          style="display: none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1024 1024"
-            data-v-394d1fd8=""
-            width="15px"
-            height="15px"
-            class="el-svg-icon"
-          >
-            <path
-              fill="currentColor"
-              d="M128 352.576V352a288 288 0 0 1 491.072-204.224 192 192 0 0 1 274.24 204.48 64 64 0 0 1 57.216 74.24C921.6 600.512 850.048 710.656 736 756.992V800a96 96 0 0 1-96 96H384a96 96 0 0 1-96-96v-43.008c-114.048-46.336-185.6-156.48-214.528-330.496A64 64 0 0 1 128 352.64zm64-.576h64a160 160 0 0 1 320 0h64a224 224 0 0 0-448 0zm128 0h192a96 96 0 0 0-192 0zm439.424 0h68.544A128.256 128.256 0 0 0 704 192c-15.36 0-29.952 2.688-43.52 7.616 11.328 18.176 20.672 37.76 27.84 58.304A64.128 64.128 0 0 1 759.424 352zM672 768H352v32a32 32 0 0 0 32 32h256a32 32 0 0 0 32-32v-32zm-342.528-64h365.056c101.504-32.64 165.76-124.928 192.896-288H136.576c27.136 163.072 91.392 255.36 192.896 288z"
-            ></path>
-          </svg>
-          <span class="el-link--inner">请TA吃饭</span>
-        </a>
-        <!-- Upgrade -->
-        <a
-          id="upgrade-container"
-          class="el-link el-link--success is-underline option-right"
-          style="display: none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1024 1024"
-            data-v-394d1fd8=""
-            width="15px"
-            height="15px"
-            class="el-svg-icon"
-          >
-            <path
-              fill="currentColor"
-              d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64zm384-253.696 236.288-236.352 45.248 45.248L508.8 704 192 387.2l45.248-45.248L480 584.704V128h64v450.304z"
-            ></path>
-          </svg>
-          <span id="upgrade-link" class="el-link--inner">
-            <!-- 版本升级 -->
-          </span>
-        </a>
       </div>
+      <div id="time-select-container" class="el-select el-select--mini option-right">
+        <div class="select-trigger">
+          <div class="el-input el-input--mini el-input--suffix">
+            <input id="time-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <!-- merge host -->
+      <div id="merge-host-switch" class="el-switch option-right" role="switch" style="margin-left: 10px">
+        <input class="el-switch__input" type="checkbox" name="" true-value="true" false-value="false" />
+        <span class="el-switch__core" style="width: 40px">
+          <div class="el-switch__action"></div>
+        </span>
+      </div>
+      <!-- All functions -->
+      <a class="el-link el-link--default is-underline option-right">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-394d1fd8="" width="15px" height="15px"
+          class="el-svg-icon">
+          <path fill="currentColor"
+            d="M512 160c320 0 512 352 512 352S832 864 512 864 0 512 0 512s192-352 512-352zm0 64c-225.28 0-384.128 208.064-436.8 288 52.608 79.872 211.456 288 436.8 288 225.28 0 384.128-208.064 436.8-288-52.608-79.872-211.456-288-436.8-288zm0 64a224 224 0 1 1 0 448 224 224 0 0 1 0-448zm0 64a160.192 160.192 0 0 0-160 160c0 88.192 71.744 160 160 160s160-71.808 160-160-71.744-160-160-160z">
+          </path>
+        </svg>
+        <span id="all-function-link" class="el-link--inner">
+          <!--更多内容-->
+        </span>
+      </a>
+      <!-- Feedback -->
+      <a id="feedback-container" class="el-link el-link--default is-underline option-right" style="display: none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-394d1fd8="" width="15px" height="15px"
+          class="el-svg-icon">
+          <path fill="currentColor"
+            d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640V512z">
+          </path>
+          <path fill="currentColor"
+            d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z">
+          </path>
+        </svg>
+      </a>
+      <a id="meat-container" class="el-link el-link--default is-underline option-right" style="display: none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-394d1fd8="" width="15px" height="15px"
+          class="el-svg-icon">
+          <path fill="currentColor"
+            d="M128 352.576V352a288 288 0 0 1 491.072-204.224 192 192 0 0 1 274.24 204.48 64 64 0 0 1 57.216 74.24C921.6 600.512 850.048 710.656 736 756.992V800a96 96 0 0 1-96 96H384a96 96 0 0 1-96-96v-43.008c-114.048-46.336-185.6-156.48-214.528-330.496A64 64 0 0 1 128 352.64zm64-.576h64a160 160 0 0 1 320 0h64a224 224 0 0 0-448 0zm128 0h192a96 96 0 0 0-192 0zm439.424 0h68.544A128.256 128.256 0 0 0 704 192c-15.36 0-29.952 2.688-43.52 7.616 11.328 18.176 20.672 37.76 27.84 58.304A64.128 64.128 0 0 1 759.424 352zM672 768H352v32a32 32 0 0 0 32 32h256a32 32 0 0 0 32-32v-32zm-342.528-64h365.056c101.504-32.64 165.76-124.928 192.896-288H136.576c27.136 163.072 91.392 255.36 192.896 288z">
+          </path>
+        </svg>
+        <span class="el-link--inner">请TA吃饭</span>
+      </a>
+      <!-- Upgrade -->
+      <a id="upgrade-container" class="el-link el-link--success is-underline option-right" style="display: none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-394d1fd8="" width="15px" height="15px"
+          class="el-svg-icon">
+          <path fill="currentColor"
+            d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64zm384-253.696 236.288-236.352 45.248 45.248L508.8 704 192 387.2l45.248-45.248L480 584.704V128h64v450.304z">
+          </path>
+        </svg>
+        <span id="upgrade-link" class="el-link--inner">
+          <!-- 版本升级 -->
+        </span>
+      </a>
     </div>
-    <!-- Select options -->
-    <div
-      id="type-select-popup"
-      class="el-select__popper el-popper is-light is-pure"
-      style="display: none"
-    >
-      <div class="el-select-dropdown">
-        <div class="el-scrollbar">
-          <div
-            class="
+  </div>
+  <!-- Select options -->
+  <div id="type-select-popup" class="el-select__popper el-popper is-light is-pure" style="display: none">
+    <div class="el-select-dropdown">
+      <div class="el-scrollbar">
+        <div class="
               el-select-dropdown__wrap
               el-scrollbar__wrap el-scrollbar__wrap--hidden-default
-            "
-          >
-            <ul
-              id="type-select-options"
-              class="el-scrollbar__view el-select-dropdown__list"
-            ></ul>
-          </div>
-          <div class="el-scrollbar__bar is-horizontal" style="display: none">
-            <div
-              class="el-scrollbar__thumb"
-              style="transform: translateX(0%)"
-            ></div>
-          </div>
-          <div class="el-scrollbar__bar is-vertical" style="display: none">
-            <div
-              class="el-scrollbar__thumb"
-              style="transform: translateY(0%)"
-            ></div>
-          </div>
+            ">
+          <ul id="type-select-options" class="el-scrollbar__view el-select-dropdown__list"></ul>
+        </div>
+        <div class="el-scrollbar__bar is-horizontal" style="display: none">
+          <div class="el-scrollbar__thumb" style="transform: translateX(0%)"></div>
+        </div>
+        <div class="el-scrollbar__bar is-vertical" style="display: none">
+          <div class="el-scrollbar__thumb" style="transform: translateY(0%)"></div>
         </div>
       </div>
     </div>
-    <!-- Time range -->
-    <div
-      id="time-select-popup"
-      class="el-select__popper el-popper is-light is-pure"
-      style="display: none"
-    >
-      <div class="el-select-dropdown">
-        <div class="el-scrollbar">
-          <div
-            class="
+  </div>
+  <!-- Time range -->
+  <div id="time-select-popup" class="el-select__popper el-popper is-light is-pure" style="display: none">
+    <div class="el-select-dropdown">
+      <div class="el-scrollbar">
+        <div class="
               el-select-dropdown__wrap
               el-scrollbar__wrap el-scrollbar__wrap--hidden-default
-            "
-          >
-            <ul
-              id="time-select-options"
-              class="el-scrollbar__view el-select-dropdown__list"
-            ></ul>
-          </div>
-          <div class="el-scrollbar__bar is-horizontal" style="display: none">
-            <div
-              class="el-scrollbar__thumb"
-              style="transform: translateX(0%)"
-            ></div>
-          </div>
-          <div class="el-scrollbar__bar is-vertical" style="display: none">
-            <div
-              class="el-scrollbar__thumb"
-              style="transform: translateY(0%)"
-            ></div>
-          </div>
+            ">
+          <ul id="time-select-options" class="el-scrollbar__view el-select-dropdown__list"></ul>
+        </div>
+        <div class="el-scrollbar__bar is-horizontal" style="display: none">
+          <div class="el-scrollbar__thumb" style="transform: translateX(0%)"></div>
+        </div>
+        <div class="el-scrollbar__bar is-vertical" style="display: none">
+          <div class="el-scrollbar__thumb" style="transform: translateY(0%)"></div>
         </div>
       </div>
     </div>
-    <!-- Switch popup -->
-    <div
-      id="merge-host-popup-container"
-      class="el-popper is-dark"
-      style="
+  </div>
+  <!-- Switch popup -->
+  <div id="merge-host-popup-container" class="el-popper is-dark" style="
         z-index: 2012;
         position: absolute;
         inset: auto auto 0px 0px;
         margin: 0px;
         transform: translate(419px, -52px);
         display: none;
-      "
-    >
-      <a id="merge-host-popup-info">
-        <!-- 合并子域名 -->
-      </a>
-      <div
-        class="el-popper__arrow"
-        style="position: absolute; left: 0px; transform: translate(35px, 0px)"
-      ></div>
-    </div>
-    <!-- Upgrade popup -->
-    <div
-      id="upgrade-popup-container"
-      class="el-popper is-light"
-      style="
+      ">
+    <a id="merge-host-popup-info">
+      <!-- 合并子域名 -->
+    </a>
+    <div class="el-popper__arrow" style="position: absolute; left: 0px; transform: translate(35px, 0px)"></div>
+  </div>
+  <!-- Upgrade popup -->
+  <div id="upgrade-popup-container" class="el-popper is-light" style="
         z-index: 2004;
         position: absolute;
         inset: auto auto 0px 0px;
         margin: 0px;
         transform: translate(250px, -50px);
         display: none;
-      "
-    >
-      <a id="latest-info">
-        <!-- 最新版本：v0.2.6 -->
-      </a>
-      <div
-        class="el-popper__arrow"
-        style="z-index: 2006; position: absolute; left: 0px; transform: translate(51px, 6px)"
-      ></div>
+      ">
+    <a id="latest-info">
+      <!-- 最新版本：v0.2.6 -->
+    </a>
+    <div class="el-popper__arrow" style="z-index: 2006; position: absolute; left: 0px; transform: translate(51px, 6px)">
     </div>
-  </body>
-  <script src="../popup.js"></script>
+  </div>
+</body>
+<script src="../popup.js"></script>
+
 </html>
