@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { onMounted, Ref } from "vue"
+import type { Ref } from "vue"
 import type { HabitFilterOption } from "./component/filter"
 
-import { defineComponent, h, ref } from "vue"
+import { defineComponent, h, ref, onMounted } from "vue"
 import { MAX_PERIOD_ORDER, PeriodKey } from "@entity/dto/period-info"
 import periodService from "@service/period-service"
 import { daysAgo, isSameDay } from "@util/time"
