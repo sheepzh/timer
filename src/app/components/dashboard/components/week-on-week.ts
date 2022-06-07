@@ -6,15 +6,15 @@
  */
 import type { Ref } from "vue"
 import type { TimerQueryParam } from "@service/timer-service"
-import type { ECharts } from "echarts/core"
+import type { ECharts, ComposeOption } from "echarts/core"
+import type { CandlestickSeriesOption } from "echarts/charts"
+import type { GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts/components"
 
-import { init, use, ComposeOption } from "echarts/core"
-import { CandlestickChart, CandlestickSeriesOption } from "echarts/charts"
-import {
-    GridComponent, GridComponentOption,
-    TitleComponent, TitleComponentOption,
-    TooltipComponent, TooltipComponentOption,
-} from "echarts/components"
+import { init, use } from "@echarts/core"
+import CandlestickChart from "@echarts/chart/candlestick"
+import GridComponent from "@echarts/component/grid"
+import TitleComponent from "@echarts/component/title"
+import TooltipComponent from "@echarts/component/tooltip"
 
 use([CandlestickChart, GridComponent, TitleComponent, TooltipComponent])
 

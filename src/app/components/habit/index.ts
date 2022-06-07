@@ -5,32 +5,22 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ECharts, init } from "echarts"
-import { computed, ComputedRef, defineComponent, h, onMounted, ref, Ref, watch } from "vue"
+import { onMounted, Ref } from "vue"
+import type { HabitFilterOption } from "./component/filter"
+
+import { defineComponent, h, ref } from "vue"
 import { MAX_PERIOD_ORDER, PeriodKey } from "@entity/dto/period-info"
-import periodService, { PeriodQueryParam } from "@service/period-service"
+import periodService from "@service/period-service"
 import { daysAgo, isSameDay } from "@util/time"
 import ContentContainer from "@app/components/common/content-container"
-import chart, { ChartProps } from "./chart"
-import generateOptions from "./chart/option"
-import filter from "./filter"
+import HabitChart from "./component/chart"
+import HabitFilter from "./component/filter"
 
-const periodSizeRef: Ref<string> = ref('1')
-//@ts-ignore ts(2322)
-const dateRangeRef: Ref<Date[]> = ref(daysAgo(1, 0))
-const averageRef: Ref<boolean> = ref(false)
-const periodSizeNumberRef: ComputedRef<number> = computed(() => Number.parseInt(periodSizeRef.value))
-const chartRef: Ref<HTMLDivElement> = ref()
-let bar: ECharts
-
-const filterProps = { dateRangeRef, periodSizeRef, averageRef }
-const chartProps: ChartProps = { chartRef }
-
-const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
-    let dateRange = dateRangeRef.value
-    if (dateRange.length !== 2) dateRange = daysAgo(1, 0)
-    const endDate = dateRange[1]
-    const startDate = dateRange[0]
+function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageByDate: Ref<boolean>) {
+    let dateRangeVal = dateRange.value
+    if (dateRangeVal.length !== 2) dateRangeVal = daysAgo(1, 0)
+    const endDate = dateRangeVal[1]
+    const startDate = dateRangeVal[0]
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
@@ -44,44 +34,52 @@ const queryParamRef: ComputedRef<PeriodQueryParam> = computed(() => {
         periodStart = PeriodKey.of(startDate, 0)
     }
 
-    const remainder = (periodEnd.order + 1) % periodSizeNumberRef.value
+    const remainder = (periodEnd.order + 1) % periodSize.value
     if (remainder) {
         periodEnd = periodEnd.before(remainder)
         periodStart = periodStart.before(remainder)
     }
 
     return {
-        dateRange: dateRangeRef.value,
+        dateRange: dateRange.value,
         // Must query one by one, if average
-        periodSize: averageRef.value ? 1 : periodSizeNumberRef.value,
+        periodSize: averageByDate.value ? 1 : periodSize.value,
         periodStart,
         periodEnd
     }
-})
-
-const queryAndRenderChart = () => periodService.list(queryParamRef.value)
-    .then(val => {
-        const newOptions = generateOptions({ data: val, average: averageRef.value, periodSize: periodSizeNumberRef.value })
-        bar.setOption(newOptions, true, false)
-    })
-
-watch([dateRangeRef, averageRef, periodSizeRef], () => queryAndRenderChart())
-
-const handleMounted = () => {
-    bar = init(chartRef.value)
-    queryAndRenderChart()
 }
 
 const _default = defineComponent({
     name: "Habit",
     setup() {
-        onMounted(() => handleMounted())
-        return () => h(ContentContainer, {},
-            {
-                filter: () => filter(filterProps),
-                content: () => chart(chartProps)
-            }
-        )
+        const chart: Ref = ref()
+        const periodSize: Ref<number> = ref(1)
+        //@ts-ignore ts(2322)
+        const dateRange: Ref<Date[]> = ref(daysAgo(1, 0))
+        const averageByDate: Ref<boolean> = ref(false)
+
+        async function queryAndRender() {
+            const queryParam = computeParam(periodSize, dateRange, averageByDate)
+            const result = await periodService.list(queryParam)
+            chart?.value.render?.(result, averageByDate.value, periodSize.value)
+        }
+
+        onMounted(queryAndRender)
+
+        return () => h(ContentContainer, {}, {
+            filter: () => h(HabitFilter, {
+                periodSize: periodSize.value,
+                dateRange: dateRange.value,
+                averageByDate: averageByDate.value,
+                onChange(newVal: HabitFilterOption) {
+                    periodSize.value = newVal.periodSize
+                    dateRange.value = newVal.dateRange
+                    averageByDate.value = newVal.averageByDate
+                    queryAndRender()
+                }
+            }),
+            content: () => h(HabitChart, { ref: chart })
+        })
     }
 })
 

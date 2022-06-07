@@ -30,6 +30,10 @@ export default class WastePerDay {
         this.time = 0
     }
 
+    isNotZero(): boolean {
+        return !!this.total || !!this.focus || !!this.time
+    }
+
     static of(total: number, focus: number, time: number) {
         const result: WastePerDay = new WastePerDay()
         result.total = total

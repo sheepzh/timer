@@ -5,19 +5,25 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ECharts, init, use } from "echarts/core"
-import { PieChart } from "echarts/charts"
-import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from "echarts/components"
-import { CanvasRenderer } from "echarts/renderers"
+import type { ECharts } from "echarts/core"
+import type { CallbackDataParams } from "echarts/types/dist/shared"
+import type QueryResult from "@popup/common/query-result"
+
+import { init, use } from "@echarts/core"
+import PieChart from "@echarts/chart/pie"
+import TitleComponent from "@echarts/component/title"
+import ToolboxComponent from "@echarts/component/toolbox"
+import TooltipComponent from "@echarts/component/tooltip"
+import LegendComponent from "@echarts/component/legend"
+import CanvasRenderer from "@echarts/canvas-renderer"
 
 // Register echarts
 use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
-import QueryResult from "@popup/common/query-result"
+
 import { defaultStatistics } from "@util/constant/option"
 import OptionDatabase from "@db/option-database"
 import handleClick from "./click-handler"
 import { pieOptions } from "./option"
-import { CallbackDataParams } from "echarts/types/dist/shared"
 
 const optionDatabase = new OptionDatabase(chrome.storage.local)
 

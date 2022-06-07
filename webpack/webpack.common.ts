@@ -6,6 +6,7 @@ import webpack from "webpack"
 import manifest from "../src/manifest"
 import i18nChrome from "../src/util/i18n/chrome"
 import tsConfig from '../tsconfig.json'
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
 const tsPathAlias = tsConfig.compilerOptions.paths
 
 const generateJsonPlugins = [
@@ -46,6 +47,7 @@ const staticOptions: webpack.Configuration = {
         content_scripts: './src/content-script',
         // The entrance of popup page
         popup: './src/popup',
+        // "popup.scss": './src/popup/style',
         // The entrance of app page
         app: './src/app'
     },
@@ -60,10 +62,10 @@ const staticOptions: webpack.Configuration = {
                 use: ['ts-loader']
             }, {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader"],
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
             }, {
                 test: /\.sc|ass$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             }, {
                 test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
                 exclude: /node_modules/,
@@ -90,7 +92,8 @@ const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.
             patterns: [
                 { from: path.join(__dirname, '..', 'public'), to: path.join(outputPath, 'static') }
             ]
-        })
+        }),
+        new MiniCssExtractPlugin(),
     ]
     return {
         ...staticOptions,

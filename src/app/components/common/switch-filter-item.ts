@@ -4,9 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { Ref } from "vue"
 
 import { ElSwitch } from "element-plus"
-import { defineComponent, h, ref, Ref } from "vue"
+import { defineComponent, h, ref } from "vue"
 
 const _default = defineComponent({
     name: "SwitchFilterItem",
