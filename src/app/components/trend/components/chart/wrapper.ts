@@ -15,10 +15,15 @@ import type {
     ToolboxComponentOption,
 } from "echarts/components"
 
-import { init, use } from "echarts/core"
-import { LineChart } from "echarts/charts"
-import { GridComponent, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent } from "echarts/components"
-import { CanvasRenderer } from "echarts/renderers"
+import { init, use } from "@echarts/core"
+import LineChart from "@echarts/chart/line"
+import GridComponent from "@echarts/component/grid"
+import CanvasRenderer from "@echarts/canvas-renderer"
+import LegendComponent from "@echarts/component/legend"
+import TitleComponent from "@echarts/component/title"
+import ToolboxComponent from "@echarts/component/toolbox"
+import TooltipComponent from "@echarts/component/tooltip"
+
 import { t } from "@app/locale"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import HostOptionInfo from "../../host-option-info"

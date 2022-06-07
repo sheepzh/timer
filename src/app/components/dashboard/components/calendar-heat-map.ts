@@ -5,16 +5,17 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ECharts } from "echarts/core"
-import { init, use, ComposeOption } from "echarts/core"
-import { HeatmapChart, HeatmapSeriesOption } from "echarts/charts"
-import {
-    TitleComponent, TitleComponentOption,
-    TooltipComponent, TooltipComponentOption,
-    GridComponent, GridComponentOption,
-    VisualMapComponent, VisualMapComponentOption,
-} from "echarts/components"
-import { CanvasRenderer } from "echarts/renderers"
+import type { ECharts, ComposeOption } from "echarts/core"
+import type { HeatmapSeriesOption } from "echarts/charts"
+import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
+
+import TitleComponent from "@echarts/component/title"
+import TooltipComponent from "@echarts/component/tooltip"
+import GridComponent from "@echarts/component/grid"
+import VisualMapComponent from "@echarts/component/visual-map"
+import HeatmapChart from "@echarts/chart/heatmap"
+import { init, use } from "@echarts/core"
+import CanvasRenderer from "@echarts/canvas-renderer"
 
 // Register echarts
 use([

@@ -5,13 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ECharts } from "echarts/core"
-import { init, use, ComposeOption } from "echarts/core"
-import { PieChart, PieSeriesOption } from "echarts/charts"
-import {
-    TitleComponent, TitleComponentOption,
-    TooltipComponent, TooltipComponentOption,
-} from "echarts/components"
+import type { ECharts, ComposeOption } from "echarts/core"
+import type { PieSeriesOption } from "echarts/charts"
+import { TitleComponentOption, TooltipComponentOption } from "echarts/components"
+
+import { init, use } from "@echarts/core"
+import PieChart from "@echarts/chart/pie"
+import TitleComponent from "@echarts/component/title"
+import TooltipComponent from "@echarts/component/tooltip"
 
 use([PieChart, TitleComponent, TooltipComponent])
 
