@@ -6,7 +6,6 @@
  */
 
 import DataItem from "@entity/dto/data-item"
-import metaService from "@service/meta-service"
 import PeriodDatabase from "@db/period-database"
 import timerService from "@service/timer-service"
 import { getStartOfDay, MILL_PER_DAY } from "@util/time"
@@ -39,7 +38,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: DataItem[] = await timerService.select({})
+    const allData: DataItem[] = await timerService.select()
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0
@@ -78,18 +77,16 @@ async function query(): Promise<_Value> {
         browsingTime,
         most2Hour
     }
-    // 1. Get install time from metaService
-    let installTime = await metaService.getInstallTime()
-    if (!installTime) {
-        // 2. if not exist, calculate from all data items
-        const firstDate = allData.map(a => a.date).sort()[0]
-        if (firstDate && firstDate.length === 8) {
-            const year = parseInt(firstDate.substr(0, 4))
-            const month = parseInt(firstDate.substr(4, 2)) - 1
-            const date = parseInt(firstDate.substr(6, 2))
-            installTime = new Date(year, month, date)
-        }
+    let installTime = undefined
+    // 2. if not exist, calculate from all data items
+    const firstDate = allData.map(a => a.date).filter(d => d?.length === 8).sort()[0]
+    if (firstDate) {
+        const year = parseInt(firstDate.substr(0, 4))
+        const month = parseInt(firstDate.substr(4, 2)) - 1
+        const date = parseInt(firstDate.substr(6, 2))
+        installTime = new Date(year, month, date)
     }
+
     installTime && (result.installedDays = calculateInstallDays(installTime, new Date()))
     return result
 }
