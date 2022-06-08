@@ -151,7 +151,7 @@ function getAxias(format: string, dateRange: Date[] | undefined): string[] {
 }
 
 async function processSubtitle(host: HostOptionInfo) {
-    let subtitle = host.toString()
+    let subtitle = host?.toString()
     if (!subtitle) {
         return DEFAULT_SUB_TITLE
     }
@@ -175,7 +175,7 @@ class ChartWrapper {
     async render(host: HostOptionInfo, dateRange: Date[], row: DataItem[]) {
         // 1. x-axis data
         let xAxisData: string[], allDates: string[]
-        if (!host || !dateRange || dateRange.length !== 2) {
+        if (!dateRange || dateRange.length !== 2) {
             xAxisData = []
             allDates = []
         } else {
