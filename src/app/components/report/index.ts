@@ -217,6 +217,11 @@ const _default = defineComponent({
                     dateRange: dateRange.value,
                     data: data.value,
                     defaultSort: sort,
+                    onSortChange: ((sortInfo: SortInfo) => {
+                        sort.order = sortInfo.order
+                        sort.prop = sortInfo.prop
+                        query()
+                    }),
                     onItemDelete: (_deleted: DataItem) => query(),
                     onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
                     onAliasChange: (host: string, newAlias: string) => handleAliasChange(host, newAlias, data)
