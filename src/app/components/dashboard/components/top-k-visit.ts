@@ -7,7 +7,7 @@
 
 import type { ECharts, ComposeOption } from "echarts/core"
 import type { PieSeriesOption } from "echarts/charts"
-import { TitleComponentOption, TooltipComponentOption } from "echarts/components"
+import type { TitleComponentOption, TooltipComponentOption } from "echarts/components"
 
 import { init, use } from "@echarts/core"
 import PieChart from "@echarts/chart/pie"
