@@ -21,6 +21,13 @@ export type ReportMessage = {
     exportFileName: string
     added2Whitelist: string
     removeFromWhitelist: string
+    batchDelete: {
+        noSelectedMsg: string
+        confirmMsg: string
+        confirmMsgAll: string
+        confirmMsgRange: string
+        successMsg: string
+    }
 }
 
 const _default: Messages<ReportMessage> = {
@@ -37,7 +44,14 @@ const _default: Messages<ReportMessage> = {
         hostPlaceholder: '请输入域名，然后回车',
         exportFileName: '我的上网时间',
         added2Whitelist: '成功加入白名单',
-        removeFromWhitelist: '成功从白名单移除'
+        removeFromWhitelist: '成功从白名单移除',
+        batchDelete: {
+            noSelectedMsg: '请先在表格中勾选需要删除的行',
+            confirmMsg: '{example} 等网站在 {date} 的 {count} 条记录将会被删除！',
+            confirmMsgAll: '{example} 等网站的 {count} 条记录将会被删除！',
+            confirmMsgRange: '{example} 等网站在 {start} 至 {end} 之间的 {count} 条记录将会被删除！',
+            successMsg: '成功批量删除',
+        }
     },
     zh_TW: {
         startDate: '開始日期',
@@ -52,7 +66,14 @@ const _default: Messages<ReportMessage> = {
         hostPlaceholder: '請輸入域名，然後回車',
         exportFileName: '我的上網時間',
         added2Whitelist: '成功加入白名單',
-        removeFromWhitelist: '成功從白名單移除'
+        removeFromWhitelist: '成功從白名單移除',
+        batchDelete: {
+            noSelectedMsg: '請先在表格中勾選需要刪除的行',
+            confirmMsg: '{example} 等網站在 {date} 的 {count} 條記錄將會被刪除！',
+            confirmMsgAll: '{example} 等網站的 {count} 條記錄將會被刪除！',
+            confirmMsgRange: '{example} 等網站在 {start} 至 {end} 之間的 {count} 條記錄將會被刪除！',
+            successMsg: '成功批量刪除',
+        }
     },
     en: {
         startDate: 'Start date',
@@ -67,7 +88,14 @@ const _default: Messages<ReportMessage> = {
         hostPlaceholder: 'Input URL, press enter',
         exportFileName: 'Timer_Data',
         added2Whitelist: 'Added into the whitelist',
-        removeFromWhitelist: 'Removed from the whitelist'
+        removeFromWhitelist: 'Removed from the whitelist',
+        batchDelete: {
+            noSelectedMsg: 'Please select the row you want to delete in the table first',
+            confirmMsg: '{count} records for sites like {example} on {date} will be deleted!',
+            confirmMsgAll: '{count} records for sites like {example} will be deleted!',
+            confirmMsgRange: '{count} records for sites like {example} between {start} and {end} will be deleted!',
+            successMsg: 'Batch delete successfully',
+        }
     },
     ja: {
         startDate: '開始日',
@@ -82,7 +110,14 @@ const _default: Messages<ReportMessage> = {
         hostPlaceholder: 'URL を入力してください',
         exportFileName: '私のウェブ時間データ',
         added2Whitelist: 'ホワイトリストに正常に追加されました',
-        removeFromWhitelist: 'ホワイトリストから正常に削除されました'
+        removeFromWhitelist: 'ホワイトリストから正常に削除されました',
+        batchDelete: {
+            noSelectedMsg: '最初にテーブルで削除する行にチェックマークを付けてください',
+            confirmMsg: '{date} の {example} のようなサイトの {count} レコードは削除されます！',
+            confirmMsgAll: '{example} のようなサイトの {count} レコードは削除されます！',
+            confirmMsgRange: '{start} と {end} の間の {example} のようなサイトの {count} レコードが削除されます！',
+            successMsg: 'バッチ削除に成功',
+        }
     }
 }
 

@@ -23,3 +23,5 @@ export const periodFormatter = (milliseconds: number, displayBySecond?: boolean,
     const second = Math.floor(milliseconds / 1000)
     return displayBySecond ? (second + (hideUnitOfSecond ? '' : ' s')) : formatPeriodCommon(milliseconds)
 }
+
+export const DISPLAY_DATE_FORMAT = '{y}/{m}/{d}'
