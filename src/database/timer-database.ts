@@ -211,7 +211,7 @@ class TimerDatabase extends BaseDatabase {
         }
 
         log('Result of select: ', result)
-        return Promise.resolve(result)
+        return result
     }
 
     private filterHost(host: string, condition: _TimerCondition): boolean {
@@ -324,6 +324,30 @@ class TimerDatabase extends BaseDatabase {
      */
     deleteByUrl(host: string): Promise<string[]> {
         return this.deleteByUrlBetween(host)
+    }
+
+    /**
+     * Count by condition
+     * 
+     * @param condition 
+     * @returns count 
+     * @since 1.0.2
+     */
+    async count(condition: TimerCondition): Promise<number> {
+        condition = condition || {}
+        const _cond: _TimerCondition = processCondition(condition)
+        const items = await this.refresh()
+        let count = 0
+
+        for (let key in items) {
+            const date = key.substring(0, 8)
+            const host = key.substring(8)
+            const val: WastePerDay = items[key]
+            if (this.filterBefore(date, host, val, _cond)) {
+                count++
+            }
+        }
+        return count
     }
 
     async importData(data: any): Promise<void> {

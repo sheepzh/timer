@@ -13,21 +13,25 @@ import type { FileFormat } from "./filter/download-file"
 import type { ReportFilterOption } from "./filter"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
-import { t } from "@app/locale"
+import { I18nKey, t } from "@app/locale"
 import DataItem from "@entity/dto/data-item"
 import timerService, { SortDirect } from "@service/timer-service"
 import whitelistService from "@service/whitelist-service"
-import { formatTime } from "@util/time"
 import './styles/element'
 import ReportTable, { ElSortDirect } from "./table"
 import ReportFilter from "./filter"
 import Pagination from "../common/pagination"
 import ContentContainer from "../common/content-container"
-import { ElLoadingService } from "element-plus"
+import { ElLoadingService, ElMessage, ElMessageBox } from "element-plus"
 import hostAliasService from "@service/host-alias-service"
 import { exportCsv, exportJson } from "@util/file"
-import { periodFormatter } from "./formatter"
+import { DISPLAY_DATE_FORMAT, periodFormatter } from "./formatter"
 import { useRoute, useRouter } from "vue-router"
+import { groupBy, sum } from "@util/array"
+import { formatTime } from "@util/time"
+import TimerDatabase from "@db/timer-database"
+
+const timerDatabase = new TimerDatabase(chrome.storage.local)
 
 async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<DataItem[]>, page: UnwrapRef<PaginationInfo>) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
@@ -67,24 +71,22 @@ type _ExportInfo = {
  * @param rows row data
  * @returns data with json format 
  */
-const generateJsonData = (rows: DataItem[]) => {
-    return rows.map(row => {
-        const data: _ExportInfo = { host: row.host }
-        data.date = row.date
-        data.alias = row.alias
-        // Always display by seconds
-        data.total = periodFormatter(row.total, true, true)
-        data.focus = periodFormatter(row.focus, true, true)
-        data.time = row.time
-        return data
-    })
-}
+const generateJsonData = (rows: DataItem[]) => rows.map(row => {
+    const data: _ExportInfo = { host: row.host }
+    data.date = row.date
+    data.alias = row.alias
+    // Always display by seconds
+    data.total = periodFormatter(row.total, true, true)
+    data.focus = periodFormatter(row.focus, true, true)
+    data.time = row.time
+    return data
+})
 
 /** 
  * @param rows row data
  * @returns data with csv format
  */
-const generateCsvData = (rows: DataItem[], mergeDate: boolean, mergeHost: boolean) => {
+function generateCsvData(rows: DataItem[], mergeDate: boolean, mergeHost: boolean): string[][] {
     const columnName: string[] = []
     if (!mergeDate) {
         columnName.push(t(msg => msg.item.date))
@@ -112,6 +114,73 @@ const generateCsvData = (rows: DataItem[], mergeDate: boolean, mergeHost: boolea
         data.push(line)
     })
     return data
+}
+
+async function computeBatchDeleteMsg(selected: DataItem[], mergeDate: boolean, dateRange: Date[]): Promise<string> {
+    console.log(selected)
+    // host => total focus
+    const hostFocus: { [host: string]: number } = groupBy(selected,
+        a => a.host,
+        grouped => grouped.map(a => a.focus).reduce((a, b) => a + b, 0)
+    )
+    const hosts = Object.keys(hostFocus)
+    if (!hosts.length) {
+        // Never happen
+        return t(msg => msg.report.batchDelete.noSelectedMsg)
+    }
+    const count2Delete: number = mergeDate
+        // All the items 
+        ? sum(await Promise.all(Array.from(hosts).map(host => timerService.count({ host, fullHost: true, date: dateRange }))))
+        // The count of row
+        : selected?.length || 0
+    const i18nParam = {
+        // count
+        count: count2Delete,
+        // example for hosts
+        example: hosts[0],
+        // Start date, if range
+        start: undefined,
+        // End date, if range
+        end: undefined,
+        // Date, if single date
+        date: undefined,
+    }
+
+    let key: I18nKey = undefined
+    const hasDateRange = dateRange?.length === 2 && (dateRange[0] || dateRange[1])
+    if (!hasDateRange) {
+        // Delete all
+        key = msg => msg.report.batchDelete.confirmMsgAll
+    } else {
+        const startDate = dateRange[0]
+        const endDate = dateRange[1]
+        const start = formatTime(startDate, DISPLAY_DATE_FORMAT)
+        const end = formatTime(endDate, DISPLAY_DATE_FORMAT)
+        if (start === end) {
+            // Single date
+            key = msg => msg.report.batchDelete.confirmMsg
+            i18nParam.date = start
+        } else {
+            // Date range
+            key = msg => msg.report.batchDelete.confirmMsgRange
+            i18nParam.start = start
+            i18nParam.end = end
+        }
+    }
+    return t(key, i18nParam)
+}
+
+async function deleteBatch(selected: DataItem[], mergeDate: boolean, dateRange: Date[]) {
+    if (!mergeDate) {
+        // If not merge date
+        // Delete batch
+        await timerDatabase.delete(selected)
+    } else {
+        // Delete according to the date range
+        const start = dateRange?.[0]
+        const end = dateRange?.[1]
+        await Promise.all(selected.map(d => timerDatabase.deleteByUrlBetween(d.host, start, end)))
+    }
 }
 
 export type ReportQuery = {
@@ -182,6 +251,8 @@ const _default = defineComponent({
             return baseName
         })
 
+        const tableEl: Ref = ref()
+
         const query = () => queryData(queryParam, data, page)
         // Init first
         queryWhiteList(whitelist).then(query)
@@ -206,6 +277,34 @@ const _default = defineComponent({
                     const fileName = exportFileName.value
                     format === 'json' && exportJson(generateJsonData(rows), fileName)
                     format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value, mergeHost.value), fileName)
+                },
+                onBatchDelete: async (filterOption: ReportFilterOption) => {
+                    const selected: DataItem[] = tableEl?.value?.getSelected?.() || []
+                    if (!selected?.length) {
+                        ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
+                        return
+                    }
+                    ElMessageBox({
+                        message: await computeBatchDeleteMsg(selected, filterOption.mergeDate, filterOption.dateRange),
+                        type: "warning",
+                        confirmButtonText: t(msg => msg.confirm.confirmMsg),
+                        showCancelButton: true,
+                        cancelButtonText: t(msg => msg.confirm.cancelMsg),
+                        // Cant close this on press ESC
+                        closeOnPressEscape: false,
+                        // Cant close this on clicking modal
+                        closeOnClickModal: false
+                    }).then(async () => {
+                        // Delete
+                        await deleteBatch(selected, filterOption.mergeDate, filterOption.dateRange)
+                        ElMessage({
+                            type: "success",
+                            message: t(msg => msg.report.batchDelete.successMsg)
+                        })
+                        query()
+                    }).catch(() => {
+                        // Do nothing
+                    })
                 }
             }),
             content: () => [
@@ -217,6 +316,12 @@ const _default = defineComponent({
                     dateRange: dateRange.value,
                     data: data.value,
                     defaultSort: sort,
+                    ref: tableEl,
+                    onSortChange: ((sortInfo: SortInfo) => {
+                        sort.order = sortInfo.order
+                        sort.prop = sortInfo.prop
+                        query()
+                    }),
                     onItemDelete: (_deleted: DataItem) => query(),
                     onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
                     onAliasChange: (host: string, newAlias: string) => handleAliasChange(host, newAlias, data)

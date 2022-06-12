@@ -214,4 +214,22 @@ describe('timer-database', () => {
         await db.importData(false)
         expect(await db.select()).toEqual([])
     })
+
+    test("count", async () => {
+        await db.accumulate(baidu, now, WastePerDay.of(1, 1, 1))
+        await db.accumulate(baidu, yesterday, WastePerDay.of(1, 2, 1))
+        await db.accumulate(google, now, WastePerDay.of(1, 3, 1))
+        await db.accumulate(google, yesterday, WastePerDay.of(1, 4, 1))
+        // Count by host
+        expect(await db.count({
+            host: baidu,
+            fullHost: true
+        })).toEqual(2)
+        // Count all
+        expect(await db.count(undefined)).toEqual(4)
+        // Count by fuzzy
+        expect(await db.count({ host: "www", fullHost: false })).toEqual(4)
+        // Count by date
+        expect(await db.count({ host: google, fullHost: true, date: now })).toEqual(1)
+    })
 })
