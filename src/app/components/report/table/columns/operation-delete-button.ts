@@ -9,10 +9,9 @@ import { computed, defineComponent, h, PropType, Ref } from "vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import { Delete } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
-import { dateFormatter } from "../../formatter"
+import { dateFormatter, DISPLAY_DATE_FORMAT } from "../../formatter"
 import { formatTime } from "@util/time"
 
-const DISPLAY_DATE_FORMAT = '{y}/{m}/{d}'
 const deleteButtonText = t(msg => msg.item.operation.delete)
 
 /**

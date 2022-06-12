@@ -127,6 +127,19 @@ class TimerService {
         return timerDatabase.delete(rows)
     }
 
+    /**
+     * Count the items
+     * 
+     * @param condition condition to count
+     * @since 1.0.2
+     */
+    async count(condition: TimerCondition): Promise<number> {
+        log("service: count: {condition}", condition)
+        const count = await timerDatabase.count(condition)
+        log("service: count: {result}", count)
+        return count
+    }
+
     private processSort(origin: DataItem[], param: TimerQueryParam) {
         const { sort, sortOrder } = param
         if (!sort) return

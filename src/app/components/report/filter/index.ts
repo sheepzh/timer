@@ -4,16 +4,20 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { FileFormat } from "./download-file"
+import type { Ref, PropType } from "vue"
+import type { ElementDatePickerShortcut } from "@app/element-ui/date"
+import type { ReportMessage } from "@app/locale/components/report"
 
-import DownloadFile, { FileFormat } from "./download-file"
-import { Ref, h, defineComponent, ref, PropType } from "vue"
+import DownloadFile from "./download-file"
+import { h, defineComponent, ref, } from "vue"
 import { t } from "@app/locale"
 import InputFilterItem from '@app/components/common/input-filter-item'
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
-import { ElementDatePickerShortcut } from "@app/element-ui/date"
 import { daysAgo } from "@util/time"
-import { ReportMessage } from "@app/locale/components/report"
+import { ElButton } from "element-plus"
+import { DeleteFilled } from "@element-plus/icons-vue"
 
 const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
@@ -53,7 +57,7 @@ const _default = defineComponent({
         mergeHost: Boolean,
         displayBySecond: Boolean
     },
-    emits: ["change", "download"],
+    emits: ["change", "download", "batchDelete"],
     setup(props, ctx) {
         const host: Ref<string> = ref(props.host)
         // Don't know why the error occurred, so ignore
@@ -62,13 +66,14 @@ const _default = defineComponent({
         const mergeDate: Ref<boolean> = ref(props.mergeDate)
         const mergeHost: Ref<boolean> = ref(props.mergeHost)
         const displayBySecond: Ref<boolean> = ref(props.displayBySecond)
-        const handleChange = () => ctx.emit("change", {
+        const computeOption = () => ({
             host: host.value,
             dateRange: dateRange.value,
             mergeDate: mergeDate.value,
             mergeHost: mergeHost.value,
             displayBySecond: displayBySecond.value
         } as ReportFilterOption)
+        const handleChange = () => ctx.emit("change", computeOption())
         return () => [
             h(InputFilterItem, {
                 placeholder: hostPlaceholder,
@@ -112,9 +117,19 @@ const _default = defineComponent({
                     handleChange()
                 }
             }),
-            h(DownloadFile, {
-                onDownload: (format: FileFormat) => ctx.emit("download", format)
-            })
+            // Float right
+            h("div", { style: { float: "right" } }, [
+                h(ElButton, {
+                    class: "batch-delete-button",
+                    disabled: mergeHost.value,
+                    type: "text",
+                    icon: DeleteFilled,
+                    onClick: () => ctx.emit("batchDelete", computeOption())
+                }, () => "Batch Delete"),
+                h(DownloadFile, {
+                    onDownload: (format: FileFormat) => ctx.emit("download", format)
+                })
+            ])
         ]
     }
 })
