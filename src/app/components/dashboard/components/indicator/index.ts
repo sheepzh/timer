@@ -48,15 +48,16 @@ async function query(): Promise<_Value> {
         browsingTime += focus
     })
     const periodInfos: PeriodInfo[] = await periodDatabase.getAll()
+    const periodCount = periodInfos?.length || 0
     // Order [0, 95]
     const averageTimePerPeriod: { [order: number]: number } = groupBy(periodInfos,
         p => p.order,
         (grouped: PeriodInfo[]) => {
             const periodMills = grouped.map(p => p.milliseconds)
-            if (!periodMills.length) {
+            if (!periodCount) {
                 return 0
             }
-            return Math.floor(periodMills.reduce((a, b) => a + b, 0) / periodMills.length)
+            return Math.floor(periodMills.reduce((a, b) => a + b, 0) / periodCount)
         }
     )
     // Merged per 2 hours
