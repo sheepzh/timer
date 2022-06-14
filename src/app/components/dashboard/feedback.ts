@@ -12,9 +12,8 @@ import { Effect, ElButton, ElTooltip } from "element-plus"
 import { defineComponent, h } from "vue"
 
 const style: Partial<CSSStyleDeclaration> = {
-    width: '100%',
     paddingTop: '10px',
-    paddingRight: '40px',
+    paddingRight: '10px',
     height: '100px',
     textAlign: 'right'
 }
