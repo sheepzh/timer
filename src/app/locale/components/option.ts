@@ -41,6 +41,15 @@ export type OptionMessage = {
             label: string
             console: string
             info: string
+        },
+        darkMode: {
+            label: string
+            options: {
+                on: string
+                off: string
+                timed: string
+            }
+            info: string
         }
     }
     statistics: {
@@ -92,6 +101,15 @@ const _default: Messages<OptionMessage> = {
                 label: '{input}  是否在 {console} 里打印当前网站的 {info}',
                 console: '浏览器的控制台',
                 info: '今日访问信息'
+            },
+            darkMode: {
+                label: "夜间模式 {info}  {input}",
+                options: {
+                    on: "始终开启",
+                    off: "始终关闭",
+                    timed: "定时开启"
+                },
+                info: "设置完成需刷新界面才会生效！"
             }
         },
         statistics: {
@@ -141,6 +159,15 @@ const _default: Messages<OptionMessage> = {
                 label: '{input}  是否在 {console} 裡打印當前網站的 {info}',
                 console: '瀏覽器的控製颱',
                 info: '今日訪問信息'
+            },
+            darkMode: {
+                label: "夜間模式 {info}  {input}",
+                options: {
+                    on: "始終開啟",
+                    off: "始終關閉",
+                    timed: "定時開啟"
+                },
+                info: "設置完成需刷新界面才會生效！"
             }
         },
         statistics: {
@@ -190,6 +217,15 @@ const _default: Messages<OptionMessage> = {
                 label: '{input}  Whether to print {info} in the {console}',
                 console: 'console',
                 info: 'the visit count of the current website today'
+            },
+            darkMode: {
+                label: "Dark mode {info}  {input}",
+                options: {
+                    on: "Always on",
+                    off: "Always off",
+                    timed: "Timed on"
+                },
+                info: "After the setting is completed, you need to refresh the interface to take effect!",
             }
         },
         statistics: {
@@ -240,7 +276,16 @@ const _default: Messages<OptionMessage> = {
                 label: '{input}  現在のウェブサイトの {info} を {console} に印刷するかどうか',
                 console: 'コンソール',
                 info: '今日の情報をご覧ください'
-            }
+            },
+            darkMode: {
+                label: "ダークモード {info}  {input}",
+                options: {
+                    on: "常にオン",
+                    off: "常にオフ",
+                    timed: "時限スタート"
+                },
+                info: "設定が完了したら、インターフェースを更新して有効にする必要があります。",
+            },
         },
         statistics: {
             title: '統計',
