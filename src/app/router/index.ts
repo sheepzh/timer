@@ -64,11 +64,14 @@ const additionalRoutes: RouteRecordRaw[] = [
     }
 ]
 
+const otherRoutes: RouteRecordRaw[] = []
+
 const routes: RouteRecordRaw[] = [
     { path: '/', redirect: '/data' },
     ...dataRoutes,
     ...behaviorRoutes,
-    ...additionalRoutes
+    ...additionalRoutes,
+    ...otherRoutes,
 ]
 
 const router = createRouter({
