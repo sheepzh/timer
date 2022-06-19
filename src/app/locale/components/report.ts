@@ -22,6 +22,7 @@ export type ReportMessage = {
     added2Whitelist: string
     removeFromWhitelist: string
     batchDelete: {
+        buttonText: string
         noSelectedMsg: string
         confirmMsg: string
         confirmMsgAll: string
@@ -46,6 +47,7 @@ const _default: Messages<ReportMessage> = {
         added2Whitelist: '成功加入白名单',
         removeFromWhitelist: '成功从白名单移除',
         batchDelete: {
+            buttonText: '批量删除',
             noSelectedMsg: '请先在表格中勾选需要删除的行',
             confirmMsg: '{example} 等网站在 {date} 的 {count} 条记录将会被删除！',
             confirmMsgAll: '{example} 等网站的 {count} 条记录将会被删除！',
@@ -68,6 +70,7 @@ const _default: Messages<ReportMessage> = {
         added2Whitelist: '成功加入白名單',
         removeFromWhitelist: '成功從白名單移除',
         batchDelete: {
+            buttonText: '批量刪除',
             noSelectedMsg: '請先在表格中勾選需要刪除的行',
             confirmMsg: '{example} 等網站在 {date} 的 {count} 條記錄將會被刪除！',
             confirmMsgAll: '{example} 等網站的 {count} 條記錄將會被刪除！',
@@ -90,6 +93,7 @@ const _default: Messages<ReportMessage> = {
         added2Whitelist: 'Added into the whitelist',
         removeFromWhitelist: 'Removed from the whitelist',
         batchDelete: {
+            buttonText: 'Batch delete',
             noSelectedMsg: 'Please select the row you want to delete in the table first',
             confirmMsg: '{count} records for sites like {example} on {date} will be deleted!',
             confirmMsgAll: '{count} records for sites like {example} will be deleted!',
@@ -112,6 +116,7 @@ const _default: Messages<ReportMessage> = {
         added2Whitelist: 'ホワイトリストに正常に追加されました',
         removeFromWhitelist: 'ホワイトリストから正常に削除されました',
         batchDelete: {
+            buttonText: 'バッチ削除',
             noSelectedMsg: '最初にテーブルで削除する行にチェックマークを付けてください',
             confirmMsg: '{date} の {example} のようなサイトの {count} レコードは削除されます！',
             confirmMsgAll: '{example} のようなサイトの {count} レコードは削除されます！',

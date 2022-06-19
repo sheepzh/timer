@@ -117,7 +117,6 @@ function generateCsvData(rows: DataItem[], mergeDate: boolean, mergeHost: boolea
 }
 
 async function computeBatchDeleteMsg(selected: DataItem[], mergeDate: boolean, dateRange: Date[]): Promise<string> {
-    console.log(selected)
     // host => total focus
     const hostFocus: { [host: string]: number } = groupBy(selected,
         a => a.host,
