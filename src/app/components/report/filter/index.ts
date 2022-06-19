@@ -23,6 +23,8 @@ const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
 const displayBySecondLabel = t(msg => msg.report.displayBySecond)
+// Batch Delete
+const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
 // Date range
 const dateStartPlaceholder = t(msg => msg.report.startDate)
 const dateEndPlaceholder = t(msg => msg.report.endDate)
@@ -125,7 +127,7 @@ const _default = defineComponent({
                     type: "text",
                     icon: DeleteFilled,
                     onClick: () => ctx.emit("batchDelete", computeOption())
-                }, () => "Batch Delete"),
+                }, () => batchDeleteButtonText),
                 h(DownloadFile, {
                     onDownload: (format: FileFormat) => ctx.emit("download", format)
                 })
