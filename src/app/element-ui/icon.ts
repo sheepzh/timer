@@ -5,20 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import {
+import type {
     DefineComponent,
-    ComponentOptionsMixin as Mixin,
-    EmitsOptions,
+    ComponentOptionsMixin,
+    MethodOptions,
+    ComputedOptions,
+    ExtractPropTypes,
     VNodeProps,
     AllowedComponentProps,
     ComponentCustomProps
 } from "vue"
 
-type IconPublicProps = VNodeProps & AllowedComponentProps & ComponentCustomProps
-
-type IconProps = Readonly<{} & {} & {}>
-
-type ElementIcon = DefineComponent<{}, {}, {}, {}, {}, Mixin, Mixin, EmitsOptions, string, IconPublicProps, IconProps, {}>
+type ElementIcon = DefineComponent<{}, {}, {}, ComputedOptions, MethodOptions, ComponentOptionsMixin, ComponentOptionsMixin, {}, string, VNodeProps & AllowedComponentProps & ComponentCustomProps, Readonly<ExtractPropTypes<{}>>, {}>
 
 /**
  * Rename for definition of el-icon
