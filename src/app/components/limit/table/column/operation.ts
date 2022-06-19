@@ -26,7 +26,7 @@ const _default = defineComponent({
             default: ({ row }: { row: TimeLimitItem }) => [
                 h(ElButton, {
                     type: 'danger',
-                    size: 'mini',
+                    size: 'small',
                     icon: Delete,
                     onClick() {
                         const { cond } = row
