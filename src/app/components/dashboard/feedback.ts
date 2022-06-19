@@ -28,7 +28,7 @@ const _default = defineComponent({
         effect: Effect.LIGHT,
     }, () => h(ElButton, {
         type: "info",
-        size: "mini",
+        size: 'small',
         icon: Headset,
         round: true,
         onClick: () => chrome.tabs.create({

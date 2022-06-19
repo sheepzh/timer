@@ -139,7 +139,7 @@ const button = (props: _Props) => h(ElButton,
     {
         icon: props.button.icon,
         type: props.button.type,
-        size: 'mini',
+        size: 'small',
         onClick: () => handleClick(props)
     },
     () => t(msg => msg.item.operation[props.button.message])

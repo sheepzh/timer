@@ -9,6 +9,7 @@ import { App, createApp } from "vue"
 import Main from "./layout"
 import 'element-plus/theme-chalk/index.css'
 import './styles' // global css
+import './styles/compatible'
 import installRouter from "./router"
 import '../common/timer'
 import ElementPlus from 'element-plus'
