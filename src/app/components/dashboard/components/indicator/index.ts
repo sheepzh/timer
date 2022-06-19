@@ -123,8 +123,10 @@ function renderBrowsingMinute(browsingMinute: number) {
 }
 
 function renderMostUse(most2Hour: number) {
-    const startHour = most2Hour * 2
-    const endHour = most2Hour * 2 + 2
+    const [startHour, endHour] = most2Hour === undefined || isNaN(most2Hour)
+        ? [0, 0]
+        : [most2Hour * 2, most2Hour * 2 + 2]
+
     const duration = 2.25
     return h('div',
         { class: 'indicator-label' },

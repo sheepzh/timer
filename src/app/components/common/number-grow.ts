@@ -5,9 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { Ref } from "vue"
+
 import { defineComponent, h, onMounted, ref, watch } from "vue"
 import { CountUp } from "countup.js"
-import type { Ref } from "vue"
 
 const _default = defineComponent({
     name: "NumberGrow",
