@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+@import "./compatible"
+
 body
   height: 100vh
   margin: 0
@@ -53,19 +55,17 @@ a
   .el-card__body
     padding-bottom: 10px
     padding-top: 18px
+    margin-bottom: 10px
+    display: flex
 
 .filter-name
   margin-right: 4px
 
 .filter-item
-  display: inline-block
-  vertical-align: middle
-  margin-bottom: 10px
   padding-right: 20px
 
-  &
   .el-input__suffix
-    right: 30px !important
+    width: 20px
 
   .el-picker-panel__sidebar
     width: 130px !important
@@ -73,22 +73,35 @@ a
   .el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
   .el-picker-panel__sidebar + .el-picker-panel__body
     margin-left: 130px !important
+  .el-range-input
+    width: 120px
 
-.filter-name
-  color: var(--el-text-color-secondary)
-  font-weight: bold
-  font-size: 14px
-  pointer-events: none
+.filter-item.el-switch
+  display: inline-flex !important
 
-.filter-item-right
-  float: right
+.filter-switch
+  display: inline-flex
+  align-items: center
+  .filter-name
+    display: inline-flex
+    color: var(--el-text-color-secondary)
+    font-weight: bold
+    font-size: 14px
+    pointer-events: none
+
+.filter-item-right,.filter-item-right-group
+  display: inline-flex
+  margin-left: auto
 
 .filter-item.el-input
-  width: 205px
+  width: 225px
+.el-select.filter-item
+  display: inline-flex
 
 .pagination-container
-  width: 100%
-  text-align: center
+  display: flex
+  justify-content: center
+  align-items: center
   margin-top: 23px
 
 // charts
@@ -106,24 +119,22 @@ a
   height: 100%
 
 .el-menu
-  background: rgb(29, 34, 45)
   border: none
   padding-top: 10px
 
 .el-menu-item
-  height: 48px
-  line-height: 44px
-  font-size: 14px
-  color: #c1c6c8
   font-family: Roboto,San Francisco,Helvetica Neue,Helvetica,Arial,PingFangSC-Light,Hiragina Sans GB,WenQuanYi Micro Hei,microsoft yahei ui,microsoft yahei,sans-serif
-
-.el-menu-item [class^=el-icon-]
-  font-size: 16px
-  line-height: 44px
+  .el-icon
+    font-size: 18px !important
 
 .el-menu-item.is-active
-  color: #c1c6c8
   background: #0a6cfa
 
-.el-menu-item:hover
-  background: #262f3e
+\:root
+  // el-menu
+  --el-menu-bg-color: rgb(29, 34, 45)
+  // el-menu-item
+  --el-menu-item-height: 48px
+  --el-menu-text-color: #c1c6c8
+  --el-menu-active-color: var(--el-menu-text-color)
+  --el-menu-hover-bg-color: #262f3e

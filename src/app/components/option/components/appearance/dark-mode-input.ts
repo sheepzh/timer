@@ -54,7 +54,7 @@ const _default = defineComponent({
         return () => {
             const result = [h(ElSelect, {
                 modelValue: darkMode.value,
-                size: 'mini',
+                size: 'small',
                 style: { width: '120px' },
                 onChange: async (newVal: string) => {
                     const before = darkMode.value
@@ -70,7 +70,7 @@ const _default = defineComponent({
                 result.push(
                     h(ElTimePicker, {
                         modelValue: start.value,
-                        size: "mini",
+                        size: "small",
                         style: { width: "150px" },
                         "onUpdate:modelValue": (newVal) => {
                             start.value = newVal
@@ -81,7 +81,7 @@ const _default = defineComponent({
                     h('a', { style: { marginLeft: "9px" } }, '-'),
                     h(ElTimePicker, {
                         modelValue: end.value,
-                        size: "mini",
+                        size: "small",
                         style: { width: "150px" },
                         "onUpdate:modelValue": (newVal) => {
                             end.value = newVal

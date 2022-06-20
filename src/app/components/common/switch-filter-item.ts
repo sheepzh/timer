@@ -21,7 +21,7 @@ const _default = defineComponent({
     emits: ["change"],
     setup(props, ctx) {
         const modelValue: Ref<boolean> = ref(props.defaultValue)
-        return () => h("span", {}, [
+        return () => h("span", { class: "filter-switch" }, [
             h('a', { class: 'filter-name' }, props.label),
             h(ElSwitch, {
                 class: 'filter-item',

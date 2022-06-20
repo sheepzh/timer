@@ -51,7 +51,7 @@ const _default = defineComponent({
         return () => h(ElTable, {
             data: props.data,
             border: true,
-            size: 'mini',
+            size: 'small',
             defaultSort: props.defaultSort,
             style: { width: '100%' },
             highlightCurrentRow: true,

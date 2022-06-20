@@ -36,7 +36,7 @@ const _default = defineComponent({
             onConfirm: () => ctx.emit("confirm")
         }, {
             reference: () => h(ElButton, {
-                size: "mini",
+                size: 'small',
                 type: props.buttonType,
                 icon: props.buttonIcon,
                 style: {

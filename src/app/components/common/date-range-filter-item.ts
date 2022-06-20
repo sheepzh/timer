@@ -26,6 +26,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         // @ts-ignore
         const dateRange: Ref<Date[]> = ref(props.defaultRange || [undefined, undefined])
+        // @ts-ignore
         return () => h('span', { class: 'filter-item' }, h(ElDatePicker,
             {
                 modelValue: dateRange.value,

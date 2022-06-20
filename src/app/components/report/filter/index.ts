@@ -120,11 +120,12 @@ const _default = defineComponent({
                 }
             }),
             // Float right
-            h("div", { style: { float: "right" } }, [
+            h("div", { class: "filter-item-right-group" }, [
                 h(ElButton, {
                     class: "batch-delete-button",
                     disabled: mergeHost.value,
-                    type: "text",
+                    type: "primary",
+                    link: true,
                     icon: DeleteFilled,
                     onClick: () => ctx.emit("batchDelete", computeOption())
                 }, () => batchDeleteButtonText),
