@@ -66,7 +66,7 @@ function handleAdd(inputValue: string, ref: Ref) {
         }).catch(() => { })
 }
 
-const tags: () => VNode[] = () => {
+function tags(): VNode {
     const result = []
     whitelistRef.value.forEach((white: string, index: number) => {
         const itemRef: Ref = ref()
@@ -82,7 +82,7 @@ const tags: () => VNode[] = () => {
         ref: addButtonRef,
         onSaved: (inputVal: string) => handleAdd(inputVal, addButtonRef)
     }))
-    return result
+    return h('div', { class: 'editable-tag-container' }, result)
 }
 
 export default tags
