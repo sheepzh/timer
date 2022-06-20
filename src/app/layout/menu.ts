@@ -4,15 +4,18 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { UnwrapRef } from "vue"
+import type ElementIcon from "../element-ui/icon"
+import type { RouteLocationNormalizedLoaded, Router } from "vue-router"
+import type { I18nKey } from "@app/locale"
+import type { MenuMessage } from "@app/locale/components/menu"
 
-import { defineComponent, h, onMounted, reactive, UnwrapRef } from "vue"
+import { defineComponent, h, onMounted, reactive } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
-import { RouteLocationNormalizedLoaded, Router, useRoute, useRouter } from "vue-router"
-import { I18nKey, t } from "@app/locale"
-import { MenuMessage } from "@app/locale/components/menu"
+import { useRoute, useRouter } from "vue-router"
+import { t } from "@app/locale"
 import { HOME_PAGE, MEAT_URL, TRANSLATION_ISSUE_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, MagicStick, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
-import ElementIcon from "../element-ui/icon"
 import { locale } from "@util/i18n"
 
 type _MenuItem = {

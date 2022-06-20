@@ -19,7 +19,7 @@ const _default = defineComponent({
     setup(_, ctx) {
         return () => h(ElDropdown, { class: 'export-dropdown', showTimeout: 100 }, {
             default: () => h(ElButton,
-                { size: 'mini', class: 'export-dropdown-button' },
+                { size: 'small', class: 'export-dropdown-button' },
                 () => h(ElIcon, { size: 17, style: { padding: '0 1px' } }, () => h(Download))
             ),
             dropdown: () => h(ElDropdownMenu, {},

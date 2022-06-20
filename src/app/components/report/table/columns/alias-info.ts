@@ -21,7 +21,7 @@ type _Emits = "change"
 
 function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
     return h(ElInput, {
-        size: "mini",
+        size: 'small',
         ref: data.input,
         modelValue: data.inputVal.value,
         onInput: (newVal: string) => data.inputVal.value = newVal?.trimStart(),
@@ -60,7 +60,6 @@ function renderText(data: _Data) {
         style: { paddingRight: "4px" }
     }, data.inputVal.value))
     result.push(h(ElIcon, {
-        size: 17,
         class: "edit-btn"
     }, () => h(Edit, {
         onClick: () => {

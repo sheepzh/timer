@@ -49,7 +49,7 @@ const allLocaleOptions: Timer.LocaleOption[] = ["default", ...allLocales]
 
 const locale = (option: Ref<Timer.AppearanceOption>) => h(ElSelect, {
     modelValue: option.value.locale,
-    size: 'mini',
+    size: 'small',
     style: { width: '120px' },
     onChange: async (newVal: Timer.LocaleOption) => {
         option.value.locale = newVal
