@@ -78,12 +78,17 @@ const _default = defineComponent({
             placeholder: HOST_PLACEHOLDER,
             class: 'filter-item',
             modelValue: domainKey.value,
+            clearable: true,
             filterable: true,
             remote: true,
             loading: trendSearching.value,
             remoteMethod: (query: string) => handleRemoteSearch(query, trendDomainOptions, trendSearching),
             onChange: (key: string) => {
                 domainKey.value = key
+                handleChange()
+            },
+            onClear: () => {
+                domainKey.value = ''
                 handleChange()
             }
         }, () => trendDomainOptions.value?.map(renderOption) || []),

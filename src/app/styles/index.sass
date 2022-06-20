@@ -55,19 +55,17 @@ a
   .el-card__body
     padding-bottom: 10px
     padding-top: 18px
+    margin-bottom: 10px
+    display: flex
 
 .filter-name
   margin-right: 4px
 
 .filter-item
-  display: inline-block
-  vertical-align: middle
-  margin-bottom: 10px
   padding-right: 20px
 
-  &
   .el-input__suffix
-    right: 30px !important
+    width: 20px
 
   .el-picker-panel__sidebar
     width: 130px !important
@@ -80,19 +78,25 @@ a
 
 .filter-item.el-switch
   display: inline-flex !important
-  margin-bottom: 7px
 
-.filter-name
-  color: #909399
-  font-weight: bold
-  font-size: 14px
-  pointer-events: none
+.filter-switch
+  display: inline-flex
+  align-items: center
+  .filter-name
+    display: inline-flex
+    color: #909399
+    font-weight: bold
+    font-size: 14px
+    pointer-events: none
 
-.filter-item-right
-  float: right
+.filter-item-right,.filter-item-right-group
+  display: inline-flex
+  margin-left: auto
 
 .filter-item.el-input
   width: 225px
+.el-select.filter-item
+  display: inline-flex
 
 .pagination-container
   display: flex
