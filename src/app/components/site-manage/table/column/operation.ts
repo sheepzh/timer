@@ -23,7 +23,7 @@ const deleteButton = (ctx: SetupContext<_Emit[]>, row: HostAliasInfo) => h(Popup
 
 const modifyButtonText = t(msg => msg.siteManage.button.modify)
 const modifyButton = (ctx: SetupContext<_Emit[]>, row: HostAliasInfo) => h(ElButton, {
-    size: 'mini',
+    size: 'small',
     type: "primary",
     icon: Edit,
     onClick: () => ctx.emit("modify", row)

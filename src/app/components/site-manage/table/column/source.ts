@@ -17,7 +17,7 @@ const SOURCE_DESC: { [source in HostAliasSource]: string } = {
 
 function renderSource(source: HostAliasSource) {
     const type = source === HostAliasSource.USER ? '' : 'info'
-    return h(ElTag, { type, size: 'mini' }, () => SOURCE_DESC[source])
+    return h(ElTag, { type, size: 'small' }, () => SOURCE_DESC[source])
 }
 
 const _default = defineComponent({

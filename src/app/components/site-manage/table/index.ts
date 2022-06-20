@@ -23,7 +23,7 @@ const _default = defineComponent({
         return () => h(ElTable, {
             data: props.data,
             border: true,
-            size: 'mini',
+            size: 'small',
             style: { width: '100%' },
             highlightCurrentRow: true,
             fit: true,

@@ -67,7 +67,7 @@ const _default = defineComponent({
                 // Trend
                 h(ElButton, {
                     icon: Stopwatch,
-                    size: 'mini',
+                    size: 'small',
                     type: 'primary',
                     onClick() {
                         const query: LocationQueryRaw = {

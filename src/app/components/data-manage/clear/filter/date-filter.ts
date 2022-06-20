@@ -37,10 +37,11 @@ const pickerShortcuts = [
     datePickerShortcut('till30DaysAgo', 30)
 ]
 
+// @ts-ignore
 const picker = ({ dateRangeRef }: DateFilterProps) => h(ElDatePicker, {
     modelValue: dateRangeRef.value,
     "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
-    size: 'mini',
+    size: 'small',
     style: 'width:250px;',
     startPlaceholder: '1994/12/15',
     format: "YYYY/MM/DD",
