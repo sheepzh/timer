@@ -6,7 +6,18 @@
  */
 
 .el-tag
+    height: 32px
     margin-right: 10px
+
+.editable-tag-container
+    // offset right margin from the rightmost child 
+    margin-right: -10px
+    display: flex
+    flex-flow: row wrap
+    justify-content: space-between
+    .item-input-container,.item-add-button
+        // The last line left 
+        margin-right: auto
 
 .item-cancel-button
     border-right: 0.5px
@@ -17,24 +28,23 @@
     margin-left: 0px !important
     margin-right: 10px
 .item-check-button,.item-cancel-button,.item-add-button
-    height: 30px
+    height: 32px
     line-height: 30px
 .item-add-button
     padding: 0 15px
 .item-check-button,.item-cancel-button
     padding: 0 10px
 
-.input-new-tag
-    width: 140px
-    input
-        height: 32px
-
 .item-input-container
-    display: inline-block
+    display: inline-flex
+    .el-input__wrapper
+        height: 30px
+        width: 140px
 
 .editable-item
     margin-bottom: 9px
     line-height: 32px !important
+    display: inline-flex
 
     .edit-icon
         height: 14px

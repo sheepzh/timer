@@ -17,7 +17,7 @@ const elInput = (valRef: Ref<string>, placeholder: string, min?: Ref<string>) =>
         placeholder: placeholder,
         min: min !== undefined ? min.value || '0' : undefined,
         clearable: true,
-        size: 'mini',
+        size: 'small',
         modelValue: valRef.value,
         onInput: (val: string) => valRef.value = val.trim(),
         onClear: () => valRef.value = ''

@@ -16,7 +16,7 @@ import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
 const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
     modelValue: option.value.popupMax,
-    size: 'mini',
+    size: 'small',
     min: 5,
     max: 30,
     onChange: (val: number) => {
@@ -28,7 +28,7 @@ const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
 const typeOptions = () => ALL_DATA_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
 const typeSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
     modelValue: option.value.defaultType,
-    size: 'mini',
+    size: 'small',
     style: { width: '120px' },
     onChange: (val: Timer.DataDimension) => {
         option.value.defaultType = val
@@ -39,7 +39,7 @@ const typeSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
 const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.option.popup.duration[item]) }))
 const durationSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
     modelValue: option.value.defaultDuration,
-    size: 'mini',
+    size: 'small',
     style: { width: t(msg => msg.option.popup.durationWidth) },
     onChange: (val: Timer.PopupDuration) => {
         option.value.defaultDuration = val
