@@ -5,8 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { App } from "vue"
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
+import type { App } from "vue"
+import type { RouteRecordRaw } from "vue-router"
+
+import { createRouter, createWebHashHistory } from "vue-router"
 import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE, REPORT_ROUTE } from "./constants"
 import metaService from "@service/meta-service"
 
