@@ -5,9 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { App } from "vue"
 import type { Language } from "element-plus/lib/locale"
 
-import { App, createApp } from "vue"
+import { createApp } from "vue"
 import Main from "./layout"
 import 'element-plus/theme-chalk/index.css'
 import './styles' // global css
