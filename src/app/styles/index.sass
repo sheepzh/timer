@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+@import "./dark-theme"
 @import "./compatible"
 
 body
@@ -34,6 +35,7 @@ a
 
 .app-container
   width: 100%
+  background: var(--timer-app-container-bg-color)
   margin: auto
 
 .content-container
@@ -138,3 +140,4 @@ a
   --el-menu-text-color: #c1c6c8
   --el-menu-active-color: var(--el-menu-text-color)
   --el-menu-hover-bg-color: #262f3e
+  --timer-app-container-bg-color: var(--el-fill-color-blank)

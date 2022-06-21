@@ -60,8 +60,7 @@ const _default = defineComponent({
         return () => h(ElTableColumn, {
             width: width.value,
             label: columnLabel,
-            align: "center",
-            fixed: "right"
+            align: "center"
         }, {
             default: ({ row }: { row: DataItem }) => [
                 // Trend
