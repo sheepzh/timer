@@ -16,7 +16,8 @@ import installRouter from "./router"
 import '../common/timer'
 import ElementPlus from 'element-plus'
 import { initLocale, locale as appLocale } from "@util/i18n"
-import processDarkMode from "./theme"
+import { toggle, init as initTheme } from "@util/dark-mode"
+import optionService from "@service/option-service"
 
 const locales: { [locale in Timer.Locale]: () => Promise<{ default: Language }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
@@ -26,11 +27,14 @@ const locales: { [locale in Timer.Locale]: () => Promise<{ default: Language }> 
 }
 
 async function main() {
+    // Init theme with cache first
+    initTheme()
+    // Calculate the latest mode
+    optionService.isDarkMode().then(toggle)
     await initLocale()
     const app: App = createApp(Main)
     installRouter(app)
     app.mount('#app')
-    processDarkMode()
 
     locales[appLocale]?.()?.then(locale => app.use(ElementPlus, { locale: locale.default }))
 }

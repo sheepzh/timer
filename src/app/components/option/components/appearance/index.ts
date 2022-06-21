@@ -7,7 +7,7 @@
 
 import type { Ref } from "vue"
 
-import { ElDivider, ElIcon, ElMessageBox, ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
+import { ElDivider, ElIcon, ElMessageBox, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
@@ -17,6 +17,7 @@ import { renderOptionItem, tagText } from "../../common"
 import localeMessages from "@util/i18n/components/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
 import { localeSameAsBrowser } from "@util/i18n"
+import { toggle } from "@util/dark-mode"
 
 const displayWhitelist = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
     modelValue: option.value.displayWhitelistMenu,
@@ -100,11 +101,12 @@ const _default = defineComponent({
                     modelValue: option.value.darkMode,
                     startSecond: option.value.darkModeTimeStart,
                     endSecond: option.value.darkModeTimeEnd,
-                    onChange: (darkMode, range) => {
+                    onChange: async (darkMode, range) => {
                         option.value.darkMode = darkMode
                         option.value.darkModeTimeStart = range?.[0]
                         option.value.darkModeTimeEnd = range?.[1]
-                        optionService.setAppearanceOption(option.value)
+                        await optionService.setAppearanceOption(option.value)
+                        toggle(await optionService.isDarkMode())
                     }
                 }),
                 info: h(ElTooltip, {}, {
