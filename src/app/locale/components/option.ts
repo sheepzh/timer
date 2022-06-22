@@ -216,7 +216,7 @@ const _default: Messages<OptionMessage> = {
                 info: 'the visit count of the current website today'
             },
             darkMode: {
-                label: "Dark mode {info}  {input}",
+                label: "Dark mode {input}",
                 options: {
                     on: "Always on",
                     off: "Always off",
@@ -274,7 +274,7 @@ const _default: Messages<OptionMessage> = {
                 info: '今日の情報をご覧ください'
             },
             darkMode: {
-                label: "ダークモード {info}  {input}",
+                label: "ダークモード {input}",
                 options: {
                     on: "常にオン",
                     off: "常にオフ",
