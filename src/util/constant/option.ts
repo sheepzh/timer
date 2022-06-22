@@ -24,7 +24,13 @@ export function defaultAppearance(): Timer.AppearanceOption {
         // Change false to true @since 0.8.4
         displayBadgeText: true,
         locale: "default",
-        printInConsole: true
+        printInConsole: true,
+        darkMode: "off",
+        // 6 PM - 6 AM
+        // 18*60*60 
+        darkModeTimeStart: 64800,
+        // 6*60*60
+        darkModeTimeEnd: 21600,
     }
 }
 

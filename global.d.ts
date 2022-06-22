@@ -33,6 +33,13 @@ declare namespace Timer {
         displaySiteName: boolean
     }
 
+    type AppearanceOptionDarkMode =
+        // Always on
+        | "on"
+        // Always off
+        | "off"
+        // Timed on
+        | "timed"
     type AppearanceOption = {
         /**
          * Whether to display the whitelist button in the context menu
@@ -58,6 +65,20 @@ declare namespace Timer {
          * @since 0.8.6
          */
         printInConsole: boolean
+        /**
+         * The state of dark mode
+         * 
+         * @since 1.1.0
+         */
+        darkMode: AppearanceOptionDarkMode
+
+        /**
+         * The range of seconds to turn on dark mode. Required if {@param darkMode} is 'timed'
+         * 
+         * @since 1.1.0
+         */
+        darkModeTimeStart?: number
+        darkModeTimeEnd?: number
     }
 
     type StatisticsOption = {
