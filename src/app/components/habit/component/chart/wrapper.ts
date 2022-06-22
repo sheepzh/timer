@@ -24,6 +24,7 @@ import { PeriodKey, PERIODS_PER_DATE } from "@entity/dto/period-info"
 import PeriodResult from "@entity/dto/period-result"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import { t } from "@app/locale"
+import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 
 type EcOption = ComposeOption<
     | BarSeriesOption
@@ -89,9 +90,12 @@ function generateOptions(data: PeriodResult[], averageByDate: boolean, periodSiz
     const xAxisMin = periodData[0].startTime.getTime()
     const xAxisMax = periodData[periodData.length - 1].endTime.getTime()
     const xAxisAxisLabelFormatter = averageByDate ? '{HH}:{mm}' : formatXAxis
+    const textColor = getPrimaryTextColor()
+    const secondaryTextColor = getSecondaryTextColor()
     return {
         title: {
             text: TITLE,
+            textStyle: { color: textColor },
             left: 'center'
         },
         tooltip: {
@@ -105,18 +109,26 @@ function generateOptions(data: PeriodResult[], averageByDate: boolean, periodSiz
                     title: t(msg => msg.habit.chart.saveAsImageTitle),
                     name: TITLE, // file name
                     excludeComponents: ['toolbox'],
-                    pixelRatio: 1
+                    pixelRatio: 1,
+                    iconStyle: {
+                        borderColor: secondaryTextColor
+                    }
                 }
             }
         },
         xAxis: {
-            axisLabel: { formatter: xAxisAxisLabelFormatter },
+            axisLabel: { formatter: xAxisAxisLabelFormatter, color: textColor },
             type: 'time',
             axisLine: { show: false },
             min: xAxisMin,
             max: xAxisMax
         },
-        yAxis: { name: Y_AXIAS_NAME, type: 'value' },
+        yAxis: {
+            name: Y_AXIAS_NAME,
+            nameTextStyle: { color: textColor },
+            type: 'value',
+            axisLabel: { color: textColor },
+        },
         series: [{
             type: "bar",
             large: true,

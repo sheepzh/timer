@@ -41,12 +41,43 @@ async function setOption(option: Partial<Timer.Option>): Promise<void> {
     await db.setOption(toSet)
 }
 
+async function isDarkMode(targetVal?: Timer.AppearanceOption): Promise<boolean> {
+    const option = targetVal || await getAllOption()
+    const darkMode = option.darkMode
+    if (darkMode === "on") {
+        return true
+    } else if (darkMode === "off") {
+        return false
+    } else if (darkMode === "timed") {
+        const start = option.darkModeTimeStart
+        const end = option.darkModeTimeEnd
+        if (start === undefined || end === undefined) {
+            return false
+        }
+        const now = new Date()
+        const currentSecs = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
+        if (start > end) {
+            // Mostly
+            return start <= currentSecs || currentSecs <= end
+        } else if (start < end) {
+            return start <= currentSecs && currentSecs <= end
+        } else {
+            return currentSecs === start
+        }
+    }
+    return false
+}
+
 class OptionService {
     getAllOption = getAllOption
     setPopupOption = setPopupOption
     setAppearanceOption = setAppearanceOption
     setStatisticsOption = setStatisticsOption
     addOptionChangeListener = db.addOptionChangeListener
+    /**
+     * @since 1.1.0
+     */
+    isDarkMode = isDarkMode
 }
 
 export default new OptionService()

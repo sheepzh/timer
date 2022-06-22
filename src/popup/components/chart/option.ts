@@ -18,6 +18,7 @@ import type QueryResult from "@popup/common/query-result"
 import DataItem from "@entity/dto/data-item"
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
+import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -61,13 +62,6 @@ const toolTipFormatter = ({ type }: QueryResult, params: any) => {
 const staticOptions: EcOption = {
     tooltip: {
         trigger: 'item'
-    },
-    legend: {
-        type: 'scroll',
-        orient: 'vertical',
-        left: 15,
-        top: 20,
-        bottom: 20,
     },
     series: [{
         name: "Wasted Time",
@@ -151,22 +145,34 @@ export function pieOptions(props: PipProps, container: HTMLDivElement): EcOption
     const { type, mergeHost, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
     const subTitleText = `${calculateSubTitleText(date)} @ ${app}`
+    const textColor = getPrimaryTextColor()
+    const secondaryColor = getSecondaryTextColor()
     const options: EcOption = {
         title: {
             text: titleText,
             subtext: subTitleText,
-            left: 'center'
+            left: 'center',
+            textStyle: { color: textColor },
+            subtextStyle: { color: secondaryColor },
         },
         tooltip: {
             ...staticOptions.tooltip,
             formatter: params => toolTipFormatter(props, params),
             position: (point: (number | string)[]) => calcPositionOfTooltip(container, point)
         },
-        legend: staticOptions.legend,
+        legend: {
+            type: 'scroll',
+            orient: 'vertical',
+            left: 15,
+            top: 20,
+            bottom: 20,
+            textStyle: { color: secondaryColor }
+        },
         series: [{
             ...staticOptions.series[0],
             label: {
-                formatter: ({ name }) => mergeHost || name === t(msg => msg.otherLabel) ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`
+                formatter: ({ name }) => mergeHost || name === t(msg => msg.otherLabel) ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`,
+                color: textColor
             }
         }],
         toolbox: staticOptions.toolbox

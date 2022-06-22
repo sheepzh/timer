@@ -40,7 +40,6 @@ const _default = defineComponent({
             minWidth: 100,
             label,
             align: 'center',
-            fixed: 'right'
         }, {
             default: ({ row }: { row: HostAliasInfo }) => [
                 modifyButton(ctx, row),
