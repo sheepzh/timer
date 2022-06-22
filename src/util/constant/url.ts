@@ -35,7 +35,6 @@ export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
  * Feedback powered by www.wjx.cn
  * 
  * @since 0.1.6
- * @deprecated 0.9.0
  */
 export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
 
@@ -50,7 +49,7 @@ export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
  * @since 0.9.6
  */
 export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in Timer.Locale]: string }> = {
-    zh_CN: TU_CAO_PAGE,
+    zh_CN: ZH_FEEDBACK_PAGE,
     zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdfvG6ExLj331YOLZIKO3x98k3kMxpkkLW1RgFuRGmUnZCGRQ/viewform?usp=sf_link',
     en: 'https://docs.google.com/forms/d/e/1FAIpQLSdNq4gnSY7uxYkyqOPqyYF3Bqlc3ZnWCLDi5DI5xGjPeVCNiw/viewform?usp=sf_link',
 }
