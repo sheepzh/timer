@@ -93,6 +93,7 @@ const _default = defineComponent({
             async reset() {
                 option.value = defaultAppearance()
                 await optionService.setAppearanceOption(option.value)
+                toggle(await optionService.isDarkMode(option.value))
             }
         })
         return () => h('div', [
@@ -108,10 +109,6 @@ const _default = defineComponent({
                         await optionService.setAppearanceOption(option.value)
                         toggle(await optionService.isDarkMode())
                     }
-                }),
-                info: h(ElTooltip, {}, {
-                    default: () => h(ElIcon, { size: 15 }, () => h(InfoFilled)),
-                    content: () => t(msg => msg.option.appearance.darkMode.info)
                 })
             },
                 msg => msg.appearance.darkMode.label,

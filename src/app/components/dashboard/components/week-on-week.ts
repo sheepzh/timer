@@ -26,6 +26,7 @@ import DataItem from "@entity/dto/data-item"
 import { groupBy, sum } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
+import { getPrimaryTextColor } from "@util/style"
 
 type EcOption = ComposeOption<
     | CandlestickSeriesOption
@@ -48,6 +49,7 @@ type _Value = {
 }
 
 function optionOf(lastPeriodItems: DataItem[], thisPeriodItems: DataItem[]): EcOption {
+    const textColor = getPrimaryTextColor()
     const lastPeriodMap: { [host: string]: number } = groupBy(lastPeriodItems,
         item => item.host,
         grouped => Math.floor(sum(grouped.map(item => item.focus)) / 1000)
@@ -113,15 +115,18 @@ function optionOf(lastPeriodItems: DataItem[], thisPeriodItems: DataItem[]): EcO
         },
         xAxis: {
             type: 'category',
-            name: 'Seconds',
             splitLine: { show: false },
             data: topK.map(a => a.host),
             axisLabel: {
-                interval: 0
+                interval: 0,
+                color: textColor,
             },
         },
         yAxis: {
             type: 'value',
+            axisLabel: {
+                color: textColor,
+            }
         },
         series: [{
             type: 'candlestick',

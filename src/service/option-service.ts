@@ -41,8 +41,8 @@ async function setOption(option: Partial<Timer.Option>): Promise<void> {
     await db.setOption(toSet)
 }
 
-async function isDarkMode(): Promise<boolean> {
-    const option = await getAllOption()
+async function isDarkMode(targetVal?: Timer.AppearanceOption): Promise<boolean> {
+    const option = targetVal || await getAllOption()
     const darkMode = option.darkMode
     if (darkMode === "on") {
         return true
