@@ -49,7 +49,6 @@ export type OptionMessage = {
                 off: string
                 timed: string
             }
-            info: string
         }
     }
     statistics: {
@@ -103,13 +102,12 @@ const _default: Messages<OptionMessage> = {
                 info: '今日访问信息'
             },
             darkMode: {
-                label: "夜间模式 {info}  {input}",
+                label: "夜间模式 {input}",
                 options: {
                     on: "始终开启",
                     off: "始终关闭",
                     timed: "定时开启"
-                },
-                info: "设置完成需刷新界面才会生效！"
+                }
             }
         },
         statistics: {
@@ -161,13 +159,12 @@ const _default: Messages<OptionMessage> = {
                 info: '今日訪問信息'
             },
             darkMode: {
-                label: "夜間模式 {info}  {input}",
+                label: "深色主題 {input}",
                 options: {
                     on: "始終開啟",
                     off: "始終關閉",
                     timed: "定時開啟"
-                },
-                info: "設置完成需刷新界面才會生效！"
+                }
             }
         },
         statistics: {
@@ -224,8 +221,7 @@ const _default: Messages<OptionMessage> = {
                     on: "Always on",
                     off: "Always off",
                     timed: "Timed on"
-                },
-                info: "After the setting is completed, you need to refresh the interface to take effect!",
+                }
             }
         },
         statistics: {
@@ -283,8 +279,7 @@ const _default: Messages<OptionMessage> = {
                     on: "常にオン",
                     off: "常にオフ",
                     timed: "時限スタート"
-                },
-                info: "設定が完了したら、インターフェースを更新して有効にする必要があります。",
+                }
             },
         },
         statistics: {

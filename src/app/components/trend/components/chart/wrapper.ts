@@ -9,6 +9,7 @@ import type { ECharts, ComposeOption } from "echarts/core"
 import type { LineSeriesOption } from "echarts/charts"
 import type {
     GraphicComponentOption,
+    GridComponentOption,
     LegendComponentOption,
     TitleComponentOption,
     TooltipComponentOption,
@@ -30,6 +31,7 @@ import HostOptionInfo from "../../host-option-info"
 import DataItem from "@entity/dto/data-item"
 import hostAliasService from "@service/host-alias-service"
 import HostAlias from "@entity/dao/host-alias"
+import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 
 use([
     LineChart,
@@ -44,6 +46,7 @@ use([
 type EcOption = ComposeOption<
     | LineSeriesOption
     | GraphicComponentOption
+    | GridComponentOption
     | LegendComponentOption
     | TitleComponentOption
     | ToolboxComponentOption
@@ -70,10 +73,18 @@ function optionOf(
     subtext: string,
     [focusData, totalData, timeData]: number[][]
 ) {
+    const textColor = getPrimaryTextColor()
+    const secondaryTextColor = getSecondaryTextColor()
     const option: EcOption = {
         backgroundColor: 'rgba(0,0,0,0)',
         grid: { top: '100' },
-        title: { text: TITLE, subtext, left: 'center' },
+        title: {
+            text: TITLE,
+            textStyle: { color: textColor },
+            subtext,
+            subtextStyle: { color: secondaryTextColor },
+            left: 'center',
+        },
         tooltip: { trigger: 'item' },
         toolbox: {
             feature: {
@@ -82,18 +93,36 @@ function optionOf(
                     title: SAVE_AS_IMAGE,
                     excludeComponents: ['toolbox'],
                     pixelRatio: 1,
-                    backgroundColor: '#fff'
+                    backgroundColor: '#fff',
+                    iconStyle: {
+                        borderColor: secondaryTextColor
+                    }
                 }
             }
         },
-        xAxis: { type: 'category', data: xAxisData },
+        xAxis: {
+            type: 'category',
+            data: xAxisData,
+            axisLabel: { color: textColor },
+        },
         yAxis: [
-            { name: TIME_UNIT, type: 'value' },
-            { name: NUMBER_UNIT, type: 'value' }
+            {
+                name: TIME_UNIT,
+                nameTextStyle: { color: textColor },
+                type: 'value',
+                axisLabel: { color: textColor },
+            },
+            {
+                name: NUMBER_UNIT,
+                nameTextStyle: { color: textColor },
+                type: 'value',
+                axisLabel: { color: textColor },
+            }
         ],
         legend: {
             left: 'left',
-            data: [t(msg => msg.item.total), t(msg => msg.item.focus), t(msg => msg.item.time)]
+            data: [t(msg => msg.item.total), t(msg => msg.item.focus), t(msg => msg.item.time)],
+            textStyle: { color: textColor },
         },
         series: [{
             // run time

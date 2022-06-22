@@ -32,7 +32,7 @@ export function renderOptionItem(input: VNode | { [key: string]: VNode }, label:
  * @param text text
  */
 export function tagText(text: I18nKey): VNode {
-    return h('a', { style: { color: '#F56C6C' } }, t(text))
+    return h('a', { class: 'option-tag' }, t(text))
 }
 
 /**

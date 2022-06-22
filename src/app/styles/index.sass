@@ -6,6 +6,7 @@
  */
 
 @import "./dark-theme"
+@import "./light-theme"
 @import "./compatible"
 
 body
@@ -53,6 +54,8 @@ a
   overflow-y: auto
 
 .filter-container
+  display: flex
+  align-items: center
   user-select: none
   .el-card__body
     padding-bottom: 10px
@@ -64,6 +67,7 @@ a
   margin-right: 4px
 
 .filter-item
+  display: inline-flex
   padding-right: 20px
 
   .el-input__suffix
@@ -119,8 +123,6 @@ a
 
 .el-menu
   height: 100%
-
-.el-menu
   border: none
   padding-top: 10px
 
@@ -130,14 +132,9 @@ a
     font-size: 18px !important
 
 .el-menu-item.is-active
-  background: #0a6cfa
+  background: var(--el-menu-item-active-bg-color)
 
 \:root
-  // el-menu
-  --el-menu-bg-color: rgb(29, 34, 45)
   // el-menu-item
   --el-menu-item-height: 48px
-  --el-menu-text-color: #c1c6c8
   --el-menu-active-color: var(--el-menu-text-color)
-  --el-menu-hover-bg-color: #262f3e
-  --timer-app-container-bg-color: var(--el-fill-color-blank)
