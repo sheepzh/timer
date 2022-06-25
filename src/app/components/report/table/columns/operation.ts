@@ -94,7 +94,7 @@ const _default = defineComponent({
                 // Add 2 whitelist
                 h(OperationPopupConfirmButton, {
                     buttonIcon: Plus,
-                    buttonType: "danger",
+                    buttonType: "warning",
                     buttonText: add2WhitelistButtonText,
                     confirmText: t(msg => msg.whitelist.addConfirmMsg, { url: row.host }),
                     visible: canOperate.value && !props.whitelist?.includes(row.host),
