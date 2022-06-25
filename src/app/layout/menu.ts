@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { UnwrapRef } from "vue"
+import type { ComponentOptionsMixin, DefineComponent, RendererElement, RendererNode, UnwrapRef, VNode } from "vue"
 import type ElementIcon from "../element-ui/icon"
 import type { RouteLocationNormalizedLoaded, Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
@@ -17,10 +17,11 @@ import { t } from "@app/locale"
 import { HOME_PAGE, MEAT_URL, TRANSLATION_ISSUE_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, MagicStick, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
 import { locale } from "@util/i18n"
+import TrendIcon from "./icon/trend-icon"
 
 type _MenuItem = {
     title: keyof MenuMessage
-    icon: ElementIcon
+    icon: ElementIcon | any
     route?: string
     href?: string
     index?: string
@@ -83,7 +84,7 @@ function generateMenus(): _MenuGroup[] {
         children: [{
             title: 'dashboard',
             route: '/data/dashboard',
-            icon: TrendCharts
+            icon: Stopwatch
         }, {
             title: 'dataReport',
             route: '/data/report',
@@ -91,7 +92,7 @@ function generateMenus(): _MenuGroup[] {
         }, {
             title: 'dataHistory',
             route: '/data/history',
-            icon: Stopwatch
+            icon: TrendIcon
         }, {
             title: 'dataClear',
             route: '/data/manage',
