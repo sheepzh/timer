@@ -36,7 +36,7 @@ const _default = defineComponent({
                 size: "small",
                 class: "editable-item item-add-button",
                 onClick: () => {
-                    white.value
+                    white.value = ''
                     editing.value = true
                 }
             },
