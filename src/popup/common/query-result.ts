@@ -5,12 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DataItem from "@entity/dto/data-item"
 
-export type PopupItem = DataItem & { isOther?: boolean }
+export type PopupItem = timer.stat.Row & { isOther?: boolean }
 
 type QueryResult = {
-    type: timer.DataDimension
+    type: timer.stat.Dimension
     mergeHost: boolean
     data: PopupItem[]
     // Filter items

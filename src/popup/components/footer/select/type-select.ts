@@ -6,7 +6,7 @@
  */
 
 // Type select
-import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
+import { ALL_DIMENSIONS } from "@util/stat"
 import optionService from "@service/option-service"
 import { t } from "@popup/locale"
 import { toHideStyle, toShowStyle } from "./common"
@@ -34,16 +34,16 @@ typeSelect.onclick = () => isOpen ? hidePopup() : openPopup()
 /////////// Options
 const SELECTED_CLASS = 'selected'
 const optionList = document.getElementById('type-select-options')
-const optionItems: Map<timer.DataDimension, HTMLLIElement> = new Map()
+const optionItems: Map<timer.stat.Dimension, HTMLLIElement> = new Map()
 
-function selected(item: timer.DataDimension): void {
+function selected(item: timer.stat.Dimension): void {
     currentSelected = item
     Array.from(optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
     optionItems.get(item).classList.add(SELECTED_CLASS)
     typeSelectInput.value = t(msg => msg.item[item])
 }
 
-for (const item of ALL_DATA_ITEMS) {
+for (const item of ALL_DIMENSIONS) {
     const li = document.createElement('li')
     li.classList.add('el-select-dropdown__item')
     li.innerText = t(msg => msg.item[item])
@@ -55,9 +55,9 @@ for (const item of ALL_DATA_ITEMS) {
     optionList.append(li)
     optionItems.set(item, li)
 }
-let currentSelected: timer.DataDimension = undefined
+let currentSelected: timer.stat.Dimension = undefined
 
-export function getSelectedType(): timer.DataDimension { return currentSelected }
+export function getSelectedType(): timer.stat.Dimension { return currentSelected }
 
 optionService.getAllOption().then((option: timer.option.PopupOption) => selected(option.defaultType))
 

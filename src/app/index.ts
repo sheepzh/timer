@@ -18,6 +18,7 @@ import ElementPlus from 'element-plus'
 import { initLocale, locale as appLocale } from "@util/i18n"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
+import "@src/common/timer"
 
 const locales: { [locale in timer.Locale]: () => Promise<{ default: Language }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),

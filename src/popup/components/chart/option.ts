@@ -15,7 +15,6 @@ import type {
 } from "echarts/components"
 import type QueryResult from "@popup/common/query-result"
 
-import DataItem from "@entity/dto/data-item"
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
@@ -49,7 +48,7 @@ const legend2LabelStyle = (legend: string) => {
 const toolTipFormatter = ({ type }: QueryResult, params: any) => {
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
-    const data = format.data as DataItem
+    const data = format.data as timer.stat.Row
     const host = data.host
     let dimensionName = name
     if (host && host !== name) {

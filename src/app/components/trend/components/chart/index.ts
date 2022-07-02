@@ -9,7 +9,6 @@ import type { Ref } from "vue"
 
 import { defineComponent, h, onMounted, ref } from "vue"
 import HostOptionInfo from "../../host-option-info"
-import DataItem from "@entity/dto/data-item"
 import ChartWrapper from "./wrapper"
 
 const _default = defineComponent({
@@ -19,7 +18,7 @@ const _default = defineComponent({
         const chartWrapper: ChartWrapper = new ChartWrapper()
 
         ctx.expose({
-            render: (host: HostOptionInfo, dateRange: Date[], row: DataItem[]) => chartWrapper.render(host, dateRange, row),
+            render: (host: HostOptionInfo, dateRange: Date[], row: timer.stat.Row[]) => chartWrapper.render(host, dateRange, row),
         })
 
         onMounted(() => chartWrapper.init(elRef.value))

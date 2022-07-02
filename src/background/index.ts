@@ -16,7 +16,6 @@ import ActiveTabListener from "./active-tab-listener"
 import badgeTextManager from "./badge-text-manager"
 import metaService from "@service/meta-service"
 import UninstallListener from "./uninstall-listener"
-import ChromeSynchronizer from "./chrome-synchronizer"
 
 // Open the log of console
 openLog()
@@ -53,5 +52,3 @@ chrome.runtime.onInstalled.addListener(async detail => {
     // Questionnaire for uninstall
     new UninstallListener().listen()
 })
-
-new ChromeSynchronizer().sync()

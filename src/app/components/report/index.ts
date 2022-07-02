@@ -14,7 +14,6 @@ import type { ReportFilterOption } from "./filter"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
-import DataItem from "@entity/dto/data-item"
 import timerService, { SortDirect } from "@service/timer-service"
 import whitelistService from "@service/whitelist-service"
 import './styles/element'
@@ -33,7 +32,7 @@ import TimerDatabase from "@db/timer-database"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
-async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<DataItem[]>, page: UnwrapRef<PaginationInfo>) {
+async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<timer.stat.Row[]>, page: UnwrapRef<PaginationInfo>) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
     const pageInfo = { pageSize: page.size, pageNum: page.num }
     const pageResult = await timerService.selectByPage(queryParam.value, pageInfo)
@@ -43,7 +42,7 @@ async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<DataItem[]>
     loading.close()
 }
 
-async function handleAliasChange(host: string, newAlias: string, data: Ref<DataItem[]>) {
+async function handleAliasChange(host: string, newAlias: string, data: Ref<timer.stat.Row[]>) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
         await hostAliasService.remove(host)
@@ -71,7 +70,7 @@ type _ExportInfo = {
  * @param rows row data
  * @returns data with json format 
  */
-const generateJsonData = (rows: DataItem[]) => rows.map(row => {
+const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
     const data: _ExportInfo = { host: row.host }
     data.date = row.date
     data.alias = row.alias
@@ -86,7 +85,7 @@ const generateJsonData = (rows: DataItem[]) => rows.map(row => {
  * @param rows row data
  * @returns data with csv format
  */
-function generateCsvData(rows: DataItem[], mergeDate: boolean, mergeHost: boolean): string[][] {
+function generateCsvData(rows: timer.stat.Row[], mergeDate: boolean, mergeHost: boolean): string[][] {
     const columnName: string[] = []
     if (!mergeDate) {
         columnName.push(t(msg => msg.item.date))
@@ -116,7 +115,7 @@ function generateCsvData(rows: DataItem[], mergeDate: boolean, mergeHost: boolea
     return data
 }
 
-async function computeBatchDeleteMsg(selected: DataItem[], mergeDate: boolean, dateRange: Date[]): Promise<string> {
+async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: Date[]): Promise<string> {
     // host => total focus
     const hostFocus: { [host: string]: number } = groupBy(selected,
         a => a.host,
@@ -169,7 +168,7 @@ async function computeBatchDeleteMsg(selected: DataItem[], mergeDate: boolean, d
     return t(key, i18nParam)
 }
 
-async function deleteBatch(selected: DataItem[], mergeDate: boolean, dateRange: Date[]) {
+async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: Date[]) {
     if (!mergeDate) {
         // If not merge date
         // Delete batch
@@ -198,7 +197,7 @@ export type ReportQuery = {
     /**
      * Sorted column
      */
-    sc?: timer.DataDimension
+    sc?: timer.stat.Dimension
 }
 
 const _default = defineComponent({
@@ -220,7 +219,7 @@ const _default = defineComponent({
         const mergeDate: Ref<boolean> = ref(false)
         const mergeHost: Ref<boolean> = ref(mh === "true" || mh === "1")
         const displayBySecond: Ref<boolean> = ref(false)
-        const data: Ref<DataItem[]> = ref([])
+        const data: Ref<timer.stat.Row[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
         const sort: UnwrapRef<SortInfo> = reactive({
             prop: sc || 'focus',
@@ -278,7 +277,7 @@ const _default = defineComponent({
                     format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value, mergeHost.value), fileName)
                 },
                 onBatchDelete: async (filterOption: ReportFilterOption) => {
-                    const selected: DataItem[] = tableEl?.value?.getSelected?.() || []
+                    const selected: timer.stat.Row[] = tableEl?.value?.getSelected?.() || []
                     if (!selected?.length) {
                         ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
                         return
@@ -321,7 +320,7 @@ const _default = defineComponent({
                         sort.prop = sortInfo.prop
                         query()
                     }),
-                    onItemDelete: (_deleted: DataItem) => query(),
+                    onItemDelete: (_deleted: timer.stat.Row) => query(),
                     onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
                     onAliasChange: (host: string, newAlias: string) => handleAliasChange(host, newAlias, data)
                 }),

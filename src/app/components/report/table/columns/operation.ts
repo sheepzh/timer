@@ -12,7 +12,6 @@
  */
 import { computed, defineComponent, h, PropType } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
-import DataItem from "@entity/dto/data-item"
 import TimerDatabase from "@db/timer-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
@@ -62,7 +61,7 @@ const _default = defineComponent({
             label: columnLabel,
             align: "center"
         }, {
-            default: ({ row }: { row: DataItem }) => [
+            default: ({ row }: { row: timer.stat.Row }) => [
                 // Trend
                 h(ElButton, {
                     icon: Stopwatch,

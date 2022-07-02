@@ -22,7 +22,6 @@ import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
 import timerService from "@service/timer-service"
-import DataItem from "@entity/dto/data-item"
 import { groupBy, sum } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
@@ -48,7 +47,7 @@ type _Value = {
     host: string
 }
 
-function optionOf(lastPeriodItems: DataItem[], thisPeriodItems: DataItem[]): EcOption {
+function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat.Row[]): EcOption {
     const textColor = getPrimaryTextColor()
     const lastPeriodMap: { [host: string]: number } = groupBy(lastPeriodItems,
         item => item.host,
@@ -176,9 +175,9 @@ const _default = defineComponent({
                 date: [lastPeriodStart, lastPeriodEnd],
                 mergeDate: true,
             }
-            const lastPeriodItems: DataItem[] = await timerService.select(query)
+            const lastPeriodItems: timer.stat.Row[] = await timerService.select(query)
             query.date = [thisPeriodStart, thisPeriodEnd]
-            const thisPeriodItems: DataItem[] = await timerService.select(query)
+            const thisPeriodItems: timer.stat.Row[] = await timerService.select(query)
             const option = optionOf(lastPeriodItems, thisPeriodItems)
             chartWrapper.render(option, loading)
         })
