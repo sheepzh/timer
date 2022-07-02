@@ -56,7 +56,7 @@ class BadgeTextManager {
     async init() {
         this.timer = setInterval(() => !this.isPaused && updateFocus(), 1000)
 
-        const option: Partial<Timer.Option> = await optionDb.getOption()
+        const option: Partial<timer.option.AllOption> = await optionDb.getOption()
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
         optionDb.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
     }

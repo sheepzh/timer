@@ -32,7 +32,7 @@ const pie: ECharts = init(chartContainer)
 
 // Initialize
 let displaySiteName: boolean = defaultStatistics().collectSiteName
-const setDisplaySiteName = (opt: Timer.Option) => displaySiteName = opt.displaySiteName
+const setDisplaySiteName = (opt: timer.option.AllOption) => displaySiteName = opt.displaySiteName
 optionDatabase.getOption().then(setDisplaySiteName)
 optionDatabase.addOptionChangeListener(setDisplaySiteName)
 

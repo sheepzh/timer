@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export function defaultPopup(): Timer.PopupOption {
+export function defaultPopup(): timer.option.PopupOption {
     // Use template
     return {
         popupMax: 10,
@@ -18,7 +18,7 @@ export function defaultPopup(): Timer.PopupOption {
     }
 }
 
-export function defaultAppearance(): Timer.AppearanceOption {
+export function defaultAppearance(): timer.option.AppearanceOption {
     return {
         displayWhitelistMenu: true,
         // Change false to true @since 0.8.4
@@ -34,7 +34,7 @@ export function defaultAppearance(): Timer.AppearanceOption {
     }
 }
 
-export function defaultStatistics(): Timer.StatisticsOption {
+export function defaultStatistics(): timer.option.StatisticsOption {
     return {
         countWhenIdle: false,
         collectSiteName: true,

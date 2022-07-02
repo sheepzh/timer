@@ -10,7 +10,7 @@ import DataItem from "@entity/dto/data-item"
 export type PopupItem = DataItem & { isOther?: boolean }
 
 type QueryResult = {
-    type: Timer.DataDimension
+    type: timer.DataDimension
     mergeHost: boolean
     data: PopupItem[]
     // Filter items

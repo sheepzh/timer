@@ -21,7 +21,7 @@ const hostAliasDatabase = new HostAliasDatabase(storage)
 const optionDatabase = new OptionDatabase(storage)
 
 let collectAliasEnabled = defaultStatistics().collectSiteName
-const setCollectAliasEnabled = (opt: Timer.Option) => collectAliasEnabled = opt.collectSiteName
+const setCollectAliasEnabled = (opt: timer.option.AllOption) => collectAliasEnabled = opt.collectSiteName
 optionDatabase.getOption().then(setCollectAliasEnabled)
 optionDatabase.addOptionChangeListener(setCollectAliasEnabled)
 

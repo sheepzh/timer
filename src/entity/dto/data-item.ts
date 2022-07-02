@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-type DataDimension = Timer.DataDimension
+type DataDimension = timer.DataDimension
 
 export const ALL_DATA_ITEMS: DataDimension[] = ['focus', 'total', 'time']
 

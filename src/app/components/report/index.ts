@@ -198,7 +198,7 @@ export type ReportQuery = {
     /**
      * Sorted column
      */
-    sc?: Timer.DataDimension
+    sc?: timer.DataDimension
 }
 
 const _default = defineComponent({
