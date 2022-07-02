@@ -1,6 +1,6 @@
 import ArchivedDatabase from "@db/archived-database"
 import { DATE_FORMAT } from "@db/common/constant"
-import DataItem from "@entity/dto/data-item"
+import { rowOf } from "@util/stat"
 import { formatTime, MILL_PER_DAY } from "@util/time"
 import storage from "../__mock__/storage"
 
@@ -15,10 +15,10 @@ describe('archived-database', () => {
     beforeEach(async () => storage.local.clear())
     test('1', async () => {
         await archivedDatabase.updateArchived([
-            new DataItem({ host: baidu, date: now }, { focus: 1, total: 1, time: 0 }),
-            new DataItem({ host: baidu, date: yesterday }, { focus: 1, total: 0, time: 2 }),
+            rowOf({ host: baidu, date: now }, { focus: 1, total: 1, time: 0 }),
+            rowOf({ host: baidu, date: yesterday }, { focus: 1, total: 0, time: 2 }),
         ])
-        await archivedDatabase.updateArchived([new DataItem({ host: baidu, date: beforeYesterday }, { focus: 0, total: 1, time: 2 })])
+        await archivedDatabase.updateArchived([rowOf({ host: baidu, date: beforeYesterday }, { focus: 0, total: 1, time: 2 })])
         const result = await archivedDatabase.selectArchived(new Set([baidu]))
         expect(result.length).toEqual(1)
         const baiduInfo = result[0]

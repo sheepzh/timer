@@ -17,7 +17,6 @@ import './meat'
 import { updateTotal } from "./total-info"
 
 import timerService, { FillFlagParam, SortDirect, TimerQueryParam } from "@service/timer-service"
-import DataItem from "@entity/dto/data-item"
 import { locale, t } from "@popup/locale"
 import QueryResult, { PopupItem } from "@popup/common/query-result"
 import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
@@ -66,7 +65,7 @@ function _default(handleQuery: (result: QueryResult) => void) {
  * @param type type
  * @returns total alert text
  */
-const getTotalInfo = (data: DataItem[], type: timer.DataDimension) => {
+const getTotalInfo = (data: timer.stat.Row[], type: timer.stat.Dimension) => {
     if (type === 'time') {
         const totalCount = data.map(d => d[type] || 0).reduce((a, b) => a + b, 0)
         return t(msg => msg.totalCount, { totalCount })
@@ -102,7 +101,7 @@ async function query() {
         }
     }
     result.push(other)
-    const type = queryParam.sort as timer.DataDimension
+    const type = queryParam.sort as timer.stat.Dimension
     const data = result.filter(item => item[type])
 
     const queryResult: QueryResult = {

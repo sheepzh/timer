@@ -22,7 +22,6 @@ import timerService, { SortDirect } from "@service/timer-service"
 import { MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
-import DataItem from "@entity/dto/data-item"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
@@ -108,7 +107,7 @@ const _default = defineComponent({
                 sortOrder: SortDirect.DESC,
                 mergeDate: true,
             }
-            const top: DataItem[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM })).list
+            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM })).list
             const data: _Value[] = top.map(({ time, host }) => ({ name: host, value: time }))
             for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
                 data.push({ name: '', value: 0 })

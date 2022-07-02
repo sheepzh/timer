@@ -6,6 +6,7 @@
  */
 
 import { getUsedStorage } from "@db/memory-detector"
+import ChromeSynchronizer from "@service/chrome-synchronizer"
 import { openLog, closeLog } from "./logger"
 
 /**
@@ -24,12 +25,18 @@ export type Timer = {
     openLog: () => string
     closeLog: () => string
     showMemory: () => void
+    syncData: () => void
 }
 
 /**
  * @since 0.0.8
  */
-const timer = { openLog, closeLog, showMemory } as Timer
+const timer = {
+    openLog,
+    closeLog,
+    showMemory,
+    syncData: new ChromeSynchronizer().sync
+} as Timer
 
 declare global {
     interface Window {

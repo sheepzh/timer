@@ -9,7 +9,6 @@ import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import ElementIcon from "@src/app/element-ui/icon"
 import { Ref, h } from "vue"
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import DataItem from "@entity/dto/data-item"
 import { ItemMessage } from "@util/i18n/components/item"
 import { t } from "@src/app/locale"
 import { DataManageMessage } from "@src/app/locale/components/data-manage"
@@ -33,7 +32,7 @@ type _Props = BaseFilterProps & {
 
     confirm: {
         message: keyof DataManageMessage
-        operation: (result: DataItem[]) => Promise<any>
+        operation: (result: timer.stat.Row[]) => Promise<any>
         resultMessage: keyof DataManageMessage
     }
 
@@ -99,7 +98,7 @@ function checkParam(props: _Props): TimerCondition | undefined {
     return condition
 }
 
-function generateParamAndSelect(props: _Props): Promise<DataItem[]> | undefined {
+function generateParamAndSelect(props: _Props): Promise<timer.stat.Row[]> | undefined {
     const condition = checkParam(props)
     if (!condition) {
         ElMessage({ message: t(msg => msg.dataManage.paramError), type: 'warning' })
@@ -121,7 +120,7 @@ const operationCancelMsg = t(msg => msg.dataManage.operationCancel)
 const operationConfirmMsg = t(msg => msg.dataManage.operationConfirm)
 
 const handleClick = async (props: _Props) => {
-    const result: DataItem[] = await generateParamAndSelect(props)
+    const result: timer.stat.Row[] = await generateParamAndSelect(props)
 
     const count = result.length
     const confirmMsg = t(msg => msg.dataManage[props.confirm.message], { count })

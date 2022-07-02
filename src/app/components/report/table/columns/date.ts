@@ -10,7 +10,6 @@
  */
 import { ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
-import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 import { dateFormatter } from "../../formatter"
 
@@ -26,7 +25,7 @@ const _default = defineComponent({
             align: "center",
             sortable: "custom"
         }, {
-            default: ({ row }: { row: DataItem }) => h('span', dateFormatter(row.date))
+            default: ({ row }: { row: timer.stat.Row }) => h('span', dateFormatter(row.date))
         })
     }
 })

@@ -5,7 +5,6 @@
  * @since 0.3.0
  */
 declare namespace timer {
-    type DataDimension = 'total' | 'focus' | 'time'
     type PopupDuration = "today" | "thisWeek" | "thisMonth"
     namespace option {
 
@@ -20,7 +19,7 @@ declare namespace timer {
             /**
              * The default type to display
              */
-            defaultType: DataDimension
+            defaultType: stat.Dimension
             /**
              * The default duration to search
              * @since 0.6.0
@@ -138,30 +137,61 @@ declare namespace timer {
 
     namespace stat {
         /**
+         * The dimension to statistics
+         */
+        type Dimension =
+            // Running time
+            | 'total'
+            // Focus time
+            | 'focus'
+            // Visit count
+            | 'time'
+
+        /**
          * Time waste per day
          * 
          * @since 0.0.1
          */
-        type WastePerDay = {
-            /**
-             * Duration of visit
-             */
-            total: number
-            /**
-             * Duration of focus
-             */
-            focus: number
-            /**
-             * Visit times
-             */
-            time: number
-        }
+        type Result = { [item in timer.stat.Dimension]: number }
 
         /**
          * Waste data
          * 
          * @since 0.3.3
          */
-        type WasteData = { [host: string]: WastePerDay }
+        type ResultSet = { [host: string]: Result }
+
+        /**
+         * The unique key of each data row
+         */
+        type RowKey = {
+            host: string
+            // Absent if date merged
+            date?: string
+        }
+
+        /**
+         * Row of each statistics result
+         */
+        type Row = RowKey & Result & {
+            /**
+             * The merged domains
+             * 
+             * Can't be empty if merged
+             * 
+             * @since 0.1.5
+             */
+            mergedHosts: Row[]
+            /**
+             * Icon url
+             * 
+             * Must be undefined if merged
+             */
+            iconUrl?: string
+            /**
+             * The alias name of this Site, always is the title of its homepage by detected
+             */
+            alias?: string
+        }
     }
 }

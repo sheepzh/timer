@@ -6,11 +6,10 @@
  */
 
 import { log } from "../common/logger"
-import DataItem from "@entity/dto/data-item"
 import { formatTime } from "@util/time"
 import BaseDatabase from "./common/base-database"
 import { ARCHIVED_PREFIX, DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
-import { zero, merge, isNotZero } from "@util/waste-per-day"
+import { createZeroResult, mergeResult, isNotZeroResult } from "@util/stat"
 
 export type TimerCondition = {
     /**
@@ -107,12 +106,12 @@ function processCondition(condition: TimerCondition): _TimerCondition {
     return result
 }
 
-function mergeMigration(exist: timer.stat.WastePerDay | undefined, another: any) {
-    exist = exist || zero()
-    return merge(exist, { total: another.total || 0, focus: another.focus || 0, time: another.time || 0 })
+function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
+    exist = exist || createZeroResult()
+    return mergeResult(exist, { total: another.total || 0, focus: another.focus || 0, time: another.time || 0 })
 }
 
-function migrate(exists: { [key: string]: timer.stat.WastePerDay }, data: any): { [key: string]: timer.stat.WastePerDay } {
+function migrate(exists: { [key: string]: timer.stat.Result }, data: any): { [key: string]: timer.stat.Result } {
     const result = {}
     Object.entries(data)
         .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
@@ -120,7 +119,7 @@ function migrate(exists: { [key: string]: timer.stat.WastePerDay }, data: any): 
             if (typeof value !== "object") return
             const exist = exists[key]
             const merged = mergeMigration(exist, value)
-            merged && isNotZero(merged) && (result[key] = mergeMigration(exist, value))
+            merged && isNotZeroResult(merged) && (result[key] = mergeMigration(exist, value))
         })
     return result
 }
@@ -151,10 +150,10 @@ class TimerDatabase extends BaseDatabase {
      * @param host host
      * @since 0.1.3
      */
-    async accumulate(host: string, date: Date | string, item: timer.stat.WastePerDay): Promise<void> {
+    async accumulate(host: string, date: Date | string, item: timer.stat.Result): Promise<void> {
         const key = this.generateKey(host, date)
         const items = await this.storage.get(key)
-        const exist: timer.stat.WastePerDay = merge(items[key] as timer.stat.WastePerDay || zero(), item)
+        const exist: timer.stat.Result = mergeResult(items[key] as timer.stat.Result || createZeroResult(), item)
         const toUpdate = {}
         toUpdate[key] = exist
         log('toUpdate', toUpdate)
@@ -168,7 +167,7 @@ class TimerDatabase extends BaseDatabase {
      * @param date date
      * @since 0.1.8
      */
-    async accumulateBatch(data: timer.stat.WasteData, date: Date): Promise<timer.stat.WasteData> {
+    async accumulateBatch(data: timer.stat.ResultSet, date: Date): Promise<timer.stat.ResultSet> {
         const hosts = Object.keys(data)
         if (!hosts.length) return
         const dateStr = formatTime(date, DATE_FORMAT)
@@ -178,14 +177,18 @@ class TimerDatabase extends BaseDatabase {
         const items = await this.storage.get(Object.values(keys))
 
         const toUpdate = {}
-        const afterUpdated: timer.stat.WasteData = {}
+        const afterUpdated: timer.stat.ResultSet = {}
         Object.entries(keys).forEach(([host, key]) => {
             const item = data[host]
-            const exist: timer.stat.WastePerDay = merge(items[key] as timer.stat.WastePerDay || zero(), item)
+            const exist: timer.stat.Result = mergeResult(items[key] as timer.stat.Result || createZeroResult(), item)
             toUpdate[key] = afterUpdated[host] = exist
         })
         await this.storage.set(toUpdate)
         return afterUpdated
+    }
+
+    async accumulateBatch4Sync(data: timer.stat.Row[]) {
+
     }
 
     /**
@@ -193,17 +196,17 @@ class TimerDatabase extends BaseDatabase {
      * 
      * @param condition     condition
      */
-    async select(condition?: TimerCondition): Promise<DataItem[]> {
+    async select(condition?: TimerCondition): Promise<timer.stat.Row[]> {
         log("select:{condition}", condition)
         condition = condition || {}
         const _cond: _TimerCondition = processCondition(condition)
         const items = await this.refresh()
-        let result: DataItem[] = []
+        let result: timer.stat.Row[] = []
 
         for (let key in items) {
             const date = key.substring(0, 8)
             const host = key.substring(8)
-            const val: timer.stat.WastePerDay = items[key]
+            const val: timer.stat.Result = items[key]
             if (this.filterBefore(date, host, val, _cond)) {
                 const { total, focus, time } = val
                 result.push({ date, host, total, focus, time, mergedHosts: [] })
@@ -250,7 +253,7 @@ class TimerDatabase extends BaseDatabase {
      * @param condition  query parameters
      * @return true if valid, or false  
      */
-    private filterBefore(date: string, host: string, val: timer.stat.WastePerDay, condition: _TimerCondition): boolean {
+    private filterBefore(date: string, host: string, val: timer.stat.Result, condition: _TimerCondition): boolean {
         const { focus, total, time } = val
         const { timeStart, timeEnd, totalStart, totalEnd, focusStart, focusEnd } = condition
 
@@ -266,10 +269,10 @@ class TimerDatabase extends BaseDatabase {
      * 
      * @since 0.0.5 
      */
-    async get(host: string, date: Date): Promise<timer.stat.WastePerDay> {
+    async get(host: string, date: Date): Promise<timer.stat.Result> {
         const key = this.generateKey(host, date)
         const items = await this.storage.get(null)
-        return Promise.resolve(items[key] || zero())
+        return Promise.resolve(items[key] || createZeroResult())
     }
 
     /**
@@ -290,7 +293,7 @@ class TimerDatabase extends BaseDatabase {
      * @param rows     site rows, the host and date mustn't be null
      * @since 0.0.9
      */
-    async delete(rows: DataItem[]): Promise<void> {
+    async delete(rows: timer.stat.Row[]): Promise<void> {
         const keys: string[] = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => this.generateKey(host, date))
         return this.storage.remove(keys)
     }
@@ -342,7 +345,7 @@ class TimerDatabase extends BaseDatabase {
         for (let key in items) {
             const date = key.substring(0, 8)
             const host = key.substring(8)
-            const val: timer.stat.WastePerDay = items[key]
+            const val: timer.stat.Result = items[key]
             if (this.filterBefore(date, host, val, _cond)) {
                 count++
             }

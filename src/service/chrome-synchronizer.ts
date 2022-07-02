@@ -9,9 +9,7 @@ const sync = chrome.storage.sync
 async function syncData() {
     const current = new Date().getTime()
     const meta = await metaDb.getMeta()
-    if (meta.sync) {
-        meta.sync = {}
-    }
+    !meta.sync && (meta.sync = {})
     syncTimer(current, meta)
 }
 
@@ -28,6 +26,7 @@ async function syncTimer(current: number, meta: timer.meta.ExtensionMeta) {
 
     const localItems = await localDb.select({ date: dateRange })
     const remoteItems = await syncDb.select({ date: dateRange })
+
     await Promise.all(localItems.map(item => syncDb.accumulate(item.host, item.date, item)))
     await Promise.all(remoteItems.map(item => localDb.accumulate(item.host, item.date, item)))
 

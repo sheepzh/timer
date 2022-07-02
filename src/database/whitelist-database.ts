@@ -7,7 +7,6 @@
 
 import BaseDatabase from "./common/base-database"
 import { WHITELIST_KEY } from "./common/constant"
-
 class WhitelistDatabase extends BaseDatabase {
 
     private update(selectAll: string[]): Promise<void> {

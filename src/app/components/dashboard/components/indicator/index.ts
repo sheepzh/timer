@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DataItem from "@entity/dto/data-item"
 import PeriodDatabase from "@db/period-database"
 import timerService from "@service/timer-service"
 import { getStartOfDay, MILL_PER_DAY } from "@util/time"
@@ -38,7 +37,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: DataItem[] = await timerService.select()
+    const allData: timer.stat.Row[] = await timerService.select()
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0

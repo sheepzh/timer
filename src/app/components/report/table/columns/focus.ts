@@ -7,7 +7,6 @@
 
 import { t } from "@app/locale"
 import { ElTableColumn } from "element-plus"
-import DataItem from "@entity/dto/data-item"
 import { defineComponent, h } from "vue"
 import { periodFormatter } from "../../formatter"
 
@@ -28,7 +27,7 @@ const _default = defineComponent({
             align: "center",
             sortable: "custom"
         }, {
-            default: ({ row }: { row: DataItem }) => periodFormatter(row.focus, props.displayBySecond || false)
+            default: ({ row }: { row: timer.stat.Row }) => periodFormatter(row.focus, props.displayBySecond || false)
         })
     }
 })

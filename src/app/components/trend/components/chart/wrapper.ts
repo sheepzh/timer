@@ -28,7 +28,6 @@ import TooltipComponent from "@echarts/component/tooltip"
 import { t } from "@app/locale"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import HostOptionInfo from "../../host-option-info"
-import DataItem from "@entity/dto/data-item"
 import hostAliasService from "@service/host-alias-service"
 import HostAlias from "@entity/dao/host-alias"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
@@ -201,7 +200,7 @@ class ChartWrapper {
         this.instance = init(container)
     }
 
-    async render(host: HostOptionInfo, dateRange: Date[], row: DataItem[]) {
+    async render(host: HostOptionInfo, dateRange: Date[], row: timer.stat.Row[]) {
         // 1. x-axis data
         let xAxisData: string[], allDates: string[]
         if (!dateRange || dateRange.length !== 2) {
