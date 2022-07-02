@@ -42,6 +42,7 @@ declare namespace timer {
             | "off"
             // Timed on
             | "timed"
+
         type AppearanceOption = {
             /**
              * Whether to display the whitelist button in the context menu
@@ -135,4 +136,32 @@ declare namespace timer {
         // @since 0.9.0
         | 'zh_TW'
 
+    namespace stat {
+        /**
+         * Time waste per day
+         * 
+         * @since 0.0.1
+         */
+        type WastePerDay = {
+            /**
+             * Duration of visit
+             */
+            total: number
+            /**
+             * Duration of focus
+             */
+            focus: number
+            /**
+             * Visit times
+             */
+            time: number
+        }
+
+        /**
+         * Waste data
+         * 
+         * @since 0.3.3
+         */
+        type WasteData = { [host: string]: WastePerDay }
+    }
 }

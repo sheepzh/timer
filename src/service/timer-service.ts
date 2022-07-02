@@ -12,11 +12,11 @@ import { log } from "../common/logger"
 import CustomizedHostMergeRuler from "./components/host-merge-ruler"
 import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import MergeRuleDatabase from "@db/merge-rule-database"
-import WastePerDay, { WasteData } from "@entity/dao/waste-per-day"
 import IconUrlDatabase from "@db/icon-url-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { PageParam, PageResult, slicePageResult } from "./components/page-info"
 import whitelistHolder from './components/whitelist-holder'
+import { wasteOf } from "@util/waste-per-day"
 
 const storage = chrome.storage.local
 
@@ -75,16 +75,16 @@ export type HostSet = {
  */
 class TimerService {
 
-    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<WasteData> {
+    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<timer.stat.WasteData> {
         const toUpdate = {}
         Object.entries(data)
             .filter(([host]) => whitelistHolder.notContains(host))
-            .forEach(([host, item]) => toUpdate[host] = WastePerDay.of(item.run, item.focus, 0))
+            .forEach(([host, item]) => toUpdate[host] = wasteOf(item.run, item.focus, 0))
         return timerDatabase.accumulateBatch(toUpdate, new Date())
     }
 
     async addOneTime(host: string) {
-        timerDatabase.accumulate(host, new Date(), WastePerDay.of(0, 0, 1))
+        timerDatabase.accumulate(host, new Date(), wasteOf(0, 0, 1))
     }
 
     /**

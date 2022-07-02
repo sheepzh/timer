@@ -6,7 +6,6 @@
  */
 
 import TimerDatabase from "@db/timer-database"
-import WastePerDay from "@entity/dao/waste-per-day"
 import { t2Chrome } from "@util/i18n/chrome/t"
 import { formatPeriod } from "@util/time"
 
@@ -16,7 +15,7 @@ const timerDatabase = new TimerDatabase(chrome.storage.local)
  * Print info of today
  */
 export default async function printInfo(host: string) {
-    const waste: WastePerDay = await timerDatabase.get(host, new Date())
+    const waste: timer.stat.WastePerDay = await timerDatabase.get(host, new Date())
     const hourMsg = t2Chrome(root => root.message.timeWithHour)
     const minuteMsg = t2Chrome(root => root.message.timeWithMinute)
     const secondMsg = t2Chrome(root => root.message.timeWithSecond)

@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ExtensionMeta } from "@entity/dao/extension-meta"
 import BaseDatabase from "./common/base-database"
 import { META_KEY } from "./common/constant"
 
@@ -13,8 +12,8 @@ import { META_KEY } from "./common/constant"
  * @since 0.6.0
  */
 class MetaDatabase extends BaseDatabase {
-    async getMeta(): Promise<ExtensionMeta> {
-        const meta = (await this.storage.getOne(META_KEY)) as ExtensionMeta
+    async getMeta(): Promise<timer.meta.ExtensionMeta> {
+        const meta = (await this.storage.getOne(META_KEY)) as timer.meta.ExtensionMeta
         if (!meta) {
             return {}
         } else {
@@ -23,7 +22,7 @@ class MetaDatabase extends BaseDatabase {
     }
 
     async importData(data: any): Promise<void> {
-        const meta: ExtensionMeta = data[META_KEY] as ExtensionMeta
+        const meta: timer.meta.ExtensionMeta = data[META_KEY] as timer.meta.ExtensionMeta
         if (!meta) {
             return
         }
@@ -45,7 +44,7 @@ class MetaDatabase extends BaseDatabase {
         await this.update(existMeta)
     }
 
-    async update(existMeta: ExtensionMeta): Promise<void> {
+    async update(existMeta: timer.meta.ExtensionMeta): Promise<void> {
         await this.storage.put(META_KEY, existMeta)
     }
 }

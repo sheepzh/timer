@@ -6,7 +6,6 @@
  */
 
 import { log } from "../common/logger"
-import WastePerDay from "@entity/dao/waste-per-day"
 import DataItem from "@entity/dto/data-item"
 import BaseDatabase from "./common/base-database"
 import { ARCHIVED_PREFIX } from "./common/constant"
@@ -79,7 +78,7 @@ class ArchivedDatabase extends BaseDatabase {
         const result: DataItem[] = Object.entries(items)
             .filter(([key]) => domains.has(key))
             .map(([host, waste]) => {
-                const { focus, total, time } = waste as WastePerDay
+                const { focus, total, time } = waste as timer.stat.WastePerDay
                 return { focus, total, time, host, date: '', mergedHosts: [] }
             })
         return await Promise.resolve(result)
