@@ -19,7 +19,7 @@ import { InfoFilled } from "@element-plus/icons-vue"
 import { localeSameAsBrowser } from "@util/i18n"
 import { toggle } from "@util/dark-mode"
 
-const displayWhitelist = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
+const displayWhitelist = (option: Ref<timer.option.AppearanceOption>) => h(ElSwitch, {
     modelValue: option.value.displayWhitelistMenu,
     onChange: (newVal: boolean) => {
         option.value.displayWhitelistMenu = newVal
@@ -27,7 +27,7 @@ const displayWhitelist = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
     }
 })
 
-const displayBadgeText = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
+const displayBadgeText = (option: Ref<timer.option.AppearanceOption>) => h(ElSwitch, {
     modelValue: option.value.displayBadgeText,
     onChange: (newVal: boolean) => {
         option.value.displayBadgeText = newVal
@@ -35,7 +35,7 @@ const displayBadgeText = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
     }
 })
 
-const printInConsole = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
+const printInConsole = (option: Ref<timer.option.AppearanceOption>) => h(ElSwitch, {
     modelValue: option.value.printInConsole,
     onChange: (newVal: boolean) => {
         option.value.printInConsole = newVal
@@ -43,21 +43,21 @@ const printInConsole = (option: Ref<Timer.AppearanceOption>) => h(ElSwitch, {
     }
 })
 
-const allLocales: Timer.Locale[] = (["zh_CN", "zh_TW", "en", "ja"] as Timer.Locale[])
+const allLocales: timer.Locale[] = (["zh_CN", "zh_TW", "en", "ja"] as timer.Locale[])
     // Keep the locale same as this browser first position
     .sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
-const allLocaleOptions: Timer.LocaleOption[] = ["default", ...allLocales]
+const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...allLocales]
 
-const locale = (option: Ref<Timer.AppearanceOption>) => h(ElSelect, {
+const locale = (option: Ref<timer.option.AppearanceOption>) => h(ElSelect, {
     modelValue: option.value.locale,
     size: 'small',
     style: { width: '120px' },
-    onChange: async (newVal: Timer.LocaleOption) => {
+    onChange: async (newVal: timer.option.LocaleOption) => {
         option.value.locale = newVal
         await optionService.setAppearanceOption(option.value)
         // await maybe not work in Firefox, so calculate the real locale again
         // GG Firefox
-        const realLocale: Timer.Locale = newVal === "default"
+        const realLocale: timer.Locale = newVal === "default"
             ? localeSameAsBrowser
             : newVal
         ElMessageBox({
@@ -84,7 +84,7 @@ const locale = (option: Ref<Timer.AppearanceOption>) => h(ElSelect, {
 const _default = defineComponent({
     name: "AppearanceOptionContainer",
     setup(_props, ctx) {
-        const option: Ref<Timer.AppearanceOption> = ref(defaultAppearance())
+        const option: Ref<timer.option.AppearanceOption> = ref(defaultAppearance())
         optionService.getAllOption().then(currentVal => {
             option.value = currentVal
             console.log(option.value)

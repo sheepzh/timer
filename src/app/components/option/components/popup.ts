@@ -14,7 +14,7 @@ import { renderOptionItem, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
-const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
+const popupMaxInput = (option: Ref<timer.option.PopupOption>) => h(ElInputNumber, {
     modelValue: option.value.popupMax,
     size: 'small',
     min: 5,
@@ -26,28 +26,28 @@ const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
 })
 
 const typeOptions = () => ALL_DATA_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
-const typeSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
+const typeSelect = (option: Ref<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.value.defaultType,
     size: 'small',
     style: { width: '120px' },
-    onChange: (val: Timer.DataDimension) => {
+    onChange: (val: timer.DataDimension) => {
         option.value.defaultType = val
         optionService.setPopupOption(option.value)
     }
 }, { default: typeOptions })
 
 const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.option.popup.duration[item]) }))
-const durationSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
+const durationSelect = (option: Ref<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.value.defaultDuration,
     size: 'small',
     style: { width: t(msg => msg.option.popup.durationWidth) },
-    onChange: (val: Timer.PopupDuration) => {
+    onChange: (val: timer.PopupDuration) => {
         option.value.defaultDuration = val
         optionService.setPopupOption(option.value)
     }
 }, { default: durationOptions })
 
-const displaySiteName = (option: Ref<Timer.PopupOption>) => h(ElSwitch, {
+const displaySiteName = (option: Ref<timer.option.PopupOption>) => h(ElSwitch, {
     modelValue: option.value.displaySiteName,
     onChange: (newVal: boolean) => {
         option.value.displaySiteName = newVal
@@ -63,7 +63,7 @@ const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 const _default = defineComponent({
     name: "PopupOptionContainer",
     setup(_props, ctx) {
-        const option: Ref<Timer.PopupOption> = ref(defaultPopup())
+        const option: Ref<timer.option.PopupOption> = ref(defaultPopup())
         optionService.getAllOption().then(currentVal => option.value = currentVal)
         ctx.expose({
             async reset() {

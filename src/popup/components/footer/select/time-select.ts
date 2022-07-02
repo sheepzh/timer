@@ -34,9 +34,9 @@ timeSelect.onclick = () => isOpen ? hidePopup() : openPopup()
 /////////// Options
 const SELECTED_CLASS = 'selected'
 const optionList = document.getElementById('time-select-options')
-const optionItems: Map<Timer.PopupDuration, HTMLLIElement> = new Map()
+const optionItems: Map<timer.PopupDuration, HTMLLIElement> = new Map()
 
-function selected(item: Timer.PopupDuration): void {
+function selected(item: timer.PopupDuration): void {
     currentSelected = item
     Array.from(optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
     optionItems.get(item).classList.add(SELECTED_CLASS)
@@ -55,13 +55,13 @@ for (const item of ALL_POPUP_DURATION) {
     optionList.append(li)
     optionItems.set(item, li)
 }
-let currentSelected: Timer.PopupDuration = undefined
+let currentSelected: timer.PopupDuration = undefined
 
-export function getSelectedTime(): Timer.PopupDuration {
+export function getSelectedTime(): timer.PopupDuration {
     return currentSelected
 }
 
-optionService.getAllOption().then((option: Timer.PopupOption) => selected(option.defaultDuration))
+optionService.getAllOption().then((option: timer.option.PopupOption) => selected(option.defaultDuration))
 
 let handleSelected: () => void
 function _default(handleSelected_: () => void) {

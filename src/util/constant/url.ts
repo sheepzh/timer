@@ -48,7 +48,7 @@ export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
 /**
  * @since 0.9.6
  */
-export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in Timer.Locale]: string }> = {
+export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in timer.Locale]: string }> = {
     zh_CN: ZH_FEEDBACK_PAGE,
     zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdfvG6ExLj331YOLZIKO3x98k3kMxpkkLW1RgFuRGmUnZCGRQ/viewform?usp=sf_link',
     en: 'https://docs.google.com/forms/d/e/1FAIpQLSdNq4gnSY7uxYkyqOPqyYF3Bqlc3ZnWCLDi5DI5xGjPeVCNiw/viewform?usp=sf_link',
@@ -57,7 +57,7 @@ export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in Timer.Locale]: string 
 /**
  * @since 0.9.6
  */
-export const UNINSTALL_QUESTIONNAIRE: { [locale in Timer.Locale]: string } = {
+export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.Locale]: string } = {
     zh_CN: 'https://www.wjx.cn/vj/YDgY9Yz.aspx',
     zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdK93q-548dK-2naoS3DaArdc7tEGoUY9JQvaXP5Kpov8h6-A/viewform?usp=sf_link',
     ja: 'https://docs.google.com/forms/d/e/1FAIpQLSdsB3onZuleNf6j7KJJLbcote647WV6yeUr-9m7Db5QXakfpg/viewform?usp=sf_link',

@@ -27,7 +27,7 @@ type FooterParam = TimerQueryParam & {
     chartTitle: string
 }
 
-function calculateDateRange(duration: Timer.PopupDuration): Date | Date[] {
+function calculateDateRange(duration: timer.PopupDuration): Date | Date[] {
     const now = new Date()
     if (duration == 'today') {
         return now
@@ -38,12 +38,12 @@ function calculateDateRange(duration: Timer.PopupDuration): Date | Date[] {
     }
 }
 
-function calculateChartTitle(duration: Timer.PopupDuration): string {
+function calculateChartTitle(duration: timer.PopupDuration): string {
     return t(msg => msg.title[duration])
 }
 
 export function getQueryParam(): FooterParam {
-    const duration: Timer.PopupDuration = getSelectedTime()
+    const duration: timer.PopupDuration = getSelectedTime()
     const param: FooterParam = {
         date: calculateDateRange(duration),
         mergeHost: mergedHost(),
@@ -66,7 +66,7 @@ function _default(handleQuery: (result: QueryResult) => void) {
  * @param type type
  * @returns total alert text
  */
-const getTotalInfo = (data: DataItem[], type: Timer.DataDimension) => {
+const getTotalInfo = (data: DataItem[], type: timer.DataDimension) => {
     if (type === 'time') {
         const totalCount = data.map(d => d[type] || 0).reduce((a, b) => a + b, 0)
         return t(msg => msg.totalCount, { totalCount })
@@ -102,7 +102,7 @@ async function query() {
         }
     }
     result.push(other)
-    const type = queryParam.sort as Timer.DataDimension
+    const type = queryParam.sort as timer.DataDimension
     const data = result.filter(item => item[type])
 
     const queryResult: QueryResult = {

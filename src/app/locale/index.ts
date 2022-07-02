@@ -19,7 +19,7 @@ export function t(key: I18nKey, param?: any) {
 /**
  * @since 0.8.8
  */
-export function tWith(key: I18nKey, specLocale: Timer.Locale, param?: any) {
+export function tWith(key: I18nKey, specLocale: timer.Locale, param?: any) {
     const props = { key, param }
     return _t<AppMessage>(messages[specLocale], props)
 }

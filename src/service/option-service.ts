@@ -14,34 +14,34 @@ const defaultOption = () => {
     return { ...defaultAppearance(), ...defaultPopup(), ...defaultStatistics() }
 }
 
-async function getAllOption(): Promise<Timer.Option> {
-    const exist: Partial<Timer.Option> = await db.getOption()
-    const result: Timer.Option = defaultOption()
+async function getAllOption(): Promise<timer.option.AllOption> {
+    const exist: Partial<timer.option.AllOption> = await db.getOption()
+    const result: timer.option.AllOption = defaultOption()
     Object.entries(exist).forEach(([key, val]) => result[key] = val)
     return result
 }
 
-async function setPopupOption(option: Timer.PopupOption): Promise<void> {
+async function setPopupOption(option: timer.option.PopupOption): Promise<void> {
     await setOption(option)
 }
 
-async function setAppearanceOption(option: Timer.AppearanceOption): Promise<void> {
+async function setAppearanceOption(option: timer.option.AppearanceOption): Promise<void> {
     await setOption(option)
 }
 
-async function setStatisticsOption(option: Timer.StatisticsOption): Promise<void> {
+async function setStatisticsOption(option: timer.option.StatisticsOption): Promise<void> {
     await setOption(option)
 }
 
-async function setOption(option: Partial<Timer.Option>): Promise<void> {
-    const exist: Partial<Timer.Option> = await db.getOption()
+async function setOption(option: Partial<timer.option.AllOption>): Promise<void> {
+    const exist: Partial<timer.option.AllOption> = await db.getOption()
     const toSet = defaultOption()
     Object.entries(exist).forEach(([key, val]) => toSet[key] = val)
     Object.entries(option).forEach(([key, val]) => toSet[key] = val)
     await db.setOption(toSet)
 }
 
-async function isDarkMode(targetVal?: Timer.AppearanceOption): Promise<boolean> {
+async function isDarkMode(targetVal?: timer.option.AppearanceOption): Promise<boolean> {
     const option = targetVal || await getAllOption()
     const darkMode = option.darkMode
     if (darkMode === "on") {

@@ -11,7 +11,7 @@ import itemMessages, { ItemMessage } from "@util/i18n/components/item"
 import popupDurationMessages, { PopupDurationMessage } from "@util/i18n/components/popup-duration"
 
 export type PopupMessage = {
-    title: { [key in Timer.PopupDuration]: string }
+    title: { [key in timer.PopupDuration]: string }
     mergeHostLabel: string
     viewMore: string
     fileName: string

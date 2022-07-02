@@ -25,7 +25,7 @@ export enum ElSortDirect {
 }
 
 export type SortInfo = {
-    prop: Timer.DataDimension | 'host'
+    prop: timer.DataDimension | 'host'
     order: ElSortDirect
 }
 

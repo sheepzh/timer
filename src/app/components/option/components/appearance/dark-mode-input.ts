@@ -4,10 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { Ref, PropType, ComputedRef, watch } from "vue"
+import type { Ref, PropType, ComputedRef } from "vue"
 
 import { ElOption, ElSelect, ElTimePicker } from "element-plus"
-import { defineComponent, ref, h, computed } from "vue"
+import { defineComponent, ref, h, watch, computed } from "vue"
 import { t } from "@app/locale"
 
 function computeSecondToDate(secondOfDate: number): Date {
@@ -32,13 +32,13 @@ function computeDateToSecond(date: Date) {
 const _default = defineComponent({
     name: "DarkModeInput",
     props: {
-        modelValue: String as PropType<Timer.AppearanceOptionDarkMode>,
+        modelValue: String as PropType<timer.option.DarkMode>,
         startSecond: Number,
         endSecond: Number
     },
     emits: ["change"],
     setup(props, ctx) {
-        const darkMode: Ref<Timer.AppearanceOptionDarkMode> = ref(props.modelValue)
+        const darkMode: Ref<timer.option.DarkMode> = ref(props.modelValue)
         // @ts-ignore
         const start: Ref<Date> = ref(computeSecondToDate(props.startSecond))
         // @ts-ignore
@@ -58,7 +58,7 @@ const _default = defineComponent({
                 style: { width: '120px', marginLeft: '10px' },
                 onChange: async (newVal: string) => {
                     const before = darkMode.value
-                    darkMode.value = newVal as Timer.AppearanceOptionDarkMode
+                    darkMode.value = newVal as timer.option.DarkMode
                     handleChange()
                 }
             }, {

@@ -7,7 +7,7 @@
 
 import { Messages } from ".."
 
-export type PopupDurationMessage = { [key in Timer.PopupDuration]: string }
+export type PopupDurationMessage = { [key in timer.PopupDuration]: string }
 
 const _default: Messages<PopupDurationMessage> = {
     zh_CN: {

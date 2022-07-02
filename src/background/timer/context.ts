@@ -30,7 +30,7 @@ export class TimeInfo {
 
 let countWhenIdle: boolean = false
 
-const setCountWhenIdle = (op: Timer.Option) => countWhenIdle = op.countWhenIdle
+const setCountWhenIdle = (op: timer.option.AllOption) => countWhenIdle = op.countWhenIdle
 optionService.getAllOption().then(setCountWhenIdle)
 optionService.addOptionChangeListener(setCountWhenIdle)
 
