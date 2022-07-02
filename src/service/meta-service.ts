@@ -6,18 +6,17 @@
  */
 
 import MetaDatabase from "@db/meta-database"
-import { ExtensionMeta } from "@entity/dao/extension-meta"
 
 const storage = chrome.storage.local
 const db: MetaDatabase = new MetaDatabase(storage)
 
 async function getInstallTime() {
-    const meta: ExtensionMeta = await db.getMeta()
+    const meta: timer.meta.ExtensionMeta = await db.getMeta()
     return meta && meta.installTime ? new Date(meta.installTime) : undefined
 }
 
 async function updateInstallTime(installTime: Date) {
-    const meta: ExtensionMeta = await db.getMeta()
+    const meta: timer.meta.ExtensionMeta = await db.getMeta()
     if (meta?.installTime) {
         // Must not rewrite
         return

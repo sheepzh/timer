@@ -1,7 +1,7 @@
 import { DATE_FORMAT } from "@db/common/constant"
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import WastePerDay from "@entity/dao/waste-per-day"
 import { formatTime, MILL_PER_DAY } from "@util/time"
+import { wasteOf } from "@util/waste-per-day"
 import storage from "../__mock__/storage"
 
 const db = new TimerDatabase(storage.local)
@@ -16,42 +16,42 @@ describe('timer-database', () => {
     beforeEach(async () => storage.local.clear())
 
     test('1', async () => {
-        await db.accumulate(baidu, now, WastePerDay.of(100, 100, 0))
-        const data: WastePerDay = await db.get(baidu, now)
-        expect(data).toEqual(WastePerDay.of(100, 100, 0))
+        await db.accumulate(baidu, now, wasteOf(100, 100, 0))
+        const data: timer.stat.WastePerDay = await db.get(baidu, now)
+        expect(data).toEqual(wasteOf(100, 100, 0))
     })
 
     test('2', async () => {
-        await db.accumulate(baidu, now, WastePerDay.of(100, 200, 0))
-        await db.accumulate(baidu, now, WastePerDay.of(100, 200, 0))
+        await db.accumulate(baidu, now, wasteOf(100, 200, 0))
+        await db.accumulate(baidu, now, wasteOf(100, 200, 0))
         let data = await db.get(baidu, now)
-        expect(data).toEqual(WastePerDay.of(200, 400, 0))
-        await db.accumulate(baidu, now, WastePerDay.of(0, 0, 1))
+        expect(data).toEqual(wasteOf(200, 400, 0))
+        await db.accumulate(baidu, now, wasteOf(0, 0, 1))
         data = await db.get(baidu, now)
-        expect(data).toEqual(WastePerDay.of(200, 400, 1))
+        expect(data).toEqual(wasteOf(200, 400, 1))
     })
 
     test('3', async () => {
         await db.accumulateBatch(
             {
-                [google]: WastePerDay.of(11, 11, 0),
-                [baidu]: WastePerDay.of(1, 1, 0)
+                [google]: wasteOf(11, 11, 0),
+                [baidu]: wasteOf(1, 1, 0)
             }, now
         )
         expect((await db.select()).length).toEqual(2)
 
         await db.accumulateBatch(
             {
-                [google]: WastePerDay.of(12, 12, 1),
-                [baidu]: WastePerDay.of(2, 2, 1)
+                [google]: wasteOf(12, 12, 1),
+                [baidu]: wasteOf(2, 2, 1)
             }, yesterday
         )
         expect((await db.select()).length).toEqual(4)
 
         await db.accumulateBatch(
             {
-                [google]: WastePerDay.of(13, 13, 2),
-                [baidu]: WastePerDay.of(3, 3, 2)
+                [google]: wasteOf(13, 13, 2),
+                [baidu]: wasteOf(3, 3, 2)
             }, beforeYesterday
         )
         expect((await db.select()).length).toEqual(6)
@@ -115,8 +115,8 @@ describe('timer-database', () => {
     })
 
     test('5', async () => {
-        await db.accumulate(baidu, now, WastePerDay.of(10, 10, 0))
-        await db.accumulate(baidu, yesterday, WastePerDay.of(10, 12, 0))
+        await db.accumulate(baidu, now, wasteOf(10, 10, 0))
+        await db.accumulate(baidu, yesterday, wasteOf(10, 12, 0))
         expect((await db.select()).length).toEqual(2)
         // Delete yesterday's data
         await db.deleteByUrlAndDate(baidu, yesterday)
@@ -125,8 +125,8 @@ describe('timer-database', () => {
         await db.deleteByUrlAndDate(baidu, yesterday)
         expect((await db.get(baidu, now)).focus).toEqual(10)
         // Add one again, and another
-        await db.accumulate(baidu, beforeYesterday, WastePerDay.of(1, 1, 1))
-        await db.accumulate(google, now, WastePerDay.of(0, 0, 0))
+        await db.accumulate(baidu, beforeYesterday, wasteOf(1, 1, 1))
+        await db.accumulate(google, now, wasteOf(0, 0, 0))
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
@@ -138,7 +138,7 @@ describe('timer-database', () => {
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again 
-        await db.accumulate(baidu, now, WastePerDay.of(1, 1, 1))
+        await db.accumulate(baidu, now, wasteOf(1, 1, 1))
         // But delete google
         await db.delete(list)
         // Then only one item of baidu
@@ -154,7 +154,7 @@ describe('timer-database', () => {
     })
 
     test('7', async () => {
-        const foo = WastePerDay.of(1, 1, 1)
+        const foo = wasteOf(1, 1, 1)
         await db.accumulate(baidu, now, foo)
         await db.accumulate(baidu, yesterday, foo)
         await db.accumulate(baidu, beforeYesterday, foo)
@@ -166,7 +166,7 @@ describe('timer-database', () => {
     })
 
     test("importData", async () => {
-        const foo = WastePerDay.of(1, 1, 1)
+        const foo = wasteOf(1, 1, 1)
         await db.accumulate(baidu, now, foo)
         const data2Import = await db.storage.get()
         storage.local.clear()
@@ -216,10 +216,10 @@ describe('timer-database', () => {
     })
 
     test("count", async () => {
-        await db.accumulate(baidu, now, WastePerDay.of(1, 1, 1))
-        await db.accumulate(baidu, yesterday, WastePerDay.of(1, 2, 1))
-        await db.accumulate(google, now, WastePerDay.of(1, 3, 1))
-        await db.accumulate(google, yesterday, WastePerDay.of(1, 4, 1))
+        await db.accumulate(baidu, now, wasteOf(1, 1, 1))
+        await db.accumulate(baidu, yesterday, wasteOf(1, 2, 1))
+        await db.accumulate(google, now, wasteOf(1, 3, 1))
+        await db.accumulate(google, yesterday, wasteOf(1, 4, 1))
         // Count by host
         expect(await db.count({
             host: baidu,
