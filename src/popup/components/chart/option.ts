@@ -165,7 +165,7 @@ export function pieOptions(props: PipProps, container: HTMLDivElement): EcOption
             left: 15,
             top: 20,
             bottom: 20,
-            textStyle: { color: secondaryColor }
+            textStyle: { color: textColor }
         },
         series: [{
             ...staticOptions.series[0],
