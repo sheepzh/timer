@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import initTypeSelect, { getSelectedType } from "./select/type-select"
-// import initTimeSelect, { getSelectedTime } from "./select/time-select"
 import initMergeHost, { mergedHost } from "./merge-host"
 
 // Links
@@ -22,6 +20,7 @@ import QueryResult, { PopupItem } from "@popup/common/query-result"
 import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
 import optionService from "@service/option-service"
 import TimeSelectWrapper from "./select/time-select"
+import TypeSelectWrapper from "./select/type-select"
 
 type FooterParam = TimerQueryParam & {
     chartTitle: string
@@ -47,7 +46,7 @@ export function getQueryParam(): FooterParam {
     const param: FooterParam = {
         date: calculateDateRange(duration),
         mergeHost: mergedHost(),
-        sort: getSelectedType(),
+        sort: typeSelectWrapper.getSelectedType(),
         sortOrder: SortDirect.DESC,
         chartTitle: calculateChartTitle(duration),
         mergeDate: true,
@@ -116,13 +115,18 @@ async function query() {
     afterQuery?.(queryResult)
 }
 
-query()
-
-initTypeSelect(query)
 const timeSelectWrapper: TimeSelectWrapper = new TimeSelectWrapper(query)
-timeSelectWrapper.init()
+const typeSelectWrapper: TypeSelectWrapper = new TypeSelectWrapper(query)
 
-initMergeHost(query)
+async function init() {
+    const option = await optionService.getAllOption()
+    timeSelectWrapper.init(option.defaultDuration)
+    typeSelectWrapper.init(option.defaultType)
+    query()
+    initMergeHost(query)
+}
+
+init()
 
 export const queryInfo = query
 
