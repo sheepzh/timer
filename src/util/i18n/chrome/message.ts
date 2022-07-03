@@ -58,6 +58,7 @@ const placeholder: ChromeMessage = {
     message: {
         openTimesConsoleLog: '',
         usedTimeInConsoleLog: '',
+        closeAlert: '',
         timeWithHour: '',
         timeWithMinute: '',
         timeWithSecond: '',
