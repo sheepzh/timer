@@ -28,6 +28,8 @@ export default async function printInfo(host: string) {
     const info1 = t2Chrome(root => root.message.usedTimeInConsoleLog)
         .replace('{focus}', formatPeriod(waste.focus, msg))
         .replace('{total}', formatPeriod(waste.total, msg))
+    const info2 = t2Chrome(root => root.message.closeAlert)
     console.log(info0)
     console.log(info1)
+    console.log(info2)
 }
