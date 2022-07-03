@@ -7,7 +7,6 @@
 
 // Time select
 import { t } from "@popup/locale"
-import optionService from "@service/option-service"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
 const SELECTED_CLASS = 'selected'
@@ -26,7 +25,7 @@ class TimeSelectWrapper {
         this.handleSelected = handleSelected
     }
 
-    async init(): Promise<void> {
+    async init(initialVal: timer.PopupDuration): Promise<void> {
         this.timeSelect = document.getElementById('time-select-container')
         this.timeSelectPopup = document.getElementById('time-select-popup')
         this.timeSelectInput = document.getElementById('time-select-input') as HTMLInputElement
@@ -35,9 +34,8 @@ class TimeSelectWrapper {
         this.timeSelect.onclick = () => this.isOpen ? this.hidePopup() : this.openPopup()
         // Init options
         ALL_POPUP_DURATION.forEach(duration => this.initOption(duration))
-        // Set init value 
-        const option = await optionService.getAllOption()
-        this.selected(option.defaultDuration)
+        // Set initial value 
+        this.selected(initialVal)
     }
 
     private initOption(item: timer.PopupDuration) {
