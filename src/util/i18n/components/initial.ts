@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from ".."
+import type { Messages } from ".."
 
 /**
  * Locales for initial data
