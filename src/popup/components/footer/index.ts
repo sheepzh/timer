@@ -6,7 +6,7 @@
  */
 
 import initTypeSelect, { getSelectedType } from "./select/type-select"
-import initTimeSelect, { getSelectedTime } from "./select/time-select"
+// import initTimeSelect, { getSelectedTime } from "./select/time-select"
 import initMergeHost, { mergedHost } from "./merge-host"
 
 // Links
@@ -21,6 +21,7 @@ import { locale, t } from "@popup/locale"
 import QueryResult, { PopupItem } from "@popup/common/query-result"
 import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
 import optionService from "@service/option-service"
+import TimeSelectWrapper from "./select/time-select"
 
 type FooterParam = TimerQueryParam & {
     chartTitle: string
@@ -42,7 +43,7 @@ function calculateChartTitle(duration: timer.PopupDuration): string {
 }
 
 export function getQueryParam(): FooterParam {
-    const duration: timer.PopupDuration = getSelectedTime()
+    const duration: timer.PopupDuration = timeSelectWrapper.getSelectedTime()
     const param: FooterParam = {
         date: calculateDateRange(duration),
         mergeHost: mergedHost(),
@@ -118,7 +119,9 @@ async function query() {
 query()
 
 initTypeSelect(query)
-initTimeSelect(query)
+const timeSelectWrapper: TimeSelectWrapper = new TimeSelectWrapper(query)
+timeSelectWrapper.init()
+
 initMergeHost(query)
 
 export const queryInfo = query
