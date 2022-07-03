@@ -187,8 +187,19 @@ class TimerDatabase extends BaseDatabase {
         return afterUpdated
     }
 
-    async accumulateBatch4Sync(data: timer.stat.Row[]) {
-
+    async accumulateBatch4Sync(data: timer.stat.Row[]): Promise<number> {
+        const validRows = data.filter(item => item.date && item.host)
+        const keyRowMap: { [key: string]: timer.stat.Row } = {}
+        validRows.forEach(row => keyRowMap[this.generateKey(row.host, row.date)] = row)
+        const exists = await this.storage.get(Object.keys(keyRowMap))
+        const afterUpdated = {}
+        Object.entries(keyRowMap).forEach(([key, row]) => {
+            const merged = mergeResult(exists[key] as timer.stat.Result || createZeroResult(), row)
+            afterUpdated[key] = merged
+        })
+        console.log(data.length, Object.keys(afterUpdated).length)
+        await this.storage.set(afterUpdated)
+        return Object.keys(afterUpdated).length
     }
 
     /**
