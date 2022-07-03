@@ -9,7 +9,6 @@
 import { ALL_DIMENSIONS } from "@util/stat"
 import optionService from "@service/option-service"
 import { t } from "@popup/locale"
-import { toHideStyle, toShowStyle } from "./common"
 
 const typeSelect = document.getElementById('type-select-container')
 const typeSelectPopup = document.getElementById('type-select-popup')
@@ -19,13 +18,15 @@ let isOpen = false
 
 function openPopup() {
     // Show popup
-    Object.assign(typeSelectPopup.style, toShowStyle)
+    typeSelectPopup.classList.remove("popup__hidden")
+    typeSelectPopup.classList.add("popup__show")
     isOpen = true
 }
 
 function hidePopup() {
     // Hide popup
-    Object.assign(typeSelectPopup.style, toHideStyle)
+    typeSelectPopup.classList.remove("popup__show")
+    typeSelectPopup.classList.add("popup__hidden")
     isOpen = false
 }
 
