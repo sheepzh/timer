@@ -109,19 +109,12 @@ declare namespace timer {
     }
 
     namespace meta {
-        type SyncMeta = {
-            timer?: number
-        }
         type ExtensionMeta = {
             installTime?: number
             appCounter?: { [routePath: string]: number }
             popupCounter?: {
                 _total?: number
             }
-            /**
-             * @since 1.2.0
-             */
-            sync?: SyncMeta
         }
     }
 

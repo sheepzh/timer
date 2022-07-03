@@ -7,6 +7,7 @@
 
 import type { ECharts, ComposeOption } from "echarts/core"
 import type { HeatmapSeriesOption } from "echarts/charts"
+import type { ReportQuery } from "@app/components/report"
 import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
 
 import TitleComponent from "@echarts/component/title"
@@ -37,6 +38,8 @@ import { defineComponent, h, onMounted, ref, Ref } from "vue"
 import { groupBy, rotate } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { getPrimaryTextColor } from "@util/style"
+import { getAppPageUrl } from "@util/constant/url"
+import { REPORT_ROUTE } from "@app/router/constants"
 
 const WEEK_NUM = 53
 
@@ -193,6 +196,27 @@ function optionOf(data: _Value[], days: string[]): EcOption {
     }
 }
 
+/**
+ * Click to jump to the report page
+ * 
+ * @since 1.1.1
+ */
+function handleClick(value: _Value): void {
+    const [_1, _2, minutes, currentDate] = value
+    if (!minutes) {
+        return
+    }
+
+    const currentYear = parseInt(currentDate.substr(0, 4))
+    const currentMonth = parseInt(currentDate.substr(4, 2)) - 1
+    const currentDay = parseInt(currentDate.substr(6, 2))
+    const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
+    const query: ReportQuery = { ds: currentTs, de: currentTs }
+
+    const url = getAppPageUrl(false, REPORT_ROUTE, query)
+    chrome.tabs.create({ url })
+}
+
 class ChartWrapper {
     instance: ECharts
     allDates: string[]
@@ -208,6 +232,7 @@ class ChartWrapper {
 
     init(container: HTMLDivElement) {
         this.instance = init(container)
+        this.instance.on("click", params => handleClick(params.value as _Value))
     }
 
     render(value: { [date: string]: number }, days: string[], loading: { close: () => void }) {
