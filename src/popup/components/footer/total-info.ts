@@ -7,8 +7,16 @@
 
 import packageInfo from "@src/package"
 
-const totalInfoSpan: HTMLSpanElement = document.getElementById('total-info') as HTMLSpanElement
+class TotalInfoWrapper {
+    totalInfoSpan: HTMLElement
 
-export function updateTotal(totalInfo: string): void {
-    totalInfoSpan.innerText = `v${packageInfo.version} ${totalInfo}`
+    constructor() {
+        this.totalInfoSpan = document.getElementById('total-info') as HTMLSpanElement
+    }
+
+    updateTotal(totalInfo: string): void {
+        this.totalInfoSpan.innerText = `v${packageInfo.version} ${totalInfo}`
+    }
 }
+
+export default TotalInfoWrapper

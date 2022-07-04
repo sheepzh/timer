@@ -35,10 +35,13 @@ function showUpgradeButton(latestVersion: string) {
     }
 }
 
-getLatestVersion()
-    .then(latestVersion => latestVersion
+async function initUpgrade() {
+    const latestVersion = await getLatestVersion()
+    latestVersion
         && packageInfo.version !== latestVersion
         // Must from store
         && IS_FROM_STORE
         && showUpgradeButton(latestVersion)
-    )
+}
+
+export default initUpgrade
