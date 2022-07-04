@@ -13,7 +13,6 @@ import type {
     TooltipComponentOption,
     LegendComponentOption,
 } from "echarts/components"
-import type QueryResult from "@popup/common/query-result"
 
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
@@ -35,8 +34,6 @@ const today = formatTime(new Date(), '{y}_{m}_{d}')
 const LABEL_FONT_SIZE = 13
 const LABEL_ICON_SIZE = 13
 
-const app = t(msg => msg.appName)
-
 const legend2LabelStyle = (legend: string) => {
     const code = []
     for (let i = 0; i < legend.length; i++) {
@@ -45,7 +42,7 @@ const legend2LabelStyle = (legend: string) => {
     return code.join('')
 }
 
-const toolTipFormatter = ({ type }: QueryResult, params: any) => {
+const toolTipFormatter = ({ type }: timer.popup.QueryResult, params: any) => {
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
     const data = format.data as timer.stat.Row
@@ -87,7 +84,11 @@ const staticOptions: EcOption = {
             saveAsImage: {
                 show: true,
                 title: t(msg => msg.saveAsImageTitle),
-                name: t(msg => msg.fileName, { app, today }), // file name
+                // file name
+                name: t(msg => msg.fileName, {
+                    app: t(msg => msg.appName),
+                    today
+                }),
                 excludeComponents: ['toolbox'],
                 pixelRatio: 1
             }
@@ -116,10 +117,6 @@ function calcPositionOfTooltip(container: HTMLDivElement, point: (number | strin
     return [...point]
 }
 
-export type PipProps = QueryResult & {
-    displaySiteName: boolean
-}
-
 const Y_M_D = "{y}/{m}/{d}"
 function calculateSubTitleText(date: Date | Date[]) {
     if (date instanceof Array) {
@@ -140,10 +137,10 @@ function calculateSubTitleText(date: Date | Date[]) {
     }
 }
 
-export function pieOptions(props: PipProps, container: HTMLDivElement): EcOption {
+export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElement): EcOption {
     const { type, mergeHost, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
-    const subTitleText = `${calculateSubTitleText(date)} @ ${app}`
+    const subTitleText = `${calculateSubTitleText(date)} @ ${t(msg => msg.appName)}`
     const textColor = getPrimaryTextColor()
     const secondaryColor = getSecondaryTextColor()
     const options: EcOption = {
@@ -165,7 +162,7 @@ export function pieOptions(props: PipProps, container: HTMLDivElement): EcOption
             left: 15,
             top: 20,
             bottom: 20,
-            textStyle: { color: secondaryColor }
+            textStyle: { color: textColor }
         },
         series: [{
             ...staticOptions.series[0],
