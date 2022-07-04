@@ -5,7 +5,6 @@
  * @since 0.3.0
  */
 declare namespace timer {
-    type PopupDuration = "today" | "thisWeek" | "thisMonth"
     namespace option {
 
         /**
@@ -24,7 +23,7 @@ declare namespace timer {
              * The default duration to search
              * @since 0.6.0
              */
-            defaultDuration: PopupDuration
+            defaultDuration: popup.Duration
             /**
              * Replace the host name with site name which is detected automatically from the title of site homepages,
              * or modified manually by the user
@@ -185,6 +184,23 @@ declare namespace timer {
              * The alias name of this Site, always is the title of its homepage by detected
              */
             alias?: string
+        }
+    }
+
+    namespace popup {
+        type Duration = "today" | "thisWeek" | "thisMonth"
+        type Row = timer.stat.Row & { isOther?: boolean }
+        type QueryResult = {
+            type: timer.stat.Dimension
+            mergeHost: boolean
+            data: Row[]
+            // Filter items
+            chartTitle: string
+            date: Date | Date[]
+        }
+        type QueryResultHandler = (result: QueryResult) => void
+        type ChartProps = QueryResult & {
+            displaySiteName: boolean
         }
     }
 }

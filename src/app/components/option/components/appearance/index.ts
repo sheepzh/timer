@@ -7,7 +7,7 @@
 
 import type { Ref } from "vue"
 
-import { ElDivider, ElIcon, ElMessageBox, ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
+import { ElDivider, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
@@ -15,7 +15,6 @@ import DarkModeInput from "./dark-mode-input"
 import { t, tWith } from "@app/locale"
 import { renderOptionItem, tagText } from "../../common"
 import localeMessages from "@util/i18n/components/locale"
-import { InfoFilled } from "@element-plus/icons-vue"
 import { localeSameAsBrowser } from "@util/i18n"
 import { toggle } from "@util/dark-mode"
 
@@ -115,16 +114,7 @@ const _default = defineComponent({
                 t(msg => msg.option.appearance.darkMode.options["off"])),
             h(ElDivider),
             renderOptionItem({
-                input: locale(option),
-                info: h(ElTooltip, {}, {
-                    default: () => h(ElIcon, { size: 15 }, () => h(InfoFilled)),
-                    content: () => [
-                        t(msg => msg.option.appearance.locale.infoL1),
-                        h('br'),
-                        h('br'),
-                        t(msg => msg.option.appearance.locale.infoL2)
-                    ]
-                })
+                input: locale(option)
             },
                 msg => msg.appearance.locale.label,
                 t(msg => msg.option.appearance.locale.default)
