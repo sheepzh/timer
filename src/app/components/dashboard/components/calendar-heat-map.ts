@@ -7,7 +7,6 @@
 
 import type { ECharts, ComposeOption } from "echarts/core"
 import type { HeatmapSeriesOption } from "echarts/charts"
-import type { ReportQuery } from "@app/components/report"
 import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
 
 import TitleComponent from "@echarts/component/title"
@@ -211,7 +210,7 @@ function handleClick(value: _Value): void {
     const currentMonth = parseInt(currentDate.substr(4, 2)) - 1
     const currentDay = parseInt(currentDate.substr(6, 2))
     const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
-    const query: ReportQuery = { ds: currentTs, de: currentTs }
+    const query: timer.app.report.QueryParam = { ds: currentTs, de: currentTs }
 
     const url = getAppPageUrl(false, REPORT_ROUTE, query)
     chrome.tabs.create({ url })
