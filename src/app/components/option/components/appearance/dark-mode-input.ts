@@ -55,7 +55,7 @@ const _default = defineComponent({
             const result = [h(ElSelect, {
                 modelValue: darkMode.value,
                 size: 'small',
-                style: { width: '120px', marginLeft: '10px' },
+                style: { width: '120px' },
                 onChange: async (newVal: string) => {
                     const before = darkMode.value
                     darkMode.value = newVal as timer.option.DarkMode

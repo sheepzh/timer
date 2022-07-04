@@ -34,8 +34,6 @@ export type OptionMessage = {
             default: string
             changeConfirm: string
             reloadButton: string
-            infoL1: string
-            infoL2: string
         }
         printInConsole: {
             label: string
@@ -89,9 +87,7 @@ const _default: Messages<OptionMessage> = {
             icon: '扩展图标',
             badgeTextContent: '当前网站的今日浏览时长',
             locale: {
-                label: "语言设置 {info}  {input}",
-                infoL1: "由于源码的结构缺陷，语言设置功能目前只对功能页有效，今日数据弹窗页的语言设置始终跟随浏览器。",
-                infoL2: "作者将在后续版本中重构代码，实现弹窗页的语言切换功能，谢谢您的包涵！❤️❤️",
+                label: "语言设置 {input}",
                 default: "跟随浏览器",
                 changeConfirm: "语言设置成功，请刷新页面！",
                 reloadButton: "刷新"
@@ -146,9 +142,7 @@ const _default: Messages<OptionMessage> = {
             icon: '擴展圖標',
             badgeTextContent: '當前網站的今日瀏覽時長',
             locale: {
-                label: "語言設置 {info}  {input}",
-                infoL1: "由於源碼的結構缺陷，語言設置功能目前隻對功能頁有效，今日數據彈窗頁的語言設置始終跟隨瀏覽器。",
-                infoL2: "作者將在後續版本中重構代碼，實現彈窗頁的語言切換功能，謝謝您的包涵！❤️❤️",
+                label: "語言設置 {input}",
                 default: "跟隨瀏覽器",
                 changeConfirm: "語言設置成功，請刷新頁麵！",
                 reloadButton: "刷新"
@@ -203,9 +197,7 @@ const _default: Messages<OptionMessage> = {
             icon: 'the icon of extension',
             badgeTextContent: 'the browse time of current website',
             locale: {
-                label: "Language {info} {input}",
-                infoL1: "Due to the structural defects of the source code, the language setting function is currently only valid for this page. The language setting of today's data popup page is always the same as the browser.",
-                infoL2: "I will refactor the code in subsequent versions to realize the language switching of the popup page. Thank you for your patience! ❤️❤️",
+                label: "Language {input}",
                 default: "Same as browser",
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
@@ -261,10 +253,8 @@ const _default: Messages<OptionMessage> = {
             icon: '拡張機能のアイコン',
             badgeTextContent: '現在のウェブサイトの閲覧時間',
             locale: {
-                label: "言語設定 {info} {input}",
+                label: "言語設定 {input}",
                 default: "ブラウザと同じ",
-                infoL1: "ソースコードの構造上の欠陥により、言語設定機能は現在このページでのみ有効です。今日のデータポップアップページの言語設定は常にブラウザと同じです。",
-                infoL2: "ポップアップページの言語切り替えを実現するために、以降のバージョンでコードをリファクタリングします。もうしばらくお待ちください。❤️❤️",
                 changeConfirm: "言語が正常に変更されました。このページをリロードしてください。",
                 reloadButton: "リロード"
             },
