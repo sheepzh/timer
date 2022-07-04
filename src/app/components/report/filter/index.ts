@@ -42,14 +42,6 @@ const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut('late30Days', 30)
 ]
 
-export type ReportFilterOption = {
-    host: string
-    dateRange: Date[]
-    mergeDate: boolean
-    mergeHost: boolean
-    displayBySecond: boolean
-}
-
 const _default = defineComponent({
     name: "ReportFilter",
     props: {
@@ -74,7 +66,7 @@ const _default = defineComponent({
             mergeDate: mergeDate.value,
             mergeHost: mergeHost.value,
             displayBySecond: displayBySecond.value
-        } as ReportFilterOption)
+        } as timer.app.report.FilterOption)
         const handleChange = () => ctx.emit("change", computeOption())
         return () => [
             h(InputFilterItem, {

@@ -203,4 +203,38 @@ declare namespace timer {
             displaySiteName: boolean
         }
     }
+
+    namespace app {
+        namespace report {
+            /**
+             * The query param of report page
+             */
+            type QueryParam = {
+                /**
+                 * Merge host
+                 */
+                mh?: string
+                /**
+                 * Date start
+                 */
+                ds?: string
+                /**
+                 * Date end
+                 */
+                de?: string
+                /**
+                 * Sorted column
+                 */
+                sc?: timer.stat.Dimension
+            }
+            type FilterOption = {
+                host: string
+                dateRange: Date[]
+                mergeDate: boolean
+                mergeHost: boolean
+                displayBySecond: boolean
+            }
+        }
+
+    }
 }

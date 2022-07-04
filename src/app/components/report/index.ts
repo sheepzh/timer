@@ -10,7 +10,6 @@ import type { TimerQueryParam } from "@service/timer-service"
 import type { PaginationInfo } from "../common/pagination"
 import type { SortInfo } from "./table"
 import type { FileFormat } from "./filter/download-file"
-import type { ReportFilterOption } from "./filter"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
@@ -181,30 +180,11 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
     }
 }
 
-export type ReportQuery = {
-    /**
-     * Merge host
-     */
-    mh?: string
-    /**
-     * Date start
-     */
-    ds?: string
-    /**
-     * Date end
-     */
-    de?: string
-    /**
-     * Sorted column
-     */
-    sc?: timer.stat.Dimension
-}
-
 const _default = defineComponent({
     name: "Report",
     setup() {
         // Init with route query
-        const routeQuery: ReportQuery = useRoute().query as unknown as ReportQuery
+        const routeQuery: timer.app.report.QueryParam = useRoute().query as unknown as timer.app.report.QueryParam
         const { mh, ds, de, sc } = routeQuery
         const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
         const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
@@ -262,7 +242,7 @@ const _default = defineComponent({
                 mergeDate: mergeDate.value,
                 mergeHost: mergeHost.value,
                 displayBySecond: displayBySecond.value,
-                onChange: (newFilterOption: ReportFilterOption) => {
+                onChange: (newFilterOption: timer.app.report.FilterOption) => {
                     host.value = newFilterOption.host
                     dateRange.value = newFilterOption.dateRange
                     mergeDate.value = newFilterOption.mergeDate
@@ -276,7 +256,7 @@ const _default = defineComponent({
                     format === 'json' && exportJson(generateJsonData(rows), fileName)
                     format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value, mergeHost.value), fileName)
                 },
-                onBatchDelete: async (filterOption: ReportFilterOption) => {
+                onBatchDelete: async (filterOption: timer.app.report.FilterOption) => {
                     const selected: timer.stat.Row[] = tableEl?.value?.getSelected?.() || []
                     if (!selected?.length) {
                         ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
