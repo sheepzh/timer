@@ -22,6 +22,7 @@ const SPECIAL_MAP = {
  * @since 0.5.1
  */
 export function extractSiteName(title: string, host?: string) {
+    title = title?.trim?.()
     if (!title) {
         return undefined
     }
@@ -29,9 +30,8 @@ export function extractSiteName(title: string, host?: string) {
         return SPECIAL_MAP[host]
     }
     return title
-        .split?.(SEPARATORS)
-        .filter?.(s => !INVALID_SITE_NAME.test(s))
-        .sort?.((a, b) => a.length - b.length)[0]
-        ?.trim()
-        || undefined
+        .split(SEPARATORS)
+        .filter(s => !INVALID_SITE_NAME.test(s))
+        .sort((a, b) => a.length - b.length)[0]
+        .trim()
 }
