@@ -1,5 +1,4 @@
 import LimitDatabase from "@db/limit-database"
-import type { TimeLimit, TimeLimitInfo } from "@entity/dao/time-limit"
 import storage from "../__mock__/storage"
 
 const db = new LimitDatabase(storage.local)
@@ -7,14 +6,14 @@ const db = new LimitDatabase(storage.local)
 describe('archived-database', () => {
     beforeEach(async () => storage.local.clear())
     test('test1', async () => {
-        const toAdd: TimeLimit = {
+        const toAdd: timer.limit.Rule = {
             cond: '123',
             time: 20,
             enabled: true,
             allowDelay: false
         }
         await db.save(toAdd)
-        let all: TimeLimit[] = await db.all()
+        let all: timer.limit.Rule[] = await db.all()
         expect(all.length).toEqual(1)
         expect(all[0]).toEqual({ ...toAdd, latestDate: "", wasteTime: 0 })
         const toRewrite = {
@@ -58,13 +57,13 @@ describe('archived-database', () => {
     })
 
     test("import data", async () => {
-        const cond1: TimeLimit = {
+        const cond1: timer.limit.Rule = {
             cond: "cond1",
             time: 20,
             allowDelay: false,
             enabled: true
         }
-        const cond2: TimeLimit = {
+        const cond2: timer.limit.Rule = {
             cond: "cond2",
             time: 20,
             allowDelay: false,
@@ -115,7 +114,7 @@ describe('archived-database', () => {
     })
 
     test("update delay", async () => {
-        const data: TimeLimit = {
+        const data: timer.limit.Rule = {
             cond: "cond1",
             time: 20,
             allowDelay: false,
@@ -124,7 +123,7 @@ describe('archived-database', () => {
         await db.save(data)
         await db.updateDelay("cond1", true)
         await db.updateDelay("cond2", true)
-        const all: TimeLimitInfo[] = await db.all()
+        const all: timer.limit.Record[] = await db.all()
         expect(all.length).toEqual(1)
         const item = all[0]
         expect(item.allowDelay).toBeTruthy()

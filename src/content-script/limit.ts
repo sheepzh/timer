@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import { t2Chrome } from "@util/i18n/chrome/t"
 import { ChromeCallback, ChromeMessage, ChromeResult } from "@util/message"
@@ -41,7 +41,7 @@ class _Modal {
                 const wakingRules = delayRules
                     .map(like => TimeLimitItem.of(like))
                     .filter(rule => !rule.hasLimited())
-                chrome.runtime.sendMessage<ChromeMessage<TimeLimitItemLike[]>, ChromeResult>(wakingMessage(wakingRules))
+                chrome.runtime.sendMessage<ChromeMessage<timer.limit.Item[]>, ChromeResult>(wakingMessage(wakingRules))
                 this.hideModal()
             }
             this.delayContainer.append(link)
@@ -77,7 +77,7 @@ class _Modal {
     }
 }
 
-function wakingMessage(rules: TimeLimitItemLike[]): ChromeMessage<TimeLimitItemLike[]> {
+function wakingMessage(rules: timer.limit.Item[]): ChromeMessage<timer.limit.Item[]> {
     return { code: 'limitWaking', data: rules }
 }
 
@@ -124,12 +124,12 @@ export default async function processLimit(url: string) {
     if (limitedRules?.length) {
         window.onload = () => modal.showModal(!!limitedRules?.filter?.(item => item.allowDelay).length)
     }
-    chrome.runtime.onMessage.addListener((msg: ChromeMessage<TimeLimitItemLike[]>, _sender, sendResponse: ChromeCallback) => {
+    chrome.runtime.onMessage.addListener((msg: ChromeMessage<timer.limit.Item[]>, _sender, sendResponse: ChromeCallback) => {
         if (msg.code !== "limitTimeMeet") {
             sendResponse({ code: "ignore" })
             return
         }
-        const itemLikes: TimeLimitItemLike[] = msg.data
+        const itemLikes: timer.limit.Item[] = msg.data
         if (!itemLikes) {
             sendResponse({ code: "fail", msg: "Empty time limit item" })
             return
@@ -138,7 +138,7 @@ export default async function processLimit(url: string) {
         modal.process(items)
         sendResponse({ code: "success" })
     })
-    chrome.runtime.onMessage.addListener((msg: ChromeMessage<TimeLimitItemLike[]>, _sender, sendResponse: ChromeCallback) => {
+    chrome.runtime.onMessage.addListener((msg: ChromeMessage<timer.limit.Item[]>, _sender, sendResponse: ChromeCallback) => {
         if (msg.code !== "limitWaking") {
             sendResponse({ code: "ignore" })
             return
@@ -147,7 +147,7 @@ export default async function processLimit(url: string) {
             sendResponse({ code: "ignore" })
             return
         }
-        const itemLikes: TimeLimitItemLike[] = msg.data
+        const itemLikes: timer.limit.Item[] = msg.data
         if (!itemLikes || !itemLikes.length) {
             sendResponse({ code: "success", msg: "Empty time limit item" })
             return

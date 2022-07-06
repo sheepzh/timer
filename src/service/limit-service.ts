@@ -7,8 +7,7 @@
 
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
-import { TimeLimit } from "@entity/dao/time-limit"
-import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 import { formatTime } from "@util/time"
 import whitelistHolder from './components/whitelist-holder'
 
@@ -41,7 +40,7 @@ async function update({ cond, time, enabled, allowDelay }: TimeLimitItem, rewrit
     if (rewrite === undefined) {
         rewrite = true
     }
-    const limit: TimeLimit = { cond, time, enabled, allowDelay }
+    const limit: timer.limit.Rule = { cond, time, enabled, allowDelay }
     await db.save(limit, rewrite)
 }
 
@@ -83,7 +82,7 @@ async function addFocusTime(url: string, focusTime: number) {
     return result
 }
 
-async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<TimeLimitItemLike[]> {
+async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<timer.limit.Item[]> {
     if (rules === undefined || rules === null) {
         rules = (await select({ url: url, filterDisabled: true }))
             .filter(item => item.hasLimited() && item.allowDelay)

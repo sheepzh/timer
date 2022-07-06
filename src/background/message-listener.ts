@@ -8,7 +8,7 @@
 import { getAppPageUrl } from "@util/constant/url"
 import { LIMIT_ROUTE } from "../app/router/constants"
 import { ChromeMessage, ChromeResult } from "@util/message"
-import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 
 function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
     const { url } = tab
@@ -16,7 +16,7 @@ function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
     if (!anyMatch) {
         return
     }
-    chrome.tabs.sendMessage<ChromeMessage<TimeLimitItemLike[]>, ChromeResult>(tab.id, {
+    chrome.tabs.sendMessage<ChromeMessage<timer.limit.Item[]>, ChromeResult>(tab.id, {
         code: "limitWaking",
         data: rules
     }, result => {
@@ -34,7 +34,7 @@ function listen(message: ChromeMessage<any>, _sender: chrome.runtime.MessageSend
         const pageUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(url) })
         chrome.tabs.create({ url: pageUrl })
     } else if (message.code === "limitWaking") {
-        const rules = (message.data as TimeLimitItemLike[] || [])
+        const rules = (message.data as timer.limit.Item[] || [])
             .map(like => TimeLimitItem.of(like))
         chrome.tabs.query({ status: "complete" }, tabs => {
             tabs.forEach(tab => processLimitWaking(rules, tab))

@@ -7,7 +7,6 @@
 
 import type { Ref, UnwrapRef, ComputedRef } from "vue"
 import type { TimerQueryParam } from "@service/timer-service"
-import type { PaginationInfo } from "../common/pagination"
 import type { SortInfo } from "./table"
 import type { FileFormat } from "./filter/download-file"
 
@@ -31,7 +30,11 @@ import TimerDatabase from "@db/timer-database"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
-async function queryData(queryParam: Ref<TimerQueryParam>, data: Ref<timer.stat.Row[]>, page: UnwrapRef<PaginationInfo>) {
+async function queryData(
+    queryParam: Ref<TimerQueryParam>,
+    data: Ref<timer.stat.Row[]>,
+    page: UnwrapRef<timer.common.Pagination>
+) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
     const pageInfo = { pageSize: page.size, pageNum: page.num }
     const pageResult = await timerService.selectByPage(queryParam.value, pageInfo)
@@ -205,7 +208,7 @@ const _default = defineComponent({
             prop: sc || 'focus',
             order: ElSortDirect.DESC
         })
-        const page: UnwrapRef<PaginationInfo> = reactive({ size: 10, num: 1, total: 0 })
+        const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
         const queryParam: ComputedRef<TimerQueryParam> = computed(() => ({
             host: host.value,
             date: dateRange.value,
