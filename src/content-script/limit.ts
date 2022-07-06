@@ -84,7 +84,7 @@ function wakingMessage(rules: TimeLimitItemLike[]): ChromeMessage<TimeLimitItemL
 const maskStyle: Partial<CSSStyleDeclaration> = {
     width: "100%",
     height: "100%",
-    position: "absolute",
+    position: "fixed",
     zIndex: '99999',
     backgroundColor: '#444',
     opacity: '0.9',
