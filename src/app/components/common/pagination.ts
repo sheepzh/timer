@@ -8,12 +8,6 @@
 import { ElPagination } from "element-plus"
 import { defineComponent, h } from "vue"
 
-export type PaginationInfo = {
-    size: number
-    num: number
-    total: number
-}
-
 const _default = defineComponent({
     name: "Pagination",
     props: {

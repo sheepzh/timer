@@ -10,7 +10,6 @@ import { defineComponent, h, ref, Ref } from "vue"
 import Form, { FormData } from "./form"
 import Footer from "./footer"
 import LimitDatabase from "@db/limit-database"
-import { TimeLimit } from "@entity/dao/time-limit"
 import { t } from "@app/locale"
 
 const db = new LimitDatabase(chrome.storage.local)
@@ -46,7 +45,7 @@ const _default = defineComponent({
                         ElMessage.warning(noTimeError)
                         return
                     }
-                    const toInsert: TimeLimit = { cond: url, time: timeLimit, enabled: true, allowDelay: true }
+                    const toInsert: timer.limit.Rule = { cond: url, time: timeLimit, enabled: true, allowDelay: true }
                     await db.save(toInsert)
                     visible.value = false
                     ElMessage.success(t(msg => msg.limit.message.saved))

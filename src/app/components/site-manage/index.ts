@@ -8,7 +8,7 @@
 import { reactive, UnwrapRef, defineComponent, h, ref, Ref, computed, ComputedRef, WritableComputedRef } from "vue"
 import ContentContainer from "../common/content-container"
 import SiteManageFilter, { SiteManageFilterOption } from "./filter"
-import Pagination, { PaginationInfo } from "../common/pagination"
+import Pagination from "../common/pagination"
 import SiteManageTable from "./table"
 import { HostAliasSource } from "@entity/dao/host-alias"
 import hostAliasService, { HostAliasQueryParam } from "@service/host-alias-service"
@@ -41,7 +41,7 @@ async function queryData() {
     pageRef.total = total
 }
 
-const pageRef: UnwrapRef<PaginationInfo> = reactive({
+const pageRef: UnwrapRef<timer.common.Pagination> = reactive({
     size: 10,
     num: 1,
     total: 0

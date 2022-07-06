@@ -187,6 +187,62 @@ declare namespace timer {
         }
     }
 
+    namespace limit {
+        /**
+         * @since 0.8.4
+         */
+        type Item = {
+            /**
+             * Condition, can be regular expression with star signs
+             */
+            cond: string
+            regular: RegExp
+            /**
+             * Time limit, seconds
+             */
+            time: number
+            enabled: boolean
+            allowDelay: boolean
+            /**
+             * Waste today, milliseconds
+             */
+            waste?: number
+        }
+        type Rule = {
+            /**
+             * Condition, can be regular expression with star signs
+             */
+            cond: string
+            /**
+             * Time limit, seconds
+             */
+            time: number
+            enabled: boolean
+            /**
+             * Allow to delay 5 minutes if time over
+             */
+            allowDelay: boolean
+        }
+        type Record = Rule & {
+            /**
+             * The latest record date
+             */
+            latestDate: string
+            /**
+             * Time wasted in the latest record date
+             */
+            wasteTime: number
+        }
+    }
+
+    namespace common {
+        type Pagination = {
+            size: number
+            num: number
+            total: number
+        }
+    }
+
     namespace popup {
         type Duration = "today" | "thisWeek" | "thisMonth"
         type Row = timer.stat.Row & { isOther?: boolean }
