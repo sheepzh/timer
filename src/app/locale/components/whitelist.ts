@@ -42,11 +42,11 @@ const _default: Messages<WhitelistMessage> = {
         addConfirmMsg: '{url} won\'t be counted after added into the whitelist any more.',
         removeConfirmMsg: '{url} will be removed from the whitelist.',
         duplicateMsg: 'Duplicated',
-        infoAlertTitle: 'You can set the whitelist of site in this page',
-        infoAlert0: 'Sites in the whitelist will not be counted',
-        infoAlert1: 'Sites in the whitelist will not be limited',
-        placeholder: 'Site',
-        errorInput: "Invalid site"
+        infoAlertTitle: 'You can set a whitelist of sites in this page',
+        infoAlert0: 'Whitelisted sites will not be counted',
+        infoAlert1: 'Whitelisted sites will not be restricted',
+        placeholder: 'Site URL',
+        errorInput: "Invalid site URL"
     },
     ja: {
         addConfirmMsg: '{url} がホワイトリストに追加されると、このWebサイトの統計はカウントされなくなります。',
