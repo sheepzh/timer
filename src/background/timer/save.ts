@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem, { TimeLimitItemLike } from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import timerService from "@service/timer-service"
@@ -15,7 +15,7 @@ import CollectionContext from "./collection-context"
 function sendLimitedMessage(item: TimeLimitItem[]) {
     chrome.tabs.query({ status: "complete" }, tabs => {
         tabs.forEach(tab => {
-            chrome.tabs.sendMessage<ChromeMessage<TimeLimitItemLike[]>, ChromeResult>(tab.id, {
+            chrome.tabs.sendMessage<ChromeMessage<timer.limit.Item[]>, ChromeResult>(tab.id, {
                 code: "limitTimeMeet",
                 data: item
             }, result => {

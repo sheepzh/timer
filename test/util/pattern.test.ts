@@ -1,4 +1,5 @@
-import { extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost } from "@util/pattern"
+import { JSON_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
+import { extractFileHost, extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost } from "@util/pattern"
 
 test('browser url', () => {
     // chrome
@@ -58,4 +59,23 @@ test("homepage", () => {
     expect(isHomepage("https://baidu.com/a")).toBeFalsy()
     expect(isHomepage("https://baidu.com/a?a=2")).toBeFalsy()
     expect(isHomepage("https://baidu.com?a=2")).toBeFalsy()
+})
+
+test("extractFileHost", () => {
+    expect(extractFileHost("file://123.json")).toEqual(JSON_HOST)
+    expect(extractFileHost("file://123.jpeg")).toEqual(PIC_HOST)
+    expect(extractFileHost("file://123.txt")).toEqual(TXT_HOST)
+    expect(extractFileHost("file://123.jpeg   ")).toEqual(PIC_HOST)
+    expect(extractFileHost("   file://123.jpeg   ")).toEqual(PIC_HOST)
+    expect(extractFileHost("file://123.pdf")).toEqual(PDF_HOST)
+
+    expect(extractFileHost(undefined)).toEqual(undefined)
+    expect(extractFileHost("")).toEqual(undefined)
+    expect(extractFileHost("         ")).toEqual(undefined)
+    expect(extractFileHost(null)).toEqual(undefined)
+    expect(extractFileHost("file:/123.json")).toEqual(undefined)
+    expect(extractFileHost("file://123.  jpeg")).toEqual(undefined)
+    expect(extractFileHost("file://123json")).toEqual(undefined)
+    expect(extractFileHost("file://123.html")).toEqual(undefined)
+    expect(extractFileHost("file://123.")).toEqual(undefined)
 })

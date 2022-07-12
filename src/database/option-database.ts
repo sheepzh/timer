@@ -25,27 +25,27 @@ class OptionDatabase extends BaseDatabase {
         await this.setOption(newVal)
     }
 
-    async getOption(): Promise<Partial<Timer.Option>> {
+    async getOption(): Promise<Partial<timer.option.AllOption>> {
         const data = await this.storage.get(DB_KEY)
         const option = data[DB_KEY]
         if (!option) return {}
-        return option as Partial<Timer.Option>
+        return option as Partial<timer.option.AllOption>
     }
 
-    async setOption(option: Timer.Option): Promise<void> {
+    async setOption(option: timer.option.AllOption): Promise<void> {
         option && await this.setByKey(DB_KEY, option)
     }
 
     /**
      * @since 0.3.2 
      */
-    addOptionChangeListener(listener: (newVal: Timer.Option) => void) {
+    addOptionChangeListener(listener: (newVal: timer.option.AllOption) => void) {
         const storageListener = (
             changes: { [key: string]: chrome.storage.StorageChange },
             _areaName: "sync" | "local" | "managed"
         ) => {
             const optionInfo = changes[DB_KEY]
-            optionInfo && listener(optionInfo.newValue as Timer.Option)
+            optionInfo && listener(optionInfo.newValue as timer.option.AllOption)
         }
         chrome.storage.onChanged.addListener(storageListener)
     }

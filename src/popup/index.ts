@@ -7,10 +7,24 @@
 import "./style"
 
 import renderChart, { handleRestore } from "./components/chart"
-import initFooter, { queryInfo } from "./components/footer"
+import FooterWrapper from "./components/footer"
 import metaService from "@service/meta-service"
 import "../common/timer"
+import { toggle, init as initTheme } from "@util/dark-mode"
+import optionService from "@service/option-service"
 
-handleRestore(queryInfo)
-initFooter(renderChart)
-metaService.increasePopup()
+import { initLocale } from "@util/i18n"
+
+async function main() {
+    await initLocale()
+    // Calculate the latest mode
+    initTheme()
+    optionService.isDarkMode().then(toggle)
+
+    const footer: FooterWrapper = new FooterWrapper(renderChart)
+    handleRestore(() => footer.query())
+    footer.init()
+    metaService.increasePopup()
+}
+
+main()

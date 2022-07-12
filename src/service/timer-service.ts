@@ -7,16 +7,15 @@
 
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
 import ArchivedDatabase from "@db/archived-database"
-import DataItem from "@entity/dto/data-item"
 import { log } from "../common/logger"
 import CustomizedHostMergeRuler from "./components/host-merge-ruler"
 import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import MergeRuleDatabase from "@db/merge-rule-database"
-import WastePerDay, { WasteData } from "@entity/dao/waste-per-day"
 import IconUrlDatabase from "@db/icon-url-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { PageParam, PageResult, slicePageResult } from "./components/page-info"
 import whitelistHolder from './components/whitelist-holder'
+import { resultOf, rowOf } from "@util/stat"
 
 const storage = chrome.storage.local
 
@@ -43,7 +42,7 @@ export type TimerQueryParam = TimerCondition & {
     /**
      * The name of sorted column
      */
-    sort?: keyof DataItem
+    sort?: keyof timer.stat.Row
     /**
      * 1 asc, -1 desc
      */
@@ -75,16 +74,16 @@ export type HostSet = {
  */
 class TimerService {
 
-    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<WasteData> {
+    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<timer.stat.ResultSet> {
         const toUpdate = {}
         Object.entries(data)
             .filter(([host]) => whitelistHolder.notContains(host))
-            .forEach(([host, item]) => toUpdate[host] = WastePerDay.of(item.run, item.focus, 0))
+            .forEach(([host, item]) => toUpdate[host] = resultOf(item.run, item.focus, 0))
         return timerDatabase.accumulateBatch(toUpdate, new Date())
     }
 
     async addOneTime(host: string) {
-        timerDatabase.accumulate(host, new Date(), WastePerDay.of(0, 0, 1))
+        timerDatabase.accumulate(host, new Date(), resultOf(0, 0, 1))
     }
 
     /**
@@ -122,7 +121,7 @@ class TimerService {
      * @param rows rows
      * @since 0.0.9
      */
-    async archive(rows: DataItem[]): Promise<void> {
+    async archive(rows: timer.stat.Row[]): Promise<void> {
         await archivedDatabase.updateArchived(rows)
         return timerDatabase.delete(rows)
     }
@@ -140,7 +139,7 @@ class TimerService {
         return count
     }
 
-    private processSort(origin: DataItem[], param: TimerQueryParam) {
+    private processSort(origin: timer.stat.Row[], param: TimerQueryParam) {
         const { sort, sortOrder } = param
         if (!sort) return
 
@@ -153,19 +152,19 @@ class TimerService {
         })
     }
 
-    private async fillIconUrl(items: DataItem[]): Promise<void> {
+    private async fillIconUrl(items: timer.stat.Row[]): Promise<void> {
         const hosts = items.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
         items.forEach(dataItem => dataItem.iconUrl = iconUrlMap[dataItem.host])
     }
 
-    private async fillAlias(items: DataItem[]): Promise<void> {
+    private async fillAlias(items: timer.stat.Row[]): Promise<void> {
         const hosts: string[] = items.map(o => o.host)
         const aliasMap = await hostAliasDatabase.get(...hosts)
         items.forEach(dataItem => dataItem.alias = aliasMap[dataItem.host]?.name)
     }
 
-    async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<DataItem[]> {
+    async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<timer.stat.Row[]> {
         log("service: select:{param}", param)
 
         // Need match full host after merged
@@ -194,14 +193,14 @@ class TimerService {
             flagParam?.alias && await this.fillAlias(origin)
         }
         // Filter merged host if full host
-        fullHost && (origin = origin.filter(DataItem => DataItem.host === fullHost))
+        fullHost && (origin = origin.filter(dataItem => dataItem.host === fullHost))
         return origin
     }
 
-    async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageResult<DataItem>> {
+    async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageResult<timer.stat.Row>> {
         log("selectByPage:{param},{page}", param, page)
-        const origin: DataItem[] = await this.select(param)
-        const result: PageResult<DataItem> = slicePageResult(origin, page)
+        const origin: timer.stat.Row[] = await this.select(param)
+        const result: PageResult<timer.stat.Row> = slicePageResult(origin, page)
         const list = result.list
         if (param.mergeHost) {
             for (const beforeMerge of list) await this.fillIconUrl(beforeMerge.mergedHosts)
@@ -212,13 +211,13 @@ class TimerService {
         return result
     }
 
-    private filter(origin: DataItem[], param: TimerCondition) {
+    private filter(origin: timer.stat.Row[], param: TimerCondition) {
         const paramHost = (param.host || '').trim()
         return paramHost ? origin.filter(o => o.host.includes(paramHost)) : origin
     }
 
-    private async mergeHost(origin: DataItem[]): Promise<DataItem[]> {
-        const newDataItems = []
+    private async mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
+        const newRows = []
         const map = {}
 
         // Generate ruler
@@ -235,26 +234,26 @@ class TimerService {
             mergedHosts.push(o)
         })
         for (let key in map) {
-            newDataItems.push(map[key])
+            newRows.push(map[key])
         }
-        return newDataItems
+        return newRows
     }
 
-    private mergeDate(origin: DataItem[]): DataItem[] {
-        const newDataItems = []
+    private mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
+        const newRows = []
         const map = {}
 
         origin.forEach(o => this.merge(map, o, o.host).date = '')
         for (let key in map) {
-            newDataItems.push(map[key])
+            newRows.push(map[key])
         }
-        return newDataItems
+        return newRows
     }
 
-    private merge(map: {}, origin: DataItem, key: string): DataItem {
-        let exist: DataItem = map[key]
+    private merge(map: {}, origin: timer.stat.Row, key: string): timer.stat.Row {
+        let exist: timer.stat.Row = map[key]
         if (exist === undefined) {
-            exist = map[key] = new DataItem({ host: origin.host, date: origin.date })
+            exist = map[key] = rowOf({ host: origin.host, date: origin.date })
             exist.mergedHosts = origin.mergedHosts || []
         }
         exist.time += origin.time

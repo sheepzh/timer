@@ -5,7 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Messages } from ".."
+import type { Messages } from ".."
+
 import appMessages, { AppMessage } from "../components/app"
 import contentScriptMessages, { ContentScriptMessage } from "../components/content-script"
 import contextMenusMessages, { ContextMenusMessage } from "../components/context-menus"
@@ -57,6 +58,7 @@ const placeholder: ChromeMessage = {
     message: {
         openTimesConsoleLog: '',
         usedTimeInConsoleLog: '',
+        closeAlert: '',
         timeWithHour: '',
         timeWithMinute: '',
         timeWithSecond: '',

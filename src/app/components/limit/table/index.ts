@@ -24,7 +24,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         return () => h(ElTable, {
             border: true,
-            size: 'mini',
+            size: 'small',
             style: { width: '100%' },
             highlightCurrentRow: true,
             fit: true,

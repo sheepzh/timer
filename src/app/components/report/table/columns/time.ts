@@ -8,7 +8,6 @@
 import { defineComponent, h } from "vue"
 import { ElTableColumn } from "element-plus"
 import { t } from "@app/locale"
-import DataItem from "@entity/dto/data-item"
 
 const columnLabel = t(msg => msg.item.time)
 
@@ -22,7 +21,7 @@ const _default = defineComponent({
             align: 'center',
             sortable: 'custom'
         }, {
-            default: ({ row }: { row: DataItem }) => row.time?.toString?.() || '0'
+            default: ({ row }: { row: timer.stat.Row }) => row.time?.toString?.() || '0'
         })
     }
 })

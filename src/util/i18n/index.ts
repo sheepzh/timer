@@ -10,20 +10,20 @@ import optionService from "@service/option-service"
 /**
  * Not to import this one if not necessary
  */
-export type FakedLocale = Timer.Locale
+export type FakedLocale = timer.Locale
 /**
  * @since 0.2.2
  */
-const FEEDBACK_LOCALE: Timer.Locale = "en"
+const FEEDBACK_LOCALE: timer.Locale = "en"
 
-export const defaultLocale: Timer.Locale = "zh_CN"
+export const defaultLocale: timer.Locale = "zh_CN"
 
 export type Messages<T> = {
-    [key in Timer.Locale]: T
+    [key in timer.Locale]: T
 }
 
 // Standardize the locale code according to the Chrome locale code
-const chrome2I18n: { [key: string]: Timer.Locale } = {
+const chrome2I18n: { [key: string]: timer.Locale } = {
     'zh-CN': "zh_CN",
     'zh-TW': "zh_TW",
     'en-US': "en",
@@ -39,7 +39,7 @@ const chrome2I18n: { [key: string]: Timer.Locale } = {
  * 
  * They are different, so translate
  */
-export function chromeLocale2ExtensionLocale(chromeLocale: string): Timer.Locale {
+export function chromeLocale2ExtensionLocale(chromeLocale: string): timer.Locale {
     if (!chromeLocale) {
         return defaultLocale
     }
@@ -49,19 +49,19 @@ export function chromeLocale2ExtensionLocale(chromeLocale: string): Timer.Locale
 /**
  * @since 0.9.0
  */
-export let localeSameAsBrowser: Timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+export let localeSameAsBrowser: timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
 
 /**
  * Real locale with locale option
  */
-export let locale: Timer.Locale = localeSameAsBrowser
+export let locale: timer.Locale = localeSameAsBrowser
 
-function handleLocaleOption(option: Timer.Option) {
-    const localOption: Timer.LocaleOption = option.locale
+function handleLocaleOption(option: timer.option.AllOption) {
+    const localOption: timer.option.LocaleOption = option.locale
     if (!localOption || localOption === "default") {
         locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
     } else {
-        locale = localOption as Timer.Locale
+        locale = localOption as timer.Locale
     }
 }
 

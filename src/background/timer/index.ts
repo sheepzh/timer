@@ -22,7 +22,7 @@ class Timer {
         const collector = new TimeCollector(collectionContext)
 
         setInterval(() => collector.collect(), 1000)
-        setInterval(() => save(collectionContext), 1000)
+        setInterval(() => save(collectionContext), 500)
     }
 }
 

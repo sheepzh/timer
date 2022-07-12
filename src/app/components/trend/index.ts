@@ -15,7 +15,6 @@ import TrendChart from "./components/chart"
 import TrendFilter from "./components/filter"
 import HostOptionInfo from "./host-option-info"
 import timerService, { SortDirect, TimerQueryParam } from "@service/timer-service"
-import DataItem from "@entity/dto/data-item"
 
 type _Queries = {
     host: string
@@ -31,7 +30,7 @@ function initWithQuery(hostOption: Ref<HostOptionInfo>) {
     host && (hostOption.value = new HostOptionInfo(host, merge === "1"))
 }
 
-async function query(hostOption: Ref<HostOptionInfo>, dateRange: Ref<Date[]>): Promise<DataItem[]> {
+async function query(hostOption: Ref<HostOptionInfo>, dateRange: Ref<Date[]>): Promise<timer.stat.Row[]> {
     const hostVal = hostOption.value?.host
     if (!hostVal) {
         return []

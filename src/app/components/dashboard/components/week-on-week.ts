@@ -22,10 +22,10 @@ import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
 import timerService from "@service/timer-service"
-import DataItem from "@entity/dto/data-item"
 import { groupBy, sum } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
+import { getPrimaryTextColor } from "@util/style"
 
 type EcOption = ComposeOption<
     | CandlestickSeriesOption
@@ -47,7 +47,8 @@ type _Value = {
     host: string
 }
 
-function optionOf(lastPeriodItems: DataItem[], thisPeriodItems: DataItem[]): EcOption {
+function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat.Row[]): EcOption {
+    const textColor = getPrimaryTextColor()
     const lastPeriodMap: { [host: string]: number } = groupBy(lastPeriodItems,
         item => item.host,
         grouped => Math.floor(sum(grouped.map(item => item.focus)) / 1000)
@@ -86,7 +87,11 @@ function optionOf(lastPeriodItems: DataItem[], thisPeriodItems: DataItem[]): EcO
     return {
         title: {
             ...BASE_TITLE_OPTION,
-            text: t(msg => msg.dashboard.weekOnWeek.title, { k: TOP_NUM })
+            text: t(msg => msg.dashboard.weekOnWeek.title, { k: TOP_NUM }),
+            textStyle: {
+                color: textColor,
+                fontSize: '14px',
+            }
         },
         tooltip: {
             trigger: 'axis',
@@ -113,15 +118,18 @@ function optionOf(lastPeriodItems: DataItem[], thisPeriodItems: DataItem[]): EcO
         },
         xAxis: {
             type: 'category',
-            name: 'Seconds',
             splitLine: { show: false },
             data: topK.map(a => a.host),
             axisLabel: {
-                interval: 0
+                interval: 0,
+                color: textColor,
             },
         },
         yAxis: {
             type: 'value',
+            axisLabel: {
+                color: textColor,
+            }
         },
         series: [{
             type: 'candlestick',
@@ -171,9 +179,9 @@ const _default = defineComponent({
                 date: [lastPeriodStart, lastPeriodEnd],
                 mergeDate: true,
             }
-            const lastPeriodItems: DataItem[] = await timerService.select(query)
+            const lastPeriodItems: timer.stat.Row[] = await timerService.select(query)
             query.date = [thisPeriodStart, thisPeriodEnd]
-            const thisPeriodItems: DataItem[] = await timerService.select(query)
+            const thisPeriodItems: timer.stat.Row[] = await timerService.select(query)
             const option = optionOf(lastPeriodItems, thisPeriodItems)
             chartWrapper.render(option, loading)
         })

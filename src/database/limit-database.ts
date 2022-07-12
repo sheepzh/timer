@@ -5,13 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { TimeLimit, TimeLimitInfo } from "@entity/dao/time-limit"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 const KEY = REMAIN_WORD_PREFIX + 'LIMIT'
 
-type ItemValue = {
+declare type ItemValue = {
     /**
      * Limited time, second
      */
@@ -35,7 +34,7 @@ type ItemValue = {
     ad: boolean
 }
 
-type Item = {
+declare type Item = {
     [cond: string]: ItemValue
 }
 
@@ -65,15 +64,15 @@ class LimitDatabase extends BaseDatabase {
         return this.setByKey(KEY, items)
     }
 
-    async all(): Promise<TimeLimitInfo[]> {
+    async all(): Promise<timer.limit.Record[]> {
         const items = await this.getItems()
         return Object.entries(items).map(([cond, info]) => {
             const item: ItemValue = info as ItemValue
-            return { cond, time: item.t, enabled: item.e, allowDelay: !!item.ad, wasteTime: item.w, latestDate: item.d } as TimeLimitInfo
+            return { cond, time: item.t, enabled: item.e, allowDelay: !!item.ad, wasteTime: item.w, latestDate: item.d } as timer.limit.Record
         })
     }
 
-    async save(data: TimeLimit, rewrite?: boolean): Promise<void> {
+    async save(data: timer.limit.Rule, rewrite?: boolean): Promise<void> {
         const items = await this.getItems()
         if (!rewrite && items[data.cond]) {
             // Not rewrite

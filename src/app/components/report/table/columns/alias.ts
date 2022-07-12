@@ -10,7 +10,6 @@
  */
 import { ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
-import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 import ReportAliasInfo from "./alias-info"
 
@@ -25,7 +24,7 @@ const _default = defineComponent({
             minWidth: 140,
             align: "center"
         }, {
-            default: ({ row }: { row: DataItem }) => h(ReportAliasInfo, {
+            default: ({ row }: { row: timer.stat.Row }) => h(ReportAliasInfo, {
                 modelValue: row.alias,
                 onChange: (newAlias: string) => ctx.emit("aliasChange", row.host, newAlias)
             })

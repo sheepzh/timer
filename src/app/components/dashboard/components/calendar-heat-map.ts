@@ -36,6 +36,9 @@ import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref, Ref } from "vue"
 import { groupBy, rotate } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
+import { getPrimaryTextColor } from "@util/style"
+import { getAppPageUrl } from "@util/constant/url"
+import { REPORT_ROUTE } from "@app/router/constants"
 
 const WEEK_NUM = 53
 
@@ -110,6 +113,7 @@ function optionOf(data: _Value[], days: string[]): EcOption {
     const totalMinutes = data.map(d => d[2] || 0).reduce((a, b) => a + b, 0)
     const totalHours = Math.floor(totalMinutes / 60)
     const xAxisLabelMap = getXAxisLabelMap(data)
+    const textColor = getPrimaryTextColor()
     return {
         title: {
             ...BASE_TITLE_OPTION,
@@ -117,7 +121,11 @@ function optionOf(data: _Value[], days: string[]): EcOption {
                 ? msg.dashboard.heatMap.title0
                 : msg.dashboard.heatMap.title1,
                 { hour: totalHours }
-            )
+            ),
+            textStyle: {
+                fontSize: '14px',
+                color: textColor
+            }
         },
         tooltip: {
             position: 'top',
@@ -137,12 +145,16 @@ function optionOf(data: _Value[], days: string[]): EcOption {
                 formatter: (x: string) => xAxisLabelMap[x] || '',
                 interval: 0,
                 margin: 14,
+                color: textColor
             },
         },
         yAxis: {
             type: 'category',
             data: days,
-            axisLabel: { padding: /* T R B L */[0, 12, 0, 0] },
+            axisLabel: {
+                padding: /* T R B L */[0, 12, 0, 0],
+                color: textColor
+            },
             axisLine: { show: false },
             axisTick: { show: false, alignWithLabel: true }
         },
@@ -155,7 +167,10 @@ function optionOf(data: _Value[], days: string[]): EcOption {
             orient: 'vertical',
             right: '2%',
             top: 'center',
-            dimension: 2
+            dimension: 2,
+            textStyle: {
+                color: textColor
+            }
         }],
         series: [{
             name: 'Daily Focus',
@@ -163,11 +178,10 @@ function optionOf(data: _Value[], days: string[]): EcOption {
             data: data.map(d => {
                 let item = { value: d, itemStyle: undefined, label: undefined, emphasis: undefined, tooltip: undefined, silent: false }
                 const minutes = d[2]
-                const date = d[3]
                 if (minutes) {
                 } else {
                     item.itemStyle = {
-                        color: '#fff',
+                        color: 'transparent',
                     }
                     item.emphasis = {
                         disabled: true
@@ -180,6 +194,27 @@ function optionOf(data: _Value[], days: string[]): EcOption {
             progressiveThreshold: 10,
         }]
     }
+}
+
+/**
+ * Click to jump to the report page
+ * 
+ * @since 1.1.1
+ */
+function handleClick(value: _Value): void {
+    const [_1, _2, minutes, currentDate] = value
+    if (!minutes) {
+        return
+    }
+
+    const currentYear = parseInt(currentDate.substr(0, 4))
+    const currentMonth = parseInt(currentDate.substr(4, 2)) - 1
+    const currentDay = parseInt(currentDate.substr(6, 2))
+    const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
+    const query: timer.app.report.QueryParam = { ds: currentTs, de: currentTs }
+
+    const url = getAppPageUrl(false, REPORT_ROUTE, query)
+    chrome.tabs.create({ url })
 }
 
 class ChartWrapper {
@@ -197,6 +232,7 @@ class ChartWrapper {
 
     init(container: HTMLDivElement) {
         this.instance = init(container)
+        this.instance.on("click", params => handleClick(params.value as _Value))
     }
 
     render(value: { [date: string]: number }, days: string[], loading: { close: () => void }) {

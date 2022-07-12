@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export function defaultPopup(): Timer.PopupOption {
+export function defaultPopup(): timer.option.PopupOption {
     // Use template
     return {
         popupMax: 10,
@@ -18,17 +18,23 @@ export function defaultPopup(): Timer.PopupOption {
     }
 }
 
-export function defaultAppearance(): Timer.AppearanceOption {
+export function defaultAppearance(): timer.option.AppearanceOption {
     return {
         displayWhitelistMenu: true,
         // Change false to true @since 0.8.4
         displayBadgeText: true,
         locale: "default",
-        printInConsole: true
+        printInConsole: true,
+        darkMode: "off",
+        // 6 PM - 6 AM
+        // 18*60*60 
+        darkModeTimeStart: 64800,
+        // 6*60*60
+        darkModeTimeEnd: 21600,
     }
 }
 
-export function defaultStatistics(): Timer.StatisticsOption {
+export function defaultStatistics(): timer.option.StatisticsOption {
     return {
         countWhenIdle: false,
         collectSiteName: true,

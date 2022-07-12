@@ -102,7 +102,7 @@ const itemList = () => {
         onSaved: (origin, merged) => handleInputConfirm(origin, merged, addButtonRef)
     })
     result.push(addButton)
-    return result
+    return h('div', { class: 'editable-tag-container' }, result)
 }
 
 export default itemList

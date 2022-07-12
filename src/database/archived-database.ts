@@ -5,9 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { rowOf } from "@util/stat"
 import { log } from "../common/logger"
-import WastePerDay from "@entity/dao/waste-per-day"
-import DataItem from "@entity/dto/data-item"
 import BaseDatabase from "./common/base-database"
 import { ARCHIVED_PREFIX } from "./common/constant"
 
@@ -28,7 +27,7 @@ class ArchivedDatabase extends BaseDatabase {
         return Promise.resolve(result)
     }
 
-    private generateKey(row: DataItem): string {
+    private generateKey(row: timer.stat.Row): string {
         return ARCHIVED_PREFIX + row.host
     }
 
@@ -37,7 +36,7 @@ class ArchivedDatabase extends BaseDatabase {
      *  
      * @param rows     site rows, the host and date mustn't be null
      */
-    async updateArchived(rows: DataItem[]): Promise<void> {
+    async updateArchived(rows: timer.stat.Row[]): Promise<void> {
         const domainSet: Set<string> = new Set()
         rows = rows.filter(({ date, host }) => !!host && !!date)
         rows.forEach(({ host }) => domainSet.add(host))
@@ -48,17 +47,17 @@ class ArchivedDatabase extends BaseDatabase {
             const { host, focus, total, time } = row
             let archive = archiveMap[host]
 
-            !archive && (archiveMap[host] = archive = new DataItem({ host }))
+            !archive && (archiveMap[host] = archive = rowOf({ host }))
 
             archive.focus += focus || 0
             archive.total += total || 0
             archive.time += time || 0
         })
-        const archivedValues = Object.values(archiveMap) as DataItem[]
+        const archivedValues = Object.values(archiveMap) as timer.stat.Row[]
         return this.rewrite(archivedValues)
     }
 
-    private async rewrite(toWrite: DataItem[]): Promise<void> {
+    private async rewrite(toWrite: timer.stat.Row[]): Promise<void> {
         const promises = toWrite.map(tw => {
             const object = {}
             const { total, focus, time } = tw
@@ -74,12 +73,12 @@ class ArchivedDatabase extends BaseDatabase {
      * 
      * @param domains  the domains which the key belongs to
      */
-    async selectArchived(domains: Set<string>): Promise<DataItem[]> {
+    async selectArchived(domains: Set<string>): Promise<timer.stat.Row[]> {
         const items = await this.refresh()
-        const result: DataItem[] = Object.entries(items)
+        const result: timer.stat.Row[] = Object.entries(items)
             .filter(([key]) => domains.has(key))
             .map(([host, waste]) => {
-                const { focus, total, time } = waste as WastePerDay
+                const { focus, total, time } = waste as timer.stat.Result
                 return { focus, total, time, host, date: '', mergedHosts: [] }
             })
         return await Promise.resolve(result)

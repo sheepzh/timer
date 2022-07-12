@@ -21,7 +21,7 @@ import { OptionMessage } from "@app/locale/components/option"
 export function renderOptionItem(input: VNode | { [key: string]: VNode }, label: (msg: OptionMessage) => string, defaultValue: string | number) {
     const param = isVNode(input) ? { input } : input
     const labelArcher = h('a', { class: 'option-label' }, tN(msg => label(msg.option), param))
-    const defaultTag = h(ElTag, { size: 'mini' }, () => defaultValue)
+    const defaultTag = h(ElTag, { size: 'small' }, () => defaultValue)
     const defaultArcher = h('a', { class: 'option-default' }, tN(msg => msg.option.defaultValue, { default: defaultTag }))
     return h('div', { class: 'option-line' }, [labelArcher, defaultArcher])
 }
@@ -32,7 +32,7 @@ export function renderOptionItem(input: VNode | { [key: string]: VNode }, label:
  * @param text text
  */
 export function tagText(text: I18nKey): VNode {
-    return h('a', { style: { color: '#F56C6C' } }, t(text))
+    return h('a', { class: 'option-tag' }, t(text))
 }
 
 /**

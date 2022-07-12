@@ -9,7 +9,6 @@ import type { PropType } from "vue"
 
 import { ElTable } from "element-plus"
 import { defineComponent, h } from "vue"
-import DataItem from "@entity/dto/data-item"
 import SelectionColumn from "./columns/selection"
 import DateColumn from "./columns/date"
 import HostColumn from "./columns/host"
@@ -25,14 +24,14 @@ export enum ElSortDirect {
 }
 
 export type SortInfo = {
-    prop: Timer.DataDimension | 'host'
+    prop: timer.stat.Dimension | 'host'
     order: ElSortDirect
 }
 
 const _default = defineComponent({
     name: "ReportTable",
     props: {
-        data: Array as PropType<DataItem[]>,
+        data: Array as PropType<timer.stat.Row[]>,
         defaultSort: Object as PropType<SortInfo>,
         mergeDate: Boolean,
         mergeHost: Boolean,
@@ -42,20 +41,20 @@ const _default = defineComponent({
     },
     emits: ["sortChange", "aliasChange", "itemDelete", "whitelistChange"],
     setup(props, ctx) {
-        let selectedRows: DataItem[] = []
+        let selectedRows: timer.stat.Row[] = []
         ctx.expose({
-            getSelected(): DataItem[] {
+            getSelected(): timer.stat.Row[] {
                 return selectedRows || []
             }
         })
         return () => h(ElTable, {
             data: props.data,
             border: true,
-            size: 'mini',
+            size: 'small',
             defaultSort: props.defaultSort,
             style: { width: '100%' },
             highlightCurrentRow: true,
-            "onSelection-change": (data: DataItem[]) => selectedRows = data,
+            "onSelection-change": (data: timer.stat.Row[]) => selectedRows = data,
             fit: true,
             onSortChange: (newSortInfo: SortInfo) => ctx.emit("sortChange", newSortInfo)
         }, () => {
@@ -75,7 +74,7 @@ const _default = defineComponent({
                 mergeHost: props.mergeHost,
                 dateRange: props.dateRange,
                 whitelist: props.whitelist,
-                onDelete: (row: DataItem) => ctx.emit("itemDelete", row),
+                onDelete: (row: timer.stat.Row) => ctx.emit("itemDelete", row),
                 onWhitelistChange: (host: string, addOrRemove: boolean) => ctx.emit("whitelistChange", host, addOrRemove)
             }))
             return result

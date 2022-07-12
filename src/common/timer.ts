@@ -29,7 +29,11 @@ export type Timer = {
 /**
  * @since 0.0.8
  */
-const timer = { openLog, closeLog, showMemory } as Timer
+const timer = {
+    openLog,
+    closeLog,
+    showMemory
+} as Timer
 
 declare global {
     interface Window {

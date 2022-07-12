@@ -12,12 +12,18 @@
 @import url("element-plus/theme-chalk/el-popper.css")
 @import url("element-plus/theme-chalk/el-option.css")
 @import url("element-plus/theme-chalk/el-icon.css")
+@import ./dark-theme
 
 $width: 750px
 $height: 500px
 $footerHeight: 40px
 
+body
+  margin: 0
+  background-color: var(--el-bg-color)
+
 #app
+  padding: 8px
   width: $width
   height: calc($height + $footerHeight)
 
@@ -32,7 +38,7 @@ $optionPadding: 10px
   margin: auto
   height: calc($footerHeight - $optionPadding)
   #total-info
-    color: rgb(96, 98, 102)
+    color: var(--el-text-color-secondary)
     font-size: 12px
 
 .option-right
@@ -47,6 +53,12 @@ $optionPadding: 10px
   line-height: 30px
   padding-top: 8px
   float: left
+
+.popup__hidden
+  display: none
+.popup__show
+  display: block
+  position: absolute
 
 #type-select-popup
   z-index: 2004

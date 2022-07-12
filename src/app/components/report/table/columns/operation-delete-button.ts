@@ -61,7 +61,7 @@ const _default = defineComponent({
         })
         return () => h(OperationPopupConfirmButton, {
             buttonIcon: Delete,
-            buttonType: "warning",
+            buttonType: "danger",
             buttonText: deleteButtonText,
             confirmText: deleteMsg.value,
             visible: props.visible,

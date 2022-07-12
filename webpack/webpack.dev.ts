@@ -5,12 +5,14 @@ import optionGenerator from "./webpack.common"
 import webpack from "webpack"
 
 const outputDir = path.join(__dirname, '..', 'dist_dev')
-let manifest: any
+let manifest: chrome.runtime.ManifestV2
 
 const options = optionGenerator(
   outputDir,
   baseManifest => {
     baseManifest.name = 'IS DEV'
+    // Fix the crx id for development mode
+    baseManifest.key = "clbbddpinhgdejpoepalbfnkogbobfdb"
     manifest = baseManifest
   }
 )

@@ -6,63 +6,69 @@
  */
 
 // Type select
-import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
-import optionService from "@service/option-service"
+import { ALL_DIMENSIONS } from "@util/stat"
 import { t } from "@popup/locale"
-import { toHideStyle, toShowStyle } from "./common"
 
-const typeSelect = document.getElementById('type-select-container')
-const typeSelectPopup = document.getElementById('type-select-popup')
-const typeSelectInput: HTMLInputElement = document.getElementById('type-select-input') as HTMLInputElement
+const SELECTED_CLASS = "selected"
+class TypeSelectWrapper {
+    private typeSelect: HTMLElement
+    private typeSelectPopup: HTMLElement
+    private typeSelectInput: HTMLInputElement
+    private isOpen: boolean = false
+    private currentSelected: timer.stat.Dimension = undefined
+    private handleSelected: Function
 
-let isOpen = false
+    private optionList: HTMLElement
+    private optionItems: Map<timer.stat.Dimension, HTMLLIElement> = new Map()
 
-function openPopup() {
-    // Show popup
-    Object.assign(typeSelectPopup.style, toShowStyle)
-    isOpen = true
-}
-
-function hidePopup() {
-    // Hide popup
-    Object.assign(typeSelectPopup.style, toHideStyle)
-    isOpen = false
-}
-
-typeSelect.onclick = () => isOpen ? hidePopup() : openPopup()
-
-/////////// Options
-const SELECTED_CLASS = 'selected'
-const optionList = document.getElementById('type-select-options')
-const optionItems: Map<Timer.DataDimension, HTMLLIElement> = new Map()
-
-function selected(item: Timer.DataDimension): void {
-    currentSelected = item
-    Array.from(optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
-    optionItems.get(item).classList.add(SELECTED_CLASS)
-    typeSelectInput.value = t(msg => msg.item[item])
-}
-
-for (const item of ALL_DATA_ITEMS) {
-    const li = document.createElement('li')
-    li.classList.add('el-select-dropdown__item')
-    li.innerText = t(msg => msg.item[item])
-    li.onclick = () => {
-        selected(item)
-        handleSelected && handleSelected()
-        hidePopup()
+    constructor(handleSelected: Function) {
+        this.handleSelected = handleSelected
     }
-    optionList.append(li)
-    optionItems.set(item, li)
+
+    async init(initialVal: timer.stat.Dimension) {
+        this.typeSelect = document.getElementById('type-select-container')
+        this.typeSelectPopup = document.getElementById('type-select-popup')
+        this.typeSelectInput = document.getElementById('type-select-input') as HTMLInputElement
+        this.optionList = document.getElementById('type-select-options')
+        // Handle click
+        this.typeSelect.onclick = () => this.isOpen ? this.hidePopup() : this.openPopup()
+        // Init options
+        ALL_DIMENSIONS.forEach(duration => this.initOption(duration))// Set initial value 
+        this.selected(initialVal)
+    }
+
+    getSelectedType(): timer.stat.Dimension { return this.currentSelected }
+
+    private openPopup() {
+        this.typeSelectPopup.classList.remove("popup__hidden")
+        this.typeSelectPopup.classList.add("popup__show")
+        this.isOpen = true
+    }
+
+    private hidePopup() {
+        this.typeSelectPopup.classList.remove("popup__show")
+        this.typeSelectPopup.classList.add("popup__hidden")
+        this.isOpen = false
+    }
+    private initOption(item: timer.stat.Dimension) {
+        const li = document.createElement('li')
+        li.classList.add('el-select-dropdown__item')
+        li.innerText = t(msg => msg.item[item])
+        li.onclick = () => {
+            this.selected(item)
+            this.handleSelected?.()
+            this.hidePopup()
+        }
+        this.optionList.append(li)
+        this.optionItems.set(item, li)
+    }
+
+    private selected(item: timer.stat.Dimension): void {
+        this.currentSelected = item
+        Array.from(this.optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
+        this.optionItems.get(item).classList.add(SELECTED_CLASS)
+        this.typeSelectInput.value = t(msg => msg.item[item])
+    }
 }
-let currentSelected: Timer.DataDimension = undefined
 
-export function getSelectedType(): Timer.DataDimension { return currentSelected }
-
-optionService.getAllOption().then((option: Timer.PopupOption) => selected(option.defaultType))
-
-let handleSelected: () => void
-function _default(handleSelected_: () => void) {
-    handleSelected = handleSelected_
-}
-export default _default
+export default TypeSelectWrapper

@@ -9,14 +9,14 @@ import { ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-
 import { t } from "@app/locale"
 import { defineComponent, h, Ref, ref } from "vue"
 import optionService from "@service/option-service"
-import { ALL_DATA_ITEMS } from "@entity/dto/data-item"
 import { renderOptionItem, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
+import { ALL_DIMENSIONS } from "@util/stat"
 
-const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
+const popupMaxInput = (option: Ref<timer.option.PopupOption>) => h(ElInputNumber, {
     modelValue: option.value.popupMax,
-    size: 'mini',
+    size: 'small',
     min: 5,
     max: 30,
     onChange: (val: number) => {
@@ -25,29 +25,29 @@ const popupMaxInput = (option: Ref<Timer.PopupOption>) => h(ElInputNumber, {
     }
 })
 
-const typeOptions = () => ALL_DATA_ITEMS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
-const typeSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
+const typeOptions = () => ALL_DIMENSIONS.map(item => h(ElOption, { value: item, label: t(msg => msg.item[item]) }))
+const typeSelect = (option: Ref<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.value.defaultType,
-    size: 'mini',
+    size: 'small',
     style: { width: '120px' },
-    onChange: (val: Timer.DataDimension) => {
+    onChange: (val: timer.stat.Dimension) => {
         option.value.defaultType = val
         optionService.setPopupOption(option.value)
     }
 }, { default: typeOptions })
 
 const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.option.popup.duration[item]) }))
-const durationSelect = (option: Ref<Timer.PopupOption>) => h(ElSelect, {
+const durationSelect = (option: Ref<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.value.defaultDuration,
-    size: 'mini',
+    size: 'small',
     style: { width: t(msg => msg.option.popup.durationWidth) },
-    onChange: (val: Timer.PopupDuration) => {
+    onChange: (val: timer.popup.Duration) => {
         option.value.defaultDuration = val
         optionService.setPopupOption(option.value)
     }
 }, { default: durationOptions })
 
-const displaySiteName = (option: Ref<Timer.PopupOption>) => h(ElSwitch, {
+const displaySiteName = (option: Ref<timer.option.PopupOption>) => h(ElSwitch, {
     modelValue: option.value.displaySiteName,
     onChange: (newVal: boolean) => {
         option.value.displaySiteName = newVal
@@ -63,7 +63,7 @@ const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 const _default = defineComponent({
     name: "PopupOptionContainer",
     setup(_props, ctx) {
-        const option: Ref<Timer.PopupOption> = ref(defaultPopup())
+        const option: Ref<timer.option.PopupOption> = ref(defaultPopup())
         optionService.getAllOption().then(currentVal => option.value = currentVal)
         ctx.expose({
             async reset() {

@@ -7,64 +7,72 @@
 
 // Time select
 import { t } from "@popup/locale"
-import optionService from "@service/option-service"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
-import { toHideStyle, toShowStyle } from "./common"
 
-const timeSelect = document.getElementById('time-select-container')
-const timeSelectPopup = document.getElementById('time-select-popup')
-const timeSelectInput: HTMLInputElement = document.getElementById('time-select-input') as HTMLInputElement
-
-let isOpen = false
-
-function openPopup() {
-    // Show popup
-    Object.assign(timeSelectPopup.style, toShowStyle)
-    isOpen = true
-}
-
-function hidePopup() {
-    // Hide popup
-    Object.assign(timeSelectPopup.style, toHideStyle)
-    isOpen = false
-}
-
-timeSelect.onclick = () => isOpen ? hidePopup() : openPopup()
-
-/////////// Options
 const SELECTED_CLASS = 'selected'
-const optionList = document.getElementById('time-select-options')
-const optionItems: Map<Timer.PopupDuration, HTMLLIElement> = new Map()
+class TimeSelectWrapper {
+    private timeSelect: HTMLElement
+    private timeSelectPopup: HTMLElement
+    private timeSelectInput: HTMLInputElement
+    private isOpen: boolean = false
+    private currentSelected: timer.popup.Duration = undefined
+    private handleSelected: Function
 
-function selected(item: Timer.PopupDuration): void {
-    currentSelected = item
-    Array.from(optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
-    optionItems.get(item).classList.add(SELECTED_CLASS)
-    timeSelectInput.value = t(msg => msg.timeDuration[item])
-}
+    private optionList: HTMLElement
+    private optionItems: Map<timer.popup.Duration, HTMLLIElement> = new Map()
 
-for (const item of ALL_POPUP_DURATION) {
-    const li = document.createElement('li')
-    li.classList.add('el-select-dropdown__item')
-    li.innerText = t(msg => msg.timeDuration[item])
-    li.onclick = () => {
-        selected(item)
-        handleSelected && handleSelected()
-        hidePopup()
+    constructor(handleSelected: Function) {
+        this.handleSelected = handleSelected
     }
-    optionList.append(li)
-    optionItems.set(item, li)
-}
-let currentSelected: Timer.PopupDuration = undefined
 
-export function getSelectedTime(): Timer.PopupDuration {
-    return currentSelected
+    async init(initialVal: timer.popup.Duration): Promise<void> {
+        this.timeSelect = document.getElementById('time-select-container')
+        this.timeSelectPopup = document.getElementById('time-select-popup')
+        this.timeSelectInput = document.getElementById('time-select-input') as HTMLInputElement
+        this.optionList = document.getElementById('time-select-options')
+        // Handle click
+        this.timeSelect.onclick = () => this.isOpen ? this.hidePopup() : this.openPopup()
+        // Init options
+        ALL_POPUP_DURATION.forEach(duration => this.initOption(duration))
+        // Set initial value 
+        this.selected(initialVal)
+    }
+
+    private initOption(item: timer.popup.Duration) {
+        const li = document.createElement('li')
+        li.classList.add('el-select-dropdown__item')
+        li.innerText = t(msg => msg.timeDuration[item])
+        li.onclick = () => {
+            this.selected(item)
+            this.handleSelected?.()
+            this.hidePopup()
+        }
+        this.optionList.append(li)
+        this.optionItems.set(item, li)
+    }
+
+    private selected(item: timer.popup.Duration) {
+        this.currentSelected = item
+        Array.from(this.optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
+        this.optionItems.get(item).classList.add(SELECTED_CLASS)
+        this.timeSelectInput.value = t(msg => msg.timeDuration[item])
+    }
+
+    private openPopup() {
+        this.timeSelectPopup.classList.remove("popup__hidden")
+        this.timeSelectPopup.classList.add("popup__show")
+        this.isOpen = true
+    }
+
+    private hidePopup() {
+        this.timeSelectPopup.classList.remove("popup__show")
+        this.timeSelectPopup.classList.add("popup__hidden")
+        this.isOpen = false
+    }
+
+    getSelectedTime(): timer.popup.Duration {
+        return this.currentSelected
+    }
 }
 
-optionService.getAllOption().then((option: Timer.PopupOption) => selected(option.defaultDuration))
-
-let handleSelected: () => void
-function _default(handleSelected_: () => void) {
-    handleSelected = handleSelected_
-}
-export default _default
+export default TimeSelectWrapper

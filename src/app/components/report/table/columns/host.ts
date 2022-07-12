@@ -7,7 +7,6 @@
 
 import { ElTableColumn } from "element-plus"
 import { h, defineComponent } from "vue"
-import DataItem from "@entity/dto/data-item"
 import { t } from "@app/locale"
 import HostAlert from "@app/components/common/host-alert"
 import HostMergedAlert from './host-merged-alert'
@@ -31,7 +30,7 @@ const _default = defineComponent({
             sortable: "custom",
             align: "center"
         }, {
-            default: ({ row }: { row: DataItem }) => props.mergeHost
+            default: ({ row }: { row: timer.stat.Row }) => props.mergeHost
                 ? h(HostMergedAlert,
                     { mergedHost: row.host },
                     () => row.mergedHosts.map(origin =>

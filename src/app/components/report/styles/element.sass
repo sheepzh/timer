@@ -10,6 +10,8 @@
 
 .batch-delete-button
     margin-right: 20px
+    padding-top: 8px !important
+    display: inline-flex
 
 .export-dropdown
 
@@ -17,6 +19,7 @@
         font-size: 16px
 
     &-button
+        width: 30px
         padding: 7px !important
         margin-top: 8px
 
@@ -29,7 +32,11 @@ body .el-table th.gutter
 body .el-table colgroup.gutter
     display: table-cell!important
 
+$inputHeight: 28px
+
 .el-table__cell .cell
+    .el-input
+        height: $inputHeight
     .edit-btn
         cursor: pointer
         line-height: 17px
@@ -45,6 +52,9 @@ body .el-table colgroup.gutter
             margin-left: 0px
             padding-left: 4px
             padding-right: 2px
-    .el-input-group--append .el-input__inner
-        padding-left: 5px
-        padding-right: 5px
+    .el-input-group--append
+        .el-input__wrapper
+            height: $inputHeight
+        .el-input__inner
+            padding-left: 5px
+            padding-right: 5px

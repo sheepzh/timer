@@ -12,23 +12,23 @@ import { defineComponent, h, Ref, ref } from "vue"
 import { t } from "@app/locale"
 import { renderOptionItem, tagText, tooltip } from "../common"
 
-function updateOptionVal(key: keyof Timer.StatisticsOption, newVal: boolean, option: Ref<Timer.StatisticsOption>) {
+function updateOptionVal(key: keyof timer.option.StatisticsOption, newVal: boolean, option: Ref<timer.option.StatisticsOption>) {
     const value = option.value
     value[key] = newVal
     optionService.setStatisticsOption(value)
 }
 
-const countWhenIdle = (option: Ref<Timer.StatisticsOption>) => h(ElSwitch, {
+const countWhenIdle = (option: Ref<timer.option.StatisticsOption>) => h(ElSwitch, {
     modelValue: option.value.countWhenIdle,
     onChange: (newVal: boolean) => updateOptionVal('countWhenIdle', newVal, option)
 })
 
-const countLocalFiles = (option: Ref<Timer.StatisticsOption>) => h(ElSwitch, {
+const countLocalFiles = (option: Ref<timer.option.StatisticsOption>) => h(ElSwitch, {
     modelValue: option.value.countLocalFiles,
     onChange: (newVal: boolean) => updateOptionVal("countLocalFiles", newVal, option)
 })
 
-const collectSiteName = (option: Ref<Timer.StatisticsOption>) => h(ElSwitch, {
+const collectSiteName = (option: Ref<timer.option.StatisticsOption>) => h(ElSwitch, {
     modelValue: option.value.collectSiteName,
     onChange: (newVal: boolean) => updateOptionVal('collectSiteName', newVal, option)
 })
@@ -36,7 +36,7 @@ const collectSiteName = (option: Ref<Timer.StatisticsOption>) => h(ElSwitch, {
 const _default = defineComponent({
     name: "StatisticsOptionContainer",
     setup(_props, ctx) {
-        const option: Ref<Timer.StatisticsOption> = ref(defaultStatistics())
+        const option: Ref<timer.option.StatisticsOption> = ref(defaultStatistics())
         optionService.getAllOption().then(currentVal => option.value = currentVal)
         ctx.expose({
             async reset() {

@@ -25,10 +25,10 @@ const _default = defineComponent({
     }, h(ElTooltip, {
         placement: 'top',
         content: t(msg => msg.dashboard.feedback.tooltip),
-        effect: Effect.LIGHT,
+        effect: Effect.DARK,
     }, () => h(ElButton, {
         type: "info",
-        size: "mini",
+        size: 'small',
         icon: Headset,
         round: true,
         onClick: () => chrome.tabs.create({

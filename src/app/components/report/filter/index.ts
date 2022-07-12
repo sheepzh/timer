@@ -23,6 +23,8 @@ const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
 const displayBySecondLabel = t(msg => msg.report.displayBySecond)
+// Batch Delete
+const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
 // Date range
 const dateStartPlaceholder = t(msg => msg.report.startDate)
 const dateEndPlaceholder = t(msg => msg.report.endDate)
@@ -39,14 +41,6 @@ const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut('lateWeek', 7),
     datePickerShortcut('late30Days', 30)
 ]
-
-export type ReportFilterOption = {
-    host: string
-    dateRange: Date[]
-    mergeDate: boolean
-    mergeHost: boolean
-    displayBySecond: boolean
-}
 
 const _default = defineComponent({
     name: "ReportFilter",
@@ -72,7 +66,7 @@ const _default = defineComponent({
             mergeDate: mergeDate.value,
             mergeHost: mergeHost.value,
             displayBySecond: displayBySecond.value
-        } as ReportFilterOption)
+        } as timer.app.report.FilterOption)
         const handleChange = () => ctx.emit("change", computeOption())
         return () => [
             h(InputFilterItem, {
@@ -118,14 +112,15 @@ const _default = defineComponent({
                 }
             }),
             // Float right
-            h("div", { style: { float: "right" } }, [
+            h("div", { class: "filter-item-right-group" }, [
                 h(ElButton, {
                     class: "batch-delete-button",
                     disabled: mergeHost.value,
-                    type: "text",
+                    type: "primary",
+                    link: true,
                     icon: DeleteFilled,
                     onClick: () => ctx.emit("batchDelete", computeOption())
-                }, () => "Batch Delete"),
+                }, () => batchDeleteButtonText),
                 h(DownloadFile, {
                     onDownload: (format: FileFormat) => ctx.emit("download", format)
                 })

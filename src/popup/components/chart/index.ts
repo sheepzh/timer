@@ -7,7 +7,6 @@
 
 import type { ECharts } from "echarts/core"
 import type { CallbackDataParams } from "echarts/types/dist/shared"
-import type QueryResult from "@popup/common/query-result"
 
 import { init, use } from "@echarts/core"
 import PieChart from "@echarts/chart/pie"
@@ -32,7 +31,7 @@ const pie: ECharts = init(chartContainer)
 
 // Initialize
 let displaySiteName: boolean = defaultStatistics().collectSiteName
-const setDisplaySiteName = (opt: Timer.Option) => displaySiteName = opt.displaySiteName
+const setDisplaySiteName = (opt: timer.option.AllOption) => displaySiteName = opt.displaySiteName
 optionDatabase.getOption().then(setDisplaySiteName)
 optionDatabase.addOptionChangeListener(setDisplaySiteName)
 
@@ -46,9 +45,9 @@ export const handleRestore = (handler: () => void) => {
 }
 
 // Store
-let _queryResult: QueryResult
+let _queryResult: timer.popup.QueryResult
 
-function renderChart(queryResult: QueryResult) {
+function renderChart(queryResult: timer.popup.QueryResult) {
     _queryResult = queryResult
     pie.setOption(pieOptions({ ...queryResult, displaySiteName }, chartContainer), true, false)
 }

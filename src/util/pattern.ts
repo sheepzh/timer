@@ -93,6 +93,10 @@ export function extractHostname(url: string): HostInfo {
  * @since 0.7.0
  */
 export function extractFileHost(url: string): string {
+    url = url?.trim?.()
+    if (!url) {
+        return undefined
+    }
     if (!url.startsWith("file://")) {
         return undefined
     }
@@ -100,7 +104,7 @@ export function extractFileHost(url: string): string {
     if (dotIdx < 0) {
         return undefined
     }
-    const suffix = url.substring(dotIdx + 1)?.toLowerCase()
+    const suffix = url.substring(dotIdx + 1).toLowerCase()
     return suffix ? SUFFIX_HOST_MAP[suffix] : undefined
 }
 

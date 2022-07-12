@@ -15,14 +15,18 @@
       <div id="type-select-container" class="el-select el-select--mini option-right">
         <div class="select-trigger">
           <div class="el-input el-input--mini el-input--suffix">
-            <input id="type-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
+            <div class="el-input__wrapper">
+              <input id="type-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
+            </div>
           </div>
         </div>
       </div>
       <div id="time-select-container" class="el-select el-select--mini option-right">
         <div class="select-trigger">
           <div class="el-input el-input--mini el-input--suffix">
-            <input id="time-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
+            <div class="el-input__wrapper">
+              <input id="time-select-input" class="el-input__inner" type="text" readonly="" autocomplete="off" />
+            </div>
           </div>
         </div>
       </div>
@@ -81,7 +85,7 @@
     </div>
   </div>
   <!-- Select options -->
-  <div id="type-select-popup" class="el-select__popper el-popper is-light is-pure" style="display: none">
+  <div id="type-select-popup" class="el-select__popper el-popper is-light is-pure popup__hidden">
     <div class="el-select-dropdown">
       <div class="el-scrollbar">
         <div class="
@@ -100,7 +104,7 @@
     </div>
   </div>
   <!-- Time range -->
-  <div id="time-select-popup" class="el-select__popper el-popper is-light is-pure" style="display: none">
+  <div id="time-select-popup" class="el-select__popper el-popper is-light is-pure popup__hidden">
     <div class="el-select-dropdown">
       <div class="el-scrollbar">
         <div class="

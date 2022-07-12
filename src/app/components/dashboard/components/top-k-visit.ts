@@ -8,6 +8,8 @@
 import type { ECharts, ComposeOption } from "echarts/core"
 import type { PieSeriesOption } from "echarts/charts"
 import type { TitleComponentOption, TooltipComponentOption } from "echarts/components"
+import type { Ref } from "vue"
+import type { TimerQueryParam } from "@service/timer-service"
 
 import { init, use } from "@echarts/core"
 import PieChart from "@echarts/chart/pie"
@@ -16,13 +18,13 @@ import TooltipComponent from "@echarts/component/tooltip"
 
 use([PieChart, TitleComponent, TooltipComponent])
 
-import timerService, { SortDirect, TimerQueryParam } from "@service/timer-service"
+import timerService, { SortDirect } from "@service/timer-service"
 import { MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
-import { defineComponent, h, onMounted, ref, Ref } from "vue"
-import DataItem from "@entity/dto/data-item"
+import { defineComponent, h, onMounted, ref } from "vue"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
+import { getPrimaryTextColor } from "@util/style"
 
 const CONTAINER_ID = '__timer_dashboard_top_k_visit'
 const TOP_NUM = 6
@@ -40,10 +42,15 @@ type _Value = {
 }
 
 function optionOf(data: _Value[]): EcOption {
+    const textColor = getPrimaryTextColor()
     return {
         title: {
             ...BASE_TITLE_OPTION,
-            text: t(msg => msg.dashboard.topK.title, { k: TOP_NUM, day: DAY_NUM })
+            text: t(msg => msg.dashboard.topK.title, { k: TOP_NUM, day: DAY_NUM }),
+            textStyle: {
+                color: textColor,
+                fontSize: '14px',
+            }
         },
         tooltip: {
             show: true,
@@ -64,6 +71,7 @@ function optionOf(data: _Value[]): EcOption {
             itemStyle: {
                 borderRadius: 7
             },
+            label: { color: textColor },
             data: data
         }
     }
@@ -102,7 +110,7 @@ const _default = defineComponent({
                 sortOrder: SortDirect.DESC,
                 mergeDate: true,
             }
-            const top: DataItem[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM })).list
+            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM })).list
             const data: _Value[] = top.map(({ time, host }) => ({ name: host, value: time }))
             for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
                 data.push({ name: '', value: 0 })

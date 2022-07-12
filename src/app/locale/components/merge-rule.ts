@@ -40,7 +40,7 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert2: '合并后域名可填具体的域名，或者填数字，或者不填',
         infoAlert3: '如果填数字，则表示合并后域名的级数。比如存在规则【 *.*.edu.cn >>> 3 】，那么 www.hust.edu.cn 将被合并至 hust.edu.cn',
         infoAlert4: '如果不填，则表示原域名不会被合并',
-        infoAlert5: '如果没有匹配任何规则，则默认会合并至 {psl} 的前一级'
+        infoAlert5: '如果没有命中任何规则，则默认会合并至 {psl} 的前一级'
     },
     zh_TW: {
         resultOfOrigin: '不合並',

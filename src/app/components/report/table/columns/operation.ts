@@ -12,7 +12,6 @@
  */
 import { computed, defineComponent, h, PropType } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
-import DataItem from "@entity/dto/data-item"
 import TimerDatabase from "@db/timer-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
@@ -60,14 +59,13 @@ const _default = defineComponent({
         return () => h(ElTableColumn, {
             width: width.value,
             label: columnLabel,
-            align: "center",
-            fixed: "right"
+            align: "center"
         }, {
-            default: ({ row }: { row: DataItem }) => [
+            default: ({ row }: { row: timer.stat.Row }) => [
                 // Trend
                 h(ElButton, {
                     icon: Stopwatch,
-                    size: 'mini',
+                    size: 'small',
                     type: 'primary',
                     onClick() {
                         const query: LocationQueryRaw = {
@@ -95,7 +93,7 @@ const _default = defineComponent({
                 // Add 2 whitelist
                 h(OperationPopupConfirmButton, {
                     buttonIcon: Plus,
-                    buttonType: "danger",
+                    buttonType: "warning",
                     buttonText: add2WhitelistButtonText,
                     confirmText: t(msg => msg.whitelist.addConfirmMsg, { url: row.host }),
                     visible: canOperate.value && !props.whitelist?.includes(row.host),
