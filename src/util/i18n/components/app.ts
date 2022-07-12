@@ -20,7 +20,7 @@ export type AppMessage = {
 const _default: Messages<AppMessage> = {
     en: {
         name: 'Timer',
-        marketName: 'Timer - Running & Browse Time & Visit count',
+        marketName: 'Timer - Running & Browsing Time & Visit count',
         description: 'To be the BEST web timer.',
         currentVersion: 'Version: {version}'
 

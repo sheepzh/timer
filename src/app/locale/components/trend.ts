@@ -11,10 +11,10 @@ export type TrendMessage = {
     hostPlaceholder: string
     startDate: string,
     endDate: string
-    lateWeek: string
-    late15Days: string
-    late30Days: string
-    late90Days: string
+    lastWeek: string
+    last15Days: string
+    last30Days: string
+    last90Days: string
     history: {
         title: string
         timeUnit: string
@@ -30,10 +30,10 @@ const _default: Messages<TrendMessage> = {
         hostPlaceholder: '搜索你想分析的域名',
         startDate: '开始日期',
         endDate: '结束日期',
-        lateWeek: '最近 7 天',
-        late15Days: '最近 15 天',
-        late30Days: '最近 30 天',
-        late90Days: '最近 90 天',
+        lastWeek: '最近 7 天',
+        last15Days: '最近 15 天',
+        last30Days: '最近 30 天',
+        last90Days: '最近 90 天',
         history: {
             title: '历史记录',
             timeUnit: '时长 / 秒',
@@ -47,10 +47,10 @@ const _default: Messages<TrendMessage> = {
         hostPlaceholder: '蒐索你想分析的網域',
         startDate: '開始日期',
         endDate: '結束日期',
-        lateWeek: '最近 7 天',
-        late15Days: '最近 15 天',
-        late30Days: '最近 30 天',
-        late90Days: '最近 90 天',
+        lastWeek: '最近 7 天',
+        last15Days: '最近 15 天',
+        last30Days: '最近 30 天',
+        last90Days: '最近 90 天',
         history: {
             title: '曆史記錄',
             timeUnit: '時長 / 秒',
@@ -61,16 +61,16 @@ const _default: Messages<TrendMessage> = {
         merged: '合並'
     },
     en: {
-        hostPlaceholder: 'Enter URL',
+        hostPlaceholder: 'Search site URL',
         startDate: 'Start date',
         endDate: 'End date',
-        lateWeek: 'Late week',
-        late15Days: 'Late 15 days',
-        late30Days: 'Late 30 days',
-        late90Days: 'Late 90 days',
+        lastWeek: 'Last week',
+        last15Days: 'Last 15 days',
+        last30Days: 'Last 30 days',
+        last90Days: 'Last 90 days',
         history: {
             title: 'Trend',
-            timeUnit: 'Time / second(s)',
+            timeUnit: 'Time / second',
             numberUnit: 'Visit Counts'
         },
         saveAsImageTitle: 'Snapshot',
@@ -81,10 +81,10 @@ const _default: Messages<TrendMessage> = {
         hostPlaceholder: 'ドメイン名を検索',
         startDate: '開始日',
         endDate: '終了日',
-        lateWeek: '先週',
-        late15Days: '過去 15 日間',
-        late30Days: '過去 30 日間',
-        late90Days: '過去 90 日間',
+        lastWeek: '先週',
+        last15Days: '過去 15 日間',
+        last30Days: '過去 30 日間',
+        last90Days: '過去 90 日間',
         history: {
             title: '歴史記録',
             timeUnit: '時間 / 秒',
