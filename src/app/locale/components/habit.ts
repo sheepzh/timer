@@ -18,12 +18,12 @@ export type HabitMessage = {
         label: string
     },
     dateRange: {
-        lateDay: string
-        late3Days: string
-        lateWeek: string
-        late15Days: string
-        late30Days: string
-        late60Days: string
+        lastDay: string
+        last3Days: string
+        lastWeek: string
+        last15Days: string
+        last30Days: string
+        last60Days: string
     },
     chart: {
         title: string
@@ -44,12 +44,12 @@ const _default: Messages<HabitMessage> = {
             label: '平均每天'
         },
         dateRange: {
-            lateDay: '最近 24 小时',
-            late3Days: '最近 3 天',
-            lateWeek: '最近 7 天',
-            late15Days: '最近 15 天',
-            late30Days: '最近 30 天',
-            late60Days: '最近 60 天'
+            lastDay: '最近 24 小时',
+            last3Days: '最近 3 天',
+            lastWeek: '最近 7 天',
+            last15Days: '最近 15 天',
+            last30Days: '最近 30 天',
+            last60Days: '最近 60 天'
         },
         chart: {
             title: '上网习惯统计',
@@ -68,12 +68,12 @@ const _default: Messages<HabitMessage> = {
             label: '平均每天'
         },
         dateRange: {
-            lateDay: '最近 24 小時',
-            late3Days: '最近 3 天',
-            lateWeek: '最近 7 天',
-            late15Days: '最近 15 天',
-            late30Days: '最近 30 天',
-            late60Days: '最近 60 天'
+            lastDay: '最近 24 小時',
+            last3Days: '最近 3 天',
+            lastWeek: '最近 7 天',
+            last15Days: '最近 15 天',
+            last30Days: '最近 30 天',
+            last60Days: '最近 60 天'
         },
         chart: {
             title: '上網習慣統計',
@@ -92,17 +92,17 @@ const _default: Messages<HabitMessage> = {
             label: 'Daily average'
         },
         dateRange: {
-            lateDay: 'Late day',
-            late3Days: 'Late 3 days',
-            lateWeek: 'Late week',
-            late15Days: 'Late 15 days',
-            late30Days: 'Late 30 days',
-            late60Days: 'Late 60 days'
+            lastDay: 'Last day',
+            last3Days: 'Last 3 days',
+            lastWeek: 'Last week',
+            last15Days: 'Last 15 days',
+            last30Days: 'Last 30 days',
+            last60Days: 'Last 60 days'
         },
         chart: {
             title: 'Time-phased Statistics of Browsing',
             saveAsImageTitle: 'Snapshot',
-            yAxisName: 'Browse Time / second(s)'
+            yAxisName: 'Browsing Time / second'
         }
     },
     ja: {
@@ -116,12 +116,12 @@ const _default: Messages<HabitMessage> = {
             label: '1日平均'
         },
         dateRange: {
-            lateDay: '過去24時間',
-            late3Days: '過去3日間',
-            lateWeek: '先週',
-            late15Days: '過去15日間',
-            late30Days: '過去30日間',
-            late60Days: '過去60日間'
+            lastDay: '過去24時間',
+            last3Days: '過去3日間',
+            lastWeek: '先週',
+            last15Days: '過去15日間',
+            last30Days: '過去30日間',
+            last60Days: '過去60日間'
         },
         chart: {
             title: '時系列の統計を閲覧する',

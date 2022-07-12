@@ -8,7 +8,7 @@
 import { ElAlert, ElCard, ElProgress } from "element-plus"
 import { h, Ref } from "vue"
 import { t } from "@app/locale"
-import { alertProps, bodyStyle } from "./common"
+import { alertProps } from "./common"
 
 type _Props = {
     usedRef: Ref<number>
@@ -58,8 +58,7 @@ const memoryInfo = (props: _Props) => {
     else if (percentage < 75) typeColor = '#E6A23C'
     // Specially, show warning color if not detect the max memory
     if (!total) typeColor = '#E6A23C'
-    return h(ElCard,
-        { bodyStyle },
+    return h(ElCard, {},
         () => [memoryAlert(totalMb), memoryProgress(percentage, typeColor), usedAlert(usedMb, typeColor)]
     )
 }

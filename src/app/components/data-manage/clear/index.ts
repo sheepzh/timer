@@ -8,7 +8,7 @@
 import { ElAlert, ElCard } from "element-plus"
 import { h } from "vue"
 import { t } from "@app/locale"
-import { alertProps, bodyStyle } from "../common"
+import { alertProps } from "../common"
 import Filter from "./filter"
 
 type _Props = {
@@ -21,8 +21,9 @@ const clearAlert = () => h(ElAlert,
         title: t(msg => msg.dataManage.operationAlert)
     })
 const clearFilter = (queryData: () => Promise<void> | void) => h(Filter, { onDateChanged: queryData })
-const clearPanel = (props: _Props) => h(ElCard,
-    { bodyStyle },
+const clearPanel = (props: _Props) => h(ElCard, {
+    class: 'clear-container'
+},
     () => [clearAlert(), clearFilter(props.queryData)]
 )
 

@@ -195,7 +195,7 @@ const _default: Messages<OptionMessage> = {
             contextMenu: 'the context menu',
             displayBadgeText: '{input}  Whether to display {timeInfo} in {icon}',
             icon: 'the icon of extension',
-            badgeTextContent: 'the browse time of current website',
+            badgeTextContent: 'the browsing time of current website',
             locale: {
                 label: "Language {input}",
                 default: "Same as browser",
