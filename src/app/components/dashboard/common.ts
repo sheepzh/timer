@@ -5,12 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { TitleComponentOption } from 'echarts/components'
+import type { TitleComponentOption } from 'echarts/components'
 
 export const BASE_TITLE_OPTION: TitleComponentOption = {
-    textStyle: {
-        fontSize: '14px'
-    },
     show: true,
     left: '1%',
     top: '0%',
