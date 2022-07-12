@@ -22,7 +22,6 @@ export type MenuMessage = {
     mergeRule: string
     option: string
     other: string
-    faq: string
     feedback: string
     rate: string
     meat: string
@@ -44,7 +43,6 @@ const _default: Messages<MenuMessage> = {
         habit: '上网习惯',
         limit: '每日时限设置',
         other: '其他',
-        faq: 'F & Q',
         feedback: '有什么反馈吗？',
         rate: '打个分吧！',
         meat: '请作者吃饭~',
@@ -65,7 +63,6 @@ const _default: Messages<MenuMessage> = {
         habit: '上網習慣',
         limit: '每日時限設置',
         other: '其他',
-        faq: 'F & Q',
         feedback: '有什麼反饋嗎？',
         rate: '打個分吧！',
         meat: '請作者吃飯~',
@@ -79,13 +76,12 @@ const _default: Messages<MenuMessage> = {
         dataClear: 'Memory Situation',
         behavior: 'User Behavior',
         habit: 'Habits',
-        limit: 'Browsing Limit',
-        additional: 'Additional Functions',
+        limit: 'Daily Limit',
+        additional: 'Additional Features',
         siteManage: 'Site Management',
         whitelist: 'Whitelist',
         mergeRule: 'Merge-site Rules',
         other: 'Other Features',
-        faq: 'F & Q',
         option: 'Options',
         feedback: 'Feedback Questionnaire',
         rate: 'Rate It',
@@ -106,7 +102,6 @@ const _default: Messages<MenuMessage> = {
         whitelist: 'Webホワイトリスト',
         mergeRule: 'ドメイン合併',
         other: 'その他の機能',
-        faq: 'F & Q',
         option: '拡張設定',
         feedback: 'フィードバックアンケート',
         rate: 'それを評価',

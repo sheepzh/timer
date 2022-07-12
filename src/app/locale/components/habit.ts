@@ -35,10 +35,10 @@ export type HabitMessage = {
 const _default: Messages<HabitMessage> = {
     zh_CN: {
         sizes: {
-            fifteen: '按十五分钟统计',
-            halfHour: '按半小时统计',
-            hour: '按一小时统计',
-            twoHour: '按两小时统计'
+            fifteen: '每十五分钟统计一次',
+            halfHour: '每半小时统计一次',
+            hour: '每一小时统计一次',
+            twoHour: '每两小时统计一次'
         },
         average: {
             label: '平均每天'
@@ -100,7 +100,7 @@ const _default: Messages<HabitMessage> = {
             last60Days: 'Last 60 days'
         },
         chart: {
-            title: 'Time-phased Statistics of Browsing',
+            title: 'Time-phased Statistics of Browsing Time',
             saveAsImageTitle: 'Snapshot',
             yAxisName: 'Browsing Time / second'
         }

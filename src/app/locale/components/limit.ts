@@ -121,12 +121,12 @@ const _default: Messages<LimitMessage> = {
         conditionFilter: 'URL',
         filterDisabled: 'Only enabled',
         item: {
-            condition: 'Limited URL',
-            time: 'Limited time per day',
+            condition: 'Restricted URL',
+            time: 'Daily time limit',
             waste: 'Browsed today',
             enabled: 'Enabled',
             delayAllowed: 'More 5 minutes',
-            delayAllowedInfo: 'Allow to delay 5 minutes temporarily if time over',
+            delayAllowedInfo: 'If it times out, allow a temporary delay of 5 minutes',
             operation: 'Operations'
         },
         button: {
