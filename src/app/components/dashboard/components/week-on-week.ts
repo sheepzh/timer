@@ -87,7 +87,11 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
     return {
         title: {
             ...BASE_TITLE_OPTION,
-            text: t(msg => msg.dashboard.weekOnWeek.title, { k: TOP_NUM })
+            text: t(msg => msg.dashboard.weekOnWeek.title, { k: TOP_NUM }),
+            textStyle: {
+                color: textColor,
+                fontSize: '14px',
+            }
         },
         tooltip: {
             trigger: 'axis',

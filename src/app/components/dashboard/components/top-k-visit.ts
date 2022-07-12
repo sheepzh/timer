@@ -47,7 +47,10 @@ function optionOf(data: _Value[]): EcOption {
         title: {
             ...BASE_TITLE_OPTION,
             text: t(msg => msg.dashboard.topK.title, { k: TOP_NUM, day: DAY_NUM }),
-            textStyle: { color: textColor }
+            textStyle: {
+                color: textColor,
+                fontSize: '14px',
+            }
         },
         tooltip: {
             show: true,

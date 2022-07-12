@@ -123,6 +123,7 @@ function optionOf(data: _Value[], days: string[]): EcOption {
                 { hour: totalHours }
             ),
             textStyle: {
+                fontSize: '14px',
                 color: textColor
             }
         },
