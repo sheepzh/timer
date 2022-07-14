@@ -23,12 +23,12 @@ export type HabitFilterOption = {
 type ShortCutProp = [label: keyof HabitMessage['dateRange'], dayAgo: number]
 
 const shortcutProps: ShortCutProp[] = [
-    ["lateDay", 1],
-    ["late3Days", 3],
-    ["lateWeek", 7],
-    ["late15Days", 15],
-    ["late30Days", 30],
-    ["late60Days", 60]
+    ["lastDay", 1],
+    ["last3Days", 3],
+    ["lastWeek", 7],
+    ["last15Days", 15],
+    ["last30Days", 30],
+    ["last60Days", 60]
 ]
 
 function datePickerShortcut(msg: keyof HabitMessage['dateRange'], agoOfStart: number): ElementDatePickerShortcut {

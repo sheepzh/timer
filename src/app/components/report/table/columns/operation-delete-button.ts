@@ -9,7 +9,7 @@ import { computed, defineComponent, h, PropType, Ref } from "vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import { Delete } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
-import { dateFormatter, DISPLAY_DATE_FORMAT } from "../../formatter"
+import { dateFormatter } from "../../formatter"
 import { formatTime } from "@util/time"
 
 const deleteButtonText = t(msg => msg.item.operation.delete)
@@ -31,10 +31,11 @@ function computeRangeConfirmText(url: string, dateRange: Array<Date>): string {
         // Delete all
         return t(msg => msg.item.operation.deleteConfirmMsgAll, { url })
     }
+    const dateFormat = t(msg => msg.calendar.dateFormat)
     const startDate = dateRange[0]
     const endDate = dateRange[1]
-    const start = formatTime(startDate, DISPLAY_DATE_FORMAT)
-    const end = formatTime(endDate, DISPLAY_DATE_FORMAT)
+    const start = formatTime(startDate, dateFormat)
+    const end = formatTime(endDate, dateFormat)
     return start === end
         // Only one day
         ? computeSingleConfirmText(url, start)

@@ -38,8 +38,8 @@ function datePickerShortcut(msg: keyof ReportMessage, agoOfStart?: number, agoOf
 const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut('today'),
     datePickerShortcut('yesterday', 1, 1),
-    datePickerShortcut('lateWeek', 7),
-    datePickerShortcut('late30Days', 30)
+    datePickerShortcut('lastWeek', 7),
+    datePickerShortcut('last30Days', 30)
 ]
 
 const _default = defineComponent({
