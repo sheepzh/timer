@@ -8,6 +8,7 @@
 import { ElDatePicker } from "element-plus"
 import { defineComponent, h, PropType, ref, Ref } from "vue"
 import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { t } from "@app/locale"
 
 const _default = defineComponent({
     name: "DateRangeFilterItem",
@@ -26,11 +27,16 @@ const _default = defineComponent({
     setup(props, ctx) {
         // @ts-ignore
         const dateRange: Ref<Date[]> = ref(props.defaultRange || [undefined, undefined])
+        const dateFormat = t(msg => msg.calendar.dateFormat, {
+            y: 'YYYY',
+            m: 'MM',
+            d: 'DD'
+        })
         // @ts-ignore
         return () => h('span', { class: 'filter-item' }, h(ElDatePicker,
             {
                 modelValue: dateRange.value,
-                format: 'YYYY/MM/DD',
+                format: dateFormat,
                 type: 'daterange',
                 rangeSeparator: '-',
                 disabledDate: props.disabledDate,

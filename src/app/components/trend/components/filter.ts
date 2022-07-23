@@ -39,10 +39,10 @@ function datePickerShortcut(msg: keyof TrendMessage, agoOfStart?: number, agoOfE
     }
 }
 const SHORTCUTS = [
-    datePickerShortcut('lateWeek', 7),
-    datePickerShortcut('late15Days', 15),
-    datePickerShortcut('late30Days', 30),
-    datePickerShortcut("late90Days", 90)
+    datePickerShortcut('lastWeek', 7),
+    datePickerShortcut('last15Days', 15),
+    datePickerShortcut('last30Days', 30),
+    datePickerShortcut("last90Days", 90)
 ]
 
 const HOST_PLACEHOLDER = t(msg => msg.trend.hostPlaceholder)

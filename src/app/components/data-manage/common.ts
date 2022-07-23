@@ -14,8 +14,3 @@ export const alertProps: {
     closable: false,
     type: 'info'
 }
-
-/**
- * Card body style
- */
-export const bodyStyle: string = 'height:450px; text-align:center'

@@ -5,10 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { h, Ref, ref } from "vue"
+import type { Ref } from "vue"
+
+import { h, ref } from "vue"
 import { ElAlert, ElButton, ElCard, ElLoading, ElMain, ElMessage } from "element-plus"
 import { t } from "@app/locale"
-import { alertProps, bodyStyle } from "./common"
+import { alertProps } from "./common"
 import { deserialize, exportJson } from "@util/file"
 import { formatTime } from "@util/time"
 import Immigration from "@service/components/immigration"
@@ -45,18 +47,11 @@ const handleFileSelected = async (queryData: () => void) => {
     ElMessage.success(t(msg => msg.dataManage.migrated))
 }
 
-const buttonStyle: Partial<CSSStyleDeclaration> = {
-    width: '100%',
-    height: '30%',
-    marginLeft: '0px'
-}
-
 const alert = () => h(ElAlert, alertProps, () => t(msg => msg.dataManage.migrationAlert))
 
 const exportButtonText = t(msg => msg.item.operation.exportWholeData)
 const exportButton = () => h(ElButton,
     {
-        style: buttonStyle,
         size: 'large',
         type: 'success',
         icon: Download,
@@ -78,7 +73,6 @@ const fileInput = (queryData: any) => h('input', {
 const importButtonText = (queryData: any) => [t(msg => msg.item.operation.importWholeData), fileInput(queryData)]
 const importButton = (queryData: any) => h(ElButton,
     {
-        style: buttonStyle,
         size: 'large',
         type: 'primary',
         icon: Upload,
@@ -87,20 +81,14 @@ const importButton = (queryData: any) => h(ElButton,
     () => importButtonText(queryData)
 )
 
-const mainStyle: Partial<CSSStyleDeclaration> = {
-    height: '100%',
-    flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'space-between'
-}
-const buttonContainer = (queryData: () => void | Promise<void>) => h(ElMain,
-    { style: mainStyle },
+const buttonContainer = (queryData: () => void | Promise<void>) => h(ElMain, {},
     () => [alert(), exportButton(), importButton(queryData)]
 )
 
 export default (props: _Props) => {
-    return h(ElCard,
-        { bodyStyle },
+    return h(ElCard, {
+        class: 'migration-container'
+    },
         () => buttonContainer(props.queryData)
     )
 }

@@ -22,7 +22,7 @@ import ContentContainer from "../common/content-container"
 import { ElLoadingService, ElMessage, ElMessageBox } from "element-plus"
 import hostAliasService from "@service/host-alias-service"
 import { exportCsv, exportJson } from "@util/file"
-import { DISPLAY_DATE_FORMAT, periodFormatter } from "./formatter"
+import { periodFormatter } from "./formatter"
 import { useRoute, useRouter } from "vue-router"
 import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
@@ -152,10 +152,12 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
         // Delete all
         key = msg => msg.report.batchDelete.confirmMsgAll
     } else {
+        const dateFormat = t(msg => msg.calendar.dateFormat)
         const startDate = dateRange[0]
         const endDate = dateRange[1]
-        const start = formatTime(startDate, DISPLAY_DATE_FORMAT)
-        const end = formatTime(endDate, DISPLAY_DATE_FORMAT)
+        const start = formatTime(startDate, dateFormat)
+        const end = formatTime(endDate, dateFormat)
+        console.log(start, end)
         if (start === end) {
             // Single date
             key = msg => msg.report.batchDelete.confirmMsg

@@ -40,8 +40,8 @@ export type SiteManageMessage = {
 }
 
 const en: SiteManageMessage = {
-    hostPlaceholder: "Search by host",
-    aliasPlaceholder: "Search by name",
+    hostPlaceholder: "Partial URL, then enter",
+    aliasPlaceholder: "Partial name, then enter",
     onlyDetected: 'Only detected',
     deleteConfirmMsg: 'The name of {host} will be deleted',
     column: {
@@ -51,8 +51,8 @@ const en: SiteManageMessage = {
         source: "Source"
     },
     source: {
-        user: 'USER',
-        detected: 'DETECTED'
+        user: 'user-maintained',
+        detected: 'auto-detected'
     },
     button: {
         add: 'New',
@@ -61,8 +61,8 @@ const en: SiteManageMessage = {
         save: 'Save',
     },
     form: {
-        emptyAlias: 'Please input the site name',
-        emptyHost: 'Please input the website'
+        emptyAlias: 'Please enter site name',
+        emptyHost: 'Please enter site URL'
     },
     msg: {
         hostExistWarn: '{host} exists',

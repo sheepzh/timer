@@ -5,12 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { Ref, SetupContext } from "vue"
+
 import { Delete, DocumentAdd } from "@element-plus/icons-vue"
-import { defineComponent, h, ref, Ref, SetupContext } from "vue"
+import { defineComponent, h, ref } from "vue"
 import TimerDatabase from "@db/timer-database"
 import timerService from "@service/timer-service"
 import { t } from "@app/locale"
-import '../../style/filter'
 import dateFilter from "./date-filter"
 import numberFilter from "./number-filter"
 import operationButton, { BaseFilterProps } from "./operation-button"
@@ -75,9 +76,9 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
 
     const buttons = () => [archiveButton(onDateChanged), deleteButton(onDateChanged)]
 
-    const footer = () => h('div', { class: 'filter-container', style: 'padding-top: 40px;' }, buttons())
+    const footer = () => h('div', { class: 'footer-container filter-container' }, buttons())
 
-    return () => h('div', { style: 'text-align:left; padding-left:30px; padding-top:20px;' },
+    return () => h('div', { class: 'clear-panel' },
         [
             title,
             dateFilter({ dateRangeRef }),

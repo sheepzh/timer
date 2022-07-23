@@ -35,5 +35,7 @@ const firstRow = () => h(ElRow, { gutter: 20 },
 )
 
 export default defineComponent(() => {
-    return () => h(ContentContainer, {}, { default: () => firstRow() })
+    return () => h(ContentContainer, {
+        class: 'data-manage-container'
+    }, () => firstRow())
 })

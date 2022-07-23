@@ -184,21 +184,21 @@ const _default: Messages<OptionMessage> = {
             title: 'Today\'s Data',
             max: 'Show the first {input} data items',
             defaultDisplay: "Show {duration} {type} when opened",
-            displaySiteName: '{input}  Whether to display {siteName} instead of host',
+            displaySiteName: '{input}  Whether to display {siteName} instead of URL',
             duration: popupDurationMessages.en,
             durationWidth: "110px"
         },
         appearance: {
             title: 'Appearance',
             displayWhitelist: '{input}  Whether to display {whitelist} in {contextMenu}',
-            whitelistItem: 'the whitelist item',
+            whitelistItem: 'whitelist related shortcuts',
             contextMenu: 'the context menu',
             displayBadgeText: '{input}  Whether to display {timeInfo} in {icon}',
             icon: 'the icon of extension',
-            badgeTextContent: 'the browse time of current website',
+            badgeTextContent: 'the browsing time of current website',
             locale: {
                 label: "Language {input}",
-                default: "Same as browser",
+                default: "Follow browser",
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
             },
@@ -221,13 +221,13 @@ const _default: Messages<OptionMessage> = {
             countWhenIdle: '{input}  Whether to count {idleTime} {info}',
             idleTime: 'idle time',
             idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
-            countLocalFiles: '{input}  Whether to count the time spent {localFileTime} {info} in the browser',
-            localFileTime: ' reading the local file ',
-            localFilesInfo: 'Including PDF, image, txt and json',
-            collectSiteName: '{input}  Whether to automatically collect the name of the website when visiting the homepage of the website',
-            siteName: 'Site Name',
-            siteNameUsage: 'The data only exists locally and will be used for display instead of the host to increase recognition.'
-                + 'Of course you can customize the name of each website.'
+            countLocalFiles: '{input}  Whether to count the time to {localFileTime} {info} in the browser',
+            localFileTime: ' read a local file ',
+            localFilesInfo: 'Supports files of types such as PDF, image, txt and json',
+            collectSiteName: '{input}  Whether to automatically collect {siteName} when visiting the site homepage',
+            siteName: ' the site name ',
+            siteNameUsage: 'The data is only stored locally and will be displayed instead of the URL to increase the recognition.'
+                + 'Of course, you can also customize the name of each site.'
         },
         resetButton: 'Reset',
         resetSuccess: 'Reset to default successfully!',

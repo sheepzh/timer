@@ -17,7 +17,6 @@ export type DateFilterProps = {
 }
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
-const yesterdayMsg = formatTime(yesterday, '{y}/{m}/{d}')
 const daysBefore = (days: number) => new Date().getTime() - days * MILL_PER_DAY
 
 const birthdayOfBrowser = new Date()
@@ -37,20 +36,27 @@ const pickerShortcuts = [
     datePickerShortcut('till30DaysAgo', 30)
 ]
 
-// @ts-ignore
-const picker = ({ dateRangeRef }: DateFilterProps) => h(ElDatePicker, {
-    modelValue: dateRangeRef.value,
-    "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
-    size: 'small',
-    style: 'width:250px;',
-    startPlaceholder: '1994/12/15',
-    format: "YYYY/MM/DD",
-    endPlaceholder: yesterdayMsg,
-    type: 'daterange',
-    disabledDate(date: Date) { return date.getTime() > yesterday },
-    shortcuts: pickerShortcuts,
-    rangeSeparator: '-'
-})
+
+function picker({ dateRangeRef }: DateFilterProps) {
+    const dateFormat = t(msg => msg.calendar.dateFormat, { y: 'YYYY', m: 'MM', d: 'DD' })
+    // The birthday of browser
+    const startPlaceholder = t(msg => msg.calendar.dateFormat, { y: '1994', m: '12', d: '15' })
+    const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
+    // @ts-ignore
+    return h(ElDatePicker, {
+        modelValue: dateRangeRef.value,
+        "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
+        size: 'small',
+        style: 'width: 250px;',
+        startPlaceholder,
+        format: dateFormat,
+        endPlaceholder,
+        type: 'daterange',
+        disabledDate(date: Date) { return date.getTime() > yesterday },
+        shortcuts: pickerShortcuts,
+        rangeSeparator: '-'
+    })
+}
 
 const dateFilter = (props: DateFilterProps) => h('p', [
     h('a', { class: stepNoClz }, '1.'),
