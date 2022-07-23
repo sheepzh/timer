@@ -198,7 +198,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: 'the browsing time of current website',
             locale: {
                 label: "Language {input}",
-                default: "Same as browser",
+                default: "Follow browser",
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
             },
