@@ -31,15 +31,18 @@ function setBadgeText(milliseconds: number | undefined) {
 }
 
 async function findActiveHost(): Promise<string> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         chrome.tabs.query({ active: true }, tabs => {
             // Fix #131
             // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
             tabs = tabs.filter(tab => !isBrowserUrl(tab.url))
-            if (!tabs || !tabs.length) { resolve(undefined) }
-            const { url } = tabs[0]
-            const host = extractHostname(url).host
-            resolve(host)
+            if (!tabs || !tabs.length) {
+                resolve(undefined)
+            } else {
+                const { url } = tabs[0]
+                const host = extractHostname(url).host
+                resolve(host)
+            }
         })
     })
 }
