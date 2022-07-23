@@ -5,7 +5,7 @@ import optionGenerator from "./webpack.common"
 import webpack from "webpack"
 
 const outputDir = path.join(__dirname, '..', 'dist_dev')
-let manifest: chrome.runtime.ManifestV2
+let manifest: chrome.runtime.ManifestV3
 
 const options = optionGenerator(
   outputDir,
