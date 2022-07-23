@@ -94,6 +94,15 @@ export function getAppPageUrl(isInBackground: boolean, route?: string, query?: a
 }
 
 /**
+ * 
+ * @param isInBackground invoke in background environment
+ * @since 1.2.0
+ */
+export function getGuidePageUrl(isInBackground: boolean): string {
+    return IS_FIREFOX && !isInBackground ? 'guide.html' : 'static/guide.html'
+}
+
+/**
  * @since 0.2.2
  * @returns icon url in the browser
  */

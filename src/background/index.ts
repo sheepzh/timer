@@ -16,6 +16,7 @@ import ActiveTabListener from "./active-tab-listener"
 import badgeTextManager from "./badge-text-manager"
 import metaService from "@service/meta-service"
 import UninstallListener from "./uninstall-listener"
+import { getGuidePageUrl } from "@util/constant/url"
 
 // Open the log of console
 openLog()
@@ -48,7 +49,10 @@ new ActiveTabListener()
 
 // Collect the install time
 chrome.runtime.onInstalled.addListener(async detail => {
-    detail.reason === "install" && await metaService.updateInstallTime(new Date())
+    if (detail.reason === "install") {
+        chrome.tabs.create({ url: getGuidePageUrl(true) })
+        await metaService.updateInstallTime(new Date())
+    }
     // Questionnaire for uninstall
     new UninstallListener().listen()
 })
