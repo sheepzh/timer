@@ -5,13 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import OptionDatabase from "@db/option-database"
 import TimerDatabase from "@db/timer-database"
+import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const storage = chrome.storage.local
 const timerDb: TimerDatabase = new TimerDatabase(storage)
-const optionDb: OptionDatabase = new OptionDatabase(storage)
 
 function mill2Str(milliseconds: number) {
     if (milliseconds < 60000) {
@@ -62,9 +61,9 @@ class BadgeTextManager {
     async init() {
         this.timer = setInterval(() => !this.isPaused && updateFocus(), 1000)
 
-        const option: Partial<timer.option.AllOption> = await optionDb.getOption()
+        const option: Partial<timer.option.AllOption> = await optionService.getAllOption()
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
-        optionDb.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
+        optionService.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
     }
 
     /**
