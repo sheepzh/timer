@@ -77,8 +77,8 @@ const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
     data.date = row.date
     data.alias = row.alias
     // Always display by seconds
-    data.total = periodFormatter(row.total, true, true)
-    data.focus = periodFormatter(row.focus, true, true)
+    data.total = periodFormatter(row.total, "second", true)
+    data.focus = periodFormatter(row.focus, "second", true)
     data.time = row.time
     return data
 })
@@ -109,8 +109,8 @@ function generateCsvData(rows: timer.stat.Row[], mergeDate: boolean, mergeHost: 
         if (!mergeHost) {
             line.push(row.alias || '')
         }
-        line.push(periodFormatter(row.total, true, true))
-        line.push(periodFormatter(row.focus, true, true))
+        line.push(periodFormatter(row.total, "second", true))
+        line.push(periodFormatter(row.focus, "second", true))
         line.push(row.time)
         data.push(line)
     })
@@ -203,7 +203,7 @@ const _default = defineComponent({
         const dateRange: Ref<Array<Date>> = ref([dateStart || now, dateEnd || now])
         const mergeDate: Ref<boolean> = ref(false)
         const mergeHost: Ref<boolean> = ref(mh === "true" || mh === "1")
-        const displayBySecond: Ref<boolean> = ref(false)
+        const timeFormat: Ref<timer.app.report.TimeFormat> = ref("default")
         const data: Ref<timer.stat.Row[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
         const sort: UnwrapRef<SortInfo> = reactive({
@@ -230,7 +230,7 @@ const _default = defineComponent({
             }
             mergeDate.value && (baseName += '_' + t(msg => msg.report.mergeDate))
             mergeHost.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
-            displayBySecond.value && (baseName += '_' + t(msg => msg.report.displayBySecond))
+            timeFormat.value && (baseName += '_' + t(msg => msg.report.timeFormat[timeFormat.value]))
             return baseName
         })
 
@@ -246,13 +246,13 @@ const _default = defineComponent({
                 dateRange: dateRange.value,
                 mergeDate: mergeDate.value,
                 mergeHost: mergeHost.value,
-                displayBySecond: displayBySecond.value,
+                timeFormat: timeFormat.value,
                 onChange: (newFilterOption: timer.app.report.FilterOption) => {
                     host.value = newFilterOption.host
                     dateRange.value = newFilterOption.dateRange
                     mergeDate.value = newFilterOption.mergeDate
                     mergeHost.value = newFilterOption.mergeHost
-                    displayBySecond.value = newFilterOption.displayBySecond
+                    timeFormat.value = newFilterOption.timeFormat
                     query()
                 },
                 onDownload: async (format: FileFormat) => {
@@ -295,7 +295,7 @@ const _default = defineComponent({
                     whitelist: whitelist.value,
                     mergeDate: mergeDate.value,
                     mergeHost: mergeHost.value,
-                    displayBySecond: displayBySecond.value,
+                    timeFormat: timeFormat.value,
                     dateRange: dateRange.value,
                     data: data.value,
                     defaultSort: sort,
