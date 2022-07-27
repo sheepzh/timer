@@ -263,6 +263,14 @@ declare namespace timer {
     namespace app {
         namespace report {
             /**
+             * @since 1.1.7
+             */
+            type TimeFormat =
+                | "default"
+                | "second"
+                | "minute"
+                | "hour"
+            /**
              * The query param of report page
              */
             type QueryParam = {
@@ -288,7 +296,10 @@ declare namespace timer {
                 dateRange: Date[]
                 mergeDate: boolean
                 mergeHost: boolean
-                displayBySecond: boolean
+                /**
+                 * @since 1.1.7
+                 */
+                timeFormat: TimeFormat
             }
         }
 
