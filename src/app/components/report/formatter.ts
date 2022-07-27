@@ -28,7 +28,7 @@ export function dateFormatter(date: string): string {
  * @param timeFormat 
  * @param hideUnit 
  */
-export const periodFormatter = (milliseconds: number, timeFormat?: timer.app.report.TimeFormat, hideUnit?: boolean) => {
+export const periodFormatter = (milliseconds: number, timeFormat?: timer.app.TimeFormat, hideUnit?: boolean) => {
     const format = timeFormat || "default"
     if (milliseconds === undefined) {
         if (format === 'default') {

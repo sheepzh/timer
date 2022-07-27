@@ -18,7 +18,7 @@ const _default = defineComponent({
     name: "FocusColumn",
     props: {
         timeFormat: {
-            type: String as PropType<timer.app.report.TimeFormat>
+            type: String as PropType<timer.app.TimeFormat>
         }
     },
     setup(props) {
