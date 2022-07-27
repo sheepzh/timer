@@ -261,15 +261,15 @@ declare namespace timer {
     }
 
     namespace app {
+        /**
+         * @since 1.1.7
+         */
+        type TimeFormat =
+            | "default"
+            | "second"
+            | "minute"
+            | "hour"
         namespace report {
-            /**
-             * @since 1.1.7
-             */
-            type TimeFormat =
-                | "default"
-                | "second"
-                | "minute"
-                | "hour"
             /**
              * The query param of report page
              */
