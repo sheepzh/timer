@@ -20,28 +20,28 @@ const baseProps: Partial<chrome.contextMenus.CreateProperties> = {
 }
 
 const allFunctionProps: chrome.contextMenus.CreateProperties = {
-    id: '_timer_menu_item_app_link_',
+    id: chrome.runtime.id + '_timer_menu_item_app_link',
     title: '🏷️ ' + t2Chrome(msg => msg.contextMenus.allFunctions),
     onclick: () => chrome.tabs.create({ url: APP_PAGE_URL }),
     ...baseProps
 }
 
 const optionPageProps: chrome.contextMenus.CreateProperties = {
-    id: '_timer_menu_item_option_link_',
+    id: chrome.runtime.id + '_timer_menu_item_option_link',
     title: '🥰 ' + t2Chrome(msg => msg.contextMenus.optionPage),
     onclick: () => chrome.tabs.create({ url: APP_PAGE_URL + '#' + OPTION_ROUTE }),
     ...baseProps
 }
 
 const repoPageProps: chrome.contextMenus.CreateProperties = {
-    id: '__timer_menu_item_repo_link',
+    id: chrome.runtime.id + '_timer_menu_item_repo_link',
     title: '🍻 ' + t2Chrome(msg => msg.contextMenus.repoPage),
     onclick: () => chrome.tabs.create({ url: SOURCE_CODE_PAGE }),
     ...baseProps
 }
 
 const feedbackPageProps: chrome.contextMenus.CreateProperties = {
-    id: '_timer_menu_item_feedback_link',
+    id: chrome.runtime.id + '_timer_menu_item_feedback_link',
     title: '😿 ' + t2Chrome(msg => msg.contextMenus.feedbackPage),
     onclick: () => chrome.tabs.create({ url: TU_CAO_PAGE }),
     ...baseProps
