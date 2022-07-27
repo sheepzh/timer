@@ -6,6 +6,7 @@
  */
 
 import { t } from "@app/locale"
+import { MILL_PER_MINUTE } from "@entity/dto/period-info"
 import { formatPeriodCommon } from "@util/time"
 
 /**
@@ -24,11 +25,29 @@ export function dateFormatter(date: string): string {
 
 /**
  * @param milliseconds 
- * @param displayBySecond 
- * @param hideUnitOfSecond 
+ * @param timeFormat 
+ * @param hideUnit 
  */
-export const periodFormatter = (milliseconds: number, displayBySecond?: boolean, hideUnitOfSecond?: boolean) => {
-    if (milliseconds === undefined) return displayBySecond ? '0' : '-'
-    const second = Math.floor(milliseconds / 1000)
-    return displayBySecond ? (second + (hideUnitOfSecond ? '' : ' s')) : formatPeriodCommon(milliseconds)
+export const periodFormatter = (milliseconds: number, timeFormat?: timer.app.report.TimeFormat, hideUnit?: boolean) => {
+    const format = timeFormat || "default"
+    if (milliseconds === undefined) {
+        if (format === 'default') {
+            return '-'
+        } else {
+            milliseconds = 0
+        }
+    }
+    if (format === "default") {
+        return formatPeriodCommon(milliseconds)
+    } else if (format === "second") {
+        const second = Math.floor(milliseconds / 1000)
+        return second + (hideUnit ? '' : ' s')
+    } else if (format === "minute") {
+        const minute = (milliseconds / MILL_PER_MINUTE).toFixed(1)
+        return minute + (hideUnit ? '' : ' m')
+    } else if (format === "hour") {
+        const hour = (milliseconds / (MILL_PER_MINUTE * 60)).toFixed(2)
+        return hour + (hideUnit ? '' : ' h')
+    }
+    return '-'
 }

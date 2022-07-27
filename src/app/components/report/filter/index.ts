@@ -14,6 +14,7 @@ import { h, defineComponent, ref, } from "vue"
 import { t } from "@app/locale"
 import InputFilterItem from '@app/components/common/input-filter-item'
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
+import SelectFilterItem from "@app/components/common/select-filter-item"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
@@ -22,7 +23,12 @@ import { DeleteFilled } from "@element-plus/icons-vue"
 const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
-const displayBySecondLabel = t(msg => msg.report.displayBySecond)
+const timeFormatLabels: { [key in timer.app.report.TimeFormat]: string } = {
+    "default": t(msg => msg.report.timeFormat.default),
+    "second": t(msg => msg.report.timeFormat.second),
+    "minute": t(msg => msg.report.timeFormat.minute),
+    "hour": t(msg => msg.report.timeFormat.hour)
+}
 // Batch Delete
 const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
 // Date range
@@ -49,7 +55,7 @@ const _default = defineComponent({
         dateRange: Array as PropType<Date[]>,
         mergeDate: Boolean,
         mergeHost: Boolean,
-        displayBySecond: Boolean
+        timeFormat: String as PropType<timer.app.report.TimeFormat>
     },
     emits: ["change", "download", "batchDelete"],
     setup(props, ctx) {
@@ -59,13 +65,13 @@ const _default = defineComponent({
         const dateRange: Ref<Array<Date>> = ref(props.dateRange)
         const mergeDate: Ref<boolean> = ref(props.mergeDate)
         const mergeHost: Ref<boolean> = ref(props.mergeHost)
-        const displayBySecond: Ref<boolean> = ref(props.displayBySecond)
+        const timeFormat: Ref<timer.app.report.TimeFormat> = ref(props.timeFormat)
         const computeOption = () => ({
             host: host.value,
             dateRange: dateRange.value,
             mergeDate: mergeDate.value,
             mergeHost: mergeHost.value,
-            displayBySecond: displayBySecond.value
+            timeFormat: timeFormat.value
         } as timer.app.report.FilterOption)
         const handleChange = () => ctx.emit("change", computeOption())
         return () => [
@@ -87,6 +93,14 @@ const _default = defineComponent({
                     handleChange()
                 }
             }),
+            h(SelectFilterItem, {
+                defaultValue: timeFormat.value,
+                options: timeFormatLabels,
+                onSelect(newVal: timer.app.report.TimeFormat) {
+                    timeFormat.value = newVal
+                    handleChange()
+                }
+            }),
             h(SwitchFilterItem, {
                 label: mergeDateLabel,
                 defaultValue: mergeDate.value,
@@ -100,14 +114,6 @@ const _default = defineComponent({
                 defaultValue: mergeHost.value,
                 onChange(newVal: boolean) {
                     mergeHost.value = newVal
-                    handleChange()
-                }
-            }),
-            h(SwitchFilterItem, {
-                label: displayBySecondLabel,
-                defaultValue: displayBySecond.value,
-                onChange(newVal: boolean) {
-                    displayBySecond.value = newVal
                     handleChange()
                 }
             }),

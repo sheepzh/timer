@@ -35,7 +35,7 @@ const _default = defineComponent({
         defaultSort: Object as PropType<SortInfo>,
         mergeDate: Boolean,
         mergeHost: Boolean,
-        displayBySecond: Boolean,
+        timeFormat: String as PropType<timer.app.report.TimeFormat>,
         dateRange: Array as PropType<Date[]>,
         whitelist: Array as PropType<string[]>
     },
@@ -66,8 +66,8 @@ const _default = defineComponent({
             props.mergeHost || result.push(h(AliasColumn, {
                 onAliasChange: (host: string, newAlias: string) => ctx.emit("aliasChange", host, newAlias)
             }))
-            result.push(h(FocusColumn, { displayBySecond: props.displayBySecond }))
-            result.push(h(TotalColumn, { displayBySecond: props.displayBySecond }))
+            result.push(h(FocusColumn, { timeFormat: props.timeFormat }))
+            result.push(h(TotalColumn, { timeFormat: props.timeFormat }))
             result.push(h(TimeColumn))
             result.push(h(OperationColumn, {
                 mergeDate: props.mergeDate,
