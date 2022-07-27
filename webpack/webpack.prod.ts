@@ -15,7 +15,7 @@ const sourceCodeForFireFox = path.resolve(__dirname, '..', 'market_packages', `$
 // Temporary directory for source code to archive on Firefox
 const sourceTempDir = path.resolve(__dirname, '..', 'firefox')
 
-const srcDir = ['public', 'src', 'package.json', 'tsconfig.json', 'webpack']
+const srcDir = ['public', 'src', 'package.json', 'tsconfig.json', 'webpack', 'global.d.ts', "jest.config.ts"]
 const copyMapper = srcDir.map(p => { return { source: path.resolve(__dirname, '..', p), destination: path.resolve(sourceTempDir, p) } })
 
 const readmeForFirefox = path.join(__dirname, '..', 'doc', 'for-fire-fox.md')
