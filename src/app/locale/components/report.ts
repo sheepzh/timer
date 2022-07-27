@@ -16,7 +16,7 @@ export type ReportMessage = {
     yesterday: string
     mergeDate: string
     mergeDomain: string
-    timeFormat: { [key in timer.app.report.TimeFormat]: string }
+    timeFormat: { [key in timer.app.TimeFormat]: string }
     hostPlaceholder: string
     exportFileName: string
     added2Whitelist: string

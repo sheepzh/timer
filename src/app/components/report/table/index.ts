@@ -35,7 +35,7 @@ const _default = defineComponent({
         defaultSort: Object as PropType<SortInfo>,
         mergeDate: Boolean,
         mergeHost: Boolean,
-        timeFormat: String as PropType<timer.app.report.TimeFormat>,
+        timeFormat: String as PropType<timer.app.TimeFormat>,
         dateRange: Array as PropType<Date[]>,
         whitelist: Array as PropType<string[]>
     },
