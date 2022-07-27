@@ -203,7 +203,7 @@ const _default = defineComponent({
         const dateRange: Ref<Array<Date>> = ref([dateStart || now, dateEnd || now])
         const mergeDate: Ref<boolean> = ref(false)
         const mergeHost: Ref<boolean> = ref(mh === "true" || mh === "1")
-        const timeFormat: Ref<timer.app.report.TimeFormat> = ref("default")
+        const timeFormat: Ref<timer.app.TimeFormat> = ref("default")
         const data: Ref<timer.stat.Row[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
         const sort: UnwrapRef<SortInfo> = reactive({

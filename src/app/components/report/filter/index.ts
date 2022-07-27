@@ -23,7 +23,7 @@ import { DeleteFilled } from "@element-plus/icons-vue"
 const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
-const timeFormatLabels: { [key in timer.app.report.TimeFormat]: string } = {
+const timeFormatLabels: { [key in timer.app.TimeFormat]: string } = {
     "default": t(msg => msg.report.timeFormat.default),
     "second": t(msg => msg.report.timeFormat.second),
     "minute": t(msg => msg.report.timeFormat.minute),
@@ -55,7 +55,7 @@ const _default = defineComponent({
         dateRange: Array as PropType<Date[]>,
         mergeDate: Boolean,
         mergeHost: Boolean,
-        timeFormat: String as PropType<timer.app.report.TimeFormat>
+        timeFormat: String as PropType<timer.app.TimeFormat>
     },
     emits: ["change", "download", "batchDelete"],
     setup(props, ctx) {
@@ -65,7 +65,7 @@ const _default = defineComponent({
         const dateRange: Ref<Array<Date>> = ref(props.dateRange)
         const mergeDate: Ref<boolean> = ref(props.mergeDate)
         const mergeHost: Ref<boolean> = ref(props.mergeHost)
-        const timeFormat: Ref<timer.app.report.TimeFormat> = ref(props.timeFormat)
+        const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
         const computeOption = () => ({
             host: host.value,
             dateRange: dateRange.value,
@@ -96,7 +96,7 @@ const _default = defineComponent({
             h(SelectFilterItem, {
                 defaultValue: timeFormat.value,
                 options: timeFormatLabels,
-                onSelect(newVal: timer.app.report.TimeFormat) {
+                onSelect(newVal: timer.app.TimeFormat) {
                     timeFormat.value = newVal
                     handleChange()
                 }
