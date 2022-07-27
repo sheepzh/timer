@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { PropType } from "vue"
+
 import { t } from "@app/locale"
 import { ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
@@ -15,8 +17,8 @@ const columnLabel = t(msg => msg.item.focus)
 const _default = defineComponent({
     name: "FocusColumn",
     props: {
-        displayBySecond: {
-            type: Boolean
+        timeFormat: {
+            type: String as PropType<timer.app.report.TimeFormat>
         }
     },
     setup(props) {
@@ -27,7 +29,7 @@ const _default = defineComponent({
             align: "center",
             sortable: "custom"
         }, {
-            default: ({ row }: { row: timer.stat.Row }) => periodFormatter(row.focus, props.displayBySecond || false)
+            default: ({ row }: { row: timer.stat.Row }) => periodFormatter(row.focus, props.timeFormat || "default")
         })
     }
 })
