@@ -20,6 +20,7 @@ import siteManageManages, { SiteManageMessage } from "./components/site-manage"
 import operationMessages, { OperationMessage } from './components/operation'
 import confirmMessages, { ConfirmMessage } from './components/confirm'
 import dashboardMessages, { DashboardMessage } from "./components/dashboard"
+import timeFormatMessages, { TimeFormatMessage } from "./components/time-format"
 import calendarMessages, { CalendarMessage } from "@util/i18n/components/calendar"
 
 export type AppMessage = {
@@ -38,6 +39,7 @@ export type AppMessage = {
         confirm: ConfirmMessage
         dashboard: DashboardMessage
         calendar: CalendarMessage
+        timeFormat: TimeFormatMessage
 }
 
 const _default: Messages<AppMessage> = {
@@ -57,6 +59,7 @@ const _default: Messages<AppMessage> = {
                 confirm: confirmMessages.zh_CN,
                 dashboard: dashboardMessages.zh_CN,
                 calendar: calendarMessages.zh_CN,
+                timeFormat: timeFormatMessages.zh_CN,
         },
         zh_TW: {
                 dataManage: dataManageMessages.zh_TW,
@@ -74,6 +77,7 @@ const _default: Messages<AppMessage> = {
                 confirm: confirmMessages.zh_TW,
                 dashboard: dashboardMessages.zh_TW,
                 calendar: calendarMessages.zh_TW,
+                timeFormat: timeFormatMessages.zh_TW,
         },
         en: {
                 dataManage: dataManageMessages.en,
@@ -91,6 +95,7 @@ const _default: Messages<AppMessage> = {
                 confirm: confirmMessages.en,
                 dashboard: dashboardMessages.en,
                 calendar: calendarMessages.en,
+                timeFormat: timeFormatMessages.en,
         },
         ja: {
                 dataManage: dataManageMessages.ja,
@@ -108,6 +113,7 @@ const _default: Messages<AppMessage> = {
                 confirm: confirmMessages.ja,
                 dashboard: dashboardMessages.ja,
                 calendar: calendarMessages.ja,
+                timeFormat: timeFormatMessages.ja
         }
 }
 

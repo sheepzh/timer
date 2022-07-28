@@ -8,7 +8,6 @@
 import type { Ref } from "vue"
 
 import { defineComponent, h, onMounted, ref } from "vue"
-import HostOptionInfo from "../../host-option-info"
 import ChartWrapper from "./wrapper"
 
 const _default = defineComponent({
@@ -17,8 +16,12 @@ const _default = defineComponent({
         const elRef: Ref<HTMLDivElement> = ref()
         const chartWrapper: ChartWrapper = new ChartWrapper()
 
+        function render(filterOption: timer.app.trend.FilterOption, isOnMounted: boolean, row: timer.stat.Row[]) {
+            chartWrapper.render({ ...filterOption, isFirst: isOnMounted }, row)
+        }
+
         ctx.expose({
-            render: (host: HostOptionInfo, dateRange: Date[], row: timer.stat.Row[]) => chartWrapper.render(host, dateRange, row),
+            render,
         })
 
         onMounted(() => chartWrapper.init(elRef.value))
