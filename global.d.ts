@@ -269,6 +269,27 @@ declare namespace timer {
             | "second"
             | "minute"
             | "hour"
+
+        namespace trend {
+            type HostInfo = {
+                host: string
+                merged: boolean
+            }
+
+            type FilterOption = {
+                host: HostInfo,
+                dateRange: Date[],
+                timeFormat: TimeFormat
+            }
+
+            type RenderOption = FilterOption & {
+                /**
+                 * Whether render firstly
+                 */
+                isFirst: boolean
+            }
+        }
+
         namespace report {
             /**
              * The query param of report page

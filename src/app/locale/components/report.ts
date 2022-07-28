@@ -16,7 +16,6 @@ export type ReportMessage = {
     yesterday: string
     mergeDate: string
     mergeDomain: string
-    timeFormat: { [key in timer.app.TimeFormat]: string }
     hostPlaceholder: string
     exportFileName: string
     added2Whitelist: string
@@ -41,12 +40,6 @@ const _default: Messages<ReportMessage> = {
         yesterday: '昨天',
         mergeDate: '合并日期',
         mergeDomain: '合并子域名',
-        timeFormat: {
-            default: '默认时间格式',
-            hour: '按小时显示',
-            minute: '按分钟显示',
-            second: '按秒显示'
-        },
         hostPlaceholder: '请输入域名，然后回车',
         exportFileName: '我的上网时间',
         added2Whitelist: '成功加入白名单',
@@ -69,12 +62,6 @@ const _default: Messages<ReportMessage> = {
         yesterday: '昨天',
         mergeDate: '合並日期',
         mergeDomain: '合並子域名',
-        timeFormat: {
-            default: '默認時間格式',
-            hour: '按小時顯示',
-            minute: '按分鐘顯示',
-            second: '按秒顯示'
-        },
         hostPlaceholder: '請輸入域名，然後回車',
         exportFileName: '我的上網時間',
         added2Whitelist: '成功加入白名單',
@@ -97,12 +84,6 @@ const _default: Messages<ReportMessage> = {
         yesterday: 'Yesterday',
         mergeDate: 'Merge date',
         mergeDomain: 'Merge URL',
-        timeFormat: {
-            default: 'Default time format',
-            hour: 'Display in hours',
-            minute: 'Display in minutes',
-            second: 'Display in seconds'
-        },
         hostPlaceholder: 'Partial URL, then enter',
         exportFileName: 'Timer_Data',
         added2Whitelist: 'Added into the whitelist',
@@ -125,12 +106,6 @@ const _default: Messages<ReportMessage> = {
         yesterday: '昨日',
         mergeDate: 'マージ日',
         mergeDomain: 'URLをマージ',
-        timeFormat: {
-            default: 'デフォルトの時間形式',
-            hour: '時間単位で表示',
-            minute: '分単位で表示',
-            second: '秒単位で表示'
-        },
         hostPlaceholder: 'URL を入力してください',
         exportFileName: '私のウェブ時間データ',
         added2Whitelist: 'ホワイトリストに正常に追加されました',

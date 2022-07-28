@@ -24,10 +24,10 @@ const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
 const timeFormatLabels: { [key in timer.app.TimeFormat]: string } = {
-    "default": t(msg => msg.report.timeFormat.default),
-    "second": t(msg => msg.report.timeFormat.second),
-    "minute": t(msg => msg.report.timeFormat.minute),
-    "hour": t(msg => msg.report.timeFormat.hour)
+    "default": t(msg => msg.timeFormat.default),
+    "second": t(msg => msg.timeFormat.second),
+    "minute": t(msg => msg.timeFormat.minute),
+    "hour": t(msg => msg.timeFormat.hour)
 }
 // Batch Delete
 const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
