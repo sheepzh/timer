@@ -17,7 +17,7 @@ export type TrendMessage = {
     last90Days: string
     history: {
         title: string
-        timeUnit: string
+        timeUnit: { [key in timer.app.TimeFormat]: string }
         numberUnit: string
     }
     saveAsImageTitle: string
@@ -36,7 +36,12 @@ const _default: Messages<TrendMessage> = {
         last90Days: '最近 90 天',
         history: {
             title: '历史记录',
-            timeUnit: '时长 / 秒',
+            timeUnit: {
+                default: '时长 / 秒',
+                second: '时长 / 秒',
+                minute: '时长 / 分钟',
+                hour: '时长 / 小时',
+            },
             numberUnit: '次'
         },
         saveAsImageTitle: '保存',
@@ -53,7 +58,12 @@ const _default: Messages<TrendMessage> = {
         last90Days: '最近 90 天',
         history: {
             title: '曆史記錄',
-            timeUnit: '時長 / 秒',
+            timeUnit: {
+                default: '時長 / 秒',
+                second: '時長 / 秒',
+                minute: '時長 / 分鐘',
+                hour: '時長 / 小時',
+            },
             numberUnit: '次'
         },
         saveAsImageTitle: '保存',
@@ -70,7 +80,12 @@ const _default: Messages<TrendMessage> = {
         last90Days: 'Last 90 days',
         history: {
             title: 'Trend',
-            timeUnit: 'Time / second',
+            timeUnit: {
+                default: 'Time / second',
+                second: 'Time / second',
+                minute: 'Time / minute',
+                hour: 'Time / hour',
+            },
             numberUnit: 'Visit Counts'
         },
         saveAsImageTitle: 'Snapshot',
@@ -87,7 +102,12 @@ const _default: Messages<TrendMessage> = {
         last90Days: '過去 90 日間',
         history: {
             title: '歴史記録',
-            timeUnit: '時間 / 秒',
+            timeUnit: {
+                default: '期間 / 秒',
+                second: '期間 / 秒',
+                minute: '期間 / 分',
+                hour: '期間 / 時間',
+            },
             numberUnit: '回'
         },
         saveAsImageTitle: 'ダウンロード',

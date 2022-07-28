@@ -230,7 +230,7 @@ const _default = defineComponent({
             }
             mergeDate.value && (baseName += '_' + t(msg => msg.report.mergeDate))
             mergeHost.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
-            timeFormat.value && (baseName += '_' + t(msg => msg.report.timeFormat[timeFormat.value]))
+            timeFormat.value && (baseName += '_' + t(msg => msg.timeFormat[timeFormat.value]))
             return baseName
         })
 
