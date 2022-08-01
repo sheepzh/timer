@@ -48,10 +48,18 @@ const feedbackPageProps: chrome.contextMenus.CreateProperties = {
 }
 
 function init() {
-    chrome.contextMenus.create(allFunctionProps)
-    chrome.contextMenus.create(optionPageProps)
-    chrome.contextMenus.create(repoPageProps)
-    chrome.contextMenus.create(feedbackPageProps)
+    create(allFunctionProps)
+    create(optionPageProps)
+    create(repoPageProps)
+    create(feedbackPageProps)
+}
+
+function create(props: chrome.contextMenus.CreateProperties) {
+    chrome.contextMenus.create(props, () => {
+        const error: chrome.runtime.LastError = chrome.runtime.lastError
+        const duplicated = error?.message?.startsWith('Cannot create item with duplicate id')
+        duplicated && console.log("Duplicated item: " + props.id)
+    })
 }
 
 export default init
