@@ -36,6 +36,8 @@
 [![](https://img.shields.io/amo/rating/2690100?color=green)](https://addons.mozilla.org/en-US/firefox/addon/2690100)
 [![Mozilla Add-on](https://img.shields.io/amo/users/2690100?color=green)](https://addons.mozilla.org/en-US/firefox/addon/2690100)
 
+![User Count](./script/output/user_count.svg)
+
 ## 截图
 
 > 弹窗页展示今日数据
