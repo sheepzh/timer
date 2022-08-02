@@ -1,9 +1,10 @@
-from click import style
+from symbol import file_input
 import pygal
 from collections import OrderedDict
 import sys
 import json
 import os
+import cairosvg
 
 argv = sys.argv
 
@@ -44,6 +45,7 @@ def render():
     file_name = 'output/user_count.svg'
     with open(file_name, 'wb') as svg_file:
         svg_file.write(svg)
+    cairosvg.svg2svg(file_obj=open(file_name, 'r'), write_to=file_name)
 
 
 def read_json(name):
