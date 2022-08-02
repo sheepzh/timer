@@ -57,12 +57,21 @@ function init() {
         handleClick[props.id] = props.onclick
         // Not set onclick for MV3
         delete props.onclick
-        chrome.contextMenus.create(props)
+        create(props)
     })
 
+    chrome.contextMenus.onClicked.removeListener(() => { })
     chrome.contextMenus.onClicked.addListener((info: chrome.contextMenus.OnClickData) => {
         const { menuItemId } = info
         handleClick[menuItemId]?.()
+    })
+}
+
+function create(props: chrome.contextMenus.CreateProperties) {
+    chrome.contextMenus.create(props, () => {
+        const error: chrome.runtime.LastError = chrome.runtime.lastError
+        const duplicated = error?.message?.startsWith('Cannot create item with duplicate id')
+        duplicated && console.log("Duplicated item: " + props.id)
     })
 }
 
