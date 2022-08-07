@@ -42,7 +42,7 @@ export function extractSiteName(title: string, host?: string) {
  * @since 1.1.8
  */
 export function generateSiteLabel(host: string, name?: string): string {
-    if (host && host !== name) {
+    if (name && host !== name) {
         return `${name} (${host})`
     } else {
         return host
