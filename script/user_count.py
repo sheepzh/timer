@@ -1,12 +1,19 @@
-from symbol import file_input
 import pygal
 from collections import OrderedDict
 import sys
 import json
 import os
+import math
 import cairosvg
 
 argv = sys.argv
+
+
+def smooth_count(last_value, step_num, current_value, data):
+    unit_val = (current_value-last_value) / (step_num+1)
+    for i in range(step_num):
+        data.append(unit_val*(i+1)+last_value)
+    data.append(current_value)
 
 
 def render():
@@ -22,16 +29,37 @@ def render():
         dates.add(date)
     sorted_date = sorted(dates)
     last_edge, last_chrome, last_firefox = 0, 0, 0
+    edge_step, chrome_step, firefox_step = 0, 0, 0
+
     edge_data = []
     chrome_data = []
     firefox_data = []
     for date in sorted_date:
-        last_chrome = chrome_user[date] if date in chrome_user else last_chrome
-        chrome_data.append(last_chrome)
-        last_edge = edge_user[date] if date in edge_user else last_edge
-        edge_data.append(last_edge)
-        last_firefox = firefox_user[date] if date in firefox_user else last_firefox
-        firefox_data.append(last_firefox)
+        if date in chrome_user:
+            val = chrome_user[date]
+            smooth_count(last_chrome, chrome_step, val, chrome_data)
+            last_chrome = val
+            chrome_step = 0
+        else:
+            chrome_step += 1
+        if date in edge_user:
+            val = edge_user[date]
+            smooth_count(last_edge, edge_step, val, edge_data)
+            last_edge = val
+            edge_step = 0
+        else:
+            edge_step += 1
+        if date in firefox_user:
+            val = firefox_user[date]
+            smooth_count(last_firefox, firefox_step, val, firefox_data)
+            last_firefox = val
+            firefox_step = 0
+        else:
+            firefox_step += 1
+    smooth_count(last_chrome, chrome_step, last_chrome, chrome_data)
+    smooth_count(last_edge, edge_step, last_edge, edge_data)
+    smooth_count(last_firefox, firefox_step, last_firefox, firefox_data)
+    print(chrome_data, edge_data, firefox_data)
 
     chart = pygal.StackedLine(
         fill=True, style=pygal.style.styles['default'](label_font_size=8))
@@ -39,8 +67,8 @@ def render():
         sorted_date[0], sorted_date[-1])
 
     chart.add('Firefox', firefox_data)
-    chart.add('Edge', edge_data)
     chart.add('Chrome', chrome_data)
+    chart.add('Edge', edge_data)
     svg = chart.render()
     file_name = 'output/user_count.svg'
     with open(file_name, 'wb') as svg_file:
@@ -93,9 +121,9 @@ def add_chrome(file_path):
     if not exist_data:
         exist_data = {}
     # 3. migrate
-    for key in input_data:
-        if key not in exist_data:
-            exist_data[key] = input_data[key]
+    for key, val in input_data.items():
+        if key not in exist_data and val:
+            exist_data[key] = val
     # 4. write with sorted by key
     write_json(json_file, OrderedDict(sorted(exist_data.items())))
     pass
