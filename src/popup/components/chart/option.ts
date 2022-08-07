@@ -17,6 +17,7 @@ import type {
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
+import { generateSiteLabel } from "@util/site"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -47,10 +48,7 @@ const toolTipFormatter = ({ type }: timer.popup.QueryResult, params: any) => {
     const { name, value, percent } = format
     const data = format.data as timer.stat.Row
     const host = data.host
-    let dimensionName = name
-    if (host && host !== name) {
-        dimensionName = `${name} (${host})`
-    }
+    const dimensionName = generateSiteLabel(host, name)
     const valueText = type === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)
     return `${dimensionName}<br/>${valueText} (${percent}%)`
 }

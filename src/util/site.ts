@@ -35,3 +35,16 @@ export function extractSiteName(title: string, host?: string) {
         .sort((a, b) => a.length - b.length)[0]
         .trim()
 }
+
+/**
+ * Generate the label text with host and name
+ * 
+ * @since 1.1.8
+ */
+export function generateSiteLabel(host: string, name?: string): string {
+    if (host && host !== name) {
+        return `${name} (${host})`
+    } else {
+        return host
+    }
+}
