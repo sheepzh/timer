@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { extractSiteName } from "@util/site"
+import { extractSiteName, generateSiteLabel } from "@util/site"
 
 test('extract site name', () => {
     expect(extractSiteName("")).toEqual(undefined)
@@ -20,4 +20,10 @@ test('extract site name', () => {
     expect(extractSiteName('哔哩哔哩 (゜-゜)つロ 干杯~-bilibili', 'www.bilibili.com')).toEqual('bilibili')
 
     expect(extractSiteName('SurveyMonkey: The World’s Most Popular Free Online Survey Tool')).toEqual('SurveyMonkey')
+})
+
+test('generateSiteLabel', () => {
+    expect(generateSiteLabel('www.baidu.com', '百度')).toEqual('百度 (www.baidu.com)')
+    expect(generateSiteLabel('www.baidu.com', '')).toEqual('www.baidu.com')
+    expect(generateSiteLabel('www.baidu.com', undefined)).toEqual('www.baidu.com')
 })
