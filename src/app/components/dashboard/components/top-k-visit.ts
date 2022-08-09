@@ -25,6 +25,7 @@ import { defineComponent, h, onMounted, ref } from "vue"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
+import { generateSiteLabel } from "@util/site"
 
 const CONTAINER_ID = '__timer_dashboard_top_k_visit'
 const TOP_NUM = 6
@@ -39,6 +40,9 @@ type EcOption = ComposeOption<
 type _Value = {
     name: string
     value: number
+    // Extensive info
+    host: string
+    alias?: string
 }
 
 function optionOf(data: _Value[]): EcOption {
@@ -56,8 +60,10 @@ function optionOf(data: _Value[]): EcOption {
             show: true,
             formatter(params: any) {
                 const visit = params.data?.value || 0
-                const host = params.data?.name || ''
-                return t(msg => msg.dashboard.topK.tooltip, { visit, host })
+                const host = params.data?.host || ''
+                const alias = params.data?.alias || ''
+                const hostLabel = generateSiteLabel(host, alias)
+                return t(msg => msg.dashboard.topK.tooltip, { visit, host: hostLabel })
             }
         },
         series: {
@@ -110,10 +116,10 @@ const _default = defineComponent({
                 sortOrder: SortDirect.DESC,
                 mergeDate: true,
             }
-            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM })).list
-            const data: _Value[] = top.map(({ time, host }) => ({ name: host, value: time }))
+            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM }, { alias: true })).list
+            const data: _Value[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
             for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
-                data.push({ name: '', value: 0 })
+                data.push({ name: '', host: '', value: 0 })
             }
             chartWrapper.render(data, loading)
         })

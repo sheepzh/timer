@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import type { Ref } from "vue"
-import type { TimerQueryParam } from "@service/timer-service"
+import type { FillFlagParam, TimerQueryParam } from "@service/timer-service"
 import type { ECharts, ComposeOption } from "echarts/core"
 import type { CandlestickSeriesOption } from "echarts/charts"
 import type { GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts/components"
@@ -26,6 +26,7 @@ import { groupBy, sum } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
+import { generateSiteLabel } from "@util/site"
 
 type EcOption = ComposeOption<
     | CandlestickSeriesOption
@@ -49,6 +50,12 @@ type _Value = {
 
 function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat.Row[]): EcOption {
     const textColor = getPrimaryTextColor()
+
+    const hostAliasMap: { [host: string]: string } = {
+        ...groupBy(lastPeriodItems, item => item.host, grouped => grouped?.[0]?.alias),
+        ...groupBy(thisPeriodItems, item => item.host, grouped => grouped?.[0]?.alias)
+    }
+
     const lastPeriodMap: { [host: string]: number } = groupBy(lastPeriodItems,
         item => item.host,
         grouped => Math.floor(sum(grouped.map(item => item.focus)) / 1000)
@@ -100,6 +107,7 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
             },
             formatter(params: any) {
                 const data = params?.[0]?.data
+                const host = params?.[0]?.axisValue
                 const lastPeriod = data[1] || 0
                 const thisPeriod = data[2] || 0
                 const lastLabel = t(msg => msg.dashboard.weekOnWeek.lastBrowse, { time: formatPeriodCommon(lastPeriod * 1000) })
@@ -108,7 +116,8 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
                     delta: formatPeriodCommon(Math.abs(thisPeriod - lastPeriod) * 1000),
                     state: t(msg => msg.dashboard.weekOnWeek[thisPeriod < lastPeriod ? 'decline' : 'increase'])
                 })
-                return `${lastLabel}<br/>${thisLabel}<br/>${deltaLabel}`
+                const siteLabel = generateSiteLabel(host, hostAliasMap[host])
+                return `${siteLabel}<br/>${lastLabel}<br/>${thisLabel}<br/>${deltaLabel}`
             }
         },
         grid: {
@@ -123,6 +132,7 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
             axisLabel: {
                 interval: 0,
                 color: textColor,
+                formatter: (host: string) => hostAliasMap[host] || host
             },
         },
         yAxis: {
@@ -179,9 +189,12 @@ const _default = defineComponent({
                 date: [lastPeriodStart, lastPeriodEnd],
                 mergeDate: true,
             }
-            const lastPeriodItems: timer.stat.Row[] = await timerService.select(query)
+            // Query with alias 
+            // @since 1.1.8
+            const flagParam: FillFlagParam = { alias: true }
+            const lastPeriodItems: timer.stat.Row[] = await timerService.select(query, flagParam)
             query.date = [thisPeriodStart, thisPeriodEnd]
-            const thisPeriodItems: timer.stat.Row[] = await timerService.select(query)
+            const thisPeriodItems: timer.stat.Row[] = await timerService.select(query, flagParam)
             const option = optionOf(lastPeriodItems, thisPeriodItems)
             chartWrapper.render(option, loading)
         })

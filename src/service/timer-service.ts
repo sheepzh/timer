@@ -197,9 +197,9 @@ class TimerService {
         return origin
     }
 
-    async selectByPage(param?: TimerQueryParam, page?: PageParam): Promise<PageResult<timer.stat.Row>> {
+    async selectByPage(param?: TimerQueryParam, page?: PageParam, fillFlag?: FillFlagParam): Promise<PageResult<timer.stat.Row>> {
         log("selectByPage:{param},{page}", param, page)
-        const origin: timer.stat.Row[] = await this.select(param)
+        const origin: timer.stat.Row[] = await this.select(param, fillFlag)
         const result: PageResult<timer.stat.Row> = slicePageResult(origin, page)
         const list = result.list
         if (param.mergeHost) {
