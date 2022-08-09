@@ -13,6 +13,7 @@ import { initLocale, locale as appLocale } from "@util/i18n"
 import { init as initTheme } from "@util/dark-mode"
 import { createApp } from "vue"
 import Main from "./layout"
+import installRouter from './router'
 import ElementPlus from 'element-plus'
 
 
@@ -28,7 +29,8 @@ async function main() {
     await initLocale()
 
     const app = createApp(Main)
-    app.mount('#app')
+    installRouter(app)
+    app.mount('#guide')
     locales[appLocale]?.()?.then(locale => app.use(ElementPlus, { locale: locale.default }))
 }
 

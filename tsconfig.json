@@ -15,6 +15,9 @@
             "@popup/*": [
                 "src/popup/*"
             ],
+            "@guide/*": [
+                "src/guide/*"
+            ],
             "@db/*": [
                 "src/database/*"
             ],
