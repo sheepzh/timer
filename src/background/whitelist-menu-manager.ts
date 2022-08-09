@@ -13,7 +13,7 @@ import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const db = new WhitelistDatabase(chrome.storage.local)
 
-const menuId = '_timer_menu_item_' + Date.now()
+const menuId = '_timer_menu_item_' + chrome.runtime.id
 let currentActiveId: number
 
 let whitelist: string[] = []
@@ -70,7 +70,10 @@ const handleTabUpdated = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, 
 const handleTabActivated = (activeInfo: chrome.tabs.TabActiveInfo) => updateContextMenu(currentActiveId = activeInfo.tabId)
 
 async function init() {
-    chrome.contextMenus.create(menuInitialOptions)
+    chrome.contextMenus.create(menuInitialOptions, () => {
+        const error: chrome.runtime.LastError = chrome.runtime.lastError
+        error && console.error("Failed to create menu for whitelist: ", error)
+    })
     chrome.tabs.onUpdated.addListener(handleTabUpdated)
     chrome.tabs.onActivated.addListener(handleTabActivated)
     whitelist = await db.selectAll()
