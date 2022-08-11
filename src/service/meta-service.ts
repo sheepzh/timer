@@ -43,9 +43,31 @@ function increasePopup(): void {
     })
 }
 
+async function getCid(): Promise<string> {
+    const meta: timer.meta.ExtensionMeta = await db.getMeta()
+    return meta?.cid
+}
+
+async function updateCid(newCid: string) {
+    const meta = await db.getMeta()
+    if (meta.cid) {
+        return
+    }
+    meta.cid = newCid
+    await db.update(meta)
+}
+
 class MetaService {
     getInstallTime = getInstallTime
     updateInstallTime = updateInstallTime
+    /**
+     * @since 1.2.0
+     */
+    getCid = getCid
+    /**
+     * @since 1.2.0
+     */
+    updateCid = updateCid
     increaseApp = increaseApp
     increasePopup = increasePopup
 }

@@ -33,11 +33,17 @@ const timerDatabase = new TimerDatabase(chrome.storage.local)
 async function queryData(
     queryParam: Ref<TimerQueryParam>,
     data: Ref<timer.stat.Row[]>,
-    page: UnwrapRef<timer.common.Pagination>
+    page: UnwrapRef<timer.common.Pagination>,
+    readRemote: Ref<boolean>
 ) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
-    const pageInfo = { pageSize: page.size, pageNum: page.num }
-    const pageResult = await timerService.selectByPage(queryParam.value, pageInfo)
+    const pageInfo = { size: page.size, num: page.num }
+    const fillFlag = { alias: true, iconUrl: true }
+    const param = {
+        ...queryParam.value,
+        inclusiveRemote: readRemote.value
+    }
+    const pageResult = await timerService.selectByPage(param, pageInfo, fillFlag)
     const { list, total } = pageResult
     data.value = list
     page.total = total
@@ -206,6 +212,7 @@ const _default = defineComponent({
         const timeFormat: Ref<timer.app.TimeFormat> = ref("default")
         const data: Ref<timer.stat.Row[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
+        const remoteRead: Ref<boolean> = ref(false)
         const sort: UnwrapRef<SortInfo> = reactive({
             prop: sc || 'focus',
             order: ElSortDirect.DESC
@@ -236,7 +243,7 @@ const _default = defineComponent({
 
         const tableEl: Ref = ref()
 
-        const query = () => queryData(queryParam, data, page)
+        const query = () => queryData(queryParam, data, page, remoteRead)
         // Init first
         queryWhiteList(whitelist).then(query)
 
@@ -288,7 +295,11 @@ const _default = defineComponent({
                     }).catch(() => {
                         // Do nothing
                     })
-                }
+                },
+                onRemoteChange(newRemoteChange) {
+                    remoteRead.value = newRemoteChange
+                    query()
+                },
             }),
             content: () => [
                 h(ReportTable, {
