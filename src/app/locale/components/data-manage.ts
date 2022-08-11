@@ -66,7 +66,7 @@ const _default: Messages<DataManageMessage> = {
         operationConfirm: "确认",
     },
     zh_TW: {
-        totalMemoryAlert: '瀏覽器爲每個擴展提供 {size}MB 來存儲本地數據',
+        totalMemoryAlert: '瀏覽器爲每個擴充提供 {size}MB 來存儲本地數據',
         totalMemoryAlert1: '無法確定瀏覽器允許的最大可用內存',
         usedMemoryAlert: '當前已使用 {size}MB',
         operationAlert: '您可以歸檔或者刪除那些無關緊要的數據，來減小內存空間',

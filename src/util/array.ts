@@ -15,7 +15,7 @@
 export function groupBy<T, R>(
     arr: T[],
     keyFunc: (e: T) => string | number,
-    downstream: (grouped: T[]) => R
+    downstream: (grouped: T[], key: string) => R
 ): { [key: string]: R } {
     const groupedMap: { [key: string]: T[] } = {}
     arr.forEach(e => {
@@ -26,7 +26,7 @@ export function groupBy<T, R>(
     })
     const result = {}
     Object.entries(groupedMap)
-        .forEach(([key, grouped]) => result[key] = downstream(grouped))
+        .forEach(([key, grouped]) => result[key] = downstream(grouped, key))
     return result
 }
 

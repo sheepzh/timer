@@ -179,3 +179,18 @@ export function getStartOfDay(target: Date) {
     const currentDate = target.getDate()
     return new Date(currentYear, currentMonth, currentDate)
 }
+
+/**
+ * The birthday of this extension
+ * 
+ * @since 1.2.0
+ */
+export function getBirthday(): Date {
+    const date = new Date()
+    // 2022-03-03
+    date.setFullYear(2021)
+    date.setMonth(2)
+    date.setDate(3)
+    date.setHours(0, 0, 0, 0)
+    return date
+}

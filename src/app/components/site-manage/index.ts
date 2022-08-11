@@ -34,7 +34,7 @@ const queryParam: ComputedRef<HostAliasQueryParam> = computed(() => {
 })
 
 async function queryData() {
-    const page = { pageSize: pageRef.size, pageNum: pageRef.num }
+    const page = { size: pageRef.size, num: pageRef.num }
     const pageResult = await hostAliasService.selectByPage(queryParam.value, page)
     const { list, total } = pageResult
     dataRef.value = list

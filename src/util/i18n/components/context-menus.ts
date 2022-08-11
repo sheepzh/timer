@@ -32,7 +32,7 @@ const _default: Messages<ContextMenusMessage> = {
         add2Whitelist: '將{host}加入白名單',
         removeFromWhitelist: '將{host}從白名單移出',
         allFunctions: '所有功能',
-        optionPage: '擴展選項',
+        optionPage: '擴充選項',
         repoPage: '源碼下載',
         feedbackPage: '吐槽一下'
     },

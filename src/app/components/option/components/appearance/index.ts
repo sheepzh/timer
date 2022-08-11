@@ -86,7 +86,6 @@ const _default = defineComponent({
         const option: Ref<timer.option.AppearanceOption> = ref(defaultAppearance())
         optionService.getAllOption().then(currentVal => {
             option.value = currentVal
-            console.log(option.value)
         })
         ctx.expose({
             async reset() {
