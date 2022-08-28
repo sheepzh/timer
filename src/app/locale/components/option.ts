@@ -139,7 +139,7 @@ const _default: Messages<OptionMessage> = {
             whitelistItem: '白名單',
             contextMenu: '瀏覽器的右鍵菜單',
             displayBadgeText: '{input}  是否在 {icon} 上，顯示 {timeInfo}',
-            icon: '擴展圖標',
+            icon: '擴充圖標',
             badgeTextContent: '當前網站的今日瀏覽時長',
             locale: {
                 label: "語言設置 {input}",
@@ -149,11 +149,11 @@ const _default: Messages<OptionMessage> = {
             },
             printInConsole: {
                 label: '{input}  是否在 {console} 裡打印當前網站的 {info}',
-                console: '瀏覽器的控製颱',
+                console: '瀏覽器的控制台',
                 info: '今日拜訪信息'
             },
             darkMode: {
-                label: "深色主題 {input}",
+                label: "黑暗模式 {input}",
                 options: {
                     on: "始終開啟",
                     off: "始終關閉",
