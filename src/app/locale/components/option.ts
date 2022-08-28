@@ -150,7 +150,7 @@ const _default: Messages<OptionMessage> = {
             printInConsole: {
                 label: '{input}  是否在 {console} 裡打印當前網站的 {info}',
                 console: '瀏覽器的控製颱',
-                info: '今日訪問信息'
+                info: '今日拜訪信息'
             },
             darkMode: {
                 label: "深色主題 {input}",
@@ -169,7 +169,7 @@ const _default: Messages<OptionMessage> = {
             countLocalFiles: '{input}  是否統計使用瀏覽器 {localFileTime} {info}',
             localFileTime: '閱讀本地文件的時間',
             localFilesInfo: '支持 PDF、圖片、txt 以及 json 等格式',
-            collectSiteName: '{input}  訪問網站主頁時，是否自動收集 {siteName} {siteNameUsage}',
+            collectSiteName: '{input}  拜訪網站主頁時，是否自動收集 {siteName} {siteNameUsage}',
             siteName: '網站的名稱',
             siteNameUsage: '數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱'
         },
