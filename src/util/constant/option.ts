@@ -41,3 +41,11 @@ export function defaultStatistics(): timer.option.StatisticsOption {
         countLocalFiles: false
     }
 }
+
+export function defaultOption(): timer.option.AllOption {
+    return {
+        ...defaultPopup(),
+        ...defaultAppearance(),
+        ...defaultStatistics(),
+    }
+}
