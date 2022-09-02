@@ -30,6 +30,7 @@ import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import hostAliasService from "@service/host-alias-service"
 import HostAlias from "@entity/dao/host-alias"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
+import { labelOfHostInfo } from "../common"
 
 use([
     LineChart,
@@ -194,7 +195,7 @@ function getAxias(format: string, dateRange: Date[] | undefined): string[] {
 }
 
 async function processSubtitle(host: timer.app.trend.HostInfo) {
-    let subtitle = host?.toString()
+    let subtitle = labelOfHostInfo(host)
     if (!subtitle) {
         return DEFAULT_SUB_TITLE
     }

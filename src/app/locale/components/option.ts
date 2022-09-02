@@ -139,7 +139,7 @@ const _default: Messages<OptionMessage> = {
             whitelistItem: '白名單',
             contextMenu: '瀏覽器的右鍵菜單',
             displayBadgeText: '{input}  是否在 {icon} 上，顯示 {timeInfo}',
-            icon: '擴展圖標',
+            icon: '擴充圖標',
             badgeTextContent: '當前網站的今日瀏覽時長',
             locale: {
                 label: "語言設置 {input}",
@@ -149,11 +149,11 @@ const _default: Messages<OptionMessage> = {
             },
             printInConsole: {
                 label: '{input}  是否在 {console} 裡打印當前網站的 {info}',
-                console: '瀏覽器的控製颱',
-                info: '今日訪問信息'
+                console: '瀏覽器的控制台',
+                info: '今日拜訪信息'
             },
             darkMode: {
-                label: "深色主題 {input}",
+                label: "黑暗模式 {input}",
                 options: {
                     on: "始終開啟",
                     off: "始終關閉",
@@ -169,7 +169,7 @@ const _default: Messages<OptionMessage> = {
             countLocalFiles: '{input}  是否統計使用瀏覽器 {localFileTime} {info}',
             localFileTime: '閱讀本地文件的時間',
             localFilesInfo: '支持 PDF、圖片、txt 以及 json 等格式',
-            collectSiteName: '{input}  訪問網站主頁時，是否自動收集 {siteName} {siteNameUsage}',
+            collectSiteName: '{input}  拜訪網站主頁時，是否自動收集 {siteName} {siteNameUsage}',
             siteName: '網站的名稱',
             siteNameUsage: '數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱'
         },
