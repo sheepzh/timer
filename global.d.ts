@@ -100,7 +100,27 @@ declare namespace timer {
             countLocalFiles: boolean
         }
 
-        type AllOption = PopupOption & AppearanceOption & StatisticsOption
+        /**
+         * The options of backup
+         * 
+         * @since 1.2.0
+         */
+        type BackupOption = {
+            /**
+             * The type 2 backup
+             */
+            backupType: backup.Type
+            /**
+             * The auth of types, maybe ak/sk or static token
+             */
+            backupAuths: { [type in backup.Type]?: string }
+            /**
+             * The name of this client
+             */
+            clientName: string
+        }
+
+        type AllOption = PopupOption & AppearanceOption & StatisticsOption & BackupOption
         /**
          * @since 0.8.0
          */
@@ -114,6 +134,12 @@ declare namespace timer {
             popupCounter?: {
                 _total?: number
             }
+            /**
+             * The id of this client
+             * 
+             * @since 1.2.0
+             */
+            cid?: string
         }
     }
 
@@ -162,10 +188,12 @@ declare namespace timer {
             date?: string
         }
 
+        type RowBase = RowKey & Result
+
         /**
          * Row of each statistics result
          */
-        type Row = RowKey & Result & {
+        type Row = RowBase & {
             /**
              * The merged domains
              * 
@@ -184,6 +212,15 @@ declare namespace timer {
              * The alias name of this Site, always is the title of its homepage by detected
              */
             alias?: string
+        }
+        /**
+         * @since 1.2.0
+         */
+        type RemoteRow = RowBase & {
+            /**
+             * The name of client where the remote data is storaged
+             */
+            clientName?: string
         }
     }
 
@@ -239,6 +276,14 @@ declare namespace timer {
         type Pagination = {
             size: number
             num: number
+            total: number
+        }
+        type PageQuery = {
+            num?: number
+            size?: number
+        }
+        type PageResult<T> = {
+            list: T[]
             total: number
         }
     }
@@ -323,6 +368,38 @@ declare namespace timer {
                 timeFormat: TimeFormat
             }
         }
+    }
 
+    /**
+     * @since 1.2.0
+     */
+    namespace backup {
+
+        type Type =
+            | 'none'
+            | 'gist'
+
+        /**
+         * Snapshot of last backup
+         */
+        type Snapshot = {
+            /**
+             * Timestamp
+             */
+            ts: number
+            /**
+             * The date of the ts
+             */
+            date: string
+        }
+
+        /**
+         * Snapshot cache
+         */
+        type SnaptshotCache = Partial<{
+            [type in Type]: Snapshot
+        }>
+
+        type MetaCache = Partial<Record<Type, unknown>>
     }
 }

@@ -28,6 +28,10 @@ export type ReportMessage = {
         confirmMsgRange: string
         successMsg: string
     }
+    remoteReading: {
+        on: string
+        off: string
+    }
 }
 
 const _default: Messages<ReportMessage> = {
@@ -51,6 +55,10 @@ const _default: Messages<ReportMessage> = {
             confirmMsgAll: '{example} 等网站的 {count} 条记录将会被删除！',
             confirmMsgRange: '{example} 等网站在 {start} 至 {end} 之间的 {count} 条记录将会被删除！',
             successMsg: '成功批量删除',
+        },
+        remoteReading: {
+            on: '正在查询远端备份数据',
+            off: '单击以开启远端备份数据查询功能',
         }
     },
     zh_TW: {
@@ -73,6 +81,10 @@ const _default: Messages<ReportMessage> = {
             confirmMsgAll: '{example} 等網站的 {count} 條記錄將會被刪除！',
             confirmMsgRange: '{example} 等網站在 {start} 至 {end} 之間的 {count} 條記錄將會被刪除！',
             successMsg: '成功批量刪除',
+        },
+        remoteReading: {
+            on: '正在查詢遠端備份數據',
+            off: '單擊以開啟遠端備份數據查詢功能'
         }
     },
     en: {
@@ -95,6 +107,10 @@ const _default: Messages<ReportMessage> = {
             confirmMsgAll: '{count} records for sites like {example} will be deleted!',
             confirmMsgRange: '{count} records for sites like {example} between {start} and {end} will be deleted!',
             successMsg: 'Batch delete successfully',
+        },
+        remoteReading: {
+            on: 'Reading remote backuped data',
+            off: 'Click to read remote backuped data'
         }
     },
     ja: {
@@ -117,6 +133,10 @@ const _default: Messages<ReportMessage> = {
             confirmMsgAll: '{example} のようなサイトの {count} レコードは削除されます！',
             confirmMsgRange: '{start} と {end} の間の {example} のようなサイトの {count} レコードが削除されます！',
             successMsg: 'バッチ削除に成功',
+        },
+        remoteReading: {
+            on: 'リモート バックアップ データのクエリ',
+            off: 'クリックして、リモート バックアップ データのクエリ機能を有効にします',
         }
     }
 }

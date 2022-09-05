@@ -18,12 +18,16 @@ import { OptionMessage } from "@app/locale/components/option"
  * @param label label
  * @param defaultValue default value
  */
-export function renderOptionItem(input: VNode | { [key: string]: VNode }, label: (msg: OptionMessage) => string, defaultValue: string | number) {
+export function renderOptionItem(input: VNode | { [key: string]: VNode }, label: (msg: OptionMessage) => string, defaultValue?: string | number) {
     const param = isVNode(input) ? { input } : input
     const labelArcher = h('a', { class: 'option-label' }, tN(msg => label(msg.option), param))
-    const defaultTag = h(ElTag, { size: 'small' }, () => defaultValue)
-    const defaultArcher = h('a', { class: 'option-default' }, tN(msg => msg.option.defaultValue, { default: defaultTag }))
-    return h('div', { class: 'option-line' }, [labelArcher, defaultArcher])
+    const content = [labelArcher]
+    if (!!defaultValue) {
+        const defaultTag = h(ElTag, { size: 'small' }, () => defaultValue)
+        const defaultArcher = h('a', { class: 'option-default' }, tN(msg => msg.option.defaultValue, { default: defaultTag }))
+        content.push(defaultArcher)
+    }
+    return h('div', { class: 'option-line' }, content)
 }
 
 /**

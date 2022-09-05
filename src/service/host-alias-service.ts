@@ -9,7 +9,7 @@ import HostAlias, { HostAliasSource } from "@entity/dao/host-alias"
 import HostAliasDatabase, { HostAliasCondition } from "@db/host-alias-database"
 import IconUrlDatabase from "@db/icon-url-database"
 import { HostAliasInfo } from "@entity/dto/host-alias-info"
-import { PageParam, PageResult, slicePageResult } from "./components/page-info"
+import { slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
 const hostAliasDatabase = new HostAliasDatabase(storage)
@@ -18,9 +18,9 @@ const iconUrlDatabase = new IconUrlDatabase(storage)
 export type HostAliasQueryParam = HostAliasCondition
 
 class HostAliasService {
-    async selectByPage(param?: HostAliasQueryParam, page?: PageParam): Promise<PageResult<HostAliasInfo>> {
+    async selectByPage(param?: HostAliasQueryParam, page?: timer.common.PageQuery): Promise<timer.common.PageResult<HostAliasInfo>> {
         const origin: HostAlias[] = await hostAliasDatabase.select(param)
-        const result: PageResult<HostAliasInfo> = slicePageResult(origin, page);
+        const result: timer.common.PageResult<HostAliasInfo> = slicePageResult(origin, page)
         const list: HostAliasInfo[] = result.list
         await this.fillIconUrl(list)
         return result

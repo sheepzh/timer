@@ -10,6 +10,7 @@ import type { ElementDatePickerShortcut } from "@app/element-ui/date"
 import type { ReportMessage } from "@app/locale/components/report"
 
 import DownloadFile from "./download-file"
+import RemoteClient from "./remote-client"
 import { h, defineComponent, ref, } from "vue"
 import { t } from "@app/locale"
 import InputFilterItem from '@app/components/common/input-filter-item'
@@ -19,6 +20,7 @@ import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { DeleteFilled } from "@element-plus/icons-vue"
+import timerService from "@service/timer-service"
 
 const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
@@ -57,7 +59,7 @@ const _default = defineComponent({
         mergeHost: Boolean,
         timeFormat: String as PropType<timer.app.TimeFormat>
     },
-    emits: ["change", "download", "batchDelete"],
+    emits: ["change", "download", "batchDelete", 'remoteChange'],
     setup(props, ctx) {
         const host: Ref<string> = ref(props.host)
         // Don't know why the error occurred, so ignore
@@ -66,6 +68,9 @@ const _default = defineComponent({
         const mergeDate: Ref<boolean> = ref(props.mergeDate)
         const mergeHost: Ref<boolean> = ref(props.mergeHost)
         const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
+        const remoteSwitchVisible: Ref<boolean> = ref(false)
+        // Whether to read remote backup data
+        const readRemote: Ref<boolean> = ref(false)
         const computeOption = () => ({
             host: host.value,
             dateRange: dateRange.value,
@@ -74,6 +79,7 @@ const _default = defineComponent({
             timeFormat: timeFormat.value
         } as timer.app.report.FilterOption)
         const handleChange = () => ctx.emit("change", computeOption())
+        timerService.canReadRemote().then(abled => remoteSwitchVisible.value = abled)
         return () => [
             h(InputFilterItem, {
                 placeholder: hostPlaceholder,
@@ -120,6 +126,7 @@ const _default = defineComponent({
             // Float right
             h("div", { class: "filter-item-right-group" }, [
                 h(ElButton, {
+                    style: readRemote.value ? { display: 'none' } : { display: 'inline-flex' },
                     class: "batch-delete-button",
                     disabled: mergeHost.value,
                     type: "primary",
@@ -127,6 +134,13 @@ const _default = defineComponent({
                     icon: DeleteFilled,
                     onClick: () => ctx.emit("batchDelete", computeOption())
                 }, () => batchDeleteButtonText),
+                h(RemoteClient, {
+                    visible: remoteSwitchVisible.value,
+                    onChange: newVal => {
+                        readRemote.value = newVal
+                        ctx.emit('remoteChange', readRemote.value)
+                    }
+                }),
                 h(DownloadFile, {
                     onDownload: (format: FileFormat) => ctx.emit("download", format)
                 })

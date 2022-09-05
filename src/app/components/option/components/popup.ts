@@ -5,9 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { Ref } from "vue"
+
 import { ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "@app/locale"
-import { defineComponent, h, Ref, ref } from "vue"
+import { defineComponent, h, ref } from "vue"
 import optionService from "@service/option-service"
 import { renderOptionItem, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"

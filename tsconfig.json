@@ -9,6 +9,9 @@
         "importHelpers": true,
         "moduleResolution": "node",
         "paths": {
+            "@api/*": [
+                "src/api/*"
+            ],
             "@app/*": [
                 "src/app/*"
             ],
