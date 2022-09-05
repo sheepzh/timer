@@ -132,6 +132,7 @@ class TimerService {
      * 
      * @param rows rows
      * @since 0.0.9
+     * @deprecated 1.2.0
      */
     async archive(rows: timer.stat.Row[]): Promise<void> {
         await archivedDatabase.updateArchived(rows)
