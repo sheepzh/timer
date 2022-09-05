@@ -72,7 +72,7 @@ class FooterWrapper {
         const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
         const popupRows: timer.popup.Row[] = []
         const other: timer.popup.Row = {
-            host: t(msg => msg.otherLabel),
+            host: t(msg => msg.otherLabel, { count: 0 }),
             focus: 0,
             total: 0,
             date: '0000-00-00',
@@ -80,6 +80,7 @@ class FooterWrapper {
             mergedHosts: [],
             isOther: true,
         }
+        let otherCount = 0
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i]
             if (i < itemCount) {
@@ -87,8 +88,10 @@ class FooterWrapper {
             } else {
                 other.focus += row.focus
                 other.total += row.total
+                otherCount++
             }
         }
+        other.host = t(msg => msg.otherLabel, { count: otherCount })
         popupRows.push(other)
         const type = queryParam.sort as timer.stat.Dimension
         const data = popupRows.filter(item => item[type])

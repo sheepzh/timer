@@ -49,3 +49,12 @@ export function defaultBackup(): timer.option.BackupOption {
         backupAuths: {}
     }
 }
+
+export function defaultOption(): timer.option.AllOption {
+    return {
+        ...defaultPopup(),
+        ...defaultAppearance(),
+        ...defaultStatistics(),
+        ...defaultBackup(),
+    }
+}
