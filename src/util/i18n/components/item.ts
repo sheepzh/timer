@@ -62,9 +62,9 @@ const _default: Messages<ItemMessage> = {
             removeFromWhitelist: '啟用',
             archive: '歸檔',
             jumpToTrend: '趨勢',
-            deleteConfirmMsgAll: '{url} 的所有訪問記錄將被刪除',
-            deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的訪問記錄將被刪除',
-            deleteConfirmMsg: '{url} 在 {date} 的訪問記錄將被刪除',
+            deleteConfirmMsgAll: '{url} 的所有拜訪記錄將被刪除',
+            deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的拜訪記錄將被刪除',
+            deleteConfirmMsg: '{url} 在 {date} 的拜訪記錄將被刪除',
             exportWholeData: '導出數據',
             importWholeData: '導入數據'
         }
@@ -94,7 +94,7 @@ const _default: Messages<ItemMessage> = {
         host: 'URL',
         total: '実行時間',
         focus: '閲覧時間',
-        time: '訪問回数',
+        time: '拜訪回数',
         operation: {
             label: '操作',
             delete: '削除',
@@ -102,9 +102,9 @@ const _default: Messages<ItemMessage> = {
             removeFromWhitelist: '有効にする',
             archive: 'アーカイブ',
             jumpToTrend: '傾向',
-            deleteConfirmMsgAll: '{url} のすべての訪問記録が削除されます',
-            deleteConfirmMsgRange: '{url} {start} から {end} までの訪問記録は削除されます',
-            deleteConfirmMsg: '{date} の {url} の訪問記録は削除されます',
+            deleteConfirmMsgAll: '{url} のすべての拜訪記録が削除されます',
+            deleteConfirmMsgRange: '{url} {start} から {end} までの拜訪記録は削除されます',
+            deleteConfirmMsg: '{date} の {url} の拜訪記録は削除されます',
             exportWholeData: 'インポート',
             importWholeData: '書き出す'
         }

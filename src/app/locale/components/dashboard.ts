@@ -83,12 +83,12 @@ const _default: Messages<DashboardMessage> = {
             tooltip1: '{year}/{month}/{day} 瀏覽網頁 {hour} 小時 {minute} 分鐘',
         },
         topK: {
-            title: '近 {day} 天最常訪問 TOP {k}',
-            tooltip: '訪問 {host} {visit} 次',
+            title: '近 {day} 天最常拜訪 TOP {k}',
+            tooltip: '拜訪 {host} {visit} 次',
         },
         indicator: {
             installedDays: '已使用 {number} 天',
-            visitCount: '訪問過 {site} 個網站總計 {visit} 次',
+            visitCount: '拜訪過 {site} 個網站總計 {visit} 次',
             browsingTime: '瀏覽網頁超過 {minute} 分鐘',
             mostUse: '最喜歡在 {start} 點至 {end} 點之間上網',
         },
@@ -137,12 +137,12 @@ const _default: Messages<DashboardMessage> = {
             tooltip1: '{year} 年 {month} 月 {day} 日 ウェブを {hour} 時間 {minute} 分閲覧する',
         },
         topK: {
-            title: '過去 {day} 日間に最も訪問された TOP {k}',
-            tooltip: '{host} {visit} 回訪問',
+            title: '過去 {day} 日間に最も拜訪された TOP {k}',
+            tooltip: '{host} {visit} 回拜訪',
         },
         indicator: {
             installedDays: '使用 {number} 日',
-            visitCount: '{site} つのサイトへの合計 {visit} 回の訪問',
+            visitCount: '{site} つのサイトへの合計 {visit} 回の拜訪',
             browsingTime: '{minute} 分以上ウェブを閲覧する',
             mostUse: '{start}:00 から {end}:00 までのお気に入りのインターネットアクセス'
         },

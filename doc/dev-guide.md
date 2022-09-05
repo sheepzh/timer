@@ -35,6 +35,8 @@ yarn install
 npm run dev
 # or
 yarn run dev
+# Optional to fix some error caused by node-sass
+npm rebuild node-sass
 ```
 
 项目根目录下会输出两个文件夹，dist_dev 和 firefox_dev。

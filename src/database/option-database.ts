@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { defaultOption } from "@util/constant/option"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -28,7 +29,7 @@ class OptionDatabase extends BaseDatabase {
     async getOption(): Promise<Partial<timer.option.AllOption>> {
         const data = await this.storage.get(DB_KEY)
         const option = data[DB_KEY]
-        if (!option) return {}
+        if (!option) return defaultOption()
         return option as Partial<timer.option.AllOption>
     }
 
