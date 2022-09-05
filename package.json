@@ -28,7 +28,7 @@
     "css-loader": "^6.7.1",
     "eslint": "^8.18.0",
     "filemanager-webpack-plugin": "^7.0.0",
-    "generate-json-webpack-plugin": "^1.2.0",
+    "generate-json-webpack-plugin": "^2.0.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "mini-css-extract-plugin": "^2.6.1",
