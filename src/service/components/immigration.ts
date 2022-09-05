@@ -6,7 +6,6 @@
  */
 
 import packageInfo from "@src/package"
-import ArchivedDatabase from "@db/archived-database"
 import BaseDatabase from "@db/common/base-database"
 import StoragePromise from "@db/common/storage-promise"
 import IconUrlDatabase from "@db/icon-url-database"
@@ -31,11 +30,10 @@ function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
         new TimerDatabase(storage),
         new IconUrlDatabase(storage),
         new PeriodDatabase(storage),
-        new ArchivedDatabase(storage),
         new LimitDatabase(storage),
         new MergeRuleDatabase(storage),
         new WhitelistDatabase(storage),
-        new HostAliasDatabase(storage)
+        new HostAliasDatabase(storage),
     ]
 
     return result
