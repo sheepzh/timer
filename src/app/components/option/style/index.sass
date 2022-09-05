@@ -23,9 +23,6 @@
     margin: 22px 10px 10px 10px
     font-size: 14px
     .option-line
-        display: flex
-        justify-content: space-between
-        align-items: center
         height: 30px
         line-height: 30px
         .el-input--small
@@ -33,13 +30,21 @@
             .el-input__wrapper
                 height: 26px
         .option-label
+            color: var(--el-text-color-primary)
+            float: left
             display: inline-flex
             align-items: center
             color: var(--el-text-color-primary)
             i
                 margin: 0 2px
-            .el-input-number,.el-select,.el-date-editor--time
+            .el-input--small
+                height: 28px
+                .el-input__wrapper
+                    height: 26px
+            .el-select,.el-date-editor--time
                 margin: 0 3px
+            >.el-input-number--small,>.el-input--small
+                margin: 0 5px
             .el-select
                 display: inline-flex
                 margin-left: 10px
@@ -54,9 +59,8 @@
                 color: #F56C6C
                 margin: 0 3px
         .option-default
-            display: inline-flex
-            align-items: center
             color: var(--el-text-color-primary)
+            float: right
             .el-tag
                 height: 20px
 .option-container>span

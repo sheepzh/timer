@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getLatestVersion } from "@src/api/version"
+import { getLatestVersion } from "@api/version"
 import packageInfo from "@src/package"
 import { t } from "@popup/locale"
 import { UPDATE_PAGE } from "@util/constant/url"

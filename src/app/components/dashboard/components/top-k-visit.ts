@@ -116,7 +116,7 @@ const _default = defineComponent({
                 sortOrder: SortDirect.DESC,
                 mergeDate: true,
             }
-            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { pageNum: 1, pageSize: TOP_NUM }, { alias: true })).list
+            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { num: 1, size: TOP_NUM }, { alias: true })).list
             const data: _Value[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
             for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
                 data.push({ name: '', host: '', value: 0 })
