@@ -63,7 +63,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         const searching: Ref<boolean> = ref(false)
         const searchedHosts: Ref<_OptionInfo[]> = ref([])
-        return () => h(ElFormItem, { prop: 'host', label: HOST_LABEL },
+        return () => h(ElFormItem, { prop: 'key', label: HOST_LABEL },
             () => props.editing ?
                 h(ElSelect, {
                     style: { width: '100%' },
