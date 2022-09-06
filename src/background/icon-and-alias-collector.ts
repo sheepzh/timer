@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { HostAliasSource } from "@entity/dao/host-alias"
 import HostAliasDatabase from "@db/host-alias-database"
 import IconUrlDatabase from "@db/icon-url-database"
 import OptionDatabase from "@db/option-database"
@@ -32,7 +31,7 @@ function collectAlias(host: string, tabTitle: string) {
     if (isUrl(tabTitle)) return
     if (!tabTitle) return
     const siteName = extractSiteName(tabTitle, host)
-    siteName && hostAliasDatabase.update({ name: siteName, host, source: HostAliasSource.DETECTED })
+    siteName && hostAliasDatabase.update({ name: siteName, host, source: 'DETECTED' })
 }
 
 /**
@@ -50,7 +49,6 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (iconUrl = undefined)
     iconUrlDatabase.put(host, iconUrl)
-
     collectAliasEnabled && !isBrowserUrl(url) && isHomepage(url) && collectAlias(host, tab.title)
 }
 

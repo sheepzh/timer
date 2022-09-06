@@ -14,6 +14,7 @@ import { ARCHIVED_PREFIX } from "./common/constant"
  * Database of archived site
  *  
  * @since 0.0.9
+ * @deprecated 1.2.0
  */
 class ArchivedDatabase extends BaseDatabase {
     async refresh(): Promise<{}> {

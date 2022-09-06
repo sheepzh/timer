@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { CHROME_ID, EDGE_ID, FIREFOX_ID } from "./meta"
-
 const { userAgent } = navigator
 let isFirefox = false
 let isChrome = false

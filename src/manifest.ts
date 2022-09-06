@@ -50,7 +50,8 @@ const _default: chrome.runtime.ManifestV3 = {
     /**
      * @since 0.2.2
      **/
-    'idle'
+    'idle',
+    'alarms',
   ],
   /**
    * @since 0.3.4

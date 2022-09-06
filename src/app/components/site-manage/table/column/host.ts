@@ -6,10 +6,10 @@
  */
 
 import { ElTableColumn } from "element-plus"
-import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import HostAlert from "@app/components/common/host-alert"
 import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
+import { labelOf } from "../../common"
 
 const label = t(msg => msg.siteManage.column.host)
 
@@ -22,7 +22,15 @@ const _default = defineComponent({
             minWidth: 120,
             align: 'center',
         }, {
-            default: ({ row }: { row: HostAliasInfo }) => h(HostAlert, { host: row.host, iconUrl: row.iconUrl })
+            default: ({ row }: { row: timer.site.AliasIcon }) => row.merged
+                ? h('a',
+                    { class: 'el-link el-link--default is-underline' },
+                    h('span', { class: 'el-link--inner' }, labelOf(row))
+                )
+                : h(HostAlert, {
+                    host: labelOf(row),
+                    iconUrl: row.iconUrl
+                })
         })
     }
 })
