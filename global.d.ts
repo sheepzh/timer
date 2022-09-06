@@ -402,4 +402,33 @@ declare namespace timer {
 
         type MetaCache = Partial<Record<Type, unknown>>
     }
+
+    namespace site {
+
+        /**
+         * @since 0.5.0
+         */
+        type AliasSource =
+            | 'USER'        // By user
+            | 'DETECTED'    // Auto-detected
+
+        type AliasKey = {
+            host: string
+            /**
+             * @since 1.2.1
+             */
+            merged?: boolean
+        }
+        /**
+         * @since 0.5.0
+         */
+        type AliasValue = {
+            name: string
+            source: AliasSource
+        }
+        type Alias = AliasKey & AliasValue
+        type AliasIcon = Alias & {
+            iconUrl?: string
+        }
+    }
 }

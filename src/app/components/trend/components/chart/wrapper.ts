@@ -28,7 +28,6 @@ import TooltipComponent from "@echarts/component/tooltip"
 import { t } from "@app/locale"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import hostAliasService from "@service/host-alias-service"
-import HostAlias from "@entity/dao/host-alias"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { labelOfHostInfo } from "../common"
 
@@ -202,7 +201,7 @@ async function processSubtitle(host: timer.app.trend.HostInfo) {
     if (!host.merged) {
         // If not merged, append the site name to the original subtitle
         // @since 0.9.0
-        const hostAlias: HostAlias = await hostAliasService.get(host.host)
+        const hostAlias: timer.site.Alias = await hostAliasService.get(host)
         const siteName = hostAlias?.name
         siteName && (subtitle += ` / ${siteName}`)
     }

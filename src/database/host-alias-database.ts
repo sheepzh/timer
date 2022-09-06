@@ -5,29 +5,44 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostAlias, { HostAliasSource } from "@entity/dao/host-alias"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 const DB_KEY_PREFIX = REMAIN_WORD_PREFIX + "ALIAS"
-const DB_KEY_PREFIX_LENGTH = DB_KEY_PREFIX.length
+const DB_KEY_PREFIX_M = REMAIN_WORD_PREFIX + "ALIASM"
 
-const SOURCE_PREFIX_MAP: { [source in HostAliasSource]: string } = {
+const SOURCE_PREFIX_MAP: { [source in timer.site.AliasSource]: string } = {
     USER: 'u',
     DETECTED: 'd'
 }
 const ABBR_MAP = {
-    'u': HostAliasSource.USER,
-    'd': HostAliasSource.DETECTED
+    'u': 'USER',
+    'd': 'DETECTED'
 }
 
-const generateKey = (host: string) => DB_KEY_PREFIX + host
-const hostOf = (key: string) => key.substring(DB_KEY_PREFIX_LENGTH)
-function valueOf(host: string, value: string): HostAlias {
+function generateKey(aliasKey: timer.site.AliasKey): string {
+    return (aliasKey.merged ? DB_KEY_PREFIX_M : DB_KEY_PREFIX) + aliasKey.host
+}
+
+function aliasKeyOf(key: string): timer.site.AliasKey {
+    if (key.startsWith(DB_KEY_PREFIX_M)) {
+        return {
+            host: key.substring(DB_KEY_PREFIX_M.length),
+            merged: true
+        }
+    } else {
+        return {
+            host: key.substring(DB_KEY_PREFIX.length),
+            merged: false
+        }
+    }
+}
+
+function valueOf(aliasKey: timer.site.AliasKey, value: string): timer.site.Alias {
     const abbr = value.substring(0, 1)
 
     return {
-        host,
+        ...aliasKey,
         source: ABBR_MAP[abbr],
         name: value.substring(1)
     }
@@ -36,7 +51,7 @@ function valueOf(host: string, value: string): HostAlias {
 export type HostAliasCondition = {
     host?: string
     alias?: string
-    source?: HostAliasSource
+    source?: timer.site.AliasSource
 }
 
 /**
@@ -47,11 +62,11 @@ class HostAliasDatabase extends BaseDatabase {
     /**
      * Update the alias
      */
-    async update(toUpdate: HostAlias): Promise<void> {
-        const { host, name, source } = toUpdate
-        const key = generateKey(host)
+    async update(toUpdate: timer.site.Alias): Promise<void> {
+        const { name, source } = toUpdate
+        const key = generateKey(toUpdate)
         const value = SOURCE_PREFIX_MAP[source] + name
-        if (source === HostAliasSource.USER) {
+        if (source === 'USER') {
             // Force update
             return this.storage.put(key, value)
         }
@@ -61,17 +76,17 @@ class HostAliasDatabase extends BaseDatabase {
             return this.storage.put(key, value)
         }
         const abbr = (existVal as string).substring(0, 1)
-        if (ABBR_MAP[abbr] === HostAliasSource.DETECTED) {
+        if (ABBR_MAP[abbr] === 'DETECTED') {
             // Update
             return this.storage.put(key, value)
         }
     }
 
-    async selectAll(): Promise<HostAlias[]> {
+    async selectAll(): Promise<timer.site.Alias[]> {
         return this.select()
     }
 
-    async select(queryParam?: HostAliasCondition): Promise<HostAlias[]> {
+    async select(queryParam?: HostAliasCondition): Promise<timer.site.Alias[]> {
         const host = queryParam?.host
         const alias = queryParam?.alias
         const source = queryParam?.source
@@ -79,9 +94,9 @@ class HostAliasDatabase extends BaseDatabase {
         return Object.keys(data)
             .filter(key => key.startsWith(DB_KEY_PREFIX))
             .map(key => {
-                const host = hostOf(key)
+                const aliasKey = aliasKeyOf(key)
                 const value = data[key]
-                return valueOf(host, value)
+                return valueOf(aliasKey, value)
             })
             .filter(hostAlias => {
                 if (host && !hostAlias.host.includes(host)) return false
@@ -91,32 +106,33 @@ class HostAliasDatabase extends BaseDatabase {
             })
     }
 
-    async get(...hosts: string[]): Promise<{ [host: string]: HostAlias }> {
+    async get(...hosts: timer.site.AliasKey[]): Promise<timer.site.Alias[]> {
         const keys = hosts.map(generateKey)
         const items = await this.storage.get(keys)
-        const result = {}
+        const result = []
         Object.entries(items).forEach(([key, value]) => {
-            const host = hostOf(key)
-            result[host] = valueOf(host, value)
+            const aliasKey = aliasKeyOf(key)
+            result.push(valueOf(aliasKey, value))
         })
+        console.log(hosts, result)
         return Promise.resolve(result)
     }
 
-    async exist(host: string): Promise<boolean> {
+    async exist(host: timer.site.AliasKey): Promise<boolean> {
         const key = generateKey(host)
         const items = await this.storage.get(key)
         return !!items[key]
     }
 
-    async existBatch(hosts: string[]): Promise<{ [host: string]: boolean }> {
+    async existBatch(hosts: timer.site.AliasKey[]): Promise<timer.site.AliasKey[]> {
         const keys = hosts.map(generateKey)
         const items = await this.storage.get(keys)
-        const result = {}
-        Object.entries(items).map(([key]) => hostOf(key)).forEach(host => result[host] = true)
+        const result: timer.site.AliasKey[] = []
+        Object.entries(items).map(([key]) => aliasKeyOf(key)).forEach(host => result.push(host))
         return result
     }
 
-    async remove(host: string) {
+    async remove(host: timer.site.AliasKey) {
         const key = generateKey(host)
         await this.storage.remove(key)
     }

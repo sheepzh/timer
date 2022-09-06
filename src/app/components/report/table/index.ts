@@ -63,7 +63,7 @@ const _default = defineComponent({
             ]
             props.mergeDate || result.push(h(DateColumn))
             result.push(h(HostColumn, { mergeHost: props.mergeHost }))
-            props.mergeHost || result.push(h(AliasColumn, {
+            result.push(h(AliasColumn, {
                 onAliasChange: (host: string, newAlias: string) => ctx.emit("aliasChange", host, newAlias)
             }))
             result.push(h(FocusColumn, { timeFormat: props.timeFormat }))
