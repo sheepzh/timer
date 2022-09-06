@@ -6,7 +6,6 @@
  */
 
 import { ElIcon, ElTableColumn, ElTooltip } from "element-plus"
-import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
@@ -22,7 +21,7 @@ const _default = defineComponent({
             minWidth: 100,
             align: 'center',
         }, {
-            default: ({ row }: { row: HostAliasInfo }) => h('span', row.name),
+            default: ({ row }: { row: timer.site.AliasIcon }) => h('span', row.name),
             header: () => {
                 const infoTooltip = h(ElTooltip,
                     { content: tooltip, placement: 'top' },

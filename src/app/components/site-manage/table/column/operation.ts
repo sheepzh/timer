@@ -8,12 +8,11 @@
 import { ElButton, ElTableColumn } from "element-plus"
 import { t } from "@app/locale"
 import { defineComponent, h, SetupContext } from "vue"
-import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import PopupConfirmButton from "@app/components/common/popup-confirm-button"
 
 const deleteButtonText = t(msg => msg.siteManage.button.delete)
-const deleteButton = (ctx: SetupContext<_Emit[]>, row: HostAliasInfo) => h(PopupConfirmButton, {
+const deleteButton = (ctx: SetupContext<_Emit[]>, row: timer.site.AliasIcon) => h(PopupConfirmButton, {
     buttonIcon: Delete,
     buttonType: "danger",
     buttonText: deleteButtonText,
@@ -22,7 +21,7 @@ const deleteButton = (ctx: SetupContext<_Emit[]>, row: HostAliasInfo) => h(Popup
 })
 
 const modifyButtonText = t(msg => msg.siteManage.button.modify)
-const modifyButton = (ctx: SetupContext<_Emit[]>, row: HostAliasInfo) => h(ElButton, {
+const modifyButton = (ctx: SetupContext<_Emit[]>, row: timer.site.AliasIcon) => h(ElButton, {
     size: 'small',
     type: "primary",
     icon: Edit,
@@ -41,7 +40,7 @@ const _default = defineComponent({
             label,
             align: 'center',
         }, {
-            default: ({ row }: { row: HostAliasInfo }) => [
+            default: ({ row }: { row: timer.site.AliasIcon }) => [
                 modifyButton(ctx, row),
                 deleteButton(ctx, row)
             ]

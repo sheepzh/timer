@@ -50,14 +50,16 @@ async function queryData(
     loading.close()
 }
 
-async function handleAliasChange(host: string, newAlias: string, data: Ref<timer.stat.Row[]>) {
+async function handleAliasChange(key: timer.site.AliasKey, newAlias: string, data: Ref<timer.stat.Row[]>) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
-        await hostAliasService.remove(host)
+        await hostAliasService.remove(key)
     } else {
-        await hostAliasService.change(host, newAlias)
+        await hostAliasService.change(key, newAlias)
     }
-    data.value.filter(item => item.host === host).forEach(item => item.alias = newAlias)
+    data.value
+        .filter(item => item.host === key.host)
+        .forEach(item => item.alias = newAlias)
 }
 
 async function queryWhiteList(whitelist: Ref<string[]>): Promise<void> {
@@ -318,7 +320,7 @@ const _default = defineComponent({
                     }),
                     onItemDelete: (_deleted: timer.stat.Row) => query(),
                     onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
-                    onAliasChange: (host: string, newAlias: string) => handleAliasChange(host, newAlias, data)
+                    onAliasChange: (host: string, newAlias: string) => handleAliasChange({ host, merged: mergeHost.value }, newAlias, data)
                 }),
                 h(Pagination, {
                     total: page.total,

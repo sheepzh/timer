@@ -171,10 +171,12 @@ class TimerService {
         items.forEach(dataItem => dataItem.iconUrl = iconUrlMap[dataItem.host])
     }
 
-    private async fillAlias(items: timer.stat.Row[]): Promise<void> {
-        const hosts: string[] = items.map(o => o.host)
-        const aliasMap = await hostAliasDatabase.get(...hosts)
-        items.forEach(dataItem => dataItem.alias = aliasMap[dataItem.host]?.name)
+    private async fillAlias(items: timer.stat.Row[], mergeHost: boolean): Promise<void> {
+        const keys = items.map(({ host }) => ({ host, merged: mergeHost }))
+        const allAlias = await hostAliasDatabase.get(...keys)
+        const aliasMap = {}
+        allAlias.forEach(({ host, name }) => aliasMap[host] = name)
+        items.forEach(dataItem => dataItem.alias = aliasMap[dataItem.host])
     }
 
     async select(param?: TimerQueryParam, flagParam?: FillFlagParam): Promise<timer.stat.Row[]> {
@@ -204,9 +206,9 @@ class TimerService {
         // 2nd sort
         this.processSort(origin, param)
         // 3rd get icon url and alias if need
+        flagParam?.alias && await this.fillAlias(origin, param.mergeHost)
         if (!param.mergeHost) {
             flagParam?.iconUrl && await this.fillIconUrl(origin)
-            flagParam?.alias && await this.fillAlias(origin)
         }
         // Filter merged host if full host
         fullHost && (origin = origin.filter(dataItem => dataItem.host === fullHost))
@@ -273,12 +275,22 @@ class TimerService {
         fillFlag?: FillFlagParam
     ): Promise<timer.common.PageResult<timer.stat.Row>> {
         log("selectByPage:{param},{page}", param, page)
-        const origin: timer.stat.Row[] = await this.select(param, fillFlag)
+        // Not fill at first
+        const origin: timer.stat.Row[] = await this.select(param)
         const result: timer.common.PageResult<timer.stat.Row> = slicePageResult(origin, page)
         const list = result.list
-        if (param.mergeHost && fillFlag.iconUrl) {
-            for (const beforeMerge of list) await this.fillIconUrl(beforeMerge.mergedHosts)
+        // Filter after page sliced
+        if (fillFlag?.iconUrl) {
+            if (param?.mergeHost) {
+                for (const beforeMerge of list) await this.fillIconUrl(beforeMerge.mergedHosts)
+            } else {
+                await this.fillIconUrl(list)
+            }
         }
+        if (fillFlag?.alias) {
+            await this.fillAlias(list, param.mergeHost)
+        }
+        console.log(result)
         return result
     }
 
