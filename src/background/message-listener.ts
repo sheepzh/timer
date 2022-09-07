@@ -7,7 +7,6 @@
 
 import { getAppPageUrl } from "@util/constant/url"
 import { LIMIT_ROUTE } from "../app/router/constants"
-import { ChromeMessage, ChromeResult } from "@util/message"
 import TimeLimitItem from "@entity/dto/time-limit-item"
 
 function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
@@ -16,7 +15,7 @@ function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
     if (!anyMatch) {
         return
     }
-    chrome.tabs.sendMessage<ChromeMessage<timer.limit.Item[]>, ChromeResult>(tab.id, {
+    chrome.tabs.sendMessage<timer.mq.Request<timer.limit.Item[]>, timer.mq.Response>(tab.id, {
         code: "limitWaking",
         data: rules
     }, result => {
@@ -28,7 +27,7 @@ function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
     })
 }
 
-function listen(message: ChromeMessage<any>, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
+function listen(message: timer.mq.Request<any>, _sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
     if (message.code === 'openLimitPage') {
         const url: string = message.data as string
         const pageUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(url) })

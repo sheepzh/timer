@@ -8,7 +8,6 @@
 import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import { t2Chrome } from "@util/i18n/chrome/t"
-import { ChromeCallback, ChromeMessage, ChromeResult } from "@util/message"
 
 class _Modal {
     url: string
@@ -41,7 +40,7 @@ class _Modal {
                 const wakingRules = delayRules
                     .map(like => TimeLimitItem.of(like))
                     .filter(rule => !rule.hasLimited())
-                chrome.runtime.sendMessage<ChromeMessage<timer.limit.Item[]>, ChromeResult>(wakingMessage(wakingRules))
+                chrome.runtime.sendMessage<timer.mq.Request<timer.limit.Item[]>, timer.mq.Response>(wakingMessage(wakingRules))
                 this.hideModal()
             }
             this.delayContainer.append(link)
@@ -77,7 +76,7 @@ class _Modal {
     }
 }
 
-function wakingMessage(rules: timer.limit.Item[]): ChromeMessage<timer.limit.Item[]> {
+function wakingMessage(rules: timer.limit.Item[]): timer.mq.Request<timer.limit.Item[]> {
     return { code: 'limitWaking', data: rules }
 }
 
@@ -101,7 +100,7 @@ const linkStyle: Partial<CSSStyleDeclaration> = {
     fontSize: '16px !important'
 }
 
-function openLimitPageMessage(url: string): ChromeMessage<string> {
+function openLimitPageMessage(url: string): timer.mq.Request<string> {
     return { code: 'openLimitPage', data: encodeURIComponent(url) }
 }
 
@@ -124,7 +123,7 @@ export default async function processLimit(url: string) {
     if (limitedRules?.length) {
         window.onload = () => modal.showModal(!!limitedRules?.filter?.(item => item.allowDelay).length)
     }
-    chrome.runtime.onMessage.addListener((msg: ChromeMessage<timer.limit.Item[]>, _sender, sendResponse: ChromeCallback) => {
+    chrome.runtime.onMessage.addListener((msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => {
         if (msg.code !== "limitTimeMeet") {
             sendResponse({ code: "ignore" })
             return
@@ -138,7 +137,7 @@ export default async function processLimit(url: string) {
         modal.process(items)
         sendResponse({ code: "success" })
     })
-    chrome.runtime.onMessage.addListener((msg: ChromeMessage<timer.limit.Item[]>, _sender, sendResponse: ChromeCallback) => {
+    chrome.runtime.onMessage.addListener((msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => {
         if (msg.code !== "limitWaking") {
             sendResponse({ code: "ignore" })
             return

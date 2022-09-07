@@ -431,4 +431,36 @@ declare namespace timer {
             iconUrl?: string
         }
     }
+
+    /**
+     * Message queue
+     */
+    namespace mq {
+        type ReqCode =
+            | 'openLimitPage'
+            | 'limitTimeMeet'
+            // @since 0.9.0
+            | 'limitWaking'
+        type ResCode = "success" | "fail" | "ignore"
+
+        /**
+         * @since 0.2.2
+         */
+        type Request<T = any> = {
+            code: ReqCode
+            data: T
+        }
+        /**
+         * @since 0.8.4
+         */
+        type Response<T = any> = {
+            code: ResCode,
+            msg?: string
+            data?: T
+        }
+        /**
+         * @since 0.8.4
+         */
+        type Callback<T = any> = (result?: Response<T>) => void
+    }
 }
