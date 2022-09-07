@@ -9,13 +9,12 @@ import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import timerService from "@service/timer-service"
-import { ChromeMessage, ChromeResult } from "@util/message"
 import CollectionContext from "./collection-context"
 
 function sendLimitedMessage(item: TimeLimitItem[]) {
     chrome.tabs.query({ status: "complete" }, tabs => {
         tabs.forEach(tab => {
-            chrome.tabs.sendMessage<ChromeMessage<timer.limit.Item[]>, ChromeResult>(tab.id, {
+            chrome.tabs.sendMessage<timer.mq.Request<timer.limit.Item[]>, timer.mq.Response>(tab.id, {
                 code: "limitTimeMeet",
                 data: item
             }, result => {
