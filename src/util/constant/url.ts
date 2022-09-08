@@ -117,8 +117,3 @@ export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
  * @since 0.9.3
  */
 export const TRANSLATION_ISSUE_PAGE = 'https://docs.google.com/forms/d/e/1FAIpQLSdZSmEZp6Xfmb5v-3H4hsubgeCReDayDOuWDWWU5C1W80exGA/viewform?usp=sf_link'
-
-/**
- * @since 1.0.0
- */
-export const DASHBOARD_FEEDBACK_PAGE = 'https://www.wjx.cn/vm/wn0tj2s.aspx'
