@@ -25,7 +25,7 @@ describe("util/array", () => {
             3: 4
         })
         const allVal = groupBy(arr, _ => undefined, arr => arr.map(a => a[1]))
-        expect(allVal).toEqual({ undefined: [2, 3, 3, 4, 9] })
+        expect(allVal).toEqual({})
     })
 
     test("rotate", () => {

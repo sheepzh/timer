@@ -9,7 +9,6 @@ import TimerDatabase, { TimerCondition } from "@db/timer-database"
 import ArchivedDatabase from "@db/archived-database"
 import { log } from "../common/logger"
 import CustomizedHostMergeRuler from "./components/host-merge-ruler"
-import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import IconUrlDatabase from "@db/icon-url-database"
 import HostAliasDatabase from "@db/host-alias-database"
@@ -109,7 +108,7 @@ class TimerService {
         const allHosts: Set<string> = new Set()
         rows.map(row => row.host).forEach(host => allHosts.add(host))
         // Generate ruler
-        const mergeRuleItems: HostMergeRuleItem[] = await mergeRuleDatabase.selectAll()
+        const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
         const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
         const origin: Set<string> = new Set()
@@ -304,7 +303,7 @@ class TimerService {
         const map = {}
 
         // Generate ruler
-        const mergeRuleItems: HostMergeRuleItem[] = await mergeRuleDatabase.selectAll()
+        const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
         const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
         origin.forEach(o => {

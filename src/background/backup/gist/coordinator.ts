@@ -74,7 +74,7 @@ export default class GistCoordinator implements Coordinator<Cache> {
         const file: File = gist.files[filename]
         if (file) {
             const gistData: GistData = await getJsonFileContent(file)
-            return gistData2Rows(filename, gistData)
+            return gistData2Rows(yearMonth, gistData)
         } else {
             return []
         }

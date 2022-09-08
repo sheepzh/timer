@@ -7,7 +7,6 @@
 
 import { ElTable } from "element-plus"
 import { defineComponent, h, PropType } from "vue"
-import TimeLimitItem from "@entity/dto/time-limit-item"
 import LimitCondColumn from "./column/cond"
 import LimitTimeColumn from "./column/time"
 import LimitWasteColumn from "./column/waste"
@@ -18,7 +17,7 @@ import LimitOperationColumn from "./column/operation"
 const _default = defineComponent({
     name: "LimitTable",
     props: {
-        data: Array as PropType<TimeLimitItem[]>
+        data: Array as PropType<timer.limit.Item[]>
     },
     emits: ["delayChange", "enabledChange", "delete"],
     setup(props, ctx) {
@@ -34,13 +33,13 @@ const _default = defineComponent({
             h(LimitTimeColumn),
             h(LimitWasteColumn),
             h(LimitDelayColumn, {
-                onRowChange: (row: TimeLimitItem, _allowDelay: boolean) => ctx.emit("delayChange", row)
+                onRowChange: (row: timer.limit.Item, _allowDelay: boolean) => ctx.emit("delayChange", row)
             }),
             h(LimitEnabledColumn, {
-                onRowChange: (row: TimeLimitItem, _enabled: boolean) => ctx.emit("enabledChange", row)
+                onRowChange: (row: timer.limit.Item, _enabled: boolean) => ctx.emit("enabledChange", row)
             }),
             h(LimitOperationColumn, {
-                onRowDelete: (row: TimeLimitItem, _cond: string) => ctx.emit("delete", row)
+                onRowDelete: (row: timer.limit.Item, _cond: string) => ctx.emit("delete", row)
             })
         ])
     }

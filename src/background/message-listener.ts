@@ -7,7 +7,7 @@
 
 import { getAppPageUrl } from "@util/constant/url"
 import { LIMIT_ROUTE } from "../app/router/constants"
-import TimeLimitItem from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/time-limit-item"
 
 function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
     const { url } = tab

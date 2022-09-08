@@ -9,7 +9,6 @@ import type { Ref } from "vue"
 
 import ChartWrapper from "./wrapper"
 import { defineComponent, h, onMounted, ref } from "vue"
-import PeriodResult from "@entity/dto/period-result"
 
 const _default = defineComponent({
     name: "HabitChart",
@@ -18,7 +17,7 @@ const _default = defineComponent({
         const wrapper: ChartWrapper = new ChartWrapper()
         onMounted(() => wrapper.init(elRef.value))
         ctx.expose({
-            render: (data: PeriodResult[], averageByDate: boolean, periodSize: number) => wrapper.render(data, averageByDate, periodSize)
+            render: (data: timer.period.Row[], averageByDate: boolean, periodSize: number) => wrapper.render(data, averageByDate, periodSize)
         })
         return () => h('div', {
             class: 'chart-container',

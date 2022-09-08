@@ -7,7 +7,7 @@
 
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
-import TimeLimitItem from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/time-limit-item"
 import { formatTime } from "@util/time"
 import whitelistHolder from './components/whitelist-holder'
 
@@ -36,7 +36,7 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
         .filter(item => url ? item.matches(url) : true)
 }
 
-async function update({ cond, time, enabled, allowDelay }: TimeLimitItem, rewrite?: boolean): Promise<void> {
+async function update({ cond, time, enabled, allowDelay }: timer.limit.Item, rewrite?: boolean): Promise<void> {
     if (rewrite === undefined) {
         rewrite = true
     }
@@ -44,7 +44,7 @@ async function update({ cond, time, enabled, allowDelay }: TimeLimitItem, rewrit
     await db.save(limit, rewrite)
 }
 
-async function updateDelay(item: TimeLimitItem) {
+async function updateDelay(item: timer.limit.Item) {
     await db.updateDelay(item.cond, item.allowDelay)
 }
 

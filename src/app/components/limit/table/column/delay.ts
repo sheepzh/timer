@@ -8,7 +8,6 @@
 import { InfoFilled } from "@element-plus/icons-vue"
 import { ElIcon, ElSwitch, ElTableColumn, ElTooltip } from "element-plus"
 import { defineComponent, h } from "vue"
-import TimeLimitItem from "@entity/dto/time-limit-item"
 import { t } from "@app/locale"
 
 const label = t(msg => msg.limit.item.delayAllowed)
@@ -23,7 +22,7 @@ const _default = defineComponent({
             minWidth: 80,
             align: 'center',
         }, {
-            default: ({ row }: { row: TimeLimitItem }) => h(ElSwitch, {
+            default: ({ row }: { row: timer.limit.Item }) => h(ElSwitch, {
                 modelValue: row.allowDelay,
                 onChange(val: boolean) {
                     row.allowDelay = val

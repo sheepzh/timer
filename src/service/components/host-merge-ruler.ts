@@ -5,16 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import { isIpAndPort } from "@util/pattern"
 import psl from "psl"
-
-/**
- * Ruler to merge host
- */
-export interface IHostMergeRuler {
-    merge(host: string): string
-}
 
 /**
  * @param origin origin host
@@ -47,7 +39,7 @@ type RegRuleItem = {
 
 const processRegStr = (regStr: string) => regStr.split('.').join('\\.').split('*').join('[^\\.]+')
 
-const convert = (dbItem: HostMergeRuleItem) => {
+const convert = (dbItem: timer.merge.Rule) => {
     const { origin, merged } = dbItem
     if (origin.includes('*')) {
         const regStr = processRegStr(origin)
@@ -58,12 +50,12 @@ const convert = (dbItem: HostMergeRuleItem) => {
     }
 }
 
-export default class CustomizedHostMergeRuler implements IHostMergeRuler {
+export default class CustomizedHostMergeRuler implements timer.merge.Merger {
     private noRegMergeRules: { [origin: string]: string | number } = {}
 
     private regulars: RegRuleItem[] = []
 
-    constructor(rules: HostMergeRuleItem[]) {
+    constructor(rules: timer.merge.Rule[]) {
         rules.map(item => convert(item))
             .forEach(rule => Array.isArray(rule) ? (this.noRegMergeRules[rule[0]] = rule[1]) : (this.regulars.push(rule)))
     }

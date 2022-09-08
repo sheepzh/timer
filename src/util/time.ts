@@ -97,6 +97,8 @@ export function formatPeriodCommon(milliseconds: number): string {
  */
 export const MILL_PER_DAY = 3600 * 1000 * 24
 
+export const MILL_PER_MINUTE = 1000 * 60
+
 /**
  * Date range between {start} days ago and {end} days ago
  */
