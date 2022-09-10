@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/time-limit-item"
 import limitService from "@service/limit-service"
 import { t2Chrome } from "@util/i18n/chrome/t"
 

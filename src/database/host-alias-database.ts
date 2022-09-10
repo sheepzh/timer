@@ -114,7 +114,6 @@ class HostAliasDatabase extends BaseDatabase {
             const aliasKey = aliasKeyOf(key)
             result.push(valueOf(aliasKey, value))
         })
-        console.log(hosts, result)
         return Promise.resolve(result)
     }
 

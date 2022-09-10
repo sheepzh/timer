@@ -8,7 +8,6 @@
 import { Delete } from "@element-plus/icons-vue"
 import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
-import TimeLimitItem from "@entity/dto/time-limit-item"
 import { t } from "@app/locale"
 
 const label = t(msg => msg.limit.item.operation)
@@ -23,7 +22,7 @@ const _default = defineComponent({
             minWidth: 80,
             align: 'center',
         }, {
-            default: ({ row }: { row: TimeLimitItem }) => [
+            default: ({ row }: { row: timer.limit.Item }) => [
                 h(ElButton, {
                     type: 'danger',
                     size: 'small',

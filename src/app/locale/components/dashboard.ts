@@ -31,17 +31,7 @@ export type DashboardMessage = {
         wow: string
         increase: string
         decline: string
-    },
-    feedback: {
-        button: string
-        tooltip: string
     }
-}
-
-// Not display if not zh_CN
-const EMPTY_FEEDBACK = {
-    button: '',
-    tooltip: ''
 }
 
 const _default: Messages<DashboardMessage> = {
@@ -70,10 +60,6 @@ const _default: Messages<DashboardMessage> = {
             increase: '增长',
             decline: '减少',
         },
-        feedback: {
-            button: '反馈',
-            tooltip: '告诉作者您对仪表盘新功能的感受~'
-        },
     },
     zh_TW: {
         heatMap: {
@@ -100,7 +86,6 @@ const _default: Messages<DashboardMessage> = {
             increase: '增長',
             decline: '減少',
         },
-        feedback: EMPTY_FEEDBACK
     },
     en: {
         heatMap: {
@@ -127,7 +112,6 @@ const _default: Messages<DashboardMessage> = {
             increase: 'increased',
             decline: 'decreased',
         },
-        feedback: EMPTY_FEEDBACK
     },
     ja: {
         heatMap: {
@@ -154,7 +138,6 @@ const _default: Messages<DashboardMessage> = {
             increase: '増加',
             decline: '減らす',
         },
-        feedback: EMPTY_FEEDBACK
     },
 }
 

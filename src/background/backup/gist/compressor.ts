@@ -32,20 +32,19 @@ function compress(rows: timer.stat.RowBase[]): GistData {
  * @returns [bucket, data][]
  */
 export function devide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][] {
-    const grouped: { [yearAndPart: string]: GistData } = groupBy(rows, calcGroupKey, compress)
+    const grouped: { [yearAndPart: string]: GistData } = groupBy(rows.filter(r => !!r), calcGroupKey, compress)
     return Object.entries(grouped)
 }
 
 /**
  * Gist data 2 rows
  * 
- * @param filename filename
+ * @param filename yearMonth
  * @param gistData gistData
  * @returns rows
  */
-export function gistData2Rows(filename: string, gistData: GistData): timer.stat.RowBase[] {
+export function gistData2Rows(yearMonth: string, gistData: GistData): timer.stat.RowBase[] {
     const result = []
-    const yearMonth = filename.substring(0, 6)
     Object.entries(gistData).forEach(([dateOfMonth, gistRow]) => {
         const date = yearMonth + dateOfMonth
         Object.entries(gistRow).forEach(([host, val]) => {

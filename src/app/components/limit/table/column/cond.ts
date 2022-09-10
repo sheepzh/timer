@@ -7,7 +7,6 @@
 
 import { ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
-import TimeLimitItem from "@entity/dto/time-limit-item"
 import { t } from "@app/locale"
 
 const label = t(msg => msg.limit.item.condition)
@@ -19,7 +18,7 @@ const _default = defineComponent({
         minWidth: 250,
         align: 'center',
     }, {
-        default: ({ row }: { row: TimeLimitItem }) => h('span', row.cond)
+        default: ({ row }: { row: timer.limit.Item }) => h('span', row.cond)
     })
 })
 

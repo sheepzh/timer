@@ -272,6 +272,58 @@ declare namespace timer {
         }
     }
 
+    namespace period {
+        type Key = {
+            year: number
+            month: number
+            date: number
+            /**
+             * 0~95
+             * ps. 95 = 60 / 15 * 24 - 1
+             */
+            order: number
+        }
+        type Result = Key & {
+            /**
+             * 1~900000
+             * ps. 900000 = 15min * 60s/min * 1000ms/s
+             */
+            milliseconds: number
+        }
+        type Row = {
+            /**
+             * {yyyy}{mm}{dd}
+             */
+            date: string
+            startTime: Date
+            endTime: Date
+            /**
+             * 1 - 60000
+             * ps. 60000 = 60s * 1000ms/s
+             */
+            milliseconds: number
+        }
+    }
+
+    namespace merge {
+        type Rule = {
+            /**
+             * Origin host, can be regular expression with star signs
+             */
+            origin: string
+            /**
+             * The merge result
+             * 
+             * + Empty string means equals to the origin host
+             * + Number means the count of kept dots, must be natural number (int & >=0)
+             */
+            merged: string | number
+        }
+        interface Merger {
+            merge(host: string): string
+        }
+    }
+
     namespace common {
         type Pagination = {
             size: number
@@ -298,6 +350,7 @@ declare namespace timer {
             // Filter items
             chartTitle: string
             date: Date | Date[]
+            dateLength: number
         }
         type QueryResultHandler = (result: QueryResult) => void
         type ChartProps = QueryResult & {

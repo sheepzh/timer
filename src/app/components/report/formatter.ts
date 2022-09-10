@@ -6,8 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { MILL_PER_MINUTE } from "@entity/dto/period-info"
-import { formatPeriodCommon } from "@util/time"
+import { formatPeriodCommon, MILL_PER_MINUTE } from "@util/time"
 
 /**
  * @param date date string {yyyy}{mm}{dd}

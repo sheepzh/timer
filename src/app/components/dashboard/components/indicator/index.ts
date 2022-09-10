@@ -7,9 +7,8 @@
 
 import PeriodDatabase from "@db/period-database"
 import timerService from "@service/timer-service"
-import { getStartOfDay, MILL_PER_DAY } from "@util/time"
+import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { defineComponent, h, ref, Ref } from "vue"
-import PeriodInfo, { MILL_PER_MINUTE } from "@entity/dto/period-info"
 import { groupBy } from "@util/array"
 import NumberGrow from "@app/components/common/number-grow"
 import "./style"
@@ -46,12 +45,12 @@ async function query(): Promise<_Value> {
         visits += time
         browsingTime += focus
     })
-    const periodInfos: PeriodInfo[] = await periodDatabase.getAll()
+    const periodInfos: timer.period.Result[] = await periodDatabase.getAll()
     const periodCount = periodInfos?.length || 0
     // Order [0, 95]
     const averageTimePerPeriod: { [order: number]: number } = groupBy(periodInfos,
         p => p.order,
-        (grouped: PeriodInfo[]) => {
+        (grouped: timer.period.Result[]) => {
             const periodMills = grouped.map(p => p.milliseconds)
             if (!periodCount) {
                 return 0

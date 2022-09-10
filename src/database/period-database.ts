@@ -5,19 +5,25 @@
  * https://opensource.org/licenses/MIT
  */
 
-import FocusPerDay from "@entity/dao/period-info"
-import PeriodInfo, { MAX_PERIOD_ORDER, MILLS_PER_PERIOD, PeriodKey } from "@entity/dto/period-info"
+import { getDateString, keyOf, MAX_PERIOD_ORDER, MILLS_PER_PERIOD } from "@util/period"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
+
+type DailyResult = {
+    /**
+     * order => milliseconds of focus 
+     */
+    [minuteOrder: number]: number
+}
 
 const KEY_PREFIX = REMAIN_WORD_PREFIX + 'PERIOD'
 const KEY_PREFIX_LENGTH = KEY_PREFIX.length
 const generateKey = (date: string) => KEY_PREFIX + date
 
-function merge(exists: { [dateKey: string]: FocusPerDay }, toMerge: PeriodInfo[]) {
+function merge(exists: { [dateKey: string]: DailyResult }, toMerge: timer.period.Result[]) {
     toMerge.forEach(period => {
         const { order, milliseconds } = period
-        const key = generateKey(period.getDateString())
+        const key = generateKey(getDateString(period))
         const exist = exists[key] || {}
         const previous = exist[order] || 0
         exist[order] = previous + milliseconds
@@ -25,8 +31,8 @@ function merge(exists: { [dateKey: string]: FocusPerDay }, toMerge: PeriodInfo[]
     })
 }
 
-function db2PeriodInfos(data: { [dateKey: string]: FocusPerDay }): PeriodInfo[] {
-    const result: PeriodInfo[] = []
+function db2PeriodInfos(data: { [dateKey: string]: DailyResult }): timer.period.Result[] {
+    const result: timer.period.Result[] = []
     Object.entries(data).forEach((([dateKey, val]) => {
         const dateStr = dateKey.substring(KEY_PREFIX_LENGTH)
         const date = new Date(
@@ -36,7 +42,10 @@ function db2PeriodInfos(data: { [dateKey: string]: FocusPerDay }): PeriodInfo[] 
         )
         Object
             .entries(val)
-            .forEach(([order, milliseconds]) => result.push(PeriodKey.of(date, Number.parseInt(order)).produce(milliseconds)))
+            .forEach(([order, milliseconds]) => result.push({
+                ...keyOf(date, Number.parseInt(order)),
+                milliseconds
+            }))
     }))
     return result
 }
@@ -46,32 +55,32 @@ function db2PeriodInfos(data: { [dateKey: string]: FocusPerDay }): PeriodInfo[] 
  */
 class PeriodDatabase extends BaseDatabase {
 
-    async get(date: string): Promise<FocusPerDay> {
+    async get(date: string): Promise<DailyResult> {
         const key = generateKey(date)
         const items = await this.storage.get(key)
         return items[key] || {}
     }
 
-    async accumulate(items: PeriodInfo[]): Promise<void> {
-        const dates = Array.from(new Set(items.map(item => item.getDateString())))
+    async accumulate(items: timer.period.Result[]): Promise<void> {
+        const dates = Array.from(new Set(items.map(getDateString)))
         const exists = await this.getBatch0(dates)
         merge(exists, items)
         this.updateBatch(exists)
     }
 
-    private updateBatch(data: { [dateKey: string]: FocusPerDay }): Promise<void> {
+    private updateBatch(data: { [dateKey: string]: DailyResult }): Promise<void> {
         return this.storage.set(data)
     }
 
     /**
      * Used by self
      */
-    private getBatch0(dates: string[]): Promise<{ [dateKey: string]: FocusPerDay }> {
+    private getBatch0(dates: string[]): Promise<{ [dateKey: string]: DailyResult }> {
         const keys = dates.map(generateKey)
         return this.storage.get(keys)
     }
 
-    async getBatch(dates: string[]): Promise<PeriodInfo[]> {
+    async getBatch(dates: string[]): Promise<timer.period.Result[]> {
         return db2PeriodInfos(await this.getBatch0(dates))
     }
 
@@ -79,9 +88,9 @@ class PeriodDatabase extends BaseDatabase {
      * @since 1.0.0
      * @returns all period items
      */
-    async getAll(): Promise<PeriodInfo[]> {
+    async getAll(): Promise<timer.period.Result[]> {
         const allItems = await this.storage.get()
-        const periodItems: { [dateKey: string]: FocusPerDay } = {}
+        const periodItems: { [dateKey: string]: DailyResult } = {}
         Object.entries(allItems)
             .filter(([key]) => key.startsWith(KEY_PREFIX))
             .forEach(([key, val]) => periodItems[key] = val)

@@ -20,6 +20,9 @@ export function groupBy<T, R>(
     const groupedMap: { [key: string]: T[] } = {}
     arr.forEach(e => {
         const key = keyFunc(e)
+        if (key === undefined || key === null) {
+            return
+        }
         const existArr: T[] = groupedMap[key] || []
         existArr.push(e)
         groupedMap[key] = existArr
