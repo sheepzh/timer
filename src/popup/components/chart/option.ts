@@ -43,14 +43,32 @@ const legend2LabelStyle = (legend: string) => {
     return code.join('')
 }
 
-function toolTipFormatter({ type }: timer.popup.QueryResult, params: any): string {
+function calculateAverageText(type: timer.stat.Dimension, averageValue: number): string | undefined {
+    if (type === 'focus') {
+        return t(msg => msg.averageTime, { value: formatPeriodCommon(parseInt(averageValue.toFixed(0))) })
+    } else if (type === 'time') {
+        return t(msg => msg.averageCount, { value: averageValue.toFixed(1) })
+    }
+    return undefined
+}
+
+function toolTipFormatter({ type, dateLength }: timer.popup.QueryResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
-    const data = format.data as timer.stat.Row
+    const data = format.data as timer.popup.Row
     const host = data.host
-    const dimensionName = generateSiteLabel(host, name)
-    const valueText = type === 'time' ? value || 0 : formatPeriodCommon(typeof value === 'number' ? value as number : 0)
-    return `${dimensionName}<br/>${valueText} (${percent}%)`
+    const siteLabel = generateSiteLabel(host, name)
+    let result = siteLabel
+    const itemValue = typeof value === 'number' ? value as number : 0
+    const valueText = type === 'time' ? itemValue : formatPeriodCommon(itemValue)
+    result += '<br/>' + valueText
+    // Display percent only when query focus time
+    type === 'focus' && (result += ` (${percent}%)`)
+    if (!data.isOther && dateLength && dateLength > 1) {
+        const averageValueText = calculateAverageText(type, itemValue / dateLength)
+        averageValueText && (result += `<br/>${averageValueText}`)
+    }
+    return result
 }
 
 function labelFormatter({ mergeHost }: timer.popup.QueryResult, params: any): string {
@@ -158,7 +176,7 @@ export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElem
         },
         tooltip: {
             ...staticOptions.tooltip,
-            formatter: params => toolTipFormatter(props, params),
+            formatter: (params: any) => toolTipFormatter(props, params),
             position: (point: (number | string)[]) => calcPositionOfTooltip(container, point)
         },
         legend: {

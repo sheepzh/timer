@@ -19,6 +19,8 @@ export type PopupMessage = {
     restoreTitle: string
     totalTime: string
     totalCount: string
+    averageTime: string
+    averageCount: string
     otherLabel: string
     updateVersion: string
     updateVersionInfo: string
@@ -43,6 +45,8 @@ const _default: Messages<PopupMessage> = {
         restoreTitle: '刷新',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
+        averageTime: '平均每天 {value}',
+        averageCount: '平均每天 {value} 次',
         otherLabel: '其他{count}个网站',
         updateVersion: '版本升级',
         updateVersionInfo: '最新版本：{version}',
@@ -65,6 +69,8 @@ const _default: Messages<PopupMessage> = {
         restoreTitle: '刷新',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
+        averageCount: '平均每天 {value} 次',
+        averageTime: '平均每天 {value}',
         otherLabel: '其他{count}個站點',
         updateVersion: '版本昇級',
         updateVersionInfo: '最新版本：{version}',
@@ -87,6 +93,8 @@ const _default: Messages<PopupMessage> = {
         restoreTitle: 'Restore',
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
+        averageCount: '{value} times per day on average',
+        averageTime: '{value} per day on average',
         otherLabel: 'Other {count} sites',
         updateVersion: 'Updatable',
         updateVersionInfo: 'Latest: {version}',
@@ -109,6 +117,8 @@ const _default: Messages<PopupMessage> = {
         restoreTitle: '刷新',
         totalTime: '合計 {totalTime}',
         totalCount: '合計 {totalCount} 回',
+        averageTime: '1日平均 {value}',
+        averageCount: '1日平均 {value} 回',
         otherLabel: '他{count}サイト',
         updateVersion: '更新',
         updateVersionInfo: '最新バージョン：{version}',

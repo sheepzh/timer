@@ -289,7 +289,6 @@ class TimerService {
         if (fillFlag?.alias) {
             await this.fillAlias(list, param.mergeHost)
         }
-        console.log(result)
         return result
     }
 

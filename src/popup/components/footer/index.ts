@@ -15,8 +15,10 @@ import MergeHostWrapper from "./merge-host"
 import TimeSelectWrapper from "./select/time-select"
 import TypeSelectWrapper from "./select/type-select"
 import timerService, { SortDirect } from "@service/timer-service"
-import { locale, t } from "@popup/locale"
-import { formatPeriodCommon, getMonthTime, getWeekTime } from "@util/time"
+import { t } from "@popup/locale"
+// Import from i18n
+import { locale } from "@util/i18n"
+import { getDayLenth, getMonthTime, getWeekTime } from "@util/time"
 import optionService from "@service/option-service"
 
 type FooterParam = TimerQueryParam & {
@@ -95,15 +97,17 @@ class FooterWrapper {
         popupRows.push(other)
         const type = queryParam.sort as timer.stat.Dimension
         const data = popupRows.filter(item => item[type])
+        const date = queryParam.date
 
         const queryResult: timer.popup.QueryResult = {
             data,
             mergeHost: queryParam.mergeHost,
             type,
-            date: queryParam.date,
+            date,
+            dateLength: date instanceof Array ? getDayLenth(date[0], date[1]) : 1,
             chartTitle: queryParam.chartTitle
         }
-        this.totalInfoWrapper.updateTotal(this.getTotalInfo(data, type))
+        this.totalInfoWrapper.updateTotal(data, type)
         this.afterQuery?.(queryResult)
     }
 
@@ -118,21 +122,6 @@ class FooterWrapper {
             mergeDate: true,
         }
         return param
-    }
-
-    /**
-     * @param data result items
-     * @param type type
-     * @returns total alert text
-     */
-    getTotalInfo(data: timer.stat.Row[], type: timer.stat.Dimension): string {
-        if (type === 'time') {
-            const totalCount = data.map(d => d[type] || 0).reduce((a, b) => a + b, 0)
-            return t(msg => msg.totalCount, { totalCount })
-        } else {
-            const totalTime = formatPeriodCommon(data.map(d => d[type]).reduce((a, b) => a + b, 0))
-            return t(msg => msg.totalTime, { totalTime })
-        }
     }
 }
 

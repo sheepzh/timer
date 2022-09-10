@@ -350,6 +350,7 @@ declare namespace timer {
             // Filter items
             chartTitle: string
             date: Date | Date[]
+            dateLength: number
         }
         type QueryResultHandler = (result: QueryResult) => void
         type ChartProps = QueryResult & {

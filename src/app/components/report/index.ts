@@ -165,7 +165,6 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
         const endDate = dateRange[1]
         const start = formatTime(startDate, dateFormat)
         const end = formatTime(endDate, dateFormat)
-        console.log(start, end)
         if (start === end) {
             // Single date
             key = msg => msg.report.batchDelete.confirmMsg

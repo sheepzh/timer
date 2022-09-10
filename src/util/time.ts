@@ -196,3 +196,21 @@ export function getBirthday(): Date {
     date.setHours(0, 0, 0, 0)
     return date
 }
+
+/**
+ * Calc the day lenth
+ * @returns 
+ *  1 if 2022-06-09 00:00:00 to 2022-06-09 00:00:01
+ *  0 if 2022-06-10 00:00:00 to 2022-06-09 00:00:01
+ *  2 if 2022-11-10 08:00:00 to 2022-11-11 00:00:01
+ */
+export function getDayLenth(dateStart: Date, dateEnd: Date): number {
+    let cursor = new Date(dateStart)
+    let dateDiff = 0
+    do {
+        dateDiff += 1
+        cursor = new Date(cursor.getTime() + MILL_PER_DAY)
+    } while (cursor.getTime() < dateEnd.getTime())
+    isSameDay(cursor, dateEnd) && dateDiff++
+    return dateDiff
+}
