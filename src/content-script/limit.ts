@@ -117,49 +117,66 @@ function link2Setup(url: string): HTMLParagraphElement {
     return p
 }
 
+function handleLimitTimeMeet(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): timer.mq.Response {
+    if (msg.code !== "limitTimeMeet") {
+        return { code: "ignore" }
+    }
+    const itemLikes: timer.limit.Item[] = msg.data
+    if (!itemLikes) {
+        return { code: "fail", msg: "Empty time limit item" }
+    }
+    const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
+    modal.process(items)
+    return { code: "success" }
+}
+
+function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): timer.mq.Response {
+    if (msg.code !== "limitWaking") {
+        return { code: "ignore" }
+    }
+    if (!modal.isVisible()) {
+        return { code: "ignore" }
+    }
+    const itemLikes: timer.limit.Item[] = msg.data
+    if (!itemLikes || !itemLikes.length) {
+        return { code: "success", msg: "Empty time limit item" }
+    }
+    const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
+    for (let index in items) {
+        const item = items[index]
+        if (item.matches(modal.url) && !item.hasLimited()) {
+            modal.hideModal()
+            break
+        }
+    }
+    return { code: "success" }
+}
+
+function handleLimitRemoved(msg: timer.mq.Request<void>, modal: _Modal): timer.mq.Response {
+    if (msg.code !== 'limitRemoved') {
+        return { code: 'ignore' }
+    }
+    if (!modal.isVisible()) {
+        return { code: 'ignore' }
+    }
+    modal.hideModal()
+    return { code: 'success' }
+}
+
 export default async function processLimit(url: string) {
     const modal = new _Modal(url)
     const limitedRules: TimeLimitItem[] = await limitService.getLimited(url)
     if (limitedRules?.length) {
         window.onload = () => modal.showModal(!!limitedRules?.filter?.(item => item.allowDelay).length)
     }
-    chrome.runtime.onMessage.addListener((msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => {
-        if (msg.code !== "limitTimeMeet") {
-            sendResponse({ code: "ignore" })
-            return
-        }
-        const itemLikes: timer.limit.Item[] = msg.data
-        if (!itemLikes) {
-            sendResponse({ code: "fail", msg: "Empty time limit item" })
-            return
-        }
-        const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
-        modal.process(items)
-        sendResponse({ code: "success" })
-    })
-    chrome.runtime.onMessage.addListener((msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => {
-        if (msg.code !== "limitWaking") {
-            sendResponse({ code: "ignore" })
-            return
-        }
-        if (!modal.isVisible()) {
-            sendResponse({ code: "ignore" })
-            return
-        }
-        const itemLikes: timer.limit.Item[] = msg.data
-        if (!itemLikes || !itemLikes.length) {
-            sendResponse({ code: "success", msg: "Empty time limit item" })
-            return
-        }
-        const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
-        for (let index in items) {
-            const item = items[index]
-            if (item.matches(modal.url) && !item.hasLimited()) {
-                modal.hideModal()
-                break
-            }
-        }
-        sendResponse({ code: "success" })
-    })
+    chrome.runtime.onMessage.addListener(
+        (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitTimeMeet(msg, modal))
+    )
+    chrome.runtime.onMessage.addListener(
+        (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitWaking(msg, modal))
+    )
+    chrome.runtime.onMessage.addListener(
+        (msg: timer.mq.Request<void>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitRemoved(msg, modal))
+    )
 }
 

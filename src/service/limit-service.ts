@@ -48,8 +48,23 @@ async function updateDelay(item: timer.limit.Item) {
     await db.updateDelay(item.cond, item.allowDelay)
 }
 
-function remove(cond: string): Promise<void> {
-    return db.remove(cond)
+async function remove(item: timer.limit.Item): Promise<void> {
+    await db.remove(item.cond)
+    const allItems: TimeLimitItem[] = await select({ filterDisabled: true, url: undefined })
+    chrome.tabs.query({}, tabs => tabs.forEach(tab => {
+        if (allItems.find(item => item.matches(tab.url) && item.hasLimited())) {
+            // Needn't remove
+            return
+        }
+        chrome.tabs.sendMessage<timer.mq.Request<void>, timer.mq.Response>(tab.id, {
+            code: 'limitRemoved',
+            data: undefined
+        }, result => {
+            if (result?.code === "fail") {
+                console.error(`Failed to handle limit removed: cond=${JSON.stringify(item)}, msg=${result.msg}`)
+            }
+        })
+    }))
 }
 
 async function getLimited(url: string): Promise<TimeLimitItem[]> {

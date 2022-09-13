@@ -494,6 +494,8 @@ declare namespace timer {
             | 'limitTimeMeet'
             // @since 0.9.0
             | 'limitWaking'
+            // @since 1.2.3
+            | 'limitRemoved'
         type ResCode = "success" | "fail" | "ignore"
 
         /**

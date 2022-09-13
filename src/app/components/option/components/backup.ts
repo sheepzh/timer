@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref } from "vue"
+import { Ref } from "vue"
 
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
@@ -124,6 +124,7 @@ const _default = defineComponent({
             reset() {
                 // Only reset type
                 type.value = DEFAULT.backupType
+                handleChange()
             }
         })
 
