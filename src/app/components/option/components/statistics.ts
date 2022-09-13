@@ -5,43 +5,50 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { UnwrapRef } from "vue"
+
 import { ElDivider, ElSwitch } from "element-plus"
 import optionService from "@service/option-service"
 import { defaultStatistics } from "@util/constant/option"
-import { defineComponent, h, Ref, ref } from "vue"
+import { defineComponent, h, reactive, unref } from "vue"
 import { t } from "@app/locale"
 import { renderOptionItem, tagText, tooltip } from "../common"
 
-function updateOptionVal(key: keyof timer.option.StatisticsOption, newVal: boolean, option: Ref<timer.option.StatisticsOption>) {
-    const value = option.value
-    value[key] = newVal
-    optionService.setStatisticsOption(value)
+function updateOptionVal(key: keyof timer.option.StatisticsOption, newVal: boolean, option: UnwrapRef<timer.option.StatisticsOption>) {
+    option[key] = newVal
+    optionService.setStatisticsOption(unref(option))
 }
 
-const countWhenIdle = (option: Ref<timer.option.StatisticsOption>) => h(ElSwitch, {
-    modelValue: option.value.countWhenIdle,
+const countWhenIdle = (option: UnwrapRef<timer.option.StatisticsOption>) => h(ElSwitch, {
+    modelValue: option.countWhenIdle,
     onChange: (newVal: boolean) => updateOptionVal('countWhenIdle', newVal, option)
 })
 
-const countLocalFiles = (option: Ref<timer.option.StatisticsOption>) => h(ElSwitch, {
-    modelValue: option.value.countLocalFiles,
+const countLocalFiles = (option: UnwrapRef<timer.option.StatisticsOption>) => h(ElSwitch, {
+    modelValue: option.countLocalFiles,
     onChange: (newVal: boolean) => updateOptionVal("countLocalFiles", newVal, option)
 })
 
-const collectSiteName = (option: Ref<timer.option.StatisticsOption>) => h(ElSwitch, {
-    modelValue: option.value.collectSiteName,
+const collectSiteName = (option: UnwrapRef<timer.option.StatisticsOption>) => h(ElSwitch, {
+    modelValue: option.collectSiteName,
     onChange: (newVal: boolean) => updateOptionVal('collectSiteName', newVal, option)
 })
+
+function copy(target: timer.option.StatisticsOption, source: timer.option.StatisticsOption) {
+    target.countWhenIdle = source.countWhenIdle
+    target.collectSiteName = source.collectSiteName
+    target.countLocalFiles = source.countLocalFiles
+}
 
 const _default = defineComponent({
     name: "StatisticsOptionContainer",
     setup(_props, ctx) {
-        const option: Ref<timer.option.StatisticsOption> = ref(defaultStatistics())
-        optionService.getAllOption().then(currentVal => option.value = currentVal)
+        const option: UnwrapRef<timer.option.StatisticsOption> = reactive(defaultStatistics())
+        optionService.getAllOption().then(currentVal => copy(option, currentVal))
         ctx.expose({
             async reset() {
-                option.value = defaultStatistics()
-                await optionService.setStatisticsOption(option.value)
+                copy(option, defaultStatistics())
+                await optionService.setStatisticsOption(unref(option))
             }
         })
         return () => h('div', [

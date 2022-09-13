@@ -7,7 +7,7 @@
 
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
-import TimeLimitItem from "@entity/dto/time-limit-item"
+import TimeLimitItem from "@entity/time-limit-item"
 import { formatTime } from "@util/time"
 import whitelistHolder from './components/whitelist-holder'
 
@@ -36,7 +36,7 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
         .filter(item => url ? item.matches(url) : true)
 }
 
-async function update({ cond, time, enabled, allowDelay }: TimeLimitItem, rewrite?: boolean): Promise<void> {
+async function update({ cond, time, enabled, allowDelay }: timer.limit.Item, rewrite?: boolean): Promise<void> {
     if (rewrite === undefined) {
         rewrite = true
     }
@@ -44,12 +44,27 @@ async function update({ cond, time, enabled, allowDelay }: TimeLimitItem, rewrit
     await db.save(limit, rewrite)
 }
 
-async function updateDelay(item: TimeLimitItem) {
+async function updateDelay(item: timer.limit.Item) {
     await db.updateDelay(item.cond, item.allowDelay)
 }
 
-function remove(cond: string): Promise<void> {
-    return db.remove(cond)
+async function remove(item: timer.limit.Item): Promise<void> {
+    await db.remove(item.cond)
+    const allItems: TimeLimitItem[] = await select({ filterDisabled: true, url: undefined })
+    chrome.tabs.query({}, tabs => tabs.forEach(tab => {
+        if (allItems.find(item => item.matches(tab.url) && item.hasLimited())) {
+            // Needn't remove
+            return
+        }
+        chrome.tabs.sendMessage<timer.mq.Request<void>, timer.mq.Response>(tab.id, {
+            code: 'limitRemoved',
+            data: undefined
+        }, result => {
+            if (result?.code === "fail") {
+                console.error(`Failed to handle limit removed: cond=${JSON.stringify(item)}, msg=${result.msg}`)
+            }
+        })
+    }))
 }
 
 async function getLimited(url: string): Promise<TimeLimitItem[]> {

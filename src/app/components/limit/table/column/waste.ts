@@ -7,7 +7,6 @@
 
 import { ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
-import TimeLimitItem from "@entity/dto/time-limit-item"
 import { formatPeriodCommon } from "@util/time"
 import { t } from "@app/locale"
 
@@ -20,7 +19,7 @@ const _default = defineComponent({
         minWidth: 100,
         align: 'center',
     }, {
-        default: ({ row }: { row: TimeLimitItem }) => h('span', formatPeriodCommon(row.waste))
+        default: ({ row }: { row: timer.limit.Item }) => h('span', formatPeriodCommon(row.waste))
     })
 }
 )

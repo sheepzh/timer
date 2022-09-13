@@ -9,7 +9,6 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { JSON_HOST, LOCAL_HOST_PATTERN, MERGED_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
 import IVersionProcessor from "../i-version-processor"
-import { HostAliasSource } from "@entity/dao/host-alias"
 import { t2Chrome } from "@util/i18n/chrome/t"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
@@ -37,22 +36,22 @@ export default class LocalFileInitializer implements IVersionProcessor {
         hostAliasDatabase.update({
             host: PDF_HOST,
             name: t2Chrome(msg => msg.initial.localFile.pdf),
-            source: HostAliasSource.DETECTED
+            source: 'DETECTED'
         })
         hostAliasDatabase.update({
             host: JSON_HOST,
             name: t2Chrome(msg => msg.initial.localFile.json),
-            source: HostAliasSource.DETECTED
+            source: 'DETECTED'
         })
         hostAliasDatabase.update({
             host: PIC_HOST,
             name: t2Chrome(msg => msg.initial.localFile.pic),
-            source: HostAliasSource.DETECTED
+            source: 'DETECTED'
         })
         hostAliasDatabase.update({
             host: TXT_HOST,
             name: t2Chrome(msg => msg.initial.localFile.txt),
-            source: HostAliasSource.DETECTED
+            source: 'DETECTED'
         })
     }
 }

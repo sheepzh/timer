@@ -58,7 +58,7 @@ const _default: Messages<MenuMessage> = {
         siteManage: '網站名稱管理',
         whitelist: '白名單管理',
         mergeRule: '子域名合並',
-        option: '擴展選項',
+        option: '擴充選項',
         behavior: '上網行爲',
         habit: '上網習慣',
         limit: '每日時限設置',

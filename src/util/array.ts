@@ -15,18 +15,21 @@
 export function groupBy<T, R>(
     arr: T[],
     keyFunc: (e: T) => string | number,
-    downstream: (grouped: T[]) => R
+    downstream: (grouped: T[], key: string) => R
 ): { [key: string]: R } {
     const groupedMap: { [key: string]: T[] } = {}
     arr.forEach(e => {
         const key = keyFunc(e)
+        if (key === undefined || key === null) {
+            return
+        }
         const existArr: T[] = groupedMap[key] || []
         existArr.push(e)
         groupedMap[key] = existArr
     })
     const result = {}
     Object.entries(groupedMap)
-        .forEach(([key, grouped]) => result[key] = downstream(grouped))
+        .forEach(([key, grouped]) => result[key] = downstream(grouped, key))
     return result
 }
 

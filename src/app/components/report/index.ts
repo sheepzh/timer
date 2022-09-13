@@ -33,25 +33,33 @@ const timerDatabase = new TimerDatabase(chrome.storage.local)
 async function queryData(
     queryParam: Ref<TimerQueryParam>,
     data: Ref<timer.stat.Row[]>,
-    page: UnwrapRef<timer.common.Pagination>
+    page: UnwrapRef<timer.common.Pagination>,
+    readRemote: Ref<boolean>
 ) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
-    const pageInfo = { pageSize: page.size, pageNum: page.num }
-    const pageResult = await timerService.selectByPage(queryParam.value, pageInfo)
+    const pageInfo = { size: page.size, num: page.num }
+    const fillFlag = { alias: true, iconUrl: true }
+    const param = {
+        ...queryParam.value,
+        inclusiveRemote: readRemote.value
+    }
+    const pageResult = await timerService.selectByPage(param, pageInfo, fillFlag)
     const { list, total } = pageResult
     data.value = list
     page.total = total
     loading.close()
 }
 
-async function handleAliasChange(host: string, newAlias: string, data: Ref<timer.stat.Row[]>) {
+async function handleAliasChange(key: timer.site.AliasKey, newAlias: string, data: Ref<timer.stat.Row[]>) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
-        await hostAliasService.remove(host)
+        await hostAliasService.remove(key)
     } else {
-        await hostAliasService.change(host, newAlias)
+        await hostAliasService.change(key, newAlias)
     }
-    data.value.filter(item => item.host === host).forEach(item => item.alias = newAlias)
+    data.value
+        .filter(item => item.host === key.host)
+        .forEach(item => item.alias = newAlias)
 }
 
 async function queryWhiteList(whitelist: Ref<string[]>): Promise<void> {
@@ -157,7 +165,6 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
         const endDate = dateRange[1]
         const start = formatTime(startDate, dateFormat)
         const end = formatTime(endDate, dateFormat)
-        console.log(start, end)
         if (start === end) {
             // Single date
             key = msg => msg.report.batchDelete.confirmMsg
@@ -206,6 +213,7 @@ const _default = defineComponent({
         const timeFormat: Ref<timer.app.TimeFormat> = ref("default")
         const data: Ref<timer.stat.Row[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
+        const remoteRead: Ref<boolean> = ref(false)
         const sort: UnwrapRef<SortInfo> = reactive({
             prop: sc || 'focus',
             order: ElSortDirect.DESC
@@ -236,7 +244,7 @@ const _default = defineComponent({
 
         const tableEl: Ref = ref()
 
-        const query = () => queryData(queryParam, data, page)
+        const query = () => queryData(queryParam, data, page, remoteRead)
         // Init first
         queryWhiteList(whitelist).then(query)
 
@@ -288,7 +296,11 @@ const _default = defineComponent({
                     }).catch(() => {
                         // Do nothing
                     })
-                }
+                },
+                onRemoteChange(newRemoteChange) {
+                    remoteRead.value = newRemoteChange
+                    query()
+                },
             }),
             content: () => [
                 h(ReportTable, {
@@ -307,7 +319,7 @@ const _default = defineComponent({
                     }),
                     onItemDelete: (_deleted: timer.stat.Row) => query(),
                     onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
-                    onAliasChange: (host: string, newAlias: string) => handleAliasChange(host, newAlias, data)
+                    onAliasChange: (host: string, newAlias: string) => handleAliasChange({ host, merged: mergeHost.value }, newAlias, data)
                 }),
                 h(Pagination, {
                     total: page.total,

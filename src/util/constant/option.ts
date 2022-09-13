@@ -41,3 +41,20 @@ export function defaultStatistics(): timer.option.StatisticsOption {
         countLocalFiles: false
     }
 }
+
+export function defaultBackup(): timer.option.BackupOption {
+    return {
+        backupType: 'none',
+        clientName: 'unknown',
+        backupAuths: {}
+    }
+}
+
+export function defaultOption(): timer.option.AllOption {
+    return {
+        ...defaultPopup(),
+        ...defaultAppearance(),
+        ...defaultStatistics(),
+        ...defaultBackup(),
+    }
+}

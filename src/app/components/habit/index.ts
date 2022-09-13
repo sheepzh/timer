@@ -9,12 +9,12 @@ import type { Ref } from "vue"
 import type { HabitFilterOption } from "./component/filter"
 
 import { defineComponent, h, ref, onMounted } from "vue"
-import { MAX_PERIOD_ORDER, PeriodKey } from "@entity/dto/period-info"
 import periodService from "@service/period-service"
 import { daysAgo, isSameDay } from "@util/time"
 import ContentContainer from "@app/components/common/content-container"
 import HabitChart from "./component/chart"
 import HabitFilter from "./component/filter"
+import { keyOf, MAX_PERIOD_ORDER } from "@util/period"
 
 function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageByDate: Ref<boolean>) {
     let dateRangeVal = dateRange.value
@@ -24,20 +24,20 @@ function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageBy
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
-    let periodEnd: PeriodKey, periodStart: PeriodKey
+    let periodEnd: timer.period.Key, periodStart: timer.period.Key
     if (endIsToday) {
-        periodEnd = PeriodKey.of(now)
-        periodStart = PeriodKey.of(startDate, periodEnd.order)
-        periodEnd = periodEnd.before(1)
+        periodEnd = keyOf(now)
+        periodStart = keyOf(startDate, periodEnd.order)
+        periodEnd = before(periodEnd, 1)
     } else {
-        periodEnd = PeriodKey.of(endDate, MAX_PERIOD_ORDER)
-        periodStart = PeriodKey.of(startDate, 0)
+        periodEnd = keyOf(endDate, MAX_PERIOD_ORDER)
+        periodStart = keyOf(startDate, 0)
     }
 
     const remainder = (periodEnd.order + 1) % periodSize.value
     if (remainder) {
-        periodEnd = periodEnd.before(remainder)
-        periodStart = periodStart.before(remainder)
+        periodEnd = before(periodEnd, remainder)
+        periodStart = before(periodStart, remainder)
     }
 
     return {
@@ -84,3 +84,7 @@ const _default = defineComponent({
 })
 
 export default _default
+
+function before(periodEnd: timer.period.Key, arg1: number): timer.period.Key {
+    throw new Error("Function not implemented.")
+}

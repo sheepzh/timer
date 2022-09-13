@@ -8,12 +8,18 @@
 import { ElButton, ElDialog, ElForm, ElMessage } from "element-plus"
 import { computed, defineComponent, h, reactive, ref, Ref, SetupContext, UnwrapRef } from "vue"
 import { t } from "@app/locale"
-import { HostAliasInfo } from "@entity/dto/host-alias-info"
 import { Check } from "@element-plus/icons-vue"
-import HostAlias from "@entity/dao/host-alias"
 import hostAliasDatabase from "@service/host-alias-service"
 import SiteManageHostFormItem from "./host-form-item"
 import SiteManageNameFormItem from "./name-form-item"
+
+declare type _FormData = {
+    /**
+     * Value of alias key
+     */
+    key: timer.site.AliasKey
+    name: string
+}
 
 const formRule = {
     name: [
@@ -23,7 +29,7 @@ const formRule = {
             trigger: 'blur',
         }
     ],
-    host: [
+    key: [
         {
             required: true,
             message: t(msg => msg.siteManage.form.emptyHost),
@@ -41,21 +47,21 @@ function validateForm(formRef: Ref): Promise<boolean> {
     })
 }
 
-async function handleSave(ctx: SetupContext<_Emit[]>, isNew: boolean, formData: Partial<HostAlias>): Promise<boolean> {
-    const host = formData.host
+async function handleSave(ctx: SetupContext<_Emit[]>, isNew: boolean, formData: _FormData): Promise<boolean> {
+    const aliasKey = formData.key
     const name = formData.name?.trim()
-    if (isNew && await hostAliasDatabase.exist(host)) {
+    if (isNew && await hostAliasDatabase.exist(aliasKey)) {
         ElMessage({
             type: 'warning',
-            message: t(msg => msg.siteManage.msg.hostExistWarn, { host }),
+            message: t(msg => msg.siteManage.msg.hostExistWarn, { host: aliasKey.host }),
             showClose: true,
             duration: 1600
         })
         return false
     }
-    await hostAliasDatabase.change(host, name)
+    await hostAliasDatabase.change(aliasKey, name)
     ElMessage.success(t(msg => msg.siteManage.msg.saved))
-    ctx.emit("save", isNew, host, name)
+    ctx.emit("save", isNew, aliasKey, name)
     return true
 }
 
@@ -71,22 +77,22 @@ const _default = defineComponent({
         const isNew: Ref<boolean> = ref(false)
         const visible: Ref<boolean> = ref(false)
         const buttonText = computed(() => isNew ? BTN_ADD_TXT : BTN_MDF_TXT)
-        const formData: UnwrapRef<Partial<HostAlias>> = reactive({
-            host: undefined,
-            alias: undefined
+        const formData: UnwrapRef<_FormData> = reactive({
+            key: undefined,
+            name: undefined
         })
         const formRef: Ref = ref()
 
         context.expose({
             add() {
-                formData.host = undefined
+                formData.key = undefined
                 formData.name = undefined
                 visible.value = true
                 isNew.value = true
             },
-            modify(hostAliasInfo: HostAliasInfo) {
+            modify(hostAliasInfo: timer.site.AliasIcon) {
                 visible.value = true
-                formData.host = hostAliasInfo.host
+                formData.key = hostAliasInfo
                 formData.name = hostAliasInfo.name
                 isNew.value = false
             },
@@ -115,9 +121,9 @@ const _default = defineComponent({
                 () => [
                     // Host form item
                     h(SiteManageHostFormItem, {
-                        modelValue: formData.host,
+                        modelValue: formData.key,
                         editing: isNew.value,
-                        onChange: (newVal: string) => formData.host = newVal
+                        onChange: (newKey: timer.site.AliasKey) => formData.key = newKey
                     }),
                     // Name form item
                     h(SiteManageNameFormItem, {

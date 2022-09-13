@@ -6,13 +6,21 @@
  */
 
 import OptionDatabase from "@db/option-database"
-import { defaultAppearance, defaultPopup, defaultStatistics } from "@util/constant/option"
+import {
+    defaultAppearance,
+    defaultPopup,
+    defaultStatistics,
+    defaultBackup,
+} from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
 
-const defaultOption = () => {
-    return { ...defaultAppearance(), ...defaultPopup(), ...defaultStatistics() }
-}
+const defaultOption = () => ({
+    ...defaultAppearance(),
+    ...defaultPopup(),
+    ...defaultStatistics(),
+    ...defaultBackup(),
+})
 
 async function getAllOption(): Promise<timer.option.AllOption> {
     const exist: Partial<timer.option.AllOption> = await db.getOption()
@@ -30,6 +38,15 @@ async function setAppearanceOption(option: timer.option.AppearanceOption): Promi
 }
 
 async function setStatisticsOption(option: timer.option.StatisticsOption): Promise<void> {
+    await setOption(option)
+}
+
+async function setBackupOption(option: Partial<timer.option.BackupOption>): Promise<void> {
+    // Rewrite auths
+    const existOption = await getAllOption()
+    const existAuths = existOption.backupAuths || {}
+    Object.entries(option.backupAuths || {}).forEach(([type, auth]) => existAuths[type] = auth)
+    option.backupAuths = existAuths
     await setOption(option)
 }
 
@@ -73,6 +90,10 @@ class OptionService {
     setPopupOption = setPopupOption
     setAppearanceOption = setAppearanceOption
     setStatisticsOption = setStatisticsOption
+    /**
+     * @since 1.2.0
+     */
+    setBackupOption = setBackupOption
     addOptionChangeListener = db.addOptionChangeListener
     /**
      * @since 1.1.0

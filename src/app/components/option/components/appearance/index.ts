@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref } from "vue"
+import type { UnwrapRef } from "vue"
 
 import { ElDivider, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, h, ref } from "vue"
+import { defineComponent, reactive, unref, h } from "vue"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
 import DarkModeInput from "./dark-mode-input"
@@ -18,27 +18,27 @@ import localeMessages from "@util/i18n/components/locale"
 import { localeSameAsBrowser } from "@util/i18n"
 import { toggle } from "@util/dark-mode"
 
-const displayWhitelist = (option: Ref<timer.option.AppearanceOption>) => h(ElSwitch, {
-    modelValue: option.value.displayWhitelistMenu,
+const displayWhitelist = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSwitch, {
+    modelValue: option.displayWhitelistMenu,
     onChange: (newVal: boolean) => {
-        option.value.displayWhitelistMenu = newVal
-        optionService.setAppearanceOption(option.value)
+        option.displayWhitelistMenu = newVal
+        optionService.setAppearanceOption(unref(option))
     }
 })
 
-const displayBadgeText = (option: Ref<timer.option.AppearanceOption>) => h(ElSwitch, {
-    modelValue: option.value.displayBadgeText,
+const displayBadgeText = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSwitch, {
+    modelValue: option.displayBadgeText,
     onChange: (newVal: boolean) => {
-        option.value.displayBadgeText = newVal
-        optionService.setAppearanceOption(option.value)
+        option.displayBadgeText = newVal
+        optionService.setAppearanceOption(unref(option))
     }
 })
 
-const printInConsole = (option: Ref<timer.option.AppearanceOption>) => h(ElSwitch, {
-    modelValue: option.value.printInConsole,
+const printInConsole = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSwitch, {
+    modelValue: option.printInConsole,
     onChange: (newVal: boolean) => {
-        option.value.printInConsole = newVal
-        optionService.setAppearanceOption(option.value)
+        option.printInConsole = newVal
+        optionService.setAppearanceOption(unref(option))
     }
 })
 
@@ -47,13 +47,13 @@ const allLocales: timer.Locale[] = (["zh_CN", "zh_TW", "en", "ja"] as timer.Loca
     .sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
 const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...allLocales]
 
-const locale = (option: Ref<timer.option.AppearanceOption>) => h(ElSelect, {
-    modelValue: option.value.locale,
+const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect, {
+    modelValue: option.locale,
     size: 'small',
     style: { width: '120px' },
     onChange: async (newVal: timer.option.LocaleOption) => {
-        option.value.locale = newVal
-        await optionService.setAppearanceOption(option.value)
+        option.locale = newVal
+        await optionService.setAppearanceOption(unref(option))
         // await maybe not work in Firefox, so calculate the real locale again
         // GG Firefox
         const realLocale: timer.Locale = newVal === "default"
@@ -80,32 +80,39 @@ const locale = (option: Ref<timer.option.AppearanceOption>) => h(ElSelect, {
     )
 })
 
+function copy(target: timer.option.AppearanceOption, source: timer.option.AppearanceOption) {
+    target.displayWhitelistMenu = source.displayWhitelistMenu
+    target.displayBadgeText = source.displayBadgeText
+    target.locale = source.locale
+    target.printInConsole = source.printInConsole
+    target.darkMode = source.darkMode
+    target.darkModeTimeStart = source.darkModeTimeStart
+    target.darkModeTimeEnd = source.darkModeTimeEnd
+}
+
 const _default = defineComponent({
     name: "AppearanceOptionContainer",
     setup(_props, ctx) {
-        const option: Ref<timer.option.AppearanceOption> = ref(defaultAppearance())
-        optionService.getAllOption().then(currentVal => {
-            option.value = currentVal
-            console.log(option.value)
-        })
+        const option: UnwrapRef<timer.option.AppearanceOption> = reactive(defaultAppearance())
+        optionService.getAllOption().then(currentVal => copy(option, currentVal))
         ctx.expose({
             async reset() {
-                option.value = defaultAppearance()
-                await optionService.setAppearanceOption(option.value)
-                toggle(await optionService.isDarkMode(option.value))
+                copy(option, defaultAppearance())
+                await optionService.setAppearanceOption(unref(option))
+                toggle(await optionService.isDarkMode(option))
             }
         })
         return () => h('div', [
             renderOptionItem({
                 input: h(DarkModeInput, {
-                    modelValue: option.value.darkMode,
-                    startSecond: option.value.darkModeTimeStart,
-                    endSecond: option.value.darkModeTimeEnd,
+                    modelValue: option.darkMode,
+                    startSecond: option.darkModeTimeStart,
+                    endSecond: option.darkModeTimeEnd,
                     onChange: async (darkMode, range) => {
-                        option.value.darkMode = darkMode
-                        option.value.darkModeTimeStart = range?.[0]
-                        option.value.darkModeTimeEnd = range?.[1]
-                        await optionService.setAppearanceOption(option.value)
+                        option.darkMode = darkMode
+                        option.darkModeTimeStart = range?.[0]
+                        option.darkModeTimeEnd = range?.[1]
+                        await optionService.setAppearanceOption(unref(option))
                         toggle(await optionService.isDarkMode())
                     }
                 })

@@ -7,10 +7,9 @@
 
 import type { Ref, SetupContext } from "vue"
 
-import { Delete, DocumentAdd } from "@element-plus/icons-vue"
+import { Delete } from "@element-plus/icons-vue"
 import { defineComponent, h, ref } from "vue"
 import TimerDatabase from "@db/timer-database"
-import timerService from "@service/timer-service"
 import { t } from "@app/locale"
 import dateFilter from "./date-filter"
 import numberFilter from "./number-filter"
@@ -35,25 +34,6 @@ const filterRefs: BaseFilterProps = {
     timeStartRef, timeEndRef,
 }
 
-const archiveButton = (onDateChanged: () => void) => operationButton({
-    ...filterRefs,
-    onDateChanged,
-
-    confirm: {
-        message: 'archiveConfirm',
-        operation: result => timerService.archive(result),
-        resultMessage: 'archiveSuccess'
-    },
-
-    button: {
-        message: 'archive',
-        icon: DocumentAdd,
-        type: 'primary'
-    },
-
-    tooltipMessage: 'archiveAlert'
-})
-
 const deleteButton = (onDateChanged: () => void) => operationButton({
     ...filterRefs,
     onDateChanged,
@@ -74,9 +54,7 @@ const deleteButton = (onDateChanged: () => void) => operationButton({
 const _default = defineComponent((_props, ctx: SetupContext) => {
     const onDateChanged = ctx.attrs.onDateChanged as () => void
 
-    const buttons = () => [archiveButton(onDateChanged), deleteButton(onDateChanged)]
-
-    const footer = () => h('div', { class: 'footer-container filter-container' }, buttons())
+    const footer = () => h('div', { class: 'footer-container filter-container' }, deleteButton(onDateChanged))
 
     return () => h('div', { class: 'clear-panel' },
         [

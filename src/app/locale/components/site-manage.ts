@@ -36,6 +36,7 @@ export type SiteManageMessage = {
         hostExistWarn: string
         saved: string
         existedTag: string
+        mergedTag: string
     }
 }
 
@@ -67,7 +68,8 @@ const en: SiteManageMessage = {
     msg: {
         hostExistWarn: '{host} exists',
         saved: 'Saved',
-        existedTag: 'EXISTED'
+        existedTag: 'EXISTED',
+        mergedTag: 'MERGED'
     }
 }
 
@@ -99,7 +101,8 @@ const ja: SiteManageMessage = {
     msg: {
         hostExistWarn: '{host} が存在します',
         saved: '保存しました',
-        existedTag: '既存'
+        existedTag: '既存',
+        mergedTag: '合并'
     }
 }
 
@@ -132,7 +135,8 @@ const messages: Messages<SiteManageMessage> = {
         msg: {
             hostExistWarn: '{host} 已经存在',
             saved: '已保存',
-            existedTag: '已存在'
+            existedTag: '已存在',
+            mergedTag: '合并'
         }
     },
     zh_TW: {
@@ -143,7 +147,7 @@ const messages: Messages<SiteManageMessage> = {
         column: {
             host: "網站域名",
             alias: "網站名稱",
-            aliasInfo: "網站名稱會在報表以及今日數據（需要在擴展選項裡設置）裡展示，方便您快速識別網域",
+            aliasInfo: "網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域",
             source: "來源"
         },
         source: {
@@ -163,7 +167,8 @@ const messages: Messages<SiteManageMessage> = {
         msg: {
             hostExistWarn: '{host} 已經存在',
             saved: '已保存',
-            existedTag: '已存在'
+            existedTag: '已存在',
+            mergedTag: '合並'
         }
     },
     en,

@@ -15,6 +15,7 @@ import { TrendMessage } from "@app/locale/components/trend"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import SelectFilterItem from "@app/components/common/select-filter-item"
 import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { labelOfHostInfo } from "./common"
 
 async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<timer.app.trend.HostInfo[]>, searching: Ref<boolean>) {
     if (!queryStr) {
@@ -64,13 +65,6 @@ function hostInfoOfKey(key: string): timer.app.trend.HostInfo {
     if (!key || !key.length) return { host: '', merged: false }
     const merged = key.charAt(0) === '1'
     return { host: key.substring(1), merged }
-}
-
-function labelOfHostInfo(hostInfo: timer.app.trend.HostInfo): string {
-    const { host, merged } = hostInfo
-    if (!host) return ''
-    const mergedLabel = merged ? `[${t(msg => msg.trend.merged)}]` : ''
-    return `${host}${mergedLabel}`
 }
 
 const _default = defineComponent({

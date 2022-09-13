@@ -5,8 +5,32 @@
  * https://opensource.org/licenses/MIT
  */
 
-import axios, { AxiosResponse } from "axios"
+import type { AxiosResponse } from 'axios'
+
+import axios from "axios"
 import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "@util/constant/environment"
+
+/**
+ * @since 0.1.8
+ */
+type FirefoxDetail = {
+    current_version: {
+        // Like 0.1.5
+        version: string
+    }
+    // Like '2021-06-11T08:45:32Z'
+    last_updated: string
+}
+
+/**
+ * @since 0.1.8
+ */
+type EdgeDetail = {
+    // Version like 0.1.5, without 'v' prefix
+    version: string
+    // Like '1619432502.5944779'
+    lastUpdateDate: string
+}
 
 async function getFirefoxVersion(): Promise<string | null> {
     const response: AxiosResponse<any> = await axios.get('https://addons.mozilla.org/api/v3/addons/addon/2690100')

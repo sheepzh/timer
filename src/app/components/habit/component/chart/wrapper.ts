@@ -20,11 +20,10 @@ import GridComponent from "@echarts/component/grid"
 
 use([BarChart, CanvasRenderer, TitleComponent, TooltipComponent, ToolboxComponent, GridComponent])
 
-import { PeriodKey, PERIODS_PER_DATE } from "@entity/dto/period-info"
-import PeriodResult from "@entity/dto/period-result"
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import { t } from "@app/locale"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
+import { after, keyOf, PERIODS_PER_DATE, rowOf, startOrderOfRow } from "@util/period"
 
 type EcOption = ComposeOption<
     | BarSeriesOption
@@ -34,24 +33,24 @@ type EcOption = ComposeOption<
     | TooltipComponentOption
 >
 
-function averageByDay(data: PeriodResult[], periodSize: number): PeriodResult[] {
+function averageByDay(data: timer.period.Row[], periodSize: number): timer.period.Row[] {
     const rangeStart = data[0].startTime
     const rangeEnd = data[data.length - 1].endTime
     const dateNum = (rangeEnd.getTime() - rangeStart.getTime()) / MILL_PER_DAY
     const map: Map<number, number> = new Map()
     data.forEach(item => {
-        const key = Math.floor(item.getStartOrder() / periodSize)
+        const key = Math.floor(startOrderOfRow(item) / periodSize)
         const val = map.get(key) || 0
         map.set(key, val + item.milliseconds)
     })
     const result = []
-    let period = PeriodKey.of(new Date(), 0)
+    let period = keyOf(new Date(), 0)
     for (let i = 0; i < PERIODS_PER_DATE / periodSize; i++) {
         const key = period.order / periodSize
         const val = map.get(key) || 0
         const averageMill = Math.round(val / dateNum)
-        result.push(PeriodResult.of(period.after(periodSize - 1), periodSize, averageMill))
-        period = period.after(periodSize)
+        result.push(rowOf(after(period, periodSize - 1), periodSize, averageMill))
+        period = after(period, periodSize)
     }
     return result
 }
@@ -76,8 +75,8 @@ function formatTimeOfEchart(params: any, averageByDate: boolean): string {
 
 const TITLE = t(msg => msg.habit.chart.title)
 const Y_AXIAS_NAME = t(msg => msg.habit.chart.yAxisName)
-function generateOptions(data: PeriodResult[], averageByDate: boolean, periodSize: number): EcOption {
-    const periodData: PeriodResult[] = averageByDate ? averageByDay(data, periodSize) : data
+function generateOptions(data: timer.period.Row[], averageByDate: boolean, periodSize: number): EcOption {
+    const periodData: timer.period.Row[] = averageByDate ? averageByDay(data, periodSize) : data
     const valueData: any[] = []
     periodData.forEach((item) => {
         const startTime = item.startTime.getTime()
@@ -146,7 +145,7 @@ export default class ChartWrapper {
         this.instance = init(container)
     }
 
-    render(data: PeriodResult[], averageByDate: boolean, periodSize: number) {
+    render(data: timer.period.Row[], averageByDate: boolean, periodSize: number) {
         if (!this.instance) {
             throw new Error("Instance not initialized")
         }

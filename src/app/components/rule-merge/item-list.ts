@@ -8,13 +8,12 @@
 import { ElMessage, ElMessageBox } from "element-plus"
 import { Ref, ref, h, VNode } from "vue"
 import MergeRuleDatabase from "@db/merge-rule-database"
-import HostMergeRuleItem from "@entity/dto/host-merge-rule-item"
 import { t } from "@app/locale"
 import Item from './components/item'
 import AddButton from './components/add-button'
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
-const ruleItemsRef: Ref<HostMergeRuleItem[]> = ref([])
+const ruleItemsRef: Ref<timer.merge.Rule[]> = ref([])
 
 function queryData() {
     mergeRuleDatabase
@@ -30,7 +29,7 @@ const handleInputConfirm = (origin: string, merged: string | number, addButtonRe
         ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
         return
     }
-    let toInsert: HostMergeRuleItem
+    let toInsert: timer.merge.Rule
     if (typeof merged === 'number') {
         merged < 1 ? (merged = 0) : (merged--)
     } else {
@@ -78,7 +77,7 @@ async function handleChange(origin: string, merged: string | number, index: numb
     ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
 }
 
-function generateTagItem(ruleItem: HostMergeRuleItem, index: number): VNode {
+function generateTagItem(ruleItem: timer.merge.Rule, index: number): VNode {
     const { origin, merged } = ruleItem
     const itemRef: Ref = ref()
     return h(Item, {

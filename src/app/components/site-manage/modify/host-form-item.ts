@@ -5,16 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { PropType, Ref } from "vue"
+
 import { t } from "@app/locale"
 import HostAliasDatabase from "@db/host-alias-database"
-import timerService from "@service/timer-service"
+import timerService, { HostSet } from "@service/timer-service"
 import { ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
-import { defineComponent, h, ref, Ref } from "vue"
+import { defineComponent, h, ref } from "vue"
+import { aliasKeyOf, labelOf, optionValueOf } from "../common"
 
 const hostAliasDatabase = new HostAliasDatabase(chrome.storage.local)
 
 type _OptionInfo = {
-    host: string
+    aliasKey: timer.site.AliasKey
     hasAlias: boolean
 }
 
@@ -23,14 +26,20 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
         return
     }
     searching.value = true
-    const hostSet: Set<string> = (await timerService.listHosts(query)).origin
-    const allHost: string[] = Array.from(hostSet)
-    const existedInfo: { [host: string]: boolean } = await hostAliasDatabase.existBatch(allHost)
+    const hostSet: HostSet = (await timerService.listHosts(query))
+    const allAlias: timer.site.AliasKey[] =
+        [
+            ...Array.from(hostSet.origin || []).map(host => ({ host, merged: false })),
+            ...Array.from(hostSet.merged || []).map(host => ({ host, merged: true })),
+        ]
+    const existedAliasSet = new Set()
+    const existedKeys: timer.site.AliasKey[] = (await hostAliasDatabase.existBatch(allAlias))
+    existedKeys.forEach(key => existedAliasSet.add(optionValueOf(key)))
     const existedOptions = []
     const notExistedOptions = []
-    allHost.forEach(host => {
-        const hasAlias = !!existedInfo[host]
-        const props: _OptionInfo = { host, hasAlias }
+    allAlias.forEach(aliasKey => {
+        const hasAlias = existedAliasSet.has(optionValueOf(aliasKey))
+        const props: _OptionInfo = { aliasKey, hasAlias }
         hasAlias ? existedOptions.push(props) : notExistedOptions.push(props)
     })
     // Not exist first
@@ -38,11 +47,9 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
     searching.value = false
 }
 
-const EXIST_MSG = t(msg => msg.siteManage.msg.existedTag)
-function renderOption({ host, hasAlias }: _OptionInfo) {
-    let label = host
-    hasAlias && (label += `[${EXIST_MSG}]`)
-    return h(ElOption, { value: host, disabled: hasAlias, label })
+function renderOption({ aliasKey, hasAlias }: _OptionInfo) {
+    let label = labelOf(aliasKey, hasAlias)
+    return h(ElOption, { value: optionValueOf(aliasKey), disabled: hasAlias, label })
 }
 
 const HOST_LABEL = t(msg => msg.siteManage.column.host)
@@ -50,24 +57,27 @@ const _default = defineComponent({
     name: "SiteManageHostFormItem",
     props: {
         editing: Boolean,
-        modelValue: String
+        modelValue: Object as PropType<timer.site.AliasKey>
     },
     emits: ["change"],
     setup(props, ctx) {
         const searching: Ref<boolean> = ref(false)
         const searchedHosts: Ref<_OptionInfo[]> = ref([])
-        return () => h(ElFormItem, { prop: 'host', label: HOST_LABEL },
+        return () => h(ElFormItem, { prop: 'key', label: HOST_LABEL },
             () => props.editing ?
                 h(ElSelect, {
                     style: { width: '100%' },
-                    modelValue: props.modelValue,
+                    modelValue: optionValueOf(props.modelValue),
                     filterable: true,
                     remote: true,
                     loading: searching.value,
                     remoteMethod: (query: string) => handleRemoteSearch(query, searching, searchedHosts),
-                    onChange: (newVal: string) => ctx.emit("change", newVal)
+                    onChange: (newVal: string) => ctx.emit("change", newVal ? aliasKeyOf(newVal) : undefined)
                 }, () => searchedHosts.value?.map(renderOption))
-                : h(ElInput, { disabled: true, modelValue: props.modelValue })
+                : h(ElInput, {
+                    disabled: true,
+                    modelValue: labelOf(props.modelValue)
+                })
         )
     }
 })

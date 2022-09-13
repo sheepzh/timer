@@ -10,7 +10,6 @@ import ContentContainer from "../common/content-container"
 import LimitFilter, { LimitFilterOption } from "./filter"
 import LimitTable from "./table"
 import Modify from "./modify"
-import TimeLimitItem from "@entity/dto/time-limit-item"
 import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
@@ -21,7 +20,7 @@ const _default = defineComponent({
     setup() {
         const url: Ref<string> = ref('')
         const onlyEnabled: Ref<boolean> = ref(false)
-        const data: Ref<TimeLimitItem[]> = ref([])
+        const data: Ref<timer.limit.Item[]> = ref([])
         // Init and query
         const queryData = async () => {
             const list = await limitService.select({ filterDisabled: onlyEnabled.value, url: url.value || '' })
@@ -49,10 +48,10 @@ const _default = defineComponent({
             content: () => [
                 h(LimitTable, {
                     data: data.value,
-                    onDelayChange: (row: TimeLimitItem) => limitService.updateDelay(row),
-                    onEnabledChange: (row: TimeLimitItem) => limitService.update(row),
-                    async onDelete(row: TimeLimitItem) {
-                        await limitService.remove(row.cond)
+                    onDelayChange: (row: timer.limit.Item) => limitService.updateDelay(row),
+                    onEnabledChange: (row: timer.limit.Item) => limitService.update(row),
+                    async onDelete(row: timer.limit.Item) {
+                        await limitService.remove(row)
                         ElMessage.success(t(msg => msg.limit.message.deleted))
                         queryData()
                     }
