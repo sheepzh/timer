@@ -51,7 +51,7 @@ const _default = defineComponent({
                     onDelayChange: (row: timer.limit.Item) => limitService.updateDelay(row),
                     onEnabledChange: (row: timer.limit.Item) => limitService.update(row),
                     async onDelete(row: timer.limit.Item) {
-                        await limitService.remove(row.cond)
+                        await limitService.remove(row)
                         ElMessage.success(t(msg => msg.limit.message.deleted))
                         queryData()
                     }
