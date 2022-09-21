@@ -13,6 +13,7 @@ import timerService, { HostSet } from "@service/timer-service"
 import { ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import { aliasKeyOf, labelOf, optionValueOf } from "../common"
+import { ALL_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
 
 const hostAliasDatabase = new HostAliasDatabase(chrome.storage.local)
 
@@ -32,6 +33,9 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
             ...Array.from(hostSet.origin || []).map(host => ({ host, merged: false })),
             ...Array.from(hostSet.merged || []).map(host => ({ host, merged: true })),
         ]
+    // Add local files
+    ALL_HOSTS.forEach(remain => allAlias.push({ host: remain, merged: false }))
+    allAlias.push({ host: MERGED_HOST, merged: true })
     const existedAliasSet = new Set()
     const existedKeys: timer.site.AliasKey[] = (await hostAliasDatabase.existBatch(allAlias))
     existedKeys.forEach(key => existedAliasSet.add(optionValueOf(key)))

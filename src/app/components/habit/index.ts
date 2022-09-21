@@ -14,7 +14,7 @@ import { daysAgo, isSameDay } from "@util/time"
 import ContentContainer from "@app/components/common/content-container"
 import HabitChart from "./component/chart"
 import HabitFilter from "./component/filter"
-import { keyOf, MAX_PERIOD_ORDER } from "@util/period"
+import { keyOf, MAX_PERIOD_ORDER, keyBefore } from "@util/period"
 
 function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageByDate: Ref<boolean>) {
     let dateRangeVal = dateRange.value
@@ -28,7 +28,7 @@ function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageBy
     if (endIsToday) {
         periodEnd = keyOf(now)
         periodStart = keyOf(startDate, periodEnd.order)
-        periodEnd = before(periodEnd, 1)
+        periodEnd = keyBefore(periodEnd, 1)
     } else {
         periodEnd = keyOf(endDate, MAX_PERIOD_ORDER)
         periodStart = keyOf(startDate, 0)
@@ -36,8 +36,8 @@ function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageBy
 
     const remainder = (periodEnd.order + 1) % periodSize.value
     if (remainder) {
-        periodEnd = before(periodEnd, remainder)
-        periodStart = before(periodStart, remainder)
+        periodEnd = keyBefore(periodEnd, remainder)
+        periodStart = keyBefore(periodStart, remainder)
     }
 
     return {
@@ -84,7 +84,3 @@ const _default = defineComponent({
 })
 
 export default _default
-
-function before(periodEnd: timer.period.Key, arg1: number): timer.period.Key {
-    throw new Error("Function not implemented.")
-}
