@@ -31,7 +31,20 @@ declare namespace timer {
              * @since 0.5.0
              */
             displaySiteName: boolean
+            /**
+             * The start of one week
+             * 
+             * @since 1.2.5
+             */
+            weekStart: WeekStartOption
         }
+
+        /**
+         * @since 1.2.5
+         */
+        type WeekStartOption =
+            | 'default'
+            | number  // Weekday, From 1 to 7
 
         type DarkMode =
             // Always on

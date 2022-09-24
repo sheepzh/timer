@@ -38,7 +38,7 @@ export function groupBy<T, R>(
  * 
  * @param arr the targe array
  * @param count count to rotate, must be positive, or 1 is default 
- * @param leftOrRight rotate right or left, true means left, false means right, default is false
+ * @param rightOrLeft rotate right or left, true means left, false means right, default is false
  */
 export function rotate<T>(arr: T[], count?: number, rightOrLeft?: boolean): void {
     let realTime = 1
