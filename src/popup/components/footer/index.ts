@@ -18,7 +18,7 @@ import timerService, { SortDirect } from "@service/timer-service"
 import { t } from "@popup/locale"
 // Import from i18n
 import { locale } from "@util/i18n"
-import { getDayLenth, getMonthTime, getWeekTime } from "@util/time"
+import { getDayLenth, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
 
 type FooterParam = TimerQueryParam & {
@@ -27,12 +27,30 @@ type FooterParam = TimerQueryParam & {
 
 const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: true, alias: true }
 
-function calculateDateRange(duration: timer.popup.Duration): Date | Date[] {
+function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.option.WeekStartOption): Date | Date[] {
     const now = new Date()
     if (duration == 'today') {
         return now
     } else if (duration == 'thisWeek') {
-        return getWeekTime(now, locale === 'zh_CN')
+        const weekStartAsNormal = !weekStart || weekStart === 'default'
+        if (weekStartAsNormal) {
+            return getWeekTime(now, locale === 'zh_CN')
+        } else {
+            // Returns 0 - 6 means Monday to Sunday
+            const weekDayNow = getWeekDay(now, true)
+            const optionWeekDay = weekDayNow + 1
+            let start: Date = undefined
+            if (optionWeekDay === weekStart) {
+                start = now
+            } else if (optionWeekDay < weekStart) {
+                const millDelta = (optionWeekDay + 7 - weekStart) * MILL_PER_DAY
+                start = new Date(now.getTime() - millDelta)
+            } else {
+                const millDelta = (optionWeekDay - weekStart) * MILL_PER_DAY
+                start = new Date(now.getTime() - millDelta)
+            }
+            return [start, now]
+        }
     } else if (duration == 'thisMonth') {
         return getMonthTime(now)
     }
@@ -69,8 +87,9 @@ class FooterWrapper {
     }
 
     async query() {
-        const itemCount = (await optionService.getAllOption()).popupMax
-        const queryParam = this.getQueryParam()
+        const option = await optionService.getAllOption() as timer.option.PopupOption
+        const itemCount = option.popupMax
+        const queryParam = this.getQueryParam(option.weekStart)
         const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
         const popupRows: timer.popup.Row[] = []
         const other: timer.popup.Row = {
@@ -111,10 +130,10 @@ class FooterWrapper {
         this.afterQuery?.(queryResult)
     }
 
-    getQueryParam(): FooterParam {
+    getQueryParam(weekStart: timer.option.WeekStartOption): FooterParam {
         const duration: timer.popup.Duration = this.timeSelectWrapper.getSelectedTime()
         const param: FooterParam = {
-            date: calculateDateRange(duration),
+            date: calculateDateRange(duration, weekStart),
             mergeHost: this.mergeHostWrapper.mergedHost(),
             sort: this.typeSelectWrapper.getSelectedType(),
             sortOrder: SortDirect.DESC,

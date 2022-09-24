@@ -18,6 +18,8 @@ export type OptionMessage = {
         displaySiteName: string
         duration: PopupDurationMessage
         durationWidth: string
+        weekStart: string
+        weekStartAsNormal: string
     }
     appearance: {
         title: string
@@ -86,12 +88,14 @@ const _default: Messages<OptionMessage> = {
         yes: '是',
         no: '否',
         popup: {
-            title: '今日数据',
+            title: '弹窗页',
             max: '只显示前 {input} 条数据，剩下的条目合并显示',
             defaultDisplay: "打开时显示 {duration} {type}",
             displaySiteName: '{input}  显示时是否使用 {siteName} 来代替域名',
             duration: popupDurationMessages.zh_CN,
-            durationWidth: "80px"
+            durationWidth: "80px",
+            weekStart: "每周的第一天 {input}",
+            weekStartAsNormal: '按照惯例'
         },
         appearance: {
             title: '外观',
@@ -160,12 +164,14 @@ const _default: Messages<OptionMessage> = {
         yes: '是',
         no: '否',
         popup: {
-            title: '今日數據',
+            title: '彈窗頁',
             max: '隻顯示前 {input} 條數據，剩下的條目合並顯示',
             defaultDisplay: "打開時顯示 {duration} {type}",
             displaySiteName: '{input}  顯示時是否使用 {siteName} 來代替域名',
             duration: popupDurationMessages.zh_CN,
-            durationWidth: "80px"
+            durationWidth: "80px",
+            weekStart: "每週的第一天 {input}",
+            weekStartAsNormal: '按照慣例',
         },
         appearance: {
             title: '外觀',
@@ -233,12 +239,14 @@ const _default: Messages<OptionMessage> = {
         yes: 'Yes',
         no: 'No',
         popup: {
-            title: 'Today\'s Data',
+            title: 'Popup Page',
             max: 'Show the first {input} data items',
             defaultDisplay: "Show {duration} {type} when opened",
             displaySiteName: '{input}  Whether to display {siteName} instead of URL',
             duration: popupDurationMessages.en,
-            durationWidth: "110px"
+            durationWidth: "110px",
+            weekStart: 'The first day for each week {input}',
+            weekStartAsNormal: 'As Normal'
         },
         appearance: {
             title: 'Appearance',
@@ -307,12 +315,14 @@ const _default: Messages<OptionMessage> = {
         yes: 'はい',
         no: 'いいえ',
         popup: {
-            title: '今日のデータ',
+            title: 'ポップアップページ',
             max: '最初の {input} 個のデータのみを表示し、残りのエントリは結合されます',
             defaultDisplay: "開くと {duration} {type} が表示されます",
             displaySiteName: '{input}  ホストの代わりに {siteName} を表示するかどうか',
             duration: popupDurationMessages.ja,
-            durationWidth: "100px"
+            durationWidth: "100px",
+            weekStart: '週の最初の日 {input}',
+            weekStartAsNormal: 'いつものように',
         },
         appearance: {
             title: '外観',
