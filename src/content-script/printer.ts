@@ -5,17 +5,25 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimerDatabase from "@db/timer-database"
 import { t2Chrome } from "@util/i18n/chrome/t"
 import { formatPeriod } from "@util/time"
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
+function getTodayInfo(host: string): Promise<timer.stat.Result> {
+    const request: timer.mq.Request<string> = {
+        code: 'cs.getTodayInfo',
+        data: host
+    }
+    return new Promise(resolve => chrome.runtime.sendMessage(
+        request,
+        (res: timer.mq.Response<timer.stat.Result>) => resolve(res?.code === 'success' ? res.data : undefined)
+    ))
+}
 
 /**
  * Print info of today
  */
 export default async function printInfo(host: string) {
-    const waste: timer.stat.Result = await timerDatabase.get(host, new Date())
+    const waste: timer.stat.Result = await getTodayInfo(host)
     const hourMsg = t2Chrome(root => root.message.timeWithHour)
     const minuteMsg = t2Chrome(root => root.message.timeWithMinute)
     const secondMsg = t2Chrome(root => root.message.timeWithSecond)

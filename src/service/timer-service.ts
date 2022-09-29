@@ -214,6 +214,10 @@ class TimerService {
         return origin
     }
 
+    getResult(host: string, date: Date): Promise<timer.stat.Result> {
+        return timerDatabase.get(host, date)
+    }
+
     private async processRemote(
         param: TimerCondition,
         origin: timer.stat.Row[]
