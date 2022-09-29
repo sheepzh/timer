@@ -14,6 +14,14 @@ $prefixWidth: 110px
     // Hide the cursor, but show the text
     color: transparent
     text-shadow: 0 0 0 #606266
+.limit-modify-time-limit-input
+    .el-input__suffix
+        // Fix shaking of clear button
+        // @see https://github.com/sheepzh/timer/issues/123
+        position: absolute
+        right: 59px
+    .el-input-group__append
+        width: 12px
 .el-input__prefix
     // The origin is 5px
     left: 0
