@@ -7,6 +7,7 @@
 
 import HostAliasDatabase, { HostAliasCondition } from "@db/host-alias-database"
 import IconUrlDatabase from "@db/icon-url-database"
+import { isRemainHost } from "@util/constant/remain-host"
 import { slicePageResult } from "./components/page-info"
 
 
@@ -51,9 +52,10 @@ class HostAliasService {
     }
 
     private async fillIconUrl(items: timer.site.AliasIcon[]): Promise<void> {
-        const hosts = items.map(o => o.host)
+        const need2Fill = items.filter(item => !item.merged && !isRemainHost(item.host))
+        const hosts = need2Fill.map(o => o.host)
         const iconUrlMap = await iconUrlDatabase.get(...hosts)
-        items.forEach(items => items.iconUrl = iconUrlMap[items.host])
+        need2Fill.forEach(items => items.iconUrl = iconUrlMap[items.host])
     }
 }
 

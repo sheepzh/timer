@@ -15,6 +15,8 @@ import { renderOptionItem, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
+import { locale } from "@util/i18n"
+import { rotate } from "@util/array"
 
 const popupMaxInput = (option: UnwrapRef<timer.option.PopupOption>) => h(ElInputNumber, {
     modelValue: option.popupMax,
@@ -57,6 +59,24 @@ const displaySiteName = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSwi
     }
 })
 
+const weekStartOptionPairs: [[timer.option.WeekStartOption, string]] = [
+    ['default', t(msg => msg.option.popup.weekStartAsNormal)]
+]
+const allWeekDays = t(msg => msg.calendar.weekDays)
+    .split('|')
+    .map((weekDay, idx) => [idx + 1, weekDay] as [timer.option.WeekStartOption, string])
+rotate(allWeekDays, locale === 'zh_CN' ? 0 : 1, true)
+allWeekDays.forEach(weekDayInfo => weekStartOptionPairs.push(weekDayInfo))
+
+const weekStartSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSelect, {
+    modelValue: option.weekStart,
+    size: 'small',
+    onChange(newVal: 'default' | number) {
+        option.weekStart = newVal
+        optionService.setPopupOption(option)
+    }
+}, () => weekStartOptionPairs.map(([val, label]) => h(ElOption, { value: val, label })))
+
 const defaultPopOptions = defaultPopup()
 const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
 const defaultDurationLabel = t(msg => msg.option.popup.duration[defaultPopOptions.defaultDuration])
@@ -67,6 +87,7 @@ function copy(target: timer.option.PopupOption, source: timer.option.PopupOption
     target.defaultType = source.defaultType
     target.displaySiteName = source.displaySiteName
     target.popupMax = source.popupMax
+    target.weekStart = source.weekStart
 }
 
 const _default = defineComponent({
@@ -88,6 +109,10 @@ const _default = defineComponent({
                 msg => msg.popup.defaultDisplay,
                 displayDefaultLabel
             ),
+            h(ElDivider),
+            renderOptionItem({
+                input: weekStartSelect(option)
+            }, msg => msg.popup.weekStart, t(msg => msg.option.popup.weekStartAsNormal)),
             h(ElDivider),
             renderOptionItem(popupMaxInput(option), msg => msg.popup.max, defaultPopOptions.popupMax),
             h(ElDivider),

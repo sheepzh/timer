@@ -14,7 +14,8 @@ export function defaultPopup(): timer.option.PopupOption {
         /**
          * Change the default value to 'true' since v0.5.4
          */
-        displaySiteName: true
+        displaySiteName: true,
+        weekStart: 'default',
     }
 }
 

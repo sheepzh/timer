@@ -31,7 +31,20 @@ declare namespace timer {
              * @since 0.5.0
              */
             displaySiteName: boolean
+            /**
+             * The start of one week
+             * 
+             * @since 1.2.5
+             */
+            weekStart: WeekStartOption
         }
+
+        /**
+         * @since 1.2.5
+         */
+        type WeekStartOption =
+            | 'default'
+            | number  // Weekday, From 1 to 7
 
         type DarkMode =
             // Always on
@@ -496,6 +509,14 @@ declare namespace timer {
             | 'limitWaking'
             // @since 1.2.3
             | 'limitRemoved'
+            // Request by content script
+            // @since 1.3.0
+            | "cs.isInWhitelist"
+            | "cs.incVisitCount"
+            | "cs.printTodayInfo"
+            | "cs.getTodayInfo"
+            | "cs.moreMinutes"
+            | "cs.getLimitedRules"
         type ResCode = "success" | "fail" | "ignore"
 
         /**
@@ -513,6 +534,10 @@ declare namespace timer {
             msg?: string
             data?: T
         }
+        /**
+         * @since 1.3.0
+         */
+        type Handler<Req, Res> = (data: Req) => Promise<Res>
         /**
          * @since 0.8.4
          */

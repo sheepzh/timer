@@ -28,7 +28,8 @@ export type HabitMessage = {
     chart: {
         title: string
         saveAsImageTitle: string
-        yAxisName: string
+        yAxisMin: string
+        yAxisHour: string
     }
 }
 
@@ -54,7 +55,8 @@ const _default: Messages<HabitMessage> = {
         chart: {
             title: '上网习惯统计',
             saveAsImageTitle: '保存',
-            yAxisName: '浏览时长 / 秒'
+            yAxisMin: '浏览时长 / 分钟',
+            yAxisHour: '浏览时长 / 小时'
         }
     },
     zh_TW: {
@@ -78,7 +80,8 @@ const _default: Messages<HabitMessage> = {
         chart: {
             title: '上網習慣統計',
             saveAsImageTitle: '保存',
-            yAxisName: '瀏覽時長 / 秒'
+            yAxisMin: '瀏覽時長 / 分鐘',
+            yAxisHour: '瀏覽時長 / 小時'
         }
     },
     en: {
@@ -102,7 +105,8 @@ const _default: Messages<HabitMessage> = {
         chart: {
             title: 'Time-phased Statistics of Browsing Time',
             saveAsImageTitle: 'Snapshot',
-            yAxisName: 'Browsing Time / second'
+            yAxisMin: 'Browsing Time / minute',
+            yAxisHour: 'Browsing Time / hour'
         }
     },
     ja: {
@@ -126,7 +130,8 @@ const _default: Messages<HabitMessage> = {
         chart: {
             title: '時系列の統計を閲覧する',
             saveAsImageTitle: 'ダウンロード',
-            yAxisName: '閲覧時間/秒'
+            yAxisMin: '閲覧時間/分',
+            yAxisHour: '閲覧時間/時間'
         }
     }
 }

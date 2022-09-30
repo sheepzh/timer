@@ -35,7 +35,8 @@ const timeInput = (valRef: Ref<number>, unit: string, maxVal: number) => h(ElCol
             clearable: true,
             onInput: (val: string) => handleInput(val, valRef, maxVal),
             onClear: () => valRef.value = undefined,
-            placeholder: '0'
+            placeholder: '0',
+            class: 'limit-modify-time-limit-input'
         },
         {
             append: () => unit

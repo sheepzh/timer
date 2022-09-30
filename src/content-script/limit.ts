@@ -6,8 +6,27 @@
  */
 
 import TimeLimitItem from "@entity/time-limit-item"
-import limitService from "@service/limit-service"
 import { t2Chrome } from "@util/i18n/chrome/t"
+
+function moreMinutes(url: string): Promise<timer.limit.Item[]> {
+    const request: timer.mq.Request<string> = {
+        code: 'cs.moreMinutes',
+        data: url
+    }
+    return new Promise(resolve => chrome.runtime.sendMessage(request,
+        (res: timer.mq.Response<timer.limit.Item[]>) => resolve(res?.code === 'success' ? res.data || [] : [])
+    ))
+}
+
+function getLimited(url: string): Promise<timer.limit.Item[]> {
+    const request: timer.mq.Request<string> = {
+        code: 'cs.getLimitedRules',
+        data: url
+    }
+    return new Promise(resolve => chrome.runtime.sendMessage(request,
+        (res: timer.mq.Response<timer.limit.Item[]>) => resolve(res?.code === 'success' ? res.data || [] : [])
+    ))
+}
 
 class _Modal {
     url: string
@@ -36,7 +55,7 @@ class _Modal {
             const text = t2Chrome(msg => msg.message.more5Minutes)
             link.innerText = text
             link.onclick = async () => {
-                const delayRules = await limitService.moreMinutes(_thisUrl)
+                const delayRules = await moreMinutes(_thisUrl)
                 const wakingRules = delayRules
                     .map(like => TimeLimitItem.of(like))
                     .filter(rule => !rule.hasLimited())
@@ -165,7 +184,7 @@ function handleLimitRemoved(msg: timer.mq.Request<void>, modal: _Modal): timer.m
 
 export default async function processLimit(url: string) {
     const modal = new _Modal(url)
-    const limitedRules: TimeLimitItem[] = await limitService.getLimited(url)
+    const limitedRules: timer.limit.Item[] = await getLimited(url)
     if (limitedRules?.length) {
         window.onload = () => modal.showModal(!!limitedRules?.filter?.(item => item.allowDelay).length)
     }

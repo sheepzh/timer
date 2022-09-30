@@ -53,7 +53,6 @@ function exportBlob(blob: Blob, fileName: string) {
  * @since 0.0.5
  */
 export function deserialize(jsonStr: string): any | undefined {
-    let data: any
     try {
         return JSON.parse(jsonStr)
     } catch {

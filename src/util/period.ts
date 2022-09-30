@@ -40,7 +40,7 @@ export function compare(a: timer.period.Key, b: timer.period.Key) {
     return indexOf(a) - indexOf(b)
 }
 
-function keyBefore(key: timer.period.Key, orderCount: number) {
+export function keyBefore(key: timer.period.Key, orderCount: number) {
     let order = key.order
     let decomposition = 0
 

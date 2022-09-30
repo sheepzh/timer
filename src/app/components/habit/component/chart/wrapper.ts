@@ -66,24 +66,38 @@ function formatXAxis(ts: number) {
 
 function formatTimeOfEchart(params: any, averageByDate: boolean): string {
     const format = params instanceof Array ? params[0] : params
-    const { value } = format
+    const { value, data } = format
+    const milliseconds = data?.[4] || 0
     // If average, don't show the date
     const start = formatTime(value[2], averageByDate ? '{h}:{i}' : '{m}-{d} {h}:{i}')
     const end = formatTime(value[3], '{h}:{i}')
-    return `${formatPeriodCommon(value[1] * 1000)}<br/>${start}-${end}`
+    return `${formatPeriodCommon(Math.floor(milliseconds))}<br/>${start}-${end}`
 }
 
 const TITLE = t(msg => msg.habit.chart.title)
-const Y_AXIAS_NAME = t(msg => msg.habit.chart.yAxisName)
+const Y_AXIAS_MIN = t(msg => msg.habit.chart.yAxisMin)
+const Y_AXIAS_HOUR = t(msg => msg.habit.chart.yAxisHour)
+
+function getYAxiasName(periodSize: number) {
+    return periodSize === 8 ? Y_AXIAS_HOUR : Y_AXIAS_MIN
+}
+
+function getYAxiasValue(milliseconds: number, periodSize: number) {
+    const seconds = Math.floor(milliseconds / 1000)
+    const minutes = Number.parseFloat((seconds / 60).toFixed(1))
+    const hours = Number.parseFloat((minutes / 60).toFixed(1))
+    return periodSize === 8 ? hours : minutes
+}
+
 function generateOptions(data: timer.period.Row[], averageByDate: boolean, periodSize: number): EcOption {
     const periodData: timer.period.Row[] = averageByDate ? averageByDay(data, periodSize) : data
     const valueData: any[] = []
     periodData.forEach((item) => {
         const startTime = item.startTime.getTime()
         const endTime = item.endTime.getTime()
-        const seconds = Math.floor(item.milliseconds / 1000)
         const x = (startTime + endTime) / 2
-        valueData.push([x, seconds, startTime, endTime])
+        const milliseconds = item.milliseconds
+        valueData.push([x, getYAxiasValue(milliseconds, periodSize), startTime, endTime, milliseconds])
     })
 
     const xAxisMin = periodData[0].startTime.getTime()
@@ -123,7 +137,7 @@ function generateOptions(data: timer.period.Row[], averageByDate: boolean, perio
             max: xAxisMax
         },
         yAxis: {
-            name: Y_AXIAS_NAME,
+            name: getYAxiasName(periodSize),
             nameTextStyle: { color: textColor },
             type: 'value',
             axisLabel: { color: textColor },
