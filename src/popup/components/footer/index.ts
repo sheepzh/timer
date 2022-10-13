@@ -36,6 +36,7 @@ function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.opt
         if (weekStartAsNormal) {
             return getWeekTime(now, locale === 'zh_CN')
         } else {
+            const weekOffset: number = weekStart as number
             // Returns 0 - 6 means Monday to Sunday
             const weekDayNow = getWeekDay(now, true)
             const optionWeekDay = weekDayNow + 1
@@ -43,16 +44,17 @@ function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.opt
             if (optionWeekDay === weekStart) {
                 start = now
             } else if (optionWeekDay < weekStart) {
-                const millDelta = (optionWeekDay + 7 - weekStart) * MILL_PER_DAY
+                const millDelta = (optionWeekDay + 7 - weekOffset) * MILL_PER_DAY
                 start = new Date(now.getTime() - millDelta)
             } else {
-                const millDelta = (optionWeekDay - weekStart) * MILL_PER_DAY
+                const millDelta = (optionWeekDay - weekOffset) * MILL_PER_DAY
                 start = new Date(now.getTime() - millDelta)
             }
             return [start, now]
         }
     } else if (duration == 'thisMonth') {
-        return getMonthTime(now)
+        const startOfMonth = getMonthTime(now)[0]
+        return [startOfMonth, now]
     }
 }
 
