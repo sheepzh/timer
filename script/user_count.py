@@ -8,7 +8,7 @@ import requests
 import math
 
 svg_file_path = os.path.join('output', 'user_count.svg')
-
+output_dir_path = 'output'
 
 def smooth_count(last_value, step_num, current_value, data):
     unit_val = (current_value-last_value) / (step_num+1)
@@ -91,6 +91,8 @@ def render():
     chart.add('Chrome', chrome_data)
     chart.add('Edge', edge_data)
     svg = chart.render()
+    if not os.path.exists(output_dir_path):
+        os.makedirs(output_dir_path)
     with open(svg_file_path, 'wb') as svg_file:
         svg_file.write(svg)
     cairosvg.svg2svg(file_obj=open(svg_file_path, 'r'), write_to=svg_file_path)
