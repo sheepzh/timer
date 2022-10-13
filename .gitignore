@@ -12,6 +12,7 @@ market_packages
 *.pem
 
 script/icons
+script/output/
 script/icons_history
 
 **/__pycache__
