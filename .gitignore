@@ -1,8 +1,11 @@
 node_modules
 dist
 dist_dev
+dist_dev_safari
 dist_prod
 dist_analyze
+
+Timer_Safari_DEV
 
 firefox_dev
 

@@ -5,6 +5,7 @@
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
     "dev": "webpack --config=webpack/webpack.dev.ts --watch",
+    "dev:safari": "webpack --config=webpack/webpack.dev.safari.ts --watch",
     "build": "webpack --config=webpack/webpack.prod.ts",
     "analyze": "webpack --config=webpack/webpack.analyze.ts",
     "test": "jest --env=jsdom",
