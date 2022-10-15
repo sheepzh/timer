@@ -53,11 +53,25 @@ yarn run test
 ```
 7. 提交代码，并 PR 主仓库的 main 分支
 
-## 3. 应用架构设计
+## 3. 在 Safari 里运行
+
+1. 重复上述步骤 1-4
+2. 编译兼容 Safari 的代码，替换上述步骤 5 的指令即可
+```shell
+npm run dev:safari
+```
+3. 使用 Xcode 内置工具 safari-web-extension-converter 将 Chrome 扩展转换成 Safari 扩展
+```shell
+[YOUR_PATH]/Xcode.app/Contents/Developer/usr/bin/safari-web-extension-converter dist_dev_safari
+```
+项目根目录下会生成一个文件夹 Timer_Safari_DEV，同时 Xcode 会自动打开该文件夹
+4. 在 Xcode 里运行打开的项目即可
+
+## 4. 应用架构设计
 
 > todo 
 
-## 4. 目录结构
+## 5. 目录结构
 
 ```plain
 project
@@ -117,6 +131,7 @@ project
 └───webpack                                # webpack 打包配置
     |   webpack.common.ts                  # 基础配置
     |   webpack.dev.ts                     # 开发环境配置
+    |   webpack.dev.safari.ts              # Safari 开发环境配置
     |   webpack.prod.ts                    # 生产配置
 
 ```
