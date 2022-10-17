@@ -20,7 +20,8 @@ if (/Firefox[\/\s](\d+\.\d+)/.test(userAgent)) {
 } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
     // The Opera implements the chrome
     isOpera = true
-} else if (userAgent.includes('Safari')) {
+} else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+    // Chrome on macOs includes 'Safari'
     isSafari = true
 } else if (userAgent.includes('Chrome')) {
     isChrome = true
