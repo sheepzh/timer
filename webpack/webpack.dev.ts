@@ -56,4 +56,4 @@ options.devtool = 'cheap-module-source-map'
 // Use cache with filesystem
 options.cache = { type: 'filesystem' }
 
-module.exports = options
+export default options

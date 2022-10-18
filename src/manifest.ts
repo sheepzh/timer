@@ -34,13 +34,13 @@ const _default: chrome.runtime.ManifestV2 = {
   },
   content_scripts: [
     {
-      "matches": [
+      matches: [
         "<all_urls>"
       ],
-      "js": [
+      js: [
         "content_scripts.js"
       ],
-      "run_at": "document_start"
+      run_at: "document_start"
     }
   ],
   permissions: [

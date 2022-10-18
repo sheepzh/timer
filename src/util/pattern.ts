@@ -18,6 +18,7 @@ export function isBrowserUrl(url: string) {
         // Firefox addons' pages
         || /^moz-extension:/.test(url)
         || /^edge.*?:\/\/.*$/.test(url)
+        || /^safari.*?:\/\/.*/.test(url)
 }
 
 const isNotValidPort = (portStr: string) => {

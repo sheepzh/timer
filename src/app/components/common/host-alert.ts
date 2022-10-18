@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { IS_SAFARI } from "@util/constant/environment"
 import { ElLink } from "element-plus"
 import { computed, ComputedRef, defineComponent, h } from "vue"
 
@@ -39,20 +40,27 @@ const _default = defineComponent({
         const href: ComputedRef<string> = computed(() => props.clickable ? `http://${props.host}` : '')
         const target: ComputedRef<string> = computed(() => props.clickable ? '_blank' : '')
         const cursor: ComputedRef<string> = computed(() => props.clickable ? "cursor" : "default")
-        return () => h('div', [
-            h(ElLink,
-                {
-                    href: href.value,
-                    target: target.value,
-                    underline: props.clickable,
-                    style: { cursor: cursor.value }
-                },
-                () => props.host
-            ), h('span',
-                { style: HOST_ICON_STYLE },
-                h('img', { src: props.iconUrl, width: 12, height: 12 })
-            )
-        ])
+        return IS_SAFARI
+            ? () => h(ElLink, {
+                href: href.value,
+                target: target.value,
+                underline: props.clickable,
+                style: { cursor: cursor.value }
+            }, () => props.host)
+            : () => h('div', [
+                h(ElLink,
+                    {
+                        href: href.value,
+                        target: target.value,
+                        underline: props.clickable,
+                        style: { cursor: cursor.value }
+                    },
+                    () => props.host
+                ), h('span',
+                    { style: HOST_ICON_STYLE },
+                    h('img', { src: props.iconUrl, width: 12, height: 12 })
+                )
+            ])
     }
 })
 

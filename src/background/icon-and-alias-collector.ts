@@ -8,7 +8,7 @@
 import HostAliasDatabase from "@db/host-alias-database"
 import IconUrlDatabase from "@db/icon-url-database"
 import OptionDatabase from "@db/option-database"
-import { IS_CHROME } from "@util/constant/environment"
+import { IS_CHROME, IS_SAFARI } from "@util/constant/environment"
 import { iconUrlOfBrowser } from "@util/constant/url"
 import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
 import { defaultStatistics } from "@util/constant/option"
@@ -51,7 +51,7 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
     const iconUrl = favIconUrl || iconUrlOfBrowser(protocol, host)
-    iconUrlDatabase.put(host, iconUrl)
+    iconUrl && iconUrlDatabase.put(host, iconUrl)
     collectAliasEnabled && !isBrowserUrl(url) && isHomepage(url) && collectAlias(host, tab.title)
 }
 
@@ -67,7 +67,7 @@ function handleWebNavigationCompleted(detail: chrome.webNavigation.WebNavigation
 }
 
 function listen() {
-    chrome.webNavigation.onCompleted.addListener(handleWebNavigationCompleted)
+    !IS_SAFARI && chrome.webNavigation.onCompleted.addListener(handleWebNavigationCompleted)
 }
 
 /**
