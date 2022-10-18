@@ -27,6 +27,7 @@ import { useRoute, useRouter } from "vue-router"
 import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
 import TimerDatabase from "@db/timer-database"
+import { IS_SAFARI } from "@util/constant/environment"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -38,7 +39,7 @@ async function queryData(
 ) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
     const pageInfo = { size: page.size, num: page.num }
-    const fillFlag = { alias: true, iconUrl: true }
+    const fillFlag = { alias: true, iconUrl: !IS_SAFARI }
     const param = {
         ...queryParam.value,
         inclusiveRemote: readRemote.value

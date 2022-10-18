@@ -18,6 +18,7 @@ import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
+import { IS_SAFARI } from "@util/constant/environment"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -75,7 +76,10 @@ function labelFormatter({ mergeHost }: timer.popup.QueryResult, params: any): st
     const format = params instanceof Array ? params[0] : params
     const { name } = format
     const data = format.data as timer.popup.Row
-    return mergeHost || data.isOther ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`
+    // Un-supported to get favicon url in Safari
+    return mergeHost || data.isOther || IS_SAFARI
+        ? name
+        : `{${legend2LabelStyle(name)}|} {a|${name}}`
 }
 
 const staticOptions: EcOption = {
