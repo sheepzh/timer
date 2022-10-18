@@ -103,36 +103,7 @@ const staticOptions: EcOption = {
                 shadowColor: "rgba(0, 0, 0, 0.5)",
             },
         }
-    }],
-    toolbox: {
-        show: true,
-        feature: {
-            restore: {
-                show: true,
-                title: t(msg => msg.restoreTitle)
-            },
-            saveAsImage: {
-                show: true,
-                title: t(msg => msg.saveAsImageTitle),
-                // file name
-                name: t(msg => msg.fileName, {
-                    app: t(msg => msg.appName),
-                    today
-                }),
-                excludeComponents: ['toolbox'],
-                pixelRatio: 1
-            },
-            // Customized tool's name must start with 'my'
-            myOptions: {
-                show: true,
-                title: t(msg => msg.options),
-                icon: optionIcon,
-                onclick() {
-                    chrome.tabs.create({ url: getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }) })
-                }
-            }
-        }
-    }
+    }]
 }
 
 const maxWidth = 750
@@ -210,7 +181,35 @@ export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElem
                 color: textColor
             }
         }],
-        toolbox: staticOptions.toolbox
+        toolbox: {
+            show: true,
+            feature: {
+                restore: {
+                    show: true,
+                    title: t(msg => msg.restoreTitle)
+                },
+                saveAsImage: {
+                    show: true,
+                    title: t(msg => msg.saveAsImageTitle),
+                    // file name
+                    name: t(msg => msg.fileName, {
+                        app: t(msg => msg.appName),
+                        today
+                    }),
+                    excludeComponents: ['toolbox'],
+                    pixelRatio: 1
+                },
+                // Customized tool's name must start with 'my'
+                myOptions: {
+                    show: true,
+                    title: t(msg => msg.options),
+                    icon: optionIcon,
+                    onclick() {
+                        chrome.tabs.create({ url: getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }) })
+                    }
+                }
+            }
+        }
     }
     const series = []
     const iconRich = {}
