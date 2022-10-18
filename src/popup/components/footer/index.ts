@@ -20,12 +20,13 @@ import { t } from "@popup/locale"
 import { locale } from "@util/i18n"
 import { getDayLenth, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
+import { IS_SAFARI } from "@util/constant/environment"
 
 type FooterParam = TimerQueryParam & {
     chartTitle: string
 }
 
-const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: true, alias: true }
+const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: !IS_SAFARI, alias: true }
 
 function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.option.WeekStartOption): Date | Date[] {
     const now = new Date()
