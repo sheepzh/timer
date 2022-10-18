@@ -1,4 +1,4 @@
-# How to install in Safari
+# How to install for Safari
 
 This is a too poor developer to pay $99 per year for distribution of an opensource and free browser extension in Apple App Store.
 So please intall it **manually**, GG Safari.
