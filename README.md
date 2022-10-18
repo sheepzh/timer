@@ -37,6 +37,8 @@ Timer can
 [![](https://img.shields.io/amo/rating/2690100?color=green)](https://addons.mozilla.org/en-US/firefox/addon/2690100)
 [![Mozilla Add-on](https://img.shields.io/amo/users/2690100?color=green)](https://addons.mozilla.org/en-US/firefox/addon/2690100)
 
+[How to install manually for Safari](./doc/safari-install.md)
+
 ![User Count](https://gist.githubusercontent.com/sheepzh/6aaf4c22f909db73b533491167da129b/raw/user_count.svg)
 
 ## Contribution
