@@ -19,6 +19,9 @@ import { t } from "@popup/locale"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
 import { IS_SAFARI } from "@util/constant/environment"
+import { OPTION_ROUTE } from "@app/router/constants"
+import { getAppPageUrl } from "@util/constant/url"
+import { optionIcon } from "./toolbox-icon"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -118,6 +121,15 @@ const staticOptions: EcOption = {
                 }),
                 excludeComponents: ['toolbox'],
                 pixelRatio: 1
+            },
+            // Customized tool's name must start with 'my'
+            myOptions: {
+                show: true,
+                title: t(msg => msg.options),
+                icon: optionIcon,
+                onclick() {
+                    chrome.tabs.create({ url: getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }) })
+                }
             }
         }
     }
