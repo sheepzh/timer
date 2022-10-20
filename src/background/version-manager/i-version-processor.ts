@@ -21,5 +21,5 @@ export default interface IVersionProcessor {
      * 
      * @param reason reason of chrome OnInstalled event
      */
-    process(reason: string): void
+    process(reason: chrome.runtime.OnInstalledReason): void
 }
