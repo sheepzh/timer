@@ -17,6 +17,7 @@ export type PopupMessage = {
     fileName: string
     saveAsImageTitle: string
     restoreTitle: string
+    options: string
     totalTime: string
     totalCount: string
     averageTime: string
@@ -43,6 +44,7 @@ const _default: Messages<PopupMessage> = {
         fileName: '上网时长清单_{today}_by_{app}',
         saveAsImageTitle: '保存',
         restoreTitle: '刷新',
+        options: '设置',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
         averageTime: '平均每天 {value}',
@@ -67,6 +69,7 @@ const _default: Messages<PopupMessage> = {
         fileName: '上網時長清單_{today}_by_{app}',
         saveAsImageTitle: '保存',
         restoreTitle: '刷新',
+        options: '設置',
         totalTime: '共 {totalTime}',
         totalCount: '共 {totalCount} 次',
         averageCount: '平均每天 {value} 次',
@@ -91,6 +94,7 @@ const _default: Messages<PopupMessage> = {
         fileName: 'Web_Time_List_{today}_By_{app}',
         saveAsImageTitle: 'Snapshot',
         restoreTitle: 'Restore',
+        options: 'Options',
         totalTime: 'Total {totalTime}',
         totalCount: 'Total {totalCount} times',
         averageCount: '{value} times per day on average',
@@ -115,6 +119,7 @@ const _default: Messages<PopupMessage> = {
         fileName: 'オンライン時間_{today}_by_{app}',
         saveAsImageTitle: 'ダウンロード',
         restoreTitle: '刷新',
+        options: '設定',
         totalTime: '合計 {totalTime}',
         totalCount: '合計 {totalCount} 回',
         averageTime: '1日平均 {value}',

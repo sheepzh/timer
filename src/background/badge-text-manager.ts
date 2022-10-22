@@ -50,8 +50,15 @@ async function updateFocus(host?: string) {
     if (!host) {
         host = await findActiveHost()
     }
-    const milliseconds = host ? (await timerDb.get(host, new Date)).focus : undefined
+    const milliseconds = host ? (await timerDb.get(host, new Date())).focus : undefined
     setBadgeText(milliseconds)
+}
+
+const ALARM_NAME = 'timer-badge-text-manager-alarm'
+const ALARM_INTERVAL = 1000
+function createAlarm(beforeAction?: () => void) {
+    beforeAction?.()
+    chrome.alarms.create(ALARM_NAME, { when: Date.now() + ALARM_INTERVAL })
 }
 
 class BadgeTextManager {
@@ -59,7 +66,13 @@ class BadgeTextManager {
     isPaused: boolean
 
     async init() {
-        this.timer = setInterval(() => !this.isPaused && updateFocus(), 1000)
+        createAlarm()
+        chrome.alarms.onAlarm.addListener(alarm => {
+            if (ALARM_NAME === alarm.name) {
+                createAlarm(() => !this.isPaused && updateFocus())
+            }
+        })
+        // this.timer = setInterval(() => !this.isPaused && updateFocus(), 1000)
 
         const option: Partial<timer.option.AllOption> = await optionService.getAllOption()
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
