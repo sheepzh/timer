@@ -3,7 +3,7 @@ import optionGenerator from "./webpack.common"
 
 const outputDir = path.join(__dirname, '..', 'dist_dev_safari')
 
-function removeUnsupportedProperties(manifest: Partial<chrome.runtime.ManifestV2>) {
+function removeUnsupportedProperties(manifest: Partial<chrome.runtime.ManifestV3>) {
   // 1. permissions. 'idle' is not supported
   const originPermissions = manifest.permissions || []
   const unsupported = ['idle']
