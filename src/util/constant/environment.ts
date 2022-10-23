@@ -10,6 +10,7 @@ let isFirefox = false
 let isChrome = false
 let isEdge = false
 let isOpera = false
+let isSafari = false
 
 if (/Firefox[\/\s](\d+\.\d+)/.test(userAgent)) {
     isFirefox = true
@@ -19,6 +20,9 @@ if (/Firefox[\/\s](\d+\.\d+)/.test(userAgent)) {
 } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
     // The Opera implements the chrome
     isOpera = true
+} else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+    // Chrome on macOs includes 'Safari'
+    isSafari = true
 } else if (userAgent.includes('Chrome')) {
     isChrome = true
 }
@@ -33,3 +37,8 @@ export const IS_CHROME: boolean = isChrome
  * @since 0.8.0
  */
 export const IS_OPERA: boolean = isOpera
+
+/**
+ * @since 1.3.0
+ */
+export const IS_SAFARI: boolean = isSafari

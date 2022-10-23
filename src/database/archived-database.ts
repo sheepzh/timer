@@ -28,6 +28,14 @@ class ArchivedDatabase extends BaseDatabase {
         return Promise.resolve(result)
     }
 
+    async removeAll(): Promise<number> {
+        const items = await this.storage.get()
+        const keys = Object.keys(items)
+            .filter(key => key.startsWith(ARCHIVED_PREFIX))
+        await this.storage.remove(keys)
+        return keys?.length || 0
+    }
+
     private generateKey(row: timer.stat.Row): string {
         return ARCHIVED_PREFIX + row.host
     }

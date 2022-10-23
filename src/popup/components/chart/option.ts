@@ -18,6 +18,10 @@ import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@popup/locale"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
+import { IS_SAFARI } from "@util/constant/environment"
+import { OPTION_ROUTE } from "@app/router/constants"
+import { getAppPageUrl } from "@util/constant/url"
+import { optionIcon } from "./toolbox-icon"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -75,7 +79,10 @@ function labelFormatter({ mergeHost }: timer.popup.QueryResult, params: any): st
     const format = params instanceof Array ? params[0] : params
     const { name } = format
     const data = format.data as timer.popup.Row
-    return mergeHost || data.isOther ? name : `{${legend2LabelStyle(name)}|} {a|${name}}`
+    // Un-supported to get favicon url in Safari
+    return mergeHost || data.isOther || IS_SAFARI
+        ? name
+        : `{${legend2LabelStyle(name)}|} {a|${name}}`
 }
 
 const staticOptions: EcOption = {
@@ -96,27 +103,7 @@ const staticOptions: EcOption = {
                 shadowColor: "rgba(0, 0, 0, 0.5)",
             },
         }
-    }],
-    toolbox: {
-        show: true,
-        feature: {
-            restore: {
-                show: true,
-                title: t(msg => msg.restoreTitle)
-            },
-            saveAsImage: {
-                show: true,
-                title: t(msg => msg.saveAsImageTitle),
-                // file name
-                name: t(msg => msg.fileName, {
-                    app: t(msg => msg.appName),
-                    today
-                }),
-                excludeComponents: ['toolbox'],
-                pixelRatio: 1
-            }
-        }
-    }
+    }]
 }
 
 const maxWidth = 750
@@ -194,7 +181,35 @@ export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElem
                 color: textColor
             }
         }],
-        toolbox: staticOptions.toolbox
+        toolbox: {
+            show: true,
+            feature: {
+                restore: {
+                    show: true,
+                    title: t(msg => msg.restoreTitle)
+                },
+                saveAsImage: {
+                    show: true,
+                    title: t(msg => msg.saveAsImageTitle),
+                    // file name
+                    name: t(msg => msg.fileName, {
+                        app: t(msg => msg.appName),
+                        today
+                    }),
+                    excludeComponents: ['toolbox'],
+                    pixelRatio: 1
+                },
+                // Customized tool's name must start with 'my'
+                myOptions: {
+                    show: true,
+                    title: t(msg => msg.options),
+                    icon: optionIcon,
+                    onclick() {
+                        chrome.tabs.create({ url: getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }) })
+                    }
+                }
+            }
+        }
     }
     const series = []
     const iconRich = {}

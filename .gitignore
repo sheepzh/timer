@@ -1,8 +1,13 @@
 node_modules
 dist
 dist_dev
+dist_dev_safari
 dist_prod
+dist_prod_safari
 dist_analyze
+
+Timer_Safari_DEV
+Timer
 
 firefox_dev
 
@@ -12,6 +17,7 @@ market_packages
 *.pem
 
 script/icons
+script/output/
 script/icons_history
 
 **/__pycache__

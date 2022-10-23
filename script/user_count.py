@@ -3,17 +3,32 @@ from collections import OrderedDict
 import sys
 import json
 import os
-import math
 import cairosvg
+import requests
+import math
 
-argv = sys.argv
-
+svg_file_path = os.path.join('output', 'user_count.svg')
+output_dir_path = 'output'
 
 def smooth_count(last_value, step_num, current_value, data):
     unit_val = (current_value-last_value) / (step_num+1)
     for i in range(step_num):
         data.append(unit_val*(i+1)+last_value)
     data.append(current_value)
+
+
+def quit_with(msg: str):
+    print(msg)
+    quit()
+
+
+def zoom(data, reduction):
+    i = 0
+    new_data = []
+    while i < len(data):
+        new_data.append(data[i])
+        i += reduction
+    return new_data
 
 
 def render():
@@ -59,7 +74,13 @@ def render():
     smooth_count(last_chrome, chrome_step, last_chrome, chrome_data)
     smooth_count(last_edge, edge_step, last_edge, edge_data)
     smooth_count(last_firefox, firefox_step, last_firefox, firefox_data)
-    print(chrome_data, edge_data, firefox_data)
+
+    data_size = len(chrome_data)
+    reduction = math.floor(data_size/100)
+    chrome_data = zoom(chrome_data, reduction)
+    edge_data = zoom(edge_data, reduction)
+    firefox_data = zoom(firefox_data, reduction)
+    sorted_date = zoom(sorted_date, reduction)
 
     chart = pygal.StackedLine(
         fill=True, style=pygal.style.styles['default'](label_font_size=8))
@@ -70,10 +91,11 @@ def render():
     chart.add('Chrome', chrome_data)
     chart.add('Edge', edge_data)
     svg = chart.render()
-    file_name = 'output/user_count.svg'
-    with open(file_name, 'wb') as svg_file:
+    if not os.path.exists(output_dir_path):
+        os.makedirs(output_dir_path)
+    with open(svg_file_path, 'wb') as svg_file:
         svg_file.write(svg)
-    cairosvg.svg2svg(file_obj=open(file_name, 'r'), write_to=file_name)
+    cairosvg.svg2svg(file_obj=open(svg_file_path, 'r'), write_to=svg_file_path)
 
 
 def read_json(name):
@@ -101,8 +123,7 @@ def write_json(name, json_obj):
 def add_chrome(file_path):
     json_file = 'user_chrome'
     if not os.path.exists(file_path):
-        print("File not found", file_path)
-        quit()
+        quit_with("File not found: {}".format(file_path))
     # 1. parse input data
     input_data = {}
     with open(file_path, encoding='utf8', mode='r') as csv_file:
@@ -132,8 +153,7 @@ def add_chrome(file_path):
 def add_edge(file_path):
     json_file = 'user_edge'
     if not os.path.exists(file_path):
-        print("File not found", file_path)
-        quit()
+        quit_with("File not found: {}".format(file_path))
     # 1. parse input data
     input_data = {}
     with open(file_path, encoding='utf8', mode='r') as csv_file:
@@ -164,8 +184,7 @@ def add_edge(file_path):
 def add_firefox(file_path):
     json_file = 'user_firefox'
     if not os.path.exists(file_path):
-        print("File not found", file_path)
-        quit()
+        quit_with("File not found: {}".format(file_path))
     # 1. parse input data
     input_data = {}
     with open(file_path, encoding='utf8', mode='r') as csv_file:
@@ -191,9 +210,9 @@ def add_firefox(file_path):
 
 
 def add():
+    argv = sys.argv
     if len(argv) < 4 or argv[2] not in ['c', 'e', 'f']:
-        print("add [c/e/f] [file_name]")
-        quit()
+        quit_with("add [c/e/f] [file_name]")
     browser = argv[2]
     file_path = argv[3]
     if browser == 'c':
@@ -206,9 +225,79 @@ def add():
         pass
 
 
+GIST_TOKEN_ENV = 'TIMER_USER_COUNT_GIST_TOKEN'
+DESC = "User count of timer, auto-generated"
+
+
+def upload2gist():
+    argv = sys.argv
+    # 1. find token and svg file
+    token = argv[2] if len(argv) > 2 else os.environ.get(GIST_TOKEN_ENV)
+    if not token:
+        quit_with(
+            "Token is None, please input with command or set with environment TIMER_USER_COUNT_GIST_TOKEN"
+        )
+    if not os.path.exists(svg_file_path):
+        quit_with('Svg file not found')
+    # 2. find exist gist file
+    token_header = 'Bearer {}'.format(token)
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": token_header
+    }
+    response = requests.get('https://api.github.com/gists', headers=headers)
+    status_code = response.status_code
+    if status_code != 200:
+        quit_with("Failed to list exist gists: statusCode={}".format(status_code))
+    gist_list = json.loads(response.content)
+    exist_gist = next(
+        (gist for gist in gist_list if 'description' in gist and gist['description'] == DESC),
+        None
+    )
+    svg_content = ''
+    with open(svg_file_path, 'r') as file:
+        svg_content = '\r\n'.join(file.readlines())
+    if not svg_content:
+        quit_with("Failed to read svg file")
+    data = json.dumps({
+        "description": DESC,
+        "public": True,
+        "files": {
+            "user_count.svg": {
+                "content": svg_content
+            }
+        }
+    })
+    # 3. create new one or update
+    if not exist_gist:
+        print("Gist not found, so try to create one")
+        response = requests.post('https://api.github.com/gists',
+                                 data=data, headers=headers)
+        status_code = response.status_code
+        if status_code != 200 and status_code != 201:
+            quit_with(
+                'Failed to create new gist: statusCode={}'.format(status_code)
+            )
+        else:
+            print('Success to create new gist')
+    else:
+        gist_id = exist_gist['id']
+        response = requests.post('https://api.github.com/gists/{}'.format(gist_id),
+                                 data=data, headers=headers)
+        status_code = response.status_code
+        if status_code != 200 and status_code != 201:
+            quit_with("Failed to update gist: id={}, statusCode={}".format(
+                gist_id,
+                status_code
+            ))
+        else:
+            print("Success to update gist")
+
+
 def main():
-    if len(argv) == 1 or argv[1] not in ['render', 'add']:
-        print("Supported command: render, add")
+    argv = sys.argv
+    if len(argv) == 1 or argv[1] not in ['render', 'add', 'upload']:
+        print("Supported command: render, add, upload")
         quit()
 
     cmd = argv[1]
@@ -216,11 +305,12 @@ def main():
         render()
     elif cmd == 'add':
         add()
+    elif cmd == 'upload':
+        render()
+        upload2gist()
     else:
         pass
 
 
-main()
-
-
-# print(lineChart)
+if __name__ == '__main__':
+    main()

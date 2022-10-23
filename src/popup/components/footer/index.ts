@@ -9,7 +9,6 @@ import type { FillFlagParam, TimerQueryParam } from "@service/timer-service"
 
 import initAllFunction from './all-function'
 import initUpgrade from './upgrade'
-import initMeat from './meat'
 import TotalInfoWrapper from "./total-info"
 import MergeHostWrapper from "./merge-host"
 import TimeSelectWrapper from "./select/time-select"
@@ -20,12 +19,13 @@ import { t } from "@popup/locale"
 import { locale } from "@util/i18n"
 import { getDayLenth, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
+import { IS_SAFARI } from "@util/constant/environment"
 
 type FooterParam = TimerQueryParam & {
     chartTitle: string
 }
 
-const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: true, alias: true }
+const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: !IS_SAFARI, alias: true }
 
 function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.option.WeekStartOption): Date | Date[] {
     const now = new Date()
@@ -36,6 +36,7 @@ function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.opt
         if (weekStartAsNormal) {
             return getWeekTime(now, locale === 'zh_CN')
         } else {
+            const weekOffset: number = weekStart as number
             // Returns 0 - 6 means Monday to Sunday
             const weekDayNow = getWeekDay(now, true)
             const optionWeekDay = weekDayNow + 1
@@ -43,16 +44,17 @@ function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.opt
             if (optionWeekDay === weekStart) {
                 start = now
             } else if (optionWeekDay < weekStart) {
-                const millDelta = (optionWeekDay + 7 - weekStart) * MILL_PER_DAY
+                const millDelta = (optionWeekDay + 7 - weekOffset) * MILL_PER_DAY
                 start = new Date(now.getTime() - millDelta)
             } else {
-                const millDelta = (optionWeekDay - weekStart) * MILL_PER_DAY
+                const millDelta = (optionWeekDay - weekOffset) * MILL_PER_DAY
                 start = new Date(now.getTime() - millDelta)
             }
             return [start, now]
         }
     } else if (duration == 'thisMonth') {
-        return getMonthTime(now)
+        const startOfMonth = getMonthTime(now)[0]
+        return [startOfMonth, now]
     }
 }
 
@@ -70,7 +72,6 @@ class FooterWrapper {
     async init() {
         initAllFunction()
         initUpgrade()
-        initMeat()
 
         const query = () => this.query()
 

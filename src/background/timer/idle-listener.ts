@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { IS_SAFARI } from "@util/constant/environment"
 import { formatTime } from "@util/time"
 import TimerContext from "./context"
 
@@ -24,6 +25,9 @@ export default class IdleListener {
     }
 
     listen() {
-        chrome.idle.onStateChanged.addListener(newState => listen(this.context, newState))
+        if (!IS_SAFARI) {
+            // Idle does not work in macOs
+            chrome.idle.onStateChanged.addListener(newState => listen(this.context, newState))
+        }
     }
 }
