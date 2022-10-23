@@ -15,10 +15,9 @@ function resolveKey(key: string | Object | string[] | null) {
         resolveOneKey(key, result)
         return result
     } else if (Array.isArray(key)) {
-        return key.reduce((acc, curr) => {
-            resolveOneKey(curr, acc)
-            return acc
-        }, {})
+        const result = {}
+        key.forEach(curr => resolveOneKey(curr, result))
+        return result
     } else if (typeof key === 'object') {
         return Object.keys(key).reduce((acc, curr) => {
             acc[curr] = store[curr] || key[curr]

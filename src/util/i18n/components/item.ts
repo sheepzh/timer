@@ -54,7 +54,7 @@ const _default: Messages<ItemMessage> = {
         host: '域名',
         total: '運行時長',
         focus: '瀏覽時長',
-        time: '打開次數',
+        time: '訪問次數',
         operation: {
             label: '操作',
             delete: '刪除',
