@@ -79,7 +79,17 @@ const staticOptions: webpack.Configuration = {
     },
     resolve: {
         extensions: ['.ts', ".js", '.css', '.scss', '.sass'],
-        alias: resolveAlias
+        alias: resolveAlias,
+        fallback: {
+            // fallbacks of axios's dependencies start
+            stream: require.resolve('stream-browserify'),
+            zlib: false,
+            https: false,
+            http: false,
+            url: false,
+            assert: false,
+            // fallbacks of axios's dependencies end
+        }
     }
 }
 
