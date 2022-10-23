@@ -104,11 +104,6 @@ export function iconUrlOfBrowser(protocol: string, host: string): string {
 }
 
 /**
- * @since 0.2.9
- */
-export const MEAT_URL = 'https://dun.mianbaoduo.com/@yangyang'
-
-/**
  * @since 0.9.3
  */
 export const PSL_HOMEPAGE = 'https://publicsuffix.org/'

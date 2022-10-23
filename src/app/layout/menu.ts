@@ -14,7 +14,7 @@ import { defineComponent, h, onMounted, reactive } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
-import { HOME_PAGE, MEAT_URL, TRANSLATION_ISSUE_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
+import { HOME_PAGE, TRANSLATION_ISSUE_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, Food, HotWater, MagicStick, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer, TrendCharts } from "@element-plus/icons-vue"
 import { locale } from "@util/i18n"
 import TrendIcon from "./icon/trend-icon"
@@ -62,14 +62,7 @@ function generateMenus(): _MenuGroup[] {
         icon: ChatSquare,
         index: '_feedback'
     })
-    if (isZhCn) {
-        otherMenuItems.push({
-            title: 'meat',
-            href: MEAT_URL,
-            icon: Food,
-            index: '_meat'
-        })
-    } else {
+    if (!isZhCn) {
         otherMenuItems.push({
             title: 'translationMistake',
             href: TRANSLATION_ISSUE_PAGE,
