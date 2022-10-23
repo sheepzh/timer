@@ -9,7 +9,6 @@ import type { FillFlagParam, TimerQueryParam } from "@service/timer-service"
 
 import initAllFunction from './all-function'
 import initUpgrade from './upgrade'
-import initMeat from './meat'
 import TotalInfoWrapper from "./total-info"
 import MergeHostWrapper from "./merge-host"
 import TimeSelectWrapper from "./select/time-select"
@@ -73,7 +72,6 @@ class FooterWrapper {
     async init() {
         initAllFunction()
         initUpgrade()
-        initMeat()
 
         const query = () => this.query()
 
