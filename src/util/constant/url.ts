@@ -7,13 +7,17 @@
 
 import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
 
+export const FIREFOX_HOMEPAGE = 'https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/'
+export const CHROME_HOMEPAGE = 'https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm'
+export const EDGE_HOMEPAGE = 'https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc'
+
 let homePage = undefined
 if (IS_FIREFOX) {
-    homePage = 'https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/'
+    homePage = FIREFOX_HOMEPAGE
 } else if (IS_CHROME) {
-    homePage = 'https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm'
+    homePage = CHROME_HOMEPAGE
 } else if (IS_EDGE) {
-    homePage = 'https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc'
+    homePage = EDGE_HOMEPAGE
 }
 
 /**
@@ -96,7 +100,7 @@ export function getAppPageUrl(isInBackground: boolean, route?: string, query?: a
 /**
  * 
  * @param isInBackground invoke in background environment
- * @since 1.2.0
+ * @since 1.3.2
  */
 export function getGuidePageUrl(isInBackground: boolean): string {
     return IS_FIREFOX && !isInBackground ? 'guide.html' : 'static/guide.html'

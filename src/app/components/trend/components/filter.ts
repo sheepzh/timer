@@ -14,7 +14,7 @@ import { t } from "@app/locale"
 import { TrendMessage } from "@app/locale/components/trend"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import SelectFilterItem from "@app/components/common/select-filter-item"
-import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import { labelOfHostInfo } from "./common"
 
 async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<timer.app.trend.HostInfo[]>, searching: Ref<boolean>) {
