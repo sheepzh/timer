@@ -15,3 +15,8 @@ export function t(key: I18nKey, param?: any) {
     const props = { key, param }
     return _t<GuideMessage>(messages[locale], props)
 }
+
+export function tN(key: I18nKey, param?: any) {
+    const props = { key, param }
+    return _tN<GuideMessage>(messages[locale], props)
+}
