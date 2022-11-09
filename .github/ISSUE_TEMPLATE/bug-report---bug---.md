@@ -6,7 +6,7 @@ labels: ''
 assignees: ''
 ---
 
-## Tell me the enviroment / 请先填写版本信息
+## Tell me the environment / 请先填写版本信息
 
 Version: [Extension version / 扩展版本]
 OS: [操作系统:Mac/Linux/Win]
