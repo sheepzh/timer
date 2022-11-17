@@ -8,7 +8,7 @@
 import { extractHostname, HostInfo } from "@util/pattern"
 
 type _Param = {
-    url: string,
+    url: string
     tabId: number
     host?: string
 }

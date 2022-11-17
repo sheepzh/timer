@@ -18,6 +18,7 @@ import UninstallListener from "./uninstall-listener"
 import MessageDispatcher from "./message-dispatcher"
 import initLimitProcesser from "./limit-processor"
 import initCsHandler from "./content-script-handler"
+import { isBrowserUrl } from "@util/pattern"
 
 // Open the log of console
 openLog()
@@ -50,7 +51,7 @@ badgeTextManager.init()
 
 // Listen to tab active changed
 new ActiveTabListener()
-    .register(({ host }) => badgeTextManager.forceUpdate(host))
+    .register(({ url, host, tabId }) => !isBrowserUrl(url) && badgeTextManager.forceUpdate({ host, tabId }))
     .listen()
 
 // Collect the install time
