@@ -76,7 +76,7 @@ def render():
     smooth_count(last_firefox, firefox_step, last_firefox, firefox_data)
 
     data_size = len(chrome_data)
-    reduction = math.floor(data_size/100)
+    reduction = math.floor(data_size/150)
     chrome_data = zoom(chrome_data, reduction)
     edge_data = zoom(edge_data, reduction)
     firefox_data = zoom(firefox_data, reduction)
