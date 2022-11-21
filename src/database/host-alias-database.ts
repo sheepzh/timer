@@ -11,13 +11,15 @@ import { REMAIN_WORD_PREFIX } from "./common/constant"
 const DB_KEY_PREFIX = REMAIN_WORD_PREFIX + "ALIAS"
 const DB_KEY_PREFIX_M = REMAIN_WORD_PREFIX + "ALIASM"
 
-const SOURCE_PREFIX_MAP: { [source in timer.site.AliasSource]: string } = {
+type _AliasSourceAbbr = 'u' | 'd'
+
+const SOURCE_PREFIX_MAP: Record<timer.site.AliasSource, _AliasSourceAbbr> = {
     USER: 'u',
     DETECTED: 'd'
 }
-const ABBR_MAP = {
-    'u': 'USER',
-    'd': 'DETECTED'
+const ABBR_MAP: Record<_AliasSourceAbbr, timer.site.AliasSource> = {
+    u: 'USER',
+    d: 'DETECTED'
 }
 
 function generateKey(aliasKey: timer.site.AliasKey): string {
@@ -39,7 +41,7 @@ function aliasKeyOf(key: string): timer.site.AliasKey {
 }
 
 function valueOf(aliasKey: timer.site.AliasKey, value: string): timer.site.Alias {
-    const abbr = value.substring(0, 1)
+    const abbr = value.substring(0, 1) as _AliasSourceAbbr
 
     return {
         ...aliasKey,
@@ -70,13 +72,13 @@ class HostAliasDatabase extends BaseDatabase {
             // Force update
             return this.storage.put(key, value)
         }
-        const existVal = this.storage.getOne(key)
+        const existVal = await this.storage.getOne(key)
         if (!existVal || typeof existVal !== 'string') {
             // Force update
             return this.storage.put(key, value)
         }
-        const abbr = (existVal as string).substring(0, 1)
-        if (ABBR_MAP[abbr] === 'DETECTED') {
+        const abbr = (existVal as string).substring(0, 1) as _AliasSourceAbbr
+        if (abbr === 'd') {
             // Update
             return this.storage.put(key, value)
         }
