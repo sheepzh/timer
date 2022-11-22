@@ -14,6 +14,7 @@ export type OptionMessage = {
     popup: {
         title: string
         max: string
+        defaultMergeDomain: string
         defaultDisplay: string
         displaySiteName: string
         duration: PopupDurationMessage
@@ -93,12 +94,13 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: '弹窗页',
             max: '只显示前 {input} 条数据，剩下的条目合并显示',
+            defaultMergeDomain: '{input} 打开时合并子域名',
             defaultDisplay: "打开时显示 {duration} {type}",
             displaySiteName: '{input}  显示时是否使用 {siteName} 来代替域名',
             duration: popupDurationMessages.zh_CN,
             durationWidth: "80px",
             weekStart: "每周的第一天 {input}",
-            weekStartAsNormal: '按照惯例'
+            weekStartAsNormal: '按照惯例',
         },
         appearance: {
             title: '外观',
@@ -174,6 +176,7 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: '彈窗頁',
             max: '隻顯示前 {input} 條數據，剩下的條目合並顯示',
+            defaultMergeDomain: '{input} 打開時合併子域名',
             defaultDisplay: "打開時顯示 {duration} {type}",
             displaySiteName: '{input}  顯示時是否使用 {siteName} 來代替域名',
             duration: popupDurationMessages.zh_CN,
@@ -254,7 +257,8 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: 'Popup Page',
             max: 'Show the first {input} data items',
-            defaultDisplay: "Show {duration} {type} when opened",
+            defaultMergeDomain: '{input} Merge subdomains on open',
+            defaultDisplay: "Show {duration} {type} on open",
             displaySiteName: '{input}  Whether to display {siteName} instead of URL',
             duration: popupDurationMessages.en,
             durationWidth: "110px",
@@ -335,6 +339,7 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: 'ポップアップページ',
             max: '最初の {input} 個のデータのみを表示し、残りのエントリは結合されます',
+            defaultMergeDomain: '{input} オープン時にサブドメインをマージ',
             defaultDisplay: "開くと {duration} {type} が表示されます",
             displaySiteName: '{input}  ホストの代わりに {siteName} を表示するかどうか',
             duration: popupDurationMessages.ja,

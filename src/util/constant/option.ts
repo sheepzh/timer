@@ -16,6 +16,7 @@ export function defaultPopup(): timer.option.PopupOption {
          */
         displaySiteName: true,
         weekStart: 'default',
+        defaultMergeDomain: false,
     }
 }
 

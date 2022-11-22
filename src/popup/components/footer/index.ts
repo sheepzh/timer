@@ -83,7 +83,7 @@ class FooterWrapper {
         const option = await optionService.getAllOption()
         this.timeSelectWrapper.init(option.defaultDuration)
         this.typeSelectWrapper.init(option.defaultType)
-        this.mergeHostWrapper.init()
+        this.mergeHostWrapper.init(option.defaultMergeDomain)
         this.query()
     }
 
