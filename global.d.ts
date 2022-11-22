@@ -37,6 +37,12 @@ declare namespace timer {
              * @since 1.2.5
              */
             weekStart: WeekStartOption
+            /**
+             * Whether to merge domain by default
+             * 
+             * @since 1.3.2
+             */
+            defaultMergeDomain: boolean
         }
 
         /**

@@ -19,7 +19,7 @@ class MergeHostWrapper {
         this.handleChanged = handleChanged
     }
 
-    init() {
+    init(initialVal: boolean) {
         this.mergeHostSwitch = document.getElementById('merge-host-switch')
         this.mergeHostPopup = document.getElementById('merge-host-popup-container')
         this.mergeHostPopupInfo = document.getElementById('merge-host-popup-info')
@@ -35,6 +35,7 @@ class MergeHostWrapper {
             }
             this.handleChanged?.()
         }
+        initialVal && this.mergeHostSwitch.click()
     }
 
     mergedHost() {
