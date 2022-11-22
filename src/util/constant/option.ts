@@ -32,6 +32,7 @@ export function defaultAppearance(): timer.option.AppearanceOption {
         darkModeTimeStart: 64800,
         // 6*60*60
         darkModeTimeEnd: 21600,
+        limitMarkFilter: 'translucent',
     }
 }
 

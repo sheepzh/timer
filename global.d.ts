@@ -85,7 +85,6 @@ declare namespace timer {
              * @since 1.1.0
              */
             darkMode: DarkMode
-
             /**
              * The range of seconds to turn on dark mode. Required if {@param darkMode} is 'timed'
              * 
@@ -93,6 +92,11 @@ declare namespace timer {
              */
             darkModeTimeStart?: number
             darkModeTimeEnd?: number
+            /**
+             * The filter of limit mark
+             * @since 1.3.2
+             */
+            limitMarkFilter: limit.FilterType
         }
 
         type StatisticsOption = {
@@ -283,6 +287,14 @@ declare namespace timer {
              */
             wasteTime: number
         }
+        /**
+         * @since 1.3.2
+         */
+        type FilterType =
+            // translucent filter
+            | 'translucent'
+            // ground glass filter
+            | 'groundGlass'
     }
 
     namespace period {
