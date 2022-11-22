@@ -6,6 +6,7 @@
  */
 
 import TimeLimitItem from "@entity/time-limit-item"
+import optionService from "@service/option-service"
 import { t2Chrome } from "@util/i18n/chrome/t"
 
 function moreMinutes(url: string): Promise<timer.limit.Item[]> {
@@ -38,7 +39,16 @@ class _Modal {
         this.mask.id = "_timer_mask"
         this.mask.append(link2Setup(url))
         this.url = url
-        Object.assign(this.mask.style, maskStyle)
+        this.initStyle()
+    }
+
+    private async initStyle() {
+        const filterType = (await optionService.getAllOption())?.limitMarkFilter
+        const realMaskStyle = {
+            ...maskStyle,
+            ...filterStyle[filterType || 'translucent']
+        }
+        Object.assign(this.mask.style, realMaskStyle)
     }
 
     showModal(showDelay: boolean) {
@@ -104,8 +114,6 @@ const maskStyle: Partial<CSSStyleDeclaration> = {
     height: "100%",
     position: "fixed",
     zIndex: '99999',
-    backgroundColor: '#444',
-    opacity: '0.9',
     display: 'block',
     top: '0px',
     left: '0px',
@@ -113,8 +121,20 @@ const maskStyle: Partial<CSSStyleDeclaration> = {
     paddingTop: '120px'
 }
 
+const filterStyle: Record<timer.limit.FilterType, Partial<CSSStyleDeclaration & { backdropFilter: string }>> = {
+    translucent: {
+        backgroundColor: '#444',
+        opacity: '0.9',
+        color: '#EEE',
+    },
+    groundGlass: {
+        backdropFilter: 'blur(5px)',
+        color: '#111',
+    }
+}
+
 const linkStyle: Partial<CSSStyleDeclaration> = {
-    color: '#EEE',
+    color: 'inherit',
     fontFamily: '-apple-system,BlinkMacSystemFont,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif',
     fontSize: '16px !important'
 }

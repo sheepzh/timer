@@ -50,6 +50,9 @@ export type OptionMessage = {
                 timed: string
             }
         }
+        limitFilterType: Record<timer.limit.FilterType, string> & {
+            label: string
+        }
     }
     statistics: {
         title: string
@@ -123,7 +126,12 @@ const _default: Messages<OptionMessage> = {
                     off: "始终关闭",
                     timed: "定时开启"
                 }
-            }
+            },
+            limitFilterType: {
+                label: "每日时限的背景风格 {input}",
+                translucent: "半透明",
+                groundGlass: "毛玻璃",
+            },
         },
         statistics: {
             title: '统计',
@@ -199,7 +207,12 @@ const _default: Messages<OptionMessage> = {
                     off: "始終關閉",
                     timed: "定時開啟"
                 }
-            }
+            },
+            limitFilterType: {
+                label: "每日時限的背景風格 {input}",
+                translucent: "半透明",
+                groundGlass: "毛玻璃",
+            },
         },
         statistics: {
             title: '統計',
@@ -274,7 +287,12 @@ const _default: Messages<OptionMessage> = {
                     off: "Always off",
                     timed: "Timed on"
                 }
-            }
+            },
+            limitFilterType: {
+                label: "Background style for daily time limit {input}",
+                translucent: "Translucent",
+                groundGlass: "Ground Glass",
+            },
         },
         statistics: {
             title: 'Statistics',
@@ -351,6 +369,11 @@ const _default: Messages<OptionMessage> = {
                     timed: "時限スタート"
                 }
             },
+            limitFilterType: {
+                label: "毎日の時間制限の背景スタイル {input}",
+                translucent: "半透明",
+                groundGlass: "すりガラス",
+            }
         },
         statistics: {
             title: '統計',
