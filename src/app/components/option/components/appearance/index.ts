@@ -137,7 +137,7 @@ const _default = defineComponent({
                 })
             },
                 msg => msg.appearance.darkMode.label,
-                t(msg => msg.option.appearance.darkMode.options["off"])),
+                t(msg => msg.option.appearance.darkMode.options.default)),
             h(ElDivider),
             renderOptionItem({
                 input: locale(option)

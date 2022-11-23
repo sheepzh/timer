@@ -27,7 +27,7 @@ export function defaultAppearance(): timer.option.AppearanceOption {
         displayBadgeText: true,
         locale: "default",
         printInConsole: true,
-        darkMode: "off",
+        darkMode: "default",
         // 6 PM - 6 AM
         // 18*60*60 
         darkModeTimeStart: 64800,
