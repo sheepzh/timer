@@ -18,6 +18,14 @@ import { ALL_DIMENSIONS } from "@util/stat"
 import { locale } from "@util/i18n"
 import { rotate } from "@util/array"
 
+const mergeDomain = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSwitch, {
+    modelValue: option.defaultMergeDomain,
+    onChange: (newVal: boolean) => {
+        option.defaultMergeDomain = newVal
+        optionService.setPopupOption(option)
+    }
+})
+
 const popupMaxInput = (option: UnwrapRef<timer.option.PopupOption>) => h(ElInputNumber, {
     modelValue: option.popupMax,
     size: 'small',
@@ -83,6 +91,7 @@ const defaultDurationLabel = t(msg => msg.option.popup.duration[defaultPopOption
 const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 
 function copy(target: timer.option.PopupOption, source: timer.option.PopupOption) {
+    target.defaultMergeDomain = source.defaultMergeDomain
     target.defaultDuration = source.defaultDuration
     target.defaultType = source.defaultType
     target.displaySiteName = source.displaySiteName
@@ -102,6 +111,13 @@ const _default = defineComponent({
             }
         })
         return () => h('div', [
+            renderOptionItem({
+                input: mergeDomain(option),
+            },
+                msg => msg.popup.defaultMergeDomain,
+                t(msg => msg.option.no)
+            ),
+            h(ElDivider),
             renderOptionItem({
                 duration: durationSelect(option),
                 type: typeSelect(option)

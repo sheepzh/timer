@@ -80,6 +80,24 @@ const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect,
     )
 })
 
+const ALL_LIMIT_FILTER_TYPE: timer.limit.FilterType[] = [
+    'translucent',
+    'groundGlass',
+]
+
+const limitFilterTypeSelect = (option: timer.option.AppearanceOption) => h(ElSelect, {
+    modelValue: option.limitMarkFilter,
+    size: 'small',
+    onChange: (val: timer.limit.FilterType) => {
+        option.limitMarkFilter = val
+        optionService.setAppearanceOption(unref(option))
+    }
+}, {
+    default: () => ALL_LIMIT_FILTER_TYPE.map(item =>
+        h(ElOption, { value: item, label: t(msg => msg.option.appearance.limitFilterType[item]) })
+    )
+})
+
 function copy(target: timer.option.AppearanceOption, source: timer.option.AppearanceOption) {
     target.displayWhitelistMenu = source.displayWhitelistMenu
     target.displayBadgeText = source.displayBadgeText
@@ -88,6 +106,7 @@ function copy(target: timer.option.AppearanceOption, source: timer.option.Appear
     target.darkMode = source.darkMode
     target.darkModeTimeStart = source.darkModeTimeStart
     target.darkModeTimeEnd = source.darkModeTimeEnd
+    target.limitMarkFilter = source.limitMarkFilter
 }
 
 const _default = defineComponent({
@@ -118,7 +137,7 @@ const _default = defineComponent({
                 })
             },
                 msg => msg.appearance.darkMode.label,
-                t(msg => msg.option.appearance.darkMode.options["off"])),
+                t(msg => msg.option.appearance.darkMode.options.default)),
             h(ElDivider),
             renderOptionItem({
                 input: locale(option)
@@ -143,7 +162,14 @@ const _default = defineComponent({
                 input: printInConsole(option),
                 console: tagText(msg => msg.option.appearance.printInConsole.console),
                 info: tagText(msg => msg.option.appearance.printInConsole.info)
-            }, msg => msg.appearance.printInConsole.label, t(msg => msg.option.yes))
+            }, msg => msg.appearance.printInConsole.label, t(msg => msg.option.yes)),
+            h(ElDivider),
+            renderOptionItem({
+                input: limitFilterTypeSelect(option)
+            },
+                msg => msg.appearance.limitFilterType.label,
+                t(msg => msg.option.appearance.limitFilterType[defaultAppearance().limitMarkFilter])
+            )
         ])
     }
 })

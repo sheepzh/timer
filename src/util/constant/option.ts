@@ -16,6 +16,7 @@ export function defaultPopup(): timer.option.PopupOption {
          */
         displaySiteName: true,
         weekStart: 'default',
+        defaultMergeDomain: false,
     }
 }
 
@@ -26,12 +27,13 @@ export function defaultAppearance(): timer.option.AppearanceOption {
         displayBadgeText: true,
         locale: "default",
         printInConsole: true,
-        darkMode: "off",
+        darkMode: "default",
         // 6 PM - 6 AM
         // 18*60*60 
         darkModeTimeStart: 64800,
         // 6*60*60
         darkModeTimeEnd: 21600,
+        limitMarkFilter: 'translucent',
     }
 }
 

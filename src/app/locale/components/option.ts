@@ -14,6 +14,7 @@ export type OptionMessage = {
     popup: {
         title: string
         max: string
+        defaultMergeDomain: string
         defaultDisplay: string
         displaySiteName: string
         duration: PopupDurationMessage
@@ -44,11 +45,10 @@ export type OptionMessage = {
         },
         darkMode: {
             label: string
-            options: {
-                on: string
-                off: string
-                timed: string
-            }
+            options: Record<timer.option.DarkMode, string>
+        }
+        limitFilterType: Record<timer.limit.FilterType, string> & {
+            label: string
         }
     }
     statistics: {
@@ -83,6 +83,13 @@ export type OptionMessage = {
     defaultValue: string
 }
 
+const FOLLOW_BROWSER: Record<timer.Locale, string> = {
+    zh_CN: '跟随浏览器',
+    zh_TW: '跟隨瀏覽器',
+    en: 'Follow browser',
+    ja: 'ブラウザと同じ',
+}
+
 const _default: Messages<OptionMessage> = {
     zh_CN: {
         yes: '是',
@@ -90,12 +97,13 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: '弹窗页',
             max: '只显示前 {input} 条数据，剩下的条目合并显示',
+            defaultMergeDomain: '{input} 打开时合并子域名',
             defaultDisplay: "打开时显示 {duration} {type}",
             displaySiteName: '{input}  显示时是否使用 {siteName} 来代替域名',
             duration: popupDurationMessages.zh_CN,
             durationWidth: "80px",
             weekStart: "每周的第一天 {input}",
-            weekStartAsNormal: '按照惯例'
+            weekStartAsNormal: '按照惯例',
         },
         appearance: {
             title: '外观',
@@ -107,7 +115,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: '当前网站的今日浏览时长',
             locale: {
                 label: "语言设置 {input}",
-                default: "跟随浏览器",
+                default: FOLLOW_BROWSER.zh_CN,
                 changeConfirm: "语言设置成功，请刷新页面！",
                 reloadButton: "刷新"
             },
@@ -119,11 +127,17 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "夜间模式 {input}",
                 options: {
+                    default: FOLLOW_BROWSER.zh_CN,
                     on: "始终开启",
                     off: "始终关闭",
                     timed: "定时开启"
                 }
-            }
+            },
+            limitFilterType: {
+                label: "每日时限的背景风格 {input}",
+                translucent: "半透明",
+                groundGlass: "毛玻璃",
+            },
         },
         statistics: {
             title: '统计',
@@ -166,6 +180,7 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: '彈窗頁',
             max: '隻顯示前 {input} 條數據，剩下的條目合並顯示',
+            defaultMergeDomain: '{input} 打開時合併子域名',
             defaultDisplay: "打開時顯示 {duration} {type}",
             displaySiteName: '{input}  顯示時是否使用 {siteName} 來代替域名',
             duration: popupDurationMessages.zh_CN,
@@ -183,7 +198,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: '當前網站的今日瀏覽時長',
             locale: {
                 label: "語言設置 {input}",
-                default: "跟隨瀏覽器",
+                default: FOLLOW_BROWSER.zh_TW,
                 changeConfirm: "語言設置成功，請刷新頁麵！",
                 reloadButton: "刷新"
             },
@@ -195,11 +210,17 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "黑暗模式 {input}",
                 options: {
+                    default: FOLLOW_BROWSER.zh_TW,
                     on: "始終開啟",
                     off: "始終關閉",
                     timed: "定時開啟"
                 }
-            }
+            },
+            limitFilterType: {
+                label: "每日時限的背景風格 {input}",
+                translucent: "半透明",
+                groundGlass: "毛玻璃",
+            },
         },
         statistics: {
             title: '統計',
@@ -241,7 +262,8 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: 'Popup Page',
             max: 'Show the first {input} data items',
-            defaultDisplay: "Show {duration} {type} when opened",
+            defaultMergeDomain: '{input} Merge subdomains on open',
+            defaultDisplay: "Show {duration} {type} on open",
             displaySiteName: '{input}  Whether to display {siteName} instead of URL',
             duration: popupDurationMessages.en,
             durationWidth: "110px",
@@ -258,7 +280,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: 'the browsing time of current website',
             locale: {
                 label: "Language {input}",
-                default: "Follow browser",
+                default: FOLLOW_BROWSER.en,
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
             },
@@ -270,11 +292,17 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "Dark mode {input}",
                 options: {
+                    default: FOLLOW_BROWSER.en,
                     on: "Always on",
                     off: "Always off",
                     timed: "Timed on"
                 }
-            }
+            },
+            limitFilterType: {
+                label: "Background style for daily time limit {input}",
+                translucent: "Translucent",
+                groundGlass: "Ground Glass",
+            },
         },
         statistics: {
             title: 'Statistics',
@@ -317,6 +345,7 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: 'ポップアップページ',
             max: '最初の {input} 個のデータのみを表示し、残りのエントリは結合されます',
+            defaultMergeDomain: '{input} オープン時にサブドメインをマージ',
             defaultDisplay: "開くと {duration} {type} が表示されます",
             displaySiteName: '{input}  ホストの代わりに {siteName} を表示するかどうか',
             duration: popupDurationMessages.ja,
@@ -334,7 +363,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: '現在のウェブサイトの閲覧時間',
             locale: {
                 label: "言語設定 {input}",
-                default: "ブラウザと同じ",
+                default: FOLLOW_BROWSER.ja,
                 changeConfirm: "言語が正常に変更されました。このページをリロードしてください。",
                 reloadButton: "リロード"
             },
@@ -346,11 +375,17 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "ダークモード {input}",
                 options: {
+                    default: FOLLOW_BROWSER.ja,
                     on: "常にオン",
                     off: "常にオフ",
                     timed: "時限スタート"
                 }
             },
+            limitFilterType: {
+                label: "毎日の時間制限の背景スタイル {input}",
+                translucent: "半透明",
+                groundGlass: "すりガラス",
+            }
         },
         statistics: {
             title: '統計',
