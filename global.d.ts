@@ -53,6 +53,8 @@ declare namespace timer {
             | number  // Weekday, From 1 to 7
 
         type DarkMode =
+            // Follow the OS, @since 1.3.3
+            | "default"
             // Always on
             | "on"
             // Always off

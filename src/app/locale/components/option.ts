@@ -45,11 +45,7 @@ export type OptionMessage = {
         },
         darkMode: {
             label: string
-            options: {
-                on: string
-                off: string
-                timed: string
-            }
+            options: Record<timer.option.DarkMode, string>
         }
         limitFilterType: Record<timer.limit.FilterType, string> & {
             label: string
@@ -87,6 +83,13 @@ export type OptionMessage = {
     defaultValue: string
 }
 
+const FOLLOW_BROWSER: Record<timer.Locale, string> = {
+    zh_CN: '跟随浏览器',
+    zh_TW: '跟隨瀏覽器',
+    en: 'Follow browser',
+    ja: 'ブラウザと同じ',
+}
+
 const _default: Messages<OptionMessage> = {
     zh_CN: {
         yes: '是',
@@ -112,7 +115,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: '当前网站的今日浏览时长',
             locale: {
                 label: "语言设置 {input}",
-                default: "跟随浏览器",
+                default: FOLLOW_BROWSER.zh_CN,
                 changeConfirm: "语言设置成功，请刷新页面！",
                 reloadButton: "刷新"
             },
@@ -124,6 +127,7 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "夜间模式 {input}",
                 options: {
+                    default: FOLLOW_BROWSER.zh_CN,
                     on: "始终开启",
                     off: "始终关闭",
                     timed: "定时开启"
@@ -194,7 +198,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: '當前網站的今日瀏覽時長',
             locale: {
                 label: "語言設置 {input}",
-                default: "跟隨瀏覽器",
+                default: FOLLOW_BROWSER.zh_TW,
                 changeConfirm: "語言設置成功，請刷新頁麵！",
                 reloadButton: "刷新"
             },
@@ -206,6 +210,7 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "黑暗模式 {input}",
                 options: {
+                    default: FOLLOW_BROWSER.zh_TW,
                     on: "始終開啟",
                     off: "始終關閉",
                     timed: "定時開啟"
@@ -275,7 +280,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: 'the browsing time of current website',
             locale: {
                 label: "Language {input}",
-                default: "Follow browser",
+                default: FOLLOW_BROWSER.en,
                 changeConfirm: "The language has been changed successfully, please reload this page!",
                 reloadButton: "Reload"
             },
@@ -287,6 +292,7 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "Dark mode {input}",
                 options: {
+                    default: FOLLOW_BROWSER.en,
                     on: "Always on",
                     off: "Always off",
                     timed: "Timed on"
@@ -357,7 +363,7 @@ const _default: Messages<OptionMessage> = {
             badgeTextContent: '現在のウェブサイトの閲覧時間',
             locale: {
                 label: "言語設定 {input}",
-                default: "ブラウザと同じ",
+                default: FOLLOW_BROWSER.ja,
                 changeConfirm: "言語が正常に変更されました。このページをリロードしてください。",
                 reloadButton: "リロード"
             },
@@ -369,6 +375,7 @@ const _default: Messages<OptionMessage> = {
             darkMode: {
                 label: "ダークモード {input}",
                 options: {
+                    default: FOLLOW_BROWSER.ja,
                     on: "常にオン",
                     off: "常にオフ",
                     timed: "時限スタート"

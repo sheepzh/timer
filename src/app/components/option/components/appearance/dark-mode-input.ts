@@ -57,12 +57,11 @@ const _default = defineComponent({
                 size: 'small',
                 style: { width: '120px' },
                 onChange: async (newVal: string) => {
-                    const before = darkMode.value
                     darkMode.value = newVal as timer.option.DarkMode
                     handleChange()
                 }
             }, {
-                default: () => ["on", "off", "timed"].map(
+                default: () => ["default", "on", "off", "timed"].map(
                     value => h(ElOption, { value, label: t(msg => msg.option.appearance.darkMode.options[value]) })
                 )
             })]

@@ -61,7 +61,9 @@ async function setOption(option: Partial<timer.option.AllOption>): Promise<void>
 async function isDarkMode(targetVal?: timer.option.AppearanceOption): Promise<boolean> {
     const option = targetVal || await getAllOption()
     const darkMode = option.darkMode
-    if (darkMode === "on") {
+    if (darkMode === "default") {
+        return !!window.matchMedia('(prefers-color-scheme: dark)')?.matches
+    } else if (darkMode === "on") {
         return true
     } else if (darkMode === "off") {
         return false
