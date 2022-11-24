@@ -147,9 +147,9 @@ const _default = defineComponent({
                 h(ElDivider),
                 renderOptionItem({
                     input: authInput(auth, handleChange, handleTest),
-                    info: tooltip(msg => msg.option.backup.meta[type.value].authInfo)
+                    info: tooltip(msg => msg.option.backup.meta[type.value]?.authInfo)
                 },
-                    msg => msg.backup.meta[type.value].auth
+                    msg => msg.backup.meta[type.value]?.auth
                 ),
                 h(ElDivider),
                 renderOptionItem({
