@@ -53,7 +53,9 @@ const placeholder: ChromeMessage = {
         name: '',
         description: '',
         marketName: '',
-        currentVersion: ''
+        currentVersion: '',
+        allFunction: '',
+        guidePage: '',
     },
     message: {
         openTimesConsoleLog: '',
@@ -72,6 +74,7 @@ const placeholder: ChromeMessage = {
         optionPage: '',
         repoPage: '',
         feedbackPage: '',
+        guidePage: '',
     },
     initial: {
         localFile: {

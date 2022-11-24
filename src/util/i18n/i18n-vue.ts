@@ -33,15 +33,15 @@ export type NodeTranslateProps<MessageType> = {
 
 /**
  * Translate with slots for vue
- * 
- * @param messages messages
- * @param props param, slot vnodes
- * @returns The array of vnodes or strings
+ * I18nResultItemray of vnodes or strings
  */
 export function tN<MessageType>(messages: MessageType, props: NodeTranslateProps<MessageType>): I18nResultItem[] {
     const { key, param } = props
     const result = getI18nVal(messages, key)
-    let resultArr: I18nResultItem[] = Object.entries(param).reduce(findParamAndReplace, [result as I18nResultItem])
+    let resultArr: I18nResultItem[] = [result]
+    if (param) {
+        resultArr = Object.entries(param).reduce(findParamAndReplace, resultArr)
+    }
     return resultArr
 }
 

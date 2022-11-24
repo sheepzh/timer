@@ -40,7 +40,7 @@ const _default: Messages<PopupMessage> = {
             thisMonth: "本月数据"
         },
         mergeHostLabel: '合并子域名',
-        viewMore: '所有功能',
+        viewMore: chromeBase.zh_CN.allFunction,
         fileName: '上网时长清单_{today}_by_{app}',
         saveAsImageTitle: '保存',
         restoreTitle: '刷新',
@@ -65,7 +65,7 @@ const _default: Messages<PopupMessage> = {
             thisMonth: "本月數據"
         },
         mergeHostLabel: '合並子網域',
-        viewMore: '所有功能',
+        viewMore: chromeBase.zh_TW.allFunction,
         fileName: '上網時長清單_{today}_by_{app}',
         saveAsImageTitle: '保存',
         restoreTitle: '刷新',
@@ -90,7 +90,7 @@ const _default: Messages<PopupMessage> = {
             thisMonth: "This Month\'s Data"
         },
         mergeHostLabel: 'Merge Sites',
-        viewMore: 'All Functions',
+        viewMore: chromeBase.en.allFunction,
         fileName: 'Web_Time_List_{today}_By_{app}',
         saveAsImageTitle: 'Snapshot',
         restoreTitle: 'Restore',
@@ -115,7 +115,7 @@ const _default: Messages<PopupMessage> = {
             thisMonth: "今月のデータ"
         },
         mergeHostLabel: 'URLをマージ',
-        viewMore: '続きを見る',
+        viewMore: chromeBase.ja.allFunction,
         fileName: 'オンライン時間_{today}_by_{app}',
         saveAsImageTitle: 'ダウンロード',
         restoreTitle: '刷新',

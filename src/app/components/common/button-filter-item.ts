@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElementButtonType } from "@app/element-ui/button"
-import ElementIcon from "@app/element-ui/icon"
+import { ElementButtonType } from "@src/element-ui/button"
+import ElementIcon from "@src/element-ui/icon"
 import { ElButton } from "element-plus"
 import { defineComponent, PropType, h, Ref, computed } from "vue"
 
