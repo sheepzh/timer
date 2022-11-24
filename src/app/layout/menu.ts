@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import type { UnwrapRef } from "vue"
-import type ElementIcon from "../element-ui/icon"
+import type ElementIcon from "../../element-ui/icon"
 import type { RouteLocationNormalizedLoaded, Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
 import type { MenuMessage } from "@app/locale/components/menu"
