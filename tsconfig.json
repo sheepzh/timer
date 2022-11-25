@@ -36,9 +36,6 @@
             "@echarts/*": [
                 "src/echarts/*"
             ],
-            "@guide/*": [
-                "src/guide/*"
-            ],
             "@src/*": [
                 "src/*"
             ],
