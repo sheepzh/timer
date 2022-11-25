@@ -9,6 +9,7 @@ import type { Ref, UnwrapRef, ComputedRef } from "vue"
 import type { TimerQueryParam } from "@service/timer-service"
 import type { SortInfo } from "./table"
 import type { FileFormat } from "./filter/download-file"
+import type { Router, RouteLocation } from "vue-router"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
@@ -21,8 +22,7 @@ import Pagination from "../common/pagination"
 import ContentContainer from "../common/content-container"
 import { ElLoadingService, ElMessage, ElMessageBox } from "element-plus"
 import hostAliasService from "@service/host-alias-service"
-import { exportCsv, exportJson } from "@util/file"
-import { periodFormatter } from "./formatter"
+import { exportCsv, exportJson } from "./file-export"
 import { useRoute, useRouter } from "vue-router"
 import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
@@ -66,64 +66,6 @@ async function handleAliasChange(key: timer.site.AliasKey, newAlias: string, dat
 async function queryWhiteList(whitelist: Ref<string[]>): Promise<void> {
     const value = await whitelistService.listAll()
     whitelist.value = value
-}
-
-type _ExportInfo = {
-    host: string
-    alias?: string
-    date?: string
-    total?: string
-    focus?: string
-    time?: number
-}
-
-/** 
- * @param rows row data
- * @returns data with json format 
- */
-const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
-    const data: _ExportInfo = { host: row.host }
-    data.date = row.date
-    data.alias = row.alias
-    // Always display by seconds
-    data.total = periodFormatter(row.total, "second", true)
-    data.focus = periodFormatter(row.focus, "second", true)
-    data.time = row.time
-    return data
-})
-
-/** 
- * @param rows row data
- * @returns data with csv format
- */
-function generateCsvData(rows: timer.stat.Row[], mergeDate: boolean, mergeHost: boolean): string[][] {
-    const columnName: string[] = []
-    if (!mergeDate) {
-        columnName.push(t(msg => msg.item.date))
-    }
-    columnName.push(t(msg => msg.item.host))
-    if (!mergeHost) {
-        columnName.push(t(msg => msg.siteManage.column.alias))
-    }
-    columnName.push(t(msg => msg.item.total))
-    columnName.push(t(msg => msg.item.focus))
-    columnName.push(t(msg => msg.item.time))
-    const data = [columnName]
-    rows.forEach(row => {
-        const line = []
-        if (!mergeDate) {
-            line.push(row.date)
-        }
-        line.push(row.host)
-        if (!mergeHost) {
-            line.push(row.alias || '')
-        }
-        line.push(periodFormatter(row.total, "second", true))
-        line.push(periodFormatter(row.focus, "second", true))
-        line.push(row.time)
-        data.push(line)
-    })
-    return data
 }
 
 async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: Date[]): Promise<string> {
@@ -180,6 +122,35 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
     return t(key, i18nParam)
 }
 
+async function handleBatchDelete(tableEl: Ref, filterOption: timer.app.report.FilterOption, afterDelete: Function) {
+    const selected: timer.stat.Row[] = tableEl?.value?.getSelected?.() || []
+    if (!selected?.length) {
+        ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
+        return
+    }
+    ElMessageBox({
+        message: await computeBatchDeleteMsg(selected, filterOption.mergeDate, filterOption.dateRange),
+        type: "warning",
+        confirmButtonText: t(msg => msg.confirm.confirmMsg),
+        showCancelButton: true,
+        cancelButtonText: t(msg => msg.confirm.cancelMsg),
+        // Cant close this on press ESC
+        closeOnPressEscape: false,
+        // Cant close this on clicking modal
+        closeOnClickModal: false
+    }).then(async () => {
+        // Delete
+        await deleteBatch(selected, filterOption.mergeDate, filterOption.dateRange)
+        ElMessage({
+            type: "success",
+            message: t(msg => msg.report.batchDelete.successMsg)
+        })
+        afterDelete?.()
+    }).catch(() => {
+        // Do nothing
+    })
+}
+
 async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: Date[]) {
     if (!mergeDate) {
         // If not merge date
@@ -193,56 +164,66 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
     }
 }
 
+/**
+ * Init the query parameters
+ */
+function initQueryParam(route: RouteLocation, router: Router): [timer.app.report.FilterOption, SortInfo] {
+    const routeQuery: timer.app.report.QueryParam = route.query as unknown as timer.app.report.QueryParam
+    const { mh, ds, de, sc } = routeQuery
+    const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
+    const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
+    // Remove queries
+    router.replace({ query: {} })
+
+    const now = new Date()
+    const filterOption: timer.app.report.FilterOption = {
+        host: '',
+        dateRange: [dateStart || now, dateEnd || now],
+        mergeDate: false,
+        mergeHost: mh === "true" || mh === "1",
+        timeFormat: "default"
+    }
+    const sortInfo: SortInfo = {
+        prop: sc || 'focus',
+        order: ElSortDirect.DESC
+    }
+    return [filterOption, sortInfo]
+}
+
+function computeTimerQueryParam(filterOption: timer.app.report.FilterOption, sort: SortInfo): TimerQueryParam {
+    return {
+        host: filterOption.host,
+        date: filterOption.dateRange,
+        mergeHost: filterOption.mergeHost,
+        mergeDate: filterOption.mergeDate,
+        sort: sort.prop,
+        sortOrder: sort.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
+    }
+}
+
+function copyFilterParam(newVal: timer.app.report.FilterOption, oldVal: timer.app.report.FilterOption) {
+    oldVal.host = newVal.host
+    oldVal.dateRange = newVal.dateRange
+    oldVal.mergeDate = newVal.mergeDate
+    oldVal.mergeHost = newVal.mergeHost
+    oldVal.timeFormat = newVal.timeFormat
+}
+
 const _default = defineComponent({
     name: "Report",
     setup() {
-        // Init with route query
-        const routeQuery: timer.app.report.QueryParam = useRoute().query as unknown as timer.app.report.QueryParam
-        const { mh, ds, de, sc } = routeQuery
-        const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
-        const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
-        // Remove queries
-        useRouter().replace({ query: {} })
+        const route = useRoute()
+        const router = useRouter()
+        const [initialFilterParam, initialSort] = initQueryParam(route, router)
+        const filterOption: UnwrapRef<timer.app.report.FilterOption> = reactive(initialFilterParam)
+        const sort: UnwrapRef<SortInfo> = reactive(initialSort)
 
-        const host: Ref<string> = ref('')
-        const now = new Date()
-        // Don't know why the error occurred, so ignore
-        // @ts-ignore ts(2322)
-        const dateRange: Ref<Array<Date>> = ref([dateStart || now, dateEnd || now])
-        const mergeDate: Ref<boolean> = ref(false)
-        const mergeHost: Ref<boolean> = ref(mh === "true" || mh === "1")
-        const timeFormat: Ref<timer.app.TimeFormat> = ref("default")
         const data: Ref<timer.stat.Row[]> = ref([])
         const whitelist: Ref<Array<string>> = ref([])
         const remoteRead: Ref<boolean> = ref(false)
-        const sort: UnwrapRef<SortInfo> = reactive({
-            prop: sc || 'focus',
-            order: ElSortDirect.DESC
-        })
-        const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
-        const queryParam: ComputedRef<TimerQueryParam> = computed(() => ({
-            host: host.value,
-            date: dateRange.value,
-            mergeHost: mergeHost.value,
-            mergeDate: mergeDate.value,
-            sort: sort.prop,
-            sortOrder: sort.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
-        }))
-        const exportFileName = computed(() => {
-            let baseName = t(msg => msg.report.exportFileName)
-            const dateRangeVal = dateRange.value
-            if (dateRangeVal && dateRangeVal.length === 2) {
-                const start = dateRangeVal[0]
-                const end = dateRangeVal[1]
-                baseName += '_' + formatTime(start, '{y}{m}{d}')
-                baseName += '_' + formatTime(end, '{y}{m}{d}')
-            }
-            mergeDate.value && (baseName += '_' + t(msg => msg.report.mergeDate))
-            mergeHost.value && (baseName += '_' + t(msg => msg.report.mergeDomain))
-            timeFormat.value && (baseName += '_' + t(msg => msg.timeFormat[timeFormat.value]))
-            return baseName
-        })
 
+        const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
+        const queryParam: ComputedRef<TimerQueryParam> = computed(() => computeTimerQueryParam(filterOption, sort))
         const tableEl: Ref = ref()
 
         const query = () => queryData(queryParam, data, page, remoteRead)
@@ -251,53 +232,21 @@ const _default = defineComponent({
 
         return () => h(ContentContainer, {}, {
             filter: () => h(ReportFilter, {
-                host: host.value,
-                dateRange: dateRange.value,
-                mergeDate: mergeDate.value,
-                mergeHost: mergeHost.value,
-                timeFormat: timeFormat.value,
+                host: filterOption.host,
+                dateRange: filterOption.dateRange,
+                mergeDate: filterOption.mergeDate,
+                mergeHost: filterOption.mergeHost,
+                timeFormat: filterOption.timeFormat,
                 onChange: (newFilterOption: timer.app.report.FilterOption) => {
-                    host.value = newFilterOption.host
-                    dateRange.value = newFilterOption.dateRange
-                    mergeDate.value = newFilterOption.mergeDate
-                    mergeHost.value = newFilterOption.mergeHost
-                    timeFormat.value = newFilterOption.timeFormat
+                    copyFilterParam(newFilterOption, filterOption)
                     query()
                 },
                 onDownload: async (format: FileFormat) => {
                     const rows = await timerService.select(queryParam.value, { alias: true })
-                    const fileName = exportFileName.value
-                    format === 'json' && exportJson(generateJsonData(rows), fileName)
-                    format === 'csv' && exportCsv(generateCsvData(rows, mergeDate.value, mergeHost.value), fileName)
+                    format === 'json' && exportJson(filterOption, rows)
+                    format === 'csv' && exportCsv(filterOption, rows)
                 },
-                onBatchDelete: async (filterOption: timer.app.report.FilterOption) => {
-                    const selected: timer.stat.Row[] = tableEl?.value?.getSelected?.() || []
-                    if (!selected?.length) {
-                        ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
-                        return
-                    }
-                    ElMessageBox({
-                        message: await computeBatchDeleteMsg(selected, filterOption.mergeDate, filterOption.dateRange),
-                        type: "warning",
-                        confirmButtonText: t(msg => msg.confirm.confirmMsg),
-                        showCancelButton: true,
-                        cancelButtonText: t(msg => msg.confirm.cancelMsg),
-                        // Cant close this on press ESC
-                        closeOnPressEscape: false,
-                        // Cant close this on clicking modal
-                        closeOnClickModal: false
-                    }).then(async () => {
-                        // Delete
-                        await deleteBatch(selected, filterOption.mergeDate, filterOption.dateRange)
-                        ElMessage({
-                            type: "success",
-                            message: t(msg => msg.report.batchDelete.successMsg)
-                        })
-                        query()
-                    }).catch(() => {
-                        // Do nothing
-                    })
-                },
+                onBatchDelete: (filterOption: timer.app.report.FilterOption) => handleBatchDelete(tableEl, filterOption, query),
                 onRemoteChange(newRemoteChange) {
                     remoteRead.value = newRemoteChange
                     query()
@@ -306,10 +255,10 @@ const _default = defineComponent({
             content: () => [
                 h(ReportTable, {
                     whitelist: whitelist.value,
-                    mergeDate: mergeDate.value,
-                    mergeHost: mergeHost.value,
-                    timeFormat: timeFormat.value,
-                    dateRange: dateRange.value,
+                    mergeDate: filterOption.mergeDate,
+                    mergeHost: filterOption.mergeHost,
+                    timeFormat: filterOption.timeFormat,
+                    dateRange: filterOption.dateRange,
                     data: data.value,
                     defaultSort: sort,
                     ref: tableEl,
@@ -320,7 +269,7 @@ const _default = defineComponent({
                     }),
                     onItemDelete: (_deleted: timer.stat.Row) => query(),
                     onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
-                    onAliasChange: (host: string, newAlias: string) => handleAliasChange({ host, merged: mergeHost.value }, newAlias, data)
+                    onAliasChange: (host: string, newAlias: string) => handleAliasChange({ host, merged: filterOption.mergeHost }, newAlias, data)
                 }),
                 h(Pagination, {
                     total: page.total,
