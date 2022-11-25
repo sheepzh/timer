@@ -11,7 +11,7 @@ import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { HabitMessage } from "@app/locale/components/habit"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
-import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 
 export type HabitFilterOption = {
