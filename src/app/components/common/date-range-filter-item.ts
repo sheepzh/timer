@@ -7,7 +7,7 @@
 
 import { ElDatePicker } from "element-plus"
 import { defineComponent, h, PropType, ref, Ref } from "vue"
-import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import { t } from "@app/locale"
 
 const _default = defineComponent({

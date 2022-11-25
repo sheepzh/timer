@@ -47,9 +47,10 @@ const staticOptions: webpack.Configuration = {
         content_scripts: './src/content-script',
         // The entrance of popup page
         popup: './src/popup',
-        // "popup.scss": './src/popup/style',
         // The entrance of app page
-        app: './src/app'
+        app: './src/app',
+        // The entrance of guide page
+        guide: './src/guide',
     },
     output: {
         filename: '[name].js',
