@@ -6,6 +6,7 @@
  */
 
 import type { Ref } from "vue"
+import type { Router } from "vue-router"
 
 import ContentContainer from "../common/content-container"
 import { defineComponent, h, ref } from "vue"
@@ -35,6 +36,37 @@ function initWithQuery(tab: Ref<_Category>) {
     }
 }
 
+/**
+ * Handle before leave the option panel tabs
+ * 
+ * @param currentActiveNameAndOld
+ * @param paneRefMap 
+ * @param router 
+ * @returns promise to leave, or not
+ */
+function handleBeforeLeave(
+    currentActiveNameAndOld: [string, string],
+    paneRefMap: Record<_Category, Ref>,
+    router: Router
+): Promise<void> {
+    const [activeName, oldActiveName] = currentActiveNameAndOld
+    return new Promise((resolve, reject) => {
+        if (activeName !== resetButtonName) {
+            // Change the query of current route
+            const query = {}
+            query[initialParamName] = activeName
+            router.replace({ query })
+            return resolve()
+        }
+        const cate: _Category = oldActiveName as _Category
+        const resetFunc = paneRefMap[cate]?.value?.reset
+        resetFunc ? resetFunc()
+            .then(() => ElMessage.success(t(msg => msg.option.resetSuccess)))
+            .finally(reject)
+            : reject()
+    })
+}
+
 const _default = defineComponent({
     name: "OptionContainer",
     setup() {
@@ -51,25 +83,7 @@ const _default = defineComponent({
         return () => h(ContentContainer, () => h(ElTabs, {
             modelValue: tab.value,
             type: "border-card",
-            beforeLeave: (activeName, oldActiveName) => new Promise((resolve, reject) => {
-                if (activeName === resetButtonName) {
-                    const cate: _Category = oldActiveName as _Category
-                    const resetFunc = paneRefMap[cate]?.value?.reset
-                    if (resetFunc) {
-                        resetFunc()
-                            .then(() => ElMessage.success(t(msg => msg.option.resetSuccess)))
-                            .finally(reject)
-                    } else {
-                        reject()
-                    }
-                } else {
-                    // Change the query of current route
-                    const query = {}
-                    query[initialParamName] = activeName
-                    router.replace({ query })
-                    resolve()
-                }
-            })
+            beforeLeave: (active: string, oldActive: string) => handleBeforeLeave([active, oldActive], paneRefMap, router)
         }, () => [
             // Appearance
             h(ElTabPane, {
