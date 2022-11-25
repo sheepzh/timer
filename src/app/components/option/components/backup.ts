@@ -121,7 +121,7 @@ const _default = defineComponent({
         }
 
         ctx.expose({
-            reset() {
+            async reset() {
                 // Only reset type
                 type.value = DEFAULT.backupType
                 handleChange()
