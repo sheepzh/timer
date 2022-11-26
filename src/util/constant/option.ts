@@ -8,7 +8,8 @@
 export function defaultPopup(): timer.option.PopupOption {
     // Use template
     return {
-        popupMax: 10,
+        // Change 10 to 7 since 1.3.4
+        popupMax: 7,
         defaultType: 'focus',
         defaultDuration: "today",
         /**
