@@ -262,7 +262,7 @@ const _default: Messages<OptionMessage> = {
         popup: {
             title: 'Popup Page',
             max: 'Show the first {input} data items',
-            defaultMergeDomain: '{input} Merge subdomains on open',
+            defaultMergeDomain: '{input} Whether to merge subdomains on open',
             defaultDisplay: "Show {duration} {type} on open",
             displaySiteName: '{input}  Whether to display {siteName} instead of URL',
             duration: popupDurationMessages.en,
