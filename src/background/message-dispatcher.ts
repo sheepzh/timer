@@ -1,11 +1,12 @@
-import { log } from "@src/common/logger"
-
 /**
  * Copyright (c) 2022-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
+import { log } from "@src/common/logger"
+
 class MessageDispatcher {
     private handlers: Partial<{
         [code in timer.mq.ReqCode]: timer.mq.Handler<any, any>
