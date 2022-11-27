@@ -174,6 +174,20 @@ function renderMenu(menu: _MenuGroup, props: UnwrapRef<_RouteProps>) {
     return h(ElMenuItemGroup, { title }, () => menu.children.map(item => renderMenuLeaf(item, props)))
 }
 
+async function initTitle(allMenus: _MenuGroup[], router: Router) {
+    await router.isReady()
+    const currentPath = router.currentRoute.value.path
+    for (const group of allMenus) {
+        for (const { route, title } of group.children) {
+            const docTitle = route === currentPath && t(msg => msg.menu[title])
+            if (docTitle) {
+                document.title = docTitle
+                return
+            }
+        }
+    }
+}
+
 const _default = defineComponent({
     name: "LayoutMenu",
     setup() {
@@ -182,11 +196,12 @@ const _default = defineComponent({
             current: useRoute()
         })
 
-        onMounted(() => document.title = t(msg => msg.menu.dashboard))
+        const allMenus = generateMenus()
+        onMounted(() => initTitle(allMenus, useRouter()))
 
         return () => h(ElMenu,
             { defaultActive: routeProps.current.path },
-            () => generateMenus().map(menu => renderMenu(menu, routeProps))
+            () => allMenus.map(menu => renderMenu(menu, routeProps))
         )
     }
 })
