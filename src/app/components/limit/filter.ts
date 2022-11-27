@@ -44,6 +44,7 @@ const _default = defineComponent({
                 },
             }),
             h(SwitchFilterItem, {
+                historyName: 'onlyEnabled',
                 label: onlyEnabledLabel,
                 defaultValue: onlyEnabled.value,
                 onChange(newVal: boolean) {

@@ -131,6 +131,7 @@ const _default = defineComponent({
             disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
         }),
         h(SelectFilterItem, {
+            historyName: 'timeFormat',
             defaultValue: timeFormat.value,
             options: TIME_FORMAT_LABELS,
             onSelect(newVal: timer.app.TimeFormat) {
