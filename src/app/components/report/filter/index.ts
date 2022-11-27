@@ -100,6 +100,7 @@ const _default = defineComponent({
                 }
             }),
             h(SelectFilterItem, {
+                historyName: 'timeFormat',
                 defaultValue: timeFormat.value,
                 options: timeFormatLabels,
                 onSelect(newVal: timer.app.TimeFormat) {
@@ -108,6 +109,7 @@ const _default = defineComponent({
                 }
             }),
             h(SwitchFilterItem, {
+                historyName: 'mergeDate',
                 label: mergeDateLabel,
                 defaultValue: mergeDate.value,
                 onChange(newVal: boolean) {
@@ -116,6 +118,7 @@ const _default = defineComponent({
                 }
             }),
             h(SwitchFilterItem, {
+                historyName: 'mergeHost',
                 label: mergeHostLabel,
                 defaultValue: mergeHost.value,
                 onChange(newVal: boolean) {
