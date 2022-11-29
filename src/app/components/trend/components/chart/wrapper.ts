@@ -85,7 +85,7 @@ function optionOf(
     xAxisData: string[],
     subtext: string,
     timeFormat: timer.app.TimeFormat,
-    [focusData, totalData, timeData]: number[][]
+    [focusData, timeData]: [number[], number[]]
 ) {
     const textColor = getPrimaryTextColor()
     const secondaryTextColor = getSecondaryTextColor()
@@ -139,14 +139,6 @@ function optionOf(
             textStyle: { color: textColor },
         }],
         series: [{
-            // run time
-            name: t(msg => msg.item.total),
-            data: totalData,
-            yAxisIndex: 0,
-            type: 'line',
-            smooth: true,
-            tooltip: { formatter: (params: any) => formatTimeOfEchart(params, timeFormat) }
-        }, {
             name: t(msg => msg.item.focus),
             data: focusData,
             yAxisIndex: 0,
@@ -208,23 +200,21 @@ async function processSubtitle(host: timer.app.trend.HostInfo) {
     return subtitle
 }
 
-function processDataItems(allDates: string[], timeFormat: timer.app.TimeFormat, rows: timer.stat.Row[]): number[][] {
+function processDataItems(allDates: string[], timeFormat: timer.app.TimeFormat, rows: timer.stat.Row[]): [number[], number[]] {
     timeFormat = timeFormat || 'default'
     const millConverter = MILL_CONVERTERS[timeFormat]
     const focusData: number[] = []
-    const totalData: number[] = []
     const timeData: number[] = []
 
-    const dateInfoMap = {}
+    const dateInfoMap: Record<string, timer.stat.Row> = {}
     rows.forEach(row => dateInfoMap[row.date] = row)
 
     allDates.forEach(date => {
-        const row = dateInfoMap[date] || {}
-        focusData.push(millConverter(row.focus || 0))
-        totalData.push(millConverter(row.total || 0))
-        timeData.push(row.time || 0)
+        const row = dateInfoMap[date]
+        focusData.push(millConverter(row?.focus || 0))
+        timeData.push(row?.time || 0)
     })
-    return [focusData, totalData, timeData]
+    return [focusData, timeData]
 }
 
 class ChartWrapper {

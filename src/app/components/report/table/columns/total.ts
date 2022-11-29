@@ -8,11 +8,22 @@
 import type { PropType } from "vue"
 
 import { t } from "@app/locale"
-import { ElTableColumn } from "element-plus"
+import { ElIcon, ElTableColumn, ElTooltip } from "element-plus"
 import { defineComponent, h } from "vue"
 import { periodFormatter } from "../../formatter"
+import { QuestionFilled } from "@element-plus/icons-vue"
 
-const columnLabel = t(msg => msg.item.total)
+function renderHeader() {
+    return [
+        t(msg => msg.item.total),
+        h(ElTooltip, {
+            content: t(msg => msg.item.totalTip),
+            placement: 'top',
+        }, () => h(ElIcon, {
+            style: { paddingLeft: '3px' },
+        }, () => h(QuestionFilled)))
+    ]
+}
 
 const _default = defineComponent({
     name: "TotalColumn",
@@ -24,11 +35,10 @@ const _default = defineComponent({
     setup(props) {
         return () => h(ElTableColumn, {
             prop: "total",
-            label: columnLabel,
             minWidth: 130,
             align: "center",
-            sortable: "custom"
         }, {
+            header: renderHeader,
             default: ({ row }: { row: timer.stat.Row }) => periodFormatter(row.total, props.timeFormat)
         })
     }
