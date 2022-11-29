@@ -8,7 +8,6 @@
 import IVersionProcessor from "./i-version-processor"
 import HostMergeInitializer from "./0-1-2/host-merge-initializer"
 import LocalFileInitializer from "./0-7-0/local-file-initializer"
-import ArchivedDataCleaner from "./1-3-0/archived-data-cleaner"
 
 /**
  * Version manager
@@ -22,7 +21,6 @@ class VersionManager {
         this.processorChain.push(
             new HostMergeInitializer(),
             new LocalFileInitializer(),
-            new ArchivedDataCleaner(),
         )
         this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }

@@ -3,7 +3,7 @@ import storage from "../__mock__/storage"
 
 const db = new LimitDatabase(storage.local)
 
-describe('archived-database', () => {
+describe('limit-database', () => {
     beforeEach(async () => storage.local.clear())
     test('test1', async () => {
         const toAdd: timer.limit.Rule = {
