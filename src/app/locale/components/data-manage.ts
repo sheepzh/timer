@@ -18,7 +18,6 @@ export type DataManageMessage = {
     filterTime: string
     filterDate: string
     unlimited: string
-    archiveAlert: string
     dateShortcut: {
         tillYesterday: string
         till7DaysAgo: string
@@ -27,8 +26,6 @@ export type DataManageMessage = {
     paramError: string
     deleteConfirm: string
     deleteSuccess: string
-    archiveConfirm: string
-    archiveSuccess: string
     migrationAlert: string
     importError: string
     migrated: string
@@ -48,7 +45,6 @@ const _default: Messages<DataManageMessage> = {
         filterTime: '当日打开次数在 {start} 次至 {end} 次之间。',
         filterDate: '{picker} 产生的数据。',
         unlimited: '无限',
-        archiveAlert: '归档后的数据不再按天统计，将累加至域名的归档数据中。',
         dateShortcut: {
             tillYesterday: '直到昨天',
             till7DaysAgo: '直到7天前',
@@ -57,8 +53,6 @@ const _default: Messages<DataManageMessage> = {
         paramError: '参数错误，请检查！',
         deleteConfirm: '共筛选出 {count} 条数据，是否全部删除？',
         deleteSuccess: '删除成功',
-        archiveConfirm: '共筛选出 {count} 条数据，是否全部归档？',
-        archiveSuccess: '归档成功',
         migrationAlert: '使用导入/导出在不同浏览器之间迁移数据',
         importError: '文件格式错误',
         migrated: '成功导入',
@@ -76,7 +70,6 @@ const _default: Messages<DataManageMessage> = {
         filterTime: '當日打開次數在 {start} 次至 {end} 次之間。',
         filterDate: '{picker} 産生的數據。',
         unlimited: '無限',
-        archiveAlert: '歸檔後的數據不再按天統計，將累加至域名的歸檔數據中。',
         dateShortcut: {
             tillYesterday: '直到昨天',
             till7DaysAgo: '直到7天前',
@@ -85,8 +78,6 @@ const _default: Messages<DataManageMessage> = {
         paramError: '參數錯誤，請檢查！',
         deleteConfirm: '共篩選出 {count} 條數據，是否全部刪除？',
         deleteSuccess: '刪除成功',
-        archiveConfirm: '共篩選出 {count} 條數據，是否全部歸檔？',
-        archiveSuccess: '歸檔成功',
         migrationAlert: '使用導入/導出在不同瀏覽器之間遷移數據',
         importError: '文件格式錯誤',
         migrated: '成功導入',
@@ -104,7 +95,6 @@ const _default: Messages<DataManageMessage> = {
         filterTime: 'The number of visits for the day is between {start} and {end}',
         filterDate: 'Recorded between {picker}',
         unlimited: '∞',
-        archiveAlert: 'Archived records are cumulative, not daily.',
         dateShortcut: {
             tillYesterday: 'Until yesterday',
             till7DaysAgo: 'Until 7 days ago',
@@ -113,8 +103,6 @@ const _default: Messages<DataManageMessage> = {
         paramError: 'The parameter is wrong, please check!',
         deleteConfirm: 'A total of {count} records have been filtered out. Do you want to delete them all?',
         deleteSuccess: 'Deleted successfully!',
-        archiveConfirm: 'A total of {count} records have been filtered out. Do you want to archive them all?',
-        archiveSuccess: 'Archived successfully!',
         migrationAlert: 'Migrate data between browsers using import and export',
         importError: 'Wrong file extension',
         migrated: 'Imported successfully!',
@@ -132,7 +120,6 @@ const _default: Messages<DataManageMessage> = {
         filterTime: '当日のオープン数は {start} から {end} の間です。',
         filterDate: '{picker} までに生成されたデータ',
         unlimited: '無制限',
-        archiveAlert: 'アーカイブされたデータは毎日カウントされなくなり、ドメイン名のアーカイブされたデータに追加されます。',
         dateShortcut: {
             tillYesterday: '昨日まで',
             till7DaysAgo: '7日前まで',
@@ -141,8 +128,6 @@ const _default: Messages<DataManageMessage> = {
         paramError: 'パラメータエラー、確認してください！',
         deleteConfirm: '合計 {count} 個のデータが除外されました。すべて削除しますか？',
         deleteSuccess: '正常に削除されました',
-        archiveConfirm: '合計 {count} 個のデータが除外されました。それらはすべてアーカイブされていますか？',
-        archiveSuccess: '正常にアーカイブされました',
         migrationAlert: 'インポート/エクスポートを使用して、異なるブラウザ間でデータを移行します',
         importError: 'ファイル形式エラー',
         migrated: '正常にインポートされました',

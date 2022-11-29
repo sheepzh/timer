@@ -8,7 +8,7 @@
 import { log } from "../common/logger"
 import { formatTime } from "@util/time"
 import BaseDatabase from "./common/base-database"
-import { ARCHIVED_PREFIX, DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
+import { DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
 import { createZeroResult, mergeResult, isNotZeroResult } from "@util/stat"
 
 export type TimerCondition = {
@@ -131,7 +131,12 @@ class TimerDatabase extends BaseDatabase {
         const result = await this.storage.get(null)
         const items = {}
         Object.entries(result)
-            .filter(([key]) => !key.startsWith(REMAIN_WORD_PREFIX) && !key.startsWith(ARCHIVED_PREFIX))
+            .filter(([key]) =>
+                !key.startsWith(REMAIN_WORD_PREFIX)
+                // The prefix of archived data, historical issues
+                // todo: delete this line
+                && !key.startsWith('_a_')
+            )
             .forEach(([key, value]) => items[key] = value)
         return Promise.resolve(items)
     }
