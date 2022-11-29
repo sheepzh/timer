@@ -32,4 +32,4 @@ export function rowOf(key: timer.stat.RowKey, item?: timer.stat.Result): timer.s
     }
 }
 
-export const ALL_DIMENSIONS: timer.stat.Dimension[] = ['focus', 'total', 'time']
+export const ALL_DIMENSIONS: timer.stat.Dimension[] = ['focus', 'time']

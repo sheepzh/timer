@@ -25,6 +25,7 @@ export type TimerCondition = {
      * Total range, milliseconds
      * 
      * @since 0.0.9
+     * @deprecated 1.3.4
      */
     totalRange?: number[]
     /**

@@ -184,6 +184,7 @@ declare namespace timer {
          */
         type Dimension =
             // Running time
+            // @deprecated v1.3.4
             | 'total'
             // Focus time
             | 'focus'

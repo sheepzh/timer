@@ -82,7 +82,9 @@ class FooterWrapper {
 
         const option = await optionService.getAllOption()
         this.timeSelectWrapper.init(option.defaultDuration)
-        this.typeSelectWrapper.init(option.defaultType)
+        // Remove total @since v1.3.4
+        const defaultType = option.defaultType === 'total' ? 'focus' : option.defaultType
+        this.typeSelectWrapper.init(defaultType)
         this.mergeHostWrapper.init(option.defaultMergeDomain)
         this.query()
     }
