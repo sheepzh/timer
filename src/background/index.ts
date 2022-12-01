@@ -19,7 +19,6 @@ import { getGuidePageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
 import initLimitProcesser from "./limit-processor"
 import initCsHandler from "./content-script-handler"
-import { isBrowserUrl } from "@util/pattern"
 
 // Open the log of console
 openLog()
@@ -52,7 +51,7 @@ badgeTextManager.init()
 
 // Listen to tab active changed
 new ActiveTabListener()
-    .register(({ url, host, tabId }) => !isBrowserUrl(url) && badgeTextManager.forceUpdate({ host, tabId }))
+    .register(({ url, tabId }) => badgeTextManager.forceUpdate({ url, tabId }))
     .listen()
 
 // Collect the install time
