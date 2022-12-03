@@ -82,7 +82,7 @@ const _default: Messages<MenuMessage> = {
         option: 'Options',
         feedback: 'Feedback Questionnaire',
         rate: 'Rate It',
-        translationMistake: 'Improve translation'
+        translationMistake: 'Contribute translation'
     },
     ja: {
         dashboard: 'ダッシュボード',
@@ -101,7 +101,7 @@ const _default: Messages<MenuMessage> = {
         option: '拡張設定',
         feedback: 'フィードバックアンケート',
         rate: 'それを評価',
-        translationMistake: '翻訳を改善する'
+        translationMistake: 'Contribute translation'
     }
 }
 
