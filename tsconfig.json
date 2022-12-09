@@ -51,5 +51,11 @@
         "node_modules",
         "dist"
     ],
-    "strict": true
+    "strict": true,
+    "ts-node": {
+        "files": true,
+        "require": [
+            "tsconfig-paths/register"
+        ]
+    }
 }
