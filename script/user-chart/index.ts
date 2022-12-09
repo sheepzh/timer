@@ -1,6 +1,6 @@
 import { add } from "./add"
 import { parseArgv } from "./argv"
-import { exitWith } from "./common"
+import { exitWith } from "../util/process"
 import { render } from "./render"
 
 function main() {

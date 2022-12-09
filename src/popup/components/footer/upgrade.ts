@@ -49,16 +49,16 @@ function showUpgradeButton(latestVersion: string) {
     upgrade.onmouseover = () => upgradePopup.style.display = 'block'
     upgrade.onmouseout = () => upgradePopup.style.display = 'none'
 
-    upgradeLink.innerText = t(msg => msg.updateVersion)
+    upgradeLink.innerText = t(msg => msg.chart.updateVersion)
     const versionLabel = `v${latestVersion}`
     if (IS_FIREFOX) {
         // Can't jump to about:addons in Firefox
         // So no jump, only show tooltip text
         upgrade.classList.add("firefox-upgrade-no-underline")
-        latestInfo.innerText = t(msg => msg.updateVersionInfo4Firefox, { version: versionLabel })
+        latestInfo.innerText = t(msg => msg.chart.updateVersionInfo4Firefox, { version: versionLabel })
     } else {
         upgradeLink.onclick = () => chrome.tabs.create({ url: UPDATE_PAGE })
-        latestInfo.innerText = t(msg => msg.updateVersionInfo, { version: versionLabel })
+        latestInfo.innerText = t(msg => msg.chart.updateVersionInfo, { version: versionLabel })
     }
 }
 

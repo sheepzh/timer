@@ -14,7 +14,7 @@
 import { h } from "vue"
 import { ElAlert } from "element-plus"
 import { t } from "@app/locale"
-import { WhitelistMessage } from "@app/locale/components/whitelist"
+import { WhitelistMessage } from "@i18n/message/app/whitelist"
 
 const title = t(msg => msg.whitelist.infoAlertTitle)
 

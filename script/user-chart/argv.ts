@@ -1,4 +1,4 @@
-import { exitWith } from "./common"
+import { exitWith } from "../util/process"
 
 type Cmd =
     | 'add'

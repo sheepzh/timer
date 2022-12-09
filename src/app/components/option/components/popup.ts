@@ -15,7 +15,7 @@ import { renderOptionItem, tagText } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
-import { locale } from "@util/i18n"
+import { locale } from "@i18n"
 import { rotate } from "@util/array"
 
 const mergeDomain = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSwitch, {
@@ -48,7 +48,7 @@ const typeSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSelect, 
     }
 }, { default: typeOptions })
 
-const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.option.popup.duration[item]) }))
+const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value: item, label: t(msg => msg.duration[item]) }))
 const durationSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.defaultDuration,
     size: 'small',
@@ -87,7 +87,7 @@ const weekStartSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSel
 
 const defaultPopOptions = defaultPopup()
 const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
-const defaultDurationLabel = t(msg => msg.option.popup.duration[defaultPopOptions.defaultDuration])
+const defaultDurationLabel = t(msg => msg.duration[defaultPopOptions.defaultDuration])
 const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 
 function copy(target: timer.option.PopupOption, source: timer.option.PopupOption) {

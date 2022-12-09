@@ -13,15 +13,11 @@ import itemList from "./item-list"
 import { ElCard } from "element-plus"
 import { h } from "vue"
 
-const _default = defineComponent(
-    {
-        name: "Whitelist",
-        setup() {
-            return () => h(ContentContainer, {}, {
-                default: () => h(ElCard, {}, () => [alertInfo(), itemList()])
-            })
-        }
-    }
-)
+const _default = defineComponent({
+    name: "Whitelist",
+    render: () => h(ContentContainer,
+        () => h(ElCard, () => [alertInfo(), itemList()])
+    )
+})
 
 export default _default

@@ -18,10 +18,10 @@ import { sum } from "@util/array"
 function getTotalInfo(data: timer.stat.Row[], type: timer.stat.Dimension): string {
     if (type === 'time') {
         const totalCount = sum(data.map(d => d.time || 0))
-        return t(msg => msg.totalCount, { totalCount })
+        return t(msg => msg.chart.totalCount, { totalCount })
     } else if (type === 'focus') {
         const totalTime = formatPeriodCommon(sum(data.map(d => d.focus || 0)))
-        return t(msg => msg.totalTime, { totalTime })
+        return t(msg => msg.chart.totalTime, { totalTime })
     } else {
         return ''
     }

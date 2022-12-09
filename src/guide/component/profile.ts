@@ -6,6 +6,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { t } from "@guide/locale"
 import { EDGE_HOMEPAGE, CHROME_HOMEPAGE, FIREFOX_HOMEPAGE, SOURCE_CODE_PAGE } from "@util/constant/url"
 import { defineComponent } from "vue"
 
@@ -15,12 +16,13 @@ const _default = defineComponent({
     name: 'GuideProfile',
     setup() {
         return () => section(
-            h1(msg => msg.layout.menu.profile, 'profile'),
+            h1(msg => msg.layout.menu.profile, 'profile', { appName: t(msg => msg.meta.name) }),
             paragraph(msg => msg.profile.p1, {
                 edge: link(EDGE_HOMEPAGE, 'Edge'),
                 chrome: link(CHROME_HOMEPAGE, 'Chrome'),
                 firefox: link(FIREFOX_HOMEPAGE, 'Firefox'),
                 github: link(SOURCE_CODE_PAGE, 'Github'),
+                appName: t(msg => msg.meta.name),
             }),
             paragraph(msg => msg.profile.p2),
         )
