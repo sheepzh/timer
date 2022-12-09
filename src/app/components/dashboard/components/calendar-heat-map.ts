@@ -29,7 +29,7 @@ use([
 
 import { t } from "@app/locale"
 import timerService, { TimerQueryParam } from "@service/timer-service"
-import { locale } from "@util/i18n"
+import { locale } from "@i18n"
 import { formatTime, getWeeksAgo, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref, Ref } from "vue"

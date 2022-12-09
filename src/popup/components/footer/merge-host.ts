@@ -23,7 +23,7 @@ class MergeHostWrapper {
         this.mergeHostSwitch = document.getElementById('merge-host-switch')
         this.mergeHostPopup = document.getElementById('merge-host-popup-container')
         this.mergeHostPopupInfo = document.getElementById('merge-host-popup-info')
-        this.mergeHostPopupInfo.innerText = t(msg => msg.mergeHostLabel)
+        this.mergeHostPopupInfo.innerText = t(msg => msg.chart.mergeHostLabel)
         // Handle hover
         this.mergeHostSwitch.onmouseover = () => this.mergeHostPopup.style.display = 'block'
         this.mergeHostSwitch.onmouseout = () => this.mergeHostPopup.style.display = 'none'

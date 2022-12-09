@@ -66,7 +66,16 @@ const additionalRoutes: RouteRecordRaw[] = [
     }
 ]
 
-const otherRoutes: RouteRecordRaw[] = []
+const otherRoutes: RouteRecordRaw[] = [
+    {
+        path: '/other',
+        redirect: '/other/help'
+    },
+    {
+        path: '/other/help',
+        component: () => import('../components/help-us'),
+    }
+]
 
 const routes: RouteRecordRaw[] = [
     { path: '/', redirect: '/data' },

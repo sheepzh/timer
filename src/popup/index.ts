@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import "./style"
 
 import renderChart, { handleRestore } from "./components/chart"
@@ -13,7 +14,7 @@ import "../common/timer"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
 
-import { initLocale } from "@util/i18n"
+import { initLocale } from "@i18n"
 
 async function main() {
     await initLocale()

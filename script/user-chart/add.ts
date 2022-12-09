@@ -7,7 +7,8 @@ import {
 } from "@src/api/gist"
 import { AddArgv, Argv, Browser } from "./argv"
 import fs from "fs"
-import { descriptionOf, exitWith, filenameOf, getExistGist } from "./common"
+import { descriptionOf, filenameOf, getExistGist } from "./common"
+import { exitWith } from "../util/process"
 
 export type UserCount = Record<string, number>
 

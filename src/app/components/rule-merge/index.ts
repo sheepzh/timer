@@ -15,12 +15,10 @@ import { h } from "vue"
 
 const _default = defineComponent({
     name: "RuleMerge",
-    setup() {
-        return () => h(ContentContainer, () => h(ElCard, () => [
-            h(RuleMergeAlertInfo),
-            itemList()
-        ]))
-    }
+    render: () => h(ContentContainer, () => h(ElCard, () => [
+        h(RuleMergeAlertInfo),
+        itemList()
+    ]))
 })
 
 export default _default

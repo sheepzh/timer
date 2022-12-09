@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t2Chrome } from "@util/i18n/chrome/t"
+import { t2Chrome } from "@i18n/chrome/t"
 import { formatPeriod } from "@util/time"
 
 function getTodayInfo(host: string): Promise<timer.stat.Result> {

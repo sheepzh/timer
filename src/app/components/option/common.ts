@@ -9,7 +9,7 @@ import { InfoFilled } from "@element-plus/icons-vue"
 import { ElTag, ElTooltip, ElIcon } from "element-plus"
 import { h, isVNode, VNode } from "vue"
 import { tN, t, I18nKey } from "@app/locale"
-import { OptionMessage } from "@app/locale/components/option"
+import { OptionMessage } from "@i18n/message/app/option"
 
 /**
  * Render the option item

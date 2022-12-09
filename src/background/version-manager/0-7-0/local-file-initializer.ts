@@ -9,7 +9,7 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { JSON_HOST, LOCAL_HOST_PATTERN, MERGED_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
 import IVersionProcessor from "../i-version-processor"
-import { t2Chrome } from "@util/i18n/chrome/t"
+import { t2Chrome } from "@i18n/chrome/t"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 

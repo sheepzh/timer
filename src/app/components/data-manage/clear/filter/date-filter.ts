@@ -9,7 +9,7 @@ import { ElDatePicker } from "element-plus"
 import { Ref, h } from "vue"
 import { formatTime, MILL_PER_DAY } from "@util/time"
 import { t, tN } from "@app/locale"
-import { DataManageMessage } from "@app/locale/components/data-manage"
+import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { stepNoClz } from "./constants"
 
 export type DateFilterProps = {

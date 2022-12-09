@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 const DEFAULT_THRESHOLD = 10
 
 /**

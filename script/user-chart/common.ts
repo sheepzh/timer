@@ -1,11 +1,6 @@
 import { findTarget, Gist } from "@api/gist"
 import { Browser } from "./argv"
 
-export function exitWith(msg: string) {
-    console.error(msg)
-    process.exit()
-}
-
 /**
  * Calculate the gist description of target browser
  */

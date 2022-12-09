@@ -4,7 +4,7 @@ import CopyWebpackPlugin from "copy-webpack-plugin"
 import webpack from "webpack"
 // Generate json files 
 import manifest from "../src/manifest"
-import i18nChrome from "../src/util/i18n/chrome"
+import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 const tsPathAlias = tsConfig.compilerOptions.paths
@@ -59,7 +59,7 @@ const staticOptions: webpack.Configuration = {
         rules: [
             {
                 test: /\.ts$/,
-                exclude: /^(node_modules|test)/,
+                exclude: /^(node_modules|test|script)/,
                 use: ['ts-loader']
             }, {
                 test: /\.css$/,
