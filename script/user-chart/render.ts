@@ -112,7 +112,7 @@ class SmoothContext {
     }
 
     end(): number[] {
-        Object.keys(new Array(this.step))
+        Object.keys(Array.from(new Array(this.step)))
             .forEach(() => this.data.push(this.lastVal))
         return this.data
     }
