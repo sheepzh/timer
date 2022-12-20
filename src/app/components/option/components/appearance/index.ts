@@ -14,8 +14,8 @@ import { defaultAppearance } from "@util/constant/option"
 import DarkModeInput from "./dark-mode-input"
 import { t, tWith } from "@app/locale"
 import { renderOptionItem, tagText } from "../../common"
-import localeMessages from "@util/i18n/components/locale"
-import { localeSameAsBrowser } from "@util/i18n"
+import localeMessages from "@i18n/message/common/locale"
+import { localeSameAsBrowser } from "@i18n"
 import { toggle } from "@util/dark-mode"
 
 const displayWhitelist = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSwitch, {
@@ -75,7 +75,7 @@ const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect,
         locale => h(ElOption, {
             value: locale, label: locale === "default"
                 ? t(msg => msg.option.appearance.locale.default)
-                : localeMessages[locale].name
+                : localeMessages[locale]
         })
     )
 })

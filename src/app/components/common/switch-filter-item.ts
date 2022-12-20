@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import { nextTick, Ref } from "vue"
 import type { RouteLocation } from "vue-router"
 

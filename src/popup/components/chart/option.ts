@@ -49,9 +49,9 @@ const legend2LabelStyle = (legend: string) => {
 
 function calculateAverageText(type: timer.stat.Dimension, averageValue: number): string | undefined {
     if (type === 'focus') {
-        return t(msg => msg.averageTime, { value: formatPeriodCommon(parseInt(averageValue.toFixed(0))) })
+        return t(msg => msg.chart.averageTime, { value: formatPeriodCommon(parseInt(averageValue.toFixed(0))) })
     } else if (type === 'time') {
-        return t(msg => msg.averageCount, { value: averageValue.toFixed(1) })
+        return t(msg => msg.chart.averageCount, { value: averageValue.toFixed(1) })
     }
     return undefined
 }
@@ -150,7 +150,7 @@ function calculateSubTitleText(date: Date | Date[]) {
 export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElement): EcOption {
     const { type, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
-    const subTitleText = `${calculateSubTitleText(date)} @ ${t(msg => msg.appName)}`
+    const subTitleText = `${calculateSubTitleText(date)} @ ${t(msg => msg.meta.name)}`
     const textColor = getPrimaryTextColor()
     const secondaryColor = getSecondaryTextColor()
     const options: EcOption = {
@@ -186,14 +186,14 @@ export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElem
             feature: {
                 restore: {
                     show: true,
-                    title: t(msg => msg.restoreTitle)
+                    title: t(msg => msg.chart.restoreTitle)
                 },
                 saveAsImage: {
                     show: true,
-                    title: t(msg => msg.saveAsImageTitle),
+                    title: t(msg => msg.chart.saveAsImageTitle),
                     // file name
-                    name: t(msg => msg.fileName, {
-                        app: t(msg => msg.appName),
+                    name: t(msg => msg.chart.fileName, {
+                        app: t(msg => msg.meta.name),
                         today
                     }),
                     excludeComponents: ['toolbox'],
@@ -202,7 +202,7 @@ export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElem
                 // Customized tool's name must start with 'my'
                 myOptions: {
                     show: true,
-                    title: t(msg => msg.options),
+                    title: t(msg => msg.chart.options),
                     icon: optionIcon,
                     onclick() {
                         chrome.tabs.create({ url: getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }) })

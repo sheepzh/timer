@@ -99,7 +99,7 @@ const _default = defineComponent({
                 onClick: () => handleClick(profilePosition)
             }, () => [
                 h(ElIcon, () => h(MagicStick)),
-                h('span', {}, t(msg => msg.layout.menu.profile))
+                h('span', {}, t(msg => msg.layout.menu.profile, { appName: t(msg => msg.meta.name) }))
             ]),
             ...menus.map(
                 group => renderGroup(handleClick, group)

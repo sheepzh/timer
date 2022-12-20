@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { Ref, PropType } from "vue"
 
 import { ElOption, ElSelect } from "element-plus"
@@ -11,7 +12,7 @@ import { ref, h, defineComponent } from "vue"
 import timerService, { HostSet } from "@service/timer-service"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
-import { TrendMessage } from "@app/locale/components/trend"
+import { TrendMessage } from "@i18n/message/app/trend"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import SelectFilterItem from "@app/components/common/select-filter-item"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"

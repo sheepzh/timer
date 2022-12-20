@@ -4,10 +4,11 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { FileFormat } from "./download-file"
 import type { Ref, PropType } from "vue"
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-import type { ReportMessage } from "@app/locale/components/report"
+import type { ReportMessage } from "@i18n/message/app/report"
 
 import DownloadFile from "./download-file"
 import RemoteClient from "./remote-client"

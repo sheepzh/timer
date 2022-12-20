@@ -22,8 +22,8 @@ const background = () => [
         background: linkInner(backgroundPageUrl, t(msg => msg.usage.background.backgroundPage))
     }),
     list(
-        msg => msg.usage.background.l1,
-        msg => msg.usage.background.l2,
+        [msg => msg.usage.background.l1, { allFunction: t(msg => msg.base.allFunction) }],
+        [msg => msg.usage.background.l2, { allFunction: t(msg => msg.base.allFunction) }],
     ),
     paragraph(msg => msg.usage.background.p2),
 ]

@@ -7,7 +7,7 @@
 
 import TimeLimitItem from "@entity/time-limit-item"
 import optionService from "@service/option-service"
-import { t2Chrome } from "@util/i18n/chrome/t"
+import { t2Chrome } from "@i18n/chrome/t"
 
 function moreMinutes(url: string): Promise<timer.limit.Item[]> {
     const request: timer.mq.Request<string> = {
@@ -148,7 +148,7 @@ function link2Setup(url: string): HTMLParagraphElement {
     Object.assign(link.style, linkStyle)
     link.setAttribute('href', 'javascript:void(0)')
     const text = t2Chrome(msg => msg.message.timeLimitMsg)
-        .replace('{appName}', t2Chrome(msg => msg.app.name))
+        .replace('{appName}', t2Chrome(msg => msg.meta.name))
     link.innerText = text
     link.onclick = () => chrome.runtime.sendMessage(openLimitPageMessage(url))
     const p = document.createElement('p')

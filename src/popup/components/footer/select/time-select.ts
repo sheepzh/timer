@@ -41,7 +41,7 @@ class TimeSelectWrapper {
     private initOption(item: timer.popup.Duration) {
         const li = document.createElement('li')
         li.classList.add('el-select-dropdown__item')
-        li.innerText = t(msg => msg.timeDuration[item])
+        li.innerText = t(msg => msg.duration[item])
         li.onclick = () => {
             this.selected(item)
             this.handleSelected?.()
@@ -55,7 +55,7 @@ class TimeSelectWrapper {
         this.currentSelected = item
         Array.from(this.optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
         this.optionItems.get(item).classList.add(SELECTED_CLASS)
-        this.timeSelectInput.value = t(msg => msg.timeDuration[item])
+        this.timeSelectInput.value = t(msg => msg.duration[item])
     }
 
     private openPopup() {
