@@ -19,8 +19,6 @@ const _default: LocaleMessages = {
     zh_TW: '正體中文',
     en: 'English',
     ja: '日本語',
-    en_GB: 'English, UK',
-    en_US: 'English, US',
     pl: 'Polski',
     pt: 'Português',
     pt_BR: 'Portugues, Brasil',
@@ -28,6 +26,10 @@ const _default: LocaleMessages = {
     de: 'Deutsch',
     es: 'Español',
     ru: 'Русский',
+    uk: "українська",
+    fr: "Français",
+    it: "italiano",
+    sv: "Sverige",
 }
 
 export default _default

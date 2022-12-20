@@ -19,14 +19,16 @@ const localeCrowdMap: { [locale in SupportedLocale]: string } = {
     ja: "ja",
     zh_TW: "zh-TW",
     de: "de",
-    en_GB: "en-GB",
-    en_US: "en-US",
     es: "es-ES",
     ko: "ko",
     pl: "pl",
     pt: "pt-PT",
     pt_BR: "pt-BR",
-    ru: "ru"
+    ru: "ru",
+    uk: "uk",
+    fr: "fr",
+    it: "it",
+    sv: "sv-SE",
 }
 
 const crowdLocaleMap: { [locale: string]: SupportedLocale } = {}
@@ -69,7 +71,15 @@ const CONTAINER_CLZ = 'progress-container'
 async function queryData(listRef: Ref<ProgressInfo[]>) {
     const loading = ElLoading.service({ target: `.${CONTAINER_CLZ}`, text: t(msg => msg.helpUs.loading) })
     const langList = await getTranslationStatus()
-    listRef.value = langList.map(convert2Info).sort((a, b) => b.progress - a.progress)
+    listRef.value = langList.map(convert2Info)
+        .sort((a, b) => {
+            const progressDiff = b.progress - a.progress
+            if (progressDiff === 0) {
+                return a.locale.localeCompare(b.locale)
+            } else {
+                return progressDiff
+            }
+        })
     loading.close()
 }
 

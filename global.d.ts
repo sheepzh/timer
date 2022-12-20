@@ -191,14 +191,16 @@ declare namespace timer {
      */
     type TranslatingLocale =
         | 'de'
-        | 'en_GB'
-        | 'en_US'
         | 'es'
         | 'ko'
         | 'pl'
         | 'pt'
         | 'pt_BR'
         | 'ru'
+        | 'uk'
+        | 'fr'
+        | 'it'
+        | 'sv'
 
     namespace stat {
         /**
