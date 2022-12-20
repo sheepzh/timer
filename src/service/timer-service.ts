@@ -6,7 +6,6 @@
  */
 
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import ArchivedDatabase from "@db/archived-database"
 import { log } from "../common/logger"
 import CustomizedHostMergeRuler from "./components/host-merge-ruler"
 import MergeRuleDatabase from "@db/merge-rule-database"
@@ -22,7 +21,6 @@ import { getBirthday } from "@util/time"
 const storage = chrome.storage.local
 
 const timerDatabase = new TimerDatabase(storage)
-const archivedDatabase = new ArchivedDatabase(storage)
 const iconUrlDatabase = new IconUrlDatabase(storage)
 const hostAliasDatabase = new HostAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
@@ -124,18 +122,6 @@ class TimerService {
             .forEach(host => merged.add(host))
 
         return { origin, merged }
-    }
-
-    /**
-     * Archive the data and delete all of them
-     * 
-     * @param rows rows
-     * @since 0.0.9
-     * @deprecated 1.2.0
-     */
-    async archive(rows: timer.stat.Row[]): Promise<void> {
-        await archivedDatabase.updateArchived(rows)
-        return timerDatabase.delete(rows)
     }
 
     /**

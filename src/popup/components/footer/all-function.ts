@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import { getAppPageUrl } from "@util/constant/url"
 import { t } from "@popup/locale"
 
@@ -12,7 +13,7 @@ function initAllFunction() {
     allFunctionLink.onclick = async () => {
         chrome.tabs.create({ url: getAppPageUrl(false, '/') })
     }
-    allFunctionLink.innerText = t(msg => msg.viewMore)
+    allFunctionLink.innerText = t(msg => msg.base.allFunction)
 }
 
 export default initAllFunction

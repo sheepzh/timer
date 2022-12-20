@@ -4,10 +4,11 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { FileFormat } from "./download-file"
 import type { Ref, PropType } from "vue"
-import type { ElementDatePickerShortcut } from "@app/element-ui/date"
-import type { ReportMessage } from "@app/locale/components/report"
+import type { ElementDatePickerShortcut } from "@src/element-ui/date"
+import type { ReportMessage } from "@i18n/message/app/report"
 
 import DownloadFile from "./download-file"
 import RemoteClient from "./remote-client"
@@ -100,6 +101,7 @@ const _default = defineComponent({
                 }
             }),
             h(SelectFilterItem, {
+                historyName: 'timeFormat',
                 defaultValue: timeFormat.value,
                 options: timeFormatLabels,
                 onSelect(newVal: timer.app.TimeFormat) {
@@ -108,6 +110,7 @@ const _default = defineComponent({
                 }
             }),
             h(SwitchFilterItem, {
+                historyName: 'mergeDate',
                 label: mergeDateLabel,
                 defaultValue: mergeDate.value,
                 onChange(newVal: boolean) {
@@ -116,6 +119,7 @@ const _default = defineComponent({
                 }
             }),
             h(SwitchFilterItem, {
+                historyName: 'mergeHost',
                 label: mergeHostLabel,
                 defaultValue: mergeHost.value,
                 onChange(newVal: boolean) {

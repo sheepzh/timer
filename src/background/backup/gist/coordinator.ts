@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { Gist, GistForm, File, FileForm } from "@api/gist"
 
 import { getJsonFileContent, findTarget, getGist, createGist, updateGist, testToken } from "@api/gist"

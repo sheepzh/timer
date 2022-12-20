@@ -6,14 +6,14 @@
  */
 
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
-import ElementIcon from "@src/app/element-ui/icon"
+import ElementIcon from "@src/element-ui/icon"
 import { Ref, h } from "vue"
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import { ItemMessage } from "@util/i18n/components/item"
+import { ItemMessage } from "@i18n/message/common/item"
 import { t } from "@src/app/locale"
-import { DataManageMessage } from "@src/app/locale/components/data-manage"
+import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { MILL_PER_DAY } from "@util/time"
-import { ElementButtonType } from "@app/element-ui/button"
+import { ElementButtonType } from "@src/element-ui/button"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 

@@ -6,6 +6,7 @@
  */
 
 import TimerDatabase from "@db/timer-database"
+import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 
@@ -18,9 +19,9 @@ export type BadgeLocation = {
      */
     tabId: number
     /**
-     * The host to gain the focus time, can be undefined or null
+     * The url of tab
      */
-    host: string
+    url: string
 }
 
 function mill2Str(milliseconds: number) {
@@ -35,9 +36,14 @@ function mill2Str(milliseconds: number) {
     }
 }
 
-function setBadgeText(milliseconds: number | undefined, tabId: number | undefined) {
+function setBadgeTextOfMills(milliseconds: number | undefined, tabId: number | undefined) {
     const text = milliseconds === undefined ? '' : mill2Str(milliseconds)
-    chrome.action.setBadgeText?.({ text, tabId })
+    chrome.browserAction?.setBadgeText?.({ text, tabId })
+    setBadgeText(text, tabId)
+}
+
+function setBadgeText(text: string, tabId: number | undefined) {
+    chrome.browserAction?.setBadgeText?.({ text, tabId })
 }
 
 function findFocusedWindow(): Promise<chrome.windows.Window> {
@@ -64,8 +70,7 @@ function findActiveTab(): Promise<BadgeLocation> {
                 resolve(undefined)
             } else {
                 const { url, id } = tabs[0]
-                const host = extractHostname(url).host
-                resolve({ tabId: id, host })
+                resolve({ tabId: id, url })
             }
         })
     }))
@@ -76,9 +81,17 @@ async function updateFocus(badgeLocation?: BadgeLocation) {
     if (!badgeLocation) {
         return
     }
-    const { host, tabId } = badgeLocation
+    const { url, tabId } = badgeLocation
+    if (!url || isBrowserUrl(url)) {
+        return
+    }
+    const host = extractHostname(url)?.host
+    if (whitelistHolder.contains(host)) {
+        setBadgeText('W', tabId)
+        return
+    }
     const milliseconds = host ? (await timerDb.get(host, new Date())).focus : undefined
-    setBadgeText(milliseconds, tabId)
+    setBadgeTextOfMills(milliseconds, tabId)
 }
 
 const ALARM_NAME = 'timer-badge-text-manager-alarm'
@@ -102,14 +115,16 @@ class BadgeTextManager {
         const option: Partial<timer.option.AllOption> = await optionService.getAllOption()
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
         optionService.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
+        whitelistHolder.addPostHandler(updateFocus)
     }
 
     /**
      * Hide the badge text
      */
-    pause() {
+    async pause() {
         this.isPaused = true
-        setBadgeText(undefined, undefined)
+        const tab = await findActiveTab()
+        setBadgeText('P', tab?.tabId)
     }
 
     /**

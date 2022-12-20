@@ -16,7 +16,7 @@ import TypeSelectWrapper from "./select/type-select"
 import timerService, { SortDirect } from "@service/timer-service"
 import { t } from "@popup/locale"
 // Import from i18n
-import { locale } from "@util/i18n"
+import { locale } from "@i18n"
 import { getDayLenth, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
 import { IS_SAFARI } from "@util/constant/environment"
@@ -82,7 +82,9 @@ class FooterWrapper {
 
         const option = await optionService.getAllOption()
         this.timeSelectWrapper.init(option.defaultDuration)
-        this.typeSelectWrapper.init(option.defaultType)
+        // Remove total @since v1.3.4
+        const defaultType = option.defaultType === 'total' ? 'focus' : option.defaultType
+        this.typeSelectWrapper.init(defaultType)
         this.mergeHostWrapper.init(option.defaultMergeDomain)
         this.query()
     }
@@ -94,7 +96,7 @@ class FooterWrapper {
         const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
         const popupRows: timer.popup.Row[] = []
         const other: timer.popup.Row = {
-            host: t(msg => msg.otherLabel, { count: 0 }),
+            host: t(msg => msg.chart.otherLabel, { count: 0 }),
             focus: 0,
             total: 0,
             date: '0000-00-00',
@@ -113,7 +115,7 @@ class FooterWrapper {
                 otherCount++
             }
         }
-        other.host = t(msg => msg.otherLabel, { count: otherCount })
+        other.host = t(msg => msg.chart.otherLabel, { count: otherCount })
         popupRows.push(other)
         const type = queryParam.sort as timer.stat.Dimension
         const data = popupRows.filter(item => item[type])
@@ -138,7 +140,7 @@ class FooterWrapper {
             mergeHost: this.mergeHostWrapper.mergedHost(),
             sort: this.typeSelectWrapper.getSelectedType(),
             sortOrder: SortDirect.DESC,
-            chartTitle: t(msg => msg.title[duration]),
+            chartTitle: t(msg => msg.chart.title[duration]),
             mergeDate: true,
         }
         return param

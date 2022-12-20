@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { Ref } from "vue"
 import type { FillFlagParam, TimerQueryParam } from "@service/timer-service"
 import type { ECharts, ComposeOption } from "echarts/core"

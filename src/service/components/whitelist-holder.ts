@@ -14,15 +14,28 @@ const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
  */
 class WhitelistHolder {
     private whitelist: string[]
+    private postHandlers: (() => void)[]
 
     constructor() {
         const whitelistSetter = (whitelist: string[]) => this.whitelist = whitelist
         whitelistDatabase.selectAll().then(whitelistSetter)
-        whitelistDatabase.addChangeListener(whitelistSetter)
+        whitelistDatabase.addChangeListener((whitelist: string[]) => {
+            whitelistSetter(whitelist)
+            this.postHandlers.forEach(handler => handler())
+        })
+        this.postHandlers = []
+    }
+
+    addPostHandler(handler: () => void) {
+        this.postHandlers.push(handler)
     }
 
     notContains(host: string): boolean {
         return !this.whitelist.includes(host)
+    }
+
+    contains(host: string): boolean {
+        return this.whitelist.includes(host)
     }
 }
 

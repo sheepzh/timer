@@ -15,7 +15,7 @@ import './styles' // global css
 import installRouter from "./router"
 import '../common/timer'
 import ElementPlus from 'element-plus'
-import { initLocale, locale as appLocale } from "@util/i18n"
+import { initLocale, locale as appLocale } from "@i18n"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
 import "@src/common/timer"

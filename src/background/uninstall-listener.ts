@@ -6,7 +6,7 @@
  */
 
 import { UNINSTALL_QUESTIONNAIRE } from "@util/constant/url"
-import { locale } from "@util/i18n"
+import { locale } from "@i18n"
 
 async function listen() {
     try {

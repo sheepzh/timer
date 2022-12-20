@@ -30,7 +30,7 @@ function processLimitWaking(rules: TimeLimitItem[], tab: chrome.tabs.Tab) {
 
 export default function init(dispatcher: MessageDispatcher) {
     dispatcher
-        .register<string, void>(
+        .register<string>(
             'openLimitPage',
             async (url: string) => {
                 const pageUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(url) })

@@ -6,8 +6,8 @@
  */
 
 import { OPTION_ROUTE } from "../app/router/constants"
-import { getAppPageUrl, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
-import { t2Chrome } from "@util/i18n/chrome/t"
+import { getAppPageUrl, getGuidePageUrl, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
+import { t2Chrome } from "@i18n/chrome/t"
 import { IS_SAFARI } from "@util/constant/environment"
 
 const APP_PAGE_URL = getAppPageUrl(true)
@@ -28,7 +28,7 @@ function titleOf(prefixEmoji: string, title: string) {
 
 const allFunctionProps: chrome.contextMenus.CreateProperties = {
     id: chrome.runtime.id + '_timer_menu_item_app_link',
-    title: titleOf('🏷️', t2Chrome(msg => msg.contextMenus.allFunctions)),
+    title: titleOf('🏷️', t2Chrome(msg => msg.base.allFunction)),
     onclick: () => chrome.tabs.create({ url: APP_PAGE_URL }),
     ...baseProps
 }
@@ -54,12 +54,20 @@ const feedbackPageProps: chrome.contextMenus.CreateProperties = {
     ...baseProps
 }
 
+const guidePageProps: chrome.contextMenus.CreateProperties = {
+    id: chrome.runtime.id + '_timer_menu_item_guide_link',
+    title: titleOf('📖', t2Chrome(msg => msg.base.guidePage)),
+    onclick: () => chrome.tabs.create({ url: getGuidePageUrl(true) }),
+    ...baseProps
+}
+
 function init() {
     const allProps = [
         allFunctionProps,
         optionPageProps,
         repoPageProps,
         feedbackPageProps,
+        guidePageProps,
     ]
     const handleClick = {}
 

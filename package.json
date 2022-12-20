@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "description": "Web timer",
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
@@ -15,6 +15,7 @@
   "author": "zhy",
   "license": "MIT",
   "devDependencies": {
+    "@crowdin/crowdin-api-client": "^1.19.2",
     "@types/chrome": "0.0.199",
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/echarts": "^4.9.16",
@@ -39,6 +40,7 @@
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.1",
     "tslib": "^2.4.0",
     "typescript": "4.8.4",
     "url-loader": "^4.1.1",

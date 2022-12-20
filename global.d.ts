@@ -169,14 +169,36 @@ declare namespace timer {
     }
 
     /**
+     * The source locale
+     * 
+     * @since 1.4.0
+     */
+    type SourceLocale = 'en'
+
+    /**
      * @since 0.8.0
      */
-    type Locale =
+    type Locale = SourceLocale
         | 'zh_CN'
-        | 'en'
         | 'ja'
         // @since 0.9.0
         | 'zh_TW'
+
+    /**
+     * Translating locales
+     * 
+     * @since 1.4.0
+     */
+    type TranslatingLocale =
+        | 'de'
+        | 'en_GB'
+        | 'en_US'
+        | 'es'
+        | 'ko'
+        | 'pl'
+        | 'pt'
+        | 'pt_BR'
+        | 'ru'
 
     namespace stat {
         /**
@@ -184,6 +206,7 @@ declare namespace timer {
          */
         type Dimension =
             // Running time
+            // @deprecated v1.3.4
             | 'total'
             // Focus time
             | 'focus'

@@ -5,14 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElOption, ElSelect } from "element-plus"
-import { ref, Ref, h, defineComponent, PropType } from "vue"
+import type { PropType } from "vue"
+import type { HabitMessage } from "@i18n/message/app/habit"
+
+import { ref, Ref, h, defineComponent } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
-import { HabitMessage } from "@app/locale/components/habit"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
-import { ElementDatePickerShortcut } from "@app/element-ui/date"
+import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
+import SelectFilterItem from "@app/components/common/select-filter-item"
 
 export type HabitFilterOption = {
     periodSize: number
@@ -46,17 +48,17 @@ const DATE_RANGE_END_PLACEHOLDER = t(msg => msg.trend.endDate)
 // [value, label]
 type _SizeOption = [number, keyof HabitMessage['sizes']]
 
-const SIZE_OPTIONS: _SizeOption[] = [
-    [1, 'fifteen'],
-    [2, 'halfHour'],
-    [4, 'hour'],
-    [8, 'twoHour']
-]
-
-const renderSizeOption = ([size, msg]: _SizeOption) => h(ElOption, {
-    label: t(root => root.habit.sizes[msg]),
-    value: size
-})
+function allOptions(): Record<number, string> {
+    const allOptions = {}
+    const allSizes: _SizeOption[] = [
+        [1, 'fifteen'],
+        [2, 'halfHour'],
+        [4, 'hour'],
+        [8, 'twoHour'],
+    ]
+    allSizes.forEach(([size, msg]) => allOptions[size] = t(root => root.habit.sizes[msg]))
+    return allOptions
+}
 
 const _default = defineComponent({
     name: "HabitFilter",
@@ -67,7 +69,6 @@ const _default = defineComponent({
     },
     emits: ["change"],
     setup(props, ctx) {
-        const trendSearching: Ref<boolean> = ref(false)
         const periodSize: Ref<number> = ref(props.periodSize || 1)
         // @ts-ignore
         const dateRange: Ref<Date[]> = ref(props.dateRange || [])
@@ -81,13 +82,11 @@ const _default = defineComponent({
         }
         return () => [
             // Size select
-            h(ElSelect, {
-                placeholder: t(msg => msg.trend.hostPlaceholder),
-                class: 'filter-item',
-                modelValue: periodSize.value,
-                filterable: true,
-                loading: trendSearching.value,
-                onChange: (val: string) => {
+            h(SelectFilterItem, {
+                historyName: 'periodSize',
+                defaultValue: periodSize.value?.toString?.(),
+                options: allOptions(),
+                onSelect(val: string) {
                     const newPeriodSize = parseInt(val)
                     if (isNaN(newPeriodSize)) {
                         return
@@ -95,7 +94,7 @@ const _default = defineComponent({
                     periodSize.value = newPeriodSize
                     handleChange()
                 },
-            }, () => SIZE_OPTIONS.map(renderSizeOption)),
+            }),
             // Date range picker
             h(DateRangeFilterItem, {
                 startPlaceholder: DATE_RANGE_START_PLACEHOLDER,
@@ -111,6 +110,7 @@ const _default = defineComponent({
             }),
             // Average by date
             h(SwitchFilterItem, {
+                historyName: 'average',
                 label: AVERAGE_LABEL,
                 defaultValue: averageByDate.value,
                 onChange: (newVal: boolean) => {
