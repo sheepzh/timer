@@ -52,6 +52,9 @@ class _Modal {
     }
 
     showModal(showDelay: boolean) {
+        if (!document.body) {
+            return
+        }
         const _thisUrl = this.url
         if (showDelay && this.mask.childElementCount === 1) {
             this.delayContainer = document.createElement('p')
@@ -84,7 +87,7 @@ class _Modal {
     }
 
     hideModal() {
-        if (!this.visible) {
+        if (!this.visible || document.body) {
             return
         }
         this.mask.remove()
