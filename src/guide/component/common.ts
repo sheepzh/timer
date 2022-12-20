@@ -4,8 +4,8 @@ import type { VNode } from "vue"
 import { t, tN } from "@guide/locale"
 import { h } from "vue"
 
-export function h1(i18nKey: I18nKey, archorClz: string): VNode {
-    return h('h1', { class: `guide-h1 archor-${archorClz}` }, t(i18nKey))
+export function h1(i18nKey: I18nKey, archorClz: string, i18nParam?: any): VNode {
+    return h('h1', { class: `guide-h1 archor-${archorClz}` }, t(i18nKey, i18nParam))
 }
 
 export function h2(i18nKey: I18nKey, archorClz: string): VNode {

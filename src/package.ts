@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import packageJson from '../package.json'
 
 // The declaration of package.json

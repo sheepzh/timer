@@ -8,7 +8,7 @@
 import { ElAlert } from "element-plus"
 import { t, tN } from "@app/locale"
 import { defineComponent, h } from "vue"
-import { MergeRuleMessage } from "@app/locale/components/merge-rule"
+import { MergeRuleMessage } from "@i18n/message/app/merge-rule"
 import { PSL_HOMEPAGE } from "@util/constant/url"
 
 const liKeys: (keyof MergeRuleMessage)[] = ['infoAlert0', 'infoAlert1', 'infoAlert2', 'infoAlert3', 'infoAlert4']
@@ -31,15 +31,13 @@ function renderPslLink() {
 
 const _default = defineComponent({
     name: "RuleMergeAlertInfo",
-    render() {
-        return h(ElAlert,
-            { type: 'info', title },
-            () => [
-                ...liKeys.map(key => h('li', t(msg => msg.mergeRule[key]))),
-                h('li', tN(msg => msg.mergeRule.infoAlert5, { psl: renderPslLink() }))
-            ]
-        )
-    }
+    render: () => h(ElAlert,
+        { type: 'info', title },
+        () => [
+            ...liKeys.map(key => h('li', t(msg => msg.mergeRule[key]))),
+            h('li', tN(msg => msg.mergeRule.infoAlert5, { psl: renderPslLink() }))
+        ]
+    )
 })
 
 export default _default

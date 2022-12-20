@@ -1,0 +1,27 @@
+.help-us
+    .toolbar-container
+        margin: 30px 0
+        width: 100%
+        display: flex
+    .progress-container
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        width: 100%
+        min-height: 128px
+        .el-progress
+            flex: 0 0 25%
+            margin-bottom: 30px
+            width: 400px
+            font-size: 16px
+            .el-progress__text
+                top: 35%
+                color: var(--el-text-color-regular)
+                padding-left: 15px
+                .language-name,.progress-text
+                    display: block
+                    font-size: 12px
+                .language-name
+                    margin-top: 10px
+        .el-progress:not(:nth-child(3n))
+            margin-right: 12.5%

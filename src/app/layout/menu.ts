@@ -4,19 +4,20 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { UnwrapRef } from "vue"
-import type ElementIcon from "../../element-ui/icon"
+import type ElementIcon from "@src/element-ui/icon"
 import type { RouteLocationNormalizedLoaded, Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
-import type { MenuMessage } from "@app/locale/components/menu"
+import type { MenuMessage } from "@i18n/message/app/menu"
 
 import { defineComponent, h, onMounted, reactive } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
-import { HOME_PAGE, TRANSLATION_ISSUE_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, HotWater, MagicStick, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
-import { locale } from "@util/i18n"
+import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
+import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
+import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
 
 type _MenuItem = {
@@ -41,14 +42,12 @@ type _RouteProps = {
  * Generate menu items after locale initialized
  */
 function generateMenus(): _MenuGroup[] {
-    /**
-     * Use TU_CAO_PAGE, if the locale is Chinese
-     * 
-     * @since 0.9.0
-     */
-    const isZhCn = locale === "zh_CN"
-
-    const otherMenuItems: _MenuItem[] = []
+    const otherMenuItems: _MenuItem[] = [{
+        title: 'helpUs',
+        route: '/other/help',
+        icon: HelpFilled,
+        index: '_i18n'
+    }]
     HOME_PAGE && otherMenuItems.push({
         title: 'rate',
         href: HOME_PAGE,
@@ -62,14 +61,6 @@ function generateMenus(): _MenuGroup[] {
         icon: ChatSquare,
         index: '_feedback'
     })
-    if (!isZhCn) {
-        otherMenuItems.push({
-            title: 'translationMistake',
-            href: TRANSLATION_ISSUE_PAGE,
-            icon: MagicStick,
-            index: '_i18n'
-        })
-    }
 
     // All menu items
     return [{

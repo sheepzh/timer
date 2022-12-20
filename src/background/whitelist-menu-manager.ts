@@ -7,8 +7,8 @@
 
 import WhitelistDatabase from "@db/whitelist-database"
 import optionService from "@service/option-service"
-import { t2Chrome } from "@util/i18n/chrome/t"
-import { ContextMenusMessage } from "@util/i18n/components/context-menus"
+import { t2Chrome } from "@i18n/chrome/t"
+import { ContextMenusMessage } from "@i18n/message/common/context-menus"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const db = new WhitelistDatabase(chrome.storage.local)

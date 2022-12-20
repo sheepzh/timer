@@ -15,6 +15,7 @@
   "author": "zhy",
   "license": "MIT",
   "devDependencies": {
+    "@crowdin/crowdin-api-client": "^1.19.2",
     "@types/chrome": "0.0.199",
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/echarts": "^4.9.16",

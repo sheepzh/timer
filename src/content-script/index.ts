@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { initLocale } from "@util/i18n"
+import { initLocale } from "@i18n"
 import processLimit from "./limit"
 import printInfo from "./printer"
 

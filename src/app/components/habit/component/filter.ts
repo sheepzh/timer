@@ -6,7 +6,7 @@
  */
 
 import type { PropType } from "vue"
-import type { HabitMessage } from "@app/locale/components/habit"
+import type { HabitMessage } from "@i18n/message/app/habit"
 
 import { ref, Ref, h, defineComponent } from "vue"
 import { daysAgo } from "@util/time"

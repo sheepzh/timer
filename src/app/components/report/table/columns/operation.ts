@@ -20,7 +20,7 @@ import { TREND_ROUTE } from "@app/router/constants"
 import { Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import OperationDeleteButton from "./operation-delete-button"
-import { locale } from "@util/i18n"
+import { locale } from "@i18n"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
