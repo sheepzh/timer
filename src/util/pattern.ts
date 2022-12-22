@@ -23,7 +23,7 @@ export function isBrowserUrl(url: string) {
 
 const isNotValidPort = (portStr: string) => {
     const port = parseInt(portStr)
-    return port === NaN || port < 0 || port > 65535 || port.toString() !== portStr
+    return port < 0 || port > 65535 || port.toString() !== portStr
 }
 
 /**
