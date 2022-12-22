@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { log } from "@src/common/logger"
+
 const DEFAULT_THRESHOLD = 10
 
 /**
@@ -44,7 +46,7 @@ class FIFOCache<T> {
     async getOrSupply(key: string, supplier: () => PromiseLike<T>): Promise<T> {
         const exist = this.map[key]
         if (exist) {
-            console.log("Hit cache with key: " + key)
+            log("Hit cache with key: " + key)
             return exist
         }
         const value = await supplier()

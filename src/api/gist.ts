@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { AxiosAdapter, AxiosError, AxiosResponse } from "axios"
+import type { AxiosError, AxiosResponse } from "axios"
 
 import FIFOCache from "@util/fifo-cache"
 
@@ -45,38 +45,23 @@ const BASE_URL = 'https://api.github.com/gists'
  */
 const GET_CACHE = new FIFOCache<AxiosResponse>(20)
 
-function createCacheAdaptor(originAdaptor: AxiosAdapter): AxiosAdapter {
-    return (config) => {
-        const { url, method } = config;
-        let useCache = method === 'get' && url.startsWith(BASE_URL)
-        if (useCache) {
-            // Use url and token as key
-            const key = url + config?.headers?.['Authorization']
-            return GET_CACHE.getOrSupply(key, () => originAdaptor(config))
-        } else {
-            return originAdaptor(config)
-        }
-    }
-}
-
 async function get<T>(token: string, uri: string): Promise<T> {
-    return new Promise(resolve => axios.get(BASE_URL + uri, {
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`
-        },
-        // Use cache
-        adapter: createCacheAdaptor(axios.defaults.adapter)
-    }).then(response => {
-        if (response.status >= 200 && response.status < 300) {
-            return resolve(response.data as T)
-        } else {
-            return resolve(null)
-        }
-    }).catch((error: AxiosError) => {
-        console.log("AxisError", error)
-        resolve(null)
-    }))
+    const headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": `token ${token}`
+    }
+    const cacheKey = uri + token
+    return GET_CACHE.getOrSupply(cacheKey, () => axios.get(BASE_URL + uri, { headers }))
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return response.data as T
+            } else {
+                return null
+            }
+        }).catch((error: AxiosError) => {
+            console.log("AxisError", error)
+            return null
+        })
 }
 
 async function post<T, R>(token: string, uri: string, body?: R): Promise<T> {
