@@ -14,10 +14,10 @@ import TitleComponent from "@echarts/component/title"
 import ToolboxComponent from "@echarts/component/toolbox"
 import TooltipComponent from "@echarts/component/tooltip"
 import LegendComponent from "@echarts/component/legend"
-import CanvasRenderer from "@echarts/canvas-renderer"
+import SVGRenderer from "@echarts/svg-renderer"
 
 // Register echarts
-use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, CanvasRenderer, PieChart])
+use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, SVGRenderer, PieChart])
 
 import { defaultStatistics } from "@util/constant/option"
 import OptionDatabase from "@db/option-database"

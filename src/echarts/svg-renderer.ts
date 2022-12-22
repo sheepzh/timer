@@ -5,6 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { install as CanvasRenderer } from "echarts/lib/renderer/installCanvasRenderer"
+import { install as SVGRenderer } from "echarts/lib/renderer/installSVGRenderer"
 
-export default CanvasRenderer
+export default SVGRenderer
