@@ -12,13 +12,13 @@ import type { GridComponentOption, TitleComponentOption, ToolboxComponentOption,
 
 import { use, init } from "@echarts/core"
 import BarChart from "@echarts/chart/bar"
-import CanvasRenderer from "@echarts/canvas-renderer"
+import SVGRenderer from "@echarts/svg-renderer"
 import TitleComponent from "@echarts/component/title"
 import TooltipComponent from "@echarts/component/tooltip"
 import ToolboxComponent from "@echarts/component/toolbox"
 import GridComponent from "@echarts/component/grid"
 
-use([BarChart, CanvasRenderer, TitleComponent, TooltipComponent, ToolboxComponent, GridComponent])
+use([BarChart, SVGRenderer, TitleComponent, TooltipComponent, ToolboxComponent, GridComponent])
 
 import { formatPeriodCommon, formatTime, MILL_PER_DAY } from "@util/time"
 import { t } from "@app/locale"
