@@ -42,7 +42,10 @@ const menus: _Group[] = [
             }, {
                 title: msg => msg.layout.menu.usage.advanced,
                 position: 'advanced'
-            },
+            }, {
+                title: msg => msg.layout.menu.usage.backup,
+                position: 'backup',
+            }
         ],
         icon: Memo
     },

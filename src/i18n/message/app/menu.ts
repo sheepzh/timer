@@ -23,6 +23,7 @@ export type MenuMessage = {
     feedback: string
     rate: string
     helpUs: string
+    userManual: string
 }
 
 const _default: Messages<MenuMessage> = {
@@ -44,6 +45,7 @@ const _default: Messages<MenuMessage> = {
         feedback: '有什么反馈吗？',
         rate: '打个分吧！',
         helpUs: '帮助我们～',
+        userManual: '用户手册',
     },
     zh_TW: {
         dashboard: '儀錶盤',
@@ -63,6 +65,7 @@ const _default: Messages<MenuMessage> = {
         feedback: '有什麼反饋嗎？',
         rate: '打個分吧！',
         helpUs: '帮助我们～',
+        userManual: '用戶手冊',
     },
     en: {
         dashboard: 'Dashboard',
@@ -82,6 +85,7 @@ const _default: Messages<MenuMessage> = {
         feedback: 'Feedback Questionnaire',
         rate: 'Rate It',
         helpUs: 'Help Us',
+        userManual: 'User Manual',
     },
     ja: {
         dashboard: 'ダッシュボード',
@@ -101,6 +105,7 @@ const _default: Messages<MenuMessage> = {
         feedback: 'フィードバックアンケート',
         rate: 'それを評価',
         helpUs: 'Help Us',
+        userManual: 'ユーザーマニュアル',
     }
 }
 
