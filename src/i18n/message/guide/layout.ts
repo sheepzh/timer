@@ -13,6 +13,7 @@ export type LayoutMessage = {
             quickstart: string
             background: string
             advanced: string
+            backup: string
         }
         privacy: {
             title: string
@@ -31,6 +32,7 @@ const _default: Messages<LayoutMessage> = {
                 quickstart: '快速开始',
                 background: '访问后台页面',
                 advanced: '高级功能',
+                backup: '使用 Gist 备份数据',
             },
             privacy: {
                 title: '隐私声明',
@@ -47,6 +49,7 @@ const _default: Messages<LayoutMessage> = {
                 quickstart: '快速開始',
                 background: '訪問後台頁面',
                 advanced: '高級功能',
+                backup: '使用 Gist 備份數據',
             },
             privacy: {
                 title: '隱私聲明',
@@ -63,6 +66,7 @@ const _default: Messages<LayoutMessage> = {
                 quickstart: 'Quickstart',
                 background: 'Using all functions',
                 advanced: 'Advanced features',
+                backup: 'Backup your data with Gist',
             },
             privacy: {
                 title: 'Privary Policy',
@@ -79,6 +83,7 @@ const _default: Messages<LayoutMessage> = {
                 quickstart: 'クイックスタート',
                 background: 'すべての機能',
                 advanced: '高度な機能',
+                backup: 'Backup your data with Gist',
             },
             privacy: {
                 title: 'ポリシーと規約',

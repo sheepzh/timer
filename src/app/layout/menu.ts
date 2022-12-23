@@ -15,8 +15,8 @@ import { defineComponent, h, onMounted, reactive } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
-import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE } from "@util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
+import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/constant/url"
+import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
 
@@ -43,6 +43,11 @@ type _RouteProps = {
  */
 function generateMenus(): _MenuGroup[] {
     const otherMenuItems: _MenuItem[] = [{
+        title: 'userManual',
+        href: getGuidePageUrl(false),
+        icon: Memo,
+        index: '_guide',
+    }, {
         title: 'helpUs',
         route: '/other/help',
         icon: HelpFilled,

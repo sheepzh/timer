@@ -45,6 +45,18 @@ const advanced = () => [
     ),
 ]
 
+const backup = () => [
+    h2(msg => msg.layout.menu.usage.backup, 'backup'),
+    paragraph(msg => msg.usage.backup.p1, { gist: link('https://gist.github.com/', 'Github Gist') }),
+    list(
+        [msg => msg.usage.backup.l1, {
+            token: link('https://github.com/settings/tokens', 'token')
+        }],
+        msg => msg.usage.backup.l2,
+        msg => msg.usage.backup.l3,
+    ),
+]
+
 const _default = defineComponent({
     setup() {
         return () => section(
@@ -52,6 +64,7 @@ const _default = defineComponent({
             ...quickstart(),
             ...background(),
             ...advanced(),
+            ...backup(),
         )
     }
 })
