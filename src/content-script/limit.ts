@@ -87,7 +87,7 @@ class _Modal {
     }
 
     hideModal() {
-        if (!this.visible || document.body) {
+        if (!this.visible || !document.body) {
             return
         }
         this.mask.remove()
