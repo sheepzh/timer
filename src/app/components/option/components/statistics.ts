@@ -50,7 +50,7 @@ function renderOptionItems(option: timer.option.StatisticsOption) {
                 input: countWhenIdle(option),
                 idleTime: tagText(msg => msg.option.statistics.idleTime),
                 info: tooltip(msg => msg.option.statistics.idleTimeInfo)
-            }, msg => msg.statistics.countWhenIdle, t(msg => msg.option.no)),
+            }, msg => msg.statistics.countWhenIdle, t(msg => msg.option.yes)),
             h(ElDivider)
         )
     }
