@@ -19,6 +19,7 @@ import { getGuidePageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
 import initLimitProcesser from "./limit-processor"
 import initCsHandler from "./content-script-handler"
+import { isBrowserUrl } from "@util/pattern"
 
 // Open the log of console
 openLog()
@@ -53,6 +54,17 @@ badgeTextManager.init()
 new ActiveTabListener()
     .register(({ url, tabId }) => badgeTextManager.forceUpdate({ url, tabId }))
     .listen()
+
+// Listen window focus changed
+chrome.windows.onFocusChanged.addListener(windowId => {
+    if (windowId === chrome.windows.WINDOW_ID_NONE) {
+        return
+    }
+    chrome.tabs.query({ windowId }, tabs => tabs
+        .filter(tab => tab.active && !isBrowserUrl(tab.url))
+        .forEach(({ url, id }) => badgeTextManager.forceUpdate({ url, tabId: id }))
+    )
+})
 
 // Collect the install time
 chrome.runtime.onInstalled.addListener(async detail => {
