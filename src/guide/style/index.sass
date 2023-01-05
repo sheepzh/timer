@@ -1,9 +1,12 @@
 /**
- * Copyright (c) 2022 Hengyang Zhang
+ * Copyright (c) 2023 Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
+@import './light-theme'
+@import './dark-theme'
 
 body
     margin: 0px
@@ -13,6 +16,8 @@ body
     height: 100vh
     width: 100%
     scroll-behavior: smooth
+    .guide-container
+        background: var(--guide-container-bg-color)
     .el-menu
         height: 100%
     .el-main
@@ -21,14 +26,14 @@ body
         .guide-area
             padding: 0 9vw
             padding-bottom: 10px
+        h1,h2,span,div,li
+            color: var(--el-text-color-primary)
         h1
-            color: #3c4043
             font-weight: 500
             font-size: 1.8rem
             letter-spacing: 0
             line-height: 1.333
         h2
-            color: #3c4043
             font-weight: 500
             font-size: 1.4rem
             letter-spacing: 0
@@ -36,7 +41,6 @@ body
             margin: 40px 0
             margin-left: 2px
         .guide-paragragh,.guide-list
-            color: rgba(0,0,0,.87)
             font-size: 0.9375rem
             font-weight: 400
             margin-left: 2px
@@ -55,7 +59,7 @@ body
             text-decoration: none
             cursor: pointer
         .guide-link,.guide-link:hover,.guide-link:visited
-            color: #3367d6
+            color: var(--el-color-primary)
 
 #app-body
     margin-bottom: 40px
