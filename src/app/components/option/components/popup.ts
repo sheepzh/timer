@@ -103,11 +103,7 @@ const _default = defineComponent({
     name: "PopupOptionContainer",
     setup(_props, ctx) {
         const option: UnwrapRef<timer.option.PopupOption> = reactive(defaultPopup())
-        optionService.getAllOption().then(currentVal => {
-            // Remove total @since v1.3.4
-            currentVal.defaultType === 'total' && (currentVal.defaultType = 'focus')
-            copy(option, currentVal)
-        })
+        optionService.getAllOption().then(currentVal => copy(option, currentVal))
         ctx.expose({
             async reset() {
                 copy(option, defaultPopup())

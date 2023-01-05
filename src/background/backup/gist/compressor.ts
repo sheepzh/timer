@@ -19,7 +19,7 @@ function compress(rows: timer.stat.RowBase[]): GistData {
         row => row.date.substring(6),
         groupedRows => {
             const gistRow: GistRow = {}
-            groupedRows.forEach(({ host, focus, total, time }) => gistRow[host] = [time, focus, total])
+            groupedRows.forEach(({ host, focus, time }) => gistRow[host] = [time, focus])
             return gistRow
         }
     )
@@ -48,11 +48,12 @@ export function gistData2Rows(yearMonth: string, gistData: GistData): timer.stat
     Object.entries(gistData).forEach(([dateOfMonth, gistRow]) => {
         const date = yearMonth + dateOfMonth
         Object.entries(gistRow).forEach(([host, val]) => {
-            const [time, focus, total] = val
+            const [time, focus] = val
             const row: timer.stat.RowBase = {
                 date,
                 host,
-                time, focus, total
+                time,
+                focus
             }
             result.push(row)
         })

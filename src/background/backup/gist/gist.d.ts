@@ -15,6 +15,5 @@ declare type GistRow = {
     [host: string]: [
         number,     // Visit count
         number,     // Browsing time
-        number      // Running time
     ]
 }

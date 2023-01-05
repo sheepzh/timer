@@ -26,7 +26,7 @@ export default class IdleListener {
 
     listen() {
         if (!IS_SAFARI) {
-            // Idle does not work in macOs
+            // Idle does not work in Safari
             chrome.idle.onStateChanged.addListener(newState => listen(this.context, newState))
         }
     }

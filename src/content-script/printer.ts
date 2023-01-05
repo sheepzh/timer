@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t2Chrome } from "@i18n/chrome/t"
+import { t } from "./locale"
 import { formatPeriod } from "@util/time"
 
 function getTodayInfo(host: string): Promise<timer.stat.Result> {
@@ -24,20 +24,17 @@ function getTodayInfo(host: string): Promise<timer.stat.Result> {
  */
 export default async function printInfo(host: string) {
     const waste: timer.stat.Result = await getTodayInfo(host)
-    const hourMsg = t2Chrome(root => root.message.timeWithHour)
-    const minuteMsg = t2Chrome(root => root.message.timeWithMinute)
-    const secondMsg = t2Chrome(root => root.message.timeWithSecond)
+    const hourMsg = t(msg => msg.timeWithHour)
+    const minuteMsg = t(msg => msg.timeWithMinute)
+    const secondMsg = t(msg => msg.timeWithSecond)
 
     const msg = { hourMsg, minuteMsg, secondMsg }
 
-    const info0 = t2Chrome(root => root.message.openTimesConsoleLog)
+    const info0 = t(msg => msg.consoleLog)
         .replace('{time}', waste.time ? '' + waste.time : '-')
-        .replace('{host}', host)
-    const info1 = t2Chrome(root => root.message.usedTimeInConsoleLog)
         .replace('{focus}', formatPeriod(waste.focus, msg))
-        .replace('{total}', formatPeriod(waste.total, msg))
-    const info2 = t2Chrome(root => root.message.closeAlert)
+        .replace('{host}', host)
+    const info1 = t(msg => msg.closeAlert)
     console.log(info0)
     console.log(info1)
-    console.log(info2)
 }

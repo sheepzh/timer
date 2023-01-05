@@ -8,11 +8,6 @@
 export type ItemMessage = {
     date: string
     host: string
-    // @deprecated v1.3.4
-    total: string
-    // @since v1.3.4
-    // @deprecated v1.3.4
-    totalTip: string
     focus: string
     time: string
     operation: {
@@ -33,8 +28,6 @@ const _default: Messages<ItemMessage> = {
     zh_CN: {
         date: '日期',
         host: '域名',
-        total: '运行时长',
-        totalTip: '许多用户反应该数据实际作用不大。作者深思熟虑，打算于不久的将来下线它。如果您有疑问，欢迎提交反馈。',
         focus: '浏览时长',
         time: '打开次数',
         operation: {
@@ -53,8 +46,6 @@ const _default: Messages<ItemMessage> = {
     zh_TW: {
         date: '日期',
         host: '域名',
-        total: '運行時長',
-        totalTip: '許多用戶反應該數據實際作用不大。作者深思熟慮，打算於不久的將來下線它。如果您有疑問，歡迎提交反饋。',
         focus: '瀏覽時長',
         time: '訪問次數',
         operation: {
@@ -73,8 +64,6 @@ const _default: Messages<ItemMessage> = {
     en: {
         date: 'Date',
         host: 'Site URL',
-        total: 'Running Time',
-        totalTip: 'The author plans to take this column offline in the near future. If you have questions, feel free to submit feedback.',
         focus: 'Browsing Time',
         time: 'Site Visits',
         operation: {
@@ -93,8 +82,6 @@ const _default: Messages<ItemMessage> = {
     ja: {
         date: '日期',
         host: 'URL',
-        total: '実行時間',
-        totalTip: '著者は、近い将来にオフラインにする予定です。 ご不明な点がございましたら、お気軽にフィードバックを送信してください。',
         focus: '閲覧時間',
         time: '拜訪回数',
         operation: {
