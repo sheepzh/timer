@@ -50,10 +50,6 @@
 	<img src="./doc/screenshot/app.png" width="100%">
 </div>
 
----
-
-详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
-
 ## 贡献指南
 
 如果你想参与到该项目的开源建设，可以考虑以下几种方式
@@ -72,7 +68,7 @@
 
 #### 完善翻译
 
-除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [issue](https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes) 里提交翻译建议。
+除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox) 里提交翻译建议。
 
 #### 好评鼓励
 
