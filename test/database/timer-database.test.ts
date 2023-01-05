@@ -16,42 +16,42 @@ describe('timer-database', () => {
     beforeEach(async () => storage.local.clear())
 
     test('1', async () => {
-        await db.accumulate(baidu, now, resultOf(100, 100, 0))
+        await db.accumulate(baidu, now, resultOf(100, 0))
         const data: timer.stat.Result = await db.get(baidu, now)
-        expect(data).toEqual(resultOf(100, 100, 0))
+        expect(data).toEqual(resultOf(100, 0))
     })
 
     test('2', async () => {
-        await db.accumulate(baidu, now, resultOf(100, 200, 0))
-        await db.accumulate(baidu, now, resultOf(100, 200, 0))
+        await db.accumulate(baidu, now, resultOf(200, 0))
+        await db.accumulate(baidu, now, resultOf(200, 0))
         let data = await db.get(baidu, now)
-        expect(data).toEqual(resultOf(200, 400, 0))
-        await db.accumulate(baidu, now, resultOf(0, 0, 1))
+        expect(data).toEqual(resultOf(400, 0))
+        await db.accumulate(baidu, now, resultOf(0, 1))
         data = await db.get(baidu, now)
-        expect(data).toEqual(resultOf(200, 400, 1))
+        expect(data).toEqual(resultOf(400, 1))
     })
 
     test('3', async () => {
         await db.accumulateBatch(
             {
-                [google]: resultOf(11, 11, 0),
-                [baidu]: resultOf(1, 1, 0)
+                [google]: resultOf(11, 0),
+                [baidu]: resultOf(1, 0)
             }, now
         )
         expect((await db.select()).length).toEqual(2)
 
         await db.accumulateBatch(
             {
-                [google]: resultOf(12, 12, 1),
-                [baidu]: resultOf(2, 2, 1)
+                [google]: resultOf(12, 1),
+                [baidu]: resultOf(2, 1)
             }, yesterday
         )
         expect((await db.select()).length).toEqual(4)
 
         await db.accumulateBatch(
             {
-                [google]: resultOf(13, 13, 2),
-                [baidu]: resultOf(3, 3, 2)
+                [google]: resultOf(13, 2),
+                [baidu]: resultOf(3, 2)
             }, beforeYesterday
         )
         expect((await db.select()).length).toEqual(6)
@@ -72,9 +72,9 @@ describe('timer-database', () => {
         // By daterange
         cond = {}
         cond.date = [now, now]
-        const expectedResult = [
-            { date: nowStr, focus: 11, host: google, mergedHosts: [], time: 0, total: 11 },
-            { date: nowStr, focus: 1, host: baidu, mergedHosts: [], time: 0, total: 1 }
+        const expectedResult: timer.stat.Row[] = [
+            { date: nowStr, focus: 11, host: google, mergedHosts: [], time: 0 },
+            { date: nowStr, focus: 1, host: baidu, mergedHosts: [], time: 0 }
         ]
         expect(await db.select(cond)).toEqual(expectedResult)
         // Only use start
@@ -90,22 +90,9 @@ describe('timer-database', () => {
 
         // test item
         cond = {}
-        // No range, all returned
-        cond.totalRange = []
-        expect((await db.select(cond)).length).toEqual(6)
-        // Only 2 item
-        cond.totalRange = [, 2]
-        expect((await db.select(cond)).length).toEqual(2)
-        // Expect 1 item
-        cond.totalRange = [2,]
-        expect((await db.select(cond)).length).toEqual(5)
 
-        // focus [0,10] && total [2, unlimited)
+        // focus [0,10]
         cond.focusRange = [0, 10]
-        expect((await db.select(cond)).length).toEqual(2)
-
-        // only focus [0,10] 
-        cond.totalRange = []
         expect((await db.select(cond)).length).toEqual(3)
 
         // time [2, 3]
@@ -115,8 +102,8 @@ describe('timer-database', () => {
     })
 
     test('5', async () => {
-        await db.accumulate(baidu, now, resultOf(10, 10, 0))
-        await db.accumulate(baidu, yesterday, resultOf(10, 12, 0))
+        await db.accumulate(baidu, now, resultOf(10, 0))
+        await db.accumulate(baidu, yesterday, resultOf(12, 0))
         expect((await db.select()).length).toEqual(2)
         // Delete yesterday's data
         await db.deleteByUrlAndDate(baidu, yesterday)
@@ -125,8 +112,8 @@ describe('timer-database', () => {
         await db.deleteByUrlAndDate(baidu, yesterday)
         expect((await db.get(baidu, now)).focus).toEqual(10)
         // Add one again, and another
-        await db.accumulate(baidu, beforeYesterday, resultOf(1, 1, 1))
-        await db.accumulate(google, now, resultOf(0, 0, 0))
+        await db.accumulate(baidu, beforeYesterday, resultOf(1, 1))
+        await db.accumulate(google, now, resultOf(0, 0))
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
@@ -138,7 +125,7 @@ describe('timer-database', () => {
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again 
-        await db.accumulate(baidu, now, resultOf(1, 1, 1))
+        await db.accumulate(baidu, now, resultOf(1, 1))
         // But delete google
         await db.delete(list)
         // Then only one item of baidu
@@ -150,11 +137,11 @@ describe('timer-database', () => {
         expect((await db.select()).length).toEqual(0)
         // Return zero instance
         const result = await db.get(baidu, now)
-        expect([result.focus, result.time, result.total]).toEqual([0, 0, 0])
+        expect([result.focus, result.time]).toEqual([0, 0])
     })
 
     test('7', async () => {
-        const foo = resultOf(1, 1, 1)
+        const foo = resultOf(1, 1)
         await db.accumulate(baidu, now, foo)
         await db.accumulate(baidu, yesterday, foo)
         await db.accumulate(baidu, beforeYesterday, foo)
@@ -166,7 +153,7 @@ describe('timer-database', () => {
     })
 
     test("importData", async () => {
-        const foo = resultOf(1, 1, 1)
+        const foo = resultOf(1, 1)
         await db.accumulate(baidu, now, foo)
         const data2Import = await db.storage.get()
         storage.local.clear()
@@ -179,7 +166,6 @@ describe('timer-database', () => {
         expect(item.date).toEqual(formatTime(now, "{y}{m}{d}"))
         expect(item.host).toEqual(baidu)
         expect(item.focus).toEqual(1)
-        expect(item.total).toEqual(1)
         expect(item.time).toEqual(1)
     })
 
@@ -188,8 +174,7 @@ describe('timer-database', () => {
             // Valid
             "20210910github.com": {
                 focus: 1,
-                time: 1,
-                total: 1
+                time: 1
             },
             // Valid
             "20210911github.com": {
@@ -216,10 +201,10 @@ describe('timer-database', () => {
     })
 
     test("count", async () => {
-        await db.accumulate(baidu, now, resultOf(1, 1, 1))
-        await db.accumulate(baidu, yesterday, resultOf(1, 2, 1))
-        await db.accumulate(google, now, resultOf(1, 3, 1))
-        await db.accumulate(google, yesterday, resultOf(1, 4, 1))
+        await db.accumulate(baidu, now, resultOf(1, 1))
+        await db.accumulate(baidu, yesterday, resultOf(2, 1))
+        await db.accumulate(google, now, resultOf(3, 1))
+        await db.accumulate(google, yesterday, resultOf(4, 1))
         // Count by host
         expect(await db.count({
             host: baidu,

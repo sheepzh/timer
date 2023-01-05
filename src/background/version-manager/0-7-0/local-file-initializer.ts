@@ -8,7 +8,6 @@
 import MergeRuleDatabase from "@db/merge-rule-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { JSON_HOST, LOCAL_HOST_PATTERN, MERGED_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
-import IVersionProcessor from "../i-version-processor"
 import { t2Chrome } from "@i18n/chrome/t"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
@@ -21,7 +20,7 @@ const hostAliasDatabase = new HostAliasDatabase(storage)
  * 
  * @since 0.7.0
  */
-export default class LocalFileInitializer implements IVersionProcessor {
+export default class LocalFileInitializer implements VersionProcessor {
     since(): string {
         return '0.7.0'
     }

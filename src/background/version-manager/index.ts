@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import IVersionProcessor from "./i-version-processor"
 import HostMergeInitializer from "./0-1-2/host-merge-initializer"
 import LocalFileInitializer from "./0-7-0/local-file-initializer"
+import RunningTimeClear from "./1-4-3/running-time-clear"
 
 /**
  * Version manager
@@ -15,12 +15,13 @@ import LocalFileInitializer from "./0-7-0/local-file-initializer"
  * @since 0.1.2
  */
 class VersionManager {
-    processorChain: IVersionProcessor[] = []
+    processorChain: VersionProcessor[] = []
 
     constructor() {
         this.processorChain.push(
             new HostMergeInitializer(),
             new LocalFileInitializer(),
+            new RunningTimeClear(),
         )
         this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }

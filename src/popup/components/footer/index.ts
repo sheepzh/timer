@@ -82,8 +82,7 @@ class FooterWrapper {
 
         const option = await optionService.getAllOption()
         this.timeSelectWrapper.init(option.defaultDuration)
-        // Remove total @since v1.3.4
-        const defaultType = option.defaultType === 'total' ? 'focus' : option.defaultType
+        const defaultType = option.defaultType
         this.typeSelectWrapper.init(defaultType)
         this.mergeHostWrapper.init(option.defaultMergeDomain)
         this.query()
@@ -98,7 +97,6 @@ class FooterWrapper {
         const other: timer.popup.Row = {
             host: t(msg => msg.chart.otherLabel, { count: 0 }),
             focus: 0,
-            total: 0,
             date: '0000-00-00',
             time: 0,
             mergedHosts: [],
@@ -111,7 +109,6 @@ class FooterWrapper {
                 popupRows.push(row)
             } else {
                 other.focus += row.focus
-                other.total += row.total
                 otherCount++
             }
         }

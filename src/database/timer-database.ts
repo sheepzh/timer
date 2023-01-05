@@ -22,13 +22,6 @@ export type TimerCondition = {
      */
     host?: string
     /**
-     * Total range, milliseconds
-     * 
-     * @since 0.0.9
-     * @deprecated 1.3.4
-     */
-    totalRange?: number[]
-    /**
      * Focus range, milliseconds
      * 
      * @since 0.0.9
@@ -60,8 +53,6 @@ type _TimerCondition = TimerCondition & {
     timeEnd?: number
     focusStart?: number
     focusEnd?: number
-    totalStart?: number
-    totalEnd?: number
 }
 
 function processDateCondition(cond: _TimerCondition, paramDate: Date | Date[]) {
@@ -87,11 +78,7 @@ function processParamTimeCondition(cond: _TimerCondition, paramTime: number[]) {
     paramTime.length >= 2 && (cond.timeEnd = paramTime[1])
     paramTime.length >= 1 && (cond.timeStart = paramTime[0])
 }
-function processParamTotalCondition(cond: _TimerCondition, paramTotal: number[]) {
-    if (!paramTotal) return
-    paramTotal.length >= 2 && (cond.totalEnd = paramTotal[1])
-    paramTotal.length >= 1 && (cond.totalStart = paramTotal[0])
-}
+
 function processParamFocusCondition(cond: _TimerCondition, paramFocus: number[]) {
     if (!paramFocus) return
     paramFocus.length >= 2 && (cond.focusEnd = paramFocus[1])
@@ -102,14 +89,24 @@ function processCondition(condition: TimerCondition): _TimerCondition {
     const result: _TimerCondition = { ...condition }
     processDateCondition(result, condition.date)
     processParamTimeCondition(result, condition.timeRange)
-    processParamTotalCondition(result, condition.totalRange)
     processParamFocusCondition(result, condition.focusRange)
     return result
 }
 
 function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
     exist = exist || createZeroResult()
-    return mergeResult(exist, { total: another.total || 0, focus: another.focus || 0, time: another.time || 0 })
+    return mergeResult(exist, { focus: another.focus || 0, time: another.time || 0 })
+}
+
+/**
+ * Generate the key in local storage by host and date
+ * 
+ * @param host host
+ * @param date date
+ */
+function generateKey(host: string, date: Date | string) {
+    const str = typeof date === 'object' ? formatTime(date as Date, DATE_FORMAT) : date
+    return str + host
 }
 
 function migrate(exists: { [key: string]: timer.stat.Result }, data: any): { [key: string]: timer.stat.Result } {
@@ -142,22 +139,11 @@ class TimerDatabase extends BaseDatabase {
     }
 
     /**
-     * Generate the key in local storage by host and date
-     * 
-     * @param host host
-     * @param date date
-     */
-    private generateKey(host: string, date: Date | string) {
-        const str = typeof date === 'object' ? formatTime(date as Date, DATE_FORMAT) : date
-        return str + host
-    }
-
-    /**
      * @param host host
      * @since 0.1.3
      */
     async accumulate(host: string, date: Date | string, item: timer.stat.Result): Promise<void> {
-        const key = this.generateKey(host, date)
+        const key = generateKey(host, date)
         const items = await this.storage.get(key)
         const exist: timer.stat.Result = mergeResult(items[key] as timer.stat.Result || createZeroResult(), item)
         const toUpdate = {}
@@ -178,7 +164,7 @@ class TimerDatabase extends BaseDatabase {
         if (!hosts.length) return
         const dateStr = formatTime(date, DATE_FORMAT)
         const keys: { [host: string]: string } = {}
-        hosts.forEach(host => keys[host] = this.generateKey(host, dateStr))
+        hosts.forEach(host => keys[host] = generateKey(host, dateStr))
 
         const items = await this.storage.get(Object.values(keys))
 
@@ -210,8 +196,8 @@ class TimerDatabase extends BaseDatabase {
             const host = key.substring(8)
             const val: timer.stat.Result = items[key]
             if (this.filterBefore(date, host, val, _cond)) {
-                const { total, focus, time } = val
-                result.push({ date, host, total, focus, time, mergedHosts: [] })
+                const { focus, time } = val
+                result.push({ date, host, focus, time, mergedHosts: [] })
             }
         }
 
@@ -256,13 +242,12 @@ class TimerDatabase extends BaseDatabase {
      * @return true if valid, or false  
      */
     private filterBefore(date: string, host: string, val: timer.stat.Result, condition: _TimerCondition): boolean {
-        const { focus, total, time } = val
-        const { timeStart, timeEnd, totalStart, totalEnd, focusStart, focusEnd } = condition
+        const { focus, time } = val
+        const { timeStart, timeEnd, focusStart, focusEnd } = condition
 
         return this.filterHost(host, condition)
             && this.filterDate(date, condition)
             && this.filterNumberRange(time, [timeStart, timeEnd])
-            && this.filterNumberRange(total, [totalStart, totalEnd])
             && this.filterNumberRange(focus, [focusStart, focusEnd])
     }
 
@@ -272,8 +257,8 @@ class TimerDatabase extends BaseDatabase {
      * @since 0.0.5 
      */
     async get(host: string, date: Date): Promise<timer.stat.Result> {
-        const key = this.generateKey(host, date)
-        const items = await this.storage.get(null)
+        const key = generateKey(host, date)
+        const items = await this.storage.get(key)
         return Promise.resolve(items[key] || createZeroResult())
     }
 
@@ -285,7 +270,7 @@ class TimerDatabase extends BaseDatabase {
      * @since 0.0.5
      */
     async deleteByUrlAndDate(host: string, date: Date | string): Promise<void> {
-        const key = this.generateKey(host, date)
+        const key = generateKey(host, date)
         return this.storage.remove(key)
     }
 
@@ -296,8 +281,19 @@ class TimerDatabase extends BaseDatabase {
      * @since 0.0.9
      */
     async delete(rows: timer.stat.Row[]): Promise<void> {
-        const keys: string[] = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => this.generateKey(host, date))
+        const keys: string[] = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => generateKey(host, date))
         return this.storage.remove(keys)
+    }
+
+    /**
+     * Force update data
+     * 
+     * @since 1.4.3
+     */
+    forceUpdate(row: timer.stat.Row): Promise<void> {
+        const key = generateKey(row.host, row.date)
+        const result: timer.stat.Result = { time: row.time, focus: row.focus }
+        return this.storage.put(key, result)
     }
 
     /**

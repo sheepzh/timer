@@ -12,7 +12,6 @@ Timer is a browser extension to track the time you spent on all websites. It's b
 
 Timer can 
 
-- help you count the time each website running in your browser.
 - help you count the time you browsing and the visit count on each website.
 - help you count the time you read local files with browsers.
 - help you analyze your browsing habit by time period and display it as a histogram.

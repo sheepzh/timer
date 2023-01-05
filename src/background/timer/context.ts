@@ -7,27 +7,6 @@
 
 import optionService from "@service/option-service"
 
-export class TimeInfo {
-    focus: number
-    run: number
-
-    static zero() {
-        return this.of(0, 0)
-    }
-
-    static of(run: number, focus?: number): TimeInfo {
-        const info = new TimeInfo()
-        info.run = run || 0
-        info.focus = focus || 0
-        return info
-    }
-
-    selfIncrease(another: TimeInfo): void {
-        this.focus += another.focus
-        this.run += another.run
-    }
-}
-
 let countWhenIdle: boolean = false
 
 const setCountWhenIdle = (op: timer.option.AllOption) => countWhenIdle = op.countWhenIdle
@@ -55,23 +34,17 @@ export default class TimerContext {
         this.resetTimeMap()
     }
 
-    accumulate(host: string, timeInfo: TimeInfo) {
-        let data = this.timeMap[host]
-        !data && (this.timeMap[host] = data = TimeInfo.zero())
-        data.selfIncrease(timeInfo)
+    accumulate(host: string, url: string, focusTime: number) {
+        let data: TimeInfo = this.timeMap[host]
+        !data && (this.timeMap[host] = data = {})
+        let existFocusTime = data[url] || 0
+        data[url] = existFocusTime + focusTime
     }
 
     /**
      * Reset the time map
      */
     resetTimeMap(): void { this.timeMap = {} }
-
-    /**
-     * @returns The focus info
-     */
-    findFocus(): [host: string, timeInfo: TimeInfo] | undefined {
-        return Object.entries(this.timeMap).find(([_host, { focus }]) => focus)
-    }
 
     setIdle(idleNow: chrome.idle.IdleState) { this.idleState = idleNow }
 
