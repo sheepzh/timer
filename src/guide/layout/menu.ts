@@ -6,7 +6,6 @@
  */
 
 import { ref, VNode } from "vue"
-
 import ElementIcon from "@src/element-ui/icon"
 import { I18nKey, t } from "@guide/locale"
 import { ElIcon, ElMenu, ElMenuItem, ElSubMenu } from "element-plus"
@@ -16,18 +15,18 @@ import { User, Memo, MagicStick } from "@element-plus/icons-vue"
 
 type _Item = {
     title: I18nKey
-    position: string
+    position: Position
 }
 
 type _Group = {
     title: I18nKey
-    position: string
+    position: Position
     children: _Item[]
     icon: ElementIcon
 }
 
-const quickstartPosition = 'quickstart'
-const profilePosition = 'profile'
+const quickstartPosition: Position = 'usage.quickstart'
+const profilePosition: Position = 'profile'
 const menus: _Group[] = [
     {
         title: msg => msg.layout.menu.usage.title,
@@ -38,13 +37,13 @@ const menus: _Group[] = [
                 position: quickstartPosition
             }, {
                 title: msg => msg.layout.menu.usage.background,
-                position: 'background'
+                position: 'usage.background'
             }, {
                 title: msg => msg.layout.menu.usage.advanced,
-                position: 'advanced'
+                position: 'usage.advanced'
             }, {
                 title: msg => msg.layout.menu.usage.backup,
-                position: 'backup',
+                position: 'usage.backup',
             }
         ],
         icon: Memo
@@ -56,18 +55,18 @@ const menus: _Group[] = [
         children: [
             {
                 title: msg => msg.layout.menu.privacy.scope,
-                position: 'scope'
+                position: 'privacy.scope'
             },
             {
                 title: msg => msg.layout.menu.privacy.storage,
-                position: 'storage'
+                position: 'privacy.storage'
             },
         ],
 
     }
 ]
 
-function renderMenuItem(handleClick: (position: string) => void, item: _Item, index: number): VNode {
+function renderMenuItem(handleClick: (position: Position) => void, item: _Item, index: number): VNode {
     const { title, position } = item
     return h(ElMenuItem, {
         index: position,
@@ -75,11 +74,10 @@ function renderMenuItem(handleClick: (position: string) => void, item: _Item, in
     }, () => h('span', {}, `${index + 1}. ${t(title)}`))
 }
 
-function renderGroup(handleClick: (position: string) => void, group: _Group): VNode {
+function renderGroup(handleClick: (position: Position) => void, group: _Group): VNode {
     const { position, title, children, icon } = group
     return h(ElSubMenu, {
         index: position,
-        onClick: () => handleClick(position)
     }, {
         title: () => [
             h(ElIcon, () => h(icon)),
@@ -95,7 +93,7 @@ const _default = defineComponent({
     name: "GuideMenu",
     emits: ['click'],
     setup(_, ctx) {
-        const handleClick = (position: string) => ctx.emit('click', position)
+        const handleClick = (position: Position) => ctx.emit('click', position)
         const menuItems = () => [
             h(ElMenuItem, {
                 index: profilePosition,

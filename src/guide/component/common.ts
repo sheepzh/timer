@@ -3,13 +3,14 @@ import type { VNode } from "vue"
 
 import { t, tN } from "@guide/locale"
 import { h } from "vue"
+import { position2AnchorClz } from "@guide/util"
 
-export function h1(i18nKey: I18nKey, archorClz: string, i18nParam?: any): VNode {
-    return h('h1', { class: `guide-h1 archor-${archorClz}` }, t(i18nKey, i18nParam))
+export function h1(i18nKey: I18nKey, position: Position, i18nParam?: any): VNode {
+    return h('h1', { class: `guide-h1 ${position2AnchorClz(position)}` }, t(i18nKey, i18nParam))
 }
 
-export function h2(i18nKey: I18nKey, archorClz: string): VNode {
-    return h('h2', { class: `guide-h2 archor-${archorClz}` }, t(i18nKey))
+export function h2(i18nKey: I18nKey, position: Position): VNode {
+    return h('h2', { class: `guide-h2 ${position2AnchorClz(position)}` }, t(i18nKey))
 }
 
 export function paragraph(i18nKey: I18nKey, param?: any): VNode {

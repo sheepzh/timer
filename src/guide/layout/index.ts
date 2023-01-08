@@ -15,9 +15,9 @@ import Menu from "./menu"
 const _default = defineComponent({
     name: "Guide",
     render() {
-        const position: Ref<string> = ref()
+        const position: Ref<Position> = ref()
         return h(ElContainer, { class: 'guide-container' }, () => [
-            h(ElAside, {}, () => h(Menu, { onClick: (newPosition: string) => position.value = newPosition })),
+            h(ElAside, {}, () => h(Menu, { onClick: (newPosition: Position) => position.value = newPosition })),
             h(ElContainer, {
                 id: 'app-body'
             }, () => h(ElMain, {}, () => h(Content, { position: position.value })))
