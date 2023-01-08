@@ -4,7 +4,7 @@ import { h1, h2, paragraph, list, link, section, linkInner } from "./common"
 import { t } from "../locale"
 
 const quickstart = () => [
-    h2(msg => msg.layout.menu.usage.quickstart, 'quickstart'),
+    h2(msg => msg.layout.menu.usage.quickstart, 'usage.quickstart'),
     paragraph(msg => msg.usage.quickstart.p1),
     list(
         msg => msg.usage.quickstart.l1,
@@ -17,7 +17,7 @@ const quickstart = () => [
 const backgroundPageUrl = getAppPageUrl(false)
 
 const background = () => [
-    h2(msg => msg.layout.menu.usage.background, 'background'),
+    h2(msg => msg.layout.menu.usage.background, 'usage.background'),
     paragraph(msg => msg.usage.background.p1, {
         background: linkInner(backgroundPageUrl, t(msg => msg.usage.background.backgroundPage))
     }),
@@ -29,7 +29,7 @@ const background = () => [
 ]
 
 const advanced = () => [
-    h2(msg => msg.layout.menu.usage.advanced, 'advanced'),
+    h2(msg => msg.layout.menu.usage.advanced, 'usage.advanced'),
     paragraph(msg => msg.usage.advanced.p1),
     list(
         msg => msg.usage.advanced.l1,
@@ -46,7 +46,7 @@ const advanced = () => [
 ]
 
 const backup = () => [
-    h2(msg => msg.layout.menu.usage.backup, 'backup'),
+    h2(msg => msg.layout.menu.usage.backup, 'usage.backup'),
     paragraph(msg => msg.usage.backup.p1, { gist: link('https://gist.github.com/', 'Github Gist') }),
     list(
         [msg => msg.usage.backup.l1, {
