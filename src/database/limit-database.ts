@@ -74,12 +74,22 @@ class LimitDatabase extends BaseDatabase {
 
     async save(data: timer.limit.Rule, rewrite?: boolean): Promise<void> {
         const items = await this.getItems()
-        if (!rewrite && items[data.cond]) {
-            // Not rewrite
-            return
+        const { cond, time, enabled, allowDelay } = data
+        const existItem = items[cond]
+        if (existItem) {
+            if (!rewrite) {
+                // Not rewrite
+                return
+            }
+            // Rewrite
+            existItem.t = time
+            existItem.e = enabled
+            existItem.ad = allowDelay
+        } else {
+            // New one
+            items[cond] = { t: time, e: enabled, ad: allowDelay, w: 0, d: '' }
         }
-        items[data.cond] = { t: data.time, e: data.enabled, ad: data.allowDelay, w: 0, d: '' }
-        this.update(items)
+        await this.update(items)
     }
 
     async remove(cond: string): Promise<void> {

@@ -5,21 +5,22 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Delete } from "@element-plus/icons-vue"
+import { Delete, Edit } from "@element-plus/icons-vue"
 import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 
 const label = t(msg => msg.limit.item.operation)
 const deleteButtonText = t(msg => msg.limit.button.delete)
+const modifyButtonText = t(msg => msg.limit.button.modify)
 const _default = defineComponent({
     name: "LimitOperationColumn",
-    emits: ["rowDelete"],
+    emits: ["rowDelete", "rowModify"],
     setup(_props, ctx) {
         return () => h(ElTableColumn, {
             prop: 'operations',
             label,
-            minWidth: 80,
+            minWidth: 200,
             align: 'center',
         }, {
             default: ({ row }: { row: timer.limit.Item }) => [
@@ -34,7 +35,13 @@ const _default = defineComponent({
                             .then(() => ctx.emit("rowDelete", row, cond))
                             .catch(() => { /** Do nothing */ })
                     }
-                }, () => deleteButtonText)
+                }, () => deleteButtonText),
+                h(ElButton, {
+                    type: 'primary',
+                    size: 'small',
+                    icon: Edit,
+                    onClick: () => ctx.emit('rowModify', row),
+                }, () => modifyButtonText)
             ]
         })
     }

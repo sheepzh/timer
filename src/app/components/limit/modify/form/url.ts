@@ -5,49 +5,37 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { h, Ref } from "vue"
+import { defineComponent, h, PropType, ref, Ref, watch } from "vue"
 import clipboardy from "clipboardy"
 import { t } from "@app/locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
-import UrlPathItem from "./url-path-item"
 import { checkPermission, requestPermission } from "@src/permissions"
 import { IS_FIREFOX } from "@util/constant/environment"
+import { parseUrl } from "./common"
 
-export enum Protocol {
-    HTTP = 'http://',
-    HTTPS = 'https://',
-    ALL = '*://'
+const ALL_PROTOCOLS: Protocol[] = ['http://', 'https://', '*://']
+
+export function computeUrl(pathItems: UrlPart[]): string {
+    return pathItems.map(i => i.ignored ? '*' : i.origin || '').join('/')
 }
 
-type _Props = {
-    protocolRef: Ref<string>
-    pathItemsRef: Ref<UrlPathItem[]>
-    urlRef: Ref<string>
-}
+const protocolOptions = () => ALL_PROTOCOLS.map(prefix => h(ElOption, { value: prefix, label: prefix }))
 
-export type FormUrlProps = _Props
-
-const protocolOptions = () => Object.entries(Protocol)
-    .map(([_name, value]) => value)
-    .map(prefix => h(ElOption, { value: prefix, label: prefix }))
-
-const protocolSelect = (protocolRef: Ref<string>) => h(ElSelect, {
-    modelValue: protocolRef.value,
-    onChange: (val: string) => protocolRef.value = val
-}, protocolOptions)
-
-const url2PathItems = (url: string) => {
+function cleanUrl(url: string): string {
+    if (!url) {
+        return ''
+    }
     const querySign = url.indexOf('?')
     querySign > -1 && (url = url.substring(0, querySign))
     const hashSign = url.indexOf('#')
     hashSign > -1 && (url = url.substring(0, hashSign))
-    return url.split('/').filter(path => path).map(path => UrlPathItem.of(path))
+    return url
 }
 
 const PERMISSION = 'clipboardRead'
 const FIREFOX_NO_PERMISSION_MSG = t(msg => msg.limit.message.noPermissionFirefox)
 
-const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) => {
+async function handlePaste(urlHandler: (newUrl: string) => void, protocolHandler: (newProtocol: Protocol) => void) {
     let granted = await checkPermission(PERMISSION)
 
     if (!granted) {
@@ -67,46 +55,74 @@ const handlePaste = async (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathIt
         return
     }
 
-    let url = await clipboardy.read(), protocol = Protocol.ALL
-
-    url = decodeURI(url)?.trim()
-    if (url.startsWith(Protocol.HTTP)) {
-        protocol = Protocol.HTTP
-        url = url.substring(Protocol.HTTP.length)
-    } else if (url.startsWith(Protocol.HTTPS)) {
-        protocol = Protocol.HTTPS
-        url = url.substring(Protocol.HTTPS.length)
-    }
-    protocolRef.value = protocol
-    pathItemsRef.value = url2PathItems(url)
+    let fullUrl = await clipboardy.read()
+    const { protocol, url } = parseUrl(fullUrl)
+    protocolHandler?.(protocol)
+    urlHandler?.(cleanUrl(url))
 }
+
 const pasteButtonText = t(msg => msg.limit.button.paste)
-const urlPaste = (protocolRef: Ref<string>, pathItemsRef: Ref<UrlPathItem[]>) => h(ElButton,
-    {
-        onClick: () => handlePaste(protocolRef, pathItemsRef)
-    },
-    () => pasteButtonText
-)
 
 const placeholder = t(msg => msg.limit.urlPlaceholder)
 
-const urlInput = ({ protocolRef, urlRef, pathItemsRef }: _Props) => h(ElInput,
-    {
-        modelValue: urlRef.value,
-        clearable: true,
-        onClear: () => pathItemsRef.value = [],
-        // Disabled this input in the css to customized the styles
-        // @see ../style/el-input.sass
-        // @see this.onInput
-        // disabled: true,
-        onInput: (_val: string) => { /** Do nothing */ },
-        placeholder
+const _default = defineComponent({
+    name: 'LimitUrlFormItem',
+    emits: ['urlChange', 'protocolChange'],
+    props: {
+        url: String,
+        protocol: String as PropType<Protocol>,
+        disabled: {
+            type: Boolean,
+            defaultValue: false
+        }
     },
-    {
-        prefix: () => protocolSelect(protocolRef),
-        append: () => urlPaste(protocolRef, pathItemsRef)
-    }
-)
-const urlFormItem = (props: _Props) => h(ElFormItem, { label: t(msg => msg.limit.item.condition) }, () => urlInput(props))
+    setup(props, ctx) {
+        // protocol
+        const protocolRef: Ref<Protocol> = ref(props.protocol)
+        watch(() => props.protocol, () => protocolRef.value = props.protocol)
+        watch(protocolRef, () => ctx.emit('protocolChange', protocolRef.value))
+        // url
+        const urlRef: Ref<string> = ref(props.url)
+        watch(urlRef, () => ctx.emit('urlChange', urlRef.value))
+        watch(() => props.url, () => urlRef.value = props.url)
 
-export default urlFormItem
+        return () => h(ElFormItem, { label: t(msg => msg.limit.item.condition) },
+            () => {
+                const slots: any = {
+                    prefix: () => h(ElSelect, {
+                        modelValue: protocolRef.value,
+                        onChange: (val: string) => protocolRef.value = val as Protocol,
+                        disabled: props.disabled,
+                    }, protocolOptions),
+                }
+                !props.disabled && (slots.append = () => h(ElButton, {
+                    onClick: () => handlePaste(
+                        url => {
+                            urlRef.value = url
+                            ctx.emit('urlChange', url)
+                        },
+                        prot => protocolRef.value = prot
+                    )
+                }, () => pasteButtonText))
+
+                return h(ElInput, {
+                    modelValue: urlRef.value,
+                    clearable: !props.disabled,
+                    disabled: props.disabled,
+                    onClear() {
+                        urlRef.value = ''
+                        ctx.emit('urlChange', '')
+                    },
+                    // Disabled this input in the css to customized the styles
+                    // @see ../style/el-input.sass
+                    // @see this.onInput
+                    // disabled: true,
+                    onInput: (_val: string) => { /** Do nothing */ },
+                    placeholder
+                }, slots)
+            }
+        )
+    }
+})
+
+export default _default

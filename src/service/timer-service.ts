@@ -26,10 +26,7 @@ const hostAliasDatabase = new HostAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
 const optionDatabase = new OptionDatabase(storage)
 
-export enum SortDirect {
-    ASC = 1,
-    DESC = -1
-}
+export type SortDirect = 'ASC' | 'DESC'
 
 export type TimerQueryParam = TimerCondition & {
     /**
@@ -145,12 +142,12 @@ class TimerService {
         const { sort, sortOrder } = param
         if (!sort) return
 
-        const order = sortOrder || SortDirect.ASC
+        const order = sortOrder || 'ASC'
         origin.sort((a, b) => {
             const aa = a[sort]
             const bb = b[sort]
             if (aa === bb) return 0
-            return order * (aa > bb ? 1 : -1)
+            return (order === 'ASC' ? 1 : -1) * (aa > bb ? 1 : -1)
         })
     }
 

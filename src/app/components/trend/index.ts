@@ -13,7 +13,7 @@ import { daysAgo } from "@util/time"
 import ContentContainer from "../common/content-container"
 import TrendChart from "./components/chart"
 import TrendFilter from "./components/filter"
-import timerService, { SortDirect, TimerQueryParam } from "@service/timer-service"
+import timerService, { TimerQueryParam } from "@service/timer-service"
 
 type _Queries = {
     host: string
@@ -41,7 +41,7 @@ async function query(hostOption: Ref<timer.app.trend.HostInfo>, dateRange: Ref<D
         date: dateRange.value,
         fullHost: true,
         sort: 'date',
-        sortOrder: SortDirect.ASC
+        sortOrder: 'ASC'
     }
     return await timerService.select(param)
 }

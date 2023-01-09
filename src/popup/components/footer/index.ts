@@ -13,7 +13,7 @@ import TotalInfoWrapper from "./total-info"
 import MergeHostWrapper from "./merge-host"
 import TimeSelectWrapper from "./select/time-select"
 import TypeSelectWrapper from "./select/type-select"
-import timerService, { SortDirect } from "@service/timer-service"
+import timerService from "@service/timer-service"
 import { t } from "@popup/locale"
 // Import from i18n
 import { locale } from "@i18n"
@@ -136,7 +136,7 @@ class FooterWrapper {
             date: calculateDateRange(duration, weekStart),
             mergeHost: this.mergeHostWrapper.mergedHost(),
             sort: this.typeSelectWrapper.getSelectedType(),
-            sortOrder: SortDirect.DESC,
+            sortOrder: 'DESC',
             chartTitle: t(msg => msg.chart.title[duration]),
             mergeDate: true,
         }
