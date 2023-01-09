@@ -43,7 +43,7 @@ const _default = defineComponent({
                     onlyEnabled.value = option.onlyEnabled
                     queryData()
                 },
-                onCreate: () => modify.value?.show?.()
+                onCreate: () => modify.value?.create?.()
             }),
             content: () => [
                 h(LimitTable, {
@@ -54,6 +54,9 @@ const _default = defineComponent({
                         await limitService.remove(row)
                         ElMessage.success(t(msg => msg.limit.message.deleted))
                         queryData()
+                    },
+                    async onModify(row: timer.limit.Item) {
+                        modify.value?.modify?.(row)
                     }
                 }),
                 h(Modify, {
