@@ -8,7 +8,24 @@
 const STORAGE_KEY = "_logOpen"
 const STORAGE_VAL = "1"
 
-let OPEN_LOG = localStorage.getItem(STORAGE_KEY) === STORAGE_VAL
+let OPEN_LOG = false
+
+// localStorage is not undefined in mv3 of service worker
+function initOpenLog() {
+    try {
+        localStorage.getItem(STORAGE_KEY) === STORAGE_VAL
+    } catch (ignored) { }
+}
+
+function updateLocalStorage(openState: boolean) {
+    try {
+        openState
+            ? localStorage.setItem(STORAGE_KEY, STORAGE_VAL)
+            : localStorage.removeItem(STORAGE_KEY)
+    } catch (ignored) { }
+}
+
+initOpenLog()
 
 /**
  * @since 0.0.4
@@ -22,8 +39,7 @@ export function log(...args: any) {
  * @since 0.0.4
  */
 export function openLog(): string {
-    OPEN_LOG = true
-    localStorage.setItem(STORAGE_KEY, STORAGE_VAL)
+    updateLocalStorage(OPEN_LOG = true)
     return 'Opened the log manually.'
 }
 
@@ -31,7 +47,6 @@ export function openLog(): string {
  * @since 0.0.8
  */
 export function closeLog(): string {
-    OPEN_LOG = false
-    localStorage.removeItem(STORAGE_KEY)
+    updateLocalStorage(OPEN_LOG = false)
     return 'Closed the log manually.'
 }
