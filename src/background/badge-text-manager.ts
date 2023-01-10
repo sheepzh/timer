@@ -8,6 +8,7 @@
 import TimerDatabase from "@db/timer-database"
 import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
+import { IS_MV3 } from "@util/constant/environment"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const storage = chrome.storage.local
@@ -38,12 +39,14 @@ function mill2Str(milliseconds: number) {
 
 function setBadgeTextOfMills(milliseconds: number | undefined, tabId: number | undefined) {
     const text = milliseconds === undefined ? '' : mill2Str(milliseconds)
-    chrome.browserAction?.setBadgeText?.({ text, tabId })
     setBadgeText(text, tabId)
 }
 
 function setBadgeText(text: string, tabId: number | undefined) {
-    chrome.browserAction?.setBadgeText?.({ text, tabId })
+    // mv3 use chrome.action
+    // mv2 use chrome.browserAction
+    const action = IS_MV3 ? chrome.action : chrome.browserAction
+    action?.setBadgeText?.({ text, tabId })
 }
 
 function findFocusedWindow(): Promise<chrome.windows.Window> {

@@ -72,7 +72,8 @@ const handleTabActivated = (activeInfo: chrome.tabs.TabActiveInfo) => updateCont
 async function init() {
     chrome.contextMenus.create(menuInitialOptions, () => {
         const error: chrome.runtime.LastError = chrome.runtime.lastError
-        error && console.error("Failed to create menu for whitelist: ", error)
+        const duplicated = error?.message?.startsWith('Cannot create item with duplicate id')
+        duplicated && console.log("Duplicated item: " + menuInitialOptions.id)
     })
     chrome.tabs.onUpdated.addListener(handleTabUpdated)
     chrome.tabs.onActivated.addListener(handleTabActivated)
