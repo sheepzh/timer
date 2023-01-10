@@ -8,6 +8,7 @@
 import TimeLimitItem from "@entity/time-limit-item"
 import optionService from "@service/option-service"
 import { t2Chrome } from "@i18n/chrome/t"
+import { t } from "./locale"
 
 function moreMinutes(url: string): Promise<timer.limit.Item[]> {
     const request: timer.mq.Request<string> = {
@@ -52,6 +53,9 @@ class _Modal {
     }
 
     showModal(showDelay: boolean) {
+        if (!document.body) {
+            return
+        }
         const _thisUrl = this.url
         if (showDelay && this.mask.childElementCount === 1) {
             this.delayContainer = document.createElement('p')
@@ -62,7 +66,7 @@ class _Modal {
             const link = document.createElement('a')
             Object.assign(link.style, linkStyle)
             link.setAttribute('href', 'javascript:void(0)')
-            const text = t2Chrome(msg => msg.message.more5Minutes)
+            const text = t(msg => msg.more5Minutes)
             link.innerText = text
             link.onclick = async () => {
                 const delayRules = await moreMinutes(_thisUrl)
@@ -84,7 +88,7 @@ class _Modal {
     }
 
     hideModal() {
-        if (!this.visible) {
+        if (!this.visible || !document.body) {
             return
         }
         this.mask.remove()
@@ -147,7 +151,7 @@ function link2Setup(url: string): HTMLParagraphElement {
     const link = document.createElement('a')
     Object.assign(link.style, linkStyle)
     link.setAttribute('href', 'javascript:void(0)')
-    const text = t2Chrome(msg => msg.message.timeLimitMsg)
+    const text = t(msg => msg.timeLimitMsg)
         .replace('{appName}', t2Chrome(msg => msg.meta.name))
     link.innerText = text
     link.onclick = () => chrome.runtime.sendMessage(openLimitPageMessage(url))

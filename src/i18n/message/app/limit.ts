@@ -27,6 +27,7 @@ export type LimitMessage = {
         paste: string
         save: string
         delete: string
+        modify: string
     }
     timeUnit: {
         hour: string
@@ -62,6 +63,7 @@ const _default: Messages<LimitMessage> = {
             paste: '粘贴',
             save: '保存',
             delete: '删除',
+            modify: '修改',
         },
         addTitle: '新增限制',
         useWildcard: '是否使用通配符',
@@ -98,6 +100,7 @@ const _default: Messages<LimitMessage> = {
             paste: '粘貼',
             save: '保存',
             delete: '刪除',
+            modify: '修改',
         },
         addTitle: '新增限製',
         useWildcard: '是否使用通配符',
@@ -134,6 +137,7 @@ const _default: Messages<LimitMessage> = {
             paste: 'Paste',
             save: 'Save',
             delete: 'Delete',
+            modify: 'Modify',
         },
         addTitle: 'New',
         useWildcard: 'Whether to use wildcard',
@@ -170,6 +174,7 @@ const _default: Messages<LimitMessage> = {
             paste: 'ペースト',
             save: 'セーブ',
             delete: '削除',
+            modify: '変更',
         },
         addTitle: '新增',
         useWildcard: 'ワイルドカードを使用するかどうか',

@@ -10,7 +10,6 @@
 
 网费很贵是一款用于上网时间统计的浏览器插件，使用 webpack，TypeScript 和 Element-plus 进行开发。你可以在 Firefox，Chrome 和 Edge 中安装并使用它。
 
-- 统计网站的运行时间
 - 统计用户在不同网站上的浏览时间，和访问次数
 - 统计用户阅读本地文件的时间
 - 网站白名单，过滤不需要统计的网站
@@ -51,10 +50,6 @@
 	<img src="./doc/screenshot/app.png" width="100%">
 </div>
 
----
-
-详细展示图文：[douban.com](https://www.douban.com/group/topic/213888429/)
-
 ## 贡献指南
 
 如果你想参与到该项目的开源建设，可以考虑以下几种方式
@@ -73,7 +68,7 @@
 
 #### 完善翻译
 
-除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [issue](https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes) 里提交翻译建议。
+除了简体中文外，该扩展另外的本地化语言都依赖机翻。所以也非常欢迎您在 [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox) 里提交翻译建议。
 
 #### 好评鼓励
 

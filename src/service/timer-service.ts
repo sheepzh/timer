@@ -26,10 +26,7 @@ const hostAliasDatabase = new HostAliasDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
 const optionDatabase = new OptionDatabase(storage)
 
-export enum SortDirect {
-    ASC = 1,
-    DESC = -1
-}
+export type SortDirect = 'ASC' | 'DESC'
 
 export type TimerQueryParam = TimerCondition & {
     /**
@@ -77,22 +74,26 @@ export type HostSet = {
     merged: Set<string>
 }
 
+function calcFocusInfo(timeInfo: TimeInfo): number {
+    return Object.values(timeInfo).reduce((a, b) => a + b, 0)
+}
+
 /**
  * Service of timer
  * @since 0.0.5
  */
 class TimerService {
 
-    async addFocusAndTotal(data: { [host: string]: { run: number, focus: number } }): Promise<timer.stat.ResultSet> {
+    async addFocusAndTotal(data: { [host: string]: TimeInfo }): Promise<timer.stat.ResultSet> {
         const toUpdate = {}
         Object.entries(data)
             .filter(([host]) => whitelistHolder.notContains(host))
-            .forEach(([host, item]) => toUpdate[host] = resultOf(item.run, item.focus, 0))
+            .forEach(([host, timeInfo]) => toUpdate[host] = resultOf(calcFocusInfo(timeInfo), 0))
         return timerDatabase.accumulateBatch(toUpdate, new Date())
     }
 
     async addOneTime(host: string) {
-        timerDatabase.accumulate(host, new Date(), resultOf(0, 0, 1))
+        timerDatabase.accumulate(host, new Date(), resultOf(0, 1))
     }
 
     /**
@@ -141,12 +142,12 @@ class TimerService {
         const { sort, sortOrder } = param
         if (!sort) return
 
-        const order = sortOrder || SortDirect.ASC
+        const order = sortOrder || 'ASC'
         origin.sort((a, b) => {
             const aa = a[sort]
             const bb = b[sort]
             if (aa === bb) return 0
-            return order * (aa > bb ? 1 : -1)
+            return (order === 'ASC' ? 1 : -1) * (aa > bb ? 1 : -1)
         })
     }
 
@@ -246,7 +247,6 @@ class TimerService {
                 if (exist) {
                     exist.focus += row.focus || 0
                     exist.time += row.time || 0
-                    exist.total += row.total || 0
                 } else {
                     originMap[key] = { ...row, mergedHosts: [] }
                 }
@@ -329,7 +329,6 @@ class TimerService {
         }
         exist.time += origin.time
         exist.focus += origin.focus
-        exist.total += origin.total
 
         origin.mergedHosts && origin.mergedHosts.forEach(originHost =>
             !exist.mergedHosts.find(existOrigin => existOrigin.host === originHost.host) && exist.mergedHosts.push(originHost)

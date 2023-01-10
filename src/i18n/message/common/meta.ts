@@ -23,7 +23,7 @@ const _default: Messages<MetaMessage> = {
     },
     en: {
         name: 'Timer',
-        marketName: 'Timer - Running & Browsing Time & Visit count',
+        marketName: 'Timer - Browsing Time & Visit count',
         description: 'To be the BEST web timer.',
     },
 }

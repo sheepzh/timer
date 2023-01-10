@@ -6,7 +6,6 @@
  */
 
 import MergeRuleDatabase from "@db/merge-rule-database"
-import IVersionProcessor from "../i-version-processor"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
@@ -15,7 +14,8 @@ const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
  * 
  * Initialize the merge rules
  */
-export default class HostMergeInitializer implements IVersionProcessor {
+export default class HostMergeInitializer implements VersionProcessor {
+
     since(): string {
         return '0.1.2'
     }

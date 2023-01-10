@@ -18,7 +18,7 @@ import TooltipComponent from "@echarts/component/tooltip"
 
 use([PieChart, TitleComponent, TooltipComponent])
 
-import timerService, { SortDirect } from "@service/timer-service"
+import timerService from "@service/timer-service"
 import { MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
@@ -113,7 +113,7 @@ const _default = defineComponent({
             const query: TimerQueryParam = {
                 date: [startTime, now],
                 sort: "time",
-                sortOrder: SortDirect.DESC,
+                sortOrder: 'DESC',
                 mergeDate: true,
             }
             const top: timer.stat.Row[] = (await timerService.selectByPage(query, { num: 1, size: TOP_NUM }, { alias: true })).list

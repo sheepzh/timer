@@ -8,6 +8,7 @@
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import timerService from "@service/timer-service"
+import { sum } from "@util/array"
 import CollectionContext from "./collection-context"
 
 function sendLimitedMessage(item: timer.limit.Item[]) {
@@ -30,16 +31,19 @@ function sendLimitedMessage(item: timer.limit.Item[]) {
 export default async function save(collectionContext: CollectionContext) {
     const context = collectionContext.timerContext
     if (context.isPaused()) return
-    timerService.addFocusAndTotal(context.timeMap)
-    const focusEntry = context.findFocus()
-
-    if (focusEntry) {
-        // Add period time
-        periodService.add(context.lastCollectTime, focusEntry[1].focus)
-        // Add limit time
-        const limitedRules = await limitService.addFocusTime(collectionContext.focusHost, collectionContext.focusUrl, focusEntry[1].focus)
-        // If time limited after this operation, send messages
-        limitedRules && limitedRules.length && sendLimitedMessage(limitedRules)
+    const timeMap = context.timeMap
+    timerService.addFocusAndTotal(timeMap)
+    const totalFocusTime = sum(Object.values(timeMap).map(timeInfo => sum(Object.values(timeInfo))))
+    // Add period time
+    await periodService.add(context.lastCollectTime, totalFocusTime)
+    for (const [host, timeInfo] of Object.entries(timeMap)) {
+        for (const [url, focusTime] of Object.entries(timeInfo)) {
+            // Add limit time
+            const limitedRules = await limitService.addFocusTime(host, url, focusTime)
+            // If time limited after this operation, send messages
+            limitedRules && limitedRules.length && sendLimitedMessage(limitedRules)
+        }
     }
+
     context.resetTimeMap()
 }

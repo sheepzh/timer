@@ -12,7 +12,6 @@ Timer is a browser extension to track the time you spent on all websites. It's b
 
 Timer can 
 
-- help you count the time each website running in your browser.
 - help you count the time you browsing and the visit count on each website.
 - help you count the time you read local files with browsers.
 - help you analyze your browsing habit by time period and display it as a histogram.
@@ -55,7 +54,7 @@ If you know how to develop browser extensions and are familiar with the project'
 
 #### 3. Perfect translation
 
-In addition to Simplified Chinese, the other localized languages of this software all rely on machine translation. You can also submit translation suggestions with [issues](https://github.com/sheepzh/timer/issues/new?assignees=&labels=locale&template=translation-------.md&title=Report+translation+mistakes).
+In addition to Simplified Chinese, the other localized languages of this software all rely on machine translation. You can also submit translation suggestions on [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox).
 
 #### 4. Rate 5 stars
 

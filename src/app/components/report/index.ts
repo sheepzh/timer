@@ -13,7 +13,7 @@ import type { Router, RouteLocation } from "vue-router"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
-import timerService, { SortDirect } from "@service/timer-service"
+import timerService from "@service/timer-service"
 import whitelistService from "@service/whitelist-service"
 import './styles/element'
 import ReportTable, { ElSortDirect } from "./table"
@@ -197,7 +197,7 @@ function computeTimerQueryParam(filterOption: timer.app.report.FilterOption, sor
         mergeHost: filterOption.mergeHost,
         mergeDate: filterOption.mergeDate,
         sort: sort.prop,
-        sortOrder: sort.order === ElSortDirect.ASC ? SortDirect.ASC : SortDirect.DESC
+        sortOrder: sort.order === ElSortDirect.ASC ? 'ASC' : 'DESC'
     }
 }
 

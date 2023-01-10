@@ -6,8 +6,8 @@
  */
 
 import { ElDialog, ElMessage } from "element-plus"
-import { defineComponent, h, ref, Ref } from "vue"
-import Form, { FormData } from "./form"
+import { defineComponent, h, nextTick, ref, Ref } from "vue"
+import Form from "./form"
 import Footer from "./footer"
 import LimitDatabase from "@db/limit-database"
 import { t } from "@app/locale"
@@ -21,9 +21,23 @@ const _default = defineComponent({
     setup: (_, ctx) => {
         const visible: Ref<boolean> = ref(false)
         const form: Ref = ref()
+        const mode: Ref<Mode> = ref()
+        // Cache
+        let modifyingItem: timer.limit.Item = undefined
 
         ctx.expose({
-            show: () => visible.value = true,
+            create() {
+                visible.value = true
+                mode.value = 'create'
+                modifyingItem = undefined
+                nextTick(() => form.value?.clean?.())
+            },
+            modify(row: timer.limit.Item) {
+                visible.value = true
+                mode.value = 'modify'
+                modifyingItem = { ...row }
+                nextTick(() => form.value?.modify?.(row))
+            },
             hide: () => visible.value = false
         })
 
@@ -36,8 +50,8 @@ const _default = defineComponent({
             default: () => h(Form, { ref: form }),
             footer: () => h(Footer, {
                 async onSave() {
-                    const { url, timeLimit }: FormData = form.value?.getData?.()
-                    if (!url) {
+                    const { condition, timeLimit }: FormInfo = form.value?.getData?.()
+                    if (!condition) {
                         ElMessage.warning(noUrlError)
                         return
                     }
@@ -45,12 +59,16 @@ const _default = defineComponent({
                         ElMessage.warning(noTimeError)
                         return
                     }
-                    const toInsert: timer.limit.Rule = { cond: url, time: timeLimit, enabled: true, allowDelay: true }
-                    await db.save(toInsert)
+                    const toSave: timer.limit.Rule = { cond: condition, time: timeLimit, enabled: true, allowDelay: true }
+                    if (mode.value === 'modify' && modifyingItem) {
+                        toSave.enabled = modifyingItem.enabled
+                        toSave.allowDelay = modifyingItem.allowDelay
+                    }
+                    await db.save(toSave, mode.value === 'modify')
                     visible.value = false
                     ElMessage.success(t(msg => msg.limit.message.saved))
                     form.value?.clean?.()
-                    ctx.emit("save", toInsert)
+                    ctx.emit("save", toSave)
                 }
             })
         })

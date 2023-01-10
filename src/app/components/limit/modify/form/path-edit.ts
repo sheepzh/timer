@@ -6,20 +6,19 @@
  */
 
 import { ElSwitch, ElTag, ElTooltip } from "element-plus"
-import { h, Ref, VNode } from "vue"
+import { defineComponent, h, ref, Ref, VNode } from "vue"
 import { t } from "@app/locale"
-import UrlPathItem from "./url-path-item"
 
-type _Props = {
-    pathItemsRef: Ref<UrlPathItem[]>
-}
+const switchStyle: Partial<CSSStyleDeclaration> = { marginRight: '2px' }
 
-const switchStyle = { marginRight: '2px' }
-const tagContent = (item: UrlPathItem, index: number, arr: UrlPathItem[]) => {
+const tagContent = (item: UrlPart, index: number, callback: Function) => {
     const result: VNode[] = []
     if (!!index) {
         const modelValue = item.ignored
-        const onChange = (val: boolean) => item.ignored = val
+        const onChange = (val: boolean) => {
+            item.ignored = val
+            callback?.()
+        }
         const switchNode = h(ElSwitch, { style: switchStyle, modelValue, onChange })
 
         const tooltipNode = h(ElTooltip, { content: t(msg => msg.limit.useWildcard) }, { default: () => switchNode })
@@ -29,20 +28,22 @@ const tagContent = (item: UrlPathItem, index: number, arr: UrlPathItem[]) => {
     return result
 }
 
-const tabStyle = { marginBottom: '5px' }
-const item2Tag = (item: UrlPathItem, index: number, arr: UrlPathItem[]) => {
+const tabStyle: Partial<CSSStyleDeclaration> = {
+    marginBottom: '5px',
+    marginRight: '0',
+}
+
+const item2Tag = (item: UrlPart, index: number, arr: UrlPart[], onChange: Function) => {
     const isNotHost: boolean = !!index
-    return h(ElTag,
-        {
-            type: isNotHost ? '' : 'info',
-            closable: isNotHost,
-            onClose: () => arr.splice(index),
-            style: tabStyle
+    return h(ElTag, {
+        type: isNotHost ? '' : 'info',
+        closable: isNotHost,
+        onClose: () => {
+            arr.splice(index)
+            onChange?.()
         },
-        {
-            default: () => tagContent(item, index, arr)
-        }
-    )
+        style: tabStyle
+    }, () => tagContent(item, index, onChange))
 }
 const combineStyle = {
     fontSize: '14px',
@@ -55,6 +56,38 @@ const combineTags = (arr: VNode[], current: VNode) => {
     return arr
 }
 
-const _default = (props: _Props) => h('div', {}, props.pathItemsRef.value.map(item2Tag).reduce(combineTags, []))
+function url2PathItems(url: string): UrlPart[] {
+    return url.split('/').filter(path => path).map(path => ({ origin: path, ignored: path === '*' }))
+}
+
+function pathItems2Url(pathItems: UrlPart[]): string {
+    return pathItems.map(i => i.ignored ? '*' : i.origin || '').join('/')
+}
+
+const _default = defineComponent({
+    name: 'LimitPathEdit',
+    props: {
+        url: {
+            type: String,
+            required: false,
+            defaultValue: ''
+        },
+    },
+    emits: ['urlChange'],
+    setup(props, ctx) {
+        const url = props.url
+        const items: Ref<UrlPart[]> = ref(url2PathItems(url))
+        ctx.expose({
+            forceUpdateUrl(url: string) {
+                items.value = url2PathItems(url)
+            }
+        })
+        const handleUrlChange = () => ctx.emit('urlChange', pathItems2Url(items.value))
+        return () => h('div', {}, items.value
+            .map((item, index, arr) => item2Tag(item, index, arr, handleUrlChange))
+            .reduce(combineTags, [])
+        )
+    }
+})
 
 export default _default

@@ -12,7 +12,6 @@ export type DataManageMessage = {
     operationAlert: string
     filterItems: string
     filterFocus: string
-    filterTotal: string
     filterTime: string
     filterDate: string
     unlimited: string
@@ -39,7 +38,6 @@ const _default: Messages<DataManageMessage> = {
         operationAlert: '您可以归档或者删除那些无关紧要的数据，来减小内存空间',
         filterItems: '数据筛选',
         filterFocus: '当日阅览时间在 {start} 秒至 {end} 秒之间。',
-        filterTotal: '当日运行时间在 {start} 秒至 {end} 秒之间。',
         filterTime: '当日打开次数在 {start} 次至 {end} 次之间。',
         filterDate: '{picker} 产生的数据。',
         unlimited: '无限',
@@ -64,7 +62,6 @@ const _default: Messages<DataManageMessage> = {
         operationAlert: '您可以歸檔或者刪除那些無關緊要的數據，來減小內存空間',
         filterItems: '數據篩選',
         filterFocus: '當日閱覽時間在 {start} 秒至 {end} 秒之間。',
-        filterTotal: '當日運行時間在 {start} 秒至 {end} 秒之間。',
         filterTime: '當日打開次數在 {start} 次至 {end} 次之間。',
         filterDate: '{picker} 産生的數據。',
         unlimited: '無限',
@@ -89,7 +86,6 @@ const _default: Messages<DataManageMessage> = {
         operationAlert: 'You can delete those unimportant data to reduce memory usage',
         filterItems: 'Filter data',
         filterFocus: 'The browsing time of the day is between {start} seconds and {end} seconds',
-        filterTotal: 'The running time of the day is between {start} seconds and {end} seconds',
         filterTime: 'The number of visits for the day is between {start} and {end}',
         filterDate: 'Recorded between {picker}',
         unlimited: '∞',
@@ -114,7 +110,6 @@ const _default: Messages<DataManageMessage> = {
         operationAlert: '不要なデータを削除してメモリ容量を減らすことができます',
         filterItems: 'データフィルタリング',
         filterFocus: '当日の閲覧時間は、{start} 秒から {end} 秒の間です。',
-        filterTotal: '当日の実行時間は、{start} 秒から {end} 秒の間です。',
         filterTime: '当日のオープン数は {start} から {end} の間です。',
         filterDate: '{picker} までに生成されたデータ',
         unlimited: '無制限',

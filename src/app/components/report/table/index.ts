@@ -14,7 +14,6 @@ import DateColumn from "./columns/date"
 import HostColumn from "./columns/host"
 import AliasColumn from "./columns/alias"
 import FocusColumn from "./columns/focus"
-import TotalColumn from "./columns/total"
 import TimeColumn from "./columns/time"
 import OperationColumn from "./columns/operation"
 
@@ -68,7 +67,6 @@ const _default = defineComponent({
             }))
             result.push(h(FocusColumn, { timeFormat: props.timeFormat }))
             result.push(h(TimeColumn))
-            result.push(h(TotalColumn, { timeFormat: props.timeFormat }))
             result.push(h(OperationColumn, {
                 mergeDate: props.mergeDate,
                 mergeHost: props.mergeHost,

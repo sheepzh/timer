@@ -30,10 +30,17 @@ type _AdvancedKey =
     | 'l7'
     | 'l8'
 
+type _BackupKey =
+    | 'p1'
+    | 'l1'
+    | 'l2'
+    | 'l3'
+
 export type UsageMessage = {
     quickstart: { [key in _QuickstartKey]: string }
     background: { [key in _BackgroundKey]: string }
     advanced: { [key in _AdvancedKey]: string }
+    backup: { [key in _BackupKey]: string }
 }
 
 const _default: Messages<UsageMessage> = {
@@ -63,6 +70,12 @@ const _default: Messages<UsageMessage> = {
             l7: '7. 它支持夜间模式，同样需要在选项里启用。',
             l8: '8. 它支持使用 Github Gist 作为云端存储多个浏览器的数据，并进行聚合查询。需要您准备一个至少包含 gist 权限的 token。',
         },
+        backup: {
+            p1: '您可以按以下步骤使用 {gist} 备份您的数据。之后，您可在其他终端上查询已备份数据。',
+            l1: '1. 首先，您需要在 Github 生成一个包含 gist 权限的 {token}。',
+            l2: '2. 然后在选项页面将同步方式选为 Github Gist，将你的 token 填入下方出现的输入框中。',
+            l3: '3. 最后，点击备份按钮即可将本地数据导入到你的 gist 里。'
+        },
     },
     zh_TW: {
         quickstart: {
@@ -89,6 +102,12 @@ const _default: Messages<UsageMessage> = {
             l6: '6. 它支持限制每個網站的每日瀏覽時長，需要您手動添加限制規則。',
             l7: '7. 它支持夜間模式，同樣需要在選項裡啟用。',
             l8: '8. 它支持使用 Github Gist 作為雲端存儲多個瀏覽器的數據，並進行聚合查詢。需要您準備一個至少包含 gist 權限的 token。',
+        },
+        backup: {
+            p1: '您可以按以下步驟使用 {gist} 備份您的數據。之後，您可在其他終端上查詢已備份數據。',
+            l1: '1. 首先，您需要在 Github 生成一個包含 gist 權限的 {token}。',
+            l2: '2. 然後在選項頁面將同步方式選為 Github Gist，將你的 token 填入下方出現的輸入框中。',
+            l3: '3. 最後，點擊備份按鈕即可將本地數據導入到你的 gist 裡。'
         },
     },
     en: {
@@ -117,6 +136,14 @@ const _default: Messages<UsageMessage> = {
             l7: '7. It supports night mode, which also needs to be enabled in the options.',
             l8: '8. It supports using Github Gist as the cloud to store data of multiple browsers and perform aggregated queries. You need to prepare a token with at least gist permission.',
         },
+        backup: {
+            p1: 'You can use {gist} to backup your data by following the steps below. \
+                Afterwards, you can query the backed up data on other terminals.',
+            l1: '1. First, you need to generate a {token} with gist permissions on Github.',
+            l2: '2. Then select Github Gist as the synchronization method on the options page, \
+                and fill in your token in the input box that appears below.',
+            l3: '3. Finally, click the backup button to import the local data into your gist.'
+        },
     },
     ja: {
         quickstart: {
@@ -143,6 +170,12 @@ const _default: Messages<UsageMessage> = {
             l6: '6. 各 Web サイトの毎日の閲覧時間の制限をサポートしています。これには、制限ルールを手動で追加する必要があります。',
             l7: '7.オプションで有効にする必要があるナイトモードをサポートしています。',
             l8: '8. Github Gist をクラウドとして使用して、複数のブラウザーのデータを保存し、集約されたクエリを実行することをサポートします。                 少なくとも gist 権限を持つトークンを準備する必要があります。',
+        },
+        backup: {
+            p1: '以下の手順に従って、{gist} を使用してデータをバックアップできます。その後、バックアップされたデータを他の端末で照会できます。',
+            l1: '1. まず、Github で Gist 権限を持つ {token} を生成する必要があります。',
+            l2: '2. 次に、オプション ページで同期方法として [Github Gist] を選択し、下に表示される入力ボックスにトークンを入力します。',
+            l3: '3. 最後に、バックアップ ボタンをクリックして、ローカル データを Gist にインポートします。'
         },
     },
 }

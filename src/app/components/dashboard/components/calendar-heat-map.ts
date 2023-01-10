@@ -15,11 +15,11 @@ import GridComponent from "@echarts/component/grid"
 import VisualMapComponent from "@echarts/component/visual-map"
 import HeatmapChart from "@echarts/chart/heatmap"
 import { init, use } from "@echarts/core"
-import CanvasRenderer from "@echarts/canvas-renderer"
+import SVGRenderer from "@echarts/svg-renderer"
 
 // Register echarts
 use([
-    CanvasRenderer,
+    SVGRenderer,
     HeatmapChart,
     TooltipComponent,
     GridComponent,

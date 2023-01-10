@@ -123,12 +123,6 @@ export function iconUrlOfBrowser(protocol: string, host: string): string {
 export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
 
 /**
- * @since 0.9.3
- * @deprecated 1.4.0 Use crowdin to manage translations
- */
-export const TRANSLATION_ISSUE_PAGE = 'https://docs.google.com/forms/d/e/1FAIpQLSdZSmEZp6Xfmb5v-3H4hsubgeCReDayDOuWDWWU5C1W80exGA/viewform?usp=sf_link'
-
-/**
  * The id of project on crowdin.com
  * 
  * @since 1.4.0

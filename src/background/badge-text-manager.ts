@@ -76,22 +76,25 @@ function findActiveTab(): Promise<BadgeLocation> {
     }))
 }
 
-async function updateFocus(badgeLocation?: BadgeLocation) {
+async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLocation): Promise<BadgeLocation> {
+    // Clear the last tab firstly
+    lastLocation?.tabId && setBadgeText('', lastLocation.tabId)
     badgeLocation = badgeLocation || await findActiveTab()
     if (!badgeLocation) {
-        return
+        return badgeLocation
     }
     const { url, tabId } = badgeLocation
     if (!url || isBrowserUrl(url)) {
-        return
+        return badgeLocation
     }
     const host = extractHostname(url)?.host
     if (whitelistHolder.contains(host)) {
         setBadgeText('W', tabId)
-        return
+        return badgeLocation
     }
     const milliseconds = host ? (await timerDb.get(host, new Date())).focus : undefined
     setBadgeTextOfMills(milliseconds, tabId)
+    return badgeLocation
 }
 
 const ALARM_NAME = 'timer-badge-text-manager-alarm'
@@ -103,6 +106,7 @@ function createAlarm(beforeAction?: () => void) {
 
 class BadgeTextManager {
     isPaused: boolean
+    lastLocation: BadgeLocation
 
     async init() {
         createAlarm()
@@ -136,9 +140,9 @@ class BadgeTextManager {
         this.forceUpdate()
     }
 
-    forceUpdate(badgeLocation?: BadgeLocation) {
+    async forceUpdate(badgeLocation?: BadgeLocation) {
         if (this.isPaused) { return }
-        updateFocus(badgeLocation)
+        this.lastLocation = await updateFocus(badgeLocation, this.lastLocation)
     }
 
     private pauseOrResumeAccordingToOption(displayBadgeText: boolean) {

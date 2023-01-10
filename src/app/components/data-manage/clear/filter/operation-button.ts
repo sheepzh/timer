@@ -18,8 +18,6 @@ import { ElementButtonType } from "@src/element-ui/button"
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
 export type BaseFilterProps = {
-    totalStartRef: Ref<string>
-    totalEndRef: Ref<string>
     focusStartRef: Ref<string>
     focusEndRef: Ref<string>
     timeStartRef: Ref<string>
@@ -80,10 +78,8 @@ const str2Range = (startAndEnd: Ref<string>[], numAmplifier?: (origin: number) =
 const seconds2Milliseconds = (a: number) => a * 1000
 
 function checkParam(props: _Props): TimerCondition | undefined {
-    const { totalStartRef, totalEndRef, focusStartRef, focusEndRef, timeStartRef, timeEndRef, dateRangeRef } = props
+    const { focusStartRef, focusEndRef, timeStartRef, timeEndRef } = props
     let hasError = false
-    const totalRange = str2Range([totalStartRef, totalEndRef], seconds2Milliseconds)
-    hasError = hasError || assertQueryParam(totalRange)
     const focusRange = str2Range([focusStartRef, focusEndRef], seconds2Milliseconds)
     hasError = hasError || assertQueryParam(focusRange)
     const timeRange = str2Range([timeStartRef, timeEndRef])
@@ -92,7 +88,6 @@ function checkParam(props: _Props): TimerCondition | undefined {
         return undefined
     }
     const condition: TimerCondition = {}
-    condition.totalRange = totalRange
     condition.focusRange = focusRange
     condition.timeRange = timeRange
     return condition

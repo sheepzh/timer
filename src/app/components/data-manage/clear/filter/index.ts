@@ -20,8 +20,6 @@ const timerDatabase = new TimerDatabase(chrome.storage.local)
 const dateRangeRef: Ref<Array<Date>> = ref([])
 const focusStartRef: Ref<string> = ref('0')
 const focusEndRef: Ref<string> = ref('2')
-const totalStartRef: Ref<string> = ref('0')
-const totalEndRef: Ref<string> = ref('')
 const timeStartRef: Ref<string> = ref('0')
 const timeEndRef: Ref<string> = ref('')
 
@@ -30,7 +28,6 @@ const title = h('h3', t(msg => msg.dataManage.filterItems))
 const filterRefs: BaseFilterProps = {
     dateRangeRef,
     focusStartRef, focusEndRef,
-    totalStartRef, totalEndRef,
     timeStartRef, timeEndRef,
 }
 
@@ -61,8 +58,7 @@ const _default = defineComponent((_props, ctx: SetupContext) => {
             title,
             dateFilter({ dateRangeRef }),
             numberFilter('filterFocus', focusStartRef, focusEndRef, 2),
-            numberFilter('filterTotal', totalStartRef, totalEndRef, 3),
-            numberFilter('filterTime', timeStartRef, timeEndRef, 4),
+            numberFilter('filterTime', timeStartRef, timeEndRef, 3),
             footer()
         ]
     )

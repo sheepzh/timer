@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
- * 
+ * Copyright (c) 2022 Hengyang Zhang
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -10,7 +10,7 @@
  *  
  * @since 0.1.2
  */
-export default interface IVersionProcessor {
+declare type VersionProcessor = {
     /**
      * The version number of this processor
      */

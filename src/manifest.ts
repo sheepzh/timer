@@ -15,9 +15,10 @@
 import packageInfo from "./package"
 import { OPTION_ROUTE } from "./app/router/constants"
 const { version, author, homepage } = packageInfo
+
 const _default: chrome.runtime.ManifestV3 = {
-  name: '__MSG_app_marketName__',
-  description: "__MSG_app_description__",
+  name: '__MSG_meta_marketName__',
+  description: "__MSG_meta_description__",
   version,
   author,
   default_locale: 'en',

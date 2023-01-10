@@ -19,7 +19,7 @@ import type {
 import { init, use } from "@echarts/core"
 import LineChart from "@echarts/chart/line"
 import GridComponent from "@echarts/component/grid"
-import CanvasRenderer from "@echarts/canvas-renderer"
+import SVGRenderer from "@echarts/svg-renderer"
 import LegendComponent from "@echarts/component/legend"
 import TitleComponent from "@echarts/component/title"
 import ToolboxComponent from "@echarts/component/toolbox"
@@ -38,7 +38,7 @@ use([
     TitleComponent,
     ToolboxComponent,
     TooltipComponent,
-    CanvasRenderer,
+    SVGRenderer,
 ])
 
 type EcOption = ComposeOption<
@@ -135,7 +135,7 @@ function optionOf(
         ],
         legend: [{
             left: 'left',
-            data: [t(msg => msg.item.total), t(msg => msg.item.focus), t(msg => msg.item.time)],
+            data: [t(msg => msg.item.focus), t(msg => msg.item.time)],
             textStyle: { color: textColor },
         }],
         series: [{
@@ -243,12 +243,6 @@ class ChartWrapper {
         const dataItems = processDataItems(allDates, timeFormat, rows)
 
         const option: EcOption = optionOf(xAxisData, subtitle, timeFormat, dataItems)
-        if (renderOption.isFirst) {
-            // Close the running time by default
-            const closedLegends: Record<string, boolean> = {}
-            closedLegends[t(msg => msg.item.total)] = false
-            option.legend[0].selected = closedLegends
-        }
 
         this.instance?.setOption(option)
     }

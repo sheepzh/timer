@@ -44,7 +44,6 @@ class FIFOCache<T> {
     async getOrSupply(key: string, supplier: () => PromiseLike<T>): Promise<T> {
         const exist = this.map[key]
         if (exist) {
-            console.log("Hit cache with key: " + key)
             return exist
         }
         const value = await supplier()
