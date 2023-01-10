@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Plus } from "@element-plus/icons-vue"
+import { Operation, Plus } from "@element-plus/icons-vue"
 import { Ref, h, defineComponent, ref } from "vue"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
@@ -20,6 +20,7 @@ export type LimitFilterOption = {
 const urlPlaceholder = t(msg => msg.limit.conditionFilter)
 const onlyEnabledLabel = t(msg => msg.limit.filterDisabled)
 const addButtonText = t(msg => msg.limit.button.add)
+const testButtonText = t(msg => msg.limit.button.test)
 
 const _default = defineComponent({
     name: "LimitFilter",
@@ -27,7 +28,7 @@ const _default = defineComponent({
         url: String,
         onlyEnabled: Boolean
     },
-    emits: ["create", "change"],
+    emits: ["create", "change", "test"],
     setup(props, ctx) {
         const url: Ref<string> = ref(props.url)
         const onlyEnabled: Ref<boolean> = ref(props.onlyEnabled)
@@ -51,6 +52,12 @@ const _default = defineComponent({
                     onlyEnabled.value = newVal
                     handleChange()
                 }
+            }),
+            h(ButtonFilterItem, {
+                text: testButtonText,
+                type: 'primary',
+                icon: Operation,
+                onClick: () => ctx.emit('test')
             }),
             h(ButtonFilterItem, {
                 text: addButtonText,
