@@ -9,7 +9,8 @@ import { defineComponent, h, ref, Ref } from "vue"
 import ContentContainer from "../common/content-container"
 import LimitFilter, { LimitFilterOption } from "./filter"
 import LimitTable from "./table"
-import Modify from "./modify"
+import LimitModify from "./modify"
+import LimitTest from "./test"
 import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
@@ -33,6 +34,7 @@ const _default = defineComponent({
         urlParam && (url.value = decodeURIComponent(urlParam))
 
         const modify: Ref = ref()
+        const test: Ref = ref()
 
         return () => h(ContentContainer, {}, {
             filter: () => h(LimitFilter, {
@@ -43,7 +45,8 @@ const _default = defineComponent({
                     onlyEnabled.value = option.onlyEnabled
                     queryData()
                 },
-                onCreate: () => modify.value?.create?.()
+                onCreate: () => modify.value?.create?.(),
+                onTest: () => test.value?.show?.(),
             }),
             content: () => [
                 h(LimitTable, {
@@ -59,10 +62,13 @@ const _default = defineComponent({
                         modify.value?.modify?.(row)
                     }
                 }),
-                h(Modify, {
+                h(LimitModify, {
                     ref: modify,
                     onSave: queryData
-                })
+                }),
+                h(LimitTest, {
+                    ref: test
+                }),
             ]
         })
     }

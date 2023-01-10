@@ -11,7 +11,6 @@ export type LimitMessage = {
     addTitle: string
     useWildcard: string
     urlPlaceholder: string
-
     item: {
         condition: string
         time: string
@@ -24,15 +23,11 @@ export type LimitMessage = {
     button: {
         add: string
         test: string
+        testSimple: string
         paste: string
         save: string
         delete: string
         modify: string
-    }
-    timeUnit: {
-        hour: string
-        minute: string
-        second: string
     }
     message: {
         noUrl: string
@@ -41,7 +36,12 @@ export type LimitMessage = {
         deleteConfirm: string
         deleted: string
         noPermissionFirefox: string
+        inputTestUrl: string
+        clickTestButton: string
+        noRuleMatched: string
+        rulesMatched: string
     }
+    testUrlLabel: string
 }
 
 const _default: Messages<LimitMessage> = {
@@ -60,6 +60,7 @@ const _default: Messages<LimitMessage> = {
         button: {
             add: '新增',
             test: '网址测试',
+            testSimple: '测试',
             paste: '粘贴',
             save: '保存',
             delete: '删除',
@@ -67,11 +68,6 @@ const _default: Messages<LimitMessage> = {
         },
         addTitle: '新增限制',
         useWildcard: '是否使用通配符',
-        timeUnit: {
-            hour: '小时',
-            minute: '分钟',
-            second: '秒',
-        },
         message: {
             saved: '保存成功',
             noUrl: '未填写限制网址',
@@ -79,7 +75,12 @@ const _default: Messages<LimitMessage> = {
             deleteConfirm: '是否删除限制：{cond}？',
             deleted: '删除成功',
             noPermissionFirefox: '请先在插件管理页[about:addons]开启该插件的粘贴板权限',
+            inputTestUrl: '请先输入需要测试的网址链接',
+            clickTestButton: '输入完成后请点击【{buttonText}】按钮',
+            noRuleMatched: '该网址未命中任何规则',
+            rulesMatched: '该网址命中以下规则：',
         },
+        testUrlLabel: '测试网址',
         urlPlaceholder: '请直接粘贴网址 ➡️',
     },
     zh_TW: {
@@ -97,6 +98,7 @@ const _default: Messages<LimitMessage> = {
         button: {
             add: '新增',
             test: '網址測試',
+            testSimple: '測試',
             paste: '粘貼',
             save: '保存',
             delete: '刪除',
@@ -104,11 +106,6 @@ const _default: Messages<LimitMessage> = {
         },
         addTitle: '新增限製',
         useWildcard: '是否使用通配符',
-        timeUnit: {
-            hour: '小時',
-            minute: '分鐘',
-            second: '秒',
-        },
         message: {
             saved: '保存成功',
             noUrl: '未填冩限製網址',
@@ -116,8 +113,13 @@ const _default: Messages<LimitMessage> = {
             deleteConfirm: '是否刪除限製：{cond}？',
             deleted: '刪除成功',
             noPermissionFirefox: '請先在插件管理頁[about:addons]開啟該插件的粘貼闆權限',
+            inputTestUrl: '請先輸入需要測試的網址鏈接',
+            clickTestButton: '輸入完成後請點擊【{buttonText}】按鈕',
+            noRuleMatched: '該網址未命中任何規則',
+            rulesMatched: '該網址命中以下規則：',
         },
         urlPlaceholder: '請直接粘貼網址 ➡️',
+        testUrlLabel: '測試網址',
     },
     en: {
         conditionFilter: 'URL',
@@ -134,6 +136,7 @@ const _default: Messages<LimitMessage> = {
         button: {
             add: 'New',
             test: 'Test URL',
+            testSimple: 'Test',
             paste: 'Paste',
             save: 'Save',
             delete: 'Delete',
@@ -141,11 +144,6 @@ const _default: Messages<LimitMessage> = {
         },
         addTitle: 'New',
         useWildcard: 'Whether to use wildcard',
-        timeUnit: {
-            hour: 'Hours',
-            minute: 'Minutes',
-            second: 'Seconds',
-        },
         message: {
             saved: 'Saved successfully',
             noUrl: 'Unfilled limited URL',
@@ -153,8 +151,13 @@ const _default: Messages<LimitMessage> = {
             deleteConfirm: 'Do you want to delete the rule of {cond}?',
             deleted: 'Deleted successfully',
             noPermissionFirefox: 'Please enable the clipboard permission of this addon on the management page (about:addons) first',
+            inputTestUrl: 'Please enter the URL link to be tested first',
+            clickTestButton: 'After inputting, please click the button ({buttonText})',
+            noRuleMatched: 'The URL does not hit any rules',
+            rulesMatched: 'The URL hits the following rules:',
         },
         urlPlaceholder: 'Please paste the URL directly ➡️',
+        testUrlLabel: 'Test URL',
     },
     ja: {
         conditionFilter: 'URL',
@@ -171,6 +174,7 @@ const _default: Messages<LimitMessage> = {
         button: {
             add: '新增',
             test: 'テストURL',
+            testSimple: 'テスト',
             paste: 'ペースト',
             save: 'セーブ',
             delete: '削除',
@@ -178,11 +182,6 @@ const _default: Messages<LimitMessage> = {
         },
         addTitle: '新增',
         useWildcard: 'ワイルドカードを使用するかどうか',
-        timeUnit: {
-            hour: '時間',
-            minute: '分',
-            second: '秒',
-        },
         message: {
             noUrl: '埋められていない制限URL',
             noTime: '1日の制限時間を記入しない',
@@ -190,8 +189,13 @@ const _default: Messages<LimitMessage> = {
             deleteConfirm: '{cond} の制限を削除しますか？',
             deleted: '正常に削除',
             noPermissionFirefox: '最初にプラグイン管理ページでプラグインのペーストボード権限を有効にしてください',
+            inputTestUrl: '最初にテストする URL リンクを入力してください',
+            clickTestButton: '入力後、ボタン({buttonText})をクリックしてください',
+            noRuleMatched: 'URL がどのルールとも一致しません',
+            rulesMatched: 'URL は次のルールに一致します。',
         },
         urlPlaceholder: 'URLを直接貼り付けてください➡️',
+        testUrlLabel: 'テスト URL',
     },
 }
 
