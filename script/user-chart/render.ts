@@ -136,10 +136,13 @@ function render2Svg(chartData: ChartData): string {
         width: 960,
         height: 640
     })
+    const totalUserCount = Object.values(yAixses)
+        .map(v => v[v.length - 1] || 0)
+        .reduce((a, b) => a + b)
     chart.setOption({
         title: {
             text: 'Total Active User Count',
-            subtext: `${xAixs[0]} to ${xAixs[xAixs.length - 1]}`
+            subtext: `${xAixs[0]} to ${xAixs[xAixs.length - 1]}  |  currently ${totalUserCount} `
         },
         legend: { data: ALL_BROWSERS },
         grid: {
