@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, h, PropType, ref, Ref, watch } from "vue"
+import { defineComponent, h, PropType, ref, Ref, VNode, watch } from "vue"
 import clipboardy from "clipboardy"
 import { t } from "@app/locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
@@ -35,6 +35,26 @@ function cleanUrl(url: string): string {
 const PERMISSION = 'clipboardRead'
 const FIREFOX_NO_PERMISSION_MSG = t(msg => msg.limit.message.noPermissionFirefox)
 
+type _Slot = () => VNode
+type _Slots = { prefix: _Slot, append?: _Slot }
+
+function slots(protocolRef: Ref<Protocol>, urlRef: Ref<string>, disabled: boolean): _Slots {
+    const slots: _Slots = {
+        prefix: () => h(ElSelect, {
+            modelValue: protocolRef.value,
+            onChange: (val: string) => protocolRef.value = val as Protocol,
+            disabled: disabled,
+        }, protocolOptions),
+    }
+    !disabled && (slots.append = () => h(ElButton, {
+        onClick: () => handlePaste(
+            url => urlRef.value = url,
+            prot => protocolRef.value = prot
+        )
+    }, () => pasteButtonText))
+    return slots
+}
+
 async function handlePaste(urlHandler: (newUrl: string) => void, protocolHandler: (newProtocol: Protocol) => void) {
     let granted = await checkPermission(PERMISSION)
 
@@ -62,12 +82,14 @@ async function handlePaste(urlHandler: (newUrl: string) => void, protocolHandler
 }
 
 const pasteButtonText = t(msg => msg.limit.button.paste)
-
 const placeholder = t(msg => msg.limit.urlPlaceholder)
 
 const _default = defineComponent({
     name: 'LimitUrlFormItem',
-    emits: ['urlChange', 'protocolChange'],
+    emits: {
+        urlChange: (_val: string) => true,
+        protocolChange: (_val: Protocol) => true,
+    },
     props: {
         url: String,
         protocol: String as PropType<Protocol>,
@@ -88,23 +110,7 @@ const _default = defineComponent({
 
         return () => h(ElFormItem, { label: t(msg => msg.limit.item.condition) },
             () => {
-                const slots: any = {
-                    prefix: () => h(ElSelect, {
-                        modelValue: protocolRef.value,
-                        onChange: (val: string) => protocolRef.value = val as Protocol,
-                        disabled: props.disabled,
-                    }, protocolOptions),
-                }
-                !props.disabled && (slots.append = () => h(ElButton, {
-                    onClick: () => handlePaste(
-                        url => {
-                            urlRef.value = url
-                            ctx.emit('urlChange', url)
-                        },
-                        prot => protocolRef.value = prot
-                    )
-                }, () => pasteButtonText))
-
+                const slots_: _Slots = slots(protocolRef, urlRef, props.disabled)
                 return h(ElInput, {
                     modelValue: urlRef.value,
                     clearable: !props.disabled,
@@ -119,7 +125,7 @@ const _default = defineComponent({
                     // disabled: true,
                     onInput: (_val: string) => { /** Do nothing */ },
                     placeholder
-                }, slots)
+                }, slots_)
             }
         )
     }

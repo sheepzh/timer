@@ -18,14 +18,14 @@ import SelectFilterItem from "@app/components/common/select-filter-item"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import { labelOfHostInfo } from "./common"
 
-async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<timer.app.trend.HostInfo[]>, searching: Ref<boolean>) {
+async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<TrendHostInfo[]>, searching: Ref<boolean>) {
     if (!queryStr) {
         trendDomainOptions.value = []
         return
     }
     searching.value = true
     const domains: HostSet = await timerService.listHosts(queryStr)
-    const options: timer.app.trend.HostInfo[] = []
+    const options: TrendHostInfo[] = []
     domains.origin.forEach(host => options.push({ host, merged: false }))
     domains.merged.forEach(host => options.push({ host, merged: true }))
     trendDomainOptions.value = options
@@ -57,12 +57,12 @@ const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {
     hour: t(msg => msg.timeFormat.hour)
 }
 
-function keyOfHostInfo(option: timer.app.trend.HostInfo): string {
+function keyOfHostInfo(option: TrendHostInfo): string {
     const { merged, host } = option
     return (merged ? "1" : '0') + (host || '')
 }
 
-function hostInfoOfKey(key: string): timer.app.trend.HostInfo {
+function hostInfoOfKey(key: string): TrendHostInfo {
     if (!key || !key.length) return { host: '', merged: false }
     const merged = key.charAt(0) === '1'
     return { host: key.substring(1), merged }
@@ -72,17 +72,19 @@ const _default = defineComponent({
     name: "TrendFilter",
     props: {
         dateRange: Object as PropType<Date[]>,
-        defaultValue: Object as PropType<timer.app.trend.HostInfo>,
+        defaultValue: Object as PropType<TrendHostInfo>,
         timeFormat: String as PropType<timer.app.TimeFormat>
     },
-    emits: ['change'],
+    emits: {
+        change: (_option: TrendFilterOption) => true
+    },
     setup(props, ctx) {
         // @ts-ignore
         const dateRange: Ref<Date[]> = ref(props.dateRange)
         const domainKey: Ref<string> = ref('')
         const trendSearching: Ref<boolean> = ref(false)
-        const trendDomainOptions: Ref<timer.app.trend.HostInfo[]> = ref([])
-        const defaultOption: timer.app.trend.HostInfo = props.defaultValue
+        const trendDomainOptions: Ref<TrendHostInfo[]> = ref([])
+        const defaultOption: TrendHostInfo = props.defaultValue
         const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
         if (defaultOption) {
             domainKey.value = keyOfHostInfo(defaultOption)
@@ -90,8 +92,8 @@ const _default = defineComponent({
         }
 
         function handleChange() {
-            const hostInfo: timer.app.trend.HostInfo = hostInfoOfKey(domainKey.value)
-            const option: timer.app.trend.FilterOption = {
+            const hostInfo: TrendHostInfo = hostInfoOfKey(domainKey.value)
+            const option: TrendFilterOption = {
                 host: hostInfo,
                 dateRange: dateRange.value,
                 timeFormat: timeFormat.value

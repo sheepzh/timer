@@ -13,7 +13,9 @@ const _default = defineComponent({
     props: {
         placeholder: String
     },
-    emits: ["search"],
+    emits: {
+        search: (_text: string) => true
+    },
     setup(props, ctx) {
         const modelValue: Ref<string> = ref("")
         return () => h(ElInput, {

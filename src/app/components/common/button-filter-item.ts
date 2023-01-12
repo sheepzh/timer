@@ -10,6 +10,7 @@ import ElementIcon from "@src/element-ui/icon"
 import { ElButton } from "element-plus"
 import { defineComponent, PropType, h, Ref, computed } from "vue"
 
+
 const _default = defineComponent({
     name: "ButtonFilterItem",
     props: {
@@ -21,7 +22,9 @@ const _default = defineComponent({
             default: true
         }
     },
-    emits: ["click"],
+    emits: {
+        click: () => true
+    },
     setup(props, ctx) {
         const clz: Ref<string> = computed(() => `filter-item${props.right ? " filter-item-right" : ""}`)
         return () => h(ElButton, {

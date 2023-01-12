@@ -7,7 +7,7 @@
 
 import { defineComponent, h, ref, Ref } from "vue"
 import ContentContainer from "../common/content-container"
-import LimitFilter, { LimitFilterOption } from "./filter"
+import LimitFilter from "./filter"
 import LimitTable from "./table"
 import LimitModify from "./modify"
 import LimitTest from "./test"

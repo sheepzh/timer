@@ -17,7 +17,6 @@ const _default = defineComponent({
         duration: Number,
         fontSize: Number,
     },
-    emits: ['stop'],
     setup(props) {
         const elRef: Ref<HTMLElement> = ref()
         const countUp: Ref<CountUp> = ref()

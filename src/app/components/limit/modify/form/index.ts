@@ -93,9 +93,7 @@ const _default = defineComponent({
                         ref: pathEditRef,
                         disabled: editMode.value === 'modify',
                         url: urlInfo.url,
-                        onUrlChange: (newVal: string) => {
-                            urlInfo.url = newVal
-                        }
+                        onUrlChange: (newVal: string) => urlInfo.url = newVal
                     })
                 )
                 return items

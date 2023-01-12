@@ -5,14 +5,21 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { SetupContext } from "vue"
+
 import { ElButton, ElTableColumn } from "element-plus"
 import { t } from "@app/locale"
-import { defineComponent, h, SetupContext } from "vue"
+import { defineComponent, h } from "vue"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import PopupConfirmButton from "@app/components/common/popup-confirm-button"
 
+type _Emit = {
+    delete: (row: timer.site.AliasIcon) => void
+    modify: (row: timer.site.AliasIcon) => void
+}
+
 const deleteButtonText = t(msg => msg.siteManage.button.delete)
-const deleteButton = (ctx: SetupContext<_Emit[]>, row: timer.site.AliasIcon) => h(PopupConfirmButton, {
+const deleteButton = (ctx: SetupContext<_Emit>, row: timer.site.AliasIcon) => h(PopupConfirmButton, {
     buttonIcon: Delete,
     buttonType: "danger",
     buttonText: deleteButtonText,
@@ -21,20 +28,21 @@ const deleteButton = (ctx: SetupContext<_Emit[]>, row: timer.site.AliasIcon) => 
 })
 
 const modifyButtonText = t(msg => msg.siteManage.button.modify)
-const modifyButton = (ctx: SetupContext<_Emit[]>, row: timer.site.AliasIcon) => h(ElButton, {
+const modifyButton = (ctx: SetupContext<_Emit>, row: timer.site.AliasIcon) => h(ElButton, {
     size: 'small',
     type: "primary",
     icon: Edit,
     onClick: () => ctx.emit("modify", row)
 }, () => modifyButtonText)
 
-type _Emit = "delete" | "modify"
-
 const label = t(msg => msg.item.operation.label)
 const _default = defineComponent({
     name: "OperationColumn",
-    emits: ["delete", "modify"],
-    setup(_, ctx: SetupContext<_Emit[]>) {
+    emits: {
+        delete: (_row: timer.site.AliasIcon) => true,
+        modify: () => true,
+    },
+    setup(_, ctx: SetupContext<_Emit>) {
         return () => h(ElTableColumn, {
             minWidth: 100,
             label,

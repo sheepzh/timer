@@ -85,8 +85,8 @@ function generateTagItem(ruleItem: timer.merge.Rule, index: number): VNode {
         index,
         origin,
         merged,
-        onDeleted: origin => handleTagClose(origin),
-        onChanged: (origin, merged, index) => handleChange(origin, merged, index, itemRef)
+        onDelete: origin => handleTagClose(origin),
+        onChange: (origin, merged, index) => handleChange(origin, merged, index, itemRef)
     })
 }
 
@@ -98,7 +98,7 @@ const itemList = () => {
     const addButtonRef: Ref = ref()
     const addButton = h(AddButton, {
         ref: addButtonRef,
-        onSaved: (origin, merged) => handleInputConfirm(origin, merged, addButtonRef)
+        onSave: (origin, merged) => handleInputConfirm(origin, merged, addButtonRef)
     })
     result.push(addButton)
     return h('div', { class: 'editable-tag-container' }, result)

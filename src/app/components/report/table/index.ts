@@ -17,16 +17,6 @@ import FocusColumn from "./columns/focus"
 import TimeColumn from "./columns/time"
 import OperationColumn from "./columns/operation"
 
-export enum ElSortDirect {
-    ASC = 'ascending',
-    DESC = 'descending'
-}
-
-export type SortInfo = {
-    prop: timer.stat.Dimension | 'host'
-    order: ElSortDirect
-}
-
 const _default = defineComponent({
     name: "ReportTable",
     props: {
@@ -38,7 +28,12 @@ const _default = defineComponent({
         dateRange: Array as PropType<Date[]>,
         whitelist: Array as PropType<string[]>
     },
-    emits: ["sortChange", "aliasChange", "itemDelete", "whitelistChange"],
+    emits: {
+        sortChange: (_newSortInfo: SortInfo) => true,
+        aliasChange: (_host: string, _newAlias: string) => true,
+        itemDelete: (_row: timer.stat.Row) => true,
+        whitelistChange: (_host: string, _addOrRemove: boolean) => true,
+    },
     setup(props, ctx) {
         let selectedRows: timer.stat.Row[] = []
         ctx.expose({

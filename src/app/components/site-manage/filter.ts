@@ -17,12 +17,6 @@ const aliasPlaceholder = t(msg => msg.siteManage.aliasPlaceholder)
 const onlyDetectedLabel = t(msg => msg.siteManage.onlyDetected)
 const addButtonText = t(msg => msg.siteManage.button.add)
 
-export type SiteManageFilterOption = {
-    host: string,
-    alias: string,
-    onlyDetected: boolean,
-}
-
 const _default = defineComponent({
     name: "SiteManageFilter",
     props: {
@@ -30,7 +24,10 @@ const _default = defineComponent({
         alias: String,
         onlyDetected: Boolean
     },
-    emits: ["change", "create"],
+    emits: {
+        change: (_option: SiteManageFilterOption) => true,
+        create: () => true,
+    },
     setup(props, ctx) {
         const host: Ref<string> = ref(props.host)
         const alias: Ref<string> = ref(props.alias)
@@ -39,7 +36,7 @@ const _default = defineComponent({
             host: host.value,
             alias: alias.value,
             onlyDetected: onlyDetected.value
-        } as SiteManageFilterOption)
+        })
         return () => [
             h(InputFilterItem, {
                 placeholder: hostPlaceholder,

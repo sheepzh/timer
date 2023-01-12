@@ -273,20 +273,12 @@ declare namespace timer {
 
     namespace limit {
         /**
+         * Limit rule in runtime
+         * 
          * @since 0.8.4
          */
-        type Item = {
-            /**
-             * Condition, can be regular expression with star signs
-             */
-            cond: string
+        type Item = Rule & {
             regular: RegExp
-            /**
-             * Time limit, seconds
-             */
-            time: number
-            enabled: boolean
-            allowDelay: boolean
             /**
              * Waste today, milliseconds
              */
@@ -422,60 +414,6 @@ declare namespace timer {
             | "second"
             | "minute"
             | "hour"
-
-        namespace trend {
-            type HostInfo = {
-                host: string
-                merged: boolean
-            }
-
-            type FilterOption = {
-                host: HostInfo,
-                dateRange: Date[],
-                timeFormat: TimeFormat
-            }
-
-            type RenderOption = FilterOption & {
-                /**
-                 * Whether render firstly
-                 */
-                isFirst: boolean
-            }
-        }
-
-        namespace report {
-            /**
-             * The query param of report page
-             */
-            type QueryParam = {
-                /**
-                 * Merge host
-                 */
-                mh?: string
-                /**
-                 * Date start
-                 */
-                ds?: string
-                /**
-                 * Date end
-                 */
-                de?: string
-                /**
-                 * Sorted column
-                 */
-                sc?: timer.stat.Dimension
-            }
-            type FilterOption = {
-                host: string
-                dateRange: Date[]
-                mergeDate: boolean
-                mergeHost: boolean
-                /**
-                 * @since 1.1.7
-                 */
-                timeFormat: TimeFormat
-            }
-        }
     }
 
     /**

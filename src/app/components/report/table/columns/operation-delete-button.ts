@@ -4,8 +4,9 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { PropType } from "vue"
 
-import { computed, defineComponent, h, PropType, Ref } from "vue"
+import { computed, defineComponent, h, Ref } from "vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import { Delete } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
@@ -44,7 +45,9 @@ function computeRangeConfirmText(url: string, dateRange: Array<Date>): string {
 
 const _default = defineComponent({
     name: "OperationDeleteButton",
-    emits: ["confirm"],
+    emits: {
+        confirm: () => true
+    },
     props: {
         mergeDate: Boolean,
         // Filter of date range

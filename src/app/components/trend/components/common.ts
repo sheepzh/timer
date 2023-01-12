@@ -10,7 +10,7 @@ import { t } from "@app/locale"
 /**
  * Transfer host info to label 
  */
-export function labelOfHostInfo(hostInfo: timer.app.trend.HostInfo): string {
+export function labelOfHostInfo(hostInfo: TrendHostInfo): string {
     if (!hostInfo) return ''
     const { host, merged } = hostInfo
     if (!host) return ''

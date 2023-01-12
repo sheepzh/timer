@@ -24,7 +24,7 @@ type _ExportInfo = {
 /**
  * Compute the name of downloaded file
  */
-function computeFileName(filterParam: timer.app.report.FilterOption): string {
+function computeFileName(filterParam: ReportFilterOption): string {
     let baseName = t(msg => msg.report.exportFileName)
     const { dateRange, mergeDate, mergeHost, timeFormat } = filterParam
     if (dateRange && dateRange.length === 2) {
@@ -55,13 +55,13 @@ const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportJson(filterParam: timer.app.report.FilterOption, rows: timer.stat.Row[]): void {
+export function exportJson(filterParam: ReportFilterOption, rows: timer.stat.Row[]): void {
     const fileName = computeFileName(filterParam)
     const jsonData = generateJsonData(rows)
     exportJson_(jsonData, fileName)
 }
 
-function generateCsvData(rows: timer.stat.Row[], filterParam: timer.app.report.FilterOption): string[][] {
+function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption): string[][] {
     const { mergeDate, mergeHost } = filterParam
     const columnName: string[] = []
     if (!mergeDate) {
@@ -96,7 +96,7 @@ function generateCsvData(rows: timer.stat.Row[], filterParam: timer.app.report.F
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportCsv(filterParam: timer.app.report.FilterOption, rows: timer.stat.Row[]): void {
+export function exportCsv(filterParam: ReportFilterOption, rows: timer.stat.Row[]): void {
     const fileName = computeFileName(filterParam)
     const csvData = generateCsvData(rows, filterParam)
     exportCsv_(csvData, fileName)

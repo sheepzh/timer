@@ -15,7 +15,9 @@ const buttonText = `+ ${t(msg => msg.operation.newOne)}`
 
 const _default = defineComponent({
     name: "MergeRuleAddButton",
-    emits: ["saved"],
+    emits: {
+        save: (_origin: string, _merged: string | number) => true,
+    },
     setup(_props, ctx) {
         const editing: Ref<boolean> = ref(false)
         const origin: Ref<string> = ref('')
@@ -29,13 +31,13 @@ const _default = defineComponent({
             ? h(ItemInput, {
                 origin: origin.value,
                 merged: merged.value,
-                onSaved: (newOrigin, newMerged) => {
+                onSave: (newOrigin, newMerged) => {
                     const newMergedVal = tryParseInteger(newMerged?.trim())[1]
                     merged.value = newMergedVal
                     origin.value = newOrigin
-                    ctx.emit('saved', newOrigin, newMergedVal)
+                    ctx.emit('save', newOrigin, newMergedVal)
                 },
-                onCanceled: () => editing.value = false
+                onCancel: () => editing.value = false
             })
             : h(ElButton, {
                 size: "small",

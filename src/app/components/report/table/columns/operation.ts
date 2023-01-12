@@ -7,10 +7,10 @@
 
 /**
  * Generate operation buttons
- * 
- * @todo !!!! Remaining code of optimizing performance
  */
-import { computed, defineComponent, h, PropType } from "vue"
+import type { PropType } from "vue"
+
+import { computed, defineComponent, h } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import TimerDatabase from "@db/timer-database"
 import whitelistService from "@service/whitelist-service"
@@ -51,7 +51,10 @@ const _default = defineComponent({
         dateRange: Array as PropType<Array<Date>>,
         whitelist: Array as PropType<Array<String>>
     },
-    emits: ["whitelistChange", "delete"],
+    emits: {
+        whitelistChange: (_host: string, _isWhite: boolean) => true,
+        delete: (_row: timer.stat.Row) => true,
+    },
     setup(props, ctx) {
         const canOperate = computed(() => !props.mergeHost)
         const width = computed(() => props.mergeHost ? 110 : locale === "zh_CN" ? 290 : 330)
