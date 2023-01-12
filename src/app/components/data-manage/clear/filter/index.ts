@@ -5,63 +5,60 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, SetupContext } from "vue"
+import type { Ref } from "vue"
 
-import { Delete } from "@element-plus/icons-vue"
 import { defineComponent, h, ref } from "vue"
-import TimerDatabase from "@db/timer-database"
 import { t } from "@app/locale"
-import dateFilter from "./date-filter"
-import numberFilter from "./number-filter"
-import operationButton, { BaseFilterProps } from "./operation-button"
+import DateFilter from "./date-filter"
+import NumberFilter from "./number-filter"
+import DeleteButton from "./delete-button"
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
-
-const dateRangeRef: Ref<Array<Date>> = ref([])
-const focusStartRef: Ref<string> = ref('0')
-const focusEndRef: Ref<string> = ref('2')
-const timeStartRef: Ref<string> = ref('0')
-const timeEndRef: Ref<string> = ref('')
-
-const title = h('h3', t(msg => msg.dataManage.filterItems))
-
-const filterRefs: BaseFilterProps = {
-    dateRangeRef,
-    focusStartRef, focusEndRef,
-    timeStartRef, timeEndRef,
-}
-
-const deleteButton = (onDateChanged: () => void) => operationButton({
-    ...filterRefs,
-    onDateChanged,
-
-    confirm: {
-        message: 'deleteConfirm',
-        operation: result => timerDatabase.delete(result),
-        resultMessage: 'deleteSuccess'
+const _default = defineComponent({
+    emits: {
+        delete: () => true
     },
+    setup(_, ctx) {
+        const dateRangeRef: Ref<Array<Date>> = ref([])
+        const focusStartRef: Ref<string> = ref('0')
+        const focusEndRef: Ref<string> = ref('2')
+        const timeStartRef: Ref<string> = ref('0')
+        const timeEndRef: Ref<string> = ref('')
+        const computeFilterOption = () => ({
+            dateRange: dateRangeRef.value,
+            focusStart: focusStartRef.value,
+            focusEnd: focusEndRef.value,
+            timeStart: timeStartRef.value,
+            timeEnd: timeEndRef.value,
+        } as DataManageClearFilterOption)
 
-    button: {
-        message: 'delete',
-        icon: Delete,
-        type: 'danger'
+        ctx.expose({
+            getFilterOption: computeFilterOption
+        })
+
+        return () => h('div', { class: 'clear-panel' }, [
+            h('h3', t(msg => msg.dataManage.filterItems)),
+            h(DateFilter, { dateRange: dateRangeRef.value, onChange: (newVal: Date[]) => dateRangeRef.value = newVal }),
+            h(NumberFilter, {
+                translateKey: 'filterFocus',
+                start: focusStartRef.value,
+                end: focusEndRef.value,
+                lineNo: 2,
+                onStartChange: v => focusStartRef.value = v,
+                onEndChange: v => focusEndRef.value = v,
+            }),
+            h(NumberFilter, {
+                translateKey: 'filterTime',
+                start: timeStartRef.value,
+                end: timeEndRef.value,
+                lineNo: 3,
+                onStartChange: v => timeStartRef.value = v,
+                onEndChange: v => timeEndRef.value = v,
+            }),
+            h(DeleteButton, {
+                onClick: () => ctx.emit('delete')
+            }),
+        ])
     }
-})
-
-const _default = defineComponent((_props, ctx: SetupContext) => {
-    const onDateChanged = ctx.attrs.onDateChanged as () => void
-
-    const footer = () => h('div', { class: 'footer-container filter-container' }, deleteButton(onDateChanged))
-
-    return () => h('div', { class: 'clear-panel' },
-        [
-            title,
-            dateFilter({ dateRangeRef }),
-            numberFilter('filterFocus', focusStartRef, focusEndRef, 2),
-            numberFilter('filterTime', timeStartRef, timeEndRef, 3),
-            footer()
-        ]
-    )
 })
 
 export default _default

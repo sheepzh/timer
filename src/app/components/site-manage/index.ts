@@ -9,7 +9,7 @@ import type { Ref, UnwrapRef, ComputedRef, WritableComputedRef } from "vue"
 
 import { reactive, defineComponent, h, ref, computed, } from "vue"
 import ContentContainer from "../common/content-container"
-import SiteManageFilter, { SiteManageFilterOption } from "./filter"
+import SiteManageFilter from "./filter"
 import Pagination from "../common/pagination"
 import SiteManageTable from "./table"
 import hostAliasService, { HostAliasQueryParam } from "@service/host-alias-service"

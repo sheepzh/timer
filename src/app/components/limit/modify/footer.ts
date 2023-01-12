@@ -13,10 +13,11 @@ import { t } from "@app/locale"
 const buttonText = t(msg => msg.limit.button.save)
 const _default = defineComponent({
     name: "SaveButton",
-    emits: ["save"],
+    emits: {
+        save: () => true
+    },
     setup(_, ctx) {
-        return () => h('span',
-            {},
+        return () => h('span', {},
             h(ElButton, {
                 onClick: () => ctx.emit("save"),
                 type: 'primary',

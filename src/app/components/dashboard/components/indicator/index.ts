@@ -80,9 +80,9 @@ async function query(): Promise<_Value> {
     // 2. if not exist, calculate from all data items
     const firstDate = allData.map(a => a.date).filter(d => d?.length === 8).sort()[0]
     if (firstDate) {
-        const year = parseInt(firstDate.substr(0, 4))
-        const month = parseInt(firstDate.substr(4, 2)) - 1
-        const date = parseInt(firstDate.substr(6, 2))
+        const year = parseInt(firstDate.substring(0, 4))
+        const month = parseInt(firstDate.substring(4, 6)) - 1
+        const date = parseInt(firstDate.substring(6, 8))
         installTime = new Date(year, month, date)
     }
 

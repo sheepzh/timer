@@ -17,7 +17,9 @@ const db = new LimitDatabase(chrome.storage.local)
 const noUrlError = t(msg => msg.limit.message.noUrl)
 const noTimeError = t(msg => msg.limit.message.noTime)
 const _default = defineComponent({
-    emits: ['save'],
+    emits: {
+        save: (_saved: timer.limit.Rule) => true
+    },
     setup: (_, ctx) => {
         const visible: Ref<boolean> = ref(false)
         const form: Ref = ref()

@@ -6,29 +6,45 @@
  */
 
 import { ElInput } from "element-plus"
-import { Ref, h } from "vue"
+import { h, defineComponent, PropType } from "vue"
 import { t, tN } from "@app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { stepNoClz } from "./constants"
 
-const elInput = (valRef: Ref<string>, placeholder: string, min?: Ref<string>) =>
+const elInput = (val: string, setter: (val: string) => void, placeholder: string, min?: string) =>
     h(ElInput, {
         class: 'filter-input',
         placeholder: placeholder,
-        min: min !== undefined ? min.value || '0' : undefined,
+        min: min !== undefined ? min || '0' : undefined,
         clearable: true,
         size: 'small',
-        modelValue: valRef.value,
-        onInput: (val: string) => valRef.value = val.trim(),
-        onClear: () => valRef.value = ''
+        modelValue: val,
+        onInput: (val: string) => setter?.(val.trim()),
+        onClear: () => setter?.('')
     })
 
-const numberFilter = (translateKey: keyof DataManageMessage, startRef: Ref<string>, endRef: Ref<string>, lineNo: number) => h('p', [
-    h('a', { class: stepNoClz }, `${lineNo}.`),
-    tN(msg => msg.dataManage[translateKey], {
-        start: elInput(startRef, '0'),
-        end: elInput(endRef, t(msg => msg.dataManage.unlimited), startRef)
-    })
-])
 
-export default numberFilter
+const _default = defineComponent({
+    name: "NumberFilter",
+    props: {
+        translateKey: String as PropType<keyof DataManageMessage>,
+        start: String,
+        end: String,
+        lineNo: Number,
+    },
+    emits: {
+        startChange: (_val: string) => true,
+        endChange: (_val: string) => true,
+    },
+    setup(props, ctx) {
+        return () => h('p', [
+            h('a', { class: stepNoClz }, `${props.lineNo}.`),
+            tN(msg => msg.dataManage[props.translateKey], {
+                start: elInput(props.start, v => ctx.emit('startChange', v), '0'),
+                end: elInput(props.end, v => ctx.emit('endChange', v), t(msg => msg.dataManage.unlimited), props.start)
+            })
+        ])
+    }
+})
+
+export default _default

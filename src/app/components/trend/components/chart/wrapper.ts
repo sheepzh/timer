@@ -185,7 +185,7 @@ function getAxias(format: string, dateRange: Date[] | undefined): string[] {
     return xAxisData
 }
 
-async function processSubtitle(host: timer.app.trend.HostInfo) {
+async function processSubtitle(host: TrendHostInfo) {
     let subtitle = labelOfHostInfo(host)
     if (!subtitle) {
         return DEFAULT_SUB_TITLE
@@ -224,7 +224,7 @@ class ChartWrapper {
         this.instance = init(container)
     }
 
-    async render(renderOption: timer.app.trend.RenderOption, rows: timer.stat.Row[]) {
+    async render(renderOption: TrendRenderOption, rows: timer.stat.Row[]) {
         const { host, dateRange, timeFormat } = renderOption
         // 1. x-axis data
         let xAxisData: string[], allDates: string[]

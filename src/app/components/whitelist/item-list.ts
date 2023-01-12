@@ -5,9 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { Ref, VNode } from "vue"
+
 import { ElMessage, ElMessageBox } from "element-plus"
 import { t } from "@app/locale"
-import { h, ref, Ref, VNode } from "vue"
+import { h, ref } from "vue"
 import whitelistService from "@service/whitelist-service"
 import Item from './components/item'
 import AddButton from './components/add-button'
@@ -72,15 +74,15 @@ function tags(): VNode {
         const itemRef: Ref = ref()
         const item = h(Item, {
             white, index, ref: itemRef,
-            onChanged: (newVal, index) => handleChanged(newVal, index, itemRef),
-            onDeleted: (val: string) => handleClose(val)
+            onChange: (newVal, index) => handleChanged(newVal, index, itemRef),
+            onDelete: (val: string) => handleClose(val)
         })
         result.push(item)
     })
     const addButtonRef: Ref = ref()
     result.push(h(AddButton, {
         ref: addButtonRef,
-        onSaved: (inputVal: string) => handleAdd(inputVal, addButtonRef)
+        onSave: (inputVal: string) => handleAdd(inputVal, addButtonRef)
     }))
     return h('div', { class: 'editable-tag-container' }, result)
 }

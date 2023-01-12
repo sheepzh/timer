@@ -13,7 +13,9 @@ const label = t(msg => msg.limit.item.enabled)
 
 const _default = defineComponent({
     name: "LimitEnabledColumn",
-    emits: ["rowChange"],
+    emits: {
+        rowChange: (_row: timer.limit.Item, _val: boolean) => true
+    },
     setup(_, ctx) {
         return () => h(ElTableColumn, {
             prop: 'enabled',

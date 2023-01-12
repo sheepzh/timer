@@ -73,7 +73,9 @@ const _default = defineComponent({
             defaultValue: ''
         },
     },
-    emits: ['urlChange'],
+    emits: {
+        urlChange: (_url: string) => true
+    },
     setup(props, ctx) {
         const url = props.url
         const items: Ref<UrlPart[]> = ref(url2PathItems(url))

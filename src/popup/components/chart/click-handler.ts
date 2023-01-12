@@ -15,7 +15,7 @@ function generateUrl(data: timer.popup.Row, queryResult: timer.popup.QueryResult
     if (!isOther) {
         return host ? `http://${host}` : undefined
     }
-    const query: timer.app.report.QueryParam = {}
+    const query: ReportQueryParam = {}
     // Merge host
     queryResult.mergeHost && (query.mh = "1")
     // Date

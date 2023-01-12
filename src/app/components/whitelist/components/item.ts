@@ -20,7 +20,10 @@ const _default = defineComponent({
             type: Number
         }
     },
-    emits: ["changed", "deleted"],
+    emits: {
+        change: (_white: string, _idx: number) => true,
+        delete: (_white: string) => true,
+    },
     setup(props, ctx) {
         const white: Ref<string> = ref(props.white)
         watch(() => props.white, newVal => white.value = newVal)
@@ -36,12 +39,12 @@ const _default = defineComponent({
         return () => editing.value
             ? h(ItemInput, {
                 white: white.value,
-                onSaved: (newWhite: string) => {
+                onSave: (newWhite: string) => {
                     editing.value = false
                     white.value = newWhite
-                    ctx.emit("changed", white.value, id.value)
+                    ctx.emit("change", white.value, id.value)
                 },
-                onCanceled: () => {
+                onCancel: () => {
                     white.value = props.white
                     editing.value = false
                 }
@@ -49,7 +52,7 @@ const _default = defineComponent({
             : h(ElTag, {
                 class: 'editable-item',
                 closable: true,
-                onClose: () => ctx.emit("deleted", white.value)
+                onClose: () => ctx.emit("delete", white.value)
             }, () => [white.value, h(Edit, { class: "edit-icon", onclick: () => editing.value = true })])
     }
 })

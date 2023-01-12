@@ -26,7 +26,10 @@ const _default = defineComponent({
             default: ""
         }
     },
-    emits: ["saved", "canceled"],
+    emits: {
+        save: (_origin: string, _merged: string) => true,
+        cancel: () => true,
+    },
     setup(props, ctx) {
         const origin: Ref<string> = ref(props.origin)
         const merged: Ref<string> = ref(props.merged?.toString())
@@ -54,14 +57,14 @@ const _default = defineComponent({
                 onClick: () => {
                     origin.value = props.origin
                     merged.value = props.merged?.toString()
-                    ctx.emit("canceled")
+                    ctx.emit("cancel")
                 }
             }),
             h(ElButton, {
                 size: 'small',
                 icon: Check,
                 class: 'item-check-button editable-item',
-                onClick: () => isValidHost(origin.value) ? ctx.emit("saved", origin.value, merged.value) : ElMessage.warning(invalidTxt)
+                onClick: () => isValidHost(origin.value) ? ctx.emit("save", origin.value, merged.value) : ElMessage.warning(invalidTxt)
             })
         ])
     }

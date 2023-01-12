@@ -16,7 +16,7 @@ const _default = defineComponent({
         const elRef: Ref<HTMLDivElement> = ref()
         const chartWrapper: ChartWrapper = new ChartWrapper()
 
-        function render(filterOption: timer.app.trend.FilterOption, isOnMounted: boolean, row: timer.stat.Row[]) {
+        function render(filterOption: TrendFilterOption, isOnMounted: boolean, row: timer.stat.Row[]) {
             chartWrapper.render({ ...filterOption, isFirst: isOnMounted }, row)
         }
 

@@ -6,15 +6,11 @@
  */
 
 import { ElDatePicker } from "element-plus"
-import { Ref, h } from "vue"
+import { Ref, h, defineComponent, PropType } from "vue"
 import { formatTime, MILL_PER_DAY } from "@util/time"
 import { t, tN } from "@app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { stepNoClz } from "./constants"
-
-export type DateFilterProps = {
-    dateRangeRef: Ref<Date[]>
-}
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
 const daysBefore = (days: number) => new Date().getTime() - days * MILL_PER_DAY
@@ -36,31 +32,40 @@ const pickerShortcuts = [
     datePickerShortcut('till30DaysAgo', 30)
 ]
 
+const dateFormat = t(msg => msg.calendar.dateFormat, { y: 'YYYY', m: 'MM', d: 'DD' })
+// The birthday of browser
+const startPlaceholder = t(msg => msg.calendar.dateFormat, { y: '1994', m: '12', d: '15' })
+const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
 
-function picker({ dateRangeRef }: DateFilterProps) {
-    const dateFormat = t(msg => msg.calendar.dateFormat, { y: 'YYYY', m: 'MM', d: 'DD' })
-    // The birthday of browser
-    const startPlaceholder = t(msg => msg.calendar.dateFormat, { y: '1994', m: '12', d: '15' })
-    const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
-    // @ts-ignore
-    return h(ElDatePicker, {
-        modelValue: dateRangeRef.value,
-        "onUpdate:modelValue": (date: Array<Date>) => dateRangeRef.value = date,
-        size: 'small',
-        style: 'width: 250px;',
-        startPlaceholder,
-        format: dateFormat,
-        endPlaceholder,
-        type: 'daterange',
-        disabledDate(date: Date) { return date.getTime() > yesterday },
-        shortcuts: pickerShortcuts,
-        rangeSeparator: '-'
-    })
-}
+const _default = defineComponent({
+    name: "DateFilter",
+    emits: {
+        change: (_date: Date[]) => true
+    },
+    props: {
+        dateRange: Array as PropType<Date[]>
+    },
+    setup(props, ctx) {
+        return () => h('p', [
+            h('a', { class: stepNoClz }, '1.'),
+            tN(msg => msg.dataManage.filterDate, {
+                // @ts-ignore
+                picker: h(ElDatePicker, {
+                    modelValue: props.dateRange,
+                    "onUpdate:modelValue": (date: Array<Date>) => ctx.emit('change', date),
+                    size: 'small',
+                    style: 'width: 250px;',
+                    startPlaceholder,
+                    format: dateFormat,
+                    endPlaceholder,
+                    type: 'daterange',
+                    disabledDate(date: Date) { return date.getTime() > yesterday },
+                    shortcuts: pickerShortcuts,
+                    rangeSeparator: '-'
+                })
+            })
+        ])
+    }
+})
 
-const dateFilter = (props: DateFilterProps) => h('p', [
-    h('a', { class: stepNoClz }, '1.'),
-    tN(msg => msg.dataManage.filterDate, { picker: picker(props) })
-])
-
-export default dateFilter
+export default _default

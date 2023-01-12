@@ -20,7 +20,7 @@ type _Queries = {
     merge: '1' | '0' | undefined
 }
 
-function initWithQuery(hostOption: Ref<timer.app.trend.HostInfo>) {
+function initWithQuery(hostOption: Ref<TrendHostInfo>) {
     // Process the query param
     const query: _Queries = useRoute().query as unknown as _Queries
     useRouter().replace({ query: {} })
@@ -29,7 +29,7 @@ function initWithQuery(hostOption: Ref<timer.app.trend.HostInfo>) {
     host && (hostOption.value = { host, merged: merge === "1" })
 }
 
-async function query(hostOption: Ref<timer.app.trend.HostInfo>, dateRange: Ref<Date[]>): Promise<timer.stat.Row[]> {
+async function query(hostOption: Ref<TrendHostInfo>, dateRange: Ref<Date[]>): Promise<timer.stat.Row[]> {
     const hostVal = hostOption.value?.host
     if (!hostVal) {
         return []
@@ -51,7 +51,7 @@ const _default = defineComponent({
     setup() {
         // @ts-ignore
         const dateRange: Ref<Date[]> = ref(daysAgo(7, 0))
-        const hostOption: Ref<timer.app.trend.HostInfo> = ref()
+        const hostOption: Ref<TrendHostInfo> = ref()
         const timeFormat: Ref<timer.app.TimeFormat> = ref('default')
         const chart: Ref = ref()
         const filter: Ref = ref()
@@ -60,7 +60,7 @@ const _default = defineComponent({
 
         async function queryAndRender(isOnMounted?: boolean) {
             const row = await query(hostOption, dateRange)
-            const filterOption: timer.app.trend.FilterOption = {
+            const filterOption: TrendFilterOption = {
                 host: hostOption.value,
                 dateRange: dateRange.value,
                 timeFormat: timeFormat.value
@@ -76,7 +76,7 @@ const _default = defineComponent({
                 timeFormat: timeFormat.value,
                 dateRange: dateRange.value,
                 ref: filter,
-                onChange(option: timer.app.trend.FilterOption) {
+                onChange(option: TrendFilterOption) {
                     hostOption.value = option.host
                     dateRange.value = option.dateRange
                     timeFormat.value = option.timeFormat

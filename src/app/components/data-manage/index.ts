@@ -6,36 +6,26 @@
  */
 
 import { ElRow, ElCol } from "element-plus"
-import { defineComponent, h, ref, Ref } from "vue"
-import { getUsedStorage } from "@db/memory-detector"
-import './style'
+import { defineComponent, h, Ref, ref } from "vue"
 import ContentContainer from "../common/content-container"
-import migration from "./migration"
-import memoryInfo from "./memory-info"
-import clearPanel from "./clear"
+import Migration from "./migration"
+import MemeryInfo from "./memory-info"
+import ClearPanel from "./clear"
+import './style'
 
-// Total memory with byte
-const usedRef: Ref<number> = ref(0)
-const totalRef: Ref<number> = ref(1) // As the denominator of percentage, cannot be 0, so be 1
-
-const queryData = async () => {
-    const { used, total } = await getUsedStorage()
-    usedRef.value = used || 0
-    totalRef.value = total
-}
-
-queryData()
-
-const firstRow = () => h(ElRow, { gutter: 20 },
-    () => [
-        h(ElCol, { span: 8 }, () => memoryInfo({ usedRef, totalRef })),
-        h(ElCol, { span: 11 }, () => clearPanel({ queryData })),
-        h(ElCol, { span: 5 }, () => migration({ queryData }))
-    ]
-)
-
-export default defineComponent(() => {
-    return () => h(ContentContainer, {
-        class: 'data-manage-container'
-    }, () => firstRow())
+export default defineComponent({
+    name: "DataManage",
+    setup() {
+        const memeryInfoRef: Ref = ref()
+        const queryData = () => memeryInfoRef?.value?.queryData()
+        return () => h(ContentContainer, {
+            class: 'data-manage-container'
+        }, () => h(ElRow, { gutter: 20 },
+            () => [
+                h(ElCol, { span: 8 }, () => h(MemeryInfo, { ref: memeryInfoRef })),
+                h(ElCol, { span: 11 }, () => h(ClearPanel, { onDataDelete: queryData })),
+                h(ElCol, { span: 5 }, () => h(Migration, { onImport: queryData })),
+            ]
+        ))
+    }
 })

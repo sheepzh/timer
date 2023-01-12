@@ -9,13 +9,13 @@ import { Download } from "@element-plus/icons-vue"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { h, defineComponent } from "vue"
 
-export type FileFormat = 'json' | 'csv'
-
 const ALL_FILE_FORMATS: FileFormat[] = ["json", "csv"]
 
 const _default = defineComponent({
     name: "FileDownload",
-    emits: ["download"],
+    emits: {
+        download: (_format: FileFormat) => true,
+    },
     setup(_, ctx) {
         return () => h(ElDropdown, { class: 'export-dropdown', showTimeout: 100 }, {
             default: () => h(ElButton,

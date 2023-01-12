@@ -17,7 +17,10 @@ const _default = defineComponent({
     props: {
         data: Array as PropType<timer.site.AliasIcon[]>
     },
-    emits: ["rowDelete", "rowModify"],
+    emits: {
+        rowDelete: (_row: timer.site.AliasIcon) => true,
+        rowModify: (_row: timer.site.AliasIcon) => true,
+    },
     setup(props, ctx) {
         return () => h(ElTable, {
             data: props.data,

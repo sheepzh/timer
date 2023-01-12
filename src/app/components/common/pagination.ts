@@ -15,7 +15,10 @@ const _default = defineComponent({
         size: Number,
         total: Number
     },
-    emits: ["sizeChange", "numChange"],
+    emits: {
+        sizeChange: (_val: number) => true,
+        numChange: (_val: number) => true,
+    },
     setup(props, ctx) {
         return () => h('div', { class: 'pagination-container' }, h(ElPagination,
             {

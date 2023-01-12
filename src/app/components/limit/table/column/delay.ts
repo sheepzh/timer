@@ -15,7 +15,9 @@ const tooltip = t(msg => msg.limit.item.delayAllowedInfo)
 
 const _default = defineComponent({
     name: "LimitDelayColumn",
-    emits: ["rowChange"],
+    emits: {
+        rowChange: (_row: timer.limit.Rule, _val: boolean) => true,
+    },
     setup(_, ctx) {
         return () => h(ElTableColumn, {
             prop: 'delayClosed',

@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { FileFormat } from "./download-file"
 import type { Ref, PropType } from "vue"
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
 import type { ReportMessage } from "@i18n/message/app/report"
@@ -60,7 +59,12 @@ const _default = defineComponent({
         mergeHost: Boolean,
         timeFormat: String as PropType<timer.app.TimeFormat>
     },
-    emits: ["change", "download", "batchDelete", 'remoteChange'],
+    emits: {
+        change: (_filterOption: ReportFilterOption) => true,
+        download: (_format: FileFormat) => true,
+        batchDelete: (_filterOption: ReportFilterOption) => true,
+        remoteChange: (_readRemote: boolean) => true,
+    },
     setup(props, ctx) {
         const host: Ref<string> = ref(props.host)
         // Don't know why the error occurred, so ignore
@@ -78,7 +82,7 @@ const _default = defineComponent({
             mergeDate: mergeDate.value,
             mergeHost: mergeHost.value,
             timeFormat: timeFormat.value
-        } as timer.app.report.FilterOption)
+        } as ReportFilterOption)
         const handleChange = () => ctx.emit("change", computeOption())
         timerService.canReadRemote().then(abled => remoteSwitchVisible.value = abled)
         return () => [

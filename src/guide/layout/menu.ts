@@ -12,7 +12,6 @@ import { ElIcon, ElMenu, ElMenuItem, ElSubMenu } from "element-plus"
 import { defineComponent, h } from "vue"
 import { User, Memo, MagicStick } from "@element-plus/icons-vue"
 
-
 type _Item = {
     title: I18nKey
     position: Position
@@ -91,7 +90,9 @@ function renderGroup(handleClick: (position: Position) => void, group: _Group): 
 
 const _default = defineComponent({
     name: "GuideMenu",
-    emits: ['click'],
+    emits: {
+        click: (_position: Position) => true,
+    },
     setup(_, ctx) {
         const handleClick = (position: Position) => ctx.emit('click', position)
         const menuItems = () => [

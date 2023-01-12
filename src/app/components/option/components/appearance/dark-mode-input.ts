@@ -37,7 +37,9 @@ const _default = defineComponent({
         startSecond: Number,
         endSecond: Number
     },
-    emits: ["change"],
+    emits: {
+        change: (_darkMode: timer.option.DarkMode, [_startSecond, _endSecond]: [number, number]) => true
+    },
     setup(props, ctx) {
         const darkMode: Ref<timer.option.DarkMode> = ref(props.modelValue)
         // @ts-ignore

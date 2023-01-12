@@ -16,12 +16,6 @@ import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import SelectFilterItem from "@app/components/common/select-filter-item"
 
-export type HabitFilterOption = {
-    periodSize: number
-    dateRange: Date[]
-    averageByDate: boolean
-}
-
 type ShortCutProp = [label: keyof HabitMessage['dateRange'], dayAgo: number]
 
 const shortcutProps: ShortCutProp[] = [
@@ -60,6 +54,10 @@ function allOptions(): Record<number, string> {
     return allOptions
 }
 
+const emits = {
+    change: (_option: HabitFilterOption) => true
+}
+
 const _default = defineComponent({
     name: "HabitFilter",
     props: {
@@ -67,7 +65,7 @@ const _default = defineComponent({
         dateRange: Array as PropType<Date[]>,
         averageByDate: Boolean
     },
-    emits: ["change"],
+    emits,
     setup(props, ctx) {
         const periodSize: Ref<number> = ref(props.periodSize || 1)
         // @ts-ignore
@@ -78,7 +76,7 @@ const _default = defineComponent({
                 periodSize: periodSize.value,
                 dateRange: dateRange.value,
                 averageByDate: averageByDate.value
-            } as HabitFilterOption)
+            })
         }
         return () => [
             // Size select

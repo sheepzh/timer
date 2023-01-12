@@ -19,7 +19,12 @@ const _default = defineComponent({
     props: {
         data: Array as PropType<timer.limit.Item[]>
     },
-    emits: ["delayChange", "enabledChange", "delete", "modify"],
+    emits: {
+        delayChange: (_row: timer.limit.Item) => true,
+        enabledChange: (_row: timer.limit.Item) => true,
+        delete: (_row: timer.limit.Item) => true,
+        modify: (_row: timer.limit.Item) => true,
+    },
     setup(props, ctx) {
         return () => h(ElTable, {
             border: true,
@@ -33,13 +38,13 @@ const _default = defineComponent({
             h(LimitTimeColumn),
             h(LimitWasteColumn),
             h(LimitDelayColumn, {
-                onRowChange: (row: timer.limit.Item, _allowDelay: boolean) => ctx.emit("delayChange", row)
+                onRowChange: (row: timer.limit.Item) => ctx.emit("delayChange", row)
             }),
             h(LimitEnabledColumn, {
-                onRowChange: (row: timer.limit.Item, _enabled: boolean) => ctx.emit("enabledChange", row)
+                onRowChange: (row: timer.limit.Item) => ctx.emit("enabledChange", row)
             }),
             h(LimitOperationColumn, {
-                onRowDelete: (row: timer.limit.Item, _cond: string) => ctx.emit("delete", row),
+                onRowDelete: (row: timer.limit.Item) => ctx.emit("delete", row),
                 onRowModify: (row: timer.limit.Item) => ctx.emit("modify", row),
             })
         ])
