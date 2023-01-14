@@ -18,10 +18,21 @@ type _Props = {
     label: string
 }
 
-const _default = defineComponent<_Props>({
+const _default = defineComponent({
     name: "SwitchFilterItem",
     emits: {
         change: (_val: boolean) => true
+    },
+    props: {
+        label: String,
+        defaultValue: {
+            type: Boolean,
+            required: false,
+        },
+        historyName: {
+            type: String,
+            required: false,
+        }
     },
     setup(props, ctx) {
         const modelValue: Ref<boolean> = ref(props.defaultValue || false)
