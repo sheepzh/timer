@@ -26,6 +26,7 @@ import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
 import TimerDatabase from "@db/timer-database"
 import { IS_SAFARI } from "@util/constant/environment"
+import { handleWindowVisibleChange } from "@util/window"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -225,6 +226,8 @@ const _default = defineComponent({
         const tableEl: Ref = ref()
 
         const query = () => queryData(queryParam, data, page, remoteRead)
+        // Query data if window become visible
+        handleWindowVisibleChange(query)
         // Init first
         queryWhiteList(whitelist).then(query)
 

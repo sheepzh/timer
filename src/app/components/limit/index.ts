@@ -15,6 +15,7 @@ import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
+import { handleWindowVisibleChange } from "@util/window"
 
 const _default = defineComponent({
     name: "Limit",
@@ -28,6 +29,8 @@ const _default = defineComponent({
             data.value = list
         }
         queryData()
+        // Query data if the window become visible
+        handleWindowVisibleChange(queryData)
         // Init with url parameter
         const urlParam = useRoute().query['url'] as string
         useRouter().replace({ query: {} })
