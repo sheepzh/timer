@@ -6,7 +6,7 @@
  */
 
 export type ChartMessage = {
-    title: { [key in timer.popup.Duration]: string }
+    title: { [key in PopupDuration]: string }
     mergeHostLabel: string
     fileName: string
     saveAsImageTitle: string

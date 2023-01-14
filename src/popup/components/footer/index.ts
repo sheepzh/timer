@@ -25,9 +25,11 @@ type FooterParam = TimerQueryParam & {
     chartTitle: string
 }
 
+type QueryResultHandler = (result: PopupQueryResult) => void
+
 const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: !IS_SAFARI, alias: true }
 
-function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.option.WeekStartOption): Date | Date[] {
+function calculateDateRange(duration: PopupDuration, weekStart: timer.option.WeekStartOption): Date | Date[] {
     const now = new Date()
     if (duration == 'today') {
         return now
@@ -59,13 +61,13 @@ function calculateDateRange(duration: timer.popup.Duration, weekStart: timer.opt
 }
 
 class FooterWrapper {
-    private afterQuery: timer.popup.QueryResultHandler
+    private afterQuery: QueryResultHandler
     private timeSelectWrapper: TimeSelectWrapper
     private typeSelectWrapper: TypeSelectWrapper
     private mergeHostWrapper: MergeHostWrapper
     private totalInfoWrapper: TotalInfoWrapper
 
-    constructor(afterQuery: timer.popup.QueryResultHandler) {
+    constructor(afterQuery: QueryResultHandler) {
         this.afterQuery = afterQuery
     }
 
@@ -93,8 +95,8 @@ class FooterWrapper {
         const itemCount = option.popupMax
         const queryParam = this.getQueryParam(option.weekStart)
         const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
-        const popupRows: timer.popup.Row[] = []
-        const other: timer.popup.Row = {
+        const popupRows: PopupRow[] = []
+        const other: PopupRow = {
             host: t(msg => msg.chart.otherLabel, { count: 0 }),
             focus: 0,
             date: '0000-00-00',
@@ -118,7 +120,7 @@ class FooterWrapper {
         const data = popupRows.filter(item => item[type])
         const date = queryParam.date
 
-        const queryResult: timer.popup.QueryResult = {
+        const queryResult: PopupQueryResult = {
             data,
             mergeHost: queryParam.mergeHost,
             type,
@@ -131,7 +133,7 @@ class FooterWrapper {
     }
 
     getQueryParam(weekStart: timer.option.WeekStartOption): FooterParam {
-        const duration: timer.popup.Duration = this.timeSelectWrapper.getSelectedTime()
+        const duration: PopupDuration = this.timeSelectWrapper.getSelectedTime()
         const param: FooterParam = {
             date: calculateDateRange(duration, weekStart),
             mergeHost: this.mergeHostWrapper.mergedHost(),
