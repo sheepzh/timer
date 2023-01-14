@@ -45,9 +45,9 @@ export const handleRestore = (handler: () => void) => {
 }
 
 // Store
-let _queryResult: timer.popup.QueryResult
+let _queryResult: PopupQueryResult
 
-function renderChart(queryResult: timer.popup.QueryResult) {
+function renderChart(queryResult: PopupQueryResult) {
     _queryResult = queryResult
     pie.setOption(pieOptions({ ...queryResult, displaySiteName }, chartContainer), true, false)
 }

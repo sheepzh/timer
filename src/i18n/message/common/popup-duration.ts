@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export type PopupDurationMessage = { [key in timer.popup.Duration]: string }
+export type PopupDurationMessage = { [key in timer.option.PopupDuration]: string }
 
 const _default: Messages<PopupDurationMessage> = {
     zh_CN: {
