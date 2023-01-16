@@ -18,6 +18,8 @@ export function isBrowserUrl(url: string) {
         // Firefox addons' pages
         || /^moz-extension:/.test(url)
         || /^edge.*?:\/\/.*$/.test(url)
+        // Edge extensions' pages
+        || /^extension:/.test(url)
         || /^safari.*?:\/\/.*/.test(url)
 }
 

@@ -9,6 +9,7 @@ test('browser url', () => {
     expect(isBrowserUrl('about:addons')).toBeTruthy()
     // edge
     expect(isBrowserUrl('edge://extensions/')).toBeTruthy()
+    expect(isBrowserUrl('extension://ifckodfehjfpfddhjhpejmidkhelbnpa/static/app.html#/additional/option')).toBeTruthy()
     expect(isBrowserUrl('https://www.jss.com.cn/')).toBeFalsy()
 })
 
