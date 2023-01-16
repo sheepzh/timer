@@ -10,6 +10,7 @@ import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { IS_MV3 } from "@util/constant/environment"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
+import alarmManager from "./alarm-manager"
 
 const storage = chrome.storage.local
 const timerDb: TimerDatabase = new TimerDatabase(storage)
@@ -59,23 +60,21 @@ function findFocusedWindow(): Promise<chrome.windows.Window> {
     )
 }
 
-function findActiveTab(): Promise<BadgeLocation> {
-    return new Promise(resolve => findFocusedWindow().then(window => {
-        if (!window) {
+async function findActiveTab(): Promise<BadgeLocation> {
+    const window = await findFocusedWindow()
+    if (!window) {
+        return undefined
+    }
+    return new Promise(resolve => chrome.tabs.query({ active: true, windowId: window.id }, tabs => {
+        // Fix #131
+        // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
+        tabs = tabs.filter(tab => !isBrowserUrl(tab.url))
+        if (!tabs || !tabs.length) {
             resolve(undefined)
-            return
+        } else {
+            const { url, id } = tabs[0]
+            resolve({ tabId: id, url })
         }
-        chrome.tabs.query({ active: true, windowId: window.id }, tabs => {
-            // Fix #131
-            // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
-            tabs = tabs.filter(tab => !isBrowserUrl(tab.url))
-            if (!tabs || !tabs.length) {
-                resolve(undefined)
-            } else {
-                const { url, id } = tabs[0]
-                resolve({ tabId: id, url })
-            }
-        })
     }))
 }
 
@@ -100,29 +99,17 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
     return badgeLocation
 }
 
-const ALARM_NAME = 'timer-badge-text-manager-alarm'
-const ALARM_INTERVAL = 1000
-function createAlarm(beforeAction?: () => void) {
-    beforeAction?.()
-    chrome.alarms.create(ALARM_NAME, { when: Date.now() + ALARM_INTERVAL })
-}
-
 class BadgeTextManager {
     isPaused: boolean
     lastLocation: BadgeLocation
 
     async init() {
-        createAlarm()
-        chrome.alarms.onAlarm.addListener(alarm => {
-            if (ALARM_NAME === alarm.name) {
-                createAlarm(() => !this.isPaused && updateFocus())
-            }
-        })
-
         const option: Partial<timer.option.AllOption> = await optionService.getAllOption()
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
         optionService.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
         whitelistHolder.addPostHandler(updateFocus)
+
+        alarmManager.setInterval('badage-text-manager', 1000, () => !this.isPaused && updateFocus())
     }
 
     /**
@@ -131,7 +118,7 @@ class BadgeTextManager {
     async pause() {
         this.isPaused = true
         const tab = await findActiveTab()
-        setBadgeText('P', tab?.tabId)
+        setBadgeText('', tab?.tabId)
     }
 
     /**
