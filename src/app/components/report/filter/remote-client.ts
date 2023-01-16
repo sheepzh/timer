@@ -14,7 +14,9 @@ import { defineComponent, ref, h, watch } from "vue"
 
 const _default = defineComponent({
     name: "ClientSelect",
-    emits: ["change"],
+    emits: {
+        change: (_readRemote: boolean) => true
+    },
     props: {
         visible: Boolean
     },

@@ -35,7 +35,10 @@ const _default = defineComponent({
             type: Number
         }
     },
-    emits: ["changed", "deleted"],
+    emits: {
+        change: (_origin: string, _merged: string | number, _idx: number) => true,
+        delete: (_origin: string) => true,
+    },
     setup(props, ctx) {
         const origin: Ref<string> = ref(props.origin)
         watch(() => props.origin, newVal => origin.value = newVal)
@@ -56,14 +59,14 @@ const _default = defineComponent({
             ? h(ItemInput, {
                 origin: origin.value,
                 merged: merged.value,
-                onSaved: (newOrigin: string, newMerged: string) => {
+                onSave: (newOrigin: string, newMerged: string) => {
                     origin.value = newOrigin
                     const newMergedVal = tryParseInteger(newMerged?.trim())[1]
                     merged.value = newMergedVal
                     editing.value = false
-                    ctx.emit("changed", newOrigin, newMergedVal, id.value)
+                    ctx.emit("change", newOrigin, newMergedVal, id.value)
                 },
-                onCanceled: () => {
+                onCancel: () => {
                     origin.value = props.origin
                     merged.value = props.merged
                     editing.value = false
@@ -73,7 +76,7 @@ const _default = defineComponent({
                 class: 'editable-item',
                 type: type.value,
                 closable: true,
-                onClose: () => ctx.emit("deleted", origin.value)
+                onClose: () => ctx.emit("delete", origin.value)
             }, () => [`${origin.value}  >>>  ${txt.value}`, h(Edit, { class: "edit-icon", onclick: () => editing.value = true })])
     }
 })

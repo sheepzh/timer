@@ -10,12 +10,12 @@ import type { CallbackDataParams } from "echarts/types/dist/shared"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
 
-function generateUrl(data: timer.popup.Row, queryResult: timer.popup.QueryResult): string {
+function generateUrl(data: PopupRow, queryResult: PopupQueryResult): string {
     const { host, isOther } = data
     if (!isOther) {
         return host ? `http://${host}` : undefined
     }
-    const query: timer.app.report.QueryParam = {}
+    const query: ReportQueryParam = {}
     // Merge host
     queryResult.mergeHost && (query.mh = "1")
     // Date
@@ -37,8 +37,8 @@ function generateUrl(data: timer.popup.Row, queryResult: timer.popup.QueryResult
     return getAppPageUrl(false, REPORT_ROUTE, query)
 }
 
-function handleClick(params: CallbackDataParams, queryResult: timer.popup.QueryResult) {
-    const data: timer.popup.Row = params.data as timer.popup.Row
+function handleClick(params: CallbackDataParams, queryResult: PopupQueryResult) {
+    const data: PopupRow = params.data as PopupRow
     if (!data) {
         return
     }

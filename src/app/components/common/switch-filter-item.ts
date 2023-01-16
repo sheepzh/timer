@@ -5,43 +5,37 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { nextTick, Ref } from "vue"
-import type { RouteLocation } from "vue-router"
+import type { Ref } from "vue"
 
 import { ElSwitch } from "element-plus"
-import { defineComponent, h, ref } from "vue"
+import { defineComponent, h, nextTick, ref } from "vue"
 import { useRoute } from "vue-router"
 import FilterItemHistoryWrapper from "./filter-item-history-wrapper"
 
-const PREFIX = "__filter_select_history_value_"
-
-function calcHistoryKey(route: RouteLocation, historyName: string): string {
-    if (!historyName) {
-        return undefined
-    } else {
-        return PREFIX + route.path + '_' + historyName
-    }
+type _Props = {
+    defaultValue?: boolean
+    historyName?: string
+    label: string
 }
 
 const _default = defineComponent({
     name: "SwitchFilterItem",
+    emits: {
+        change: (_val: boolean) => true
+    },
     props: {
+        label: String,
         defaultValue: {
             type: Boolean,
-            default: false
+            required: false,
         },
-        /**
-         * Whether to save the value in the localstorage with {@param historyName}
-         */
         historyName: {
             type: String,
-            required: false
-        },
-        label: String
+            required: false,
+        }
     },
-    emits: ["change"],
     setup(props, ctx) {
-        const modelValue: Ref<boolean> = ref(props.defaultValue)
+        const modelValue: Ref<boolean> = ref(props.defaultValue || false)
         const historyWrapper = new FilterItemHistoryWrapper(useRoute().path, props.historyName)
         // Initiliaze value
         historyWrapper.ifPresent(

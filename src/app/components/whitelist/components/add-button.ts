@@ -14,7 +14,9 @@ const buttonText = `+ ${t(msg => msg.operation.newOne)}`
 
 const _default = defineComponent({
     name: "WhitelistAddButton",
-    emits: ["saved"],
+    emits: {
+        save: (_white: string) => true,
+    },
     setup(_props, ctx) {
         const editing: Ref<boolean> = ref(false)
         const white: Ref<string> = ref('')
@@ -26,11 +28,11 @@ const _default = defineComponent({
         return () => editing.value
             ? h(ItemInput, {
                 white: white.value,
-                onSaved: (newWhite) => {
+                onSave: (newWhite) => {
                     white.value = newWhite
-                    ctx.emit('saved', newWhite)
+                    ctx.emit('save', newWhite)
                 },
-                onCanceled: () => editing.value = false
+                onCancel: () => editing.value = false
             })
             : h(ElButton, {
                 size: "small",

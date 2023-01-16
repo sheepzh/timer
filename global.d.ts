@@ -6,7 +6,7 @@
  */
 declare namespace timer {
     namespace option {
-
+        type PopupDuration = "today" | "thisWeek" | "thisMonth"
         /**
          * Options used for the popup page
          */
@@ -23,7 +23,7 @@ declare namespace timer {
              * The default duration to search
              * @since 0.6.0
              */
-            defaultDuration: popup.Duration
+            defaultDuration: PopupDuration
             /**
              * Replace the host name with site name which is detected automatically from the title of site homepages,
              * or modified manually by the user
@@ -273,20 +273,12 @@ declare namespace timer {
 
     namespace limit {
         /**
+         * Limit rule in runtime
+         * 
          * @since 0.8.4
          */
-        type Item = {
-            /**
-             * Condition, can be regular expression with star signs
-             */
-            cond: string
+        type Item = Rule & {
             regular: RegExp
-            /**
-             * Time limit, seconds
-             */
-            time: number
-            enabled: boolean
-            allowDelay: boolean
             /**
              * Waste today, milliseconds
              */
@@ -395,24 +387,6 @@ declare namespace timer {
         }
     }
 
-    namespace popup {
-        type Duration = "today" | "thisWeek" | "thisMonth"
-        type Row = timer.stat.Row & { isOther?: boolean }
-        type QueryResult = {
-            type: timer.stat.Dimension
-            mergeHost: boolean
-            data: Row[]
-            // Filter items
-            chartTitle: string
-            date: Date | Date[]
-            dateLength: number
-        }
-        type QueryResultHandler = (result: QueryResult) => void
-        type ChartProps = QueryResult & {
-            displaySiteName: boolean
-        }
-    }
-
     namespace app {
         /**
          * @since 1.1.7
@@ -422,60 +396,6 @@ declare namespace timer {
             | "second"
             | "minute"
             | "hour"
-
-        namespace trend {
-            type HostInfo = {
-                host: string
-                merged: boolean
-            }
-
-            type FilterOption = {
-                host: HostInfo,
-                dateRange: Date[],
-                timeFormat: TimeFormat
-            }
-
-            type RenderOption = FilterOption & {
-                /**
-                 * Whether render firstly
-                 */
-                isFirst: boolean
-            }
-        }
-
-        namespace report {
-            /**
-             * The query param of report page
-             */
-            type QueryParam = {
-                /**
-                 * Merge host
-                 */
-                mh?: string
-                /**
-                 * Date start
-                 */
-                ds?: string
-                /**
-                 * Date end
-                 */
-                de?: string
-                /**
-                 * Sorted column
-                 */
-                sc?: timer.stat.Dimension
-            }
-            type FilterOption = {
-                host: string
-                dateRange: Date[]
-                mergeDate: boolean
-                mergeHost: boolean
-                /**
-                 * @since 1.1.7
-                 */
-                timeFormat: TimeFormat
-            }
-        }
     }
 
     /**

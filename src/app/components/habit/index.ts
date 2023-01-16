@@ -6,7 +6,6 @@
  */
 
 import type { Ref } from "vue"
-import type { HabitFilterOption } from "./component/filter"
 
 import { defineComponent, h, ref, onMounted } from "vue"
 import periodService from "@service/period-service"

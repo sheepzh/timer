@@ -26,7 +26,10 @@ const _default = defineComponent({
             default: true
         }
     },
-    emits: ["confirm", "referenceClick"],
+    emits: {
+        confirm: () => true,
+        referenceClick: () => true,
+    },
     setup(props, ctx) {
         const display = computed(() => props.visible ? "inline-block" : "none")
         return () => h(ElPopconfirm, {

@@ -61,7 +61,9 @@ const _default = defineComponent({
             type: Number
         }
     },
-    emits: ['change'],
+    emits: {
+        change: (_val: number) => true
+    },
     setup(props, ctx) {
         const [hour, minute, second] = computeSecond2LimitInfo(props.modelValue)
         const hourRef: Ref<number> = ref(hour)

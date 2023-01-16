@@ -5,21 +5,23 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Plus } from "@element-plus/icons-vue"
+import { Operation, Plus } from "@element-plus/icons-vue"
 import { Ref, h, defineComponent, ref } from "vue"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import ButtonFilterItem from "@app/components/common/button-filter-item"
 import { t } from "@app/locale"
 
-export type LimitFilterOption = {
-    url: string
-    onlyEnabled: boolean
-}
-
 const urlPlaceholder = t(msg => msg.limit.conditionFilter)
 const onlyEnabledLabel = t(msg => msg.limit.filterDisabled)
 const addButtonText = t(msg => msg.limit.button.add)
+const testButtonText = t(msg => msg.limit.button.test)
+
+const emits = {
+    create: () => true,
+    change: (_option: LimitFilterOption) => true,
+    test: () => true,
+}
 
 const _default = defineComponent({
     name: "LimitFilter",
@@ -27,14 +29,14 @@ const _default = defineComponent({
         url: String,
         onlyEnabled: Boolean
     },
-    emits: ["create", "change"],
+    emits,
     setup(props, ctx) {
         const url: Ref<string> = ref(props.url)
         const onlyEnabled: Ref<boolean> = ref(props.onlyEnabled)
         const handleChange = () => ctx.emit("change", {
             url: url.value,
             onlyEnabled: onlyEnabled.value
-        } as LimitFilterOption)
+        })
         return () => [
             h(InputFilterItem, {
                 placeholder: urlPlaceholder,
@@ -51,6 +53,12 @@ const _default = defineComponent({
                     onlyEnabled.value = newVal
                     handleChange()
                 }
+            }),
+            h(ButtonFilterItem, {
+                text: testButtonText,
+                type: 'primary',
+                icon: Operation,
+                onClick: () => ctx.emit('test')
             }),
             h(ButtonFilterItem, {
                 text: addButtonText,

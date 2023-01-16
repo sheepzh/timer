@@ -15,7 +15,10 @@ const _default = defineComponent({
     props: {
         modelValue: String
     },
-    emits: ["input", "enter"],
+    emits: {
+        input: (_val: string) => true,
+        enter: () => true,
+    },
     setup(props, ctx) {
         return () => h(ElFormItem,
             { prop: 'name', label: LABEL },

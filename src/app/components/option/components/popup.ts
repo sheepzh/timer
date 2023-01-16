@@ -53,7 +53,7 @@ const durationSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSele
     modelValue: option.defaultDuration,
     size: 'small',
     style: { width: t(msg => msg.option.popup.durationWidth) },
-    onChange: (val: timer.popup.Duration) => {
+    onChange: (val: PopupDuration) => {
         option.defaultDuration = val
         optionService.setPopupOption(unref(option))
     }

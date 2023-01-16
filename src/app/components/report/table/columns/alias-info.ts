@@ -17,9 +17,11 @@ type _Data = {
     input: Ref
 }
 
-type _Emits = "change"
+type _Emits = {
+    change: (_newVal: string) => true
+}
 
-function renderEditing(data: _Data, ctx: SetupContext<_Emits[]>) {
+function renderEditing(data: _Data, ctx: SetupContext<_Emits>) {
     return h(ElInput, {
         size: 'small',
         ref: data.input,
@@ -71,7 +73,7 @@ function renderText(data: _Data) {
     return result
 }
 
-function render(data: _Data, ctx) {
+function render(data: _Data, ctx: SetupContext<_Emits>) {
     const isEditing = data.editing.value
     if (isEditing) {
         return renderEditing(data, ctx)
@@ -89,7 +91,9 @@ const _default = defineComponent({
             type: String
         }
     },
-    emits: ['change'],
+    emits: {
+        change: (_newAlias: string) => true
+    },
     setup(props, ctx) {
         const editing = ref(false)
         const originVal = ref(props.modelValue)

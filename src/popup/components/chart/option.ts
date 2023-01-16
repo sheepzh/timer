@@ -31,6 +31,10 @@ type EcOption = ComposeOption<
     | LegendComponentOption
 >
 
+type ChartProps = PopupQueryResult & {
+    displaySiteName: boolean
+}
+
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 
 /**
@@ -56,10 +60,10 @@ function calculateAverageText(type: timer.stat.Dimension, averageValue: number):
     return undefined
 }
 
-function toolTipFormatter({ type, dateLength }: timer.popup.QueryResult, params: any): string {
+function toolTipFormatter({ type, dateLength }: PopupQueryResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
-    const data = format.data as timer.popup.Row
+    const data = format.data as PopupRow
     const host = data.host
     const siteLabel = generateSiteLabel(host, name)
     let result = siteLabel
@@ -75,10 +79,10 @@ function toolTipFormatter({ type, dateLength }: timer.popup.QueryResult, params:
     return result
 }
 
-function labelFormatter({ mergeHost }: timer.popup.QueryResult, params: any): string {
+function labelFormatter({ mergeHost }: PopupQueryResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name } = format
-    const data = format.data as timer.popup.Row
+    const data = format.data as PopupRow
     // Un-supported to get favicon url in Safari
     return mergeHost || data.isOther || IS_SAFARI
         ? name
@@ -147,7 +151,7 @@ function calculateSubTitleText(date: Date | Date[]) {
     }
 }
 
-export function pieOptions(props: timer.popup.ChartProps, container: HTMLDivElement): EcOption {
+export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOption {
     const { type, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
     const subTitleText = `${calculateSubTitleText(date)} @ ${t(msg => msg.meta.name)}`

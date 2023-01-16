@@ -23,7 +23,10 @@ const _default = defineComponent({
             default: ""
         }
     },
-    emits: ["saved", "canceled"],
+    emits: {
+        save: (_white: string) => true,
+        cancel: () => true,
+    },
     setup(props, ctx) {
         const white: Ref<string> = ref(props.white)
         return () => h('div', { class: "item-input-container" }, [
@@ -41,7 +44,7 @@ const _default = defineComponent({
                 class: 'item-cancel-button editable-item',
                 onClick: () => {
                     white.value = props.white
-                    ctx.emit("canceled")
+                    ctx.emit("cancel")
                 }
             }),
             h(ElButton, {
@@ -49,7 +52,7 @@ const _default = defineComponent({
                 icon: Check,
                 class: 'item-check-button editable-item',
                 onClick: () => (isRemainHost(white.value) || isValidHost(white.value))
-                    ? ctx.emit("saved", white.value)
+                    ? ctx.emit("save", white.value)
                     : ElMessage.warning(invalidTxt)
             })
         ])

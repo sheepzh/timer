@@ -23,7 +23,9 @@ const _default = defineComponent({
             default: true
         }
     },
-    emits: ["change"],
+    emits: {
+        change: (_value: Date[]) => true
+    },
     setup(props, ctx) {
         // @ts-ignore
         const dateRange: Ref<Date[]> = ref(props.defaultRange || [undefined, undefined])

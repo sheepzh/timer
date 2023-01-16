@@ -7,8 +7,6 @@
 
 import type { Ref, UnwrapRef, ComputedRef } from "vue"
 import type { TimerQueryParam } from "@service/timer-service"
-import type { SortInfo } from "./table"
-import type { FileFormat } from "./filter/download-file"
 import type { Router, RouteLocation } from "vue-router"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
@@ -16,7 +14,7 @@ import { I18nKey, t } from "@app/locale"
 import timerService from "@service/timer-service"
 import whitelistService from "@service/whitelist-service"
 import './styles/element'
-import ReportTable, { ElSortDirect } from "./table"
+import ReportTable from "./table"
 import ReportFilter from "./filter"
 import Pagination from "../common/pagination"
 import ContentContainer from "../common/content-container"
@@ -28,6 +26,7 @@ import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
 import TimerDatabase from "@db/timer-database"
 import { IS_SAFARI } from "@util/constant/environment"
+import { handleWindowVisibleChange } from "@util/window"
 
 const timerDatabase = new TimerDatabase(chrome.storage.local)
 
@@ -122,7 +121,7 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
     return t(key, i18nParam)
 }
 
-async function handleBatchDelete(tableEl: Ref, filterOption: timer.app.report.FilterOption, afterDelete: Function) {
+async function handleBatchDelete(tableEl: Ref, filterOption: ReportFilterOption, afterDelete: Function) {
     const selected: timer.stat.Row[] = tableEl?.value?.getSelected?.() || []
     if (!selected?.length) {
         ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
@@ -167,8 +166,8 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
 /**
  * Init the query parameters
  */
-function initQueryParam(route: RouteLocation, router: Router): [timer.app.report.FilterOption, SortInfo] {
-    const routeQuery: timer.app.report.QueryParam = route.query as unknown as timer.app.report.QueryParam
+function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOption, SortInfo] {
+    const routeQuery: ReportQueryParam = route.query as unknown as ReportQueryParam
     const { mh, ds, de, sc } = routeQuery
     const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
     const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
@@ -176,7 +175,7 @@ function initQueryParam(route: RouteLocation, router: Router): [timer.app.report
     router.replace({ query: {} })
 
     const now = new Date()
-    const filterOption: timer.app.report.FilterOption = {
+    const filterOption: ReportFilterOption = {
         host: '',
         dateRange: [dateStart || now, dateEnd || now],
         mergeDate: false,
@@ -185,23 +184,23 @@ function initQueryParam(route: RouteLocation, router: Router): [timer.app.report
     }
     const sortInfo: SortInfo = {
         prop: sc || 'focus',
-        order: ElSortDirect.DESC
+        order: 'descending'
     }
     return [filterOption, sortInfo]
 }
 
-function computeTimerQueryParam(filterOption: timer.app.report.FilterOption, sort: SortInfo): TimerQueryParam {
+function computeTimerQueryParam(filterOption: ReportFilterOption, sort: SortInfo): TimerQueryParam {
     return {
         host: filterOption.host,
         date: filterOption.dateRange,
         mergeHost: filterOption.mergeHost,
         mergeDate: filterOption.mergeDate,
         sort: sort.prop,
-        sortOrder: sort.order === ElSortDirect.ASC ? 'ASC' : 'DESC'
+        sortOrder: sort.order === 'ascending' ? 'ASC' : 'DESC'
     }
 }
 
-function copyFilterParam(newVal: timer.app.report.FilterOption, oldVal: timer.app.report.FilterOption) {
+function copyFilterParam(newVal: ReportFilterOption, oldVal: ReportFilterOption) {
     oldVal.host = newVal.host
     oldVal.dateRange = newVal.dateRange
     oldVal.mergeDate = newVal.mergeDate
@@ -215,7 +214,7 @@ const _default = defineComponent({
         const route = useRoute()
         const router = useRouter()
         const [initialFilterParam, initialSort] = initQueryParam(route, router)
-        const filterOption: UnwrapRef<timer.app.report.FilterOption> = reactive(initialFilterParam)
+        const filterOption: UnwrapRef<ReportFilterOption> = reactive(initialFilterParam)
         const sort: UnwrapRef<SortInfo> = reactive(initialSort)
 
         const data: Ref<timer.stat.Row[]> = ref([])
@@ -227,6 +226,8 @@ const _default = defineComponent({
         const tableEl: Ref = ref()
 
         const query = () => queryData(queryParam, data, page, remoteRead)
+        // Query data if window become visible
+        handleWindowVisibleChange(query)
         // Init first
         queryWhiteList(whitelist).then(query)
 
@@ -237,7 +238,7 @@ const _default = defineComponent({
                 mergeDate: filterOption.mergeDate,
                 mergeHost: filterOption.mergeHost,
                 timeFormat: filterOption.timeFormat,
-                onChange: (newFilterOption: timer.app.report.FilterOption) => {
+                onChange: (newFilterOption: ReportFilterOption) => {
                     copyFilterParam(newFilterOption, filterOption)
                     query()
                 },
@@ -246,7 +247,7 @@ const _default = defineComponent({
                     format === 'json' && exportJson(filterOption, rows)
                     format === 'csv' && exportCsv(filterOption, rows)
                 },
-                onBatchDelete: (filterOption: timer.app.report.FilterOption) => handleBatchDelete(tableEl, filterOption, query),
+                onBatchDelete: (filterOption: ReportFilterOption) => handleBatchDelete(tableEl, filterOption, query),
                 onRemoteChange(newRemoteChange) {
                     remoteRead.value = newRemoteChange
                     query()

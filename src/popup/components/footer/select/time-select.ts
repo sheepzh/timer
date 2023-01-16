@@ -15,17 +15,17 @@ class TimeSelectWrapper {
     private timeSelectPopup: HTMLElement
     private timeSelectInput: HTMLInputElement
     private isOpen: boolean = false
-    private currentSelected: timer.popup.Duration = undefined
+    private currentSelected: PopupDuration = undefined
     private handleSelected: Function
 
     private optionList: HTMLElement
-    private optionItems: Map<timer.popup.Duration, HTMLLIElement> = new Map()
+    private optionItems: Map<PopupDuration, HTMLLIElement> = new Map()
 
     constructor(handleSelected: Function) {
         this.handleSelected = handleSelected
     }
 
-    async init(initialVal: timer.popup.Duration): Promise<void> {
+    async init(initialVal: PopupDuration): Promise<void> {
         this.timeSelect = document.getElementById('time-select-container')
         this.timeSelectPopup = document.getElementById('time-select-popup')
         this.timeSelectInput = document.getElementById('time-select-input') as HTMLInputElement
@@ -38,7 +38,7 @@ class TimeSelectWrapper {
         this.selected(initialVal)
     }
 
-    private initOption(item: timer.popup.Duration) {
+    private initOption(item: PopupDuration) {
         const li = document.createElement('li')
         li.classList.add('el-select-dropdown__item')
         li.innerText = t(msg => msg.duration[item])
@@ -51,7 +51,7 @@ class TimeSelectWrapper {
         this.optionItems.set(item, li)
     }
 
-    private selected(item: timer.popup.Duration) {
+    private selected(item: PopupDuration) {
         this.currentSelected = item
         Array.from(this.optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
         this.optionItems.get(item).classList.add(SELECTED_CLASS)
@@ -70,7 +70,7 @@ class TimeSelectWrapper {
         this.isOpen = false
     }
 
-    getSelectedTime(): timer.popup.Duration {
+    getSelectedTime(): PopupDuration {
         return this.currentSelected
     }
 }

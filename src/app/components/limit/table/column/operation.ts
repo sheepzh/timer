@@ -15,7 +15,10 @@ const deleteButtonText = t(msg => msg.limit.button.delete)
 const modifyButtonText = t(msg => msg.limit.button.modify)
 const _default = defineComponent({
     name: "LimitOperationColumn",
-    emits: ["rowDelete", "rowModify"],
+    emits: {
+        rowDelete: (_row: timer.limit.Item, _cond: string) => true,
+        rowModify: (_row: timer.limit.Item) => true,
+    },
     setup(_props, ctx) {
         return () => h(ElTableColumn, {
             prop: 'operations',

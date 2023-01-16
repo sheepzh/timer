@@ -63,7 +63,9 @@ const _default = defineComponent({
         editing: Boolean,
         modelValue: Object as PropType<timer.site.AliasKey>
     },
-    emits: ["change"],
+    emits: {
+        change: (_aliasKey: timer.site.AliasKey) => true
+    },
     setup(props, ctx) {
         const searching: Ref<boolean> = ref(false)
         const searchedHosts: Ref<_OptionInfo[]> = ref([])

@@ -65,9 +65,9 @@ type EcOption = ComposeOption<
 function formatTooltip(minutes: number, date: string): string {
     const hour = Math.floor(minutes / 60)
     const minute = minutes % 60
-    const year = date.substr(0, 4)
-    const month = date.substr(4, 2)
-    const day = date.substr(6, 2)
+    const year = date.substring(0, 4)
+    const month = date.substring(4, 6)
+    const day = date.substring(6, 8)
     const placeholders = {
         hour, minute, year, month, day
     }
@@ -90,7 +90,7 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
     const allMonthLabel = t(msg => msg.calendar.months).split('|')
     const result = {}
     // {[ x:string ]: Set<string> }
-    const xAndMonthMap = groupBy(data, e => e[0], grouped => new Set(grouped.map(a => a[3].substr(4, 2))))
+    const xAndMonthMap = groupBy(data, e => e[0], grouped => new Set(grouped.map(a => a[3].substring(4, 6))))
     let lastMonth = undefined
     Object.entries(xAndMonthMap).forEach(([x, monthSet]) => {
         if (monthSet.size != 1) {
@@ -206,11 +206,11 @@ function handleClick(value: _Value): void {
         return
     }
 
-    const currentYear = parseInt(currentDate.substr(0, 4))
-    const currentMonth = parseInt(currentDate.substr(4, 2)) - 1
-    const currentDay = parseInt(currentDate.substr(6, 2))
+    const currentYear = parseInt(currentDate.substring(0, 4))
+    const currentMonth = parseInt(currentDate.substring(4, 6)) - 1
+    const currentDay = parseInt(currentDate.substring(6, 8))
     const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
-    const query: timer.app.report.QueryParam = { ds: currentTs, de: currentTs }
+    const query: ReportQueryParam = { ds: currentTs, de: currentTs }
 
     const url = getAppPageUrl(false, REPORT_ROUTE, query)
     chrome.tabs.create({ url })

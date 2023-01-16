@@ -1,22 +1,11 @@
 
 import type { PropType, Ref } from "vue"
-import type { RouteLocation } from "vue-router"
 
 import { watch } from "vue"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, h, ref, nextTick } from "vue"
 import { useRoute } from "vue-router"
 import FilterItemHistoryWrapper from "./filter-item-history-wrapper"
-
-const PREFIX = "__filter_select_history_value_"
-
-function calcHistoryKey(route: RouteLocation, historyName: string): string {
-    if (!historyName) {
-        return undefined
-    } else {
-        return PREFIX + route.path + '_' + historyName
-    }
-}
 
 const _default = defineComponent({
     name: "SelectFilterItem",
@@ -31,7 +20,9 @@ const _default = defineComponent({
         },
         options: Object as PropType<Record<string | number, string>>
     },
-    emits: ['select'],
+    emits: {
+        select: (_val: string) => true
+    },
     setup(props, ctx) {
         const modelValue: Ref<string> = ref(props.defaultValue)
         const historyWrapper = new FilterItemHistoryWrapper(useRoute().path, props.historyName)

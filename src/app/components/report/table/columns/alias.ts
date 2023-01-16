@@ -17,7 +17,9 @@ const columnLabel = t(msg => msg.siteManage.column.alias)
 
 const _default = defineComponent({
     name: "AliasColumn",
-    emits: ["aliasChange"],
+    emits: {
+        aliasChange: (_host: string, _newAlias: string) => true,
+    },
     setup(_, ctx) {
         return () => h(ElTableColumn, {
             label: columnLabel,
