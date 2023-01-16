@@ -56,23 +56,21 @@ function findFocusedWindow(): Promise<chrome.windows.Window> {
     )
 }
 
-function findActiveTab(): Promise<BadgeLocation> {
-    return new Promise(resolve => findFocusedWindow().then(window => {
-        if (!window) {
+async function findActiveTab(): Promise<BadgeLocation> {
+    const window = await findFocusedWindow()
+    if (!window) {
+        return undefined
+    }
+    return new Promise(resolve => chrome.tabs.query({ active: true, windowId: window.id }, tabs => {
+        // Fix #131
+        // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
+        tabs = tabs.filter(tab => !isBrowserUrl(tab.url))
+        if (!tabs || !tabs.length) {
             resolve(undefined)
-            return
+        } else {
+            const { url, id } = tabs[0]
+            resolve({ tabId: id, url })
         }
-        chrome.tabs.query({ active: true, windowId: window.id }, tabs => {
-            // Fix #131
-            // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
-            tabs = tabs.filter(tab => !isBrowserUrl(tab.url))
-            if (!tabs || !tabs.length) {
-                resolve(undefined)
-            } else {
-                const { url, id } = tabs[0]
-                resolve({ tabId: id, url })
-            }
-        })
     }))
 }
 
@@ -116,7 +114,7 @@ class BadgeTextManager {
     async pause() {
         this.isPaused = true
         const tab = await findActiveTab()
-        setBadgeText('P', tab?.tabId)
+        setBadgeText('', tab?.tabId)
     }
 
     /**
