@@ -10,11 +10,7 @@ import IdleListener from "./idle-listener"
 import save from "./save"
 import TimerContext from "./context"
 import CollectionContext from "./collection-context"
-
-function createAlarm(name: string, interval: number, beforeAction?: () => void) {
-    beforeAction?.()
-    chrome.alarms.create(name, { when: Date.now() + interval })
-}
+import alarmManager from "../alarm-manager"
 
 /**
  * Timer
@@ -26,23 +22,8 @@ class Timer {
         new IdleListener(timerContext).listen()
         const collector = new TimeCollector(collectionContext)
 
-        const collectAlarmName = 'timer-collect-alarm'
-        const saveAlarmName = 'timer-save-alarm'
-        createAlarm(collectAlarmName, 1000)
-        createAlarm(saveAlarmName, 500)
-        chrome.alarms.onAlarm.addListener(alarm => {
-            if (collectAlarmName === alarm.name) {
-                createAlarm(collectAlarmName, 1000, () => {
-                    collector.collect()
-                    chrome.alarms.clear(collectAlarmName)
-                })
-            } else if (saveAlarmName === alarm.name) {
-                createAlarm(saveAlarmName, 500, () => {
-                    save(collectionContext)
-                    chrome.alarms.clear(saveAlarmName)
-                })
-            }
-        })
+        alarmManager.setInterval('collect', 1000, () => collector.collect())
+        alarmManager.setInterval('save', 500, () => save(collectionContext))
     }
 }
 
