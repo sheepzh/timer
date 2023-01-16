@@ -9,6 +9,7 @@ import TimerDatabase from "@db/timer-database"
 import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
+import alarmManager from "./alarm-manager"
 
 const storage = chrome.storage.local
 const timerDb: TimerDatabase = new TimerDatabase(storage)
@@ -96,29 +97,17 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
     return badgeLocation
 }
 
-const ALARM_NAME = 'timer-badge-text-manager-alarm'
-const ALARM_INTERVAL = 1000
-function createAlarm(beforeAction?: () => void) {
-    beforeAction?.()
-    chrome.alarms.create(ALARM_NAME, { when: Date.now() + ALARM_INTERVAL })
-}
-
 class BadgeTextManager {
     isPaused: boolean
     lastLocation: BadgeLocation
 
     async init() {
-        createAlarm()
-        chrome.alarms.onAlarm.addListener(alarm => {
-            if (ALARM_NAME === alarm.name) {
-                createAlarm(() => !this.isPaused && updateFocus())
-            }
-        })
-
         const option: Partial<timer.option.AllOption> = await optionService.getAllOption()
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
         optionService.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
         whitelistHolder.addPostHandler(updateFocus)
+
+        alarmManager.setInterval('badage-text-manager', 1000, () => !this.isPaused && updateFocus())
     }
 
     /**
