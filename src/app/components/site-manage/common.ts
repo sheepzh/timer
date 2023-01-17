@@ -24,8 +24,8 @@ export function aliasKeyOf(value: string): timer.site.AliasKey {
     return { host, merged }
 }
 
-const EXIST_MSG = t(msg => msg.siteManage.msg.existedTag)
-const MERGED_MSG = t(msg => msg.siteManage.msg.mergedTag)
+export const EXIST_MSG = t(msg => msg.siteManage.msg.existedTag)
+export const MERGED_MSG = t(msg => msg.siteManage.msg.mergedTag)
 
 /**
  * Calclate the label of alias key to display
