@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, PropType } from "vue"
+import type { Ref, PropType, VNode } from "vue"
 
-import { ElOption, ElSelect } from "element-plus"
+import { ElOption, ElSelect, ElTag } from "element-plus"
 import { ref, h, defineComponent } from "vue"
 import timerService, { HostSet } from "@service/timer-service"
 import { daysAgo } from "@util/time"
@@ -38,6 +38,7 @@ function datePickerShortcut(msg: keyof TrendMessage, agoOfStart?: number, agoOfE
         value: daysAgo(agoOfStart || 0, agoOfEnd || 0)
     }
 }
+
 const SHORTCUTS = [
     datePickerShortcut('lastWeek', 7),
     datePickerShortcut('last15Days', 15),
@@ -66,6 +67,17 @@ function hostInfoOfKey(key: string): TrendHostInfo {
     if (!key || !key.length) return { host: '', merged: false }
     const merged = key.charAt(0) === '1'
     return { host: key.substring(1), merged }
+}
+
+const MERGED_TAG_TXT = t(msg => msg.trend.merged)
+function renderHostLabel(hostInfo: TrendHostInfo): VNode[] {
+    const result = [
+        h('span', {}, hostInfo.host)
+    ]
+    hostInfo.merged && result.push(
+        h(ElTag, { size: 'small' }, () => MERGED_TAG_TXT)
+    )
+    return result
 }
 
 const _default = defineComponent({
@@ -119,7 +131,10 @@ const _default = defineComponent({
                 handleChange()
             }
         }, () => (trendDomainOptions.value || [])?.map(
-            hostInfo => h(ElOption, { value: keyOfHostInfo(hostInfo), label: labelOfHostInfo(hostInfo) })
+            hostInfo => h(ElOption, {
+                value: keyOfHostInfo(hostInfo),
+                label: labelOfHostInfo(hostInfo),
+            }, () => renderHostLabel(hostInfo))
         )),
         h(DateRangeFilterItem, {
             defaultRange: dateRange.value,
