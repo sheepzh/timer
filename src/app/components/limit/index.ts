@@ -55,7 +55,7 @@ const _default = defineComponent({
                 h(LimitTable, {
                     data: data.value,
                     onDelayChange: (row: timer.limit.Item) => limitService.updateDelay(row),
-                    onEnabledChange: (row: timer.limit.Item) => limitService.update(row),
+                    onEnabledChange: (row: timer.limit.Item) => limitService.updateEnabled(row),
                     async onDelete(row: timer.limit.Item) {
                         await limitService.remove(row)
                         ElMessage.success(t(msg => msg.limit.message.deleted))

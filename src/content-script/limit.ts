@@ -78,6 +78,8 @@ class _Modal {
             }
             this.delayContainer.append(link)
             this.mask.append(this.delayContainer)
+        } else if (!showDelay && this.mask.childElementCount === 2) {
+            this.mask.children?.[1]?.remove?.()
         }
         if (this.visible) {
             return
@@ -195,15 +197,15 @@ function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Mo
     return { code: "success" }
 }
 
-function handleLimitRemoved(msg: timer.mq.Request<void>, modal: _Modal): timer.mq.Response {
-    if (msg.code !== 'limitRemoved') {
+function handleLimitChanged(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): timer.mq.Response {
+    if (msg.code === 'limitChanged') {
+        const data: timer.limit.Item[] = msg.data
+        const items = data.map(TimeLimitItem.of)
+        items?.length ? modal.process(items) : modal.hideModal()
+        return { code: 'success' }
+    } else {
         return { code: 'ignore' }
     }
-    if (!modal.isVisible()) {
-        return { code: 'ignore' }
-    }
-    modal.hideModal()
-    return { code: 'success' }
 }
 
 export default async function processLimit(url: string) {
@@ -219,7 +221,7 @@ export default async function processLimit(url: string) {
         (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitWaking(msg, modal))
     )
     chrome.runtime.onMessage.addListener(
-        (msg: timer.mq.Request<void>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitRemoved(msg, modal))
+        (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitChanged(msg, modal))
     )
 }
 

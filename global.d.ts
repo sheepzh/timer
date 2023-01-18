@@ -470,7 +470,7 @@ declare namespace timer {
             // @since 0.9.0
             | 'limitWaking'
             // @since 1.2.3
-            | 'limitRemoved'
+            | 'limitChanged'
             // Request by content script
             // @since 1.3.0
             | "cs.isInWhitelist"
