@@ -36,35 +36,40 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
         .filter(item => url ? item.matches(url) : true)
 }
 
-async function update({ cond, time, enabled, allowDelay }: timer.limit.Item, rewrite?: boolean): Promise<void> {
-    if (rewrite === undefined) {
-        rewrite = true
-    }
+/**
+ * Fired if the item is removed or disabled
+ * 
+ * @param item 
+ */
+async function handleLimitChanged() {
+    const allItems: TimeLimitItem[] = await select({ filterDisabled: false, url: undefined })
+    chrome.tabs.query({}, tabs => tabs.forEach(tab => {
+        const limitedItems = allItems.filter(item => item.matches(tab.url) && item.enabled && item.hasLimited())
+        chrome.tabs.sendMessage<timer.mq.Request<timer.limit.Item[]>, timer.mq.Response>(tab.id, {
+            code: 'limitChanged',
+            data: limitedItems
+        }, _result => {
+            const error = chrome.runtime.lastError
+            error && console.log(error.message)
+        })
+    }))
+}
+
+async function updateEnabled(item: timer.limit.Item): Promise<void> {
+    const { cond, time, enabled, allowDelay } = item
     const limit: timer.limit.Rule = { cond, time, enabled, allowDelay }
-    await db.save(limit, rewrite)
+    await db.save(limit, true)
+    await handleLimitChanged()
 }
 
 async function updateDelay(item: timer.limit.Item) {
     await db.updateDelay(item.cond, item.allowDelay)
+    await handleLimitChanged()
 }
 
 async function remove(item: timer.limit.Item): Promise<void> {
     await db.remove(item.cond)
-    const allItems: TimeLimitItem[] = await select({ filterDisabled: true, url: undefined })
-    chrome.tabs.query({}, tabs => tabs.forEach(tab => {
-        if (allItems.find(item => item.matches(tab.url) && item.hasLimited())) {
-            // Needn't remove
-            return
-        }
-        chrome.tabs.sendMessage<timer.mq.Request<void>, timer.mq.Response>(tab.id, {
-            code: 'limitRemoved',
-            data: undefined
-        }, result => {
-            if (result?.code === "fail") {
-                console.error(`Failed to handle limit removed: cond=${JSON.stringify(item)}, msg=${result.msg}`)
-            }
-        })
-    }))
+    await handleLimitChanged()
 }
 
 async function getLimited(url: string): Promise<TimeLimitItem[]> {
@@ -116,7 +121,7 @@ async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<timer.
 class LimitService {
     moreMinutes = moreMinutes
     getLimited = getLimited
-    update = update
+    updateEnabled = updateEnabled
     updateDelay = updateDelay
     select = select
     remove = remove

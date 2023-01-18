@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { PropType, Ref } from "vue"
+import type { PropType, Ref, VNode } from "vue"
 
 import { t } from "@app/locale"
 import HostAliasDatabase from "@db/host-alias-database"
 import timerService, { HostSet } from "@service/timer-service"
-import { ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
+import { ElFormItem, ElInput, ElOption, ElSelect, ElTag } from "element-plus"
 import { defineComponent, h, ref } from "vue"
-import { aliasKeyOf, labelOf, optionValueOf } from "../common"
+import { aliasKeyOf, EXIST_MSG, labelOf, MERGED_MSG, optionValueOf } from "../common"
 import { ALL_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
 
 const hostAliasDatabase = new HostAliasDatabase(chrome.storage.local)
@@ -51,9 +51,22 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
     searching.value = false
 }
 
+function renderOptionSlots(aliasKey: timer.site.AliasKey, hasAlias: boolean): VNode[] {
+    const { host, merged } = aliasKey
+    const result = [
+        h('span', {}, host)
+    ]
+    merged && result.push(h(ElTag, { size: 'small' }, MERGED_MSG))
+    hasAlias && result.push(h(ElTag, { size: 'small', type: 'info' }, EXIST_MSG))
+    return result
+}
+
 function renderOption({ aliasKey, hasAlias }: _OptionInfo) {
-    let label = labelOf(aliasKey, hasAlias)
-    return h(ElOption, { value: optionValueOf(aliasKey), disabled: hasAlias, label })
+    return h(ElOption, {
+        value: optionValueOf(aliasKey),
+        disabled: hasAlias,
+        label: labelOf(aliasKey, hasAlias)
+    }, () => renderOptionSlots(aliasKey, hasAlias))
 }
 
 const HOST_LABEL = t(msg => msg.siteManage.column.host)
