@@ -14,6 +14,8 @@ import { EChartsType, init } from "echarts"
 
 const ALL_BROWSERS: Browser[] = ['firefox', 'edge', 'chrome']
 
+const POINT_COUNT = 200
+
 type OriginData = {
     [browser in Browser]: UserCount
 }
@@ -64,7 +66,7 @@ function preProcess(originData: OriginData): ChartData {
     }
 
     // 3. zoom
-    const reduction = Math.floor(Object.keys(allDates).length / 150)
+    const reduction = Math.floor(Object.keys(allDates).length / POINT_COUNT)
     result.xAixs = zoom(result.xAixs, reduction)
     ALL_BROWSERS.forEach(b => result.yAixses[b] = zoom(result.yAixses[b], reduction))
     return result
