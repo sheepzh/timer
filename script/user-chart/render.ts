@@ -7,9 +7,7 @@ import {
     GistForm,
     updateGist
 } from "@api/gist"
-import { UserCount } from "./add"
-import { Argv, Browser } from "./argv"
-import { filenameOf, getExistGist } from "./common"
+import { filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 import { EChartsType, init } from "echarts"
 
 const ALL_BROWSERS: Browser[] = ['firefox', 'edge', 'chrome']
@@ -25,19 +23,6 @@ type ChartData = {
     yAixses: {
         [browser in Browser]: number[]
     }
-}
-
-export async function render(argv: Argv): Promise<void> {
-    const token = argv.gistToken
-    // 1. get all data
-    const originData: OriginData = await getOriginData(token)
-    // 2. pre-process data
-    const chartData = preProcess(originData)
-    // 3. render csv
-    const svg = render2Svg(chartData)
-    // 4. upload
-    await upload2Gist(token, svg)
-    process.exit()
 }
 
 function preProcess(originData: OriginData): ChartData {
@@ -215,3 +200,17 @@ async function upload2Gist(token: string, svg: string) {
         console.log('Created new gist')
     }
 }
+
+async function main(): Promise<void> {
+    const token = validateTokenFromEnv()
+    // 1. get all data
+    const originData: OriginData = await getOriginData(token)
+    // 2. pre-process data
+    const chartData = preProcess(originData)
+    // 3. render csv
+    const svg = render2Svg(chartData)
+    // 4. upload
+    await upload2Gist(token, svg)
+}
+
+main()
