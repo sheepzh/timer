@@ -7,12 +7,12 @@ import {
     GistForm,
     updateGist
 } from "@api/gist"
-import { UserCount } from "./add"
-import { Argv, Browser } from "./argv"
-import { filenameOf, getExistGist } from "./common"
+import { filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 import { EChartsType, init } from "echarts"
 
 const ALL_BROWSERS: Browser[] = ['firefox', 'edge', 'chrome']
+
+const POINT_COUNT = 200
 
 type OriginData = {
     [browser in Browser]: UserCount
@@ -23,19 +23,6 @@ type ChartData = {
     yAixses: {
         [browser in Browser]: number[]
     }
-}
-
-export async function render(argv: Argv): Promise<void> {
-    const token = argv.gistToken
-    // 1. get all data
-    const originData: OriginData = await getOriginData(token)
-    // 2. pre-process data
-    const chartData = preProcess(originData)
-    // 3. render csv
-    const svg = render2Svg(chartData)
-    // 4. upload
-    await upload2Gist(token, svg)
-    process.exit()
 }
 
 function preProcess(originData: OriginData): ChartData {
@@ -64,7 +51,7 @@ function preProcess(originData: OriginData): ChartData {
     }
 
     // 3. zoom
-    const reduction = Math.floor(Object.keys(allDates).length / 150)
+    const reduction = Math.floor(Object.keys(allDates).length / POINT_COUNT)
     result.xAixs = zoom(result.xAixs, reduction)
     ALL_BROWSERS.forEach(b => result.yAixses[b] = zoom(result.yAixses[b], reduction))
     return result
@@ -213,3 +200,17 @@ async function upload2Gist(token: string, svg: string) {
         console.log('Created new gist')
     }
 }
+
+async function main(): Promise<void> {
+    const token = validateTokenFromEnv()
+    // 1. get all data
+    const originData: OriginData = await getOriginData(token)
+    // 2. pre-process data
+    const chartData = preProcess(originData)
+    // 3. render csv
+    const svg = render2Svg(chartData)
+    // 4. upload
+    await upload2Gist(token, svg)
+}
+
+main()
