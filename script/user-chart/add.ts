@@ -5,12 +5,36 @@ import {
     GistForm,
     updateGist as updateGistApi
 } from "@src/api/gist"
-import { AddArgv, Argv, Browser } from "./argv"
 import fs from "fs"
-import { descriptionOf, filenameOf, getExistGist } from "./common"
+import { descriptionOf, filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 import { exitWith } from "../util/process"
 
-export type UserCount = Record<string, number>
+type AddArgv = {
+    browser: Browser
+    fileName: string
+}
+
+function parseArgv(): AddArgv {
+    const argv = process.argv.slice(2)
+    const browserArgv = argv[0]
+    const fileName = argv[1]
+    if (!browserArgv || !fileName) {
+        exitWith("add.ts [c/e/f] [file_name]")
+    }
+    const browserArgvMap: Record<string, Browser> = {
+        c: 'chrome',
+        e: 'edge',
+        f: 'firefox',
+    }
+    const browser: Browser = browserArgvMap[browserArgv]
+    if (!browser) {
+        exitWith("add.ts [c/e/f] [file_name]")
+    }
+    return {
+        browser,
+        fileName
+    }
+}
 
 async function createGist(token: string, browser: Browser, data: UserCount) {
     const description = descriptionOf(browser)
@@ -117,10 +141,11 @@ function rjust(str: string, num: number, padding: string): string {
     return Array.from(new Array(num - str.length).keys()).map(_ => padding).join('') + str
 }
 
-export async function add(argv: Argv) {
-    const token = argv.gistToken
-    const browser = (argv as AddArgv).browser
-    const fileName = (argv as AddArgv).fileName
+async function main() {
+    const token = validateTokenFromEnv()
+    const argv: AddArgv = parseArgv()
+    const browser = argv.browser
+    const fileName = argv.fileName
     const content = fs.readFileSync(fileName, { encoding: 'utf-8' })
     let newData: UserCount = {}
     if (browser === 'chrome') {
@@ -139,3 +164,5 @@ export async function add(argv: Argv) {
         await updateGist(token, browser, newData, gist)
     }
 }
+
+main()
