@@ -20,6 +20,7 @@ import MessageDispatcher from "./message-dispatcher"
 import initLimitProcesser from "./limit-processor"
 import initCsHandler from "./content-script-handler"
 import { isBrowserUrl } from "@util/pattern"
+import BackupScheduler from "./backup-scheduler"
 
 // Open the log of console
 openLog()
@@ -41,7 +42,10 @@ new IconAndAliasCollector().listen()
 // Process version
 new VersionManager().init()
 
-// Mange the context menus
+// Backup scheduler
+new BackupScheduler().init()
+
+// Manage the context menus
 WhitelistMenuManager()
 
 // Browser action menu
@@ -76,4 +80,5 @@ chrome.runtime.onInstalled.addListener(async detail => {
     new UninstallListener().listen()
 })
 
+// Start message dispatcher
 messageDispatcher.start()

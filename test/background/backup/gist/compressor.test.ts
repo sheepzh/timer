@@ -1,4 +1,4 @@
-import { devide2Buckets, gistData2Rows } from "@src/background/backup/gist/compressor"
+import { devide2Buckets, gistData2Rows } from "@src/common/backup/gist/compressor"
 
 test('devide 1', () => {
     const rows: timer.stat.Row[] = [{

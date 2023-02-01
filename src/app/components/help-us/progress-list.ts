@@ -62,7 +62,7 @@ function renderProgressItem(progressInfo: ProgressInfo): VNode {
     const { locale, progress } = progressInfo
     return h(ElProgress, { percentage: progress, strokeWidth: 22, status: computeType(progress) }, () => [
         h('span', { class: 'progress-text' }, `${progress}%`),
-        h('span', { class: 'language-name' }, localeMessages[locale] || locale),
+        h('span', { class: 'language-name' }, localeMessages[locale]?.name || locale),
     ])
 }
 
