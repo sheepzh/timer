@@ -9,12 +9,13 @@ import { Ref } from "vue"
 
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
-import processor from "@src/background/backup/processor"
+import processor from "@src/common/backup/processor"
 import { defaultBackup } from "@util/constant/option"
 import { ElInput, ElOption, ElSelect, ElDivider, ElAlert, ElButton, ElMessage, ElLoading } from "element-plus"
 import { defineComponent, ref, h } from "vue"
-import { renderOptionItem, tooltip } from "../common"
+import { renderOptionItem, tooltip } from "../../common"
 import { UploadFilled } from "@element-plus/icons-vue"
+import BackUpAutoInput from "./auto-input"
 
 const ALL_TYPES: timer.backup.Type[] = [
     'none',
@@ -74,6 +75,8 @@ const _default = defineComponent({
         const type: Ref<timer.backup.Type> = ref(DEFAULT.backupType)
         const auth: Ref<string> = ref('')
         const clientName: Ref<string> = ref(DEFAULT.clientName)
+        const autoBackUp: Ref<boolean> = ref(DEFAULT.autoBackUp)
+        const autoBackUpInterval: Ref<number> = ref(DEFAULT.autoBackUpInterval)
 
         optionService.getAllOption().then(currentVal => {
             clientName.value = currentVal.clientName
@@ -81,6 +84,8 @@ const _default = defineComponent({
             if (type.value) {
                 auth.value = currentVal.backupAuths?.[type.value]
             }
+            autoBackUp.value = currentVal.autoBackUp
+            autoBackUpInterval.value = currentVal.autoBackUpInterval
         })
 
         function handleChange() {
@@ -89,7 +94,9 @@ const _default = defineComponent({
             const newOption: timer.option.BackupOption = {
                 backupType: type.value,
                 backupAuths,
-                clientName: clientName.value || DEFAULT.clientName
+                clientName: clientName.value || DEFAULT.clientName,
+                autoBackUp: autoBackUp.value,
+                autoBackUpInterval: autoBackUpInterval.value,
             }
             optionService.setBackupOption(newOption)
         }
@@ -122,8 +129,9 @@ const _default = defineComponent({
 
         ctx.expose({
             async reset() {
-                // Only reset type
+                // Only reset type and auto flag
                 type.value = DEFAULT.backupType
+                autoBackUp.value = DEFAULT.autoBackUp
                 handleChange()
             }
         })
@@ -146,6 +154,18 @@ const _default = defineComponent({
             type.value !== 'none' && nodes.push(
                 h(ElDivider),
                 renderOptionItem({
+                    input: h(BackUpAutoInput, {
+                        autoBackup: autoBackUp.value,
+                        interval: autoBackUpInterval.value,
+                        onChange(newAutoBackUp, newInterval) {
+                            autoBackUp.value = newAutoBackUp
+                            autoBackUpInterval.value = newInterval
+                            handleChange()
+                        }
+                    })
+                }, _msg => '{input}', t(msg => msg.option.no)),
+                h(ElDivider),
+                renderOptionItem({
                     input: authInput(auth, handleChange, handleTest),
                     info: tooltip(msg => msg.option.backup.meta[type.value]?.authInfo)
                 },
@@ -162,7 +182,7 @@ const _default = defineComponent({
                     type: 'primary',
                     icon: UploadFilled,
                     onClick: handleBackup
-                }, () => t(msg => msg.option.backup.operation))
+                }, () => t(msg => msg.option.backup.operation)),
             )
             return h('div', nodes)
         }

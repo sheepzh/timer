@@ -8,18 +8,18 @@
 import type { PropType } from "vue"
 
 import { t } from "@app/locale"
-import { ElTableColumn } from "element-plus"
+import { Effect, ElTableColumn, ElTooltip } from "element-plus"
 import { defineComponent, h } from "vue"
 import { periodFormatter } from "../../formatter"
+import CompositionTable from './composition-table'
 
 const columnLabel = t(msg => msg.item.focus)
 
 const _default = defineComponent({
     name: "FocusColumn",
     props: {
-        timeFormat: {
-            type: String as PropType<timer.app.TimeFormat>
-        }
+        timeFormat: String as PropType<timer.app.TimeFormat>,
+        readRemote: Boolean,
     },
     setup(props) {
         return () => h(ElTableColumn, {
@@ -29,7 +29,23 @@ const _default = defineComponent({
             align: "center",
             sortable: "custom"
         }, {
-            default: ({ row }: { row: timer.stat.Row }) => periodFormatter(row.focus, props.timeFormat || "default")
+            default({ row }: { row: timer.stat.Row }) {
+                const valueStr = periodFormatter(row.focus, props.timeFormat || "default")
+                if (!props.readRemote) {
+                    return valueStr
+                }
+                return h(ElTooltip, {
+                    placement: "top",
+                    effect: Effect.LIGHT,
+                    offset: 10
+                }, {
+                    default: () => valueStr,
+                    content: () => h(CompositionTable, {
+                        data: row.composition?.focus || [],
+                        valueFormatter: val => periodFormatter(val, props.timeFormat || 'default'),
+                    })
+                })
+            }
         })
     }
 })

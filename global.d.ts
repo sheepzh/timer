@@ -143,6 +143,14 @@ declare namespace timer {
              * The name of this client
              */
             clientName: string
+            /**
+             * Whether to auto-backup data
+             */
+            autoBackUp: boolean
+            /**
+             * Interval to auto-backup data, minutes
+             */
+            autoBackUpInterval: number
         }
 
         type AllOption = PopupOption & AppearanceOption & StatisticsOption & BackupOption
@@ -165,6 +173,12 @@ declare namespace timer {
              * @since 1.2.0
              */
             cid?: string
+            backup?: {
+                [key in timer.backup.Type]?: {
+                    ts: number
+                    msg?: string
+                }
+            }
         }
     }
 
@@ -250,6 +264,10 @@ declare namespace timer {
              */
             mergedHosts: Row[]
             /**
+             * The composition of data when querying remote
+             */
+            composition?: RemoteComposition
+            /**
              * Icon url
              * 
              * Must be undefined if merged
@@ -259,15 +277,35 @@ declare namespace timer {
              * The alias name of this Site, always is the title of its homepage by detected
              */
             alias?: string
-        }
-        /**
-         * @since 1.2.0
-         */
-        type RemoteRow = RowBase & {
+            /**
+             * The id of client where the remote data is storaged
+             */
+            cid?: string
             /**
              * The name of client where the remote data is storaged
              */
-            clientName?: string
+            cname?: string
+        }
+
+        type RemoteCompositionVal =
+            // Means local data
+            number | {
+                /**
+                 * Client's id
+                 */
+                cid: string
+                /**
+                 * Client's name
+                 */
+                cname?: string
+                value: number
+            }
+
+        /**
+         * @since 1.4.7
+         */
+        type RemoteComposition = {
+            [item in timer.stat.Dimension]: RemoteCompositionVal[]
         }
     }
 
