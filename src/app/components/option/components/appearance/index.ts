@@ -75,7 +75,7 @@ const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect,
         locale => h(ElOption, {
             value: locale, label: locale === "default"
                 ? t(msg => msg.option.appearance.locale.default)
-                : localeMessages[locale]
+                : localeMessages[locale].name
         })
     )
 })
