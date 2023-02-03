@@ -260,6 +260,7 @@ const _default = defineComponent({
                     mergeHost: filterOption.mergeHost,
                     timeFormat: filterOption.timeFormat,
                     dateRange: filterOption.dateRange,
+                    readRemote: remoteRead.value,
                     data: data.value,
                     defaultSort: sort,
                     ref: tableEl,

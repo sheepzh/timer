@@ -8,7 +8,7 @@
 import type { PropType } from "vue"
 
 import { ElTable } from "element-plus"
-import { defineComponent, h } from "vue"
+import { defineComponent, h, ref, watch } from "vue"
 import SelectionColumn from "./columns/selection"
 import DateColumn from "./columns/date"
 import HostColumn from "./columns/host"
@@ -26,7 +26,8 @@ const _default = defineComponent({
         mergeHost: Boolean,
         timeFormat: String as PropType<timer.app.TimeFormat>,
         dateRange: Array as PropType<Date[]>,
-        whitelist: Array as PropType<string[]>
+        whitelist: Array as PropType<string[]>,
+        readRemote: Boolean,
     },
     emits: {
         sortChange: (_newSortInfo: SortInfo) => true,
@@ -36,6 +37,8 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         let selectedRows: timer.stat.Row[] = []
+        const readRemote = ref(props.readRemote)
+        watch(() => props.readRemote, newVal => readRemote.value = newVal)
         ctx.expose({
             getSelected(): timer.stat.Row[] {
                 return selectedRows || []
@@ -56,20 +59,22 @@ const _default = defineComponent({
                 h(SelectionColumn, { disabled: props.mergeHost })
             ]
             props.mergeDate || result.push(h(DateColumn))
-            result.push(h(HostColumn, { mergeHost: props.mergeHost }))
-            result.push(h(AliasColumn, {
-                onAliasChange: (host: string, newAlias: string) => ctx.emit("aliasChange", host, newAlias)
-            }))
-            result.push(h(FocusColumn, { timeFormat: props.timeFormat }))
-            result.push(h(TimeColumn))
-            result.push(h(OperationColumn, {
-                mergeDate: props.mergeDate,
-                mergeHost: props.mergeHost,
-                dateRange: props.dateRange,
-                whitelist: props.whitelist,
-                onDelete: (row: timer.stat.Row) => ctx.emit("itemDelete", row),
-                onWhitelistChange: (host: string, addOrRemove: boolean) => ctx.emit("whitelistChange", host, addOrRemove)
-            }))
+            result.push(
+                h(HostColumn, { mergeHost: props.mergeHost }),
+                h(AliasColumn, {
+                    onAliasChange: (host: string, newAlias: string) => ctx.emit("aliasChange", host, newAlias)
+                }),
+                h(FocusColumn, { timeFormat: props.timeFormat, readRemote: props.readRemote }),
+                h(TimeColumn, { readRemote: props.readRemote }),
+                h(OperationColumn, {
+                    mergeDate: props.mergeDate,
+                    mergeHost: props.mergeHost,
+                    dateRange: props.dateRange,
+                    whitelist: props.whitelist,
+                    onDelete: (row: timer.stat.Row) => ctx.emit("itemDelete", row),
+                    onWhitelistChange: (host: string, addOrRemove: boolean) => ctx.emit("whitelistChange", host, addOrRemove)
+                }),
+            )
             return result
         })
     }

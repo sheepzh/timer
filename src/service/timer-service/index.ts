@@ -6,17 +6,18 @@
  */
 
 import TimerDatabase, { TimerCondition } from "@db/timer-database"
-import { log } from "../common/logger"
-import CustomizedHostMergeRuler from "./components/host-merge-ruler"
+import { log } from "../../common/logger"
+import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import IconUrlDatabase from "@db/icon-url-database"
 import HostAliasDatabase from "@db/host-alias-database"
-import { slicePageResult } from "./components/page-info"
-import whitelistHolder from './components/whitelist-holder'
-import { resultOf, rowOf } from "@util/stat"
+import { slicePageResult } from "../components/page-info"
+import whitelistHolder from '../components/whitelist-holder'
+import { resultOf } from "@util/stat"
 import OptionDatabase from "@db/option-database"
-import processor from "@src/background/backup/processor"
+import processor from "@src/common/backup/processor"
 import { getBirthday } from "@util/time"
+import { mergeDate, mergeHost } from "./merge"
 
 const storage = chrome.storage.local
 
@@ -76,6 +77,79 @@ export type HostSet = {
 
 function calcFocusInfo(timeInfo: TimeInfo): number {
     return Object.values(timeInfo).reduce((a, b) => a + b, 0)
+}
+
+const keyOf = (row: timer.stat.RowKey) => `${row.date}${row.host}`
+
+async function processRemote(param: TimerCondition, origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
+    const { backupType, backupAuths } = await optionDatabase.getOption()
+    const auth = backupAuths?.[backupType]
+    const canReadRemote = await canReadRemote0(backupType, auth)
+    if (!canReadRemote) {
+        return origin
+    }
+    // Map to merge
+    const originMap: Record<string, timer.stat.Row> = {}
+    origin.forEach(row => originMap[keyOf(row)] = {
+        ...row,
+        composition: {
+            focus: [row.focus],
+            time: [row.time],
+        }
+    })
+    // Predicate with host
+    const { host, fullHost } = param
+    const predicate: (row: timer.stat.RowBase) => boolean = host
+        // With host condition
+        ? fullHost
+            // Full match
+            ? r => r.host === host
+            // Fuzzy match
+            : r => r.host && r.host.includes(host)
+        // Without host condition
+        : _r => true
+    // 1. query remote
+    let start: Date = undefined, end: Date = undefined
+    if (param.date instanceof Array) {
+        start = param.date?.[0]
+        end = param.date?.[1]
+    } else {
+        start = param.date
+    }
+    start = start || getBirthday()
+    end = end || new Date()
+    const remote = await processor.query(backupType, auth, start, end)
+    remote.filter(predicate).forEach(row => processRemoteRow(originMap, row))
+    return Object.values(originMap)
+}
+
+function processRemoteRow(rowMap: Record<string, timer.stat.Row>, row: timer.stat.Row) {
+    const key = keyOf(row)
+    let exist = rowMap[key]
+    !exist && (exist = rowMap[key] = {
+        date: row.date,
+        host: row.host,
+        time: 0,
+        focus: 0,
+        composition: {
+            focus: [],
+            time: [],
+        },
+        mergedHosts: [],
+    })
+
+    const focus = row.focus || 0
+    const time = row.time || 0
+
+    exist.focus += focus
+    exist.time += time
+    focus && exist.composition.focus.push({ cid: row.cid, cname: row.cname, value: focus })
+    time && exist.composition.time.push({ cid: row.cid, cname: row.cname, value: time })
+}
+
+
+async function canReadRemote0(backupType: timer.backup.Type, auth: string): Promise<boolean> {
+    return backupType && backupType !== 'none' && !await processor.test(backupType, auth)
 }
 
 /**
@@ -178,17 +252,17 @@ class TimerService {
         param = param || {}
         let origin = await timerDatabase.select(param as TimerCondition)
         if (param.inclusiveRemote) {
-            origin = await this.processRemote(param, origin)
+            origin = await processRemote(param, origin)
         }
         // Process after select
         // 1st merge
         if (param.mergeHost) {
             // Merge with rules
-            origin = await this.mergeHost(origin)
+            origin = await mergeHost(origin)
             // filter again, cause of the exchange of the host, if the param.mergeHost is true
             origin = this.filter(origin, param)
         }
-        param.mergeDate && (origin = this.mergeDate(origin))
+        param.mergeDate && (origin = mergeDate(origin))
         // 2nd sort
         this.processSort(origin, param)
         // 3rd get icon url and alias if need
@@ -203,59 +277,6 @@ class TimerService {
 
     getResult(host: string, date: Date): Promise<timer.stat.Result> {
         return timerDatabase.get(host, date)
-    }
-
-    private async processRemote(
-        param: TimerCondition,
-        origin: timer.stat.Row[]
-    ): Promise<timer.stat.Row[]> {
-        const { backupType, backupAuths } = await optionDatabase.getOption()
-        const auth = backupAuths?.[backupType]
-        const canReadRemote = await this.canReadRemote0(backupType, auth)
-        if (!canReadRemote) {
-            return origin
-        }
-        // Map to merge
-        const originMap: Record<string, timer.stat.Row> = {}
-        origin.forEach(row => originMap[this.keyOf(row)] = row)
-        // Predicate with host
-        const { host, fullHost } = param
-        const predicate: (row: timer.stat.RowBase) => boolean = host
-            // With host condition
-            ? fullHost
-                // Full match
-                ? r => r.host === host
-                // Fuzzy match
-                : r => r.host && r.host.includes(host)
-            // Without host condition
-            : _r => true
-        // 1. query remote
-        let start: Date = undefined, end: Date = undefined
-        if (param.date instanceof Array) {
-            start = param.date?.[0]
-            end = param.date?.[1]
-        } else {
-            start = param.date
-        }
-        start = start || getBirthday()
-        end = end || new Date()
-        const remote = await processor.query(backupType, auth, start, end)
-        remote.filter(predicate)
-            .forEach(row => {
-                const key = this.keyOf(row)
-                const exist = originMap[key]
-                if (exist) {
-                    exist.focus += row.focus || 0
-                    exist.time += row.time || 0
-                } else {
-                    originMap[key] = { ...row, mergedHosts: [] }
-                }
-            })
-        return Object.values(originMap)
-    }
-
-    private keyOf(row: timer.stat.RowKey) {
-        return `${row.date}${row.host}`
     }
 
     async selectByPage(
@@ -287,55 +308,6 @@ class TimerService {
         return paramHost ? origin.filter(o => o.host.includes(paramHost)) : origin
     }
 
-    private async mergeHost<T extends timer.stat.Row>(origin: T[]): Promise<T[]> {
-        const newRows = []
-        const map = {}
-
-        // Generate ruler
-        const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
-        const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
-
-        origin.forEach(o => {
-            const host = o.host
-            const date = o.date
-            let mergedHost = mergeRuler.merge(host)
-            const merged = this.merge(map, o, mergedHost + date)
-            merged.host = mergedHost
-            const mergedHosts = merged.mergedHosts || (merged.mergedHosts = [])
-            mergedHosts.push(o)
-        })
-        for (let key in map) {
-            newRows.push(map[key])
-        }
-        return newRows
-    }
-
-    private mergeDate<T extends timer.stat.Row>(origin: T[]): T[] {
-        const newRows = []
-        const map = {}
-
-        origin.forEach(o => this.merge(map, o, o.host).date = '')
-        for (let key in map) {
-            newRows.push(map[key])
-        }
-        return newRows
-    }
-
-    private merge(map: {}, origin: timer.stat.Row, key: string): timer.stat.Row {
-        let exist: timer.stat.Row = map[key]
-        if (exist === undefined) {
-            exist = map[key] = rowOf({ host: origin.host, date: origin.date })
-            exist.mergedHosts = origin.mergedHosts || []
-        }
-        exist.time += origin.time
-        exist.focus += origin.focus
-
-        origin.mergedHosts && origin.mergedHosts.forEach(originHost =>
-            !exist.mergedHosts.find(existOrigin => existOrigin.host === originHost.host) && exist.mergedHosts.push(originHost)
-        )
-        return exist
-    }
-
     /**
      * Aable to read remote backup data
      * 
@@ -344,11 +316,7 @@ class TimerService {
      */
     async canReadRemote(): Promise<boolean> {
         const { backupType, backupAuths } = await optionDatabase.getOption()
-        return await this.canReadRemote0(backupType, backupAuths?.[backupType])
-    }
-
-    private async canReadRemote0(backupType: timer.backup.Type, auth: string): Promise<boolean> {
-        return backupType && backupType !== 'none' && !await processor.test(backupType, auth)
+        return await canReadRemote0(backupType, backupAuths?.[backupType])
     }
 }
 

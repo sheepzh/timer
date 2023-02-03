@@ -6,14 +6,18 @@
  */
 
 import { defineComponent, h } from "vue"
-import { ElTableColumn } from "element-plus"
+import { Effect, ElTableColumn, ElTooltip } from "element-plus"
 import { t } from "@app/locale"
+import CompositionTable from "./composition-table"
 
 const columnLabel = t(msg => msg.item.time)
 
 const _default = defineComponent({
     name: "TimeColumn",
-    setup() {
+    props: {
+        readRemote: Boolean,
+    },
+    setup(props) {
         return () => h(ElTableColumn, {
             prop: "time",
             label: columnLabel,
@@ -21,7 +25,23 @@ const _default = defineComponent({
             align: 'center',
             sortable: 'custom'
         }, {
-            default: ({ row }: { row: timer.stat.Row }) => row.time?.toString?.() || '0'
+            default: ({ row }: { row: timer.stat.Row }) => {
+                const valueStr = row.time?.toString?.() || '0'
+                if (!props.readRemote) {
+                    return valueStr
+                }
+                return h(ElTooltip, {
+                    placement: "top",
+                    effect: Effect.LIGHT,
+                    offset: 10
+                }, {
+                    default: () => valueStr,
+                    content: () => h(CompositionTable, {
+                        data: row.composition?.time || [],
+                        valueFormatter: val => val?.toString() || '0'
+                    })
+                })
+            }
         })
     }
 })

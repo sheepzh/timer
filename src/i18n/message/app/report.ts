@@ -29,6 +29,12 @@ export type ReportMessage = {
     remoteReading: {
         on: string
         off: string
+        table: {
+            client: string
+            localData: string
+            value: string
+            percentage: string
+        }
     }
 }
 
@@ -57,6 +63,12 @@ const _default: Messages<ReportMessage> = {
         remoteReading: {
             on: '正在查询远端备份数据',
             off: '单击以开启远端备份数据查询功能',
+            table: {
+                client: '客户端',
+                localData: '本地数据',
+                value: '对应数值',
+                percentage: '百分比',
+            }
         },
     },
     zh_TW: {
@@ -83,6 +95,12 @@ const _default: Messages<ReportMessage> = {
         remoteReading: {
             on: '正在查詢遠端備份數據',
             off: '單擊以開啟遠端備份數據查詢功能',
+            table: {
+                client: '客户端',
+                localData: '本地數據',
+                value: '對應數值',
+                percentage: '百分比',
+            }
         },
     },
     en: {
@@ -109,6 +127,12 @@ const _default: Messages<ReportMessage> = {
         remoteReading: {
             on: 'Reading remote backuped data',
             off: 'Click to read remote backuped data',
+            table: {
+                client: 'Client\'s Name',
+                localData: 'Local Data',
+                value: 'Value',
+                percentage: 'Percentage',
+            }
         },
     },
     ja: {
@@ -135,6 +159,12 @@ const _default: Messages<ReportMessage> = {
         remoteReading: {
             on: 'リモート バックアップ データのクエリ',
             off: 'クリックして、リモート バックアップ データのクエリ機能を有効にします',
+            table: {
+                client: 'クライアントの名前',
+                localData: 'ローカル データ',
+                value: '対応する値',
+                percentage: 'パーセンテージ',
+            },
         },
     },
 }
