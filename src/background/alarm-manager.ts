@@ -8,6 +8,9 @@ type _Handler = (alarm: chrome.alarms.Alarm) => void
 const ALARM_PREFIX = 'timer-alarm-' + chrome.runtime.id + '-'
 const ALARM_PREFIX_LENGTH = ALARM_PREFIX.length
 
+const getInnerName = (outerName: string) => ALARM_PREFIX + outerName
+const getOuterName = (innerName: string) => innerName.substring(ALARM_PREFIX_LENGTH)
+
 /**
  * The manager of alarms
  * 
@@ -27,10 +30,10 @@ class AlarmManager {
                 // Unknown alarm
                 return
             }
-            const realName = name.substring(ALARM_PREFIX_LENGTH)
-            const config: _AlarmConfig = this.alarms[realName]
+            const innerName = getOuterName(name)
+            const config: _AlarmConfig = this.alarms[innerName]
             if (!config) {
-                // Not register, or unregistered
+                // Not registered, or removed
                 return
             }
             // Handle alarm event
@@ -42,20 +45,31 @@ class AlarmManager {
         })
     }
 
-    setInterval(name: string, interval: number, handler: _Handler): void {
+    /**
+     * Set a alarm to do sth with interval
+     */
+    setInterval(outerName: string, interval: number, handler: _Handler): void {
         if (!interval || !handler) {
             return
         }
         const config: _AlarmConfig = { handler, interval }
-        if (this.alarms[name]) {
+        if (this.alarms[outerName]) {
             // Existed, only update the config
-            this.alarms[name] = config
+            this.alarms[outerName] = config
             return
         }
         // Initialize config
-        this.alarms[name] = config
+        this.alarms[outerName] = config
         // Create new one alarm
-        chrome.alarms.create(ALARM_PREFIX + name, { when: Date.now() + interval })
+        chrome.alarms.create(getInnerName(outerName), { when: Date.now() + interval })
+    }
+
+    /**
+     * Remove a interval
+     */
+    remove(outerName: string) {
+        delete this.alarms[outerName]
+        chrome.alarms.clear(getInnerName(outerName))
     }
 }
 

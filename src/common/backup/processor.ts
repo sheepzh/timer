@@ -171,10 +171,12 @@ class Processor {
         const clients: Client[] = (await coordinator.listAllClients(context)).filter(a => a.id !== cid) || []
         clients.push(client)
         await coordinator.updateClients(context, clients)
+        // Update time
+        metaService.updateBackUpTime(type, Date.now())
         return success()
     }
 
-    async query(type: timer.backup.Type, auth: string, start: Date, end: Date): Promise<timer.stat.RemoteRow[]> {
+    async query(type: timer.backup.Type, auth: string, start: Date, end: Date): Promise<timer.stat.Row[]> {
         const coordinator: Coordinator<unknown> = this.coordinators?.[type]
         if (!coordinator) return []
         let cid = await metaService.getCid()
@@ -186,7 +188,7 @@ class Processor {
         const allClients = (await coordinator.listAllClients(context))
             .filter(c => filterClient(c, cid, startStr, endStr))
         // 3. iterate month and clients
-        const result: timer.stat.RemoteRow[] = []
+        const result: timer.stat.Row[] = []
         const allYearMonth = new MonthIterator(start, end || new Date()).toArray()
         await Promise.all(allClients.map(async client => {
             const { id, name } = client
@@ -195,7 +197,9 @@ class Processor {
                     .filter(row => filterDate(row, startStr, endStr))
                     .forEach(row => result.push({
                         ...row,
-                        clientName: name
+                        cid: id,
+                        cname: name,
+                        mergedHosts: []
                     }))
             }))
         }))

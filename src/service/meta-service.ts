@@ -57,6 +57,20 @@ async function updateCid(newCid: string) {
     await db.update(meta)
 }
 
+async function updateBackUpTime(type: timer.backup.Type, time: number) {
+    const meta = await db.getMeta()
+    if (!meta.backup) {
+        meta.backup = {}
+    }
+    meta.backup[type] = { ts: time }
+    await db.update(meta)
+}
+
+async function getLastBackUp(type: timer.backup.Type): Promise<{ ts: number, msg?: string }> {
+    const meta = await db.getMeta()
+    return meta?.backup?.[type]
+}
+
 class MetaService {
     getInstallTime = getInstallTime
     updateInstallTime = updateInstallTime
@@ -70,6 +84,14 @@ class MetaService {
     updateCid = updateCid
     increaseApp = increaseApp
     increasePopup = increasePopup
+    /**
+     * @since 1.4.7
+     */
+    updateBackUpTime = updateBackUpTime
+    /**
+     * @since 1.4.7
+     */
+    getLastBackUp = getLastBackUp
 }
 
 export default new MetaService()

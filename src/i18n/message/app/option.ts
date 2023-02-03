@@ -73,6 +73,10 @@ export type OptionMessage = {
         alert: string
         test: string
         operation: string
+        auto: {
+            label: string
+            interval: string
+        }
     }
     resetButton: string
     resetSuccess: string
@@ -164,6 +168,10 @@ const _default: Messages<OptionMessage> = {
             alert: '这是一项实验性功能，如果有任何问题请联系作者~ (returnzhy1996@outlook.com)',
             test: '测试',
             operation: '备份数据',
+            auto: {
+                label: '是否开启自动备份',
+                interval: '每 {input} 分钟备份一次',
+            }
         },
         resetButton: '恢复默认',
         resetSuccess: '成功重置为默认值',
@@ -245,6 +253,10 @@ const _default: Messages<OptionMessage> = {
             alert: '這是一項實驗性功能，如果有任何問題請聯繫作者 (returnzhy1996@outlook.com) ~',
             test: '測試',
             operation: '備份數據',
+            auto: {
+                label: '是否開啟自動備份',
+                interval: '每 {input} 分鐘備份一次',
+            }
         },
         resetButton: '恢複默認',
         resetSuccess: '成功重置爲默認值',
@@ -326,6 +338,10 @@ const _default: Messages<OptionMessage> = {
             alert: 'This is an experimental feature, if you have any questions please contact the author via returnzhy1996@outlook.com~',
             test: 'Test',
             operation: 'Backup',
+            auto: {
+                label: 'Whether to enable automatic backup',
+                interval: 'and run every {input} minutes',
+            },
         },
         resetButton: 'Reset',
         resetSuccess: 'Reset to default successfully!',
@@ -407,6 +423,10 @@ const _default: Messages<OptionMessage> = {
             alert: 'これは実験的な機能です。質問がある場合は、作成者に連絡してください (returnzhy1996@outlook.com)',
             test: 'テスト',
             operation: 'バックアップ',
+            auto: {
+                label: '自動バックアップを有効にするかどうか',
+                interval: ' {input} 分ごとに実行',
+            },
         },
         resetButton: 'リセット',
         resetSuccess: 'デフォルトに正常にリセット',
