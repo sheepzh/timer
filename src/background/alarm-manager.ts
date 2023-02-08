@@ -38,10 +38,12 @@ class AlarmManager {
             }
             // Handle alarm event
             config.handler?.(alarm)
+            const nextTs = Date.now() + config.interval
             // Clear this one
-            chrome.alarms.clear(name)
-            // Create new one
-            chrome.alarms.create(name, { when: Date.now() + config.interval })
+            chrome.alarms.clear(name, (_cleared: boolean) => {
+                // Create new one
+                chrome.alarms.create(name, { when: nextTs })
+            })
         })
     }
 
