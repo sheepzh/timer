@@ -6,7 +6,9 @@
  */
 declare namespace timer {
     namespace option {
-        type PopupDuration = "today" | "thisWeek" | "thisMonth"
+        type PopupDuration =
+            | "today" | "thisWeek" | "thisMonth"
+            | "last30Days"
         /**
          * Options used for the popup page
          */
@@ -215,6 +217,17 @@ declare namespace timer {
         | 'fr'
         | 'it'
         | 'sv'
+        | 'fi'
+        | 'da'
+        | 'hr'
+        | 'id'
+        | 'tr'
+        | 'cs'
+        | 'ro'
+        | 'nl'
+        | 'vi'
+        | 'sk'
+        | 'mn'
 
     namespace stat {
         /**
