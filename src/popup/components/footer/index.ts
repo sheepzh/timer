@@ -29,11 +29,11 @@ type QueryResultHandler = (result: PopupQueryResult) => void
 
 const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: !IS_SAFARI, alias: true }
 
-function calculateDateRange(duration: PopupDuration, weekStart: timer.option.WeekStartOption): Date | Date[] {
-    const now = new Date()
-    if (duration == 'today') {
-        return now
-    } else if (duration == 'thisWeek') {
+type DateRangeCalculator = (now: Date, weekStart: timer.option.WeekStartOption) => Date | [Date, Date]
+
+const dateRangeCalculators: { [duration in PopupDuration]: DateRangeCalculator } = {
+    today: now => now,
+    thisWeek(now, weekStart) {
         const weekStartAsNormal = !weekStart || weekStart === 'default'
         if (weekStartAsNormal) {
             return getWeekTime(now, locale === 'zh_CN')
@@ -54,10 +54,9 @@ function calculateDateRange(duration: PopupDuration, weekStart: timer.option.Wee
             }
             return [start, now]
         }
-    } else if (duration == 'thisMonth') {
-        const startOfMonth = getMonthTime(now)[0]
-        return [startOfMonth, now]
-    }
+    },
+    thisMonth: now => [getMonthTime(now)[0], now],
+    last30Days: now => [new Date(now.getTime() - MILL_PER_DAY * 29), now],
 }
 
 class FooterWrapper {
@@ -135,7 +134,7 @@ class FooterWrapper {
     getQueryParam(weekStart: timer.option.WeekStartOption): FooterParam {
         const duration: PopupDuration = this.timeSelectWrapper.getSelectedTime()
         const param: FooterParam = {
-            date: calculateDateRange(duration, weekStart),
+            date: dateRangeCalculators[duration]?.(new Date(), weekStart),
             mergeHost: this.mergeHostWrapper.mergedHost(),
             sort: this.typeSelectWrapper.getSelectedType(),
             sortOrder: 'DESC',

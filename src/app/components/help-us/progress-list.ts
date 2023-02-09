@@ -29,6 +29,17 @@ const localeCrowdMap: { [locale in SupportedLocale]: string } = {
     fr: "fr",
     it: "it",
     sv: "sv-SE",
+    fi: "fi",
+    da: "da",
+    hr: "hr",
+    id: "id",
+    tr: "tr",
+    cs: "cs",
+    ro: "ro",
+    nl: "nl",
+    vi: "vi",
+    sk: "sk",
+    mn: "mn",
 }
 
 const crowdLocaleMap: { [locale: string]: SupportedLocale } = {}

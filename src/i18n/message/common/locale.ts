@@ -10,12 +10,17 @@
  *
  * @since 0.8.0
  */
-export type LocaleMessages = {
-    [locale in timer.Locale | timer.TranslatingLocale]: {
-        name: string
-        comma?: string
+export type LocaleMessages =
+    {
+        [locale in timer.Locale]: {
+            name: string
+            comma: string
+        }
+    } & {
+        [translatingLocale in timer.TranslatingLocale]: {
+            name: string
+        }
     }
-}
 
 const _default: LocaleMessages = {
     zh_CN: {
@@ -66,6 +71,39 @@ const _default: LocaleMessages = {
     },
     sv: {
         name: "Sverige"
+    },
+    fi: {
+        name: "Suomalainen",
+    },
+    da: {
+        name: "dansk",
+    },
+    hr: {
+        name: "Hrvatski",
+    },
+    id: {
+        name: "bahasa Indonesia",
+    },
+    tr: {
+        name: "Türkçe",
+    },
+    cs: {
+        name: "čeština",
+    },
+    ro: {
+        name: "Română",
+    },
+    nl: {
+        name: "Nederlands",
+    },
+    vi: {
+        name: "Tiếng Việt",
+    },
+    sk: {
+        name: "slovenský",
+    },
+    mn: {
+        name: "Монгол",
     },
 }
 
