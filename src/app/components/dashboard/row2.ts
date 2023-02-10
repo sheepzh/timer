@@ -13,16 +13,12 @@ import CalendarHeatMap from './components/calendar-heat-map'
 
 const _default = defineComponent({
     name: "DashboardRow1",
-    render() {
-        return h(ElRow, {
-            gutter: 40,
-            style: { height: '280px' }
-        }, () => [
-            h(DashboardCard, {
-                span: 24
-            }, () => h(CalendarHeatMap))
-        ])
-    }
+    render: () => h(ElRow, {
+        gutter: 40,
+        style: { height: '280px' }
+    }, () => h(DashboardCard, {
+        span: 24
+    }, () => h(CalendarHeatMap)))
 })
 
 export default _default
