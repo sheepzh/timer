@@ -5,4 +5,4 @@
  * https://opensource.org/licenses/MIT
  */
 
-export const ALL_POPUP_DURATION: PopupDuration[] = ["today", "thisWeek", "thisMonth"]
+export const ALL_POPUP_DURATION: PopupDuration[] = ["today", "thisWeek", "thisMonth", "last30Days"]
