@@ -18,17 +18,39 @@ const FEEDBACK_LOCALE: timer.Locale = "en"
 
 export const defaultLocale: timer.Locale = "zh_CN"
 
-// export type Messages<T> = {
-//     [key in timer.Locale]: T
-// }
-
 // Standardize the locale code according to the Chrome locale code
 const chrome2I18n: { [key: string]: timer.Locale } = {
     'zh-CN': "zh_CN",
     'zh-TW': "zh_TW",
     'en-US': "en",
     'en-GB': "en",
-    'ja': "ja"
+    'ja': "ja",
+}
+
+const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
+    de: 'de',
+    "es-ES": 'es',
+    "es-MX": 'es',
+    ko: 'ko',
+    pl: 'pl',
+    "pt-PT": 'pt',
+    "pt-BR": 'pt_BR',
+    ru: 'ru',
+    uk: 'uk',
+    fr: 'fr',
+    it: 'it',
+    sv: 'sv',
+    fi: 'fi',
+    da: 'da',
+    hr: 'hr',
+    id: 'id',
+    tr: 'tr',
+    cs: 'cs',
+    ro: 'ro',
+    nl: 'nl',
+    vi: 'vi',
+    sk: 'sk',
+    mn: 'mn',
 }
 
 /**
@@ -50,6 +72,17 @@ export function chromeLocale2ExtensionLocale(chromeLocale: string): timer.Locale
  * @since 0.9.0
  */
 export let localeSameAsBrowser: timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+
+/**
+ * @since 1.5.0
+ */
+export function isTranslatingLocale(): boolean {
+    const uiLang = chrome.i18n.getUILanguage()
+    if (chrome2I18n[uiLang]) {
+        return false
+    }
+    return !!translationChrome2I18n[uiLang]
+}
 
 /**
  * Real locale with locale option

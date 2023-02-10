@@ -51,7 +51,6 @@ function generateMenus(): _MenuGroup[] {
         title: 'helpUs',
         route: '/other/help',
         icon: HelpFilled,
-        index: '_i18n'
     }]
     HOME_PAGE && otherMenuItems.push({
         title: 'rate',

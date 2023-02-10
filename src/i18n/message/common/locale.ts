@@ -5,6 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
+type MetaBase = {
+    name: string
+}
+
+type Meta = MetaBase & {
+    comma: string
+}
+
 /**
  * Meta info of locales
  *
@@ -12,14 +20,9 @@
  */
 export type LocaleMessages =
     {
-        [locale in timer.Locale]: {
-            name: string
-            comma: string
-        }
+        [locale in timer.Locale]: Meta
     } & {
-        [translatingLocale in timer.TranslatingLocale]: {
-            name: string
-        }
+        [translatingLocale in timer.TranslatingLocale]: MetaBase
     }
 
 const _default: LocaleMessages = {
