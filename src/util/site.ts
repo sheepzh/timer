@@ -33,7 +33,7 @@ export function extractSiteName(title: string, host?: string) {
         .split(SEPARATORS)
         .filter(s => !INVALID_SITE_NAME.test(s))
         .sort((a, b) => a.length - b.length)[0]
-        .trim()
+        ?.trim?.()
 }
 
 /**
