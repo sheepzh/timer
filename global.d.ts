@@ -550,7 +550,7 @@ declare namespace timer {
         /**
          * @since 1.3.0
          */
-        type Handler<Req, Res> = (data: Req) => Promise<Res>
+        type Handler<Req, Res> = (data: Req, sender: chrome.runtime.MessageSender) => Promise<Res>
         /**
          * @since 0.8.4
          */
