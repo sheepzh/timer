@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { log } from "@src/common/logger"
-
 class MessageDispatcher {
     private handlers: Partial<{
         [code in timer.mq.ReqCode]: timer.mq.Handler<any, any>
@@ -20,7 +18,7 @@ class MessageDispatcher {
         return this
     }
 
-    private async handle(message: timer.mq.Request<unknown>): Promise<timer.mq.Response<unknown>> {
+    private async handle(message: timer.mq.Request<unknown>, sender: chrome.runtime.MessageSender): Promise<timer.mq.Response<unknown>> {
         const code = message?.code
         if (!code) {
             return { code: 'ignore' }
@@ -30,7 +28,7 @@ class MessageDispatcher {
             return { code: 'ignore' }
         }
         try {
-            const result = await handler(message.data)
+            const result = await handler(message.data, sender)
             return { code: 'success', data: result }
         } catch (error) {
             return { code: 'fail', msg: error }
@@ -40,12 +38,8 @@ class MessageDispatcher {
     start() {
         // Be careful!!!
         // Can't use await/async in callback parameter
-        chrome.runtime.onMessage.addListener((message: timer.mq.Request<unknown>, _sender: never, sendResponse: timer.mq.Callback<unknown>) => {
-            log('start to handle message', message.code, message.data)
-            this.handle(message).then(response => {
-                log('the response is', response, message)
-                sendResponse(response)
-            })
+        chrome.runtime.onMessage.addListener((message: timer.mq.Request<unknown>, sender: chrome.runtime.MessageSender, sendResponse: timer.mq.Callback<unknown>) => {
+            this.handle(message, sender).then(response => sendResponse(response))
             // 'return ture' will force chrome to wait for the response processed in the above promise.
             // @see https://github.com/mozilla/webextension-polyfill/issues/130
             return true
