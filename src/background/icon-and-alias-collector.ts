@@ -13,6 +13,7 @@ import { iconUrlOfBrowser } from "@util/constant/url"
 import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
 import { defaultStatistics } from "@util/constant/option"
 import { extractSiteName } from "@util/site"
+import { getTab } from "@api/chrome/tab"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const iconUrlDatabase = new IconUrlDatabase(storage)
@@ -38,7 +39,7 @@ function collectAlias(host: string, tabTitle: string) {
 /**
  * Process the tab
  */
-async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
+async function processTabInfo(tab: ChromeTab): Promise<void> {
     if (!tab) return
     const url = tab.url
     if (!url) return
@@ -58,12 +59,13 @@ async function processTabInfo(tab: chrome.tabs.Tab): Promise<void> {
 /**
  * Fire when the web navigation completed
  */
-function handleWebNavigationCompleted(detail: chrome.webNavigation.WebNavigationFramedCallbackDetails) {
+async function handleWebNavigationCompleted(detail: chrome.webNavigation.WebNavigationFramedCallbackDetails) {
     if (detail.frameId > 0) {
         // we don't care about activity occurring within a sub frame of a tab
         return
     }
-    chrome.tabs.get(detail.tabId, processTabInfo)
+    const tab = await getTab(detail?.tabId)
+    tab && processTabInfo(tab)
 }
 
 function listen() {

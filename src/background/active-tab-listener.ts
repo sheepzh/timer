@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getTab, onTabActivated } from "@api/chrome/tab"
 import { extractHostname, HostInfo } from "@util/pattern"
 
 type _Param = {
@@ -18,7 +19,7 @@ type _Handler = (params: _Param) => void
 export default class ActiveTabListener {
     listener: Array<_Handler> = []
 
-    private async processWithTabInfo({ url, id }: chrome.tabs.Tab) {
+    private async processWithTabInfo({ url, id }: ChromeTab) {
         const hostInfo: HostInfo = extractHostname(url)
         const host: string = hostInfo.host
         const param: _Param = { url, tabId: id, host }
@@ -31,8 +32,9 @@ export default class ActiveTabListener {
     }
 
     listen() {
-        chrome.tabs.onActivated.addListener((activeInfo: chrome.tabs.TabActiveInfo) => {
-            chrome.tabs.get(activeInfo.tabId, tab => this.processWithTabInfo(tab))
+        onTabActivated(async tabId => {
+            const tab = await getTab(tabId)
+            this.processWithTabInfo(tab)
         })
     }
 }

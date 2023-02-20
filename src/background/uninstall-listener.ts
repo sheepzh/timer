@@ -7,11 +7,12 @@
 
 import { UNINSTALL_QUESTIONNAIRE } from "@util/constant/url"
 import { locale } from "@i18n"
+import { setUninstallURL } from "@api/chrome/runtime"
 
 async function listen() {
     try {
         const uninstallUrl = UNINSTALL_QUESTIONNAIRE[locale]
-        uninstallUrl && chrome.runtime.setUninstallURL(uninstallUrl)
+        uninstallUrl && setUninstallURL(uninstallUrl)
     } catch (e) {
         console.error(e)
     }

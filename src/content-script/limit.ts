@@ -9,26 +9,7 @@ import TimeLimitItem from "@entity/time-limit-item"
 import optionService from "@service/option-service"
 import { t2Chrome } from "@i18n/chrome/t"
 import { t } from "./locale"
-
-function moreMinutes(url: string): Promise<timer.limit.Item[]> {
-    const request: timer.mq.Request<string> = {
-        code: 'cs.moreMinutes',
-        data: url
-    }
-    return new Promise(resolve => chrome.runtime.sendMessage(request,
-        (res: timer.mq.Response<timer.limit.Item[]>) => resolve(res?.code === 'success' ? res.data || [] : [])
-    ))
-}
-
-function getLimited(url: string): Promise<timer.limit.Item[]> {
-    const request: timer.mq.Request<string> = {
-        code: 'cs.getLimitedRules',
-        data: url
-    }
-    return new Promise(resolve => chrome.runtime.sendMessage(request,
-        (res: timer.mq.Response<timer.limit.Item[]>) => resolve(res?.code === 'success' ? res.data || [] : [])
-    ))
-}
+import { onRuntimeMessage, sendMsg2Runtime } from "@api/chrome/runtime"
 
 class _Modal {
     url: string
@@ -69,11 +50,11 @@ class _Modal {
             const text = t(msg => msg.more5Minutes)
             link.innerText = text
             link.onclick = async () => {
-                const delayRules = await moreMinutes(_thisUrl)
+                const delayRules: timer.limit.Item[] = await sendMsg2Runtime('cs.moreMinutes', _thisUrl)
                 const wakingRules = delayRules
                     .map(like => TimeLimitItem.of(like))
                     .filter(rule => !rule.hasLimited())
-                chrome.runtime.sendMessage<timer.mq.Request<timer.limit.Item[]>, timer.mq.Response>(wakingMessage(wakingRules))
+                sendMsg2Runtime('limitWaking', wakingRules)
                 this.hideModal()
             }
             this.delayContainer.append(link)
@@ -111,10 +92,6 @@ class _Modal {
     }
 }
 
-function wakingMessage(rules: timer.limit.Item[]): timer.mq.Request<timer.limit.Item[]> {
-    return { code: 'limitWaking', data: rules }
-}
-
 const maskStyle: Partial<CSSStyleDeclaration> = {
     width: "100%",
     height: "100%",
@@ -145,10 +122,6 @@ const linkStyle: Partial<CSSStyleDeclaration> = {
     fontSize: '16px !important'
 }
 
-function openLimitPageMessage(url: string): timer.mq.Request<string> {
-    return { code: 'openLimitPage', data: encodeURIComponent(url) }
-}
-
 function link2Setup(url: string): HTMLParagraphElement {
     const link = document.createElement('a')
     Object.assign(link.style, linkStyle)
@@ -156,13 +129,13 @@ function link2Setup(url: string): HTMLParagraphElement {
     const text = t(msg => msg.timeLimitMsg)
         .replace('{appName}', t2Chrome(msg => msg.meta.name))
     link.innerText = text
-    link.onclick = () => chrome.runtime.sendMessage(openLimitPageMessage(url))
+    link.onclick = () => sendMsg2Runtime('openLimitPage', encodeURIComponent(url))
     const p = document.createElement('p')
     p.append(link)
     return p
 }
 
-function handleLimitTimeMeet(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): timer.mq.Response {
+async function handleLimitTimeMeet(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): Promise<timer.mq.Response> {
     if (msg.code !== "limitTimeMeet") {
         return { code: "ignore" }
     }
@@ -175,7 +148,7 @@ function handleLimitTimeMeet(msg: timer.mq.Request<timer.limit.Item[]>, modal: _
     return { code: "success" }
 }
 
-function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): timer.mq.Response {
+async function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): Promise<timer.mq.Response> {
     if (msg.code !== "limitWaking") {
         return { code: "ignore" }
     }
@@ -197,7 +170,7 @@ function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Mo
     return { code: "success" }
 }
 
-function handleLimitChanged(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): timer.mq.Response {
+async function handleLimitChanged(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): Promise<timer.mq.Response> {
     if (msg.code === 'limitChanged') {
         const data: timer.limit.Item[] = msg.data
         const items = data.map(TimeLimitItem.of)
@@ -210,18 +183,12 @@ function handleLimitChanged(msg: timer.mq.Request<timer.limit.Item[]>, modal: _M
 
 export default async function processLimit(url: string) {
     const modal = new _Modal(url)
-    const limitedRules: timer.limit.Item[] = await getLimited(url)
+    const limitedRules: timer.limit.Item[] = await sendMsg2Runtime('cs.getLimitedRules', url)
     if (limitedRules?.length) {
         window.onload = () => modal.showModal(!!limitedRules?.filter?.(item => item.allowDelay).length)
     }
-    chrome.runtime.onMessage.addListener(
-        (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitTimeMeet(msg, modal))
-    )
-    chrome.runtime.onMessage.addListener(
-        (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitWaking(msg, modal))
-    )
-    chrome.runtime.onMessage.addListener(
-        (msg: timer.mq.Request<timer.limit.Item[]>, _sender, sendResponse: timer.mq.Callback) => sendResponse(handleLimitChanged(msg, modal))
-    )
+    onRuntimeMessage<timer.limit.Item[], void>(msg => handleLimitTimeMeet(msg, modal))
+    onRuntimeMessage<timer.limit.Item[], void>(msg => handleLimitChanged(msg, modal))
+    onRuntimeMessage<timer.limit.Item[], void>(msg => handleLimitWaking(msg, modal))
 }
 

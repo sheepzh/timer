@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getRuntimeId } from "@api/chrome/runtime"
 import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
 
 export const FIREFOX_HOMEPAGE = 'https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/'
@@ -75,7 +76,7 @@ export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.Locale]: string } = {
 let updatePage = SOURCE_CODE_PAGE
 
 if (IS_CHROME) {
-    updatePage = `chrome://extensions/?id=${chrome.runtime.id}`
+    updatePage = `chrome://extensions/?id=${getRuntimeId()}`
 } else if (IS_EDGE) {
     // In the management page with developing-mode open
     updatePage = 'edge://extensions'
@@ -84,8 +85,6 @@ if (IS_CHROME) {
 export const UPDATE_PAGE = updatePage
 
 /**
- * chrome.tabs.create({ url: getAppPageUrl() })
- * 
  * @param isInBackground invoke in background environment
  * @since 0.2.2
  */

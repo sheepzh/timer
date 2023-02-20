@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
 import TimeLimitItem from "@entity/time-limit-item"
@@ -43,16 +44,12 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
  */
 async function handleLimitChanged() {
     const allItems: TimeLimitItem[] = await select({ filterDisabled: false, url: undefined })
-    chrome.tabs.query({}, tabs => tabs.forEach(tab => {
+    const tabs = await listTabs()
+    tabs.forEach(tab => {
         const limitedItems = allItems.filter(item => item.matches(tab.url) && item.enabled && item.hasLimited())
-        chrome.tabs.sendMessage<timer.mq.Request<timer.limit.Item[]>, timer.mq.Response>(tab.id, {
-            code: 'limitChanged',
-            data: limitedItems
-        }, _result => {
-            const error = chrome.runtime.lastError
-            error && console.log(error.message)
-        })
-    }))
+        limitedItems?.length && sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
+            .catch(err => console.log(err.message))
+    })
 }
 
 async function updateEnabled(item: timer.limit.Item): Promise<void> {

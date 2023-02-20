@@ -1,0 +1,41 @@
+import { handleError } from "./common"
+
+export function getRuntimeId(): string {
+    return chrome.runtime.id
+}
+
+export function sendMsg2Runtime<T = any, R = any>(code: timer.mq.ReqCode, data?: T): Promise<R> {
+    const request: timer.mq.Request<T> = { code, data }
+    return new Promise((resolve, reject) => chrome.runtime.sendMessage(request,
+        (response: timer.mq.Response<R>) => {
+            handleError('sendMsg2Runtime')
+            const resCode = response?.code
+            resCode === 'success'
+                ? resolve(response.data)
+                : reject(new Error(response?.msg))
+        })
+    )
+}
+
+export function onRuntimeMessage<T = any, R = any>(handler: ChromeMessageHandler<T, R>): void {
+    // Be careful!!!
+    // Can't use await/async in callback parameter
+    chrome.runtime.onMessage.addListener((message: timer.mq.Request<T>, sender: chrome.runtime.MessageSender, sendResponse: timer.mq.Callback<R>) => {
+        handler(message, sender).then((response: timer.mq.Response<R>) => sendResponse(response))
+        // 'return ture' will force chrome to wait for the response processed in the above promise.
+        // @see https://github.com/mozilla/webextension-polyfill/issues/130
+        return true
+    })
+}
+
+export function onInstalled(handler: (reason: ChromeOnInstalledReason) => void): void {
+    chrome.runtime.onInstalled.addListener(detail => handler(detail.reason))
+}
+
+export function getVersion(): string {
+    return chrome.runtime.getManifest().version
+}
+
+export function setUninstallURL(url: string): Promise<void> {
+    return new Promise(resolve => chrome.runtime.setUninstallURL(url, resolve))
+}

@@ -1,11 +1,14 @@
+import { clearAlarm, createAlarm, onAlarm } from "@api/chrome/alarm"
+import { getRuntimeId } from "@api/chrome/runtime"
+
 type _AlarmConfig = {
     handler: _Handler,
     interval: number,
 }
 
-type _Handler = (alarm: chrome.alarms.Alarm) => void
+type _Handler = (alarm: ChromeAlarm) => void
 
-const ALARM_PREFIX = 'timer-alarm-' + chrome.runtime.id + '-'
+const ALARM_PREFIX = 'timer-alarm-' + getRuntimeId() + '-'
 const ALARM_PREFIX_LENGTH = ALARM_PREFIX.length
 
 const getInnerName = (outerName: string) => ALARM_PREFIX + outerName
@@ -24,7 +27,7 @@ class AlarmManager {
     }
 
     private init() {
-        chrome.alarms.onAlarm.addListener(alarm => {
+        onAlarm(async alarm => {
             const name = alarm.name
             if (!name.startsWith(ALARM_PREFIX)) {
                 // Unknown alarm
@@ -40,10 +43,8 @@ class AlarmManager {
             config.handler?.(alarm)
             const nextTs = Date.now() + config.interval
             // Clear this one
-            chrome.alarms.clear(name, (_cleared: boolean) => {
-                // Create new one
-                chrome.alarms.create(name, { when: nextTs })
-            })
+            await clearAlarm(name)
+            createAlarm(name, nextTs)
         })
     }
 
@@ -63,7 +64,7 @@ class AlarmManager {
         // Initialize config
         this.alarms[outerName] = config
         // Create new one alarm
-        chrome.alarms.create(getInnerName(outerName), { when: Date.now() + interval })
+        createAlarm(getInnerName(outerName), Date.now() + interval)
     }
 
     /**
@@ -71,7 +72,7 @@ class AlarmManager {
      */
     remove(outerName: string) {
         delete this.alarms[outerName]
-        chrome.alarms.clear(getInnerName(outerName))
+        clearAlarm(getInnerName(outerName))
     }
 }
 

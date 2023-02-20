@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getVersion, onInstalled } from "@api/chrome/runtime"
 import HostMergeInitializer from "./0-1-2/host-merge-initializer"
 import LocalFileInitializer from "./0-7-0/local-file-initializer"
 import RunningTimeClear from "./1-4-3/running-time-clear"
@@ -26,8 +27,8 @@ class VersionManager {
         this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }
 
-    private onChromeInstalled(reason: chrome.runtime.OnInstalledReason) {
-        const version: string = chrome.runtime.getManifest().version
+    private onChromeInstalled(reason: ChromeOnInstalledReason) {
+        const version: string = getVersion()
         if (reason === 'update') {
             // Update, process the latest version, which equals to current version
             this.processorChain
@@ -40,7 +41,7 @@ class VersionManager {
     }
 
     init() {
-        chrome.runtime.onInstalled.addListener(detail => this.onChromeInstalled(detail.reason))
+        onInstalled(reason => this.onChromeInstalled(reason))
     }
 }
 
