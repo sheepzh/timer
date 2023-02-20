@@ -9,6 +9,7 @@ import type { CallbackDataParams } from "echarts/types/dist/shared"
 
 import { REPORT_ROUTE } from "@app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
+import { createTab } from "@api/chrome/tab"
 
 function generateUrl(data: PopupRow, queryResult: PopupQueryResult): string {
     const { host, isOther } = data
@@ -45,7 +46,7 @@ function handleClick(params: CallbackDataParams, queryResult: PopupQueryResult) 
     const componentType = params.componentType
     if (componentType === 'series') {
         const url = generateUrl(data, queryResult)
-        url && chrome.tabs.create({ url })
+        url && createTab(url)
     }
 }
 

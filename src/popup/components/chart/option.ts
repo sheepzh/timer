@@ -22,6 +22,7 @@ import { IS_SAFARI } from "@util/constant/environment"
 import { OPTION_ROUTE } from "@app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
 import { optionIcon } from "./toolbox-icon"
+import { createTab } from "@api/chrome/tab"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -208,9 +209,7 @@ export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOpti
                     show: true,
                     title: t(msg => msg.chart.options),
                     icon: optionIcon,
-                    onclick() {
-                        chrome.tabs.create({ url: getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }) })
-                    }
+                    onclick: () => createTab(getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }))
                 }
             }
         }

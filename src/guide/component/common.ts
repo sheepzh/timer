@@ -4,6 +4,7 @@ import type { VNode } from "vue"
 import { t, tN } from "@guide/locale"
 import { h } from "vue"
 import { position2AnchorClz } from "@guide/util"
+import { createTab } from "@api/chrome/tab"
 
 export function h1(i18nKey: I18nKey, position: Position, i18nParam?: any): VNode {
     return h('h1', { class: `guide-h1 ${position2AnchorClz(position)}` }, t(i18nKey, i18nParam))
@@ -24,7 +25,7 @@ export function link(href: string, text: string): VNode {
 export function linkInner(extensionUrl: string, text: string): VNode {
     return h('a', {
         class: 'guide-link',
-        onClick: () => chrome.tabs.create({ url: extensionUrl }),
+        onClick: () => createTab(extensionUrl),
     }, text)
 }
 

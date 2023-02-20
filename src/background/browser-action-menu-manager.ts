@@ -8,15 +8,18 @@
 import { OPTION_ROUTE } from "../app/router/constants"
 import { getAppPageUrl, getGuidePageUrl, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
 import { t2Chrome } from "@i18n/chrome/t"
-import { IS_SAFARI } from "@util/constant/environment"
+import { IS_MV3, IS_SAFARI } from "@util/constant/environment"
+import { createTab } from "@api/chrome/tab"
+import { createContextMenu } from "@api/chrome/context-menu"
+import { getRuntimeId } from "@api/chrome/runtime"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 
-const baseProps: Partial<chrome.contextMenus.CreateProperties> = {
+const baseProps: Partial<ChromeContextMenuCreateProps> = {
     // Cast unknown to fix the error with manifestV2
     // Because 'browser_action' will be replaced with 'action' in union type chrome.contextMenus.ContextType since V3
     // But 'action' does not work in V2
-    contexts: ['browser_action'] as unknown as chrome.contextMenus.ContextType[],
+    contexts: [IS_MV3 ? 'action' : 'browser_action'],
     visible: true
 }
 
@@ -29,55 +32,47 @@ function titleOf(prefixEmoji: string, title: string) {
     }
 }
 
-const allFunctionProps: chrome.contextMenus.CreateProperties = {
-    id: chrome.runtime.id + '_timer_menu_item_app_link',
+const allFunctionProps: ChromeContextMenuCreateProps = {
+    id: getRuntimeId() + '_timer_menu_item_app_link',
     title: titleOf('🏷️', t2Chrome(msg => msg.base.allFunction)),
-    onclick: () => chrome.tabs.create({ url: APP_PAGE_URL }),
+    onclick: () => createTab(APP_PAGE_URL),
     ...baseProps
 }
 
-const optionPageProps: chrome.contextMenus.CreateProperties = {
-    id: chrome.runtime.id + '_timer_menu_item_option_link',
+const optionPageProps: ChromeContextMenuCreateProps = {
+    id: getRuntimeId() + '_timer_menu_item_option_link',
     title: titleOf('🥰', t2Chrome(msg => msg.contextMenus.optionPage)),
-    onclick: () => chrome.tabs.create({ url: APP_PAGE_URL + '#' + OPTION_ROUTE }),
+    onclick: () => createTab(APP_PAGE_URL + '#' + OPTION_ROUTE),
     ...baseProps
 }
 
-const repoPageProps: chrome.contextMenus.CreateProperties = {
-    id: chrome.runtime.id + '_timer_menu_item_repo_link',
+const repoPageProps: ChromeContextMenuCreateProps = {
+    id: getRuntimeId() + '_timer_menu_item_repo_link',
     title: titleOf('🍻', t2Chrome(msg => msg.contextMenus.repoPage)),
-    onclick: () => chrome.tabs.create({ url: SOURCE_CODE_PAGE }),
+    onclick: () => createTab(SOURCE_CODE_PAGE),
     ...baseProps
 }
 
-const feedbackPageProps: chrome.contextMenus.CreateProperties = {
-    id: chrome.runtime.id + '_timer_menu_item_feedback_link',
+const feedbackPageProps: ChromeContextMenuCreateProps = {
+    id: getRuntimeId() + '_timer_menu_item_feedback_link',
     title: titleOf('😿', t2Chrome(msg => msg.contextMenus.feedbackPage)),
-    onclick: () => chrome.tabs.create({ url: TU_CAO_PAGE }),
+    onclick: () => createTab(TU_CAO_PAGE),
     ...baseProps
 }
 
-const guidePageProps: chrome.contextMenus.CreateProperties = {
-    id: chrome.runtime.id + '_timer_menu_item_guide_link',
+const guidePageProps: ChromeContextMenuCreateProps = {
+    id: getRuntimeId() + '_timer_menu_item_guide_link',
     title: titleOf('📖', t2Chrome(msg => msg.base.guidePage)),
-    onclick: () => chrome.tabs.create({ url: getGuidePageUrl(true) }),
+    onclick: () => createTab(getGuidePageUrl(true)),
     ...baseProps
 }
 
 function init() {
-    create(allFunctionProps)
-    create(optionPageProps)
-    create(repoPageProps)
-    create(feedbackPageProps)
-    create(guidePageProps)
-}
-
-function create(props: chrome.contextMenus.CreateProperties) {
-    chrome.contextMenus.create(props, () => {
-        const error: chrome.runtime.LastError = chrome.runtime.lastError
-        const duplicated = error?.message?.startsWith('Cannot create item with duplicate id')
-        duplicated && console.log("Duplicated item: " + props.id)
-    })
+    createContextMenu(allFunctionProps)
+    createContextMenu(optionPageProps)
+    createContextMenu(repoPageProps)
+    createContextMenu(feedbackPageProps)
+    createContextMenu(guidePageProps)
 }
 
 export default init

@@ -7,12 +7,11 @@
 
 import { getAppPageUrl } from "@util/constant/url"
 import { t } from "@popup/locale"
+import { createTab } from "@api/chrome/tab"
 
 function initAllFunction() {
     const allFunctionLink = document.getElementById('all-function-link')
-    allFunctionLink.onclick = async () => {
-        chrome.tabs.create({ url: getAppPageUrl(false, '/') })
-    }
+    allFunctionLink.onclick = () => createTab(getAppPageUrl(false, '/'))
     allFunctionLink.innerText = t(msg => msg.base.allFunction)
 }
 

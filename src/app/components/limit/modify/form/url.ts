@@ -9,7 +9,7 @@ import { defineComponent, h, PropType, ref, Ref, VNode, watch } from "vue"
 import clipboardy from "clipboardy"
 import { t } from "@app/locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
-import { checkPermission, requestPermission } from "@src/permissions"
+import { checkPermission, requestPermission } from "@api/chrome/permissions"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { parseUrl } from "./common"
 

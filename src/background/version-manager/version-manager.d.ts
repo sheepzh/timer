@@ -21,5 +21,5 @@ declare type VersionProcessor = {
      * 
      * @param reason reason of chrome OnInstalled event
      */
-    process(reason: chrome.runtime.OnInstalledReason): void
+    process(reason: ChromeOnInstalledReason): void
 }

@@ -10,6 +10,8 @@ import optionService from "@service/option-service"
 import { t2Chrome } from "@i18n/chrome/t"
 import { ContextMenusMessage } from "@i18n/message/common/context-menus"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
+import { getTab, onTabActivated, onTabUpdated } from "@api/chrome/tab"
+import { createContextMenu, updateContextMenu } from "@api/chrome/context-menu"
 
 const db = new WhitelistDatabase(chrome.storage.local)
 
@@ -22,7 +24,7 @@ let visible = true
 
 const removeOrAdd = (removeOrAddFlag: boolean, host: string) => removeOrAddFlag ? db.remove(host) : db.add(host)
 
-const menuInitialOptions: chrome.contextMenus.CreateProperties = {
+const menuInitialOptions: ChromeContextMenuCreateProps = {
     contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio'],
     id: menuId,
     checked: true,
@@ -30,15 +32,16 @@ const menuInitialOptions: chrome.contextMenus.CreateProperties = {
     visible: false
 }
 
-function updateContextMenu(currentActiveTab: chrome.tabs.Tab | number) {
-    if (typeof currentActiveTab === 'number') {
+async function updateContextMenuInner(param: ChromeTab | number) {
+    if (typeof param === 'number') {
         // If number, get the tabInfo first
-        chrome.tabs.get(currentActiveId, tab => tab && updateContextMenu(tab))
+        const tab: ChromeTab = await getTab(currentActiveId)
+        tab && updateContextMenuInner(tab)
     } else {
-        const tab = currentActiveTab as chrome.tabs.Tab
+        const tab = param as ChromeTab
         const { url } = tab
         const targetHost = url && !isBrowserUrl(url) ? extractHostname(tab.url).host : ''
-        const changeProp: chrome.contextMenus.UpdateProperties = {}
+        const changeProp: ChromeContextMenuUpdateProps = {}
         if (!targetHost) {
             // If not a valid host, hide this menu
             changeProp.visible = false
@@ -50,29 +53,28 @@ function updateContextMenu(currentActiveTab: chrome.tabs.Tab | number) {
             changeProp.title = t2Chrome(root => root.contextMenus[titleMsgField]).replace('{host}', targetHost)
             changeProp.onclick = () => removeOrAdd(existsInWhitelist, targetHost)
         }
-        chrome.contextMenus.update(menuId, changeProp)
+        updateContextMenu(menuId, changeProp)
     }
 }
 
 const handleListChange = (newWhitelist: string[]) => {
     whitelist = newWhitelist
-    updateContextMenu(currentActiveId)
+    updateContextMenuInner(currentActiveId)
 }
 
-const handleTabUpdated = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: number | chrome.tabs.Tab) => {
-    if (chrome.runtime.lastError) { /** prevent it from throwing error */ }
+const handleTabUpdated = (tabId: number, changeInfo: ChromeTabChangeInfo, tab: number | ChromeTab) => {
     // Current active tab updated
     tabId === currentActiveId
         && changeInfo.status === 'loading'
-        && updateContextMenu(tab)
+        && updateContextMenuInner(tab)
 }
 
-const handleTabActivated = (activeInfo: chrome.tabs.TabActiveInfo) => updateContextMenu(currentActiveId = activeInfo.tabId)
+const handleTabActivated = (activeInfo: ChromeTabActiveInfo) => updateContextMenuInner(currentActiveId = activeInfo.tabId)
 
 async function init() {
-    chrome.contextMenus.create(menuInitialOptions)
-    chrome.tabs.onUpdated.addListener(handleTabUpdated)
-    chrome.tabs.onActivated.addListener(handleTabActivated)
+    createContextMenu(menuInitialOptions)
+    onTabUpdated(handleTabUpdated)
+    onTabActivated((_tabId, activeInfo) => handleTabActivated(activeInfo))
     whitelist = await db.selectAll()
     db.addChangeListener(handleListChange)
     visible = (await optionService.getAllOption()).displayWhitelistMenu

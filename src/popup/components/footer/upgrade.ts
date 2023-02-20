@@ -11,6 +11,7 @@ import { t } from "@popup/locale"
 import { UPDATE_PAGE } from "@util/constant/url"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { IS_FROM_STORE } from "@util/constant/meta"
+import { createTab } from "@api/chrome/tab"
 
 /**
  * Reset the position after upgrade showed
@@ -57,7 +58,7 @@ function showUpgradeButton(latestVersion: string) {
         upgrade.classList.add("firefox-upgrade-no-underline")
         latestInfo.innerText = t(msg => msg.chart.updateVersionInfo4Firefox, { version: versionLabel })
     } else {
-        upgradeLink.onclick = () => chrome.tabs.create({ url: UPDATE_PAGE })
+        upgradeLink.onclick = () => createTab(UPDATE_PAGE)
         latestInfo.innerText = t(msg => msg.chart.updateVersionInfo, { version: versionLabel })
     }
 }

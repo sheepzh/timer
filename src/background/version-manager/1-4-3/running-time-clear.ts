@@ -14,7 +14,7 @@ export default class RunningTimeClear implements VersionProcessor {
         return "1.4.3"
     }
 
-    async process(reason: chrome.runtime.OnInstalledReason): Promise<void> {
+    async process(reason: ChromeOnInstalledReason): Promise<void> {
         // Only trigger when updating
         if (reason !== 'update') {
             return

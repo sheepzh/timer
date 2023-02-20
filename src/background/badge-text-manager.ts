@@ -5,6 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { setBadgeText } from "@api/chrome/action"
+import { listTabs } from "@api/chrome/tab"
+import { getFocusedNormalWindow } from "@api/chrome/window"
 import TimerDatabase from "@db/timer-database"
 import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
@@ -42,36 +45,19 @@ function setBadgeTextOfMills(milliseconds: number | undefined, tabId: number | u
     setBadgeText(text, tabId)
 }
 
-function setBadgeText(text: string, tabId: number | undefined) {
-    chrome.browserAction?.setBadgeText?.({ text, tabId })
-}
-
-function findFocusedWindow(): Promise<chrome.windows.Window> {
-    return new Promise(resolve =>
-        chrome.windows.getLastFocused(
-            // Only find normal window
-            { windowTypes: ['normal'] },
-            window => resolve(window && window.focused ? window : undefined)
-        )
-    )
-}
-
 async function findActiveTab(): Promise<BadgeLocation> {
-    const window = await findFocusedWindow()
+    const window = await getFocusedNormalWindow()
     if (!window) {
         return undefined
     }
-    return new Promise(resolve => chrome.tabs.query({ active: true, windowId: window.id }, tabs => {
-        // Fix #131
-        // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
-        tabs = tabs.filter(tab => !isBrowserUrl(tab.url))
-        if (!tabs || !tabs.length) {
-            resolve(undefined)
-        } else {
-            const { url, id } = tabs[0]
-            resolve({ tabId: id, url })
-        }
-    }))
+    const tabs = await listTabs({ active: true, windowId: window.id })
+    // Fix #131
+    // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
+    const tab = tabs.filter(tab => !isBrowserUrl(tab?.url))[0]
+    if (!tab) {
+        return undefined
+    }
+    return { tabId: tab.id, url: tab.url }
 }
 
 async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLocation): Promise<BadgeLocation> {

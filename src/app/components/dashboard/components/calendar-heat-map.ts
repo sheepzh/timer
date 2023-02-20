@@ -38,6 +38,7 @@ import { BASE_TITLE_OPTION } from "../common"
 import { getPrimaryTextColor } from "@util/style"
 import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
+import { createTab } from "@api/chrome/tab"
 
 const WEEK_NUM = 53
 
@@ -213,7 +214,7 @@ function handleClick(value: _Value): void {
     const query: ReportQueryParam = { ds: currentTs, de: currentTs }
 
     const url = getAppPageUrl(false, REPORT_ROUTE, query)
-    chrome.tabs.create({ url })
+    createTab(url)
 }
 
 class ChartWrapper {

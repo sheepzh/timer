@@ -8,20 +8,14 @@
 import { isBrowserUrl, extractHostname, extractFileHost } from "@util/pattern"
 import CollectionContext from "./collection-context"
 import optionService from "@service/option-service"
+import { listTabs } from "@api/chrome/tab"
+import { listAllWindows } from "@api/chrome/window"
 
 let countLocalFiles: boolean
 optionService.getAllOption().then(option => countLocalFiles = !!option.countLocalFiles)
 optionService.addOptionChangeListener((newVal => countLocalFiles = !!newVal.countLocalFiles))
 
-function queryAllWindows(): Promise<chrome.windows.Window[]> {
-    return new Promise(resolve => chrome.windows.getAll(resolve))
-}
-
-function queryAllTabs(windowId: number): Promise<chrome.tabs.Tab[]> {
-    return new Promise(resolve => chrome.tabs.query({ windowId }, resolve))
-}
-
-function handleTab(tab: chrome.tabs.Tab, window: chrome.windows.Window, context: CollectionContext) {
+function handleTab(tab: ChromeTab, window: ChromeWindow, context: CollectionContext) {
     if (!tab.active || !window.focused) {
         return
     }
@@ -41,9 +35,9 @@ function handleTab(tab: chrome.tabs.Tab, window: chrome.windows.Window, context:
 }
 
 async function doCollect(context: CollectionContext) {
-    const windows = await queryAllWindows()
+    const windows = await listAllWindows()
     for (const window of windows) {
-        const tabs = await queryAllTabs(window.id)
+        const tabs = await listTabs({ windowId: window.id })
         // tabs maybe undefined
         if (!tabs) {
             continue

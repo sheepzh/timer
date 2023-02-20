@@ -19,6 +19,7 @@ import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/consta
 import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
+import { createTab } from "@api/chrome/tab"
 
 type _MenuItem = {
     title: keyof MenuMessage
@@ -131,9 +132,7 @@ function openMenu(route: string, title: I18nKey, routeProps: UnwrapRef<_RoutePro
     }
 }
 
-const openHref = (href: string) => {
-    chrome.tabs.create({ url: href })
-}
+const openHref = (href: string) => createTab(href)
 
 function handleClick(_MenuItem: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
     const { route, title, href } = _MenuItem
