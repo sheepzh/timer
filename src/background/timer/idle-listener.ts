@@ -5,11 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { onIdleStateChanged } from "@api/chrome/idle"
 import { IS_SAFARI } from "@util/constant/environment"
 import { formatTime } from "@util/time"
 import TimerContext from "./context"
 
-function listen(context: TimerContext, newState: chrome.idle.IdleState) {
+function listen(context: TimerContext, newState: ChromeIdleState) {
     console.log(`Idle state changed:${newState}`, formatTime(new Date()))
     context.setIdle(newState)
 }
@@ -25,9 +26,7 @@ export default class IdleListener {
     }
 
     listen() {
-        if (!IS_SAFARI) {
-            // Idle does not work in Safari
-            chrome.idle.onStateChanged.addListener(newState => listen(this.context, newState))
-        }
+        // Idle does not work in Safari
+        !IS_SAFARI && onIdleStateChanged(newState => listen(this.context, newState))
     }
 }
