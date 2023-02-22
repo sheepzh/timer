@@ -26,7 +26,7 @@ export default class TimerContext {
      */
     lastCollectTime: number
 
-    private idleState: chrome.idle.IdleState
+    private idleState: ChromeIdleState
 
     constructor() {
         this.idleState = 'active'
@@ -46,7 +46,7 @@ export default class TimerContext {
      */
     resetTimeMap(): void { this.timeMap = {} }
 
-    setIdle(idleNow: chrome.idle.IdleState) { this.idleState = idleNow }
+    setIdle(idleNow: ChromeIdleState) { this.idleState = idleNow }
 
     isPaused(): boolean {
         if (this.idleState === 'active') {

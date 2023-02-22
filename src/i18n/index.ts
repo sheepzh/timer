@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getUILanguage } from "@api/chrome/i18n"
 import optionService from "@service/option-service"
 
 /**
@@ -71,13 +72,13 @@ export function chromeLocale2ExtensionLocale(chromeLocale: string): timer.Locale
 /**
  * @since 0.9.0
  */
-export let localeSameAsBrowser: timer.Locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+export let localeSameAsBrowser: timer.Locale = chromeLocale2ExtensionLocale(getUILanguage())
 
 /**
  * @since 1.5.0
  */
 export function isTranslatingLocale(): boolean {
-    const uiLang = chrome.i18n.getUILanguage()
+    const uiLang = getUILanguage()
     if (chrome2I18n[uiLang]) {
         return false
     }
@@ -92,7 +93,7 @@ export let locale: timer.Locale = localeSameAsBrowser
 function handleLocaleOption(option: timer.option.AllOption) {
     const localOption: timer.option.LocaleOption = option.locale
     if (!localOption || localOption === "default") {
-        locale = chromeLocale2ExtensionLocale(chrome.i18n.getUILanguage())
+        locale = chromeLocale2ExtensionLocale(getUILanguage())
     } else {
         locale = localOption as timer.Locale
     }
