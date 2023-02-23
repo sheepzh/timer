@@ -22,6 +22,14 @@ describe('icon-url-database', () => {
         expect((await db.get(foo))[foo]).toBeUndefined()
     })
 
+    // Invalid url starting with chrome:// or edge://
+    test('2', async () => {
+        await db.put(baidu, 'chrome://favicon/https://baidu.com')
+        expect(await db.get(baidu)[baidu]).toBeUndefined()
+        await db.put(baidu, 'edge://favicon/https://baidu.com')
+        expect(await db.get(baidu)[baidu]).toBeUndefined()
+    })
+
     test("import data", async () => {
         await db.put(baidu, "test1")
         const data2Import = {

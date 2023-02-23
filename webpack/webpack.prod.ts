@@ -9,8 +9,8 @@ const outputDir = path.resolve(__dirname, '..', 'dist_prod')
 const option = optionGenerator(outputDir)
 option.mode = 'production'
 
-const normalZipFilePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}.zip`)
-const sourceCodeForFireFox = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.zip`)
+const normalZipFilePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}.mv3.zip`)
+const sourceCodeForFireFox = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.mv3.zip`)
 
 // Temporary directory for source code to archive on Firefox
 const sourceTempDir = path.resolve(__dirname, '..', 'firefox')

@@ -58,4 +58,7 @@ export const IS_SAFARI: boolean = isSafari
  */
 export const BROWSER_MAJOR_VERSION = browserMajorVersion
 
+/**
+ * @since 1.4.4
+ */
 export const IS_MV3 = chrome.runtime.getManifest().manifest_version === 3

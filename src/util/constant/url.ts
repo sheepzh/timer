@@ -107,6 +107,7 @@ export function getGuidePageUrl(isInBackground: boolean): string {
 
 /**
  * @since 0.2.2
+ * @deprecated mv3
  * @returns icon url in the browser
  */
 export function iconUrlOfBrowser(protocol: string, host: string): string {

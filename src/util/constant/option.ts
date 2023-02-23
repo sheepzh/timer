@@ -40,7 +40,6 @@ export function defaultAppearance(): timer.option.AppearanceOption {
 
 export function defaultStatistics(): timer.option.StatisticsOption {
     return {
-        countWhenIdle: true,
         collectSiteName: true,
         countLocalFiles: false
     }
