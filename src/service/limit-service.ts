@@ -47,7 +47,7 @@ async function handleLimitChanged() {
     const tabs = await listTabs()
     tabs.forEach(tab => {
         const limitedItems = allItems.filter(item => item.matches(tab.url) && item.enabled && item.hasLimited())
-        limitedItems?.length && sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
+        sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
             .catch(err => console.log(err.message))
     })
 }
