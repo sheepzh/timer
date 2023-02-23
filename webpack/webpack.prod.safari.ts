@@ -8,21 +8,10 @@ const { name, version } = require(path.join(__dirname, '..', 'package.json'))
 const outputDir = path.join(__dirname, '..', 'dist_prod_safari')
 const normalZipFilePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-safari.zip`)
 
-function removeUnsupportedProperties(manifest: Partial<chrome.runtime.ManifestV2>) {
-    // 1. permissions. 'idle' is not supported
-    const originPermissions = manifest.permissions || []
-    const unsupported = ['idle']
-    const supported = []
-    originPermissions.forEach(perm => !unsupported.includes(perm) && supported.push(perm))
-    manifest.permissions = supported
-}
-
 const options = optionGenerator(
     outputDir,
     baseManifest => {
         baseManifest.name = 'Timer'
-        // Remove unsupported properties in Safari
-        removeUnsupportedProperties(baseManifest)
     }
 )
 

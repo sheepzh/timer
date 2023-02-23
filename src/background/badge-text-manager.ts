@@ -12,7 +12,6 @@ import TimerDatabase from "@db/timer-database"
 import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
-import alarmManager from "./alarm-manager"
 
 const storage = chrome.storage.local
 const timerDb: TimerDatabase = new TimerDatabase(storage)
@@ -26,6 +25,7 @@ export type BadgeLocation = {
      * The url of tab
      */
     url: string
+    focus?: number
 }
 
 function mill2Str(milliseconds: number) {
@@ -67,7 +67,7 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
     if (!badgeLocation) {
         return badgeLocation
     }
-    const { url, tabId } = badgeLocation
+    const { url, tabId, focus } = badgeLocation
     if (!url || isBrowserUrl(url)) {
         return badgeLocation
     }
@@ -76,7 +76,7 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
         setBadgeText('W', tabId)
         return badgeLocation
     }
-    const milliseconds = host ? (await timerDb.get(host, new Date())).focus : undefined
+    const milliseconds = focus || (host ? (await timerDb.get(host, new Date())).focus : undefined)
     setBadgeTextOfMills(milliseconds, tabId)
     return badgeLocation
 }
@@ -90,14 +90,12 @@ class BadgeTextManager {
         this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
         optionService.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
         whitelistHolder.addPostHandler(updateFocus)
-
-        alarmManager.setInterval('badage-text-manager', 1000, () => !this.isPaused && updateFocus())
     }
 
     /**
      * Hide the badge text
      */
-    async pause() {
+    private async pause() {
         this.isPaused = true
         const tab = await findActiveTab()
         setBadgeText('', tab?.tabId)
@@ -106,7 +104,7 @@ class BadgeTextManager {
     /**
      * Show the badge text
      */
-    resume() {
+    private resume() {
         this.isPaused = false
         // Update badge text immediately
         this.forceUpdate()

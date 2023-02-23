@@ -4,13 +4,13 @@ import FileManagerWebpackPlugin from "filemanager-webpack-plugin"
 import optionGenerator from "./webpack.common"
 import webpack from "webpack"
 
-const outputDir = path.join(__dirname, '..', 'dist_dev')
-let manifest: chrome.runtime.ManifestV2
+const outputDir = path.join(__dirname, '..', 'dist_dev_mv3')
+let manifest: chrome.runtime.ManifestV3
 
 const options = optionGenerator(
   outputDir,
   baseManifest => {
-    baseManifest.name = 'IS DEV'
+    baseManifest.name = 'DEV_MV3'
     // Fix the crx id for development mode
     baseManifest.key = "clbbddpinhgdejpoepalbfnkogbobfdb"
     manifest = baseManifest
@@ -28,7 +28,7 @@ const firefoxManifestGeneratePlugin = new GenerateJsonPlugin(
   }
 ) as unknown as webpack.WebpackPluginInstance
 options.plugins.push(firefoxManifestGeneratePlugin)
-const firefoxDevDir = path.join(__dirname, '..', 'firefox_dev')
+const firefoxDevDir = path.join(__dirname, '..', 'firefox_dev_mv3')
 // Generate FireFox dev files
 options.plugins.push(
   new FileManagerWebpackPlugin({

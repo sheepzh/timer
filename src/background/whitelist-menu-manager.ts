@@ -12,10 +12,11 @@ import { ContextMenusMessage } from "@i18n/message/common/context-menus"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 import { getTab, onTabActivated, onTabUpdated } from "@api/chrome/tab"
 import { createContextMenu, updateContextMenu } from "@api/chrome/context-menu"
+import { getRuntimeId } from "@api/chrome/runtime"
 
 const db = new WhitelistDatabase(chrome.storage.local)
 
-const menuId = '_timer_menu_item_' + Date.now()
+const menuId = '_timer_menu_item_' + getRuntimeId()
 let currentActiveId: number
 
 let whitelist: string[] = []

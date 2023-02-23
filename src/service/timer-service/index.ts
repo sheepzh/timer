@@ -12,7 +12,6 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import IconUrlDatabase from "@db/icon-url-database"
 import HostAliasDatabase from "@db/host-alias-database"
 import { slicePageResult } from "../components/page-info"
-import whitelistHolder from '../components/whitelist-holder'
 import { resultOf } from "@util/stat"
 import OptionDatabase from "@db/option-database"
 import processor from "@src/common/backup/processor"
@@ -73,10 +72,6 @@ export type FillFlagParam = {
 export type HostSet = {
     origin: Set<string>
     merged: Set<string>
-}
-
-function calcFocusInfo(timeInfo: TimeInfo): number {
-    return Object.values(timeInfo).reduce((a, b) => a + b, 0)
 }
 
 const keyOf = (row: timer.stat.RowKey) => `${row.date}${row.host}`
@@ -158,12 +153,9 @@ async function canReadRemote0(backupType: timer.backup.Type, auth: string): Prom
  */
 class TimerService {
 
-    async addFocusAndTotal(data: { [host: string]: TimeInfo }): Promise<timer.stat.ResultSet> {
-        const toUpdate = {}
-        Object.entries(data)
-            .filter(([host]) => whitelistHolder.notContains(host))
-            .forEach(([host, timeInfo]) => toUpdate[host] = resultOf(calcFocusInfo(timeInfo), 0))
-        return timerDatabase.accumulateBatch(toUpdate, new Date())
+    async addFocus(host: string, date: Date, focus: number): Promise<number> {
+        const result: timer.stat.Result = await timerDatabase.accumulate(host, date, { focus, time: 0 })
+        return result?.focus || 0
     }
 
     async addOneTime(host: string) {
@@ -206,9 +198,7 @@ class TimerService {
      * @since 1.0.2
      */
     async count(condition: TimerCondition): Promise<number> {
-        log("service: count: {condition}", condition)
         const count = await timerDatabase.count(condition)
-        log("service: count: {result}", count)
         return count
     }
 
