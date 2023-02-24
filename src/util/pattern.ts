@@ -74,9 +74,13 @@ export type HostInfo = {
 }
 
 export function extractHostname(url: string): HostInfo {
+    let fileHost = extractFileHost(url)
+    if (fileHost) {
+        return { host: fileHost, protocol: 'file' }
+    }
+
     let host: string
     let protocol: string
-
     const indexOfDoubleSlashes = url.indexOf("//")
     if (indexOfDoubleSlashes > -1) {
         const splits = url.split('/')
