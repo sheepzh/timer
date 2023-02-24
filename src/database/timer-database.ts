@@ -142,14 +142,14 @@ class TimerDatabase extends BaseDatabase {
      * @param host host
      * @since 0.1.3
      */
-    async accumulate(host: string, date: Date | string, item: timer.stat.Result): Promise<void> {
+    async accumulate(host: string, date: Date | string, item: timer.stat.Result): Promise<timer.stat.Result> {
         const key = generateKey(host, date)
         const items = await this.storage.get(key)
         const exist: timer.stat.Result = mergeResult(items[key] as timer.stat.Result || createZeroResult(), item)
         const toUpdate = {}
         toUpdate[key] = exist
-        log('toUpdate', toUpdate)
-        return this.storage.set(toUpdate)
+        await this.storage.set(toUpdate)
+        return exist
     }
 
     /**

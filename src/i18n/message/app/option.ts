@@ -49,9 +49,6 @@ export type OptionMessage = {
     }
     statistics: {
         title: string
-        countWhenIdle: string
-        idleTime: string
-        idleTimeInfo: string
         countLocalFiles: string
         localFileTime: string
         localFilesInfo: string
@@ -140,9 +137,6 @@ const _default: Messages<OptionMessage> = {
         },
         statistics: {
             title: '统计',
-            countWhenIdle: '{input}  是否统计 {idleTime} {info}',
-            idleTime: '休眠时间',
-            idleTimeInfo: '长时间不操作（比如全屏观看视频），浏览器会自动进入休眠状态',
             countLocalFiles: '{input}  是否统计使用浏览器 {localFileTime} {info}',
             localFileTime: '阅读本地文件的时间',
             localFilesInfo: '支持 PDF、图片、txt 以及 json 等格式',
@@ -226,9 +220,6 @@ const _default: Messages<OptionMessage> = {
         },
         statistics: {
             title: '統計',
-            countWhenIdle: '{input}  是否統計 {idleTime} {info}',
-            idleTime: '休眠時間',
-            idleTimeInfo: '長時間不操作（比如全屏觀看視頻），瀏覽器會自動進入休眠狀態',
             countLocalFiles: '{input}  是否統計使用瀏覽器 {localFileTime} {info}',
             localFileTime: '閱讀本地文件的時間',
             localFilesInfo: '支持 PDF、圖片、txt 以及 json 等格式',
@@ -311,9 +302,6 @@ const _default: Messages<OptionMessage> = {
         },
         statistics: {
             title: 'Statistics',
-            countWhenIdle: '{input}  Whether to count {idleTime} {info}',
-            idleTime: 'idle time',
-            idleTimeInfo: 'If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state',
             countLocalFiles: '{input}  Whether to count the time to {localFileTime} {info} in the browser',
             localFileTime: ' read a local file ',
             localFilesInfo: 'Supports files of types such as PDF, image, txt and json',
@@ -396,9 +384,6 @@ const _default: Messages<OptionMessage> = {
         },
         statistics: {
             title: '統計',
-            countWhenIdle: '{input}  {idleTime} をカウントするかどうか {info}',
-            idleTime: 'アイドルタイム',
-            idleTimeInfo: '長時間操作しない場合（フルスクリーンでビデオを見るなど）、ブラウザは自動的にアイドル状態になります',
             countLocalFiles: '{input}  ブラウザで {localFileTime} {info} に費やされた時間をカウントするかどうか',
             localFileTime: ' ローカルファイルの読み取り ',
             localFilesInfo: 'PDF、画像、txt、jsonを含む',

@@ -20,21 +20,13 @@ import MessageDispatcher from "./message-dispatcher"
 export default function init(dispatcher: MessageDispatcher) {
     dispatcher
         // Increase the visit time
-        .register<string, void>('cs.incVisitCount', async host => {
-            timerService.addOneTime(host)
-        })
+        .register<string, void>('cs.incVisitCount', host => timerService.addOneTime(host))
         // Judge is in whitelist
         .register<string, boolean>('cs.isInWhitelist', host => whitelistService.include(host))
         // Need to print the information of today
-        .register<void, boolean>('cs.printTodayInfo', async () => {
-            const option = await optionService.getAllOption()
-            return !!option.printInConsole
-        })
+        .register<void, boolean>('cs.printTodayInfo', async () => !!(await optionService.getAllOption())?.printInConsole)
         // Get today info
-        .register<string, timer.stat.Result>('cs.getTodayInfo', host => {
-            const now = new Date()
-            return timerService.getResult(host, now)
-        })
+        .register<string, timer.stat.Result>('cs.getTodayInfo', host => timerService.getResult(host, new Date()))
         // More minutes
         .register<string, timer.limit.Item[]>('cs.moreMinutes', url => limitService.moreMinutes(url))
         // cs.getLimitedRules

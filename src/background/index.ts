@@ -9,21 +9,18 @@ import { openLog } from "../common/logger"
 import WhitelistMenuManager from "./whitelist-menu-manager"
 import BrowserActionMenuManager from "./browser-action-menu-manager"
 import IconAndAliasCollector from "./icon-and-alias-collector"
-import Timer from "./timer"
 import VersionManager from "./version-manager"
 import ActiveTabListener from "./active-tab-listener"
 import badgeTextManager from "./badge-text-manager"
-import metaService from "@service/meta-service"
-import UninstallListener from "./uninstall-listener"
-import { getGuidePageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
 import initLimitProcesser from "./limit-processor"
 import initCsHandler from "./content-script-handler"
 import { isBrowserUrl } from "@util/pattern"
 import BackupScheduler from "./backup-scheduler"
-import { createTab, listTabs } from "@api/chrome/tab"
+import { listTabs } from "@api/chrome/tab"
 import { isNoneWindowId, onNormalWindowFocusChanged } from "@api/chrome/window"
-import { onInstalled } from "@api/chrome/runtime"
+import initServer from "./timer/server"
+import handleInstall from "./install-handler"
 
 // Open the log of console
 openLog()
@@ -37,7 +34,8 @@ initLimitProcesser(messageDispatcher)
 initCsHandler(messageDispatcher)
 
 // Start the timer
-new Timer().start()
+// new Timer().start()
+initServer(messageDispatcher)
 
 // Collect the icon url and title
 new IconAndAliasCollector().listen()
@@ -70,15 +68,7 @@ onNormalWindowFocusChanged(async windowId => {
         .forEach(({ url, id }) => badgeTextManager.forceUpdate({ url, tabId: id }))
 })
 
-// Collect the install time
-onInstalled(async reason => {
-    if (reason === "install") {
-        createTab(getGuidePageUrl(true))
-        await metaService.updateInstallTime(new Date())
-    }
-    // Questionnaire for uninstall
-    new UninstallListener().listen()
-})
+handleInstall()
 
 // Start message dispatcher
 messageDispatcher.start()

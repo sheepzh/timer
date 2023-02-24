@@ -34,7 +34,7 @@ export default class ActiveTabListener {
     listen() {
         onTabActivated(async tabId => {
             const tab = await getTab(tabId)
-            this.processWithTabInfo(tab)
+            tab && this.processWithTabInfo(tab)
         })
     }
 }
