@@ -83,7 +83,7 @@ async function getLimited(url: string): Promise<TimeLimitItem[]> {
  * @param focusTime time, milliseconds 
  * @returns the rules is limit cause of this operation
  */
-async function addFocusTime(url: string, focusTime: number) {
+async function addFocusTime(url: string, focusTime: number): Promise<TimeLimitItem[]> {
     const allEnabled: TimeLimitItem[] = await select({ filterDisabled: true, url })
     const toUpdate: { [cond: string]: number } = {}
     const result: TimeLimitItem[] = []

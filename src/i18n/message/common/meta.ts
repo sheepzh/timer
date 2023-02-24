@@ -23,8 +23,8 @@ const _default: Messages<MetaMessage> = {
     },
     en: {
         name: 'Timer',
-        marketName: 'Timer - Browsing Time & Visit count',
-        description: 'To be the BEST web timer.',
+        marketName: 'Timer - Track Your Webtime',
+        description: 'To be the BEST webtime tracker.',
     },
 }
 

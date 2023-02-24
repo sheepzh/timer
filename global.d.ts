@@ -111,10 +111,6 @@ declare namespace timer {
 
         type StatisticsOption = {
             /**
-             * Count when idle
-             */
-            countWhenIdle: boolean
-            /**
              * Whether to collect the site name
              * 
              * @since 0.5.0
@@ -230,6 +226,12 @@ declare namespace timer {
         | 'mn'
 
     namespace stat {
+        type Event = {
+            start: number
+            end: number
+            url: string
+            ignoreTabCheck: boolean
+        }
         /**
          * The dimension to statistics
          */
@@ -530,6 +532,7 @@ declare namespace timer {
             | "cs.getTodayInfo"
             | "cs.moreMinutes"
             | "cs.getLimitedRules"
+            | "cs.trackTime"
         type ResCode = "success" | "fail" | "ignore"
 
         /**
@@ -550,7 +553,7 @@ declare namespace timer {
         /**
          * @since 1.3.0
          */
-        type Handler<Req, Res> = (data: Req, sender: chrome.runtime.MessageSender) => Promise<Res>
+        type Handler<Req, Res> = (data: Req, sender?: chrome.runtime.MessageSender) => Promise<Res>
         /**
          * @since 0.8.4
          */
@@ -576,5 +579,3 @@ declare type ChromeAlarm = chrome.alarms.Alarm
 declare type ChromeOnInstalledReason = chrome.runtime.OnInstalledReason
 declare type ChromeMessageSender = chrome.runtime.MessageSender
 declare type ChromeMessageHandler<T = any, R = any> = (req: timer.mq.Request<T>, sender: ChromeMessageSender) => Promise<timer.mq.Response<R>>
-// chrome.idle
-declare type ChromeIdleState = chrome.idle.IdleState
