@@ -49,6 +49,17 @@ type _Value = {
     host: string
 }
 
+const X_AXIS_LABEL_MAX_LENGTH = 16
+
+function calculateXAixsLabel(host: string, hostAliasMap: Record<string, string>) {
+    const originLabel = hostAliasMap[host] || host
+    const originLength = originLabel?.length
+    if (!originLength || originLength <= X_AXIS_LABEL_MAX_LENGTH) {
+        return originLabel
+    }
+    return originLabel.substring(0, X_AXIS_LABEL_MAX_LENGTH - 3) + '...'
+}
+
 function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat.Row[]): EcOption {
     const textColor = getPrimaryTextColor()
 
@@ -133,7 +144,7 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
             axisLabel: {
                 interval: 0,
                 color: textColor,
-                formatter: (host: string) => hostAliasMap[host] || host
+                formatter: (host: string) => calculateXAixsLabel(host, hostAliasMap)
             },
         },
         yAxis: {
