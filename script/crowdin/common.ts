@@ -71,7 +71,6 @@ export async function readAllMessages(dir: Dir): Promise<Record<string, Messages
     return result
 }
 
-
 /**
  * Merge crowdin message into locale codes
  */

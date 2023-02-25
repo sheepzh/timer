@@ -190,15 +190,20 @@ declare namespace timer {
      * @since 1.4.0
      */
     type SourceLocale = 'en'
-
     /**
-     * @since 0.8.0
+     * The locale must be translated with code
+     * 
+     * @since 1.5.3
      */
-    type Locale = SourceLocale
-        | 'zh_CN'
+    type RequiredLocale = SourceLocale | 'zh_CN'
+    type OptionalLocale =
         | 'ja'
         // @since 0.9.0
         | 'zh_TW'
+    /**
+     * @since 0.8.0
+     */
+    type Locale = RequiredLocale | OptionalLocale
 
     /**
      * Translating locales
@@ -576,3 +581,12 @@ declare type ChromeAlarm = chrome.alarms.Alarm
 declare type ChromeOnInstalledReason = chrome.runtime.OnInstalledReason
 declare type ChromeMessageSender = chrome.runtime.MessageSender
 declare type ChromeMessageHandler<T = any, R = any> = (req: timer.mq.Request<T>, sender: ChromeMessageSender) => Promise<timer.mq.Response<R>>
+
+// Embedded partial
+declare type EmbeddedPartial<T> = {
+    [P in keyof T]?: T[P] extends Array<infer U>
+    ? Array<EmbeddedPartial<U>>
+    : T[P] extends ReadonlyArray<infer U>
+    ? ReadonlyArray<EmbeddedPartial<U>>
+    : EmbeddedPartial<T[P]>;
+}
