@@ -88,10 +88,7 @@ export async function mergeMessage(
     }
     const sourceItemSet = transMsg(existMessages[SOURCE_LOCALE])
     Object.entries(messages).forEach(([locale, itemSet]) => {
-        let existMessage: any = existMessages[locale]
-        if (!existMessage) {
-            existMessages[locale] = existMessage = {}
-        }
+        let existMessage: any = existMessages[locale] || {}
         Object.entries(itemSet).forEach(([path, text]) => {
             if (!text) {
                 // Not translated
@@ -105,6 +102,10 @@ export async function mergeMessage(
             const pathSeg = path.split('.')
             fillItem(pathSeg, 0, existMessage, text)
         })
+        if (Object.keys(existMessage).length) {
+            // Only merge the locale with any translated strings
+            existMessages[locale] = existMessage
+        }
     })
 
     const existFile = fs.readFileSync(filePath, { encoding: 'utf-8' })
