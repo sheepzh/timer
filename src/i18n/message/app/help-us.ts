@@ -41,6 +41,10 @@ const _default: Messages<HelpUsMessage> = {
         button: 'Go Crowdin',
         loading: 'Checking translation progress...',
     },
+    zh_TW: {
+        button: '前往 Crowdin',
+        loading: '正在檢查翻譯進度...',
+    },
 }
 
 export default _default
