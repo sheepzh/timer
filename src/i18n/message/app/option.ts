@@ -171,7 +171,7 @@ const _default: Messages<OptionMessage> = {
             auto: {
                 label: '是否开启自动备份',
                 interval: '每 {input} 分钟备份一次',
-            }
+            },
         },
         resetButton: '恢复默认',
         resetSuccess: '成功重置为默认值',
@@ -256,7 +256,7 @@ const _default: Messages<OptionMessage> = {
             auto: {
                 label: '是否開啟自動備份',
                 interval: '每 {input} 分鐘備份一次',
-            }
+            },
         },
         resetButton: '恢複默認',
         resetSuccess: '成功重置爲默認值',
@@ -355,7 +355,7 @@ const _default: Messages<OptionMessage> = {
             max: '最初の {input} 個のデータのみを表示し、残りのエントリは結合されます',
             defaultMergeDomain: '{input} オープン時にサブドメインをマージ',
             defaultDisplay: '開くと {duration} {type} が表示されます',
-            displaySiteName: '{input}  ホストの代わりに {siteName} {siteNameUsage} を表示するかどうか',
+            displaySiteName: '{input}  ホストの代わりに {siteName} を表示するかどうか',
             durationWidth: '100px',
             weekStart: '週の最初の日 {input}',
             weekStartAsNormal: 'いつものように',
@@ -417,7 +417,7 @@ const _default: Messages<OptionMessage> = {
                 gist: {
                     label: 'Github Gist',
                     auth: 'Personal Access Token {info} {input}',
-                    authInfo: 'One token with at least gist permission is required',
+                    authInfo: '少なくとも gist 権限を持つトークンが 1 つ必要です',
                 },
             },
             alert: 'これは実験的な機能です。質問がある場合は、作成者に連絡してください (returnzhy1996@outlook.com)',

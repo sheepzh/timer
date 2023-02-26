@@ -28,7 +28,7 @@ const _default: Messages<ChartMessage> = {
             today: '今日数据',
             thisWeek: '本周数据',
             thisMonth: '本月数据',
-            last30Days: '近 30 天数据'
+            last30Days: '近 30 天数据',
         },
         mergeHostLabel: '合并子域名',
         fileName: '上网时长清单_{today}_by_{app}',

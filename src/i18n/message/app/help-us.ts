@@ -33,14 +33,9 @@ const _default: Messages<HelpUsMessage> = {
     en: {
         title: 'Feel free to help improve the extension\'s localization translations!',
         alert: {
-            l1: 'Due to the author\'s language ability, \
-                the extension only supports Simplified Chinese and English natively, \
-                and other languages are either missing or rely heavily on machine translation.',
-            l2: 'In order to provide a better user experience, \
-                I host the translation tasks for other languages on Crowdin. \
-                Crowdin is a translation management system free for open source software.',
-            l3: 'If you find this extension useful to you and you are willing to improve its translation, \
-                you can click the button below to go to the project home page on Crowdin.',
+            l1: 'Due to the author\'s language ability, the extension only supports Simplified Chinese and English natively, and other languages are either missing or rely heavily on machine translation.',
+            l2: 'In order to provide a better user experience, I host the translation tasks for other languages on Crowdin.Crowdin is a translation management system free for open source software.',
+            l3: 'If you find this extension useful to you and you are willing to improve its translation,you can click the button below to go to the project home page on Crowdin.',
             l4: 'When the translation progress of a language reaches 50%, I will consider supporting it in this extension.',
         },
         button: 'Go Crowdin',
