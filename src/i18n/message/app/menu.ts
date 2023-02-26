@@ -104,9 +104,9 @@ const _default: Messages<MenuMessage> = {
         option: '拡張設定',
         feedback: 'フィードバックアンケート',
         rate: 'それを評価',
-        helpUs: 'Help Us',
+        helpUs: '協力する',
         userManual: 'ユーザーマニュアル',
-    }
+    },
 }
 
 export default _default

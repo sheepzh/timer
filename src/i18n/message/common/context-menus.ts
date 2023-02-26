@@ -39,8 +39,8 @@ const _default: Messages<ContextMenusMessage> = {
         feedbackPage: 'Issues',
     },
     ja: {
-        add2Whitelist: 'ホワイトリスト',
-        removeFromWhitelist: 'ホワイトリストから削除する',
+        add2Whitelist: 'ホワイトリストに {host} を追加',
+        removeFromWhitelist: 'ホワイトリストから {host} を削除します',
         optionPage: '拡張設定',
         repoPage: 'ソースコード',
         feedbackPage: 'フィードバックの欠如',

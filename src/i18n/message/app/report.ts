@@ -68,7 +68,7 @@ const _default: Messages<ReportMessage> = {
                 localData: '本地数据',
                 value: '对应数值',
                 percentage: '百分比',
-            }
+            },
         },
     },
     zh_TW: {
@@ -100,7 +100,7 @@ const _default: Messages<ReportMessage> = {
                 localData: '本地數據',
                 value: '對應數值',
                 percentage: '百分比',
-            }
+            },
         },
     },
     en: {
@@ -132,7 +132,7 @@ const _default: Messages<ReportMessage> = {
                 localData: 'Local Data',
                 value: 'Value',
                 percentage: 'Percentage',
-            }
+            },
         },
     },
     ja: {

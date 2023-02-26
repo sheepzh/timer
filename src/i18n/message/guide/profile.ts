@@ -23,7 +23,7 @@ const _default: Messages<ProfileMessage> = {
         p2: '這個頁面將會告訴您如何使用它，以及相關的隱私政策。',
     },
     en: {
-        p1: '{appName} is a browser extension to track the time you spent on all websites.            You can check out its source code on {github}.',
+        p1: '{appName} is a browser extension to track the time you spent on all websites.You can check out its source code on {github}.',
         p2: 'This page will tell you how to use it, and the related privacy policy.',
     },
     ja: {
