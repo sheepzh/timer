@@ -62,7 +62,7 @@ function convert2Info(translationStatus: TranslationStatusInfo): ProgressInfo {
 function computeType(progress: number): 'success' | '' | 'warning' {
     if (progress >= 95) {
         return "success"
-    } else if (progress >= 80) {
+    } else if (progress >= 50) {
         return ""
     } else {
         return "warning"
