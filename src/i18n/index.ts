@@ -110,12 +110,24 @@ export async function initLocale() {
 
 optionService.addOptionChangeListener(handleLocaleOption)
 
+function tryGetOriginalI18nVal<MessageType>(
+    messages: Messages<MessageType>,
+    keyPath: I18nKey<MessageType>,
+    specLocale?: timer.Locale
+) {
+    try {
+        return keyPath(messages[specLocale || locale])
+    } catch (ignore) {
+        return undefined
+    }
+}
+
 export function getI18nVal<MessageType>(
     messages: Messages<MessageType>,
     keyPath: I18nKey<MessageType>,
     specLocale?: timer.Locale
 ): string {
-    const result = keyPath(messages[specLocale || locale])
+    const result = tryGetOriginalI18nVal(messages, keyPath, specLocale)
         || keyPath(messages[FEEDBACK_LOCALE])
         || ''
     return typeof result === 'string' ? result : JSON.stringify(result)
@@ -142,4 +154,4 @@ export function t<MessageType>(messages: Messages<MessageType>, props: Translate
     return param ? fillWithParam(result, param) : result
 }
 
-export type I18nKey<MessageType> = (messages: MessageType) => any
+export type I18nKey<MessageType> = (messages: MessageType | EmbeddedPartial<MessageType>) => any

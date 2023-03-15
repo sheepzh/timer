@@ -74,7 +74,7 @@ const _default: Messages<UsageMessage> = {
             p1: '您可以按以下步骤使用 {gist} 备份您的数据。之后，您可在其他终端上查询已备份数据。',
             l1: '1. 首先，您需要在 Github 生成一个包含 gist 权限的 {token}。',
             l2: '2. 然后在选项页面将同步方式选为 Github Gist，将你的 token 填入下方出现的输入框中。',
-            l3: '3. 最后，点击备份按钮即可将本地数据导入到你的 gist 里。'
+            l3: '3. 最后，点击备份按钮即可将本地数据导入到你的 gist 里。',
         },
     },
     zh_TW: {
@@ -107,28 +107,28 @@ const _default: Messages<UsageMessage> = {
             p1: '您可以按以下步驟使用 {gist} 備份您的數據。之後，您可在其他終端上查詢已備份數據。',
             l1: '1. 首先，您需要在 Github 生成一個包含 gist 權限的 {token}。',
             l2: '2. 然後在選項頁面將同步方式選為 Github Gist，將你的 token 填入下方出現的輸入框中。',
-            l3: '3. 最後，點擊備份按鈕即可將本地數據導入到你的 gist 裡。'
+            l3: '3. 最後，點擊備份按鈕即可將本地數據導入到你的 gist 裡。',
         },
     },
     en: {
         quickstart: {
             p1: 'First, you can quickly start using this extension by following these steps:',
-            l1: '1. Pin the icon of this extension in the upper right corner of the browser. The specific operation method depends on your browser.                     This step will not affect the normal behavior of it, but will greatly improve your interactive experience.',
-            l2: '2. Visit any website and browse for a few seconds, then you will observe a number jumping on the icon.                    it shows how much time you spent today browsing current website',
+            l1: '1. Pin the icon of this extension in the upper right corner of the browser. The specific operation method depends on your browser.This step will not affect the normal behavior of it, but will greatly improve your interactive experience.',
+            l2: '2. Visit any website and browse for a few seconds, then you will observe a number jumping on the icon.it shows how much time you spent today browsing current website',
             l3: '3. Click the icon, and a page will pop up, showing your stat data for today or recent days.',
-            p2: 'It is worth mentioning that since the duration data can only be counted in real time,                     the history before installation will not be recorded.',
+            p2: 'It is worth mentioning that since the duration data can only be counted in real time,the history before installation will not be recorded.',
         },
         background: {
-            p1: 'Based on icons, the extension provides a more convenient way to view data.                     But if you want to experience its full functionality, you need to visit {background} of the extension.                     There are two ways to enter the background page:',
+            p1: 'Based on icons, the extension provides a more convenient way to view data.But if you want to experience its full functionality, you need to visit {background} of the extension.There are two ways to enter the background page:',
             l1: '1. You can right-click the icon of the extension, and click [{allFunction}] in the pop-up menu.',
             l2: '2. You can also find the [{allFunction}] link at the bottom of the icon popup page, just click it.',
             p2: 'The popup page and background page are the main interaction methods of this extension. After you know how to open them, you can use it completely.',
             backgroundPage: 'the background page',
         },
         advanced: {
-            p1: 'The core function of this extension is to count your browsing behavior on different websites.                     In addition, it also provides many advanced functions to meet your more needs.                     Of course, you can find all the functions in the background page.',
+            p1: 'The core function of this extension is to count your browsing behavior on different websites.In addition, it also provides many advanced functions to meet your more needs.Of course, you can find all the functions in the background page.',
             l1: '1. It can analyze the trend of your visiting the same website over a period of time, and display it in a line chart.',
-            l2: '2. It can count your surfing frequency in different time periods every day, and display it in a histogram.                     The data is site-agnostic and has a minimum statistical granularity of 15 minutes.',
+            l2: '2. It can count your surfing frequency in different time periods every day, and display it in a histogram.The data is site-agnostic and has a minimum statistical granularity of 15 minutes.',
             l3: '3. It can count the time you read local files, but this function needs to be enabled in the options.',
             l4: '4. It supports the whitelist function, you can add the websites you don\'t want to count to the whitelist.',
             l5: '5. It supports merging statistics of several related websites into the same entry, and you can customize the rules for merging. Merge by {psl} by default.',
@@ -137,31 +137,29 @@ const _default: Messages<UsageMessage> = {
             l8: '8. It supports using Github Gist as the cloud to store data of multiple browsers and perform aggregated queries. You need to prepare a token with at least gist permission.',
         },
         backup: {
-            p1: 'You can use {gist} to backup your data by following the steps below. \
-                Afterwards, you can query the backed up data on other terminals.',
+            p1: 'You can use {gist} to backup your data by following the steps below.Afterwards, you can query the backed up data on other terminals.',
             l1: '1. First, you need to generate a {token} with gist permissions on Github.',
-            l2: '2. Then select Github Gist as the synchronization method on the options page, \
-                and fill in your token in the input box that appears below.',
-            l3: '3. Finally, click the backup button to import the local data into your gist.'
+            l2: '2. Then select Github Gist as the synchronization method on the options page,and fill in your token in the input box that appears below.',
+            l3: '3. Finally, click the backup button to import the local data into your gist.',
         },
     },
     ja: {
         quickstart: {
             p1: 'まず、次の手順に従って、この拡張機能の調査を開始できます。',
-            l1: '1. ブラウザの右上隅にある拡張機能のアイコンを修正します。具体的な操作方法はブラウザによって異なります。                 この手順は、拡張機能の通常の操作には影響しませんが、インタラクティブなエクスペリエンスを大幅に向上させます。',
-            l2: '2. 任意の Web サイトを開いて数秒間ブラウジングすると、右上隅のアイコンに数字がジャンプしていることがわかります。                これは、現在の Web サイトの閲覧に今日どれだけの時間を費やしたかを示しています。',
+            l1: '1. ブラウザの右上隅にある拡張機能のアイコンを修正します。具体的な操作方法はブラウザによって異なります。 この手順は、拡張機能の通常の操作には影響しませんが、インタラクティブなエクスペリエンスを大幅に向上させます。',
+            l2: '2. 任意の Web サイトを開いて数秒間ブラウジングすると、右上隅のアイコンに数字がジャンプしていることがわかります。これは、現在の Web サイトの閲覧に今日どれだけの時間を費やしたかを示しています。',
             l3: '3. 拡張機能のアイコンをクリックすると、ページがポップアップし、今日または最近のインターネット データが表示されます。',
             p2: 'なお、継続時間データはリアルタイムでカウントされるため、拡張機能をインストールする前の閲覧履歴は記録されません。',
         },
         background: {
-            p1: 'アイコンに基づいて、拡張機能はデータを表示するためのより便利な方法を提供します。                 ただし、完全な機能を体験したい場合は、拡張 {background} にアクセスする必要があります。                 バックグラウンド ページに入る方法は 2 つあります。',
+            p1: 'アイコンに基づいて、拡張機能はデータを表示するためのより便利な方法を提供します。 ただし、完全な機能を体験したい場合は、拡張 {background} にアクセスする必要があります。 バックグラウンド ページに入る方法は 2 つあります。',
             l1: '1. 拡張機能のアイコンを右クリックし、ポップアップ メニューで [{allFunction}] をクリックします。',
             l2: '2. また、アイコン ポップアップ ページの下部に [{allFunction}] リンクがあり、それをクリックするだけです。',
             p2: 'ポップアップ ページと背景ページは、この拡張機能の主な対話方法であり、それらを開く方法を理解すれば、完全に使用できます。',
             backgroundPage: '背景ページ',
         },
         advanced: {
-            p1: 'この拡張機能の主な機能は、さまざまな Web サイトでの閲覧行動をカウントすることです。                 さらに、より多くのニーズを満たすために多くの高度な機能も提供します。                 もちろん、バックグラウンド ページですべての機能を見つけることができます。',
+            p1: 'この拡張機能の主な機能は、さまざまな Web サイトでの閲覧行動をカウントすることです。 さらに、より多くのニーズを満たすために多くの高度な機能も提供します。 もちろん、バックグラウンド ページですべての機能を見つけることができます。',
             l1: '1. 一定期間の同じ Web サイトへのアクセスの傾向を分析し、折れ線グラフで表示できます。',
             l2: '2. あなたのネットサーフィン頻度を毎日異なる時間帯でカウントし、ヒストグラムで表示できます。 データはサイトにとらわれず、最小の統計粒度は 15 分です。',
             l3: '3. ローカル ファイルの読み取り時間をカウントできますが、この機能はオプションで有効にする必要があります。',
@@ -169,13 +167,13 @@ const _default: Messages<UsageMessage> = {
             l5: '5. 複数の関連 Web サイトの統計を同じエントリにマージすることをサポートし、マージのルールをカスタマイズできます。 デフォルトでは {psl} でマージします。',
             l6: '6. 各 Web サイトの毎日の閲覧時間の制限をサポートしています。これには、制限ルールを手動で追加する必要があります。',
             l7: '7.オプションで有効にする必要があるナイトモードをサポートしています。',
-            l8: '8. Github Gist をクラウドとして使用して、複数のブラウザーのデータを保存し、集約されたクエリを実行することをサポートします。                 少なくとも gist 権限を持つトークンを準備する必要があります。',
+            l8: '8. Github Gist をクラウドとして使用して、複数のブラウザーのデータを保存し、集約されたクエリを実行することをサポートします。 少なくとも gist 権限を持つトークンを準備する必要があります。',
         },
         backup: {
             p1: '以下の手順に従って、{gist} を使用してデータをバックアップできます。その後、バックアップされたデータを他の端末で照会できます。',
             l1: '1. まず、Github で Gist 権限を持つ {token} を生成する必要があります。',
             l2: '2. 次に、オプション ページで同期方法として [Github Gist] を選択し、下に表示される入力ボックスにトークンを入力します。',
-            l3: '3. 最後に、バックアップ ボタンをクリックして、ローカル データを Gist にインポートします。'
+            l3: '3. 最後に、バックアップ ボタンをクリックして、ローカル データを Gist にインポートします。',
         },
     },
 }

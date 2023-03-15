@@ -1,10 +1,9 @@
-
-/**
- * The options
- * 
- * @since 0.3.0
- */
 declare namespace timer {
+    /**
+     * The options
+     * 
+     * @since 0.3.0
+     */
     namespace option {
         type PopupDuration =
             | "today" | "thisWeek" | "thisMonth"
@@ -186,15 +185,20 @@ declare namespace timer {
      * @since 1.4.0
      */
     type SourceLocale = 'en'
-
     /**
-     * @since 0.8.0
+     * The locale must be translated with code
+     * 
+     * @since 1.5.3
      */
-    type Locale = SourceLocale
-        | 'zh_CN'
+    type RequiredLocale = SourceLocale | 'zh_CN'
+    type OptionalLocale =
         | 'ja'
         // @since 0.9.0
         | 'zh_TW'
+    /**
+     * @since 0.8.0
+     */
+    type Locale = RequiredLocale | OptionalLocale
 
     /**
      * Translating locales
@@ -560,22 +564,3 @@ declare namespace timer {
         type Callback<T = any> = (result?: Response<T>) => void
     }
 }
-
-/**
- * ABBRs for namespace chrome
- */
-// chrome.tabs
-declare type ChromeTab = chrome.tabs.Tab
-declare type ChromeTabActiveInfo = chrome.tabs.TabActiveInfo
-declare type ChromeTabChangeInfo = chrome.tabs.TabChangeInfo
-// chrome.windows
-declare type ChromeWindow = chrome.windows.Window
-// chrome.contextMenus
-declare type ChromeContextMenuCreateProps = chrome.contextMenus.CreateProperties
-declare type ChromeContextMenuUpdateProps = chrome.contextMenus.UpdateProperties
-// chrome.alarms
-declare type ChromeAlarm = chrome.alarms.Alarm
-// chrome.runtime
-declare type ChromeOnInstalledReason = chrome.runtime.OnInstalledReason
-declare type ChromeMessageSender = chrome.runtime.MessageSender
-declare type ChromeMessageHandler<T = any, R = any> = (req: timer.mq.Request<T>, sender: ChromeMessageSender) => Promise<timer.mq.Response<R>>

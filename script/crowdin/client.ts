@@ -9,6 +9,7 @@ import Crowdin, {
     UploadStorageModel,
 } from '@crowdin/crowdin-api-client'
 import axios from 'axios'
+import { transMsg } from './common'
 
 const PROJECT_ID = 516822
 
@@ -243,27 +244,18 @@ async function createTranslation(this: CrowdinClient, transKey: TranslationKey, 
     await this.crowdin.stringTranslationsApi.addTranslation(PROJECT_ID, request)
 }
 
-
-const CROWDIN_XML_PATTERN = /<string name="(.*?)">(.*?)<\/string>/g
-
 async function downloadTranslations(this: CrowdinClient, fileId: number, lang: CrowdinLanguage): Promise<ItemSet> {
-    const res = await this.crowdin.translationsApi.exportProjectTranslation(PROJECT_ID, {
+    const res = await this.crowdin.translationsApi.buildProjectFileTranslation(PROJECT_ID, fileId, {
         targetLanguageId: lang,
-        fileIds: [fileId],
-        format: 'android',
+        skipUntranslatedStrings: true,
+        exportApprovedOnly: false,
+        // exportWithMinApprovalsCount: 2,
     })
     const downloadUrl = res?.data?.url
     const fileRes = await axios.get(downloadUrl)
-    const xmlData: string = fileRes.data
-    const items = xmlData.matchAll(CROWDIN_XML_PATTERN)
-    const itemSet: ItemSet = {}
-    for (const item of Array.from(items)) {
-        const result = new RegExp(CROWDIN_XML_PATTERN).exec(item[0])
-        const key = result[1]
-        const text = result[2]
-        itemSet[key] = text
-    }
-    return itemSet
+    // JSON object
+    const translation = fileRes.data
+    return transMsg(translation, '')
 }
 
 /**

@@ -71,7 +71,6 @@ export async function readAllMessages(dir: Dir): Promise<Record<string, Messages
     return result
 }
 
-
 /**
  * Merge crowdin message into locale codes
  */
@@ -89,11 +88,12 @@ export async function mergeMessage(
     }
     const sourceItemSet = transMsg(existMessages[SOURCE_LOCALE])
     Object.entries(messages).forEach(([locale, itemSet]) => {
-        let existMessage: any = existMessages[locale]
-        if (!existMessage) {
-            existMessages[locale] = existMessage = {}
-        }
+        let existMessage: any = existMessages[locale] || {}
         Object.entries(itemSet).forEach(([path, text]) => {
+            if (!text) {
+                // Not translated
+                return
+            }
             const sourceText = sourceItemSet[path]
             if (!checkPlaceholder(text, sourceText)) {
                 console.error(`Invalid placeholder: dir=${dir}, filename=${filename}, path=${path}, source=${sourceText}, translated=${text}`)
@@ -102,6 +102,10 @@ export async function mergeMessage(
             const pathSeg = path.split('.')
             fillItem(pathSeg, 0, existMessage, text)
         })
+        if (Object.keys(existMessage).length) {
+            // Only merge the locale with any translated strings
+            existMessages[locale] = existMessage
+        }
     })
 
     const existFile = fs.readFileSync(filePath, { encoding: 'utf-8' })
@@ -149,9 +153,9 @@ function generateDefault(existDetault: string, messages: Messages<any>): string 
     return codeLines
 }
 
-function generateFieldLines(message: Object, indentation: string): string {
+function generateFieldLines(messages: Object, indentation: string): string {
     const lines = []
-    Object.entries(message).forEach(([key, value]) => {
+    Object.entries(messages).forEach(([key, value]) => {
         let line = undefined
         if (typeof value === 'object') {
             const subCodeLines = generateFieldLines(value, indentation + INDENTATION_UNIT)
@@ -160,6 +164,8 @@ function generateFieldLines(message: Object, indentation: string): string {
             const valueText = JSON.stringify(value)
                 // Use double quotes
                 .replace(/'/g, '\\\'').replace(/"/g, '\'')
+                // Replace tab signs
+                .replace(/\s{4}/g, '')
             line = `${indentation}${key}: ${valueText}`
         }
         lines.push(line)
@@ -201,7 +207,10 @@ export function transMsg(message: any, prefix?: string): ItemSet {
             Object.entries(subResult)
                 .forEach(([path, val]) => result[path] = val)
         } else {
-            result[path] = value
+            let realVal = value
+            // Replace tab with blank
+            typeof value === 'string' && (realVal = value.replace(/\s{4}/g, ''))
+            result[path] = realVal
         }
     })
     return result
