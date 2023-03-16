@@ -34,7 +34,7 @@ export const SOURCE_CODE_PAGE = 'https://github.com/sheepzh/timer'
 /**
  * @since 0.0.6
  */
-export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new'
+export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new/choose'
 
 /**
  * Feedback powered by www.wjx.cn
