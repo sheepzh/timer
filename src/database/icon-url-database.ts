@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { IS_FIREFOX } from "@util/constant/environment"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -19,41 +18,26 @@ const urlOf = (key: string) => key.substring(DB_KEY_PREFIX.length)
  * The icon url of hosts
  * 
  * @since 0.1.7
+ * @deprecated Use SiteDatabase
  */
 class IconUrlDatabase extends BaseDatabase {
 
-    /**
-     * Replace or insert
-     * 
-     * @param host host 
-     * @param iconUrl icon url
-     */
-    put(host: string, iconUrl: string): Promise<void> {
-        const toUpdate = {}
-        toUpdate[generateKey(host)] = iconUrl
-        return this.storage.set(toUpdate)
+    async listAll(): Promise<{ [host: string]: string }> {
+        const items = await this.storage.get()
+        const result = {}
+        Object.entries(items)
+            .filter(([key]) => key.startsWith(DB_KEY_PREFIX))
+            .forEach(([key, val]) => result[urlOf(key)] = val)
+        return result
     }
 
-    /**
-     * @param hosts hosts
-     */
-    async get(...hosts: string[]): Promise<{ [host: string]: string }> {
-        const keys = hosts.map(generateKey)
-        const items = await this.storage.get(keys)
-        const result = {}
-        Object.entries(items).forEach(([key, iconUrl]) => result[urlOf(key)] = iconUrl)
-        return Promise.resolve(result)
+    async remove(host: string): Promise<void> {
+        const key = generateKey(host)
+        await this.storage.remove(key)
     }
 
     async importData(data: any): Promise<void> {
-        const items = await this.storage.get()
-        const toSave = {}
-        const chromeEdgeIconUrlReg = /^(chrome|edge):\/\/favicon/
-        Object.entries(data)
-            .filter(([key, value]) => key.startsWith(DB_KEY_PREFIX) && !!value && !items[key])
-            .filter(([_key, value]) => !chromeEdgeIconUrlReg.test(value as string))
-            .forEach(([key, value]) => toSave[key] = value)
-        await this.storage.set(toSave)
+        // Do nothing
     }
 }
 

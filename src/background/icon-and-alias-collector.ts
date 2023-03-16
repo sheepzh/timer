@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostAliasDatabase from "@db/host-alias-database"
-import IconUrlDatabase from "@db/icon-url-database"
 import OptionDatabase from "@db/option-database"
 import { IS_CHROME, IS_SAFARI } from "@util/constant/environment"
 import { iconUrlOfBrowser } from "@util/constant/url"
@@ -14,10 +12,9 @@ import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
 import { defaultStatistics } from "@util/constant/option"
 import { extractSiteName } from "@util/site"
 import { getTab } from "@api/chrome/tab"
+import siteService from "@service/site-service"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
-const iconUrlDatabase = new IconUrlDatabase(storage)
-const hostAliasDatabase = new HostAliasDatabase(storage)
 const optionDatabase = new OptionDatabase(storage)
 
 let collectAliasEnabled = defaultStatistics().collectSiteName
@@ -29,11 +26,11 @@ function isUrl(title: string) {
     return title.startsWith('https://') || title.startsWith('http://') || title.startsWith('ftp://')
 }
 
-function collectAlias(host: string, tabTitle: string) {
+async function collectAlias(key: timer.site.SiteKey, tabTitle: string) {
     if (isUrl(tabTitle)) return
     if (!tabTitle) return
-    const siteName = extractSiteName(tabTitle, host)
-    siteName && hostAliasDatabase.update({ name: siteName, host, source: 'DETECTED' })
+    const siteName = extractSiteName(tabTitle, key.host)
+    siteName && await siteService.saveAlias(key, siteName, 'DETECTED')
 }
 
 /**
@@ -51,9 +48,13 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
     let favIconUrl = tab.favIconUrl
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
+    const siteKey: timer.site.SiteKey = { host }
     const iconUrl = favIconUrl || iconUrlOfBrowser(protocol, host)
-    iconUrl && iconUrlDatabase.put(host, iconUrl)
-    collectAliasEnabled && !isBrowserUrl(url) && isHomepage(url) && collectAlias(host, tab.title)
+    iconUrl && siteService.saveIconUrl(siteKey, iconUrl)
+    collectAliasEnabled
+        && !isBrowserUrl(url)
+        && isHomepage(url)
+        && collectAlias(siteKey, tab.title)
 }
 
 /**

@@ -8,14 +8,14 @@
 import { setBadgeText } from "@api/chrome/action"
 import { listTabs } from "@api/chrome/tab"
 import { getFocusedNormalWindow } from "@api/chrome/window"
-import TimerDatabase from "@db/timer-database"
+import StatDatabase from "@db/stat-database"
 import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 import alarmManager from "./alarm-manager"
 
 const storage = chrome.storage.local
-const timerDb: TimerDatabase = new TimerDatabase(storage)
+const statDatabase: StatDatabase = new StatDatabase(storage)
 
 export type BadgeLocation = {
     /**
@@ -76,7 +76,7 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
         setBadgeText('W', tabId)
         return badgeLocation
     }
-    const milliseconds = host ? (await timerDb.get(host, new Date())).focus : undefined
+    const milliseconds = host ? (await statDatabase.get(host, new Date())).focus : undefined
     setBadgeTextOfMills(milliseconds, tabId)
     return badgeLocation
 }

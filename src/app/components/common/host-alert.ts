@@ -47,20 +47,21 @@ const _default = defineComponent({
                 underline: props.clickable,
                 style: { cursor: cursor.value }
             }, () => props.host)
-            : () => h('div', [
-                h(ElLink,
-                    {
+            : () => {
+                const children = [
+                    h(ElLink, {
                         href: href.value,
                         target: target.value,
                         underline: props.clickable,
                         style: { cursor: cursor.value }
-                    },
-                    () => props.host
-                ), h('span',
+                    }, () => props.host)
+                ]
+                props.iconUrl && children.push(h('span',
                     { style: HOST_ICON_STYLE },
                     h('img', { src: props.iconUrl, width: 12, height: 12 })
-                )
-            ])
+                ))
+                return h('div', children)
+            }
     }
 })
 

@@ -112,7 +112,8 @@ export function getGuidePageUrl(isInBackground: boolean): string {
 export function iconUrlOfBrowser(protocol: string, host: string): string {
     if (IS_CHROME || IS_EDGE) {
         return `${IS_CHROME ? 'chrome' : 'edge'}://favicon/${protocol ? protocol + '://' : ''}${host}`
-    } else return ''
+    }
+    return undefined
 }
 
 /**

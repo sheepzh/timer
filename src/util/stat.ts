@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { judgeVirtualFast } from "./pattern"
+
 export function isNotZeroResult(target: timer.stat.Result): boolean {
     return !!target.focus || !!target.time
 }
@@ -23,11 +25,11 @@ export function resultOf(focus: number, time: number): timer.stat.Result {
 
 export function rowOf(key: timer.stat.RowKey, item?: timer.stat.Result): timer.stat.Row {
     return {
-        host: key.host,
-        date: key.date,
+        ...key,
         focus: item && item.focus || 0,
         time: item && item.time || 0,
-        mergedHosts: []
+        mergedHosts: [],
+        virtual: judgeVirtualFast(key.host),
     }
 }
 

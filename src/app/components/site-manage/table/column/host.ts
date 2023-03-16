@@ -6,11 +6,9 @@
  */
 
 import { ElTableColumn } from "element-plus"
-import HostAlert from "@app/components/common/host-alert"
 import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
-import { labelOf } from "../../common"
-import { isRemainHost } from "@util/constant/remain-host"
+import HostAlert from "@app/components/common/host-alert"
 
 const label = t(msg => msg.siteManage.column.host)
 
@@ -23,15 +21,10 @@ const _default = defineComponent({
             minWidth: 120,
             align: 'center',
         }, {
-            default: ({ row }: { row: timer.site.AliasIcon }) => row.merged || isRemainHost(row.host)
-                ? h('a',
-                    { class: 'el-link el-link--default is-underline' },
-                    h('span', { class: 'el-link--inner' }, labelOf(row))
-                )
-                : h(HostAlert, {
-                    host: labelOf(row),
-                    iconUrl: row.iconUrl
-                })
+            default: ({ row }: { row: timer.site.SiteInfo }) => h(HostAlert, {
+                host: row.host,
+                clickable: false
+            })
         })
     }
 })

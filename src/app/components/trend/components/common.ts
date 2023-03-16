@@ -12,8 +12,10 @@ import { t } from "@app/locale"
  */
 export function labelOfHostInfo(hostInfo: TrendHostInfo): string {
     if (!hostInfo) return ''
-    const { host, merged } = hostInfo
+    const { host, merged, virtual } = hostInfo
     if (!host) return ''
-    const mergedLabel = merged ? `[${t(msg => msg.trend.merged)}]` : ''
-    return `${host}${mergedLabel}`
+    let label = ''
+    merged && (label = `[${t(msg => msg.trend.merged)}]`)
+    virtual && (label = `[${t(msg => msg.trend.virtual)}]`)
+    return `${host}${label}`
 }

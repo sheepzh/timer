@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { FillFlagParam, TimerQueryParam } from "@service/timer-service"
+import type { StatQueryParam } from "@service/stat-service"
 
 import initAllFunction from './all-function'
 import initUpgrade from './upgrade'
@@ -13,21 +13,17 @@ import TotalInfoWrapper from "./total-info"
 import MergeHostWrapper from "./merge-host"
 import TimeSelectWrapper from "./select/time-select"
 import TypeSelectWrapper from "./select/type-select"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import { t } from "@popup/locale"
-// Import from i18n
 import { locale } from "@i18n"
 import { getDayLenth, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
-import { IS_SAFARI } from "@util/constant/environment"
 
-type FooterParam = TimerQueryParam & {
+type FooterParam = StatQueryParam & {
     chartTitle: string
 }
 
 type QueryResultHandler = (result: PopupQueryResult) => void
-
-const FILL_FLAG_PARAM: FillFlagParam = { iconUrl: !IS_SAFARI, alias: true }
 
 type DateRangeCalculator = (now: Date, weekStart: timer.option.WeekStartOption) => Date | [Date, Date]
 
@@ -93,7 +89,7 @@ class FooterWrapper {
         const option = await optionService.getAllOption() as timer.option.PopupOption
         const itemCount = option.popupMax
         const queryParam = this.getQueryParam(option.weekStart)
-        const rows = await timerService.select(queryParam, FILL_FLAG_PARAM)
+        const rows = await statService.select(queryParam, true)
         const popupRows: PopupRow[] = []
         const other: PopupRow = {
             host: t(msg => msg.chart.otherLabel, { count: 0 }),
@@ -102,6 +98,7 @@ class FooterWrapper {
             time: 0,
             mergedHosts: [],
             isOther: true,
+            virtual: false
         }
         let otherCount = 0
         for (let i = 0; i < rows.length; i++) {
