@@ -9,7 +9,7 @@ import type { ECharts, ComposeOption } from "echarts/core"
 import type { PieSeriesOption } from "echarts/charts"
 import type { TitleComponentOption, TooltipComponentOption } from "echarts/components"
 import type { Ref } from "vue"
-import type { TimerQueryParam } from "@service/timer-service"
+import type { StatQueryParam } from "@service/stat-service"
 
 import { init, use } from "@echarts/core"
 import PieChart from "@echarts/chart/pie"
@@ -18,7 +18,7 @@ import TooltipComponent from "@echarts/component/tooltip"
 
 use([PieChart, TitleComponent, TooltipComponent])
 
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
@@ -110,13 +110,13 @@ const _default = defineComponent({
                 target: `#${CONTAINER_ID}`,
             })
             chartWrapper.init(chart.value)
-            const query: TimerQueryParam = {
+            const query: StatQueryParam = {
                 date: [startTime, now],
                 sort: "time",
                 sortOrder: 'DESC',
                 mergeDate: true,
             }
-            const top: timer.stat.Row[] = (await timerService.selectByPage(query, { num: 1, size: TOP_NUM }, { alias: true })).list
+            const top: timer.stat.Row[] = (await statService.selectByPage(query, { num: 1, size: TOP_NUM }, true)).list
             const data: _Value[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
             for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
                 data.push({ name: '', host: '', value: 0 })

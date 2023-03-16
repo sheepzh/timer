@@ -7,7 +7,6 @@ import Privacy from "../component/privacy"
 import { position2AnchorClz } from "@guide/util"
 
 function scrollPosition(position: Position) {
-    console.log(position)
     document.querySelector(`.${position2AnchorClz(position)}`)?.scrollIntoView?.()
 }
 

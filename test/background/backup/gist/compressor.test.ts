@@ -6,14 +6,16 @@ test('devide 1', () => {
         date: '20220801',
         focus: 0,
         time: 10,
-        mergedHosts: []
+        mergedHosts: [],
+        virtual: false,
     }, {
         host: 'www.baidu.com',
         // Invalid date, count be compress
         date: '',
         focus: 0,
         time: 10,
-        mergedHosts: []
+        mergedHosts: [],
+        virtual: false,
     }]
     const devided = devide2Buckets(rows)
     expect(devided.length).toEqual(1)

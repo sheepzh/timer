@@ -13,7 +13,7 @@ import { daysAgo } from "@util/time"
 import ContentContainer from "../common/content-container"
 import TrendChart from "./components/chart"
 import TrendFilter from "./components/filter"
-import timerService, { TimerQueryParam } from "@service/timer-service"
+import statService, { StatQueryParam } from "@service/stat-service"
 
 type _Queries = {
     host: string
@@ -34,7 +34,7 @@ async function query(hostOption: Ref<TrendHostInfo>, dateRange: Ref<Date[]>): Pr
     if (!hostVal) {
         return []
     }
-    const param: TimerQueryParam = {
+    const param: StatQueryParam = {
         // If the host is empty, no result will be queried with this param.
         host: hostVal,
         mergeHost: hostOption.value?.merged || false,
@@ -43,7 +43,7 @@ async function query(hostOption: Ref<TrendHostInfo>, dateRange: Ref<Date[]>): Pr
         sort: 'date',
         sortOrder: 'ASC'
     }
-    return await timerService.select(param)
+    return await statService.select(param)
 }
 
 const _default = defineComponent({

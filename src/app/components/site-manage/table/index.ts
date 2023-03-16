@@ -4,22 +4,25 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { PropType } from "vue"
 
 import { ElTable } from "element-plus"
-import { defineComponent, h, PropType } from "vue"
+import { defineComponent, h } from "vue"
 import AliasColumn from "./column/alias"
 import HostColumn from "./column/host"
+import IconColumn from "./column/icon"
+import TypeColumn from "./column/type"
 import SourceColumn from "./column/source"
 import OperationColumn from "./column/operation"
 
 const _default = defineComponent({
     name: "SiteManageTable",
     props: {
-        data: Array as PropType<timer.site.AliasIcon[]>
+        data: Array as PropType<timer.site.SiteInfo[]>
     },
     emits: {
-        rowDelete: (_row: timer.site.AliasIcon) => true,
-        rowModify: (_row: timer.site.AliasIcon) => true,
+        rowDelete: (_row: timer.site.SiteInfo) => true,
+        rowModify: (_row: timer.site.SiteInfo) => true,
     },
     setup(props, ctx) {
         return () => h(ElTable, {
@@ -31,11 +34,12 @@ const _default = defineComponent({
             fit: true,
         }, () => [
             h(HostColumn),
+            h(TypeColumn),
+            h(IconColumn),
             h(AliasColumn),
             h(SourceColumn),
             h(OperationColumn, {
-                onModify: (row: timer.site.AliasIcon) => ctx.emit("rowModify", row),
-                onDelete: (row: timer.site.AliasIcon) => ctx.emit("rowDelete", row)
+                onDelete: (row: timer.site.SiteInfo) => ctx.emit("rowDelete", row)
             })
         ])
     }

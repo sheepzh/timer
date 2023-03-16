@@ -21,6 +21,7 @@ export type TrendMessage = {
     saveAsImageTitle: string
     defaultSubTitle: string
     merged: string
+    virtual: string
 }
 
 const _default: Messages<TrendMessage> = {
@@ -45,6 +46,7 @@ const _default: Messages<TrendMessage> = {
         saveAsImageTitle: '保存',
         defaultSubTitle: '请先在左上角选择需要分析的域名',
         merged: '合并',
+        virtual: '自定义',
     },
     zh_TW: {
         hostPlaceholder: '蒐索你想分析的網域',
@@ -67,6 +69,7 @@ const _default: Messages<TrendMessage> = {
         saveAsImageTitle: '保存',
         defaultSubTitle: '請先在左上角選擇需要分析的網域',
         merged: '合並',
+        virtual: '自定義',
     },
     en: {
         hostPlaceholder: 'Search site URL',
@@ -89,6 +92,7 @@ const _default: Messages<TrendMessage> = {
         saveAsImageTitle: 'Snapshot',
         defaultSubTitle: 'Search and select one URL to analyze on the top-left corner, pls',
         merged: 'Merged',
+        virtual: 'Virtual',
     },
     ja: {
         hostPlaceholder: 'ドメイン名を検索',
@@ -111,6 +115,7 @@ const _default: Messages<TrendMessage> = {
         saveAsImageTitle: 'ダウンロード',
         defaultSubTitle: 'まず、左上隅で分析するドメイン名を選択します',
         merged: '合并',
+        virtual: 'カスタマイズ',
     },
 }
 

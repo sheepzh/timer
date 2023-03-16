@@ -85,14 +85,14 @@ function render(data: _Data, ctx: SetupContext<_Emits>) {
  * @since 0.7.1
  */
 const _default = defineComponent({
-    name: "ReportAliasInfo",
+    name: "Editable",
     props: {
         modelValue: {
             type: String
         }
     },
     emits: {
-        change: (_newAlias: string) => true
+        change: (_newVal: string) => true
     },
     setup(props, ctx) {
         const editing = ref(false)

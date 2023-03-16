@@ -8,7 +8,7 @@
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import { sum } from "@util/array"
 import CollectionContext from "./collection-context"
 
@@ -24,7 +24,7 @@ export default async function save(collectionContext: CollectionContext) {
     const context = collectionContext.timerContext
     if (context.isPaused()) return
     const timeMap = context.timeMap
-    timerService.addFocusAndTotal(timeMap)
+    statService.addFocusTime(timeMap)
     const totalFocusTime = sum(Object.values(timeMap).map(timeInfo => sum(Object.values(timeInfo))))
     // Add period time
     await periodService.add(context.lastCollectTime, totalFocusTime)

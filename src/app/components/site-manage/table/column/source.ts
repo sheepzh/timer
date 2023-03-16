@@ -28,7 +28,7 @@ const _default = defineComponent({
             minWidth: 70,
             align: 'center',
         }, {
-            default: ({ row }: { row: timer.site.Alias }) => renderSource(row.source)
+            default: ({ row }: { row: timer.site.SiteInfo }) => row.source ? renderSource(row.source) : ''
         })
     }
 })

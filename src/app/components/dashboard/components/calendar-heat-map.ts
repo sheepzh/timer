@@ -28,7 +28,7 @@ use([
 ])
 
 import { t } from "@app/locale"
-import timerService, { TimerQueryParam } from "@service/timer-service"
+import statService, { StatQueryParam } from "@service/stat-service"
 import { locale } from "@i18n"
 import { formatTime, getWeeksAgo, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElLoading } from "element-plus"
@@ -269,8 +269,8 @@ const _default = defineComponent({
             // 2. init chart
             chartWrapper.init(chart.value)
             // 3. query data
-            const query: TimerQueryParam = { date: [startTime, now], sort: "date" }
-            const items = await timerService.select(query)
+            const query: StatQueryParam = { date: [startTime, now], sort: "date" }
+            const items = await statService.select(query)
             const result = {}
             items.forEach(({ date, focus }) => result[date] = (result[date] || 0) + focus)
             // 4. set weekdays
