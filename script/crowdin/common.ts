@@ -223,13 +223,3 @@ export async function checkMainBranch(client: CrowdinClient) {
     }
     return branch
 }
-
-// function main() {
-//     const file = fs.readFileSync(path.join(MSG_BASE, 'app', 'habit.ts'), { encoding: 'utf-8' })
-//     const result = /(const|let|var) _default(.*)=\s*\{\s*(\n?.*\n)+\}/.exec(file)
-//     const origin = result[0]
-//     console.log(origin)
-//     console.log(file.indexOf(origin))
-// }
-
-// main()

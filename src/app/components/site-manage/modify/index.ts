@@ -8,23 +8,23 @@
 import type { Ref, SetupContext, UnwrapRef } from "vue"
 
 import { ElButton, ElDialog, ElForm, ElMessage } from "element-plus"
-import { computed, defineComponent, h, reactive, ref } from "vue"
+import { defineComponent, h, reactive, ref } from "vue"
 import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
-import hostAliasDatabase from "@service/host-alias-service"
+import siteService from "@service/site-service"
 import SiteManageHostFormItem from "./host-form-item"
-import SiteManageNameFormItem from "./name-form-item"
+import SiteManageAliasFormItem from "./alias-form-item"
 
 declare type _FormData = {
     /**
      * Value of alias key
      */
-    key: timer.site.AliasKey
-    name: string
+    key: timer.site.SiteKey
+    alias: string
 }
 
 const formRule = {
-    name: [
+    alias: [
         {
             required: true,
             message: t(msg => msg.siteManage.form.emptyAlias),
@@ -49,58 +49,62 @@ function validateForm(formRef: Ref): Promise<boolean> {
     })
 }
 
-async function handleSave(ctx: SetupContext<_Emit>, isNew: boolean, formData: _FormData): Promise<boolean> {
-    const aliasKey = formData.key
-    const name = formData.name?.trim()
-    if (isNew && await hostAliasDatabase.exist(aliasKey)) {
+async function handleAdd(siteInfo: timer.site.SiteInfo): Promise<boolean> {
+    const existed = await siteService.exist(siteInfo)
+    if (existed) {
         ElMessage({
             type: 'warning',
-            message: t(msg => msg.siteManage.msg.hostExistWarn, { host: aliasKey.host }),
+            message: t(msg => msg.siteManage.msg.hostExistWarn, { host: siteInfo.host }),
             showClose: true,
             duration: 1600
         })
-        return false
+    } else {
+        await siteService.add(siteInfo)
     }
-    await hostAliasDatabase.change(aliasKey, name)
-    ElMessage.success(t(msg => msg.siteManage.msg.saved))
-    ctx.emit("save", isNew, aliasKey, name)
-    return true
+    return !existed
+}
+
+async function handleSave(ctx: SetupContext<_Emit>, formData: _FormData): Promise<boolean> {
+    const siteKey = formData.key
+    const alias = formData.alias?.trim()
+    const siteInfo: timer.site.SiteInfo = { ...siteKey, alias }
+    const success = await handleAdd(siteInfo)
+    if (success) {
+        ElMessage.success(t(msg => msg.siteManage.msg.saved))
+        ctx.emit("save", siteKey, alias)
+    }
+    return success
 }
 
 type _Emit = {
-    save: (isNew: boolean, aliasKey: timer.site.AliasKey, name: string) => void
+    save: (siteKey: timer.site.SiteKey, name: string) => void
 }
 
 const BTN_ADD_TXT = t(msg => msg.siteManage.button.add)
-const BTN_MDF_TXT = t(msg => msg.siteManage.button.modify)
+
+function initData(): _FormData {
+    return {
+        key: undefined,
+        alias: undefined,
+    }
+}
 
 const _default = defineComponent({
     name: "HostAliasModify",
     emits: {
-        save: () => true
+        save: (_siteKey: timer.site.SiteKey, _name: string) => true
     },
-    setup: (_, context: SetupContext<_Emit>) => {
-        const isNew: Ref<boolean> = ref(false)
+    setup: (_, ctx: SetupContext<_Emit>) => {
         const visible: Ref<boolean> = ref(false)
-        const buttonText = computed(() => isNew ? BTN_ADD_TXT : BTN_MDF_TXT)
-        const formData: UnwrapRef<_FormData> = reactive({
-            key: undefined,
-            name: undefined
-        })
+        const formData: UnwrapRef<_FormData> = reactive(initData())
         const formRef: Ref = ref()
 
-        context.expose({
+        ctx.expose({
             add() {
                 formData.key = undefined
-                formData.name = undefined
+                formData.alias = undefined
+
                 visible.value = true
-                isNew.value = true
-            },
-            modify(hostAliasInfo: timer.site.AliasIcon) {
-                visible.value = true
-                formData.key = hostAliasInfo
-                formData.name = hostAliasInfo.name
-                isNew.value = false
             },
             hide: () => visible.value = false
         })
@@ -109,12 +113,12 @@ const _default = defineComponent({
             if (!valid) {
                 return false
             }
-            const saved = await handleSave(context, isNew.value, formData)
+            const saved = await handleSave(ctx, formData)
             saved && (visible.value = false)
         }
         return () => h(ElDialog, {
             width: '450px',
-            title: buttonText.value,
+            title: BTN_ADD_TXT,
             modelValue: visible.value,
             closeOnClickModal: false,
             onClose: () => visible.value = false
@@ -128,13 +132,12 @@ const _default = defineComponent({
                     // Host form item
                     h(SiteManageHostFormItem, {
                         modelValue: formData.key,
-                        editing: isNew.value,
-                        onChange: (newKey: timer.site.AliasKey) => formData.key = newKey
+                        onChange: (newKey: timer.site.SiteKey) => formData.key = newKey
                     }),
                     // Name form item
-                    h(SiteManageNameFormItem, {
-                        modelValue: formData.name,
-                        onInput: (newVal: string) => formData.name = newVal,
+                    h(SiteManageAliasFormItem, {
+                        modelValue: formData.alias,
+                        onInput: (newVal: string) => formData.alias = newVal,
                         onEnter: save
                     })
                 ]

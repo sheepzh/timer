@@ -8,13 +8,11 @@
 import packageInfo from "@src/package"
 import BaseDatabase from "@db/common/base-database"
 import StoragePromise from "@db/common/storage-promise"
-import IconUrlDatabase from "@db/icon-url-database"
 import LimitDatabase from "@db/limit-database"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import PeriodDatabase from "@db/period-database"
-import TimerDatabase from "@db/timer-database"
+import StatDatabase from "@db/stat-database"
 import WhitelistDatabase from "@db/whitelist-database"
-import HostAliasDatabase from "@db/host-alias-database"
 
 type MetaInfo = {
     version: string
@@ -27,13 +25,11 @@ export type BackupData = {
 
 function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
     const result: BaseDatabase[] = [
-        new TimerDatabase(storage),
-        new IconUrlDatabase(storage),
+        new StatDatabase(storage),
         new PeriodDatabase(storage),
         new LimitDatabase(storage),
         new MergeRuleDatabase(storage),
         new WhitelistDatabase(storage),
-        new HostAliasDatabase(storage),
     ]
 
     return result

@@ -1,5 +1,5 @@
 import { JSON_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
-import { extractFileHost, extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost } from "@util/pattern"
+import { extractFileHost, extractHostname, isBrowserUrl, isHomepage, isIpAndPort, isValidHost, isValidVirtualHost } from "@util/pattern"
 
 test('browser url', () => {
     // chrome
@@ -28,6 +28,9 @@ test('ip and port', () => {
 })
 
 test('merge host origin', () => {
+    expect(isValidHost('')).toBeFalsy()
+    expect(isValidHost(undefined)).toBeFalsy()
+
     expect(isValidHost('wwdad.basd.com.111:12345')).toBeTruthy()
     expect(isValidHost('wwdad.basd.com.a111a:12345')).toBeTruthy()
     expect(isValidHost('wwdad.basd.com.a111a:*')).toBeTruthy()
@@ -37,6 +40,8 @@ test('merge host origin', () => {
     expect(isValidHost('wwdad.basd..*')).toBeFalsy()
     expect(isValidHost('wwdad*.*')).toBeFalsy()
     expect(isValidHost('wwdad.*.*')).toBeTruthy()
+
+    expect(isValidHost('https://ww.baidcom')).toBeFalsy()
 })
 
 test("url", () => {
@@ -79,4 +84,18 @@ test("extractFileHost", () => {
     expect(extractFileHost("file://123json")).toEqual(undefined)
     expect(extractFileHost("file://123.html")).toEqual(undefined)
     expect(extractFileHost("file://123.")).toEqual(undefined)
+})
+
+test("valid virtual host", () => {
+    expect(isValidVirtualHost(undefined)).toBeFalsy()
+    expect(isValidVirtualHost("github.com")).toBeFalsy()
+    expect(isValidVirtualHost("http://github.com")).toBeFalsy()
+    expect(isValidVirtualHost("github.com/")).toBeFalsy()
+
+    expect(isValidVirtualHost("github.com/sheepzh")).toBeTruthy()
+    expect(isValidVirtualHost("github.com/**")).toBeTruthy()
+    expect(isValidVirtualHost("github.com/*")).toBeTruthy()
+    expect(isValidVirtualHost("github.com/*/timer")).toBeTruthy()
+    // Can't end with /
+    expect(isValidVirtualHost("github.com/*/timer/")).toBeFalsy()
 })

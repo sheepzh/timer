@@ -12,6 +12,7 @@ import type {
     ToolboxComponentOption,
     TooltipComponentOption,
     LegendComponentOption,
+
 } from "echarts/components"
 
 import { formatPeriodCommon, formatTime } from "@util/time"
@@ -32,17 +33,29 @@ type EcOption = ComposeOption<
     | LegendComponentOption
 >
 
+// The declarations of labels
+type PieLabelRichOption = PieSeriesOption['label']['rich']
+type PieLabelRichValueOption = PieLabelRichOption[string]
+// The declaration of data item
+type PieSeriesItemOption = PieSeriesOption['data'][0] & {
+    host: string,
+    iconUrl?: string,
+    isOther?: boolean
+}
+
 type ChartProps = PopupQueryResult & {
     displaySiteName: boolean
 }
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 
-/**
- * If the percentage of target site is less than SHOW_ICON_THRESHOLD, don't show its icon
- */
 const LABEL_FONT_SIZE = 13
 const LABEL_ICON_SIZE = 13
+const BASE_LABEL_RICH_VALUE: PieLabelRichValueOption = {
+    height: LABEL_ICON_SIZE,
+    width: LABEL_ICON_SIZE,
+    fontSize: LABEL_FONT_SIZE,
+}
 
 const legend2LabelStyle = (legend: string) => {
     const code = []
@@ -83,9 +96,10 @@ function toolTipFormatter({ type, dateLength }: PopupQueryResult, params: any): 
 function labelFormatter({ mergeHost }: PopupQueryResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name } = format
-    const data = format.data as PopupRow
+    const data = format.data as PieSeriesItemOption
+    const { isOther, iconUrl } = data
     // Un-supported to get favicon url in Safari
-    return mergeHost || data.isOther || IS_SAFARI
+    return mergeHost || isOther || !iconUrl || IS_SAFARI
         ? name
         : `{${legend2LabelStyle(name)}|} {a|${name}}`
 }
@@ -214,18 +228,15 @@ export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOpti
             }
         }
     }
-    const series = []
-    const iconRich = {}
+    const series: PieSeriesItemOption[] = []
+    const iconRich: PieLabelRichOption = {}
     data.forEach(d => {
-        const { host, alias, isOther } = d
+        const { host, alias, isOther, iconUrl } = d
         const legend = displaySiteName ? (alias || host) : host
-        series.push({ name: legend, value: d[type] || 0, host, isOther })
-        iconRich[legend2LabelStyle(legend)] = {
-            height: LABEL_ICON_SIZE,
-            width: LABEL_ICON_SIZE,
-            fontSize: LABEL_ICON_SIZE,
-            backgroundColor: { image: d.iconUrl }
-        }
+        series.push({ name: legend, value: d[type] || 0, host, isOther, iconUrl })
+        const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
+        iconUrl && (richValue.backgroundColor = { image: iconUrl })
+        iconRich[legend2LabelStyle(legend)] = richValue
     })
     options.series[0].data = series
     options.series[0].label.rich = {

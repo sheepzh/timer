@@ -12,8 +12,8 @@ import { META_KEY } from "./common/constant"
  * @since 0.6.0
  */
 class MetaDatabase extends BaseDatabase {
-    async getMeta(): Promise<timer.meta.ExtensionMeta> {
-        const meta = (await this.storage.getOne(META_KEY)) as timer.meta.ExtensionMeta
+    async getMeta(): Promise<timer.ExtensionMeta> {
+        const meta = (await this.storage.getOne(META_KEY)) as timer.ExtensionMeta
         if (!meta) {
             return {}
         } else {
@@ -22,7 +22,7 @@ class MetaDatabase extends BaseDatabase {
     }
 
     async importData(data: any): Promise<void> {
-        const meta: timer.meta.ExtensionMeta = data[META_KEY] as timer.meta.ExtensionMeta
+        const meta: timer.ExtensionMeta = data[META_KEY] as timer.ExtensionMeta
         if (!meta) {
             return
         }
@@ -44,7 +44,7 @@ class MetaDatabase extends BaseDatabase {
         await this.update(existMeta)
     }
 
-    async update(existMeta: timer.meta.ExtensionMeta): Promise<void> {
+    async update(existMeta: timer.ExtensionMeta): Promise<void> {
         await this.storage.put(META_KEY, existMeta)
     }
 }

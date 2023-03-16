@@ -1,10 +1,10 @@
 import { DATE_FORMAT } from "@db/common/constant"
-import TimerDatabase, { TimerCondition } from "@db/timer-database"
+import StatDatabase, { StatCondition } from "@db/stat-database"
 import { formatTime, MILL_PER_DAY } from "@util/time"
 import { resultOf } from "@util/stat"
 import storage from "../__mock__/storage"
 
-const db = new TimerDatabase(storage.local)
+const db = new StatDatabase(storage.local)
 const now = new Date()
 const nowStr = formatTime(now, DATE_FORMAT)
 const yesterday = new Date(now.getTime() - MILL_PER_DAY)
@@ -56,7 +56,7 @@ describe('timer-database', () => {
         )
         expect((await db.select()).length).toEqual(6)
 
-        let cond: TimerCondition = {}
+        let cond: StatCondition = {}
         cond.host = 'google'
 
         let list = await db.select(cond)
@@ -73,8 +73,8 @@ describe('timer-database', () => {
         cond = {}
         cond.date = [now, now]
         const expectedResult: timer.stat.Row[] = [
-            { date: nowStr, focus: 11, host: google, mergedHosts: [], time: 0 },
-            { date: nowStr, focus: 1, host: baidu, mergedHosts: [], time: 0 }
+            { date: nowStr, focus: 11, host: google, mergedHosts: [], time: 0, virtual: false },
+            { date: nowStr, focus: 1, host: baidu, mergedHosts: [], time: 0, virtual: false }
         ]
         expect(await db.select(cond)).toEqual(expectedResult)
         // Only use start
@@ -117,7 +117,7 @@ describe('timer-database', () => {
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
-        const cond: TimerCondition = { host: baidu, fullHost: true }
+        const cond: StatCondition = { host: baidu, fullHost: true }
         // Nothing of baidu remained
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
