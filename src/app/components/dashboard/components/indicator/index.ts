@@ -6,7 +6,7 @@
  */
 
 import PeriodDatabase from "@db/period-database"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { defineComponent, h, ref, Ref } from "vue"
 import { groupBy } from "@util/array"
@@ -36,7 +36,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: timer.stat.Row[] = await timerService.select()
+    const allData: timer.stat.Row[] = await statService.select()
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0

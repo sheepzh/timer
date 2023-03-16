@@ -12,7 +12,7 @@ import type { PropType } from "vue"
 
 import { computed, defineComponent, h } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
-import TimerDatabase from "@db/timer-database"
+import StatDatabase from "@db/stat-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
 import { LocationQueryRaw, Router, useRouter } from "vue-router"
@@ -22,17 +22,17 @@ import OperationPopupConfirmButton from "@app/components/common/popup-confirm-bu
 import OperationDeleteButton from "./operation-delete-button"
 import { locale } from "@i18n"
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
+const statDatabase = new StatDatabase(chrome.storage.local)
 
 async function handleDeleteByRange(itemHost2Delete: string, dateRange: Array<Date>): Promise<string[]> {
     // Delete all
     if (!dateRange || !dateRange.length) {
-        return await timerDatabase.deleteByUrl(itemHost2Delete)
+        return await statDatabase.deleteByUrl(itemHost2Delete)
     }
     // Delete by range
     const start = dateRange[0]
     const end = dateRange[1]
-    await timerDatabase.deleteByUrlBetween(itemHost2Delete, start, end)
+    await statDatabase.deleteByUrlBetween(itemHost2Delete, start, end)
 }
 
 const columnLabel = t(msg => msg.item.operation.label)
@@ -89,7 +89,7 @@ const _default = defineComponent({
                         const host = row.host
                         props.mergeDate
                             ? await handleDeleteByRange(host, props.dateRange)
-                            : await timerDatabase.deleteByUrlAndDate(host, row.date)
+                            : await statDatabase.deleteByUrlAndDate(host, row.date)
                         ctx.emit("delete", row)
                     }
                 }),

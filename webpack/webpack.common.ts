@@ -79,7 +79,7 @@ const staticOptions: webpack.Configuration = {
         ]
     },
     resolve: {
-        extensions: ['.ts', ".js", '.css', '.scss', '.sass'],
+        extensions: ['.ts', '.tsx', ".js", '.css', '.scss', '.sass'],
         alias: resolveAlias,
         fallback: {
             // fallbacks of axios's dependencies start

@@ -8,8 +8,9 @@
 import BackupDatabase from "@db/backup-database"
 import metaService from "@service/meta-service"
 import optionService from "@service/option-service"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import MonthIterator from "@util/month-iterator"
+import { judgeVirtualFast } from "@util/pattern"
 import { formatTime, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 
@@ -99,7 +100,7 @@ async function syncFull(
     // 1. select rows
     let start = getBirthday()
     let end = new Date()
-    const rows = await timerService.select({ date: [start, end] })
+    const rows = await statService.select({ date: [start, end] })
     const allDates = rows.map(r => r.date).sort((a, b) => a == b ? 0 : a > b ? 1 : -1)
     client.maxDate = allDates[allDates.length - 1]
     client.minDate = allDates[0]
@@ -199,7 +200,8 @@ class Processor {
                         ...row,
                         cid: id,
                         cname: name,
-                        mergedHosts: []
+                        mergedHosts: [],
+                        virtual: judgeVirtualFast(row.host),
                     }))
             }))
         }))
