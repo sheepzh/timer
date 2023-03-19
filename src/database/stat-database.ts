@@ -40,6 +40,12 @@ export type StatCondition = {
      * @since 0.0.8
      */
     fullHost?: boolean
+    /**
+     * Whether to exlcusive virtual sites
+     * 
+     * @since 1.6.1 
+     */
+    exlcusiveVirtual?: boolean
 }
 
 type _StatCondition = StatCondition & {
@@ -203,9 +209,11 @@ class StatDatabase extends BaseDatabase {
 
     private filterHost(host: string, condition: _StatCondition): boolean {
         const paramHost = (condition.host || '').trim()
+        const exlcusiveVirtual = condition.exlcusiveVirtual
         if (!paramHost) return true
         if (!!condition.fullHost && host !== paramHost) return false
         if (!condition.fullHost && !host.includes(paramHost)) return false
+        if (exlcusiveVirtual && judgeVirtualFast(host)) return false
         return true
     }
 
