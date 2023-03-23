@@ -63,9 +63,9 @@ function calcFocusInfo(timeInfo: TimeInfo): number {
     return Object.values(timeInfo).reduce((a, b) => a + b, 0)
 }
 
-function calcVirtualFocusInfo(data: { [host: string]: TimeInfo }): Record<string, timer.stat.Result> {
+function calcVirtualFocusInfo(data: TimeInfo[]): Record<string, timer.stat.Result> {
     const container: Record<string, number> = {}
-    Object.values(data).forEach(timeInfo => Object.entries(timeInfo).forEach(([url, focusTime]) => {
+    data.forEach(timeInfo => Object.entries(timeInfo).forEach(([url, focusTime]) => {
         const virtualHosts = virtualSiteHolder.findMatched(url)
         virtualHosts.forEach(virtualHost => (container[virtualHost] = (container[virtualHost] || 0) + focusTime))
     }))
@@ -81,18 +81,19 @@ function calcVirtualFocusInfo(data: { [host: string]: TimeInfo }): Record<string
 class StatService {
 
     async addFocusTime(data: { [host: string]: TimeInfo }): Promise<timer.stat.ResultSet> {
+        const dataExclusiveWhite: [string, TimeInfo][] = Object.entries(data).filter(([host]) => whitelistHolder.notContains(host))
         // 1. normal sites
         const normalFocusInfo: Record<string, timer.stat.Result> = {}
-        Object.entries(data)
-            .filter(([host]) => whitelistHolder.notContains(host))
-            .forEach(([host, timeInfo]) => normalFocusInfo[host] = resultOf(calcFocusInfo(timeInfo), 0))
+        dataExclusiveWhite.forEach(([host, timeInfo]) => normalFocusInfo[host] = resultOf(calcFocusInfo(timeInfo), 0))
         // 2. virtual sites
-        const virtualFocusInfo: Record<string, timer.stat.Result> = calcVirtualFocusInfo(data)
+        const virtualFocusInfo: Record<string, timer.stat.Result> = calcVirtualFocusInfo(dataExclusiveWhite.map(arr => arr[1]))
         return statDatabase.accumulateBatch({ ...normalFocusInfo, ...virtualFocusInfo }, new Date())
     }
 
-    async addOneTime(host: string) {
-        statDatabase.accumulate(host, new Date(), resultOf(0, 1))
+    async addOneTime(host: string, url: string) {
+        const hosts: string[] = [host, ...virtualSiteHolder.findMatched(url)]
+        const resultSet: timer.stat.ResultSet = Object.fromEntries(hosts.map(host => [host, resultOf(0, 1)]))
+        statDatabase.accumulateBatch(resultSet, new Date())
     }
 
     /**
