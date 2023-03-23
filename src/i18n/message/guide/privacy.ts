@@ -58,7 +58,7 @@ const _default: Messages<PrivacyMessage> = {
         },
         storage: {
             p1: 'We guarantee that all data collected by this extension will only be saved in your browser\'s local storage and will never be distributed elsewhere.',
-            p2: 'You can however use the tools provided by the extension to export or import your data in JSON or CSV file format.                 The extension also supports you to use GitHub Gist, etc., third-party services you trust enough to back up your data.',
+            p2: 'You can however use the tools provided by the extension to export or import your data in JSON or CSV file format. The extension also supports you to use GitHub Gist, etc., third-party services you trust enough to back up your data.',
             p3: 'We only help you collect data, but the right of disposal must be yours.',
         },
     },
@@ -71,7 +71,7 @@ const _default: Messages<PrivacyMessage> = {
         },
         storage: {
             p1: 'この拡張機能によって収集されたすべてのデータは、ブラウザのローカル ストレージにのみ保存され、他の場所に配布されることはありません。',
-            p2: 'ただし、拡張機能によって提供されるツールを使用して、データを JSON または CSV ファイル形式でエクスポートまたはインポートできます。                 この拡張機能は、GitHub Gist など、データをバックアップするのに十分信頼できるサードパーティ サービスの使用もサポートします。',
+            p2: 'ただし、拡張機能によって提供されるツールを使用して、データを JSON または CSV ファイル形式でエクスポートまたはインポートできます。 この拡張機能は、GitHub Gist など、データをバックアップするのに十分信頼できるサードパーティ サービスの使用もサポートします。',
             p3: '私たちはあなたがデータを収集するのを手伝うだけですが、処分する権利はあなたのものでなければなりません.',
         },
     },

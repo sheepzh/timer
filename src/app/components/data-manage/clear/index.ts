@@ -10,14 +10,14 @@ import { defineComponent, h, Ref, ref, SetupContext } from "vue"
 import { t } from "@app/locale"
 import { alertProps } from "../common"
 import Filter from "./filter"
-import TimerDatabase, { TimerCondition } from "@db/timer-database"
+import StatDatabase, { StatCondition } from "@db/stat-database"
 import { MILL_PER_DAY } from "@util/time"
 
 type _Emits = {
     dataDelete: () => true
 }
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
+const statDatabase = new StatDatabase(chrome.storage.local)
 
 const operationCancelMsg = t(msg => msg.dataManage.operationCancel)
 const operationConfirmMsg = t(msg => msg.dataManage.operationConfirm)
@@ -32,7 +32,7 @@ async function handleClick(filterRef: Ref, ctx: SetupContext<_Emits>) {
         cancelButtonText: operationCancelMsg,
         confirmButtonText: operationConfirmMsg
     }).then(async () => {
-        await timerDatabase.delete(result)
+        await statDatabase.delete(result)
         ElMessage(t(msg => msg.dataManage.deleteSuccess))
         ctx.emit('dataDelete')
     }).catch(() => { })
@@ -53,7 +53,7 @@ function generateParamAndSelect(props: DataManageClearFilterOption): Promise<tim
     }
     condition.date = [dateStart, dateEnd]
 
-    return timerDatabase.select(condition)
+    return statDatabase.select(condition)
 }
 
 /**
@@ -77,7 +77,7 @@ function assertQueryParam(range: number[], mustInteger?: boolean): boolean {
 const str2Num = (str: string, defaultVal?: number) => (str && str !== '') ? parseInt(str) : defaultVal
 const seconds2Milliseconds = (a: number) => a * 1000
 
-function checkParam(filterOption: DataManageClearFilterOption): TimerCondition | undefined {
+function checkParam(filterOption: DataManageClearFilterOption): StatCondition | undefined {
     const { focusStart, focusEnd, timeStart, timeEnd } = filterOption
     let hasError = false
     const focusRange = str2Range([focusStart, focusEnd], seconds2Milliseconds)
@@ -87,7 +87,7 @@ function checkParam(filterOption: DataManageClearFilterOption): TimerCondition |
     if (hasError) {
         return undefined
     }
-    const condition: TimerCondition = {}
+    const condition: StatCondition = {}
     condition.focusRange = focusRange
     condition.timeRange = timeRange
     return condition

@@ -7,7 +7,7 @@ async function processFile(client: CrowdinClient, file: SourceFilesModel.File, d
     for (const locale of ALL_TRANS_LOCALES) {
         const lang = crowdinLangOf(locale)
         const items: ItemSet = await client.downloadTranslations(file.id, lang)
-        itemSets[locale] = items
+        items && Object.keys(items).length && (itemSets[locale] = items)
     }
     await mergeMessage(dir, file.name.replace('.json', '.ts'), itemSets)
 }

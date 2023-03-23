@@ -18,7 +18,11 @@ import { OptionMessage } from "@i18n/message/app/option"
  * @param label label
  * @param defaultValue default value
  */
-export function renderOptionItem(input: VNode | { [key: string]: VNode }, label: (msg: OptionMessage) => string, defaultValue?: string | number) {
+export function renderOptionItem(
+    input: VNode | { [key: string]: VNode },
+    label: (msg: OptionMessage | EmbeddedPartial<OptionMessage>) => string,
+    defaultValue?: string | number
+) {
     const param = isVNode(input) ? { input } : input
     const labelArcher = h('a', { class: 'option-label' }, tN(msg => label(msg.option), param))
     const content = [labelArcher]

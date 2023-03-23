@@ -6,12 +6,13 @@
  */
 
 import { OPTION_ROUTE } from "../app/router/constants"
-import { getAppPageUrl, getGuidePageUrl, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
+import { getAppPageUrl, getGuidePageUrl, GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
 import { t2Chrome } from "@i18n/chrome/t"
 import { IS_SAFARI } from "@util/constant/environment"
 import { createTab } from "@api/chrome/tab"
 import { getRuntimeId } from "@api/chrome/runtime"
 import { createContextMenu } from "@api/chrome/context-menu"
+import { locale } from "@i18n"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 
@@ -53,7 +54,7 @@ const repoPageProps: ChromeContextMenuCreateProps = {
 const feedbackPageProps: ChromeContextMenuCreateProps = {
     id: getRuntimeId() + '_timer_menu_item_feedback_link',
     title: titleOf('😿', t2Chrome(msg => msg.contextMenus.feedbackPage)),
-    onclick: () => createTab(TU_CAO_PAGE),
+    onclick: () => createTab(locale === 'zh_CN' ? TU_CAO_PAGE : GITHUB_ISSUE_ADD),
     ...baseProps
 }
 

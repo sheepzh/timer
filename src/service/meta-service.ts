@@ -11,12 +11,12 @@ const storage = chrome.storage.local
 const db: MetaDatabase = new MetaDatabase(storage)
 
 async function getInstallTime() {
-    const meta: timer.meta.ExtensionMeta = await db.getMeta()
+    const meta: timer.ExtensionMeta = await db.getMeta()
     return meta && meta.installTime ? new Date(meta.installTime) : undefined
 }
 
 async function updateInstallTime(installTime: Date) {
-    const meta: timer.meta.ExtensionMeta = await db.getMeta()
+    const meta: timer.ExtensionMeta = await db.getMeta()
     if (meta?.installTime) {
         // Must not rewrite
         return
@@ -44,7 +44,7 @@ function increasePopup(): void {
 }
 
 async function getCid(): Promise<string> {
-    const meta: timer.meta.ExtensionMeta = await db.getMeta()
+    const meta: timer.ExtensionMeta = await db.getMeta()
     return meta?.cid
 }
 

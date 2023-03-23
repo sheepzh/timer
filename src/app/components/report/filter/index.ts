@@ -20,7 +20,7 @@ import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { DeleteFilled } from "@element-plus/icons-vue"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 
 const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
@@ -84,7 +84,7 @@ const _default = defineComponent({
             timeFormat: timeFormat.value
         } as ReportFilterOption)
         const handleChange = () => ctx.emit("change", computeOption())
-        timerService.canReadRemote().then(abled => remoteSwitchVisible.value = abled)
+        statService.canReadRemote().then(abled => remoteSwitchVisible.value = abled)
         return () => [
             h(InputFilterItem, {
                 placeholder: hostPlaceholder,

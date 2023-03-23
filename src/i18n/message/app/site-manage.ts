@@ -12,9 +12,16 @@ export type SiteManageMessage = {
     deleteConfirmMsg: string
     column: {
         host: string
+        type: string
         alias: string
         aliasInfo: string
         source: string
+        icon: string
+    }
+    type: {
+        normal: string
+        merged: string
+        virtual: string
     }
     source: {
         user: string
@@ -23,7 +30,6 @@ export type SiteManageMessage = {
     button: {
         add: string
         delete: string
-        modify: string
         save: string
     }
     form: {
@@ -35,6 +41,7 @@ export type SiteManageMessage = {
         saved: string
         existedTag: string
         mergedTag: string
+        virtualTag: string
     }
 }
 
@@ -46,9 +53,16 @@ const _default: Messages<SiteManageMessage> = {
         deleteConfirmMsg: '{host} 的名称设置将会被删除',
         column: {
             host: '网站域名',
+            type: '网站类型',
             alias: '网站名称',
             aliasInfo: '网站名称会在报表以及今日数据（需要在扩展选项里设置）里展示，方便您快速识别域名',
-            source: '来源',
+            source: '名称来源',
+            icon: '网站图标',
+        },
+        type: {
+            normal: '普通站点',
+            merged: '合并站点',
+            virtual: '自定义站点',
         },
         source: {
             user: '手动设置',
@@ -57,7 +71,6 @@ const _default: Messages<SiteManageMessage> = {
         button: {
             add: '新增',
             delete: '删除',
-            modify: '修改',
             save: '保存',
         },
         form: {
@@ -69,6 +82,7 @@ const _default: Messages<SiteManageMessage> = {
             saved: '已保存',
             existedTag: '已存在',
             mergedTag: '合并',
+            virtualTag: '自定义',
         },
     },
     zh_TW: {
@@ -78,18 +92,24 @@ const _default: Messages<SiteManageMessage> = {
         deleteConfirmMsg: '{host} 的名稱設置將會被刪除',
         column: {
             host: '網站域名',
+            type: '網站類型',
             alias: '網站名稱',
             aliasInfo: '網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域',
-            source: '來源',
+            source: '名稱來源',
+            icon: '網站圖標',
         },
         source: {
             user: '手動設置',
             detected: '自動抓取',
         },
+        type: {
+            normal: '普通站點',
+            merged: '合併站點',
+            virtual: '自定義站點',
+        },
         button: {
             add: '新增',
             delete: '刪除',
-            modify: '修改',
             save: '保存',
         },
         form: {
@@ -110,9 +130,16 @@ const _default: Messages<SiteManageMessage> = {
         deleteConfirmMsg: 'The name of {host} will be deleted',
         column: {
             host: 'Site URL',
+            type: 'Site Type',
             alias: 'Site Name',
             aliasInfo: 'The site name will be shown on the record page and the popup page',
-            source: 'Source',
+            source: 'Name Source',
+            icon: 'Icon',
+        },
+        type: {
+            normal: 'normal',
+            merged: 'merged',
+            virtual: 'virtual',
         },
         source: {
             user: 'user-maintained',
@@ -121,7 +148,6 @@ const _default: Messages<SiteManageMessage> = {
         button: {
             add: 'New',
             delete: 'Delete',
-            modify: 'Modify',
             save: 'Save',
         },
         form: {
@@ -133,6 +159,7 @@ const _default: Messages<SiteManageMessage> = {
             saved: 'Saved',
             existedTag: 'EXISTED',
             mergedTag: 'MERGED',
+            virtualTag: 'VIRTUAL',
         },
     },
     ja: {
@@ -153,7 +180,6 @@ const _default: Messages<SiteManageMessage> = {
         button: {
             add: '追加',
             delete: '削除',
-            modify: '変更',
             save: '保存',
         },
         form: {

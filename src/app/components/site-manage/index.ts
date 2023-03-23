@@ -12,7 +12,7 @@ import ContentContainer from "../common/content-container"
 import SiteManageFilter from "./filter"
 import Pagination from "../common/pagination"
 import SiteManageTable from "./table"
-import hostAliasService, { HostAliasQueryParam } from "@service/host-alias-service"
+import siteService, { SiteQueryParam } from "@service/site-service"
 import Modify from './modify'
 
 export default defineComponent({
@@ -25,7 +25,7 @@ export default defineComponent({
             get: () => sourceRef.value == 'DETECTED',
             set: (val: boolean) => sourceRef.value = val ? 'DETECTED' : undefined
         })
-        const dataRef: Ref<timer.site.AliasIcon[]> = ref([])
+        const dataRef: Ref<timer.site.SiteInfo[]> = ref([])
         const modifyDialogRef: Ref = ref()
 
         const pageRef: UnwrapRef<timer.common.Pagination> = reactive({
@@ -34,7 +34,7 @@ export default defineComponent({
             total: 0
         })
 
-        const queryParam: ComputedRef<HostAliasQueryParam> = computed(() => ({
+        const queryParam: ComputedRef<SiteQueryParam> = computed(() => ({
             host: hostRef.value,
             alias: aliasRef.value,
             source: sourceRef.value
@@ -43,7 +43,7 @@ export default defineComponent({
 
         async function queryData() {
             const page = { size: pageRef.size, num: pageRef.num }
-            const pageResult = await hostAliasService.selectByPage(queryParam.value, page)
+            const pageResult = await siteService.selectByPage(queryParam.value, page)
             const { list, total } = pageResult
             dataRef.value = list
             pageRef.total = total
@@ -69,11 +69,7 @@ export default defineComponent({
             content: () => [
                 h(SiteManageTable, {
                     data: dataRef.value,
-                    onRowModify: async (row: timer.site.AliasIcon) => modifyDialogRef.value.modify(row),
-                    onRowDelete: async (row: timer.site.AliasIcon) => {
-                        await hostAliasService.remove(row)
-                        queryData()
-                    }
+                    onRowDelete: queryData
                 }),
                 h(Pagination, {
                     size: pageRef.size,

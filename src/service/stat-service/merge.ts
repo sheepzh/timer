@@ -23,6 +23,7 @@ function merge(map: Record<string, timer.stat.Row>, origin: timer.stat.Row, key:
         composition: { focus: [], time: [] },
         cid: origin.cid,
         cname: origin.cname,
+        virtual: false
     })
 
     exist.time += origin.time

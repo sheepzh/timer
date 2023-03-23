@@ -83,7 +83,7 @@ const _default: Messages<LayoutMessage> = {
                 quickstart: 'クイックスタート',
                 background: 'すべての機能',
                 advanced: '高度な機能',
-                backup: 'Backup your data with Gist',
+                backup: 'Gist でデータをバックアップ',
             },
             privacy: {
                 title: 'ポリシーと規約',

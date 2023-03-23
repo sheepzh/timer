@@ -6,12 +6,12 @@
  */
 
 import type { Ref, UnwrapRef, ComputedRef } from "vue"
-import type { TimerQueryParam } from "@service/timer-service"
+import type { StatQueryParam } from "@service/stat-service"
 import type { Router, RouteLocation } from "vue-router"
 
 import { computed, defineComponent, h, reactive, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import whitelistService from "@service/whitelist-service"
 import './styles/element'
 import ReportTable from "./table"
@@ -19,43 +19,41 @@ import ReportFilter from "./filter"
 import Pagination from "../common/pagination"
 import ContentContainer from "../common/content-container"
 import { ElLoadingService, ElMessage, ElMessageBox } from "element-plus"
-import hostAliasService from "@service/host-alias-service"
+import siteService from "@service/site-service"
 import { exportCsv, exportJson } from "./file-export"
 import { useRoute, useRouter } from "vue-router"
 import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
-import TimerDatabase from "@db/timer-database"
-import { IS_SAFARI } from "@util/constant/environment"
+import StatDatabase from "@db/stat-database"
 import { handleWindowVisibleChange } from "@util/window"
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
+const statDatabase = new StatDatabase(chrome.storage.local)
 
 async function queryData(
-    queryParam: Ref<TimerQueryParam>,
+    queryParam: Ref<StatQueryParam>,
     data: Ref<timer.stat.Row[]>,
     page: UnwrapRef<timer.common.Pagination>,
     readRemote: Ref<boolean>
 ) {
     const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
     const pageInfo = { size: page.size, num: page.num }
-    const fillFlag = { alias: true, iconUrl: !IS_SAFARI }
     const param = {
         ...queryParam.value,
         inclusiveRemote: readRemote.value
     }
-    const pageResult = await timerService.selectByPage(param, pageInfo, fillFlag)
+    const pageResult = await statService.selectByPage(param, pageInfo, true)
     const { list, total } = pageResult
     data.value = list
     page.total = total
     loading.close()
 }
 
-async function handleAliasChange(key: timer.site.AliasKey, newAlias: string, data: Ref<timer.stat.Row[]>) {
+async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data: Ref<timer.stat.Row[]>) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
-        await hostAliasService.remove(key)
+        await siteService.removeAlias(key)
     } else {
-        await hostAliasService.change(key, newAlias)
+        await siteService.saveAlias(key, newAlias, 'USER')
     }
     data.value
         .filter(item => item.host === key.host)
@@ -80,7 +78,7 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
     }
     const count2Delete: number = mergeDate
         // All the items 
-        ? sum(await Promise.all(Array.from(hosts).map(host => timerService.count({ host, fullHost: true, date: dateRange }))))
+        ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ host, fullHost: true, date: dateRange }))))
         // The count of row
         : selected?.length || 0
     const i18nParam = {
@@ -154,12 +152,12 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
     if (!mergeDate) {
         // If not merge date
         // Delete batch
-        await timerDatabase.delete(selected)
+        await statDatabase.delete(selected)
     } else {
         // Delete according to the date range
         const start = dateRange?.[0]
         const end = dateRange?.[1]
-        await Promise.all(selected.map(d => timerDatabase.deleteByUrlBetween(d.host, start, end)))
+        await Promise.all(selected.map(d => statDatabase.deleteByUrlBetween(d.host, start, end)))
     }
 }
 
@@ -189,7 +187,7 @@ function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOpti
     return [filterOption, sortInfo]
 }
 
-function computeTimerQueryParam(filterOption: ReportFilterOption, sort: SortInfo): TimerQueryParam {
+function computeTimerQueryParam(filterOption: ReportFilterOption, sort: SortInfo): StatQueryParam {
     return {
         host: filterOption.host,
         date: filterOption.dateRange,
@@ -222,7 +220,7 @@ const _default = defineComponent({
         const remoteRead: Ref<boolean> = ref(false)
 
         const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
-        const queryParam: ComputedRef<TimerQueryParam> = computed(() => computeTimerQueryParam(filterOption, sort))
+        const queryParam: ComputedRef<StatQueryParam> = computed(() => computeTimerQueryParam(filterOption, sort))
         const tableEl: Ref = ref()
 
         const query = () => queryData(queryParam, data, page, remoteRead)
@@ -243,7 +241,7 @@ const _default = defineComponent({
                     query()
                 },
                 onDownload: async (format: FileFormat) => {
-                    const rows = await timerService.select(queryParam.value, { alias: true })
+                    const rows = await statService.select(queryParam.value, true)
                     format === 'json' && exportJson(filterOption, rows)
                     format === 'csv' && exportCsv(filterOption, rows)
                 },

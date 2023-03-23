@@ -54,6 +54,10 @@ async function processDir(client: CrowdinClient, dir: Dir, branch: SourceFilesMo
         }
 
         for (const locale of ALL_TRANS_LOCALES) {
+            const translated = message[locale]
+            if (!translated || !Object.keys(translated).length) {
+                return
+            }
             const strings = transMsg(message[locale])
             const crwodinLang = crowdinLangOf(locale)
             await processDirMessage(client, crowdinFile, strings, crwodinLang)

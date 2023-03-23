@@ -53,6 +53,9 @@ export function isIpAndPort(host: string) {
  * @param host 
  */
 export function isValidHost(host: string) {
+    if (!host) return false
+    if (host.includes('/') || host.includes('?')) return false
+
     const indexOfColon = host.indexOf(':')
     if (indexOfColon > -1) {
         const portStr = host.substring(indexOfColon + 1)
@@ -63,6 +66,43 @@ export function isValidHost(host: string) {
     }
     const reg = /^((\*|([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9]))\.)*(\*|([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))$/
     return reg.test(host)
+}
+
+/**
+ * Test whether the host is a valid virtual host
+ * 
+ * github.com/              = false
+ * github.com               = false
+ * github.com/sheepzh       = true
+ * github.com/*             = true
+ * github.com/**            = true
+ * github.com/sheepzh/      = false
+ * github.com/sheepzh?      = false
+ * github.com/sheepzh?a=1   = false
+ * http://github.com/123    = false
+ * 
+ * @since 1.6.0
+ */
+export function isValidVirtualHost(host: string) {
+    if (!host) return false
+    if (host.includes('?') || host.includes('=') || host.includes(":")) return false
+    // Can't ends with /
+    if (host.endsWith('/')) return false
+    const segs = host.split('/')
+    // Can't be normal host
+    if (segs.length === 1) return false
+    if (!isValidHost(segs[0])) return false
+    return true
+}
+
+/**
+ * Judge virtual host fastly
+ * 
+ * @param host 
+ * @returns T/F
+ */
+export function judgeVirtualFast(host: string): boolean {
+    return host?.includes('/')
 }
 
 export type HostInfo = {

@@ -2,7 +2,7 @@ import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { getWindow } from "@api/chrome/window"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import { extractHostname, HostInfo } from "@util/pattern"
 import badgeTextManager from "../badge-text-manager"
 import MessageDispatcher from "../message-dispatcher"
@@ -12,14 +12,14 @@ async function handleTime(hostInfo: HostInfo, url: string, dateRange: [number, n
     const [start, end] = dateRange
     const focusTime = end - start
     // 1. Saveasync
-    const totalFocus = await timerService.addFocus(host, new Date(end), focusTime)
+    await statService.addFocusTime({ [host]: { [url]: focusTime } })
     // 2. Process limit
     const meedLimits = await limitService.addFocusTime(host, url, focusTime)
     // If time limited after this operation, send messages
     meedLimits && meedLimits.length && sendLimitedMessage(meedLimits)
     // 3. Add period time
     await periodService.add(start, focusTime)
-    return totalFocus
+    return focusTime
 }
 
 async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender): Promise<void> {

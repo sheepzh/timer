@@ -34,7 +34,7 @@ const _default: Messages<MenuMessage> = {
         dataHistory: '历史趋势',
         dataClear: '内存管理',
         additional: '附加功能',
-        siteManage: '网站名称管理',
+        siteManage: '网站管理',
         whitelist: '白名单管理',
         mergeRule: '子域名合并',
         option: '扩展选项',
@@ -54,7 +54,7 @@ const _default: Messages<MenuMessage> = {
         dataHistory: '曆史趨勢',
         dataClear: '內存管理',
         additional: '附加功能',
-        siteManage: '網站名稱管理',
+        siteManage: '網站管理',
         whitelist: '白名單管理',
         mergeRule: '子域名合並',
         option: '擴充選項',
@@ -104,9 +104,9 @@ const _default: Messages<MenuMessage> = {
         option: '拡張設定',
         feedback: 'フィードバックアンケート',
         rate: 'それを評価',
-        helpUs: 'Help Us',
+        helpUs: '協力する',
         userManual: 'ユーザーマニュアル',
-    }
+    },
 }
 
 export default _default

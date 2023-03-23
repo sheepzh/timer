@@ -1,6 +1,7 @@
 declare type TrendHostInfo = {
     host: string
-    merged: boolean
+    merged?: boolean
+    virtual?: boolean
 }
 
 declare type TrendFilterOption = {
