@@ -20,8 +20,15 @@ import MessageDispatcher from "./message-dispatcher"
 export default function init(dispatcher: MessageDispatcher) {
     dispatcher
         // Increase the visit time
-        .register<string, void>('cs.incVisitCount', async host => {
-            statService.addOneTime(host)
+        .register<string | { host: string, url: string }, void>('cs.incVisitCount', async (param) => {
+            let host: string, url: string = undefined
+            if (typeof param === 'string') {
+                host = param
+            } else {
+                host = param?.host
+                url = param?.url
+            }
+            statService.addOneTime(host, url)
         })
         // Judge is in whitelist
         .register<string, boolean>('cs.isInWhitelist', host => whitelistService.include(host))
@@ -31,10 +38,7 @@ export default function init(dispatcher: MessageDispatcher) {
             return !!option.printInConsole
         })
         // Get today info
-        .register<string, timer.stat.Result>('cs.getTodayInfo', host => {
-            const now = new Date()
-            return statService.getResult(host, now)
-        })
+        .register<string, timer.stat.Result>('cs.getTodayInfo', host => statService.getResult(host, new Date()))
         // More minutes
         .register<string, timer.limit.Item[]>('cs.moreMinutes', url => limitService.moreMinutes(url))
         // cs.getLimitedRules

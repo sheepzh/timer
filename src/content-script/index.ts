@@ -19,7 +19,7 @@ async function main() {
     const isWhitelist = await sendMsg2Runtime('cs.isInWhitelist', host)
     if (isWhitelist) return
 
-    sendMsg2Runtime('cs.incVisitCount', host)
+    sendMsg2Runtime('cs.incVisitCount', { host, url })
 
     await initLocale()
     const needPrintInfo = await sendMsg2Runtime('cs.printTodayInfo')
