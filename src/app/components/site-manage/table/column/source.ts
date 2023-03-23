@@ -19,18 +19,15 @@ function renderSource(source: timer.site.AliasSource) {
     return h(ElTag, { type, size: 'small' }, () => SOURCE_DESC[source])
 }
 
-const _default = defineComponent({
-    name: "SourceColumn",
-    setup() {
-        return () => h(ElTableColumn, {
-            prop: 'source',
-            label: t(msg => msg.siteManage.column.source),
-            minWidth: 70,
-            align: 'center',
-        }, {
-            default: ({ row }: { row: timer.site.SiteInfo }) => row.source ? renderSource(row.source) : ''
-        })
-    }
+const render = () => h(ElTableColumn, {
+    prop: 'source',
+    label: t(msg => msg.siteManage.column.source),
+    minWidth: 70,
+    align: 'center',
+}, {
+    default: ({ row }: { row: timer.site.SiteInfo }) => row.source ? renderSource(row.source) : ''
 })
+
+const _default = defineComponent({ render })
 
 export default _default

@@ -1,21 +1,24 @@
 import { t } from "@app/locale"
-import { ElTableColumn, ElTag } from "element-plus"
+import { ElIcon, ElTableColumn, ElTag, ElTooltip } from "element-plus"
+import { InfoFilled } from "@element-plus/icons-vue"
 import { defineComponent, h } from "vue"
+import { SiteManageMessage } from "@i18n/message/app/site-manage"
+
+type Type = keyof SiteManageMessage['type']
+const ALL_TYPES: Type[] = ['normal', 'merged', 'virtual']
 
 const label = t(msg => msg.siteManage.column.type)
 
-const normalType = t(msg => msg.siteManage.type.normal)
-const mergedType = t(msg => msg.siteManage.type.merged)
-const virtualType = t(msg => msg.siteManage.type.virtual)
-
 function cumputeText({ merged, virtual }: timer.site.SiteInfo): string {
+    let type: Type = undefined
     if (merged) {
-        return mergedType
+        type = 'merged'
     } else if (virtual) {
-        return virtualType
+        type = 'virtual'
     } else {
-        return normalType
+        type = 'normal'
     }
+    return t(msg => msg.siteManage.type[type].name)
 }
 
 function computeType({ merged, virtual }: timer.site.SiteInfo): 'info' | 'success' | '' {
@@ -28,21 +31,29 @@ function computeType({ merged, virtual }: timer.site.SiteInfo): 'info' | 'succes
     }
 }
 
-const _default = defineComponent({
-    name: "SiteType",
-    setup() {
-        return () => h(ElTableColumn, {
-            prop: 'host',
-            label,
-            minWidth: 60,
-            align: 'center',
-        }, {
-            default: ({ row }: { row: timer.site.SiteInfo }) => h(ElTag, {
-                size: 'small',
-                type: computeType(row),
-            }, () => cumputeText(row))
-        })
-    }
+const renderTooltip = () => h(ElTooltip, { placement: 'top' }, {
+    content: () => ALL_TYPES
+        .map((type: Type) => `${t(msg => msg.siteManage.type[type].name)} - ${t(msg => msg.siteManage.type[type].info)}`)
+        .reduce((a, b) => {
+            a.length && a.push(h('br'))
+            a.push(b)
+            return a
+        }, []),
+    default: () => h(ElIcon, { size: 11 }, () => h(InfoFilled)),
 })
+
+const renderContent = (row: timer.site.SiteInfo) => h(ElTag, {
+    size: 'small',
+    type: computeType(row),
+}, () => cumputeText(row))
+
+const _default = defineComponent(() => () => h(ElTableColumn, {
+    prop: 'host',
+    minWidth: 60,
+    align: 'center',
+}, {
+    header: () => [label, ' ', renderTooltip()],
+    default: ({ row }: { row: timer.site.SiteInfo }) => renderContent(row)
+}))
 
 export default _default
