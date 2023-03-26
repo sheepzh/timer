@@ -14,8 +14,8 @@ import { defaultBackup } from "@util/constant/option"
 import { ElInput, ElOption, ElSelect, ElDivider, ElAlert, ElButton, ElMessage, ElLoading } from "element-plus"
 import { defineComponent, ref, h } from "vue"
 import { renderOptionItem, tooltip } from "../../common"
-import { UploadFilled } from "@element-plus/icons-vue"
 import BackUpAutoInput from "./auto-input"
+import Footer from "./footer"
 
 const ALL_TYPES: timer.backup.Type[] = [
     'none',
@@ -114,19 +114,6 @@ const _default = defineComponent({
             }
         }
 
-        async function handleBackup() {
-            const loading = ElLoading.service({
-                text: "Doing backup...."
-            })
-            const result = await processor.syncData()
-            loading.close()
-            if (result.success) {
-                ElMessage.success('Successfully!')
-            } else {
-                ElMessage.error(result.errorMsg || 'Unknown error')
-            }
-        }
-
         ctx.expose({
             async reset() {
                 // Only reset type and auto flag
@@ -151,6 +138,7 @@ const _default = defineComponent({
                     t(msg => msg.option.backup.meta[DEFAULT.backupType].label)
                 )
             ]
+            console.log(type.value)
             type.value !== 'none' && nodes.push(
                 h(ElDivider),
                 renderOptionItem({
@@ -178,11 +166,7 @@ const _default = defineComponent({
                     msg => msg.backup.client
                 ),
                 h(ElDivider),
-                h(ElButton, {
-                    type: 'primary',
-                    icon: UploadFilled,
-                    onClick: handleBackup
-                }, () => t(msg => msg.option.backup.operation)),
+                h(Footer, { type: type.value }),
             )
             return h('div', nodes)
         }
