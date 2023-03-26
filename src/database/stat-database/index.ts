@@ -5,12 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { log } from "../common/logger"
+import { log } from "../../common/logger"
 import { formatTime } from "@util/time"
-import BaseDatabase from "./common/base-database"
-import { DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
+import BaseDatabase from "../common/base-database"
+import { DATE_FORMAT, REMAIN_WORD_PREFIX } from "../common/constant"
 import { createZeroResult, mergeResult, isNotZeroResult } from "@util/stat"
 import { judgeVirtualFast } from "@util/pattern"
+import { filter } from "./filter"
 
 export type StatCondition = {
     /**
@@ -46,58 +47,6 @@ export type StatCondition = {
      * @since 1.6.1 
      */
     exlcusiveVirtual?: boolean
-}
-
-type _StatCondition = StatCondition & {
-    // Use exact date condition
-    useExactDate?: boolean
-    // date str
-    exactDateStr?: string
-    startDateStr?: string
-    endDateStr?: string
-    // time range
-    timeStart?: number
-    timeEnd?: number
-    focusStart?: number
-    focusEnd?: number
-}
-
-function processDateCondition(cond: _StatCondition, paramDate: Date | Date[]) {
-    if (!paramDate) return
-
-    if (paramDate instanceof Date) {
-        cond.useExactDate = true
-        cond.exactDateStr = formatTime(paramDate as Date, DATE_FORMAT)
-    } else {
-        let startDate: Date = undefined
-        let endDate: Date = undefined
-        const dateArr = paramDate as Date[]
-        dateArr && dateArr.length >= 2 && (endDate = dateArr[1])
-        dateArr && dateArr.length >= 1 && (startDate = dateArr[0])
-        cond.useExactDate = false
-        startDate && (cond.startDateStr = formatTime(startDate, DATE_FORMAT))
-        endDate && (cond.endDateStr = formatTime(endDate, DATE_FORMAT))
-    }
-}
-
-function processParamTimeCondition(cond: _StatCondition, paramTime: number[]) {
-    if (!paramTime) return
-    paramTime.length >= 2 && (cond.timeEnd = paramTime[1])
-    paramTime.length >= 1 && (cond.timeStart = paramTime[0])
-}
-
-function processParamFocusCondition(cond: _StatCondition, paramFocus: number[]) {
-    if (!paramFocus) return
-    paramFocus.length >= 2 && (cond.focusEnd = paramFocus[1])
-    paramFocus.length >= 1 && (cond.focusStart = paramFocus[0])
-}
-
-function processCondition(condition: StatCondition): _StatCondition {
-    const result: _StatCondition = { ...condition }
-    processDateCondition(result, condition.date)
-    processParamTimeCondition(result, condition.timeRange)
-    processParamFocusCondition(result, condition.focusRange)
-    return result
 }
 
 function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
@@ -181,6 +130,8 @@ class StatDatabase extends BaseDatabase {
         return afterUpdated
     }
 
+    filter = filter
+
     /**
      * Select
      * 
@@ -188,71 +139,24 @@ class StatDatabase extends BaseDatabase {
      */
     async select(condition?: StatCondition): Promise<timer.stat.Row[]> {
         log("select:{condition}", condition)
-        condition = condition || {}
-        const _cond: _StatCondition = processCondition(condition)
-        const items = await this.refresh()
-        let result: timer.stat.Row[] = []
-
-        for (let key in items) {
-            const date = key.substring(0, 8)
-            const host = key.substring(8)
-            const val: timer.stat.Result = items[key]
-            if (this.filterBefore(date, host, val, _cond)) {
-                const { focus, time } = val
-                result.push({ date, host, focus, time, mergedHosts: [], virtual: judgeVirtualFast(host) })
-            }
-        }
-
-        log('Result of select: ', result)
-        return result
-    }
-
-    private filterHost(host: string, condition: _StatCondition): boolean {
-        const paramHost = (condition.host || '').trim()
-        const exlcusiveVirtual = condition.exlcusiveVirtual
-        if (!paramHost) return true
-        if (!!condition.fullHost && host !== paramHost) return false
-        if (!condition.fullHost && !host.includes(paramHost)) return false
-        if (exlcusiveVirtual && judgeVirtualFast(host)) return false
-        return true
-    }
-
-    private filterDate(date: string, condition: _StatCondition): boolean {
-        if (condition.useExactDate) {
-            if (condition.exactDateStr !== date) return false
-        } else {
-            const { startDateStr, endDateStr } = condition
-            if (startDateStr && startDateStr > date) return false
-            if (endDateStr && endDateStr < date) return false
-        }
-        return true
-    }
-
-    private filterNumberRange(val: number, range: number[]): boolean {
-        const start = range[0]
-        const end = range[1]
-        if (start !== null && start !== undefined && start > val) return false
-        if (end !== null && end !== undefined && end < val) return false
-        return true
+        const filterResults = await this.filter(condition)
+        return filterResults.map(({ date, host, value }) => {
+            const { focus, time } = value
+            return { date, host, focus, time, mergedHosts: [], virtual: judgeVirtualFast(host) }
+        })
     }
 
     /**
-     * Filter by query parameters
+     * Count by condition
      * 
-     * @param date date of item
-     * @param host  host of item
-     * @param val  val of item
-     * @param condition  query parameters
-     * @return true if valid, or false  
+     * @param condition 
+     * @returns count 
+     * @since 1.0.2
      */
-    private filterBefore(date: string, host: string, val: timer.stat.Result, condition: _StatCondition): boolean {
-        const { focus, time } = val
-        const { timeStart, timeEnd, focusStart, focusEnd } = condition
-
-        return this.filterHost(host, condition)
-            && this.filterDate(date, condition)
-            && this.filterNumberRange(time, [timeStart, timeEnd])
-            && this.filterNumberRange(focus, [focusStart, focusEnd])
+    async count(condition: StatCondition): Promise<number> {
+        log("select:{condition}", condition)
+        const filterResults = await this.filter(condition)
+        return filterResults.length || 0
     }
 
     /**
@@ -329,30 +233,6 @@ class StatDatabase extends BaseDatabase {
      */
     deleteByUrl(host: string): Promise<string[]> {
         return this.deleteByUrlBetween(host)
-    }
-
-    /**
-     * Count by condition
-     * 
-     * @param condition 
-     * @returns count 
-     * @since 1.0.2
-     */
-    async count(condition: StatCondition): Promise<number> {
-        condition = condition || {}
-        const _cond: _StatCondition = processCondition(condition)
-        const items = await this.refresh()
-        let count = 0
-
-        for (let key in items) {
-            const date = key.substring(0, 8)
-            const host = key.substring(8)
-            const val: timer.stat.Result = items[key]
-            if (this.filterBefore(date, host, val, _cond)) {
-                count++
-            }
-        }
-        return count
     }
 
     async importData(data: any): Promise<void> {
