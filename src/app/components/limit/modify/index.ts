@@ -61,7 +61,7 @@ const _default = defineComponent({
                         ElMessage.warning(noTimeError)
                         return
                     }
-                    const toSave: timer.limit.Rule = { cond: condition, time: timeLimit, enabled: true, allowDelay: true }
+                    const toSave: timer.limit.Rule = { cond: condition, time: timeLimit, enabled: true, allowDelay: false }
                     if (mode.value === 'modify' && modifyingItem) {
                         toSave.enabled = modifyingItem.enabled
                         toSave.allowDelay = modifyingItem.allowDelay
