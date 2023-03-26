@@ -25,27 +25,23 @@ function handleChange(newAlias: string, row: timer.site.SiteInfo) {
     }
 }
 
-const _default = defineComponent({
-    name: "AliasColumn",
-    setup() {
-        return () => h(ElTableColumn, {
-            prop: 'host',
-            minWidth: 100,
-            align: 'center',
-        }, {
-            default: ({ row }: { row: timer.site.SiteInfo }) => h(Editable, {
-                modelValue: row.alias,
-                onChange: (newAlias: string) => handleChange(newAlias, row)
-            }),
-            header: () => {
-                const infoTooltip = h(ElTooltip,
-                    { content: tooltip, placement: 'top' },
-                    () => h(ElIcon, { size: 11 }, () => h(InfoFilled))
-                )
-                return [label, ' ', infoTooltip]
-            }
-        })
-    }
+const renderTooltip = () => h(ElTooltip,
+    { content: tooltip, placement: 'top' },
+    () => h(ElIcon, { size: 11 }, () => h(InfoFilled))
+)
+
+const render = () => h(ElTableColumn, {
+    prop: 'host',
+    minWidth: 100,
+    align: 'center',
+}, {
+    default: ({ row }: { row: timer.site.SiteInfo }) => h(Editable, {
+        modelValue: row.alias,
+        onChange: (newAlias: string) => handleChange(newAlias, row)
+    }),
+    header: () => [label, ' ', renderTooltip()]
 })
+
+const _default = defineComponent({ render })
 
 export default _default

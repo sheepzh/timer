@@ -18,11 +18,7 @@ export type SiteManageMessage = {
         source: string
         icon: string
     }
-    type: {
-        normal: string
-        merged: string
-        virtual: string
-    }
+    type: Record<'normal' | 'merged' | 'virtual', Record<'name' | 'info', string>>
     source: {
         user: string
         detected: string
@@ -60,9 +56,18 @@ const _default: Messages<SiteManageMessage> = {
             icon: '网站图标',
         },
         type: {
-            normal: '普通站点',
-            merged: '合并站点',
-            virtual: '自定义站点',
+            normal: {
+                name: '普通站点',
+                info: '按域名的维度统计',
+            },
+            merged: {
+                name: '合并站点',
+                info: '将多个相关的域名合并统计，合并规则可以自定义'
+            },
+            virtual: {
+                name: '自定义站点',
+                info: '统计 Ant Pattern 格式的任意 URL，可以在右上角新增自定义站点'
+            },
         },
         source: {
             user: '手动设置',
@@ -103,9 +108,18 @@ const _default: Messages<SiteManageMessage> = {
             detected: '自動抓取',
         },
         type: {
-            normal: '普通站點',
-            merged: '合併站點',
-            virtual: '自定義站點',
+            normal: {
+                name: '普通站點',
+                info: '按域名的維度統計',
+            },
+            merged: {
+                name: '合併站點',
+                info: '將多個相關的域名合併統計，合併規則可以自定義',
+            },
+            virtual: {
+                name: '自定義站點',
+                info: '統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點',
+            },
         },
         button: {
             add: '新增',
@@ -137,9 +151,18 @@ const _default: Messages<SiteManageMessage> = {
             icon: 'Icon',
         },
         type: {
-            normal: 'normal',
-            merged: 'merged',
-            virtual: 'virtual',
+            normal: {
+                name: 'normal',
+                info: 'statistics by domain name',
+            },
+            merged: {
+                name: 'merged',
+                info: 'merge statistics of multiple related domain names, and the merge rules can be customized',
+            },
+            virtual: {
+                name: 'virtual',
+                info: 'count any URL in Ant Pattern format, you can add a custom site in the upper right corner',
+            },
         },
         source: {
             user: 'user-maintained',

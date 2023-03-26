@@ -36,7 +36,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: timer.stat.Row[] = await statService.select()
+    const allData: timer.stat.Row[] = await statService.select({ exlcusiveVirtual: true })
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0
@@ -135,37 +135,34 @@ function renderMostUse(most2Hour: number) {
     )
 }
 
-const _default = defineComponent({
-    name: "Indicator",
-    setup() {
-        const installedDays: Ref<number> = ref()
-        const siteCount: Ref<number> = ref(0)
-        const visitCount: Ref<number> = ref(0)
-        const browsingMinutes: Ref<number> = ref(0)
-        const most2Hour: Ref<number> = ref(0)
-        query().then(value => {
-            installedDays.value = value.installedDays
-            siteCount.value = value.sites
-            visitCount.value = value.visits
-            browsingMinutes.value = Math.floor(value.browsingTime / MILL_PER_MINUTE)
-            most2Hour.value = value.most2Hour
-        })
-        return () => {
-            const items = [
-                renderVisits(siteCount.value, visitCount.value),
-                renderBrowsingMinute(browsingMinutes.value),
-                renderMostUse(most2Hour.value)
-            ]
-            const installedDaysVal = installedDays.value
-            installedDaysVal && items.splice(0, 0, renderInstalledDays(installedDaysVal))
-            return h('div', {
-                id: CONTAINER_ID,
-                class: 'chart-container'
-            }, [
-                h(IndicatorHeaderIcon),
-                ...items
-            ])
-        }
+const _default = defineComponent(() => {
+    const installedDays: Ref<number> = ref()
+    const siteCount: Ref<number> = ref(0)
+    const visitCount: Ref<number> = ref(0)
+    const browsingMinutes: Ref<number> = ref(0)
+    const most2Hour: Ref<number> = ref(0)
+    query().then(value => {
+        installedDays.value = value.installedDays
+        siteCount.value = value.sites
+        visitCount.value = value.visits
+        browsingMinutes.value = Math.floor(value.browsingTime / MILL_PER_MINUTE)
+        most2Hour.value = value.most2Hour
+    })
+    return () => {
+        const items = [
+            renderVisits(siteCount.value, visitCount.value),
+            renderBrowsingMinute(browsingMinutes.value),
+            renderMostUse(most2Hour.value)
+        ]
+        const installedDaysVal = installedDays.value
+        installedDaysVal && items.splice(0, 0, renderInstalledDays(installedDaysVal))
+        return h('div', {
+            id: CONTAINER_ID,
+            class: 'chart-container'
+        }, [
+            h(IndicatorHeaderIcon),
+            ...items
+        ])
     }
 })
 
