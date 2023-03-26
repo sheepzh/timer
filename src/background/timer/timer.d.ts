@@ -1,4 +1,4 @@
 
 declare type TimeInfo = {
-    [url: string]: number // Focus time
+    [urlOfHost: string]: number // Focus time
 }

@@ -9,7 +9,7 @@ import type { Ref, PropType, VNode } from "vue"
 
 import { ElOption, ElSelect, ElTag } from "element-plus"
 import { ref, h, defineComponent } from "vue"
-import timerService, { HostSet } from "@service/timer-service"
+import statService, { HostSet } from "@service/stat-service"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { TrendMessage } from "@i18n/message/app/trend"
@@ -24,10 +24,12 @@ async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<Tren
         return
     }
     searching.value = true
-    const domains: HostSet = await timerService.listHosts(queryStr)
+    const domains: HostSet = await statService.listHosts(queryStr)
     const options: TrendHostInfo[] = []
-    domains.origin.forEach(host => options.push({ host, merged: false }))
-    domains.merged.forEach(host => options.push({ host, merged: true }))
+    const { origin, merged, virtual } = domains
+    origin.forEach(host => options.push({ host }))
+    merged.forEach(host => options.push({ host, merged: true }))
+    virtual.forEach(host => options.push({ host, virtual: true }))
     trendDomainOptions.value = options
     searching.value = false
 }
@@ -59,23 +61,30 @@ const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {
 }
 
 function keyOfHostInfo(option: TrendHostInfo): string {
-    const { merged, host } = option
-    return (merged ? "1" : '0') + (host || '')
+    const { merged, virtual, host } = option
+    let prefix = '_'
+    merged && (prefix = 'm')
+    virtual && (prefix = 'v')
+    return `${prefix}${host || ''}`
 }
 
 function hostInfoOfKey(key: string): TrendHostInfo {
-    if (!key || !key.length) return { host: '', merged: false }
-    const merged = key.charAt(0) === '1'
-    return { host: key.substring(1), merged }
+    if (!key || !key.length) return { host: '', merged: false, virtual: false }
+    const prefix = key.charAt(0)
+    return { host: key.substring(1), merged: prefix === 'm', virtual: prefix === 'v' }
 }
 
 const MERGED_TAG_TXT = t(msg => msg.trend.merged)
+const VIRTUAL_TAG_TXT = t(msg => msg.trend.virtual)
 function renderHostLabel(hostInfo: TrendHostInfo): VNode[] {
     const result = [
         h('span', {}, hostInfo.host)
     ]
     hostInfo.merged && result.push(
         h(ElTag, { size: 'small' }, () => MERGED_TAG_TXT)
+    )
+    hostInfo.virtual && result.push(
+        h(ElTag, { size: 'small' }, () => VIRTUAL_TAG_TXT)
     )
     return result
 }

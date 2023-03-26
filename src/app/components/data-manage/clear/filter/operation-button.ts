@@ -8,14 +8,14 @@
 import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
 import ElementIcon from "@src/element-ui/icon"
 import { Ref, h } from "vue"
-import TimerDatabase, { TimerCondition } from "@db/timer-database"
+import StatDatabase, { StatCondition } from "@db/stat-database"
 import { ItemMessage } from "@i18n/message/common/item"
 import { t } from "@src/app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { MILL_PER_DAY } from "@util/time"
 import { ElementButtonType } from "@src/element-ui/button"
 
-const timerDatabase = new TimerDatabase(chrome.storage.local)
+const statDatabase = new StatDatabase(chrome.storage.local)
 
 export type BaseFilterProps = {
     focusStartRef: Ref<string>
@@ -77,7 +77,7 @@ const str2Range = (startAndEnd: Ref<string>[], numAmplifier?: (origin: number) =
 
 const seconds2Milliseconds = (a: number) => a * 1000
 
-function checkParam(props: _Props): TimerCondition | undefined {
+function checkParam(props: _Props): StatCondition | undefined {
     const { focusStartRef, focusEndRef, timeStartRef, timeEndRef } = props
     let hasError = false
     const focusRange = str2Range([focusStartRef, focusEndRef], seconds2Milliseconds)
@@ -87,7 +87,7 @@ function checkParam(props: _Props): TimerCondition | undefined {
     if (hasError) {
         return undefined
     }
-    const condition: TimerCondition = {}
+    const condition: StatCondition = {}
     condition.focusRange = focusRange
     condition.timeRange = timeRange
     return condition
@@ -108,7 +108,7 @@ function generateParamAndSelect(props: _Props): Promise<timer.stat.Row[]> | unde
     }
     condition.date = [dateStart, dateEnd]
 
-    return timerDatabase.select(condition)
+    return statDatabase.select(condition)
 }
 
 const operationCancelMsg = t(msg => msg.dataManage.operationCancel)

@@ -5,18 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import packageJson from '../package.json'
+import packageJson from "../package.json"
 
+type _AllPackageInfo = typeof packageJson
 // The declaration of package.json
-type _PackageJson = {
-    name: string
-    description: string
-    version: string
-    homepage: string
-    author: string
-}
+type _PackageInfo = Pick<_AllPackageInfo, 'name' | 'description' | 'version' | 'homepage' | 'author'>
 
-const _default: _PackageJson = {
+const _default: _PackageInfo = {
     name: packageJson.name,
     description: packageJson.description,
     version: packageJson.version,

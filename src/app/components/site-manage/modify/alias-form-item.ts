@@ -11,7 +11,7 @@ import { h, defineComponent } from "vue"
 
 const LABEL = t(msg => msg.siteManage.column.alias)
 const _default = defineComponent({
-    name: "SiteManageNameFormItem",
+    name: "SiteManageAliasFormItem",
     props: {
         modelValue: String
     },
@@ -21,7 +21,7 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         return () => h(ElFormItem,
-            { prop: 'name', label: LABEL },
+            { prop: 'alias', label: LABEL },
             () => h(ElInput, {
                 modelValue: props.modelValue,
                 onInput: (newVal: string) => ctx.emit("input", newVal.trimStart()),

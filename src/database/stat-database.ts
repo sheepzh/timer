@@ -10,8 +10,9 @@ import { formatTime } from "@util/time"
 import BaseDatabase from "./common/base-database"
 import { DATE_FORMAT, REMAIN_WORD_PREFIX } from "./common/constant"
 import { createZeroResult, mergeResult, isNotZeroResult } from "@util/stat"
+import { judgeVirtualFast } from "@util/pattern"
 
-export type TimerCondition = {
+export type StatCondition = {
     /**
      * Date
      * {y}{m}{d} 
@@ -41,7 +42,7 @@ export type TimerCondition = {
     fullHost?: boolean
 }
 
-type _TimerCondition = TimerCondition & {
+type _StatCondition = StatCondition & {
     // Use exact date condition
     useExactDate?: boolean
     // date str
@@ -55,7 +56,7 @@ type _TimerCondition = TimerCondition & {
     focusEnd?: number
 }
 
-function processDateCondition(cond: _TimerCondition, paramDate: Date | Date[]) {
+function processDateCondition(cond: _StatCondition, paramDate: Date | Date[]) {
     if (!paramDate) return
 
     if (paramDate instanceof Date) {
@@ -73,20 +74,20 @@ function processDateCondition(cond: _TimerCondition, paramDate: Date | Date[]) {
     }
 }
 
-function processParamTimeCondition(cond: _TimerCondition, paramTime: number[]) {
+function processParamTimeCondition(cond: _StatCondition, paramTime: number[]) {
     if (!paramTime) return
     paramTime.length >= 2 && (cond.timeEnd = paramTime[1])
     paramTime.length >= 1 && (cond.timeStart = paramTime[0])
 }
 
-function processParamFocusCondition(cond: _TimerCondition, paramFocus: number[]) {
+function processParamFocusCondition(cond: _StatCondition, paramFocus: number[]) {
     if (!paramFocus) return
     paramFocus.length >= 2 && (cond.focusEnd = paramFocus[1])
     paramFocus.length >= 1 && (cond.focusStart = paramFocus[0])
 }
 
-function processCondition(condition: TimerCondition): _TimerCondition {
-    const result: _TimerCondition = { ...condition }
+function processCondition(condition: StatCondition): _StatCondition {
+    const result: _StatCondition = { ...condition }
     processDateCondition(result, condition.date)
     processParamTimeCondition(result, condition.timeRange)
     processParamFocusCondition(result, condition.focusRange)
@@ -122,20 +123,15 @@ function migrate(exists: { [key: string]: timer.stat.Result }, data: any): { [ke
     return result
 }
 
-class TimerDatabase extends BaseDatabase {
+class StatDatabase extends BaseDatabase {
 
     async refresh(): Promise<{}> {
         const result = await this.storage.get(null)
         const items = {}
         Object.entries(result)
-            .filter(([key]) =>
-                !key.startsWith(REMAIN_WORD_PREFIX)
-                // The prefix of archived data, historical issues
-                // todo: delete this line
-                && !key.startsWith('_a_')
-            )
+            .filter(([key]) => !key.startsWith(REMAIN_WORD_PREFIX))
             .forEach(([key, value]) => items[key] = value)
-        return Promise.resolve(items)
+        return items
     }
 
     /**
@@ -184,10 +180,10 @@ class TimerDatabase extends BaseDatabase {
      * 
      * @param condition     condition
      */
-    async select(condition?: TimerCondition): Promise<timer.stat.Row[]> {
+    async select(condition?: StatCondition): Promise<timer.stat.Row[]> {
         log("select:{condition}", condition)
         condition = condition || {}
-        const _cond: _TimerCondition = processCondition(condition)
+        const _cond: _StatCondition = processCondition(condition)
         const items = await this.refresh()
         let result: timer.stat.Row[] = []
 
@@ -197,7 +193,7 @@ class TimerDatabase extends BaseDatabase {
             const val: timer.stat.Result = items[key]
             if (this.filterBefore(date, host, val, _cond)) {
                 const { focus, time } = val
-                result.push({ date, host, focus, time, mergedHosts: [] })
+                result.push({ date, host, focus, time, mergedHosts: [], virtual: judgeVirtualFast(host) })
             }
         }
 
@@ -205,7 +201,7 @@ class TimerDatabase extends BaseDatabase {
         return result
     }
 
-    private filterHost(host: string, condition: _TimerCondition): boolean {
+    private filterHost(host: string, condition: _StatCondition): boolean {
         const paramHost = (condition.host || '').trim()
         if (!paramHost) return true
         if (!!condition.fullHost && host !== paramHost) return false
@@ -213,7 +209,7 @@ class TimerDatabase extends BaseDatabase {
         return true
     }
 
-    private filterDate(date: string, condition: _TimerCondition): boolean {
+    private filterDate(date: string, condition: _StatCondition): boolean {
         if (condition.useExactDate) {
             if (condition.exactDateStr !== date) return false
         } else {
@@ -241,7 +237,7 @@ class TimerDatabase extends BaseDatabase {
      * @param condition  query parameters
      * @return true if valid, or false  
      */
-    private filterBefore(date: string, host: string, val: timer.stat.Result, condition: _TimerCondition): boolean {
+    private filterBefore(date: string, host: string, val: timer.stat.Result, condition: _StatCondition): boolean {
         const { focus, time } = val
         const { timeStart, timeEnd, focusStart, focusEnd } = condition
 
@@ -334,9 +330,9 @@ class TimerDatabase extends BaseDatabase {
      * @returns count 
      * @since 1.0.2
      */
-    async count(condition: TimerCondition): Promise<number> {
+    async count(condition: StatCondition): Promise<number> {
         condition = condition || {}
-        const _cond: _TimerCondition = processCondition(condition)
+        const _cond: _StatCondition = processCondition(condition)
         const items = await this.refresh()
         let count = 0
 
@@ -359,4 +355,4 @@ class TimerDatabase extends BaseDatabase {
     }
 }
 
-export default TimerDatabase
+export default StatDatabase

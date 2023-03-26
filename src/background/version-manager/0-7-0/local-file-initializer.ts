@@ -6,14 +6,12 @@
  */
 
 import MergeRuleDatabase from "@db/merge-rule-database"
-import HostAliasDatabase from "@db/host-alias-database"
 import { JSON_HOST, LOCAL_HOST_PATTERN, MERGED_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
 import { t2Chrome } from "@i18n/chrome/t"
+import siteService from "@service/site-service"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
-
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
-const hostAliasDatabase = new HostAliasDatabase(storage)
 
 /**
  * Process the host of local files
@@ -32,25 +30,25 @@ export default class LocalFileInitializer implements VersionProcessor {
             merged: MERGED_HOST,
         }).then(() => console.log('Local file merge rules initialized'))
         // Add site name
-        hostAliasDatabase.update({
-            host: PDF_HOST,
-            name: t2Chrome(msg => msg.initial.localFile.pdf),
-            source: 'DETECTED'
-        })
-        hostAliasDatabase.update({
-            host: JSON_HOST,
-            name: t2Chrome(msg => msg.initial.localFile.json),
-            source: 'DETECTED'
-        })
-        hostAliasDatabase.update({
-            host: PIC_HOST,
-            name: t2Chrome(msg => msg.initial.localFile.pic),
-            source: 'DETECTED'
-        })
-        hostAliasDatabase.update({
-            host: TXT_HOST,
-            name: t2Chrome(msg => msg.initial.localFile.txt),
-            source: 'DETECTED'
-        })
+        siteService.saveAlias(
+            { host: PDF_HOST },
+            t2Chrome(msg => msg.initial.localFile.pdf),
+            'DETECTED'
+        )
+        siteService.saveAlias(
+            { host: JSON_HOST },
+            t2Chrome(msg => msg.initial.localFile.json),
+            'DETECTED'
+        )
+        siteService.saveAlias(
+            { host: PIC_HOST },
+            t2Chrome(msg => msg.initial.localFile.pic),
+            'DETECTED'
+        )
+        siteService.saveAlias(
+            { host: TXT_HOST },
+            t2Chrome(msg => msg.initial.localFile.txt),
+            'DETECTED'
+        )
     }
 }

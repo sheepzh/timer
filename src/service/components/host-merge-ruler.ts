@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { isIpAndPort } from "@util/pattern"
+import { isIpAndPort, judgeVirtualFast } from "@util/pattern"
 import psl from "psl"
 
 /**
@@ -65,19 +65,26 @@ export default class CustomizedHostMergeRuler implements timer.merge.Merger {
      * @returns merged host
      */
     merge(origin: string): string {
+        let host = origin
+        if (judgeVirtualFast(origin)) {
+            host = origin.split('/')?.[0]
+            if (!host) {
+                return origin
+            }
+        }
         // First check the static rules
-        let merged = this.noRegMergeRules[origin]
+        let merged = this.noRegMergeRules[host]
         // Then check the regular rules
         let matchResult: undefined | RegRuleItem = undefined
-        merged === undefined && (matchResult = this.regulars.find(item => item.reg.test(origin)))
+        merged === undefined && (matchResult = this.regulars.find(item => item.reg.test(host)))
         matchResult && (merged = matchResult.result)
         if (merged === undefined) {
             // No rule matched
-            return isIpAndPort(origin)
-                ? origin
-                : psl.get(origin) || this.merge0(2, origin)
+            return isIpAndPort(host)
+                ? host
+                : psl.get(host) || this.merge0(2, host)
         } else {
-            return this.merge0(merged, origin)
+            return this.merge0(merged, host)
         }
     }
 

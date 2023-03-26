@@ -6,7 +6,7 @@
  */
 
 import type { Ref } from "vue"
-import type { FillFlagParam, TimerQueryParam } from "@service/timer-service"
+import type { StatQueryParam } from "@service/stat-service"
 import type { ECharts, ComposeOption } from "echarts/core"
 import type { CandlestickSeriesOption } from "echarts/charts"
 import type { GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts/components"
@@ -22,7 +22,7 @@ use([CandlestickChart, GridComponent, TitleComponent, TooltipComponent])
 import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
 import { defineComponent, h, onMounted, ref } from "vue"
-import timerService from "@service/timer-service"
+import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
@@ -197,16 +197,15 @@ const _default = defineComponent({
                 target: `#${CONTAINER_ID}`,
             })
             chartWrapper.init(chart.value)
-            const query: TimerQueryParam = {
+            const query: StatQueryParam = {
                 date: [lastPeriodStart, lastPeriodEnd],
                 mergeDate: true,
             }
             // Query with alias 
             // @since 1.1.8
-            const flagParam: FillFlagParam = { alias: true }
-            const lastPeriodItems: timer.stat.Row[] = await timerService.select(query, flagParam)
+            const lastPeriodItems: timer.stat.Row[] = await statService.select(query, true)
             query.date = [thisPeriodStart, thisPeriodEnd]
-            const thisPeriodItems: timer.stat.Row[] = await timerService.select(query, flagParam)
+            const thisPeriodItems: timer.stat.Row[] = await statService.select(query, true)
             const option = optionOf(lastPeriodItems, thisPeriodItems)
             chartWrapper.render(option, loading)
         })
