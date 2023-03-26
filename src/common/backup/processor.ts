@@ -145,7 +145,7 @@ class Processor {
         }
     }
 
-    async syncData(): Promise<Result<void>> {
+    async syncData(): Promise<Result<number>> {
         const option = (await optionService.getAllOption()) as timer.option.BackupOption
         const auth = option?.backupAuths?.[option.backupType || 'none']
 
@@ -173,8 +173,9 @@ class Processor {
         clients.push(client)
         await coordinator.updateClients(context, clients)
         // Update time
-        metaService.updateBackUpTime(type, Date.now())
-        return success()
+        const now = Date.now()
+        metaService.updateBackUpTime(type, now)
+        return success(now)
     }
 
     async query(type: timer.backup.Type, auth: string, start: Date, end: Date): Promise<timer.stat.Row[]> {

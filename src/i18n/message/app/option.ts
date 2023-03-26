@@ -73,6 +73,7 @@ export type OptionMessage = {
         alert: string
         test: string
         operation: string
+        lastTimeTip: string
         auto: {
             label: string
             interval: string
@@ -167,6 +168,7 @@ const _default: Messages<OptionMessage> = {
             },
             alert: '这是一项实验性功能，如果有任何问题请联系作者~ (returnzhy1996@outlook.com)',
             test: '测试',
+            lastTimeTip: '上次备份时间: {lastTime}',
             operation: '备份数据',
             auto: {
                 label: '是否开启自动备份',
@@ -253,6 +255,7 @@ const _default: Messages<OptionMessage> = {
             alert: '這是一項實驗性功能，如果有任何問題請聯繫作者 (returnzhy1996@outlook.com) ~',
             test: '測試',
             operation: '備份數據',
+            lastTimeTip: '上次備份時間: {lastTime}',
             auto: {
                 label: '是否開啟自動備份',
                 interval: '每 {input} 分鐘備份一次',
@@ -338,6 +341,7 @@ const _default: Messages<OptionMessage> = {
             alert: 'This is an experimental feature, if you have any questions please contact the author via returnzhy1996@outlook.com~',
             test: 'Test',
             operation: 'Backup',
+            lastTimeTip: 'Last backup time: {lastTime}',
             auto: {
                 label: 'Whether to enable automatic backup',
                 interval: 'and run every {input} minutes',
@@ -423,6 +427,7 @@ const _default: Messages<OptionMessage> = {
             alert: 'これは実験的な機能です。質問がある場合は、作成者に連絡してください (returnzhy1996@outlook.com)',
             test: 'テスト',
             operation: 'バックアップ',
+            lastTimeTip: '前回のバックアップ時間: {lastTime}',
             auto: {
                 label: '自動バックアップを有効にするかどうか',
                 interval: ' {input} 分ごとに実行',
