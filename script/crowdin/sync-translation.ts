@@ -6,6 +6,7 @@ import { SourceFilesModel } from "@crowdin/crowdin-api-client"
 import { groupBy } from "@util/array"
 
 async function processDirMessage(client: CrowdinClient, file: SourceFilesModel.File, message: ItemSet, lang: CrowdinLanguage): Promise<void> {
+    console.log(`Start to process dir message: fileName=${file.name}, lang=${lang}`)
     const strings = await client.listStringsByFile(file.id)
     const stringMap = groupBy(strings, s => s.identifier, l => l[0])
     for (const [identifier, text] of Object.entries(message)) {
@@ -42,10 +43,11 @@ async function processDir(client: CrowdinClient, dir: Dir, branch: SourceFilesMo
     console.log(`find ${files.length} files of ${dir}`)
     const fileMap = groupBy(files, f => f.name, l => l[0])
     for (const [tsFilename, message] of Object.entries(messages)) {
+        console.log(`Start to sync translations of ${dir}/${tsFilename}`)
         if (isIgnored(dir, tsFilename)) {
+            console.log("Ignored file: " + tsFilename)
             continue
         }
-        console.log(`Start to sync translations of ${tsFilename}`)
         const filename = tsFilename.replace('.ts', '.json')
         const crowdinFile = fileMap[filename]
         if (!crowdinFile) {
@@ -56,7 +58,7 @@ async function processDir(client: CrowdinClient, dir: Dir, branch: SourceFilesMo
         for (const locale of ALL_TRANS_LOCALES) {
             const translated = message[locale]
             if (!translated || !Object.keys(translated).length) {
-                return
+                continue
             }
             const strings = transMsg(message[locale])
             const crwodinLang = crowdinLangOf(locale)
@@ -69,6 +71,9 @@ async function main() {
     const client = getClientFromEnv()
     const branch = await checkMainBranch(client)
 
+    for (let i = 0; i < ALL_DIRS.length; i++) {
+
+    }
     for (const dir of ALL_DIRS) {
         await processDir(client, dir, branch)
     }
