@@ -62,11 +62,11 @@ const _default: Messages<SiteManageMessage> = {
             },
             merged: {
                 name: '合并站点',
-                info: '将多个相关的域名合并统计，合并规则可以自定义'
+                info: '将多个相关的域名合并统计，合并规则可以自定义',
             },
             virtual: {
                 name: '自定义站点',
-                info: '统计 Ant Pattern 格式的任意 URL，可以在右上角新增自定义站点'
+                info: '统计 Ant Pattern 格式的任意 URL，可以在右上角新增自定义站点',
             },
         },
         source: {
@@ -195,6 +195,8 @@ const _default: Messages<SiteManageMessage> = {
             alias: 'サイト名',
             aliasInfo: 'サイト名はレコードページとポップアップページに表示されます',
             source: 'ソース',
+            type: 'サイト種別',
+            icon: 'Icon',
         },
         source: {
             user: '手动输入',
@@ -214,6 +216,21 @@ const _default: Messages<SiteManageMessage> = {
             saved: '保存しました',
             existedTag: '既存',
             mergedTag: '合并',
+            virtualTag: 'バーチャル',
+        },
+        type: {
+            normal: {
+                name: '普通',
+                info: 'ドメイン名による統計',
+            },
+            merged: {
+                name: '合并',
+                info: '複数の関連するドメイン名のマージ統計をカスタマイズできます',
+            },
+            virtual: {
+                name: 'バーチャル',
+                info: 'Ant Pattern 形式の任意の URL をカウントします。右上隅にカスタムサイトを追加できます',
+            },
         },
     },
 }
