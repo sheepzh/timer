@@ -9,10 +9,12 @@ import { t } from "@app/locale"
 import { formatPeriodCommon, MILL_PER_MINUTE } from "@util/time"
 
 /**
- * @param date date string {yyyy}{mm}{dd}
- * @returns the msg 
+ * Convert {yyyy}{mm}{dd} to locale time
+ * 
+ * @param date  {yyyy}{mm}{dd}
  */
-export function dateFormatter(date: string): string {
+export function cvt2LocaleTime(date: string) {
+    if (!date) return '-'
     const y = date.substring(0, 4)
     const m = date.substring(4, 6)
     const d = date.substring(6, 8)

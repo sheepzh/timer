@@ -16,7 +16,7 @@ import StatDatabase from "@db/stat-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
 import { LocationQueryRaw, Router, useRouter } from "vue-router"
-import { TREND_ROUTE } from "@app/router/constants"
+import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import OperationDeleteButton from "./operation-delete-button"
@@ -35,14 +35,20 @@ async function handleDeleteByRange(itemHost2Delete: string, dateRange: Array<Dat
     await statDatabase.deleteByUrlBetween(itemHost2Delete, start, end)
 }
 
-const columnLabel = t(msg => msg.item.operation.label)
-const trendButtonText = t(msg => msg.item.operation.jumpToTrend)
-
+const COL_LABEL = t(msg => msg.item.operation.label)
+const ANALYSIS = t(msg => msg.item.operation.analysis)
 // Whitelist texts
-const add2WhitelistButtonText = t(msg => msg.item.operation.add2Whitelist)
-const add2WhitelistSuccessMsg = t(msg => msg.report.added2Whitelist)
-const removeFromWhitelistButtonText = t(msg => msg.item.operation.removeFromWhitelist)
-const removeFromWhitelistSuccessMsg = t(msg => msg.report.removeFromWhitelist)
+const ADD_WHITE = t(msg => msg.item.operation.add2Whitelist)
+const ADD_WHITE_SUCC = t(msg => msg.report.added2Whitelist)
+const REMOVE_WHITE = t(msg => msg.item.operation.removeFromWhitelist)
+const REMOVE_WHITE_SUCC = t(msg => msg.report.removeFromWhitelist)
+
+const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
+    en: 330,
+    zh_CN: 290,
+    ja: 360,
+    zh_TW: 290,
+}
 const _default = defineComponent({
     name: "OperationColumn",
     props: {
@@ -57,15 +63,15 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const canOperate = computed(() => !props.mergeHost)
-        const width = computed(() => props.mergeHost ? 110 : locale === "zh_CN" ? 290 : 330)
+        const width = computed(() => props.mergeHost ? 110 : LOCALE_WIDTH[locale])
         const router: Router = useRouter()
         return () => h(ElTableColumn, {
             width: width.value,
-            label: columnLabel,
+            label: COL_LABEL,
             align: "center"
         }, {
             default: ({ row }: { row: timer.stat.Row }) => [
-                // Trend
+                // Analysis
                 h(ElButton, {
                     icon: Stopwatch,
                     size: 'small',
@@ -75,9 +81,9 @@ const _default = defineComponent({
                             host: row.host,
                             merge: props.mergeHost ? '1' : '0',
                         }
-                        router.push({ path: TREND_ROUTE, query })
+                        router.push({ path: ANALYSIS_ROUTE, query })
                     }
-                }, () => trendButtonText),
+                }, () => ANALYSIS),
                 // Delete button
                 h(OperationDeleteButton, {
                     mergeDate: props.mergeDate,
@@ -97,12 +103,12 @@ const _default = defineComponent({
                 h(OperationPopupConfirmButton, {
                     buttonIcon: Plus,
                     buttonType: "warning",
-                    buttonText: add2WhitelistButtonText,
+                    buttonText: ADD_WHITE,
                     confirmText: t(msg => msg.whitelist.addConfirmMsg, { url: row.host }),
                     visible: canOperate.value && !props.whitelist?.includes(row.host),
                     async onConfirm() {
                         await whitelistService.add(row.host)
-                        ElMessage({ message: add2WhitelistSuccessMsg, type: 'success' })
+                        ElMessage({ message: ADD_WHITE_SUCC, type: 'success' })
                         ctx.emit("whitelistChange", row.host, true)
                     }
                 }),
@@ -110,12 +116,12 @@ const _default = defineComponent({
                 h(OperationPopupConfirmButton, {
                     buttonIcon: Open,
                     buttonType: "primary",
-                    buttonText: removeFromWhitelistButtonText,
+                    buttonText: REMOVE_WHITE,
                     confirmText: t(msg => msg.whitelist.removeConfirmMsg, { url: row.host }),
                     visible: canOperate.value && props.whitelist?.includes(row.host),
                     async onConfirm() {
                         await whitelistService.remove(row.host)
-                        ElMessage({ message: removeFromWhitelistSuccessMsg, type: 'success' })
+                        ElMessage({ message: REMOVE_WHITE_SUCC, type: 'success' })
                         ctx.emit("whitelistChange", row.host, false)
                     }
                 })

@@ -1,0 +1,22 @@
+
+.analysis-summary-container
+    height: 140px
+    >.el-col:not(:first-child)
+        border-left: 1px var(--el-border-color) var(--el-border-style)
+    .site-container
+        position: relative
+        top: 50%
+        transform: translateY(-50%)
+        text-align: center
+        padding: 0 25px
+        .site-alias
+            font-size: 26px
+            margin-block-start: 0.2em
+            margin-block-end: 0.5em
+        .site-host
+            font-size: 14px
+            color: var(--el-text-color-secondary)
+        .site-host,.site-alias
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
