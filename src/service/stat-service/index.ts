@@ -104,8 +104,7 @@ class StatService {
      */
     async listHosts(fuzzyQuery: string): Promise<HostSet> {
         const rows = await statDatabase.select()
-        const allHosts: Set<string> = new Set()
-        rows.map(row => row.host).forEach(host => allHosts.add(host))
+        const allHosts: Set<string> = new Set(rows.map(row => row.host))
         // Generate ruler
         const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
         const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
@@ -125,7 +124,11 @@ class StatService {
         })
 
         const virtualSites = await siteDatabase.select({ virtual: true })
-        const virtual: Set<string> = new Set(virtualSites.map(site => site.host))
+        const virtual: Set<string> = new Set(
+            virtualSites
+                .map(site => site.host)
+                .filter(host => host?.includes(fuzzyQuery))
+        )
         return { origin, merged, virtual }
     }
 

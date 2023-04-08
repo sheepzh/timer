@@ -18,7 +18,7 @@ export type ItemMessage = {
         deleteConfirmMsgAll: string
         deleteConfirmMsgRange: string
         deleteConfirmMsg: string
-        jumpToTrend: string
+        analysis: string
         exportWholeData: string
         importWholeData: string
     }
@@ -35,7 +35,7 @@ const _default: Messages<ItemMessage> = {
             delete: '删除',
             add2Whitelist: '白名单',
             removeFromWhitelist: '启用',
-            jumpToTrend: '趋势',
+            analysis: '分析',
             deleteConfirmMsgAll: '{url} 的所有访问记录将被删除',
             deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的访问记录将被删除',
             deleteConfirmMsg: '{url} 在 {date} 的访问记录将被删除',
@@ -53,7 +53,7 @@ const _default: Messages<ItemMessage> = {
             delete: '刪除',
             add2Whitelist: '白名單',
             removeFromWhitelist: '啟用',
-            jumpToTrend: '趨勢',
+            analysis: '分析',
             deleteConfirmMsgAll: '{url} 的所有拜訪記錄將被刪除',
             deleteConfirmMsgRange: '{url} 在 {start} 到 {end} 的拜訪記錄將被刪除',
             deleteConfirmMsg: '{url} 在 {date} 的拜訪記錄將被刪除',
@@ -71,7 +71,7 @@ const _default: Messages<ItemMessage> = {
             delete: 'Delete',
             add2Whitelist: 'Whitelist',
             removeFromWhitelist: 'Enable',
-            jumpToTrend: 'Trend',
+            analysis: 'Analysis',
             deleteConfirmMsgAll: 'All records of {url} will be deleted!',
             deleteConfirmMsgRange: 'All records of {url} between {start} and {end} will be deleted!',
             deleteConfirmMsg: 'The record of {url} on {date} will be deleted!',
@@ -89,7 +89,7 @@ const _default: Messages<ItemMessage> = {
             delete: '削除',
             add2Whitelist: 'ホワイトリスト',
             removeFromWhitelist: '有効にする',
-            jumpToTrend: '傾向',
+            analysis: '分析する',
             deleteConfirmMsgAll: '{url} のすべての拜訪記録が削除されます',
             deleteConfirmMsgRange: '{url} {start} から {end} までの拜訪記録は削除されます',
             deleteConfirmMsg: '{date} の {url} の拜訪記録は削除されます',

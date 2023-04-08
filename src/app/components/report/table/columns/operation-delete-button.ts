@@ -4,14 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { PropType } from "vue"
+import type { PropType, Ref } from "vue"
 
-import { computed, defineComponent, h, Ref } from "vue"
+import { computed, defineComponent, h } from "vue"
 import OperationPopupConfirmButton from "@app/components/common/popup-confirm-button"
 import { Delete } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
-import { dateFormatter } from "../../formatter"
 import { formatTime } from "@util/time"
+import { cvt2LocaleTime } from "@app/util/time"
 
 const deleteButtonText = t(msg => msg.item.operation.delete)
 
@@ -22,7 +22,7 @@ const deleteButtonText = t(msg => msg.item.operation.delete)
  * @param date item date
  */
 function computeSingleConfirmText(url: string, date: string): string {
-    const formatDate = dateFormatter(date)
+    const formatDate = cvt2LocaleTime(date)
     return t(msg => msg.item.operation.deleteConfirmMsg, { url, date: formatDate })
 }
 

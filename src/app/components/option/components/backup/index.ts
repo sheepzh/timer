@@ -138,7 +138,6 @@ const _default = defineComponent({
                     t(msg => msg.option.backup.meta[DEFAULT.backupType].label)
                 )
             ]
-            console.log(type.value)
             type.value !== 'none' && nodes.push(
                 h(ElDivider),
                 renderOptionItem({
