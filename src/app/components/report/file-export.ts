@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { formatTime } from "@util/time"
-import { periodFormatter } from "./formatter"
+import { periodFormatter } from "@app/util/time"
 import {
     exportCsv as exportCsv_,
     exportJson as exportJson_,

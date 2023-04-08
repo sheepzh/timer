@@ -8,7 +8,7 @@
 import itemMessages, { ItemMessage } from "@i18n/message/common/item"
 import dataManageMessages, { DataManageMessage } from "./data-manage"
 import reportMessages, { ReportMessage } from "./report"
-import trendMessages, { TrendMessage } from "./trend"
+import analysisMessages, { AnalysisMessage } from "./analysis"
 import menuMessages, { MenuMessage } from "./menu"
 import habitMessages, { HabitMessage } from "./habit"
 import limitMessages, { LimitMessage } from "./limit"
@@ -31,7 +31,7 @@ export type AppMessage = {
     whitelist: WhitelistMessage
     mergeRule: MergeRuleMessage
     option: OptionMessage
-    trend: TrendMessage
+    analysis: AnalysisMessage
     menu: MenuMessage
     habit: HabitMessage
     limit: LimitMessage
@@ -53,7 +53,7 @@ const _default: Messages<AppMessage> = {
         whitelist: whitelistMessages.zh_CN,
         mergeRule: mergeRuleMessages.zh_CN,
         option: optionMessages.zh_CN,
-        trend: trendMessages.zh_CN,
+        analysis: analysisMessages.zh_CN,
         menu: menuMessages.zh_CN,
         habit: habitMessages.zh_CN,
         limit: limitMessages.zh_CN,
@@ -73,7 +73,7 @@ const _default: Messages<AppMessage> = {
         whitelist: whitelistMessages.zh_TW,
         mergeRule: mergeRuleMessages.zh_TW,
         option: optionMessages.zh_TW,
-        trend: trendMessages.zh_TW,
+        analysis: analysisMessages.zh_TW,
         menu: menuMessages.zh_TW,
         habit: habitMessages.zh_TW,
         limit: limitMessages.zh_TW,
@@ -93,7 +93,7 @@ const _default: Messages<AppMessage> = {
         whitelist: whitelistMessages.en,
         mergeRule: mergeRuleMessages.en,
         option: optionMessages.en,
-        trend: trendMessages.en,
+        analysis: analysisMessages.en,
         menu: menuMessages.en,
         habit: habitMessages.en,
         limit: limitMessages.en,
@@ -113,7 +113,7 @@ const _default: Messages<AppMessage> = {
         whitelist: whitelistMessages.ja,
         mergeRule: mergeRuleMessages.ja,
         option: optionMessages.ja,
-        trend: trendMessages.ja,
+        analysis: analysisMessages.ja,
         menu: menuMessages.ja,
         habit: habitMessages.ja,
         limit: limitMessages.ja,

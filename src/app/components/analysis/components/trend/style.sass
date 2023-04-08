@@ -1,0 +1,43 @@
+$divider: 1px var(--el-border-color) var(--el-border-style)
+
+.analysis-trend-container
+    .analysis-trend-filter
+        padding-top: 10px
+        padding-bottom: 14px
+        border-bottom: $divider
+    .analysis-trend-content
+        height: 380px
+        display: flex
+        .analysis-trend-content-col0
+            flex: 1 1 0
+        .analysis-trend-content-col1,.analysis-trend-content-col2
+            flex: 2 1 0
+
+.analysis-trend-total-container
+    display: flex
+    flex-direction: column
+    height: 100%
+    >div
+        width: 100%
+        flex: 1
+    >div:not(:first-child)
+        border-top: $divider
+.analysis-trend-dimension-container
+    display: flex
+    height: 100%
+    flex-direction: column
+    border-left: $divider
+    .analysis-trend-dimension-indicator-container
+        display: flex
+        flex: 1 1 0
+        border-bottom: $divider
+        .analysis-trend-dimension-indicator-item
+            flex: 1 0 0
+        >.analysis-trend-dimension-indicator-item:first-child
+            border-right: $divider
+    .analysis-trend-dimension-chart-container
+        display: flex
+        flex: 2 1 0
+        .analysis-trend-dimension-chart
+            width: 100%
+            height: 100%

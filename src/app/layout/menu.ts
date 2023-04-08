@@ -20,6 +20,7 @@ import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, Se
 import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
 import { createTab } from "@api/chrome/tab"
+import { ANALYSIS_ROUTE } from "@app/router/constants"
 
 type _MenuItem = {
     title: keyof MenuMessage
@@ -79,8 +80,8 @@ function generateMenus(): _MenuGroup[] {
             route: '/data/report',
             icon: Calendar
         }, {
-            title: 'dataHistory',
-            route: '/data/history',
+            title: 'siteAnalysis',
+            route: ANALYSIS_ROUTE,
             icon: TrendIcon
         }, {
             title: 'dataClear',
