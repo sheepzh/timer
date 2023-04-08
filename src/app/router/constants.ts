@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-export const TREND_ROUTE = '/data/history'
+export const ANALYSIS_ROUTE = '/data/analysis'
 
 export const OPTION_ROUTE = '/additional/option'
 

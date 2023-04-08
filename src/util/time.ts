@@ -214,3 +214,23 @@ export function getDayLenth(dateStart: Date, dateEnd: Date): number {
     isSameDay(cursor, dateEnd) && dateDiff++
     return dateDiff
 }
+
+/**
+ * Calc the dates between {@param dateStart} and {@param dateEnd}
+ * 
+ * @returns 
+ *  [20220609]              if 2022-06-09 00:00:00 to 2022-06-09 00:00:01
+ *  []                      if 2022-06-10 00:00:00 to 2022-06-09 00:00:01
+ *  [20221110, 20221111]    if 2022-11-10 08:00:00 to 2022-11-11 00:00:01
+ */
+export function getAllDatesBetween(dateStart: Date, dateEnd: Date): string[] {
+    const format = '{y}{m}{d}'
+    let cursor = new Date(dateStart)
+    let dates = []
+    do {
+        dates.push(formatTime(cursor, format))
+        cursor = new Date(cursor.getTime() + MILL_PER_DAY)
+    } while (cursor.getTime() < dateEnd.getTime())
+    isSameDay(cursor, dateEnd) && dates.push(formatTime(dateEnd, format))
+    return dates
+}

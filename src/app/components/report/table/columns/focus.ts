@@ -10,7 +10,7 @@ import type { PropType } from "vue"
 import { t } from "@app/locale"
 import { Effect, ElTableColumn, ElTooltip } from "element-plus"
 import { defineComponent, h } from "vue"
-import { periodFormatter } from "../../formatter"
+import { periodFormatter } from "@app/util/time"
 import CompositionTable from './composition-table'
 
 const columnLabel = t(msg => msg.item.focus)

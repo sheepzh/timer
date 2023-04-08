@@ -36,8 +36,6 @@ function datePickerShortcut(msg: keyof HabitMessage['dateRange'], agoOfStart: nu
 
 const SHORTCUTS: ElementDatePickerShortcut[] = shortcutProps.map(([label, dayAgo]) => datePickerShortcut(label, dayAgo))
 const AVERAGE_LABEL = t(msg => msg.habit.average.label)
-const DATE_RANGE_START_PLACEHOLDER = t(msg => msg.trend.startDate)
-const DATE_RANGE_END_PLACEHOLDER = t(msg => msg.trend.endDate)
 
 // [value, label]
 type _SizeOption = [number, keyof HabitMessage['sizes']]
@@ -95,8 +93,6 @@ const _default = defineComponent({
             }),
             // Date range picker
             h(DateRangeFilterItem, {
-                startPlaceholder: DATE_RANGE_START_PLACEHOLDER,
-                endPlaceholder: DATE_RANGE_END_PLACEHOLDER,
                 clearable: false,
                 disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
                 defaultRange: dateRange.value,

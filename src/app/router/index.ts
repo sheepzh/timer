@@ -9,7 +9,7 @@ import type { App } from "vue"
 import type { RouteRecordRaw } from "vue-router"
 
 import { createRouter, createWebHashHistory } from "vue-router"
-import { OPTION_ROUTE, TREND_ROUTE, LIMIT_ROUTE, REPORT_ROUTE } from "./constants"
+import { OPTION_ROUTE, ANALYSIS_ROUTE, LIMIT_ROUTE, REPORT_ROUTE } from "./constants"
 import metaService from "@service/meta-service"
 
 const dataRoutes: RouteRecordRaw[] = [
@@ -26,8 +26,8 @@ const dataRoutes: RouteRecordRaw[] = [
         path: REPORT_ROUTE,
         component: () => import('../components/report')
     }, {
-        path: TREND_ROUTE,
-        component: () => import('../components/trend')
+        path: ANALYSIS_ROUTE,
+        component: () => import('../components/analysis')
     }, {
         path: '/data/manage',
         component: () => import('../components/data-manage')
