@@ -11,7 +11,7 @@
 import { ElTableColumn } from "element-plus"
 import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
-import { dateFormatter } from "../../formatter"
+import { cvt2LocaleTime } from "@app/util/time"
 
 const columnLabel = t(msg => msg.item.date)
 
@@ -25,7 +25,7 @@ const _default = defineComponent({
             align: "center",
             sortable: "custom"
         }, {
-            default: ({ row }: { row: timer.stat.Row }) => h('span', dateFormatter(row.date))
+            default: ({ row }: { row: timer.stat.Row }) => h('span', cvt2LocaleTime(row.date))
         })
     }
 })

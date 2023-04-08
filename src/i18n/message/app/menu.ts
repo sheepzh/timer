@@ -9,7 +9,7 @@ export type MenuMessage = {
     dashboard: string
     data: string
     dataReport: string
-    dataHistory: string
+    siteAnalysis: string
     dataClear: string
     behavior: string
     habit: string
@@ -31,7 +31,7 @@ const _default: Messages<MenuMessage> = {
         dashboard: '仪表盘',
         data: '我的数据',
         dataReport: '报表明细',
-        dataHistory: '历史趋势',
+        siteAnalysis: '站点分析',
         dataClear: '内存管理',
         additional: '附加功能',
         siteManage: '网站管理',
@@ -51,7 +51,7 @@ const _default: Messages<MenuMessage> = {
         dashboard: '儀錶盤',
         data: '我的數據',
         dataReport: '報表明細',
-        dataHistory: '曆史趨勢',
+        siteAnalysis: '站點分析',
         dataClear: '內存管理',
         additional: '附加功能',
         siteManage: '網站管理',
@@ -71,7 +71,7 @@ const _default: Messages<MenuMessage> = {
         dashboard: 'Dashboard',
         data: 'My Data',
         dataReport: 'Record',
-        dataHistory: 'Trend',
+        siteAnalysis: 'Site Analysis',
         dataClear: 'Memory Situation',
         behavior: 'User Behavior',
         habit: 'Habits',
@@ -91,7 +91,7 @@ const _default: Messages<MenuMessage> = {
         dashboard: 'ダッシュボード',
         data: '私のデータ',
         dataReport: '報告する',
-        dataHistory: '歴史傾向',
+        siteAnalysis: 'ウェブサイト分析',
         dataClear: '記憶状況',
         behavior: 'ユーザーの行動',
         habit: '閲覧の習慣',
