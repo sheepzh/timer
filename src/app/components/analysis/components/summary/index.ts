@@ -28,7 +28,7 @@ function computeSummary(site: timer.site.SiteKey, rows: timer.stat.Row[]): Summa
 
     const summary: Summary = { focus: 0, visit: 0, day: 0 }
     summary.firstDay = rows?.[0]?.date
-    rows.forEach(({ focus, time: visit }) => {
+    rows?.forEach(({ focus, time: visit }) => {
         summary.focus += focus
         summary.visit += visit
         focus && (summary.day += 1)
