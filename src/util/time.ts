@@ -59,6 +59,8 @@ export function formatTime(time: Date | string | number, cFormat?: string) {
  * Format milliseconds for display
  */
 export function formatPeriod(milliseconds: number, message: { hourMsg: string, minuteMsg: string, secondMsg: string }): string {
+    const prefix = milliseconds < 0 ? '-' : ''
+    milliseconds = Math.abs(milliseconds)
     const { hourMsg, minuteMsg, secondMsg } = message
     const seconds = Math.floor(milliseconds / 1000)
     const hour = Math.floor(seconds / 3600)
@@ -67,7 +69,10 @@ export function formatPeriod(milliseconds: number, message: { hourMsg: string, m
 
     let msg = hourMsg
     hour === 0 && (msg = minuteMsg) && minute === 0 && (msg = secondMsg)
-    return msg.replace('{hour}', hour.toString()).replace('{minute}', minute.toString()).replace('{second}', second.toString())
+    const result = msg.replace('{hour}', hour.toString())
+        .replace('{minute}', minute.toString())
+        .replace('{second}', second.toString())
+    return prefix + result
 }
 
 /**
