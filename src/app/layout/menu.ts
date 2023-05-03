@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -7,12 +7,13 @@
 
 import type { UnwrapRef } from "vue"
 import type ElementIcon from "@src/element-ui/icon"
+import type { MenuItemRegistered } from "element-plus"
 import type { RouteLocationNormalizedLoaded, Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
 import type { MenuMessage } from "@i18n/message/app/menu"
 
 import { defineComponent, h, onMounted, reactive } from "vue"
-import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
+import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/constant/url"
@@ -20,7 +21,8 @@ import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, Se
 import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
 import { createTab } from "@api/chrome/tab"
-import { ANALYSIS_ROUTE } from "@app/router/constants"
+import { ANALYSIS_ROUTE, MERGE_ROUTE } from "@app/router/constants"
+import { START_ROUTE } from "@guide/router/constants"
 
 type _MenuItem = {
     title: keyof MenuMessage
@@ -46,7 +48,7 @@ type _RouteProps = {
 function generateMenus(): _MenuGroup[] {
     const otherMenuItems: _MenuItem[] = [{
         title: 'userManual',
-        href: getGuidePageUrl(false),
+        href: getGuidePageUrl(false, START_ROUTE),
         icon: Memo,
         index: '_guide',
     }, {
@@ -111,7 +113,7 @@ function generateMenus(): _MenuGroup[] {
             icon: Tickets
         }, {
             title: 'mergeRule',
-            route: '/additional/rule-merge',
+            route: MERGE_ROUTE,
             icon: Rank
         }, {
             title: 'option',
@@ -135,8 +137,8 @@ function openMenu(route: string, title: I18nKey, routeProps: UnwrapRef<_RoutePro
 
 const openHref = (href: string) => createTab(href)
 
-function handleClick(_MenuItem: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
-    const { route, title, href } = _MenuItem
+function handleClick(menuItem: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
+    const { route, title, href } = menuItem
     if (route) {
         openMenu(route, msg => msg.menu[title], routeProps)
     } else {

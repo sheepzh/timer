@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -84,13 +84,6 @@ export type OptionMessage = {
     defaultValue: string
 }
 
-const FOLLOW_BROWSER: Record<timer.Locale, string> = {
-    zh_CN: '跟随浏览器',
-    zh_TW: '跟隨瀏覽器',
-    en: 'Follow browser',
-    ja: 'ブラウザと同じ',
-}
-
 const _default: Messages<OptionMessage> = {
     zh_CN: {
         yes: '是',
@@ -161,12 +154,12 @@ const _default: Messages<OptionMessage> = {
                     auth: '',
                 },
                 gist: {
-                    label: 'Github Gist',
+                    label: 'GitHub Gist',
                     auth: 'Personal Access Token {info} {input}',
                     authInfo: '需要创建一个至少包含 gist 权限的 token',
                 },
             },
-            alert: '这是一项实验性功能，如果有任何问题请联系作者~ (returnzhy1996@outlook.com)',
+            alert: '这是一项实验性功能，如果有任何问题请联系作者~ ({email})',
             test: '测试',
             lastTimeTip: '上次备份时间: {lastTime}',
             operation: '备份数据',
@@ -247,12 +240,12 @@ const _default: Messages<OptionMessage> = {
                     label: '關閉備份',
                 },
                 gist: {
-                    label: 'Github Gist',
+                    label: 'GitHub Gist',
                     auth: 'Personal Access Token {info} {input}',
                     authInfo: '需要創建一個至少包含 gist 權限的 token',
                 },
             },
-            alert: '這是一項實驗性功能，如果有任何問題請聯繫作者 (returnzhy1996@outlook.com) ~',
+            alert: '這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~',
             test: '測試',
             operation: '備份數據',
             lastTimeTip: '上次備份時間: {lastTime}',
@@ -333,12 +326,12 @@ const _default: Messages<OptionMessage> = {
                     label: 'Always off',
                 },
                 gist: {
-                    label: 'Github Gist',
+                    label: 'GitHub Gist',
                     auth: 'Personal Access Token {info} {input}',
                     authInfo: 'One token with at least gist permission is required',
                 },
             },
-            alert: 'This is an experimental feature, if you have any questions please contact the author via returnzhy1996@outlook.com~',
+            alert: 'This is an experimental feature, if you have any questions please contact the author via {email}~',
             test: 'Test',
             operation: 'Backup',
             lastTimeTip: 'Last backup time: {lastTime}',
@@ -419,12 +412,12 @@ const _default: Messages<OptionMessage> = {
                     label: 'バックアップを有効にしない',
                 },
                 gist: {
-                    label: 'Github Gist',
+                    label: 'GitHub Gist',
                     auth: 'Personal Access Token {info} {input}',
                     authInfo: '少なくとも gist 権限を持つトークンが 1 つ必要です',
                 },
             },
-            alert: 'これは実験的な機能です。質問がある場合は、作成者に連絡してください (returnzhy1996@outlook.com)',
+            alert: 'これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})',
             test: 'テスト',
             operation: 'バックアップ',
             lastTimeTip: '前回のバックアップ時間: {lastTime}',

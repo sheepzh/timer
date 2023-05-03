@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -65,7 +65,7 @@ const _default: Messages<MenuMessage> = {
         feedback: '有什麼反饋嗎？',
         rate: '打個分吧！',
         helpUs: '帮助我们～',
-        userManual: '用戶手冊',
+        userManual: '使用者手冊',
     },
     en: {
         dashboard: 'Dashboard',
