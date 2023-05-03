@@ -36,7 +36,6 @@ export function createTab(param: chrome.tabs.CreateProperties | string): Promise
  */
 export async function createTabAfterCurrent(url: string): Promise<ChromeTab> {
     const tab = await getCurrentTab()
-    console.log(tab)
     if (!tab) {
         // Current tab not found
         return createTab(url)
