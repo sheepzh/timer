@@ -22,7 +22,7 @@ import initCsHandler from "./content-script-handler"
 import { isBrowserUrl } from "@util/pattern"
 import BackupScheduler from "./backup-scheduler"
 import { createTab, listTabs } from "@api/chrome/tab"
-import { isNoneWindowId, onNormalWindowFocusChanged } from "@api/chrome/window"
+import { getWindow, isNoneWindowId, onNormalWindowFocusChanged } from "@api/chrome/window"
 import { onInstalled } from "@api/chrome/runtime"
 
 // Open the log of console
@@ -62,14 +62,6 @@ new ActiveTabListener()
     .register(({ url, tabId }) => badgeTextManager.forceUpdate({ url, tabId }))
     .listen()
 
-// Listen window focus changed
-onNormalWindowFocusChanged(async windowId => {
-    if (isNoneWindowId(windowId)) return
-    const tabs = await listTabs({ windowId, active: true })
-    tabs.filter(tab => !isBrowserUrl(tab?.url))
-        .forEach(({ url, id }) => badgeTextManager.forceUpdate({ url, tabId: id }))
-})
-
 // Collect the install time
 onInstalled(async reason => {
     if (reason === "install") {
@@ -82,3 +74,13 @@ onInstalled(async reason => {
 
 // Start message dispatcher
 messageDispatcher.start()
+
+// Listen window focus changed
+onNormalWindowFocusChanged(async windowId => {
+    if (isNoneWindowId(windowId)) return
+    const window = await getWindow(windowId)
+    if (!window || window.type !== 'normal') return
+    const tabs = await listTabs({ windowId, active: true })
+    tabs.filter(tab => !isBrowserUrl(tab?.url))
+        .forEach(({ url, id }) => badgeTextManager.forceUpdate({ url, tabId: id }))
+})
