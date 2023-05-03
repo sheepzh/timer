@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -90,8 +90,8 @@ export const UPDATE_PAGE = updatePage
  */
 export function getAppPageUrl(isInBackground: boolean, route?: string, query?: any): string {
     let url = IS_FIREFOX && !isInBackground ? 'app.html' : 'static/app.html'
-    const queries = query ? Object.entries(query).map(([k, v]) => `${k}=${v}`).join('&') : ''
     route && (url += '#' + route)
+    const queries = query ? Object.entries(query).map(([k, v]) => `${k}=${v}`).join('&') : ''
     queries && (url += '?' + queries)
     return url
 }
@@ -101,8 +101,10 @@ export function getAppPageUrl(isInBackground: boolean, route?: string, query?: a
  * @param isInBackground invoke in background environment
  * @since 1.3.2
  */
-export function getGuidePageUrl(isInBackground: boolean): string {
-    return IS_FIREFOX && !isInBackground ? 'guide.html' : 'static/guide.html'
+export function getGuidePageUrl(isInBackground: boolean, route?: string): string {
+    let url = IS_FIREFOX && !isInBackground ? 'guide.html' : 'static/guide.html'
+    route && (url += '#' + route)
+    return url
 }
 
 /**

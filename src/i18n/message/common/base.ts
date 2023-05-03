@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,7 +28,7 @@ const _default: Messages<BaseMessage> = {
     zh_TW: {
         currentVersion: '版本: v{version}',
         allFunction: '所有功能',
-        guidePage: '用戶手冊',
+        guidePage: '使用者手冊',
     },
     ja: {
         currentVersion: 'バージョン: v{version}',
