@@ -1,30 +1,35 @@
 /**
- * Copyright (c) 2022 Hengyang Zhang
+ * Copyright (c) 2022-present Hengyang Zhang
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import type { Language } from "element-plus/lib/locale"
 
 import "./style"
-import 'element-plus/theme-chalk/index.css'
-
-import { initLocale } from "@i18n"
+import ElementPlus from 'element-plus'
+import { initLocale, locale } from "@i18n"
 import { t } from "./locale"
-import { init as initTheme, toggle } from "@util/dark-mode"
+import installRouter from "./router"
 import { createApp } from "vue"
 import Main from "./layout"
-import optionService from "@service/option-service"
+import 'element-plus/theme-chalk/index.css'
+
+const locales: { [locale in timer.Locale]: () => Promise<{ default: Language }> } = {
+    zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
+    zh_TW: () => import('element-plus/lib/locale/lang/zh-tw'),
+    en: () => import('element-plus/lib/locale/lang/en'),
+    ja: () => import('element-plus/lib/locale/lang/ja')
+}
 
 async function main() {
-    initTheme()
-    // Calculate the latest mode
-    optionService.isDarkMode().then(toggle)
     await initLocale()
-
     const app = createApp(Main)
-    app.mount('#guide')
+    installRouter(app)
 
     document.title = t(msg => msg.base.guidePage) + ' | ' + t(msg => msg.meta.name)
+    locales[locale]?.()?.then(msg => app.use(ElementPlus, { locale: msg.default }))
+    app.mount('#guide')
 }
 
 main()

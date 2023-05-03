@@ -16,6 +16,7 @@ import { defineComponent, ref, h } from "vue"
 import { renderOptionItem, tooltip } from "../../common"
 import BackUpAutoInput from "./auto-input"
 import Footer from "./footer"
+import { AUTHOR_EMAIL } from "@src/package"
 
 const ALL_TYPES: timer.backup.Type[] = [
     'none',
@@ -128,7 +129,7 @@ const _default = defineComponent({
                 h(ElAlert, {
                     closable: false,
                     type: "warning",
-                    description: t(msg => msg.option.backup.alert)
+                    description: t(msg => msg.option.backup.alert, { email: AUTHOR_EMAIL })
                 }),
                 h(ElDivider),
                 renderOptionItem({

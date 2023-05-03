@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -51,6 +51,7 @@ const placeholder: ChromeMessage = {
         name: '',
         description: '',
         marketName: '',
+        slogan: '',
     },
     base: {
         currentVersion: '',

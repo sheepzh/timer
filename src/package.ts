@@ -19,4 +19,9 @@ const _default: _PackageInfo = {
     author: packageJson.author
 }
 
+/**
+ * @since 1.8.0
+ */
+export const AUTHOR_EMAIL: string = packageJson.author.email
+
 export default _default

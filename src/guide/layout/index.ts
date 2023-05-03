@@ -1,28 +1,28 @@
 /**
- * Copyright (c) 2022 Hengyang Zhang
+ * Copyright (c) 2022-present Hengyang Zhang
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref } from "vue"
-
-import { ElContainer, ElAside, ElMain } from "element-plus"
-import { defineComponent, ref, h } from "vue"
-import Content from "./content"
+import { ElContainer, ElAside, ElMain, ElHeader, ElScrollbar } from "element-plus"
+import { defineComponent, h } from "vue"
+import Header from "./header"
 import Menu from "./menu"
+import { RouterView, useRoute } from "vue-router"
+import { HOME_ROUTE } from "@guide/router/constants"
 
-const _default = defineComponent({
-    name: "Guide",
-    render() {
-        const position: Ref<Position> = ref()
-        return h(ElContainer, { class: 'guide-container' }, () => [
-            h(ElAside, {}, () => h(Menu, { onClick: (newPosition: Position) => position.value = newPosition })),
-            h(ElContainer, {
-                id: 'app-body'
-            }, () => h(ElMain, {}, () => h(Content, { position: position.value })))
-        ])
-    }
+const renderMain = () => h(ElContainer, {}, () => [
+    h(ElAside, () => h(ElScrollbar, () => h(Menu))),
+    h(ElMain, () => h(ElScrollbar, () => h(RouterView))),
+])
+
+const _default = defineComponent(() => {
+    const route = useRoute()
+    return () => h(ElContainer, { class: 'guide-container' }, () => [
+        h(ElHeader, () => h(Header)),
+        route.path === HOME_ROUTE ? h(RouterView) : renderMain(),
+    ])
 })
 
 export default _default

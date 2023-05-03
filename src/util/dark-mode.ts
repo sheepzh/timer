@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022 Hengyang Zhang
+ * Copyright (c) 2022-present Hengyang Zhang
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -25,7 +25,9 @@ function toggle0(isDarkMode: boolean) {
  * Init from local storage
  */
 export function init() {
-    toggle0(isDarkMode())
+    const val = isDarkMode()
+    toggle0(val)
+    return val
 }
 
 export function toggle(isDarkMode: boolean) {
