@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import itemMessages, { ItemMessage } from "@i18n/message/common/item"
+import mergeCommonMessages, { MergeCommonMessage } from "@i18n/message/common/merge"
 import dataManageMessages, { DataManageMessage } from "./data-manage"
 import reportMessages, { ReportMessage } from "./report"
 import analysisMessages, { AnalysisMessage } from "./analysis"
@@ -27,6 +28,7 @@ import helpUsMessages, { HelpUsMessage } from "./help-us"
 export type AppMessage = {
     dataManage: DataManageMessage
     item: ItemMessage
+    mergeCommon: MergeCommonMessage
     report: ReportMessage
     whitelist: WhitelistMessage
     mergeRule: MergeRuleMessage
@@ -49,6 +51,7 @@ const _default: Messages<AppMessage> = {
     zh_CN: {
         dataManage: dataManageMessages.zh_CN,
         item: itemMessages.zh_CN,
+        mergeCommon: mergeCommonMessages.zh_CN,
         report: reportMessages.zh_CN,
         whitelist: whitelistMessages.zh_CN,
         mergeRule: mergeRuleMessages.zh_CN,
@@ -69,6 +72,7 @@ const _default: Messages<AppMessage> = {
     zh_TW: {
         dataManage: dataManageMessages.zh_TW,
         item: itemMessages.zh_TW,
+        mergeCommon: mergeCommonMessages.zh_TW,
         report: reportMessages.zh_TW,
         whitelist: whitelistMessages.zh_TW,
         mergeRule: mergeRuleMessages.zh_TW,
@@ -89,6 +93,7 @@ const _default: Messages<AppMessage> = {
     en: {
         dataManage: dataManageMessages.en,
         item: itemMessages.en,
+        mergeCommon: mergeCommonMessages.en,
         report: reportMessages.en,
         whitelist: whitelistMessages.en,
         mergeRule: mergeRuleMessages.en,
@@ -109,6 +114,7 @@ const _default: Messages<AppMessage> = {
     ja: {
         dataManage: dataManageMessages.ja,
         item: itemMessages.ja,
+        mergeCommon: mergeCommonMessages.ja,
         report: reportMessages.ja,
         whitelist: whitelistMessages.ja,
         mergeRule: mergeRuleMessages.ja,

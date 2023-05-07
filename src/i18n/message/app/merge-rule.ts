@@ -1,13 +1,11 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 export type MergeRuleMessage = {
-    resultOfOrigin: string
-    resultOfLevel: string
     removeConfirmMsg: string
     originPlaceholder: string
     mergedPlaceholder: string
@@ -25,8 +23,6 @@ export type MergeRuleMessage = {
 
 const _default: Messages<MergeRuleMessage> = {
     zh_CN: {
-        resultOfOrigin: '不合并',
-        resultOfLevel: '{level} 级域名',
         removeConfirmMsg: '自定义合并规则 {origin} 将被移除',
         originPlaceholder: '原域名',
         mergedPlaceholder: '合并后域名',
@@ -42,8 +38,6 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert5: '如果没有命中任何规则，则默认会合并至 {psl} 的前一级',
     },
     zh_TW: {
-        resultOfOrigin: '不合並',
-        resultOfLevel: '{level} 級網域',
         removeConfirmMsg: '自定義合並規則 {origin} 將被移除',
         originPlaceholder: '原網域',
         mergedPlaceholder: '合並後網域',
@@ -59,8 +53,6 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert5: '如果沒有匹配任何規則，則默認會合並至 {psl} 的前一級',
     },
     en: {
-        resultOfOrigin: 'Not Merge',
-        resultOfLevel: 'Keep Level {level}',
         removeConfirmMsg: '{origin} will be removed from customized merge rules.',
         originPlaceholder: 'Origin site',
         mergedPlaceholder: 'Merged',
@@ -76,8 +68,6 @@ const _default: Messages<MergeRuleMessage> = {
         infoAlert5: 'If no rule is matched, it will default to the level before {psl}',
     },
     ja: {
-        resultOfOrigin: '不合并',
-        resultOfLevel: '{level} 次ドメイン',
         removeConfirmMsg: 'カスタム マージ ルール {origin} は削除されます',
         originPlaceholder: '独自ドメイン名',
         mergedPlaceholder: '統計的ドメイン名',

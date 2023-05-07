@@ -39,3 +39,12 @@ export function getVersion(): string {
 export function setUninstallURL(url: string): Promise<void> {
     return new Promise(resolve => chrome.runtime.setUninstallURL(url, resolve))
 }
+
+/**
+ * Get the url of this extension
+ * 
+ * @param path The path relative to the root directory of this extension 
+ */
+export function getUrl(path: string): string {
+    return chrome.runtime.getURL(path)
+}

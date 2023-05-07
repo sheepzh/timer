@@ -1,8 +1,22 @@
+/**
+ * Copyright (c) 2023-present Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { handleError } from "./common"
 
 export function getTab(id: number): Promise<ChromeTab> {
     return new Promise(resolve => chrome.tabs.get(id, tab => {
         handleError("getTab")
+        resolve(tab)
+    }))
+}
+
+export function getCurrentTab(): Promise<ChromeTab> {
+    return new Promise(resolve => chrome.tabs.getCurrent(tab => {
+        handleError("getCurrentTab")
         resolve(tab)
     }))
 }
@@ -13,6 +27,26 @@ export function createTab(param: chrome.tabs.CreateProperties | string): Promise
         handleError("getTab")
         resolve(tab)
     }))
+}
+
+/**
+ * Create one tab after current tab.
+ * 
+ * Must not be invocked in background.js
+ */
+export async function createTabAfterCurrent(url: string): Promise<ChromeTab> {
+    const tab = await getCurrentTab()
+    if (!tab) {
+        // Current tab not found
+        return createTab(url)
+    } else {
+        const { windowId, index: currentIndex } = tab
+        return createTab({
+            url,
+            windowId,
+            index: (currentIndex ?? -1) + 1
+        })
+    }
 }
 
 export function listTabs(query?: chrome.tabs.QueryInfo): Promise<ChromeTab[]> {

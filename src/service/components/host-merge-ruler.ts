@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -37,9 +37,12 @@ type RegRuleItem = {
     result: string | number
 }
 
-const processRegStr = (regStr: string) => regStr.split('.').join('\\.').split('*').join('[^\\.]+')
+const processRegStr = (regStr: string) => regStr
+    .split('.').join('\\.')
+    .split('**').join('.+')
+    .split('*').join('[^\\.]+')
 
-const convert = (dbItem: timer.merge.Rule) => {
+function convert(dbItem: timer.merge.Rule): RegRuleItem | [string, string | number] {
     const { origin, merged } = dbItem
     if (origin.includes('*')) {
         const regStr = processRegStr(origin)
@@ -57,7 +60,9 @@ export default class CustomizedHostMergeRuler implements timer.merge.Merger {
 
     constructor(rules: timer.merge.Rule[]) {
         rules.map(item => convert(item))
-            .forEach(rule => Array.isArray(rule) ? (this.noRegMergeRules[rule[0]] = rule[1]) : (this.regulars.push(rule)))
+            .forEach(rule => Array.isArray(rule)
+                ? (this.noRegMergeRules[rule[0]] = rule[1] || rule[0])
+                : (this.regulars.push(rule)))
     }
 
     /**

@@ -1,15 +1,25 @@
+/**
+ * Copyright (c) 2023-present Hengyang Zhang
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
 
 export type MetaMessage = {
     name: string
     marketName: string
     description: string
+    slogan: string
 }
+
+const SLOGAN_EN = 'Insight & Improve'
 
 const _default: Messages<MetaMessage> = {
     zh_CN: {
         name: '网费很贵',
         marketName: '网费很贵 - 上网时间统计',
         description: '做最好用的上网时间统计工具。',
+        slogan: SLOGAN_EN,
     },
     zh_TW: {
         name: '網費很貴',
@@ -25,6 +35,7 @@ const _default: Messages<MetaMessage> = {
         name: 'Timer',
         marketName: 'Timer - Track Your Webtime',
         description: 'To be the BEST webtime tracker.',
+        slogan: SLOGAN_EN,
     },
 }
 

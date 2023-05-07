@@ -1,6 +1,6 @@
 {
   "name": "timer",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "Web timer",
   "homepage": "https://github.com/sheepzh/timer",
   "scripts": {
@@ -12,7 +12,11 @@
     "test": "jest --env=jsdom",
     "test-c": "jest --coverage --env=jsdom"
   },
-  "author": "zhy",
+  "author": {
+    "name": "zhy",
+    "email": "returnzhy1996@outlook.com",
+    "url": "https://www.github.com/sheepzh"
+  },
   "license": "MIT",
   "devDependencies": {
     "@crowdin/crowdin-api-client": "^1.22.1",
@@ -37,7 +41,7 @@
     "node-sass": "^8.0.0",
     "sass-loader": "^13.2.1",
     "style-loader": "^3.3.2",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",

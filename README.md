@@ -20,7 +20,7 @@ Timer can
 - support to set the maximum time for browsing a specific website each day to help you keey away from time wasting.
 - support to export files formatted _.csv_ and _.json_.
 - support dark mode.
-- support to sync data with Github Gist across serveral browser clients.
+- support to sync data with GitHub Gist across serveral browser clients.
 
 ## Install
 

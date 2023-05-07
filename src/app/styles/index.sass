@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -33,6 +33,11 @@ a
   padding-left: 45px !important
 .el-aside
   width: 240px
+  .el-menu
+    padding-bottom: 10px
+  .menu-container
+    min-height: 100vh
+    background-color: var(--el-menu-bg-color)
 
 .app-container
   width: 100%
@@ -41,10 +46,11 @@ a
 
 .content-container
   margin-top: 30px
-  width: calc(100% - 60px)
+  margin-bottom: 30px
+  width: calc(100vw - 300px)
   height: calc(100% - 30px)
   padding: 0 30px
-  overflow-y: auto
+  overflow: hidden
 
 #app
   height: 100%

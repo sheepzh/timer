@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -12,6 +12,7 @@ import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import { checkPermission, requestPermission } from "@api/chrome/permissions"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { parseUrl } from "./common"
+import { AUTHOR_EMAIL } from "@src/package"
 
 const ALL_PROTOCOLS: Protocol[] = ['http://', 'https://', '*://']
 
@@ -71,7 +72,7 @@ async function handlePaste(urlHandler: (newUrl: string) => void, protocolHandler
     }
 
     if (!granted) {
-        alert('Can\'t read the clipboard, please contact the developer via email to returnzhy1996@outlook.com')
+        alert(`Can\'t read the clipboard, please contact the developer via email to ${AUTHOR_EMAIL}`)
         return
     }
 

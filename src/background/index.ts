@@ -60,6 +60,11 @@ new ActiveTabListener()
     .register(({ url, tabId }) => badgeTextManager.forceUpdate({ url, tabId }))
     .listen()
 
+handleInstall()
+
+// Start message dispatcher
+messageDispatcher.start()
+
 // Listen window focus changed
 onNormalWindowFocusChanged(async windowId => {
     if (isNoneWindowId(windowId)) return
@@ -67,8 +72,3 @@ onNormalWindowFocusChanged(async windowId => {
     tabs.filter(tab => !isBrowserUrl(tab?.url))
         .forEach(({ url, id }) => badgeTextManager.forceUpdate({ url, tabId: id }))
 })
-
-handleInstall()
-
-// Start message dispatcher
-messageDispatcher.start()

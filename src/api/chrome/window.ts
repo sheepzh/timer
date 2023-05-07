@@ -28,11 +28,7 @@ export function getFocusedNormalWindow(): Promise<chrome.windows.Window> {
 }
 
 export function getWindow(id: number): Promise<chrome.windows.Window> {
-    return new Promise(resolve =>
-        chrome.windows.get(id)
-            .then(win => resolve(win))
-            .catch(_ => resolve(undefined))
-    )
+    return new Promise(resolve => chrome.windows.get(id, win => resolve(win)))
 }
 
 type _Handler = (windowId: number) => void
@@ -41,5 +37,5 @@ export function onNormalWindowFocusChanged(handler: _Handler) {
     chrome.windows.onFocusChanged.addListener(windowId => {
         handleError('onWindowFocusChanged')
         handler(windowId)
-    }, { windowTypes: ['normal'] })
+    })
 }

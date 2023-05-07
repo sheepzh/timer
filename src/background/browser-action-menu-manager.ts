@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -13,6 +13,7 @@ import { createTab } from "@api/chrome/tab"
 import { getRuntimeId } from "@api/chrome/runtime"
 import { createContextMenu } from "@api/chrome/context-menu"
 import { locale } from "@i18n"
+import { START_ROUTE } from "@guide/router/constants"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 
@@ -61,7 +62,7 @@ const feedbackPageProps: ChromeContextMenuCreateProps = {
 const guidePageProps: ChromeContextMenuCreateProps = {
     id: getRuntimeId() + '_timer_menu_item_guide_link',
     title: titleOf('📖', t2Chrome(msg => msg.base.guidePage)),
-    onclick: () => createTab(getGuidePageUrl(true)),
+    onclick: () => createTab(getGuidePageUrl(true, START_ROUTE)),
     ...baseProps
 }
 

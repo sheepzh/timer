@@ -1,26 +1,28 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
-import type { UnwrapRef } from "vue"
+import type { Ref } from "vue"
 import type ElementIcon from "@src/element-ui/icon"
-import type { RouteLocationNormalizedLoaded, Router } from "vue-router"
+import type { MenuItemRegistered } from "element-plus"
+import type { Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
 import type { MenuMessage } from "@i18n/message/app/menu"
 
-import { defineComponent, h, onMounted, reactive } from "vue"
-import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup, MenuItemRegistered } from "element-plus"
-import { useRoute, useRouter } from "vue-router"
+import { defineComponent, h, onMounted, ref, watch } from "vue"
+import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
+import { useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
-import { createTab } from "@api/chrome/tab"
-import { ANALYSIS_ROUTE } from "@app/router/constants"
+import { createTabAfterCurrent } from "@api/chrome/tab"
+import { ANALYSIS_ROUTE, MERGE_ROUTE } from "@app/router/constants"
+import { START_ROUTE } from "@guide/router/constants"
 
 type _MenuItem = {
     title: keyof MenuMessage
@@ -35,18 +37,13 @@ type _MenuGroup = {
     children: _MenuItem[]
 }
 
-type _RouteProps = {
-    router: Router
-    current: RouteLocationNormalizedLoaded
-}
-
 /**
  * Generate menu items after locale initialized
  */
 function generateMenus(): _MenuGroup[] {
     const otherMenuItems: _MenuItem[] = [{
         title: 'userManual',
-        href: getGuidePageUrl(false),
+        href: getGuidePageUrl(false, START_ROUTE),
         icon: Memo,
         index: '_guide',
     }, {
@@ -111,7 +108,7 @@ function generateMenus(): _MenuGroup[] {
             icon: Tickets
         }, {
             title: 'mergeRule',
-            route: '/additional/rule-merge',
+            route: MERGE_ROUTE,
             icon: Rank
         }, {
             title: 'option',
@@ -124,23 +121,24 @@ function generateMenus(): _MenuGroup[] {
     }]
 }
 
-function openMenu(route: string, title: I18nKey, routeProps: UnwrapRef<_RouteProps>) {
-    const routerVal = routeProps.router
-    const currentRouteVal = routeProps.current
-    if (currentRouteVal && currentRouteVal.path !== route) {
-        routerVal && routerVal.push(route)
+function openMenu(route: string, title: I18nKey, router: Router) {
+    const currentPath = router.currentRoute.value?.path
+    if (currentPath !== route) {
+        router?.push(route)
         document.title = t(title)
     }
 }
 
-const openHref = (href: string) => createTab(href)
+const openHref = (href: string) => createTabAfterCurrent(href)
 
-function handleClick(_MenuItem: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
-    const { route, title, href } = _MenuItem
+function handleClick(menuItem: _MenuItem, router: Router, currentActive: Ref<string>) {
+    const { route, title, href } = menuItem
     if (route) {
-        openMenu(route, msg => msg.menu[title], routeProps)
+        openMenu(route, msg => msg.menu[title], router)
+        currentActive.value = '/data/dashboard'//route
     } else {
         openHref(href)
+        currentActive.value = router.currentRoute?.value?.path
     }
 }
 
@@ -151,10 +149,10 @@ const iconStyle: Partial<CSSStyleDeclaration> = {
     lineHeight: '0.83em'
 }
 
-function renderMenuLeaf(menu: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
+function renderMenuLeaf(menu: _MenuItem, router: Router, currentActive: Ref<string>) {
     const { route, title, icon, index } = menu
     const props: { onClick: (item: MenuItemRegistered) => void; index?: string } = {
-        onClick: (_item) => handleClick(menu, routeProps)
+        onClick: (_item) => handleClick(menu, router, currentActive)
     }
     const realIndex = index || route
     realIndex && (props.index = realIndex)
@@ -164,9 +162,9 @@ function renderMenuLeaf(menu: _MenuItem, routeProps: UnwrapRef<_RouteProps>) {
     })
 }
 
-function renderMenu(menu: _MenuGroup, props: UnwrapRef<_RouteProps>) {
+function renderMenu(menu: _MenuGroup, router: Router, currentActive: Ref<string>) {
     const title = t(msg => msg.menu[menu.title])
-    return h(ElMenuItemGroup, { title }, () => menu.children.map(item => renderMenuLeaf(item, props)))
+    return h(ElMenuItemGroup, { title }, () => menu.children.map(item => renderMenuLeaf(item, router, currentActive)))
 }
 
 async function initTitle(allMenus: _MenuGroup[], router: Router) {
@@ -183,22 +181,22 @@ async function initTitle(allMenus: _MenuGroup[], router: Router) {
     }
 }
 
-const _default = defineComponent({
-    name: "LayoutMenu",
-    setup() {
-        const routeProps: UnwrapRef<_RouteProps> = reactive({
-            router: useRouter(),
-            current: useRoute()
-        })
-
-        const allMenus = generateMenus()
-        onMounted(() => initTitle(allMenus, useRouter()))
-
-        return () => h(ElMenu,
-            { defaultActive: routeProps.current.path },
-            () => allMenus.map(menu => renderMenu(menu, routeProps))
-        )
+const _default = defineComponent(() => {
+    const router = useRouter()
+    const currentActive: Ref<string> = ref()
+    const syncRouter = () => {
+        const route = router.currentRoute.value
+        route && (currentActive.value = route.path)
     }
+
+    watch(router.currentRoute, syncRouter)
+
+    const allMenus = generateMenus()
+    onMounted(() => initTitle(allMenus, router))
+
+    return () => h('div', { class: 'menu-container' }, h(ElMenu, { defaultActive: currentActive.value },
+        () => allMenus.map(menu => renderMenu(menu, router, currentActive))
+    ))
 })
 
 export default _default

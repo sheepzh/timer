@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -19,3 +19,8 @@ export const LIMIT_ROUTE = '/behavior/limit'
  * @since 0.9.1
  */
 export const REPORT_ROUTE = '/data/report'
+
+/**
+ * @since 1.8.0
+ */
+export const MERGE_ROUTE = '/additional/rule-merge'

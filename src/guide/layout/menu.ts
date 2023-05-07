@@ -5,118 +5,87 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ref, VNode } from "vue"
-import ElementIcon from "@src/element-ui/icon"
-import { I18nKey, t } from "@guide/locale"
-import { ElIcon, ElMenu, ElMenuItem, ElSubMenu } from "element-plus"
-import { defineComponent, h } from "vue"
-import { User, Memo, MagicStick } from "@element-plus/icons-vue"
+import type { Ref } from "vue"
+import type { I18nKey } from "@guide/locale"
 
-type _Item = {
+import { t } from "@guide/locale"
+import { ElMenu, ElMenuItem, ElSubMenu } from "element-plus"
+import { defineComponent, h, onMounted, ref } from "vue"
+import { Router, useRouter } from "vue-router"
+import {
+    START_ROUTE,
+    PRIVACY_ROUTE,
+    USAGE_ROUTE,
+    APP_PAGE_ROUTE,
+    MERGE_ROUTE,
+    VIRTUAL_ROUTE,
+    BACKUP_ROUTE,
+    LIMIT_ROUTE,
+} from "@guide/router/constants"
+
+type MenuConf = {
+    route: string
     title: I18nKey
-    position: Position
+    children?: MenuConf[]
 }
 
-type _Group = {
-    title: I18nKey
-    position: Position
-    children: _Item[]
-    icon: ElementIcon
-}
-
-const quickstartPosition: Position = 'usage.quickstart'
-const profilePosition: Position = 'profile'
-const menus: _Group[] = [
-    {
-        title: msg => msg.layout.menu.usage.title,
-        position: 'usage',
-        children: [
-            {
-                title: msg => msg.layout.menu.usage.quickstart,
-                position: quickstartPosition
-            }, {
-                title: msg => msg.layout.menu.usage.background,
-                position: 'usage.background'
-            }, {
-                title: msg => msg.layout.menu.usage.advanced,
-                position: 'usage.advanced'
-            }, {
-                title: msg => msg.layout.menu.usage.backup,
-                position: 'usage.backup',
-            }
-        ],
-        icon: Memo
-    },
-    {
-        title: msg => msg.layout.menu.privacy.title,
-        position: 'privacy',
-        icon: User,
-        children: [
-            {
-                title: msg => msg.layout.menu.privacy.scope,
-                position: 'privacy.scope'
-            },
-            {
-                title: msg => msg.layout.menu.privacy.storage,
-                position: 'privacy.storage'
-            },
-        ],
-
-    }
-]
-
-function renderMenuItem(handleClick: (position: Position) => void, item: _Item, index: number): VNode {
-    const { title, position } = item
-    return h(ElMenuItem, {
-        index: position,
-        onClick: () => handleClick(position)
-    }, () => h('span', {}, `${index + 1}. ${t(title)}`))
-}
-
-function renderGroup(handleClick: (position: Position) => void, group: _Group): VNode {
-    const { position, title, children, icon } = group
-    return h(ElSubMenu, {
-        index: position,
+const MENU_CONFS: MenuConf[] = [{
+    route: START_ROUTE,
+    title: msg => msg.start.title,
+}, {
+    route: PRIVACY_ROUTE,
+    title: msg => msg.privacy.title,
+}, {
+    route: USAGE_ROUTE,
+    title: msg => msg.layout.menu.usage,
+    children: [{
+        route: APP_PAGE_ROUTE,
+        title: msg => msg.app.title,
     }, {
-        title: () => [
-            h(ElIcon, () => h(icon)),
-            h('span', {}, t(title))
-        ],
-        default: () => children.map(
-            (item, index) => renderMenuItem(handleClick, item, index)
-        )
-    })
+        route: MERGE_ROUTE,
+        title: msg => msg.merge.title,
+    }, {
+        route: VIRTUAL_ROUTE,
+        title: msg => msg.virtual.title,
+    }, {
+        route: LIMIT_ROUTE,
+        title: msg => msg.limit.title,
+    }, {
+        route: BACKUP_ROUTE,
+        title: msg => msg.backup.title
+    }],
+}]
+
+function renderWithConf(conf: MenuConf, router: Router, activeRoute: Ref<string>) {
+    const { route, title, children } = conf
+    if (children?.length) {
+        return h(ElSubMenu, {
+            index: route,
+        }, {
+            title: () => h('span', t(title)),
+            default: () => children.map(child => renderWithConf(child, router, activeRoute))
+        })
+    }
+    return h(ElMenuItem, {
+        index: route,
+        onClick: () => {
+            router.push(route)
+            activeRoute.value = route
+        },
+    }, () => h('span', t(title)))
 }
 
-const _default = defineComponent({
-    name: "GuideMenu",
-    emits: {
-        click: (_position: Position) => true,
-    },
-    setup(_, ctx) {
-        const handleClick = (position: Position) => ctx.emit('click', position)
-        const menuItems = () => [
-            h(ElMenuItem, {
-                index: profilePosition,
-                onClick: () => handleClick(profilePosition)
-            }, () => [
-                h(ElIcon, () => h(MagicStick)),
-                h('span', {}, t(msg => msg.layout.menu.profile, { appName: t(msg => msg.meta.name) }))
-            ]),
-            ...menus.map(
-                group => renderGroup(handleClick, group)
-            )
-        ]
-        const menuRef = ref()
-        return () => h(ElMenu, {
-            defaultActive: profilePosition,
-            defaultOpeneds: menus.map(group => group.position),
-            ref: menuRef,
-            onClose(index: string) {
-                menuRef.value?.open?.(index)
-            }
-        }, menuItems)
-    }
+const _default = defineComponent(() => {
+    const router = useRouter()
+    const activeRoute: Ref<string> = ref()
+    // Initialize current route in a new macro task
+    onMounted(() => setTimeout(() => activeRoute.value = router.currentRoute?.value?.path))
+    return () => [
+        h(ElMenu, {
+            defaultOpeneds: MENU_CONFS.filter(m => m.children?.length).map(group => group.route),
+            defaultActive: activeRoute.value,
+        }, () => MENU_CONFS.map(conf => renderWithConf(conf, router, activeRoute)))
+    ]
 })
 
 export default _default

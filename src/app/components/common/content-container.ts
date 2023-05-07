@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2021 Hengyang Zhang
+ * Copyright (c) 2021-present Hengyang Zhang
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
-import { ElCard } from "element-plus"
+import { ElCard, ElScrollbar } from "element-plus"
 import ContentCard from "./content-card"
 import { defineComponent, h, useSlots } from "vue"
 
@@ -19,7 +19,7 @@ const _default = defineComponent(() => {
     } else {
         content && children.push(h(ContentCard, () => h(content)))
     }
-    return () => h("div", { class: "content-container" }, children)
+    return () => h(ElScrollbar, () => h("div", { class: "content-container" }, children))
 })
 
 export default _default
