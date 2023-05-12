@@ -1,12 +1,14 @@
 import path from "path"
 import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import CopyWebpackPlugin from "copy-webpack-plugin"
-import webpack from "webpack"
+import webpack, { Chunk } from "webpack"
 // Generate json files 
 import manifest from "../src/manifest"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import HtmlWebpackPlugin from "html-webpack-plugin"
+
 const tsPathAlias = tsConfig.compilerOptions.paths
 
 const generateJsonPlugins = [
@@ -41,16 +43,40 @@ Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
 console.log("Alias of typescript: ")
 console.log(resolveAlias)
 
+type EntryConfig = {
+    name: string
+    path: string
+    chunkExclusive?: boolean
+}
+
+const entryConfigs: EntryConfig[] = [{
+    name: 'background',
+    path: './src/background',
+    chunkExclusive: true,
+}, {
+    name: 'content_scripts',
+    path: './src/content-script',
+    chunkExclusive: true,
+}, {
+    name: 'popup',
+    path: './src/popup',
+}, {
+    name: 'app',
+    path: './src/app',
+}, {
+    name: 'guide',
+    path: './src/guide',
+}]
+
+const EXCLUDE_CHUNK_ENTRY = entryConfigs.filter(({ chunkExclusive }) => chunkExclusive).map(({ name }) => name)
+
+const excludeChunk = (chunk: Chunk) => !EXCLUDE_CHUNK_ENTRY.includes(chunk.name)
+
 const staticOptions: webpack.Configuration = {
-    entry: {
-        background: './src/background',
-        content_scripts: './src/content-script',
-        // The entrance of popup page
-        popup: './src/popup',
-        // The entrance of app page
-        app: './src/app',
-        // The entrance of guide page
-        guide: './src/guide',
+    entry() {
+        const entry = {}
+        entryConfigs.forEach(({ name, path }) => entry[name] = path)
+        return entry
     },
     output: {
         filename: '[name].js',
@@ -91,7 +117,49 @@ const staticOptions: webpack.Configuration = {
             assert: false,
             // fallbacks of axios's dependencies end
         }
-    }
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                echarts: {
+                    name: 'echarts',
+                    chunks: excludeChunk,
+                    test: /[\\/]node_modules[\\/](echarts|zrender)[\\/]/,
+                },
+                // @vue & vue-router
+                vue: {
+                    name: 'vue',
+                    chunks: excludeChunk,
+                    test: /[\\/]node_modules[\\/]@?vue(use)?(-router)?[\\/]/,
+                },
+                element: {
+                    name: 'element',
+                    chunks: excludeChunk,
+                    test: /[\\/]node_modules[\\/]@?element-plus[\\/]/,
+                },
+                psl: {
+                    name: 'psl',
+                    chunks: excludeChunk,
+                    test: /[\\/]node_modules[\\/]psl[\\/]/,
+                },
+                lodash: {
+                    name: 'lodash',
+                    chunks: excludeChunk,
+                    test: /[\\/]node_modules[\\/]lodash[\\/]/,
+                },
+                axios: {
+                    name: 'axios',
+                    chunks: excludeChunk,
+                    test: /[\\/]node_modules[\\/]axios[\\/]/,
+                },
+                common: {
+                    name: 'common',
+                    chunks: excludeChunk,
+                    test: /[\\/]src[\\/](service|database|util)[\\/]/,
+                },
+            }
+        },
+    },
 }
 
 const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.runtime.ManifestV3) => void) => {
@@ -101,10 +169,28 @@ const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.
         // copy static resources
         new CopyWebpackPlugin({
             patterns: [
-                { from: path.join(__dirname, '..', 'public'), to: path.join(outputPath, 'static') }
+                {
+                    from: path.join(__dirname, '..', 'public', 'images'),
+                    to: path.join(outputPath, 'static', 'images'),
+                }
             ]
         }),
         new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, '..', 'public', 'app.html'),
+            filename: path.join('static', 'app.html'),
+            chunks: ['app'],
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, '..', 'public', 'guide.html'),
+            filename: path.join('static', 'guide.html'),
+            chunks: ['guide'],
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, '..', 'public', 'popup.html'),
+            filename: path.join('static', 'popup.html'),
+            chunks: ['popup'],
+        }),
     ]
     return {
         ...staticOptions,

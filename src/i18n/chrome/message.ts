@@ -8,7 +8,7 @@
 import metaMessages, { MetaMessage } from "../message/common/meta"
 import contextMenusMessages, { ContextMenusMessage } from "../message/common/context-menus"
 import initialMessages, { InitialMessage } from "../message/common/initial"
-import baseMessages, { BaseMessage } from "@i18n/message/common/base"
+import baseMessages, { BaseMessage } from "../message/common/base"
 
 export type ChromeMessage = {
     meta: MetaMessage

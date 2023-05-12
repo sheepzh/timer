@@ -28,12 +28,12 @@ const _default: Messages<MetaMessage> = {
     },
     ja: {
         name: 'Web時間統計',
-        marketName: 'Web時間統計',
-        description: '最高のオンライン時間統計ツールを作成します。',
+        marketName: 'ウェブタイムトラッカー',
+        description: '最高のウェブタイムトラッカーになるために。',
     },
     en: {
-        name: 'Timer',
-        marketName: 'Timer - Track Your Webtime',
+        name: 'Time Tracker',
+        marketName: 'Time Tracker',
         description: 'To be the BEST webtime tracker.',
         slogan: SLOGAN_EN,
     },

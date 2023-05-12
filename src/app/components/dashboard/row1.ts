@@ -15,8 +15,8 @@ import TopKVisit from './components/top-k-visit'
 const _default = defineComponent({
     name: "DashboardRow1",
     render: () => h(ElRow, {
-        gutter: 40,
-        style: { height: '290px' }
+        gutter: 20,
+        style: { height: '300px' }
     }, () => [
         h(DashboardCard, {
             span: 4
