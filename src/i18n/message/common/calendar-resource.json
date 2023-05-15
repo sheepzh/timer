@@ -13,13 +13,13 @@
     },
     "en": {
         "weekDays": "Mon|Tue|Wed|Thu|Fri|Sat|Sun",
-        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Set|Oct|Nov|Dec",
+        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
         "dateFormat": "{m}/{d}/{y}",
         "timeFormat": "{m}/{d}/{y} {h}:{i}:{s}"
     },
     "ja": {
         "weekDays": "Mon|Tue|Wed|Thu|Fri|Sat|Sun",
-        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Set|Oct|Nov|Dec",
+        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}"
     }
