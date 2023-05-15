@@ -19,7 +19,7 @@
     },
     "en": {
         "consoleLog": "You have open {host} for {time} time(s) and browsed it for {focus} today.",
-        "closeAlert": "You can turn off the above tips in the option of Timer!",
+        "closeAlert": "You can turn off the above tips in the option of [{appName}]!",
         "timeWithHour": "{hour} hour(s) {minute} minute(s) {second} second(s)",
         "timeWithMinute": "{minute} minute(s) {second} second(s)",
         "timeWithSecond": "{second} second(s)",
