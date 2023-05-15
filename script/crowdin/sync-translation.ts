@@ -42,16 +42,16 @@ async function processDir(client: CrowdinClient, dir: Dir, branch: SourceFilesMo
     const files = await client.listFilesByDirectory(directory.id)
     console.log(`find ${files.length} files of ${dir}`)
     const fileMap = groupBy(files, f => f.name, l => l[0])
-    for (const [tsFilename, message] of Object.entries(messages)) {
-        console.log(`Start to sync translations of ${dir}/${tsFilename}`)
-        if (isIgnored(dir, tsFilename)) {
-            console.log("Ignored file: " + tsFilename)
+    for (const [fileName, message] of Object.entries(messages)) {
+        console.log(`Start to sync translations of ${dir}/${fileName}`)
+        if (isIgnored(dir, fileName)) {
+            console.log("Ignored file: " + fileName)
             continue
         }
-        const filename = tsFilename.replace('.ts', '.json')
-        const crowdinFile = fileMap[filename]
+        const crowdinFileName = fileName + '.json'
+        const crowdinFile = fileMap[crowdinFileName]
         if (!crowdinFile) {
-            console.log(`Failed to find file: dir=${dir}, filename=${tsFilename}`)
+            console.log(`Failed to find file: dir=${dir}, filename=${fileName}`)
             continue
         }
 
@@ -71,9 +71,6 @@ async function main() {
     const client = getClientFromEnv()
     const branch = await checkMainBranch(client)
 
-    for (let i = 0; i < ALL_DIRS.length; i++) {
-
-    }
     for (const dir of ALL_DIRS) {
         await processDir(client, dir, branch)
     }

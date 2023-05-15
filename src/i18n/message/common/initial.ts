@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import resource from './initial-resource.json'
+
 /**
  * Locales for initial data
  * 
@@ -19,39 +21,6 @@ export type InitialMessage = {
     }
 }
 
-const _default: Messages<InitialMessage> = {
-    zh_CN: {
-        localFile: {
-            json: 'JSON 文件',
-            pdf: 'PDF 文件',
-            pic: '图片文件',
-            txt: '文本文件',
-        },
-    },
-    zh_TW: {
-        localFile: {
-            json: 'JSON 文件',
-            pdf: 'PDF 文件',
-            pic: '圖片文件',
-            txt: '文本文件',
-        },
-    },
-    en: {
-        localFile: {
-            json: 'JSON Files',
-            pdf: 'PDF Files',
-            pic: 'Images',
-            txt: 'Text Files',
-        },
-    },
-    ja: {
-        localFile: {
-            json: 'JSON',
-            pdf: 'PDF',
-            pic: '写真',
-            txt: 'TXT',
-        },
-    },
-}
+const _default: Messages<InitialMessage> = resource
 
 export default _default

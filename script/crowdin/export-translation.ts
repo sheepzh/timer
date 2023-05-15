@@ -1,6 +1,6 @@
 import { SourceFilesModel } from "@crowdin/crowdin-api-client"
 import { CrowdinClient, getClientFromEnv } from "./client"
-import { ALL_DIRS, ALL_TRANS_LOCALES, checkMainBranch, crowdinLangOf, mergeMessage } from "./common"
+import { ALL_DIRS, ALL_TRANS_LOCALES, RSC_FILE_SUFFIX, checkMainBranch, crowdinLangOf, mergeMessage } from "./common"
 
 async function processFile(client: CrowdinClient, file: SourceFilesModel.File, dir: Dir): Promise<void> {
     const itemSets: Partial<Record<timer.Locale, ItemSet>> = {}
@@ -9,7 +9,7 @@ async function processFile(client: CrowdinClient, file: SourceFilesModel.File, d
         const items: ItemSet = await client.downloadTranslations(file.id, lang)
         items && Object.keys(items).length && (itemSets[locale] = items)
     }
-    await mergeMessage(dir, file.name.replace('.json', '.ts'), itemSets)
+    await mergeMessage(dir, file.name.replace('.json', RSC_FILE_SUFFIX), itemSets)
 }
 
 async function processDir(client: CrowdinClient, branch: SourceFilesModel.Branch, dir: Dir): Promise<void> {

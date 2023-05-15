@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import resource from './meta-resource.json'
+
 export type MetaMessage = {
     name: string
     marketName: string
@@ -14,29 +16,6 @@ export type MetaMessage = {
 
 const SLOGAN_EN = 'Insight & Improve'
 
-const _default: Messages<MetaMessage> = {
-    zh_CN: {
-        name: '网费很贵',
-        marketName: '网费很贵 - 上网时间统计',
-        description: '做最好用的上网时间统计工具。',
-        slogan: SLOGAN_EN,
-    },
-    zh_TW: {
-        name: '網費很貴',
-        marketName: '網費很貴 - 上網時間統計',
-        description: '做最好用的上網時間統計工具。',
-    },
-    ja: {
-        name: 'Web時間統計',
-        marketName: 'ウェブタイムトラッカー',
-        description: '最高のウェブタイムトラッカーになるために。',
-    },
-    en: {
-        name: 'Time Tracker',
-        marketName: 'Time Tracker',
-        description: 'To be the BEST webtime tracker.',
-        slogan: SLOGAN_EN,
-    },
-}
+const _default: Messages<MetaMessage> = resource
 
 export default _default

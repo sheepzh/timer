@@ -63,12 +63,12 @@ async function processByDir(client: CrowdinClient, dir: Dir, branch: SourceFiles
     console.log("Exists file count: " + existFiles.length)
     const existFileNameMap = groupBy(existFiles, f => f.name, l => l[0])
     // 4. create new files
-    for (const [tsFilename, msg] of Object.entries(messages)) {
-        if (isIgnored(dir, tsFilename)) {
-            console.log(`Ignored file: ${dir}/${tsFilename}`)
+    for (const [fileName, msg] of Object.entries(messages)) {
+        if (isIgnored(dir, fileName)) {
+            console.log(`Ignored file: ${dir}/${fileName}`)
             continue
         }
-        const crwodinFilename = tsFilename.replace('.ts', '.json')
+        const crwodinFilename = fileName + '.json'
         const fileContent = transMsg(msg[SOURCE_LOCALE])
         let existFile = existFileNameMap[crwodinFilename]
         if (!existFile) {

@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import resource from './operation-resource.json'
+
 export type OperationMessage = {
     confirmTitle: string
     successMsg: string
@@ -12,31 +14,6 @@ export type OperationMessage = {
     newOne: string
 }
 
-const _default: Messages<OperationMessage> = {
-    zh_CN: {
-        confirmTitle: '操作确认',
-        successMsg: '操作成功！',
-        newOne: '新增',
-        save: '保存',
-    },
-    zh_TW: {
-        confirmTitle: '操作確認',
-        successMsg: '操作成功！',
-        newOne: '新增',
-        save: '保存',
-    },
-    en: {
-        confirmTitle: 'Confirm',
-        successMsg: 'Successfully!',
-        newOne: 'New One',
-        save: 'Save',
-    },
-    ja: {
-        confirmTitle: '動作確認',
-        successMsg: '正常に動作しました！',
-        newOne: '追加',
-        save: '保存',
-    },
-}
+const _default: Messages<OperationMessage> = resource
 
 export default _default
