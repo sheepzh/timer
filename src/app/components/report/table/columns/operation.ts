@@ -48,6 +48,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     zh_CN: 290,
     ja: 360,
     zh_TW: 290,
+    pt: 400,
 }
 const _default = defineComponent({
     name: "OperationColumn",

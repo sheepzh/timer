@@ -15,14 +15,12 @@
         "name": "日本語",
         "comma": "、"
     },
+    "pt": {
+        "name": "Português",
+        "comma": ","
+    },
     "pl": {
         "name": "Polski"
-    },
-    "pt": {
-        "name": "Português"
-    },
-    "pt_BR": {
-        "name": "Portugues, Brasil"
     },
     "ko": {
         "name": "한국인"

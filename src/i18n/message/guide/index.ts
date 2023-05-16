@@ -96,6 +96,21 @@ const _default: Messages<GuideMessage> = {
         backup: backupMessages.ja,
         appMenu: appMenuMessages.ja,
     },
+    pt: {
+        mergeCommon: mergeCommonMessages.pt,
+        layout: layoutMessages.pt,
+        home: homeMessages.pt,
+        start: startMessages.pt,
+        privacy: privacyMessages.pt,
+        meta: metaMessages.pt,
+        base: baseMessages.pt,
+        app: appMessages.pt,
+        merge: mergeMessages.pt,
+        virtual: virtualMessages.pt,
+        limit: limitMessages.pt,
+        backup: backupMessages.pt,
+        appMenu: appMenuMessages.pt,
+    },
 }
 
 export default _default

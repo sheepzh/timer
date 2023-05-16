@@ -182,11 +182,59 @@
             },
             "merged": {
                 "name": "合并",
-                "info": "複数の関連するドメイン名のマージ統計をカスタマイズできます"
+                "info": "関連する複数のドメイン名の統計をマージし、マージ ルールをカスタマイズできます。"
             },
             "virtual": {
                 "name": "バーチャル",
                 "info": "Ant Pattern 形式の任意の URL をカウントします。右上隅にカスタムサイトを追加できます"
+            }
+        }
+    },
+    "pt": {
+        "hostPlaceholder": "URL parcial, e depois digite",
+        "aliasPlaceholder": "Nome parcial, e depois digite",
+        "onlyDetected": "Apenas detetado",
+        "deleteConfirmMsg": "O nome do {host} será apagado",
+        "column": {
+            "host": "URL do Site",
+            "alias": "Nome do Site",
+            "aliasInfo": "O nome do site será mostrado na página de registro e na página pop-up",
+            "source": "Nome Fonte",
+            "type": "Categoria de Sítio Web",
+            "icon": "Ícone"
+        },
+        "source": {
+            "user": "usuário mantido",
+            "detected": "detetado"
+        },
+        "button": {
+            "add": "Criar",
+            "delete": "Apagar",
+            "save": "Salvar"
+        },
+        "form": {
+            "emptyAlias": "Por favor, insira um nome de site",
+            "emptyHost": "Por favor, insira um URL de site"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existe",
+            "saved": "Guardado",
+            "existedTag": "EXISTADO",
+            "mergedTag": "MERGADO",
+            "virtualTag": "VIRTUAL"
+        },
+        "type": {
+            "normal": {
+                "name": "normal",
+                "info": "estatísticas por nome de domínio"
+            },
+            "merged": {
+                "name": "mesclado",
+                "info": "estatísticas de mesclagem de vários domínios relacionados, e as regras de mesclagem podem ser personalizadas"
+            },
+            "virtual": {
+                "name": "virtual",
+                "info": "conta qualquer URL no formato Ant Pattern, pode adicionar um site personalizado no canto superior direito"
             }
         }
     }

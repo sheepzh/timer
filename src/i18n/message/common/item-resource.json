@@ -70,5 +70,23 @@
             "exportWholeData": "インポート",
             "importWholeData": "書き出す"
         }
+    },
+    "pt": {
+        "date": "Data",
+        "host": "URL do Site",
+        "focus": "Tempo de Navegação",
+        "time": "Visitas do Site",
+        "operation": {
+            "label": "Operações",
+            "delete": "Apagar",
+            "add2Whitelist": "Ignorar",
+            "removeFromWhitelist": "Habilitar",
+            "deleteConfirmMsgAll": "Todos os registros de {url} serão apagados!",
+            "deleteConfirmMsgRange": "Todos os registros de {url} entre {start} e {end} serão apagados!",
+            "deleteConfirmMsg": "O registro de {url} em {date} será excluído!",
+            "exportWholeData": "Exportar Dados",
+            "importWholeData": "Importar Dados",
+            "analysis": "Análise"
+        }
     }
 }

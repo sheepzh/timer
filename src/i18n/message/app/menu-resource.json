@@ -78,5 +78,25 @@
         "rate": "それを評価",
         "helpUs": "協力する",
         "userManual": "ユーザーマニュアル"
+    },
+    "pt": {
+        "dashboard": "Painel de Controlo",
+        "data": "Os Meus Dados",
+        "dataReport": "Registo",
+        "dataClear": "Situação da Memória",
+        "behavior": "Comportamento do Utilizador",
+        "habit": "Hábitos",
+        "limit": "Limite diário",
+        "additional": "Características Adicionais",
+        "siteManage": "Gestão do Site",
+        "whitelist": "Lista Ignorada",
+        "mergeRule": "Regras para Mesclar Site",
+        "other": "Outras Características",
+        "option": "Opções",
+        "feedback": "Questionário de Opinião",
+        "rate": "Avalie",
+        "helpUs": "Ajude-nos",
+        "siteAnalysis": "Análise do Site",
+        "userManual": "Manual do Utilizador"
     }
 }

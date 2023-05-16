@@ -109,9 +109,9 @@
             "emptyDesc": "サイトは空です"
         },
         "summary": {
-            "title": "Summary",
-            "day": "Total active days",
-            "firstDay": "First visit {value}"
+            "title": "まとめ",
+            "day": "合計アクティブ日数",
+            "firstDay": "{value} を初めて訪問する"
         },
         "trend": {
             "title": "レンジトレンド",
@@ -129,6 +129,39 @@
             "averageVisit": "1 日あたりの平均訪問数",
             "focusTitle": "タイム トレンドの閲覧",
             "visitTitle": "訪問数の傾向"
+        }
+    },
+    "pt": {
+        "common": {
+            "focusTotal": "Tempo total de navegação",
+            "visitTotal": "Total de visitas",
+            "ringGrowth": "{value} em comparação com o período anterior",
+            "merged": "Mesclado",
+            "virtual": "Virtual",
+            "hostPlaceholder": "Procure um site para analisar",
+            "emptyDesc": "Nenhum site selecionado"
+        },
+        "summary": {
+            "title": "Resumo",
+            "day": "Total de dias ativos",
+            "firstDay": "Primeira visita {value}"
+        },
+        "trend": {
+            "title": "Tendências",
+            "startDate": "Data de início",
+            "endDate": "Data de fim",
+            "lastWeek": "Última semana",
+            "last15Days": "Últimos 15 dias",
+            "last30Days": "Últimos 30 dias",
+            "last90Days": "Últimos 90 dias",
+            "activeDay": "Dias ativos",
+            "totalDay": "Dias de período",
+            "maxFocus": "Tempo máximo de navegação diário",
+            "averageFocus": "Tempo médio de navegação diário",
+            "maxVisit": "Máximo diário de visitas",
+            "averageVisit": "Média diária de visitas",
+            "focusTitle": "Tendências do Tempo de Navegação",
+            "visitTitle": "Tendências de Visita"
         }
     }
 }

@@ -94,5 +94,29 @@
         "migrated": "正常にインポートされました",
         "operationCancel": "取消",
         "operationConfirm": "確認"
+    },
+    "pt": {
+        "totalMemoryAlert": "O navegador fornece {size}MB para armazenar dados locais para cada extensão",
+        "totalMemoryAlert1": "Não é possível determinar a memória máxima disponível permitida pelo navegador",
+        "usedMemoryAlert": "{size}MB está atualmente em uso",
+        "operationAlert": "Você pode excluir esses dados sem importância para reduzir o uso de memória",
+        "filterItems": "Filtrar dados",
+        "filterFocus": "O tempo de navegação do dia está entre {start} segundos e {end} segundos",
+        "filterTime": "O número de visitas do dia está entre {start} e {end}",
+        "filterDate": "Gravado entre {picker}",
+        "unlimited": "∞",
+        "paramError": "O parâmetro está errado, por favor verifique!",
+        "deleteConfirm": "Um total de {count} registros foram filtrados. Deseja excluir todos eles?",
+        "deleteSuccess": "Eliminado com êxito!",
+        "migrationAlert": "Migrar dados entre navegadores usando a importação e exportação",
+        "importError": "Formato de arquivo incorreto",
+        "migrated": "Importado com sucesso!",
+        "operationCancel": "Cancelar",
+        "operationConfirm": "Confirmar",
+        "dateShortcut": {
+            "tillYesterday": "Até ontem",
+            "till7DaysAgo": "Até 7 dias atrás",
+            "till30DaysAgo": "Até 30 dias atrás"
+        }
     }
 }

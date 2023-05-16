@@ -14,5 +14,9 @@
     "ja": {
         "confirmMsg": "OK",
         "cancelMsg": "キャンセル"
+    },
+    "pt": {
+        "confirmMsg": "OK",
+        "cancelMsg": "Não!"
     }
 }

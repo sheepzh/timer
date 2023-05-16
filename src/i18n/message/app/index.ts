@@ -131,7 +131,28 @@ const _default: Messages<AppMessage> = {
         timeFormat: timeFormatMessages.ja,
         duration: popupDurationMessages.ja,
         helpUs: helpUsMessages.ja,
-    }
+    },
+    pt: {
+        dataManage: dataManageMessages.pt,
+        item: itemMessages.pt,
+        mergeCommon: mergeCommonMessages.pt,
+        report: reportMessages.pt,
+        whitelist: whitelistMessages.pt,
+        mergeRule: mergeRuleMessages.pt,
+        option: optionMessages.pt,
+        analysis: analysisMessages.pt,
+        menu: menuMessages.pt,
+        habit: habitMessages.pt,
+        limit: limitMessages.pt,
+        siteManage: siteManageManages.pt,
+        operation: operationMessages.pt,
+        confirm: confirmMessages.pt,
+        dashboard: dashboardMessages.pt,
+        calendar: calendarMessages.pt,
+        timeFormat: timeFormatMessages.pt,
+        duration: popupDurationMessages.pt,
+        helpUs: helpUsMessages.pt,
+    },
 }
 
 export default _default

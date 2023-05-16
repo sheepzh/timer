@@ -98,7 +98,7 @@
     "ja": {
         "title": "関連サイトのデータをまとめます",
         "p1": "この拡張子はドメイン名でカウントされます。たとえば、{demo1} と {demo2} は 2 つのレコードとしてカウントされます。両方のサイトの集計データを表示する場合は、マージ機能を使用する必要があります。",
-        "p2": "ほとんどのデータ表示ページでは、マージされたクエリがサポートされています。 また、ユーザーはバックグラウンド ページ{link}でマージ ルールをカスタマイズできます。",
+        "p2": "ほとんどのデータ表示ページでは、マージされたクエリがサポートされています。 また、ユーザーはバックグラウンド ページ {link} でマージ ルールをカスタマイズできます。",
         "lookTitle": "ルールはどのように見えますか？",
         "p3": "ルールは、ソース部分とターゲット部分の 2 つの部分で構成されます。ソース部分はルールに一致するサイトを宣言し、ターゲット部分はそれらのサイトがどのようにマージされるかを定義します。たとえば、{demo} は一般的なルールで、左側がソース サイト、右側がターゲット サイトです。",
         "sourceCol": "ソース部分",
@@ -125,6 +125,38 @@
             "originalCol": "元のサイト",
             "mergedCol": "統合サイト",
             "hitCol": "ヒットルール"
+        }
+    },
+    "pt": {
+        "title": "Resumir dados de sites relacionados",
+        "p1": "Esta extensão é contada pelo nome de domínio, por exemplo, {demo1} e {demo2} serão contados como 2 registos. Se quer ver os dados agregados para ambos os sites, precisará usar o recurso de mesclagem.",
+        "p2": "Na maioria das páginas de exibição de dados, são suportadas consultas mescladas. E os utilizadores podem personalizar as regras de mesclagem na página de segundo plano{link}.",
+        "lookTitle": "Quais são as regras?",
+        "p3": "A regra consiste em duas partes, a parte de origem e a parte de destino. A parte de origem declara quais sites atingem a regra, e a parte de destino define como esses sites são mesclados. Por exemplo, {demo} é uma regra comum, a esquerda é o site de origem, e a direita é o site alvo.",
+        "sourceCol": "Parte fonte",
+        "targetCol": "Parte alvo",
+        "remarkCol": "Observação",
+        "source": {
+            "title": "Como definir a parte de origem?",
+            "p1": "A parte de origem pode ser um nome de domínio específico ou uma expressão Ant. Abaixo estão alguns exemplos.",
+            "exampleCol": "Exemplos de sites correspondentes",
+            "only": "Somente {source} pode atingir essa regra"
+        },
+        "target": {
+            "title": "Como definir a parte alvo?",
+            "p1": "A parte de destino pode ser um domínio específico, um inteiro positivo ou ficar em branco. Elas serão introduzidas uma a uma, em conjunto com a parte de origem na tabela abaixo.",
+            "lookCol": "Aparência",
+            "remark": {
+                "blank": "{source} não será mesclada causa de destino em branco",
+                "spec": "Sítios web que acertarem {source} serão mesclados no {target} específico",
+                "integer": "Sítios web que atingirem {source} serão mesclados aos últimos {target} nomes de domínio",
+                "specFirst": "Quando múltiplas regras são atingidas, a parte de origem tem prioridade para um nome de domínio específico",
+                "miss": "Mesclar ao nível anterior da lista de sufixos públicos{link} quando nenhuma regra for atingida"
+            },
+            "p2": "A tabela a seguir é alguns exemplos de mesclagem depois que as regras acima são definidas em simultâneo.",
+            "originalCol": "Site original",
+            "mergedCol": "Site mesclado",
+            "hitCol": "Regra negada"
         }
     }
 }

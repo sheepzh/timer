@@ -7,8 +7,8 @@
         "feedbackPage": "吐槽一下"
     },
     "zh_TW": {
-        "add2Whitelist": "將{host}加入白名單",
-        "removeFromWhitelist": "將{host}從白名單移出",
+        "add2Whitelist": "將 {host} 加入白名單",
+        "removeFromWhitelist": "將 {host} 從白名單移出",
         "optionPage": "擴充選項",
         "repoPage": "源碼下載",
         "feedbackPage": "吐槽一下"
@@ -26,5 +26,12 @@
         "optionPage": "拡張設定",
         "repoPage": "ソースコード",
         "feedbackPage": "フィードバックの欠如"
+    },
+    "pt": {
+        "add2Whitelist": "Ignorar {host}",
+        "removeFromWhitelist": "Habilitar {host}",
+        "optionPage": "Opções",
+        "repoPage": "Código Fonte",
+        "feedbackPage": "Problemas"
     }
 }

@@ -18,5 +18,10 @@
         "desc": "{appName}は、ウェブサイトの閲覧に費やした時間と訪問回数を追跡するのに役立ちます。これにより、ウェブ習慣を洞察して改善することができます。",
         "button": "すぐに始めましょう",
         "download": "{browser} にインストール"
+    },
+    "pt": {
+        "desc": "O {appName} pode ajudá-lo a controlar o tempo gasto em sites de navegação e a contagem de visitas, com o que pode perceber e melhorar os seus hábitos na web.",
+        "button": "Comece agora!",
+        "download": "Instalar para {browser}"
     }
 }

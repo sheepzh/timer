@@ -36,7 +36,7 @@
         "totalCount": "共 {totalCount} 次",
         "averageCount": "平均每天 {value} 次",
         "averageTime": "平均每天 {value}",
-        "otherLabel": "其他{count}個站點",
+        "otherLabel": "其他 {count} 個站點",
         "updateVersion": "版本昇級",
         "updateVersionInfo": "最新版本：{version}",
         "updateVersionInfo4Firefox": "新版本 {version} 已髮佈\n\n您可以前往插件管理頁進行更新"
@@ -78,9 +78,30 @@
         "totalCount": "合計 {totalCount} 回",
         "averageTime": "1日平均 {value}",
         "averageCount": "1日平均 {value} 回",
-        "otherLabel": "他{count}サイト",
+        "otherLabel": "他 {count} サイト",
         "updateVersion": "更新",
         "updateVersionInfo": "最新バージョン：{version}",
         "updateVersionInfo4Firefox": "管理ページで {version} にアップグレードしてください"
+    },
+    "pt": {
+        "mergeHostLabel": "Mesclar Sítios Web",
+        "fileName": "Lista_de_Horários_da_Web_{today}_por_{app}",
+        "saveAsImageTitle": "Capturas",
+        "restoreTitle": "Restaurar",
+        "options": "Opções",
+        "totalTime": "Total {totalTime}",
+        "totalCount": "Total {totalCount} vezes",
+        "averageCount": "{value} vezes por dia em média",
+        "averageTime": "{value} por dia em média",
+        "otherLabel": "Outros sites do {count}",
+        "updateVersion": "Atualizável",
+        "updateVersionInfo": "Último: {version}",
+        "updateVersionInfo4Firefox": "Atualize para {version} na página de gestão, about:addons, por favor",
+        "title": {
+            "today": "Dados de Hoje",
+            "thisWeek": "Dados desta Semana",
+            "thisMonth": "Dados deste Mês",
+            "last30Days": "Dados dos últimos 30 dias"
+        }
     }
 }

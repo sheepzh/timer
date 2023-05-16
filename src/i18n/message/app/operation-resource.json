@@ -22,5 +22,11 @@
         "successMsg": "正常に動作しました！",
         "newOne": "追加",
         "save": "保存"
+    },
+    "pt": {
+        "confirmTitle": "Confirmar",
+        "successMsg": "Com êxito!",
+        "newOne": "Criar",
+        "save": "Salvar"
     }
 }

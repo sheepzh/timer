@@ -102,5 +102,31 @@
             "increase": "増加",
             "decline": "減らす"
         }
+    },
+    "pt": {
+        "heatMap": {
+            "title0": "Navegou mais de {hour} horas no último ano",
+            "title1": "Navegue por menos de 1 hora no ano passado",
+            "tooltip0": "Navegado por {minute} minutos em {day}/{month}/{year}",
+            "tooltip1": "Navegado por {hour} horas e {minute} minutos em {day}/{month}/{year}"
+        },
+        "topK": {
+            "title": "TOP {k} mais visitados nos últimos {day} dias",
+            "tooltip": "Visitou {host} por {visit} vezes"
+        },
+        "indicator": {
+            "installedDays": "Instalado por {number} dias",
+            "visitCount": "Visite {site} sites {visit} vezes",
+            "browsingTime": "Navegado por {minute} minutos",
+            "mostUse": "Navegação favorita entre {start} e {end} horas"
+        },
+        "weekOnWeek": {
+            "title": "TOP {k} semana após semana mudança no tempo de navegação",
+            "lastBrowse": "Navegou {time} na última semana",
+            "thisBrowse": "Navegou {time} nesta semana",
+            "wow": "{delta} {state}",
+            "increase": "aumentou",
+            "decline": "diminuiu"
+        }
     }
 }

@@ -22,5 +22,11 @@
         "thisWeek": "今週の",
         "thisMonth": "今月の",
         "last30Days": "過去 30 日間"
+    },
+    "pt": {
+        "today": "Hoje",
+        "thisWeek": "Esta Semana",
+        "thisMonth": "Este Mês",
+        "last30Days": "Últimos 30 dias"
     }
 }

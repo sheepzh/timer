@@ -34,5 +34,14 @@
         "menu": {
             "usage": "高度な使い方"
         }
+    },
+    "pt": {
+        "header": {
+            "sourceCode": "Exibir código-fonte",
+            "email": "Autor do contacto"
+        },
+        "menu": {
+            "usage": "Uso avançado"
+        }
     }
 }

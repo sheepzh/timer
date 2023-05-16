@@ -10,7 +10,7 @@
     },
     "zh_TW": {
         "consoleLog": "今天您打開了 {time} 次 {host}，花費了 {focus} 來瀏覽它。",
-        "closeAlert": "你可以在【網費很貴】的選項中關閉以上提示！",
+        "closeAlert": "你可以在【{appName}】的選項中關閉以上提示！",
         "timeWithHour": "{hour} 小時 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
@@ -28,11 +28,20 @@
     },
     "ja": {
         "consoleLog": "{host} を {time} 回開いて、今日 {focus} をブラウズしました。",
-        "closeAlert": "Timer のオプションで上記のヒントをオフにすることができます！",
+        "closeAlert": "{appName} のオプションで上記のヒントをオフにすることができます！",
         "timeWithHour": "{hour} 時間 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
         "timeLimitMsg": "【{appName}】によって制限されています",
         "more5Minutes": "さらに5分間見てください！ ！ 約束します！"
+    },
+    "pt": {
+        "closeAlert": "Você pode desligar as dicas acima na opção do {appName}!",
+        "timeWithHour": "{hour} horas {minute} minutos {second} segundos",
+        "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
+        "timeWithSecond": "{second} segundo(s)",
+        "timeLimitMsg": "Foi restrito por [{appName}]",
+        "more5Minutes": "Mais 5 minutos, por favor!!",
+        "consoleLog": "Abriu {host} por {time} vez(es) e navegou por {focus} hoje."
     }
 }

@@ -23,7 +23,7 @@
         "addConfirmMsg": "將爲 {origin} 設置自定義合並規則",
         "infoAlertTitle": "該頁麵可以配置子網域的合並規則",
         "infoAlert0": "點擊新增按鈕，會彈出原網域和合並後網域的輸入框，填冩並保存規則",
-        "infoAlert1": "原網域可填具體的網域或者正則表達式，比如 www.baidu.com，*.baidu.com，*.google.com.*。以此確定哪些網域在合並時會使用該條規則",
+        "infoAlert1": "原網域可填具體的網域或者正規表示式，比如 www.baidu.com，*.baidu.com，*.google.com.*。以此確定哪些網域在合並時會使用該條規則",
         "infoAlert2": "合並後網域可填具體的網域，或者填數字，或者不填",
         "infoAlert3": "如果填數字，則表示合並後網域的級數。比如存在規則【 *.*.edu.cn >>> 3 】，那麼 www.hust.edu.cn 將被合並至 hust.edu.cn",
         "infoAlert4": "如果不填，則表示原網域不會被合並",
@@ -58,5 +58,20 @@
         "infoAlert3": "数字を記入する場合は、ドメイン名のレベルが予約されていることを意味します。 たとえば、ルール [*.*.edu.cn >>> 3 ] がある場合、www.hust.edu.cn は hust.edu.cn にマージされます。",
         "infoAlert4": "記入しない場合は、元のドメイン名が統合されないことを意味します",
         "infoAlert5": "一致するルールがない場合、デフォルトで {psl} より前のレベルになります"
+    },
+    "pt": {
+        "removeConfirmMsg": "{origin} será removido das regras personalizadas de mesclagem.",
+        "originPlaceholder": "Site original",
+        "mergedPlaceholder": "Mesclado",
+        "errorOrigin": "O formato do site original é inválido.",
+        "duplicateMsg": "A regra já existe: {origin}",
+        "addConfirmMsg": "Regras de mesclagem personalizadas serão definidas para {origin}",
+        "infoAlertTitle": "Você pode definir as regras de mesclagem ao contar sites nesta página",
+        "infoAlert0": "Clique no botão [Criar], as caixas de entrada do site de origem e o site de mesclagem serão exibidas, preencherão e salvarão a regra",
+        "infoAlert1": "O site original pode ser preenchido com um site específico ou expressão regular, como www.baidu.com, *.baidu.com, *.google.com.*, para determinar quais sites corresponderão a essa regra ao mesclar",
+        "infoAlert2": "O site mesclado pode ser preenchido com um site específico, um número ou em branco",
+        "infoAlert3": "Um número significa o nível de um site unificado. Por exemplo, há uma regra '*.*.edu.cn >>> 3', em seguida, 'www.hust.edu.cn' será fundida com 'hust.edu.cn'",
+        "infoAlert4": "Em branco significa que o site original não será mesclado",
+        "infoAlert5": "Se nenhuma regra for correspondida, o padrão será o nível antes de {psl}"
     }
 }

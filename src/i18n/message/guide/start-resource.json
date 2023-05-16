@@ -42,5 +42,16 @@
         "s3": "3. ポップアップ ページでデータを読み取る",
         "s3p1": "最後にアイコンをクリックしてポップアップページを開くと、今日、今週、今月のデータを円グラフで可視化して読むことができます。",
         "alert": "基本的な使い方を学んだので、試してみてください！！"
+    },
+    "pt": {
+        "title": "Iniciar",
+        "p1": "Pode começar rapidamente a usar essa extensão em apenas 3 etapas fáceis.",
+        "s1": "1. Fixar o ícone",
+        "s1p1": "Em primeiro lugar, para usar esta extensão mais convenientemente, é melhor fixar o ícone na barra de ferramentas. Não é o mesmo em diferentes navegadores fazer isso, a seguinte figura mostra como no Chrome.",
+        "s2": "2. Procure qualquer site",
+        "s2p1": "Em seguida, navegue em qualquer site, e verá que o tempo está batendo no ícone, assim como este {demo}.",
+        "s3": "3. Ler dados na página pop-up",
+        "s3p1": "Finalmente, clique no ícone para abrir a página do pop-up, e pode ler os dados visualizados com gráfico de pizza, de hoje, esta semana ou este mês.",
+        "alert": "Aprendeu o uso básico, experimente!!"
     }
 }

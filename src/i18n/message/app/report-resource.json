@@ -126,5 +126,37 @@
                 "percentage": "パーセンテージ"
             }
         }
+    },
+    "pt": {
+        "startDate": "Data de início",
+        "endDate": "Data final",
+        "lastWeek": "Semana passada",
+        "last30Days": "Últimos 30 dias",
+        "today": "Hoje",
+        "yesterday": "Ontem",
+        "mergeDate": "Mesclar Datas",
+        "mergeDomain": "Mesclar URL",
+        "hostPlaceholder": "URL parcial, e depois digite",
+        "exportFileName": "Meu_Tempo_de_Navegação",
+        "added2Whitelist": "Adicionada à lista ignorada",
+        "removeFromWhitelist": "Removido da lista ignorada",
+        "batchDelete": {
+            "buttonText": "Apagar em lote",
+            "noSelectedMsg": "Por favor, selecione a linha que deseja excluir na tabela primeiro",
+            "confirmMsg": "{count} registros de sites como {example} em {date} serão excluídos!",
+            "confirmMsgAll": "{count} registros para sites como {example} serão excluídos!",
+            "confirmMsgRange": "{count} registros para sites como {example} entre {start} e {end} serão excluídos!",
+            "successMsg": "Lote excluído com sucesso"
+        },
+        "remoteReading": {
+            "on": "Lendo dados de backup remoto",
+            "off": "Clique para ler os dados de backup remoto",
+            "table": {
+                "client": "Nome do Cliente",
+                "localData": "Dados Locais",
+                "value": "Valor",
+                "percentage": "Percentagem"
+            }
+        }
     }
 }

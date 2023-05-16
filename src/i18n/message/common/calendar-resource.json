@@ -19,8 +19,14 @@
     },
     "ja": {
         "weekDays": "Mon|Tue|Wed|Thu|Fri|Sat|Sun",
-        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
+        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Set|Oct|Nov|Dec",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}"
+    },
+    "pt": {
+        "weekDays": "Seg|Ter|Qua|Qui|Sex|Sab|Dom",
+        "months": "Jan|Fev|Mar|Abr|Maio|Jun|Jul|Ago|Set|Out|Nov|Dez",
+        "dateFormat": "{d}/{m}/{y}",
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}"
     }
 }

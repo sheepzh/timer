@@ -38,5 +38,15 @@
         "infoAlert1": "ホワイトリストのサイトは制限されません。",
         "placeholder": "URL",
         "errorInput": "無効なURL"
+    },
+    "pt": {
+        "addConfirmMsg": "{url} não será mais contado após adicionado à lista ignorada.",
+        "removeConfirmMsg": "{url} será removido da lista ignorada.",
+        "duplicateMsg": "Duplicado",
+        "infoAlertTitle": "Você pode definir uma lista de sites ignorados nesta página",
+        "infoAlert0": "Sites na lista ignorada não serão contados",
+        "infoAlert1": "Sites na lista ignorada não serão restritos",
+        "placeholder": "URL do Site",
+        "errorInput": "URL inválido do site"
     }
 }

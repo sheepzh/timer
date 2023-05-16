@@ -30,5 +30,13 @@
             "pic": "写真",
             "txt": "TXT"
         }
+    },
+    "pt": {
+        "localFile": {
+            "json": "Arquivos JSON",
+            "pdf": "Arquivos PDF",
+            "pic": "Imagens",
+            "txt": "Arquivos de Texto"
+        }
     }
 }

@@ -18,5 +18,10 @@
         "currentVersion": "バージョン: v{version}",
         "allFunction": "すべての機能",
         "guidePage": "ユーザーマニュアル"
+    },
+    "pt": {
+        "currentVersion": "Versão: {version}",
+        "allFunction": "Todas as Funções",
+        "guidePage": "Manual do Utilizador"
     }
 }

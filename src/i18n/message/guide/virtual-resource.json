@@ -37,10 +37,21 @@
         "p1": "ドメイン名だけでなく、特定の URL の閲覧時間と訪問回数をカウントしたい場合は、仮想サイトを作成することで実行できます。",
         "step": {
             "title": "仮想サイトを作成するための 4 つのステップ",
-            "enter": "まず、管理ページ{link}に入り、メニュー項目{menuItem}をクリックします。",
+            "enter": "まず、管理ページ {link} に入り、メニュー項目 {menuItem} をクリックします。",
             "click": "右上隅にある [新規] ボタンをクリックします。",
             "form": "次に、カウントする URL、{demo1} または {demo2} などの Ant 式が許可されていること、およびこの仮想サイトの名前を入力し、[保存] をクリックします。",
             "browse": "最後に、関連する URL を参照してデータを観察します。"
+        }
+    },
+    "pt": {
+        "title": "Contar dados para URL específicos",
+        "p1": "Se deseja contar o tempo de navegação e o número de visitas de certas URL, não apenas o nome de domínio, pode fazê-lo criando um site virtual.",
+        "step": {
+            "title": "Quatro etapas para criar um site virtual",
+            "enter": "Primeiro, digite a página de gestão{link}, clique no item de menu {menuItem}.",
+            "click": "Clique no botão Criar no canto superior direito.",
+            "form": "Em seguida, preencha a URL para contar, expressões Ant são permitidas, como {demo1} ou {demo2}, o nome deste site virtual e clique em Salvar.",
+            "browse": "Finalmente, procure os URL relevantes e observe os dados."
         }
     }
 }

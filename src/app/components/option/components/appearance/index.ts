@@ -15,7 +15,7 @@ import DarkModeInput from "./dark-mode-input"
 import { t, tWith } from "@app/locale"
 import { renderOptionItem, tagText } from "../../common"
 import localeMessages from "@i18n/message/common/locale"
-import { localeSameAsBrowser } from "@i18n"
+import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import { toggle } from "@util/dark-mode"
 
 const displayWhitelist = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSwitch, {
@@ -42,10 +42,10 @@ const printInConsole = (option: UnwrapRef<timer.option.AppearanceOption>) => h(E
     }
 })
 
-const allLocales: timer.Locale[] = (["zh_CN", "zh_TW", "en", "ja"] as timer.Locale[])
+const SORTED_LOCALES: timer.Locale[] = ALL_LOCALES
     // Keep the locale same as this browser first position
     .sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
-const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...allLocales]
+const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...SORTED_LOCALES]
 
 const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect, {
     modelValue: option.locale,

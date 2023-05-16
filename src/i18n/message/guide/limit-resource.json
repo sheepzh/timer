@@ -37,10 +37,21 @@
         "p1": "特定の URL を毎日閲覧する時間を制限したい場合は、毎日の時間制限ルールを作成することでこれを行うことができます。",
         "step": {
             "title": "制限ルールを作成するための 4 つのステップ",
-            "enter": "まず、管理ページ{link}に入り、メニュー項目{menuItem}をクリックします。",
+            "enter": "まず、管理ページ {link} に入り、メニュー項目{menuItem} をクリックします。",
             "click": "右上隅にある [新規] ボタンをクリックします。",
             "form": "制限する必要がある URL と制限の期間を貼り付けます。一部の URL フラグメントは、必要に応じてワイルドカードに置き換えたり、直接削除したりできます。 次に、[保存] をクリックします。",
             "check": "最後に、右上隅の [テスト] ボタンを使用して、ターゲット URL が新しく追加されたルールに一致するかどうかを確認します。"
+        }
+    },
+    "pt": {
+        "title": "Limitar tempo de navegação de todos os dias",
+        "p1": "Se deseja limitar o tempo de navegação de certas URL por dia, pode fazê-lo criando uma regra diária de limite de tempo.",
+        "step": {
+            "title": "Quatro passos para criar uma regra limite",
+            "enter": "Primeiro, digite a página de gestão{link}, clique no item de menu {menuItem}.",
+            "click": "Clique no botão \"Criar\" no canto superior direito.",
+            "form": "Cole a URL que precisa ser restrita, e a duração da restrição. Alguns fragmentos de URL podem ser substituídos por carácter curinga, conforme necessário, ou excluídos diretamente. Depois clique em Salvar.",
+            "check": "Finalmente, verifique se a URL de destino atinge a regra recém-adicionada através do botão Testar no canto superior direito."
         }
     }
 }

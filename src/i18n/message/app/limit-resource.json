@@ -66,7 +66,7 @@
             "noTime": "未填冩每日限製時長",
             "deleteConfirm": "是否刪除限製：{cond}？",
             "deleted": "刪除成功",
-            "noPermissionFirefox": "請先在插件管理頁[about:addons]開啟該插件的粘貼闆權限",
+            "noPermissionFirefox": "請先在插件管理頁【about:addons】開啟該插件的粘貼闆權限",
             "inputTestUrl": "請先輸入需要測試的網址鏈接",
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
             "noRuleMatched": "該網址未命中任何規則",
@@ -150,5 +150,43 @@
         },
         "urlPlaceholder": "URLを直接貼り付けてください➡️",
         "testUrlLabel": "テスト URL"
+    },
+    "pt": {
+        "conditionFilter": "URL",
+        "filterDisabled": "Apenas Habilitadas",
+        "addTitle": "Criar",
+        "useWildcard": "Se deseja usar caractere curinga",
+        "urlPlaceholder": "Cole a URL diretamente ➡️",
+        "item": {
+            "condition": "Restrito URL",
+            "time": "Limite de tempo diário",
+            "waste": "Tempo de navegação hoje",
+            "enabled": "Ativado",
+            "delayAllowed": "Mais 5 minutos",
+            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
+            "operation": "Operações"
+        },
+        "button": {
+            "add": "Criar",
+            "test": "Testar URL",
+            "paste": "Colar",
+            "save": "Salvar",
+            "delete": "Apagar",
+            "testSimple": "Testar",
+            "modify": "Modificar"
+        },
+        "message": {
+            "saved": "Guardado com sucesso",
+            "noUrl": "URL limitada não preenchida",
+            "noTime": "Tempo por dia não preenchido",
+            "deleteConfirm": "Deseja excluir a regra de {cond}?",
+            "deleted": "Apagado com sucesso",
+            "noPermissionFirefox": "Por favor, ative a permissão da área de transferência para esta extensão na página de gestão (about:addons) primeiro",
+            "inputTestUrl": "Por favor insira o link de URL para testar primeiro",
+            "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
+            "noRuleMatched": "O URL não atinge nenhuma regra",
+            "rulesMatched": "A URL atinge as seguintes regras:"
+        },
+        "testUrlLabel": "Testar URL"
     }
 }

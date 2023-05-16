@@ -22,5 +22,11 @@
             "blank": "不合并",
             "level": "{level} 次ドメイン"
         }
+    },
+    "pt": {
+        "tagResult": {
+            "blank": "Não Mesclar",
+            "level": "Mantenha o Nível {level}"
+        }
     }
 }

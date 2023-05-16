@@ -134,5 +134,39 @@
             "p2": "ただし、拡張機能によって提供されるツールを使用して、データを JSON または CSV ファイル形式でエクスポートまたはインポートできます。 この拡張機能は、GitHub Gist など、データをバックアップするのに十分信頼できるサードパーティ サービスの使用もサポートします。",
             "p3": "私たちはあなたがデータを収集するのを手伝うだけですが、処分する権利はあなたのものでなければなりません."
         }
+    },
+    "pt": {
+        "title": "Declaração de privacidade",
+        "alert": "Para fornecer serviços completos, esta extensão irá necessariamente coletar alguns dos seus dados pessoais durante o uso, consulte a seguinte declaração de privacidade para obter detalhes.",
+        "scope": {
+            "title": "Quais as informações recolhidas?",
+            "cols": {
+                "name": "Conteúdo",
+                "usage": "Utilização",
+                "required": "Requeridas"
+            },
+            "rows": {
+                "website": {
+                    "name": "Histórico de navegação de sites",
+                    "usage": "Usado para contar o tempo de navegação e visitas"
+                },
+                "tab": {
+                    "name": "Informação de guia",
+                    "usage": "Usado para obter automaticamente o nome e o ícone do site, e melhorar a experiência do utilizador ao exibir dados",
+                    "optionalReason": "Somente se esta função estiver ativada nas opções"
+                },
+                "clipboard": {
+                    "name": "Conteúdo da área de transferência",
+                    "usage": "Ao definir a regra de limite de tempo diário, para a conveniência da operação, a URL da área de transferência será lida",
+                    "optionalReason": "Somente se utilizador concordar"
+                }
+            }
+        },
+        "storage": {
+            "title": "Como fazer com esses dados?",
+            "p1": "Garantimos que todos os dados coletados por esta extensão só serão salvos no armazenamento local do seu navegador e nunca serão distribuídos em outro lugar.",
+            "p2": "No entanto, pode usar as ferramentas fornecidas pela extensão para exportar ou importar os seus dados em formato JSON, ou CSV. A extensão também oferece suporte a você para usar o GitHub Gist, etc., serviços de terceiros nos quais confia o suficiente para fazer backup dos seus dados.",
+            "p3": "Só lhe ajudamos a recolher dados, mas o direito à eliminação deve ser o seu."
+        }
     }
 }

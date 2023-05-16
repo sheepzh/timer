@@ -7,7 +7,7 @@
 
 import { ElDropdown, ElDropdownItem, ElDropdownMenu } from "element-plus"
 import { defineComponent, h } from "vue"
-import { getI18nVal, locale as current } from "@i18n"
+import { getI18nVal, locale as current, ALL_LOCALES } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"
 import SvgIcon from "./svg-icon"
 import { LOCALE_PATH } from "./svg"
@@ -16,7 +16,6 @@ import { createTabAfterCurrent } from "@api/chrome/tab"
 import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 
 const HELP_CMD: string = '_help'
-const ALL_LOCALES: timer.Locale[] = ['en', 'zh_CN', 'zh_TW', 'ja']
 
 const getLocaleName = (locale: timer.Locale) => getI18nVal(localeMessages, msg => msg.name, locale)
 

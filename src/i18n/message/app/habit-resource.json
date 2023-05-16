@@ -98,5 +98,30 @@
             "yAxisMin": "閲覧時間/分",
             "yAxisHour": "閲覧時間/時間"
         }
+    },
+    "pt": {
+        "sizes": {
+            "fifteen": "Por 15 minutos",
+            "halfHour": "Por meia hora",
+            "hour": "Por 1 hora",
+            "twoHour": "Por 2 horas"
+        },
+        "average": {
+            "label": "Média diária"
+        },
+        "dateRange": {
+            "lastDay": "Último dia",
+            "last3Days": "Últimos 3 dias",
+            "lastWeek": "Última semana",
+            "last15Days": "Últimos 15 dias",
+            "last30Days": "Últimos 30 dias",
+            "last60Days": "Últimos 60 dias"
+        },
+        "chart": {
+            "title": "Estatísticas do tempo de navegação",
+            "saveAsImageTitle": "Capturas",
+            "yAxisMin": "Tempo de Navegação / Minutos",
+            "yAxisHour": "Tempo de Navegação / Hora"
+        }
     }
 }
