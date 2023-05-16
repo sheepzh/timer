@@ -7,7 +7,7 @@
             "enter": "First, enter the management page{link}, click the menu item {menuItem}.",
             "click": "Click the New button in the upper right corner.",
             "form": "Then, fill in the URL to count, Ant expressions is allowed, such as {demo1} or {demo2}, and the name of this virtual site, and then click Save.",
-            "browse": "Finally, Browse the relevant URLs and observe the data."
+            "browse": "Finally, browse the relevant URLs and observe the data."
         }
     },
     "zh_CN": {

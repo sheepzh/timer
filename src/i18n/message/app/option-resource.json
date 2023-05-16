@@ -64,12 +64,9 @@
             "client": "客户端标识 {input}",
             "meta": {
                 "none": {
-                    "label": "不开启备份",
-                    "auth": ""
+                    "label": "不开启备份"
                 },
                 "gist": {
-                    "label": "GitHub Gist",
-                    "auth": "Personal Access Token {info} {input}",
                     "authInfo": "需要创建一个至少包含 gist 权限的 token"
                 }
             },
@@ -154,8 +151,6 @@
                     "label": "關閉備份"
                 },
                 "gist": {
-                    "label": "GitHub Gist",
-                    "auth": "Personal Access Token {info} {input}",
                     "authInfo": "需要創建一個至少包含 gist 權限的 token"
                 }
             },
@@ -240,8 +235,6 @@
                     "label": "Always off"
                 },
                 "gist": {
-                    "label": "GitHub Gist",
-                    "auth": "Personal Access Token {info} {input}",
                     "authInfo": "One token with at least gist permission is required"
                 }
             },
@@ -326,8 +319,6 @@
                     "label": "バックアップを有効にしない"
                 },
                 "gist": {
-                    "label": "GitHub Gist",
-                    "auth": "Personal Access Token {info} {input}",
                     "authInfo": "少なくとも gist 権限を持つトークンが 1 つ必要です"
                 }
             },

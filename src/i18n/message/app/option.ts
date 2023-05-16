@@ -67,8 +67,7 @@ export type OptionMessage = {
         client: string
         meta: {
             [type in timer.backup.Type]: {
-                label: string
-                auth?: string
+                label?: string
                 authInfo?: string
             }
         }

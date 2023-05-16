@@ -73,7 +73,7 @@
         "mergeDate": "Merge date",
         "mergeDomain": "Merge URL",
         "hostPlaceholder": "Partial URL, then enter",
-        "exportFileName": "Timer_Data",
+        "exportFileName": "My_Browsing_Time",
         "added2Whitelist": "Added into the whitelist",
         "removeFromWhitelist": "Removed from the whitelist",
         "batchDelete": {

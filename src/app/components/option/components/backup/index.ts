@@ -5,7 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Ref } from "vue"
+import type { Ref } from "vue"
+import type { I18nKey } from "@app/locale"
 
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
@@ -23,9 +24,19 @@ const ALL_TYPES: timer.backup.Type[] = [
     'gist',
 ]
 
+const AUTH_LABELS: { [t in timer.backup.Type]: string } = {
+    'none': '',
+    'gist': 'Personal Access Token {info} {input}',
+}
+
+const TYPE_NAMES: { [t in timer.backup.Type]: I18nKey } = {
+    none: msg => msg.option.backup.meta.none.label,
+    gist: _ => 'GitHub Gist',
+}
+
 const typeOptions = () => ALL_TYPES.map(type => h(ElOption, {
     value: type,
-    label: t(msg => msg.option.backup.meta[type].label)
+    label: t(TYPE_NAMES[type]),
 }))
 
 const typeSelect = (type: Ref<timer.backup.Type>, handleChange?: Function) => h(ElSelect,
@@ -136,7 +147,7 @@ const _default = defineComponent({
                     input: typeSelect(type, handleChange)
                 },
                     msg => msg.backup.type,
-                    t(msg => msg.option.backup.meta[DEFAULT.backupType].label)
+                    t(TYPE_NAMES[DEFAULT.backupType])
                 )
             ]
             type.value !== 'none' && nodes.push(
@@ -157,7 +168,7 @@ const _default = defineComponent({
                     input: authInput(auth, handleChange, handleTest),
                     info: tooltip(msg => msg.option.backup.meta[type.value]?.authInfo)
                 },
-                    msg => msg.backup.meta[type.value]?.auth
+                    _msg => AUTH_LABELS[type.value],
                 ),
                 h(ElDivider),
                 renderOptionItem({

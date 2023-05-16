@@ -14,8 +14,6 @@ export type MetaMessage = {
     slogan: string
 }
 
-const SLOGAN_EN = 'Insight & Improve'
-
 const _default: Messages<MetaMessage> = resource
 
 export default _default
