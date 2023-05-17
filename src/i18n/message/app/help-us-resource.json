@@ -8,7 +8,8 @@
             "l4": "当某种语言的翻译进度达到 50% 之后，我将会考虑在扩展中支持它。"
         },
         "button": "前往 Crowdin",
-        "loading": "正在查询翻译进度..."
+        "loading": "正在查询翻译进度...",
+        "contributors": "贡献者名单"
     },
     "en": {
         "title": "Feel free to help improve the extension's localization translations!",
@@ -19,10 +20,12 @@
             "l4": "When the translation progress of a language reaches 50%, I will consider supporting it in this extension."
         },
         "button": "Go Crowdin",
-        "loading": "Checking translation progress..."
+        "loading": "Checking translation progress...",
+        "contributors": "Contributor List"
     },
     "zh_TW": {
         "button": "前往 Crowdin",
-        "loading": "正在檢查翻譯進度..."
+        "loading": "正在檢查翻譯進度...",
+        "contributors": "貢獻者名單"
     }
 }

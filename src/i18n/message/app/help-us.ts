@@ -18,6 +18,7 @@ export type HelpUsMessage = {
     alert: { [line in _AlertLine]: string }
     button: string
     loading: string
+    contributors: string
 }
 
 const _default: Messages<HelpUsMessage> = resource
