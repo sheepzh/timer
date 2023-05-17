@@ -21,9 +21,10 @@ import operationMessages, { OperationMessage } from './operation'
 import confirmMessages, { ConfirmMessage } from './confirm'
 import dashboardMessages, { DashboardMessage } from "./dashboard"
 import timeFormatMessages, { TimeFormatMessage } from "./time-format"
+import helpUsMessages, { HelpUsMessage } from "./help-us"
 import calendarMessages, { CalendarMessage } from "@i18n/message/common/calendar"
 import popupDurationMessages, { PopupDurationMessage } from "@i18n/message/common/popup-duration"
-import helpUsMessages, { HelpUsMessage } from "./help-us"
+import buttonMessages, { ButtonMessage } from "@i18n/message/common/button"
 
 export type AppMessage = {
     dataManage: DataManageMessage
@@ -45,6 +46,7 @@ export type AppMessage = {
     timeFormat: TimeFormatMessage
     duration: PopupDurationMessage
     helpUs: HelpUsMessage
+    button: ButtonMessage
 }
 
 const _default: Messages<AppMessage> = {
@@ -68,6 +70,7 @@ const _default: Messages<AppMessage> = {
         timeFormat: timeFormatMessages.zh_CN,
         duration: popupDurationMessages.zh_CN,
         helpUs: helpUsMessages.zh_CN,
+        button: buttonMessages.zh_CN,
     },
     zh_TW: {
         dataManage: dataManageMessages.zh_TW,
@@ -89,6 +92,7 @@ const _default: Messages<AppMessage> = {
         timeFormat: timeFormatMessages.zh_TW,
         duration: popupDurationMessages.zh_TW,
         helpUs: helpUsMessages.zh_TW,
+        button: buttonMessages.zh_TW,
     },
     en: {
         dataManage: dataManageMessages.en,
@@ -110,6 +114,7 @@ const _default: Messages<AppMessage> = {
         timeFormat: timeFormatMessages.en,
         duration: popupDurationMessages.en,
         helpUs: helpUsMessages.en,
+        button: buttonMessages.en,
     },
     ja: {
         dataManage: dataManageMessages.ja,
@@ -131,6 +136,7 @@ const _default: Messages<AppMessage> = {
         timeFormat: timeFormatMessages.ja,
         duration: popupDurationMessages.ja,
         helpUs: helpUsMessages.ja,
+        button: buttonMessages.ja,
     },
     pt: {
         dataManage: dataManageMessages.pt,
@@ -152,6 +158,7 @@ const _default: Messages<AppMessage> = {
         timeFormat: timeFormatMessages.pt,
         duration: popupDurationMessages.pt,
         helpUs: helpUsMessages.pt,
+        button: buttonMessages.pt,
     },
 }
 

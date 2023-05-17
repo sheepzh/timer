@@ -24,12 +24,6 @@ export type AnalysisMessage = {
     }
     trend: {
         title: string
-        startDate: string,
-        endDate: string
-        lastWeek: string
-        last15Days: string
-        last30Days: string
-        last90Days: string
         activeDay: string
         totalDay: string
         maxFocus: string

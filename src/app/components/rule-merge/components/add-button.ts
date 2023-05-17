@@ -11,7 +11,7 @@ import { ElButton } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
 import ItemInput from './item-input'
 
-const buttonText = `+ ${t(msg => msg.operation.newOne)}`
+const buttonText = `+ ${t(msg => msg.button.create)}`
 
 const _default = defineComponent({
     name: "MergeRuleAddButton",

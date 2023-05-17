@@ -111,8 +111,8 @@ function generateParamAndSelect(props: _Props): Promise<timer.stat.Row[]> | unde
     return statDatabase.select(condition)
 }
 
-const operationCancelMsg = t(msg => msg.dataManage.operationCancel)
-const operationConfirmMsg = t(msg => msg.dataManage.operationConfirm)
+const operationCancelMsg = t(msg => msg.button.cancel)
+const operationConfirmMsg = t(msg => msg.button.confirm)
 
 const handleClick = async (props: _Props) => {
     const result: timer.stat.Row[] = await generateParamAndSelect(props)

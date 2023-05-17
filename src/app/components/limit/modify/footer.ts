@@ -10,7 +10,7 @@ import { ElButton } from "element-plus"
 import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 
-const buttonText = t(msg => msg.limit.button.save)
+const buttonText = t(msg => msg.button.save)
 const _default = defineComponent({
     name: "SaveButton",
     emits: {

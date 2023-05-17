@@ -11,8 +11,8 @@ import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 
 const label = t(msg => msg.limit.item.operation)
-const deleteButtonText = t(msg => msg.limit.button.delete)
-const modifyButtonText = t(msg => msg.limit.button.modify)
+const deleteButtonText = t(msg => msg.button.delete)
+const modifyButtonText = t(msg => msg.button.modify)
 const _default = defineComponent({
     name: "LimitOperationColumn",
     emits: {

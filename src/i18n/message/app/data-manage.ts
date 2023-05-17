@@ -23,8 +23,6 @@ export type DataManageMessage = {
     migrationAlert: string
     importError: string
     migrated: string
-    operationCancel: string
-    operationConfirm: string
     dateShortcut: {
         tillYesterday: string
         till7DaysAgo: string

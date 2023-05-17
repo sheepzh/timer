@@ -20,7 +20,7 @@ function computeResultTitle(url: string, inputting: boolean, matchedCondition: s
         return t(msg => msg.limit.message.inputTestUrl)
     }
     if (inputting) {
-        return t(msg => msg.limit.message.clickTestButton, { buttonText: t(msg => msg.limit.button.testSimple) })
+        return t(msg => msg.limit.message.clickTestButton, { buttonText: t(msg => msg.button.test) })
     }
     if (!matchedCondition?.length) {
         return t(msg => msg.limit.message.noRuleMatched)
@@ -45,58 +45,55 @@ function computeResultType(url: string, inputting: boolean, matchedCondition: st
     return matchedCondition?.length ? 'success' : 'warning'
 }
 
-const _default = defineComponent({
-    name: "LimitTest",
-    setup(_props, ctx) {
-        const urlRef: Ref<string> = ref()
-        const matchedConditionRef: Ref<string[]> = ref([])
-        const visible: Ref<boolean> = ref(false)
-        const urlInputtingRef: Ref<boolean> = ref(true)
-        const resultTitleRef: ComputedRef<string> = computed(() => computeResultTitle(urlRef.value, urlInputtingRef.value, matchedConditionRef.value))
-        const resultTypeRef: ComputedRef<_ResultType> = computed(() => computeResultType(urlRef.value, urlInputtingRef.value, matchedConditionRef.value))
-        const resultDescRef: ComputedRef<string[]> = computed(() => computeResultDesc(urlRef.value, urlInputtingRef.value, matchedConditionRef.value))
+const _default = defineComponent((_props, ctx) => {
+    const urlRef: Ref<string> = ref()
+    const matchedConditionRef: Ref<string[]> = ref([])
+    const visible: Ref<boolean> = ref(false)
+    const urlInputtingRef: Ref<boolean> = ref(true)
+    const resultTitleRef: ComputedRef<string> = computed(() => computeResultTitle(urlRef.value, urlInputtingRef.value, matchedConditionRef.value))
+    const resultTypeRef: ComputedRef<_ResultType> = computed(() => computeResultType(urlRef.value, urlInputtingRef.value, matchedConditionRef.value))
+    const resultDescRef: ComputedRef<string[]> = computed(() => computeResultDesc(urlRef.value, urlInputtingRef.value, matchedConditionRef.value))
 
-        const changeInput = (newVal: string) => (urlInputtingRef.value = true) && (urlRef.value = newVal?.trim())
-        const test = () => {
-            urlInputtingRef.value = false
-            handleTest(urlRef.value).then(matched => matchedConditionRef.value = matched)
-        }
-
-        ctx.expose({
-            show() {
-                urlRef.value = ''
-                visible.value = true
-                urlInputtingRef.value = true
-                matchedConditionRef.value = []
-            }
-        })
-        return () => h(ElDialog, {
-            title: t(msg => msg.limit.button.testSimple),
-            modelValue: visible.value,
-            closeOnClickModal: false,
-            onClose: () => visible.value = false
-        }, () => [
-            h(ElFormItem, {
-                label: t(msg => msg.limit.testUrlLabel),
-                labelWidth: 120
-            }, () => h(ElInput, {
-                modelValue: urlRef.value,
-                clearable: true,
-                onClear: () => changeInput(''),
-                onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && test(),
-                onInput: (newVal: string) => changeInput(newVal)
-            }, {
-                append: () => h(ElButton, {
-                    onClick: () => test()
-                }, () => t(msg => msg.limit.button.testSimple)),
-            })),
-            h(ElAlert, {
-                closable: false,
-                type: resultTypeRef.value,
-                title: resultTitleRef.value,
-            }, () => resultDescRef.value.map(desc => h('li', desc)))
-        ])
+    const changeInput = (newVal: string) => (urlInputtingRef.value = true) && (urlRef.value = newVal?.trim())
+    const test = () => {
+        urlInputtingRef.value = false
+        handleTest(urlRef.value).then(matched => matchedConditionRef.value = matched)
     }
+
+    ctx.expose({
+        show() {
+            urlRef.value = ''
+            visible.value = true
+            urlInputtingRef.value = true
+            matchedConditionRef.value = []
+        }
+    })
+    return () => h(ElDialog, {
+        title: t(msg => msg.button.test),
+        modelValue: visible.value,
+        closeOnClickModal: false,
+        onClose: () => visible.value = false
+    }, () => [
+        h(ElFormItem, {
+            label: t(msg => msg.limit.button.test),
+            labelWidth: 120
+        }, () => h(ElInput, {
+            modelValue: urlRef.value,
+            clearable: true,
+            onClear: () => changeInput(''),
+            onKeyup: (event: KeyboardEvent) => event.key === 'Enter' && test(),
+            onInput: (newVal: string) => changeInput(newVal)
+        }, {
+            append: () => h(ElButton, {
+                onClick: () => test()
+            }, () => t(msg => msg.button.test)),
+        })),
+        h(ElAlert, {
+            closable: false,
+            type: resultTypeRef.value,
+            title: resultTitleRef.value,
+        }, () => resultDescRef.value.map(desc => h('li', desc)))
+    ])
 })
 
 export default _default

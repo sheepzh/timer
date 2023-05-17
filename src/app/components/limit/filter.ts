@@ -14,7 +14,7 @@ import { t } from "@app/locale"
 
 const urlPlaceholder = t(msg => msg.limit.conditionFilter)
 const onlyEnabledLabel = t(msg => msg.limit.filterDisabled)
-const addButtonText = t(msg => msg.limit.button.add)
+const addButtonText = t(msg => msg.button.create)
 const testButtonText = t(msg => msg.limit.button.test)
 
 const emits = {

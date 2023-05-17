@@ -17,14 +17,6 @@ export type HabitMessage = {
     average: {
         label: string
     },
-    dateRange: {
-        lastDay: string
-        last3Days: string
-        lastWeek: string
-        last15Days: string
-        last30Days: string
-        last60Days: string
-    },
     chart: {
         title: string
         saveAsImageTitle: string

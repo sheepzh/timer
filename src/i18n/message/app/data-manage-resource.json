@@ -19,9 +19,7 @@
         "deleteSuccess": "删除成功",
         "migrationAlert": "使用导入/导出在不同浏览器之间迁移数据",
         "importError": "文件格式错误",
-        "migrated": "成功导入",
-        "operationCancel": "取消",
-        "operationConfirm": "确认"
+        "migrated": "成功导入"
     },
     "zh_TW": {
         "totalMemoryAlert": "瀏覽器爲每個擴充提供 {size}MB 來存儲本地數據",
@@ -43,9 +41,7 @@
         "deleteSuccess": "刪除成功",
         "migrationAlert": "使用導入/導出在不同瀏覽器之間遷移數據",
         "importError": "文件格式錯誤",
-        "migrated": "成功導入",
-        "operationCancel": "取消",
-        "operationConfirm": "確認"
+        "migrated": "成功導入"
     },
     "en": {
         "totalMemoryAlert": "The browser provides {size}MB to store local data for each extension",
@@ -67,9 +63,7 @@
         "deleteSuccess": "Deleted successfully!",
         "migrationAlert": "Migrate data between browsers using import and export",
         "importError": "Wrong file extension",
-        "migrated": "Imported successfully!",
-        "operationCancel": "Cancel",
-        "operationConfirm": "Confirm"
+        "migrated": "Imported successfully!"
     },
     "ja": {
         "totalMemoryAlert": "ブラウザは、データを保存するために各拡張機能に {size}MB のメモリを提供します",
@@ -91,9 +85,7 @@
         "deleteSuccess": "正常に削除されました",
         "migrationAlert": "インポート/エクスポートを使用して、異なるブラウザ間でデータを移行します",
         "importError": "ファイル形式エラー",
-        "migrated": "正常にインポートされました",
-        "operationCancel": "取消",
-        "operationConfirm": "確認"
+        "migrated": "正常にインポートされました"
     },
     "pt": {
         "totalMemoryAlert": "O navegador fornece {size}MB para armazenar dados locais para cada extensão",
@@ -111,8 +103,6 @@
         "migrationAlert": "Migrar dados entre navegadores usando a importação e exportação",
         "importError": "Formato de arquivo incorreto",
         "migrated": "Importado com sucesso!",
-        "operationCancel": "Cancelar",
-        "operationConfirm": "Confirmar",
         "dateShortcut": {
             "tillYesterday": "Até ontem",
             "till7DaysAgo": "Até 7 dias atrás",

@@ -23,13 +23,7 @@ export type LimitMessage = {
         operation: string
     }
     button: {
-        add: string
         test: string
-        testSimple: string
-        paste: string
-        save: string
-        delete: string
-        modify: string
     }
     message: {
         noUrl: string
@@ -43,7 +37,6 @@ export type LimitMessage = {
         noRuleMatched: string
         rulesMatched: string
     }
-    testUrlLabel: string
 }
 
 const _default: Messages<LimitMessage> = resource

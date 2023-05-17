@@ -10,8 +10,6 @@ import resource from './operation-resource.json'
 export type OperationMessage = {
     confirmTitle: string
     successMsg: string
-    save: string
-    newOne: string
 }
 
 const _default: Messages<OperationMessage> = resource

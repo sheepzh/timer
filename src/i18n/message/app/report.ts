@@ -8,12 +8,6 @@
 import resource from './report-resource.json'
 
 export type ReportMessage = {
-    startDate: string
-    endDate: string
-    lastWeek: string
-    last30Days: string
-    today: string
-    yesterday: string
     mergeDate: string
     mergeDomain: string
     hostPlaceholder: string

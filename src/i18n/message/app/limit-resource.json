@@ -12,13 +12,7 @@
             "operation": "操作"
         },
         "button": {
-            "add": "新增",
-            "test": "网址测试",
-            "testSimple": "测试",
-            "paste": "粘贴",
-            "save": "保存",
-            "delete": "删除",
-            "modify": "修改"
+            "test": "网址测试"
         },
         "addTitle": "新增限制",
         "useWildcard": "是否使用通配符",
@@ -34,7 +28,6 @@
             "noRuleMatched": "该网址未命中任何规则",
             "rulesMatched": "该网址命中以下规则："
         },
-        "testUrlLabel": "测试网址",
         "urlPlaceholder": "请直接粘贴网址 ➡️"
     },
     "zh_TW": {
@@ -50,13 +43,7 @@
             "operation": "操作"
         },
         "button": {
-            "add": "新增",
-            "test": "網址測試",
-            "testSimple": "測試",
-            "paste": "粘貼",
-            "save": "保存",
-            "delete": "刪除",
-            "modify": "修改"
+            "test": "網址測試"
         },
         "addTitle": "新增限製",
         "useWildcard": "是否使用通配符",
@@ -72,8 +59,7 @@
             "noRuleMatched": "該網址未命中任何規則",
             "rulesMatched": "該網址命中以下規則："
         },
-        "urlPlaceholder": "請直接粘貼網址 ➡️",
-        "testUrlLabel": "測試網址"
+        "urlPlaceholder": "請直接粘貼網址 ➡️"
     },
     "en": {
         "conditionFilter": "URL",
@@ -88,13 +74,7 @@
             "operation": "Operations"
         },
         "button": {
-            "add": "New",
-            "test": "Test URL",
-            "testSimple": "Test",
-            "paste": "Paste",
-            "save": "Save",
-            "delete": "Delete",
-            "modify": "Modify"
+            "test": "Test URL"
         },
         "addTitle": "New",
         "useWildcard": "Whether to use wildcard",
@@ -110,8 +90,7 @@
             "noRuleMatched": "The URL does not hit any rules",
             "rulesMatched": "The URL hits the following rules:"
         },
-        "urlPlaceholder": "Please paste the URL directly ➡️",
-        "testUrlLabel": "Test URL"
+        "urlPlaceholder": "Please paste the URL directly ➡️"
     },
     "ja": {
         "conditionFilter": "URL",
@@ -126,13 +105,7 @@
             "operation": "操作"
         },
         "button": {
-            "add": "新增",
-            "test": "テストURL",
-            "testSimple": "テスト",
-            "paste": "ペースト",
-            "save": "セーブ",
-            "delete": "削除",
-            "modify": "変更"
+            "test": "テスト URL"
         },
         "addTitle": "新增",
         "useWildcard": "ワイルドカードを使用するかどうか",
@@ -148,8 +121,7 @@
             "noRuleMatched": "URL がどのルールとも一致しません",
             "rulesMatched": "URL は次のルールに一致します。"
         },
-        "urlPlaceholder": "URLを直接貼り付けてください➡️",
-        "testUrlLabel": "テスト URL"
+        "urlPlaceholder": "URLを直接貼り付けてください➡️"
     },
     "pt": {
         "conditionFilter": "URL",
@@ -167,13 +139,7 @@
             "operation": "Operações"
         },
         "button": {
-            "add": "Criar",
-            "test": "Testar URL",
-            "paste": "Colar",
-            "save": "Salvar",
-            "delete": "Apagar",
-            "testSimple": "Testar",
-            "modify": "Modificar"
+            "test": "Testar URL"
         },
         "message": {
             "saved": "Guardado com sucesso",
@@ -186,7 +152,6 @@
             "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
             "noRuleMatched": "O URL não atinge nenhuma regra",
             "rulesMatched": "A URL atinge as seguintes regras:"
-        },
-        "testUrlLabel": "Testar URL"
+        }
     }
 }

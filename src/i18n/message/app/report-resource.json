@@ -1,11 +1,5 @@
 {
     "zh_CN": {
-        "startDate": "开始日期",
-        "endDate": "结束日期",
-        "lastWeek": "最近一周",
-        "last30Days": "最近 30 天",
-        "today": "今天",
-        "yesterday": "昨天",
         "mergeDate": "合并日期",
         "mergeDomain": "合并子域名",
         "hostPlaceholder": "请输入域名，然后回车",
@@ -32,12 +26,6 @@
         }
     },
     "zh_TW": {
-        "startDate": "開始日期",
-        "endDate": "結束日期",
-        "lastWeek": "最近一週",
-        "last30Days": "最近 30 天",
-        "today": "今天",
-        "yesterday": "昨天",
         "mergeDate": "合並日期",
         "mergeDomain": "合並子域名",
         "hostPlaceholder": "請輸入域名，然後回車",
@@ -64,12 +52,6 @@
         }
     },
     "en": {
-        "startDate": "Start date",
-        "endDate": "End date",
-        "lastWeek": "Last week",
-        "last30Days": "Last 30 days",
-        "today": "Today",
-        "yesterday": "Yesterday",
         "mergeDate": "Merge date",
         "mergeDomain": "Merge URL",
         "hostPlaceholder": "Partial URL, then enter",
@@ -96,12 +78,6 @@
         }
     },
     "ja": {
-        "startDate": "開始日",
-        "endDate": "終了日",
-        "lastWeek": "先週",
-        "last30Days": "過去 30 日間",
-        "today": "今日",
-        "yesterday": "昨日",
         "mergeDate": "マージ日",
         "mergeDomain": "URLをマージ",
         "hostPlaceholder": "URL を入力してください",
@@ -128,12 +104,6 @@
         }
     },
     "pt": {
-        "startDate": "Data de início",
-        "endDate": "Data final",
-        "lastWeek": "Semana passada",
-        "last30Days": "Últimos 30 dias",
-        "today": "Hoje",
-        "yesterday": "Ontem",
         "mergeDate": "Mesclar Datas",
         "mergeDomain": "Mesclar URL",
         "hostPlaceholder": "URL parcial, e depois digite",
