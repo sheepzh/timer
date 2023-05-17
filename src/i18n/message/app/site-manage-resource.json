@@ -190,7 +190,7 @@
             }
         }
     },
-    "pt": {
+    "pt_PT": {
         "hostPlaceholder": "URL parcial, e depois digite",
         "aliasPlaceholder": "Nome parcial, e depois digite",
         "onlyDetected": "Apenas detetado",

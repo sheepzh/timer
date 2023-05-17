@@ -335,7 +335,7 @@
         "resetSuccess": "デフォルトに正常にリセット",
         "defaultValue": "デフォルト値：{default}"
     },
-    "pt": {
+    "pt_PT": {
         "yes": "Sim",
         "no": "Não",
         "resetButton": "Reiniciar",

@@ -27,7 +27,7 @@
         "l2": "アイコン ポップアップ ページのフッターに [{button}] リンクがあり、同じ方法でクリックすることもできます。",
         "p2": "ポップアップ ページと背景ページは、この拡張機能の主な対話方法であり、それらを開く方法を理解すれば、完全に使用できます。"
     },
-    "pt": {
+    "pt_PT": {
         "title": "Digite a página de gestão",
         "p1": "Com base nos ícones, a extensão fornece uma maneira mais conveniente de ver dados. Mas se quiser experimentar todas as funcionalidades, precisa visitar a página de gestão da extensão, por uma das duas seguintes maneiras.",
         "l1": "Pode clicar com o botão direito do rato no ícone da extensão e clicar em [{button}] no ementa pop-up.",

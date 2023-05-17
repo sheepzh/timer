@@ -22,7 +22,7 @@ const localeCrowdMap: { [locale in SupportedLocale]: string } = {
     es: "es-ES",
     ko: "ko",
     pl: "pl",
-    pt: "pt-PT",
+    pt_PT: "pt-PT",
     ru: "ru",
     uk: "uk",
     fr: "fr",

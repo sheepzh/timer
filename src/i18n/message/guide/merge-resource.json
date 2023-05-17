@@ -127,7 +127,7 @@
             "hitCol": "ヒットルール"
         }
     },
-    "pt": {
+    "pt_PT": {
         "title": "Resumir dados de sites relacionados",
         "p1": "Esta extensão é contada pelo nome de domínio, por exemplo, {demo1} e {demo2} serão contados como 2 registos. Se quer ver os dados agregados para ambos os sites, precisará usar o recurso de mesclagem.",
         "p2": "Na maioria das páginas de exibição de dados, são suportadas consultas mescladas. E os utilizadores podem personalizar as regras de mesclagem na página de segundo plano{link}.",

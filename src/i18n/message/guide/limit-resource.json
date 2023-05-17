@@ -43,7 +43,7 @@
             "check": "最後に、右上隅の [テスト] ボタンを使用して、ターゲット URL が新しく追加されたルールに一致するかどうかを確認します。"
         }
     },
-    "pt": {
+    "pt_PT": {
         "title": "Limitar tempo de navegação de todos os dias",
         "p1": "Se deseja limitar o tempo de navegação de certas URL por dia, pode fazê-lo criando uma regra diária de limite de tempo.",
         "step": {

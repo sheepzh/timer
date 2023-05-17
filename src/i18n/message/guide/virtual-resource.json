@@ -43,7 +43,7 @@
             "browse": "最後に、関連する URL を参照してデータを観察します。"
         }
     },
-    "pt": {
+    "pt_PT": {
         "title": "Contar dados para URL específicos",
         "p1": "Se deseja contar o tempo de navegação e o número de visitas de certas URL, não apenas o nome de domínio, pode fazê-lo criando um site virtual.",
         "step": {

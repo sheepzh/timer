@@ -67,7 +67,7 @@
             "yAxisHour": "閲覧時間/時間"
         }
     },
-    "pt": {
+    "pt_PT": {
         "sizes": {
             "fifteen": "Por 15 minutos",
             "halfHour": "Por meia hora",

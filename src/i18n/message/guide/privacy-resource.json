@@ -135,7 +135,7 @@
             "p3": "私たちはあなたがデータを収集するのを手伝うだけですが、処分する権利はあなたのものでなければなりません."
         }
     },
-    "pt": {
+    "pt_PT": {
         "title": "Declaração de privacidade",
         "alert": "Para fornecer serviços completos, esta extensão irá necessariamente coletar alguns dos seus dados pessoais durante o uso, consulte a seguinte declaração de privacidade para obter detalhes.",
         "scope": {

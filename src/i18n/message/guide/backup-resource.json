@@ -75,7 +75,7 @@
             "tip": "リモート データは毎月のシャードに保存されるため、クエリ期間が長すぎないようにする必要があります。"
         }
     },
-    "pt": {
+    "pt_PT": {
         "title": "Backup dos dados com GitHub Gist",
         "p1": "Esta extensão permite aos utilizadores fazer backup de dados usando o GitHub Gist{link} através de configurações simples.",
         "upload": {

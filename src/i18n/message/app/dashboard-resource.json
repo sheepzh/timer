@@ -103,7 +103,7 @@
             "decline": "減らす"
         }
     },
-    "pt": {
+    "pt_PT": {
         "heatMap": {
             "title0": "Navegou mais de {hour} horas no último ano",
             "title1": "Navegue por menos de 1 hora no ano passado",

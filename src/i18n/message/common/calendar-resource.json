@@ -83,7 +83,7 @@
             "last90Days": "過去 90 日間"
         }
     },
-    "pt": {
+    "pt_PT": {
         "weekDays": "Seg|Ter|Qua|Qui|Sex|Sab|Dom",
         "months": "Jan|Fev|Mar|Abr|Maio|Jun|Jul|Ago|Set|Out|Nov|Dez",
         "dateFormat": "{d}/{m}/{y}",

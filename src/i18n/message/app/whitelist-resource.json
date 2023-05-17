@@ -39,7 +39,7 @@
         "placeholder": "URL",
         "errorInput": "無効なURL"
     },
-    "pt": {
+    "pt_PT": {
         "addConfirmMsg": "{url} não será mais contado após adicionado à lista ignorada.",
         "removeConfirmMsg": "{url} será removido da lista ignorada.",
         "duplicateMsg": "Duplicado",

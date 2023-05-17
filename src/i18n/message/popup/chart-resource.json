@@ -83,7 +83,7 @@
         "updateVersionInfo": "最新バージョン：{version}",
         "updateVersionInfo4Firefox": "管理ページで {version} にアップグレードしてください"
     },
-    "pt": {
+    "pt_PT": {
         "mergeHostLabel": "Mesclar Sítios Web",
         "fileName": "Lista_de_Horários_da_Web_{today}_por_{app}",
         "saveAsImageTitle": "Capturas",

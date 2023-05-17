@@ -59,7 +59,7 @@
         "infoAlert4": "記入しない場合は、元のドメイン名が統合されないことを意味します",
         "infoAlert5": "一致するルールがない場合、デフォルトで {psl} より前のレベルになります"
     },
-    "pt": {
+    "pt_PT": {
         "removeConfirmMsg": "{origin} será removido das regras personalizadas de mesclagem.",
         "originPlaceholder": "Site original",
         "mergedPlaceholder": "Mesclado",

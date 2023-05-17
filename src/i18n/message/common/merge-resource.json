@@ -23,7 +23,7 @@
             "level": "{level} 次ドメイン"
         }
     },
-    "pt": {
+    "pt_PT": {
         "tagResult": {
             "blank": "Não Mesclar",
             "level": "Mantenha o Nível {level}"

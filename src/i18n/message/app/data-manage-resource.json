@@ -87,7 +87,7 @@
         "importError": "ファイル形式エラー",
         "migrated": "正常にインポートされました"
     },
-    "pt": {
+    "pt_PT": {
         "totalMemoryAlert": "O navegador fornece {size}MB para armazenar dados locais para cada extensão",
         "totalMemoryAlert1": "Não é possível determinar a memória máxima disponível permitida pelo navegador",
         "usedMemoryAlert": "{size}MB está atualmente em uso",

@@ -27,7 +27,7 @@
         "repoPage": "ソースコード",
         "feedbackPage": "フィードバックの欠如"
     },
-    "pt": {
+    "pt_PT": {
         "add2Whitelist": "Ignorar {host}",
         "removeFromWhitelist": "Habilitar {host}",
         "optionPage": "Opções",

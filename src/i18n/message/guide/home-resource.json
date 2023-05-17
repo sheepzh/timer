@@ -19,7 +19,7 @@
         "button": "すぐに始めましょう",
         "download": "{browser} にインストール"
     },
-    "pt": {
+    "pt_PT": {
         "desc": "O {appName} pode ajudá-lo a controlar o tempo gasto em sites de navegação e a contagem de visitas, com o que pode perceber e melhorar os seus hábitos na web.",
         "button": "Comece agora!",
         "download": "Instalar para {browser}"

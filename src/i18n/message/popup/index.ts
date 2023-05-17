@@ -48,12 +48,12 @@ const _default: Messages<PopupMessage> = {
         meta: metaMessages.ja,
         base: baseMessages.ja,
     },
-    pt: {
-        chart: chartMessages.pt,
-        duration: popupDurationMessages.pt,
-        item: itemMessages.pt,
-        meta: metaMessages.pt,
-        base: baseMessages.pt,
+    pt_PT: {
+        chart: chartMessages.pt_PT,
+        duration: popupDurationMessages.pt_PT,
+        item: itemMessages.pt_PT,
+        meta: metaMessages.pt_PT,
+        base: baseMessages.pt_PT,
     },
 }
 
