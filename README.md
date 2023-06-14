@@ -21,6 +21,7 @@ Timer can
 - support to export files formatted _.csv_ and _.json_.
 - support dark mode.
 - support to sync data with GitHub Gist across serveral browser clients.
+- support to count the time of any URLs described by Ant Expressions, e.g. github.com/sheepzh/timer/**
 
 ## Install
 
