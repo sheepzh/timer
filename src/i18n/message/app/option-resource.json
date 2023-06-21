@@ -8,7 +8,6 @@
             "defaultMergeDomain": "{input} 打开时合并子域名",
             "defaultDisplay": "打开时显示 {duration} {type}",
             "displaySiteName": "{input}  显示时是否使用 {siteName} 来代替域名",
-            "durationWidth": "80px",
             "weekStart": "每周的第一天 {input}",
             "weekStartAsNormal": "按照惯例"
         },
@@ -107,7 +106,6 @@
             "defaultMergeDomain": "{input} 打開時合併子域名",
             "defaultDisplay": "打開時顯示 {duration} {type}",
             "displaySiteName": "{input}  顯示時是否使用 {siteName} 來代替域名",
-            "durationWidth": "80px",
             "weekStart": "每週的第一天 {input}",
             "weekStartAsNormal": "按照慣例"
         },
@@ -193,7 +191,6 @@
             "defaultMergeDomain": "{input} Whether to merge subdomains on open",
             "defaultDisplay": "Show {duration} {type} on open",
             "displaySiteName": "{input}  Whether to display {siteName} instead of URL",
-            "durationWidth": "110px",
             "weekStart": "The first day for each week {input}",
             "weekStartAsNormal": "As Normal"
         },
@@ -293,7 +290,6 @@
             "defaultMergeDomain": "{input} オープン時にサブドメインをマージ",
             "defaultDisplay": "開くと {duration} {type} が表示されます",
             "displaySiteName": "{input}  ホストの代わりに {siteName} を表示するかどうか",
-            "durationWidth": "100px",
             "weekStart": "週の最初の日 {input}",
             "weekStartAsNormal": "いつものように"
         },

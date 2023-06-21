@@ -16,7 +16,6 @@ export type OptionMessage = {
         defaultMergeDomain: string
         defaultDisplay: string
         displaySiteName: string
-        durationWidth: string
         weekStart: string
         weekStartAsNormal: string
     }
