@@ -101,6 +101,10 @@ export async function mergeMessage(
                 return
             }
             const sourceText = sourceItemSet[path]
+            if (!sourceText) {
+                // Deleted key
+                return
+            }
             if (!checkPlaceholder(text, sourceText)) {
                 console.error(`Invalid placeholder: dir=${dir}, filename=${filename}, path=${path}, source=${sourceText}, translated=${text}`)
                 return
