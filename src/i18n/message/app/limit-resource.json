@@ -53,7 +53,8 @@
             "operation": "操作"
         },
         "button": {
-            "test": "網址測試"
+            "test": "網址測試",
+            "option": "設置"
         },
         "addTitle": "新增限製",
         "useWildcard": "是否使用通配符",
@@ -69,7 +70,16 @@
             "noRuleMatched": "該網址未命中任何規則",
             "rulesMatched": "該網址命中以下規則："
         },
-        "urlPlaceholder": "請直接粘貼網址 ➡️"
+        "urlPlaceholder": "請直接粘貼網址 ➡️",
+        "verification": {
+            "inputTip": "該規則已超時，如要表更，請輸入以下問題的答案：{prompt}",
+            "inputTip2": "該規則已超時，如要表更，請在下列輸入框中原樣輸入：{answer}",
+            "pswInputTip": "該規則已超時，如要表更，所以請在下列輸入框中輸入您的解鎖密碼",
+            "incorrectPsw": "密碼錯誤",
+            "incorrectAnswer": "答案不正確",
+            "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
+            "confession": "一寸光一寸金，寸金難買寸光陰"
+        }
     },
     "en": {
         "conditionFilter": "URL",
@@ -125,7 +135,8 @@
             "operation": "操作"
         },
         "button": {
-            "test": "テスト URL"
+            "test": "テストURL",
+            "option": "設定"
         },
         "addTitle": "新增",
         "useWildcard": "ワイルドカードを使用するかどうか",
@@ -141,7 +152,16 @@
             "noRuleMatched": "URL がどのルールとも一致しません",
             "rulesMatched": "URL は次のルールに一致します。"
         },
-        "urlPlaceholder": "URLを直接貼り付けてください➡️"
+        "urlPlaceholder": "URLを直接貼り付けてください➡️",
+        "verification": {
+            "inputTip": "このルールは既にトリガーされています。変更するには、次のプロンプトに対する回答を入力してください： {prompt}",
+            "inputTip2": "このルールは既にトリガーされています。変更するには以下のように入力してください: {answer}",
+            "pswInputTip": "このルールは既にトリガーされています。変更するにはロック解除パスワードを入力してください。",
+            "incorrectPsw": "間違ったパスワード",
+            "incorrectAnswer": "間違った回答",
+            "pi": "πの小数部の{digitCount} から {startIndex} までの {endIndex} 桁の数",
+            "confession": "人生とは今日一日のことである"
+        }
     },
     "pt_PT": {
         "conditionFilter": "URL",
@@ -159,7 +179,8 @@
             "operation": "Operações"
         },
         "button": {
-            "test": "Testar URL"
+            "test": "Testar URL",
+            "option": "Opções"
         },
         "message": {
             "saved": "Guardado com sucesso",
@@ -172,6 +193,15 @@
             "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
             "noRuleMatched": "O URL não atinge nenhuma regra",
             "rulesMatched": "A URL atinge as seguintes regras:"
+        },
+        "verification": {
+            "inputTip": "Esta regra já foi acionada. Para modificá-la, por favor, digite a resposta para o seguinte promotor: {prompt}",
+            "inputTip2": "Esta regra já foi acionada. Para modificá-la, por favor insira-a como está: {answer}",
+            "pswInputTip": "Esta regra já foi acionada. Para modificá-la, digite a sua senha de desbloqueio",
+            "incorrectPsw": "Palavra-passe incorreta",
+            "incorrectAnswer": "Resposta incorreta",
+            "pi": "{digitCount} dígitos de {startIndex} a {endIndex} da parte decimal de π",
+            "confession": "Tempo é dinheiro"
         }
     }
 }

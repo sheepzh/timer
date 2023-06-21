@@ -100,7 +100,8 @@
             "last15Days": "Últimos 15 dias",
             "last30Days": "Últimos 30 dias",
             "last60Days": "Últimos 60 dias",
-            "last90Days": "Últimos 90 dias"
+            "last90Days": "Últimos 90 dias",
+            "last24Hours": "Últimas 24 horas"
         }
     }
 }

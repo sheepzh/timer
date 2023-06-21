@@ -91,7 +91,8 @@
             "hostExistWarn": "{host} 已經存在",
             "saved": "已保存",
             "existedTag": "已存在",
-            "mergedTag": "合並"
+            "mergedTag": "合並",
+            "virtualTag": "虛擬"
         }
     },
     "en": {

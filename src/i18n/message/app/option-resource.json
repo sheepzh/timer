@@ -155,6 +155,20 @@
                 "label": "模態頁面的背景風格 {input}",
                 "translucent": "半透明",
                 "groundGlass": "毛玻璃"
+            },
+            "title": "每日時限",
+            "level": {
+                "label": "受限時如何解鎖 {input}",
+                "nothing": "允許在管理頁面直接解鎖",
+                "password": "必須輸入密碼解鎖",
+                "verification": "必須輸入驗證碼解鎖",
+                "passwordLabel": "解鎖密碼 {input}",
+                "verificationLabel": "驗證碼的難度 {input}",
+                "verificationDifficulty": {
+                    "easy": "簡單",
+                    "hard": "困難",
+                    "disgusting": "噁心"
+                }
             }
         },
         "backup": {
@@ -336,9 +350,23 @@
         },
         "dailyLimit": {
             "filter": {
-                "label": "モーダルページの背景スタイル {input}",
+                "label": "モーダルページ {input} の背景スタイル",
                 "translucent": "半透明",
                 "groundGlass": "すりガラス"
+            },
+            "title": "閲覧の制限",
+            "level": {
+                "label": "制限中のロック解除方法 {input}",
+                "nothing": "管理者ページでの直接のロック解除を許可する",
+                "password": "ロックを解除するにはパスワードを入力してください",
+                "verification": "ロックを解除するには認証コードを入力する必要があります",
+                "passwordLabel": "ロックを解除するためのパスワード {input}",
+                "verificationLabel": "認証コードの難しさ {input}",
+                "verificationDifficulty": {
+                    "easy": "簡単",
+                    "hard": "難しい",
+                    "disgusting": "気持ち悪い"
+                }
             }
         },
         "backup": {
@@ -427,6 +455,20 @@
                 "label": "O estilo de fundo da página modal {input}",
                 "translucent": "Translúcido",
                 "groundGlass": "Vidro no Solo"
+            },
+            "title": "Limite diário",
+            "level": {
+                "label": "Como desbloquear enquanto restrito {input}",
+                "nothing": "Permitir o desbloqueio direto na página de administração",
+                "password": "É necessário digitar a senha para desbloquear",
+                "verification": "É necessário digitar o código de verificação para desbloquear",
+                "passwordLabel": "Senha para desbloquear {input}",
+                "verificationLabel": "A dificuldade do código de verificação {input}",
+                "verificationDifficulty": {
+                    "easy": "Fácil",
+                    "hard": "Difícil",
+                    "disgusting": "Nojento"
+                }
             }
         },
         "backup": {
