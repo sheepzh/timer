@@ -5,17 +5,22 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Operation, Plus } from "@element-plus/icons-vue"
+import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
 import { Ref, h, defineComponent, ref } from "vue"
 import InputFilterItem from "@app/components/common/input-filter-item"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
 import ButtonFilterItem from "@app/components/common/button-filter-item"
 import { t } from "@app/locale"
+import { getAppPageUrl } from "@util/constant/url"
+import { OPTION_ROUTE } from "@app/router/constants"
+import { createTabAfterCurrent } from "@api/chrome/tab"
 
 const urlPlaceholder = t(msg => msg.limit.conditionFilter)
 const onlyEnabledLabel = t(msg => msg.limit.filterDisabled)
 const addButtonText = t(msg => msg.button.create)
 const testButtonText = t(msg => msg.limit.button.test)
+const optionButtonText = t(msg => msg.limit.button.option)
+const optionPageUrl = getAppPageUrl(false, OPTION_ROUTE, { i: 'dailyLimit' })
 
 const emits = {
     create: () => true,
@@ -59,6 +64,12 @@ const _default = defineComponent({
                 type: 'primary',
                 icon: Operation,
                 onClick: () => ctx.emit('test')
+            }),
+            h(ButtonFilterItem, {
+                text: optionButtonText,
+                icon: SetUp,
+                type: 'primary',
+                onClick: () => createTabAfterCurrent(optionPageUrl)
             }),
             h(ButtonFilterItem, {
                 text: addButtonText,

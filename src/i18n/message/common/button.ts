@@ -20,4 +20,6 @@ export type ButtonMessage = {
     dont: string
 }
 
-export default resource as Messages<ButtonMessage>
+const _default: Messages<ButtonMessage> = resource
+
+export default _default

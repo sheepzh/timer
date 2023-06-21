@@ -24,6 +24,7 @@ export type LimitMessage = {
     }
     button: {
         test: string
+        option: string
     }
     message: {
         noUrl: string
@@ -36,6 +37,15 @@ export type LimitMessage = {
         clickTestButton: string
         noRuleMatched: string
         rulesMatched: string
+    }
+    verification: {
+        inputTip: string
+        inputTip2: string
+        pswInputTip: string
+        incorrectPsw: string
+        incorrectAnswer: string
+        pi: string
+        confession: string
     }
 }
 

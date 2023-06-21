@@ -12,7 +12,8 @@
             "operation": "操作"
         },
         "button": {
-            "test": "网址测试"
+            "test": "网址测试",
+            "option": "全局设置"
         },
         "addTitle": "新增限制",
         "useWildcard": "是否使用通配符",
@@ -28,7 +29,16 @@
             "noRuleMatched": "该网址未命中任何规则",
             "rulesMatched": "该网址命中以下规则："
         },
-        "urlPlaceholder": "请直接粘贴网址 ➡️"
+        "urlPlaceholder": "请直接粘贴网址 ➡️",
+        "verification": {
+            "inputTip": "该规则已超时，如要表更，请输入以下问题的答案：{prompt}",
+            "inputTip2": "该规则已超时，如要表更，请在下列输入框中原样输入：{answer}",
+            "pswInputTip": "该规则已超时，如要表更，所以请在下列输入框中输入您的解锁密码",
+            "incorrectPsw": "密码错误",
+            "incorrectAnswer": "回答错误",
+            "pi": "圆周率 π 的小数部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位数字",
+            "confession": "一寸光一寸金，寸金难买寸光阴"
+        }
     },
     "zh_TW": {
         "conditionFilter": "輸入網址，然後回車",
@@ -74,7 +84,8 @@
             "operation": "Operations"
         },
         "button": {
-            "test": "Test URL"
+            "test": "Test URL",
+            "option": "Options"
         },
         "addTitle": "New",
         "useWildcard": "Whether to use wildcard",
@@ -90,7 +101,16 @@
             "noRuleMatched": "The URL does not hit any rules",
             "rulesMatched": "The URL hits the following rules:"
         },
-        "urlPlaceholder": "Please paste the URL directly ➡️"
+        "urlPlaceholder": "Please paste the URL directly ➡️",
+        "verification": {
+            "inputTip": "This rule has already been triggered. To modify it, please enter the answer to the following prompt: {prompt}",
+            "inputTip2": "This rule has already been triggered. To modify it, please enter it as it is: {answer}",
+            "pswInputTip": "This rule has already been triggered. To modify it, please enter your unlock password",
+            "incorrectPsw": "Incorrect password",
+            "incorrectAnswer": "Incorrect answer",
+            "pi": "{digitCount} digits from {startIndex} to {endIndex} of the decimal part of π",
+            "confession": "Time is fleeting"
+        }
     },
     "ja": {
         "conditionFilter": "URL",

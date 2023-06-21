@@ -45,9 +45,6 @@ export type OptionMessage = {
             label: string
             options: Record<timer.option.DarkMode, string>
         }
-        limitFilterType: Record<timer.limit.FilterType, string> & {
-            label: string
-        }
     }
     statistics: {
         title: string
@@ -60,6 +57,23 @@ export type OptionMessage = {
         collectSiteName: string
         siteNameUsage: string
         siteName: string
+    }
+    dailyLimit: {
+        filter: {
+            [filterType in timer.limit.FilterType]: string
+        } & {
+            label: string
+        }
+        level: {
+            [level in timer.limit.RestrictionLevel]: string
+        } & {
+            label: string
+            passwordLabel: string
+            verificationLabel: string
+            verificationDifficulty: {
+                [diff in timer.limit.VerificationDifficulty]: string
+            }
+        }
     }
     backup: {
         title: string

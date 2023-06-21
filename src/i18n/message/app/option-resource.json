@@ -39,11 +39,6 @@
                     "off": "始终关闭",
                     "timed": "定时开启"
                 }
-            },
-            "limitFilterType": {
-                "label": "每日时限的背景风格 {input}",
-                "translucent": "半透明",
-                "groundGlass": "毛玻璃"
             }
         },
         "statistics": {
@@ -57,6 +52,26 @@
             "collectSiteName": "{input}  访问网站主页时，是否自动收集 {siteName} {siteNameUsage}",
             "siteName": "网站的名称",
             "siteNameUsage": "数据只存放在本地，将代替域名用于展示，增加辨识度。当然您可以自定义每个网站的名称"
+        },
+        "dailyLimit": {
+            "filter": {
+                "label": "模态页面的背景风格 {input}",
+                "translucent": "半透明",
+                "groundGlass": "毛玻璃"
+            },
+            "level": {
+                "label": "受限时如何解锁 {input}",
+                "nothing": "允许在管理页面直接解锁",
+                "password": "必须输入密码解锁",
+                "verification": "必须输入验证码解锁",
+                "passwordLabel": "解锁密码 {input}",
+                "verificationLabel": "验证码的难度 {input}",
+                "verificationDifficulty": {
+                    "easy": "简单",
+                    "hard": "困难",
+                    "disgusting": "折磨"
+                }
+            }
         },
         "backup": {
             "title": "数据备份",
@@ -123,11 +138,6 @@
                     "off": "始終關閉",
                     "timed": "定時開啟"
                 }
-            },
-            "limitFilterType": {
-                "label": "每日時限的背景風格 {input}",
-                "translucent": "半透明",
-                "groundGlass": "毛玻璃"
             }
         },
         "statistics": {
@@ -141,6 +151,13 @@
             "collectSiteName": "{input}  拜訪網站主頁時，是否自動收集 {siteName} {siteNameUsage}",
             "siteName": "網站的名稱",
             "siteNameUsage": "數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱"
+        },
+        "dailyLimit": {
+            "filter": {
+                "label": "模態頁面的背景風格 {input}",
+                "translucent": "半透明",
+                "groundGlass": "毛玻璃"
+            }
         },
         "backup": {
             "title": "數據備份",
@@ -207,11 +224,6 @@
                     "off": "Always off",
                     "timed": "Timed on"
                 }
-            },
-            "limitFilterType": {
-                "label": "Background style for daily time limit {input}",
-                "translucent": "Translucent",
-                "groundGlass": "Ground Glass"
             }
         },
         "statistics": {
@@ -225,6 +237,27 @@
             "collectSiteName": "{input}  Whether to automatically collect {siteName} {siteNameUsage} when visiting the site homepage",
             "siteName": "the site name",
             "siteNameUsage": "The data is only stored locally and will be displayed instead of the URL to increase the recognition.Of course, you can also customize the name of each site."
+        },
+        "dailyLimit": {
+            "title": "Daily Limit",
+            "filter": {
+                "label": "The background style of the modal page {input}",
+                "translucent": "Translucent",
+                "groundGlass": "Ground Glass"
+            },
+            "level": {
+                "label": "How to unlock while restricted {input}",
+                "nothing": "Allow direct unlocking on the admin page",
+                "password": "Must enter password to unlock",
+                "verification": "Must enter verification code to unlock",
+                "passwordLabel": "Password to unlock {input}",
+                "verificationLabel": "The difficulty of verification code {input}",
+                "verificationDifficulty": {
+                    "easy": "Easy",
+                    "hard": "Hard",
+                    "disgusting": "Disgusting"
+                }
+            }
         },
         "backup": {
             "title": "Data Backup",
@@ -291,11 +324,6 @@
                     "off": "常にオフ",
                     "timed": "時限スタート"
                 }
-            },
-            "limitFilterType": {
-                "label": "毎日の時間制限の背景スタイル {input}",
-                "translucent": "半透明",
-                "groundGlass": "すりガラス"
             }
         },
         "statistics": {
@@ -309,6 +337,13 @@
             "collectSiteName": "{input} サイトのホームページにアクセスしたときに {siteName} {siteNameUsage} を自動的に収集するかどうか",
             "siteName": "サイト名",
             "siteNameUsage": "データはローカルにのみ存在し、認識を高めるためにホストの代わりに表示に使用されます。もちろん、各Webサイトの名前をカスタマイズできます。"
+        },
+        "dailyLimit": {
+            "filter": {
+                "label": "モーダルページの背景スタイル {input}",
+                "translucent": "半透明",
+                "groundGlass": "すりガラス"
+            }
         },
         "backup": {
             "title": "データバックアップ",
@@ -377,11 +412,6 @@
                     "off": "Sempre desativado",
                     "timed": "Cronometrando"
                 }
-            },
-            "limitFilterType": {
-                "label": "Estilo de fundo para limite de tempo diário {input}",
-                "translucent": "Translúcido",
-                "groundGlass": "Vidro no Solo"
             }
         },
         "statistics": {
@@ -395,6 +425,13 @@
             "collectSiteName": "{input}  Se deseja coletar automaticamente o {siteName} {siteNameUsage} quando visitar a página inicial do site",
             "siteName": "o nome do site",
             "siteNameUsage": "Os dados são armazenados apenas localmente e serão exibidos em vez da URL para aumentar o reconhecimento. F, também pode personalizar o nome de cada site."
+        },
+        "dailyLimit": {
+            "filter": {
+                "label": "O estilo de fundo da página modal {input}",
+                "translucent": "Translúcido",
+                "groundGlass": "Vidro no Solo"
+            }
         },
         "backup": {
             "title": "Backup de Dados",

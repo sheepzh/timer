@@ -11,6 +11,7 @@ import {
     defaultPopup,
     defaultStatistics,
     defaultBackup,
+    defaultDailyLimit,
 } from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
@@ -19,6 +20,7 @@ const defaultOption = () => ({
     ...defaultAppearance(),
     ...defaultPopup(),
     ...defaultStatistics(),
+    ...defaultDailyLimit(),
     ...defaultBackup(),
 })
 
@@ -38,6 +40,11 @@ async function setAppearanceOption(option: timer.option.AppearanceOption): Promi
 }
 
 async function setStatisticsOption(option: timer.option.StatisticsOption): Promise<void> {
+    await setOption(option)
+}
+
+async function setDailyLimitOption(option: timer.option.DailyLimitOption): Promise<void> {
+    // Rewrite password
     await setOption(option)
 }
 
@@ -92,6 +99,10 @@ class OptionService {
     setPopupOption = setPopupOption
     setAppearanceOption = setAppearanceOption
     setStatisticsOption = setStatisticsOption
+    /**
+     * @since 1.9.0
+     */
+    setDailyLimitOption = setDailyLimitOption
     /**
      * @since 1.2.0
      */

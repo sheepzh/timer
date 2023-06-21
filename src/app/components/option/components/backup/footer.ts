@@ -4,12 +4,12 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { PropType, Ref, watch } from "vue"
+import type { PropType, Ref } from "vue"
 
 import { t } from "@app/locale"
 import { UploadFilled } from "@element-plus/icons-vue"
 import { ElButton, ElLoading, ElMessage, ElText } from "element-plus"
-import { defineComponent, h, ref } from "vue"
+import { defineComponent, h, ref, watch } from "vue"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
 import { formatTime } from "@util/time"

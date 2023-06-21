@@ -14,6 +14,7 @@ import Popup from "./components/popup"
 import Appearance from "./components/appearance"
 import Statistics from "./components/statistics"
 import Backup from './components/backup'
+import DailyLimit from './components/daily-limit'
 import './style'
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
 import { t } from "@app/locale"
@@ -22,7 +23,7 @@ import { useRoute, useRouter } from "vue-router"
 
 const resetButtonName = "reset"
 const initialParamName = "i"
-const allCategories = ["appearance", "statistics", "popup", 'backup'] as const
+const allCategories = ["appearance", "statistics", "popup", 'dailyLimit', 'backup'] as const
 type _Category = typeof allCategories[number]
 
 function initWithQuery(tab: Ref<_Category>) {
@@ -78,6 +79,7 @@ const _default = defineComponent({
             statistics: ref(),
             popup: ref(),
             backup: ref(),
+            dailyLimit: ref(),
         }
         const router = useRouter()
         return () => h(ContentContainer, () => h(ElTabs, {
@@ -106,7 +108,14 @@ const _default = defineComponent({
             }, () => h(Popup, {
                 ref: paneRefMap.popup
             })),
-            // backup
+            // Limit
+            h(ElTabPane, {
+                label: t(msg => msg.menu.limit),
+                name: "dailyLimit" as _Category
+            }, () => h(DailyLimit, {
+                ref: paneRefMap.dailyLimit
+            })),
+            // Backup
             h(ElTabPane, {
                 label: t(msg => msg.option.backup.title),
                 name: "backup" as _Category
