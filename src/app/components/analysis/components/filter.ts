@@ -10,23 +10,36 @@ import type { Ref, PropType, VNode } from "vue"
 import { ElOption, ElSelect, ElTag } from "element-plus"
 import { ref, h, defineComponent } from "vue"
 import statService, { HostSet } from "@service/stat-service"
+import siteService from "@service/site-service"
 import { t } from "@app/locale"
 import SelectFilterItem from "@app/components/common/select-filter-item"
 import { labelOfHostInfo } from "../util"
 
-async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<timer.site.SiteKey[]>, searching: Ref<boolean>) {
+const calcUniqueKey = ({ host, virtual, merged }: timer.site.SiteInfo) => `${host}${virtual ? 1 : 0}${merged ? 1 : 0}`
+
+async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<timer.site.SiteInfo[]>, searching: Ref<boolean>) {
     if (!queryStr) {
         trendDomainOptions.value = []
         return
     }
     searching.value = true
-    const domains: HostSet = await statService.listHosts(queryStr)
-    const options: timer.site.SiteKey[] = []
-    const { origin, merged, virtual } = domains
-    origin.forEach(host => options.push({ host }))
-    merged.forEach(host => options.push({ host, merged: true }))
-    virtual.forEach(host => options.push({ host, virtual: true }))
-    trendDomainOptions.value = options
+
+    const options: Record<string, timer.site.SiteInfo> = {}
+    const sites = await siteService.selectAll({ fuzzyQuery: queryStr })
+    const hosts: HostSet = await statService.listHosts(queryStr)
+
+    sites.forEach(site => options[calcUniqueKey(site)] = site)
+
+    const { origin, merged, virtual } = hosts
+    const originSiteInfo: timer.site.SiteInfo[] = []
+    origin.forEach(host => originSiteInfo.push({ host }))
+    merged.forEach(host => originSiteInfo.push({ host, merged: true }))
+    virtual.forEach(host => originSiteInfo.push({ host, virtual: true }))
+    originSiteInfo.forEach(o => {
+        const key = calcUniqueKey(o)
+        !options[key] && (options[key] = o)
+    })
+    trendDomainOptions.value = Object.values(options)
     searching.value = false
 }
 
@@ -55,16 +68,21 @@ function hostInfoOfKey(key: string): timer.site.SiteKey {
 
 const MERGED_TAG_TXT = t(msg => msg.analysis.common.merged)
 const VIRTUAL_TAG_TXT = t(msg => msg.analysis.common.virtual)
-function renderHostLabel(hostInfo: timer.site.SiteKey): VNode[] {
+
+const renderOptionTag = (tagLabel: string) => h('span',
+    { style: { float: "right", height: "34px" } },
+    h(ElTag, { size: 'small' }, () => tagLabel)
+)
+
+function renderHostLabel({ host, merged, virtual, alias }: timer.site.SiteInfo): VNode[] {
     const result = [
-        h('span', {}, hostInfo.host)
+        h('span', {}, host)
     ]
-    hostInfo.merged && result.push(
-        h(ElTag, { size: 'small' }, () => MERGED_TAG_TXT)
+    alias && result.push(
+        h(ElTag, { size: 'small', type: 'info' }, () => alias)
     )
-    hostInfo.virtual && result.push(
-        h(ElTag, { size: 'small' }, () => VIRTUAL_TAG_TXT)
-    )
+    merged && result.push(renderOptionTag(MERGED_TAG_TXT))
+    virtual && result.push(renderOptionTag(VIRTUAL_TAG_TXT))
     return result
 }
 
@@ -113,10 +131,10 @@ const _default = defineComponent({
                     handleSiteChange()
                 }
             }, () => (trendDomainOptions.value || [])?.map(
-                hostInfo => h(ElOption, {
-                    value: keyOfHostInfo(hostInfo),
-                    label: labelOfHostInfo(hostInfo),
-                }, () => renderHostLabel(hostInfo))
+                siteInfo => h(ElOption, {
+                    value: keyOfHostInfo(siteInfo),
+                    label: labelOfHostInfo(siteInfo),
+                }, () => renderHostLabel(siteInfo))
             )),
             h(SelectFilterItem, {
                 historyName: 'timeFormat',

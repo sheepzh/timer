@@ -11,6 +11,10 @@ import { REMAIN_WORD_PREFIX } from "./common/constant"
 export type SiteCondition = {
     host?: string
     alias?: string
+    /**
+     * Fuzzy query of host or alias
+     */
+    fuzzyQuery?: string
     source?: timer.site.AliasSource
     virtual?: boolean
 }
@@ -95,16 +99,18 @@ async function select(this: SiteDatabase, condition?: SiteCondition): Promise<ti
 }
 
 function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => boolean {
-    const { host, alias, source, virtual } = condition || {}
+    const { host, alias, source, virtual, fuzzyQuery } = condition || {}
     return site => {
-        if (host && !site.host.includes(host)) return false
-        if (alias && !site.alias?.includes(alias)) return false
-        if (source && source !== site.source) return false
+        const { host: siteHost, alias: siteAlias, source: siteSource, virtual: siteVirtual } = site || {}
+        if (host && !siteHost.includes(host)) return false
+        if (alias && !siteAlias?.includes(alias)) return false
+        if (source && source !== siteSource) return false
         if (virtual !== undefined && virtual !== null) {
             const virtualCond = virtual || false
-            const virtualFactor = site.virtual || false
+            const virtualFactor = siteVirtual || false
             if (virtualCond !== virtualFactor) return false
         }
+        if (fuzzyQuery && !(siteHost?.includes(fuzzyQuery) || siteAlias?.includes(fuzzyQuery))) return false
         return true
     }
 }
