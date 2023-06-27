@@ -11,13 +11,15 @@ export const SOURCE_LOCALE: timer.SourceLocale = 'en'
 export const ALL_TRANS_LOCALES: timer.Locale[] = [
     'ja',
     'zh_TW',
+    'pt_PT',
 ]
 
 const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
     en: 'en',
     ja: 'ja',
-    "zh-CN": 'zh_CN',
-    "zh-TW": 'zh_TW',
+    'zh-CN': 'zh_CN',
+    'zh-TW': 'zh_TW',
+    'pt-PT': 'pt_PT',
 }
 
 const I18N_CROWDIN_MAP: Record<timer.Locale, CrowdinLanguage> = {
@@ -25,6 +27,7 @@ const I18N_CROWDIN_MAP: Record<timer.Locale, CrowdinLanguage> = {
     ja: 'ja',
     zh_CN: 'zh-CN',
     zh_TW: 'zh-TW',
+    pt_PT: 'pt-PT'
 }
 
 export const crowdinLangOf = (locale: timer.Locale) => I18N_CROWDIN_MAP[locale]
@@ -34,17 +37,18 @@ export const localeOf = (crowdinLang: CrowdinLanguage) => CROWDIN_I18N_MAP[crowd
 const IGNORED_FILE: Partial<{ [dir in Dir]: string[] }> = {
     common: [
         // Strings for market
-        'meta.ts',
+        'meta',
         // Name of locales
-        'locale.ts',
+        'locale',
     ]
 }
 
-export function isIgnored(dir: Dir, tsFilename: string) {
-    return !!IGNORED_FILE[dir]?.includes(tsFilename)
+export function isIgnored(dir: Dir, fileName: string) {
+    return !!IGNORED_FILE[dir]?.includes(fileName)
 }
 
-const MSG_BASE = path.join(__dirname, '..', '..', 'src', 'i18n', 'message')
+export const MSG_BASE = path.join(__dirname, '..', '..', 'src', 'i18n', 'message')
+export const RSC_FILE_SUFFIX = "-resource.json"
 
 /**
  * Read all messages from source file 
@@ -58,21 +62,23 @@ export async function readAllMessages(dir: Dir): Promise<Record<string, Messages
     const files = fs.readdirSync(dirPath)
     const result = {}
     await Promise.all(files.map(async file => {
-        if (!file.endsWith('.ts')) {
-            return
-        }
-        if (file === 'index.ts') {
+        if (!file.endsWith(RSC_FILE_SUFFIX)) {
             return
         }
         const message = (await import(`@i18n/message/${dir}/${file}`))?.default as Messages<any>
-        message && (result[file] = message)
+        const name = file.replace(RSC_FILE_SUFFIX, '')
+        message && (result[name] = message)
         return
     }))
     return result
 }
 
 /**
- * Merge crowdin message into locale codes
+ * Merge crowdin message into locale resource json files
+ * 
+ * @param dir dir
+ * @param filename the name of json file
+ * @param messages crowdin messages
  */
 export async function mergeMessage(
     dir: Dir,
@@ -95,6 +101,10 @@ export async function mergeMessage(
                 return
             }
             const sourceText = sourceItemSet[path]
+            if (!sourceText) {
+                // Deleted key
+                return
+            }
             if (!checkPlaceholder(text, sourceText)) {
                 console.error(`Invalid placeholder: dir=${dir}, filename=${filename}, path=${path}, source=${sourceText}, translated=${text}`)
                 return
@@ -108,18 +118,7 @@ export async function mergeMessage(
         }
     })
 
-    const existFile = fs.readFileSync(filePath, { encoding: 'utf-8' })
-    const pattern = /(const|let|var) _default(.*)=\s*\{\s*(\n?.*\n)+\}/
-    const patternRes = pattern.exec(existFile)
-    const existDefault = patternRes?.[0]
-    if (!existDefault) {
-        exitWith(`Failed to find: ${pattern} in ${filePath}`)
-    }
-    const index = existFile.indexOf(existDefault)
-    const pre = existFile.substring(0, index)
-    const suffix = existFile.substring(index + existDefault.length)
-    const newDefault = generateDefault(existDefault, existMessages)
-    const newFileContent = pre + newDefault + suffix
+    const newFileContent = JSON.stringify(existMessages, null, 4)
     fs.writeFileSync(filePath, newFileContent, { encoding: 'utf-8' })
 }
 
@@ -142,42 +141,6 @@ function checkPlaceholder(translated: string, source: string) {
     }
     return true
 }
-
-const INDENTATION_UNIT = '    '
-
-function generateDefault(existDetault: string, messages: Messages<any>): string {
-    let codeLines = /(const|let|var) _default(.*)=\s*\{/.exec(existDetault)[0]
-    codeLines += '\n'
-    codeLines += generateFieldLines(messages, INDENTATION_UNIT)
-    codeLines += '\n}'
-    return codeLines
-}
-
-function generateFieldLines(messages: Object, indentation: string): string {
-    const lines = []
-    Object.entries(messages).forEach(([key, value]) => {
-        let line = undefined
-        if (typeof value === 'object') {
-            const subCodeLines = generateFieldLines(value, indentation + INDENTATION_UNIT)
-            line = `${indentation}${key}: {\n${subCodeLines}\n${indentation}}`
-        } else {
-            const valueText = JSON.stringify(value)
-                // Use double quotes
-                .replace(/'/g, '\\\'').replace(/"/g, '\'')
-                // Replace tab signs
-                .replace(/\s{4}/g, '')
-            line = `${indentation}${key}: ${valueText}`
-        }
-        lines.push(line)
-    })
-    let codeLines = lines.join(',\n')
-    if (codeLines) {
-        // Add comma at the end of last line
-        codeLines += ','
-    }
-    return codeLines
-}
-
 
 function fillItem(fields: string[], index: number, obj: Object, text: string) {
     const field = fields[index]

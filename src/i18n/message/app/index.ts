@@ -21,9 +21,10 @@ import operationMessages, { OperationMessage } from './operation'
 import confirmMessages, { ConfirmMessage } from './confirm'
 import dashboardMessages, { DashboardMessage } from "./dashboard"
 import timeFormatMessages, { TimeFormatMessage } from "./time-format"
+import helpUsMessages, { HelpUsMessage } from "./help-us"
 import calendarMessages, { CalendarMessage } from "@i18n/message/common/calendar"
 import popupDurationMessages, { PopupDurationMessage } from "@i18n/message/common/popup-duration"
-import helpUsMessages, { HelpUsMessage } from "./help-us"
+import buttonMessages, { ButtonMessage } from "@i18n/message/common/button"
 
 export type AppMessage = {
     dataManage: DataManageMessage
@@ -45,93 +46,44 @@ export type AppMessage = {
     timeFormat: TimeFormatMessage
     duration: PopupDurationMessage
     helpUs: HelpUsMessage
+    button: ButtonMessage
+}
+
+const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } = {
+    dataManage: dataManageMessages,
+    item: itemMessages,
+    mergeCommon: mergeCommonMessages,
+    report: reportMessages,
+    whitelist: whitelistMessages,
+    mergeRule: mergeRuleMessages,
+    option: optionMessages,
+    analysis: analysisMessages,
+    menu: menuMessages,
+    habit: habitMessages,
+    limit: limitMessages,
+    siteManage: siteManageManages,
+    operation: operationMessages,
+    confirm: confirmMessages,
+    dashboard: dashboardMessages,
+    calendar: calendarMessages,
+    timeFormat: timeFormatMessages,
+    duration: popupDurationMessages,
+    helpUs: helpUsMessages,
+    button: buttonMessages,
+}
+
+function appMessageOf(locale: timer.Locale): AppMessage {
+    const entries: [string, any][] = Object.entries(CHILD_MESSAGES).map(([key, val]) => ([key, val[locale]]))
+    const result = Object.fromEntries(entries) as AppMessage
+    return result
 }
 
 const _default: Messages<AppMessage> = {
-    zh_CN: {
-        dataManage: dataManageMessages.zh_CN,
-        item: itemMessages.zh_CN,
-        mergeCommon: mergeCommonMessages.zh_CN,
-        report: reportMessages.zh_CN,
-        whitelist: whitelistMessages.zh_CN,
-        mergeRule: mergeRuleMessages.zh_CN,
-        option: optionMessages.zh_CN,
-        analysis: analysisMessages.zh_CN,
-        menu: menuMessages.zh_CN,
-        habit: habitMessages.zh_CN,
-        limit: limitMessages.zh_CN,
-        siteManage: siteManageManages.zh_CN,
-        operation: operationMessages.zh_CN,
-        confirm: confirmMessages.zh_CN,
-        dashboard: dashboardMessages.zh_CN,
-        calendar: calendarMessages.zh_CN,
-        timeFormat: timeFormatMessages.zh_CN,
-        duration: popupDurationMessages.zh_CN,
-        helpUs: helpUsMessages.zh_CN,
-    },
-    zh_TW: {
-        dataManage: dataManageMessages.zh_TW,
-        item: itemMessages.zh_TW,
-        mergeCommon: mergeCommonMessages.zh_TW,
-        report: reportMessages.zh_TW,
-        whitelist: whitelistMessages.zh_TW,
-        mergeRule: mergeRuleMessages.zh_TW,
-        option: optionMessages.zh_TW,
-        analysis: analysisMessages.zh_TW,
-        menu: menuMessages.zh_TW,
-        habit: habitMessages.zh_TW,
-        limit: limitMessages.zh_TW,
-        siteManage: siteManageManages.zh_TW,
-        operation: operationMessages.zh_TW,
-        confirm: confirmMessages.zh_TW,
-        dashboard: dashboardMessages.zh_TW,
-        calendar: calendarMessages.zh_TW,
-        timeFormat: timeFormatMessages.zh_TW,
-        duration: popupDurationMessages.zh_TW,
-        helpUs: helpUsMessages.zh_TW,
-    },
-    en: {
-        dataManage: dataManageMessages.en,
-        item: itemMessages.en,
-        mergeCommon: mergeCommonMessages.en,
-        report: reportMessages.en,
-        whitelist: whitelistMessages.en,
-        mergeRule: mergeRuleMessages.en,
-        option: optionMessages.en,
-        analysis: analysisMessages.en,
-        menu: menuMessages.en,
-        habit: habitMessages.en,
-        limit: limitMessages.en,
-        siteManage: siteManageManages.en,
-        operation: operationMessages.en,
-        confirm: confirmMessages.en,
-        dashboard: dashboardMessages.en,
-        calendar: calendarMessages.en,
-        timeFormat: timeFormatMessages.en,
-        duration: popupDurationMessages.en,
-        helpUs: helpUsMessages.en,
-    },
-    ja: {
-        dataManage: dataManageMessages.ja,
-        item: itemMessages.ja,
-        mergeCommon: mergeCommonMessages.ja,
-        report: reportMessages.ja,
-        whitelist: whitelistMessages.ja,
-        mergeRule: mergeRuleMessages.ja,
-        option: optionMessages.ja,
-        analysis: analysisMessages.ja,
-        menu: menuMessages.ja,
-        habit: habitMessages.ja,
-        limit: limitMessages.ja,
-        siteManage: siteManageManages.ja,
-        operation: operationMessages.ja,
-        confirm: confirmMessages.ja,
-        dashboard: dashboardMessages.ja,
-        calendar: calendarMessages.ja,
-        timeFormat: timeFormatMessages.ja,
-        duration: popupDurationMessages.ja,
-        helpUs: helpUsMessages.ja,
-    }
+    zh_CN: appMessageOf('zh_CN'),
+    zh_TW: appMessageOf('zh_TW'),
+    en: appMessageOf('en'),
+    ja: appMessageOf('ja'),
+    pt_PT: appMessageOf('pt_PT'),
 }
 
 export default _default

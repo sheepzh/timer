@@ -19,8 +19,8 @@ type _Emits = {
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
-const operationCancelMsg = t(msg => msg.dataManage.operationCancel)
-const operationConfirmMsg = t(msg => msg.dataManage.operationConfirm)
+const operationCancelMsg = t(msg => msg.button.cancel)
+const operationConfirmMsg = t(msg => msg.button.confirm)
 
 async function handleClick(filterRef: Ref, ctx: SetupContext<_Emits>) {
     const filterOption: DataManageClearFilterOption = filterRef?.value?.getFilterOption()

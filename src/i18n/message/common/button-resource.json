@@ -1,0 +1,62 @@
+{
+    "en": {
+        "create": "New",
+        "delete": "Delete",
+        "modify": "Modify",
+        "save": "Save",
+        "test": "Test",
+        "paste": "Paste",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "okey": "OK",
+        "dont": "NO!"
+    },
+    "zh_CN": {
+        "create": "新增",
+        "delete": "删除",
+        "modify": "修改",
+        "save": "保存",
+        "test": "测试",
+        "paste": "粘贴",
+        "confirm": "确认",
+        "cancel": "取消",
+        "okey": "好的",
+        "dont": "不用了"
+    },
+    "zh_TW": {
+        "create": "新增",
+        "delete": "刪除",
+        "modify": "修改",
+        "save": "保存",
+        "test": "測試",
+        "paste": "粘貼",
+        "confirm": "確認",
+        "cancel": "取消",
+        "okey": "好的",
+        "dont": "不用了"
+    },
+    "ja": {
+        "create": "追加",
+        "delete": "消去",
+        "modify": "変更",
+        "save": "保存",
+        "test": "試す",
+        "paste": "貼り付ける",
+        "confirm": "確かめる",
+        "cancel": "取り消す",
+        "okey": "OK",
+        "dont": "いいえ！"
+    },
+    "pt_PT": {
+        "create": "Criar",
+        "delete": "Excluir",
+        "modify": "Modificar",
+        "save": "Salvar",
+        "test": "Ensaiar",
+        "paste": "Colar",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar",
+        "okey": "OK",
+        "dont": "NÃO!"
+    }
+}

@@ -48,6 +48,13 @@ const _default: Messages<PopupMessage> = {
         meta: metaMessages.ja,
         base: baseMessages.ja,
     },
+    pt_PT: {
+        chart: chartMessages.pt_PT,
+        duration: popupDurationMessages.pt_PT,
+        item: itemMessages.pt_PT,
+        meta: metaMessages.pt_PT,
+        base: baseMessages.pt_PT,
+    },
 }
 
 export default _default

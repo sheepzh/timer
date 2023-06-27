@@ -23,3 +23,10 @@ export function tryParseInteger(str: string): [boolean, number | string] {
     const isInteger: boolean = !isNaN(num) && num.toString().length === str.length
     return [isInteger, isInteger ? num : str]
 }
+
+/**
+ * Generate random integer between {@param lowerInclusive} and {@param upperExclusive}
+ */
+export function randomIntBetween(lowerInclusive: number, upperExclusive: number): number {
+    return Math.floor(Math.random() * (upperExclusive - lowerInclusive)) + lowerInclusive
+}

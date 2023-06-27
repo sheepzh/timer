@@ -17,7 +17,7 @@ const _default = defineComponent(() => {
     return () => h('div', { class: 'home-container' }, [
         h('h1', { class: 'slogan' }, t(msg => msg.meta.slogan)),
         h('img', { src: PIC_URL }),
-        h('p', { class: 'desc' }, t(msg => msg.home.desc)),
+        h('p', { class: 'desc' }, t(msg => msg.home.desc, { appName: t(msg => msg.meta.name) })),
         h('div', { class: 'button-container' }, [
             h(StartButton),
             h(DownloadButton)

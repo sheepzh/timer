@@ -82,7 +82,7 @@ async function handlePaste(urlHandler: (newUrl: string) => void, protocolHandler
     urlHandler?.(cleanUrl(url))
 }
 
-const pasteButtonText = t(msg => msg.limit.button.paste)
+const pasteButtonText = t(msg => msg.button.paste)
 const placeholder = t(msg => msg.limit.urlPlaceholder)
 
 const _default = defineComponent({

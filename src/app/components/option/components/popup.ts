@@ -9,6 +9,7 @@ import { unref, UnwrapRef } from "vue"
 
 import { ElDivider, ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "@app/locale"
+import { I18nKey, t as t_ } from "@i18n"
 import { defineComponent, h, reactive } from "vue"
 import optionService from "@service/option-service"
 import { renderOptionItem, tagText } from "../common"
@@ -17,6 +18,36 @@ import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { locale } from "@i18n"
 import { rotate } from "@util/array"
+
+type LocaleStyle = {
+    durationSelectWidth: number
+    typeSelectWidth: number
+}
+
+const STYLES: Messages<LocaleStyle> = {
+    zh_CN: {
+        typeSelectWidth: 85,
+        durationSelectWidth: 80,
+    },
+    en: {
+        typeSelectWidth: 115,
+        durationSelectWidth: 110
+    },
+    ja: {
+        typeSelectWidth: 85,
+        durationSelectWidth: 105,
+    },
+    pt_PT: {
+        typeSelectWidth: 155,
+        durationSelectWidth: 120,
+    },
+    zh_TW: {
+        typeSelectWidth: 85,
+        durationSelectWidth: 80,
+    },
+}
+
+const tStyle = (key: I18nKey<LocaleStyle>) => t_(STYLES, { key })
 
 const mergeDomain = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSwitch, {
     modelValue: option.defaultMergeDomain,
@@ -41,7 +72,7 @@ const typeOptions = () => ALL_DIMENSIONS.map(item => h(ElOption, { value: item, 
 const typeSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.defaultType,
     size: 'small',
-    style: { width: '120px' },
+    style: { width: `${tStyle(m => m.typeSelectWidth)}px` },
     onChange: (val: timer.stat.Dimension) => {
         option.defaultType = val
         optionService.setPopupOption(unref(option))
@@ -52,7 +83,7 @@ const durationOptions = () => ALL_POPUP_DURATION.map(item => h(ElOption, { value
 const durationSelect = (option: UnwrapRef<timer.option.PopupOption>) => h(ElSelect, {
     modelValue: option.defaultDuration,
     size: 'small',
-    style: { width: t(msg => msg.option.popup.durationWidth) },
+    style: { width: `${tStyle(m => m.durationSelectWidth)}px` },
     onChange: (val: PopupDuration) => {
         option.defaultDuration = val
         optionService.setPopupOption(unref(option))

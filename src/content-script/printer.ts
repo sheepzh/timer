@@ -8,6 +8,7 @@
 import { t } from "./locale"
 import { formatPeriod } from "@util/time"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
+import { t2Chrome } from "@i18n/chrome/t"
 
 /**
  * Print info of today
@@ -24,7 +25,7 @@ export default async function printInfo(host: string) {
         .replace('{time}', waste.time ? '' + waste.time : '-')
         .replace('{focus}', formatPeriod(waste.focus, msg))
         .replace('{host}', host)
-    const info1 = t(msg => msg.closeAlert)
+    const info1 = t(msg => msg.closeAlert).replace('{appName}', t2Chrome(msg => msg.meta.name))
     console.log(info0)
     console.log(info1)
 }

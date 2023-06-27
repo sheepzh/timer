@@ -24,6 +24,12 @@ export type TranslationStatusInfo = {
     translationProgress: number
 }
 
+export type MemberInfo = {
+    username: string
+    joinedAt: string
+    avatarUrl: string
+}
+
 export async function getTranslationStatus(): Promise<TranslationStatusInfo[]> {
     const limit = 500
     const auth = `Bearer ${PUBLIC_TOKEN}`
@@ -32,5 +38,16 @@ export async function getTranslationStatus(): Promise<TranslationStatusInfo[]> {
         headers: { "Authorization": auth }
     })
     const data: { data: { data: TranslationStatusInfo }[] } = response.data
+    return data.data.map(i => i.data)
+}
+
+export async function getMembers(): Promise<MemberInfo[]> {
+    const limit = 20
+    const auth = `Bearer ${PUBLIC_TOKEN}`
+    const url = `https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/members?limit=${limit}`
+    const response: AxiosResponse = await axios.get(url, {
+        headers: { "Authorization": auth }
+    })
+    const data: { data: { data: MemberInfo }[] } = response.data
     return data.data.map(i => i.data)
 }

@@ -7,7 +7,7 @@
 
 import type { Ref, PropType } from "vue"
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-import type { ReportMessage } from "@i18n/message/app/report"
+import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import DownloadFile from "./download-file"
 import RemoteClient from "./remote-client"
@@ -34,11 +34,11 @@ const timeFormatLabels: { [key in timer.app.TimeFormat]: string } = {
 // Batch Delete
 const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
 // Date range
-const dateStartPlaceholder = t(msg => msg.report.startDate)
-const dateEndPlaceholder = t(msg => msg.report.endDate)
+const dateStartPlaceholder = t(msg => msg.calendar.label.startDate)
+const dateEndPlaceholder = t(msg => msg.calendar.label.endDate)
 // date range
-function datePickerShortcut(msg: keyof ReportMessage, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
-    const text = t(messages => messages.report[msg])
+function datePickerShortcut(msg: keyof CalendarMessage['range'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
+    const text = t(messages => messages.calendar.range[msg])
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
     return { text, value }
 }
@@ -46,8 +46,9 @@ function datePickerShortcut(msg: keyof ReportMessage, agoOfStart?: number, agoOf
 const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut('today'),
     datePickerShortcut('yesterday', 1, 1),
-    datePickerShortcut('lastWeek', 7),
-    datePickerShortcut('last30Days', 30)
+    datePickerShortcut('last7Days', 7),
+    datePickerShortcut('last30Days', 30),
+    datePickerShortcut('last60Days', 60),
 ]
 
 const _default = defineComponent({

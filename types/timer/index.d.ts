@@ -15,6 +15,8 @@ declare namespace timer {
         | 'ja'
         // @since 0.9.0
         | 'zh_TW'
+        // @since 1.8.2
+        | 'pt_PT'
     /**
      * @since 0.8.0
      */
@@ -30,8 +32,6 @@ declare namespace timer {
         | 'es'
         | 'ko'
         | 'pl'
-        | 'pt'
-        | 'pt_BR'
         | 'ru'
         | 'uk'
         | 'fr'

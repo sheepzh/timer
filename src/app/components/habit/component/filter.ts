@@ -5,10 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { PropType } from "vue"
+import type { Ref, PropType } from "vue"
 import type { HabitMessage } from "@i18n/message/app/habit"
+import type { CalendarMessage } from "@i18n/message/common/calendar"
 
-import { ref, Ref, h, defineComponent } from "vue"
+import { ref, h, defineComponent } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
@@ -16,20 +17,20 @@ import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import SelectFilterItem from "@app/components/common/select-filter-item"
 
-type ShortCutProp = [label: keyof HabitMessage['dateRange'], dayAgo: number]
+type ShortCutProp = [label: keyof CalendarMessage['range'], dayAgo: number]
 
 const shortcutProps: ShortCutProp[] = [
-    ["lastDay", 1],
+    ["last24Hours", 1],
     ["last3Days", 3],
-    ["lastWeek", 7],
+    ["last7Days", 7],
     ["last15Days", 15],
     ["last30Days", 30],
     ["last60Days", 60]
 ]
 
-function datePickerShortcut(msg: keyof HabitMessage['dateRange'], agoOfStart: number): ElementDatePickerShortcut {
+function datePickerShortcut(msg: keyof CalendarMessage['range'], agoOfStart: number): ElementDatePickerShortcut {
     return {
-        text: t(messages => messages.habit.dateRange[msg]),
+        text: t(messages => messages.calendar.range[msg]),
         value: daysAgo(agoOfStart, 0)
     }
 }

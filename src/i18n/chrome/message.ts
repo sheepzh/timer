@@ -41,6 +41,12 @@ const messages: Messages<ChromeMessage> = {
         base: baseMessages.ja,
         contextMenus: contextMenusMessages.ja,
         initial: initialMessages.ja,
+    },
+    pt_PT: {
+        meta: metaMessages.pt_PT,
+        base: baseMessages.pt_PT,
+        contextMenus: contextMenusMessages.pt_PT,
+        initial: initialMessages.pt_PT,
     }
 }
 

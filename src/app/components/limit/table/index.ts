@@ -15,7 +15,6 @@ import LimitEnabledColumn from "./column/enabled"
 import LimitOperationColumn from "./column/operation"
 
 const _default = defineComponent({
-    name: "LimitTable",
     props: {
         data: Array as PropType<timer.limit.Item[]>
     },

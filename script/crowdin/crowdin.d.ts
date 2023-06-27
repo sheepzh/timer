@@ -37,3 +37,4 @@ type CrowdinLanguage =
     | 'en'
     | 'zh-TW'
     | 'ja'
+    | 'pt-PT'

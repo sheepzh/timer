@@ -1,0 +1,87 @@
+{
+    "zh_CN": {
+        "sizes": {
+            "fifteen": "每十五分钟统计一次",
+            "halfHour": "每半小时统计一次",
+            "hour": "每一小时统计一次",
+            "twoHour": "每两小时统计一次"
+        },
+        "average": {
+            "label": "平均每天"
+        },
+        "chart": {
+            "title": "上网习惯统计",
+            "saveAsImageTitle": "保存",
+            "yAxisMin": "浏览时长 / 分钟",
+            "yAxisHour": "浏览时长 / 小时"
+        }
+    },
+    "zh_TW": {
+        "sizes": {
+            "fifteen": "按十五分鐘統計",
+            "halfHour": "按半小時統計",
+            "hour": "按一小時統計",
+            "twoHour": "按兩小時統計"
+        },
+        "average": {
+            "label": "平均每天"
+        },
+        "chart": {
+            "title": "上網習慣統計",
+            "saveAsImageTitle": "保存",
+            "yAxisMin": "瀏覽時長 / 分鐘",
+            "yAxisHour": "瀏覽時長 / 小時"
+        }
+    },
+    "en": {
+        "sizes": {
+            "fifteen": "Per 15 minutes",
+            "halfHour": "Per half hour",
+            "hour": "Per one hour",
+            "twoHour": "Per two hours"
+        },
+        "average": {
+            "label": "Daily average"
+        },
+        "chart": {
+            "title": "Time-phased Statistics of Browsing Time",
+            "saveAsImageTitle": "Snapshot",
+            "yAxisMin": "Browsing Time / minute",
+            "yAxisHour": "Browsing Time / hour"
+        }
+    },
+    "ja": {
+        "sizes": {
+            "fifteen": "15分で統計",
+            "halfHour": "30分で統計",
+            "hour": "1時間ごとの統計",
+            "twoHour": "2時間ごとの統計"
+        },
+        "average": {
+            "label": "1日平均"
+        },
+        "chart": {
+            "title": "時系列の統計を閲覧する",
+            "saveAsImageTitle": "ダウンロード",
+            "yAxisMin": "閲覧時間/分",
+            "yAxisHour": "閲覧時間/時間"
+        }
+    },
+    "pt_PT": {
+        "sizes": {
+            "fifteen": "Por 15 minutos",
+            "halfHour": "Por meia hora",
+            "hour": "Por 1 hora",
+            "twoHour": "Por 2 horas"
+        },
+        "average": {
+            "label": "Média diária"
+        },
+        "chart": {
+            "title": "Estatísticas do tempo de navegação",
+            "saveAsImageTitle": "Capturas",
+            "yAxisMin": "Tempo de Navegação / Minutos",
+            "yAxisHour": "Tempo de Navegação / Hora"
+        }
+    }
+}

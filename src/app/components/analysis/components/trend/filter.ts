@@ -7,22 +7,22 @@
 
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
 import type { PropType, Ref } from "vue"
+import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import { t } from "@app/locale"
-import { AnalysisMessage } from "@i18n/message/app/analysis"
 import { ElDatePicker } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import { daysAgo } from "@util/time"
 
-function datePickerShortcut(msgKey: keyof AnalysisMessage['trend'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
+function datePickerShortcut(msgKey: keyof CalendarMessage['range'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     return {
-        text: t(msg => msg.analysis.trend[msgKey]),
+        text: t(msg => msg.calendar.range[msgKey]),
         value: daysAgo(agoOfStart - 1 || 0, agoOfEnd || 0)
     }
 }
 
 const SHORTCUTS = [
-    datePickerShortcut('lastWeek', 7),
+    datePickerShortcut('last7Days', 7),
     datePickerShortcut('last15Days', 15),
     datePickerShortcut('last30Days', 30),
     datePickerShortcut("last90Days", 90)

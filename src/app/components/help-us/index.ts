@@ -1,21 +1,22 @@
 import { ElCard } from "element-plus"
 import { defineComponent, h } from "vue"
 import ContentContainer from "../common/content-container"
-import HelpUsAlertInfo from "./alert-info"
-import HelpUsToolbar from "./toolbar"
-import HelpUsProgressList from "./progress-list"
+import AlertInfo from "./alert-info"
+import Toolbar from "./toolbar"
+import ProgressList from "./progress-list"
+import MemberList from "./member-list"
 import "./style"
 
-const _default = defineComponent({
-    name: "HelpUs",
-    render: () => h(ContentContainer, () => h(ElCard,
+const _default = defineComponent(() =>
+    () => h(ContentContainer, () => h(ElCard,
         { class: 'help-us' },
         () => [
-            h(HelpUsAlertInfo),
-            h(HelpUsToolbar),
-            h(HelpUsProgressList),
+            h(AlertInfo),
+            h(Toolbar),
+            h(ProgressList),
+            h(MemberList),
         ])
-    ),
-})
+    )
+)
 
 export default _default

@@ -44,4 +44,24 @@ declare namespace timer.limit {
         | 'translucent'
         // ground glass filter
         | 'groundGlass'
+    /**
+     * @since 1.9.0
+     */
+    type RestrictionLevel =
+        // No additional action required to lock
+        | 'nothing'
+        // Password required to lock or modify restricted rule
+        | 'password'
+        // Verification code input requird to lock or modify restricted rule
+        | 'verification'
+    /**
+     * @since 1.9.0
+     */
+    type VerificationDifficulty =
+        // Easy
+        | 'easy'
+        // Need some operations
+        | 'hard'
+        // Disgusting
+        | 'disgusting'
 }

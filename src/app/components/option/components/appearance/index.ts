@@ -15,7 +15,7 @@ import DarkModeInput from "./dark-mode-input"
 import { t, tWith } from "@app/locale"
 import { renderOptionItem, tagText } from "../../common"
 import localeMessages from "@i18n/message/common/locale"
-import { localeSameAsBrowser } from "@i18n"
+import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import { toggle } from "@util/dark-mode"
 
 const displayWhitelist = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSwitch, {
@@ -42,10 +42,10 @@ const printInConsole = (option: UnwrapRef<timer.option.AppearanceOption>) => h(E
     }
 })
 
-const allLocales: timer.Locale[] = (["zh_CN", "zh_TW", "en", "ja"] as timer.Locale[])
+const SORTED_LOCALES: timer.Locale[] = ALL_LOCALES
     // Keep the locale same as this browser first position
     .sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
-const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...allLocales]
+const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...SORTED_LOCALES]
 
 const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect, {
     modelValue: option.locale,
@@ -80,24 +80,6 @@ const locale = (option: UnwrapRef<timer.option.AppearanceOption>) => h(ElSelect,
     )
 })
 
-const ALL_LIMIT_FILTER_TYPE: timer.limit.FilterType[] = [
-    'translucent',
-    'groundGlass',
-]
-
-const limitFilterTypeSelect = (option: timer.option.AppearanceOption) => h(ElSelect, {
-    modelValue: option.limitMarkFilter,
-    size: 'small',
-    onChange: (val: timer.limit.FilterType) => {
-        option.limitMarkFilter = val
-        optionService.setAppearanceOption(unref(option))
-    }
-}, {
-    default: () => ALL_LIMIT_FILTER_TYPE.map(item =>
-        h(ElOption, { value: item, label: t(msg => msg.option.appearance.limitFilterType[item]) })
-    )
-})
-
 function copy(target: timer.option.AppearanceOption, source: timer.option.AppearanceOption) {
     target.displayWhitelistMenu = source.displayWhitelistMenu
     target.displayBadgeText = source.displayBadgeText
@@ -109,69 +91,59 @@ function copy(target: timer.option.AppearanceOption, source: timer.option.Appear
     target.limitMarkFilter = source.limitMarkFilter
 }
 
-const _default = defineComponent({
-    name: "AppearanceOptionContainer",
-    setup(_props, ctx) {
-        const option: UnwrapRef<timer.option.AppearanceOption> = reactive(defaultAppearance())
-        optionService.getAllOption().then(currentVal => copy(option, currentVal))
-        ctx.expose({
-            async reset() {
-                copy(option, defaultAppearance())
-                await optionService.setAppearanceOption(unref(option))
-                toggle(await optionService.isDarkMode(option))
-            }
-        })
-        return () => h('div', [
-            renderOptionItem({
-                input: h(DarkModeInput, {
-                    modelValue: option.darkMode,
-                    startSecond: option.darkModeTimeStart,
-                    endSecond: option.darkModeTimeEnd,
-                    onChange: async (darkMode, range) => {
-                        option.darkMode = darkMode
-                        option.darkModeTimeStart = range?.[0]
-                        option.darkModeTimeEnd = range?.[1]
-                        await optionService.setAppearanceOption(unref(option))
-                        toggle(await optionService.isDarkMode())
-                    }
-                })
-            },
-                msg => msg.appearance.darkMode.label,
-                t(msg => msg.option.appearance.darkMode.options.default)),
-            h(ElDivider),
-            renderOptionItem({
-                input: locale(option)
-            },
-                msg => msg.appearance.locale.label,
-                t(msg => msg.option.appearance.locale.default)
-            ),
-            h(ElDivider),
-            renderOptionItem({
-                input: displayWhitelist(option),
-                whitelist: tagText(msg => msg.option.appearance.whitelistItem),
-                contextMenu: tagText(msg => msg.option.appearance.contextMenu)
-            }, msg => msg.appearance.displayWhitelist, t(msg => msg.option.yes)),
-            h(ElDivider),
-            renderOptionItem({
-                input: displayBadgeText(option),
-                timeInfo: tagText(msg => msg.option.appearance.badgeTextContent),
-                icon: tagText(msg => msg.option.appearance.icon)
-            }, msg => msg.appearance.displayBadgeText, t(msg => msg.option.yes)),
-            h(ElDivider),
-            renderOptionItem({
-                input: printInConsole(option),
-                console: tagText(msg => msg.option.appearance.printInConsole.console),
-                info: tagText(msg => msg.option.appearance.printInConsole.info)
-            }, msg => msg.appearance.printInConsole.label, t(msg => msg.option.yes)),
-            h(ElDivider),
-            renderOptionItem({
-                input: limitFilterTypeSelect(option)
-            },
-                msg => msg.appearance.limitFilterType.label,
-                t(msg => msg.option.appearance.limitFilterType[defaultAppearance().limitMarkFilter])
-            )
-        ])
-    }
+const _default = defineComponent((_props, ctx) => {
+    const option: UnwrapRef<timer.option.AppearanceOption> = reactive(defaultAppearance())
+    optionService.getAllOption().then(currentVal => copy(option, currentVal))
+    ctx.expose({
+        async reset() {
+            copy(option, defaultAppearance())
+            await optionService.setAppearanceOption(unref(option))
+            toggle(await optionService.isDarkMode(option))
+        }
+    })
+    return () => h('div', [
+        renderOptionItem({
+            input: h(DarkModeInput, {
+                modelValue: option.darkMode,
+                startSecond: option.darkModeTimeStart,
+                endSecond: option.darkModeTimeEnd,
+                onChange: async (darkMode, range) => {
+                    option.darkMode = darkMode
+                    option.darkModeTimeStart = range?.[0]
+                    option.darkModeTimeEnd = range?.[1]
+                    await optionService.setAppearanceOption(unref(option))
+                    toggle(await optionService.isDarkMode())
+                }
+            })
+        },
+            msg => msg.appearance.darkMode.label,
+            t(msg => msg.option.appearance.darkMode.options.default)),
+        h(ElDivider),
+        renderOptionItem({
+            input: locale(option)
+        },
+            msg => msg.appearance.locale.label,
+            t(msg => msg.option.appearance.locale.default)
+        ),
+        h(ElDivider),
+        renderOptionItem({
+            input: displayWhitelist(option),
+            whitelist: tagText(msg => msg.option.appearance.whitelistItem),
+            contextMenu: tagText(msg => msg.option.appearance.contextMenu)
+        }, msg => msg.appearance.displayWhitelist, t(msg => msg.option.yes)),
+        h(ElDivider),
+        renderOptionItem({
+            input: displayBadgeText(option),
+            timeInfo: tagText(msg => msg.option.appearance.badgeTextContent),
+            icon: tagText(msg => msg.option.appearance.icon)
+        }, msg => msg.appearance.displayBadgeText, t(msg => msg.option.yes)),
+        h(ElDivider),
+        renderOptionItem({
+            input: printInConsole(option),
+            console: tagText(msg => msg.option.appearance.printInConsole.console),
+            info: tagText(msg => msg.option.appearance.printInConsole.info)
+        }, msg => msg.appearance.printInConsole.label, t(msg => msg.option.yes)),
+    ])
 })
 
 export default _default

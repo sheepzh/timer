@@ -103,8 +103,9 @@ declare namespace timer.option {
         /**
          * The filter of limit mark
          * @since 1.3.2
+         * @deprecated moved to DailyLimitOption @since 1.9.0
          */
-        limitMarkFilter: limit.FilterType
+        limitMarkFilter?: limit.FilterType
     }
 
     type StatisticsOption = {
@@ -119,6 +120,25 @@ declare namespace timer.option {
          * @since 0.7.0
          */
         countLocalFiles: boolean
+    }
+
+    type DailyLimitOption = {
+        /**
+         * restriction level
+         */
+        limitLevel: limit.RestrictionLevel
+        /**
+         * The filter of limit mark
+         */
+        limitFilter: limit.FilterType
+        /**
+         * The password to unlock
+         */
+        limitPassword: string
+        /**
+         * The difficulty of verification
+         */
+        limitVerifyDifficulty: limit.VerificationDifficulty
     }
 
     /**
@@ -149,7 +169,7 @@ declare namespace timer.option {
         autoBackUpInterval: number
     }
 
-    type AllOption = PopupOption & AppearanceOption & StatisticsOption & BackupOption
+    type AllOption = PopupOption & AppearanceOption & StatisticsOption & DailyLimitOption & BackupOption
     /**
      * @since 0.8.0
      */

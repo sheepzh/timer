@@ -34,7 +34,6 @@ export function defaultAppearance(): timer.option.AppearanceOption {
         darkModeTimeStart: 64800,
         // 6*60*60
         darkModeTimeEnd: 21600,
-        limitMarkFilter: 'translucent',
     }
 }
 
@@ -42,6 +41,15 @@ export function defaultStatistics(): timer.option.StatisticsOption {
     return {
         collectSiteName: true,
         countLocalFiles: false
+    }
+}
+
+export function defaultDailyLimit(): timer.option.DailyLimitOption {
+    return {
+        limitLevel: 'nothing',
+        limitFilter: 'translucent',
+        limitPassword: '',
+        limitVerifyDifficulty: 'easy',
     }
 }
 
@@ -61,5 +69,6 @@ export function defaultOption(): timer.option.AllOption {
         ...defaultAppearance(),
         ...defaultStatistics(),
         ...defaultBackup(),
+        ...defaultDailyLimit(),
     }
 }
