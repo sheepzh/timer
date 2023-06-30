@@ -1,4 +1,4 @@
-import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
+import { getTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { getWindow } from "@api/chrome/window"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
@@ -11,7 +11,7 @@ async function handleTime(hostInfo: HostInfo, url: string, dateRange: [number, n
     const host = hostInfo.host
     const [start, end] = dateRange
     const focusTime = end - start
-    // 1. Saveasync
+    // 1. Save async
     await statService.addFocusTime({ [host]: { [url]: focusTime } })
     // 2. Process limit
     const meedLimits = await limitService.addFocusTime(host, url, focusTime)
@@ -25,15 +25,17 @@ async function handleTime(hostInfo: HostInfo, url: string, dateRange: [number, n
 async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender): Promise<void> {
     const { url, start, end, ignoreTabCheck } = event
     const windowId = sender?.tab?.windowId
+    const tabId = sender?.tab?.id
     if (!ignoreTabCheck) {
-        if (!windowId) return
+        if (!windowId || !tabId) return
         const window = await getWindow(windowId)
         if (!window?.focused) return
+        const tab = await getTab(tabId)
+        if (!tab?.active) return
     }
     const hostInfo = extractHostname(url)
-    const focus = await handleTime(hostInfo, url, [start, end])
-    const tabId = sender?.tab?.id
-    tabId && badgeTextManager.forceUpdate({ tabId, url, focus })
+    await handleTime(hostInfo, url, [start, end])
+    tabId && badgeTextManager.forceUpdate({ tabId, url })
 }
 
 async function sendLimitedMessage(item: timer.limit.Item[]) {

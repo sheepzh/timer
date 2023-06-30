@@ -33,8 +33,7 @@ initLimitProcesser(messageDispatcher)
 // Content-script's request handler
 initCsHandler(messageDispatcher)
 
-// Start the timer
-// new Timer().start()
+// Start server
 initServer(messageDispatcher)
 
 // Collect the icon url and title

@@ -62,7 +62,8 @@ async function findActiveTab(): Promise<BadgeLocation> {
 
 async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLocation): Promise<BadgeLocation> {
     // Clear the last tab firstly
-    lastLocation?.tabId && setBadgeText('', lastLocation.tabId)
+    const needClearBefore = lastLocation?.tabId && lastLocation?.tabId !== badgeLocation?.tabId
+    needClearBefore && setBadgeText('', lastLocation.tabId)
     badgeLocation = badgeLocation || await findActiveTab()
     if (!badgeLocation) {
         return badgeLocation
