@@ -8,17 +8,20 @@
 import { OPTION_ROUTE } from "../app/router/constants"
 import { getAppPageUrl, getGuidePageUrl, GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
 import { t2Chrome } from "@i18n/chrome/t"
-import { IS_SAFARI } from "@util/constant/environment"
+import { IS_MV3, IS_SAFARI } from "@util/constant/environment"
 import { createTab } from "@api/chrome/tab"
-import { getRuntimeId } from "@api/chrome/runtime"
 import { createContextMenu } from "@api/chrome/context-menu"
+import { getRuntimeId } from "@api/chrome/runtime"
 import { locale } from "@i18n"
 import { START_ROUTE } from "@guide/router/constants"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 
-const baseProps: Partial<chrome.contextMenus.CreateProperties> = {
-    contexts: ['action'],
+const baseProps: Partial<ChromeContextMenuCreateProps> = {
+    // Cast unknown to fix the error with manifestV2
+    // Because 'browser_action' will be replaced with 'action' in union type chrome.contextMenus.ContextType since V3
+    // But 'action' does not work in V2
+    contexts: [IS_MV3 ? 'action' : 'browser_action'],
     visible: true
 }
 

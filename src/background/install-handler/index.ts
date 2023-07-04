@@ -1,4 +1,5 @@
 import { onInstalled } from "@api/chrome/runtime"
+import { executeScript } from "@api/chrome/script"
 import { createTab, listTabs } from "@api/chrome/tab"
 import metaService from "@service/meta-service"
 import { getGuidePageUrl } from "@util/constant/url"
@@ -8,10 +9,6 @@ import UninstallListener from './uninstall-listener'
 async function onFirstInstall() {
     createTab(getGuidePageUrl(true))
     metaService.updateInstallTime(new Date())
-}
-
-function executeScript(tabId: number, files: string[]) {
-    chrome.scripting.executeScript({ target: { tabId }, files }).catch(err => console.log(err))
 }
 
 async function reloadContentScript() {

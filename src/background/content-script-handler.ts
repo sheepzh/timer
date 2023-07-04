@@ -33,7 +33,10 @@ export default function init(dispatcher: MessageDispatcher) {
         // Judge is in whitelist
         .register<string, boolean>('cs.isInWhitelist', host => whitelistService.include(host))
         // Need to print the information of today
-        .register<void, boolean>('cs.printTodayInfo', async () => !!(await optionService.getAllOption())?.printInConsole)
+        .register<void, boolean>('cs.printTodayInfo', async () => {
+            const option = await optionService.getAllOption()
+            return !!option.printInConsole
+        })
         // Get today info
         .register<string, timer.stat.Result>('cs.getTodayInfo', host => statService.getResult(host, new Date()))
         // More minutes
