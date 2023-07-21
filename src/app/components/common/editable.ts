@@ -6,7 +6,7 @@
  */
 
 import { Check, Close, Edit } from "@element-plus/icons-vue"
-import { defineComponent, h, nextTick, watch } from "@vue/runtime-core"
+import { defineComponent, h, nextTick, watch } from "vue"
 import { ElButton, ElIcon, ElInput } from "element-plus"
 import { Ref, ref, SetupContext } from "vue"
 

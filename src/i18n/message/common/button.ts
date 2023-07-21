@@ -16,6 +16,8 @@ export type ButtonMessage = {
     paste: string
     confirm: string
     cancel: string
+    previous: string
+    next: string
     okey: string
     dont: string
 }

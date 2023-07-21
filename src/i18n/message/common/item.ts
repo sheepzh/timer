@@ -23,6 +23,7 @@ export type ItemMessage = {
         analysis: string
         exportWholeData: string
         importWholeData: string
+        importOtherData: string
     }
 }
 

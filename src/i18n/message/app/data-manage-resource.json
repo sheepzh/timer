@@ -9,6 +9,21 @@
         "filterTime": "当日打开次数在 {start} 次至 {end} 次之间。",
         "filterDate": "{picker} 产生的数据。",
         "unlimited": "无限",
+        "importOther": {
+            "step1": "选择数据",
+            "step2": "确认数据",
+            "dataSource": "数据来源",
+            "file": "数据文件",
+            "selectFileBtn": "选择",
+            "conflictType": "数据处理方式",
+            "conflictTip": "导入的数据与本地数据存在冲突时需要执行的操作",
+            "overwrite": "覆盖",
+            "accumulate": "累加",
+            "imported": "导入",
+            "local": "本地",
+            "fileNotSelected": "未选择文件",
+            "conflictNotSelected": "未选择数据处理方式"
+        },
         "dateShortcut": {
             "tillYesterday": "直到昨天",
             "till7DaysAgo": "直到7天前",
@@ -53,6 +68,21 @@
         "filterTime": "The number of visits for the day is between {start} and {end}",
         "filterDate": "Recorded between {picker}",
         "unlimited": "∞",
+        "importOther": {
+            "step1": "Select data",
+            "step2": "Confirm data",
+            "dataSource": "Data source",
+            "file": "Data file",
+            "selectFileBtn": "Select",
+            "conflictType": "Conflict resolution",
+            "conflictTip": "What to do if imported data conflicts with local data",
+            "overwrite": "Overwrite",
+            "accumulate": "Accumulate",
+            "imported": "Imported",
+            "local": "Local",
+            "fileNotSelected": "File not selected",
+            "conflictNotSelected": "Conflict resolution not selected"
+        },
         "dateShortcut": {
             "tillYesterday": "Until yesterday",
             "till7DaysAgo": "Until 7 days ago",

@@ -14,7 +14,8 @@
             "deleteConfirmMsgRange": "{url} 在 {start} 到 {end} 的访问记录将被删除",
             "deleteConfirmMsg": "{url} 在 {date} 的访问记录将被删除",
             "exportWholeData": "导出数据",
-            "importWholeData": "导入数据"
+            "importWholeData": "导入数据",
+            "importOtherData": "导入其他插件的数据"
         }
     },
     "zh_TW": {
@@ -50,7 +51,8 @@
             "deleteConfirmMsgRange": "All records of {url} between {start} and {end} will be deleted!",
             "deleteConfirmMsg": "The record of {url} on {date} will be deleted!",
             "exportWholeData": "Export Data",
-            "importWholeData": "Import Data"
+            "importWholeData": "Import Data",
+            "importOtherData": "Import from Other Extensions"
         }
     },
     "ja": {

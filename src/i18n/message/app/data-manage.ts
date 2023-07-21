@@ -23,6 +23,21 @@ export type DataManageMessage = {
     migrationAlert: string
     importError: string
     migrated: string
+    importOther: {
+        step1: string
+        step2: string
+        dataSource: string
+        file: string
+        conflictType: string
+        conflictTip: string
+        selectFileBtn: string
+        overwrite: string
+        accumulate: string
+        imported: string
+        local: string
+        fileNotSelected: string
+        conflictNotSelected: string
+    }
     dateShortcut: {
         tillYesterday: string
         till7DaysAgo: string

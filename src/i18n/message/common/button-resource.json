@@ -8,6 +8,8 @@
         "paste": "Paste",
         "confirm": "Confirm",
         "cancel": "Cancel",
+        "previous": "Previous",
+        "next": "Next",
         "okey": "OK",
         "dont": "NO!"
     },
@@ -20,6 +22,8 @@
         "paste": "粘贴",
         "confirm": "确认",
         "cancel": "取消",
+        "previous": "上一步",
+        "next": "下一步",
         "okey": "好的",
         "dont": "不用了"
     },
