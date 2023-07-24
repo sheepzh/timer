@@ -14,7 +14,8 @@
             "deleteConfirmMsgRange": "{url} 在 {start} 到 {end} 的访问记录将被删除",
             "deleteConfirmMsg": "{url} 在 {date} 的访问记录将被删除",
             "exportWholeData": "导出数据",
-            "importWholeData": "导入数据"
+            "importWholeData": "导入数据",
+            "importOtherData": "导入其他插件的数据"
         }
     },
     "zh_TW": {
@@ -32,7 +33,8 @@
             "deleteConfirmMsgRange": "{url} 在 {start} 到 {end} 的拜訪記錄將被刪除",
             "deleteConfirmMsg": "{url} 在 {date} 的拜訪記錄將被刪除",
             "exportWholeData": "導出數據",
-            "importWholeData": "導入數據"
+            "importWholeData": "導入數據",
+            "importOtherData": "從其他擴展導入"
         }
     },
     "en": {
@@ -50,7 +52,8 @@
             "deleteConfirmMsgRange": "All records of {url} between {start} and {end} will be deleted!",
             "deleteConfirmMsg": "The record of {url} on {date} will be deleted!",
             "exportWholeData": "Export Data",
-            "importWholeData": "Import Data"
+            "importWholeData": "Import Data",
+            "importOtherData": "Import from Other Extensions"
         }
     },
     "ja": {
@@ -68,7 +71,8 @@
             "deleteConfirmMsgRange": "{url} {start} から {end} までの拜訪記録は削除されます",
             "deleteConfirmMsg": "{date} の {url} の拜訪記録は削除されます",
             "exportWholeData": "インポート",
-            "importWholeData": "書き出す"
+            "importWholeData": "書き出す",
+            "importOtherData": "他の拡張機能からインポート"
         }
     },
     "pt_PT": {
@@ -86,7 +90,8 @@
             "deleteConfirmMsg": "O registro de {url} em {date} será excluído!",
             "exportWholeData": "Exportar Dados",
             "importWholeData": "Importar Dados",
-            "analysis": "Análise"
+            "analysis": "Análise",
+            "importOtherData": "Importar de Outras Extensões"
         }
     }
 }

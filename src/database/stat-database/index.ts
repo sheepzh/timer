@@ -164,7 +164,7 @@ class StatDatabase extends BaseDatabase {
      * 
      * @since 0.0.5 
      */
-    async get(host: string, date: Date): Promise<timer.stat.Result> {
+    async get(host: string, date: Date | string): Promise<timer.stat.Result> {
         const key = generateKey(host, date)
         const items = await this.storage.get(key)
         return Promise.resolve(items[key] || createZeroResult())
@@ -198,7 +198,7 @@ class StatDatabase extends BaseDatabase {
      * 
      * @since 1.4.3
      */
-    forceUpdate(row: timer.stat.Row): Promise<void> {
+    forceUpdate(row: timer.stat.RowBase): Promise<void> {
         const key = generateKey(row.host, row.date)
         const result: timer.stat.Result = { time: row.time, focus: row.focus }
         return this.storage.put(key, result)

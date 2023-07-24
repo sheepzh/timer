@@ -8,6 +8,8 @@
         "paste": "Paste",
         "confirm": "Confirm",
         "cancel": "Cancel",
+        "previous": "Previous",
+        "next": "Next",
         "okey": "OK",
         "dont": "NO!"
     },
@@ -20,6 +22,8 @@
         "paste": "粘贴",
         "confirm": "确认",
         "cancel": "取消",
+        "previous": "上一步",
+        "next": "下一步",
         "okey": "好的",
         "dont": "不用了"
     },
@@ -33,7 +37,9 @@
         "confirm": "確認",
         "cancel": "取消",
         "okey": "好的",
-        "dont": "不用了"
+        "dont": "不用了",
+        "previous": "往前",
+        "next": "繼續"
     },
     "ja": {
         "create": "追加",
@@ -45,7 +51,9 @@
         "confirm": "確かめる",
         "cancel": "取り消す",
         "okey": "OK",
-        "dont": "いいえ！"
+        "dont": "いいえ！",
+        "previous": "前へ",
+        "next": "次へ"
     },
     "pt_PT": {
         "create": "Criar",
@@ -57,6 +65,8 @@
         "confirm": "Confirmar",
         "cancel": "Cancelar",
         "okey": "OK",
-        "dont": "NÃO!"
+        "dont": "NÃO!",
+        "previous": "Voltar",
+        "next": "Continuar"
     }
 }
