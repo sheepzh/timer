@@ -37,7 +37,9 @@
         "confirm": "確認",
         "cancel": "取消",
         "okey": "好的",
-        "dont": "不用了"
+        "dont": "不用了",
+        "previous": "往前",
+        "next": "繼續"
     },
     "ja": {
         "create": "追加",
@@ -49,7 +51,9 @@
         "confirm": "確かめる",
         "cancel": "取り消す",
         "okey": "OK",
-        "dont": "いいえ！"
+        "dont": "いいえ！",
+        "previous": "前へ",
+        "next": "次へ"
     },
     "pt_PT": {
         "create": "Criar",
@@ -61,6 +65,8 @@
         "confirm": "Confirmar",
         "cancel": "Cancelar",
         "okey": "OK",
-        "dont": "NÃO!"
+        "dont": "NÃO!",
+        "previous": "Voltar",
+        "next": "Continuar"
     }
 }

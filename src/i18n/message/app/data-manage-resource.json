@@ -56,7 +56,22 @@
         "deleteSuccess": "刪除成功",
         "migrationAlert": "使用導入/導出在不同瀏覽器之間遷移數據",
         "importError": "文件格式錯誤",
-        "migrated": "成功導入"
+        "migrated": "成功導入",
+        "importOther": {
+            "step1": "選擇數據",
+            "step2": "確認數據",
+            "dataSource": "數據源",
+            "file": "數據文件",
+            "selectFileBtn": "選擇",
+            "conflictType": "衝突解決",
+            "conflictTip": "導入數據與本地數據衝突怎麼辦",
+            "overwrite": "覆寫",
+            "accumulate": "累加",
+            "imported": "導入數據",
+            "local": "本地數據",
+            "fileNotSelected": "未選中文件",
+            "conflictNotSelected": "未選擇衝突解決方案"
+        }
     },
     "en": {
         "totalMemoryAlert": "The browser provides {size}MB to store local data for each extension",
@@ -115,7 +130,22 @@
         "deleteSuccess": "正常に削除されました",
         "migrationAlert": "インポート/エクスポートを使用して、異なるブラウザ間でデータを移行します",
         "importError": "ファイル形式エラー",
-        "migrated": "正常にインポートされました"
+        "migrated": "正常にインポートされました",
+        "importOther": {
+            "step1": "データを選択",
+            "step2": "データを確認",
+            "dataSource": "データ ソース",
+            "file": "データファイル",
+            "selectFileBtn": "選択",
+            "conflictType": "競合を解決",
+            "conflictTip": "インポートされたデータがローカルデータと競合する場合の対処方法",
+            "overwrite": "上書き",
+            "accumulate": "累積する",
+            "imported": "輸入された",
+            "local": "ローカル",
+            "fileNotSelected": "ファイルが選択されていません",
+            "conflictNotSelected": "競合する解像度が選択されていません"
+        }
     },
     "pt_PT": {
         "totalMemoryAlert": "O navegador fornece {size}MB para armazenar dados locais para cada extensão",
@@ -137,6 +167,21 @@
             "tillYesterday": "Até ontem",
             "till7DaysAgo": "Até 7 dias atrás",
             "till30DaysAgo": "Até 30 dias atrás"
+        },
+        "importOther": {
+            "step1": "Selecionar dados",
+            "step2": "Confirmar dados",
+            "dataSource": "Origem dos dados",
+            "file": "Ficheiro de dados",
+            "selectFileBtn": "Selecionar",
+            "conflictType": "Resolução de conflitos",
+            "conflictTip": "O que fazer se dados importados confeitar com dados locais",
+            "overwrite": "Substituir",
+            "accumulate": "Acumular",
+            "imported": "Importado",
+            "local": "Local",
+            "fileNotSelected": "Arquivo não selecionado",
+            "conflictNotSelected": "Resolução de conflitos não selecionada"
         }
     }
 }
