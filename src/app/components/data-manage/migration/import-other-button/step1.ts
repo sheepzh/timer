@@ -5,11 +5,13 @@ import { Document, Close, Right } from "@element-plus/icons-vue"
 import { ImportedData, OtherExtension, parseFile } from "./processor"
 
 const OTHER_NAMES: { [ext in OtherExtension]: string } = {
+    webtime_tracker: "Webtime Tracker",
     web_activity_time_tracker: "Web Activity Time Tracker"
 }
 
 const OTHER_FILE_FORMAT: { [ext in OtherExtension]: string } = {
-    web_activity_time_tracker: '.csv'
+    webtime_tracker: '.csv,.json',
+    web_activity_time_tracker: '.csv',
 }
 
 const ALL_TYPES: OtherExtension[] = Object.keys(OTHER_NAMES) as OtherExtension[]
@@ -20,7 +22,7 @@ const _default = defineComponent({
         next: (_rows: ImportedData) => true,
     },
     setup(_, ctx) {
-        const type: Ref<OtherExtension> = ref('web_activity_time_tracker')
+        const type: Ref<OtherExtension> = ref('webtime_tracker')
         const selectedFile: Ref<File> = ref()
         const fileInput: Ref<HTMLInputElement> = ref()
         const fileParsing: Ref<boolean> = ref(false)
