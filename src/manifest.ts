@@ -58,9 +58,9 @@ const _default: chrome.runtime.ManifestV2 = {
   optional_permissions: [
     'clipboardRead'
   ],
-  action: {
+  browser_action: {
     default_popup: "static/popup.html",
-    default_icon: "static/images/icon.png"
+    default_icon: "static/images/icon.png",
   },
   /**
    * @since 0.4.0
