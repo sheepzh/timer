@@ -88,6 +88,22 @@
             "test": "测试",
             "lastTimeTip": "上次备份时间: {lastTime}",
             "operation": "备份数据",
+            "download": {
+                "btn": "下载数据",
+                "step2": "确认数据",
+                "willDownload": "待下载数据",
+                "confirmTip": "将下载来自【{clientName}】的 {size} 条数据"
+            },
+            "clear": {
+                "btn": "清除数据",
+                "confirmTip": "将删除【{clientName}】所追踪的 {hostCount} 个站点的 {rowCount} 条数据！"
+            },
+            "clientTable": {
+                "selectTip": "选择客户端",
+                "dataRange": "已备份数据区间",
+                "notSelected": "未选择客户端",
+                "current": "当前"
+            },
             "auto": {
                 "label": "是否开启自动备份",
                 "interval": "每 {input} 分钟备份一次"
@@ -285,6 +301,22 @@
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
             "test": "Test",
             "operation": "Backup",
+            "download": {
+                "btn": "Download",
+                "step2": "Confirm data",
+                "willDownload": "To be downloaded",
+                "confirmTip": "{size} pieces of data from [{clientName}] will be downloaded"
+            },
+            "clear": {
+                "btn": "Clear",
+                "confirmTip": "{rowCount} pieces of data for {hostCount} sites tracked by [{clientName}] will be deleted!"
+            },
+            "clientTable": {
+                "selectTip": "Select client",
+                "dataRange": "Range of data",
+                "notSelected": "Client not select",
+                "current": "Current"
+            },
             "lastTimeTip": "Last backup time: {lastTime}",
             "auto": {
                 "label": "Whether to enable automatic backup",

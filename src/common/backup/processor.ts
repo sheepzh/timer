@@ -17,7 +17,7 @@ import GistCoordinator from "./gist/coordinator"
 const storage = chrome.storage.local
 const syncDb = new BackupDatabase(storage)
 
-class CoordinatorContextWrapper<Cache> implements CoordinatorContext<Cache>{
+class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContext<Cache>{
     auth: string
     cache: Cache
     type: timer.backup.Type
@@ -29,7 +29,7 @@ class CoordinatorContextWrapper<Cache> implements CoordinatorContext<Cache>{
         this.type = type
     }
 
-    async init(): Promise<CoordinatorContext<Cache>> {
+    async init(): Promise<timer.backup.CoordinatorContext<Cache>> {
         this.cache = await syncDb.getCache(this.type) as Cache
         return this
     }
@@ -93,9 +93,9 @@ async function lazyGetCid(): Promise<string> {
 }
 
 async function syncFull(
-    context: CoordinatorContext<unknown>,
-    coordinator: Coordinator<unknown>,
-    client: Client
+    context: timer.backup.CoordinatorContext<unknown>,
+    coordinator: timer.backup.Coordinator<unknown>,
+    client: timer.backup.Client
 ): Promise<timer.backup.Snapshot> {
     // 1. select rows
     let start = getBirthday()
@@ -116,7 +116,7 @@ async function syncFull(
     }
 }
 
-function filterClient(c: Client, localClientId: string, start: string, end: string) {
+function filterClient(c: timer.backup.Client, localClientId: string, start: string, end: string) {
     // Excluse local client
     if (c.id === localClientId) return false
     // Judge range
@@ -133,9 +133,15 @@ function filterDate(row: timer.stat.RowBase, start: string, end: string) {
     return true
 }
 
+export type RemoteQueryParam = {
+    start: Date
+    end: Date
+    specCid?: string
+}
+
 class Processor {
     coordinators: {
-        [type in timer.backup.Type]: Coordinator<unknown>
+        [type in timer.backup.Type]: timer.backup.Coordinator<unknown>
     }
 
     constructor() {
@@ -146,22 +152,12 @@ class Processor {
     }
 
     async syncData(): Promise<Result<number>> {
-        const option = (await optionService.getAllOption()) as timer.option.BackupOption
-        const auth = option?.backupAuths?.[option.backupType || 'none']
-
-        const type = option?.backupType
-        const coordinator: Coordinator<unknown> = type && this.coordinators[type]
-        if (!coordinator) {
-            // no coordinator, do nothing
-            return error("Invalid type")
-        }
-
-        const errorMsg = await this.test(type, auth)
+        const [option, auth, type, coordinator, errorMsg] = await this.checkAuth()
         if (errorMsg) return error(errorMsg)
 
         const cid = await lazyGetCid()
-        const context: CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(cid, auth, type).init()
-        const client: Client = {
+        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(cid, auth, type).init()
+        const client: timer.backup.Client = {
             id: cid,
             name: option.clientName,
             minDate: undefined,
@@ -169,7 +165,7 @@ class Processor {
         }
         let snapshot: timer.backup.Snapshot = await syncFull(context, coordinator, client)
         await syncDb.updateSnapshot(type, snapshot)
-        const clients: Client[] = (await coordinator.listAllClients(context)).filter(a => a.id !== cid) || []
+        const clients: timer.backup.Client[] = (await coordinator.listAllClients(context)).filter(a => a.id !== cid) || []
         clients.push(client)
         await coordinator.updateClients(context, clients)
         // Update time
@@ -178,17 +174,43 @@ class Processor {
         return success(now)
     }
 
-    async query(type: timer.backup.Type, auth: string, start: Date, end: Date): Promise<timer.stat.Row[]> {
-        const coordinator: Coordinator<unknown> = this.coordinators?.[type]
+    async listClients(): Promise<Result<timer.backup.Client[]>> {
+        const [_, auth, type, coordinator, errorMsg] = await this.checkAuth()
+        if (errorMsg) return error(errorMsg)
+        const cid = await lazyGetCid()
+        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(cid, auth, type).init()
+        const clients = await coordinator.listAllClients(context)
+        return success(clients)
+    }
+
+    async checkAuth(): Promise<[timer.option.BackupOption, string, timer.backup.Type, timer.backup.Coordinator<unknown>, string]> {
+        const option = (await optionService.getAllOption()) as timer.option.BackupOption
+        const auth = option?.backupAuths?.[option.backupType || 'none']
+
+        const type = option?.backupType
+        const coordinator: timer.backup.Coordinator<unknown> = type && this.coordinators[type]
+        if (!coordinator) {
+            // no coordinator, do nothing
+            return [option, auth, type, coordinator, "Invalid type"]
+        }
+
+        const errorMsg = await this.test(type, auth)
+        return [option, auth, type, coordinator, errorMsg]
+    }
+
+    async query(type: timer.backup.Type, auth: string, param: RemoteQueryParam): Promise<timer.stat.Row[]> {
+        const { start, end, specCid } = param
+        const coordinator: timer.backup.Coordinator<unknown> = this.coordinators?.[type]
         if (!coordinator) return []
-        let cid = await metaService.getCid()
+        let localCid = await metaService.getCid()
         // 1. init context
-        const context: CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(cid, auth, type).init()
+        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(localCid, auth, type).init()
         // 2. query all clients, and filter them
         let startStr = start ? formatTime(start, '{y}{m}{d}') : undefined
         let endStr = end ? formatTime(end, '{y}{m}{d}') : undefined
         const allClients = (await coordinator.listAllClients(context))
-            .filter(c => filterClient(c, cid, startStr, endStr))
+            .filter(c => filterClient(c, localCid, startStr, endStr))
+            .filter(c => !specCid || c.id === specCid)
         // 3. iterate month and clients
         const result: timer.stat.Row[] = []
         const allYearMonth = new MonthIterator(start, end || new Date()).toArray()
@@ -211,11 +233,22 @@ class Processor {
     }
 
     async test(type: timer.backup.Type, auth: string): Promise<string> {
-        const coordinator: Coordinator<unknown> = this.coordinators?.[type]
+        const coordinator: timer.backup.Coordinator<unknown> = this.coordinators?.[type]
         if (!coordinator) {
             return 'Invalid type'
         }
         return coordinator.testAuth(auth)
+    }
+
+    async clear(cid: string): Promise<Result<void>> {
+        const [_, auth, type, coordinator, errorMsg] = await this.checkAuth()
+        if (errorMsg) return error(errorMsg)
+
+        let localCid = await metaService.getCid()
+        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(localCid, auth, type).init()
+        await coordinator.clear(context, cid)
+
+        return success()
     }
 }
 

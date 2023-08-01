@@ -18,6 +18,7 @@ import { renderOptionItem, tooltip } from "../../common"
 import BackUpAutoInput from "./auto-input"
 import Footer from "./footer"
 import { AUTHOR_EMAIL } from "@src/package"
+import "./style.sass"
 
 const ALL_TYPES: timer.backup.Type[] = [
     'none',

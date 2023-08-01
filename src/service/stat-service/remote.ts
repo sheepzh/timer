@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2022 Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import OptionDatabase from "@db/option-database"
 import { StatCondition } from "@db/stat-database"
 import processor from "@src/common/backup/processor"
@@ -45,7 +52,7 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
     }
     start = start || getBirthday()
     end = end || new Date()
-    const remote = await processor.query(backupType, auth, start, end)
+    const remote = await processor.query(backupType, auth, { start, end })
     remote.filter(predicate).forEach(row => processRemoteRow(originMap, row))
     return Object.values(originMap)
 }

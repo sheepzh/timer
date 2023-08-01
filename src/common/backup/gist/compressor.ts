@@ -1,4 +1,5 @@
 import { groupBy } from "@util/array"
+import { RELEASE_DATE, formatTime, parseTime } from "@util/time"
 
 function calcGroupKey(row: timer.stat.RowBase): string {
     const date = row.date
@@ -34,6 +35,24 @@ function compress(rows: timer.stat.RowBase[]): GistData {
 export function devide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][] {
     const grouped: { [yearAndPart: string]: GistData } = groupBy(rows.filter(r => !!r), calcGroupKey, compress)
     return Object.entries(grouped)
+}
+
+/**
+ * Calculate all the buckets between {@param startDate} and {@param endDate}
+ */
+export function calcAllBuckets(startDate: string, endDate: string) {
+    startDate = startDate || RELEASE_DATE
+    endDate = endDate || formatTime(new Date(), '{y}{m}{d}')
+    const result = []
+    const start = parseTime(startDate)
+    const end = parseTime(endDate)
+    while (start < end) {
+        result.push(formatTime(start, '{y}{m}{d}'))
+        start.setMonth(start.getMonth() + 1)
+    }
+    const lastMonth = formatTime(end, '{y}{m}{d}')
+    !result.includes(lastMonth) && (result.push(lastMonth))
+    return result
 }
 
 /**

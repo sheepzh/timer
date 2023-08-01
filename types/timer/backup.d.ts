@@ -3,6 +3,55 @@
  */
 declare namespace timer.backup {
 
+    type Client = {
+        id: string
+        name: string
+        minDate?: string
+        maxDate?: string
+    }
+
+    interface CoordinatorContext<Cache> {
+        cid: string
+        auth: string
+        cache: Cache
+        handleCacheChanged: () => Promise<void>
+    }
+
+    /**
+     * timer.backup.Coordinator of data synchronizer
+     */
+    interface Coordinator<Cache> {
+        /**
+         * Register for client
+         */
+        updateClients(context: timer.backup.CoordinatorContext<Cache>, clients: Client[]): Promise<void>
+        /**
+         * List all clients
+         */
+        listAllClients(context: timer.backup.CoordinatorContext<Cache>): Promise<Client[]>
+        /**
+         * Download fragmented data from cloud
+         * 
+         * @param targetCid The client id, default value is the local one in context
+         */
+        download(context: timer.backup.CoordinatorContext<Cache>, yearMonth: string, targetCid?: string): Promise<timer.stat.RowBase[]>
+        /**
+         * Upload fragmented data to cloud
+         * @param rows 
+         */
+        upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void>
+        /**
+         * Test auth
+         * 
+         * @returns errorMsg or null/undefined
+         */
+        testAuth(auth: string): Promise<string>
+        /**
+         * Clear data
+         */
+        clear(context: timer.backup.CoordinatorContext<Cache>, cid: string): Promise<void>
+    }
+
     type Type =
         | 'none'
         | 'gist'

@@ -31,11 +31,11 @@ class WhitelistHolder {
     }
 
     notContains(host: string): boolean {
-        return !this.whitelist.includes(host)
+        return !this.whitelist?.includes(host)
     }
 
     contains(host: string): boolean {
-        return this.whitelist.includes(host)
+        return this.whitelist?.includes(host)
     }
 }
 

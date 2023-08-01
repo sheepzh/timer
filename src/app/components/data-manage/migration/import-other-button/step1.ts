@@ -1,8 +1,15 @@
+/**
+ * Copyright (c) 2023 Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { t } from "@app/locale"
 import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "element-plus"
 import { Ref, defineComponent, h, ref } from "vue"
 import { Document, Close, Right } from "@element-plus/icons-vue"
-import { ImportedData, OtherExtension, parseFile } from "./processor"
+import { OtherExtension, parseFile } from "./processor"
 
 const OTHER_NAMES: { [ext in OtherExtension]: string } = {
     webtime_tracker: "Webtime Tracker",
@@ -19,7 +26,7 @@ const ALL_TYPES: OtherExtension[] = Object.keys(OTHER_NAMES) as OtherExtension[]
 const _default = defineComponent({
     emits: {
         cancel: () => true,
-        next: (_rows: ImportedData) => true,
+        next: (_rows: timer.imported.Data) => true,
     },
     setup(_, ctx) {
         const type: Ref<OtherExtension> = ref('webtime_tracker')

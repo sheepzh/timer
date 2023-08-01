@@ -147,7 +147,12 @@ export async function updateGist(token: string, id: string, gist: GistForm): Pro
 export async function getJsonFileContent<T>(file: File): Promise<T> {
     const content = file.content
     if (content) {
-        return JSON.parse(content)
+        try {
+            return JSON.parse(content)
+        } catch (e) {
+            console.warn("Failed to parse content of: " + file.raw_url)
+            console.warn(e)
+        }
     }
     const rawUrl = file.raw_url
     if (!rawUrl) {
