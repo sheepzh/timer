@@ -31,12 +31,12 @@ export type DataManageMessage = {
         conflictType: string
         conflictTip: string
         selectFileBtn: string
-        overwrite: string
-        accumulate: string
         imported: string
         local: string
         fileNotSelected: string
         conflictNotSelected: string
+    } & {
+        [resolution in timer.imported.ConflictResolution]: string
     }
     dateShortcut: {
         tillYesterday: string

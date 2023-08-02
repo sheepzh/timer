@@ -84,6 +84,22 @@ export type OptionMessage = {
         alert: string
         test: string
         operation: string
+        clientTable: {
+            selectTip: string
+            dataRange: string
+            notSelected: string
+            current: string
+        }
+        download: {
+            btn: string
+            step2: string
+            willDownload: string
+            confirmTip: string
+        }
+        clear: {
+            btn: string
+            confirmTip: string
+        }
         lastTimeTip: string
         auto: {
             label: string

@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import type { PropType, Ref } from "vue"
 
 import { t } from "@app/locale"
@@ -13,6 +14,8 @@ import { defineComponent, h, ref, watch } from "vue"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
 import { formatTime } from "@util/time"
+import Download from "./download"
+import Clear from "./clear"
 
 async function handleBackup(lastTime: Ref<number>) {
     const loading = ElLoading.service({
@@ -50,6 +53,8 @@ const _default = defineComponent({
 
         return () => {
             const children = [
+                h(Clear),
+                h(Download),
                 h(ElButton, {
                     type: 'primary',
                     icon: UploadFilled,
@@ -65,7 +70,7 @@ const _default = defineComponent({
                 children.push(tipText)
             }
             lastTime.value && children.push()
-            return h('div', {}, children)
+            return h('div', { class: 'backup-footer' }, children)
         }
     }
 })

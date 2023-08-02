@@ -88,6 +88,22 @@
             "test": "测试",
             "lastTimeTip": "上次备份时间: {lastTime}",
             "operation": "备份数据",
+            "download": {
+                "btn": "下载数据",
+                "step2": "确认数据",
+                "willDownload": "待下载数据",
+                "confirmTip": "将下载来自【{clientName}】的 {size} 条数据"
+            },
+            "clear": {
+                "btn": "清除数据",
+                "confirmTip": "将删除【{clientName}】所追踪的 {hostCount} 个站点的 {rowCount} 条数据！"
+            },
+            "clientTable": {
+                "selectTip": "选择客户端",
+                "dataRange": "已备份数据区间",
+                "notSelected": "未选择客户端",
+                "current": "当前"
+            },
             "auto": {
                 "label": "是否开启自动备份",
                 "interval": "每 {input} 分钟备份一次"
@@ -190,6 +206,22 @@
             "auto": {
                 "label": "是否開啟自動備份",
                 "interval": "每 {input} 分鐘備份一次"
+            },
+            "download": {
+                "btn": "下載",
+                "step2": "確認數據",
+                "willDownload": "待下載數據",
+                "confirmTip": "將下載來自【{clientName}】的 {size} 條數據"
+            },
+            "clear": {
+                "btn": "刪除数据",
+                "confirmTip": "將刪除【{clientName}】所追踪的 {hostCount} 個站點的 {rowCount} 條數據！"
+            },
+            "clientTable": {
+                "selectTip": "選擇用戶端",
+                "dataRange": "數據范圍",
+                "notSelected": "用戶端未選擇",
+                "current": "當前"
             }
         },
         "resetButton": "恢複默認",
@@ -285,6 +317,22 @@
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
             "test": "Test",
             "operation": "Backup",
+            "download": {
+                "btn": "Download",
+                "step2": "Confirm data",
+                "willDownload": "To be downloaded",
+                "confirmTip": "{size} pieces of data from [{clientName}] will be downloaded"
+            },
+            "clear": {
+                "btn": "Clear",
+                "confirmTip": "{rowCount} pieces of data for {hostCount} sites tracked by [{clientName}] will be deleted!"
+            },
+            "clientTable": {
+                "selectTip": "Select client",
+                "dataRange": "Range of data",
+                "notSelected": "Client not select",
+                "current": "Current"
+            },
             "lastTimeTip": "Last backup time: {lastTime}",
             "auto": {
                 "label": "Whether to enable automatic backup",
@@ -388,6 +436,22 @@
             "auto": {
                 "label": "自動バックアップを有効にするかどうか",
                 "interval": "{input} 分ごとに実行"
+            },
+            "download": {
+                "btn": "ダウンロード",
+                "step2": "データを確認",
+                "willDownload": "ダウンロードするデータ",
+                "confirmTip": "[{clientName}] から {size} 個のデータがダウンロードされます"
+            },
+            "clear": {
+                "btn": "削除",
+                "confirmTip": "[{clientName}] によって追跡されている {hostCount} サイトの {rowCount} 個のデータが削除されます。"
+            },
+            "clientTable": {
+                "selectTip": "クライアントの選択",
+                "dataRange": "データ範囲",
+                "notSelected": "クライアントが選択されていません",
+                "current": "現在"
             }
         },
         "resetButton": "リセット",
@@ -490,7 +554,23 @@
                 "interval": "e executar a cada {input} minutos"
             },
             "lastTimeTip": "Hora do último backup: {lastTime}",
-            "alert": "Este é um recurso experimental, se tiver alguma dúvida, entre em contacto com o autor via {email}~"
+            "alert": "Este é um recurso experimental, se tiver alguma dúvida, entre em contacto com o autor via {email}~",
+            "download": {
+                "btn": "Transferir",
+                "step2": "Confirmar dados",
+                "willDownload": "Para ser transferido",
+                "confirmTip": "{size} dados de [{clientName}] serão baixados"
+            },
+            "clear": {
+                "btn": "Limpar",
+                "confirmTip": "{rowCount} peças de dados para sites {hostCount} rastreadas por [{clientName}] serão excluídas!"
+            },
+            "clientTable": {
+                "selectTip": "Selecionar cliente",
+                "dataRange": "Intervalo de dados",
+                "notSelected": "Cliente não selecionado",
+                "current": "Corrente"
+            }
         }
     }
 }

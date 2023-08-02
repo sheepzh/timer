@@ -239,3 +239,20 @@ export function getAllDatesBetween(dateStart: Date, dateEnd: Date): string[] {
     isSameDay(cursor, dateEnd) && dates.push(formatTime(dateEnd, format))
     return dates
 }
+
+/**
+ * yyyyMMdd => Date
+ */
+export function parseTime(dateStr: string): Date {
+    if (!dateStr) return undefined
+    const year = parseInt(dateStr.substring(0, 4))
+    const month = parseInt(dateStr.substring(4, 6))
+    const date = parseInt(dateStr.substring(6, 8))
+    const result = new Date()
+    result.setFullYear(year)
+    result.setMonth(month - 1)
+    result.setDate(date)
+    return result
+}
+
+export const RELEASE_DATE = '20200301'
