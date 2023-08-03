@@ -10,6 +10,8 @@ import type { Gist, GistForm, File, FileForm } from "@api/gist"
 import { getJsonFileContent, findTarget, getGist, createGist, updateGist, testToken } from "@api/gist"
 import { SOURCE_CODE_PAGE } from "@util/constant/url"
 import { calcAllBuckets, devide2Buckets, gistData2Rows } from "./compressor"
+import MonthIterator from "@util/month-iterator"
+import { formatTime } from "@util/time"
 
 const TIMER_META_GIST_DESC = "Used for timer to save meta info. Don't change this description :)"
 const TIMER_DATA_GIST_DESC = "Used for timer to save stat data. Don't change this description :)"
@@ -45,6 +47,14 @@ function bucket2filename(bucket: string, cid: string) {
     return `${bucket}_${cid}.json`
 }
 
+function filterDate(row: timer.stat.RowBase, start: string, end: string) {
+    const { date } = row
+    if (!date) return false
+    if (start && date < start) return false
+    if (end && date > end) return false
+    return true
+}
+
 export default class GistCoordinator implements timer.backup.Coordinator<Cache> {
     async updateClients(
         context: timer.backup.CoordinatorContext<Cache>,
@@ -72,17 +82,26 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return file ? getJsonFileContent(file) || [] : []
     }
 
-    async download(context: timer.backup.CoordinatorContext<Cache>, yearMonth: string, targetCid?: string): Promise<timer.stat.RowBase[]> {
-        const filename = bucket2filename(yearMonth, targetCid || context.cid)
-        const gist: Gist = await this.getStatGist(context)
-        const file: File = gist.files[filename]
-        if (file) {
-            const gistData: GistData = await getJsonFileContent(file)
-            return gistData2Rows(yearMonth, gistData)
-        } else {
-            return []
-        }
+    async download(context: timer.backup.CoordinatorContext<Cache>, startTime: Date, endTime: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
+        const allYearMonth = new MonthIterator(startTime, endTime || new Date()).toArray()
+        const result: timer.stat.RowBase[] = []
+        const start = formatTime(startTime, "{y}{m}{d}")
+        const end = formatTime(endTime, "{y}{m}{d}")
+        await Promise.all(allYearMonth.map(async yearMonth => {
+            const filename = bucket2filename(yearMonth, targetCid || context.cid)
+            const gist: Gist = await this.getStatGist(context)
+            const file: File = gist.files[filename]
+            if (file) {
+                const gistData: GistData = await getJsonFileContent(file)
+                const rows = gistData2Rows(yearMonth, gistData)
+                rows.filter(row => filterDate(row, start, end))
+                    .forEach(row => result.push(row))
+            }
+        }))
+        return result
     }
+
+
 
     async upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void> {
         const cid = context.cid
@@ -170,20 +189,14 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return testToken(auth)
     }
 
-    async clear(context: timer.backup.CoordinatorContext<Cache>, cid: string): Promise<void> {
-        // 1. Find the client
-        const allClients = await this.listAllClients(context)
-        const client = allClients?.filter(c => c?.id === cid)?.[0]
-        if (!client) {
-            return
-        }
-        // 2. Find the names of file to delete
-        const { minDate, maxDate } = client
+    async clear(context: timer.backup.CoordinatorContext<Cache>, client: timer.backup.Client): Promise<void> {
+        // 1. Find the names of file to delete
+        const { minDate, maxDate, id: cid } = client || {}
         const allBuckets = calcAllBuckets(minDate, maxDate)
         const allFileNames = allBuckets.map(bucket => bucket2filename(bucket, cid))
         const gist = await this.getStatGist(context)
         const deletingFileNames = Object.keys(gist?.files || {}).filter(fileName => allFileNames.includes(fileName))
-        // 3. delete
+        // 2. delete
         const files2Delete: { [filename: string]: FileForm } = {}
         deletingFileNames.forEach(fileName => files2Delete[fileName] = null)
         const gist2update: GistForm = {
@@ -192,7 +205,5 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
             description: TIMER_DATA_GIST_DESC
         }
         await updateGist(context.auth, gist.id, gist2update)
-        const newClients = allClients.filter(c => c?.id !== cid)
-        this.updateClients(context, newClients)
     }
 }

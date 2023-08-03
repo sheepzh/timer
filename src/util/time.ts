@@ -201,6 +201,7 @@ export function getBirthday(): Date {
     date.setHours(0, 0, 0, 0)
     return date
 }
+export const BIRTHDAY = '20220303'
 
 /**
  * Calc the day lenth
@@ -254,5 +255,3 @@ export function parseTime(dateStr: string): Date {
     result.setDate(date)
     return result
 }
-
-export const RELEASE_DATE = '20200301'

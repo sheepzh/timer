@@ -5,21 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import OptionDatabase from "@db/option-database"
 import { StatCondition } from "@db/stat-database"
 import processor from "@src/common/backup/processor"
 import { judgeVirtualFast } from "@util/pattern"
 import { getBirthday } from "@util/time"
 
-const optionDatabase = new OptionDatabase(chrome.storage.local)
-
 const keyOf = (row: timer.stat.RowKey) => `${row.date}${row.host}`
 
 export async function processRemote(param: StatCondition, origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const { backupType, backupAuths } = await optionDatabase.getOption()
-    const auth = backupAuths?.[backupType]
-    const canReadRemote = await canReadRemote0(backupType, auth)
-    if (!canReadRemote) {
+    if (!await canReadRemote()) {
         return origin
     }
     // Map to merge
@@ -52,7 +46,7 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
     }
     start = start || getBirthday()
     end = end || new Date()
-    const remote = await processor.query(backupType, auth, { start, end })
+    const remote = await processor.query({ excludeLocal: true, start, end })
     remote.filter(predicate).forEach(row => processRemoteRow(originMap, row))
     return Object.values(originMap)
 }
@@ -64,12 +58,8 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
  * @returns T/F
  */
 export async function canReadRemote(): Promise<boolean> {
-    const { backupType, backupAuths } = await optionDatabase.getOption()
-    return await canReadRemote0(backupType, backupAuths?.[backupType])
-}
-
-async function canReadRemote0(backupType: timer.backup.Type, auth: string): Promise<boolean> {
-    return backupType && backupType !== 'none' && !await processor.test(backupType, auth)
+    const { errorMsg } = await processor.checkAuth()
+    return !errorMsg
 }
 
 function processRemoteRow(rowMap: Record<string, timer.stat.Row>, row: timer.stat.Row) {

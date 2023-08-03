@@ -49,8 +49,12 @@ export function tagText(text: I18nKey): VNode {
  * @param content content 
  * @since 0.5.0
  */
-export function tooltip(content: I18nKey): VNode {
-    return h(ElTooltip, { content: t(content) }, {
+export function tooltip(i18nKey: I18nKey): VNode {
+    const content = t(i18nKey)
+    if (!content) {
+        return null
+    }
+    return h(ElTooltip, { content }, {
         default: () => h(ElIcon, { size: 15 }, () => h(InfoFilled))
     })
 }
