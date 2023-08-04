@@ -1,4 +1,4 @@
-# Timer
+# Time Tracker
 
 [![codecov](https://codecov.io/gh/sheepzh/timer/branch/main/graph/badge.svg?token=S98QSBSKCR&style=flat-square)](https://codecov.io/gh/sheepzh/timer)
 [![codebeat badge](https://codebeat.co/badges/69a88b51-2a07-4944-98dc-603a99d8a9f9)](https://codebeat.co/projects/github-com-sheepzh-timer-main)
@@ -8,9 +8,9 @@
 
 \[ English | [简体中文](./README-zh.md) \]
 
-Timer is a browser extension to track the time you spent on all websites. It's built by webpack, TypeScript and Element-plus. And you can install it for Firefox, Chrome and Edge.
+Time Tracker is a browser extension to track the time you spent on all websites. It's built by webpack, TypeScript and Element-plus. And you can install it for Firefox, Chrome and Edge.
 
-Timer can 
+Time Tracker can 
 
 - help you count the time you browsing and the visit count on each website.
 - help you count the time you read local files with browsers.
