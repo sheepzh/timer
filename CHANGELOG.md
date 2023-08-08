@@ -2,7 +2,7 @@
 
 All notable changes to Time Tracker will be documented in this file.
 
-Release time refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
+It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
 ## [v1.9.4] - 2023-08-08
 
