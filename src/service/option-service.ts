@@ -52,8 +52,16 @@ async function setBackupOption(option: Partial<timer.option.BackupOption>): Prom
     // Rewrite auths
     const existOption = await getAllOption()
     const existAuths = existOption.backupAuths || {}
+    const existExts = existOption.backupExts || {}
     Object.entries(option.backupAuths || {}).forEach(([type, auth]) => existAuths[type] = auth)
+    Object.entries(option.backupExts || {}).forEach(([type, ext]) => {
+        if (!ext) return
+        const existExt = existExts[type] || {}
+        Object.entries(ext).forEach(([key, val]) => existExt[key] = val)
+        existExts[type] = existExt
+    })
     option.backupAuths = existAuths
+    option.backupExts = existExts
     await setOption(option)
 }
 

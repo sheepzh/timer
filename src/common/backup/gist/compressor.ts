@@ -1,5 +1,12 @@
+/**
+ * Copyright (c) 2023 Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import { groupBy } from "@util/array"
-import { RELEASE_DATE, formatTime, parseTime } from "@util/time"
+import { formatTime, getBirthday, parseTime } from "@util/time"
 
 function calcGroupKey(row: timer.stat.RowBase): string {
     const date = row.date
@@ -41,10 +48,9 @@ export function devide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][]
  * Calculate all the buckets between {@param startDate} and {@param endDate}
  */
 export function calcAllBuckets(startDate: string, endDate: string) {
-    startDate = startDate || RELEASE_DATE
     endDate = endDate || formatTime(new Date(), '{y}{m}{d}')
     const result = []
-    const start = parseTime(startDate)
+    const start = startDate ? parseTime(startDate) : getBirthday()
     const end = parseTime(endDate)
     while (start < end) {
         result.push(formatTime(start, '{y}{m}{d}'))

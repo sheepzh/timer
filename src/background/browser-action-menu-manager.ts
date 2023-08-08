@@ -6,7 +6,10 @@
  */
 
 import { OPTION_ROUTE } from "../app/router/constants"
-import { getAppPageUrl, getGuidePageUrl, GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE } from "@util/constant/url"
+import {
+    getAppPageUrl, getGuidePageUrl,
+    GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE, CHANGE_LOG_PAGE
+} from "@util/constant/url"
 import { t2Chrome } from "@i18n/chrome/t"
 import { IS_MV3, IS_SAFARI } from "@util/constant/environment"
 import { createTab } from "@api/chrome/tab"
@@ -69,12 +72,20 @@ const guidePageProps: ChromeContextMenuCreateProps = {
     ...baseProps
 }
 
+const changeLogProps: ChromeContextMenuCreateProps = {
+    id: getRuntimeId() + '_timer_menu_item_changelog',
+    title: titleOf('📆', t2Chrome(msg => msg.base.changeLog)),
+    onclick: () => createTab(CHANGE_LOG_PAGE),
+    ...baseProps
+}
+
 function init() {
     createContextMenu(allFunctionProps)
     createContextMenu(optionPageProps)
     createContextMenu(repoPageProps)
     createContextMenu(feedbackPageProps)
     createContextMenu(guidePageProps)
+    createContextMenu(changeLogProps)
 }
 
 export default init

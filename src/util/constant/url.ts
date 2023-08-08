@@ -32,6 +32,11 @@ export const HOME_PAGE = homePage
 export const SOURCE_CODE_PAGE = 'https://github.com/sheepzh/timer'
 
 /**
+ * @since 1.9.4
+ */
+export const CHANGE_LOG_PAGE = 'https://github.com/sheepzh/timer/blob/main/CHANGELOG.md'
+
+/**
  * @since 0.0.6
  */
 export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new/choose'

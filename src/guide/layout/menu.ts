@@ -22,12 +22,21 @@ import {
     BACKUP_ROUTE,
     LIMIT_ROUTE,
 } from "@guide/router/constants"
+import { createTabAfterCurrent } from "@api/chrome/tab"
+import { CHANGE_LOG_PAGE } from "@util/constant/url"
+
+type RouteMenu = {
+    route: string
+}
+
+type LinkMenu = {
+    link: string
+}
 
 type MenuConf = {
-    route: string
     title: I18nKey
     children?: MenuConf[]
-}
+} & (RouteMenu | LinkMenu)
 
 const MENU_CONFS: MenuConf[] = [{
     route: START_ROUTE,
@@ -52,15 +61,20 @@ const MENU_CONFS: MenuConf[] = [{
         title: msg => msg.limit.title,
     }, {
         route: BACKUP_ROUTE,
-        title: msg => msg.backup.title
+        title: msg => msg.backup.title,
     }],
+}, {
+    link: CHANGE_LOG_PAGE,
+    title: msg => msg.base.changeLog,
 }]
 
 function renderWithConf(conf: MenuConf, router: Router, activeRoute: Ref<string>) {
-    const { route, title, children } = conf
+    const { title, children } = conf as Required<MenuConf>
+    const route = (conf as RouteMenu)?.route
+    const link = (conf as LinkMenu)?.link
     if (children?.length) {
         return h(ElSubMenu, {
-            index: route,
+            index: route ? route : '_link',
         }, {
             title: () => h('span', t(title)),
             default: () => children.map(child => renderWithConf(child, router, activeRoute))
@@ -69,8 +83,12 @@ function renderWithConf(conf: MenuConf, router: Router, activeRoute: Ref<string>
     return h(ElMenuItem, {
         index: route,
         onClick: () => {
-            router.push(route)
-            activeRoute.value = route
+            if (route) {
+                router.push(route)
+                activeRoute.value = route
+            } else {
+                link && createTabAfterCurrent(link)
+            }
         },
     }, () => h('span', t(title)))
 }
@@ -82,7 +100,9 @@ const _default = defineComponent(() => {
     onMounted(() => setTimeout(() => activeRoute.value = router.currentRoute?.value?.path))
     return () => [
         h(ElMenu, {
-            defaultOpeneds: MENU_CONFS.filter(m => m.children?.length).map(group => group.route),
+            defaultOpeneds: MENU_CONFS
+                .filter(m => m.children?.length && (m as RouteMenu).route)
+                .map(group => (group as RouteMenu).route),
             defaultActive: activeRoute.value,
         }, () => MENU_CONFS.map(conf => renderWithConf(conf, router, activeRoute)))
     ]

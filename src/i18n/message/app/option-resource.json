@@ -82,6 +82,11 @@
                 },
                 "gist": {
                     "authInfo": "需要创建一个至少包含 gist 权限的 token"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "服务地址 {info} {input}",
+                    "endpointInfo": "因为无法为浏览器插件配置跨域，所以只能使用 HTTP 协议",
+                    "pathLabel": "文件夹路径 {input}"
                 }
             },
             "alert": "这是一项实验性功能，如果有任何问题请联系作者~ ({email})",
@@ -197,6 +202,11 @@
                 },
                 "gist": {
                     "authInfo": "需要創建一個至少包含 gist 權限的 token"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "服務地址 {info} {input}",
+                    "endpointInfo": "僅 HTTP 可用，因為無法為擴展頁面配置 CORS",
+                    "pathLabel": "目錄的路徑 {input}"
                 }
             },
             "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
@@ -312,6 +322,11 @@
                 },
                 "gist": {
                     "authInfo": "One token with at least gist permission is required"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "Endpoint address {info} {input}",
+                    "endpointInfo": "Only HTTP is avaiable because it is not possible to configure CORS for extensions's pages",
+                    "pathLabel": "The path of directory {input}"
                 }
             },
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
@@ -427,6 +442,11 @@
                 },
                 "gist": {
                     "authInfo": "少なくとも gist 権限を持つトークンが 1 つ必要です"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "エンドポイントアドレス {info} {input}",
+                    "endpointInfo": "拡張機能のページに CORS を設定できないため、HTTP のみが利用できます。",
+                    "pathLabel": "ディレクトリのパス {input}"
                 }
             },
             "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
@@ -545,6 +565,11 @@
                 },
                 "gist": {
                     "authInfo": "É necessário um token com pelo menos gist permissão"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "Endereço Intendente {info} {input}",
+                    "endpointInfo": "Somente HTTP está disponível porque não é possível configurar CORS para páginas de extensões",
+                    "pathLabel": "O caminho do diretório {input}"
                 }
             },
             "test": "Testar",

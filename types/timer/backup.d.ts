@@ -13,6 +13,7 @@ declare namespace timer.backup {
     interface CoordinatorContext<Cache> {
         cid: string
         auth: string
+        ext?: TypeExt
         cache: Cache
         handleCacheChanged: () => Promise<void>
     }
@@ -34,7 +35,7 @@ declare namespace timer.backup {
          * 
          * @param targetCid The client id, default value is the local one in context
          */
-        download(context: timer.backup.CoordinatorContext<Cache>, yearMonth: string, targetCid?: string): Promise<timer.stat.RowBase[]>
+        download(context: timer.backup.CoordinatorContext<Cache>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]>
         /**
          * Upload fragmented data to cloud
          * @param rows 
@@ -45,16 +46,24 @@ declare namespace timer.backup {
          * 
          * @returns errorMsg or null/undefined
          */
-        testAuth(auth: string): Promise<string>
+        testAuth(auth: string, ext: timer.backup.TypeExt): Promise<string>
         /**
          * Clear data
          */
-        clear(context: timer.backup.CoordinatorContext<Cache>, cid: string): Promise<void>
+        clear(context: timer.backup.CoordinatorContext<Cache>, client: timer.backup.Client): Promise<void>
     }
 
     type Type =
         | 'none'
         | 'gist'
+        // Sync into Obsidian via its plugin Local REST API
+        // @since 1.9.4
+        | 'obsidian_local_rest_api'
+
+    type TypeExt = {
+        endpoint?: string
+        dirPath?: string
+    }
 
     /**
      * Snapshot of last backup

@@ -63,6 +63,7 @@ const placeholder: ChromeMessage = {
         currentVersion: '',
         allFunction: '',
         guidePage: '',
+        changeLog: '',
     },
     contextMenus: {
         add2Whitelist: '',

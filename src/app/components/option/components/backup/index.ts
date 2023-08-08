@@ -6,7 +6,6 @@
  */
 
 import type { Ref } from "vue"
-import type { I18nKey } from "@app/locale"
 
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
@@ -18,33 +17,36 @@ import { renderOptionItem, tooltip } from "../../common"
 import BackUpAutoInput from "./auto-input"
 import Footer from "./footer"
 import { AUTHOR_EMAIL } from "@src/package"
+import { DEFAULT_ENDPOINT } from "@api/obsidian"
 import "./style.sass"
 
 const ALL_TYPES: timer.backup.Type[] = [
     'none',
     'gist',
+    'obsidian_local_rest_api',
 ]
 
 const AUTH_LABELS: { [t in timer.backup.Type]: string } = {
     'none': '',
     'gist': 'Personal Access Token {info} {input}',
+    'obsidian_local_rest_api': 'Authorization {input}'
 }
 
-const TYPE_NAMES: { [t in timer.backup.Type]: I18nKey } = {
-    none: msg => msg.option.backup.meta.none.label,
-    gist: _ => 'GitHub Gist',
+const TYPE_NAMES: { [t in timer.backup.Type]: string } = {
+    none: t(msg => msg.option.backup.meta.none.label),
+    gist: 'GitHub Gist',
+    obsidian_local_rest_api: "Obsidian - Local REST API",
 }
 
 const typeOptions = () => ALL_TYPES.map(type => h(ElOption, {
     value: type,
-    label: t(TYPE_NAMES[type]),
+    label: TYPE_NAMES[type],
 }))
 
 const typeSelect = (type: Ref<timer.backup.Type>, handleChange?: Function) => h(ElSelect,
     {
         modelValue: type.value,
         size: 'small',
-        style: { width: '120px' },
         async onChange(newType: timer.backup.Type) {
             type.value = newType
             handleChange?.()
@@ -85,38 +87,51 @@ const DEFAULT = defaultBackup()
 const _default = defineComponent((_props, ctx) => {
     const type: Ref<timer.backup.Type> = ref(DEFAULT.backupType)
     const auth: Ref<string> = ref('')
+    const endpoint: Ref<string> = ref()
+    const path: Ref<string> = ref()
     const clientName: Ref<string> = ref(DEFAULT.clientName)
     const autoBackUp: Ref<boolean> = ref(DEFAULT.autoBackUp)
     const autoBackUpInterval: Ref<number> = ref(DEFAULT.autoBackUpInterval)
 
-    optionService.getAllOption().then(currentVal => {
-        clientName.value = currentVal.clientName
-        type.value = currentVal.backupType
+    const parseOption = (option: timer.option.BackupOption) => {
+        clientName.value = option.clientName
+        type.value = option.backupType
         if (type.value) {
-            auth.value = currentVal.backupAuths?.[type.value]
+            auth.value = option.backupAuths?.[type.value]
+            const ext = option.backupExts?.[type.value]
+            path.value = ext?.dirPath
+            endpoint.value = ext?.endpoint
         }
-        autoBackUp.value = currentVal.autoBackUp
-        autoBackUpInterval.value = currentVal.autoBackUpInterval
-    })
+        autoBackUp.value = option.autoBackUp
+        autoBackUpInterval.value = option.autoBackUpInterval
+    }
 
-    function handleChange() {
+    optionService.getAllOption().then(parseOption)
+
+    async function handleChange() {
         const backupAuths = {}
+        const backupExts: { [type in timer.backup.Type]?: timer.backup.TypeExt } = {}
         backupAuths[type.value] = auth.value
+        backupExts[type.value] = {
+            dirPath: path.value,
+            endpoint: endpoint.value,
+        }
         const newOption: timer.option.BackupOption = {
             backupType: type.value,
             backupAuths,
+            backupExts,
             clientName: clientName.value || DEFAULT.clientName,
             autoBackUp: autoBackUp.value,
             autoBackUpInterval: autoBackUpInterval.value,
         }
-        optionService.setBackupOption(newOption)
+        await optionService.setBackupOption(newOption)
     }
 
     async function handleTest() {
         const loading = ElLoading.service({
             text: "Please wait...."
         })
-        const errorMsg = await processor.test(type.value, auth.value)
+        const { errorMsg } = await processor.checkAuth()
         loading.close()
         if (!errorMsg) {
             ElMessage.success("Valid!")
@@ -143,11 +158,21 @@ const _default = defineComponent((_props, ctx) => {
             }),
             h(ElDivider),
             renderOptionItem({
-                input: typeSelect(type, handleChange)
+                input: h(ElSelect, {
+                    modelValue: type.value,
+                    size: 'small',
+                    async onChange(newType: timer.backup.Type) {
+                        type.value = newType
+                        const option = await optionService.getAllOption()
+                        option.backupType = type.value
+                        await optionService.setBackupOption(option)
+                        parseOption(option)
+                    }
+                }, () => typeOptions())
             },
                 msg => msg.backup.type,
-                t(TYPE_NAMES[DEFAULT.backupType])
-            )
+                TYPE_NAMES[DEFAULT.backupType],
+            ),
         ]
         type.value !== 'none' && nodes.push(
             h(ElDivider),
@@ -162,6 +187,37 @@ const _default = defineComponent((_props, ctx) => {
                     }
                 })
             }, _msg => '{input}', t(msg => msg.option.no)),
+        )
+        type.value === 'obsidian_local_rest_api' && nodes.push(
+            h(ElDivider),
+            renderOptionItem({
+                input: h(ElInput, {
+                    placeholder: DEFAULT_ENDPOINT,
+                    modelValue: endpoint.value,
+                    size: "small",
+                    style: { width: "400px" } as Partial<CSSStyleDeclaration>,
+                    onInput: val => {
+                        endpoint.value = val?.trim?.() || ''
+                        handleChange()
+                    },
+                }),
+                info: tooltip(msg => msg.option.backup.meta.obsidian_local_rest_api.endpointInfo),
+            }, msg => msg.backup.meta.obsidian_local_rest_api.endpointLabel),
+            h(ElDivider),
+            renderOptionItem(
+                h(ElInput, {
+                    modelValue: path.value,
+                    size: "small",
+                    style: { width: "400px" } as Partial<CSSStyleDeclaration>,
+                    onInput: val => {
+                        path.value = val?.trim?.() || ''
+                        handleChange()
+                    },
+                }),
+                msg => msg.backup.meta.obsidian_local_rest_api.pathLabel,
+            ),
+        )
+        type.value !== 'none' && nodes.push(
             h(ElDivider),
             renderOptionItem({
                 input: authInput(auth, handleChange, handleTest),
@@ -170,10 +226,9 @@ const _default = defineComponent((_props, ctx) => {
                 _msg => AUTH_LABELS[type.value],
             ),
             h(ElDivider),
-            renderOptionItem({
-                input: clientNameInput(clientName, handleChange)
-            },
-                msg => msg.backup.client
+            renderOptionItem(
+                clientNameInput(clientName, handleChange),
+                msg => msg.backup.client,
             ),
             h(ElDivider),
             h(Footer, { type: type.value }),

@@ -11,6 +11,7 @@ export type BaseMessage = {
     currentVersion: string
     allFunction: string
     guidePage: string
+    changeLog: string
 }
 
 /**

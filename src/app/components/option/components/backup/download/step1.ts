@@ -8,21 +8,17 @@
 import { t } from "@app/locale"
 import { Close, Right } from "@element-plus/icons-vue"
 import { fillExist } from "@service/components/import-processor"
-import optionService from "@service/option-service"
 import processor from "@src/common/backup/processor"
-import { RELEASE_DATE, parseTime } from "@util/time"
+import { BIRTHDAY, parseTime } from "@util/time"
 import { ElButton, ElMessage } from "element-plus"
 import { defineComponent, Ref, h, ref } from "vue"
 import ClientTable from "../client-table"
 
 async function fetchData(client: timer.backup.Client): Promise<timer.imported.Data> {
-    const { id: specCid, maxDate, minDate = RELEASE_DATE } = client
+    const { id: specCid, maxDate, minDate = BIRTHDAY } = client
     const start = parseTime(minDate)
     const end = maxDate ? parseTime(maxDate) : new Date()
-    const option: timer.option.BackupOption = await optionService.getAllOption()
-    const { backupType: type, backupAuths } = option || {}
-    const auth = backupAuths?.[type]
-    const remoteRows: timer.stat.Row[] = await processor.query(type, auth, { specCid, start, end })
+    const remoteRows: timer.stat.Row[] = await processor.query({ specCid, start, end })
     const rows: timer.imported.Row[] = (remoteRows || []).map(rr => ({
         date: rr.date,
         host: rr.host,
