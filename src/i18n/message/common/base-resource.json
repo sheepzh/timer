@@ -14,16 +14,19 @@
     "zh_TW": {
         "currentVersion": "版本: v{version}",
         "allFunction": "所有功能",
-        "guidePage": "使用者手冊"
+        "guidePage": "使用者手冊",
+        "changeLog": "更新紀錄"
     },
     "ja": {
         "currentVersion": "バージョン: v{version}",
         "allFunction": "すべての機能",
-        "guidePage": "ユーザーマニュアル"
+        "guidePage": "ユーザーマニュアル",
+        "changeLog": "変更履歴"
     },
     "pt_PT": {
         "currentVersion": "Versão: {version}",
         "allFunction": "Todas as Funções",
-        "guidePage": "Manual do Utilizador"
+        "guidePage": "Manual do Utilizador",
+        "changeLog": "Registo de Alterações"
     }
 }
