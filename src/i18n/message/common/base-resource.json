@@ -2,12 +2,14 @@
     "en": {
         "currentVersion": "Version: {version}",
         "allFunction": "All Functions",
-        "guidePage": "User Manual"
+        "guidePage": "User Manual",
+        "changeLog": "Change Log"
     },
     "zh_CN": {
         "currentVersion": "版本: v{version}",
         "allFunction": "所有功能",
-        "guidePage": "用户手册"
+        "guidePage": "用户手册",
+        "changeLog": "更新日志"
     },
     "zh_TW": {
         "currentVersion": "版本: v{version}",
