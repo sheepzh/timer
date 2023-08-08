@@ -6,7 +6,7 @@ Release time refers to the time when the installation package is submitted to th
 
 ## [v1.9.4] - 2023-08-08
 
-- Supported syncing data with Local REST API for Obsibian.
+- Supported syncing data with [Local REST API for Obsibian](https://github.com/coddingtonbear/obsidian-local-rest-api).
 - Display change log on the guide page and the context menu.
 
 ## [v1.9.3] - 2023-08-02
