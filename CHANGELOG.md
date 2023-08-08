@@ -22,22 +22,22 @@ Release time refers to the time when the installation package is submitted to th
 - Supported importing data exported from Webtime Tracker.
 - Supported importing data exported from Web Activity Time Tracker.
 
-## [1.9.0] - 2023-06-27
+## [v1.9.0] - 2023-06-27
 
 - Supported password and verification to unlock daily limit.
 - Fixed known bugs.
 
-## [1.8.2] - 2023-05-20
+## [v1.8.2] - 2023-05-20
 
 - Added contributor list of translation.
 - Added Portuguese localization.
 - Fixed known bugs.
 
-## [1.8.1] - 2023-04-12
+## [v1.8.1] - 2023-04-12
 
 - Renamed from Timer to Time Tracker.
 
-## [1.8.0] - 2023-04-04
+## [v1.8.0] - 2023-04-04
 
 - Refactored the guide page.
 - Fixed the background color of sidebar.
