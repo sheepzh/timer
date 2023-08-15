@@ -37,7 +37,7 @@
             "incorrectPsw": "密码错误",
             "incorrectAnswer": "回答错误",
             "pi": "圆周率 π 的小数部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位数字",
-            "confession": "一寸光一寸金，寸金难买寸光阴"
+            "confession": "一寸光阴一寸金，寸金难买寸光阴"
         }
     },
     "zh_TW": {
@@ -78,7 +78,7 @@
             "incorrectPsw": "密碼錯誤",
             "incorrectAnswer": "答案不正確",
             "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
-            "confession": "一寸光一寸金，寸金難買寸光陰"
+            "confession": "一寸光陰一寸金，寸金難買寸光陰"
         }
     },
     "en": {

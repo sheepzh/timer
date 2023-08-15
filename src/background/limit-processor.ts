@@ -7,13 +7,13 @@
 
 import { createTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { LIMIT_ROUTE } from "@app/router/constants"
-import TimeLimitItem from "@entity/time-limit-item"
 import { getAppPageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
+import { matches } from "@util/limit"
 
-function processLimitWaking(rules: TimeLimitItem[], tab: ChromeTab) {
+function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
     const { url } = tab
-    const anyMatch = rules.map(rule => rule.matches(url)).reduce((a, b) => a || b, false)
+    const anyMatch = rules.map(rule => matches(rule, url)).reduce((a, b) => a || b, false)
     if (!anyMatch) {
         return
     }
@@ -31,7 +31,7 @@ export default function init(dispatcher: MessageDispatcher) {
         .register<timer.limit.Item[]>(
             'limitWaking',
             async data => {
-                const rules = data?.map(like => TimeLimitItem.of(like)) || []
+                const rules = data || []
                 const tabs = await listTabs({ status: 'complete' })
                 tabs.forEach(tab => processLimitWaking(rules, tab))
             }

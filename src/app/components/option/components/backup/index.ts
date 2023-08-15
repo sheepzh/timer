@@ -43,18 +43,6 @@ const typeOptions = () => ALL_TYPES.map(type => h(ElOption, {
     label: TYPE_NAMES[type],
 }))
 
-const typeSelect = (type: Ref<timer.backup.Type>, handleChange?: Function) => h(ElSelect,
-    {
-        modelValue: type.value,
-        size: 'small',
-        async onChange(newType: timer.backup.Type) {
-            type.value = newType
-            handleChange?.()
-        }
-    },
-    () => typeOptions()
-)
-
 const clientNameInput = (clientName: Ref<string>, handleInput?: Function) => h(ElInput, {
     modelValue: clientName.value,
     size: 'small',

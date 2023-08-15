@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem from "@entity/time-limit-item"
 import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
 import statService from "@service/stat-service"
@@ -42,5 +41,5 @@ export default function init(dispatcher: MessageDispatcher) {
         // More minutes
         .register<string, timer.limit.Item[]>('cs.moreMinutes', url => limitService.moreMinutes(url))
         // cs.getLimitedRules
-        .register<string, TimeLimitItem[]>('cs.getLimitedRules', url => limitService.getLimited(url))
+        .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
 }
