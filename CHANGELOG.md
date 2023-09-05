@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [v1.9.5] - 2023-09-05
+
+- Fixed an issue where the restriction did not take effect in full screen mode (#234).
+- Fixed the style error when setting restriction rules. (#233)
+
 ## [v1.9.4] - 2023-08-08
 
 - Supported syncing data with [Local REST API for Obsibian](https://github.com/coddingtonbear/obsidian-local-rest-api).
