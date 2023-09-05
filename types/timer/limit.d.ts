@@ -5,7 +5,6 @@ declare namespace timer.limit {
      * @since 0.8.4
      */
     type Item = Rule & {
-        regular: RegExp
         /**
          * Waste today, milliseconds
          */
@@ -17,9 +16,21 @@ declare namespace timer.limit {
          */
         cond: string
         /**
-         * Time limit, seconds
+         * Time limit per day, seconds
          */
         time: number
+        /**
+         * Time limit per visit, seconds
+         * 
+         * @since 1.9.5
+         */
+        visitTime?: number
+        /**
+         * Whether to notification
+         * 
+         * @since 1.9.5
+         */
+        notification?: boolean
         enabled: boolean
         /**
          * Allow to delay 5 minutes if time over

@@ -42,7 +42,7 @@ async function sendLimitedMessage(item: timer.limit.Item[]) {
     const tabs = await listTabs({ status: 'complete' })
     tabs.forEach(tab => sendMsg2Tab(tab.id, 'limitTimeMeet', item)
         .then(() => console.log(`Processed limit rules: rule=${JSON.stringify(item)}`))
-        .catch(err => console.error(`Failed to execute limit rule: rule=${JSON.stringify(item)}, msg=${err.msg}`))
+        .catch(() => {/*Ignored*/ })
     )
 }
 

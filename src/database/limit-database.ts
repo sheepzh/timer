@@ -10,7 +10,7 @@ import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 const KEY = REMAIN_WORD_PREFIX + 'LIMIT'
 
-declare type ItemValue = {
+type ItemValue = {
     /**
      * Limited time, second
      */
@@ -34,7 +34,7 @@ declare type ItemValue = {
     ad: boolean
 }
 
-declare type Item = {
+type Item = {
     [cond: string]: ItemValue
 }
 

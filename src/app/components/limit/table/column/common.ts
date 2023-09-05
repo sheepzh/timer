@@ -2,8 +2,9 @@ import { t, tN } from "@app/locale"
 import { locale } from "@i18n"
 import { VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
+import { getCssVariable } from "@util/style"
 import { ElMessageBox, ElMessage } from "element-plus"
-import { h, VNode } from "vue"
+import { defineComponent, h, onMounted, ref, VNode } from "vue"
 
 /**
  * Judge wether verification is required
@@ -18,6 +19,46 @@ export function judgeVerificationRequired(item: timer.limit.Item): boolean {
 const PROMT_TXT_CSS: Partial<CSSStyleDeclaration> = {
     userSelect: 'none',
 }
+
+const ANSWER_CANVAS_FONT_SIZE = 24
+
+const CANVAS_WRAPPER_CSS: Partial<CSSStyleDeclaration> = {
+    fontSize: `${ANSWER_CANVAS_FONT_SIZE}px`,
+    textAlign: 'center',
+}
+
+const AnswerCanvas = defineComponent({
+    props: {
+        text: String
+    },
+    setup: (props => {
+        const dom = ref<HTMLCanvasElement>()
+        const wrapper = ref<HTMLDivElement>()
+        const { text } = props
+
+        onMounted(() => {
+            const ele = dom.value
+            const ctx = ele.getContext("2d")
+            const height = Math.floor(ANSWER_CANVAS_FONT_SIZE * 1.3)
+            ele.height = height
+            const font = getComputedStyle(wrapper.value).font
+            // Set font to measure width
+            ctx.font = font
+            const { width } = ctx.measureText(text)
+            ele.width = width
+            // Need set font again after width changed
+            ctx.font = font
+            const color = getCssVariable("--el-text-color-primary")
+            ctx.fillStyle = color
+            ctx.fillText(text, 0, ANSWER_CANVAS_FONT_SIZE)
+        })
+
+        return () => h('div', {
+            style: CANVAS_WRAPPER_CSS,
+            ref: wrapper,
+        }, h('canvas', { ref: dom }))
+    })
+})
 
 /**
  * @returns null if verification not required, 
@@ -43,7 +84,10 @@ export async function processVerification(option: timer.option.DailyLimitOption)
                 : prompt
             messageNodes = tN(msg => msg.limit.verification.inputTip, { prompt: h('b', promptTxt) })
         } else {
-            messageNodes = tN(msg => msg.limit.verification.inputTip2, { answer: h('b', answerValue) })
+            const answer: VNode = limitVerifyDifficulty === 'disgusting'
+                ? h(AnswerCanvas, { text: answerValue })
+                : h('b', answerValue)
+            messageNodes = tN(msg => msg.limit.verification.inputTip2, { answer })
         }
     }
     return messageNodes?.length && answerValue

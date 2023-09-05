@@ -8,7 +8,7 @@
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
-import TimeLimitItem from "@entity/time-limit-item"
+import { hasLimited, matches } from "@util/limit"
 import { formatTime } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
 
@@ -20,21 +20,21 @@ export type QueryParam = {
     url: string
 }
 
-async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
+async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     const { filterDisabled, url } = cond ? cond : { filterDisabled: undefined, url: undefined }
     const today = formatTime(new Date(), DATE_FORMAT)
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
-        .map(({ cond, time, enabled, wasteTime, latestDate, allowDelay }) => TimeLimitItem.builder()
-            .cond(cond)
-            .time(time)
-            .enabled(enabled)
-            .waste(latestDate === today ? wasteTime : 0)
-            .allowDelay(allowDelay)
-            .build()
-        )
+        .map(({ cond, time, enabled, wasteTime, latestDate, allowDelay }) => ({
+            cond,
+            time,
+            enabled: !!enabled,
+            waste: latestDate === today ? (wasteTime ?? 0) : 0,
+            latestDate,
+            allowDelay: !!allowDelay,
+        } as timer.limit.Item))
         // If use url, then test it
-        .filter(item => url ? item.matches(url) : true)
+        .filter(item => !url || matches(item, url))
 }
 
 /**
@@ -43,10 +43,10 @@ async function select(cond?: QueryParam): Promise<TimeLimitItem[]> {
  * @param item 
  */
 async function handleLimitChanged() {
-    const allItems: TimeLimitItem[] = await select({ filterDisabled: false, url: undefined })
+    const allItems: timer.limit.Item[] = await select({ filterDisabled: false, url: undefined })
     const tabs = await listTabs()
     tabs.forEach(tab => {
-        const limitedItems = allItems.filter(item => item.matches(tab.url) && item.enabled && item.hasLimited())
+        const limitedItems = allItems.filter(item => matches(item, tab.url) && item.enabled && hasLimited(item))
         sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
             .catch(err => console.log(err.message))
     })
@@ -69,11 +69,11 @@ async function remove(item: timer.limit.Item): Promise<void> {
     await handleLimitChanged()
 }
 
-async function getLimited(url: string): Promise<TimeLimitItem[]> {
-    const list: TimeLimitItem[] = (await select())
+async function getLimited(url: string): Promise<timer.limit.Item[]> {
+    const list: timer.limit.Item[] = (await select())
         .filter(item => item.enabled)
-        .filter(item => item.matches(url))
-        .filter(item => item.hasLimited())
+        .filter(item => matches(item, url))
+        .filter(item => hasLimited(item))
     return list
 }
 
@@ -84,13 +84,13 @@ async function getLimited(url: string): Promise<TimeLimitItem[]> {
  * @returns the rules is limit cause of this operation
  */
 async function addFocusTime(url: string, focusTime: number) {
-    const allEnabled: TimeLimitItem[] = await select({ filterDisabled: true, url })
+    const allEnabled: timer.limit.Item[] = await select({ filterDisabled: true, url })
     const toUpdate: { [cond: string]: number } = {}
-    const result: TimeLimitItem[] = []
+    const result: timer.limit.Item[] = []
     allEnabled.forEach(item => {
-        const limitBefore = item.hasLimited()
+        const limitBefore = hasLimited(item)
         toUpdate[item.cond] = item.waste += focusTime
-        const limitAfter = item.hasLimited()
+        const limitAfter = hasLimited(item)
         if (!limitBefore && limitAfter) {
             result.push(item)
         }
@@ -99,10 +99,10 @@ async function addFocusTime(url: string, focusTime: number) {
     return result
 }
 
-async function moreMinutes(url: string, rules?: TimeLimitItem[]): Promise<timer.limit.Item[]> {
+async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<timer.limit.Item[]> {
     if (rules === undefined || rules === null) {
         rules = (await select({ url: url, filterDisabled: true }))
-            .filter(item => item.hasLimited() && item.allowDelay)
+            .filter(item => hasLimited(item) && item.allowDelay)
     }
     const date = formatTime(new Date(), DATE_FORMAT)
     const toUpdate: { [cond: string]: number } = {}
@@ -125,7 +125,7 @@ class LimitService {
     /**
      * @returns The rules limited cause of this operation
      */
-    async addFocusTime(host: string, url: string, focusTime: number): Promise<TimeLimitItem[]> {
+    async addFocusTime(host: string, url: string, focusTime: number): Promise<timer.limit.Item[]> {
         if (whitelistHolder.notContains(host)) {
             return addFocusTime(url, focusTime)
         } else {

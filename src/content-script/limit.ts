@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeLimitItem from "@entity/time-limit-item"
+import { hasLimited, matches } from "@util/limit"
 import optionService from "@service/option-service"
 import { t2Chrome } from "@i18n/chrome/t"
 import { t } from "./locale"
@@ -30,13 +30,18 @@ class _Modal {
             ...maskStyle,
             ...filterStyle[filterType || 'translucent']
         }
-        Object.assign(this.mask.style, realMaskStyle)
+        Object.assign(this.mask.style || {}, realMaskStyle)
     }
 
     showModal(showDelay: boolean) {
         if (!document.body) {
             return
         }
+        // Exist full screen at first
+        exitScreen().then(() => this.showModalInner(showDelay))
+    }
+
+    private showModalInner(showDelay: boolean) {
         const _thisUrl = this.url
         if (showDelay && this.mask.childElementCount === 1) {
             this.delayContainer = document.createElement('p')
@@ -45,15 +50,13 @@ class _Modal {
             // Only delay-allowed rules exist, can delay
             // @since 0.4.0
             const link = document.createElement('a')
-            Object.assign(link.style, linkStyle)
+            Object.assign(link.style || {}, linkStyle)
             link.setAttribute('href', 'javascript:void(0)')
             const text = t(msg => msg.more5Minutes)
             link.innerText = text
             link.onclick = async () => {
                 const delayRules: timer.limit.Item[] = await sendMsg2Runtime('cs.moreMinutes', _thisUrl)
-                const wakingRules = delayRules
-                    .map(like => TimeLimitItem.of(like))
-                    .filter(rule => !rule.hasLimited())
+                const wakingRules = delayRules.filter(rule => !hasLimited(rule))
                 sendMsg2Runtime('limitWaking', wakingRules)
                 this.hideModal()
             }
@@ -79,10 +82,10 @@ class _Modal {
         this.visible = false
     }
 
-    process(data: TimeLimitItem[]) {
-        const anyMatch = data.map(item => item.matches(this.url)).reduce((a, b) => a || b)
+    process(data: timer.limit.Item[]) {
+        const anyMatch = data.map(item => matches(item, this.url)).reduce((a, b) => a || b)
         if (anyMatch) {
-            const anyDelay = data.map(item => item.matches(this.url) && item.allowDelay).reduce((a, b) => a || b)
+            const anyDelay = data.map(item => matches(item, this.url) && item.allowDelay).reduce((a, b) => a || b)
             this.showModal(anyDelay)
         }
     }
@@ -122,9 +125,25 @@ const linkStyle: Partial<CSSStyleDeclaration> = {
     fontSize: '16px !important'
 }
 
+function exitScreen(): Promise<void> {
+    const ele = document.fullscreenElement
+    if (!ele) {
+        return Promise.resolve()
+    }
+    return new Promise<void>(resolve => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen()
+                .then(resolve)
+                .catch(e => console.warn("Failed to exit fullscreen", e))
+        } else {
+            resolve()
+        }
+    })
+}
+
 function link2Setup(url: string): HTMLParagraphElement {
     const link = document.createElement('a')
-    Object.assign(link.style, linkStyle)
+    Object.assign(link.style || {}, linkStyle)
     link.setAttribute('href', 'javascript:void(0)')
     const text = t(msg => msg.timeLimitMsg)
         .replace('{appName}', t2Chrome(msg => msg.meta.name))
@@ -139,11 +158,10 @@ async function handleLimitTimeMeet(msg: timer.mq.Request<timer.limit.Item[]>, mo
     if (msg.code !== "limitTimeMeet") {
         return { code: "ignore" }
     }
-    const itemLikes: timer.limit.Item[] = msg.data
-    if (!itemLikes) {
+    const items: timer.limit.Item[] = msg.data
+    if (!items?.length) {
         return { code: "fail", msg: "Empty time limit item" }
     }
-    const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
     modal.process(items)
     return { code: "success" }
 }
@@ -155,14 +173,13 @@ async function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, moda
     if (!modal.isVisible()) {
         return { code: "ignore" }
     }
-    const itemLikes: timer.limit.Item[] = msg.data
-    if (!itemLikes || !itemLikes.length) {
+    const items: timer.limit.Item[] = msg.data
+    if (!items?.length) {
         return { code: "success", msg: "Empty time limit item" }
     }
-    const items = itemLikes.map(itemLike => TimeLimitItem.of(itemLike))
     for (let index in items) {
         const item = items[index]
-        if (item.matches(modal.url) && !item.hasLimited()) {
+        if (matches(item, modal.url) && !hasLimited(item)) {
             modal.hideModal()
             break
         }
@@ -172,8 +189,7 @@ async function handleLimitWaking(msg: timer.mq.Request<timer.limit.Item[]>, moda
 
 async function handleLimitChanged(msg: timer.mq.Request<timer.limit.Item[]>, modal: _Modal): Promise<timer.mq.Response> {
     if (msg.code === 'limitChanged') {
-        const data: timer.limit.Item[] = msg.data
-        const items = data.map(TimeLimitItem.of)
+        const items: timer.limit.Item[] = msg.data || []
         items?.length ? modal.process(items) : modal.hideModal()
         return { code: 'success' }
     } else {

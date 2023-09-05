@@ -14,13 +14,14 @@ import printInfo from "./printer"
 const host = document?.location?.host
 const url = document?.location?.href
 
+const FLAG_ID = '__TIMER_INJECTION_FLAG__' + chrome.runtime.id
+
 function getOrSetFlag(): boolean {
-    const flagId = '__TIMER_INJECTION_FLAG__'
-    const pre = document?.getElementById(flagId)
+    const pre = document?.getElementById(FLAG_ID)
     if (!pre) {
         const flag = document?.createElement('a')
-        flag.style.visibility = 'hidden'
-        flag && (flag.id = flagId)
+        flag.style && (flag.style.visibility = 'hidden')
+        flag && (flag.id = FLAG_ID)
         document?.body?.appendChild(flag)
     }
     return !!pre
