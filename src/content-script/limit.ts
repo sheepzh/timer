@@ -30,7 +30,7 @@ class _Modal {
             ...maskStyle,
             ...filterStyle[filterType || 'translucent']
         }
-        Object.assign(this.mask.style, realMaskStyle)
+        Object.assign(this.mask.style || {}, realMaskStyle)
     }
 
     showModal(showDelay: boolean) {
@@ -50,7 +50,7 @@ class _Modal {
             // Only delay-allowed rules exist, can delay
             // @since 0.4.0
             const link = document.createElement('a')
-            Object.assign(link.style, linkStyle)
+            Object.assign(link.style || {}, linkStyle)
             link.setAttribute('href', 'javascript:void(0)')
             const text = t(msg => msg.more5Minutes)
             link.innerText = text
@@ -131,9 +131,10 @@ function exitScreen(): Promise<void> {
         return Promise.resolve()
     }
     return new Promise<void>(resolve => {
-        const exitFullscreen = document.exitFullscreen
-        if (exitFullscreen) {
-            exitFullscreen().then(resolve).catch(() => console.log("Failed to exit fullscreen"))
+        if (document.exitFullscreen) {
+            document.exitFullscreen()
+                .then(resolve)
+                .catch(e => console.warn("Failed to exit fullscreen", e))
         } else {
             resolve()
         }
@@ -142,7 +143,7 @@ function exitScreen(): Promise<void> {
 
 function link2Setup(url: string): HTMLParagraphElement {
     const link = document.createElement('a')
-    Object.assign(link.style, linkStyle)
+    Object.assign(link.style || {}, linkStyle)
     link.setAttribute('href', 'javascript:void(0)')
     const text = t(msg => msg.timeLimitMsg)
         .replace('{appName}', t2Chrome(msg => msg.meta.name))
