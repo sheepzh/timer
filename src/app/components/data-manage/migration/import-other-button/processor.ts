@@ -7,8 +7,12 @@
 
 import { fillExist } from "@service/components/import-processor"
 import { AUTHOR_EMAIL } from "@src/package"
+import { isBrowserUrl } from "@util/pattern"
 
-export type OtherExtension = "webtime_tracker" | "web_activity_time_tracker"
+export type OtherExtension =
+    | "webtime_tracker"
+    | "web_activity_time_tracker"
+    | "history_trends_unlimited"
 
 const throwError = () => { throw new Error("Failed to parse, please check your file or contact the author via " + AUTHOR_EMAIL) }
 
@@ -29,6 +33,9 @@ export async function parseFile(ext: OtherExtension, file: File): Promise<timer.
     } else if (ext === 'webtime_tracker') {
         rows = await parseWebtimeTracker(file)
         focus = true
+    } else if (ext === 'history_trends_unlimited') {
+        rows = await parseHistoryTrendsUnlimited(file)
+        time = true
     }
     await fillExist(rows)
     return { rows, focus, time }
@@ -102,6 +109,33 @@ async function parseWebtimeTracker(file: File): Promise<timer.imported.Row[]> {
     throw new Error("Invalid file format")
 }
 
+async function parseHistoryTrendsUnlimited(file: File): Promise<timer.imported.Row[]> {
+    const text = await file.text()
+    if (isTsvFile(file)) {
+        const lines = text.split('\n').map(line => line.trim()).filter(line => !!line)
+        const dailyVisits: { [dateAndHost: string]: number } = {}
+        lines.forEach(line => {
+            const cells = line.split('\t')
+            const url = cells[0]
+            if (isBrowserUrl(url)) return
+            const host = cells[1]
+            const dateStr = cells[4]
+            const date = cvtWebtimeTrackerDate(dateStr?.substring(0, 10))
+            if (!host || !date) return
+            const key = date + host
+            dailyVisits[key] = (dailyVisits[key] ?? 0) + 1
+        })
+        return Object.entries(dailyVisits).map(([dateAndHost, time]) => {
+            const date = dateAndHost.substring(0, 8)
+            const host = dateAndHost.substring(8)
+            return { date, host, time }
+        })
+    }
+    throw new Error("Invalid file format")
+}
+
 const isJsonFile = (file: File): boolean => file?.type?.startsWith('application/json')
 
 const isCsvFile = (file: File): boolean => file?.type?.startsWith('text/csv')
+
+const isTsvFile = (file: File): boolean => file?.type?.startsWith('text/tab-separated-values')
