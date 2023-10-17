@@ -13,12 +13,14 @@ import { OtherExtension, parseFile } from "./processor"
 
 const OTHER_NAMES: { [ext in OtherExtension]: string } = {
     webtime_tracker: "Webtime Tracker",
-    web_activity_time_tracker: "Web Activity Time Tracker"
+    web_activity_time_tracker: "Web Activity Time Tracker",
+    history_trends_unlimited: "History Trends Unlimited",
 }
 
 const OTHER_FILE_FORMAT: { [ext in OtherExtension]: string } = {
     webtime_tracker: '.csv,.json',
     web_activity_time_tracker: '.csv',
+    history_trends_unlimited: '.tsv',
 }
 
 const ALL_TYPES: OtherExtension[] = Object.keys(OTHER_NAMES) as OtherExtension[]
