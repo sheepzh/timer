@@ -4,6 +4,10 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [v1.9.6] - 2023-10-16
+
+- Supported syncing data from [History Trends Unlimited](https://chrome.google.com/webstore/detail/history-trends-unlimited/pnmchffiealhkdloeffcdnbgdnedheme). (#238)
+
 ## [v1.9.5] - 2023-09-05
 
 - Fixed an issue where the restriction did not take effect in full screen mode (#234).
