@@ -4,9 +4,9 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
-## [v1.9.7] - 2023-10-17
+## [v1.9.7] - 2023-10-17 [For Chrome]
 
-- Fix crash on Qihu-360X Browser. This version is only released on Chrome Web Store.
+- Fix crash on Qihu-360X Browser.
 
 ## [v1.9.6] - 2023-10-16
 
