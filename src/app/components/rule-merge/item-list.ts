@@ -9,8 +9,8 @@ import { ElMessage, ElMessageBox } from "element-plus"
 import { Ref, ref, h, VNode } from "vue"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import { t } from "@app/locale"
-import Item from './components/item'
-import AddButton from './components/add-button'
+import Item, { ItemInstance } from './components/item'
+import AddButton, { AddButtonInstance } from './components/add-button'
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 const ruleItemsRef: Ref<timer.merge.Rule[]> = ref([])
@@ -23,7 +23,7 @@ function queryData() {
 
 queryData()
 
-const handleInputConfirm = (origin: string, merged: string | number, addButtonRef: Ref) => {
+const handleInputConfirm = (origin: string, merged: string | number, addButtonRef: Ref<AddButtonInstance>) => {
     const exists = ruleItemsRef.value.filter(item => item.origin === origin).length > 0
     if (exists) {
         ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
@@ -62,7 +62,7 @@ const handleTagClose = (origin: string) => {
         .catch(() => { })
 }
 
-async function handleChange(origin: string, merged: string | number, index: number, ref: Ref): Promise<void> {
+async function handleChange(origin: string, merged: string | number, index: number, ref: Ref<ItemInstance>): Promise<void> {
     const hasDuplicate = ruleItemsRef.value.find((o, i) => o.origin === origin && i != index)
     if (hasDuplicate) {
         ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
@@ -79,14 +79,14 @@ async function handleChange(origin: string, merged: string | number, index: numb
 
 function generateTagItem(ruleItem: timer.merge.Rule, index: number): VNode {
     const { origin, merged } = ruleItem
-    const itemRef: Ref = ref()
+    const item: Ref<ItemInstance> = ref()
     return h(Item, {
-        ref: itemRef,
+        ref: item,
         index,
         origin,
         merged,
         onDelete: origin => handleTagClose(origin),
-        onChange: (origin, merged, index) => handleChange(origin, merged, index, itemRef)
+        onChange: (origin, merged, index) => handleChange(origin, merged, index, item)
     })
 }
 
@@ -95,7 +95,7 @@ const itemList = () => {
     ruleItemsRef.value.forEach((item, index) => {
         result.push(generateTagItem(item, index))
     })
-    const addButtonRef: Ref = ref()
+    const addButtonRef: Ref<AddButtonInstance> = ref()
     const addButton = h(AddButton, {
         ref: addButtonRef,
         onSave: (origin, merged) => handleInputConfirm(origin, merged, addButtonRef)

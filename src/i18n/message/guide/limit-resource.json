@@ -1,7 +1,7 @@
 {
     "en": {
-        "title": "Limit browsing time of everyday",
-        "p1": "If you want to limit the time of browsing certain URLs each day, you can do so by creating a daily time limit rule.",
+        "title": "Limit browsing time",
+        "p1": "If you want to limit the time of browsing certain URLs, you can do so by creating a time limit rule.",
         "step": {
             "title": "Four steps to create a limit rule",
             "enter": "First, enter the management page{link}, click the menu item {menuItem}.",
@@ -11,8 +11,8 @@
         }
     },
     "zh_CN": {
-        "title": "限制每天的浏览时间",
-        "p1": "如果你想限制每天浏览某些 URL 的时长，可以通过创建每日时限规则来完成。",
+        "title": "限制浏览时间",
+        "p1": "如果你想限制浏览某些 URL 的时长，可以通过创建时限规则来完成。",
         "step": {
             "title": "简单四步创建一个限制规则",
             "enter": "首先进入管理页{link}，点击菜单项【{menuItem}】。",
@@ -22,8 +22,8 @@
         }
     },
     "zh_TW": {
-        "title": "限制每天的瀏覽時間",
-        "p1": "如果你想限制每天瀏覽某些 URL 的時長，可以通過創建每日時限規則來完成。",
+        "title": "限制瀏覽時間",
+        "p1": "如果你想限制瀏覽某些 URL 的時長，可以透過建立時限規則來完成。",
         "step": {
             "title": "簡單四步創建一個限制規則",
             "enter": "首先進入管理頁{link}，點擊菜單項【{menuItem}】。",
@@ -33,8 +33,8 @@
         }
     },
     "ja": {
-        "title": "毎日の閲覧時間を制限する",
-        "p1": "特定の URL を毎日閲覧する時間を制限したい場合は、毎日の時間制限ルールを作成することでこれを行うことができます。",
+        "title": "閲覧時間の制限",
+        "p1": "特定の URL の表示時間を制限したい場合は、時間制限ルールを作成することで制限できます。",
         "step": {
             "title": "制限ルールを作成するための 4 つのステップ",
             "enter": "まず、管理ページ {link} に入り、メニュー項目{menuItem} をクリックします。",
@@ -44,8 +44,8 @@
         }
     },
     "pt_PT": {
-        "title": "Limitar tempo de navegação de todos os dias",
-        "p1": "Se deseja limitar o tempo de navegação de certas URL por dia, pode fazê-lo criando uma regra diária de limite de tempo.",
+        "title": "Limite de navegação",
+        "p1": "Se deseja limitar o tempo de navegação de certas URL, pode fazê-lo criando uma regra de limite de tempo.",
         "step": {
             "title": "Quatro passos para criar uma regra limite",
             "enter": "Primeiro, digite a página de gestão{link}, clique no item de menu {menuItem}.",

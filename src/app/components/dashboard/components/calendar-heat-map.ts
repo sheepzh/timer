@@ -258,7 +258,7 @@ const _default = defineComponent({
         const now = new Date()
         const startTime: Date = getWeeksAgo(now, isChinese, WEEK_NUM)
 
-        const chart: Ref = ref()
+        const chart: Ref<HTMLDivElement> = ref()
         const chartWrapper: ChartWrapper = new ChartWrapper(startTime, now)
 
         onMounted(async () => {

@@ -13,8 +13,11 @@ import ItemInput from './item-input'
 
 const buttonText = `+ ${t(msg => msg.button.create)}`
 
+export type AddButtonInstance = {
+    closeEdit(): void
+}
+
 const _default = defineComponent({
-    name: "MergeRuleAddButton",
     emits: {
         save: (_origin: string, _merged: string | number) => true,
     },
@@ -22,11 +25,10 @@ const _default = defineComponent({
         const editing: Ref<boolean> = ref(false)
         const origin: Ref<string> = ref('')
         const merged: Ref<string | number> = ref('')
-        ctx.expose({
-            closeEdit() {
-                editing.value = false
-            }
-        })
+        const instance: AddButtonInstance = {
+            closeEdit: () => editing.value = false
+        }
+        ctx.expose(instance)
         return () => editing.value
             ? h(ItemInput, {
                 origin: origin.value,

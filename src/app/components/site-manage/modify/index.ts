@@ -7,7 +7,7 @@
 
 import type { Ref, SetupContext, UnwrapRef } from "vue"
 
-import { ElButton, ElDialog, ElForm, ElMessage } from "element-plus"
+import { ElButton, ElDialog, ElForm, FormInstance, ElMessage } from "element-plus"
 import { defineComponent, h, reactive, ref } from "vue"
 import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
@@ -15,7 +15,11 @@ import siteService from "@service/site-service"
 import SiteManageHostFormItem from "./host-form-item"
 import SiteManageAliasFormItem from "./alias-form-item"
 
-declare type _FormData = {
+export type ModifyInstance = {
+    add(): void
+}
+
+type _FormData = {
     /**
      * Value of alias key
      */
@@ -40,9 +44,9 @@ const formRule = {
     ]
 }
 
-function validateForm(formRef: Ref): Promise<boolean> {
+function validateForm(form: Ref<FormInstance>): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-        const validate = formRef.value?.validate
+        const validate = form.value?.validate
         validate
             ? validate((valid: boolean) => valid ? resolve(true) : resolve(false))
             : reject(false)
@@ -97,19 +101,20 @@ const _default = defineComponent({
     setup: (_, ctx: SetupContext<_Emit>) => {
         const visible: Ref<boolean> = ref(false)
         const formData: UnwrapRef<_FormData> = reactive(initData())
-        const formRef: Ref = ref()
+        const form: Ref<FormInstance> = ref()
 
-        ctx.expose({
+        const instance: ModifyInstance = {
             add() {
                 formData.key = undefined
                 formData.alias = undefined
-
                 visible.value = true
             },
-            hide: () => visible.value = false
-        })
+        }
+
+        ctx.expose(instance)
+
         const save = async () => {
-            const valid: boolean = await validateForm(formRef)
+            const valid: boolean = await validateForm(form)
             if (!valid) {
                 return false
             }
@@ -127,7 +132,7 @@ const _default = defineComponent({
                 labelPosition: 'right',
                 labelWidth: '100px'
             }, () => h(ElForm,
-                { model: formData, rules: formRule, ref: formRef },
+                { model: formData, rules: formRule, ref: form },
                 () => [
                     // Host form item
                     h(SiteManageHostFormItem, {

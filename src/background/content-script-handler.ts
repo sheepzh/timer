@@ -38,8 +38,7 @@ export default function init(dispatcher: MessageDispatcher) {
         })
         // Get today info
         .register<string, timer.stat.Result>('cs.getTodayInfo', host => statService.getResult(host, new Date()))
-        // More minutes
-        .register<string, timer.limit.Item[]>('cs.moreMinutes', url => limitService.moreMinutes(url))
         // cs.getLimitedRules
         .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
+        .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
 }

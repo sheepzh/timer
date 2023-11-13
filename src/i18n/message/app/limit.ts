@@ -13,9 +13,13 @@ export type LimitMessage = {
     addTitle: string
     useWildcard: string
     urlPlaceholder: string
+    step1: string
+    step2: string
     item: {
         condition: string
         time: string
+        visitTime: string
+        period: string
         enabled: string
         delayAllowed: string
         delayAllowedInfo: string
@@ -28,7 +32,7 @@ export type LimitMessage = {
     }
     message: {
         noUrl: string
-        noTime: string
+        noRule: string
         saved: string
         deleteConfirm: string
         deleted: string

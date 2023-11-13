@@ -88,7 +88,6 @@ function copy(target: timer.option.AppearanceOption, source: timer.option.Appear
     target.darkMode = source.darkMode
     target.darkModeTimeStart = source.darkModeTimeStart
     target.darkModeTimeEnd = source.darkModeTimeEnd
-    target.limitMarkFilter = source.limitMarkFilter
 }
 
 const _default = defineComponent((_props, ctx) => {

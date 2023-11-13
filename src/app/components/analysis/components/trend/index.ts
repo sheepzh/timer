@@ -195,7 +195,7 @@ const _default = defineComponent({
         const indicators: Ref<IndicatorSet> = ref()
         const lastIndicators: Ref<IndicatorSet> = ref()
         const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
-        const rangeLength: ComputedRef = computed(() => getDayLenth(dateRange.value?.[0], dateRange.value?.[1]))
+        const rangeLength: ComputedRef<number> = computed(() => getDayLenth(dateRange.value?.[0], dateRange.value?.[1]))
 
         const compute = () => handleDataChange(
             { dateRange: dateRange.value, rows: props.rows },

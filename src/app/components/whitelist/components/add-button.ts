@@ -10,6 +10,10 @@ import { ElButton } from "element-plus"
 import { defineComponent, h, ref, Ref } from "vue"
 import ItemInput from './item-input'
 
+export type AddButtonInstance = {
+    closeEdit(): void
+}
+
 const buttonText = `+ ${t(msg => msg.button.create)}`
 
 const _default = defineComponent({
@@ -20,11 +24,10 @@ const _default = defineComponent({
     setup(_props, ctx) {
         const editing: Ref<boolean> = ref(false)
         const white: Ref<string> = ref('')
-        ctx.expose({
-            closeEdit() {
-                editing.value = false
-            }
-        })
+        const instance: AddButtonInstance = {
+            closeEdit: () => editing.value = false
+        }
+        ctx.expose(instance)
         return () => editing.value
             ? h(ItemInput, {
                 white: white.value,

@@ -98,7 +98,7 @@ describe('limit-database', () => {
         expect(cond2After?.enabled).toEqual(cond2.enabled)
         // Not complete
         const cond3After = imported.find(a => a.cond === "cond3")
-        expect(cond3After.time).toEqual(0)
+        expect(cond3After.time).toBeUndefined()
         expect(cond3After.enabled).toBeFalsy()
         expect(cond3After.allowDelay).toBeFalsy()
     })

@@ -22,14 +22,26 @@ function getOrSetFlag(): boolean {
         const flag = document?.createElement('a')
         flag.style && (flag.style.visibility = 'hidden')
         flag && (flag.id = FLAG_ID)
-        document?.body?.appendChild(flag)
+
+        if (document.readyState === "complete") {
+            document?.body?.appendChild(flag)
+        } else {
+            const oldListener = document.onreadystatechange
+            document.onreadystatechange = function (ev) {
+                oldListener?.call(this, ev)
+                document.readyState === "complete" && document?.body?.appendChild(flag)
+            }
+        }
     }
     return !!pre
 }
 
 async function main() {
     // Execute in every injections
-    new TrackerClient().init()
+    const tracker = new TrackerClient(
+        data => sendMsg2Runtime('cs.trackTime', data)
+    )
+    tracker.init()
 
     // Execute only one time
     if (getOrSetFlag()) return

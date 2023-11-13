@@ -100,12 +100,6 @@ declare namespace timer.option {
          */
         darkModeTimeStart?: number
         darkModeTimeEnd?: number
-        /**
-         * The filter of limit mark
-         * @since 1.3.2
-         * @deprecated moved to DailyLimitOption @since 1.9.0
-         */
-        limitMarkFilter?: limit.FilterType
     }
 
     type StatisticsOption = {

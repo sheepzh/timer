@@ -18,7 +18,7 @@ const modifyButtonText = t(msg => msg.button.modify)
 
 async function handleDelete(row: timer.limit.Item, callback: () => void) {
     let promise = undefined
-    if (judgeVerificationRequired(row)) {
+    if (await judgeVerificationRequired(row)) {
         const option = await optionService.getAllOption() as timer.option.DailyLimitOption
         promise = processVerification(option)
     }
@@ -31,7 +31,7 @@ async function handleDelete(row: timer.limit.Item, callback: () => void) {
 
 async function handleModify(row: timer.limit.Item, callback: () => void) {
     let promise: Promise<void> = undefined
-    if (judgeVerificationRequired(row)) {
+    if (await judgeVerificationRequired(row)) {
         const option = await optionService.getAllOption() as timer.option.DailyLimitOption
         promise = processVerification(option)
         promise
@@ -51,7 +51,7 @@ const _default = defineComponent({
         return () => h(ElTableColumn, {
             prop: 'operations',
             label,
-            minWidth: 200,
+            width: 200,
             align: 'center',
         }, {
             default: ({ row }: { row: timer.limit.Item }) => [

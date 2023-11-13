@@ -7,73 +7,77 @@
 
 import { ElDialog, ElMessage } from "element-plus"
 import { defineComponent, h, nextTick, ref, Ref } from "vue"
-import Form from "./form"
-import Footer from "./footer"
-import LimitDatabase from "@db/limit-database"
+import Sop, { SopInstance } from "./sop"
+import limitService from "@service/limit-service"
 import { t } from "@app/locale"
+import "./style/el-input.sass"
+import "./style/sop.sass"
 
-const db = new LimitDatabase(chrome.storage.local)
+export type ModifyInstance = {
+    create(): void
+    modify(row: timer.limit.Item): void
+}
 
-const noUrlError = t(msg => msg.limit.message.noUrl)
-const noTimeError = t(msg => msg.limit.message.noTime)
+type Mode = "create" | "modify"
+
 const _default = defineComponent({
     emits: {
         save: (_saved: timer.limit.Rule) => true
     },
     setup: (_, ctx) => {
         const visible: Ref<boolean> = ref(false)
-        const form: Ref = ref()
+        const sop: Ref<SopInstance> = ref()
         const mode: Ref<Mode> = ref()
         // Cache
-        let modifyingItem: timer.limit.Item = undefined
+        let modifyingItem: timer.limit.Rule = undefined
 
-        ctx.expose({
+        const onSave = async (rule: timer.limit.Rule) => {
+            const { cond, time, visitTime, periods } = rule
+            const toSave: timer.limit.Rule = { cond, time, visitTime, periods, enabled: true, allowDelay: false }
+            if (mode.value === 'modify' && modifyingItem) {
+                toSave.enabled = modifyingItem.enabled
+                toSave.allowDelay = modifyingItem.allowDelay
+            }
+            if (mode.value === "modify") {
+                await limitService.update(toSave)
+            } else {
+                await limitService.create(toSave)
+            }
+            visible.value = false
+            ElMessage.success(t(msg => msg.limit.message.saved))
+            sop.value?.clean?.()
+            ctx.emit("save", toSave)
+        }
+
+        const onClose = () => visible.value = false
+
+        const instance: ModifyInstance = {
             create() {
                 visible.value = true
                 mode.value = 'create'
                 modifyingItem = undefined
-                nextTick(() => form.value?.clean?.())
+                nextTick(() => sop.value?.clean?.())
             },
             modify(row: timer.limit.Item) {
                 visible.value = true
                 mode.value = 'modify'
                 modifyingItem = { ...row }
-                nextTick(() => form.value?.modify?.(row))
+                nextTick(() => sop.value?.modify?.(row))
             },
-            hide: () => visible.value = false
-        })
+        }
+
+        ctx.expose(instance)
 
         return () => h(ElDialog, {
             title: t(msg => msg.limit.addTitle),
             modelValue: visible.value,
             closeOnClickModal: false,
-            onClose: () => visible.value = false
-        }, {
-            default: () => h(Form, { ref: form }),
-            footer: () => h(Footer, {
-                async onSave() {
-                    const { condition, timeLimit }: FormInfo = form.value?.getData?.()
-                    if (!condition) {
-                        ElMessage.warning(noUrlError)
-                        return
-                    }
-                    if (!timeLimit) {
-                        ElMessage.warning(noTimeError)
-                        return
-                    }
-                    const toSave: timer.limit.Rule = { cond: condition, time: timeLimit, enabled: true, allowDelay: false }
-                    if (mode.value === 'modify' && modifyingItem) {
-                        toSave.enabled = modifyingItem.enabled
-                        toSave.allowDelay = modifyingItem.allowDelay
-                    }
-                    await db.save(toSave, mode.value === 'modify')
-                    visible.value = false
-                    ElMessage.success(t(msg => msg.limit.message.saved))
-                    form.value?.clean?.()
-                    ctx.emit("save", toSave)
-                }
-            })
-        })
+            onClose
+        }, () => h(Sop, {
+            ref: sop,
+            onSave,
+            onCancel: onClose,
+        }))
     }
 })
 

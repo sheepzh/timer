@@ -11,7 +11,7 @@ import { defineComponent, h, ref, onMounted } from "vue"
 import periodService from "@service/period-service"
 import { daysAgo, isSameDay } from "@util/time"
 import ContentContainer from "@app/components/common/content-container"
-import HabitChart from "./component/chart"
+import HabitChart, { HabitChartInstance } from "./component/chart"
 import HabitFilter from "./component/filter"
 import { keyOf, MAX_PERIOD_ORDER, keyBefore } from "@util/period"
 
@@ -49,9 +49,8 @@ function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageBy
 }
 
 const _default = defineComponent({
-    name: "Habit",
     setup() {
-        const chart: Ref = ref()
+        const chart: Ref<HabitChartInstance> = ref()
         const periodSize: Ref<number> = ref(1)
         //@ts-ignore ts(2322)
         const dateRange: Ref<Date[]> = ref(daysAgo(1, 0))
@@ -60,7 +59,7 @@ const _default = defineComponent({
         async function queryAndRender() {
             const queryParam = computeParam(periodSize, dateRange, averageByDate)
             const result = await periodService.list(queryParam)
-            chart?.value.render?.(result, averageByDate.value, periodSize.value)
+            chart.value.render?.(result, averageByDate.value, periodSize.value)
         }
 
         onMounted(queryAndRender)

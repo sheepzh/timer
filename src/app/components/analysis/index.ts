@@ -53,7 +53,6 @@ const _default = defineComponent(() => {
     const site: Ref<timer.site.SiteKey> = ref(siteFromQuery)
     const timeFormat: Ref<timer.app.TimeFormat> = ref('default')
     const rows: Ref<timer.stat.Row[]> = ref()
-    const filter: Ref = ref()
 
     const queryInner = async () => {
         const siteKey = site.value
@@ -67,7 +66,6 @@ const _default = defineComponent(() => {
         filter: () => h(Filter, {
             site: site.value,
             timeFormat: timeFormat.value,
-            ref: filter,
             onSiteChange: (newSite: timer.site.SiteKey) => site.value = newSite,
             onTimeFormatChange: (newFormat: timer.app.TimeFormat) => timeFormat.value = newFormat
         }),

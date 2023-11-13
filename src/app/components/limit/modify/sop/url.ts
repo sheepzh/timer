@@ -11,7 +11,7 @@ import { t } from "@app/locale"
 import { ElButton, ElFormItem, ElInput, ElOption, ElSelect } from "element-plus"
 import { checkPermission, requestPermission } from "@api/chrome/permissions"
 import { IS_FIREFOX } from "@util/constant/environment"
-import { parseUrl } from "./common"
+import { parseUrl, Protocol, UrlPart } from "./common"
 import { AUTHOR_EMAIL } from "@src/package"
 
 const ALL_PROTOCOLS: Protocol[] = ['http://', 'https://', '*://']
@@ -45,6 +45,7 @@ function slots(protocolRef: Ref<Protocol>, urlRef: Ref<string>, disabled: boolea
             modelValue: protocolRef.value,
             onChange: (val: string) => protocolRef.value = val as Protocol,
             disabled: disabled,
+            style: { width: "90px" }
         }, protocolOptions),
     }
     !disabled && (slots.append = () => h(ElButton, {
@@ -86,7 +87,6 @@ const pasteButtonText = t(msg => msg.button.paste)
 const placeholder = t(msg => msg.limit.urlPlaceholder)
 
 const _default = defineComponent({
-    name: 'LimitUrlFormItem',
     emits: {
         urlChange: (_val: string) => true,
         protocolChange: (_val: Protocol) => true,
@@ -96,7 +96,7 @@ const _default = defineComponent({
         protocol: String as PropType<Protocol>,
         disabled: {
             type: Boolean,
-            defaultValue: false
+            defaultValue: false,
         }
     },
     setup(props, ctx) {
@@ -109,7 +109,10 @@ const _default = defineComponent({
         watch(urlRef, () => ctx.emit('urlChange', urlRef.value))
         watch(() => props.url, () => urlRef.value = props.url)
 
-        return () => h(ElFormItem, { label: t(msg => msg.limit.item.condition) },
+        return () => h(ElFormItem, {
+            label: t(msg => msg.limit.item.condition),
+            required: true,
+        },
             () => {
                 const slots_: _Slots = slots(protocolRef, urlRef, props.disabled)
                 return h(ElInput, {
@@ -120,6 +123,7 @@ const _default = defineComponent({
                         urlRef.value = ''
                         ctx.emit('urlChange', '')
                     },
+                    class: "limit-time-url-input",
                     // Disabled this input in the css to customized the styles
                     // @see ../style/el-input.sass
                     // @see this.onInput

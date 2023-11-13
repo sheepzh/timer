@@ -17,8 +17,11 @@ import FocusColumn from "./columns/focus"
 import TimeColumn from "./columns/time"
 import OperationColumn from "./columns/operation"
 
+export type TableInstance = {
+    getSelected(): timer.stat.Row[]
+}
+
 const _default = defineComponent({
-    name: "ReportTable",
     props: {
         data: Array as PropType<timer.stat.Row[]>,
         defaultSort: Object as PropType<SortInfo>,
@@ -39,11 +42,10 @@ const _default = defineComponent({
         let selectedRows: timer.stat.Row[] = []
         const readRemote = ref(props.readRemote)
         watch(() => props.readRemote, newVal => readRemote.value = newVal)
-        ctx.expose({
-            getSelected(): timer.stat.Row[] {
-                return selectedRows || []
-            }
-        })
+        const instance: TableInstance = {
+            getSelected: () => selectedRows
+        }
+        ctx.expose(instance)
         return () => h(ElTable, {
             data: props.data,
             border: true,
