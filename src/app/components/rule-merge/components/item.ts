@@ -15,8 +15,11 @@ import { computed, defineComponent, h, ref, watch } from "vue"
 import ItemInput from "./item-input"
 import { computeMergeTxt, computeMergeType } from "@util/merge"
 
+export type ItemInstance = {
+    forceEdit(): void
+}
+
 const _default = defineComponent({
-    name: "MergeRuleItem",
     props: {
         origin: {
             type: String
@@ -44,11 +47,10 @@ const _default = defineComponent({
         const tagTxt: Ref<string> = computed(() => computeMergeTxt(origin.value, merged.value,
             (finder, param) => t(msg => finder(msg.mergeCommon), param)
         ))
-        ctx.expose({
-            forceEdit() {
-                editing.value = true
-            }
-        })
+        const instance: ItemInstance = {
+            forceEdit: () => editing.value = true
+        }
+        ctx.expose(instance)
 
         return () => editing.value
             ? h(ItemInput, {

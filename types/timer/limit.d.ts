@@ -1,5 +1,12 @@
 declare namespace timer.limit {
     /**
+    * Restricted periods
+    * [0, 1] means from 00:00 to 00:01
+    * [0, 120] means from 00:00 to 02:00
+    * @since 2.0.0
+    */
+    type Period = [number, number]
+    /**
      * Limit rule in runtime
      * 
      * @since 0.8.4
@@ -22,20 +29,15 @@ declare namespace timer.limit {
         /**
          * Time limit per visit, seconds
          * 
-         * @since 1.9.5
+         * @since 2.0.0
          */
         visitTime?: number
-        /**
-         * Whether to notification
-         * 
-         * @since 1.9.5
-         */
-        notification?: boolean
-        enabled: boolean
+        enabled?: boolean
         /**
          * Allow to delay 5 minutes if time over
          */
-        allowDelay: boolean
+        allowDelay?: boolean
+        periods?: Period[]
     }
     type Record = Rule & {
         /**

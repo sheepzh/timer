@@ -7,9 +7,8 @@
 
 import type { ComputedRef, Ref } from "vue"
 
-import { ElCol, ElFormItem, ElInput, ElRow } from "element-plus"
+import { ElFormItem, ElInput } from "element-plus"
 import { defineComponent, h, computed, ref, watch } from "vue"
-import { t } from "@app/locale"
 
 const handleInput = (inputVal: string, ref: Ref<number>, maxVal: number) => {
     inputVal = inputVal?.trim?.()
@@ -24,18 +23,16 @@ const handleInput = (inputVal: string, ref: Ref<number>, maxVal: number) => {
     ref.value = num
 }
 
-const timeInput = (ref: Ref<number>, unit: string, maxVal: number) => h(ElCol, { span: 8 },
-    () => h(ElInput, {
-        modelValue: ref.value,
-        clearable: true,
-        onInput: (val: string) => handleInput(val, ref, maxVal),
-        onClear: () => ref.value = undefined,
-        placeholder: '0',
-        class: 'limit-modify-time-limit-input'
-    }, {
-        append: () => unit
-    })
-)
+const timeInput = (ref: Ref<number>, unit: string, maxVal: number) => h(ElInput, {
+    modelValue: ref.value,
+    clearable: true,
+    onInput: (val: string) => handleInput(val, ref, maxVal),
+    onClear: () => ref.value = undefined,
+    placeholder: '0',
+    class: 'limit-modify-time-limit-input'
+}, {
+    append: () => unit
+})
 
 function computeSecond2LimitInfo(time: number): [number, number, number] {
     time = time || 0
@@ -54,22 +51,36 @@ function computeLimitInfo2Second(hourRef: Ref<number>, minuteRef: Ref<number>, s
     return time
 }
 
+const LIMIT_STYLE: Partial<CSSStyleDeclaration> = {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    gap: "15px",
+}
+
 const _default = defineComponent({
-    name: "LimitTimeLimit",
     props: {
         modelValue: {
             type: Number
+        },
+        label: {
+            type: String,
+            required: true,
+        },
+        required: {
+            type: Boolean,
+            required: false,
         }
     },
     emits: {
         change: (_val: number) => true
     },
-    setup(props, ctx) {
-        const [hour, minute, second] = computeSecond2LimitInfo(props.modelValue)
+    setup({ modelValue, label, required = false }, ctx) {
+        const [hour, minute, second] = computeSecond2LimitInfo(modelValue)
         const hourRef: Ref<number> = ref(hour)
         const minuteRef: Ref<number> = ref(minute)
         const secondRef: Ref<number> = ref(second)
-        watch(() => props.modelValue, (newVal: number) => {
+        watch(() => modelValue, (newVal: number) => {
             const [hour, minute, second] = computeSecond2LimitInfo(newVal)
             hourRef.value = hour
             minuteRef.value = minute
@@ -78,11 +89,12 @@ const _default = defineComponent({
         const limitTime: ComputedRef<number> = computed(() => computeLimitInfo2Second(hourRef, minuteRef, secondRef))
         watch([hourRef, minuteRef, secondRef], () => ctx.emit('change', limitTime.value))
         return () => h(ElFormItem, {
-            label: t(msg => msg.limit.item.time)
-        }, () => h(ElRow, { gutter: 10 }, () => [
+            label,
+            required,
+        }, () => h('div', { style: LIMIT_STYLE }, [
             timeInput(hourRef, 'H', 23),
             timeInput(minuteRef, 'M', 59),
-            timeInput(secondRef, 'S', 59)
+            timeInput(secondRef, 'S', 59),
         ]))
     }
 })

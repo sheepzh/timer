@@ -9,8 +9,8 @@ import { defineComponent, h, ref, Ref } from "vue"
 import ContentContainer from "../common/content-container"
 import LimitFilter from "./filter"
 import LimitTable from "./table"
-import LimitModify from "./modify"
-import LimitTest from "./test"
+import LimitModify, { ModifyInstance } from "./modify"
+import LimitTest, { TestInstance } from "./test"
 import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
@@ -34,8 +34,8 @@ const _default = defineComponent(() => {
     useRouter().replace({ query: {} })
     urlParam && (url.value = decodeURIComponent(urlParam))
 
-    const modify: Ref = ref()
-    const test: Ref = ref()
+    const modify: Ref<ModifyInstance> = ref()
+    const test: Ref<TestInstance> = ref()
 
     return () => h(ContentContainer, {}, {
         filter: () => h(LimitFilter, {

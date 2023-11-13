@@ -13,7 +13,7 @@ import SiteManageFilter from "./filter"
 import Pagination from "../common/pagination"
 import SiteManageTable from "./table"
 import siteService, { SiteQueryParam } from "@service/site-service"
-import Modify from './modify'
+import Modify, { ModifyInstance } from './modify'
 
 export default defineComponent({
     name: "SiteManage",
@@ -26,7 +26,7 @@ export default defineComponent({
             set: (val: boolean) => sourceRef.value = val ? 'DETECTED' : undefined
         })
         const dataRef: Ref<timer.site.SiteInfo[]> = ref([])
-        const modifyDialogRef: Ref = ref()
+        const modify: Ref<ModifyInstance> = ref()
 
         const pageRef: UnwrapRef<timer.common.Pagination> = reactive({
             size: 10,
@@ -63,7 +63,7 @@ export default defineComponent({
                     queryData()
                 },
                 onCreate() {
-                    modifyDialogRef.value.add?.()
+                    modify.value.add?.()
                 }
             }),
             content: () => [
@@ -85,7 +85,7 @@ export default defineComponent({
                     }
                 }),
                 h(Modify, {
-                    ref: modifyDialogRef,
+                    ref: modify,
                     onSave: queryData
                 })
             ]

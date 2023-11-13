@@ -97,12 +97,11 @@ class ChartWrapper {
 }
 
 const _default = defineComponent({
-    name: "TopKVisit",
     setup() {
         const now = new Date()
         const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * DAY_NUM)
 
-        const chart: Ref = ref()
+        const chart: Ref<HTMLDivElement> = ref()
         const chartWrapper: ChartWrapper = new ChartWrapper()
 
         onMounted(async () => {

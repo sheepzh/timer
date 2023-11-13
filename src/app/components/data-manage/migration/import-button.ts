@@ -37,20 +37,20 @@ const _default = defineComponent({
         import: () => true
     },
     setup(_, ctx) {
-        const fileInputRef = ref<HTMLInputElement>()
+        const fileInput = ref<HTMLInputElement>()
         return () => h(ElButton, {
             size: 'large',
             type: 'primary',
             icon: Upload,
-            onClick: () => fileInputRef.value.click()
+            onClick: () => fileInput.value.click()
         }, () => [
             t(msg => msg.item.operation.importWholeData),
             h('input', {
-                ref: fileInputRef,
+                ref: fileInput,
                 type: 'file',
                 accept: '.json',
                 style: { display: 'none' },
-                onChange: () => handleFileSelected(fileInputRef, () => ctx.emit('import'))
+                onChange: () => handleFileSelected(fileInput, () => ctx.emit('import'))
             })
         ])
     }

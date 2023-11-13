@@ -16,7 +16,7 @@ const _default = defineComponent({
     render: () => h(ElTableColumn, {
         prop: 'waste',
         label,
-        minWidth: 100,
+        minWidth: 90,
         align: 'center',
     }, {
         default: ({ row }: { row: timer.limit.Item }) => h('span', formatPeriodCommon(row.waste))

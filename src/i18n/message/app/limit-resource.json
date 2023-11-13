@@ -6,11 +6,15 @@
             "condition": "限制网址",
             "time": "每日限制时长",
             "waste": "今日浏览时长",
+            "visitTime": "每次访问限制时长",
+            "period": "受限时间段",
             "enabled": "是否有效",
             "delayAllowed": "再看 5 分钟",
             "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。",
             "operation": "操作"
         },
+        "step1": "设置 URL",
+        "step2": "设置规则",
         "button": {
             "test": "网址测试",
             "option": "全局设置"
@@ -20,7 +24,7 @@
         "message": {
             "saved": "保存成功",
             "noUrl": "未填写限制网址",
-            "noTime": "未填写每日限制时长",
+            "noRule": "未填写任何规则",
             "deleteConfirm": "是否删除限制：{cond}？",
             "deleted": "删除成功",
             "noPermissionFirefox": "请先在插件管理页[about:addons]开启该插件的粘贴板权限",
@@ -50,7 +54,9 @@
             "enabled": "是否有效",
             "delayAllowed": "再看 5 分鐘",
             "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
-            "operation": "操作"
+            "operation": "操作",
+            "visitTime": "每次訪問限制時長",
+            "period": "受限時段"
         },
         "button": {
             "test": "網址測試",
@@ -61,14 +67,14 @@
         "message": {
             "saved": "保存成功",
             "noUrl": "未填冩限製網址",
-            "noTime": "未填冩每日限製時長",
             "deleteConfirm": "是否刪除限製：{cond}？",
             "deleted": "刪除成功",
             "noPermissionFirefox": "請先在插件管理頁【about:addons】開啟該插件的粘貼闆權限",
             "inputTestUrl": "請先輸入需要測試的網址鏈接",
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
             "noRuleMatched": "該網址未命中任何規則",
-            "rulesMatched": "該網址命中以下規則："
+            "rulesMatched": "該網址命中以下規則：",
+            "noRule": "未填寫任何規則"
         },
         "urlPlaceholder": "請直接粘貼網址 ➡️",
         "verification": {
@@ -79,20 +85,26 @@
             "incorrectAnswer": "答案不正確",
             "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
             "confession": "一寸光陰一寸金，寸金難買寸光陰"
-        }
+        },
+        "step1": "設定 URL",
+        "step2": "設定規則"
     },
     "en": {
         "conditionFilter": "URL",
         "filterDisabled": "Only enabled",
         "item": {
             "condition": "Restricted URL",
-            "time": "Daily time limit",
+            "time": "Daily limit",
             "waste": "Browsed today",
+            "visitTime": "Limit per visit",
+            "period": "Unallowed periods",
             "enabled": "Enabled",
             "delayAllowed": "More 5 minutes",
             "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes",
             "operation": "Operations"
         },
+        "step1": "Config URL",
+        "step2": "Config rule",
         "button": {
             "test": "Test URL",
             "option": "Options"
@@ -101,8 +113,8 @@
         "useWildcard": "Whether to use wildcard",
         "message": {
             "saved": "Saved successfully",
-            "noUrl": "Unfilled limited URL",
-            "noTime": "Unfilled limited time per day",
+            "noUrl": "Unfilled restricted URL",
+            "noRule": "No rules filled in",
             "deleteConfirm": "Do you want to delete the rule of {cond}?",
             "deleted": "Deleted successfully",
             "noPermissionFirefox": "Please enable the clipboard permission of this addon on the management page (about:addons) first",
@@ -132,7 +144,9 @@
             "enabled": "有效",
             "delayAllowed": "さらに5分間閲覧する",
             "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます",
-            "operation": "操作"
+            "operation": "操作",
+            "visitTime": "訪問ごとの制限",
+            "period": "許可されない期間"
         },
         "button": {
             "test": "テストURL",
@@ -142,7 +156,6 @@
         "useWildcard": "ワイルドカードを使用するかどうか",
         "message": {
             "noUrl": "埋められていない制限URL",
-            "noTime": "1日の制限時間を記入しない",
             "saved": "正常に保存",
             "deleteConfirm": "{cond} の制限を削除しますか？",
             "deleted": "正常に削除",
@@ -150,7 +163,8 @@
             "inputTestUrl": "最初にテストする URL リンクを入力してください",
             "clickTestButton": "入力後、ボタン({buttonText})をクリックしてください",
             "noRuleMatched": "URL がどのルールとも一致しません",
-            "rulesMatched": "URL は次のルールに一致します。"
+            "rulesMatched": "URL は次のルールに一致します。",
+            "noRule": "ルールが記入されていません"
         },
         "urlPlaceholder": "URLを直接貼り付けてください➡️",
         "verification": {
@@ -161,7 +175,9 @@
             "incorrectAnswer": "間違った回答",
             "pi": "πの小数部の{digitCount} から {startIndex} までの {endIndex} 桁の数",
             "confession": "人生とは今日一日のことである"
-        }
+        },
+        "step1": "設定 URL",
+        "step2": "設定ルール"
     },
     "pt_PT": {
         "conditionFilter": "URL",
@@ -176,7 +192,9 @@
             "enabled": "Ativado",
             "delayAllowed": "Mais 5 minutos",
             "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
-            "operation": "Operações"
+            "operation": "Operações",
+            "visitTime": "Limitar por visita",
+            "period": "Períodos não permitidos"
         },
         "button": {
             "test": "Testar URL",
@@ -185,14 +203,14 @@
         "message": {
             "saved": "Guardado com sucesso",
             "noUrl": "URL limitada não preenchida",
-            "noTime": "Tempo por dia não preenchido",
             "deleteConfirm": "Deseja excluir a regra de {cond}?",
             "deleted": "Apagado com sucesso",
             "noPermissionFirefox": "Por favor, ative a permissão da área de transferência para esta extensão na página de gestão (about:addons) primeiro",
             "inputTestUrl": "Por favor insira o link de URL para testar primeiro",
             "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
             "noRuleMatched": "O URL não atinge nenhuma regra",
-            "rulesMatched": "A URL atinge as seguintes regras:"
+            "rulesMatched": "A URL atinge as seguintes regras:",
+            "noRule": "Nenhuma regra preenchida"
         },
         "verification": {
             "inputTip": "Esta regra já foi acionada. Para modificá-la, por favor, digite a resposta para o seguinte promotor: {prompt}",
@@ -202,6 +220,8 @@
             "incorrectAnswer": "Resposta incorreta",
             "pi": "{digitCount} dígitos de {startIndex} a {endIndex} da parte decimal de π",
             "confession": "Tempo é dinheiro"
-        }
+        },
+        "step1": "Configurar URL",
+        "step2": "Configurar regra"
     }
 }

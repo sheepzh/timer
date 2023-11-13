@@ -87,7 +87,6 @@ function renderHostLabel({ host, merged, virtual, alias }: timer.site.SiteInfo):
 }
 
 const _default = defineComponent({
-    name: "TrendFilter",
     props: {
         site: Object as PropType<timer.site.SiteKey>,
         timeFormat: String as PropType<timer.app.TimeFormat>

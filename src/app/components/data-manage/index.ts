@@ -9,13 +9,15 @@ import { ElRow, ElCol } from "element-plus"
 import { defineComponent, h, Ref, ref } from "vue"
 import ContentContainer from "../common/content-container"
 import Migration from "./migration"
-import MemeryInfo from "./memory-info"
+import MemeryInfo, { MemeryInfoInstance } from "./memory-info"
 import ClearPanel from "./clear"
 import './style'
 
 export default defineComponent(() => {
-    const memeryInfoRef: Ref = ref()
-    const queryData = () => memeryInfoRef?.value?.queryData()
+    const memeryInfoRef: Ref<MemeryInfoInstance> = ref()
+
+    const queryData = () => memeryInfoRef.value?.queryData()
+
     return () => h(ContentContainer, {
         class: 'data-manage-container'
     }, () => h(ElRow, { gutter: 20 },

@@ -10,6 +10,7 @@ import { LIMIT_ROUTE } from "@app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
 import { matches } from "@util/limit"
+import limitService from "@service/limit-service"
 
 function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
     const { url } = tab
@@ -36,4 +37,22 @@ export default function init(dispatcher: MessageDispatcher) {
                 tabs.forEach(tab => processLimitWaking(rules, tab))
             }
         )
+        // More minutes
+        .register<string>('cs.moreMinutes', async url => {
+            const rules = await limitService.moreMinutes(url)
+
+            const tabs = await listTabs({ status: 'complete' })
+            tabs.forEach(tab => processLimitWaking(rules, tab))
+        })
+        // Judge any tag hit the time limit per visit
+        .register<timer.limit.Item, boolean>("askHitVisit", async item => {
+            let tabs = await listTabs()
+            tabs = tabs?.filter(({ url }) => matches(item, url))
+            const { visitTime = 0 } = item || {}
+            for (const { id } of tabs) {
+                const tabFocus = await sendMsg2Tab(id, "askVisitTime", undefined)
+                if (tabFocus && tabFocus > visitTime * 1000) return true
+            }
+            return false
+        })
 }

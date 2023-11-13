@@ -9,7 +9,7 @@ import { ElAlert, ElCard, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, h, Ref, ref, SetupContext } from "vue"
 import { t } from "@app/locale"
 import { alertProps } from "../common"
-import Filter from "./filter"
+import Filter, { FilterInstance } from "./filter"
 import StatDatabase, { StatCondition } from "@db/stat-database"
 import { MILL_PER_DAY } from "@util/time"
 
@@ -109,7 +109,7 @@ const _default = defineComponent({
         dataDelete: () => true
     },
     setup(_, ctx) {
-        const filterRef: Ref = ref()
+        const filter: Ref<FilterInstance> = ref()
         return () => h(ElCard, {
             class: 'clear-container'
         }, () => [
@@ -118,8 +118,8 @@ const _default = defineComponent({
                 title: t(msg => msg.dataManage.operationAlert)
             }),
             h(Filter, {
-                ref: filterRef,
-                onDelete: () => handleClick(filterRef, ctx),
+                ref: filter,
+                onDelete: () => handleClick(filter, ctx),
             }),
         ])
     }
