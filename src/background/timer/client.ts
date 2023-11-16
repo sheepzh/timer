@@ -1,4 +1,4 @@
-import { sendMsg2Runtime } from "@api/chrome/runtime"
+type ReportFunction = (ev: timer.stat.Event) => Promise<void>
 
 /**
  * Tracker client, used in the content-script
@@ -6,6 +6,11 @@ import { sendMsg2Runtime } from "@api/chrome/runtime"
 export default class TrackerClient {
     docVisible: boolean = false
     start: number = Date.now()
+    report: ReportFunction
+
+    constructor(report: ReportFunction) {
+        this.report = report
+    }
 
     init() {
         this.docVisible = document?.visibilityState === 'visible'
@@ -33,7 +38,7 @@ export default class TrackerClient {
             ignoreTabCheck
         }
         try {
-            await sendMsg2Runtime('cs.trackTime', data)
+            await this.report?.(data)
             this.start = end
         } catch (_) { }
     }

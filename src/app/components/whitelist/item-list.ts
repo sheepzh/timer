@@ -11,8 +11,8 @@ import { ElMessage, ElMessageBox } from "element-plus"
 import { t } from "@app/locale"
 import { h, ref } from "vue"
 import whitelistService from "@service/whitelist-service"
-import Item from './components/item'
-import AddButton from './components/add-button'
+import Item, { ItemInstance } from './components/item'
+import AddButton, { AddButtonInstance } from './components/add-button'
 
 const whitelistRef: Ref<string[]> = ref([])
 
@@ -36,7 +36,7 @@ const handleClose = (whiteItem: string) => {
         .catch(() => { })
 }
 
-async function handleChanged(inputValue: string, index: number, ref: Ref) {
+async function handleChanged(inputValue: string, index: number, ref: Ref<ItemInstance>) {
     const duplicate = whitelistRef.value.find((white, i) => white === inputValue && i !== index)
     if (duplicate) {
         ElMessage({ type: 'warning', message: t(msg => msg.whitelist.duplicateMsg) })
@@ -50,7 +50,7 @@ async function handleChanged(inputValue: string, index: number, ref: Ref) {
     ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
 }
 
-function handleAdd(inputValue: string, ref: Ref) {
+function handleAdd(inputValue: string, ref: Ref<AddButtonInstance>) {
     const whitelist = whitelistRef.value
     const exists = whitelist.filter(item => item === inputValue).length > 0
     if (exists) {
@@ -71,7 +71,7 @@ function handleAdd(inputValue: string, ref: Ref) {
 function tags(): VNode {
     const result = []
     whitelistRef.value.forEach((white: string, index: number) => {
-        const itemRef: Ref = ref()
+        const itemRef: Ref<ItemInstance> = ref()
         const item = h(Item, {
             white, index, ref: itemRef,
             onChange: (newVal, index) => handleChanged(newVal, index, itemRef),
@@ -79,7 +79,7 @@ function tags(): VNode {
         })
         result.push(item)
     })
-    const addButtonRef: Ref = ref()
+    const addButtonRef: Ref<AddButtonInstance> = ref()
     result.push(h(AddButton, {
         ref: addButtonRef,
         onSave: (inputVal: string) => handleAdd(inputVal, addButtonRef)

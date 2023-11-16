@@ -14,7 +14,7 @@ import { I18nKey, t } from "@app/locale"
 import statService from "@service/stat-service"
 import whitelistService from "@service/whitelist-service"
 import './styles/element'
-import ReportTable from "./table"
+import ReportTable, { TableInstance } from "./table"
 import ReportFilter from "./filter"
 import Pagination from "../common/pagination"
 import ContentContainer from "../common/content-container"
@@ -221,7 +221,7 @@ const _default = defineComponent({
 
         const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
         const queryParam: ComputedRef<StatQueryParam> = computed(() => computeTimerQueryParam(filterOption, sort))
-        const tableEl: Ref = ref()
+        const table: Ref<TableInstance> = ref()
 
         const query = () => queryData(queryParam, data, page, remoteRead)
         // Query data if window become visible
@@ -245,7 +245,7 @@ const _default = defineComponent({
                     format === 'json' && exportJson(filterOption, rows)
                     format === 'csv' && exportCsv(filterOption, rows)
                 },
-                onBatchDelete: (filterOption: ReportFilterOption) => handleBatchDelete(tableEl, filterOption, query),
+                onBatchDelete: (filterOption: ReportFilterOption) => handleBatchDelete(table, filterOption, query),
                 onRemoteChange(newRemoteChange) {
                     remoteRead.value = newRemoteChange
                     query()
@@ -261,7 +261,7 @@ const _default = defineComponent({
                     readRemote: remoteRead.value,
                     data: data.value,
                     defaultSort: sort,
-                    ref: tableEl,
+                    ref: table,
                     onSortChange: ((sortInfo: SortInfo) => {
                         sort.order = sortInfo.order
                         sort.prop = sortInfo.prop

@@ -1,7 +1,9 @@
+import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { t, tN } from "@app/locale"
 import { locale } from "@i18n"
 import { VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
+import { date2Idx, hasLimited } from "@util/limit"
 import { getCssVariable } from "@util/style"
 import { ElMessageBox, ElMessage } from "element-plus"
 import { defineComponent, h, onMounted, ref, VNode } from "vue"
@@ -11,9 +13,25 @@ import { defineComponent, h, onMounted, ref, VNode } from "vue"
  * 
  * @returns T/F
  */
-export function judgeVerificationRequired(item: timer.limit.Item): boolean {
-    const { waste, time } = item || {}
-    return !!(waste > time * 1000)
+export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
+    const { visitTime, periods, enabled } = item || {}
+    if (!enabled) return false
+    // Daily
+    if (hasLimited(item)) return true
+    // Period
+    if (periods?.length) {
+        const idx = date2Idx(new Date())
+        const hitPeriod = periods?.find(([s, e]) => s <= idx && e >= idx)
+        if (hitPeriod) return true
+    }
+    // Visit
+    if (visitTime) {
+        console.log("visiTime", visitTime)
+        const hitVisit = await sendMsg2Runtime("askHitVisit", item)
+        console.log("visiTimeHit", hitVisit)
+        if (hitVisit) return true
+    }
+    return false
 }
 
 const PROMT_TXT_CSS: Partial<CSSStyleDeclaration> = {
@@ -106,7 +124,7 @@ export async function processVerification(option: timer.option.DailyLimitOption)
                     return resolve()
                 }
                 ElMessage.error(incrorectMessage)
-            })
+            }).catch(() => { })
         )
         : null
 }

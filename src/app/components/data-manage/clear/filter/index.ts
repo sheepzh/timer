@@ -13,6 +13,10 @@ import DateFilter from "./date-filter"
 import NumberFilter from "./number-filter"
 import DeleteButton from "./delete-button"
 
+export type FilterInstance = {
+    getFilterOption(): DataManageClearFilterOption
+}
+
 const _default = defineComponent({
     emits: {
         delete: () => true
@@ -23,17 +27,18 @@ const _default = defineComponent({
         const focusEndRef: Ref<string> = ref('2')
         const timeStartRef: Ref<string> = ref('0')
         const timeEndRef: Ref<string> = ref('')
-        const computeFilterOption = () => ({
-            dateRange: dateRangeRef.value,
-            focusStart: focusStartRef.value,
-            focusEnd: focusEndRef.value,
-            timeStart: timeStartRef.value,
-            timeEnd: timeEndRef.value,
-        } as DataManageClearFilterOption)
 
-        ctx.expose({
-            getFilterOption: computeFilterOption
-        })
+        const instance: FilterInstance = {
+            getFilterOption: () => ({
+                dateRange: dateRangeRef.value,
+                focusStart: focusStartRef.value,
+                focusEnd: focusEndRef.value,
+                timeStart: timeStartRef.value,
+                timeEnd: timeEndRef.value,
+            } as DataManageClearFilterOption)
+        }
+
+        ctx.expose(instance)
 
         return () => h('div', { class: 'clear-panel' }, [
             h('h3', t(msg => msg.dataManage.filterItems)),

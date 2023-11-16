@@ -64,3 +64,11 @@ export function rotate<T>(arr: T[], count?: number, rightOrLeft?: boolean): void
 export function sum(arr: number[]): number {
     return arr?.reduce?.((a, b) => (a || 0) + (b || 0), 0) || 0
 }
+
+export function allMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {
+    return !arr?.filter?.(e => !predicate?.(e))?.length
+}
+
+export function anyMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {
+    return !!arr?.filter?.(e => predicate?.(e))?.length
+}

@@ -13,6 +13,8 @@ import LimitWasteColumn from "./column/waste"
 import LimitDelayColumn from "./column/delay"
 import LimitEnabledColumn from "./column/enabled"
 import LimitOperationColumn from "./column/operation"
+import LimitVisitTimeColumn from "./column/visit"
+import LimitPeriodColumn from "./column/period"
 
 const _default = defineComponent({
     props: {
@@ -36,6 +38,8 @@ const _default = defineComponent({
             h(LimitCondColumn),
             h(LimitTimeColumn),
             h(LimitWasteColumn),
+            h(LimitVisitTimeColumn),
+            h(LimitPeriodColumn),
             h(LimitDelayColumn, {
                 onRowChange: (row: timer.limit.Item) => ctx.emit("delayChange", row)
             }),

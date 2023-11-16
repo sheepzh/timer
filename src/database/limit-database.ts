@@ -16,6 +16,14 @@ type ItemValue = {
      */
     t: number
     /**
+     * Limited time per visit, second
+     */
+    v?: number
+    /**
+     * Forbiden periods
+     */
+    p?: [number, number][]
+    /**
      * Enabled flag
      */
     e: boolean
@@ -43,8 +51,8 @@ function migrate(exist: Item, toMigrate: any) {
         // Not rewrite
         if (exist[cond]) return
         const itemValue: ItemValue = value as ItemValue
-        const { t, e, ad, d, w } = itemValue
-        exist[cond] = { t: t || 0, e: !!e, ad: !!ad, d, w: w || 0 }
+        const { t, e, ad, d, w, v, p } = itemValue
+        exist[cond] = { t, e: !!e, ad: !!ad, d, w: w || 0, v, p }
     })
 }
 
@@ -68,13 +76,22 @@ class LimitDatabase extends BaseDatabase {
         const items = await this.getItems()
         return Object.entries(items).map(([cond, info]) => {
             const item: ItemValue = info as ItemValue
-            return { cond, time: item.t, enabled: item.e, allowDelay: !!item.ad, wasteTime: item.w, latestDate: item.d } as timer.limit.Record
+            return {
+                cond,
+                time: item.t,
+                visitTime: item.v,
+                periods: item.p,
+                enabled: item.e,
+                allowDelay: !!item.ad,
+                wasteTime: item.w,
+                latestDate: item.d,
+            } as timer.limit.Record
         })
     }
 
     async save(data: timer.limit.Rule, rewrite?: boolean): Promise<void> {
         const items = await this.getItems()
-        const { cond, time, enabled, allowDelay } = data
+        const { cond, time, enabled, allowDelay, visitTime, periods } = data
         const existItem = items[cond]
         if (existItem) {
             if (!rewrite) {
@@ -85,9 +102,11 @@ class LimitDatabase extends BaseDatabase {
             existItem.t = time
             existItem.e = enabled
             existItem.ad = allowDelay
+            existItem.v = visitTime
+            existItem.p = periods
         } else {
             // New one
-            items[cond] = { t: time, e: enabled, ad: allowDelay, w: 0, d: '' }
+            items[cond] = { t: time, e: enabled, ad: allowDelay, w: 0, d: '', v: visitTime, p: periods }
         }
         await this.update(items)
     }

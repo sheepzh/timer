@@ -14,6 +14,9 @@ export type ContentScriptMessage = {
     timeWithMinute: string
     timeWithSecond: string
     timeLimitMsg: string
+    visitLimitMsg: string
+    periodLimitMsg: string
+    limitRefMsg: string
     more5Minutes: string
 }
 

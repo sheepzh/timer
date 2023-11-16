@@ -11,6 +11,10 @@ import { t } from "@app/locale"
 import { alertProps } from "./common"
 import { getUsedStorage } from "@db/memory-detector"
 
+export type MemeryInfoInstance = {
+    queryData(): void
+}
+
 const memoryAlert = (totalMb: number) => {
     const title = totalMb
         ? t(msg => msg.dataManage.totalMemoryAlert, { size: totalMb })
@@ -19,6 +23,7 @@ const memoryAlert = (totalMb: number) => {
     !totalMb && (props.type = 'warning')
     return h(ElAlert, props)
 }
+
 const progressStyle: Partial<CSSStyleDeclaration> = {
     height: '260px',
     paddingTop: '50px'
@@ -53,7 +58,6 @@ function computeColor(percentage: number, total: number): string {
 }
 
 const _default = defineComponent({
-    name: "MemoryInfo",
     setup(_, ctx) {
         // Total memory with byte
         const usedRef: Ref<number> = ref(0)
@@ -64,8 +68,11 @@ const _default = defineComponent({
             usedRef.value = used || 0
             totalRef.value = total
         }
+
+        const instance: MemeryInfoInstance = { queryData }
+        ctx.expose(instance)
+
         queryData()
-        ctx.expose({ queryData })
 
         const usedMbRef: ComputedRef<number> = computed(() => byte2Mb(usedRef.value))
         const totalMbRef: ComputedRef<number> = computed(() => byte2Mb(totalRef.value))

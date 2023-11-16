@@ -25,9 +25,11 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     const today = formatTime(new Date(), DATE_FORMAT)
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
-        .map(({ cond, time, enabled, wasteTime, latestDate, allowDelay }) => ({
+        .map(({ cond, time, visitTime, periods, enabled, wasteTime, latestDate, allowDelay }) => ({
             cond,
             time,
+            visitTime,
+            periods,
             enabled: !!enabled,
             waste: latestDate === today ? (wasteTime ?? 0) : 0,
             latestDate,
@@ -37,12 +39,19 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
         .filter(item => !url || matches(item, url))
 }
 
+async function noticePeriodChanged() {
+    const tabs = await listTabs()
+    tabs.forEach(tab => sendMsg2Tab(tab?.id, 'limitPeriodChange', undefined)
+        .catch(err => console.log(err.message))
+    )
+}
+
 /**
  * Fired if the item is removed or disabled
  * 
- * @param item 
+ * @param item
  */
-async function handleLimitChanged() {
+async function noticeLimitChanged() {
     const allItems: timer.limit.Item[] = await select({ filterDisabled: false, url: undefined })
     const tabs = await listTabs()
     tabs.forEach(tab => {
@@ -53,20 +62,22 @@ async function handleLimitChanged() {
 }
 
 async function updateEnabled(item: timer.limit.Item): Promise<void> {
-    const { cond, time, enabled, allowDelay } = item
-    const limit: timer.limit.Rule = { cond, time, enabled, allowDelay }
+    const { cond, time, enabled, allowDelay, visitTime, periods } = item
+    const limit: timer.limit.Rule = { cond, time, enabled, allowDelay, visitTime, periods }
     await db.save(limit, true)
-    await handleLimitChanged()
+    await noticeLimitChanged()
+    await noticePeriodChanged()
 }
 
 async function updateDelay(item: timer.limit.Item) {
     await db.updateDelay(item.cond, item.allowDelay)
-    await handleLimitChanged()
+    await noticeLimitChanged()
 }
 
 async function remove(item: timer.limit.Item): Promise<void> {
     await db.remove(item.cond)
-    await handleLimitChanged()
+    await noticeLimitChanged()
+    await noticePeriodChanged()
 }
 
 async function getLimited(url: string): Promise<timer.limit.Item[]> {
@@ -75,6 +86,12 @@ async function getLimited(url: string): Promise<timer.limit.Item[]> {
         .filter(item => matches(item, url))
         .filter(item => hasLimited(item))
     return list
+}
+
+async function getRelated(url: string): Promise<timer.limit.Item[]> {
+    return (await select())
+        .filter(item => item.enabled)
+        .filter(item => matches(item, url))
 }
 
 /**
@@ -115,13 +132,27 @@ async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<tim
     return rules
 }
 
+async function update(rule: timer.limit.Rule) {
+    await db.save(rule, true)
+    await noticeLimitChanged()
+    await noticePeriodChanged()
+}
+
+async function create(rule: timer.limit.Rule) {
+    await db.save(rule, false)
+    await noticePeriodChanged()
+}
+
 class LimitService {
     moreMinutes = moreMinutes
     getLimited = getLimited
+    getRelated = getRelated
     updateEnabled = updateEnabled
     updateDelay = updateDelay
     select = select
     remove = remove
+    update = update
+    create = create
     /**
      * @returns The rules limited cause of this operation
      */

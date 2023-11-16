@@ -10,8 +10,11 @@ import { ElTag } from "element-plus"
 import { defineComponent, h, ref, Ref, watch } from "vue"
 import ItemInput from "./item-input"
 
+export type ItemInstance = {
+    forceEdit(): void
+}
+
 const _default = defineComponent({
-    name: "MergeRuleItem",
     props: {
         white: {
             type: String
@@ -30,11 +33,10 @@ const _default = defineComponent({
         const id: Ref<number> = ref(props.index || 0)
         watch(() => props.index, newVal => id.value = newVal)
         const editing: Ref<boolean> = ref(false)
-        ctx.expose({
-            forceEdit() {
-                editing.value = true
-            }
-        })
+        const instance: ItemInstance = {
+            forceEdit: () => editing.value = true
+        }
+        ctx.expose(instance)
 
         return () => editing.value
             ? h(ItemInput, {

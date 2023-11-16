@@ -9,6 +9,12 @@ declare namespace timer.mq {
         | 'limitWaking'
         // @since 1.2.3
         | 'limitChanged'
+        // @since 2.0.0
+        | 'limitPeriodChange'
+        | 'moreVisitMinutes'
+        // @since 2.0.0
+        | 'askVisitTime'
+        | 'askHitVisit'
         // Request by content script
         // @since 1.3.0
         | "cs.isInWhitelist"
@@ -17,6 +23,7 @@ declare namespace timer.mq {
         | "cs.getTodayInfo"
         | "cs.moreMinutes"
         | "cs.getLimitedRules"
+        | "cs.getRelatedRules"
         | "cs.trackTime"
 
     type ResCode = "success" | "fail" | "ignore"

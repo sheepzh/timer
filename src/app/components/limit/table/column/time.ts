@@ -17,10 +17,10 @@ const _default = defineComponent({
     render: () => h(ElTableColumn, {
         prop: 'limit',
         label,
-        minWidth: 100,
+        minWidth: 90,
         align: 'center',
     }, {
-        default: ({ row }: { row: timer.limit.Item }) => h('span', formatPeriodCommon(row.time * 1000))
+        default: ({ row }: { row: timer.limit.Item }) => row?.time ? h('span', formatPeriodCommon(row.time * 1000)) : '-'
     })
 })
 

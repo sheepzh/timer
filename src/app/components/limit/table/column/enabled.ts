@@ -6,7 +6,7 @@
  */
 
 import { ElSwitch, ElTableColumn } from "element-plus"
-import { defineComponent, h } from "vue"
+import { defineComponent, h, toRaw } from "vue"
 import { t } from "@app/locale"
 import { judgeVerificationRequired, processVerification } from "./common"
 import optionService from "@service/option-service"
@@ -15,7 +15,7 @@ const label = t(msg => msg.limit.item.enabled)
 
 async function handleChange(row: timer.limit.Item, newVal: boolean, callback: () => void) {
     let promise: Promise<void> = null
-    if (!newVal && judgeVerificationRequired(row)) {
+    if (!newVal && await judgeVerificationRequired(row)) {
         // Disable limited rules, so verification is required
         const option = await optionService.getAllOption()
         promise = processVerification(option)
@@ -41,7 +41,7 @@ const _default = defineComponent({
                 modelValue: row.enabled,
                 onChange: (val: boolean) => handleChange(row, val, () => {
                     row.enabled = val
-                    ctx.emit("rowChange", row, val)
+                    ctx.emit("rowChange", toRaw(row), val)
                 })
             })
         })

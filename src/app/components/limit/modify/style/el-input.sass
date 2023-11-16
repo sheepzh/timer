@@ -7,13 +7,12 @@
 
 $prefixWidth: 110px
 
-.el-input--prefix>.el-input__inner
-    padding-left: $prefixWidth
-    margin-left: 10px
-    cursor: not-allowed !important
-    // Hide the cursor, but show the text
-    color: transparent
-    text-shadow: 0 0 0 #606266
+.limit-time-url-input
+    .el-input__wrapper>.el-input__inner
+        // Hide the cursor, but show the text
+        cursor: not-allowed !important
+        color: transparent
+        text-shadow: 0 0 0 var(--el-text-color-regular)
 .limit-modify-time-limit-input
     .el-input__suffix
         // Fix shaking of clear button
