@@ -14,6 +14,25 @@ export function getTab(id: number): Promise<ChromeTab> {
     }))
 }
 
+export function resetTabUrl(tabId: number, url: string): Promise<void> {
+    return new Promise(resolve => chrome.tabs.update(tabId, {
+        url: url,
+        highlighted: true,
+    }, () => resolve()))
+}
+
+export async function getRightOf(target: ChromeTab): Promise<ChromeTab> {
+    if (!target) return null
+    const { windowId, index } = target
+    return new Promise(resolve => chrome.tabs.query({ windowId }, tabs => {
+        const rightTab = tabs
+            ?.sort?.((a, b) => (a?.index ?? -1) - (b?.index ?? -1))
+            ?.filter?.(t => t.index > index)
+            ?.[0]
+        resolve(rightTab)
+    }))
+}
+
 export function getCurrentTab(): Promise<ChromeTab> {
     return new Promise(resolve => chrome.tabs.getCurrent(tab => {
         handleError("getCurrentTab")
@@ -34,13 +53,15 @@ export function createTab(param: chrome.tabs.CreateProperties | string): Promise
  * 
  * Must not be invocked in background.js
  */
-export async function createTabAfterCurrent(url: string): Promise<ChromeTab> {
-    const tab = await getCurrentTab()
-    if (!tab) {
+export async function createTabAfterCurrent(url: string, currentTab?: ChromeTab): Promise<ChromeTab> {
+    if (!currentTab) {
+        currentTab = await getCurrentTab()
+    }
+    if (!currentTab) {
         // Current tab not found
         return createTab(url)
     } else {
-        const { windowId, index: currentIndex } = tab
+        const { windowId, index: currentIndex } = currentTab
         return createTab({
             url,
             windowId,

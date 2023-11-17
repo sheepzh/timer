@@ -109,6 +109,24 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
     return result
 }
 
+const titleText = (totalHours: number) => t(msg => totalHours
+    ? msg.dashboard.heatMap.title0
+    : msg.dashboard.heatMap.title1,
+    { hour: totalHours }
+)
+
+type HeatmapItem = HeatmapSeriesOption["data"][number]
+
+const cvtHeatmapItem = (d: _Value): HeatmapItem => {
+    let item: HeatmapItem = { value: d, itemStyle: undefined, label: undefined, emphasis: undefined }
+    const minutes = d[2]
+    if (!minutes) {
+        item.itemStyle = { color: 'transparent' }
+        item.emphasis = { disabled: true }
+    }
+    return item
+}
+
 function optionOf(data: _Value[], days: string[]): EcOption {
     const totalMinutes = data.map(d => d[2] || 0).reduce((a, b) => a + b, 0)
     const totalHours = Math.floor(totalMinutes / 60)
@@ -117,15 +135,8 @@ function optionOf(data: _Value[], days: string[]): EcOption {
     return {
         title: {
             ...BASE_TITLE_OPTION,
-            text: t(msg => totalHours
-                ? msg.dashboard.heatMap.title0
-                : msg.dashboard.heatMap.title1,
-                { hour: totalHours }
-            ),
-            textStyle: {
-                fontSize: '14px',
-                color: textColor
-            }
+            text: titleText(totalHours),
+            textStyle: { fontSize: '14px', color: textColor }
         },
         tooltip: {
             position: 'top',
@@ -145,16 +156,13 @@ function optionOf(data: _Value[], days: string[]): EcOption {
                 formatter: (x: string) => xAxisLabelMap[x] || '',
                 interval: 0,
                 margin: 14,
-                color: textColor
+                color: textColor,
             },
         },
         yAxis: {
             type: 'category',
             data: days,
-            axisLabel: {
-                padding: /* T R B L */[0, 12, 0, 0],
-                color: textColor
-            },
+            axisLabel: { padding: /* T R B L */[0, 12, 0, 0], color: textColor },
             axisLine: { show: false },
             axisTick: { show: false, alignWithLabel: true }
         },
@@ -168,28 +176,12 @@ function optionOf(data: _Value[], days: string[]): EcOption {
             right: '2%',
             top: 'center',
             dimension: 2,
-            textStyle: {
-                color: textColor
-            }
+            textStyle: { color: textColor }
         }],
         series: [{
             name: 'Daily Focus',
             type: 'heatmap',
-            data: data.map(d => {
-                let item = { value: d, itemStyle: undefined, label: undefined, emphasis: undefined, tooltip: undefined, silent: false }
-                const minutes = d[2]
-                if (minutes) {
-                } else {
-                    item.itemStyle = {
-                        color: 'transparent',
-                    }
-                    item.emphasis = {
-                        disabled: true
-                    }
-                    item.silent = true
-                }
-                return item
-            }),
+            data: data.map(cvtHeatmapItem),
             progressive: 5,
             progressiveThreshold: 10,
         }]
