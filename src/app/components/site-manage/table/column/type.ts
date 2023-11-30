@@ -1,5 +1,5 @@
 import { t } from "@app/locale"
-import { ElIcon, ElTableColumn, ElTag, ElTooltip } from "element-plus"
+import { ElIcon, ElTableColumn, ElTag, TagProps, ElTooltip } from "element-plus"
 import { InfoFilled } from "@element-plus/icons-vue"
 import { defineComponent, h } from "vue"
 import { SiteManageMessage } from "@i18n/message/app/site-manage"
@@ -21,7 +21,7 @@ function cumputeText({ merged, virtual }: timer.site.SiteInfo): string {
     return t(msg => msg.siteManage.type[type].name)
 }
 
-function computeType({ merged, virtual }: timer.site.SiteInfo): 'info' | 'success' | '' {
+function computeType({ merged, virtual }: timer.site.SiteInfo): TagProps["type"] {
     if (merged) {
         return 'info'
     } else if (virtual) {

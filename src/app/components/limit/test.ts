@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import limitService from "@service/limit-service"
-import { ElAlert, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
+import { ElAlert, AlertProps, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
 import { defineComponent, Ref, ref, h, ComputedRef, computed } from "vue"
 
 export type TestInstance = {
@@ -40,7 +40,7 @@ function computeResultDesc(url: string, inputting: boolean, matchedCondition: st
     return matchedCondition
 }
 
-type _ResultType = 'info' | 'success' | 'warning'
+type _ResultType = AlertProps['type']
 
 function computeResultType(url: string, inputting: boolean, matchedCondition: string[]): _ResultType {
     if (!url || inputting) {

@@ -5,15 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElButton, ElMessage, ElMessageBox, ElTooltip } from "element-plus"
-import ElementIcon from "@src/element-ui/icon"
+import { ButtonType, ElButton, ElMessage, ElMessageBox, ElTooltip, IconProps } from "element-plus"
 import { Ref, h } from "vue"
 import StatDatabase, { StatCondition } from "@db/stat-database"
 import { ItemMessage } from "@i18n/message/common/item"
 import { t } from "@src/app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { MILL_PER_DAY } from "@util/time"
-import { ElementButtonType } from "@src/element-ui/button"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
@@ -22,7 +20,7 @@ export type BaseFilterProps = {
     focusEndRef: Ref<string>
     timeStartRef: Ref<string>
     timeEndRef: Ref<string>
-    dateRangeRef: Ref<Date[]>
+    dateRangeRef: Ref<[Date, Date]>
 }
 
 type _Props = BaseFilterProps & {
@@ -35,8 +33,8 @@ type _Props = BaseFilterProps & {
     }
 
     button: {
-        icon: ElementIcon
-        type: ElementButtonType
+        icon: IconProps
+        type: ButtonType
         message: keyof ItemMessage['operation']
     }
 

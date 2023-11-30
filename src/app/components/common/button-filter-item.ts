@@ -5,18 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElementButtonType } from "@src/element-ui/button"
-import ElementIcon from "@src/element-ui/icon"
-import { ElButton } from "element-plus"
+import { ElButton, IconProps, ButtonType } from "element-plus"
 import { defineComponent, PropType, h, Ref, computed } from "vue"
-
 
 const _default = defineComponent({
     name: "ButtonFilterItem",
     props: {
-        type: String as PropType<ElementButtonType>,
+        type: String as PropType<ButtonType>,
         text: String,
-        icon: Object as PropType<ElementIcon>,
+        icon: Object as PropType<IconProps>,
         right: {
             type: Boolean,
             default: true

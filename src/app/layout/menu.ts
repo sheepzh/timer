@@ -6,8 +6,7 @@
  */
 
 import type { Ref } from "vue"
-import type ElementIcon from "@src/element-ui/icon"
-import type { MenuItemRegistered } from "element-plus"
+import type { IconProps, MenuItemRegistered } from "element-plus"
 import type { Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
 import type { MenuMessage } from "@i18n/message/app/menu"
@@ -26,7 +25,7 @@ import { START_ROUTE } from "@guide/router/constants"
 
 type _MenuItem = {
     title: keyof MenuMessage
-    icon: ElementIcon | any
+    icon: IconProps
     route?: string
     href?: string
     index?: string

@@ -1,5 +1,5 @@
 declare type HabitFilterOption = {
     periodSize: number
-    dateRange: Date[]
+    dateRange: [Date, Date]
     averageByDate: boolean
 }

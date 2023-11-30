@@ -17,7 +17,7 @@ type _Param = {
 type _Handler = (params: _Param) => void
 
 export default class ActiveTabListener {
-    listener: Array<_Handler> = []
+    listener: _Handler[] = []
 
     private async processWithTabInfo({ url, id }: ChromeTab) {
         const hostInfo: HostInfo = extractHostname(url)

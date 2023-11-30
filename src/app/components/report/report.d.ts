@@ -10,7 +10,7 @@ declare type SortInfo = {
 
 declare type ReportFilterOption = {
     host: string
-    dateRange: Date[]
+    dateRange: [Date, Date]
     mergeDate: boolean
     mergeHost: boolean
     /**

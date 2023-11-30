@@ -55,7 +55,7 @@ const _default = defineComponent({
     name: "ReportFilter",
     props: {
         host: String,
-        dateRange: Array as PropType<Date[]>,
+        dateRange: Object as PropType<[Date, Date]>,
         mergeDate: Boolean,
         mergeHost: Boolean,
         timeFormat: String as PropType<timer.app.TimeFormat>
@@ -68,9 +68,7 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const host: Ref<string> = ref(props.host)
-        // Don't know why the error occurred, so ignore
-        // @ts-ignore ts(2322)
-        const dateRange: Ref<Array<Date>> = ref(props.dateRange)
+        const dateRange: Ref<[Date, Date]> = ref(props.dateRange)
         const mergeDate: Ref<boolean> = ref(props.mergeDate)
         const mergeHost: Ref<boolean> = ref(props.mergeHost)
         const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
@@ -100,7 +98,7 @@ const _default = defineComponent({
                 disabledDate: (date: Date | number) => new Date(date) > new Date(),
                 shortcuts: dateShortcuts,
                 defaultRange: dateRange.value,
-                onChange(newVal: Date[]) {
+                onChange(newVal: [Date, Date]) {
                     dateRange.value = newVal
                     handleChange()
                 }

@@ -61,14 +61,14 @@ const _default = defineComponent({
     name: "HabitFilter",
     props: {
         periodSize: Number as PropType<number>,
-        dateRange: Array as PropType<Date[]>,
-        averageByDate: Boolean
+        dateRange: Object as PropType<[Date, Date]>,
+        averageByDate: Boolean,
     },
     emits,
     setup(props, ctx) {
         const periodSize: Ref<number> = ref(props.periodSize || 1)
         // @ts-ignore
-        const dateRange: Ref<Date[]> = ref(props.dateRange || [])
+        const dateRange: Ref<[Date, Date]> = ref(props.dateRange || [null, null])
         const averageByDate: Ref<boolean> = ref(props.averageByDate || false)
         function handleChange() {
             ctx.emit("change", {
@@ -98,7 +98,7 @@ const _default = defineComponent({
                 disabledDate: (date: Date) => date.getTime() > new Date().getTime(),
                 defaultRange: dateRange.value,
                 shortcuts: SHORTCUTS,
-                onChange: (newVal: Date[]) => {
+                onChange: (newVal: [Date, Date]) => {
                     dateRange.value = newVal
                     handleChange()
                 }

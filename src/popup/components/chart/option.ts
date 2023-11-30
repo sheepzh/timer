@@ -12,7 +12,6 @@ import type {
     ToolboxComponentOption,
     TooltipComponentOption,
     LegendComponentOption,
-
 } from "echarts/components"
 
 import { formatPeriodCommon, formatTime } from "@util/time"
@@ -147,7 +146,7 @@ function calcPositionOfTooltip(container: HTMLDivElement, point: (number | strin
 }
 
 const Y_M_D = "{y}/{m}/{d}"
-function calculateSubTitleText(date: Date | Date[]) {
+function calculateSubTitleText(date: Date | [Date, Date?]) {
     if (date instanceof Array) {
         const [start, _] = date
         const startStr = formatTime(start, Y_M_D)

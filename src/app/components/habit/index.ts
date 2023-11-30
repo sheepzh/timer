@@ -15,11 +15,11 @@ import HabitChart, { HabitChartInstance } from "./component/chart"
 import HabitFilter from "./component/filter"
 import { keyOf, MAX_PERIOD_ORDER, keyBefore } from "@util/period"
 
-function computeParam(periodSize: Ref<number>, dateRange: Ref<Date[]>, averageByDate: Ref<boolean>) {
+function computeParam(periodSize: Ref<number>, dateRange: Ref<[Date, Date]>, averageByDate: Ref<boolean>) {
     let dateRangeVal = dateRange.value
     if (dateRangeVal.length !== 2) dateRangeVal = daysAgo(1, 0)
-    const endDate = dateRangeVal[1]
-    const startDate = dateRangeVal[0]
+    const endDate = typeof dateRangeVal[1] === 'object' ? dateRangeVal[1] : null
+    const startDate = typeof dateRangeVal[1] === 'object' ? dateRangeVal[1] : null
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
@@ -52,8 +52,7 @@ const _default = defineComponent({
     setup() {
         const chart: Ref<HabitChartInstance> = ref()
         const periodSize: Ref<number> = ref(1)
-        //@ts-ignore ts(2322)
-        const dateRange: Ref<Date[]> = ref(daysAgo(1, 0))
+        const dateRange: Ref<[Date, Date]> = ref(daysAgo(1, 0))
         const averageByDate: Ref<boolean> = ref(false)
 
         async function queryAndRender() {

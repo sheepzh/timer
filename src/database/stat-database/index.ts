@@ -18,7 +18,7 @@ export type StatCondition = {
      * Date
      * {y}{m}{d} 
      */
-    date?: Date | Date[]
+    date?: Date | [Date, Date?]
     /**
      * Host name for query
      */

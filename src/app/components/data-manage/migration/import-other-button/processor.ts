@@ -24,6 +24,7 @@ const throwError = () => { throw new Error("Failed to parse, please check your f
  * @returns row data
  */
 export async function parseFile(ext: OtherExtension, file: File): Promise<timer.imported.Data> {
+    // const worker = new Worker()
     let rows: timer.imported.Row[] = []
     let focus = false
     let time = false

@@ -1,5 +1,5 @@
 declare type DataManageClearFilterOption = {
-    dateRange: Date[],
+    dateRange: [Date, Date],
     focusStart: string,
     focusEnd: string,
     timeStart: string,
