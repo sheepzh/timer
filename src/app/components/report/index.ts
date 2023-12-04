@@ -65,7 +65,7 @@ async function queryWhiteList(whitelist: Ref<string[]>): Promise<void> {
     whitelist.value = value
 }
 
-async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: Date[]): Promise<string> {
+async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]): Promise<string> {
     // host => total focus
     const hostFocus: { [host: string]: number } = groupBy(selected,
         a => a.host,
@@ -148,7 +148,7 @@ async function handleBatchDelete(tableEl: Ref, filterOption: ReportFilterOption,
     })
 }
 
-async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: Date[]) {
+async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]) {
     if (!mergeDate) {
         // If not merge date
         // Delete batch
@@ -216,7 +216,7 @@ const _default = defineComponent({
         const sort: UnwrapRef<SortInfo> = reactive(initialSort)
 
         const data: Ref<timer.stat.Row[]> = ref([])
-        const whitelist: Ref<Array<string>> = ref([])
+        const whitelist: Ref<string[]> = ref([])
         const remoteRead: Ref<boolean> = ref(false)
 
         const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })

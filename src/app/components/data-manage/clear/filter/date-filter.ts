@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElDatePicker } from "element-plus"
-import { Ref, h, defineComponent, PropType } from "vue"
+import { DateModelType, ElDatePicker } from "element-plus"
+import { h, defineComponent, PropType } from "vue"
 import { formatTime, MILL_PER_DAY } from "@util/time"
 import { t, tN } from "@app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
@@ -40,10 +40,10 @@ const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
 const _default = defineComponent({
     name: "DateFilter",
     emits: {
-        change: (_date: Date[]) => true
+        change: (_date: [DateModelType, DateModelType]) => true
     },
     props: {
-        dateRange: Array as PropType<Date[]>
+        dateRange: Object as PropType<[DateModelType, DateModelType]>
     },
     setup(props, ctx) {
         return () => h('p', [
@@ -52,7 +52,7 @@ const _default = defineComponent({
                 // @ts-ignore
                 picker: h(ElDatePicker, {
                     modelValue: props.dateRange,
-                    "onUpdate:modelValue": (date: Array<Date>) => ctx.emit('change', date),
+                    "onUpdate:modelValue": (date: [DateModelType, DateModelType]) => ctx.emit('change', date),
                     size: 'small',
                     style: 'width: 250px;',
                     startPlaceholder,

@@ -89,17 +89,19 @@ function getYAxiasValue(milliseconds: number, periodSize: number) {
     return periodSize === 8 ? hours : minutes
 }
 
+type BarItem = BarSeriesOption["data"][number]
+
+const cvt2Item = (row: timer.period.Row, periodSize: number): BarItem => {
+    const startTime = row.startTime.getTime()
+    const endTime = row.endTime.getTime()
+    const x = (startTime + endTime) / 2
+    const milliseconds = row.milliseconds
+    return [x, getYAxiasValue(milliseconds, periodSize), startTime, endTime, milliseconds]
+}
+
 function generateOptions(data: timer.period.Row[], averageByDate: boolean, periodSize: number): EcOption {
     const periodData: timer.period.Row[] = averageByDate ? averageByDay(data, periodSize) : data
-    const valueData: any[] = []
-    periodData.forEach((item) => {
-        const startTime = item.startTime.getTime()
-        const endTime = item.endTime.getTime()
-        const x = (startTime + endTime) / 2
-        const milliseconds = item.milliseconds
-        valueData.push([x, getYAxiasValue(milliseconds, periodSize), startTime, endTime, milliseconds])
-    })
-
+    const valueData: BarItem[] = periodData.map(i => cvt2Item(i, periodSize))
     const xAxisMin = periodData[0].startTime.getTime()
     const xAxisMax = periodData[periodData.length - 1].endTime.getTime()
     const xAxisAxisLabelFormatter = averageByDate ? '{HH}:{mm}' : formatXAxis
@@ -123,9 +125,7 @@ function generateOptions(data: timer.period.Row[], averageByDate: boolean, perio
                     name: TITLE, // file name
                     excludeComponents: ['toolbox'],
                     pixelRatio: 1,
-                    iconStyle: {
-                        borderColor: secondaryTextColor
-                    }
+                    iconStyle: { borderColor: secondaryTextColor }
                 }
             }
         },

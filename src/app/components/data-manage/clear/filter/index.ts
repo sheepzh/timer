@@ -12,6 +12,7 @@ import { t } from "@app/locale"
 import DateFilter from "./date-filter"
 import NumberFilter from "./number-filter"
 import DeleteButton from "./delete-button"
+import { DateModelType } from "element-plus"
 
 export type FilterInstance = {
     getFilterOption(): DataManageClearFilterOption
@@ -22,7 +23,7 @@ const _default = defineComponent({
         delete: () => true
     },
     setup(_, ctx) {
-        const dateRangeRef: Ref<Array<Date>> = ref([])
+        const dateRangeRef: Ref<[DateModelType, DateModelType]> = ref([null, null])
         const focusStartRef: Ref<string> = ref('0')
         const focusEndRef: Ref<string> = ref('2')
         const timeStartRef: Ref<string> = ref('0')
@@ -42,7 +43,7 @@ const _default = defineComponent({
 
         return () => h('div', { class: 'clear-panel' }, [
             h('h3', t(msg => msg.dataManage.filterItems)),
-            h(DateFilter, { dateRange: dateRangeRef.value, onChange: (newVal: Date[]) => dateRangeRef.value = newVal }),
+            h(DateFilter, { dateRange: dateRangeRef.value, onChange: (newVal: [DateModelType, DateModelType]) => dateRangeRef.value = newVal }),
             h(NumberFilter, {
                 translateKey: 'filterFocus',
                 start: focusStartRef.value,

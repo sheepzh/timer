@@ -26,7 +26,7 @@ function computeSingleConfirmText(url: string, date: string): string {
     return t(msg => msg.item.operation.deleteConfirmMsg, { url, date: formatDate })
 }
 
-function computeRangeConfirmText(url: string, dateRange: Array<Date>): string {
+function computeRangeConfirmText(url: string, dateRange: [Date, Date]): string {
     const hasDateRange = dateRange?.length === 2 && (dateRange[0] || dateRange[1])
     if (!hasDateRange) {
         // Delete all
@@ -51,7 +51,7 @@ const _default = defineComponent({
     props: {
         mergeDate: Boolean,
         // Filter of date range
-        dateRange: Array as PropType<Array<Date>>,
+        dateRange: Object as PropType<[Date, Date]>,
         itemUrl: String,
         itemDate: String,
         visible: Boolean

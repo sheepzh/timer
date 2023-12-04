@@ -6,10 +6,9 @@
  */
 
 import type { MergeCommonMessage } from "@i18n/message/common/merge"
+import type { TagProps } from "element-plus"
 
-export type MergeTagType = '' | 'info' | 'success'
-
-export function computeMergeType(mergedVal: number | string): MergeTagType {
+export function computeMergeType(mergedVal: number | string): TagProps["type"] {
     return typeof mergedVal === 'number' ? 'success' : mergedVal === '' ? 'info' : ''
 }
 

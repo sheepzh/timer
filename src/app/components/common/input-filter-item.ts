@@ -11,13 +11,17 @@ import { defineComponent, h, Ref, ref } from "vue"
 const _default = defineComponent({
     name: "InputFilterItem",
     props: {
-        placeholder: String
+        defaultValue: {
+            type: String,
+            required: false,
+        },
+        placeholder: String,
     },
     emits: {
         search: (_text: string) => true
     },
     setup(props, ctx) {
-        const modelValue: Ref<string> = ref("")
+        const modelValue: Ref<string> = ref(props.defaultValue)
         return () => h(ElInput, {
             class: 'filter-item',
             modelValue: modelValue.value,

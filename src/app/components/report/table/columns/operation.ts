@@ -24,7 +24,7 @@ import { locale } from "@i18n"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
-async function handleDeleteByRange(itemHost2Delete: string, dateRange: Array<Date>): Promise<string[]> {
+async function handleDeleteByRange(itemHost2Delete: string, dateRange: [Date, Date]): Promise<string[]> {
     // Delete all
     if (!dateRange || !dateRange.length) {
         return await statDatabase.deleteByUrl(itemHost2Delete)
@@ -55,8 +55,8 @@ const _default = defineComponent({
     props: {
         mergeDate: Boolean,
         mergeHost: Boolean,
-        dateRange: Array as PropType<Array<Date>>,
-        whitelist: Array as PropType<Array<String>>
+        dateRange: Object as PropType<[Date, Date]>,
+        whitelist: Array as PropType<string[]>
     },
     emits: {
         whitelistChange: (_host: string, _isWhite: boolean) => true,

@@ -5,12 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { createTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
+import { createTabAfterCurrent, getRightOf, listTabs, resetTabUrl, sendMsg2Tab } from "@api/chrome/tab"
 import { LIMIT_ROUTE } from "@app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
 import { matches } from "@util/limit"
 import limitService from "@service/limit-service"
+import { isBrowserUrl } from "@util/pattern"
 
 function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
     const { url } = tab
@@ -23,12 +24,24 @@ function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
         .catch(err => console.error(`Failed to wake with limit rule: rules=${JSON.stringify(rules)}, msg=${err.msg}`))
 }
 
+async function processOpenPage(limittedUrl: string, sender: ChromeMessageSender) {
+    const originTab = sender?.tab
+    if (!originTab) return
+    const realUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(limittedUrl) })
+    const baseUrl = getAppPageUrl(true, LIMIT_ROUTE)
+    const rightTab = await getRightOf(originTab)
+    const rightUrl = rightTab?.url
+    if (rightUrl && isBrowserUrl(rightUrl) && rightUrl.includes(baseUrl)) {
+        // Reset url
+        await resetTabUrl(rightTab.id, realUrl)
+    } else {
+        await createTabAfterCurrent(realUrl, sender?.tab)
+    }
+}
+
 export default function init(dispatcher: MessageDispatcher) {
     dispatcher
-        .register<string>(
-            'openLimitPage',
-            (url: string) => createTab(getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(url) }))
-        )
+        .register<string>('openLimitPage', processOpenPage)
         .register<timer.limit.Item[]>(
             'limitWaking',
             async data => {

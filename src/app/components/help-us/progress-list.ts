@@ -6,7 +6,7 @@
  */
 
 import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
-import { ElLoading, ElProgress } from "element-plus"
+import { ElLoading, ElProgress, ProgressProps } from "element-plus"
 import { defineComponent, h, onMounted, Ref, ref, VNode } from "vue"
 import localeMessages from "@i18n/message/common/locale"
 import { t } from "@app/locale"
@@ -58,7 +58,7 @@ function convert2Info(translationStatus: TranslationStatusInfo): ProgressInfo {
     }
 }
 
-function computeType(progress: number): 'success' | '' | 'warning' {
+function computeType(progress: number): ProgressProps["status"] {
     if (progress >= 95) {
         return "success"
     } else if (progress >= 50) {

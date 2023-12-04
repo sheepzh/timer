@@ -73,7 +73,7 @@ function filterByCond(result: _FilterResult, condition: _StatCondition): boolean
 }
 
 
-function processDateCondition(cond: _StatCondition, paramDate: Date | Date[]) {
+function processDateCondition(cond: _StatCondition, paramDate: Date | [Date, Date?]) {
     if (!paramDate) return
 
     if (paramDate instanceof Date) {
@@ -82,7 +82,7 @@ function processDateCondition(cond: _StatCondition, paramDate: Date | Date[]) {
     } else {
         let startDate: Date = undefined
         let endDate: Date = undefined
-        const dateArr = paramDate as Date[]
+        const dateArr = paramDate as [Date, Date]
         dateArr && dateArr.length >= 2 && (endDate = dateArr[1])
         dateArr && dateArr.length >= 1 && (startDate = dateArr[0])
         cond.useExactDate = false

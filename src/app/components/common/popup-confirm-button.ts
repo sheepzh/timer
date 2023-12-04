@@ -5,10 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElementButtonType } from "@src/element-ui/button"
-import ElementIcon from "@src/element-ui/icon"
 import { t } from "@app/locale"
-import { ElButton, ElPopconfirm } from "element-plus"
+import { ButtonType, ElButton, ElPopconfirm, IconProps } from "element-plus"
 import { defineComponent, PropType, h, computed } from "vue"
 
 const confirmButtonText = t(msg => msg.confirm.confirmMsg)
@@ -19,8 +17,8 @@ const _default = defineComponent({
     props: {
         confirmText: String,
         buttonText: String,
-        buttonType: String as PropType<ElementButtonType>,
-        buttonIcon: Object as PropType<ElementIcon>,
+        buttonType: String as PropType<ButtonType>,
+        buttonIcon: Object as PropType<IconProps>,
         visible: {
             type: Boolean,
             default: true

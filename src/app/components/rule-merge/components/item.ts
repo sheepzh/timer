@@ -4,13 +4,12 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { MergeTagType } from "@util/merge"
 import type { Ref } from "vue"
 
 import { t } from "@app/locale"
 import { Edit } from "@element-plus/icons-vue"
 import { tryParseInteger } from "@util/number"
-import { ElTag } from "element-plus"
+import { ElTag, TagProps } from "element-plus"
 import { computed, defineComponent, h, ref, watch } from "vue"
 import ItemInput from "./item-input"
 import { computeMergeTxt, computeMergeType } from "@util/merge"
@@ -43,7 +42,7 @@ const _default = defineComponent({
         const id: Ref<number> = ref(props.index || 0)
         watch(() => props.index, newVal => id.value = newVal)
         const editing: Ref<boolean> = ref(false)
-        const type: Ref<MergeTagType> = computed(() => computeMergeType(merged.value))
+        const type: Ref<TagProps["type"]> = computed(() => computeMergeType(merged.value))
         const tagTxt: Ref<string> = computed(() => computeMergeTxt(origin.value, merged.value,
             (finder, param) => t(msg => finder(msg.mergeCommon), param)
         ))

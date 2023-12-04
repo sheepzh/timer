@@ -13,22 +13,22 @@ import { t } from "@app/locale"
 const _default = defineComponent({
     name: "DateRangeFilterItem",
     props: {
-        defaultRange: Array as PropType<Date[]>,
+        defaultRange: Object as PropType<[Date, Date]>,
         disabledDate: Function,
         startPlaceholder: String,
         endPlaceholder: String,
-        shortcuts: Array as PropType<Array<ElementDatePickerShortcut>>,
+        shortcuts: Array as PropType<ElementDatePickerShortcut[]>,
         clearable: {
             type: Boolean,
             default: true
         }
     },
     emits: {
-        change: (_value: Date[]) => true
+        change: (_value: [Date, Date]) => true
     },
     setup(props, ctx) {
         // @ts-ignore
-        const dateRange: Ref<Date[]> = ref(props.defaultRange || [undefined, undefined])
+        const dateRange: Ref<[DateModelType, DateModelType]> = ref(props.defaultRange || [undefined, undefined])
         const dateFormat = t(msg => msg.calendar.dateFormat, {
             y: 'YYYY',
             m: 'MM',
@@ -43,7 +43,7 @@ const _default = defineComponent({
                 rangeSeparator: '-',
                 disabledDate: props.disabledDate,
                 shortcuts: props.shortcuts,
-                'onUpdate:modelValue': (newVal: Array<Date>) => ctx.emit("change", dateRange.value = newVal),
+                'onUpdate:modelValue': (newVal: [Date, Date]) => ctx.emit("change", dateRange.value = newVal),
                 startPlaceholder: props.startPlaceholder,
                 endPlaceholder: props.endPlaceholder,
                 clearable: props.clearable

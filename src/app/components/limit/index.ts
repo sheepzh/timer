@@ -17,8 +17,15 @@ import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
 import { handleWindowVisibleChange } from "@util/window"
 
+const initialUrl = () => {
+    // Init with url parameter
+    const urlParam = useRoute().query['url'] as string
+    useRouter().replace({ query: {} })
+    return urlParam ? decodeURIComponent(urlParam) : ''
+}
+
 const _default = defineComponent(() => {
-    const url: Ref<string> = ref('')
+    const url: Ref<string> = ref(initialUrl())
     const onlyEnabled: Ref<boolean> = ref(false)
     const data: Ref<timer.limit.Item[]> = ref([])
     // Init and query
@@ -29,10 +36,6 @@ const _default = defineComponent(() => {
     queryData()
     // Query data if the window become visible
     handleWindowVisibleChange(queryData)
-    // Init with url parameter
-    const urlParam = useRoute().query['url'] as string
-    useRouter().replace({ query: {} })
-    urlParam && (url.value = decodeURIComponent(urlParam))
 
     const modify: Ref<ModifyInstance> = ref()
     const test: Ref<TestInstance> = ref()

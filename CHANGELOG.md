@@ -4,6 +4,10 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [v2.0.1] - 2023-12-04
+
+- Support new file format for History Trends Unlimited.
+
 ## [v2.0.0] - 2023-11-13
 
 - Support unallowed period for limit rules.

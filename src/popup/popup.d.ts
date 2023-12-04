@@ -6,7 +6,7 @@ type PopupQueryResult = {
     data: PopupRow[]
     // Filter items
     chartTitle: string
-    date: Date | Date[]
+    date: Date | [Date, Date?]
     dateLength: number
 }
 

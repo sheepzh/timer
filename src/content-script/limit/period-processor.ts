@@ -4,7 +4,7 @@ import { date2Idx } from "@util/limit"
 
 class PeriodProcessor implements Processor {
     private context: ModalContext
-    private timers: NodeJS.Timer[] = []
+    private timers: number[] = []
 
     constructor(context: ModalContext) {
         this.context = context
@@ -26,7 +26,7 @@ class PeriodProcessor implements Processor {
         this.timers = this.calcInterval(rules, this.context)
     }
 
-    private calcInterval(rules: timer.limit.Rule[], context: ModalContext): NodeJS.Timer[] {
+    private calcInterval(rules: timer.limit.Rule[], context: ModalContext): number[] {
         const nowSeconds = date2Idx(new Date())
         const timers = []
         rules?.forEach?.(rule => {

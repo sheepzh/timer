@@ -44,6 +44,7 @@ const _default = defineComponent({
         })
         return () => [
             h(InputFilterItem, {
+                defaultValue: props.url,
                 placeholder: urlPlaceholder,
                 onSearch(searchVal: string) {
                     url.value = searchVal
