@@ -7,7 +7,8 @@
 
 import { fillExist } from "@service/components/import-processor"
 import { AUTHOR_EMAIL } from "@src/package"
-import { isBrowserUrl } from "@util/pattern"
+import { extractHostname, isBrowserUrl } from "@util/pattern"
+import { formatTime } from "@util/time"
 
 export type OtherExtension =
     | "webtime_tracker"
@@ -110,22 +111,41 @@ async function parseWebtimeTracker(file: File): Promise<timer.imported.Row[]> {
     throw new Error("Invalid file format")
 }
 
+function parseHistoryTrendsUnlimitedLine(line: string, data: { [dateAndHost: string]: number }) {
+    const cells = line.split('\t')
+    const url = cells[0]
+    if (isBrowserUrl(url)) return
+    const tsMaybe = cells?.[1]?.trim?.()
+    if (/^U\d{13,}(\.\d*)?$/.test(tsMaybe)) {
+        // Backup data
+        let date: string;
+        try {
+            date = formatTime(parseFloat(tsMaybe.substring(1)), "{y}{m}{d}")
+        } catch {
+            console.error("Invalid line: " + line)
+            return;
+        }
+        const host = extractHostname(url)?.host
+        if (!host) return
+        const key = date + host
+        data[key] = (data[key] ?? 0) + 1
+    } else {
+        // Analyze data
+        const host = cells[1]
+        const dateStr = cells[4]
+        const date = cvtWebtimeTrackerDate(dateStr?.substring(0, 10))
+        if (!host || !date) return
+        const key = date + host
+        data[key] = (data[key] ?? 0) + 1
+    }
+}
+
 async function parseHistoryTrendsUnlimited(file: File): Promise<timer.imported.Row[]> {
     const text = await file.text()
     if (isTsvFile(file)) {
         const lines = text.split('\n').map(line => line.trim()).filter(line => !!line)
         const dailyVisits: { [dateAndHost: string]: number } = {}
-        lines.forEach(line => {
-            const cells = line.split('\t')
-            const url = cells[0]
-            if (isBrowserUrl(url)) return
-            const host = cells[1]
-            const dateStr = cells[4]
-            const date = cvtWebtimeTrackerDate(dateStr?.substring(0, 10))
-            if (!host || !date) return
-            const key = date + host
-            dailyVisits[key] = (dailyVisits[key] ?? 0) + 1
-        })
+        lines.forEach(line => parseHistoryTrendsUnlimitedLine(line, dailyVisits))
         return Object.entries(dailyVisits).map(([dateAndHost, time]) => {
             const date = dateAndHost.substring(0, 8)
             const host = dateAndHost.substring(8)
