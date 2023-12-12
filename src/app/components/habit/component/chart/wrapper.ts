@@ -34,8 +34,8 @@ type EcOption = ComposeOption<
 >
 
 function averageByDay(data: timer.period.Row[], periodSize: number): timer.period.Row[] {
-    const rangeStart = data[0].startTime
-    const rangeEnd = data[data.length - 1].endTime
+    const rangeStart = data[0]?.startTime
+    const rangeEnd = data[data.length - 1]?.endTime
     const dateNum = (rangeEnd.getTime() - rangeStart.getTime()) / MILL_PER_DAY
     const map: Map<number, number> = new Map()
     data.forEach(item => {
@@ -102,8 +102,8 @@ const cvt2Item = (row: timer.period.Row, periodSize: number): BarItem => {
 function generateOptions(data: timer.period.Row[], averageByDate: boolean, periodSize: number): EcOption {
     const periodData: timer.period.Row[] = averageByDate ? averageByDay(data, periodSize) : data
     const valueData: BarItem[] = periodData.map(i => cvt2Item(i, periodSize))
-    const xAxisMin = periodData[0].startTime.getTime()
-    const xAxisMax = periodData[periodData.length - 1].endTime.getTime()
+    const xAxisMin = periodData[0]?.startTime?.getTime()
+    const xAxisMax = periodData[periodData.length - 1]?.endTime?.getTime()
     const xAxisAxisLabelFormatter = averageByDate ? '{HH}:{mm}' : formatXAxis
     const textColor = getPrimaryTextColor()
     const secondaryTextColor = getSecondaryTextColor()
