@@ -19,7 +19,7 @@ function computeParam(periodSize: Ref<number>, dateRange: Ref<[Date, Date]>, ave
     let dateRangeVal = dateRange.value
     if (dateRangeVal.length !== 2) dateRangeVal = daysAgo(1, 0)
     const endDate = typeof dateRangeVal[1] === 'object' ? dateRangeVal[1] : null
-    const startDate = typeof dateRangeVal[1] === 'object' ? dateRangeVal[1] : null
+    const startDate = typeof dateRangeVal[0] === 'object' ? dateRangeVal[0] : null
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
