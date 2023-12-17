@@ -35,7 +35,14 @@ async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender)
     }
     const hostInfo = extractHostname(url)
     await handleTime(hostInfo, url, [start, end])
-    tabId && badgeTextManager.forceUpdate({ tabId, url })
+    if (tabId) {
+        const winTabs = await listTabs({ active: true, windowId })
+        const firstActiveTab = winTabs?.[0]
+        // Cause there is no way to determine whether this tab is selected in screen-split mode
+        // So only show badge for first tab for screen-split mode
+        // @see #246
+        firstActiveTab?.id === tabId && badgeTextManager.forceUpdate({ tabId, url })
+    }
 }
 
 async function sendLimitedMessage(item: timer.limit.Item[]) {
