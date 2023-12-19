@@ -6,7 +6,7 @@
  */
 
 import { ElDialog, ElMessage } from "element-plus"
-import { defineComponent, h, nextTick, ref, Ref } from "vue"
+import { computed, defineComponent, h, nextTick, ref, Ref } from "vue"
 import Sop, { SopInstance } from "./sop"
 import limitService from "@service/limit-service"
 import { t } from "@app/locale"
@@ -28,6 +28,7 @@ const _default = defineComponent({
         const visible: Ref<boolean> = ref(false)
         const sop: Ref<SopInstance> = ref()
         const mode: Ref<Mode> = ref()
+        const title = computed(() => mode.value === "create" ? t(msg => msg.button.create) : t(msg => msg.button.modify))
         // Cache
         let modifyingItem: timer.limit.Rule = undefined
 
@@ -69,7 +70,7 @@ const _default = defineComponent({
         ctx.expose(instance)
 
         return () => h(ElDialog, {
-            title: t(msg => msg.limit.addTitle),
+            title: title.value,
             modelValue: visible.value,
             closeOnClickModal: false,
             onClose

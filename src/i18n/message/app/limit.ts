@@ -10,7 +10,6 @@ import resource from './limit-resource.json'
 export type LimitMessage = {
     conditionFilter: string
     filterDisabled: string
-    addTitle: string
     useWildcard: string
     urlPlaceholder: string
     step1: string
