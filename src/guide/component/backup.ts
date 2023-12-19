@@ -38,7 +38,7 @@ const _default = defineComponent(() => {
                 menuItem: t(msg => msg.appMenu.dataReport),
             }], [msg => msg.backup.query.enable, {
                 icon: h(ElButton, {
-                    type: 'text',
+                    text: true,
                     link: true,
                     icon: UploadFilled,
                     disabled: true
