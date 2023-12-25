@@ -11,6 +11,7 @@ import { defineComponent, h } from "vue"
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import { judgeVerificationRequired, processVerification } from "./common"
+import { locale } from "@i18n"
 
 const label = t(msg => msg.limit.item.operation)
 const deleteButtonText = t(msg => msg.button.delete)
@@ -42,6 +43,14 @@ async function handleModify(row: timer.limit.Item, callback: () => void) {
     }
 }
 
+const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
+    en: 200,
+    zh_CN: 200,
+    ja: 200,
+    zh_TW: 200,
+    pt_PT: 250,
+}
+
 const _default = defineComponent({
     emits: {
         rowDelete: (_row: timer.limit.Item, _cond: string) => true,
@@ -51,7 +60,7 @@ const _default = defineComponent({
         return () => h(ElTableColumn, {
             prop: 'operations',
             label,
-            width: 200,
+            width: LOCALE_WIDTH[locale],
             align: 'center',
         }, {
             default: ({ row }: { row: timer.limit.Item }) => [
