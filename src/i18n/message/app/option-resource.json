@@ -597,5 +597,55 @@
                 "current": "Corrente"
             }
         }
+    },
+    "uk": {
+        "yes": "Так",
+        "no": "Ні",
+        "resetButton": "Скинути",
+        "resetSuccess": "Скидання виконано успішно!",
+        "defaultValue": "Типово: {default}",
+        "popup": {
+            "title": "Вікно розширення",
+            "max": "Кількість записів для показу: {input}",
+            "defaultMergeDomain": "{input} Об'єднувати піддомени під час відкриття",
+            "defaultDisplay": "Дані для показу: {duration} {type}",
+            "displaySiteName": "{input}  Показувати {siteName} замість URL-адреси",
+            "weekStart": "Перший день тижня: {input}",
+            "weekStartAsNormal": "Типово"
+        },
+        "appearance": {
+            "title": "Зовнішній вигляд",
+            "displayWhitelist": "{input}  Показувати {whitelist} в {contextMenu}",
+            "whitelistItem": "комбінації клавіш для білого списку",
+            "contextMenu": "контекстному меню",
+            "displayBadgeText": "{input}  Показувати {timeInfo} на {icon}",
+            "icon": "піктограмі розширення",
+            "badgeTextContent": "час перегляду поточного вебсайту",
+            "locale": {
+                "label": "Мова: {input}",
+                "default": "Як у браузері",
+                "changeConfirm": "Мову успішно змінено. Перезавантажте сторінку!",
+                "reloadButton": "Перезавантажити"
+            },
+            "printInConsole": {
+                "label": "{input}  Показувати {info} в {console}",
+                "console": "консолі",
+                "info": "кількість відвідувань поточного вебсайту сьогодні"
+            },
+            "darkMode": {
+                "label": "Темний режим: {input}",
+                "options": {
+                    "default": "Як у браузері",
+                    "on": "Увімкнено",
+                    "off": "Вимкнено",
+                    "timed": "За розкладом"
+                }
+            }
+        },
+        "statistics": {
+            "title": "Статистика",
+            "countWhenIdle": "{input}  Враховувати {idleTime} {info}",
+            "idleTime": "час бездіяльності"
+        }
     }
 }

@@ -19,7 +19,6 @@
             "test": "网址测试",
             "option": "全局设置"
         },
-        "addTitle": "新增限制",
         "useWildcard": "是否使用通配符",
         "message": {
             "saved": "保存成功",
@@ -62,7 +61,6 @@
             "test": "網址測試",
             "option": "設置"
         },
-        "addTitle": "新增限製",
         "useWildcard": "是否使用通配符",
         "message": {
             "saved": "保存成功",
@@ -109,7 +107,6 @@
             "test": "Test URL",
             "option": "Options"
         },
-        "addTitle": "New",
         "useWildcard": "Whether to use wildcard",
         "message": {
             "saved": "Saved successfully",
@@ -152,7 +149,6 @@
             "test": "テストURL",
             "option": "設定"
         },
-        "addTitle": "新增",
         "useWildcard": "ワイルドカードを使用するかどうか",
         "message": {
             "noUrl": "埋められていない制限URL",
@@ -182,7 +178,6 @@
     "pt_PT": {
         "conditionFilter": "URL",
         "filterDisabled": "Apenas Habilitadas",
-        "addTitle": "Criar",
         "useWildcard": "Se deseja usar caractere curinga",
         "urlPlaceholder": "Cole a URL diretamente ➡️",
         "item": {
@@ -223,5 +218,49 @@
         },
         "step1": "Configurar URL",
         "step2": "Configurar regra"
+    },
+    "uk": {
+        "conditionFilter": "URL",
+        "filterDisabled": "Лише увімкнені",
+        "useWildcard": "Використовувати символ підставлення",
+        "urlPlaceholder": "Вставте URL-адресу ➡️",
+        "item": {
+            "condition": "Обмежена URL-адреса",
+            "time": "Денний ліміт",
+            "waste": "Переглянуто сьогодні",
+            "enabled": "Увімкнено",
+            "delayAllowed": "Ще 5 хвилин",
+            "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин",
+            "operation": "Операції",
+            "visitTime": "Ліміт на відвідування",
+            "period": "Недозволені періоди"
+        },
+        "button": {
+            "test": "Тестова URL-адреса",
+            "option": "Налаштування"
+        },
+        "message": {
+            "saved": "Успішно збережено",
+            "noUrl": "Не заповнена обмежена URL-адреса",
+            "deleteConfirm": "Ви дійсно хочете видалити правило {cond}?",
+            "deleted": "Успішно видалено",
+            "noPermissionFirefox": "Спершу ввімкніть дозвіл доступу до буфера обміну для цього додатку на сторінці керування (about:addons)",
+            "inputTestUrl": "Спочатку введіть URL-адресу посилання для перевірки",
+            "clickTestButton": "Після введення натисніть кнопку ({buttonText})",
+            "noRuleMatched": "URL не відповідає жодному правилу",
+            "rulesMatched": "URL-адреса отримує такі правила:",
+            "noRule": "Не заповнено жодного правила"
+        },
+        "verification": {
+            "inputTip": "Це правило вже було запущено. Щоб змінити його, введіть відповідь на наступний запит: {prompt}",
+            "inputTip2": "Це правило вже було запущено. Щоб змінити його, введіть його як є: {answer}",
+            "pswInputTip": "Це правило вже було запущено. Щоб змінити його, введіть пароль розблокування",
+            "incorrectPsw": "Неправильний пароль",
+            "incorrectAnswer": "Неправильна відповідь",
+            "pi": "{digitCount} цифр від {startIndex} до {endIndex} десяткової частини числа π",
+            "confession": "Час спливає"
+        },
+        "step1": "URL конфігурації",
+        "step2": "Правило конфігурації"
     }
 }

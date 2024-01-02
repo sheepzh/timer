@@ -18,7 +18,7 @@ function calcGroupKey(row: timer.stat.RowBase): string {
 
 /**
  * Compress row array to gist row
- * 
+ *
  * @param rows row array
  */
 function compress(rows: timer.stat.RowBase[]): GistData {
@@ -36,10 +36,10 @@ function compress(rows: timer.stat.RowBase[]): GistData {
 
 /**
  * Divide rows to buckets
- * 
+ *
  * @returns [bucket, data][]
  */
-export function devide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][] {
+export function divide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][] {
     const grouped: { [yearAndPart: string]: GistData } = groupBy(rows.filter(r => !!r), calcGroupKey, compress)
     return Object.entries(grouped)
 }
@@ -63,7 +63,7 @@ export function calcAllBuckets(startDate: string, endDate: string) {
 
 /**
  * Gist data 2 rows
- * 
+ *
  * @param filename yearMonth
  * @param gistData gistData
  * @returns rows

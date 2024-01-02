@@ -48,5 +48,15 @@
         "infoAlert1": "Sites na lista ignorada não serão restritos",
         "placeholder": "URL do Site",
         "errorInput": "URL inválido do site"
+    },
+    "uk": {
+        "addConfirmMsg": "{url} не враховуватиметься після додавання до білого списку.",
+        "removeConfirmMsg": "{url} буде вилучено з білого списку.",
+        "duplicateMsg": "Дублікат",
+        "infoAlertTitle": "На цій сторінці ви можете налаштувати білий список сайтів",
+        "infoAlert0": "Сайти в білому списку не враховуватимуться",
+        "infoAlert1": "Сайти в білому списку не матимуть обмежень",
+        "placeholder": "URL-адреса сайту",
+        "errorInput": "Неприпустима URL-адреса сайту"
     }
 }

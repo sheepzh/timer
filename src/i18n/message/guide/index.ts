@@ -35,7 +35,7 @@ export type GuideMessage = {
     appMenu: AppMenuMessage
 }
 
-const _default: Messages<GuideMessage> = {
+const _default: Required<Messages<GuideMessage>> = {
     zh_CN: {
         mergeCommon: mergeCommonMessages.zh_CN,
         layout: layoutMessages.zh_CN,
@@ -110,6 +110,21 @@ const _default: Messages<GuideMessage> = {
         limit: limitMessages.pt_PT,
         backup: backupMessages.pt_PT,
         appMenu: appMenuMessages.pt_PT,
+    },
+    uk: {
+        mergeCommon: mergeCommonMessages.uk,
+        layout: layoutMessages.uk,
+        home: homeMessages.uk,
+        start: startMessages.uk,
+        privacy: privacyMessages.uk,
+        meta: metaMessages.uk,
+        base: baseMessages.uk,
+        app: appMessages.uk,
+        merge: mergeMessages.uk,
+        virtual: virtualMessages.uk,
+        limit: limitMessages.uk,
+        backup: backupMessages.uk,
+        appMenu: appMenuMessages.uk,
     },
 }
 

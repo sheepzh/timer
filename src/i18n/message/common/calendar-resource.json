@@ -4,6 +4,7 @@
         "months": "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}",
+        "simpleTimeFormat": "{m}/{d} {h}:{i}",
         "label": {
             "startDate": "开始日期",
             "endDate": "结束日期"
@@ -25,6 +26,7 @@
         "months": "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}",
+        "simpleTimeFormat": "{m}/{d} {h}:{i}",
         "label": {
             "startDate": "開始日期",
             "endDate": "結束日期"
@@ -46,6 +48,7 @@
         "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
         "dateFormat": "{m}/{d}/{y}",
         "timeFormat": "{m}/{d}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{m}/{d} {h}:{i}",
         "label": {
             "startDate": "Start date",
             "endDate": "End date"
@@ -67,6 +70,7 @@
         "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Set|Oct|Nov|Dec",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}",
+        "simpleTimeFormat": "{m}/{d} {h}:{i}",
         "label": {
             "startDate": "開始日",
             "endDate": "終了日"
@@ -88,6 +92,7 @@
         "months": "Jan|Fev|Mar|Abr|Maio|Jun|Jul|Ago|Set|Out|Nov|Dez",
         "dateFormat": "{d}/{m}/{y}",
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}",
         "label": {
             "startDate": "Data de início",
             "endDate": "Data de fim"
@@ -102,6 +107,27 @@
             "last60Days": "Últimos 60 dias",
             "last90Days": "Últimos 90 dias",
             "last24Hours": "Últimas 24 horas"
+        }
+    },
+    "uk": {
+        "weekDays": "Пн|Вт|Ср|Чт|Пт|Сб|Нд",
+        "months": "Січ|Лют|Бер|Кві|Тра|Чер|Лип|Сер|Вер|Жов|Лис|Гру",
+        "dateFormat": "{d}.{m}.{y}",
+        "timeFormat": "{d}.{m}.{y}, {h}:{i}:{s}",
+        "label": {
+            "startDate": "Дата початку",
+            "endDate": "Дата завершення"
+        },
+        "range": {
+            "today": "Сьогодні",
+            "yesterday": "Учора",
+            "last24Hours": "Минулі 24 години",
+            "last3Days": "Минулі 3 дні",
+            "last7Days": "Минулих 7 днів",
+            "last15Days": "Минулих 15 днів",
+            "last30Days": "Минулих 30 днів",
+            "last60Days": "Минулих 60 днів",
+            "last90Days": "Минулих 90 днів"
         }
     }
 }

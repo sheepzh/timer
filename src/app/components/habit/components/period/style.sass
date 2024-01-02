@@ -1,0 +1,17 @@
+.habit-period-content
+    height: 300px
+    display: flex
+    >div
+        display: flex
+    >div:not(:first-child)
+        border-left: var(--timer-kanban-border)
+    .col0
+        flex: 1 1 0
+        flex-direction: column
+        .indicator-wrapper
+            flex: 1
+            width: 100%
+        .indicator-wrapper:not(:first-child)
+            border-top: var(--timer-kanban-border)
+    .col1
+        flex: 3 1 0

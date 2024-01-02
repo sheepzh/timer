@@ -16,7 +16,10 @@ export function createZeroResult(): timer.stat.Result {
 }
 
 export function mergeResult(a: timer.stat.Result, b: timer.stat.Result): timer.stat.Result {
-    return { focus: a.focus + b.focus, time: a.time + b.time }
+    return {
+        focus: (a?.focus ?? 0) + (b?.focus ?? 0),
+        time: (a?.time ?? 0) + (b?.time ?? 0),
+    }
 }
 
 export function resultOf(focus: number, time: number): timer.stat.Result {

@@ -47,6 +47,12 @@ const messages: Messages<ChromeMessage> = {
         base: baseMessages.pt_PT,
         contextMenus: contextMenusMessages.pt_PT,
         initial: initialMessages.pt_PT,
+    },
+    uk: {
+        meta: metaMessages.uk,
+        base: baseMessages.uk,
+        contextMenus: contextMenusMessages.uk,
+        initial: initialMessages.uk,
     }
 }
 

@@ -24,12 +24,12 @@ type _FilterResult = {
 }
 
 function filterHost(host: string, condition: _StatCondition): boolean {
-    const paramHost = (condition.host || '').trim()
-    const exlcusiveVirtual = condition.exlcusiveVirtual
+    const paramHost = condition.host?.trim() || ''
+    const exclusiveVirtual = condition.exclusiveVirtual
     if (!paramHost) return true
     if (!!condition.fullHost && host !== paramHost) return false
     if (!condition.fullHost && !host.includes(paramHost)) return false
-    if (exlcusiveVirtual && judgeVirtualFast(host)) return false
+    if (exclusiveVirtual && judgeVirtualFast(host)) return false
     return true
 }
 
@@ -54,12 +54,12 @@ function filterNumberRange(val: number, range: number[]): boolean {
 
 /**
  * Filter by query parameters
- * 
+ *
  * @param date date of item
  * @param host  host of item
  * @param val  val of item
  * @param condition  query parameters
- * @return true if valid, or false  
+ * @return true if valid, or false
  */
 function filterByCond(result: _FilterResult, condition: _StatCondition): boolean {
     const { host, date, value } = result

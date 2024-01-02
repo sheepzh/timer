@@ -1,6 +1,6 @@
-import { devide2Buckets, gistData2Rows } from "@src/common/backup/gist/compressor"
+import { divide2Buckets, gistData2Rows } from "@src/common/backup/gist/compressor"
 
-test('devide 1', () => {
+test('divide 1', () => {
     const rows: timer.stat.Row[] = [{
         host: 'www.baidu.com',
         date: '20220801',
@@ -17,9 +17,9 @@ test('devide 1', () => {
         mergedHosts: [],
         virtual: false,
     }]
-    const devided = devide2Buckets(rows)
-    expect(devided.length).toEqual(1)
-    const [bucket, gistData] = devided[0]
+    const divided = divide2Buckets(rows)
+    expect(divided.length).toEqual(1)
+    const [bucket, gistData] = divided[0]
     expect(bucket).toEqual('202208')
     const expectData: GistData = {
         "01": {

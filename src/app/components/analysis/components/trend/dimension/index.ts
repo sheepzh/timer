@@ -10,7 +10,7 @@ import type { PropType } from "vue"
 
 import { computeRingText, formatValue } from "@app/components/analysis/util"
 import { defineComponent, h } from "vue"
-import Indicator from "../../common/indicator"
+import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import Chart from "./chart"
 import { cvt2LocaleTime } from "@app/util/time"
 
@@ -24,7 +24,7 @@ type RenderProps = {
 }
 
 const renderMax = ({ maxLabel, maxValue, valueFormatter: formatter, maxDate }: RenderProps) =>
-    h('div', { class: 'analysis-trend-dimension-indicator-item' }, h(Indicator, {
+    h('div', { class: 'analysis-trend-dimension-indicator-item' }, h(KanbanIndicatorCell, {
         mainName: maxLabel,
         mainValue: formatter ? formatter(maxValue) : maxValue?.toString() || '-',
         subValue: maxDate ? `@${cvt2LocaleTime(maxDate)}` : '',
@@ -32,7 +32,7 @@ const renderMax = ({ maxLabel, maxValue, valueFormatter: formatter, maxDate }: R
 
 const renderAverage = ({ averageLabel, valueFormatter, average }: RenderProps) => {
     const currentAverage = average?.[0]
-    return h('div', { class: 'analysis-trend-dimension-indicator-item' }, h(Indicator, {
+    return h('div', { class: 'analysis-trend-dimension-indicator-item' }, h(KanbanIndicatorCell, {
         mainName: averageLabel,
         mainValue: formatValue(currentAverage, valueFormatter),
         subTips: msg => msg.analysis.common.ringGrowth,

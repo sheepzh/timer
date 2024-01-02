@@ -9,18 +9,18 @@ import type { Gist, GistForm, File, FileForm } from "@api/gist"
 
 import { getJsonFileContent, findTarget, getGist, createGist, updateGist, testToken } from "@api/gist"
 import { SOURCE_CODE_PAGE } from "@util/constant/url"
-import { calcAllBuckets, devide2Buckets, gistData2Rows } from "./compressor"
+import { calcAllBuckets, divide2Buckets, gistData2Rows } from "./compressor"
 import MonthIterator from "@util/month-iterator"
 import { formatTime } from "@util/time"
 
 const TIMER_META_GIST_DESC = "Used for timer to save meta info. Don't change this description :)"
 const TIMER_DATA_GIST_DESC = "Used for timer to save stat data. Don't change this description :)"
 
-const READEME_FILE_NAME = "README.md"
+const README_FILE_NAME = "README.md"
 const CLIENT_FILE_NAME = "clients.json"
 
 const INIT_README_MD: FileForm = {
-    filename: READEME_FILE_NAME,
+    filename: README_FILE_NAME,
     content: `Created by [TIMER](${SOURCE_CODE_PAGE}) automatically, please DO NOT edit this gist!`
 }
 
@@ -30,7 +30,7 @@ const INIT_CLIENT_JSON: FileForm = {
 }
 
 /**
- * Local cache of gist 
+ * Local cache of gist
  */
 type Cache = {
     /**
@@ -65,7 +65,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
             return
         }
         const files: { [filename: string]: FileForm } = {}
-        files[READEME_FILE_NAME] = INIT_README_MD
+        files[README_FILE_NAME] = INIT_README_MD
         files[CLIENT_FILE_NAME] = {
             filename: CLIENT_FILE_NAME,
             content: JSON.stringify(clients)
@@ -105,7 +105,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
 
     async upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void> {
         const cid = context.cid
-        const buckets = devide2Buckets(rows)
+        const buckets = divide2Buckets(rows)
         const gist = await this.getStatGist(context)
         const files2Update: { [filename: string]: FileForm } = {}
         for (const [bucket, gistData] of buckets) {
@@ -177,7 +177,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         }
         // 3. Create new one
         const files = {}
-        files[READEME_FILE_NAME] = INIT_README_MD
+        files[README_FILE_NAME] = INIT_README_MD
         const gist2Create: GistForm = { description: TIMER_DATA_GIST_DESC, files, public: false }
         const created = await createGist(auth, gist2Create)
         const newId = created?.id

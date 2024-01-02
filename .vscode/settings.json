@@ -1,28 +1,24 @@
 {
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
-  "vetur.format.defaultFormatter.js": "vscode-typescript",
-  "vetur.format.defaultFormatterOptions": {
-    "js-beautify-html": {
-      "wrap_attributes": "force-aligned"
-    }
-  },
-  "editor.tabSize": 4,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true
-  },
-  "prettier.eslintIntegration": true,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "cSpell.words": [
-    "Echart",
-    "cond",
-    "countup",
-    "daterange",
-    "dkdhhcbjijekmneelocdllcldcpmekmm",
-    "emsp",
-    "ensp",
-    "fepjgblalcnepokjblgbgmapmlkgfahc"
-  ]
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "always"
+    },
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "cSpell.words": [
+        "Auths",
+        "echarts",
+        "Hengyang",
+        "Kanban"
+    ],
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/objects",
+        ".vscode",
+        ".vscode-insiders",
+        // Ignore i18n resources
+        "src/i18n/message/**/*.json",
+    ],
 }

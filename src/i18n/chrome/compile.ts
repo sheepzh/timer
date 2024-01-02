@@ -19,7 +19,7 @@ function compile(obj: any, parentKey = ''): any {
                 result[childKey] = children[childKey]
             }
         }
-    } else {
+    } else if (parentKey) {
         result[parentKey] = {
             message: obj + '',
             description: 'None'

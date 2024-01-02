@@ -68,5 +68,19 @@
         "dont": "NÃO!",
         "previous": "Voltar",
         "next": "Continuar"
+    },
+    "uk": {
+        "create": "Новий",
+        "delete": "Видалити",
+        "modify": "Змінити",
+        "save": "Зберегти",
+        "test": "Тест",
+        "paste": "Вставити",
+        "confirm": "Підтвердити",
+        "cancel": "Скасувати",
+        "okey": "Гаразд",
+        "dont": "НІ",
+        "previous": "Назад",
+        "next": "Далі"
     }
 }

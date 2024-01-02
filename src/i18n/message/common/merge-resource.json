@@ -28,5 +28,11 @@
             "blank": "Não Mesclar",
             "level": "Mantenha o Nível {level}"
         }
+    },
+    "uk": {
+        "tagResult": {
+            "blank": "Не об'єднувати",
+            "level": "Зберегти рівень {level}"
+        }
     }
 }

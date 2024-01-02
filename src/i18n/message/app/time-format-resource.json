@@ -28,5 +28,11 @@
         "hour": "Exibir em horas",
         "minute": "Exibir em minutos",
         "second": "Exibir em segundos"
+    },
+    "uk": {
+        "default": "Типовий формат часу",
+        "hour": "Показувати в годинах",
+        "minute": "Показувати у хвилинах",
+        "second": "Показувати в секундах"
     }
 }

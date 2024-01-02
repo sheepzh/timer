@@ -38,8 +38,8 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
     const existedAliasSet = new Set()
     const existedKeys = await siteService.existBatch(allAlias)
     existedKeys.forEach(key => existedAliasSet.add(cvt2OptionValue(key)))
-    const existedOptions = []
-    const notExistedOptions = []
+    const existedOptions: _OptionInfo[] = []
+    const notExistedOptions: _OptionInfo[] = []
     allAlias.forEach(siteKey => {
         const hasAlias = existedAliasSet.has(cvt2OptionValue(siteKey))
         const props: _OptionInfo = { siteKey, hasAlias }
@@ -48,11 +48,16 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
 
     const originalOptions = [...notExistedOptions, ...existedOptions]
 
-    const result = []
-    // Not exist host, insert virtual site into the first
-    const existsHost = originalOptions.find(o => o.siteKey?.host === query)
-    !existsHost && isValidVirtualHost(query) && result.push({ siteKey: { host: query, virtual: true }, hasAlias: false })
-    result.push(...originalOptions)
+    const result: _OptionInfo[] = []
+    const existIdx = originalOptions.findIndex(o => o.siteKey?.host === query)
+    if (existIdx === -1) {
+        // Not exist host, insert site into the first
+        result.push({ siteKey: { host: query, virtual: isValidVirtualHost(query) }, hasAlias: false })
+        result.push(...originalOptions)
+    } else {
+        result.push(originalOptions[existIdx])
+        originalOptions.forEach((opt, idx) => idx !== existIdx && result.push(opt))
+    }
 
     searchedHosts.value = result
     searching.value = false

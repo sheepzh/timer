@@ -9,11 +9,11 @@ import PeriodDatabase from "@db/period-database"
 import statService from "@service/stat-service"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { defineComponent, h, ref, Ref } from "vue"
-import { groupBy } from "@util/array"
 import NumberGrow from "@app/components/common/number-grow"
 import "./style"
 import { tN } from "@app/locale"
 import IndicatorHeaderIcon from "./header-icon"
+import { calcMostPeriodOf2Hours } from "@util/period"
 
 const CONTAINER_ID = "__timer-indicator-container"
 
@@ -36,7 +36,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: timer.stat.Row[] = await statService.select({ exlcusiveVirtual: true })
+    const allData: timer.stat.Row[] = await statService.select({ exclusiveVirtual: true })
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0
@@ -46,29 +46,7 @@ async function query(): Promise<_Value> {
         browsingTime += focus
     })
     const periodInfos: timer.period.Result[] = await periodDatabase.getAll()
-    const periodCount = periodInfos?.length || 0
-    // Order [0, 95]
-    const averageTimePerPeriod: { [order: number]: number } = groupBy(periodInfos,
-        p => p.order,
-        (grouped: timer.period.Result[]) => {
-            const periodMills = grouped.map(p => p.milliseconds)
-            if (!periodCount) {
-                return 0
-            }
-            return Math.floor(periodMills.reduce((a, b) => a + b, 0) / periodCount)
-        }
-    )
-    // Merged per 2 hours
-    const averageTimePer2Hours: { [idx: number]: number } = groupBy(Object.entries(averageTimePerPeriod),
-        ([order]) => Math.floor(parseInt(order) / 8),
-        averages => averages.map(a => a[1]).reduce((a, b) => a + b, 0)
-    )
-    // The two most frequent online hours
-    const most2Hour: number = parseInt(
-        Object.entries(averageTimePer2Hours)
-            .sort((a, b) => a[1] - b[1])
-            .reverse()[0]?.[0]
-    )
+    const most2Hour = calcMostPeriodOf2Hours(periodInfos)
 
     const result: _Value = {
         sites: hostSet?.size || 0,

@@ -18,5 +18,9 @@
     "pt_PT": {
         "confirmTitle": "Confirmação de Ação",
         "successMsg": "Com êxito!"
+    },
+    "uk": {
+        "confirmTitle": "Підтвердження",
+        "successMsg": "Успішно!"
     }
 }
