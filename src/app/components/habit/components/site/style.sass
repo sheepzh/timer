@@ -1,0 +1,21 @@
+.habit-site-content
+    height: 254px
+    display: flex
+    >div
+        display: flex
+    >div:not(:first-child)
+        border-left: var(--timer-kanban-border)
+    .col0
+        flex: 4 1 0
+        flex-direction: column
+        .indicator-wrapper
+            flex: 1
+            width: 100%
+        .indicator-wrapper:not(:first-child)
+            border-top: var(--timer-kanban-border)
+    .col1
+        flex: 6 1 0
+    .col2
+        flex: 3 1 0
+    .col3
+        flex: 3 1 0

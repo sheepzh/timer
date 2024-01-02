@@ -12,6 +12,7 @@ export type CalendarMessage = {
     months: string
     dateFormat: string
     timeFormat: string
+    simpleTimeFormat: string
     label: {
         startDate: string
         endDate: string

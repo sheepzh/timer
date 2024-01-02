@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -20,7 +20,7 @@ const _default = defineComponent({
     setup(props) {
         const elRef: Ref<HTMLDivElement> = ref()
         const wrapper: ChartWrapper = new ChartWrapper()
-        const render = () => wrapper.render(props.data, props.title, props.valueFormatter)
+        const render = () => wrapper.render({ entries: props.data, title: props.title, valueFormatter: props.valueFormatter })
 
         watch(() => props.data, render)
         watch(() => props.valueFormatter, render)

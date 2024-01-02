@@ -42,7 +42,7 @@ const _default = defineComponent({
             d: 'DD'
         })
         const dateRange: Ref<[Date, Date]> = ref(props.dateRange)
-        return () => h('div', { class: 'analysis-trend-filter' }, [
+        return () => h('div', [
             h(ElDatePicker, {
                 modelValue: dateRange.value,
                 disabledDate: (date: Date) => date.getTime() > new Date().getTime(),

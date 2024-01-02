@@ -190,7 +190,7 @@ function optionOf(data: _Value[], days: string[]): EcOption {
 
 /**
  * Click to jump to the report page
- * 
+ *
  * @since 1.1.1
  */
 function handleClick(value: _Value): void {

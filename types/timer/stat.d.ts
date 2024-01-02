@@ -17,7 +17,7 @@ declare namespace timer.stat {
 
     /**
      * The stat result of host
-     * 
+     *
      * @since 0.0.1
      */
     type Result = {
@@ -26,7 +26,7 @@ declare namespace timer.stat {
 
     /**
      * A set of results
-     * 
+     *
      * @since 0.3.3
      */
     type ResultSet = { [host: string]: Result }
@@ -48,15 +48,14 @@ declare namespace timer.stat {
     type Row = RowBase & {
         /**
          * The merged domains
-         * 
          * Can't be empty if merged
-         * 
+         *
          * @since 0.1.5
          */
         mergedHosts: Row[]
         /**
          * Whether virtual host
-         * 
+         *
          * @since 1.6.0
          */
         virtual: boolean
@@ -66,7 +65,6 @@ declare namespace timer.stat {
         composition?: RemoteComposition
         /**
          * Icon url
-         * 
          * Must be undefined if merged
          */
         iconUrl?: string
@@ -75,11 +73,11 @@ declare namespace timer.stat {
          */
         alias?: string
         /**
-         * The id of client where the remote data is storaged
+         * The id of client where the remote data is stored
          */
         cid?: string
         /**
-         * The name of client where the remote data is storaged
+         * The name of client where the remote data is stored
          */
         cname?: string
     }

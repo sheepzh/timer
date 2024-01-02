@@ -26,7 +26,7 @@ export type AuthCheckResult = {
     errorMsg?: string
 }
 
-class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContext<Cache>{
+class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContext<Cache> {
     auth: string
     ext?: timer.backup.TypeExt
     cache: Cache
@@ -128,7 +128,7 @@ async function syncFull(
 }
 
 function filterClient(c: timer.backup.Client, excludeLocal: boolean, localClientId: string, start: string, end: string) {
-    // Excluse local client
+    // Exclude local client
     if (excludeLocal && c.id === localClientId) return false
     // Judge range
     if (start && c.maxDate && c.maxDate < start) return false

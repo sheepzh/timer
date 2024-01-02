@@ -8,14 +8,13 @@ import type { DimensionEntry, ValueFormatter } from "@app/components/analysis/ut
 import type { PropType, Ref, ComputedRef } from "vue"
 
 import { defineComponent, h, ref, watch, computed } from "vue"
-import RowCard from "../common/row-card"
+import { KanbanCard } from "@app/components/common/kanban"
 import Filter from "./filter"
 import Total from "./total"
 import Dimension from "./dimension"
 import { t } from "@app/locale"
 import './style.sass'
-import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLenth } from "@util/time"
-import { ElRow } from "element-plus"
+import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLength } from "@util/time"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { groupBy } from "@util/array"
 
@@ -95,7 +94,7 @@ function computeIndicatorSet(rows: timer.stat.Row[], dateRange: [Date, Date]): [
 function lastRange(dateRange: [Date, Date]): [Date, Date] {
     const [start, end] = dateRange || []
     if (!start || !end) return undefined
-    const dayLength = getDayLenth(start, end)
+    const dayLength = getDayLength(start, end)
     const newEnd = new Date(start.getTime() - MILL_PER_DAY)
     const newStart = new Date(start.getTime() - MILL_PER_DAY * dayLength)
     return [newStart, newEnd]
@@ -195,7 +194,7 @@ const _default = defineComponent({
         const indicators: Ref<IndicatorSet> = ref()
         const lastIndicators: Ref<IndicatorSet> = ref()
         const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
-        const rangeLength: ComputedRef<number> = computed(() => getDayLenth(dateRange.value?.[0], dateRange.value?.[1]))
+        const rangeLength: ComputedRef<number> = computed(() => getDayLength(dateRange.value?.[0], dateRange.value?.[1]))
 
         const compute = () => handleDataChange(
             { dateRange: dateRange.value, rows: props.rows },
@@ -207,20 +206,19 @@ const _default = defineComponent({
         watch(() => props.timeFormat, () => timeFormat.value = props.timeFormat)
 
         compute()
-        return () => h(RowCard, {
+        return () => h(KanbanCard, {
             title: t(msg => msg.analysis.trend.title),
-            class: 'analysis-trend-container',
-        }, () => [
-            h(Filter, {
+        }, {
+            filter: () => h(Filter, {
                 dateRange: dateRange.value,
                 onDateRangeChange: (newVal: [Date, Date]) => dateRange.value = newVal,
             }),
-            h(ElRow, { class: 'analysis-trend-content' }, () => [
+            default: () => h('div', { class: 'analysis-trend-content' }, [
                 renderTotal(indicators.value, lastIndicators.value, timeFormat.value, rangeLength.value),
                 renderFocusTrend(indicators.value, lastIndicators.value, timeFormat.value, focusData.value),
                 renderVisitTrend(indicators.value, lastIndicators.value, visitData.value),
             ])
-        ])
+        })
     }
 })
 

@@ -6,7 +6,19 @@
     },
     "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
     "cSpell.words": [
+        "Auths",
         "echarts",
-        "Hengyang"
+        "Hengyang",
+        "Kanban"
+    ],
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/objects",
+        ".vscode",
+        ".vscode-insiders",
+        // Ignore i18n resources
+        "src/i18n/message/**/*.json",
     ],
 }

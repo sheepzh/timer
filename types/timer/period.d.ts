@@ -9,6 +9,7 @@ declare namespace timer.period {
          */
         order: number
     }
+    type KeyRange = [Key, Key]
     type Result = Key & {
         /**
          * 1~900000

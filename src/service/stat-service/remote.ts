@@ -52,8 +52,8 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
 }
 
 /**
- * Aable to read remote backup data
- * 
+ * Enabled to read remote backup data
+ *
  * @since 1.2.0
  * @returns T/F
  */

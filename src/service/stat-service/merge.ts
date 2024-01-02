@@ -15,15 +15,12 @@ const mergeRuleDatabase = new MergeRuleDatabase(storage)
 function merge(map: Record<string, timer.stat.Row>, origin: timer.stat.Row, key: string): timer.stat.Row {
     let exist: timer.stat.Row = map[key]
     !exist && (exist = map[key] = {
-        host: origin.host,
-        date: origin.date,
+        ...origin,
         focus: 0,
         time: 0,
         mergedHosts: [],
         composition: { focus: [], time: [] },
-        cid: origin.cid,
-        cname: origin.cname,
-        virtual: false
+        virtual: false,
     })
 
     exist.time += origin.time

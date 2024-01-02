@@ -1,25 +1,28 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import type { Ref } from "vue"
+import type { FilterOption } from "./type"
 
-import { defineComponent, h, ref, onMounted } from "vue"
+import { defineComponent, h, ref, onMounted, computed, watch } from "vue"
 import periodService from "@service/period-service"
+import statService from "@service/stat-service"
 import { daysAgo, isSameDay } from "@util/time"
 import ContentContainer from "@app/components/common/content-container"
-import HabitChart, { HabitChartInstance } from "./component/chart"
-import HabitFilter from "./component/filter"
+import HabitFilter from "./components/filter"
+import Site from "./components/site"
+import Period from "./components/period"
 import { keyOf, MAX_PERIOD_ORDER, keyBefore } from "@util/period"
+import { initProvider } from "./components/context"
 
-function computeParam(periodSize: Ref<number>, dateRange: Ref<[Date, Date]>, averageByDate: Ref<boolean>) {
-    let dateRangeVal = dateRange.value
-    if (dateRangeVal.length !== 2) dateRangeVal = daysAgo(1, 0)
-    const endDate = typeof dateRangeVal[1] === 'object' ? dateRangeVal[1] : null
-    const startDate = typeof dateRangeVal[0] === 'object' ? dateRangeVal[0] : null
+function computeParam(dateRange: [Date, Date]): timer.period.KeyRange {
+    if (dateRange.length !== 2) dateRange = daysAgo(1, 0)
+    const endDate = typeof dateRange[1] === 'object' ? dateRange[1] : null
+    const startDate = typeof dateRange[0] === 'object' ? dateRange[0] : null
     const now = new Date()
     const endIsToday = isSameDay(now, endDate)
 
@@ -32,50 +35,38 @@ function computeParam(periodSize: Ref<number>, dateRange: Ref<[Date, Date]>, ave
         periodEnd = keyOf(endDate, MAX_PERIOD_ORDER)
         periodStart = keyOf(startDate, 0)
     }
-
-    const remainder = (periodEnd.order + 1) % periodSize.value
-    if (remainder) {
-        periodEnd = keyBefore(periodEnd, remainder)
-        periodStart = keyBefore(periodStart, remainder)
-    }
-
-    return {
-        dateRange: dateRange.value,
-        // Must query one by one, if average
-        periodSize: averageByDate.value ? 1 : periodSize.value,
-        periodStart,
-        periodEnd
-    }
+    return [periodStart, periodEnd]
 }
 
 const _default = defineComponent({
     setup() {
-        const chart: Ref<HabitChartInstance> = ref()
-        const periodSize: Ref<number> = ref(1)
-        const dateRange: Ref<[Date, Date]> = ref(daysAgo(1, 0))
-        const averageByDate: Ref<boolean> = ref(false)
+        const filter: Ref<FilterOption> = ref({
+            dateRange: daysAgo(7, 0),
+            timeFormat: "default",
+        })
+        const periodRange = computed(() => computeParam(filter.value?.dateRange))
+        const periodResults: Ref<timer.period.Result[]> = ref([])
+        const rows: Ref<timer.stat.Row[]> = ref([])
 
-        async function queryAndRender() {
-            const queryParam = computeParam(periodSize, dateRange, averageByDate)
-            const result = await periodService.list(queryParam)
-            chart.value.render?.(result, averageByDate.value, periodSize.value)
+        initProvider(filter)
+
+        async function fetchData() {
+            periodResults.value = await periodService.list({ periodRange: periodRange.value })
+            rows.value = await statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true)
         }
 
-        onMounted(queryAndRender)
+        watch(filter, fetchData)
+        onMounted(fetchData)
 
         return () => h(ContentContainer, {}, {
             filter: () => h(HabitFilter, {
-                periodSize: periodSize.value,
-                dateRange: dateRange.value,
-                averageByDate: averageByDate.value,
-                onChange(newVal: HabitFilterOption) {
-                    periodSize.value = newVal.periodSize
-                    dateRange.value = newVal.dateRange
-                    averageByDate.value = newVal.averageByDate
-                    queryAndRender()
-                }
+                defaultValue: filter.value,
+                onChange: newVal => newVal && (filter.value = { ...newVal }),
             }),
-            content: () => h(HabitChart, { ref: chart })
+            default: () => [
+                h(Site),
+                h(Period),
+            ]
         })
     }
 })

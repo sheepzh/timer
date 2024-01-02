@@ -12,7 +12,7 @@ import { ref, h, defineComponent } from "vue"
 import statService, { HostSet } from "@service/stat-service"
 import siteService from "@service/site-service"
 import { t } from "@app/locale"
-import SelectFilterItem from "@app/components/common/select-filter-item"
+import TimeFormatFilterItem from "@app/components/common/time-format-filter-item"
 import { labelOfHostInfo } from "../util"
 
 const calcUniqueKey = ({ host, virtual, merged }: timer.site.SiteInfo) => `${host}${virtual ? 1 : 0}${merged ? 1 : 0}`
@@ -44,13 +44,6 @@ async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<time
 }
 
 const HOST_PLACEHOLDER = t(msg => msg.analysis.common.hostPlaceholder)
-
-const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {
-    default: t(msg => msg.timeFormat.default),
-    second: t(msg => msg.timeFormat.second),
-    minute: t(msg => msg.timeFormat.minute),
-    hour: t(msg => msg.timeFormat.hour)
-}
 
 function keyOfHostInfo(option: timer.site.SiteKey): string {
     const { merged, virtual, host } = option
@@ -135,10 +128,8 @@ const _default = defineComponent({
                     label: labelOfHostInfo(siteInfo),
                 }, () => renderHostLabel(siteInfo))
             )),
-            h(SelectFilterItem, {
-                historyName: 'timeFormat',
+            h(TimeFormatFilterItem, {
                 defaultValue: timeFormat.value,
-                options: TIME_FORMAT_LABELS,
                 onSelect: (newVal: timer.app.TimeFormat) => ctx.emit('timeFormatChange', timeFormat.value = newVal)
             })
         ]

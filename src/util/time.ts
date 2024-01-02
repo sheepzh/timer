@@ -1,19 +1,19 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 /**
  * Copyright (c) 2017-present PanJiaChen
- * 
+ *
  * This function is released under the MIT License.
  * https://opensource.org/licenses/MIT
- * 
+ *
  * Created by PanJiaChen on 16/11/18.
  * @see https://github.com/PanJiaChen/vue-element-admin/blob/HEAD/src/utils/index.js
- * 
+ *
  * Parse the time to string
  */
 export function formatTime(time: Date | string | number, cFormat?: string) {
@@ -76,14 +76,14 @@ export function formatPeriod(milliseconds: number, message: { hourMsg: string, m
 }
 
 /**
- * e.g. 
- * 
+ * e.g.
+ *
  * 100h0m0s
  * 20h10m59s
  * 20h0m1s
  * 10m20s
  * 30s
- * 
+ *
  * @return (xx+h)(xx+m)xx+s
  */
 export function formatPeriodCommon(milliseconds: number): string {
@@ -97,7 +97,7 @@ export function formatPeriodCommon(milliseconds: number): string {
 
 /**
  * Milliseconds per day
- * 
+ *
  * @since 0.0.8
  */
 export const MILL_PER_DAY = 3600 * 1000 * 24
@@ -122,7 +122,7 @@ export function isSameDay(a: Date, b: Date): boolean {
  * Get the start time and end time of this week
  * @param now the specific time
  * @returns [startTime, endTime]
- * 
+ *
  * @since 0.6.0
  */
 export function getWeekTime(now: Date, isChinese: boolean): [Date, Date] {
@@ -134,7 +134,7 @@ export function getWeekTime(now: Date, isChinese: boolean): [Date, Date] {
 
 /**
  * Get the start time {@param weekCount} weeks ago
- * 
+ *
  * @param now the specific time
  * @param weekCount weekCount
  * @since 1.0.0
@@ -158,10 +158,10 @@ export function getWeekDay(now: Date, isChinese: boolean): number {
 
 /**
  * Get the start time and end time of this month
- * 
+ *
  * @param target the specific time
  * @returns [startTime, endTime]
- * 
+ *
  * @since 0.6.0
  */
 export function getMonthTime(target: Date): [Date, Date] {
@@ -175,7 +175,7 @@ export function getMonthTime(target: Date): [Date, Date] {
 
 /**
  * Get the start time of this day
- * 
+ *
  * @param target the specific time
  * @returns the start of this day
  * @since 1.0.0
@@ -189,7 +189,7 @@ export function getStartOfDay(target: Date) {
 
 /**
  * The birthday of this extension
- * 
+ *
  * @since 1.2.0
  */
 export function getBirthday(): Date {
@@ -204,13 +204,13 @@ export function getBirthday(): Date {
 export const BIRTHDAY = '20220303'
 
 /**
- * Calc the day lenth
- * @returns 
+ * Calc the day length
+ * @returns
  *  1 if 2022-06-09 00:00:00 to 2022-06-09 00:00:01
  *  0 if 2022-06-10 00:00:00 to 2022-06-09 00:00:01
  *  2 if 2022-11-10 08:00:00 to 2022-11-11 00:00:01
  */
-export function getDayLenth(dateStart: Date, dateEnd: Date): number {
+export function getDayLength(dateStart: Date, dateEnd: Date): number {
     let cursor = new Date(dateStart)
     let dateDiff = 0
     do {
@@ -223,8 +223,8 @@ export function getDayLenth(dateStart: Date, dateEnd: Date): number {
 
 /**
  * Calc the dates between {@param dateStart} and {@param dateEnd}
- * 
- * @returns 
+ *
+ * @returns
  *  [20220609]              if 2022-06-09 00:00:00 to 2022-06-09 00:00:01
  *  []                      if 2022-06-10 00:00:00 to 2022-06-09 00:00:01
  *  [20221110, 20221111]    if 2022-11-10 08:00:00 to 2022-11-11 00:00:01
