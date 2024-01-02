@@ -7,7 +7,7 @@
 
 /**
  * Group by
- * 
+ *
  * @param arr original array
  * @param keyFunc key generator
  * @returns grouped map
@@ -36,9 +36,9 @@ export function groupBy<T, R>(
 
 /**
  * Rotate the array without new one returned
- * 
+ *
  * @param arr the targe array
- * @param count count to rotate, must be positive, or 1 is default 
+ * @param count count to rotate, must be positive, or 1 is default
  * @param rightOrLeft rotate right or left, true means left, false means right, default is false
  */
 export function rotate<T>(arr: T[], count?: number, rightOrLeft?: boolean): void {
@@ -58,11 +58,20 @@ export function rotate<T>(arr: T[], count?: number, rightOrLeft?: boolean): void
 
 /**
  * Summarize
- * 
- * @param arr target arr 
+ *
+ * @param arr target arr
  */
 export function sum(arr: number[]): number {
-    return arr?.reduce?.((a, b) => (a || 0) + (b || 0), 0) || 0
+    return arr?.reduce?.((a, b) => (a || 0) + (b || 0), 0) ?? 0
+}
+
+/**
+ * @since 2.1.0
+ * @returns null if arr is empty or null
+ */
+export function average(arr: number[]): number {
+    if (!arr?.length) return null
+    return sum(arr) / arr.length
 }
 
 export function allMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {

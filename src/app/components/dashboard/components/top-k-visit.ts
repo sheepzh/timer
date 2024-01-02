@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ECharts, ComposeOption } from "echarts/core"
+import type { ComposeOption } from "echarts/core"
 import type { PieSeriesOption } from "echarts/charts"
 import type { TitleComponentOption, TooltipComponentOption } from "echarts/components"
 import type { Ref } from "vue"
 import type { StatQueryParam } from "@service/stat-service"
 
-import { init, use } from "@echarts/core"
+import { use } from "@echarts/core"
 import PieChart from "@echarts/chart/pie"
 import TitleComponent from "@echarts/component/title"
 import TooltipComponent from "@echarts/component/tooltip"
@@ -26,6 +26,7 @@ import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
+import { EchartsWrapper } from "@app/components/common/echarts-wrapper"
 
 const CONTAINER_ID = '__timer_dashboard_top_k_visit'
 const TOP_NUM = 6
@@ -45,7 +46,7 @@ type _Value = {
     alias?: string
 }
 
-function optionOf(data: _Value[]): EcOption {
+function generateOption(data: _Value[]): EcOption {
     const textColor = getPrimaryTextColor()
     return {
         title: {
@@ -83,17 +84,8 @@ function optionOf(data: _Value[]): EcOption {
     }
 }
 
-class ChartWrapper {
-    instance: ECharts
-
-    init(container: HTMLDivElement) {
-        this.instance = init(container)
-    }
-    render(data: _Value[], loading: { close: () => void }) {
-        const option = optionOf(data)
-        this.instance.setOption(option)
-        loading.close()
-    }
+class ChartWrapper extends EchartsWrapper<_Value[], EcOption> {
+    generateOption = generateOption
 }
 
 const _default = defineComponent({
@@ -120,7 +112,8 @@ const _default = defineComponent({
             for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
                 data.push({ name: '', host: '', value: 0 })
             }
-            chartWrapper.render(data, loading)
+            await chartWrapper.render(data)
+            loading.close()
         })
         return () => h('div', {
             id: CONTAINER_ID,

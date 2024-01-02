@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -16,7 +16,7 @@ import TypeSelectWrapper from "./select/type-select"
 import statService from "@service/stat-service"
 import { t } from "@popup/locale"
 import { locale } from "@i18n"
-import { getDayLenth, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
+import { getDayLength, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
 
 type FooterParam = StatQueryParam & {
@@ -121,7 +121,7 @@ class FooterWrapper {
             mergeHost: queryParam.mergeHost,
             type,
             date,
-            dateLength: date instanceof Array ? getDayLenth(date[0], date[1]) : 1,
+            dateLength: date instanceof Array ? getDayLength(date[0], date[1]) : 1,
             chartTitle: queryParam.chartTitle
         }
         this.totalInfoWrapper.updateTotal(data, type)

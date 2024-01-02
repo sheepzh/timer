@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -29,9 +29,9 @@ export type SortDirect = 'ASC' | 'DESC'
 export type StatQueryParam = StatCondition & {
     /**
      * Inclusive remote data
-     * 
+     *
      * If true the date range MUST NOT be unlimited
-     * 
+     *
      * @since 1.2.0
      */
     inclusiveRemote?: boolean
@@ -98,7 +98,7 @@ class StatService {
 
     /**
      * Query hosts
-     * 
+     *
      * @param fuzzyQuery the part of host
      * @since 0.0.8
      */
@@ -134,7 +134,7 @@ class StatService {
 
     /**
      * Count the items
-     * 
+     *
      * @param condition condition to count
      * @since 1.0.2
      */
@@ -239,8 +239,8 @@ class StatService {
     }
 
     /**
-     * Aable to read remote backup data
-     * 
+     * Enable to read remote backup data
+     *
      * @since 1.2.0
      * @returns T/F
      */

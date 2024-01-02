@@ -1,10 +1,5 @@
-$divider: 1px var(--el-border-color) var(--el-border-style)
 
-.analysis-trend-container
-    .analysis-trend-filter
-        padding-top: 10px
-        padding-bottom: 14px
-        border-bottom: $divider
+.kanban-card
     .analysis-trend-content
         height: 380px
         display: flex
@@ -21,20 +16,20 @@ $divider: 1px var(--el-border-color) var(--el-border-style)
         width: 100%
         flex: 1
     >div:not(:first-child)
-        border-top: $divider
+        border-top: var(--timer-kanban-border)
 .analysis-trend-dimension-container
     display: flex
     height: 100%
     flex-direction: column
-    border-left: $divider
+    border-left: var(--timer-kanban-border)
     .analysis-trend-dimension-indicator-container
         display: flex
         flex: 1 1 0
-        border-bottom: $divider
+        border-bottom: var(--timer-kanban-border)
         .analysis-trend-dimension-indicator-item
             flex: 1 0 0
         >.analysis-trend-dimension-indicator-item:first-child
-            border-right: $divider
+            border-right: var(--timer-kanban-border)
     .analysis-trend-dimension-chart-container
         display: flex
         flex: 2 1 0

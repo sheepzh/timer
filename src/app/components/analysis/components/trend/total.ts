@@ -8,10 +8,10 @@
 import type { RingValue } from "@app/components/analysis/util"
 import type { PropType } from "vue"
 import type { I18nKey } from "@app/locale"
-import type { IndicatorProps } from "../common/indicator"
+import type { IndicatorProps } from "@app/components/common/kanban/indicator-cell"
 
 import { defineComponent, h } from "vue"
-import Indicator from "../common/indicator"
+import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
 import { computeRingText } from "@app/components/analysis/util"
@@ -35,7 +35,7 @@ const computeDayValue = (props: Props) => {
     return `${thisActiveDay?.toString() || '-'}/${rangeLength?.toString() || '-'}`
 }
 
-const renderIndicator = (props: IndicatorProps) => h('div', h(Indicator, props))
+const renderIndicator = (props: IndicatorProps) => h('div', h(KanbanIndicatorCell, props))
 
 const computeFocusText = (focusRing: RingValue, format: timer.app.TimeFormat) => {
     const current = focusRing?.[0]

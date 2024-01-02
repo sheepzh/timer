@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -16,7 +16,7 @@ import { filter } from "./filter"
 export type StatCondition = {
     /**
      * Date
-     * {y}{m}{d} 
+     * {y}{m}{d}
      */
     date?: Date | [Date, Date?]
     /**
@@ -25,28 +25,28 @@ export type StatCondition = {
     host?: string
     /**
      * Focus range, milliseconds
-     * 
+     *
      * @since 0.0.9
      */
     focusRange?: number[]
     /**
      * Time range
-     * 
+     *
      * @since 0.0.9
      */
     timeRange?: number[]
     /**
-     * Whether to enable full host search, default is false 
-     * 
+     * Whether to enable full host search, default is false
+     *
      * @since 0.0.8
      */
     fullHost?: boolean
     /**
-     * Whether to exlcusive virtual sites
-     * 
-     * @since 1.6.1 
+     * Whether to exclusive virtual sites
+     *
+     * @since 1.6.1
      */
-    exlcusiveVirtual?: boolean
+    exclusiveVirtual?: boolean
 }
 
 function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
@@ -56,7 +56,7 @@ function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
 
 /**
  * Generate the key in local storage by host and date
- * 
+ *
  * @param host host
  * @param date date
  */
@@ -105,7 +105,7 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Batch accumulate
-     * 
+     *
      * @param data data: {host=>waste_per_day}
      * @param date date
      * @since 0.1.8
@@ -134,7 +134,7 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Select
-     * 
+     *
      * @param condition     condition
      */
     async select(condition?: StatCondition): Promise<timer.stat.Row[]> {
@@ -148,9 +148,9 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Count by condition
-     * 
-     * @param condition 
-     * @returns count 
+     *
+     * @param condition
+     * @returns count
      * @since 1.0.2
      */
     async count(condition: StatCondition): Promise<number> {
@@ -161,8 +161,8 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Get by host and date
-     * 
-     * @since 0.0.5 
+     *
+     * @since 0.0.5
      */
     async get(host: string, date: Date | string): Promise<timer.stat.Result> {
         const key = generateKey(host, date)
@@ -172,7 +172,7 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Delete the record
-     * 
+     *
      * @param host host
      * @param date date
      * @since 0.0.5
@@ -184,7 +184,7 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Delete by key
-     *  
+     *
      * @param rows     site rows, the host and date mustn't be null
      * @since 0.0.9
      */
@@ -195,7 +195,7 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Force update data
-     * 
+     *
      * @since 1.4.3
      */
     forceUpdate(row: timer.stat.RowBase): Promise<void> {
@@ -205,7 +205,7 @@ class StatDatabase extends BaseDatabase {
     }
 
     /**
-     * @param host host 
+     * @param host host
      * @param start start date, inclusive
      * @param end end date, inclusive
      * @since 0.0.7
@@ -227,7 +227,7 @@ class StatDatabase extends BaseDatabase {
 
     /**
      * Delete the record
-     * 
+     *
      * @param host host
      * @since 0.0.5
      */

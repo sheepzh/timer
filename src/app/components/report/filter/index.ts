@@ -15,7 +15,7 @@ import { h, defineComponent, ref, } from "vue"
 import { t } from "@app/locale"
 import InputFilterItem from '@app/components/common/input-filter-item'
 import SwitchFilterItem from "@app/components/common/switch-filter-item"
-import SelectFilterItem from "@app/components/common/select-filter-item"
+import TimeFormatFilterItem from "@app/components/common/time-format-filter-item"
 import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
@@ -25,12 +25,6 @@ import statService from "@service/stat-service"
 const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
 const mergeDateLabel = t(msg => msg.report.mergeDate)
 const mergeHostLabel = t(msg => msg.report.mergeDomain)
-const timeFormatLabels: { [key in timer.app.TimeFormat]: string } = {
-    "default": t(msg => msg.timeFormat.default),
-    "second": t(msg => msg.timeFormat.second),
-    "minute": t(msg => msg.timeFormat.minute),
-    "hour": t(msg => msg.timeFormat.hour)
-}
 // Batch Delete
 const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
 // Date range
@@ -103,11 +97,9 @@ const _default = defineComponent({
                     handleChange()
                 }
             }),
-            h(SelectFilterItem, {
-                historyName: 'timeFormat',
+            h(TimeFormatFilterItem, {
                 defaultValue: timeFormat.value,
-                options: timeFormatLabels,
-                onSelect(newVal: timer.app.TimeFormat) {
+                onChange: newVal => {
                     timeFormat.value = newVal
                     handleChange()
                 }

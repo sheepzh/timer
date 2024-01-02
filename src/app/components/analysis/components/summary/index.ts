@@ -9,10 +9,9 @@ import type { PropType, Ref, VNode } from "vue"
 import { defineComponent, h, ref, watch } from "vue"
 import siteService from "@service/site-service"
 import Site from "./site"
-import RowCard from "../common/row-card"
-import Indicator from "../common/indicator"
+import { KanbanIndicatorCell, KanbanCard, KanbanIndicatorRow } from "@app/components/common/kanban"
 import "./summary.sass"
-import { ElCol, ElRow } from "element-plus"
+import { ElCol } from "element-plus"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 
@@ -42,19 +41,19 @@ const VISIT_LABEL = t(msg => msg.analysis.common.visitTotal)
 
 function renderContent(siteInfo: timer.site.SiteInfo, summary: Summary, timeFormat: timer.app.TimeFormat): VNode {
     const { day, firstDay, focus, visit } = summary || {}
-    return h(ElRow, { class: "analysis-summary-container" }, () => [
+    return h(KanbanIndicatorRow, {}, () => [
         h(ElCol, { span: 6 }, () => h(Site, { site: siteInfo })),
-        h(ElCol, { span: 6 }, () => h(Indicator, {
+        h(ElCol, { span: 6 }, () => h(KanbanIndicatorCell, {
             mainName: DAYS_LABEL,
             mainValue: day?.toString() || '-',
             subTips: msg => msg.analysis.summary.firstDay,
             subValue: firstDay ? `@${cvt2LocaleTime(firstDay)}` : ''
         })),
-        h(ElCol, { span: 6 }, () => h(Indicator, {
+        h(ElCol, { span: 6 }, () => h(KanbanIndicatorCell, {
             mainName: FOCUS_LABEL,
             mainValue: focus === undefined ? '-' : periodFormatter(focus, timeFormat, false),
         })),
-        h(ElCol, { span: 6 }, () => h(Indicator, {
+        h(ElCol, { span: 6 }, () => h(KanbanIndicatorCell, {
             mainName: VISIT_LABEL,
             mainValue: visit?.toString() || '-',
         })),
@@ -87,7 +86,7 @@ const _default = defineComponent({
 
         querySiteInfo()
 
-        return () => h(RowCard, {
+        return () => h(KanbanCard, {
             title: t(msg => msg.analysis.summary.title)
         }, () => renderContent(siteInfo.value, summaryInfo.value, timeFormat.value))
     }

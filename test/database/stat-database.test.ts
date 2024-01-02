@@ -12,7 +12,7 @@ const beforeYesterday = new Date(now.getTime() - MILL_PER_DAY * 2)
 const baidu = 'www.baidu.com'
 const google = 'www.google.com.hk'
 
-describe('timer-database', () => {
+describe('stat-database', () => {
     beforeEach(async () => storage.local.clear())
 
     test('1', async () => {
@@ -69,7 +69,7 @@ describe('timer-database', () => {
         cond.host = google
         expect((await db.select(cond)).length).toEqual(3)
 
-        // By daterange
+        // By date range
         cond = {}
         cond.date = [now, now]
         const expectedResult: timer.stat.Row[] = [
@@ -124,7 +124,7 @@ describe('timer-database', () => {
         cond.host = google
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
-        // Add one item of baidu again again 
+        // Add one item of baidu again again
         await db.accumulate(baidu, now, resultOf(1, 1))
         // But delete google
         await db.delete(list)

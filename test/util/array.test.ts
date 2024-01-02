@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { groupBy, rotate, sum } from "@util/array"
+import { allMatch, anyMatch, average, groupBy, rotate, sum } from "@util/array"
 
 describe("util/array", () => {
 
@@ -47,5 +47,24 @@ describe("util/array", () => {
 
         arr = undefined
         expect(0).toEqual(sum(arr))
+    })
+
+    test("average", () => {
+        expect(average([10, 1])).toEqual(11 / 2)
+        expect(average(null)).toBeNull()
+        expect(average([])).toBeNull()
+        expect(average([null])).toEqual(0)
+    })
+
+    test("allMatch", () => {
+        const arr = [100, 20, 30]
+        expect(allMatch(arr, a => a >= 20)).toBeTruthy()
+        expect(allMatch(arr, a => a > 20)).toBeFalsy()
+    })
+
+    test("anyMatch", () => {
+        const arr = [100, 20, 30]
+        expect(anyMatch(arr, a => a >= 100)).toBeTruthy()
+        expect(anyMatch(arr, a => a > 100)).toBeFalsy()
     })
 })

@@ -1,87 +1,99 @@
 {
     "zh_CN": {
-        "sizes": {
-            "fifteen": "每十五分钟统计一次",
-            "halfHour": "每半小时统计一次",
-            "hour": "每一小时统计一次",
-            "twoHour": "每两小时统计一次"
+        "common": {
+            "focusAverage": "平均每天 {value}"
         },
-        "average": {
-            "label": "平均每天"
-        },
-        "chart": {
-            "title": "上网习惯统计",
-            "saveAsImageTitle": "保存",
+        "period": {
+            "title": "不同时段的访问习惯",
+            "busiest": "每天最繁忙时段",
+            "idle": "最长空闲时段",
             "yAxisMin": "浏览时长 / 分钟",
-            "yAxisHour": "浏览时长 / 小时"
+            "yAxisHour": "浏览时长 / 小时",
+            "averageLabel": "平均每天",
+            "sizes": {
+                "fifteen": "每十五分钟统计一次",
+                "halfHour": "每半小时统计一次",
+                "hour": "每一小时统计一次",
+                "twoHour": "每两小时统计一次"
+            }
+        },
+        "site": {
+            "title": "网站访问习惯",
+            "focusPieTitle": "浏览时间占比",
+            "visitPieTitle": "访问次数占比",
+            "otherLabel": "其他{count}个网站",
+            "histogramTitle": "最长访问 TOP {n}",
+            "exclusiveToday": "今天的数据不计入平均值",
+            "countTotal": "总计访问次数/网站数",
+            "siteAverage": "平均每天访问 {value} 个网站"
         }
     },
     "zh_TW": {
-        "sizes": {
-            "fifteen": "按十五分鐘統計",
-            "halfHour": "按半小時統計",
-            "hour": "按一小時統計",
-            "twoHour": "按兩小時統計"
-        },
-        "average": {
-            "label": "平均每天"
-        },
-        "chart": {
-            "title": "上網習慣統計",
-            "saveAsImageTitle": "保存",
+        "period": {
             "yAxisMin": "瀏覽時長 / 分鐘",
-            "yAxisHour": "瀏覽時長 / 小時"
+            "yAxisHour": "瀏覽時長 / 小時",
+            "averageLabel": "平均每天",
+            "sizes": {
+                "fifteen": "按十五分鐘統計",
+                "halfHour": "按半小時統計",
+                "hour": "按一小時統計",
+                "twoHour": "按兩小時統計"
+            }
         }
     },
     "en": {
-        "sizes": {
-            "fifteen": "Per 15 minutes",
-            "halfHour": "Per half hour",
-            "hour": "Per one hour",
-            "twoHour": "Per two hours"
+        "common": {
+            "focusAverage": "Average {value} per day"
         },
-        "average": {
-            "label": "Daily average"
-        },
-        "chart": {
-            "title": "Time-phased Statistics of Browsing Time",
-            "saveAsImageTitle": "Snapshot",
+        "period": {
+            "title": "Habit of time periods",
+            "busiest": "Busiest time of day",
+            "idle": "Longest idle period",
             "yAxisMin": "Browsing Time / minute",
-            "yAxisHour": "Browsing Time / hour"
+            "yAxisHour": "Browsing Time / hour",
+            "averageLabel": "Daily average",
+            "sizes": {
+                "fifteen": "Per 15 minutes",
+                "halfHour": "Per half hour",
+                "hour": "Per one hour",
+                "twoHour": "Per two hours"
+            }
+        },
+        "site": {
+            "title": "Habit of websites",
+            "focusPieTitle": "Percentage of browsing time",
+            "visitPieTitle": "Percentage of visits",
+            "otherLabel": "Other {count} sites",
+            "histogramTitle": "TOP {n} most visited",
+            "exclusiveToday": "Today's data is not included in the average",
+            "countTotal": "Total visits/sites",
+            "siteAverage": "Average visits to {value} websites per day"
         }
     },
     "ja": {
-        "sizes": {
-            "fifteen": "15分で統計",
-            "halfHour": "30分で統計",
-            "hour": "1時間ごとの統計",
-            "twoHour": "2時間ごとの統計"
-        },
-        "average": {
-            "label": "1日平均"
-        },
-        "chart": {
-            "title": "時系列の統計を閲覧する",
-            "saveAsImageTitle": "ダウンロード",
+        "period": {
             "yAxisMin": "閲覧時間/分",
-            "yAxisHour": "閲覧時間/時間"
+            "yAxisHour": "閲覧時間/時間",
+            "averageLabel": "1日平均",
+            "sizes": {
+                "fifteen": "15分で統計",
+                "halfHour": "30分で統計",
+                "hour": "1時間ごとの統計",
+                "twoHour": "2時間ごとの統計"
+            }
         }
     },
     "pt_PT": {
-        "sizes": {
-            "fifteen": "Por 15 minutos",
-            "halfHour": "Por meia hora",
-            "hour": "Por 1 hora",
-            "twoHour": "Por 2 horas"
-        },
-        "average": {
-            "label": "Média diária"
-        },
-        "chart": {
-            "title": "Estatísticas do tempo de navegação",
-            "saveAsImageTitle": "Capturas",
+        "period": {
             "yAxisMin": "Tempo de Navegação / Minutos",
-            "yAxisHour": "Tempo de Navegação / Hora"
+            "yAxisHour": "Tempo de Navegação / Hora",
+            "averageLabel": "Média diária",
+            "sizes": {
+                "fifteen": "Por 15 minutos",
+                "halfHour": "Por meia hora",
+                "hour": "Por 1 hora",
+                "twoHour": "Por 2 horas"
+            }
         }
     }
 }
