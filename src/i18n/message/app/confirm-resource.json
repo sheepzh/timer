@@ -18,5 +18,9 @@
     "pt_PT": {
         "confirmMsg": "OK",
         "cancelMsg": "Não!"
+    },
+    "uk": {
+        "confirmMsg": "Гаразд",
+        "cancelMsg": "Ні"
     }
 }

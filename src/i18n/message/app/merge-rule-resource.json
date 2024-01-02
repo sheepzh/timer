@@ -73,5 +73,20 @@
         "infoAlert3": "Um número significa o nível de um site unificado. Por exemplo, há uma regra '*.*.edu.cn >>> 3', em seguida, 'www.hust.edu.cn' será fundida com 'hust.edu.cn'",
         "infoAlert4": "Em branco significa que o site original não será mesclado",
         "infoAlert5": "Se nenhuma regra for correspondida, o padrão será o nível antes de {psl}"
+    },
+    "uk": {
+        "removeConfirmMsg": "{origin} буде вилучено з налаштованих правил об'єднання.",
+        "originPlaceholder": "Оригінальний сайт",
+        "mergedPlaceholder": "Об'єднуваний",
+        "errorOrigin": "Неприпустимий формат оригінального сайту.",
+        "duplicateMsg": "Правило вже існує: {origin}",
+        "addConfirmMsg": "Для {origin} буде встановлено користувацьке правило об'єднання",
+        "infoAlertTitle": "На цій сторінці ви можете встановити правила об’єднання для статистики використання сайтів",
+        "infoAlert0": "Натисніть кнопку [Нове], заповніть поля оригінального та об'єднуваного сайту, після чого збережіть правило",
+        "infoAlert1": "Оригінальний сайт можна ввести як URL-адресу або регулярний вираз, як-от www.wikipedia.org, *.wikipedia.org, *.google.com.*, щоб визначити відповідні сайти для об'єднання",
+        "infoAlert2": "Об'єднуваний сайт можна ввести як URL-адресу, число, або залишити пустим",
+        "infoAlert3": "Число означає рівень об'єднуваного сайту. Наприклад, для правила '*.*.edu.cn >>> 3' об'єднуваний сайт 'www.hust.edu.cn' буде об'єднано з 'hust.edu.cn'",
+        "infoAlert4": "Пусте поле означає, що сайт не буде об'єднано",
+        "infoAlert5": "Якщо жодне правило не збігається, його буде встановлено до типового рівня {psl}"
     }
 }

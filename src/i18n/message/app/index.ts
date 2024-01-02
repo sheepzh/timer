@@ -78,12 +78,13 @@ function appMessageOf(locale: timer.Locale): AppMessage {
     return result
 }
 
-const _default: Messages<AppMessage> = {
+const _default: Required<Messages<AppMessage>> = {
     zh_CN: appMessageOf('zh_CN'),
     zh_TW: appMessageOf('zh_TW'),
     en: appMessageOf('en'),
     ja: appMessageOf('ja'),
     pt_PT: appMessageOf('pt_PT'),
+    uk: appMessageOf('uk'),
 }
 
 export default _default

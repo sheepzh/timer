@@ -183,5 +183,42 @@
             "fileNotSelected": "Arquivo não selecionado",
             "conflictNotSelected": "Resolução de conflitos não selecionada"
         }
+    },
+    "uk": {
+        "totalMemoryAlert": "Браузер надає кожному розширенню {size} МБ для зберігання локальних даних",
+        "totalMemoryAlert1": "Не вдалося визначити максимальну кількість доступної пам'яті браузера",
+        "usedMemoryAlert": "Використано {size} МБ",
+        "operationAlert": "Ви можете видалити ці неважливі дані, щоб зменшити використання пам'яті",
+        "filterItems": "Фільтрувати дані",
+        "filterFocus": "Час перегляду для дня – між {start} секунд і {end} секунд",
+        "filterTime": "Кількість відвідувань для дня – між {start} і {end}",
+        "filterDate": "Записано між {picker}",
+        "unlimited": "∞",
+        "paramError": "Хибний параметр. Будь ласка, перевірте!",
+        "deleteConfirm": "Всього відфільтровано {count} записів. Ви хочете видалити їх усі?",
+        "deleteSuccess": "Успішно видалено!",
+        "migrationAlert": "Переносьте дані між браузерами за допомогою імпорту й експорту",
+        "importError": "Неправильне розширення файлу",
+        "migrated": "Успішно імпортовано!",
+        "dateShortcut": {
+            "tillYesterday": "До вчора",
+            "till7DaysAgo": "До 7 днів тому",
+            "till30DaysAgo": "До 30 днів тому"
+        },
+        "importOther": {
+            "step1": "Виберіть дані",
+            "step2": "Підтвердити дані",
+            "dataSource": "Джерело даних",
+            "file": "Файл даних",
+            "selectFileBtn": "Вибрати",
+            "conflictType": "Розв'язання конфліктів",
+            "conflictTip": "Що робити, якщо імпортовані дані конфліктують з локальними даними",
+            "overwrite": "Перезаписати",
+            "accumulate": "Об'єднати",
+            "imported": "Імпортовано",
+            "local": "Локальні",
+            "fileNotSelected": "Файл не вибрано",
+            "conflictNotSelected": "Розв'язання конфліктів не вибрано"
+        }
     }
 }

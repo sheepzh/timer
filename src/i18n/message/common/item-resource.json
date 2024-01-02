@@ -93,5 +93,24 @@
             "analysis": "Análise",
             "importOtherData": "Importar de Outras Extensões"
         }
+    },
+    "uk": {
+        "date": "Дата",
+        "host": "URL-адреса сайту",
+        "focus": "Час перегляду",
+        "time": "Відвідування сайту",
+        "operation": {
+            "label": "Операції",
+            "delete": "Видалити",
+            "add2Whitelist": "Білий список",
+            "removeFromWhitelist": "Увімкнути",
+            "deleteConfirmMsgAll": "Усі записи для {url} будуть видалені!",
+            "deleteConfirmMsgRange": "Усі записи для {url} між {start} і {end} будуть видалені!",
+            "deleteConfirmMsg": "Запис для {url} {date} буде видалено!",
+            "exportWholeData": "Експортувати дані",
+            "importWholeData": "Імпортувати дані",
+            "analysis": "Аналіз",
+            "importOtherData": "Імпорт з інших розширень"
+        }
     }
 }

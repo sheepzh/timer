@@ -28,5 +28,11 @@
         "thisWeek": "Esta Semana",
         "thisMonth": "Este Mês",
         "last30Days": "Últimos 30 dias"
+    },
+    "uk": {
+        "today": "Сьогодні",
+        "thisWeek": "Цього тижня",
+        "thisMonth": "Цього місяця",
+        "last30Days": "Минулі 30 днів"
     }
 }

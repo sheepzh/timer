@@ -133,5 +133,32 @@
             "focusTitle": "Tendências do Tempo de Navegação",
             "visitTitle": "Tendências de Visita"
         }
+    },
+    "uk": {
+        "common": {
+            "focusTotal": "Загальний час перегляду",
+            "visitTotal": "Всього відвідувань",
+            "ringGrowth": "{value} порівняно з попереднім періодом",
+            "merged": "Об'єднано",
+            "virtual": "Віртуальний",
+            "hostPlaceholder": "Знайти сайт для аналізу",
+            "emptyDesc": "Сайт не вибрано"
+        },
+        "summary": {
+            "title": "Підсумок",
+            "day": "Всього активних днів",
+            "firstDay": "Перше відвідування {value}"
+        },
+        "trend": {
+            "title": "Тенденції",
+            "activeDay": "Активні дні",
+            "totalDay": "Дні періоду",
+            "maxFocus": "Максимальний час перегляду на день",
+            "averageFocus": "Середній час перегляду на день",
+            "maxVisit": "Максимальна кількість відвідувань на день",
+            "averageVisit": "Середня кількість відвідувань на день",
+            "focusTitle": "Тенденції перегляду",
+            "visitTitle": "Тенденції відвідувань"
+        }
     }
 }

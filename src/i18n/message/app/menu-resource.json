@@ -98,5 +98,25 @@
         "helpUs": "Ajude-nos",
         "siteAnalysis": "Análise do Site",
         "userManual": "Manual do Utilizador"
+    },
+    "uk": {
+        "dashboard": "Огляд",
+        "data": "Мої дані",
+        "dataReport": "Запис",
+        "dataClear": "Стан пам'яті",
+        "behavior": "Поведінка",
+        "habit": "Звички",
+        "additional": "Додаткові функції",
+        "siteManage": "Керування сайтами",
+        "whitelist": "Білий список",
+        "mergeRule": "Правила об'єднання сайтів",
+        "other": "Інші функції",
+        "option": "Налаштування",
+        "feedback": "Анкетування",
+        "rate": "Оцінити",
+        "helpUs": "Допомогти нам",
+        "siteAnalysis": "Аналіз сайту",
+        "userManual": "Посібник",
+        "limit": "Обмеження часу"
     }
 }

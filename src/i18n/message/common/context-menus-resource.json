@@ -33,5 +33,12 @@
         "optionPage": "Opções",
         "repoPage": "Código Fonte",
         "feedbackPage": "Problemas"
+    },
+    "uk": {
+        "add2Whitelist": "Додати {host} в білий список",
+        "removeFromWhitelist": "Вилучити {host} з білого списку",
+        "optionPage": "Налаштування",
+        "repoPage": "Програмний код",
+        "feedbackPage": "Проблеми"
     }
 }

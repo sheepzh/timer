@@ -17,7 +17,7 @@
         "timeWithHour": "{hour} 小時 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
-        "timeLimitMsg": "您已被【{appName}】限製上網",
+        "timeLimitMsg": "您已被限製上網",
         "more5Minutes": "再看 5 分鐘！！我保証！",
         "visitLimitMsg": "您已超過單次瀏覽時間限制",
         "periodLimitMsg": "您在目前時段已被限制瀏覽該網頁",
@@ -41,7 +41,7 @@
         "timeWithHour": "{hour} 時間 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
-        "timeLimitMsg": "【{appName}】によって制限されています",
+        "timeLimitMsg": "1日あたりの閲覧時間制限を超えています",
         "more5Minutes": "さらに5分間見てください！ ！ 約束します！",
         "visitLimitMsg": "閲覧時間を超えています",
         "periodLimitMsg": "あなたは現在の期間中に制限されています",
@@ -52,11 +52,23 @@
         "timeWithHour": "{hour} horas {minute} minutos {second} segundos",
         "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
         "timeWithSecond": "{second} segundo(s)",
-        "timeLimitMsg": "Foi restrito por [{appName}]",
+        "timeLimitMsg": "Excedeu o limite de tempo de navegação por dia",
         "more5Minutes": "Mais 5 minutos, por favor!!",
         "consoleLog": "Abriu {host} por {time} vez(es) e navegou por {focus} hoje.",
         "visitLimitMsg": "Excedeu o tempo limite de navegação por visita",
         "periodLimitMsg": "Foi restrito durante o período atual",
         "limitRefMsg": "— Lembrete amigável de [{appName}]"
+    },
+    "uk": {
+        "timeWithHour": "{hour} год {minute} хв {second} с",
+        "timeWithMinute": "{minute} хв {second} с",
+        "timeWithSecond": "{second} с",
+        "more5Minutes": "Ще 5 хвилин, будь ласка!",
+        "consoleLog": "Сьогодні ви відкривали {host} {time} разів і перебували там {focus}.",
+        "visitLimitMsg": "Ви перевищили ліміт часу перегляду за відвідування",
+        "periodLimitMsg": "Ви були обмежені протягом поточного періоду часу",
+        "limitRefMsg": "——Дружнє нагадування з [{appName}]",
+        "timeLimitMsg": "Ви перевищили ліміт часу перегляду на день",
+        "closeAlert": "Ви можете вимкнути поради в налаштуваннях [{appName}]!"
     }
 }

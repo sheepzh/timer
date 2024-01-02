@@ -19,7 +19,7 @@ export type PopupMessage = {
     base: BaseMessage
 }
 
-const _default: Messages<PopupMessage> = {
+const _default: Required<Messages<PopupMessage>> = {
     zh_CN: {
         chart: chartMessages.zh_CN,
         duration: popupDurationMessages.zh_CN,
@@ -55,6 +55,13 @@ const _default: Messages<PopupMessage> = {
         meta: metaMessages.pt_PT,
         base: baseMessages.pt_PT,
     },
+    uk: {
+        chart: chartMessages.uk,
+        duration: popupDurationMessages.uk,
+        item: itemMessages.uk,
+        meta: metaMessages.uk,
+        base: baseMessages.uk,
+    }
 }
 
 export default _default

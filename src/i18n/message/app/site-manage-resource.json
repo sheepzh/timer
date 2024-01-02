@@ -238,5 +238,53 @@
                 "info": "conta qualquer URL no formato Ant Pattern, pode adicionar um site personalizado no canto superior direito"
             }
         }
+    },
+    "uk": {
+        "hostPlaceholder": "Почніть вводити URL і натисніть Enter",
+        "aliasPlaceholder": "Почніть вводити назву і натисніть Enter",
+        "onlyDetected": "Лише виявлені",
+        "deleteConfirmMsg": "Назву для {host} буде видалено",
+        "column": {
+            "host": "URL-адреса сайту",
+            "alias": "Назва сайту",
+            "aliasInfo": "Назву сайту буде показано на сторінці записів і в спливному вікні",
+            "source": "Джерело назви",
+            "type": "Тип сайту",
+            "icon": "Піктограма"
+        },
+        "source": {
+            "user": "user-maintained",
+            "detected": "auto-detected"
+        },
+        "button": {
+            "add": "Новий",
+            "delete": "Видалити",
+            "save": "Зберегти"
+        },
+        "form": {
+            "emptyAlias": "Введіть назву сайту",
+            "emptyHost": "Введіть URL-адресу сайту"
+        },
+        "msg": {
+            "hostExistWarn": "{host} вже існує",
+            "saved": "Збережено",
+            "existedTag": "ВЖЕ ІСНУЄ",
+            "mergedTag": "ОБ'ЄДНАНО",
+            "virtualTag": "ВІРТУАЛЬНИЙ"
+        },
+        "type": {
+            "normal": {
+                "name": "звичайний",
+                "info": "статистика за доменним ім'ям"
+            },
+            "merged": {
+                "name": "об'єднано",
+                "info": "статистику об'єднаних записів для пов'язаних доменних імен та правила об'єднання можна налаштувати"
+            },
+            "virtual": {
+                "name": "віртуальний",
+                "info": "враховувати будь-яку URL-адресу в форматі параметрів Ant, ви можете додати свій сайт у верхньому правому куті"
+            }
+        }
     }
 }

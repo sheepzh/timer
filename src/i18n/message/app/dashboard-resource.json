@@ -128,5 +128,31 @@
             "increase": "aumentou",
             "decline": "diminuiu"
         }
+    },
+    "uk": {
+        "heatMap": {
+            "title0": "Перегляд понад {hour} годин за минулий рік",
+            "title1": "Перегляд менш ніж 1 годину за минулий рік",
+            "tooltip0": "Переглядав {minute} хвилин {day}.{month}.{year}",
+            "tooltip1": "Переглядав {hour} годин {minute} хвилин {day}.{month}.{year}"
+        },
+        "topK": {
+            "title": "Найбільші {k} відвідувань за минулих {day} днів",
+            "tooltip": "Відвідано {host} {visit} разів"
+        },
+        "indicator": {
+            "installedDays": "Встановлено впродовж {number} днів",
+            "visitCount": "Відвідано {site} вебсайтів {visit} разів",
+            "browsingTime": "Перегляд понад {minute} хвилин",
+            "mostUse": "Улюблений перегляд між {start} і {end} годинами"
+        },
+        "weekOnWeek": {
+            "title": "Найбільші {k} щотижневих змін часу перегляду",
+            "lastBrowse": "Перегляд {time} минулого тижня",
+            "thisBrowse": "Перегляд {time} цього тижня",
+            "wow": "{delta} {state}",
+            "increase": "збільшилося",
+            "decline": "зменшилося"
+        }
     }
 }

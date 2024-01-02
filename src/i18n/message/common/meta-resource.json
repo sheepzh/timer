@@ -25,5 +25,10 @@
         "name": "Rastreador de Tempo",
         "marketName": "Rastreador de Tempo",
         "description": "Ser o MELHOR rastreador de tempo da web."
+    },
+    "uk": {
+        "name": "Time Tracker",
+        "marketName": "Time Tracker",
+        "description": "To be the BEST webtime tracker."
     }
 }

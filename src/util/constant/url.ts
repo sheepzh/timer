@@ -64,6 +64,7 @@ export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in timer.Locale]: string 
     en: 'https://docs.google.com/forms/d/e/1FAIpQLSdNq4gnSY7uxYkyqOPqyYF3Bqlc3ZnWCLDi5DI5xGjPeVCNiw/viewform?usp=sf_link',
 }
 
+const UNINSTALL_QUESTIONNAIRE_EN = 'https://docs.google.com/forms/d/e/1FAIpQLSflhZAFTw1rTUjAEwgxqCaBuhLBBthwEK9fIjvmwWfITLSK9A/viewform?usp=sf_link'
 /**
  * @since 0.9.6
  */
@@ -71,8 +72,9 @@ export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.Locale]: string } = {
     zh_CN: 'https://www.wjx.cn/vj/YDgY9Yz.aspx',
     zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdK93q-548dK-2naoS3DaArdc7tEGoUY9JQvaXP5Kpov8h6-A/viewform?usp=sf_link',
     ja: 'https://docs.google.com/forms/d/e/1FAIpQLSdsB3onZuleNf6j7KJJLbcote647WV6yeUr-9m7Db5QXakfpg/viewform?usp=sf_link',
-    en: 'https://docs.google.com/forms/d/e/1FAIpQLSflhZAFTw1rTUjAEwgxqCaBuhLBBthwEK9fIjvmwWfITLSK9A/viewform?usp=sf_link',
-    pt_PT: 'https://docs.google.com/forms/d/e/1FAIpQLSflhZAFTw1rTUjAEwgxqCaBuhLBBthwEK9fIjvmwWfITLSK9A/viewform?usp=sf_link',
+    en: UNINSTALL_QUESTIONNAIRE_EN,
+    pt_PT: UNINSTALL_QUESTIONNAIRE_EN,
+    uk: UNINSTALL_QUESTIONNAIRE_EN,
 }
 
 /**

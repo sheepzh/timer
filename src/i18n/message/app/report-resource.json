@@ -128,5 +128,31 @@
                 "percentage": "Percentagem"
             }
         }
+    },
+    "uk": {
+        "mergeDate": "Об'єднати дату",
+        "mergeDomain": "Об'єднати URL",
+        "hostPlaceholder": "Почніть вводити URL і натисніть Enter",
+        "exportFileName": "My_Browsing_Time",
+        "added2Whitelist": "Додано до білого списку",
+        "removeFromWhitelist": "Вилучено з білого списку",
+        "batchDelete": {
+            "buttonText": "Масове видалення",
+            "noSelectedMsg": "Спершу виберіть рядок, який ви хочете видалити",
+            "confirmMsg": "{count} записів для сайтів, як-от {example}, за {date} будуть видалені!",
+            "confirmMsgAll": "{count} записів для сайтів, як-от {example}, будуть видалені!",
+            "confirmMsgRange": "{count} записів для сайтів, як-от {example}, між {start} та {end} будуть видалені!",
+            "successMsg": "Записи успішно видалено"
+        },
+        "remoteReading": {
+            "on": "Читання віддаленої резервної копії даних",
+            "off": "Натисніть, щоб прочитати віддалену резервну копію даних",
+            "table": {
+                "client": "Назва клієнта",
+                "localData": "Локальні дані",
+                "value": "Значення",
+                "percentage": "Відсоток"
+            }
+        }
     }
 }

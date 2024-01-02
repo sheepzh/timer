@@ -26,6 +26,7 @@ const locales: { [locale in timer.Locale]: () => Promise<{ default: Language }> 
     en: () => import('element-plus/lib/locale/lang/en'),
     ja: () => import('element-plus/lib/locale/lang/ja'),
     pt_PT: () => import('element-plus/lib/locale/lang/pt'),
+    uk: () => import('element-plus/lib/locale/lang/uk'),
 }
 
 async function main() {
