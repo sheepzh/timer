@@ -4,23 +4,30 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.1.0] - 2024-01-02
+
+- Supported Ukrainian
+- Added serveral charts of habits
+- Optimized badage text in screen-split mode
+- Fixed some UI bugs
+
 ## [v2.0.2] - 2023-12-12
 
-- Fix error of habits (#245)
+- Fixed error of habits (#245)
 
 ## [v2.0.1] - 2023-12-04
 
-- Support new file format for History Trends Unlimited.
+- Supported new file format for History Trends Unlimited.
 
 ## [v2.0.0] - 2023-11-13
 
-- Support unallowed period for limit rules.
-- Support limitting the time of each visit.
+- Supported unallowed period for limit rules.
+- Supported limitting the time of each visit.
 - Refactored the UI for configuring limit rules.
 
 ## [v1.9.7] - 2023-10-17 [For Chrome]
 
-- Fix crash on Qihu-360X Browser.
+- Fixed crash on Qihu-360X Browser.
 
 ## [v1.9.6] - 2023-10-16
 
