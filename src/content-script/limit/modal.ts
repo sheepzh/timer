@@ -83,7 +83,7 @@ class ModalInstance implements MaskModal {
         this.mask = document.createElement('div')
         this.mask.id = "_timer_mask"
         this.initStyle()
-        window && (window.onload = () => this.refresh())
+        window?.addEventListener?.("load", () => this.refresh())
     }
 
     addDelayHandler(handler: () => void): void {
