@@ -71,6 +71,8 @@ function isSameReason(a: LimitReason, b: LimitReason): boolean {
     return same
 }
 
+const canDelay = ({ allowDelay, type }: LimitReason) => allowDelay && (type === "DAILY" || type === "VISIT")
+
 class ModalInstance implements MaskModal {
     url: string
     reasons: LimitReason[] = []
@@ -162,13 +164,14 @@ class ModalInstance implements MaskModal {
         this.mask.append(document.createElement("br"))
         this.mask.append(link2Setup(url))
 
-        const delayConfirm = new DelayConfirm(this.options)
-        const delayButton = new DelayButton(
-            reason,
-            () => delayConfirm.doConfirm().then(() => this.delayHandlers?.forEach?.(h => h?.()))
-        )
-        this.mask.append(delayButton.dom)
-        this.mask.append(delayConfirm.dom)
+        if (canDelay(reason)) {
+            const delayConfirm = new DelayConfirm(this.options)
+            const delayButton = new DelayButton(
+                () => delayConfirm.doConfirm().then(() => this.delayHandlers?.forEach?.(h => h?.()))
+            )
+            this.mask.append(delayButton.dom)
+            this.mask.append(delayConfirm.dom)
+        }
 
         document.body.append(this.mask)
         document.body.style.overflow = 'hidden'

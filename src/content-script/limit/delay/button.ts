@@ -1,15 +1,10 @@
 import { t } from "@src/content-script/locale"
-import { LimitReason } from "../common"
 import { LINK_STYLE } from "../modal-style"
-
-const canDelay = ({ allowDelay, type }: LimitReason) => allowDelay && (type === "DAILY" || type === "VISIT")
 
 export class DelayButton {
     public dom: HTMLDivElement
 
-    constructor(reason: LimitReason, onClick: () => void) {
-        if (!canDelay(reason)) return
-
+    constructor(onClick: () => void) {
         this.dom = document.createElement('p')
         this.dom.style.marginTop = '100px'
 
