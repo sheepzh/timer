@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -59,10 +59,10 @@ const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
 
 /**
  * Codes returned by getUILanguage() are defined by Chrome browser
- * @see https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc 
+ * @see https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc
  * But supported locale codes in Chrome extension
  * @see https://developer.chrome.com/docs/webstore/i18n/#localeTable
- * 
+ *
  * They are different, so translate
  */
 export function chromeLocale2ExtensionLocale(chromeLocale: string): timer.Locale {
@@ -158,3 +158,40 @@ export function t<MessageType>(messages: Messages<MessageType>, props: Translate
 }
 
 export type I18nKey<MessageType> = (messages: MessageType | EmbeddedPartial<MessageType>) => any
+
+export type I18nResultItem<Node> = Node | string
+
+const findParamAndReplace = <Node,>(resultArr: I18nResultItem<Node>[], [key, value]: any) => {
+    const paramPlacement = `{${key}}`
+    const temp = []
+    resultArr.forEach((item) => {
+        if (typeof item === 'string' && item.includes(paramPlacement)) {
+            // 将 string 替换成具体的 VNode
+            let splits: I18nResultItem<Node>[] = (item as string).split(paramPlacement)
+            splits = splits.reduce((left, right) => left.length ? left.concat(value, right) : left.concat(right), [])
+            temp.push(...splits)
+        } else {
+            temp.push(item)
+        }
+    })
+    return temp
+}
+
+export type NodeTranslateProps<MessageType, Node> = {
+    key: I18nKey<MessageType>,
+    param: { [key: string]: I18nResultItem<Node> }
+}
+
+/**
+ * Translate with slots for vue
+ * I18nResultItemArray of VNodes or strings
+ */
+export const tN = <MessageType, Node>(messages: Messages<MessageType>, props: NodeTranslateProps<MessageType, Node>): I18nResultItem<Node>[] => {
+    const { key, param } = props
+    const result = getI18nVal(messages, key)
+    let resultArr: I18nResultItem<Node>[] = [result]
+    if (param) {
+        resultArr = Object.entries(param).reduce(findParamAndReplace, resultArr)
+    }
+    return resultArr
+}
