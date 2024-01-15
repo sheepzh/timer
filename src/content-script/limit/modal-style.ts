@@ -16,14 +16,29 @@ export const MASK_STYLE: Partial<CSSStyleDeclaration> = {
     paddingTop: '120px'
 }
 
-export const FILTER_STYLES: Record<timer.limit.FilterType, Partial<CSSStyleDeclaration & { backdropFilter: string }>> = {
+export type FilterStyle = {
+    mask: Partial<CSSStyleDeclaration>
+    delayConfirm: Partial<CSSStyleDeclaration>
+}
+
+export const FILTER_STYLES: Record<timer.limit.FilterType, FilterStyle> = {
     translucent: {
-        backgroundColor: '#444',
-        opacity: '0.9',
-        color: '#EEE',
+        mask: {
+            backgroundColor: '#444',
+            opacity: '0.9',
+            color: '#EEE',
+        },
+        delayConfirm: {
+            background: "#111",
+        },
     },
     groundGlass: {
-        backdropFilter: 'blur(5px)',
-        color: '#111',
+        mask: {
+            color: '#111',
+            backdropFilter: 'blur(5px)',
+        },
+        delayConfirm: {
+            background: "#dedede",
+        },
     }
 }

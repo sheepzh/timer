@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -50,6 +50,15 @@ export type LimitMessage = {
         pi: string
         confession: string
     }
+}
+
+export const verificationMessages: Messages<LimitMessage["verification"]> = {
+    en: resource.en?.verification,
+    zh_CN: resource.zh_CN?.verification,
+    zh_TW: resource.zh_TW?.verification,
+    ja: resource.ja?.verification,
+    pt_PT: resource.pt_PT?.verification,
+    uk: resource.uk?.verification,
 }
 
 const _default: Messages<LimitMessage> = resource

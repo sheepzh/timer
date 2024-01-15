@@ -4,6 +4,8 @@ import { LimitReason, LimitType, MaskModal } from "./common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import optionService from "@service/option-service"
 import { FILTER_STYLES, LINK_STYLE, MASK_STYLE } from "./modal-style"
+import { DelayConfirm } from "./delay/confirm"
+import { DelayButton } from "./delay/button"
 
 const TYPE_SORT: { [reason in LimitType]: number } = {
     PERIOD: 0,
@@ -69,6 +71,8 @@ function isSameReason(a: LimitReason, b: LimitReason): boolean {
     return same
 }
 
+const canDelay = ({ allowDelay, type }: LimitReason) => allowDelay && (type === "DAILY" || type === "VISIT")
+
 class ModalInstance implements MaskModal {
     url: string
     reasons: LimitReason[] = []
@@ -77,13 +81,15 @@ class ModalInstance implements MaskModal {
     delayHandlers: (() => void)[] = [
         () => sendMsg2Runtime('cs.moreMinutes', this.url)
     ]
+    options: timer.option.AllOption
 
     constructor(url: string) {
         this.url = url
         this.mask = document.createElement('div')
         this.mask.id = "_timer_mask"
         this.initStyle()
-        window && (window.onload = () => this.refresh())
+        window?.addEventListener?.("load", () => this.refresh())
+        optionService.getAllOption().then(val => this.options = val)
     }
 
     addDelayHandler(handler: () => void): void {
@@ -96,7 +102,7 @@ class ModalInstance implements MaskModal {
         const filterType = (await optionService.getAllOption())?.limitFilter
         const realMaskStyle = {
             ...MASK_STYLE,
-            ...FILTER_STYLES[filterType || 'translucent']
+            ...FILTER_STYLES[filterType || 'translucent']?.mask || {}
         }
         Object.assign(this.mask.style || {}, realMaskStyle)
     }
@@ -148,9 +154,8 @@ class ModalInstance implements MaskModal {
         beforeCount !== afterCount && this.refresh()
     }
 
-    private showModalInner(reason: LimitReason): any {
+    private showModalInner(reason: LimitReason): void {
         const url = this.url
-        const { allowDelay, type } = reason
 
         // Clear
         Array.from(this.mask.children).forEach(e => e.remove())
@@ -159,24 +164,13 @@ class ModalInstance implements MaskModal {
         this.mask.append(document.createElement("br"))
         this.mask.append(link2Setup(url))
 
-        const canDelay = (type === "DAILY" || type === "VISIT") && allowDelay
-
-        if (canDelay) {
-            const delayContainer = document.createElement('p')
-            delayContainer.style.marginTop = '100px'
-
-            // Only delay-allowed rules exist, can delay
-            // @since 0.4.0
-            const link = document.createElement('a')
-            Object.assign(link.style || {}, LINK_STYLE)
-            link.setAttribute('href', 'javascript:void(0)')
-            const text = t(msg => msg.more5Minutes)
-            link.innerText = text
-            link.onclick = () => [
-                this.delayHandlers?.forEach(h => h?.())
-            ]
-            delayContainer.append(link)
-            this.mask.append(delayContainer)
+        if (canDelay(reason)) {
+            const delayConfirm = new DelayConfirm(this.options)
+            const delayButton = new DelayButton(
+                () => delayConfirm.doConfirm().then(() => this.delayHandlers?.forEach?.(h => h?.()))
+            )
+            this.mask.append(delayButton.dom)
+            this.mask.append(delayConfirm.dom)
         }
 
         document.body.append(this.mask)

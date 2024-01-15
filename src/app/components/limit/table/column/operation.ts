@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -44,7 +44,7 @@ async function handleModify(row: timer.limit.Item, callback: () => void) {
 }
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
-    en: 200,
+    en: 220,
     zh_CN: 200,
     ja: 200,
     zh_TW: 200,

@@ -8,7 +8,7 @@ declare namespace timer.limit {
     type Period = [number, number]
     /**
      * Limit rule in runtime
-     * 
+     *
      * @since 0.8.4
      */
     type Item = Rule & {
@@ -28,7 +28,7 @@ declare namespace timer.limit {
         time: number
         /**
          * Time limit per visit, seconds
-         * 
+         *
          * @since 2.0.0
          */
         visitTime?: number
@@ -65,7 +65,7 @@ declare namespace timer.limit {
         | 'nothing'
         // Password required to lock or modify restricted rule
         | 'password'
-        // Verification code input requird to lock or modify restricted rule
+        // Verification code input required to lock or modify restricted rule
         | 'verification'
     /**
      * @since 1.9.0

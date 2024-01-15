@@ -29,7 +29,7 @@ type ItemSet = {
 
 /**
  * The language code of crowdin
- * 
+ *
  * @see https://developer.crowdin.com/language-codes/
  */
 type CrowdinLanguage =

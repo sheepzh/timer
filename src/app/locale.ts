@@ -1,13 +1,14 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { I18nKey as _I18nKey, t as _t } from "@i18n"
-import { tN as _tN } from "@i18n/i18n-vue"
+import { tN as _tN } from "@i18n"
 import messages, { AppMessage } from "@i18n/message/app"
+import { VNode } from "vue"
 
 export type I18nKey = _I18nKey<AppMessage>
 
@@ -25,5 +26,5 @@ export function tWith(key: I18nKey, specLocale: timer.Locale, param?: any) {
 }
 
 export function tN(key: I18nKey, param?: any) {
-    return _tN<AppMessage>(messages, { key, param })
+    return _tN<AppMessage, VNode>(messages, { key, param })
 }

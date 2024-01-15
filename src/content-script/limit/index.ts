@@ -30,12 +30,11 @@ export default async function processLimit(url: string) {
         const anyFail = allMatch(results, r => r.code === "fail")
         if (anyFail) return { code: "fail" }
         // Merge data of all the handlers
-        const datas = results
+        const items = results
             .filter(r => r.code === "success")
             .map(r => r.data)
             .filter(r => r !== undefined && r !== null)
-        const data = datas.length <= 1 ? datas[0] : datas
-        console.log("sdadsa", data)
+        const data = items.length <= 1 ? items[0] : items
         return { code: "success", data }
     })
 }

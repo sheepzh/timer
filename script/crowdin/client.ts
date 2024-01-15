@@ -274,7 +274,7 @@ export class CrowdinClient {
     createStorage = createStorage
     /**
      * Get the main branch
-     * 
+     *
      * @returns main branch or undefined
      */
     getMainBranch = getMainBranch
@@ -317,7 +317,7 @@ export class CrowdinClient {
 
 /**
  * Get the client from environment variable [TIMER_CROWDIN_AUTH]
- * 
+ *
  * @returns client
  */
 export function getClientFromEnv(): CrowdinClient {
