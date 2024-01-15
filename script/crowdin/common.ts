@@ -54,10 +54,10 @@ export const MSG_BASE = path.join(__dirname, '..', '..', 'src', 'i18n', 'message
 export const RSC_FILE_SUFFIX = "-resource.json"
 
 /**
- * Read all messages from source file 
- * 
+ * Read all messages from source file
+ *
  * @param dir the directory of messages
- * @returns 
+ * @returns
  */
 export async function readAllMessages(dir: Dir): Promise<Record<string, Messages<any>>> {
     const dirPath = path.join(MSG_BASE, dir)
@@ -78,7 +78,7 @@ export async function readAllMessages(dir: Dir): Promise<Record<string, Messages
 
 /**
  * Merge crowdin message into locale resource json files
- * 
+ *
  * @param dir dir
  * @param filename the name of json file
  * @param messages crowdin messages
@@ -99,15 +99,11 @@ export async function mergeMessage(
     Object.entries(messages).forEach(([locale, itemSet]) => {
         let existMessage: any = existMessages[locale] || {}
         Object.entries(itemSet).forEach(([path, text]) => {
-            if (!text) {
-                // Not translated
-                return
-            }
+            // Not translated
+            if (!text) return
             const sourceText = sourceItemSet[path]
-            if (!sourceText) {
-                // Deleted key
-                return
-            }
+            // Deleted key
+            if (!sourceText) return
             if (!checkPlaceholder(text, sourceText)) {
                 console.error(`Invalid placeholder: dir=${dir}, filename=${filename}, path=${path}, source=${sourceText}, translated=${text}`)
                 return

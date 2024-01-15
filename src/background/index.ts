@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -13,7 +13,7 @@ import VersionManager from "./version-manager"
 import ActiveTabListener from "./active-tab-listener"
 import badgeTextManager from "./badge-text-manager"
 import MessageDispatcher from "./message-dispatcher"
-import initLimitProcesser from "./limit-processor"
+import initLimitProcessor from "./limit-processor"
 import initCsHandler from "./content-script-handler"
 import { isBrowserUrl } from "@util/pattern"
 import BackupScheduler from "./backup-scheduler"
@@ -28,7 +28,7 @@ openLog()
 const messageDispatcher = new MessageDispatcher()
 
 // Limit processor
-initLimitProcesser(messageDispatcher)
+initLimitProcessor(messageDispatcher)
 
 // Content-script's request handler
 initCsHandler(messageDispatcher)

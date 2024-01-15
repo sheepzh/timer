@@ -91,7 +91,7 @@ const SITE_EXAMPLES: _SiteExample[] = [{
     original: 'es.news.google.com',
     ruleIdx: [2],
 }, {
-    original: 'a.b.c.phontos.google.com',
+    original: 'a.b.c.photos.google.com',
     ruleIdx: [2],
 }, {
     original: 'pass.hust.edu.cn',

@@ -14,7 +14,7 @@ async function initBranch(client: CrowdinClient): Promise<SourceFilesModel.Branc
 
 /**
  * Process strings
- * 
+ *
  * @param client client
  * @param existFile exist crowdin file
  * @param fileContent strings
@@ -55,7 +55,7 @@ async function processByDir(client: CrowdinClient, dir: Dir, branch: SourceFiles
     if (!directory) {
         directory = await client.createDirectory(dirKey)
     }
-    console.log('Direcotory: ' + JSON.stringify(directory))
+    console.log('Directory: ' + JSON.stringify(directory))
     // 2. iterate all messages
     const messages = await readAllMessages(dir)
     // 3. list all files in directory

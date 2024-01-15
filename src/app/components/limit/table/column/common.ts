@@ -10,7 +10,7 @@ import { defineComponent, h, onMounted, ref, VNode } from "vue"
 
 /**
  * Judge wether verification is required
- * 
+ *
  * @returns T/F
  */
 export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
@@ -26,15 +26,13 @@ export async function judgeVerificationRequired(item: timer.limit.Item): Promise
     }
     // Visit
     if (visitTime) {
-        console.log("visiTime", visitTime)
         const hitVisit = await sendMsg2Runtime("askHitVisit", item)
-        console.log("visiTimeHit", hitVisit)
         if (hitVisit) return true
     }
     return false
 }
 
-const PROMT_TXT_CSS: Partial<CSSStyleDeclaration> = {
+const PROMPT_TXT_CSS: Partial<CSSStyleDeclaration> = {
     userSelect: 'none',
 }
 
@@ -79,23 +77,23 @@ const AnswerCanvas = defineComponent({
 })
 
 /**
- * @returns null if verification not required, 
- *          or promise with resolve invocked only if verification code or password correct
+ * @returns null if verification not required,
+ *          or promise with resolve invoked only if verification code or password correct
  */
 export async function processVerification(option: timer.option.DailyLimitOption): Promise<void> {
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
     let answerValue: string
     let messageNodes: (VNode | string)[]
-    let incrorectMessage: string
+    let incorrectMessage: string
     if (limitLevel === 'password' && limitPassword) {
         answerValue = limitPassword
         messageNodes = [t(msg => msg.limit.verification.pswInputTip)]
-        incrorectMessage = t(msg => msg.limit.verification.incorrectPsw)
+        incorrectMessage = t(msg => msg.limit.verification.incorrectPsw)
     } else if (limitLevel === 'verification') {
         const pair: VerificationPair = verificationProcessor.generate(limitVerifyDifficulty, locale)
         const { prompt, promptParam, answer } = pair || {}
         answerValue = typeof answer === 'function' ? t(msg => answer(msg.limit.verification)) : answer
-        incrorectMessage = t(msg => msg.limit.verification.incorrectAnswer)
+        incorrectMessage = t(msg => msg.limit.verification.incorrectAnswer)
         if (prompt) {
             const promptTxt = typeof prompt === 'function'
                 ? t(msg => prompt(msg.limit.verification), { ...promptParam, answer: answerValue })
@@ -114,7 +112,7 @@ export async function processVerification(option: timer.option.DailyLimitOption)
                 boxType: 'prompt',
                 type: 'warning',
                 title: '',
-                message: h('div', { style: PROMT_TXT_CSS }, messageNodes),
+                message: h('div', { style: PROMPT_TXT_CSS }, messageNodes),
                 showInput: true,
                 showCancelButton: true,
                 showClose: true,
@@ -123,7 +121,7 @@ export async function processVerification(option: timer.option.DailyLimitOption)
                 if (value === answerValue) {
                     return resolve()
                 }
-                ElMessage.error(incrorectMessage)
+                ElMessage.error(incorrectMessage)
             }).catch(() => { })
         )
         : null

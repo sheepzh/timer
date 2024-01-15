@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -43,7 +43,7 @@ async function main() {
     )
     tracker.init()
 
-    // Execute only one time
+    // Execute only one time for each dom
     if (getOrSetFlag()) return
     if (!host) return
 

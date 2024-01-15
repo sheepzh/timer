@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -26,7 +26,7 @@ export type VerificationPair = {
  */
 export interface VerificationGenerator {
     /**
-     * Whether to support 
+     * Whether to support
      */
     supports(context: VerificationContext): boolean
 
