@@ -1,6 +1,6 @@
 import { VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
-import { LINK_STYLE } from "../modal-style"
+import { FILTER_STYLES, LINK_STYLE } from "../modal-style"
 import { t as t_, locale, I18nKey, tN as tN_, I18nResultItem } from "@i18n"
 import { LimitMessage, verificationMessages } from "@i18n/message/app/limit"
 
@@ -49,8 +49,14 @@ const CONFIRM_STYLE: Partial<CSSStyleDeclaration> = {
     padding: "50px 20px 20px 20px",
     position: "absolute",
     textAlign: "center",
-    background: "#111",
     borderRadius: "8px",
+}
+
+const computeConfirmStyle = (limitFilter: timer.limit.FilterType): Partial<CSSStyleDeclaration> => {
+    return {
+        ...CONFIRM_STYLE,
+        ...FILTER_STYLES[limitFilter || "translucent"]?.delayConfirm || {}
+    }
 }
 
 const INPUT_STYLE: Partial<CSSStyleDeclaration> = {
@@ -94,7 +100,7 @@ export class DelayConfirm {
     private onError: (msg: string) => void
 
     constructor(option: timer.option.DailyLimitOption) {
-        const { limitLevel = "nothing", limitPassword, limitVerifyDifficulty } = option || {}
+        const { limitLevel = "nothing", limitPassword, limitVerifyDifficulty, limitFilter } = option || {}
         let tips: I18nResultItem<HTMLElement>[] = []
         if (limitLevel === "password" && limitPassword) {
             this.answerValue = limitPassword
@@ -121,9 +127,8 @@ export class DelayConfirm {
             return
         }
         this.dom = document.createElement("div")
-        Object.assign(this.dom.style || {}, CONFIRM_STYLE)
+        Object.assign(this.dom.style || {}, computeConfirmStyle(limitFilter))
         this.dom.style.display = 'none'
-        // tips
         const tipContainer = document.createElement('div')
         tipContainer.append(...tips)
         this.dom.append(tipContainer)

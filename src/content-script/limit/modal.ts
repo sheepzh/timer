@@ -5,7 +5,7 @@ import { sendMsg2Runtime } from "@api/chrome/runtime"
 import optionService from "@service/option-service"
 import { FILTER_STYLES, LINK_STYLE, MASK_STYLE } from "./modal-style"
 import { DelayConfirm } from "./delay/confirm"
-import { DelayButton } from "./delay/Button"
+import { DelayButton } from "./delay/button"
 
 const TYPE_SORT: { [reason in LimitType]: number } = {
     PERIOD: 0,
@@ -100,7 +100,7 @@ class ModalInstance implements MaskModal {
         const filterType = (await optionService.getAllOption())?.limitFilter
         const realMaskStyle = {
             ...MASK_STYLE,
-            ...FILTER_STYLES[filterType || 'translucent']
+            ...FILTER_STYLES[filterType || 'translucent']?.mask || {}
         }
         Object.assign(this.mask.style || {}, realMaskStyle)
     }
