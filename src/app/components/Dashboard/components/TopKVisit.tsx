@@ -21,7 +21,7 @@ use([PieChart, TitleComponent, TooltipComponent])
 import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
-import { defineComponent, h, onMounted, ref } from "vue"
+import { defineComponent, onMounted, ref } from "vue"
 import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
@@ -88,39 +88,33 @@ class ChartWrapper extends EchartsWrapper<_Value[], EcOption> {
     generateOption = generateOption
 }
 
-const _default = defineComponent({
-    setup() {
-        const now = new Date()
-        const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * DAY_NUM)
+const _default = defineComponent(() => {
+    const now = new Date()
+    const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * DAY_NUM)
 
-        const chart: Ref<HTMLDivElement> = ref()
-        const chartWrapper: ChartWrapper = new ChartWrapper()
+    const chart: Ref<HTMLDivElement> = ref()
+    const chartWrapper: ChartWrapper = new ChartWrapper()
 
-        onMounted(async () => {
-            const loading = ElLoading.service({
-                target: `#${CONTAINER_ID}`,
-            })
-            chartWrapper.init(chart.value)
-            const query: StatQueryParam = {
-                date: [startTime, now],
-                sort: "time",
-                sortOrder: 'DESC',
-                mergeDate: true,
-            }
-            const top: timer.stat.Row[] = (await statService.selectByPage(query, { num: 1, size: TOP_NUM }, true)).list
-            const data: _Value[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
-            for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
-                data.push({ name: '', host: '', value: 0 })
-            }
-            await chartWrapper.render(data)
-            loading.close()
+    onMounted(async () => {
+        const loading = ElLoading.service({
+            target: `#${CONTAINER_ID}`,
         })
-        return () => h('div', {
-            id: CONTAINER_ID,
-            class: 'chart-container',
-            ref: chart,
-        })
-    }
+        chartWrapper.init(chart.value)
+        const query: StatQueryParam = {
+            date: [startTime, now],
+            sort: "time",
+            sortOrder: 'DESC',
+            mergeDate: true,
+        }
+        const top: timer.stat.Row[] = (await statService.selectByPage(query, { num: 1, size: TOP_NUM }, true)).list
+        const data: _Value[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
+        for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
+            data.push({ name: '', host: '', value: 0 })
+        }
+        await chartWrapper.render(data)
+        loading.close()
+    })
+    return () => <div id={CONTAINER_ID} class="chart-container" ref={chart} />
 })
 
 export default _default

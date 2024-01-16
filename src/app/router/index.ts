@@ -20,11 +20,11 @@ const dataRoutes: RouteRecordRaw[] = [
     // Needn't nested router 
     {
         path: '/data/dashboard',
-        component: () => import('../components/dashboard')
+        component: () => import('../components/Dashboard')
     },
     {
         path: REPORT_ROUTE,
-        component: () => import('../components/report')
+        component: () => import('../components/Report')
     }, {
         path: ANALYSIS_ROUTE,
         component: () => import('../components/analysis')

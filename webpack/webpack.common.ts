@@ -2,7 +2,7 @@ import path from "path"
 import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import webpack, { Chunk } from "webpack"
-// Generate json files 
+// Generate json files
 import manifest from "../src/manifest"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
@@ -84,9 +84,15 @@ const staticOptions: webpack.Configuration = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.tsx?$/,
                 exclude: /^(node_modules|test|script)/,
-                use: ['ts-loader']
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ["@babel/preset-env"],
+                        plugins: ["@vue/babel-plugin-jsx", "@babel/plugin-transform-modules-commonjs"],
+                    },
+                }, 'ts-loader'],
             }, {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],

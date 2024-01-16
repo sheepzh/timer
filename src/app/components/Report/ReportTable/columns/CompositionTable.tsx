@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { computed, ComputedRef, defineComponent, h, PropType } from "vue"
+import { computed, ComputedRef, defineComponent, PropType } from "vue"
 import { ElTable, ElTableColumn } from "element-plus"
 import { sum } from "@util/array"
 import { t } from "@app/locale"
@@ -35,38 +35,35 @@ function computeRows(data: timer.stat.RemoteCompositionVal[]): Row[] {
 }
 
 const _default = defineComponent({
-    name: 'CompositionChart',
     props: {
         data: Array as PropType<timer.stat.RemoteCompositionVal[]>,
         valueFormatter: Function as PropType<ValueFormatter>,
     },
     setup(props) {
         const rows: ComputedRef<Row[]> = computed(() => computeRows(props.data))
-        return () => h('div', { style: { width: '400px' } },
-            h(ElTable, {
-                data: rows.value,
-                size: 'small',
-                border: true,
-            }, () => [
-                h(ElTableColumn, {
-                    label: CLIENT_NAME,
-                    formatter: (row: Row) => row.name,
-                    align: 'center',
-                    width: 150,
-                }),
-                h(ElTableColumn, {
-                    label: VALUE,
-                    formatter: (row: Row) => props.valueFormatter(row.value),
-                    align: 'center',
-                    width: 150,
-                }),
-                h(ElTableColumn, {
-                    label: PERCENTAGE,
-                    align: 'center',
-                    formatter: (row: Row) => row.percent,
-                    width: 100,
-                }),
-            ])
+        return () => (
+            <div style={{ width: "400px" }}>
+                <ElTable data={rows.value} size="small" border>
+                    <ElTableColumn
+                        label={CLIENT_NAME}
+                        formatter={(r: Row) => r.name}
+                        align="center"
+                        width={150}
+                    />
+                    <ElTableColumn
+                        label={VALUE}
+                        formatter={(r: Row) => props.valueFormatter?.(r.value)}
+                        align="center"
+                        width={150}
+                    />
+                    <ElTableColumn
+                        label={PERCENTAGE}
+                        align="center"
+                        formatter={(r: Row) => r.percent}
+                        width={100}
+                    />
+                </ElTable>
+            </div>
         )
     }
 })

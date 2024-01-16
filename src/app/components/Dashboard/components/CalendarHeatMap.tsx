@@ -32,7 +32,7 @@ import statService, { StatQueryParam } from "@service/stat-service"
 import { locale } from "@i18n"
 import { formatTime, getWeeksAgo, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElLoading } from "element-plus"
-import { defineComponent, h, onMounted, ref, Ref } from "vue"
+import { defineComponent, onMounted, ref, Ref } from "vue"
 import { groupBy, rotate } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
 import { getPrimaryTextColor } from "@util/style"
@@ -243,45 +243,38 @@ class ChartWrapper {
     }
 }
 
-const _default = defineComponent({
-    name: "CalendarHeatMap",
-    setup() {
-        const isChinese = locale === "zh_CN"
-        const now = new Date()
-        const startTime: Date = getWeeksAgo(now, isChinese, WEEK_NUM)
+const _default = defineComponent(() => {
+    const isChinese = locale === "zh_CN"
+    const now = new Date()
+    const startTime: Date = getWeeksAgo(now, isChinese, WEEK_NUM)
 
-        const chart: Ref<HTMLDivElement> = ref()
-        const chartWrapper: ChartWrapper = new ChartWrapper(startTime, now)
+    const chart: Ref<HTMLDivElement> = ref()
+    const chartWrapper: ChartWrapper = new ChartWrapper(startTime, now)
 
-        onMounted(async () => {
-            // 1. loading
-            const loading = ElLoading.service({
-                target: `#${CONTAINER_ID}`,
-            })
-            // 2. init chart
-            chartWrapper.init(chart.value)
-            // 3. query data
-            const query: StatQueryParam = { date: [startTime, now], sort: "date" }
-            const items = await statService.select(query)
-            const result = {}
-            items.forEach(({ date, focus }) => result[date] = (result[date] || 0) + focus)
-            // 4. set weekdays
-            // Sunday to Monday
-            const weekDays = (t(msg => msg.calendar.weekDays)?.split?.('|') || []).reverse()
-            if (!isChinese) {
-                // Let Sunday last
-                // Saturday to Sunday
-                rotate(weekDays, 1)
-            }
-            // 5. render
-            chartWrapper.render(result, weekDays, loading)
+    onMounted(async () => {
+        // 1. loading
+        const loading = ElLoading.service({
+            target: `#${CONTAINER_ID}`,
         })
-        return () => h('div', {
-            id: CONTAINER_ID,
-            class: 'chart-container',
-            ref: chart,
-        })
-    }
+        // 2. init chart
+        chartWrapper.init(chart.value)
+        // 3. query data
+        const query: StatQueryParam = { date: [startTime, now], sort: "date" }
+        const items = await statService.select(query)
+        const result = {}
+        items.forEach(({ date, focus }) => result[date] = (result[date] || 0) + focus)
+        // 4. set weekdays
+        // Sunday to Monday
+        const weekDays = (t(msg => msg.calendar.weekDays)?.split?.('|') || []).reverse()
+        if (!isChinese) {
+            // Let Sunday last
+            // Saturday to Sunday
+            rotate(weekDays, 1)
+        }
+        // 5. render
+        chartWrapper.render(result, weekDays, loading)
+    })
+    return () => <div id={CONTAINER_ID} class="chart-container" ref={chart} />
 })
 
 export default _default

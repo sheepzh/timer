@@ -21,7 +21,7 @@ use([CandlestickChart, GridComponent, TitleComponent, TooltipComponent])
 
 import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
 import { ElLoading } from "element-plus"
-import { defineComponent, h, onMounted, ref } from "vue"
+import { defineComponent, onMounted, ref } from "vue"
 import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
 import { BASE_TITLE_OPTION } from "../common"
@@ -180,41 +180,34 @@ class ChartWrapper {
     }
 }
 
-const _default = defineComponent({
-    name: "WeekOnWeek",
-    setup() {
-        const now = new Date()
-        const lastPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH * 2)
-        const lastPeriodEnd = new Date(lastPeriodStart.getTime() + MILL_PER_DAY * (PERIOD_WIDTH - 1))
-        const thisPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH)
-        // Not includes today
-        const thisPeriodEnd = new Date(now.getTime() - MILL_PER_DAY)
+const _default = defineComponent(() => {
+    const now = new Date()
+    const lastPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH * 2)
+    const lastPeriodEnd = new Date(lastPeriodStart.getTime() + MILL_PER_DAY * (PERIOD_WIDTH - 1))
+    const thisPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH)
+    // Not includes today
+    const thisPeriodEnd = new Date(now.getTime() - MILL_PER_DAY)
 
-        const chartWrapper: ChartWrapper = new ChartWrapper()
-        const chart: Ref<HTMLDivElement> = ref()
-        onMounted(async () => {
-            const loading = ElLoading.service({
-                target: `#${CONTAINER_ID}`,
-            })
-            chartWrapper.init(chart.value)
-            const query: StatQueryParam = {
-                date: [lastPeriodStart, lastPeriodEnd],
-                mergeDate: true,
-            }
-            // Query with alias 
-            // @since 1.1.8
-            const lastPeriodItems: timer.stat.Row[] = await statService.select(query, true)
-            query.date = [thisPeriodStart, thisPeriodEnd]
-            const thisPeriodItems: timer.stat.Row[] = await statService.select(query, true)
-            const option = optionOf(lastPeriodItems, thisPeriodItems)
-            chartWrapper.render(option, loading)
+    const chartWrapper: ChartWrapper = new ChartWrapper()
+    const chart: Ref<HTMLDivElement> = ref()
+    onMounted(async () => {
+        const loading = ElLoading.service({
+            target: `#${CONTAINER_ID}`,
         })
-        return () => h('div', {
-            id: CONTAINER_ID,
-            class: 'chart-container',
-            ref: chart,
-        })
-    }
+        chartWrapper.init(chart.value)
+        const query: StatQueryParam = {
+            date: [lastPeriodStart, lastPeriodEnd],
+            mergeDate: true,
+        }
+        // Query with alias 
+        // @since 1.1.8
+        const lastPeriodItems: timer.stat.Row[] = await statService.select(query, true)
+        query.date = [thisPeriodStart, thisPeriodEnd]
+        const thisPeriodItems: timer.stat.Row[] = await statService.select(query, true)
+        const option = optionOf(lastPeriodItems, thisPeriodItems)
+        chartWrapper.render(option, loading)
+    })
+    return () => <div id={CONTAINER_ID} class="chart-container" ref={chart} />
 })
 
 export default _default

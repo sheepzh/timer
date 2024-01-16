@@ -7,9 +7,13 @@
     "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
     "cSpell.words": [
         "Auths",
+        "clipboardy",
+        "countup",
         "echarts",
+        "filemanager",
         "Hengyang",
-        "Kanban"
+        "Kanban",
+        "zrender"
     ],
     "cSpell.ignorePaths": [
         "package-lock.json",

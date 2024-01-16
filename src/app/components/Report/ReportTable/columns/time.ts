@@ -8,7 +8,7 @@
 import { defineComponent, h } from "vue"
 import { Effect, ElTableColumn, ElTooltip } from "element-plus"
 import { t } from "@app/locale"
-import CompositionTable from "./composition-table"
+import CompositionTable from "./CompositionTable"
 
 const columnLabel = t(msg => msg.item.time)
 

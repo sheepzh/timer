@@ -6,10 +6,9 @@
  */
 
 import { ElCard, ElCol } from "element-plus"
-import { defineComponent, h } from "vue"
+import { defineComponent } from "vue"
 
 const _default = defineComponent({
-    name: "DashboardCard",
     props: {
         span: {
             type: Number,
@@ -17,11 +16,11 @@ const _default = defineComponent({
         }
     },
     setup(props, ctx) {
-        return () => h(ElCol, {
-            span: props.span
-        }, () => h(ElCard, {
-            style: { height: "100%" }
-        }, () => h(ctx.slots.default)))
+        return () => (
+            <ElCol span={props.span}>
+                <ElCard style={{ height: "100%" }} v-slots={ctx.slots} />
+            </ElCol>
+        )
     }
 })
 

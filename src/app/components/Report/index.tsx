@@ -9,12 +9,12 @@ import type { Ref, UnwrapRef, ComputedRef } from "vue"
 import type { StatQueryParam } from "@service/stat-service"
 import type { Router, RouteLocation } from "vue-router"
 
-import { computed, defineComponent, h, reactive, ref } from "vue"
+import { computed, defineComponent, reactive, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
 import statService from "@service/stat-service"
 import whitelistService from "@service/whitelist-service"
 import './styles/element'
-import ReportTable, { TableInstance } from "./table"
+import ReportTable, { TableInstance } from "./ReportTable"
 import ReportFilter from "./filter"
 import Pagination from "../common/pagination"
 import ContentContainer from "../common/content-container"
@@ -206,87 +206,88 @@ function copyFilterParam(newVal: ReportFilterOption, oldVal: ReportFilterOption)
     oldVal.timeFormat = newVal.timeFormat
 }
 
-const _default = defineComponent({
-    name: "Report",
-    setup() {
-        const route = useRoute()
-        const router = useRouter()
-        const [initialFilterParam, initialSort] = initQueryParam(route, router)
-        const filterOption: UnwrapRef<ReportFilterOption> = reactive(initialFilterParam)
-        const sort: UnwrapRef<SortInfo> = reactive(initialSort)
+const _default = defineComponent(() => {
+    const route = useRoute()
+    const router = useRouter()
+    const [initialFilterParam, initialSort] = initQueryParam(route, router)
+    const filterOption: UnwrapRef<ReportFilterOption> = reactive(initialFilterParam)
+    const sort: UnwrapRef<SortInfo> = reactive(initialSort)
 
-        const data: Ref<timer.stat.Row[]> = ref([])
-        const whitelist: Ref<string[]> = ref([])
-        const remoteRead: Ref<boolean> = ref(false)
+    const data: Ref<timer.stat.Row[]> = ref([])
+    const whitelist: Ref<string[]> = ref([])
+    const remoteRead: Ref<boolean> = ref(false)
 
-        const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
-        const queryParam: ComputedRef<StatQueryParam> = computed(() => computeTimerQueryParam(filterOption, sort))
-        const table: Ref<TableInstance> = ref()
+    const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
+    const queryParam: ComputedRef<StatQueryParam> = computed(() => computeTimerQueryParam(filterOption, sort))
+    const table: Ref<TableInstance> = ref()
 
-        const query = () => queryData(queryParam, data, page, remoteRead)
-        // Query data if window become visible
-        handleWindowVisibleChange(query)
-        // Init first
-        queryWhiteList(whitelist).then(query)
+    const query = () => queryData(queryParam, data, page, remoteRead)
+    // Query data if window become visible
+    handleWindowVisibleChange(query)
+    // Init first
+    queryWhiteList(whitelist).then(query)
 
-        return () => h(ContentContainer, {}, {
-            filter: () => h(ReportFilter, {
-                host: filterOption.host,
-                dateRange: filterOption.dateRange,
-                mergeDate: filterOption.mergeDate,
-                mergeHost: filterOption.mergeHost,
-                timeFormat: filterOption.timeFormat,
-                onChange: (newFilterOption: ReportFilterOption) => {
-                    copyFilterParam(newFilterOption, filterOption)
-                    query()
-                },
-                onDownload: async (format: FileFormat) => {
-                    const rows = await statService.select(queryParam.value, true)
-                    format === 'json' && exportJson(filterOption, rows)
-                    format === 'csv' && exportCsv(filterOption, rows)
-                },
-                onBatchDelete: (filterOption: ReportFilterOption) => handleBatchDelete(table, filterOption, query),
-                onRemoteChange(newRemoteChange) {
-                    remoteRead.value = newRemoteChange
-                    query()
-                },
-            }),
-            content: () => [
-                h(ReportTable, {
-                    whitelist: whitelist.value,
-                    mergeDate: filterOption.mergeDate,
-                    mergeHost: filterOption.mergeHost,
-                    timeFormat: filterOption.timeFormat,
-                    dateRange: filterOption.dateRange,
-                    readRemote: remoteRead.value,
-                    data: data.value,
-                    defaultSort: sort,
-                    ref: table,
-                    onSortChange: ((sortInfo: SortInfo) => {
-                        sort.order = sortInfo.order
-                        sort.prop = sortInfo.prop
-                        query()
-                    }),
-                    onItemDelete: (_deleted: timer.stat.Row) => query(),
-                    onWhitelistChange: (_host: string, _addOrRemove: boolean) => queryWhiteList(whitelist),
-                    onAliasChange: (host: string, newAlias: string) => handleAliasChange({ host, merged: filterOption.mergeHost }, newAlias, data)
-                }),
-                h(Pagination, {
-                    total: page.total,
-                    size: page.size,
-                    num: page.num,
-                    onNumChange(newNum: number) {
-                        page.num = newNum
-                        query()
-                    },
-                    onSizeChange(newSize: number) {
-                        page.size = newSize
-                        query()
-                    }
-                })
-            ]
-        })
-    }
+    const renderFilter = () => <ReportFilter
+        host={filterOption.host}
+        dateRange={filterOption.dateRange}
+        mergeDate={filterOption.mergeDate}
+        mergeHost={filterOption.mergeHost}
+        timeFormat={filterOption.timeFormat}
+        onChange={(newVal) => {
+            copyFilterParam(newVal, filterOption)
+            query()
+        }}
+        onDownload={async format => {
+            const rows = await statService.select(queryParam.value, true)
+            format === 'json' && exportJson(filterOption, rows)
+            format === 'csv' && exportCsv(filterOption, rows)
+        }}
+        onBatchDelete={filterOption => handleBatchDelete(table, filterOption, query)}
+        onRemoteChange={newRemoteChange => {
+            remoteRead.value = newRemoteChange
+            query()
+        }}
+    />
+
+    const renderContent = () => <>
+        <ReportTable
+            whitelist={whitelist.value}
+            mergeDate={filterOption.mergeDate}
+            mergeHost={filterOption.mergeHost}
+            timeFormat={filterOption.timeFormat}
+            dateRange={filterOption.dateRange}
+            readRemote={remoteRead.value}
+            data={data.value}
+            defaultSort={sort}
+            ref={table}
+            onSortChange={({ order, prop }) => {
+                sort.order = order
+                sort.prop = prop
+                query()
+            }}
+            onItemDelete={query}
+            onWhitelistChange={() => queryWhiteList(whitelist)}
+            onAliasChange={(host, newAlias) => handleAliasChange({ host, merged: filterOption.mergeHost }, newAlias, data)}
+        />
+        <Pagination
+            total={page.total}
+            size={page.size}
+            num={page.num}
+            onNumChange={newNum => {
+                page.num = newNum
+                query()
+            }}
+            onSizeChange={newSize => {
+                page.size = newSize
+                query()
+            }}
+        />
+    </>
+
+    return () => <ContentContainer v-slots={{
+        filter: renderFilter,
+        content: renderContent,
+    }} />
 })
 
 export default _default

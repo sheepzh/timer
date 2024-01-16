@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -88,7 +88,7 @@ const placeholder: ChromeMessage = {
     }
 }
 
-function routerPath(root: any, parentPath = undefined) {
+function routerPath(root: any, parentPath = '') {
     Object.entries(root)
         .forEach(([key, value]) => {
             const currentPath = parentPath ? `${parentPath}_${key}` : key
