@@ -22,8 +22,7 @@ export async function judgeVerificationRequired(item: timer.limit.Item): Promise
     // Period
     if (periods?.length) {
         const idx = dateMinute2Idx(new Date())
-        const hitPeriod = periods?.find(([s, e]) => s <= idx && e >= idx)
-        console.log(idx, periods, hitPeriod)
+        const hitPeriod = periods?.some(([s, e]) => s <= idx && e >= idx)
         if (hitPeriod) return true
     }
     // Visit
