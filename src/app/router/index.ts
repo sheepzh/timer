@@ -43,7 +43,7 @@ const behaviorRoutes: RouteRecordRaw[] = [
         component: () => import('../components/Habit')
     }, {
         path: LIMIT_ROUTE,
-        component: () => import('../components/limit')
+        component: () => import('../components/Limit')
     }
 ]
 
@@ -62,7 +62,7 @@ const additionalRoutes: RouteRecordRaw[] = [
         component: () => import('../components/rule-merge')
     }, {
         path: OPTION_ROUTE,
-        component: () => import('../components/option')
+        component: () => import('../components/Option')
     }
 ]
 

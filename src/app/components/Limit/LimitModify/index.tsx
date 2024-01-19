@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { ElDialog, ElMessage } from "element-plus"
-import { computed, defineComponent, h, nextTick, ref, Ref } from "vue"
-import Sop, { SopInstance } from "./sop"
+import { computed, defineComponent, nextTick, ref, Ref } from "vue"
+import Sop, { SopInstance } from "./Sop"
 import limitService from "@service/limit-service"
 import { t } from "@app/locale"
 import "./style/el-input.sass"
@@ -69,16 +69,16 @@ const _default = defineComponent({
 
         ctx.expose(instance)
 
-        return () => h(ElDialog, {
-            title: title.value,
-            modelValue: visible.value,
-            closeOnClickModal: false,
-            onClose
-        }, () => h(Sop, {
-            ref: sop,
-            onSave,
-            onCancel: onClose,
-        }))
+        return () => (
+            <ElDialog
+                title={title.value}
+                modelValue={visible.value}
+                closeOnClickModal={false}
+                onClose={onClose}
+            >
+                <Sop ref={sop} onSave={onSave} onCancel={onClose} />
+            </ElDialog>
+        )
     }
 })
 

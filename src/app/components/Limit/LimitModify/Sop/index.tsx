@@ -1,15 +1,15 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { t } from "@app/locale"
 import { ElStep, ElSteps } from "element-plus"
-import { Ref, defineComponent, h, nextTick, reactive, ref, toRaw } from "vue"
-import Step1 from "./step1"
-import Step2, { RuleFormData } from "./step2"
+import { Ref, defineComponent, nextTick, reactive, ref, toRaw } from "vue"
+import Step1 from "./Step1"
+import Step2, { RuleFormData } from "./Step2"
 
 type Step = 0 | 1
 
@@ -33,7 +33,7 @@ const _default = defineComponent({
         cancel: () => true,
         save: (_rule: timer.limit.Rule) => true,
     },
-    setup({ }, ctx) {
+    setup(_, ctx) {
         const step: Ref<Step> = ref(0)
         const data = reactive(createInitial())
         const condDisabled: Ref<boolean> = ref(false)
@@ -61,38 +61,40 @@ const _default = defineComponent({
             data.visitTime = visitTime ? visitTime : undefined
         }
 
-        return () => h('div', { class: 'sop-dialog-container' }, [
-            h('div', { class: 'step-container' }, h(ElSteps, {
-                space: 200,
-                finishStatus: 'success',
-                active: step.value,
-            }, () => [
-                h(ElStep, { title: t(msg => msg.limit.step1) }),
-                h(ElStep, { title: t(msg => msg.limit.step2) }),
-            ])),
-            h('div', { class: 'operation-container' }, step.value === 0
-                ? h(Step1, {
-                    defaultValue: data?.cond,
-                    disabled: condDisabled.value,
-                    onCancel: () => ctx.emit('cancel'),
-                    onNext: (cond: string) => {
-                        step.value = 1
-                        !condDisabled.value && (data.cond = cond)
-                    },
-                })
-                : h(Step2, {
-                    rule: data,
-                    onBack: f => {
-                        restoreData(f)
-                        step.value = 0
-                    },
-                    onSave: f => {
-                        restoreData(f)
-                        nextTick(() => ctx.emit('save', toRaw(data)))
-                    },
-                })
-            ),
-        ])
+        return () => (
+            <div class="sop-dialog-container">
+                <div class="step-container">
+                    <ElSteps space={200} finishStatus="success" active={step.value}>
+                        <ElStep title={t(msg => msg.limit.step1)} />
+                        <ElStep title={t(msg => msg.limit.step2)} />
+                    </ElSteps>
+                </div>
+                <div class="operation-container">
+                    {step.value === 0
+                        ? <Step1
+                            defaultValue={data.cond}
+                            disabled={condDisabled.value}
+                            onCancel={() => ctx.emit("cancel")}
+                            onNext={cond => {
+                                step.value = 1
+                                !condDisabled.value && (data.cond = cond)
+                            }}
+                        />
+                        : <Step2
+                            rule={data}
+                            onBack={f => {
+                                restoreData(f)
+                                step.value = 0
+                            }}
+                            onSave={f => {
+                                restoreData(f)
+                                nextTick(() => ctx.emit('save', toRaw(data)))
+                            }}
+                        />
+                    }
+                </div>
+            </div>
+        )
     }
 })
 

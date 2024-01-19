@@ -1,18 +1,18 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { ElSwitch, ElTag, ElTooltip } from "element-plus"
-import { defineComponent, h, PropType, reactive, ref, VNode, watch } from "vue"
+import { defineComponent, PropType, reactive, ref, StyleValue, VNode, watch } from "vue"
 import { t } from "@app/locale"
 import { UrlPart } from "./common"
 
-const switchStyle: Partial<CSSStyleDeclaration> = { marginRight: '2px' }
+const switchStyle: StyleValue = { marginRight: '2px' }
 
-const tabStyle: Partial<CSSStyleDeclaration> = {
+const tabStyle: StyleValue = {
     marginBottom: '5px',
     marginRight: '0',
 }
@@ -29,42 +29,29 @@ const ItemTag = defineComponent({
         const myIgnored = ref(ignored)
 
         watch(myIgnored, () => ctx.emit("change", { ignored: myIgnored.value, origin }))
-
-        return () => h(ElTag, {
-            type: 'info',
-            closable: true,
-            onClose: () => ctx.emit("close"),
-            style: tabStyle
-        }, () => [
-            h(ElTooltip, {
-                content: t(msg => msg.limit.useWildcard)
-            }, {
-                default: () => h(ElSwitch, {
-                    style: switchStyle,
-                    modelValue: myIgnored.value,
-                    onChange: (newVal: boolean) => myIgnored.value = newVal
-                })
-            }),
-            h('span', {}, origin),
-        ])
+        return () => (
+            <ElTag type="info" closable onClose={() => ctx.emit("close")} style={tabStyle}>
+                <ElTooltip content={t(msg => msg.limit.useWildcard)}>
+                    <ElSwitch
+                        style={switchStyle}
+                        modelValue={myIgnored.value}
+                        onChange={val => myIgnored.value = !!val}
+                    />
+                </ElTooltip>
+                <span>{origin}</span>
+            </ElTag>
+        )
     }
 })
 
-const item2Tag = (item: UrlPart, index: number, arr: UrlPart[]) => {
-    const isNotHost: boolean = !!index
-    return isNotHost
-        ? h(ItemTag, { part: item, onClose: () => arr.splice(index), onChange: p => arr[index] = p })
-        : h(ElTag, { style: tabStyle }, () => h('span', item.origin))
-}
-
-const combineStyle = {
+const combineStyle: StyleValue = {
     fontSize: '14px',
     margin: '0 2px',
     ...tabStyle
 }
 
 const combineTags = (arr: VNode[], current: VNode) => {
-    arr.length && arr.push(h('span', { style: combineStyle }, '/'))
+    arr.length && arr.push(<span style={combineStyle}>/</span>)
     arr.push(current)
     return arr
 }
@@ -82,7 +69,6 @@ export type PathEditInstance = {
 }
 
 const _default = defineComponent({
-    name: 'LimitPathEdit',
     props: {
         url: {
             type: String,
@@ -107,9 +93,15 @@ const _default = defineComponent({
 
         ctx.expose(instance)
 
-        return () => h('div', {}, items
-            .map((item, index, arr) => item2Tag(item, index, arr))
-            .reduce(combineTags, [])
+        return () => (
+            <div>
+                {
+                    items.map((item, idx, arr) => idx
+                        ? <ItemTag part={item} onClose={() => arr.splice(idx)} onChange={p => arr[idx] = p} />
+                        : <ElTag style={tabStyle}> <span>{item.origin}</span> </ElTag>
+                    ).reduce(combineTags, [])
+                }
+            </div>
         )
     }
 })

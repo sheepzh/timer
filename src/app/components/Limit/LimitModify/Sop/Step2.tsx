@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -9,8 +9,8 @@ import { t } from "@app/locale"
 import { Back, Check } from "@element-plus/icons-vue"
 import { ElButton, ElForm, ElMessage } from "element-plus"
 import { PropType, Ref, computed, defineComponent, h, ref } from "vue"
-import LimitTimeFormItem from "./time-limit"
-import LimitPeriodFormItem from "./period"
+import LimitTimeFormItem from "./LimitTimeFormItem"
+import LimitPeriodFormItem from "./LimitPeriodFormItem"
 
 export type RuleFormData = Pick<timer.limit.Rule, "time" | "visitTime" | "periods">
 

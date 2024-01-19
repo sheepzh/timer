@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -17,7 +17,7 @@ const db: LimitDatabase = new LimitDatabase(storage)
 
 export type QueryParam = {
     filterDisabled: boolean
-    url: string
+    url?: string
 }
 
 async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
@@ -48,7 +48,7 @@ async function noticePeriodChanged() {
 
 /**
  * Fired if the item is removed or disabled
- * 
+ *
  * @param item
  */
 async function noticeLimitChanged() {
@@ -96,8 +96,8 @@ async function getRelated(url: string): Promise<timer.limit.Item[]> {
 
 /**
  * Add time
- * @param url url 
- * @param focusTime time, milliseconds 
+ * @param url url
+ * @param focusTime time, milliseconds
  * @returns the rules is limit cause of this operation
  */
 async function addFocusTime(url: string, focusTime: number) {

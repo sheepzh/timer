@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -14,7 +14,7 @@ import Popup from "./components/popup"
 import Appearance from "./components/appearance"
 import Statistics from "./components/statistics"
 import Backup from './components/backup'
-import DailyLimit from './components/daily-limit'
+import LimitOption from './components/LimitOption'
 import './style'
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
 import { t } from "@app/locale"
@@ -39,10 +39,10 @@ function initWithQuery(tab: Ref<_Category>) {
 
 /**
  * Handle before leave the option panel tabs
- * 
+ *
  * @param currentActiveNameAndOld
- * @param paneRefMap 
- * @param router 
+ * @param paneRefMap
+ * @param router
  * @returns promise to leave, or not
  */
 function handleBeforeLeave(
@@ -112,7 +112,7 @@ const _default = defineComponent({
             h(ElTabPane, {
                 label: t(msg => msg.menu.limit),
                 name: "dailyLimit" as _Category
-            }, () => h(DailyLimit, {
+            }, () => h(LimitOption, {
                 ref: paneRefMap.dailyLimit
             })),
             // Backup

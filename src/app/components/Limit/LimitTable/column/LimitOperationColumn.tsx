@@ -10,9 +10,9 @@ import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
-import { judgeVerificationRequired, processVerification } from "./common"
 import { locale } from "@i18n"
 import { ElTableRowScope } from "@src/element-ui/table"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 
 const label = t((msg) => msg.limit.item.operation)
 const deleteButtonText = t((msg) => msg.button.delete)

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -13,7 +13,7 @@ import { OptionMessage } from "@i18n/message/app/option"
 
 /**
  * Render the option item
- * 
+ *
  * @param input input of this option, or param map
  * @param label label
  * @param defaultValue default value
@@ -36,7 +36,7 @@ export function renderOptionItem(
 
 /**
  * Render text wrapped with tag
- * 
+ *
  * @param text text
  */
 export function tagText(text: I18nKey): VNode {
@@ -46,7 +46,7 @@ export function tagText(text: I18nKey): VNode {
 /**
  * Render the tooltip with message
  *
- * @param content content 
+ * @param content content
  * @since 0.5.0
  */
 export function tooltip(i18nKey: I18nKey): VNode {
