@@ -11,7 +11,7 @@ import { PropType, Ref, defineComponent, h, ref } from "vue"
 import { Back, Check } from "@element-plus/icons-vue"
 import { processImportedData } from "@service/components/import-processor"
 import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
-import CompareTable from "@app/components/common/imported/comapre-table"
+import CompareTable from "@app/components/common/imported/CompareTable"
 
 const _default = defineComponent({
     props: {

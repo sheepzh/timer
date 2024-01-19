@@ -9,10 +9,14 @@
         "Auths",
         "clipboardy",
         "countup",
+        "daterange",
         "echarts",
         "filemanager",
         "Hengyang",
         "Kanban",
+        "Popconfirm",
+        "vueuse",
+        "webtime",
         "zrender"
     ],
     "cSpell.ignorePaths": [

@@ -11,7 +11,7 @@ import { ElTableColumn } from "element-plus"
 import { t } from "@app/locale"
 import { defineComponent, h } from "vue"
 import { Delete } from "@element-plus/icons-vue"
-import PopupConfirmButton from "@app/components/common/popup-confirm-button"
+import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import siteService from "@service/site-service"
 
 type _Emit = {

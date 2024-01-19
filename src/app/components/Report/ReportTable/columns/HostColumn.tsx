@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -11,6 +11,7 @@ import { t } from "@app/locale"
 import HostAlert from "@app/components/common/host-alert"
 import { isRemainHost } from "@util/constant/remain-host"
 import { ElTableRowScope } from "@src/element-ui/table"
+import { useReportFilter } from "../../context"
 
 /**
  * Merged host column
@@ -42,30 +43,23 @@ const HostMergedAlert = defineComponent({
 
 const columnLabel = t(msg => msg.item.host)
 
-const _default = defineComponent({
-    props: {
-        mergeHost: {
-            type: Boolean,
-            required: true
-        }
-    },
-    setup(props) {
-        return () => (
-            <ElTableColumn prop="host" label={columnLabel} minWidth={210} sortable="custom" align="center">
-                {
-                    ({ row }: ElTableRowScope<timer.stat.Row>) => props.mergeHost
-                        ? <HostMergedAlert mergedHost={row.host}>
-                            {() => row.mergedHosts.map(origin =>
-                                <p>
-                                    <HostAlert {...origin} clickable={!isRemainHost(origin.host)} />
-                                </p>
-                            )}
-                        </HostMergedAlert>
-                        : <HostAlert {...row} clickable={!isRemainHost(row.host)} />
-                }
-            </ElTableColumn>
-        )
-    }
+const _default = defineComponent(() => {
+    const filter = useReportFilter()
+    return () => (
+        <ElTableColumn prop="host" label={columnLabel} minWidth={210} sortable="custom" align="center">
+            {
+                ({ row }: ElTableRowScope<timer.stat.Row>) => filter.value?.mergeHost
+                    ? <HostMergedAlert mergedHost={row.host}>
+                        {() => row.mergedHosts.map(origin =>
+                            <p>
+                                <HostAlert {...origin} clickable={!isRemainHost(origin.host)} />
+                            </p>
+                        )}
+                    </HostMergedAlert>
+                    : <HostAlert {...row} clickable={!isRemainHost(row.host)} />
+            }
+        </ElTableColumn>
+    )
 })
 
 export default _default

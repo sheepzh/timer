@@ -17,6 +17,7 @@ declare type ReportFilterOption = {
      * @since 1.1.7
      */
     timeFormat: timer.app.TimeFormat
+    readRemote?: boolean
 }
 
 /**

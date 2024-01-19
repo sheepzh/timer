@@ -92,7 +92,6 @@ const IndicatorLabel = defineComponent({
         const myParam: Ref<Record<string, number>> = ref()
         watch(() => props.param, () => myParam.value = props.param)
         const i18nParam = computed(() => computeI18nParam(myParam.value, props.duration))
-        watch(i18nParam, () => console.log(i18nParam.value))
         return () => (
             <div class="indicator-label" >
                 {

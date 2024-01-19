@@ -12,7 +12,7 @@ const _default = defineComponent({
     props: {
         defaultValue: String,
         /**
-         * Whether to save the value in the localstorage with {@param historyName}
+         * Whether to save the value in the localStorage with {@param historyName}
          */
         historyName: {
             type: String,
@@ -26,7 +26,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         const modelValue: Ref<string> = ref(props.defaultValue)
         const historyWrapper = new FilterItemHistoryWrapper(useRoute().path, props.historyName)
-        // Initiliaze value
+        // Initialize value
         historyWrapper.ifPresent(
             historyVal => nextTick(() => ctx.emit('select', (modelValue.value = historyVal)))
         )
