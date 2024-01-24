@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { ElAlert, ElButton, ElMessage } from "element-plus"
-import { PropType, Ref, defineComponent, h, ref } from "vue"
+import { PropType, Ref, defineComponent, ref } from "vue"
 import { Back, Check } from "@element-plus/icons-vue"
 import { processImportedData } from "@service/components/import-processor"
 import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
@@ -44,35 +44,28 @@ const _default = defineComponent({
                 .catch()
                 .finally(() => downloading.value = false)
         }
-
-        return () => [
-            h(ElAlert, {
-                type: 'success',
-                closable: false,
-            }, () => t(msg => msg.option.backup.download.confirmTip, {
-                clientName: props.clientName,
-                size: props.data?.rows?.length || 0
-            })),
-            h(CompareTable, {
-                data: props.data,
-                comparedColName: t(msg => msg.option.backup.download.willDownload),
-            }),
-            h('div', { class: 'resolution-container' }, renderResolutionFormItem(resolution)),
-            h('div', { class: 'sop-footer' }, [
-                h(ElButton, {
-                    type: 'info',
-                    icon: Back,
-                    disabled: downloading.value,
-                    onClick: () => ctx.emit('back'),
-                }, () => t(msg => msg.button.previous)),
-                h(ElButton, {
-                    type: 'success',
-                    icon: Check,
-                    loading: downloading.value,
-                    onClick: handleDownload
-                }, () => t(msg => msg.button.confirm)),
-            ]),
-        ]
+        return () => <>
+            <ElAlert type="success" closable={false}>
+                {
+                    t(msg => msg.option.backup.download.confirmTip, {
+                        clientName: props.clientName,
+                        size: props.data?.rows?.length || 0
+                    })
+                }
+            </ElAlert>
+            <CompareTable data={props.data} comparedColName={t(msg => msg.option.backup.download.willDownload)} />
+            <div class="resolution-container">
+                {renderResolutionFormItem(resolution)}
+            </div>
+            <div class="sop-footer">
+                <ElButton type="info" icon={<Back />} disabled={downloading.value} onClick={() => ctx.emit("back")}>
+                    {t(msg => msg.button.previous)}
+                </ElButton>
+                <ElButton type="success" icon={<Check />} loading={downloading.value} onClick={handleDownload}>
+                    {t(msg => msg.button.confirm)}
+                </ElButton>
+            </div>
+        </>
     }
 })
 

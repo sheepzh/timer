@@ -8,8 +8,10 @@
 import type { Ref, PropType, ComputedRef } from "vue"
 
 import { ElOption, ElSelect, ElTimePicker } from "element-plus"
-import { defineComponent, ref, h, watch, computed } from "vue"
+import { defineComponent, ref, watch, computed } from "vue"
 import { t } from "@app/locale"
+
+const ALL_MODES: timer.option.DarkMode[] = ["default", "on", "off", "timed"]
 
 function computeSecondToDate(secondOfDate: number): Date {
     const now = new Date()
@@ -54,46 +56,43 @@ const _default = defineComponent({
 
         const handleChange = () => ctx.emit("change", darkMode.value, [startSecond.value, endSecond.value])
 
-        return () => {
-            const result = [h(ElSelect, {
-                modelValue: darkMode.value,
-                size: 'small',
-                style: { width: '120px' },
-                onChange: async (newVal: string) => {
-                    darkMode.value = newVal as timer.option.DarkMode
+        return () => <>
+            <ElSelect
+                modelValue={darkMode.value}
+                size="small"
+                style={{ width: "120px" }}
+                onChange={val => {
+                    darkMode.value = val as timer.option.DarkMode
                     handleChange()
+                }}
+            >
+                {
+                    ALL_MODES.map(value => <ElOption value={value} label={t(msg => msg.option.appearance.darkMode.options[value])} />)
                 }
-            }, {
-                default: () => ["default", "on", "off", "timed"].map(
-                    value => h(ElOption, { value, label: t(msg => msg.option.appearance.darkMode.options[value]) })
-                )
-            })]
-            if (darkMode.value === "timed") {
-                result.push(
-                    h(ElTimePicker, {
-                        modelValue: start.value,
-                        size: "small",
-                        style: { marginLeft: '10px' },
-                        "onUpdate:modelValue": (newVal) => {
-                            start.value = newVal
-                            handleChange()
-                        },
-                        clearable: false
-                    }),
-                    h('a', '-'),
-                    h(ElTimePicker, {
-                        modelValue: end.value,
-                        size: "small",
-                        "onUpdate:modelValue": (newVal) => {
-                            end.value = newVal
-                            handleChange()
-                        },
-                        clearable: false
-                    })
-                )
-            }
-            return result
-        }
+            </ElSelect>
+            {darkMode.value === "timed" && <>
+                <ElTimePicker
+                    modelValue={start.value}
+                    size="small"
+                    style={{ marginLeft: "10px" }}
+                    onUpdate:modelValue={val => {
+                        start.value = val
+                        handleChange()
+                    }}
+                    clearable={false}
+                />
+                <a>-</a>
+                <ElTimePicker
+                    modelValue={end.value}
+                    size="small"
+                    onUpdate:modelValue={val => {
+                        end.value = val
+                        handleChange()
+                    }}
+                    clearable={false}
+                />
+            </>}
+        </>
     }
 })
 

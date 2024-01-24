@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -9,13 +9,13 @@ import type { PropType, Ref } from "vue"
 
 import { t } from "@app/locale"
 import { UploadFilled } from "@element-plus/icons-vue"
-import { ElButton, ElLoading, ElMessage, ElText } from "element-plus"
-import { defineComponent, h, ref, watch } from "vue"
+import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
+import { defineComponent, ref, watch } from "vue"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
 import { formatTime } from "@util/time"
-import Download from "./download"
-import Clear from "./clear"
+import Download from "./Download"
+import Clear from "./Clear"
 
 async function handleBackup(lastTime: Ref<number>) {
     const loading = ElLoading.service({
@@ -51,27 +51,25 @@ const _default = defineComponent({
         queryLastTime()
         watch(() => props.type, queryLastTime)
 
-        return () => {
-            const children = [
-                h(Clear),
-                h(Download),
-                h(ElButton, {
-                    type: 'primary',
-                    icon: UploadFilled,
-                    onClick: () => handleBackup(lastTime)
-                }, () => t(msg => msg.option.backup.operation))
-            ]
-            const lastTimeVal = lastTime.value
-            if (lastTimeVal) {
-                const tips = t(msg => msg.option.backup.lastTimeTip, {
-                    lastTime: formatTime(lastTimeVal, TIME_FORMAT)
-                })
-                const tipText = h(ElText, { style: { marginLeft: '20px' } }, () => tips)
-                children.push(tipText)
-            }
-            lastTime.value && children.push()
-            return h('div', { class: 'backup-footer' }, children)
-        }
+        return () => <div>
+            <ElDivider />
+            <div class="backup-footer">
+                <Clear />
+                <Download />
+                <ElButton
+                    type="primary"
+                    icon={<UploadFilled />}
+                    onClick={() => handleBackup(lastTime)}
+                >
+                    {t(msg => msg.option.backup.operation)}
+                </ElButton>
+                <ElText v-show={!!lastTime.value} style={{ marginLeft: "20px" }}>
+                    {
+                        t(msg => msg.option.backup.lastTimeTip, { lastTime: formatTime(lastTime.value, TIME_FORMAT) })
+                    }
+                </ElText>
+            </div>
+        </div>
     }
 })
 

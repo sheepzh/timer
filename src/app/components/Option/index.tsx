@@ -9,11 +9,11 @@ import type { Ref } from "vue"
 import type { Router } from "vue-router"
 
 import ContentContainer from "../common/content-container"
-import { defineComponent, h, ref } from "vue"
-import Popup from "./components/popup"
-import Appearance from "./components/appearance"
-import Statistics from "./components/statistics"
-import Backup from './components/backup'
+import { defineComponent, ref } from "vue"
+import PopupOption from "./components/PopupOption"
+import Appearance from "./components/AppearanceOption"
+import StatisticsOption from "./components/StatisticsOption"
+import BackupOption from './components/BackupOption'
 import LimitOption from './components/LimitOption'
 import './style'
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
@@ -69,7 +69,6 @@ function handleBeforeLeave(
 }
 
 const _default = defineComponent({
-    name: "OptionContainer",
     setup() {
         const tab: Ref<_Category> = ref('appearance')
         initWithQuery(tab)
@@ -82,51 +81,42 @@ const _default = defineComponent({
             dailyLimit: ref(),
         }
         const router = useRouter()
-        return () => h(ContentContainer, () => h(ElTabs, {
-            modelValue: tab.value,
-            type: "border-card",
-            beforeLeave: (active: string, oldActive: string) => handleBeforeLeave([active, oldActive], paneRefMap, router)
-        }, () => [
-            // Appearance
-            h(ElTabPane, {
-                label: t(msg => msg.option.appearance.title),
-                name: "appearance" as _Category
-            }, () => h(Appearance, {
-                ref: paneRefMap.appearance
-            })),
-            // Statistics
-            h(ElTabPane, {
-                label: t(msg => msg.option.statistics.title),
-                name: "statistics" as _Category
-            }, () => h(Statistics, {
-                ref: paneRefMap.statistics
-            })),
-            // Popup
-            h(ElTabPane, {
-                label: t(msg => msg.option.popup.title),
-                name: "popup" as _Category
-            }, () => h(Popup, {
-                ref: paneRefMap.popup
-            })),
-            // Limit
-            h(ElTabPane, {
-                label: t(msg => msg.menu.limit),
-                name: "dailyLimit" as _Category
-            }, () => h(LimitOption, {
-                ref: paneRefMap.dailyLimit
-            })),
-            // Backup
-            h(ElTabPane, {
-                label: t(msg => msg.option.backup.title),
-                name: "backup" as _Category
-            }, () => h(Backup, {
-                ref: paneRefMap.backup
-            })),
-            // Refresh button
-            h(ElTabPane, { label: t(msg => msg.option.resetButton), name: resetButtonName }, {
-                label: () => [h(ElIcon, () => h(Refresh)), t(msg => msg.option.resetButton)]
-            })
-        ]))
+        return () => (
+            <ContentContainer>
+                <ElTabs
+                    modelValue={tab.value}
+                    type="border-card"
+                    beforeLeave={(active: string, oldActive: string) => handleBeforeLeave([active, oldActive], paneRefMap, router)}
+                >
+                    <ElTabPane name={"appearance" as _Category} label={t(msg => msg.option.appearance.title)}>
+                        <Appearance ref={paneRefMap.appearance} />
+                    </ElTabPane>
+                    <ElTabPane name={"statistics" as _Category} label={t(msg => msg.option.statistics.title)}>
+                        <StatisticsOption ref={paneRefMap.statistics} />
+                    </ElTabPane>
+                    <ElTabPane name={"popup" as _Category} label={t(msg => msg.option.popup.title)}>
+                        <PopupOption ref={paneRefMap.popup} />
+                    </ElTabPane>
+                    <ElTabPane name={"dailyLimit" as _Category} label={t(msg => msg.menu.limit)}>
+                        <LimitOption ref={paneRefMap.dailyLimit} />
+                    </ElTabPane>
+                    <ElTabPane name={"backup" as _Category} label={t(msg => msg.option.backup.title)}>
+                        <BackupOption ref={paneRefMap.backup} />
+                    </ElTabPane>
+                    <ElTabPane
+                        name={resetButtonName}
+                        v-slots={{
+                            label: () => <>
+                                <ElIcon>
+                                    <Refresh />
+                                </ElIcon>
+                                {t(msg => msg.option.resetButton)}
+                            </>
+                        }}
+                    />
+                </ElTabs>
+            </ContentContainer>
+        )
     }
 })
 

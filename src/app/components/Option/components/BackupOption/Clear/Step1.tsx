@@ -10,8 +10,8 @@ import { Close, Right } from "@element-plus/icons-vue"
 import processor from "@src/common/backup/processor"
 import { BIRTHDAY, parseTime } from "@util/time"
 import { ElButton, ElMessage } from "element-plus"
-import { defineComponent, Ref, h, ref } from "vue"
-import ClientTable from "../client-table"
+import { defineComponent, Ref, ref } from "vue"
+import ClientTable from "../ClientTable"
 
 export type StatResult = {
     rowCount: number
@@ -63,24 +63,26 @@ const _default = defineComponent({
                 .finally(() => loading.value = false)
         }
 
-        return () => [
-            h(ClientTable, {
-                onSelect: newVal => client.value = newVal,
-            }),
-            h('div', { class: 'sop-footer' }, [
-                h(ElButton, {
-                    type: 'info',
-                    icon: Close,
-                    onClick: () => ctx.emit('cancel'),
-                }, () => t(msg => msg.button.cancel)),
-                h(ElButton, {
-                    type: 'primary',
-                    icon: Right,
-                    loading: loading.value,
-                    onClick: handleNext
-                }, () => t(msg => msg.button.next)),
-            ])
-        ]
+        return () => <>
+            <ClientTable onSelect={val => client.value = val} />
+            <div class="sop-footer">
+                <ElButton
+                    type="info"
+                    icon={<Close />}
+                    onClick={() => ctx.emit("cancel")}
+                >
+                    {t(msg => msg.button.cancel)}
+                </ElButton>
+                <ElButton
+                    type="primary"
+                    icon={<Right />}
+                    loading={loading.value}
+                    onClick={handleNext}
+                >
+                    {t(msg => msg.button.next)}
+                </ElButton>
+            </div>
+        </>
     }
 })
 
