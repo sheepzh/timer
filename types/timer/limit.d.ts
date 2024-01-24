@@ -67,6 +67,8 @@ declare namespace timer.limit {
         | 'password'
         // Verification code input required to lock or modify restricted rule
         | 'verification'
+        // Not allowed to unlock manually
+        | 'strict'
     /**
      * @since 1.9.0
      */

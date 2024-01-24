@@ -32,18 +32,18 @@ declare namespace timer.backup {
         listAllClients(context: timer.backup.CoordinatorContext<Cache>): Promise<Client[]>
         /**
          * Download fragmented data from cloud
-         * 
+         *
          * @param targetCid The client id, default value is the local one in context
          */
         download(context: timer.backup.CoordinatorContext<Cache>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]>
         /**
          * Upload fragmented data to cloud
-         * @param rows 
+         * @param rows
          */
         upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void>
         /**
          * Test auth
-         * 
+         *
          * @returns errorMsg or null/undefined
          */
         testAuth(auth: string, ext: timer.backup.TypeExt): Promise<string>
@@ -82,7 +82,7 @@ declare namespace timer.backup {
     /**
      * Snapshot cache
      */
-    type SnaptshotCache = Partial<{
+    type SnapshotCache = Partial<{
         [type in Type]: Snapshot
     }>
 

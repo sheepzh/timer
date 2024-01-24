@@ -45,6 +45,7 @@ export type LimitMessage = {
         inputTip: string
         inputTip2: string
         pswInputTip: string
+        strictTip: string
         incorrectPsw: string
         incorrectAnswer: string
         pi: string

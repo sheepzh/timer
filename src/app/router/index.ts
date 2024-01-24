@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -17,20 +17,20 @@ const dataRoutes: RouteRecordRaw[] = [
         path: '/data',
         redirect: '/data/dashboard',
     },
-    // Needn't nested router 
+    // Needn't nested router
     {
         path: '/data/dashboard',
-        component: () => import('../components/dashboard')
+        component: () => import('../components/Dashboard')
     },
     {
         path: REPORT_ROUTE,
-        component: () => import('../components/report')
+        component: () => import('../components/Report')
     }, {
         path: ANALYSIS_ROUTE,
-        component: () => import('../components/analysis')
+        component: () => import('../components/Analysis')
     }, {
         path: '/data/manage',
-        component: () => import('../components/data-manage')
+        component: () => import('../components/DataManage')
     }
 ]
 
@@ -40,10 +40,10 @@ const behaviorRoutes: RouteRecordRaw[] = [
         redirect: '/behavior/habit'
     }, {
         path: '/behavior/habit',
-        component: () => import('../components/habit')
+        component: () => import('../components/Habit')
     }, {
         path: LIMIT_ROUTE,
-        component: () => import('../components/limit')
+        component: () => import('../components/Limit')
     }
 ]
 
@@ -62,7 +62,7 @@ const additionalRoutes: RouteRecordRaw[] = [
         component: () => import('../components/rule-merge')
     }, {
         path: OPTION_ROUTE,
-        component: () => import('../components/option')
+        component: () => import('../components/Option')
     }
 ]
 

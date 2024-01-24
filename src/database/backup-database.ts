@@ -12,7 +12,7 @@ const PREFIX = REMAIN_WORD_PREFIX + "backup"
 const SNAPSHOT_KEY = PREFIX + "_snap"
 const CACHE_KEY = PREFIX + "_cache"
 
-function cackeKeyOf(type: timer.backup.Type) {
+function cacheKeyOf(type: timer.backup.Type) {
     return CACHE_KEY + "_" + type
 }
 
@@ -23,22 +23,22 @@ class BackupDatabase extends BaseDatabase {
     }
 
     async getSnapshot(type: timer.backup.Type): Promise<timer.backup.Snapshot | undefined> {
-        const cache = await this.storage.getOne(SNAPSHOT_KEY) as timer.backup.SnaptshotCache
+        const cache = await this.storage.getOne(SNAPSHOT_KEY) as timer.backup.SnapshotCache
         return cache?.[type]
     }
 
     async updateSnapshot(type: timer.backup.Type, snapshot: timer.backup.Snapshot): Promise<void> {
-        const cache = (await this.storage.getOne(SNAPSHOT_KEY) as timer.backup.SnaptshotCache) || {}
+        const cache = (await this.storage.getOne(SNAPSHOT_KEY) as timer.backup.SnapshotCache) || {}
         cache[type] = snapshot
         await this.storage.put(SNAPSHOT_KEY, cache)
     }
 
     async getCache(type: timer.backup.Type): Promise<unknown> {
-        return (await this.storage.getOne(cackeKeyOf(type))) || {}
+        return (await this.storage.getOne(cacheKeyOf(type))) || {}
     }
 
     async updateCache(type: timer.backup.Type, newVal: unknown): Promise<void> {
-        return this.storage.put(cackeKeyOf(type), newVal)
+        return this.storage.put(cacheKeyOf(type), newVal)
     }
 
     importData(_data: any): Promise<void> {

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -30,7 +30,7 @@ export function defaultAppearance(): timer.option.AppearanceOption {
         printInConsole: true,
         darkMode: "default",
         // 6 PM - 6 AM
-        // 18*60*60 
+        // 18*60*60
         darkModeTimeStart: 64800,
         // 6*60*60
         darkModeTimeEnd: 21600,
@@ -40,7 +40,7 @@ export function defaultAppearance(): timer.option.AppearanceOption {
 export function defaultStatistics(): timer.option.StatisticsOption {
     return {
         collectSiteName: true,
-        countLocalFiles: false
+        countLocalFiles: false,
     }
 }
 
@@ -58,6 +58,7 @@ export function defaultBackup(): timer.option.BackupOption {
         backupType: 'none',
         clientName: 'unknown',
         backupAuths: {},
+        backupExts: {},
         autoBackUp: false,
         autoBackUpInterval: 30,
     }

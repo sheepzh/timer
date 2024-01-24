@@ -55,7 +55,7 @@ export function getFileContent(context: ObsidianRequestContext, filePath: string
         }).catch(e => {
             const status = (e as AxiosError)?.response?.status
             if (status !== 404) {
-                console.log("Failed to query file countent of Obsidian", e)
+                console.log("Failed to query file content of Obsidian", e)
             }
             resolve(null)
         })

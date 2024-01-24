@@ -71,7 +71,9 @@ function isSameReason(a: LimitReason, b: LimitReason): boolean {
     return same
 }
 
-const canDelay = ({ allowDelay, type }: LimitReason) => allowDelay && (type === "DAILY" || type === "VISIT")
+const canDelay = ({ allowDelay, type }: LimitReason, options: timer.option.DailyLimitOption) => allowDelay
+    && (type === "DAILY" || type === "VISIT")
+    && options.limitLevel !== "strict"
 
 class ModalInstance implements MaskModal {
     url: string
@@ -164,7 +166,7 @@ class ModalInstance implements MaskModal {
         this.mask.append(document.createElement("br"))
         this.mask.append(link2Setup(url))
 
-        if (canDelay(reason)) {
+        if (canDelay(reason, this.options)) {
             const delayConfirm = new DelayConfirm(this.options)
             const delayButton = new DelayButton(
                 () => delayConfirm.doConfirm().then(() => this.delayHandlers?.forEach?.(h => h?.()))

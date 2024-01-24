@@ -39,6 +39,12 @@ const idx2Str = (time: number): string => {
 
 export const date2Idx = (date: Date): number => date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()
 
+export const dateMinute2Idx = (date: Date): number => {
+    const hour = date.getHours()
+    const min = date.getMinutes()
+    return hour * 60 + min
+}
+
 export const period2Str = (p: timer.limit.Period): string => {
     const [start, end] = p || []
     return `${idx2Str(start)}-${idx2Str(end)}`

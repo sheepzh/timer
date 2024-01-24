@@ -10,7 +10,7 @@ import type { Ref, UnwrapRef, ComputedRef, WritableComputedRef } from "vue"
 import { reactive, defineComponent, h, ref, computed, } from "vue"
 import ContentContainer from "../common/content-container"
 import SiteManageFilter from "./filter"
-import Pagination from "../common/pagination"
+import Pagination from "../common/Pagination"
 import SiteManageTable from "./table"
 import siteService, { SiteQueryParam } from "@service/site-service"
 import Modify, { ModifyInstance } from './modify'
