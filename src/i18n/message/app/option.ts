@@ -69,6 +69,8 @@ export type OptionMessage = {
             verificationDifficulty: {
                 [diff in timer.limit.VerificationDifficulty]: string
             }
+            strictTitle: string
+            strictContent: string
         }
     }
     backup: {

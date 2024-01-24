@@ -9,7 +9,7 @@ import { t } from "@app/locale"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
-import { ElInput, ElOption, ElSelect } from "element-plus"
+import { ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
 import { defineComponent, reactive, unref, UnwrapRef, ref, Ref, watch } from "vue"
 import { OptionItem } from "../../common"
 import "./limit-option.sass"
@@ -25,6 +25,7 @@ const ALL_LEVEL: timer.limit.RestrictionLevel[] = [
     'nothing',
     'verification',
     'password',
+    'strict',
 ]
 
 const ALL_DIFF: timer.limit.VerificationDifficulty[] = [
@@ -61,6 +62,16 @@ function reset(target: timer.option.DailyLimitOption) {
     Object.entries(defaultValue).forEach(([key, val]) => target[key] = val)
 }
 
+const confirm4Strict = async (): Promise<void> => {
+    const title = t(msg => msg.option.dailyLimit.level.strictTitle)
+    const content = t(msg => msg.option.dailyLimit.level.strictContent)
+    await ElMessageBox.confirm(content, title, {
+        type: "warning",
+        confirmButtonText: t(msg => msg.button.confirm),
+        cancelButtonText: t(msg => msg.button.cancel),
+    })
+}
+
 const _default = defineComponent((_, ctx) => {
     const option: UnwrapRef<timer.option.DailyLimitOption> = reactive(defaultDailyLimit())
     const verified = ref(false)
@@ -93,6 +104,7 @@ const _default = defineComponent((_, ctx) => {
                 size="small"
                 class={`option-daily-limit-level-select ${locale}`}
                 onChange={(val: timer.limit.RestrictionLevel) => verifyTriggered(option, verified)
+                    .then(() => val === "strict" ? confirm4Strict() : Promise.resolve())
                     .then(() => option.limitLevel = val)
                     .catch(console.log)
                 }

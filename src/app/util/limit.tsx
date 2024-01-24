@@ -82,6 +82,16 @@ const AnswerCanvas = defineComponent({
  */
 export async function processVerification(option: timer.option.DailyLimitOption): Promise<void> {
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
+    if (limitLevel === "strict") {
+        return new Promise(
+            (_, reject) => ElMessageBox({
+                boxType: 'alert',
+                type: 'warning',
+                title: '',
+                message: <div>{t(msg => msg.limit.verification.strictTip)}</div>,
+            }).then(reject).catch(reject)
+        )
+    }
     let answerValue: string
     let messageNode: VNode | string | Element
     let incorrectMessage: string
