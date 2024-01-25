@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.1.2] - 2024-01-25
+
+- Optimized verification of limit (#258)
+- Supported strict mode for limit (#244)
+
 ## [2.1.1] - 2024-01-15
 
 - Fixed some bugs of bing.com in Firefox
