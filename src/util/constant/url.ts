@@ -7,24 +7,25 @@
 
 import { getRuntimeId } from "@api/chrome/runtime"
 import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
+import { locale } from "@i18n"
 
 export const FIREFOX_HOMEPAGE = 'https://addons.mozilla.org/firefox/addon/besttimetracker'
 export const CHROME_HOMEPAGE = 'https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm'
 export const EDGE_HOMEPAGE = 'https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc'
 
-let homePage = undefined
+let webstorePage = undefined
 if (IS_FIREFOX) {
-    homePage = FIREFOX_HOMEPAGE
+    webstorePage = FIREFOX_HOMEPAGE
 } else if (IS_CHROME) {
-    homePage = CHROME_HOMEPAGE
+    webstorePage = CHROME_HOMEPAGE
 } else if (IS_EDGE) {
-    homePage = EDGE_HOMEPAGE
+    webstorePage = EDGE_HOMEPAGE
 }
 
 /**
  * @since 0.0.5
  */
-export const HOME_PAGE = homePage
+export const WEBSTORE_PAGE = webstorePage
 
 /**
  * @since 0.4.0
@@ -104,15 +105,15 @@ export function getAppPageUrl(isInBackground: boolean, route?: string, query?: a
     return url
 }
 
+const HOMEPAGE = "https://www.wfhg.cc"
+const HOMEPAGE_LOCALES: timer.Locale[] = ["zh_CN", "en"]
+
 /**
- * 
- * @param isInBackground invoke in background environment
  * @since 1.3.2
  */
-export function getGuidePageUrl(isInBackground: boolean, route?: string): string {
-    let url = IS_FIREFOX && !isInBackground ? 'guide.html' : 'static/guide.html'
-    route && (url += '#' + route)
-    return url
+export function getGuidePageUrl(): string {
+    const homepageLocale: timer.Locale = HOMEPAGE_LOCALES.includes(locale) ? locale : "en"
+    return `${HOMEPAGE}/${homepageLocale}`
 }
 
 /**
