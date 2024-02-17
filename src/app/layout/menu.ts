@@ -15,13 +15,12 @@ import { defineComponent, h, onMounted, ref, watch } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
 import { useRouter } from "vue-router"
 import { t } from "@app/locale"
-import { HOME_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/constant/url"
+import { WEBSTORE_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/constant/url"
 import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import TrendIcon from "./icon/trend-icon"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, MERGE_ROUTE } from "@app/router/constants"
-import { START_ROUTE } from "@guide/router/constants"
 
 type _MenuItem = {
     title: keyof MenuMessage
@@ -42,7 +41,7 @@ type _MenuGroup = {
 function generateMenus(): _MenuGroup[] {
     const otherMenuItems: _MenuItem[] = [{
         title: 'userManual',
-        href: getGuidePageUrl(false, START_ROUTE),
+        href: getGuidePageUrl(),
         icon: Memo,
         index: '_guide',
     }, {
@@ -50,9 +49,9 @@ function generateMenus(): _MenuGroup[] {
         route: '/other/help',
         icon: HelpFilled,
     }]
-    HOME_PAGE && otherMenuItems.push({
+    WEBSTORE_PAGE && otherMenuItems.push({
         title: 'rate',
-        href: HOME_PAGE,
+        href: WEBSTORE_PAGE,
         icon: Sugar,
         index: '_rate'
     })

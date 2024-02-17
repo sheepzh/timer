@@ -7,7 +7,7 @@ import { isBrowserUrl } from "@util/pattern"
 import UninstallListener from './uninstall-listener'
 
 async function onFirstInstall() {
-    createTab(getGuidePageUrl(true))
+    createTab(getGuidePageUrl())
     metaService.updateInstallTime(new Date())
 }
 

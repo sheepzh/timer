@@ -16,7 +16,6 @@ import { createTab } from "@api/chrome/tab"
 import { createContextMenu } from "@api/chrome/context-menu"
 import { getRuntimeId } from "@api/chrome/runtime"
 import { locale } from "@i18n"
-import { START_ROUTE } from "@guide/router/constants"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 
@@ -68,7 +67,7 @@ const feedbackPageProps: ChromeContextMenuCreateProps = {
 const guidePageProps: ChromeContextMenuCreateProps = {
     id: getRuntimeId() + '_timer_menu_item_guide_link',
     title: titleOf('📖', t2Chrome(msg => msg.base.guidePage)),
-    onclick: () => createTab(getGuidePageUrl(true, START_ROUTE)),
+    onclick: () => createTab(getGuidePageUrl()),
     ...baseProps
 }
 

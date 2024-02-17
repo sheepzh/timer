@@ -4,7 +4,6 @@
 type Dir =
     | 'app'
     | 'common'
-    | 'guide'
     | 'popup'
 
 /**

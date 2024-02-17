@@ -63,9 +63,6 @@ const entryConfigs: EntryConfig[] = [{
 }, {
     name: 'app',
     path: './src/app',
-}, {
-    name: 'guide',
-    path: './src/guide',
 }]
 
 const EXCLUDE_CHUNK_ENTRY = entryConfigs.filter(({ chunkExclusive }) => chunkExclusive).map(({ name }) => name)
@@ -186,11 +183,6 @@ const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.
             template: path.join(__dirname, '..', 'public', 'app.html'),
             filename: path.join('static', 'app.html'),
             chunks: ['app'],
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'guide.html'),
-            filename: path.join('static', 'guide.html'),
-            chunks: ['guide'],
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '..', 'public', 'popup.html'),
