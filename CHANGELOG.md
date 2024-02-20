@@ -96,4 +96,4 @@ It is worth mentioning that the release time of each change refers to the time w
 
 ## [previous]
 
-Sorry! these log is missing.
+Sorry! These previous logs are lost.
