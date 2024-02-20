@@ -112,5 +112,24 @@
             "analysis": "Аналіз",
             "importOtherData": "Імпорт з інших розширень"
         }
+    },
+    "es": {
+        "date": "Fecha",
+        "host": "URL del sitio",
+        "focus": "Tiempo de navegación",
+        "time": "Visitas al sitio",
+        "operation": {
+            "label": "Operaciones",
+            "delete": "Eliminar",
+            "add2Whitelist": "Lista blanca",
+            "removeFromWhitelist": "Habilitar",
+            "deleteConfirmMsgAll": "¡Todos los registros de {url} serán eliminados!",
+            "deleteConfirmMsgRange": "¡Todos los registros de {url} entre {start} y {end} serán eliminados!",
+            "deleteConfirmMsg": "¡El registro de {url} de {date} será eliminado!",
+            "exportWholeData": "Exportar datos",
+            "importWholeData": "Importar datos",
+            "analysis": "Análisis",
+            "importOtherData": "Importar desde otras extensiones"
+        }
     }
 }

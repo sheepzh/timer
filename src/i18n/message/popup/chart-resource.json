@@ -124,5 +124,26 @@
             "thisMonth": "Дані за цей місяць",
             "last30Days": "Дані за минулі 30 днів"
         }
+    },
+    "es": {
+        "mergeHostLabel": "Fusionar sitios",
+        "fileName": "Web_Time_List_{today}_By_{app}",
+        "saveAsImageTitle": "Captura de pantalla",
+        "restoreTitle": "Restaurar",
+        "options": "Opciones",
+        "totalTime": "Total {totalTime}",
+        "totalCount": "Total {totalCount} veces",
+        "averageCount": "{value} veces al día en promedio",
+        "averageTime": "{value} al día en promedio",
+        "otherLabel": "Otros {count} sitios",
+        "updateVersion": "Actualizable",
+        "updateVersionInfo": "Última versión: {version}",
+        "updateVersionInfo4Firefox": "Actualiza a la versión {version} en la página de administración de complementos, about:addons, por favor",
+        "title": {
+            "today": "Datos de hoy",
+            "thisWeek": "Datos de esta semana",
+            "thisMonth": "Datos de este mes",
+            "last30Days": "Datos de los últimos 30 días"
+        }
     }
 }

@@ -23,6 +23,10 @@
         "name": "українська",
         "comma": ", "
     },
+    "es": {
+        "name": "Español",
+        "comma": ", "
+    },
     "pl": {
         "name": "Polski"
     },
@@ -31,9 +35,6 @@
     },
     "de": {
         "name": "Deutsch"
-    },
-    "es": {
-        "name": "Español"
     },
     "ru": {
         "name": "Русский"

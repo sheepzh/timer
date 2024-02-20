@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -44,14 +44,14 @@ export const GITHUB_ISSUE_ADD = 'https://github.com/sheepzh/timer/issues/new/cho
 
 /**
  * Feedback powered by www.wjx.cn
- * 
+ *
  * @since 0.1.6
  */
 export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
 
 /**
  * Feedback powered by support.qq.com
- * 
+ *
  * @since 0.8.5
  */
 export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
@@ -76,6 +76,7 @@ export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.Locale]: string } = {
     en: UNINSTALL_QUESTIONNAIRE_EN,
     pt_PT: UNINSTALL_QUESTIONNAIRE_EN,
     uk: UNINSTALL_QUESTIONNAIRE_EN,
+    es: UNINSTALL_QUESTIONNAIRE_EN,
 }
 
 /**
@@ -135,14 +136,14 @@ export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
 
 /**
  * The id of project on crowdin.com
- * 
+ *
  * @since 1.4.0
  */
 export const CROWDIN_PROJECT_ID = 516822
 
 /**
  * The url of project on crowdin.com
- * 
+ *
  * @since 1.4.0
  */
 export const CROWDIN_HOMEPAGE = 'https://crowdin.com/project/timer-chrome-edge-firefox'

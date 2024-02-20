@@ -34,5 +34,11 @@
         "allFunction": "Усі функції",
         "guidePage": "Посібник",
         "changeLog": "Журнал змін"
+    },
+    "es": {
+        "currentVersion": "Versión: {version}",
+        "allFunction": "Todas las funciones",
+        "guidePage": "Manual del usuario",
+        "changeLog": "Registro de cambios"
     }
 }

@@ -22,5 +22,9 @@
     "uk": {
         "confirmMsg": "Гаразд",
         "cancelMsg": "Ні"
+    },
+    "es": {
+        "confirmMsg": "Ok",
+        "cancelMsg": "¡No!"
     }
 }

@@ -286,5 +286,53 @@
                 "info": "враховувати будь-яку URL-адресу в форматі параметрів Ant, ви можете додати свій сайт у верхньому правому куті"
             }
         }
+    },
+    "es": {
+        "hostPlaceholder": "URL parcial, luego ingresa",
+        "aliasPlaceholder": "Nombre parcial, luego ingresa",
+        "onlyDetected": "Solo detectados",
+        "deleteConfirmMsg": "Se eliminará el nombre de {host}",
+        "column": {
+            "host": "URL del sitio",
+            "alias": "Nombre del sitio",
+            "aliasInfo": "El nombre del sitio se mostrará en la página de registro y en la página emergente",
+            "source": "Fuente del nombre",
+            "type": "Tipo de sitio",
+            "icon": "Icono"
+        },
+        "source": {
+            "user": "mantenido por el usuario",
+            "detected": "auto-detectado"
+        },
+        "button": {
+            "add": "Nuevo",
+            "delete": "Eliminar",
+            "save": "Guardar"
+        },
+        "form": {
+            "emptyAlias": "Por favor, ingresa el nombre de sitio",
+            "emptyHost": "Por favor, ingresa la URL del sitio"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existe",
+            "saved": "Guardado",
+            "existedTag": "EXISTIÓ",
+            "mergedTag": "FUSIONADO",
+            "virtualTag": "VIRTUAL"
+        },
+        "type": {
+            "normal": {
+                "name": "normal",
+                "info": "estadísticas por nombre de dominio"
+            },
+            "merged": {
+                "name": "fusionado",
+                "info": "fusionar las estadísticas de múltiples nombres de dominio relacionados, y las reglas de fusión pueden ser personalizadas"
+            },
+            "virtual": {
+                "name": "virtual",
+                "info": "contar cualquier URL en formato Ant Pattern, puedes agregar un sitio personalizado en la esquina superior derecha"
+            }
+        }
     }
 }

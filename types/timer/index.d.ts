@@ -1,13 +1,13 @@
 declare namespace timer {
     /**
      * The source locale
-     * 
+     *
      * @since 1.4.0
      */
     type SourceLocale = 'en'
     /**
      * The locale must be translated with code
-     * 
+     *
      * @since 1.5.3
      */
     type RequiredLocale = SourceLocale | 'zh_CN'
@@ -19,6 +19,8 @@ declare namespace timer {
         | 'pt_PT'
         // @since 2.1.0
         | 'uk'
+        // @since 2.1.4
+        | 'es'
     /**
      * @since 0.8.0
      */
@@ -26,12 +28,11 @@ declare namespace timer {
 
     /**
      * Translating locales
-     * 
+     *
      * @since 1.4.0
      */
     type TranslatingLocale =
         | 'de'
-        | 'es'
         | 'ko'
         | 'pl'
         | 'ru'
@@ -58,7 +59,7 @@ declare namespace timer {
         }
         /**
          * The id of this client
-         * 
+         *
          * @since 1.2.0
          */
         cid?: string

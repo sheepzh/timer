@@ -39,5 +39,17 @@
             "l4": "Коли прогрес перекладу сягне 50%, цю мову буде активовано в розширенні."
         },
         "contributors": "Список помічників"
+    },
+    "es": {
+        "title": "¡Siéntete libre de ayudar a mejorar las traducciones de la extensión!",
+        "button": "Ir a Crowdin",
+        "loading": "Comprobando el progreso de la traducción...",
+        "alert": {
+            "l1": "Debido a la capacidad lingüística del autor, la extensión sólo soporta el chino simplificado y el inglés de manera nativa y otros idiomas no se encuentran o dependen en gran medida de la traducción automática.",
+            "l2": "Con el fin de ofrecer una mejor experiencia a los usuarios, guardo las tareas de traducción de otros idiomas en Crowdin. Crowdin es un sistema de administración de traducciones gratuito para software de código abierto.",
+            "l3": "Si esta extensión te resulta útil y estás deseas mejorar su traducción, puedes dar clic en el botón de abajo para ir a la página principal del proyecto en Crowdin.",
+            "l4": "Cuando el progreso de traducción de un idioma llegue a 50%, consideraré añadirlo a esta extensión."
+        },
+        "contributors": "Lista de contribuidores"
     }
 }

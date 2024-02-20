@@ -70,5 +70,17 @@
         "limitRefMsg": "——Дружнє нагадування з [{appName}]",
         "timeLimitMsg": "Ви перевищили ліміт часу перегляду на день",
         "closeAlert": "Ви можете вимкнути поради в налаштуваннях [{appName}]!"
+    },
+    "es": {
+        "closeAlert": "¡Puedes desactivar los consejos de arriba en la opción de [{appName}]!",
+        "timeWithHour": "{hour} hora(s) {minute} minuto(s) {second} segundo(s)",
+        "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
+        "timeWithSecond": "{second} segundo(s)",
+        "timeLimitMsg": "Has superado el límite de tiempo de navegación por día",
+        "more5Minutes": "5 minutos más, ¡¡por favor!!",
+        "consoleLog": "Has abierto {host} por {time} vez(veces) y navegado por {focus} hoy.",
+        "visitLimitMsg": "Has superado el límite de tiempo de navegación por visita",
+        "periodLimitMsg": "Has sido restringido durante el periodo de tiempo actual",
+        "limitRefMsg": "——Amigable recordatorio de [{appName}]"
     }
 }

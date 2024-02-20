@@ -154,5 +154,31 @@
                 "percentage": "Відсоток"
             }
         }
+    },
+    "es": {
+        "mergeDate": "Fusionar fecha",
+        "mergeDomain": "Fusionar URL",
+        "hostPlaceholder": "URL parcial, luego ingresa",
+        "exportFileName": "Mi_Tiempo_De_Navegación",
+        "added2Whitelist": "Añadido a la lista blanca",
+        "removeFromWhitelist": "Eliminado de la lista blanca",
+        "batchDelete": {
+            "buttonText": "Eliminar Lote",
+            "noSelectedMsg": "Por favor, selecciona en la tabla primero la fila que deseas eliminar",
+            "confirmMsg": "¡Se eliminarán {count} registros de sitios como {example} del {date}!",
+            "confirmMsgAll": "¡Se eliminarán {count} registros de sitios como {example}!",
+            "confirmMsgRange": "¡Se eliminarán {count} registros de sitios como {example} entre {start} y {end}!",
+            "successMsg": "Lote eliminado exitosamente"
+        },
+        "remoteReading": {
+            "on": "Leyendo datos de respaldo remoto",
+            "off": "Haz clic para leer los datos de respaldo remoto",
+            "table": {
+                "client": "Nombre del cliente",
+                "localData": "Datos locales",
+                "value": "Valor",
+                "percentage": "Porcentaje"
+            }
+        }
     }
 }

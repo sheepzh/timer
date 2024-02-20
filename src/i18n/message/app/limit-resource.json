@@ -169,7 +169,7 @@
         "verification": {
             "inputTip": "このルールはすでにトリガーされています。 続行するには、次のプロンプトに対する答えを入力してください {prompt}",
             "inputTip2": "このルールはすでにトリガーされています。 続ける場合はそのまま入力してください: {answer}",
-            "pswInputTip": "このルールはすでにトリガーされています。続行するには、ロック解除パスワードを入力してください    ",
+            "pswInputTip": "このルールはすでにトリガーされています。続行するには、ロック解除パスワードを入力してください",
             "incorrectPsw": "間違ったパスワード",
             "incorrectAnswer": "間違った回答",
             "pi": "πの小数部の{digitCount} から {startIndex} までの {endIndex} 桁の数",
@@ -265,5 +265,50 @@
         },
         "step1": "URL конфігурації",
         "step2": "Правило конфігурації"
+    },
+    "es": {
+        "conditionFilter": "URL",
+        "filterDisabled": "Solo habilitados",
+        "useWildcard": "Cuando usar un comodín",
+        "urlPlaceholder": "Por favor copia la URL directamente ➡️",
+        "item": {
+            "condition": "URL restringida",
+            "time": "Límite diario",
+            "waste": "Navegados hoy",
+            "enabled": "Habilitado",
+            "delayAllowed": "Más de 5 minutos",
+            "delayAllowedInfo": "Si se pausa, permite un retraso temporal de 5 minutos",
+            "operation": "Operaciones",
+            "visitTime": "Límite por visita",
+            "period": "Periodos no permitidos"
+        },
+        "button": {
+            "test": "Probar URL",
+            "option": "Opciones"
+        },
+        "message": {
+            "saved": "Guardado con éxito",
+            "noUrl": "URL restringida sin completar",
+            "deleteConfirm": "¿Deseas eliminar la regla de {cond}?",
+            "deleted": "Eliminado con éxito",
+            "noPermissionFirefox": "Por favor, habilita primero el permiso del portapapeles de este complemento en la página de administración (about:addons)",
+            "inputTestUrl": "Por favor, introduce primero el enlace URL a ser probado",
+            "clickTestButton": "Después de ingresarla, haz clic en el botón ({buttonText})",
+            "noRuleMatched": "La URL no sigue ninguna regla",
+            "rulesMatched": "La URL sigue las siguientes reglas:",
+            "noRule": "No hay reglas llenadas"
+        },
+        "verification": {
+            "inputTip": "La regla de límite ya ha sido activada. Para continuar, por favor introduce la respuesta a la siguiente indicación: {prompt}",
+            "inputTip2": "La regla de límite ya ha sido activada. Para continuar, por favor introdúcela tal como está: {answer}",
+            "pswInputTip": "La regla de límite ya ha sido activada. Para continuar, por favor introduce tu contraseña de desbloqueo",
+            "incorrectPsw": "Contraseña incorrecta",
+            "incorrectAnswer": "Respuesta incorrecta",
+            "pi": "{digitCount} dígitos de {startIndex} a {endIndex} de la parte decimal de π",
+            "confession": "El tiempo se está fugando",
+            "strictTip": "¡La regla de límite ya ha sido activada y el desbloqueo manual no está permitido!"
+        },
+        "step1": "Configurar URL",
+        "step2": "Configurar regla"
     }
 }

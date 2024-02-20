@@ -656,5 +656,128 @@
             "countWhenIdle": "{input}  Враховувати {idleTime} {info}",
             "idleTime": "час бездіяльності"
         }
+    },
+    "es": {
+        "yes": "Sí",
+        "no": "No",
+        "resetButton": "Restablecer",
+        "resetSuccess": "¡Restablecer predeterminado con éxito!",
+        "defaultValue": "Predeterminado: {default}",
+        "popup": {
+            "title": "Página emergente",
+            "max": "Mostrar los primeros {input} elementos de datos",
+            "defaultMergeDomain": "{input} Combinar subdominios al abrir",
+            "defaultDisplay": "Mostrar {duration} {type} al abrir",
+            "displaySiteName": "{input}  Mostrar {siteName} en lugar de la URL",
+            "weekStart": "El primer día de cada semana {input}",
+            "weekStartAsNormal": "Como normalmente"
+        },
+        "appearance": {
+            "title": "Apariencia",
+            "displayWhitelist": "{input}  Mostrar {whitelist} en {contextMenu}",
+            "whitelistItem": "atajos relacionados con la lista blanca",
+            "contextMenu": "el menú de contexto",
+            "displayBadgeText": "{input}  Mostrar {timeInfo} en {icon}",
+            "icon": "el icono de la extensión",
+            "badgeTextContent": "el tiempo de navegación del sitio web actual",
+            "locale": {
+                "label": "Idioma {input}",
+                "default": "Igual que el navegador",
+                "changeConfirm": "El idioma se ha cambiado con éxito, ¡por favor recarga esta página!",
+                "reloadButton": "Recargar"
+            },
+            "printInConsole": {
+                "label": "{input}  Imprimir {info} en la {console}",
+                "console": "consola",
+                "info": "el conteo de visitas de hoy al sitio web actual"
+            },
+            "darkMode": {
+                "label": "Modo oscuro {input}",
+                "options": {
+                    "default": "Igual que el navegador",
+                    "on": "Siempre encendido",
+                    "off": "Siempre apagado",
+                    "timed": "Cronometrado"
+                }
+            }
+        },
+        "statistics": {
+            "title": "Estadísticas",
+            "countWhenIdle": "{input}  Contar {idleTime} {info}",
+            "idleTime": "tiempo de inactividad",
+            "idleTimeInfo": "Si no operas durante mucho tiempo (como al ver un vídeo en pantalla completa), el navegador entrará automáticamente en el estado inactivo",
+            "countLocalFiles": "{input}  Contar el tiempo para {localFileTime} {info} en el navegador",
+            "localFileTime": "leer un archivo local",
+            "localFilesInfo": "Soporta archivos de tipos como PDF, imagen, txt y json",
+            "collectSiteName": "{input}  Recopilar automáticamente {siteName} {siteNameUsage} al visitar la página principal del sitio",
+            "siteName": "el nombre del sitio",
+            "siteNameUsage": "Los datos solo se almacenan localmente y se mostrarán en lugar de la URL para aumentar el reconocimiento. Por supuesto, también puedes personalizar el nombre de cada sitio."
+        },
+        "backup": {
+            "title": "Respaldo de datos",
+            "type": "Tipo remoto {input}",
+            "client": "Nombre del cliente {input}",
+            "meta": {
+                "none": {
+                    "label": "Siempre apagado"
+                },
+                "gist": {
+                    "authInfo": "Se requiere un token con al menos los permisos esenciales"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "Dirección de punto final {info} {input}",
+                    "endpointInfo": "Solo HTTP está disponible porque no es posible configurar CORS para las páginas de extensiones",
+                    "pathLabel": "La ruta del directorio {input}"
+                }
+            },
+            "test": "Probar",
+            "operation": "Copia de seguridad",
+            "auto": {
+                "label": "Activar la copia de seguridad automática",
+                "interval": "y ejecutar cada {input} minutos"
+            },
+            "lastTimeTip": "Fecha de la última copia de seguridad: {lastTime}",
+            "alert": "Esta es una característica experimental, si tienes alguna pregunta, por favor ponte en contacto con el autor a través de {email}~",
+            "download": {
+                "btn": "Descargar",
+                "step2": "Confirmar datos",
+                "willDownload": "Para ser descargado",
+                "confirmTip": "Se descargarán {size} piezas de datos de [{clientName}]"
+            },
+            "clear": {
+                "btn": "Limpiar",
+                "confirmTip": "¡Se eliminarán {rowCount} piezas de datos para {hostCount} sitios rastreados por [{clientName}]!"
+            },
+            "clientTable": {
+                "selectTip": "Seleccionar cliente",
+                "dataRange": "Rango de datos",
+                "notSelected": "Cliente no seleccionado",
+                "current": "Actual"
+            }
+        },
+        "dailyLimit": {
+            "title": "Límite diario",
+            "filter": {
+                "label": "El estilo de fondo de la página modal {input}",
+                "translucent": "Translúcido",
+                "groundGlass": "Vidrio esmerilado"
+            },
+            "level": {
+                "label": "Cómo desbloquear cuando está restringido {input}",
+                "nothing": "Permitir desbloqueo directo en la página de administrador",
+                "password": "Debe introducir la contraseña para desbloquear",
+                "verification": "Debe introducir el código de verificación para desbloquear",
+                "passwordLabel": "Contraseña para desbloquear {input}",
+                "verificationLabel": "La dificultad del código de verificación {input}",
+                "verificationDifficulty": {
+                    "easy": "Fácil",
+                    "hard": "Difícil",
+                    "disgusting": "Desagradable"
+                },
+                "strict": "No permitir desbloquear de ningún modo",
+                "strictTitle": "Confirmación de operación",
+                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
+            }
+        }
     }
 }
