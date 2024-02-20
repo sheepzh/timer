@@ -160,5 +160,32 @@
             "focusTitle": "Тенденції перегляду",
             "visitTitle": "Тенденції відвідувань"
         }
+    },
+    "es": {
+        "common": {
+            "focusTotal": "Tiempo total de navegación",
+            "visitTotal": "Total de visitas",
+            "ringGrowth": "{value} comparado con el periodo anterior",
+            "merged": "Fusionado",
+            "virtual": "Virtual",
+            "hostPlaceholder": "Buscar un sitio para analizar",
+            "emptyDesc": "Ningún sitio seleccionado"
+        },
+        "summary": {
+            "title": "Resumen",
+            "day": "Total de días activos",
+            "firstDay": "Primera visita a {value}"
+        },
+        "trend": {
+            "title": "Tendencias",
+            "activeDay": "Días activos",
+            "totalDay": "Días del período",
+            "maxFocus": "Tiempo máximo de navegación diario",
+            "averageFocus": "Tiempo promedio de navegación diario",
+            "maxVisit": "Visitas máximas diarias",
+            "averageVisit": "Visitas promedio diarias",
+            "focusTitle": "Tendencias del tiempo de navegación",
+            "visitTitle": "Tendencias de visitas"
+        }
     }
 }

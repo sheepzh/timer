@@ -58,5 +58,15 @@
         "infoAlert1": "Сайти в білому списку не матимуть обмежень",
         "placeholder": "URL-адреса сайту",
         "errorInput": "Неприпустима URL-адреса сайту"
+    },
+    "es": {
+        "addConfirmMsg": "{url} no se contará después de agregarlo a la lista blanca.",
+        "removeConfirmMsg": "{url} será eliminado de la lista blanca.",
+        "duplicateMsg": "Duplicado",
+        "infoAlertTitle": "Puedes configurar una lista blanca de sitios en esta página",
+        "infoAlert0": "Los sitios en la lista blanca no serán contados",
+        "infoAlert1": "Los sitios en la lista blanca no serán restringidos",
+        "placeholder": "URL del sitio",
+        "errorInput": "URL del sitio inválida"
     }
 }

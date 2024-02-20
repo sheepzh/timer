@@ -22,5 +22,9 @@
     "uk": {
         "confirmTitle": "Підтвердження",
         "successMsg": "Успішно!"
+    },
+    "es": {
+        "confirmTitle": "Confirmación",
+        "successMsg": "¡Exitosamente!"
     }
 }

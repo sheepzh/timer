@@ -108,5 +108,34 @@
             "yAxisMin": "Час перегляду за хвилину",
             "yAxisHour": "Час перегляду за годину"
         }
+    },
+    "es": {
+        "common": {
+            "focusAverage": "Promedio {value} por día"
+        },
+        "period": {
+            "title": "Hábito de períodos de tiempo",
+            "busiest": "Hora más ocupada del día",
+            "idle": "Periodo inactivo más largo",
+            "yAxisMin": "Tiempo de navegación / minuto",
+            "yAxisHour": "Tiempo de navegación / hora",
+            "averageLabel": "Promedio diario",
+            "sizes": {
+                "fifteen": "Por 15 minutos",
+                "halfHour": "Por media hora",
+                "hour": "Por una hora",
+                "twoHour": "Por dos horas"
+            }
+        },
+        "site": {
+            "title": "Hábito de sitios web",
+            "focusPieTitle": "Porcentaje de tiempo de navegación",
+            "visitPieTitle": "Porcentaje de visitas",
+            "otherLabel": "Otros {count} sitios",
+            "histogramTitle": "TOP {n} más visitados",
+            "exclusiveToday": "Los datos de hoy no están incluidos en el promedio",
+            "countTotal": "Total de visitas/sitios",
+            "siteAverage": "Promedio de visitas a {value} sitios web por día"
+        }
     }
 }

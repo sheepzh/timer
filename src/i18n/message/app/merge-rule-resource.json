@@ -88,5 +88,20 @@
         "infoAlert3": "Число означає рівень об'єднуваного сайту. Наприклад, для правила '*.*.edu.cn >>> 3' об'єднуваний сайт 'www.hust.edu.cn' буде об'єднано з 'hust.edu.cn'",
         "infoAlert4": "Пусте поле означає, що сайт не буде об'єднано",
         "infoAlert5": "Якщо жодне правило не збігається, його буде встановлено до типового рівня {psl}"
+    },
+    "es": {
+        "removeConfirmMsg": "{origin} será eliminado de las reglas de fusión personalizadas.",
+        "originPlaceholder": "Sitio original",
+        "mergedPlaceholder": "Fusionado",
+        "errorOrigin": "El formato del sitio original no es válido.",
+        "duplicateMsg": "La regla ya existe: {origin}",
+        "addConfirmMsg": "Las reglas de fusión personalizadas se establecerán para {origin}",
+        "infoAlertTitle": "Puedes establecer las reglas de fusión al contar sitios en esta página",
+        "infoAlert0": "Haz clic en el botón [New One], se mostrarán los recuadros del sitio fuente y el sitio fusionado, llénalos y guarda la regla",
+        "infoAlert1": "El sitio original puede ser llenado con un sitio específico o una expresión regular, tal como www.baidu.com, *.baidu.com, *.google.com.*, para determinar qué sitios seguirán esta regla al fusionarse",
+        "infoAlert2": "El sitio fusionado puede ser llenado con un sitio específico, un número o en dejarse en blanco",
+        "infoAlert3": "Un número significa el nivel del sitio fusionado. Por ejemplo, hay una regla '*.*.edu.cn >>> 3', entonces 'www.hust.edu.cn' se fusionará con 'hust.edu.cn'",
+        "infoAlert4": "Dejar en blanco significa que el sitio original no se fusionará",
+        "infoAlert5": "Si no se sigue ninguna regla, se establecerá por defecto al nivel antes de {psl}"
     }
 }

@@ -63,7 +63,6 @@ const placeholder: ChromeMessage = {
         name: '',
         description: '',
         marketName: '',
-        slogan: '',
     },
     base: {
         currentVersion: '',

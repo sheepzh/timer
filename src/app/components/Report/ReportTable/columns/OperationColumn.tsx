@@ -49,6 +49,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     zh_TW: 290,
     pt_PT: 340,
     uk: 400,
+    es: 360,
 }
 const _default = defineComponent({
     emits: {

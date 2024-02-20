@@ -38,3 +38,4 @@ type CrowdinLanguage =
     | 'ja'
     | 'pt-PT'
     | 'uk'
+    | 'es-ES'

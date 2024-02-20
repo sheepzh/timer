@@ -118,5 +118,25 @@
         "siteAnalysis": "Аналіз сайту",
         "userManual": "Посібник",
         "limit": "Обмеження часу"
+    },
+    "es": {
+        "dashboard": "Tablero",
+        "data": "Mis datos",
+        "dataReport": "Registro",
+        "dataClear": "Estado de la memoria",
+        "behavior": "Comportamiento del usuario",
+        "habit": "Hábitos",
+        "additional": "Funciones adicionales",
+        "siteManage": "Gestión de sitios",
+        "whitelist": "Lista blanca",
+        "mergeRule": "Reglas de fusión de sitios",
+        "other": "Otras Funciones",
+        "option": "Opciones",
+        "feedback": "Cuestionario de comentarios",
+        "rate": "Califica esta app",
+        "helpUs": "Ayúdanos",
+        "siteAnalysis": "Análisis de sitios",
+        "userManual": "Manual del usuario",
+        "limit": "Límite de tiempo"
     }
 }
