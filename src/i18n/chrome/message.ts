@@ -17,7 +17,7 @@ export type ChromeMessage = {
     initial: InitialMessage
 }
 
-const messages: Messages<ChromeMessage> = {
+const messages: Required<Messages<ChromeMessage>> = {
     zh_CN: {
         meta: metaMessages.zh_CN,
         base: baseMessages.zh_CN,
@@ -53,6 +53,12 @@ const messages: Messages<ChromeMessage> = {
         base: baseMessages.uk,
         contextMenus: contextMenusMessages.uk,
         initial: initialMessages.uk,
+    },
+    es: {
+        meta: metaMessages.es,
+        base: baseMessages.es,
+        contextMenus: contextMenusMessages.es,
+        initial: initialMessages.es,
     }
 }
 
