@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { PropType, Ref, VNode } from "vue"
+import type { PropType, Ref } from "vue"
 
 import { t } from "@app/locale"
 import statService, { HostSet } from "@service/stat-service"
 import { ElFormItem, ElOption, ElSelect, ElTag } from "element-plus"
-import { defineComponent, h, ref } from "vue"
+import { defineComponent, ref } from "vue"
 import { cvt2SiteKey, cvt2OptionValue, EXIST_MSG, MERGED_MSG, VIRTUAL_MSG, labelOf } from "../common"
 import { ALL_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
 import siteService from "@service/site-service"
@@ -63,28 +63,17 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
     searching.value = false
 }
 
-function renderOptionSlots(siteKey: timer.site.SiteKey, hasAlias: boolean): VNode[] {
+const renderOption = ({ siteKey, hasAlias }: _OptionInfo) => {
     const { host, merged, virtual } = siteKey
-    const result = [
-        h('span', {}, host)
-    ]
-    merged && result.push(h(ElTag, { size: 'small' }, () => MERGED_MSG))
-    virtual && result.push(h(ElTag, { size: 'small' }, () => VIRTUAL_MSG))
-    hasAlias && result.push(h(ElTag, { size: 'small', type: 'info' }, () => EXIST_MSG))
-    return result
+    return <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
+        <span>{host}</span>
+        {merged && <ElTag size="small">{MERGED_MSG}</ElTag>}
+        {virtual && <ElTag size="small">{VIRTUAL_MSG}</ElTag>}
+        {hasAlias && <ElTag size="small" type="info">{EXIST_MSG}</ElTag>}
+    </ElOption>
 }
 
-function renderOption({ siteKey, hasAlias }: _OptionInfo) {
-    return h(ElOption, {
-        value: cvt2OptionValue(siteKey),
-        disabled: hasAlias,
-        label: labelOf(siteKey, hasAlias)
-    }, () => renderOptionSlots(siteKey, hasAlias))
-}
-
-const HOST_LABEL = t(msg => msg.siteManage.column.host)
 const _default = defineComponent({
-    name: "SiteManageHostFormItem",
     props: {
         modelValue: Object as PropType<timer.site.SiteKey>
     },
@@ -94,17 +83,22 @@ const _default = defineComponent({
     setup(props, ctx) {
         const searching: Ref<boolean> = ref(false)
         const searchedHosts: Ref<_OptionInfo[]> = ref([])
-        return () => h(ElFormItem, { prop: 'key', label: HOST_LABEL },
-            () => h(ElSelect, {
-                style: { width: '100%' },
-                modelValue: cvt2OptionValue(props.modelValue),
-                filterable: true,
-                remote: true,
-                loading: searching.value,
-                remoteMethod: (query: string) => handleRemoteSearch(query, searching, searchedHosts),
-                onChange: (newVal: string) => ctx.emit("change", newVal ? cvt2SiteKey(newVal) : undefined)
-            }, () => searchedHosts.value?.map(renderOption))
-        )
+        return () => <ElFormItem
+            prop="key"
+            label={t(msg => msg.siteManage.column.host)}
+        >
+            <ElSelect
+                style={{ width: '100%' }}
+                modelValue={cvt2OptionValue(props.modelValue)}
+                filterable
+                remote
+                loading={searching.value}
+                remoteMethod={(query: string) => handleRemoteSearch(query, searching, searchedHosts)}
+                onChange={val => ctx.emit("change", val ? cvt2SiteKey(val) : undefined)}
+            >
+                {searchedHosts.value?.map(renderOption)}
+            </ElSelect>
+        </ElFormItem>
     }
 })
 

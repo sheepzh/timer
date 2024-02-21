@@ -86,7 +86,7 @@ function cvt2SiteInfo(key: timer.site.SiteKey, entry: _Entry): timer.site.SiteIn
 
 /**
  * Select by condition
- * 
+ *
  * @returns list not be undefined, maybe empty
  */
 async function select(this: SiteDatabase, condition?: SiteCondition): Promise<timer.site.SiteInfo[]> {
@@ -117,7 +117,7 @@ function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => b
 
 /**
  * Get by key
- * 
+ *
  * @returns site info, or undefined
  */
 async function get(this: SiteDatabase, key: timer.site.SiteKey): Promise<timer.site.SiteInfo> {
@@ -180,7 +180,7 @@ class SiteDatabase extends BaseDatabase {
 
     /**
      * Add listener to listen changes
-     * 
+     *
      * @since 1.6.0
      */
     addChangeListener(listener: (oldAndNew: [timer.site.SiteInfo, timer.site.SiteInfo][]) => void) {
