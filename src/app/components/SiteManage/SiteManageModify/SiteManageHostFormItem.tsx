@@ -14,7 +14,7 @@ import { defineComponent, ref } from "vue"
 import { cvt2SiteKey, cvt2OptionValue, EXIST_MSG, MERGED_MSG, VIRTUAL_MSG, labelOf } from "../common"
 import { ALL_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
 import siteService from "@service/site-service"
-import { isValidVirtualHost } from "@util/pattern"
+import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
 
 type _OptionInfo = {
     siteKey: timer.site.SiteKey
@@ -52,7 +52,12 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
     const existIdx = originalOptions.findIndex(o => o.siteKey?.host === query)
     if (existIdx === -1) {
         // Not exist host, insert site into the first
-        result.push({ siteKey: { host: query, virtual: isValidVirtualHost(query) }, hasAlias: false })
+        const isVirtual = judgeVirtualFast(query)
+        if (isVirtual) {
+            isValidVirtualHost(query) && result.push({ siteKey: { host: query, virtual: true }, hasAlias: false })
+        } else {
+            result.push({ siteKey: { host: query, virtual: false }, hasAlias: false })
+        }
         result.push(...originalOptions)
     } else {
         result.push(originalOptions[existIdx])
