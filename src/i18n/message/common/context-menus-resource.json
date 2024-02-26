@@ -40,5 +40,12 @@
         "optionPage": "Налаштування",
         "repoPage": "Програмний код",
         "feedbackPage": "Проблеми"
+    },
+    "es": {
+        "add2Whitelist": "Agregar {host} a la lista blanca",
+        "removeFromWhitelist": "Eliminar {host} de la lista blanca",
+        "optionPage": "Opciones",
+        "repoPage": "Código fuente",
+        "feedbackPage": "Problemas"
     }
 }

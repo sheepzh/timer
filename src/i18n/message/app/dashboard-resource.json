@@ -154,5 +154,31 @@
             "increase": "збільшилося",
             "decline": "зменшилося"
         }
+    },
+    "es": {
+        "heatMap": {
+            "title0": "Navegó más de {hour} horas en el último año",
+            "title1": "Navegó menos de 1 hora en el último año",
+            "tooltip0": "Navegó por {minute} minutos en {month}/{day}/{year}",
+            "tooltip1": "Navegó por {hour} horas {minute} minutos en {month}/{day}/{year}"
+        },
+        "topK": {
+            "title": "TOP {k} más visitados en los últimos {day} días",
+            "tooltip": "Visitó {host} {visit} veces"
+        },
+        "indicator": {
+            "installedDays": "Instalado durante {number} días",
+            "visitCount": "Visitó {site} sitios web {visit} veces",
+            "browsingTime": "Navegó más de {minute} minutos",
+            "mostUse": "Prefiere navegar entre las {start} y las {end} horas"
+        },
+        "weekOnWeek": {
+            "title": "TOP {k} cambios semanales del tiempo de navegación",
+            "lastBrowse": "Navegó {time} la semana pasada",
+            "thisBrowse": "Navegó {time} esta semana",
+            "wow": "{delta} {state}",
+            "increase": "más",
+            "decline": "menos"
+        }
     }
 }

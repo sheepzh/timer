@@ -46,5 +46,13 @@
             "pic": "Зображення",
             "txt": "Текстові файли"
         }
+    },
+    "es": {
+        "localFile": {
+            "json": "Archivos JSON",
+            "pdf": "Archivos PDF",
+            "pic": "Imágenes",
+            "txt": "Archivos de texto"
+        }
     }
 }

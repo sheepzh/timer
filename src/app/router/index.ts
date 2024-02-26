@@ -53,7 +53,7 @@ const additionalRoutes: RouteRecordRaw[] = [
         redirect: '/additional/whitelist'
     }, {
         path: '/additional/site-manage',
-        component: () => import('../components/site-manage')
+        component: () => import('../components/SiteManage')
     }, {
         path: '/additional/whitelist',
         component: () => import('../components/whitelist')

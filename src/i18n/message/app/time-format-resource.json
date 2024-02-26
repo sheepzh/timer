@@ -34,5 +34,11 @@
         "hour": "Показувати в годинах",
         "minute": "Показувати у хвилинах",
         "second": "Показувати в секундах"
+    },
+    "es": {
+        "default": "Formato de tiempo predeterminado",
+        "hour": "Mostrar en horas",
+        "minute": "Mostrar en minutos",
+        "second": "Mostrar en segundos"
     }
 }

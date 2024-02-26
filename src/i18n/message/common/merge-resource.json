@@ -34,5 +34,11 @@
             "blank": "Не об'єднувати",
             "level": "Зберегти рівень {level}"
         }
+    },
+    "es": {
+        "tagResult": {
+            "blank": "No fusionar",
+            "level": "Mantener en nivel {level}"
+        }
     }
 }

@@ -17,7 +17,7 @@ export type FakedLocale = timer.Locale
  */
 const FEEDBACK_LOCALE: timer.Locale = "en"
 
-export const ALL_LOCALES: timer.Locale[] = ['en', 'zh_CN', 'zh_TW', 'ja', 'pt_PT', 'uk']
+export const ALL_LOCALES: timer.Locale[] = ['en', 'zh_CN', 'zh_TW', 'ja', 'pt_PT', 'uk', 'es']
 
 export const defaultLocale: timer.Locale = "zh_CN"
 
@@ -36,8 +36,6 @@ const chrome2I18n: { [key: string]: timer.Locale } = {
 
 const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
     de: 'de',
-    "es-ES": 'es',
-    "es-MX": 'es',
     ko: 'ko',
     pl: 'pl',
     ru: 'ru',

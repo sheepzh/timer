@@ -6,12 +6,10 @@
  */
 
 import SiteDatabase, { SiteCondition } from "@db/site-database"
-import StatDatabase from "@db/stat-database"
 import { slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
 const siteDatabase = new SiteDatabase(storage)
-const statDatabase = new StatDatabase(storage)
 
 export type SiteQueryParam = SiteCondition
 

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2023-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -11,9 +11,8 @@ export type MetaMessage = {
     name: string
     marketName: string
     description: string
-    slogan: string
 }
 
-const _default: Messages<MetaMessage> = resource
+const _default: Required<Messages<MetaMessage>> = resource
 
 export default _default

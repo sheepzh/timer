@@ -2,24 +2,22 @@
     "zh_CN": {
         "name": "网费很贵",
         "marketName": "网费很贵 - 上网时间统计",
-        "description": "做最好用的上网时间统计工具。",
-        "slogan": "Insight & Improve"
+        "description": "追踪时间，分析习惯，改善行为，提高效率"
     },
     "zh_TW": {
         "name": "網費很貴",
         "marketName": "網費很貴 - 上網時間統計",
-        "description": "做最好用的上網時間統計工具。"
+        "description": "追蹤時間，分析習慣，改善行為，提高效率"
     },
     "ja": {
         "name": "Web時間統計",
         "marketName": "Web時間統計",
-        "description": "最高のウェブタイムトラッカーになるために。"
+        "description": "統計、分析、改善、効率向上"
     },
     "en": {
         "name": "Time Tracker",
         "marketName": "Time Tracker",
-        "description": "To be the BEST webtime tracker.",
-        "slogan": "Insight & Improve"
+        "description": "Track, analyze, control, then improve efficiency"
     },
     "pt_PT": {
         "name": "Rastreador de Tempo",
@@ -27,8 +25,13 @@
         "description": "Ser o MELHOR rastreador de tempo da web."
     },
     "uk": {
-        "name": "Time Tracker",
-        "marketName": "Time Tracker",
-        "description": "To be the BEST webtime tracker."
+        "name": "Веб-трекер часу",
+        "marketName": "Веб-трекер часу",
+        "description": "Бути КРАЩИМ веб-трекером часу."
+    },
+    "es": {
+        "name": "Rastreador de tiempo web",
+        "marketName": "Rastreador de tiempo web",
+        "description": "Ser el MEJOR rastreador de tiempo web."
     }
 }

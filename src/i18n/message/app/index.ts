@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -85,6 +85,7 @@ const _default: Required<Messages<AppMessage>> = {
     ja: appMessageOf('ja'),
     pt_PT: appMessageOf('pt_PT'),
     uk: appMessageOf('uk'),
+    es: appMessageOf('es'),
 }
 
 export default _default

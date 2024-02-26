@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -9,8 +9,8 @@ import { SUFFIX_HOST_MAP } from "./constant/remain-host"
 
 /**
  * Test whether the url belongs to the browser
- * 
- * @param url 
+ *
+ * @param url
  */
 export function isBrowserUrl(url: string) {
     return /^chrome.*?:\/\/.*$/.test(url)
@@ -30,8 +30,8 @@ const isNotValidPort = (portStr: string) => {
 
 /**
  * Test whether the host is ip or ip and port
- * 
- * @param host 
+ *
+ * @param host
  */
 export function isIpAndPort(host: string) {
     host = host.trim()
@@ -49,8 +49,8 @@ export function isIpAndPort(host: string) {
 
 /**
  * Test whether the host is a valid host
- * 
- * @param host 
+ *
+ * @param host
  */
 export function isValidHost(host: string) {
     if (!host) return false
@@ -70,7 +70,7 @@ export function isValidHost(host: string) {
 
 /**
  * Test whether the host is a valid virtual host
- * 
+ *
  * github.com/              = false
  * github.com               = false
  * github.com/sheepzh       = true
@@ -80,25 +80,26 @@ export function isValidHost(host: string) {
  * github.com/sheepzh?      = false
  * github.com/sheepzh?a=1   = false
  * http://github.com/123    = false
- * 
+ *
  * @since 1.6.0
  */
 export function isValidVirtualHost(host: string) {
+    console.log(host)
     if (!host) return false
     if (host.includes('?') || host.includes('=') || host.includes(":")) return false
     // Can't ends with /
     if (host.endsWith('/')) return false
-    const segs = host.split('/')
+    const segments = host.split('/')
     // Can't be normal host
-    if (segs.length === 1) return false
-    if (!isValidHost(segs[0])) return false
+    if (segments.length === 1) return false
+    if (!isValidHost(segments[0])) return false
     return true
 }
 
 /**
- * Judge virtual host fastly
- * 
- * @param host 
+ * Judge virtual host fast
+ *
+ * @param host
  * @returns T/F
  */
 export function judgeVirtualFast(host: string): boolean {
@@ -156,14 +157,14 @@ export function extractFileHost(url: string): string {
 }
 
 /**
- * Judge whether homepage 
+ * Judge whether homepage
  * e.g.
  *  1. https://baidu.com/  =  true
  *  2. http://baidu.com    =  true
  *  3. www.baidu.com       =  true
  *  4. https://baidu.com/a =  false
  *  5. http://qq.com?a=1   =  false
- * 
+ *
  * @since 0.5.0
  */
 export function isHomepage(url: string) {

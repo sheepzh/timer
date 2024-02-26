@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -61,6 +61,13 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.uk,
         meta: metaMessages.uk,
         base: baseMessages.uk,
+    },
+    es: {
+        chart: chartMessages.es,
+        duration: popupDurationMessages.es,
+        item: itemMessages.es,
+        meta: metaMessages.es,
+        base: baseMessages.es,
     }
 }
 

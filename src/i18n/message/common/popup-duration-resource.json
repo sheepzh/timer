@@ -34,5 +34,11 @@
         "thisWeek": "Цього тижня",
         "thisMonth": "Цього місяця",
         "last30Days": "Минулі 30 днів"
+    },
+    "es": {
+        "today": "De hoy",
+        "thisWeek": "De esta semana",
+        "thisMonth": "De este mes",
+        "last30Days": "De los últimos 30 días"
     }
 }

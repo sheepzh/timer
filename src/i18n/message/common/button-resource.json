@@ -82,5 +82,19 @@
         "dont": "НІ",
         "previous": "Назад",
         "next": "Далі"
+    },
+    "es": {
+        "create": "Nuevo",
+        "delete": "Eliminar",
+        "modify": "Modificar",
+        "save": "Guardar",
+        "test": "Probar",
+        "paste": "Pegar",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar",
+        "okey": "OK",
+        "dont": "¡NO!",
+        "previous": "Anterior",
+        "next": "Siguiente"
     }
 }

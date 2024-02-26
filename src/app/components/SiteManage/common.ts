@@ -43,9 +43,9 @@ export const MERGED_MSG = t(msg => msg.siteManage.msg.mergedTag)
 export const VIRTUAL_MSG = t(msg => msg.siteManage.msg.virtualTag)
 
 /**
- * Calclate the label of alias key to display
- * 
- * @returns 
+ * Calculate the label of alias key to display
+ *
+ * @returns
  *      1. www.google.com
  *      2. www.google.com[MERGED]
  *      4. www.google.com[EXISTED]
