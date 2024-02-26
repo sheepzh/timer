@@ -9,7 +9,7 @@ import type { Ref, UnwrapRef, ComputedRef } from "vue"
 import type { StatQueryParam } from "@service/stat-service"
 import type { Router, RouteLocation } from "vue-router"
 
-import { computed, defineComponent, watch, reactive, ref } from "vue"
+import { computed, defineComponent, watch, reactive, ref, onMounted } from "vue"
 import { I18nKey, t } from "@app/locale"
 import statService from "@service/stat-service"
 import './styles/element'
@@ -210,6 +210,7 @@ const _default = defineComponent(() => {
     handleWindowVisibleChange(query)
 
     watch([filterOption, sort, () => page.num, () => page.size], query)
+    onMounted(query)
 
     const renderFilter = () => <ReportFilter
         initial={filterOption.value}
