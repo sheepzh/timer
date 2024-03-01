@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -12,6 +12,7 @@ import { defaultStatistics } from "@util/constant/option"
 import { extractSiteName } from "@util/site"
 import { getTab } from "@api/chrome/tab"
 import siteService from "@service/site-service"
+import MessageDispatcher from "./message-dispatcher"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const optionDatabase = new OptionDatabase(storage)
@@ -47,34 +48,31 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
     const siteKey: timer.site.SiteKey = { host }
-    favIconUrl && siteService.saveIconUrl(siteKey, favIconUrl)
+    favIconUrl && await siteService.saveIconUrl(siteKey, favIconUrl)
     collectAliasEnabled
         && !isBrowserUrl(url)
         && isHomepage(url)
-        && collectAlias(siteKey, tab.title)
+        && await collectAlias(siteKey, tab.title)
 }
 
-/**
- * Fire when the web navigation completed
- */
-async function handleWebNavigationCompleted(detail: chrome.webNavigation.WebNavigationFramedCallbackDetails) {
-    if (detail.frameId > 0) {
-        // we don't care about activity occurring within a sub frame of a tab
-        return
-    }
-    const tab = await getTab(detail?.tabId)
-    tab && processTabInfo(tab)
-}
 
-function listen() {
-    !IS_SAFARI && chrome.webNavigation.onCompleted.addListener(handleWebNavigationCompleted)
+function init(dispatcher: MessageDispatcher) {
+    const handler: timer.mq.Handler<never, void> = IS_SAFARI
+        ? async () => { /* do nothing for safari */ }
+        : async (_, sender) => {
+            const tabId = sender?.tab?.id
+            if (!tabId) return
+            const tab = await getTab(tabId)
+            tab && processTabInfo(tab)
+        }
+    dispatcher.register("cs.onInjected", handler)
 }
 
 /**
  * Collect the favicon of host
  */
 class IconAndAliasCollector {
-    listen = listen
+    init = init
 }
 
 export default IconAndAliasCollector
