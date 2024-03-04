@@ -53,12 +53,6 @@ const _default: chrome.runtime.ManifestV3 = {
     host_permissions: [
         "<all_urls>",
     ],
-    /**
-     * @since 0.3.4
-     */
-    optional_permissions: [
-        'clipboardRead'
-    ],
     action: {
         default_popup: "static/popup.html",
         default_icon: "static/images/icon.png"

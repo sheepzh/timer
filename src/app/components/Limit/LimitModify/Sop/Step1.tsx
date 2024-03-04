@@ -10,7 +10,7 @@ import { Close, Right } from "@element-plus/icons-vue"
 import { ElButton, ElForm, ElMessage } from "element-plus"
 import { Ref, defineComponent, ref, watch } from "vue"
 import { Protocol, parseUrl } from "./common"
-import LimitUrlFormItem from "./url"
+import LimitUrlEdit from "./LimitUrlEdit"
 import LimitPathEdit, { PathEditInstance } from "./LimitPathEdit"
 
 const _default = defineComponent({
@@ -42,7 +42,7 @@ const _default = defineComponent({
             if (!props.disabled) {
                 const urlVal = url.value?.trim?.()
                 if (!urlVal) {
-                    return ElMessage.error(t(msg => msg.limit.message.noUrl))
+                    return ElMessage.error(t(msg => msg.limit.message.noParsed))
                 }
                 cond = urlVal ? protocol.value + urlVal : ''
             }
@@ -51,7 +51,7 @@ const _default = defineComponent({
 
         return () => <>
             <ElForm labelWidth={180} labelPosition="left">
-                <LimitUrlFormItem
+                <LimitUrlEdit
                     url={url.value}
                     protocol={protocol.value}
                     disabled={props.disabled}

@@ -13,7 +13,6 @@ export type ButtonMessage = {
     modify: string
     save: string
     test: string
-    paste: string
     confirm: string
     cancel: string
     previous: string

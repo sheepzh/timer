@@ -9,7 +9,7 @@ import type { MergeCommonMessage } from "@i18n/message/common/merge"
 import type { TagProps } from "element-plus"
 
 export function computeMergeType(mergedVal: number | string): TagProps["type"] {
-    return typeof mergedVal === 'number' ? 'success' : mergedVal === '' ? 'info' : ''
+    return typeof mergedVal === 'number' ? 'success' : mergedVal === '' ? 'info' : null
 }
 
 type TypeFinder = (mergeCommon: MergeCommonMessage | EmbeddedPartial<MergeCommonMessage>) => string
