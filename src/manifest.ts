@@ -46,7 +46,6 @@ const _default: chrome.runtime.ManifestV3 = {
     permissions: [
         'storage',
         'tabs',
-        'webNavigation',
         'contextMenus',
         'alarms',
         'scripting',

@@ -42,6 +42,7 @@ async function main() {
         data => sendMsg2Runtime('cs.trackTime', data)
     )
     tracker.init()
+    sendMsg2Runtime('cs.onInjected')
 
     // Execute only one time for each dom
     if (getOrSetFlag()) return

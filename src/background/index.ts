@@ -37,7 +37,7 @@ initCsHandler(messageDispatcher)
 initServer(messageDispatcher)
 
 // Collect the icon url and title
-new IconAndAliasCollector().listen()
+new IconAndAliasCollector().init(messageDispatcher)
 
 // Process version
 new VersionManager().init()
