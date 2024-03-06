@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, UnwrapRef } from "vue"
+import type { Ref } from "vue"
 
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import processor from "@src/common/backup/processor"
 import { defaultBackup } from "@util/constant/option"
 import { ElInput, ElOption, ElSelect, ElAlert, ElButton, ElMessage, ElLoading } from "element-plus"
-import { defineComponent, computed, watch, reactive, unref } from "vue"
+import { defineComponent, computed, ref, watch } from "vue"
 import { OptionItem, OptionTooltip } from "../../common"
 import AutoInput from "./AutoInput"
 import Footer from "./Footer"
@@ -40,31 +40,58 @@ const TYPE_NAMES: { [t in timer.backup.Type]: string } = {
 
 const DEFAULT = defaultBackup()
 
-const copy = (target: timer.option.BackupOption, origin: timer.option.BackupOption) => {
-    target.clientName = origin.clientName
-    target.backupType = origin.backupType
-    target.autoBackUp = origin.autoBackUp
-    target.autoBackUpInterval = origin.autoBackUpInterval
-    target.backupAuths = origin.backupAuths
-    target.backupExts = origin.backupExts
-}
-
 const _default = defineComponent((_props, ctx) => {
-    const option: UnwrapRef<timer.option.BackupOption> = reactive(defaultBackup())
+    const backupType = ref(DEFAULT.backupType)
+    const autoBackUp = ref(DEFAULT.autoBackUp)
+    const autoBackUpInterval = ref(DEFAULT.autoBackUpInterval)
+    const backupExts = ref(DEFAULT.backupExts)
+    const backupAuths = ref(DEFAULT.backupAuths)
+    const clientName = ref(DEFAULT.clientName)
+    watch([
+        backupType, autoBackUp, autoBackUpInterval, backupExts, backupAuths, clientName
+    ], () => optionService.setBackupOption({
+        backupType: backupType.value,
+        autoBackUp: autoBackUp.value,
+        autoBackUpInterval: autoBackUpInterval.value,
+        backupExts: backupExts.value,
+        backupAuths: backupAuths.value,
+        clientName: clientName.value,
+    }))
+
     optionService.getAllOption().then(val => {
-        copy(option, val)
-        watch(option, () => optionService.setBackupOption(unref(option)))
+        backupType.value = val?.backupType
+        autoBackUp.value = val?.autoBackUp
+        autoBackUpInterval.value = val?.autoBackUpInterval
+        backupExts.value = val?.backupExts
+        backupAuths.value = val?.backupAuths
+        clientName.value = val?.clientName
     })
 
-    const isObsidian = computed(() => option.backupType === "obsidian_local_rest_api")
-    const isNotNone = computed(() => option.backupType !== "none")
+    const isObsidian = computed(() => backupType.value === "obsidian_local_rest_api")
+    const isNotNone = computed(() => backupType.value !== "none")
     const auth: Ref<string> = computed({
-        get: () => option.backupAuths[option.backupType],
-        set: val => option.backupType && (option.backupAuths[option.backupType] = val),
+        get: () => backupAuths.value?.[backupType?.value],
+        set: val => {
+            const typeVal = backupType.value
+            if (!typeVal) return
+            const newAuths = {
+                ...backupAuths.value || {},
+                [typeVal]: val,
+            }
+            backupAuths.value = newAuths
+        }
     })
     const ext: Ref<timer.backup.TypeExt> = computed({
-        get: () => option.backupExts[option.backupType],
-        set: val => option.backupType && (option.backupExts[option.backupType] = val),
+        get: () => backupExts.value?.[backupType.value],
+        set: val => {
+            const typeVal = backupType.value
+            if (!typeVal) return
+            const newExts = {
+                ...backupExts.value || {},
+                [typeVal]: val,
+            }
+            backupExts.value = newExts
+        },
     })
 
     async function handleTest() {
@@ -81,17 +108,17 @@ const _default = defineComponent((_props, ctx) => {
     ctx.expose({
         reset: () => {
             // Only reset type and auto flag
-            option.backupType = DEFAULT.backupType
-            option.autoBackUp = DEFAULT.autoBackUp
+            backupType.value = DEFAULT.backupType
+            autoBackUp.value = DEFAULT.autoBackUp
         }
     })
     return () => <>
         <ElAlert closable={false} type="warning" description={t(msg => msg.option.backup.alert, { email: AUTHOR_EMAIL })} />
         <OptionItem label={msg => msg.option.backup.type} defaultValue={TYPE_NAMES[DEFAULT.backupType]}>
             <ElSelect
-                modelValue={option.backupType}
+                modelValue={backupType.value}
                 size="small"
-                onChange={(val: timer.backup.Type) => option.backupType = val}
+                onChange={(val: timer.backup.Type) => backupType.value = val}
             >
                 {ALL_TYPES.map(type => <ElOption value={type} label={TYPE_NAMES[type]} />)}
             </ElSelect>
@@ -102,11 +129,11 @@ const _default = defineComponent((_props, ctx) => {
             defaultValue={t(msg => msg.option.no)}
         >
             <AutoInput
-                autoBackup={option.autoBackUp}
-                interval={option.autoBackUpInterval}
+                autoBackup={autoBackUp.value}
+                interval={autoBackUpInterval.value}
                 onChange={(autoBackUpVal, intervalVal) => {
-                    option.autoBackUp = autoBackUpVal
-                    option.autoBackUpInterval = intervalVal
+                    autoBackUp.value = autoBackUpVal
+                    autoBackUpInterval.value = intervalVal
                 }}
             />
         </OptionItem>
@@ -137,9 +164,9 @@ const _default = defineComponent((_props, ctx) => {
         </OptionItem>
         <OptionItem
             v-show={isNotNone.value}
-            label={_ => AUTH_LABELS[option.backupType]}
+            label={_ => AUTH_LABELS[backupType.value]}
             v-slots={{
-                info: () => <OptionTooltip>{t(msg => msg.option.backup.meta[option.backupType]?.authInfo)}</OptionTooltip>
+                info: () => <OptionTooltip>{t(msg => msg.option.backup.meta[backupType.value]?.authInfo)}</OptionTooltip>
             }}
         >
             <ElInput
@@ -156,11 +183,11 @@ const _default = defineComponent((_props, ctx) => {
         </OptionItem>
         <OptionItem v-show={isNotNone.value} label={msg => msg.option.backup.client}>
             <ElInput
-                modelValue={option.clientName}
+                modelValue={clientName.value}
                 size="small"
                 style={{ width: "120px" }}
                 placeholder={DEFAULT.clientName}
-                onInput={val => option.clientName = val?.trim?.() || ''}
+                onInput={val => clientName.value = val?.trim?.() || ''}
             />
         </OptionItem>
         <Footer v-show={isNotNone.value} />
