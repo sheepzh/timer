@@ -23,7 +23,7 @@ const _default = defineComponent({
         v-slots={({ row: { source } }: ElTableRowScope<timer.site.SiteInfo>) => {
             if (!source) return ''
             return <ElTag
-                type={source === "USER" ? "" : "info"}
+                type={source === "USER" ? null : "info"}
                 size="small"
             >
                 {SOURCE_DESC[source]}

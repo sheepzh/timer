@@ -28,14 +28,16 @@ export type LimitMessage = {
     button: {
         test: string
         option: string
+        parseUrl: string
+        reEnterUrl: string
     }
     message: {
         noUrl: string
+        noParsed: string
         noRule: string
         saved: string
         deleteConfirm: string
         deleted: string
-        noPermissionFirefox: string
         inputTestUrl: string
         clickTestButton: string
         noRuleMatched: string

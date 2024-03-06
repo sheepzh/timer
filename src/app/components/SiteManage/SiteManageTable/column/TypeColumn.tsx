@@ -28,7 +28,7 @@ function computeType({ merged, virtual }: timer.site.SiteInfo): TagProps["type"]
     } else if (virtual) {
         return 'success'
     } else {
-        return ''
+        return null
     }
 }
 

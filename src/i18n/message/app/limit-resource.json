@@ -17,12 +17,15 @@
         "step2": "设置规则",
         "button": {
             "test": "网址测试",
-            "option": "全局设置"
+            "option": "全局设置",
+            "parseUrl": "解析 URL",
+            "reEnterUrl": "重新输入 URL"
         },
         "useWildcard": "是否使用通配符",
         "message": {
             "saved": "保存成功",
             "noUrl": "未填写限制网址",
+            "noParsed": "限制网址未解析",
             "noRule": "未填写任何规则",
             "deleteConfirm": "是否删除限制：{cond}？",
             "deleted": "删除成功",
@@ -32,7 +35,7 @@
             "noRuleMatched": "该网址未命中任何规则",
             "rulesMatched": "该网址命中以下规则："
         },
-        "urlPlaceholder": "请直接粘贴网址 ➡️",
+        "urlPlaceholder": "请输入你想要限制的网址，然后点击解析按钮",
         "verification": {
             "inputTip": "时限规则已触发，如要继续操作，请输入以下问题的答案：{prompt}",
             "inputTip2": "时限规则已触发，如要继续操作，请在下列输入框中原样输入：{answer}",
@@ -75,7 +78,6 @@
             "rulesMatched": "該網址命中以下規則：",
             "noRule": "未填寫任何規則"
         },
-        "urlPlaceholder": "請直接粘貼網址 ➡️",
         "verification": {
             "inputTip": "時限規則已觸發，如要繼續操作，請輸入以下問題的答案：{prompt}",
             "inputTip2": "時限規則已觸發，如要繼續操作，請在下列輸入框中原樣輸入：{answer}",
@@ -107,22 +109,24 @@
         "step2": "Config rule",
         "button": {
             "test": "Test URL",
-            "option": "Options"
+            "option": "Options",
+            "parseUrl": "Parse URL",
+            "reEnterUrl": "Re-enter URL"
         },
         "useWildcard": "Whether to use wildcard",
         "message": {
             "saved": "Saved successfully",
             "noUrl": "Unfilled restricted URL",
+            "noParsed": "The URL is not parsed",
             "noRule": "No rules filled in",
             "deleteConfirm": "Do you want to delete the rule of {cond}?",
             "deleted": "Deleted successfully",
-            "noPermissionFirefox": "Please enable the clipboard permission of this addon on the management page (about:addons) first",
             "inputTestUrl": "Please enter the URL link to be tested first",
             "clickTestButton": "After inputting, please click the button ({buttonText})",
             "noRuleMatched": "The URL does not hit any rules",
             "rulesMatched": "The URL hits the following rules:"
         },
-        "urlPlaceholder": "Please paste the URL directly ➡️",
+        "urlPlaceholder": "Please enter the URL you want to restrict and click the Parse button",
         "verification": {
             "inputTip": "Limit rule has already been triggered. To continue, please enter the answer to the following prompt: {prompt}",
             "inputTip2": "Limit rule has already been triggered. To continue, please enter it as it is: {answer}",
@@ -158,14 +162,12 @@
             "saved": "正常に保存",
             "deleteConfirm": "{cond} の制限を削除しますか？",
             "deleted": "正常に削除",
-            "noPermissionFirefox": "最初にプラグイン管理ページでプラグインのペーストボード権限を有効にしてください",
             "inputTestUrl": "最初にテストする URL リンクを入力してください",
             "clickTestButton": "入力後、ボタン({buttonText})をクリックしてください",
             "noRuleMatched": "URL がどのルールとも一致しません",
             "rulesMatched": "URL は次のルールに一致します。",
             "noRule": "ルールが記入されていません"
         },
-        "urlPlaceholder": "URLを直接貼り付けてください➡️",
         "verification": {
             "inputTip": "このルールはすでにトリガーされています。 続行するには、次のプロンプトに対する答えを入力してください {prompt}",
             "inputTip2": "このルールはすでにトリガーされています。 続ける場合はそのまま入力してください: {answer}",
@@ -182,7 +184,6 @@
         "conditionFilter": "URL",
         "filterDisabled": "Apenas Habilitadas",
         "useWildcard": "Se deseja usar caractere curinga",
-        "urlPlaceholder": "Cole a URL diretamente ➡️",
         "item": {
             "condition": "Restrito URL",
             "time": "Limite de tempo diário",
@@ -203,7 +204,6 @@
             "noUrl": "URL limitada não preenchida",
             "deleteConfirm": "Deseja excluir a regra de {cond}?",
             "deleted": "Apagado com sucesso",
-            "noPermissionFirefox": "Por favor, ative a permissão da área de transferência para esta extensão na página de gestão (about:addons) primeiro",
             "inputTestUrl": "Por favor insira o link de URL para testar primeiro",
             "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
             "noRuleMatched": "O URL não atinge nenhuma regra",
@@ -226,7 +226,6 @@
         "conditionFilter": "URL",
         "filterDisabled": "Лише увімкнені",
         "useWildcard": "Використовувати символ підставлення",
-        "urlPlaceholder": "Вставте URL-адресу ➡️",
         "item": {
             "condition": "Обмежена URL-адреса",
             "time": "Денний ліміт",
@@ -247,7 +246,6 @@
             "noUrl": "Не заповнена обмежена URL-адреса",
             "deleteConfirm": "Ви дійсно хочете видалити правило {cond}?",
             "deleted": "Успішно видалено",
-            "noPermissionFirefox": "Спершу ввімкніть дозвіл доступу до буфера обміну для цього додатку на сторінці керування (about:addons)",
             "inputTestUrl": "Спочатку введіть URL-адресу посилання для перевірки",
             "clickTestButton": "Після введення натисніть кнопку ({buttonText})",
             "noRuleMatched": "URL не відповідає жодному правилу",
@@ -270,7 +268,6 @@
         "conditionFilter": "URL",
         "filterDisabled": "Solo habilitados",
         "useWildcard": "Cuando usar un comodín",
-        "urlPlaceholder": "Por favor copia la URL directamente ➡️",
         "item": {
             "condition": "URL restringida",
             "time": "Límite diario",
@@ -291,7 +288,6 @@
             "noUrl": "URL restringida sin completar",
             "deleteConfirm": "¿Deseas eliminar la regla de {cond}?",
             "deleted": "Eliminado con éxito",
-            "noPermissionFirefox": "Por favor, habilita primero el permiso del portapapeles de este complemento en la página de administración (about:addons)",
             "inputTestUrl": "Por favor, introduce primero el enlace URL a ser probado",
             "clickTestButton": "Después de ingresarla, haz clic en el botón ({buttonText})",
             "noRuleMatched": "La URL no sigue ninguna regla",

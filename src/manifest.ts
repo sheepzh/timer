@@ -48,16 +48,9 @@ const _default: chrome.runtime.ManifestV2 = {
     permissions: [
         'storage',
         'tabs',
-        'webNavigation',
         'contextMenus',
         'alarms',
         "<all_urls>",
-    ],
-    /**
-     * @since 0.3.4
-     */
-    optional_permissions: [
-        'clipboardRead'
     ],
     browser_action: {
         default_popup: "static/popup.html",
