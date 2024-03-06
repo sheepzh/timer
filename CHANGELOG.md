@@ -4,6 +4,10 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.1.7] - 2024-03-06 [For Firefox]
+
+-   Fixed some bugs for backup option (#263)
+
 ## [2.1.6] - 2024-03-04
 
 -   Removed unnecessary permissions: clipboard and webNavigation
