@@ -80,7 +80,23 @@
                 "halfHour": "30分で統計",
                 "hour": "1時間ごとの統計",
                 "twoHour": "2時間ごとの統計"
-            }
+            },
+            "title": "期間の習慣",
+            "busiest": "一日の中で一番の時間",
+            "idle": "最も長いアイドル期間"
+        },
+        "common": {
+            "focusAverage": "1日あたりの平均 {value}"
+        },
+        "site": {
+            "title": "ウェブサイトの習慣について",
+            "focusPieTitle": "閲覧時間の割合",
+            "visitPieTitle": "訪問の割合",
+            "otherLabel": "他 {count} サイト",
+            "histogramTitle": "トップ {n} が最も多く訪れた",
+            "exclusiveToday": "今日のデータは平均に含まれていません",
+            "countTotal": "総訪問数/サイト",
+            "siteAverage": "1日あたりの平均訪問数 {value}"
         }
     },
     "pt_PT": {

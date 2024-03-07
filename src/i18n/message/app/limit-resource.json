@@ -154,7 +154,9 @@
         },
         "button": {
             "test": "テストURL",
-            "option": "設定"
+            "option": "設定",
+            "parseUrl": "解析 URL",
+            "reEnterUrl": "URLを再入力"
         },
         "useWildcard": "ワイルドカードを使用するかどうか",
         "message": {
@@ -166,7 +168,8 @@
             "clickTestButton": "入力後、ボタン({buttonText})をクリックしてください",
             "noRuleMatched": "URL がどのルールとも一致しません",
             "rulesMatched": "URL は次のルールに一致します。",
-            "noRule": "ルールが記入されていません"
+            "noRule": "ルールが記入されていません",
+            "noParsed": "URL は解析されていません"
         },
         "verification": {
             "inputTip": "このルールはすでにトリガーされています。 続行するには、次のプロンプトに対する答えを入力してください {prompt}",
@@ -175,10 +178,12 @@
             "incorrectPsw": "間違ったパスワード",
             "incorrectAnswer": "間違った回答",
             "pi": "πの小数部の{digitCount} から {startIndex} までの {endIndex} 桁の数",
-            "confession": "人生とは今日一日のことである"
+            "confession": "人生とは今日一日のことである",
+            "strictTip": "制限ルールがすでにトリガーされており、手動によるロック解除は許可されていません。"
         },
         "step1": "設定 URL",
-        "step2": "設定ルール"
+        "step2": "設定ルール",
+        "urlPlaceholder": "制限したいURLを入力して解析ボタンをクリックしてください"
     },
     "pt_PT": {
         "conditionFilter": "URL",

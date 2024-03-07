@@ -1,5 +1,7 @@
 type ReportFunction = (ev: timer.stat.Event) => Promise<void>
 
+const INTERVAL = 1000
+
 /**
  * Tracker client, used in the content-script
  */
@@ -15,7 +17,7 @@ export default class TrackerClient {
     init() {
         this.docVisible = document?.visibilityState === 'visible'
         document?.addEventListener('visibilitychange', () => this.changeState(document?.visibilityState === 'visible'))
-        setInterval(() => this.collect(), 1000)
+        setInterval(() => this.collect(), INTERVAL)
     }
 
     private changeState(docVisible: boolean) {
@@ -28,18 +30,23 @@ export default class TrackerClient {
     private async collect(ignoreTabCheck?: boolean) {
         if (!this.docVisible) return
 
-        const end = Date.now()
-        if (end <= this.start) return
+        const now = Date.now()
+        const lastTime = this.start
+        this.start = now
+        const interval = now - lastTime
+        if (interval <= 0 || interval > INTERVAL * 2) {
+            // Invalid time
+            return
+        }
 
         const data: timer.stat.Event = {
-            start: this.start,
-            end,
+            start: lastTime,
+            end: now,
             url: location?.href,
             ignoreTabCheck
         }
         try {
             await this.report?.(data)
-            this.start = end
         } catch (_) { }
     }
 

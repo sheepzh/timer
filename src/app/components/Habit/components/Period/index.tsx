@@ -7,9 +7,9 @@
 
 import { KanbanCard, KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
-import { PropType, Ref, defineComponent, h, watch, ref, computed, onMounted } from "vue"
-import Filter, { FilterOption } from "./filter"
-import BarChart from "./bar"
+import { PropType, Ref, defineComponent, watch, ref, computed, onMounted } from "vue"
+import Filter, { FilterOption } from "./Filter"
+import BarChart from "./BarChart"
 import "./style.sass"
 import { merge } from "@service/components/period-calculator"
 import { periodFormatter } from "@app/util/time"
@@ -87,19 +87,23 @@ const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => 
         favorite: { period: favoritePeriod = null, average = null },
         longestIdle: { period: idlePeriod, length: idleLength },
     } = summary || {}
-    return h('div', { class: "col0" }, [
-        h('div', { class: 'indicator-wrapper' }, h(KanbanIndicatorCell, {
-            mainName: t(msg => msg.habit.period.busiest),
-            mainValue: favoritePeriod,
-            subTips: msg => msg.habit.common.focusAverage,
-            subValue: average === null ? '-' : periodFormatter(average, timeFormat),
-        })),
-        h('div', { class: 'indicator-wrapper' }, h(KanbanIndicatorCell, {
-            mainName: t(msg => msg.habit.period.idle),
-            mainValue: idleLength,
-            subTips: () => idlePeriod,
-        }))
-    ])
+    return <>
+        <div class="indicator-wrapper">
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.habit.period.busiest)}
+                mainValue={favoritePeriod}
+                subTips={msg => msg.habit.common.focusAverage}
+                subValue={average === null ? '-' : periodFormatter(average, timeFormat)}
+            />
+        </div>
+        <div class="indicator-wrapper">
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.habit.period.idle)}
+                mainValue={idleLength}
+                subTips={() => idlePeriod}
+            />
+        </div>
+    </>
 }
 
 function computeParam(dateRange: [Date, Date]): timer.period.KeyRange {
@@ -145,19 +149,20 @@ const _default = defineComponent({
         onMounted(fetchRows)
 
         const summary = computed(() => computeSummary(rows.value, filter.value?.periodSize))
-
-        return () => h(KanbanCard, {
-            title: t(msg => msg.habit.period.title)
-        }, {
-            filter: () => h(Filter, {
-                defaultValue: filter.value,
-                onChange: newVal => filter.value = newVal
-            }),
-            default: () => h('div', { class: "habit-period-content" }, [
-                renderIndicator(summary.value, globalFilter.value?.timeFormat),
-                h('div', { class: 'col1' }, h(BarChart)),
-            ])
-        })
+        return () => <KanbanCard
+            title={t(msg => msg.habit.period.title)}
+            v-slots={{
+                filter: () => <Filter defaultValue={filter.value} onChange={val => filter.value = val} />,
+                default: () => <div class="habit-period-content">
+                    <div class="col0">
+                        {renderIndicator(summary.value, globalFilter.value?.timeFormat)}
+                    </div>
+                    <div class="col1">
+                        <BarChart />
+                    </div>
+                </div>
+            }}
+        />
     }
 })
 

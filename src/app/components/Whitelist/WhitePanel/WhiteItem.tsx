@@ -7,8 +7,8 @@
 
 import { Edit } from "@element-plus/icons-vue"
 import { ElTag } from "element-plus"
-import { defineComponent, h, ref, Ref, watch } from "vue"
-import ItemInput from "./item-input"
+import { defineComponent, ref, Ref, watch } from "vue"
+import WhiteInput from "./WhiteInput"
 
 export type ItemInstance = {
     forceEdit(): void
@@ -16,12 +16,8 @@ export type ItemInstance = {
 
 const _default = defineComponent({
     props: {
-        white: {
-            type: String
-        },
-        index: {
-            type: Number
-        }
+        white: String,
+        index: Number,
     },
     emits: {
         change: (_white: string, _idx: number) => true,
@@ -37,25 +33,27 @@ const _default = defineComponent({
             forceEdit: () => editing.value = true
         }
         ctx.expose(instance)
-
         return () => editing.value
-            ? h(ItemInput, {
-                white: white.value,
-                onSave: (newWhite: string) => {
+            ? <WhiteInput
+                white={white.value}
+                onSave={val => {
                     editing.value = false
-                    white.value = newWhite
-                    ctx.emit("change", white.value, id.value)
-                },
-                onCancel: () => {
+                    ctx.emit("change", white.value = val, id.value)
+                }}
+                onCancel={() => {
                     white.value = props.white
                     editing.value = false
-                }
-            })
-            : h(ElTag, {
-                class: 'editable-item',
-                closable: true,
-                onClose: () => ctx.emit("delete", white.value)
-            }, () => [white.value, h(Edit, { class: "edit-icon", onclick: () => editing.value = true })])
+                }}
+            />
+            : <ElTag
+                class="editable-item"
+                closable onClose={() => ctx.emit("delete", white.value)}
+            >
+                {white.value}
+                <span onClick={() => editing.value = true}>
+                    <Edit class="edit-icon" />
+                </span>
+            </ElTag>
     }
 })
 
