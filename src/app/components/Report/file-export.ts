@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2022-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -51,7 +51,7 @@ const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
 
 /**
  * Export json data
- * 
+ *
  * @param filterParam filter params
  * @param rows row data
  */
@@ -90,9 +90,9 @@ function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption
     return data
 }
 
-/** 
+/**
  * Export csv data
- * 
+ *
  * @param filterParam filter params
  * @param rows row data
  */

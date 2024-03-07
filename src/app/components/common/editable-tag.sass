@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -10,14 +10,17 @@
     margin-right: 10px
 
 .editable-tag-container
-    // offset right margin from the rightmost child 
+    // offset right margin from the rightmost child
     margin-right: -10px
     display: flex
     flex-flow: row wrap
     justify-content: space-between
     .item-input-container,.item-add-button
-        // The last line left 
+        // The last line left
         margin-right: auto
+.editable-tag-container::after
+    content: ''
+    flex: auto
 
 .item-cancel-button
     border-right: 0.5px

@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref } from "vue"
+import type { Ref, StyleValue } from "vue"
 
-import BarWrapper from "./bar-wrapper"
-import { defineComponent, h, onMounted, ref, watch } from "vue"
+import BarWrapper from "./BarWrapper"
+import { defineComponent, onMounted, ref, watch } from "vue"
 import { usePeriodFilter, usePeriodRows } from "./context"
 
-const CONTAINER_STYLE: Partial<CSSStyleDeclaration> = {
+const CONTAINER_STYLE: StyleValue = {
     width: "100%",
     height: "100%",
 }
@@ -30,10 +30,7 @@ const _default = defineComponent({
             wrapper.render({ data: rows.value, averageByDate: average, periodSize })
         })
 
-        return () => h('div', {
-            style: CONTAINER_STYLE,
-            ref: elRef
-        })
+        return () => <div style={CONTAINER_STYLE} ref={elRef} />
     }
 })
 

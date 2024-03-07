@@ -26,32 +26,28 @@ const _default = defineComponent({
         watch(() => props.autoBackup, newVal => autoBackUp.value = newVal)
         watch(() => props.interval, newVal => interval.value = newVal)
 
-        const handleChange = () => ctx.emit('change', autoBackUp.value, interval.value)
+        watch([autoBackUp, interval], () => ctx.emit('change', autoBackUp.value, interval.value))
+
         return () => <>
             <ElSwitch
                 modelValue={autoBackUp.value}
-                onChange={(val: boolean) => {
-                    autoBackUp.value = val
-                    handleChange()
-                }}
+                onChange={(val: boolean) => autoBackUp.value = val}
             />
             {' ' + t(msg => msg.option.backup.auto.label)}
-            {
-                autoBackUp.value && <>
-                    {localeMessages[locale].comma || ' '}
-                    <I18nNode path={msg => msg.option.backup.auto.interval} param={{
+            <div v-show={autoBackUp.value}>
+                {localeMessages[locale].comma || ' '}
+                <I18nNode
+                    path={msg => msg.option.backup.auto.interval}
+                    param={{
                         input: <ElInputNumber
                             min={10}
                             size="small"
                             modelValue={interval.value}
-                            onChange={val => {
-                                interval.value = val
-                                handleChange()
-                            }}
+                            onChange={val => interval.value = val}
                         />
-                    }} />
-                </>
-            }
+                    }}
+                />
+            </div>
             <span v-show={autoBackUp.value}>{localeMessages[locale].comma || ' '}</span>
         </>
     },

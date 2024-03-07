@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Ref, computed, defineComponent, h, onMounted, ref, watch } from "vue"
+import { Ref, computed, defineComponent, onMounted, ref, watch } from "vue"
 import { t } from "@app/locale"
 import { sum } from "@util/array"
 import { KanbanCard, KanbanIndicatorCell } from "@app/components/common/kanban"
-import HistogramChart from "./histogram"
-import FocusPieChart from "./focus-pie"
-import TimePieChart from "./time-pie"
+import HistogramChart from "./HistogramChart"
+import FocusPieChart from "./FocusPieChart"
+import TimePieChart from "./TimePieChart"
 import "./style.sass"
 import { useHabitFilter } from "../context"
 import { FilterOption } from "../../type"
@@ -74,22 +74,26 @@ const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => 
         count: { time, site, siteAverage },
         exclusiveToday4Average,
     } = summary
-    return h('div', { class: "col0" }, [
-        h('div', { class: 'indicator-wrapper' }, h(KanbanIndicatorCell, {
-            mainName: t(msg => msg.analysis.common.focusTotal),
-            mainValue: focusTotal ? periodFormatter(focusTotal, timeFormat) : '-',
-            subTips: msg => msg.habit.common.focusAverage,
-            subValue: focusAverage ? periodFormatter(focusAverage, timeFormat) : '-',
-            subInfo: exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null,
-        })),
-        h('div', { class: 'indicator-wrapper' }, h(KanbanIndicatorCell, {
-            mainName: t(msg => msg.habit.site.countTotal),
-            mainValue: [time ? `${time}` : '-', site ? `${site}` : '-'].join(" / "),
-            subTips: msg => msg.habit.site.siteAverage,
-            subValue: siteAverage?.toFixed(0) || '-',
-            subInfo: exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null,
-        }))
-    ])
+    return <>
+        <div class="indicator-wrapper">
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.analysis.common.focusTotal)}
+                mainValue={focusTotal ? periodFormatter(focusTotal, timeFormat) : '-'}
+                subTips={msg => msg.habit.common.focusAverage}
+                subValue={focusAverage ? periodFormatter(focusAverage, timeFormat) : '-'}
+                subInfo={exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
+            />
+        </div>
+        <div class="indicator-wrapper">
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.habit.site.countTotal)}
+                mainValue={[time ? `${time}` : '-', site ? `${site}` : '-'].join(" / ")}
+                subTips={msg => msg.habit.site.siteAverage}
+                subValue={siteAverage?.toFixed(0) || '-'}
+                subInfo={exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
+            />
+        </div>
+    </>
 }
 
 const _default = defineComponent({
@@ -107,14 +111,24 @@ const _default = defineComponent({
         onMounted(fetchRows)
         watch(filter, fetchRows)
 
-        return () => h(KanbanCard, {
-            title: t(msg => msg.habit.site.title)
-        }, () => h('div', { class: "habit-site-content" }, [
-            renderIndicator(summary.value, filter.value?.timeFormat),
-            h('div', { class: 'col1' }, h(HistogramChart)),
-            h('div', { class: 'col2' }, h(FocusPieChart)),
-            h('div', { class: 'col3' }, h(TimePieChart)),
-        ]))
+        return () => (
+            <KanbanCard title={t(msg => msg.habit.site.title)}>
+                <div class="habit-site-content">
+                    <div class="col0">
+                        {renderIndicator(summary.value, filter.value?.timeFormat)}
+                    </div>
+                    <div class="col1" >
+                        <HistogramChart />
+                    </div>
+                    <div class="col2">
+                        <FocusPieChart />
+                    </div>
+                    <div class="col3">
+                        <TimePieChart />
+                    </div>
+                </div>
+            </KanbanCard>
+        )
     }
 })
 

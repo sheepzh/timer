@@ -56,7 +56,7 @@ const additionalRoutes: RouteRecordRaw[] = [
         component: () => import('../components/SiteManage')
     }, {
         path: '/additional/whitelist',
-        component: () => import('../components/whitelist')
+        component: () => import('../components/Whitelist')
     }, {
         path: MERGE_ROUTE,
         component: () => import('../components/rule-merge')

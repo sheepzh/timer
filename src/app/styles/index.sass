@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -10,137 +10,141 @@
 @import "./compatible"
 
 body
-  height: 100vh
-  margin: 0
-  -moz-osx-font-smoothing: grayscale
-  -webkit-font-smoothing: antialiased
-  text-rendering: optimizeLegibility
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif
+    height: 100vh
+    margin: 0
+    -moz-osx-font-smoothing: grayscale
+    -webkit-font-smoothing: antialiased
+    text-rendering: optimizeLegibility
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif
 
 h2
-  font-size: 27px
+    font-size: 27px
 
 h3
-  font-size: 22px
+    font-size: 22px
 
 p,
 a
-  font-size: 15px
-  line-height: 20px
+    font-size: 15px
+    line-height: 20px
 
 .el-main
-  padding-top: 0 !important
-  padding-left: 45px !important
+    padding-top: 0 !important
+    padding-left: 45px !important
 .el-aside
-  width: 240px
-  .el-menu
-    padding-bottom: 10px
-  .menu-container
-    min-height: 100vh
-    background-color: var(--el-menu-bg-color)
+    width: 240px
+    .el-menu
+        padding-bottom: 10px
+    .menu-container
+        min-height: 100vh
+        background-color: var(--el-menu-bg-color)
 
 .app-container
-  width: 100%
-  background: var(--timer-app-container-bg-color)
-  margin: auto
+    width: 100%
+    background: var(--timer-app-container-bg-color)
+    margin: auto
 
 .content-container
-  margin-top: 30px
-  margin-bottom: 30px
-  width: calc(100vw - 300px)
-  height: calc(100% - 30px)
-  padding: 0 30px
-  overflow: hidden
+    margin-top: 30px
+    margin-bottom: 30px
+    width: calc(100vw - 300px)
+    height: calc(100% - 30px)
+    padding: 0 30px
+    overflow: hidden
 
 #app
-  height: 100%
+    height: 100%
 
 .el-container
-  height: 100%
-  overflow-y: auto
+    height: 100%
+    overflow-y: auto
 
 .filter-container
-  margin-bottom: 15px
-  display: flex
-  align-items: center
-  user-select: none
-  .el-card__body
-    padding-bottom: 10px
-    padding-top: 18px
-    margin-bottom: 10px
+    margin-bottom: 15px
     display: flex
+    align-items: center
+    user-select: none
+    .el-card__body
+        padding-bottom: 10px
+        padding-top: 18px
+        margin-bottom: 10px
+        display: flex
 
 .filter-name
-  margin-right: 4px
+    margin-right: 4px
 
 .filter-item
-  display: inline-flex
-  padding-right: 20px
+    display: inline-flex
+    padding-right: 20px
 
-  .el-input__suffix
-    width: 20px
+    .el-input__suffix
+        width: 20px
 
-  .el-picker-panel__sidebar
-    width: 130px !important
+    .el-picker-panel__sidebar
+        width: 130px !important
 
-  .el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
-  .el-picker-panel__sidebar + .el-picker-panel__body
-    margin-left: 130px !important
-  .el-range-input
-    width: 120px
+    .el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
+    .el-picker-panel__sidebar + .el-picker-panel__body
+        margin-left: 130px !important
+    .el-range-input
+        width: 120px
 
 .filter-item.el-switch
-  display: inline-flex !important
+    display: inline-flex !important
 
 .filter-switch
-  display: inline-flex
-  align-items: center
-  .filter-name
     display: inline-flex
-    color: var(--el-text-color-secondary)
-    font-weight: bold
-    font-size: 14px
-    pointer-events: none
+    align-items: center
+    .filter-name
+        display: inline-flex
+        color: var(--el-text-color-secondary)
+        font-weight: bold
+        font-size: 14px
+        pointer-events: none
 
 .filter-item-right,.filter-item-right-group
-  display: inline-flex
-  margin-left: auto
+    display: inline-flex
+    margin-left: auto
 
 .filter-item.el-input
-  width: 225px
+    width: 225px
 .el-select.filter-item
-  display: inline-flex
+    display: inline-flex
+    width: 220px
+    height: 40px
+    .el-select__wrapper
+        width: 100%
 
 .pagination-container
-  display: flex
-  justify-content: center
-  align-items: center
-  margin-top: 23px
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-top: 23px
 
 .container-card
-  min-height: 640px
-  .el-card__body
-    height: 100%
-    .chart-container
-      width: 100%
-      height: 600px
+    min-height: 640px
+    .el-card__body
+        height: 100%
+        .chart-container
+            width: 100%
+            height: 600px
 
 .el-menu
-  height: 100%
-  border: none
-  padding-top: 10px
+    height: 100%
+    border: none
+    padding-top: 10px
 
 .el-menu-item
-  font-family: Roboto,San Francisco,Helvetica Neue,Helvetica,Arial,PingFangSC-Light,Hiragina Sans GB,WenQuanYi Micro Hei,microsoft yahei ui,microsoft yahei,sans-serif
-  .el-icon
-    font-size: 18px !important
+    font-family: Roboto,San Francisco,Helvetica Neue,Helvetica,Arial,PingFangSC-Light,Hiragina Sans GB,WenQuanYi Micro Hei,microsoft yahei ui,microsoft yahei,sans-serif
+    .el-icon
+        font-size: 18px !important
 
 .el-menu-item.is-active
-  background: var(--el-menu-item-active-bg-color)
+    background: var(--el-menu-item-active-bg-color)
 
 \:root
-  // el-menu-item
-  --el-menu-item-height: 48px
-  --el-menu-active-color: var(--el-menu-text-color)
-  --el-menu-item-active-bg-color: var(--el-color-primary)
-  --timer-kanban-border: 1px var(--el-border-color) var(--el-border-style)
+    --el-menu-item-height: 48px
+    --el-menu-active-color: var(--el-menu-text-color)
+    --el-menu-item-active-bg-color: var(--el-color-primary)
+    --timer-kanban-border: 1px var(--el-border-color) var(--el-border-style)
+    --el-alert-description-font-size: 75% !important

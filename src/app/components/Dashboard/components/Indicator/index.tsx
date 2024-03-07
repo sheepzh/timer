@@ -132,13 +132,12 @@ const _default = defineComponent(() => {
                     <Sunrise />
                 </ElIcon>
             </div>
-            {
-                installedDays.value && <IndicatorLabel
-                    path={msg => msg.dashboard.indicator.installedDays}
-                    param={{ number: installedDays.value }}
-                    duration={1.5}
-                />
-            }
+            <IndicatorLabel
+                v-show={installedDays.value}
+                path={msg => msg.dashboard.indicator.installedDays}
+                param={{ number: installedDays.value }}
+                duration={1.5}
+            />
             <IndicatorLabel
                 path={msg => msg.dashboard.indicator.visitCount}
                 param={{ visit: visitCount.value, site: siteCount.value }}

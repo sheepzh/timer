@@ -7,7 +7,7 @@
 
 import { provideWithNs, useProviderWithNs } from "@app/util/provider"
 import { Ref } from "vue"
-import { FilterOption } from "./filter"
+import { FilterOption } from "./Filter"
 
 type Context = {
     keyRange: Ref<timer.period.KeyRange>
