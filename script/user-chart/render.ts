@@ -9,6 +9,7 @@ import {
 } from "@api/gist"
 import { filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 import { EChartsType, init } from "echarts"
+import { exit } from "process"
 
 const ALL_BROWSERS: Browser[] = ['firefox', 'edge', 'chrome']
 
@@ -211,6 +212,8 @@ async function main(): Promise<void> {
     const svg = render2Svg(chartData)
     // 4. upload
     await upload2Gist(token, svg)
+    // 5. finish
+    exit()
 }
 
 main()
