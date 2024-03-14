@@ -96,7 +96,7 @@ const ROW_FIELDS: MarkdownTableField<timer.stat.Row>[] = [
     },
 ]
 
-export function devideByDate(rows: timer.stat.RowBase[]): { [date: string]: string } {
+export function divideByDate(rows: timer.stat.RowBase[]): { [date: string]: string } {
     return groupBy(rows, row => row.date, list => genMarkdownTable(list, ROW_FIELDS))
 }
 
@@ -105,6 +105,7 @@ export function parseData<T>(markdown: string): T {
     if (!line2) {
         return null
     }
-    line2 = line2?.replace("<!-- ", "").replace("-->", "")
+    line2 = line2?.replace("<!-- ", "").replace("-->", "").trim()
+    if (!line2) return null
     return JSON.parse(line2)
 }

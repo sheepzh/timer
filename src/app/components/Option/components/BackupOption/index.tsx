@@ -96,12 +96,15 @@ const _default = defineComponent((_props, ctx) => {
 
     async function handleTest() {
         const loading = ElLoading.service({ text: "Please wait...." })
-        const { errorMsg } = await processor.checkAuth()
-        loading.close()
-        if (!errorMsg) {
-            ElMessage.success("Valid!")
-        } else {
-            ElMessage.error(errorMsg)
+        try {
+            const { errorMsg } = await processor.checkAuth()
+            if (!errorMsg) {
+                ElMessage.success("Valid!")
+            } else {
+                ElMessage.error(errorMsg)
+            }
+        } finally {
+            loading.close()
         }
     }
 
@@ -190,7 +193,7 @@ const _default = defineComponent((_props, ctx) => {
                 onInput={val => clientName.value = val?.trim?.() || ''}
             />
         </OptionItem>
-        <Footer v-show={isNotNone.value} />
+        <Footer v-show={isNotNone.value} type={backupType.value} />
     </>
 })
 

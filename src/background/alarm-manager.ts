@@ -16,7 +16,7 @@ const getOuterName = (innerName: string) => innerName.substring(ALARM_PREFIX_LEN
 
 /**
  * The manager of alarms
- * 
+ *
  * @since 1.4.6
  */
 class AlarmManager {
@@ -40,11 +40,16 @@ class AlarmManager {
                 return
             }
             // Handle alarm event
-            config.handler?.(alarm)
-            const nextTs = Date.now() + config.interval
-            // Clear this one
-            await clearAlarm(name)
-            createAlarm(name, nextTs)
+            try {
+                config.handler?.(alarm)
+            } catch (e) {
+                console.info("Failed to handle alarm event", e)
+            } finally {
+                const nextTs = Date.now() + config.interval
+                // Clear this one
+                await clearAlarm(name)
+                createAlarm(name, nextTs)
+            }
         })
     }
 

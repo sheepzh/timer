@@ -5,11 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { AxiosError, AxiosResponse } from "axios"
-
 import FIFOCache from "@util/fifo-cache"
-
-import axios from "axios"
+import { fetchGet, fetchPost } from "./http"
 
 type BaseFile = {
     filename: string
@@ -43,47 +40,35 @@ const BASE_URL = 'https://api.github.com/gists'
 /**
  * Cache of get requests
  */
-const GET_CACHE = new FIFOCache<AxiosResponse>(20)
+const GET_CACHE = new FIFOCache<unknown>(20)
 
 async function get<T>(token: string, uri: string): Promise<T> {
-    const headers = {
-        "Accept": "application/vnd.github+json",
-        "Authorization": `token ${token}`
-    }
     const cacheKey = uri + token
-    return GET_CACHE.getOrSupply(cacheKey, () => axios.get(BASE_URL + uri, { headers }))
-        .then(response => {
-            if (response.status >= 200 && response.status < 300) {
-                return response.data as T
-            } else {
-                return null
-            }
-        }).catch((error: AxiosError) => {
-            console.log("AxisError", error)
-            return null
-        })
+    return await GET_CACHE.getOrSupply(cacheKey, async () => {
+        const headers = {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`
+        }
+        const url = BASE_URL + uri
+        const response = await fetchGet(url, { headers })
+        return await response.json()
+    }) as T
 }
 
 async function post<T, R>(token: string, uri: string, body?: R): Promise<T> {
-    return new Promise(resolve => axios.post(BASE_URL + uri, body,
-        {
-            headers: {
-                "Accept": "application/vnd.github+json",
-                "Authorization": `token ${token}`
-            }
+    const response = await fetchPost<R>(BASE_URL + uri, body, {
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`
         }
-    ).then(response => {
+    })
+    const result = await response.json()
+    if (response.status === 200) {
         // Clear cache if success to request
         GET_CACHE.clear()
-        if (response.status >= 200 && response.status < 300) {
-            return resolve(response.data as T)
-        } else {
-            return resolve(null)
-        }
-    }).catch((error: AxiosError) => {
-        console.log("AxisError", error)
-        resolve(null)
-    }))
+        return result as T
+    }
+    throw new Error(JSON.stringify(result))
 }
 
 /**
@@ -97,10 +82,10 @@ export function getGist(token: string, id: string): Promise<Gist> {
 
 /**
  * Find the first target gist with predicate
- * 
+ *
  * @param token     gist token
  * @param predicate predicate
- * @returns 
+ * @returns
  */
 export async function findTarget(token: string, predicate: (gist: Gist) => boolean): Promise<Gist> {
     let pageNum = 1
@@ -121,7 +106,7 @@ export async function findTarget(token: string, predicate: (gist: Gist) => boole
 
 /**
  * Create one gist
- * 
+ *
  * @param token  token
  * @param gist   gist info
  * @returns gist info with id
@@ -132,10 +117,10 @@ export function createGist(token: string, gist: GistForm): Promise<Gist> {
 
 /**
  * Update gist
- * 
+ *
  * @param token token
  * @param gist  gist
- * @returns 
+ * @returns
  */
 export async function updateGist(token: string, id: string, gist: GistForm): Promise<void> {
     await post(token, `/${id}`, gist)
@@ -158,28 +143,22 @@ export async function getJsonFileContent<T>(file: File): Promise<T> {
     if (!rawUrl) {
         return undefined
     }
-    const response = await axios.get(rawUrl)
-    return response.data
+    const response = await fetchGet(rawUrl)
+    return await response.json()
 }
 
 /**
  * Test token to process gist
- * 
+ *
  * @returns errorMsg or null/undefined
  */
 export async function testToken(token: string): Promise<string> {
-    return new Promise(resolve => {
-        axios.get(BASE_URL + '?per_page=1&page=1', {
-            headers: {
-                "Accept": "application/vnd.github+json",
-                "Authorization": `token ${token}`
-            }
-        }).then(response => {
-            if (response.status >= 200 && response.status < 300) {
-                resolve(undefined)
-            } else {
-                resolve(response.data?.message || 'Unknown error')
-            }
-        }).catch((error: AxiosError) => resolve((error.response?.data as any)?.message || 'Unknown error'))
+    const response = await fetchGet(BASE_URL + '?per_page=1&page=1', {
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`
+        }
     })
+    const { status, statusText } = response || {}
+    return status === 200 ? null : statusText || ("ERROR " + status)
 }
