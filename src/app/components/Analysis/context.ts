@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { provideWithNs, useProviderWithNs } from "@app/util/provider"
+import { useProvide, useProvider } from "@app/hooks/useProvider"
 import { Ref } from "vue"
 
 type Context = {
@@ -20,12 +20,12 @@ export const initProvider = (
     site: Ref<timer.site.SiteKey>,
     timeFormat: Ref<timer.app.TimeFormat>,
     rows: Ref<timer.stat.Row[]>,
-) => provideWithNs<Context>(NAMESPACE, {
+) => useProvide<Context>(NAMESPACE, {
     site, timeFormat, rows
 })
 
-export const useAnalysisSite = (): Ref<timer.site.SiteKey> => useProviderWithNs<Context>(NAMESPACE, "site").site
+export const useAnalysisSite = (): Ref<timer.site.SiteKey> => useProvider<Context>(NAMESPACE, "site").site
 
-export const useAnalysisTimeFormat = (): Ref<timer.app.TimeFormat> => useProviderWithNs<Context>(NAMESPACE, "timeFormat").timeFormat
+export const useAnalysisTimeFormat = (): Ref<timer.app.TimeFormat> => useProvider<Context>(NAMESPACE, "timeFormat").timeFormat
 
-export const useAnalysisRows = (): Ref<timer.stat.Row[]> => useProviderWithNs<Context>(NAMESPACE, "rows").rows
+export const useAnalysisRows = (): Ref<timer.stat.Row[]> => useProvider<Context>(NAMESPACE, "rows").rows

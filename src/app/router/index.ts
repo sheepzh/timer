@@ -73,7 +73,7 @@ const otherRoutes: RouteRecordRaw[] = [
     },
     {
         path: '/other/help',
-        component: () => import('../components/help-us'),
+        component: () => import('../components/HelpUs'),
     }
 ]
 

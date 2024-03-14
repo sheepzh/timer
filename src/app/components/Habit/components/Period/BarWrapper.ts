@@ -9,16 +9,15 @@ import type { ComposeOption } from "echarts/core"
 import type { BarSeriesOption } from "echarts/charts"
 import type { GridComponentOption, TooltipComponentOption } from "echarts/components"
 
-import { use } from "@echarts/core"
-import BarChart from "@echarts/chart/bar"
-import SVGRenderer from "@echarts/svg-renderer"
-import TooltipComponent from "@echarts/component/tooltip"
-import GridComponent from "@echarts/component/grid"
+import { use } from "echarts/core"
+import { BarChart } from "echarts/charts"
+import { SVGRenderer } from "echarts/renderers"
+import { TooltipComponent, GridComponent } from "echarts/components"
 import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { averageByDay } from "./common"
-import { EchartsWrapper } from "@app/components/common/echarts-wrapper"
+import { EchartsWrapper } from "@app/hooks/useEcharts"
 
 use([BarChart, SVGRenderer, TooltipComponent, GridComponent])
 

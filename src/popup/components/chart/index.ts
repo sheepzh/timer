@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -8,13 +8,10 @@
 import type { ECharts } from "echarts/core"
 import type { CallbackDataParams } from "echarts/types/dist/shared"
 
-import { init, use } from "@echarts/core"
-import PieChart from "@echarts/chart/pie"
-import TitleComponent from "@echarts/component/title"
-import ToolboxComponent from "@echarts/component/toolbox"
-import TooltipComponent from "@echarts/component/tooltip"
-import LegendComponent from "@echarts/component/legend"
-import SVGRenderer from "@echarts/svg-renderer"
+import { init, use } from "echarts/core"
+import { PieChart } from "echarts/charts"
+import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from "echarts/components"
+import { SVGRenderer } from "echarts/renderers"
 
 // Register echarts
 use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, SVGRenderer, PieChart])

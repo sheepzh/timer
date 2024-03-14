@@ -7,7 +7,7 @@
 
 import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
 import { ElLoading, ElProgress, ProgressProps } from "element-plus"
-import { defineComponent, h, onMounted, Ref, ref, VNode } from "vue"
+import { defineComponent, onMounted, Ref, ref } from "vue"
 import localeMessages from "@i18n/message/common/locale"
 import { t } from "@app/locale"
 
@@ -43,7 +43,7 @@ const localeCrowdMap: { [locale in SupportedLocale]: string } = {
 
 const crowdLocaleMap: { [locale: string]: SupportedLocale } = {}
 
-Object.entries(localeCrowdMap).forEach(([locale, crwodLang]) => crowdLocaleMap[crwodLang] = locale as SupportedLocale)
+Object.entries(localeCrowdMap).forEach(([locale, crowdLang]) => crowdLocaleMap[crowdLang] = locale as SupportedLocale)
 
 type ProgressInfo = {
     locale: SupportedLocale | string
@@ -68,14 +68,6 @@ function computeType(progress: number): ProgressProps["status"] {
     }
 }
 
-function renderProgressItem(progressInfo: ProgressInfo): VNode {
-    const { locale, progress } = progressInfo
-    return h(ElProgress, { percentage: progress, strokeWidth: 22, status: computeType(progress) }, () => [
-        h('span', { class: 'progress-text' }, `${progress}%`),
-        h('span', { class: 'language-name' }, localeMessages[locale]?.name || locale),
-    ])
-}
-
 const CONTAINER_CLZ = 'progress-container'
 
 async function queryData(listRef: Ref<ProgressInfo[]>) {
@@ -93,13 +85,19 @@ async function queryData(listRef: Ref<ProgressInfo[]>) {
     loading.close()
 }
 
-const _default = defineComponent({
-    name: 'HelpUsProgressList',
-    setup() {
-        const list: Ref<ProgressInfo[]> = ref([])
-        onMounted(() => queryData(list))
-        return () => h('div', { class: CONTAINER_CLZ }, list.value.map(renderProgressItem))
-    },
+const _default = defineComponent(() => {
+    const list: Ref<ProgressInfo[]> = ref([])
+    onMounted(() => queryData(list))
+    return () => (
+        <div class={CONTAINER_CLZ}>
+            {list.value.map(({ locale, progress }) => (
+                <ElProgress percentage={progress} strokeWidth={22} status={computeType(progress)}>
+                    <span class="progress-text">{`${progress}%`}</span>
+                    <span class="language-name">{localeMessages[locale]?.name || locale}</span>
+                </ElProgress>
+            ))}
+        </div>
+    )
 })
 
 export default _default

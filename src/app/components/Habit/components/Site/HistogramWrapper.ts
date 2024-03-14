@@ -9,16 +9,14 @@ import type { ComposeOption } from "echarts/core"
 import type { GridComponentOption, TooltipComponentOption, TitleComponentOption } from "echarts/components"
 import type { BarSeriesOption } from "echarts/charts"
 
-import { use } from "@echarts/core"
-import BarChart from "@echarts/chart/bar"
-import SVGRenderer from "@echarts/svg-renderer"
-import TooltipComponent from "@echarts/component/tooltip"
-import GridComponent from "@echarts/component/grid"
-import TitleComponent from "@echarts/component/title"
+import { use } from "echarts/core"
+import { BarChart } from "echarts/charts"
+import { SVGRenderer } from "echarts/renderers"
+import { TooltipComponent, GridComponent, TitleComponent } from "echarts/components"
 import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
 import { SeriesDataItem, formatFocusTooltip, generateTitleOption } from "./common"
-import { EchartsWrapper } from "@app/components/common/echarts-wrapper"
+import { EchartsWrapper } from "@app/hooks/useEcharts"
 
 use([BarChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])
 

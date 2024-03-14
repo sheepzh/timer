@@ -5,31 +5,31 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref } from "vue"
+import type { Ref, StyleValue } from "vue"
 
-import { defineComponent, h, onMounted, ref, watch } from "vue"
+import { defineComponent, onMounted, ref, watch } from "vue"
 import { CountUp } from "countup.js"
+import { getNumberSeparator } from "@i18n"
 
 const _default = defineComponent({
-    name: "NumberGrow",
     props: {
         value: Number,
         duration: Number,
         fontSize: Number,
     },
     setup(props) {
-        const elRef: Ref<HTMLElement> = ref()
+        const el: Ref<HTMLElement> = ref()
         const countUp: Ref<CountUp> = ref()
-        const style: Partial<CSSStyleDeclaration> = {
+        const style: StyleValue = {
             textDecoration: 'underline'
         }
         props.fontSize && (style.fontSize = `${props.fontSize}px`)
 
         onMounted(() => {
-            countUp.value = new CountUp(elRef.value, props.value, {
+            countUp.value = new CountUp(el.value, props.value, {
                 startVal: 0,
                 duration: props.duration || 1.5,
-                separator: ',',
+                separator: getNumberSeparator(),
             })
             if (countUp.value.error) {
                 console.log(countUp.value.error)
@@ -39,7 +39,7 @@ const _default = defineComponent({
 
         watch(() => props.value, newVal => countUp.value?.update(newVal))
 
-        return () => h('a', { style, ref: elRef })
+        return () => <a style={style} ref={el} />
     }
 })
 

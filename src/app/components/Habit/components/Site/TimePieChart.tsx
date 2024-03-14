@@ -5,9 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Ref, StyleValue, defineComponent, onMounted, ref, watch } from "vue"
+import { StyleValue, defineComponent } from "vue"
 import TimePieWrapper from "./TimePieWrapper"
 import { useRows } from "./context"
+import { useEcharts } from "@app/hooks/useEcharts"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",
@@ -16,12 +17,9 @@ const CONTAINER_STYLE: StyleValue = {
 
 const _default = defineComponent({
     setup() {
-        const elRef: Ref<HTMLDivElement> = ref()
-        const wrapper: TimePieWrapper = new TimePieWrapper()
         const rows = useRows()
+        const { elRef } = useEcharts(TimePieWrapper, rows, { manual: true })
 
-        onMounted(() => wrapper.init(elRef.value))
-        watch([rows], () => wrapper.render(rows.value))
         return () => <div style={CONTAINER_STYLE} ref={elRef} />
     },
 })
