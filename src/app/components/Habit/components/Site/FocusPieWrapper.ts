@@ -9,17 +9,16 @@ import type { ComposeOption } from "echarts/core"
 import type { GridComponentOption, TooltipComponentOption, TitleComponentOption } from "echarts/components"
 import type { PieSeriesOption } from "echarts/charts"
 
-import { use } from "@echarts/core"
-import PieChart from "@echarts/chart/pie"
-import SVGRenderer from "@echarts/svg-renderer"
-import TooltipComponent from "@echarts/component/tooltip"
-import GridComponent from "@echarts/component/grid"
-import TitleComponent from "@echarts/component/title"
+import { use } from "echarts/core"
+import { PieChart } from "echarts/charts"
+import { SVGRenderer } from "echarts/renderers"
+import { TooltipComponent, GridComponent, TitleComponent } from "echarts/components"
 import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
 import { MIN_PERCENT_OF_PIE, formatFocusTooltip, generateTitleOption } from "./common"
 import { sum } from "@util/array"
-import { EchartsWrapper } from "@app/components/common/echarts-wrapper"
+import { EchartsWrapper } from "@app/hooks/useEcharts"
+import { echartsPalette } from "@util/echarts"
 
 use([PieChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])
 
@@ -62,7 +61,8 @@ const generateOption = ({ rows, timeFormat }: BizOption): EcOption => {
             data: realRows.map(row => ({ value: row.focus, row })),
             label: {
                 show: false,
-            }
+            },
+            color: echartsPalette(),
         }],
         tooltip: {
             show: true,

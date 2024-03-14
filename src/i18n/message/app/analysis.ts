@@ -21,6 +21,7 @@ export type AnalysisMessage = {
         title: string
         day: string
         firstDay: string
+        calendarTitle: string
     }
     trend: {
         title: string

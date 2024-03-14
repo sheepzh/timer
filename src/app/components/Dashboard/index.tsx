@@ -6,7 +6,7 @@
  */
 
 import { defineComponent } from "vue"
-import ContentContainer from "@app/components/common/content-container"
+import ContentContainer from "../common/content-container"
 import DashboardCard from './DashboardCard'
 import "./style"
 import { isTranslatingLocale, locale } from "@i18n"
@@ -14,24 +14,16 @@ import { ElRow } from "element-plus"
 import Indicator from "./components/Indicator"
 import WeekOnWeek from "./components/WeekOnWeek"
 import TopKVisit from "./components/TopKVisit"
-import CalendarHeatMap from "./components/CalendarHeatMap"
+import CalendarHeatmapChart from "./components/CalendarHeatmapChart"
 import { useRouter } from "vue-router"
 
-const HelpTranslation = defineComponent(() => {
+const _default = defineComponent(() => {
     const router = useRouter()
-    const handleClick = () => router.push({ path: "/other/help" })
-    return () => (
-        <ElRow gutter={40}>
-            <span class="help-us-link" onClick={handleClick}>
-                💡 Help us translate this extension/addon into your native language!
-            </span>
-        </ElRow>
-    )
-})
+    const jump2Help = () => router.push({ path: "/other/help" })
+    const isNotEnOrZhCn = locale !== "en" && locale !== "zh_CN"
+    const showHelp = isTranslatingLocale() || isNotEnOrZhCn
 
-const _default = defineComponent({
-    name: 'Dashboard',
-    render: () => (
+    return () => (
         <ContentContainer>
             <ElRow gutter={20} style={{ height: "300px" }}>
                 <DashboardCard span={4}>
@@ -46,13 +38,14 @@ const _default = defineComponent({
             </ElRow>
             <ElRow gutter={40} style={{ height: "280px" }}>
                 <DashboardCard span={24}>
-                    <CalendarHeatMap />
+                    <CalendarHeatmapChart />
                 </DashboardCard>
             </ElRow>
-            {
-                // Only shows for translating languages' speakers in English
-                locale === "en" && isTranslatingLocale() && <HelpTranslation />
-            }
+            <ElRow v-show={showHelp}>
+                <span class="help-us-link" onClick={jump2Help}>
+                    💡 Help us translate this extension/addon into your native language!
+                </span>
+            </ElRow>
         </ContentContainer>
     )
 })

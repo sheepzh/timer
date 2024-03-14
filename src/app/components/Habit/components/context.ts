@@ -7,7 +7,7 @@
 
 import { Ref } from "vue"
 import { FilterOption } from "../type"
-import { provideWithNs, useProviderWithNs } from "@app/util/provider"
+import { useProvide, useProvider } from "@app/hooks/useProvider"
 
 type Context = {
     filter: Ref<FilterOption>
@@ -15,6 +15,6 @@ type Context = {
 
 const NAMESPACE = 'habit'
 
-export const initProvider = (filter: Ref<FilterOption>) => provideWithNs<Context>(NAMESPACE, { filter })
+export const initProvider = (filter: Ref<FilterOption>) => useProvide<Context>(NAMESPACE, { filter })
 
-export const useHabitFilter = (): Ref<FilterOption> => useProviderWithNs<Context>(NAMESPACE, "filter").filter
+export const useHabitFilter = (): Ref<FilterOption> => useProvider<Context>(NAMESPACE, "filter").filter

@@ -1,4 +1,4 @@
-import { provideWithNs, useProviderWithNs } from "@app/util/provider"
+import { useProvide, useProvider } from "@app/hooks/useProvider"
 import { Ref } from "vue"
 
 type Context = {
@@ -9,8 +9,8 @@ const NAMESPACE = 'report'
 
 export const initProvider = (
     filter: Ref<ReportFilterOption>,
-) => provideWithNs<Context>(NAMESPACE, {
+) => useProvide<Context>(NAMESPACE, {
     filter
 })
 
-export const useReportFilter = (): Ref<ReportFilterOption> => useProviderWithNs<Context>(NAMESPACE, "filter").filter
+export const useReportFilter = (): Ref<ReportFilterOption> => useProvider<Context>(NAMESPACE, "filter").filter

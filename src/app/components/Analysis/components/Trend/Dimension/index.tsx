@@ -14,6 +14,11 @@ import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import Chart from "./Chart"
 import { cvt2LocaleTime } from "@app/util/time"
 
+export type DimensionData = {
+    thisPeriod: DimensionEntry[]
+    previousPeriod: DimensionEntry[]
+}
+
 const _default = defineComponent({
     props: {
         maxLabel: String,
@@ -21,7 +26,7 @@ const _default = defineComponent({
         averageLabel: String,
         maxDate: String,
         average: [Object, Object] as PropType<RingValue>,
-        data: Array as PropType<DimensionEntry[]>,
+        data: Object as PropType<DimensionData>,
         valueFormatter: Function as PropType<ValueFormatter>,
         chartTitle: String,
     },
@@ -47,7 +52,8 @@ const _default = defineComponent({
                 </div>
                 <div class="analysis-trend-dimension-chart-container">
                     <Chart
-                        data={p.data}
+                        data={p.data?.thisPeriod}
+                        previous={p.data?.previousPeriod}
                         valueFormatter={p.valueFormatter}
                         title={p.chartTitle}
                     />

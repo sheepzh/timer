@@ -9,15 +9,13 @@ import PeriodDatabase from "@db/period-database"
 import statService from "@service/stat-service"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { computed, defineComponent, PropType, ref, Ref, VNode, watch } from "vue"
-import NumberGrow from "@app/components/common/number-grow"
+import NumberGrow from "@app/components/common/NumberGrow"
 import "./style"
 import { I18nKey } from "@app/locale"
 import { calcMostPeriodOf2Hours } from "@util/period"
 import I18nNode from "@app/components/common/I18nNode"
 import { ElIcon } from "element-plus"
 import { Sunrise } from "@element-plus/icons-vue"
-
-const CONTAINER_ID = "__timer-indicator-container"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
@@ -126,7 +124,7 @@ const _default = defineComponent(() => {
     })
 
     return () => (
-        <div id={CONTAINER_ID} class="chart-container">
+        <div class="chart-container">
             <div class="indicator-icon-header">
                 <ElIcon>
                     <Sunrise />

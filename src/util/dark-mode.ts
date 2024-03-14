@@ -7,7 +7,7 @@
 
 /**
  * Dark mode
- * 
+ *
  * @since 1.1.0
  */
 
@@ -35,6 +35,6 @@ export function toggle(isDarkMode: boolean) {
     localStorage.setItem(STORAGE_KEY, isDarkMode ? STORAGE_FLAG : undefined)
 }
 
-function isDarkMode() {
+export function isDarkMode() {
     return localStorage.getItem(STORAGE_KEY) === STORAGE_FLAG
 }

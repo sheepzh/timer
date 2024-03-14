@@ -78,7 +78,7 @@ const _default = defineComponent((_props, ctx) => {
                         ElMessageBox({
                             message: tWith(msg => msg.option.appearance.locale.changeConfirm, realLocale),
                             type: "success",
-                            confirmButtonText: t(msg => msg.option.appearance.locale.reloadButton),
+                            confirmButtonText: tWith(msg => msg.option.appearance.locale.reloadButton, realLocale),
                             // Cant close this on press ESC
                             closeOnPressEscape: false,
                             // Cant close this on clicking modal

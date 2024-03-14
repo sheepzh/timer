@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { provideWithNs, useProviderWithNs } from "@app/util/provider"
+import { useProvide, useProvider } from "@app/hooks/useProvider"
 import { Ref } from "vue"
 
 type Context = {
@@ -14,6 +14,6 @@ type Context = {
 
 const NAMESPACE = 'habitSite'
 
-export const initProvider = (rows: Ref<timer.stat.Row[]>) => provideWithNs<Context>(NAMESPACE, { rows })
+export const initProvider = (rows: Ref<timer.stat.Row[]>) => useProvide<Context>(NAMESPACE, { rows })
 
-export const useRows = (): Ref<timer.stat.Row[]> => useProviderWithNs<Context>(NAMESPACE, "rows").rows
+export const useRows = (): Ref<timer.stat.Row[]> => useProvider<Context>(NAMESPACE, "rows").rows

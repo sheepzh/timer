@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { provideWithNs, useProviderWithNs } from "@app/util/provider"
+import { useProvide, useProvider } from "@app/hooks/useProvider"
 import { Ref } from "vue"
 
 type Context = {
@@ -17,11 +17,11 @@ const NAMESPACE = 'siteAnalysis_trend'
 
 export const initProvider = (
     dateRange: Ref<[Date, Date]>,
-    rangeLength: Ref<number>
-) => provideWithNs<Context>(NAMESPACE, {
+    rangeLength: Ref<number>,
+) => useProvide<Context>(NAMESPACE, {
     dateRange, rangeLength
 })
 
-export const useAnalysisTrendDateRange = (): Ref<[Date, Date]> => useProviderWithNs<Context>(NAMESPACE, "dateRange").dateRange
+export const useAnalysisTrendDateRange = (): Ref<[Date, Date]> => useProvider<Context>(NAMESPACE, "dateRange").dateRange
 
-export const useAnalysisTrendRangeLength = (): Ref<number> => useProviderWithNs<Context>(NAMESPACE, "rangeLength").rangeLength
+export const useAnalysisTrendRangeLength = (): Ref<number> => useProvider<Context>(NAMESPACE, "rangeLength").rangeLength

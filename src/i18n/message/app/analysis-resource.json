@@ -12,7 +12,8 @@
         "summary": {
             "title": "数据总览",
             "day": "总计活跃天数",
-            "firstDay": "首次访问 {value}"
+            "firstDay": "首次访问 {value}",
+            "calendarTitle": "最近一段时间的活跃度"
         },
         "trend": {
             "title": "区间趋势",
@@ -66,7 +67,8 @@
         "summary": {
             "title": "Summary",
             "day": "Total active days",
-            "firstDay": "First visit {value}"
+            "firstDay": "First visit {value}",
+            "calendarTitle": "Activity in Recent Weeks"
         },
         "trend": {
             "title": "Trends",

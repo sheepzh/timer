@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, StyleValue } from "vue"
-
+import type { StyleValue } from "vue"
 import BarWrapper from "./BarWrapper"
-import { defineComponent, onMounted, ref, watch } from "vue"
+import { computed, defineComponent } from "vue"
 import { usePeriodFilter, usePeriodRows } from "./context"
+import { useEcharts } from "@app/hooks/useEcharts"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",
@@ -20,16 +20,11 @@ const _default = defineComponent({
     setup() {
         const rows = usePeriodRows()
         const filter = usePeriodFilter()
-
-        const elRef: Ref<HTMLDivElement> = ref()
-        const wrapper: BarWrapper = new BarWrapper()
-        onMounted(() => wrapper.init(elRef.value))
-
-        watch([filter, rows], () => {
+        const bizOption = computed(() => {
             const { periodSize, average } = filter.value || {}
-            wrapper.render({ data: rows.value, averageByDate: average, periodSize })
+            return { data: rows.value, averageByDate: average, periodSize }
         })
-
+        const { elRef } = useEcharts(BarWrapper, bizOption, { manual: true })
         return () => <div style={CONTAINER_STYLE} ref={elRef} />
     }
 })

@@ -11,7 +11,7 @@ import { defineComponent, ref, watch, computed, onMounted } from "vue"
 import { KanbanCard } from "@app/components/common/kanban"
 import Filter from "./Filter"
 import Total from "./Total"
-import Dimension from "./Dimension"
+import Dimension, { DimensionData } from "./Dimension"
 import { t } from "@app/locale"
 import './style.sass'
 import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLength } from "@util/time"
@@ -44,9 +44,9 @@ type SourceParam = {
 
 type EffectParam = {
     indicators: Ref<IndicatorSet>
-    lastIndicators: Ref<IndicatorSet>
-    focusData: Ref<DimensionEntry[]>
-    visitData: Ref<DimensionEntry[]>
+    previousIndicators: Ref<IndicatorSet>
+    focusData: Ref<DimensionData>
+    visitData: Ref<DimensionData>
 }
 
 const VISIT_MAX = t(msg => msg.analysis.trend.maxVisit)
@@ -106,7 +106,7 @@ const visitFormatter: ValueFormatter = (val: number) => Number.isInteger(val) ? 
 
 function handleDataChange(source: SourceParam, effect: EffectParam) {
     const { dateRange, rows } = source
-    const { indicators, lastIndicators, focusData, visitData } = effect
+    const { indicators, previousIndicators, focusData, visitData } = effect
     // 1. this period
     const [newIndicators, periodRows] = computeIndicatorSet(rows, dateRange)
     indicators.value = newIndicators
@@ -119,27 +119,38 @@ function handleDataChange(source: SourceParam, effect: EffectParam) {
             newFocusData.push({ date, value: focus || 0 })
             newVisitData.push({ date, value: time || 0 })
         })
-    focusData.value = newFocusData
-    visitData.value = newVisitData
     // 2. last period
-    lastIndicators.value = computeIndicatorSet(rows, lastRange(dateRange))[0]
+    const prevDateRange = lastRange(dateRange)
+    const [preIndicator, prePeriodRows] = computeIndicatorSet(rows, prevDateRange)
+    previousIndicators.value = preIndicator
+    const preFocusData: DimensionEntry[] = []
+    const preVisitData: DimensionEntry[] = []
+    Object.entries(prePeriodRows)
+        .forEach(([rowDate, row]) => {
+            const { time, focus } = row || {}
+            const date = cvt2LocaleTime(rowDate)
+            preFocusData.push({ date, value: focus || 0 })
+            preVisitData.push({ date, value: time || 0 })
+        })
+    focusData.value = { thisPeriod: newFocusData, previousPeriod: preFocusData }
+    visitData.value = { thisPeriod: newVisitData, previousPeriod: preVisitData }
 }
 
 const _default = defineComponent(() => {
-    const dateRange: Ref<[Date, Date]> = ref(daysAgo(29, 0))
+    const dateRange: Ref<[Date, Date]> = ref(daysAgo(14, 0))
     const rangeLength: Ref<number> = computed(() => getDayLength(dateRange.value?.[0], dateRange.value?.[1]))
     initProvider(dateRange, rangeLength)
 
-    const visitData: Ref<DimensionEntry[]> = ref([])
-    const focusData: Ref<DimensionEntry[]> = ref([])
+    const visitData: Ref<DimensionData> = ref()
+    const focusData: Ref<DimensionData> = ref()
     const indicators: Ref<IndicatorSet> = ref()
-    const lastIndicators: Ref<IndicatorSet> = ref()
+    const previousIndicators: Ref<IndicatorSet> = ref()
     const rows = useAnalysisRows()
     const timeFormat = useAnalysisTimeFormat()
 
     const computeEffect = () => handleDataChange(
         { dateRange: dateRange.value, rows: rows.value },
-        { indicators, lastIndicators, visitData, focusData }
+        { indicators, previousIndicators, visitData, focusData }
     )
     watch([dateRange, rows], computeEffect)
     onMounted(computeEffect)
@@ -154,9 +165,9 @@ const _default = defineComponent(() => {
             <div class="analysis-trend-content">
                 <div class="analysis-trend-content-col0">
                     <Total
-                        activeDay={[indicators.value?.activeDay, lastIndicators.value?.activeDay]}
-                        visit={[indicators.value?.visit?.total, lastIndicators.value?.visit?.total]}
-                        focus={[indicators.value?.focus?.total, lastIndicators.value?.focus?.total]}
+                        activeDay={[indicators.value?.activeDay, previousIndicators.value?.activeDay]}
+                        visit={[indicators.value?.visit?.total, previousIndicators.value?.visit?.total]}
+                        focus={[indicators.value?.focus?.total, previousIndicators.value?.focus?.total]}
                     />
                 </div>
                 <div class="analysis-trend-content-col1">
@@ -165,7 +176,7 @@ const _default = defineComponent(() => {
                         maxValue={indicators.value?.focus?.max?.value}
                         maxDate={indicators.value?.focus?.max?.date}
                         averageLabel={FOCUS_AVE}
-                        average={[indicators.value?.focus?.average, lastIndicators.value?.focus?.average]}
+                        average={[indicators.value?.focus?.average, previousIndicators.value?.focus?.average]}
                         valueFormatter={val => val === undefined ? '-' : periodFormatter(val, timeFormat.value)}
                         data={focusData.value}
                         chartTitle={FOCUS_CHART_TITLE}
@@ -177,7 +188,7 @@ const _default = defineComponent(() => {
                         maxValue={indicators.value?.visit?.max?.value}
                         maxDate={indicators.value?.visit?.max?.date}
                         averageLabel={VISIT_AVE}
-                        average={[indicators.value?.visit?.average, lastIndicators.value?.visit?.average]}
+                        average={[indicators.value?.visit?.average, previousIndicators.value?.visit?.average]}
                         valueFormatter={visitFormatter}
                         data={visitData.value}
                         chartTitle={VISIT_CHART_TITLE}

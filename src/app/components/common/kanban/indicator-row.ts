@@ -6,12 +6,15 @@
  */
 
 import { ElRow } from "element-plus"
-import { defineComponent, h } from "vue"
+import { PropType, StyleValue, defineComponent, h } from "vue"
 import "./indicator-row.sass"
 
 const _default = defineComponent({
-    setup: (_, ctx) => {
-        return () => h(ElRow, { class: "kanban-indicator-row" }, ctx.slots)
+    props: {
+        style: Object as PropType<StyleValue>
+    },
+    setup: ({ style }, ctx) => {
+        return () => h(ElRow, { class: "kanban-indicator-row", style }, ctx.slots)
     }
 })
 
