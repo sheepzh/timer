@@ -14,7 +14,7 @@ const ALARM_NAME = 'auto-backup-data'
 class BackupScheduler {
     needBackup = false
     /**
-     * Interval of millseconds
+     * Interval of milliseconds
      */
     interval: number = 0
 
@@ -24,8 +24,9 @@ class BackupScheduler {
     }
 
     private handleOption(option: timer.option.BackupOption) {
-        this.needBackup = !!option.autoBackUp
-        this.interval = (option.autoBackUpInterval || 0) * 60 * 1000
+        const { autoBackUp, backupType, autoBackUpInterval = 0 } = option || {}
+        this.needBackup = backupType !== "none" && !!backupType && !!autoBackUp
+        this.interval = autoBackUpInterval * 60 * 1000
         if (this.needSchedule()) {
             alarmManager.setInterval(ALARM_NAME, this.interval, () => this.doBackup())
         } else {

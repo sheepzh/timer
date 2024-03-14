@@ -1,12 +1,14 @@
 import { onInstalled } from "@api/chrome/runtime"
 import { executeScript } from "@api/chrome/script"
-import { listTabs } from "@api/chrome/tab"
+import { createTabAfterCurrent, listTabs } from "@api/chrome/tab"
 import metaService from "@service/meta-service"
 import { isBrowserUrl } from "@util/pattern"
 import UninstallListener from './uninstall-listener'
+import { getGuidePageUrl } from "@util/constant/url"
 
 async function onFirstInstall() {
     metaService.updateInstallTime(new Date())
+    createTabAfterCurrent(getGuidePageUrl())
 }
 
 async function reloadContentScript() {

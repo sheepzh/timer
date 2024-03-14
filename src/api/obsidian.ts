@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import axios, { AxiosError, AxiosHeaders } from "axios"
+import { fetchDelete, fetchGet, fetchPutText } from "./http"
 
 export const DEFAULT_ENDPOINT = "http://127.0.0.1:27123"
 export const INVALID_AUTH_CODE = 40101
@@ -21,58 +21,40 @@ export type ObsidianRequestContext = {
     auth: string
 }
 
-const authHeaders = (auth: string) => {
-    const headers = new AxiosHeaders()
-    headers.setAuthorization(`Bearer ${auth}`, true)
-    return headers
-}
+const authHeaders = (auth: string) => ({
+    "Authorization": `Bearer ${auth}`
+})
 
 export async function listAllFiles(context: ObsidianRequestContext, dirPath: string): Promise<ObsidianResult<{ files: string[] }>> {
     const { endpoint, auth } = context || {}
     const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${dirPath || ''}`
-    const response = await axios.get(url, { headers: authHeaders(auth) })
-    return response?.data
+    const response = await fetchGet(url, { headers: authHeaders(auth) })
+    return await response?.json()
 }
 
-export function updateFile(context: ObsidianRequestContext, filePath: string, content: string): Promise<void> {
+export async function updateFile(context: ObsidianRequestContext, filePath: string, content: string): Promise<void> {
     const { endpoint, auth } = context || {}
     const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${filePath}`
     const headers = authHeaders(auth)
-    headers.setContentType("text/markdown")
-    return axios.put(url, content, {
-        headers
-    })
+    headers["Content-Type"] = "text/markdown"
+    await fetchPutText(url, content, { headers })
 }
 
-export function getFileContent(context: ObsidianRequestContext, filePath: string): Promise<string> {
-    return new Promise(resolve => {
-        const { endpoint, auth } = context || {}
-        const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${filePath}`
-        const headers = authHeaders(auth)
-        headers.setContentType("text/markdown")
-        axios.get(url, { headers }).then(response => {
-            resolve(response.data)
-        }).catch(e => {
-            const status = (e as AxiosError)?.response?.status
-            if (status !== 404) {
-                console.log("Failed to query file content of Obsidian", e)
-            }
-            resolve(null)
-        })
-    })
-
+export async function getFileContent(context: ObsidianRequestContext, filePath: string): Promise<string> {
+    const { endpoint, auth } = context || {}
+    const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${filePath}`
+    const headers = authHeaders(auth)
+    const response = await fetchGet(url, { headers })
+    const { status } = response
+    return status >= 200 && status < 300 ? await response.text() : null
 }
 
-export function deleteFile(context: ObsidianRequestContext, filePath: string): Promise<void> {
-    return new Promise(resolve => {
-        const { endpoint, auth } = context || {}
-        const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${filePath}`
-        const headers = authHeaders(auth)
-        axios.delete(url, { headers }).then(response => {
-            resolve()
-        }).catch(e => {
-            console.log(`Failed to delete file of Obsidian. filePath=${filePath}`, e)
-            resolve()
-        })
-    })
+export async function deleteFile(context: ObsidianRequestContext, filePath: string): Promise<void> {
+    const { endpoint, auth } = context || {}
+    const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${filePath}`
+    const headers = authHeaders(auth)
+    const response = await fetchDelete(url, { headers })
+    if (response.status !== 200) {
+        console.log(`Failed to delete file of Obsidian. filePath=${filePath}`)
+    }
 }

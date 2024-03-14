@@ -1,10 +1,8 @@
 import {
-    INVALID_AUTH_CODE, NOT_FOUND_CODE,
-    ObsidianRequestContext, ObsidianResult,
+    ObsidianRequestContext,
     getFileContent, listAllFiles, updateFile, deleteFile
 } from "@api/obsidian"
-import { AxiosError, isAxiosError } from "axios"
-import { convertClients2Markdown, devideByDate, parseData } from "./compressor"
+import { convertClients2Markdown, divideByDate, parseData } from "./compressor"
 import DateIterator from "@util/date-iterator"
 
 const CLIENT_FILE_NAME = "clients_no_modify.md"
@@ -69,7 +67,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
     async upload(context: timer.backup.CoordinatorContext<never>, rows: timer.stat.RowBase[]): Promise<void> {
         const { ctx, dirPath, cid } = prepareContext(context)
 
-        const dateAndContents = devideByDate(rows)
+        const dateAndContents = divideByDate(rows)
         await Promise.all(
             Object.entries(dateAndContents).map(async ([date, content]) => {
                 const filePath = `${dirPath}${cid}/${date}.md`
@@ -84,29 +82,8 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         if (!dirPath) {
             return "Path of directory is blank"
         }
-        try {
-            const result = await listAllFiles({ endpoint, auth }, dirPath)
-            return result?.message
-        } catch (e) {
-            if (isAxiosError(e)) {
-                const ae: AxiosError = e as AxiosError
-                const result: ObsidianResult<unknown> = ae?.response?.data as ObsidianResult<never>
-                const status = ae?.response?.status
-                if (status === undefined) {
-                    console.log(e)
-                    return "Network error, please confirm that the endpoint is avaiable with HTTP"
-                }
-                const { message, errorCode } = result || {}
-                if (errorCode === INVALID_AUTH_CODE) {
-                    return "Invalid authorization token"
-                } else if (errorCode === NOT_FOUND_CODE) {
-                    // Need not throw exception if folder not found
-                    return undefined
-                }
-                return message || 'Obsidian error'
-            }
-            throw e
-        }
+        const result = await listAllFiles({ endpoint, auth }, dirPath)
+        return result?.message
     }
 
     async clear(context: timer.backup.CoordinatorContext<never>, client: timer.backup.Client): Promise<void> {

@@ -269,7 +269,7 @@ export class CrowdinClient {
             token: token
         }
         this.crowdin = new Crowdin(credentials)
-        console.info("Intialized client successfully")
+        console.info("Initialized client successfully")
     }
     createStorage = createStorage
     /**

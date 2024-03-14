@@ -133,8 +133,8 @@
         "heatMap": {
             "title0": "Перегляд понад {hour} годин за минулий рік",
             "title1": "Перегляд менш ніж 1 годину за минулий рік",
-            "tooltip0": "Переглядав {minute} хвилин {day}.{month}.{year}",
-            "tooltip1": "Переглядав {hour} годин {minute} хвилин {day}.{month}.{year}"
+            "tooltip0": "{minute} хв. – {day}.{month}.{year}",
+            "tooltip1": "{hour} год. {minute} хв. – {day}.{month}.{year}"
         },
         "topK": {
             "title": "Найбільші {k} відвідувань за минулих {day} днів",

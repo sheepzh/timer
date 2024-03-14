@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -15,7 +15,7 @@ import { createTab } from "@api/chrome/tab"
 
 /**
  * Reset the position after upgrade showed
- * 
+ *
  * @param upgrade upgrade button
  * @param upgradePopup label popup
  */
@@ -64,7 +64,10 @@ function showUpgradeButton(latestVersion: string) {
 }
 
 async function initUpgrade() {
-    const latestVersion = await getLatestVersion()
+    let latestVersion = null
+    try {
+        latestVersion = await getLatestVersion()
+    } catch { }
     latestVersion
         && packageInfo.version !== latestVersion
         // Must from store
