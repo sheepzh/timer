@@ -6,6 +6,7 @@ import InstallationLink from "./InstallationLink"
 import packageInfo from "@src/package"
 import { locale } from "@i18n"
 import "./description.sass"
+import metaService from "@service/meta-service"
 
 const INSTALLATION_STYLE: StyleValue = {
     display: "flex",
@@ -63,7 +64,9 @@ const _default = defineComponent(() => {
                 <ElText size="large">
                     🌟&ensp;
                     {t(msg => msg.about.text.greet)}&ensp;
-                    <a href={webstoreUrl} target="_blank">{t(msg => msg.about.text.rate)}</a>
+                    <a href={webstoreUrl} target="_blank" onClick={() => metaService.saveFlag("rateOpen")}>
+                        {t(msg => msg.about.text.rate)}
+                    </a>
                 </ElText>
             </div>
             <div>

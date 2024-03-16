@@ -71,6 +71,20 @@ async function getLastBackUp(type: timer.backup.Type): Promise<{ ts: number, msg
     return meta?.backup?.[type]
 }
 
+async function saveFlag(flag: timer.ExtensionMetaFlag) {
+    if (!flag) return
+    const meta = await db.getMeta()
+    if (!meta.flag) meta.flag = {}
+    meta.flag[flag] = true
+    await db.update(meta)
+}
+
+async function getFlag(flag: timer.ExtensionMetaFlag) {
+    if (!flag) return false
+    const meta = await db.getMeta()
+    return !!meta?.flag?.[flag]
+}
+
 class MetaService {
     getInstallTime = getInstallTime
     updateInstallTime = updateInstallTime
@@ -92,6 +106,11 @@ class MetaService {
      * @since 1.4.7
      */
     getLastBackUp = getLastBackUp
+    /**
+     * @since 2.2.0
+     */
+    saveFlag = saveFlag
+    getFlag = getFlag
 }
 
 export default new MetaService()
