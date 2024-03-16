@@ -9,7 +9,7 @@ import type { App } from "vue"
 import type { Language } from "element-plus/lib/locale"
 
 import { createApp } from "vue"
-import Main from "./layout"
+import Main from "./Layout"
 import 'element-plus/theme-chalk/index.css'
 import './styles' // global css
 import installRouter from "./router"

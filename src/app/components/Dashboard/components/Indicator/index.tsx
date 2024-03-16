@@ -16,6 +16,7 @@ import { calcMostPeriodOf2Hours } from "@util/period"
 import I18nNode from "@app/components/common/I18nNode"
 import { ElIcon } from "element-plus"
 import { Sunrise } from "@element-plus/icons-vue"
+import { useRequest } from "@app/hooks/useRequest"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
@@ -100,7 +101,8 @@ const IndicatorLabel = defineComponent({
     }
 })
 
-const computeMost2HourParam = (most2HourIndex: number): { start: number, end: number } => {
+const computeMost2HourParam = (value: _Value): { start: number, end: number } => {
+    const most2HourIndex = value?.most2Hour
     const [start, end] = most2HourIndex === undefined || isNaN(most2HourIndex)
         ? [0, 0]
         : [most2HourIndex * 2, most2HourIndex * 2 + 2]
@@ -108,20 +110,8 @@ const computeMost2HourParam = (most2HourIndex: number): { start: number, end: nu
 }
 
 const _default = defineComponent(() => {
-    const installedDays: Ref<number> = ref()
-    const siteCount: Ref<number> = ref(0)
-    const visitCount: Ref<number> = ref(0)
-    const browsingMinutes: Ref<number> = ref(0)
-    const most2Hour: Ref<number> = ref(0)
-    const most2HourParam = computed(() => computeMost2HourParam(most2Hour.value))
-
-    query().then(value => {
-        installedDays.value = value.installedDays
-        siteCount.value = value.sites
-        visitCount.value = value.visits
-        browsingMinutes.value = Math.floor(value.browsingTime / MILL_PER_MINUTE)
-        most2Hour.value = value.most2Hour
-    })
+    const { data } = useRequest(query)
+    const most2HourParam = computed(() => computeMost2HourParam(data.value))
 
     return () => (
         <div class="chart-container">
@@ -131,19 +121,19 @@ const _default = defineComponent(() => {
                 </ElIcon>
             </div>
             <IndicatorLabel
-                v-show={installedDays.value}
+                v-show={data.value?.installedDays}
                 path={msg => msg.dashboard.indicator.installedDays}
-                param={{ number: installedDays.value }}
+                param={{ number: data.value?.installedDays || 0 }}
                 duration={1.5}
             />
             <IndicatorLabel
                 path={msg => msg.dashboard.indicator.visitCount}
-                param={{ visit: visitCount.value, site: siteCount.value }}
+                param={{ visit: data.value?.visits || 0, site: data.value?.sites || 0 }}
                 duration={1.75}
             />
             <IndicatorLabel
                 path={msg => msg.dashboard.indicator.browsingTime}
-                param={{ minute: browsingMinutes.value }}
+                param={{ minute: Math.floor((data.value?.browsingTime || 0) / MILL_PER_MINUTE) }}
                 duration={2}
             />
             <IndicatorLabel

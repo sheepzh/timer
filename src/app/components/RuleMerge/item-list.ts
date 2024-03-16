@@ -9,8 +9,8 @@ import { ElMessage, ElMessageBox } from "element-plus"
 import { Ref, ref, h, VNode } from "vue"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import { t } from "@app/locale"
-import Item, { ItemInstance } from './components/item'
-import AddButton, { AddButtonInstance } from './components/add-button'
+import Item, { ItemInstance } from './components/Item'
+import AddButton, { AddButtonInstance } from './components/AddButton'
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 const ruleItemsRef: Ref<timer.merge.Rule[]> = ref([])

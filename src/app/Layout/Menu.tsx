@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -15,16 +15,20 @@ import { defineComponent, h, onMounted, ref, watch } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
 import { useRouter } from "vue-router"
 import { t } from "@app/locale"
-import { WEBSTORE_PAGE, FEEDBACK_QUESTIONNAIRE, getGuidePageUrl } from "@util/constant/url"
-import { Aim, Calendar, ChatSquare, Folder, HelpFilled, HotWater, Memo, Rank, SetUp, Stopwatch, Sugar, Tickets, Timer } from "@element-plus/icons-vue"
-import { locale } from "@i18n"
-import TrendIcon from "./icon/trend-icon"
+import { getGuidePageUrl } from "@util/constant/url"
+import { Aim, HelpFilled, Memo, Rank, SetUp, Stopwatch, Timer } from "@element-plus/icons-vue"
+import Trend from "./icons/Trend"
+import Table from "./icons/Table"
+import Database from "./icons/Database"
+import Whitelist from "./icons/Whitelist"
+import Website from "./icons/Website"
+import About from "./icons/About"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, MERGE_ROUTE } from "@app/router/constants"
 
 type _MenuItem = {
     title: keyof MenuMessage
-    icon: IconProps
+    icon: IconProps | string
     route?: string
     href?: string
     index?: string
@@ -36,10 +40,60 @@ type _MenuGroup = {
 }
 
 /**
- * Generate menu items after locale initialized
+ * Menu items
  */
-function generateMenus(): _MenuGroup[] {
-    const otherMenuItems: _MenuItem[] = [{
+const MENUS: _MenuGroup[] = [{
+    title: 'data',
+    children: [{
+        title: 'dashboard',
+        route: '/data/dashboard',
+        icon: Stopwatch
+    }, {
+        title: 'dataReport',
+        route: '/data/report',
+        icon: Table
+    }, {
+        title: 'siteAnalysis',
+        route: ANALYSIS_ROUTE,
+        icon: Trend
+    }, {
+        title: 'dataClear',
+        route: '/data/manage',
+        icon: Database
+    }]
+}, {
+    title: 'behavior',
+    children: [{
+        title: 'habit',
+        route: '/behavior/habit',
+        icon: Aim
+    }, {
+        title: 'limit',
+        route: '/behavior/limit',
+        icon: Timer
+    }]
+}, {
+    title: 'additional',
+    children: [{
+        title: 'siteManage',
+        route: '/additional/site-manage',
+        icon: Website
+    }, {
+        title: 'whitelist',
+        route: '/additional/whitelist',
+        icon: Whitelist
+    }, {
+        title: 'mergeRule',
+        route: MERGE_ROUTE,
+        icon: Rank
+    }, {
+        title: 'option',
+        route: '/additional/option',
+        icon: SetUp
+    }]
+}, {
+    title: 'other',
+    children: [{
         title: 'userManual',
         href: getGuidePageUrl(),
         icon: Memo,
@@ -48,76 +102,12 @@ function generateMenus(): _MenuGroup[] {
         title: 'helpUs',
         route: '/other/help',
         icon: HelpFilled,
+    }, {
+        title: "about",
+        route: '/other/about',
+        icon: About,
     }]
-    WEBSTORE_PAGE && otherMenuItems.push({
-        title: 'rate',
-        href: WEBSTORE_PAGE,
-        icon: Sugar,
-        index: '_rate'
-    })
-    const questionnairePage = FEEDBACK_QUESTIONNAIRE[locale]
-    questionnairePage && otherMenuItems.push({
-        title: 'feedback',
-        href: questionnairePage,
-        icon: ChatSquare,
-        index: '_feedback'
-    })
-
-    // All menu items
-    return [{
-        title: 'data',
-        children: [{
-            title: 'dashboard',
-            route: '/data/dashboard',
-            icon: Stopwatch
-        }, {
-            title: 'dataReport',
-            route: '/data/report',
-            icon: Calendar
-        }, {
-            title: 'siteAnalysis',
-            route: ANALYSIS_ROUTE,
-            icon: TrendIcon
-        }, {
-            title: 'dataClear',
-            route: '/data/manage',
-            icon: Folder
-        }]
-    }, {
-        title: 'behavior',
-        children: [{
-            title: 'habit',
-            route: '/behavior/habit',
-            icon: Aim
-        }, {
-            title: 'limit',
-            route: '/behavior/limit',
-            icon: Timer
-        }]
-    }, {
-        title: 'additional',
-        children: [{
-            title: 'siteManage',
-            route: '/additional/site-manage',
-            icon: HotWater
-        }, {
-            title: 'whitelist',
-            route: '/additional/whitelist',
-            icon: Tickets
-        }, {
-            title: 'mergeRule',
-            route: MERGE_ROUTE,
-            icon: Rank
-        }, {
-            title: 'option',
-            route: '/additional/option',
-            icon: SetUp
-        }]
-    }, {
-        title: 'other',
-        children: otherMenuItems
-    }]
-}
+}]
 
 function openMenu(route: string, title: I18nKey, router: Router) {
     const currentPath = router.currentRoute.value?.path
@@ -133,7 +123,6 @@ function handleClick(menuItem: _MenuItem, router: Router, currentActive: Ref<str
     const { route, title, href } = menuItem
     if (route) {
         openMenu(route, msg => msg.menu[title], router)
-        currentActive.value = '/data/dashboard'//route
     } else {
         openHref(href)
         currentActive.value = router.currentRoute?.value?.path
@@ -155,8 +144,12 @@ function renderMenuLeaf(menu: _MenuItem, router: Router, currentActive: Ref<stri
     const realIndex = index || route
     realIndex && (props.index = realIndex)
     return h(ElMenuItem, props, {
-        default: () => h(ElIcon, { size: 15, style: iconStyle }, () => h(icon)),
-        title: () => h('span', t(msg => msg.menu[title]))
+        default: () => (
+            <ElIcon size={15} style={iconStyle}>
+                {h(icon)}
+            </ElIcon>)
+        ,
+        title: () => h('span', t(msg => msg.menu[title])),
     })
 }
 
@@ -165,10 +158,10 @@ function renderMenu(menu: _MenuGroup, router: Router, currentActive: Ref<string>
     return h(ElMenuItemGroup, { title }, () => menu.children.map(item => renderMenuLeaf(item, router, currentActive)))
 }
 
-async function initTitle(allMenus: _MenuGroup[], router: Router) {
+async function initTitle(router: Router) {
     await router.isReady()
     const currentPath = router.currentRoute.value.path
-    for (const group of allMenus) {
+    for (const group of MENUS) {
         for (const { route, title } of group.children) {
             const docTitle = route === currentPath && t(msg => msg.menu[title])
             if (docTitle) {
@@ -186,15 +179,17 @@ const _default = defineComponent(() => {
         const route = router.currentRoute.value
         route && (currentActive.value = route.path)
     }
-
     watch(router.currentRoute, syncRouter)
 
-    const allMenus = generateMenus()
-    onMounted(() => initTitle(allMenus, router))
+    onMounted(() => initTitle(router))
 
-    return () => h('div', { class: 'menu-container' }, h(ElMenu, { defaultActive: currentActive.value },
-        () => allMenus.map(menu => renderMenu(menu, router, currentActive))
-    ))
+    return () => (
+        <div class="menu-container">
+            <ElMenu defaultActive={currentActive.value}>
+                {MENUS.map(menu => renderMenu(menu, router, currentActive))}
+            </ElMenu>
+        </div>
+    )
 })
 
 export default _default

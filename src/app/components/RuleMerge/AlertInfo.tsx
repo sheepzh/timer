@@ -7,36 +7,31 @@
 
 import { ElAlert } from "element-plus"
 import { t, tN } from "@app/locale"
-import { defineComponent, h } from "vue"
+import { StyleValue, defineComponent } from "vue"
 import { MergeRuleMessage } from "@i18n/message/app/merge-rule"
 import { PSL_HOMEPAGE } from "@util/constant/url"
 
 const liKeys: (keyof MergeRuleMessage)[] = ['infoAlert0', 'infoAlert1', 'infoAlert2', 'infoAlert3', 'infoAlert4']
-const title = t(msg => msg.mergeRule.infoAlertTitle)
 
-const pslStyle: Partial<CSSStyleDeclaration> = {
+const pslStyle: StyleValue = {
     fontSize: "var(--el-alert-description-font-size)",
     color: "var(--el-color-info)",
     marginLeft: "2px",
     marginRight: "2px",
 }
 
-function renderPslLink() {
-    return h('a', {
-        href: PSL_HOMEPAGE,
-        style: pslStyle,
-        target: '_blank'
-    }, 'Public Suffix List')
-}
-
 const _default = defineComponent({
-    name: "RuleMergeAlertInfo",
-    render: () => h(ElAlert,
-        { type: 'info', title },
-        () => [
-            ...liKeys.map(key => h('li', t(msg => msg.mergeRule[key]))),
-            h('li', tN(msg => msg.mergeRule.infoAlert5, { psl: renderPslLink() }))
-        ]
+    render: () => (
+        <ElAlert type="info" title={t(msg => msg.mergeRule.infoAlertTitle)}>
+            {liKeys.map(key => <li>{t(msg => msg.mergeRule[key])}</li>)}
+            <li>
+                {
+                    tN(msg => msg.mergeRule.infoAlert5, {
+                        psl: <a href={PSL_HOMEPAGE} style={pslStyle} target="_blank" >Public Suffix List</a>
+                    })
+                }
+            </li>
+        </ElAlert>
     )
 })
 
