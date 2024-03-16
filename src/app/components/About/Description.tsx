@@ -1,5 +1,5 @@
 import { t } from "@app/locale"
-import { CHROME_HOMEPAGE, EDGE_HOMEPAGE, FEEDBACK_QUESTIONNAIRE, getHomepageWithLocale, GITHUB_ISSUE_ADD, HOMEPAGE, SOURCE_CODE_PAGE, WEBSTORE_PAGE } from "@util/constant/url"
+import { CHROME_HOMEPAGE, EDGE_HOMEPAGE, FEEDBACK_QUESTIONNAIRE, FIREFOX_HOMEPAGE, getHomepageWithLocale, GITHUB_ISSUE_ADD, HOMEPAGE, SOURCE_CODE_PAGE, WEBSTORE_PAGE } from "@util/constant/url"
 import { ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElLink, ElSpace, ElText } from "element-plus"
 import { defineComponent, StyleValue } from "vue"
 import InstallationLink from "./InstallationLink"
@@ -43,7 +43,7 @@ const _default = defineComponent(() => {
                     <ElSpace />
                     <InstallationLink href={EDGE_HOMEPAGE} name="Edge" source="edge" />
                     <ElSpace />
-                    <InstallationLink href={EDGE_HOMEPAGE} name="Firefox" source="firefox" />
+                    <InstallationLink href={FIREFOX_HOMEPAGE} name="Firefox" source="firefox" />
                 </div>
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.thanks)} labelAlign="right">
