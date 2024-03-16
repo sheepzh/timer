@@ -99,7 +99,7 @@ const _default = defineComponent({
         const originVal = ref(props.modelValue)
         const inputVal = ref(originVal.value)
         const input = ref()
-        watch(() => props.modelValue, (newVal) => {
+        watch(() => props.modelValue, newVal => {
             inputVal.value = originVal.value = newVal
         })
         return () => render({ editing, originVal, inputVal, input }, ctx)

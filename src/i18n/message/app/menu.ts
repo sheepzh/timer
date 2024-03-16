@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -22,10 +22,9 @@ export type MenuMessage = {
     mergeRule: string
     option: string
     other: string
-    feedback: string
-    rate: string
     helpUs: string
     userManual: string
+    about: string
 }
 
 const _default: Messages<MenuMessage> = resource

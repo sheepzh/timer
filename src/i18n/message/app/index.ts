@@ -25,8 +25,11 @@ import helpUsMessages, { HelpUsMessage } from "./help-us"
 import calendarMessages, { CalendarMessage } from "@i18n/message/common/calendar"
 import popupDurationMessages, { PopupDurationMessage } from "@i18n/message/common/popup-duration"
 import buttonMessages, { ButtonMessage } from "@i18n/message/common/button"
+import metaMessages, { MetaMessage } from "@i18n/message/common/meta"
+import aboutMessages, { AboutMessage } from "./about"
 
 export type AppMessage = {
+    about: AboutMessage
     dataManage: DataManageMessage
     item: ItemMessage
     mergeCommon: MergeCommonMessage
@@ -47,9 +50,11 @@ export type AppMessage = {
     duration: PopupDurationMessage
     helpUs: HelpUsMessage
     button: ButtonMessage
+    meta: MetaMessage
 }
 
 const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } = {
+    about: aboutMessages,
     dataManage: dataManageMessages,
     item: itemMessages,
     mergeCommon: mergeCommonMessages,
@@ -70,6 +75,7 @@ const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } =
     duration: popupDurationMessages,
     helpUs: helpUsMessages,
     button: buttonMessages,
+    meta: metaMessages,
 }
 
 function appMessageOf(locale: timer.Locale): AppMessage {

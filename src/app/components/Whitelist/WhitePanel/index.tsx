@@ -13,15 +13,13 @@ import { defineComponent, ref } from "vue"
 import whitelistService from "@service/whitelist-service"
 import WhiteItem, { ItemInstance } from './WhiteItem'
 import AddButton, { AddButtonInstance } from './AddButton'
+import { useRequest } from "@app/hooks/useRequest"
 
 const _default = defineComponent({
     setup: () => {
-        const whitelist: Ref<string[]> = ref([])
+        const { data: whitelist } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })
         const itemRefs: Ref<ItemInstance>[] = []
         const addButtonRef: Ref<AddButtonInstance> = ref()
-        const queryData = () => whitelistService.listAll().then(list => whitelist.value = list || [])
-
-        queryData()
 
         const handleChanged = async (val: string, index: number) => {
             const ref = itemRefs[index]

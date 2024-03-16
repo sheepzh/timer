@@ -1,14 +1,14 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, h } from "vue"
+import { StyleValue, defineComponent } from "vue"
 import packageInfo from "@src/package"
 
-const style: Partial<CSSStyleDeclaration> = {
+const style: StyleValue = {
     width: '100px',
     right: '10px',
     bottom: '-10px',
@@ -19,7 +19,11 @@ const style: Partial<CSSStyleDeclaration> = {
 }
 
 const _default = defineComponent(() => {
-    return () => h('div', { style }, h('p', { style: { fontSize: '10px' } }, `v${packageInfo.version}`))
+    return () => <div style={style}>
+        <p style={{ fontSize: "10px" }}>
+            {`v${packageInfo.version}`}
+        </p>
+    </div>
 })
 
 export default _default

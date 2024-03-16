@@ -14,10 +14,9 @@
         "habit": "上网习惯",
         "limit": "时间限制",
         "other": "其他",
-        "feedback": "有什么反馈吗？",
-        "rate": "打个分吧！",
         "helpUs": "帮助我们～",
-        "userManual": "用户手册"
+        "userManual": "用户手册",
+        "about": "关于"
     },
     "zh_TW": {
         "dashboard": "儀錶盤",
@@ -54,10 +53,9 @@
         "mergeRule": "Merge-site Rules",
         "other": "Other Features",
         "option": "Options",
-        "feedback": "Feedback Questionnaire",
-        "rate": "Rate It",
-        "helpUs": "Help Us",
-        "userManual": "User Manual"
+        "helpUs": "Help Translation",
+        "userManual": "User Manual",
+        "about": "About"
     },
     "ja": {
         "dashboard": "ダッシュボード",
@@ -74,8 +72,6 @@
         "mergeRule": "ドメイン合併",
         "other": "その他の機能",
         "option": "拡張設定",
-        "feedback": "フィードバックアンケート",
-        "rate": "それを評価",
         "helpUs": "協力する",
         "userManual": "ユーザーマニュアル"
     },
@@ -93,8 +89,6 @@
         "mergeRule": "Regras para Mesclar Site",
         "other": "Outras Características",
         "option": "Opções",
-        "feedback": "Questionário de Opinião",
-        "rate": "Avalie",
         "helpUs": "Ajude-nos",
         "siteAnalysis": "Análise do Site",
         "userManual": "Manual do Utilizador"
@@ -112,8 +106,6 @@
         "mergeRule": "Правила об'єднання сайтів",
         "other": "Інші функції",
         "option": "Налаштування",
-        "feedback": "Анкетування",
-        "rate": "Оцінити",
         "helpUs": "Допомогти нам",
         "siteAnalysis": "Аналіз сайту",
         "userManual": "Посібник",
@@ -132,8 +124,6 @@
         "mergeRule": "Reglas de fusión de sitios",
         "other": "Otras Funciones",
         "option": "Opciones",
-        "feedback": "Cuestionario de comentarios",
-        "rate": "Califica esta app",
         "helpUs": "Ayúdanos",
         "siteAnalysis": "Análisis de sitios",
         "userManual": "Manual del usuario",

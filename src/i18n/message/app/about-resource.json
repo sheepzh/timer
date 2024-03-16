@@ -1,0 +1,32 @@
+{
+    "en": {
+        "label": {
+            "name": "Name",
+            "version": "Current Version",
+            "website": "Official Website",
+            "sourceCode": "Source Code",
+            "installation": "Installation Page",
+            "thanks": "Thanks To"
+        },
+        "text": {
+            "greet": "Do you love this extension?",
+            "rate": "Rate it 5 stars to help others know about it~~",
+            "feedback": "Also, welcome to submit your feedback and feature requests !!"
+        }
+    },
+    "zh_CN": {
+        "label": {
+            "name": "扩展名称",
+            "version": "当前版本",
+            "website": "官网",
+            "sourceCode": "源代码",
+            "installation": "安装地址",
+            "thanks": "致谢"
+        },
+        "text": {
+            "greet": "你喜欢这个扩展吗？",
+            "rate": "请给它 5 星好评，让更多的人能够知道它~~",
+            "feedback": "当然, 也非常欢迎提交你的建议或者反馈 !!"
+        }
+    }
+}

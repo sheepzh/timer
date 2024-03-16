@@ -33,10 +33,10 @@ function observeUpgradeShowed(upgrade: HTMLElement, upgradePopup: HTMLElement) {
 
     observer.observe(upgrade, { attributes: true, attributeFilter: ["style"], attributeOldValue: true })
 
-    window.onunload = () => {
+    window.addEventListener("unload", () => {
         observer?.disconnect()
         observer?.takeRecords()
-    }
+    })
 }
 
 function showUpgradeButton(latestVersion: string) {
