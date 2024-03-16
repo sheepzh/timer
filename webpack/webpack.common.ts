@@ -1,7 +1,7 @@
 import path from "path"
 import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import CopyWebpackPlugin from "copy-webpack-plugin"
-import webpack, { Chunk } from "webpack"
+import webpack, { Chunk, DefinePlugin } from "webpack"
 // Generate json files
 import manifest from "../src/manifest"
 import i18nChrome from "../src/i18n/chrome"
@@ -188,6 +188,10 @@ const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.
             template: path.join(__dirname, '..', 'public', 'popup.html'),
             filename: path.join('static', 'popup.html'),
             chunks: ['popup'],
+        }),
+        new DefinePlugin({
+            // https://github.com/vuejs/vue-cli/pull/7443
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
         }),
     ]
     return {

@@ -7,7 +7,7 @@
 
 import type { Ref } from "vue"
 
-import { defineComponent, onMounted, watch, ref } from "vue"
+import { defineComponent, watch, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/content-container"
 import Trend from "./components/Trend"
@@ -17,6 +17,7 @@ import statService, { StatQueryParam } from "@service/stat-service"
 import './style.sass'
 import { judgeVirtualFast } from "@util/pattern"
 import { initProvider } from "./context"
+import { useRequest } from "@app/hooks/useRequest"
 
 type _Queries = {
     host: string
@@ -51,17 +52,16 @@ const _default = defineComponent(() => {
     const siteFromQuery = getSiteFromQuery()
     const site: Ref<timer.site.SiteKey> = ref(siteFromQuery)
     const timeFormat: Ref<timer.app.TimeFormat> = ref('default')
-    const rows: Ref<timer.stat.Row[]> = ref()
+
+    const { data: rows, refresh } = useRequest(async () => {
+        const siteKey = site.value
+        if (!siteKey) return []
+        return await query(siteKey)
+    })
 
     initProvider(site, timeFormat, rows)
 
-    const queryInner = async () => {
-        const siteKey = site.value
-        rows.value = siteKey ? (await query(siteKey)) || [] : undefined
-    }
-
-    onMounted(() => queryInner())
-    watch(site, queryInner)
+    watch(site, refresh)
 
     return () => (
         <ContentContainer v-slots={{

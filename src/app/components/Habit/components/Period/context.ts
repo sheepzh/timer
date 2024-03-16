@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { provideWithNs, useProviderWithNs } from "@app/util/provider"
+import { useProvide, useProvider } from "@app/hooks/useProvider"
 import { Ref } from "vue"
 import { FilterOption } from "./Filter"
 
@@ -21,12 +21,12 @@ export const initProvider = (
     keyRange: Ref<timer.period.KeyRange>,
     rows: Ref<timer.period.Row[]>,
     filter: Ref<FilterOption>,
-) => provideWithNs<Context>(NAMESPACE, {
+) => useProvide<Context>(NAMESPACE, {
     keyRange, rows, filter
 })
 
-export const usePeriodRange = (): Ref<timer.period.KeyRange> => useProviderWithNs<Context>(NAMESPACE, "keyRange").keyRange
+export const usePeriodRange = (): Ref<timer.period.KeyRange> => useProvider<Context>(NAMESPACE, "keyRange").keyRange
 
-export const usePeriodRows = (): Ref<timer.period.Row[]> => useProviderWithNs<Context>(NAMESPACE, "rows").rows
+export const usePeriodRows = (): Ref<timer.period.Row[]> => useProvider<Context>(NAMESPACE, "rows").rows
 
-export const usePeriodFilter = (): Ref<FilterOption> => useProviderWithNs<Context>(NAMESPACE, "filter").filter
+export const usePeriodFilter = (): Ref<FilterOption> => useProvider<Context>(NAMESPACE, "filter").filter

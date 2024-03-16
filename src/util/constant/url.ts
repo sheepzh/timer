@@ -106,15 +106,19 @@ export function getAppPageUrl(isInBackground: boolean, route?: string, query?: a
     return url
 }
 
-const HOMEPAGE = "https://www.wfhg.cc"
+export const HOMEPAGE = "https://www.wfhg.cc"
 const HOMEPAGE_LOCALES: timer.Locale[] = ["zh_CN", "zh_TW", "en"]
+
+export function getHomepageWithLocale(): string {
+    const homepageLocale: timer.Locale = HOMEPAGE_LOCALES.includes(locale) ? locale : "en"
+    return `${HOMEPAGE}/${homepageLocale}/`
+}
 
 /**
  * @since 1.3.2
  */
 export function getGuidePageUrl(): string {
-    const homepageLocale: timer.Locale = HOMEPAGE_LOCALES.includes(locale) ? locale : "en"
-    return `${HOMEPAGE}/${homepageLocale}/guide/start`
+    return getHomepageWithLocale() + 'guide/start'
 }
 
 /**

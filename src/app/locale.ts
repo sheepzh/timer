@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey as _I18nKey, t as _t } from "@i18n"
+import { I18nResultItem, I18nKey as _I18nKey, t as _t } from "@i18n"
 import { tN as _tN } from "@i18n"
 import messages, { AppMessage } from "@i18n/message/app"
 import { VNode } from "vue"
@@ -25,6 +25,6 @@ export function tWith(key: I18nKey, specLocale: timer.Locale, param?: any) {
     return _t<AppMessage>(messages, props, specLocale)
 }
 
-export function tN(key: I18nKey, param?: any) {
+export function tN(key: I18nKey, param?: any): I18nResultItem<VNode>[] {
     return _tN<AppMessage, VNode>(messages, { key, param })
 }

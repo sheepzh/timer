@@ -10,10 +10,11 @@ import { computed, defineComponent } from "vue"
 import Site from "./Site"
 import { KanbanIndicatorCell, KanbanCard, KanbanIndicatorRow } from "@app/components/common/kanban"
 import "./summary.sass"
-import { ElCol } from "element-plus"
+import { ElCol, ElRow } from "element-plus"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { useAnalysisRows, useAnalysisSite, useAnalysisTimeFormat } from "../../context"
+import CalendarChart from "./CalendarChart"
 
 type Summary = {
     focus: number
@@ -48,28 +49,37 @@ const _default = defineComponent(() => {
 
     return () => (
         <KanbanCard title={t(msg => msg.analysis.summary.title)}>
-            <KanbanIndicatorRow>
-                <ElCol span={6}>
-                    <Site />
+            <ElRow>
+                <ElCol span={12} style={{ borderRight: "1px var(--el-border-color) var(--el-border-style)" }}>
+                    <KanbanIndicatorRow style={{ borderBottom: "1px var(--el-border-color) var(--el-border-style)" }}>
+                        <ElCol span={12}>
+                            <Site />
+                        </ElCol>
+                        <ElCol span={12}>
+                            <KanbanIndicatorCell
+                                mainName={FOCUS_LABEL}
+                                mainValue={summary.value?.focus === undefined ? '-' : periodFormatter(summary.value?.focus, timeFormat.value, false)}
+                            />
+                        </ElCol>
+                    </KanbanIndicatorRow>
+                    <KanbanIndicatorRow>
+                        <ElCol span={12}>
+                            <KanbanIndicatorCell
+                                mainName={DAYS_LABEL}
+                                mainValue={summary.value?.day?.toString?.() || '-'}
+                                subTips={msg => msg.analysis.summary.firstDay}
+                                subValue={summary.value?.firstDay ? `@${cvt2LocaleTime(summary.value?.firstDay)}` : ''}
+                            />
+                        </ElCol>
+                        <ElCol span={12}>
+                            <KanbanIndicatorCell mainName={VISIT_LABEL} mainValue={summary.value?.visit?.toString?.() || '-'} />
+                        </ElCol>
+                    </KanbanIndicatorRow>
                 </ElCol>
-                <ElCol span={6}>
-                    <KanbanIndicatorCell
-                        mainName={DAYS_LABEL}
-                        mainValue={summary.value?.day?.toString?.() || '-'}
-                        subTips={msg => msg.analysis.summary.firstDay}
-                        subValue={summary.value?.firstDay ? `@${cvt2LocaleTime(summary.value?.firstDay)}` : ''}
-                    />
+                <ElCol span={12}>
+                    <CalendarChart />
                 </ElCol>
-                <ElCol span={6}>
-                    <KanbanIndicatorCell
-                        mainName={FOCUS_LABEL}
-                        mainValue={summary.value?.focus === undefined ? '-' : periodFormatter(summary.value?.focus, timeFormat.value, false)}
-                    />
-                </ElCol>
-                <ElCol span={6}>
-                    <KanbanIndicatorCell mainName={VISIT_LABEL} mainValue={summary.value?.visit?.toString?.() || '-'} />
-                </ElCol>
-            </KanbanIndicatorRow>
+            </ElRow>
         </KanbanCard>
     )
 })

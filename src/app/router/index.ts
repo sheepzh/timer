@@ -59,7 +59,7 @@ const additionalRoutes: RouteRecordRaw[] = [
         component: () => import('../components/Whitelist')
     }, {
         path: MERGE_ROUTE,
-        component: () => import('../components/rule-merge')
+        component: () => import('../components/RuleMerge')
     }, {
         path: OPTION_ROUTE,
         component: () => import('../components/Option')
@@ -70,10 +70,12 @@ const otherRoutes: RouteRecordRaw[] = [
     {
         path: '/other',
         redirect: '/other/help'
-    },
-    {
+    }, {
         path: '/other/help',
-        component: () => import('../components/help-us'),
+        component: () => import('../components/HelpUs'),
+    }, {
+        path: '/other/about',
+        component: () => import('../components/About'),
     }
 ]
 
