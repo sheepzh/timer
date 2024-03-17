@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import IndicatorCell from "./indicator-cell"
-import IndicatorRow from "./indicator-row"
+import IndicatorCell from "./IndicatorCell"
+import IndicatorRow from "./IndicatorRow"
 import Card from "./card"
 
 export const KanbanIndicatorCell = IndicatorCell
