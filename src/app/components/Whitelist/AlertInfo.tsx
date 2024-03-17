@@ -14,16 +14,16 @@
 import { defineComponent } from "vue"
 import { ElAlert } from "element-plus"
 import { t } from "@app/locale"
-import { WhitelistMessage } from "@i18n/message/app/whitelist"
-
-const liKeys: (keyof WhitelistMessage)[] = ['infoAlert0', 'infoAlert1']
 
 const _default = defineComponent(() => {
     return () => (
-        <ElAlert title={t(msg => msg.whitelist.infoAlertTitle)}>
-            {
-                liKeys.map(k => <li>{t(msg => msg.whitelist[k])}</li>)
-            }
+        <ElAlert
+            title={t(msg => msg.whitelist.infoAlertTitle)}
+            style={{ padding: "15px 25px" }}
+            closable={false}
+        >
+            <li>{t(msg => msg.whitelist.infoAlert0)}</li>
+            <li>{t(msg => msg.whitelist.infoAlert1)}</li>
         </ElAlert>
     )
 })

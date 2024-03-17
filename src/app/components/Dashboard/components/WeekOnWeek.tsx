@@ -96,7 +96,7 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
     topK.sort((a, b) => Math.max(a.lastPeriod, a.thisPeriod) - Math.max(b.lastPeriod, b.thisPeriod))
 
     const positiveColor = getComputedStyle(document.body).getPropertyValue('--el-color-danger')
-    const negativeColor = getComputedStyle(document.body).getPropertyValue('--timer-dashboard-heatmap-color-b')
+    const negativeColor = getComputedStyle(document.body).getPropertyValue('--el-color-success-light-3')
     return {
         title: {
             ...BASE_TITLE_OPTION,

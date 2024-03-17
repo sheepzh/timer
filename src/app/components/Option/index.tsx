@@ -106,12 +106,12 @@ const _default = defineComponent({
                     <ElTabPane
                         name={resetButtonName}
                         v-slots={{
-                            label: () => <>
+                            label: () => <div>
                                 <ElIcon>
                                     <Refresh />
                                 </ElIcon>
                                 {t(msg => msg.option.resetButton)}
-                            </>
+                            </div>
                         }}
                     />
                 </ElTabs>

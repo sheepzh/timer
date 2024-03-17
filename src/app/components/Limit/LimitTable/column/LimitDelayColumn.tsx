@@ -34,7 +34,7 @@ const _default = defineComponent({
                 minWidth={80}
                 align="center"
                 v-slots={{
-                    header: () => <div>
+                    header: () => <div style={{ display: "flex", alignItems: "center" }}>
                         {`${label} `}
                         <ElTooltip content={tooltip} placement="top">
                             <ElIcon size={14} style={{ paddingLeft: '4px' }}>
