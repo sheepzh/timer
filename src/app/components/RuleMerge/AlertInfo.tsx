@@ -8,10 +8,7 @@
 import { ElAlert } from "element-plus"
 import { t, tN } from "@app/locale"
 import { StyleValue, defineComponent } from "vue"
-import { MergeRuleMessage } from "@i18n/message/app/merge-rule"
 import { PSL_HOMEPAGE } from "@util/constant/url"
-
-const liKeys: (keyof MergeRuleMessage)[] = ['infoAlert0', 'infoAlert1', 'infoAlert2', 'infoAlert3', 'infoAlert4']
 
 const pslStyle: StyleValue = {
     fontSize: "var(--el-alert-description-font-size)",
@@ -22,8 +19,17 @@ const pslStyle: StyleValue = {
 
 const _default = defineComponent({
     render: () => (
-        <ElAlert type="info" title={t(msg => msg.mergeRule.infoAlertTitle)}>
-            {liKeys.map(key => <li>{t(msg => msg.mergeRule[key])}</li>)}
+        <ElAlert
+            type="info"
+            title={t(msg => msg.mergeRule.infoAlertTitle)}
+            style={{ padding: "15px 25px" }}
+            closable={false}
+        >
+            <li>{t(msg => msg.mergeRule.infoAlert0)}</li>
+            <li>{t(msg => msg.mergeRule.infoAlert1)}</li>
+            <li>{t(msg => msg.mergeRule.infoAlert2)}</li>
+            <li>{t(msg => msg.mergeRule.infoAlert3)}</li>
+            <li>{t(msg => msg.mergeRule.infoAlert4)}</li>
             <li>
                 {
                     tN(msg => msg.mergeRule.infoAlert5, {

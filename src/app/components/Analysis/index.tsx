@@ -18,6 +18,7 @@ import './style.sass'
 import { judgeVirtualFast } from "@util/pattern"
 import { initProvider } from "./context"
 import { useRequest } from "@app/hooks/useRequest"
+import { ElLoadingService } from "element-plus"
 
 type _Queries = {
     host: string
@@ -52,11 +53,21 @@ const _default = defineComponent(() => {
     const siteFromQuery = getSiteFromQuery()
     const site: Ref<timer.site.SiteKey> = ref(siteFromQuery)
     const timeFormat: Ref<timer.app.TimeFormat> = ref('default')
+    const contentId = `analysis-content-` + Date.now()
 
-    const { data: rows, refresh } = useRequest(async () => {
+    const { data: rows, refresh, loading } = useRequest(async () => {
         const siteKey = site.value
         if (!siteKey) return []
         return await query(siteKey)
+    })
+
+    let loadingService: { close: () => void }
+    watch(loading, () => {
+        if (loading.value) {
+            loadingService = ElLoadingService({ target: `#${contentId}`, text: "Loading data..." })
+        } else {
+            loadingService?.close?.()
+        }
     })
 
     initProvider(site, timeFormat, rows)
@@ -72,8 +83,10 @@ const _default = defineComponent(() => {
                 onTimeFormatChange={val => timeFormat.value = val}
             />
         }}>
-            <Summary />
-            <Trend />
+            <div id={contentId}>
+                <Summary />
+                <Trend />
+            </div>
         </ContentContainer>
     )
 })

@@ -116,7 +116,6 @@ function optionOf(data: _Value[], weekDays: string[], timeFormat: timer.app.Time
             axisLabel: {
                 formatter: (x: string) => xAxisLabelMap[x] || '',
                 interval: 0,
-                margin: 0,
                 color: textColor,
             },
         },
