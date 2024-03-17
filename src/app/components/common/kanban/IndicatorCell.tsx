@@ -54,11 +54,10 @@ const _default = defineComponent({
         subInfo: String,
     },
     setup(props) {
-        const { mainName, mainValue } = props
         return () => (
             <div class="kanban-indicator-cell-container">
-                <div class="kanban-indicator-cell-name">{mainName}</div>
-                <div class="kanban-indicator-cell-val">{mainValue ?? '-'}</div>
+                <div class="kanban-indicator-cell-name">{props.mainName}</div>
+                <div class="kanban-indicator-cell-val">{props.mainValue ?? '-'}</div>
                 {renderSub(props)}
             </div>
         )
