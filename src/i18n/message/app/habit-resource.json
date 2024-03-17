@@ -38,7 +38,23 @@
                 "halfHour": "按半小時統計",
                 "hour": "按一小時統計",
                 "twoHour": "按兩小時統計"
-            }
+            },
+            "title": "不同時段的訪問習慣",
+            "busiest": "每天最繁忙時段",
+            "idle": "最長空閒時段"
+        },
+        "common": {
+            "focusAverage": "平均每天 {value}"
+        },
+        "site": {
+            "title": "網站造訪習慣",
+            "focusPieTitle": "瀏覽時間佔比",
+            "visitPieTitle": "造訪次數佔比",
+            "otherLabel": "其他 {count} 個網站",
+            "histogramTitle": "最長造訪 TOP {n}",
+            "exclusiveToday": "今天的數據不計入平均值",
+            "countTotal": "總計造訪次數/網站數",
+            "siteAverage": "平均每天造訪 {value} 個網站"
         }
     },
     "en": {

@@ -40,7 +40,8 @@
         "summary": {
             "title": "數據總覽",
             "day": "總計活躍天數",
-            "firstDay": "首次訪問 {value}"
+            "firstDay": "首次訪問 {value}",
+            "calendarTitle": "最近幾週的活動"
         },
         "trend": {
             "title": "區間趨勢",
