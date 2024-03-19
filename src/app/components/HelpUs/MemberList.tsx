@@ -5,23 +5,22 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getMembers, MemberInfo } from "@api/crowdin"
+import { getMembers } from "@api/crowdin"
+import { useRequest } from "@app/hooks/useRequest"
 import { t } from "@app/locale"
 import { ElDivider } from "element-plus"
-import { defineComponent, onMounted, ref } from "vue"
+import { defineComponent } from "vue"
 
 const _default = defineComponent(() => {
-    const list = ref<MemberInfo[]>([])
-    onMounted(async () => {
+    const { data: list } = useRequest(async () => {
         const members = await getMembers() || []
-        members.sort((a, b) => (a.joinedAt || "").localeCompare(b.joinedAt || ""))
-        list.value = members
+        return members.sort((a, b) => (a.joinedAt || "").localeCompare(b.joinedAt || ""))
     })
     return () => (
         <div class="member-container">
             <ElDivider>{t(msg => msg.helpUs.contributors)}</ElDivider>
             <div>
-                {list.value.map(({ avatarUrl, username }) => (
+                {list.value?.map(({ avatarUrl, username }) => (
                     <a href={`https://crowdin.com/profile/${username}`} target="_blank">
                         <img src={avatarUrl} alt={username} title={username} />
                     </a>

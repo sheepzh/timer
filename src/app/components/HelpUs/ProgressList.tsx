@@ -6,10 +6,11 @@
  */
 
 import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
-import { ElLoading, ElProgress, ProgressProps } from "element-plus"
-import { defineComponent, onMounted, Ref, ref } from "vue"
+import { ElProgress, ProgressProps } from "element-plus"
+import { defineComponent } from "vue"
 import localeMessages from "@i18n/message/common/locale"
 import { t } from "@app/locale"
+import { useRequest } from "@app/hooks/useRequest"
 
 type SupportedLocale = timer.Locale | timer.TranslatingLocale
 
@@ -39,6 +40,7 @@ const localeCrowdMap: { [locale in SupportedLocale]: string } = {
     vi: "vi",
     sk: "sk",
     mn: "mn",
+    ar: "ar",
 }
 
 const crowdLocaleMap: { [locale: string]: SupportedLocale } = {}
@@ -50,12 +52,14 @@ type ProgressInfo = {
     progress: number
 }
 
-function convert2Info(translationStatus: TranslationStatusInfo): ProgressInfo {
-    const { languageId, translationProgress } = translationStatus
-    return {
-        locale: crowdLocaleMap[languageId] || languageId,
-        progress: translationProgress
-    }
+const convert2Info = ({ languageId, translationProgress }: TranslationStatusInfo): ProgressInfo => ({
+    locale: crowdLocaleMap[languageId] || languageId,
+    progress: translationProgress
+} satisfies ProgressInfo)
+
+const compareLocale = ({ progress: pa, locale: la }: ProgressInfo, { progress: pb, locale: lb }: ProgressInfo): number => {
+    const progressDiff = (pb ?? 0) - (pa ?? 0)
+    return progressDiff || la?.localeCompare?.(lb) || 0
 }
 
 function computeType(progress: number): ProgressProps["status"] {
@@ -70,27 +74,19 @@ function computeType(progress: number): ProgressProps["status"] {
 
 const CONTAINER_CLZ = 'progress-container'
 
-async function queryData(listRef: Ref<ProgressInfo[]>) {
-    const loading = ElLoading.service({ target: `.${CONTAINER_CLZ}`, text: t(msg => msg.helpUs.loading) })
+async function queryData(): Promise<ProgressInfo[]> {
     const langList = await getTranslationStatus()
-    listRef.value = langList.map(convert2Info)
-        .sort((a, b) => {
-            const progressDiff = b.progress - a.progress
-            if (progressDiff === 0) {
-                return a.locale.localeCompare(b.locale)
-            } else {
-                return progressDiff
-            }
-        })
-    loading.close()
+    return langList?.map?.(convert2Info)?.sort(compareLocale)
 }
 
 const _default = defineComponent(() => {
-    const list: Ref<ProgressInfo[]> = ref([])
-    onMounted(() => queryData(list))
+    const { data: list } = useRequest(
+        queryData,
+        { loadingTarget: `.${CONTAINER_CLZ}`, loadingText: t(msg => msg.helpUs.loading) },
+    )
     return () => (
         <div class={CONTAINER_CLZ}>
-            {list.value.map(({ locale, progress }) => (
+            {list.value?.map?.(({ locale, progress }) => (
                 <ElProgress percentage={progress} strokeWidth={22} status={computeType(progress)}>
                     <span class="progress-text">{`${progress}%`}</span>
                     <span class="language-name">{localeMessages[locale]?.name || locale}</span>
