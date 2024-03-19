@@ -92,8 +92,9 @@ class SiteService {
     /**
      * @since 0.9.0
      */
-    async get(host: timer.site.SiteKey): Promise<timer.site.SiteInfo | undefined> {
-        return await siteDatabase.get(host)
+    async get(siteKey: timer.site.SiteKey): Promise<timer.site.SiteInfo | undefined> {
+        const info = await siteDatabase.get(siteKey)
+        return info || siteKey
     }
 }
 
