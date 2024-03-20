@@ -1,12 +1,13 @@
 import { t } from "@app/locale"
 import { CHROME_HOMEPAGE, EDGE_HOMEPAGE, FEEDBACK_QUESTIONNAIRE, FIREFOX_HOMEPAGE, getHomepageWithLocale, GITHUB_ISSUE_ADD, HOMEPAGE, SOURCE_CODE_PAGE, WEBSTORE_PAGE } from "@util/constant/url"
-import { ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElLink, ElSpace, ElText } from "element-plus"
+import { ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText } from "element-plus"
 import { defineComponent, StyleValue } from "vue"
 import InstallationLink from "./InstallationLink"
 import packageInfo from "@src/package"
 import { locale } from "@i18n"
 import "./description.sass"
 import metaService from "@service/meta-service"
+import DescLink from "./DescLink"
 
 const INSTALLATION_STYLE: StyleValue = {
     display: "flex",
@@ -28,14 +29,24 @@ const _default = defineComponent(() => {
                 v{packageInfo.version}
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.website)} labelAlign="right">
-                <ElLink href={getHomepageWithLocale()} target="_blank">
+                <DescLink href={getHomepageWithLocale()}>
                     {HOMEPAGE}
-                </ElLink>
+                </DescLink>
+            </ElDescriptionsItem>
+            <ElDescriptionsItem label={t(msg => msg.about.label.privacy)} labelAlign="right">
+                <DescLink href="https://www.wfhg.cc/en/privacy.html">
+                    https://www.wfhg.cc/en/privacy.html
+                </DescLink>
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.sourceCode)} labelAlign="right">
-                <ElLink href={SOURCE_CODE_PAGE} target="_blank">
+                <DescLink href={SOURCE_CODE_PAGE} icon="github">
                     {SOURCE_CODE_PAGE}
-                </ElLink>
+                </DescLink>
+            </ElDescriptionsItem>
+            <ElDescriptionsItem label={t(msg => msg.about.label.license)} labelAlign="right">
+                <DescLink href="https://github.com/sheepzh/timer/blob/main/LICENSE">
+                    MIT License
+                </DescLink>
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.installation)} labelAlign="right">
                 <div style={INSTALLATION_STYLE}>
@@ -48,13 +59,13 @@ const _default = defineComponent(() => {
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.thanks)} labelAlign="right">
                 <div>
-                    <ElLink href="https://vuejs.org/" target="_blank">VueJS</ElLink>
+                    <DescLink href="https://vuejs.org/" icon="vue">VueJS</DescLink>
                 </div>
                 <div>
-                    <ElLink href="https://echarts.apache.org/" target="_blank">Echarts</ElLink>
+                    <DescLink href="https://echarts.apache.org/" icon="echarts">Echarts</DescLink>
                 </div>
                 <div>
-                    <ElLink href="https://element-plus.org/" target="_blank">Element Plus</ElLink>
+                    <DescLink href="https://element-plus.org/" icon="element-plus">Element Plus</DescLink>
                 </div>
             </ElDescriptionsItem>
         </ElDescriptions>

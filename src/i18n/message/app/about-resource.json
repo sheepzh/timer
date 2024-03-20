@@ -6,7 +6,9 @@
             "website": "Official Website",
             "sourceCode": "Source Code",
             "installation": "Installation Page",
-            "thanks": "Thanks To"
+            "thanks": "Thanks To",
+            "privacy": "Privacy Statement",
+            "license": "Open-source License"
         },
         "text": {
             "greet": "Do you love this extension?",
@@ -21,7 +23,9 @@
             "website": "官网",
             "sourceCode": "源代码",
             "installation": "安装地址",
-            "thanks": "致谢"
+            "thanks": "致谢",
+            "privacy": "隐私声明",
+            "license": "开源许可证"
         },
         "text": {
             "greet": "你喜欢这个扩展吗？",
@@ -36,7 +40,9 @@
             "website": "官網",
             "sourceCode": "原始碼",
             "installation": "安裝位址",
-            "thanks": "致謝"
+            "thanks": "致謝",
+            "privacy": "隱私權聲明",
+            "license": "開源許可證"
         },
         "text": {
             "greet": "你喜歡這個擴充嗎？",
