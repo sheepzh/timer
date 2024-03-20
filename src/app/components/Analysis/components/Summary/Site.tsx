@@ -12,10 +12,8 @@ import { t } from "@app/locale"
 import { useAnalysisSite } from "../../context"
 import siteService from "@service/site-service"
 
-const EMPTY_DESC = t(msg => msg.analysis.common.emptyDesc)
-
 function renderChildren(site: timer.site.SiteInfo) {
-    if (!site) return <h1 class="site-alias">{EMPTY_DESC}</h1>
+    if (!site) return <h1 class="site-alias">{t(msg => msg.analysis.common.emptyDesc)}</h1>
 
     const { iconUrl, alias } = site
     const label = labelOfHostInfo(site)

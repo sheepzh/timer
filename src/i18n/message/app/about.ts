@@ -15,6 +15,8 @@ export type AboutMessage = {
         sourceCode: string
         installation: string
         thanks: string
+        privacy: string
+        license: string
     },
     text: {
         greet: string

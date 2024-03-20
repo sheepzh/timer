@@ -9,6 +9,7 @@ import resource from './locale-resource.json'
 
 type MetaBase = {
     name: string
+    rtl?: boolean
 }
 
 type Meta = MetaBase & {

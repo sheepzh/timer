@@ -6,7 +6,9 @@
             "website": "Official Website",
             "sourceCode": "Source Code",
             "installation": "Installation Page",
-            "thanks": "Thanks To"
+            "thanks": "Thanks To",
+            "privacy": "Privacy Statement",
+            "license": "Open-source License"
         },
         "text": {
             "greet": "Do you love this extension?",
@@ -21,7 +23,9 @@
             "website": "官网",
             "sourceCode": "源代码",
             "installation": "安装地址",
-            "thanks": "致谢"
+            "thanks": "致谢",
+            "privacy": "隐私声明",
+            "license": "开源许可证"
         },
         "text": {
             "greet": "你喜欢这个扩展吗？",
@@ -36,12 +40,31 @@
             "website": "官網",
             "sourceCode": "原始碼",
             "installation": "安裝位址",
-            "thanks": "致謝"
+            "thanks": "致謝",
+            "privacy": "隱私權聲明",
+            "license": "開源許可證"
         },
         "text": {
             "greet": "你喜歡這個擴充嗎？",
             "rate": "給它評分5星，以幫助其他人了解它~~",
             "feedback": "另外，歡迎提交您的回饋和功能請求！"
+        }
+    },
+    "uk": {
+        "label": {
+            "name": "Назва",
+            "version": "Поточна версія",
+            "website": "Офіційний веб-сайт",
+            "sourceCode": "Вихідний код",
+            "installation": "Сторінка встановлення",
+            "thanks": "Завдяки",
+            "privacy": "Заява про конфіденційність",
+            "license": "Ліцензія з відкритим кодом"
+        },
+        "text": {
+            "greet": "Вам подобається це розширення?",
+            "rate": "Оцініть 5 зірок, щоб допомогти іншим дізнатися про це~~",
+            "feedback": "Також ласкаво просимо надіслати свої відгуки та запити щодо функцій!!"
         }
     }
 }

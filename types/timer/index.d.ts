@@ -50,6 +50,7 @@ declare namespace timer {
         | 'vi'
         | 'sk'
         | 'mn'
+        | 'ar'
 
     type ExtensionMetaFlag = "rateOpen"
 
