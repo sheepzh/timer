@@ -163,7 +163,7 @@
             "tooltip1": "Navegó por {hour} horas {minute} minutos en {month}/{day}/{year}"
         },
         "topK": {
-            "title": "TOP {k} más visitados en los últimos {day} días",
+            "title": "TOP {k} más visitado en los últimos {day} días",
             "tooltip": "Visitó {host} {visit} veces"
         },
         "indicator": {
