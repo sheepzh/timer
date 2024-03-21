@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { isIpAndPort, judgeVirtualFast } from "@util/pattern"
-import psl from "psl"
+import { get } from "@util/psl"
 
 /**
  * @param origin origin host
@@ -58,6 +58,8 @@ export default class CustomizedHostMergeRuler implements timer.merge.Merger {
 
     private regulars: RegRuleItem[] = []
 
+    private cache: Record<string, string> = {}
+
     constructor(rules: timer.merge.Rule[]) {
         rules.map(item => convert(item))
             .forEach(rule => Array.isArray(rule)
@@ -65,11 +67,18 @@ export default class CustomizedHostMergeRuler implements timer.merge.Merger {
                 : (this.regulars.push(rule)))
     }
 
+    merge(origin: string): string {
+        let result = this.cache[origin]
+        if (result) return result
+        result = this.cache[origin] = this.mergeInner(origin)
+        return result
+    }
+
     /**
      * @param origin origin host
      * @returns merged host
      */
-    merge(origin: string): string {
+    private mergeInner(origin: string): string {
         let host = origin
         if (judgeVirtualFast(origin)) {
             host = origin.split('/')?.[0]
@@ -87,7 +96,7 @@ export default class CustomizedHostMergeRuler implements timer.merge.Merger {
             // No rule matched
             return isIpAndPort(host)
                 ? host
-                : psl.get(host) || this.merge0(2, host)
+                : get(host) || this.merge0(2, host)
         } else {
             return this.merge0(merged, host)
         }

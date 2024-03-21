@@ -1,0 +1,52 @@
+/**
+ * Build psl tree
+ */
+
+import { PslTree } from '@util/psl'
+import axios from 'axios'
+import { writeFileSync } from 'fs'
+import path from 'path'
+import punycode from "punycode/"
+
+const LIST_URL = "https://publicsuffix.org/list/effective_tld_names.dat"
+const JSON_PATH = path.join(__dirname, "..", "src", "util", "psl", "rules.json")
+
+const downloadList = async (): Promise<string> => {
+    const response = await axios.get(LIST_URL)
+    return response.data
+}
+
+const parse = (tree: PslTree, parts: string[], index: number) => {
+    if (index < 0) return
+    const part = parts[index]
+    const ascii = punycode.toASCII(part)
+    let node = tree[ascii]
+    if (index === 0) {
+        if (!node) tree[ascii] = 1
+        if (typeof node === "object") node.l = 1
+    } else {
+        if (!node) tree[ascii] = node = { c: {} } satisfies PslTree
+        if (node === 1) tree[ascii] = node = { c: {}, l: 1 }
+        const subTree = (node as PslTree).c as PslTree
+        parse(subTree, parts, index - 1)
+    }
+}
+
+async function main() {
+    const list = await downloadList()
+    const lines = list.split("\n")
+        .filter(l => !l.startsWith("//"))
+        .map(l => l.trim())
+        .filter(l => !!l)
+    const tree: PslTree = {}
+    lines.forEach(line => {
+        const parts = line.split('.')
+        parse(tree, parts, parts.length - 1)
+        console.log("Parsed " + line)
+    })
+    writeFileSync(JSON_PATH, JSON.stringify(tree, null, 4), { encoding: "utf-8" })
+}
+
+
+
+main()

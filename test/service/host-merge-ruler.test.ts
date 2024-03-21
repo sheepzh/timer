@@ -12,7 +12,7 @@ test('default merge', () => {
     const ipPort = '123.123.123.123:2222'
     test0(ipPort, ipPort)
     const likeIpButNot = '123.123.123.256'
-    test0(likeIpButNot, '123.256')
+    test0(likeIpButNot, '256')
 })
 
 test('specify merged url', () => {
@@ -22,7 +22,7 @@ test('specify merged url', () => {
     test1('www.*.com', targetUrl, 'www.baidu.com', targetUrl)
     test1('www.*.*', targetUrl, 'www.baidu.123', targetUrl)
     // Not match, so merged with the public suffix
-    test1('www.*.*', targetUrl, 'www1.baidu.123', 'baidu.123')
+    test1('www.*.*', targetUrl, 'www1.baidu.123', '123') // not any public suffix
     test1('www.baidu.com', targetUrl, 'www.baidu.com.hk', 'baidu.com.hk')
 })
 

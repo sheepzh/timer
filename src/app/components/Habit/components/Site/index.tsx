@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Ref, computed, defineComponent, onMounted, ref, watch } from "vue"
+import { computed, defineComponent } from "vue"
 import { t } from "@app/locale"
 import { sum } from "@util/array"
 import { KanbanCard, KanbanIndicatorCell } from "@app/components/common/kanban"
@@ -19,6 +19,7 @@ import { formatTime, getDayLength, isSameDay } from "@util/time"
 import { periodFormatter } from "@app/util/time"
 import statService from "@service/stat-service"
 import { initProvider } from "./context"
+import { computedAsync } from "@vueuse/core"
 
 type Summary = {
     focus: {
@@ -98,19 +99,10 @@ const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => 
 
 const _default = defineComponent({
     setup: () => {
-        const rows: Ref<timer.stat.Row[]> = ref([])
-        initProvider(rows)
-
         const filter = useHabitFilter()
+        const rows = computedAsync(() => statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true))
+        initProvider(rows)
         const summary = computed(() => computeSummary(rows.value, filter.value))
-
-        const fetchRows = async () => {
-            rows.value = await statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true)
-        }
-
-        onMounted(fetchRows)
-        watch(filter, fetchRows)
-
         return () => (
             <KanbanCard title={t(msg => msg.habit.site.title)}>
                 <div class="habit-site-content">

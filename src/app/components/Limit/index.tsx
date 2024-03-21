@@ -15,7 +15,7 @@ import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
-import { handleWindowVisibleChange } from "@util/window"
+import { useWindowVisible } from "@app/hooks/useWindowVisible"
 
 const initialUrl = () => {
     // Init with url parameter
@@ -35,7 +35,7 @@ const _default = defineComponent(() => {
     }
     onMounted(queryData)
     // Query data if the window become visible
-    handleWindowVisibleChange(queryData)
+    useWindowVisible(queryData)
 
     const modify: Ref<ModifyInstance> = ref()
     const test: Ref<TestInstance> = ref()

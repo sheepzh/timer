@@ -10,7 +10,7 @@ import { PropType, defineComponent } from "vue"
 
 const _default = defineComponent({
     props: {
-        defaultValue: Object as PropType<[number, number]>,
+        defaultValue: Object as PropType<timer.common.PageQuery>,
         total: Number
     },
     emits: {
@@ -21,8 +21,8 @@ const _default = defineComponent({
             <div class="pagination-container">
                 <ElPagination
                     pageSizes={[10, 20, 50]}
-                    defaultCurrentPage={props.defaultValue?.[0]}
-                    defaultPageSize={props.defaultValue?.[1]}
+                    defaultCurrentPage={(props.defaultValue as timer.common.PageQuery)?.num}
+                    defaultPageSize={(props.defaultValue as timer.common.PageQuery)?.size}
                     layout="total, sizes, prev, pager, next, jumper"
                     total={props.total}
                     onChange={(currentPage, pageSize) => ctx.emit("change", currentPage, pageSize)}

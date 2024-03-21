@@ -140,11 +140,6 @@ const staticOptions: webpack.Configuration = {
                     chunks: excludeChunk,
                     test: /[\\/]node_modules[\\/]@?element-plus[\\/]/,
                 },
-                psl: {
-                    name: 'psl',
-                    chunks: excludeChunk,
-                    test: /[\\/]node_modules[\\/]psl[\\/]/,
-                },
                 lodash: {
                     name: 'lodash',
                     chunks: excludeChunk,
