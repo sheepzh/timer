@@ -25,6 +25,7 @@ import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
 import { useEcharts, EchartsWrapper } from "@app/hooks/useEcharts"
+import calendar from "@src/common/calendar"
 
 type EcOption = ComposeOption<
     | CandlestickSeriesOption
@@ -166,7 +167,7 @@ class ChartWrapper extends EchartsWrapper<timer.stat.Row[][], EcOption> {
 }
 
 const fetchData = async (): Promise<timer.stat.Row[][]> => {
-    const now = new Date()
+    const now = calendar.nowDate()
     const lastPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH * 2)
     const lastPeriodEnd = new Date(lastPeriodStart.getTime() + MILL_PER_DAY * (PERIOD_WIDTH - 1))
     const thisPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH)

@@ -26,6 +26,7 @@ import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
 import { echartsPalette } from "@util/echarts"
 import { useEcharts, EchartsWrapper } from "@app/hooks/useEcharts"
+import calendar from "@src/common/calendar"
 
 const TOP_NUM = 6
 const DAY_NUM = 30
@@ -88,7 +89,7 @@ class ChartWrapper extends EchartsWrapper<_Value[], EcOption> {
 }
 
 const fetchData = async () => {
-    const now = new Date()
+    const now = calendar.nowDate()
     const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * DAY_NUM)
     const query: StatQueryParam = {
         date: [startTime, now],

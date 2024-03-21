@@ -114,6 +114,10 @@ declare namespace timer.option {
          * @since 0.7.0
          */
         countLocalFiles: boolean
+        /**
+         * The start of every, unit is second, default is 0
+         */
+        dayStart?: number
     }
 
     type DailyLimitOption = {

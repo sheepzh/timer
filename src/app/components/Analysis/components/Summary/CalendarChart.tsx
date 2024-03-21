@@ -19,6 +19,7 @@ import { groupBy, rotate } from "@util/array"
 import { t } from "@app/locale"
 import { getSecondaryTextColor } from "@util/style"
 import { periodFormatter } from "@app/util/time"
+import calendar from "@src/common/calendar"
 
 type EcOption = ComposeOption<
     | EffectScatterSeriesOption
@@ -149,7 +150,7 @@ type BizOption = {
 
 class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
     protected generateOption({ rows = [], timeFormat }: BizOption): EcOption | Promise<EcOption> {
-        const endTime = new Date()
+        const endTime = calendar.nowDate()
         const startTime = getWeeksAgo(endTime, locale === "zh_CN", WEEK_NUM)
         const allDates = getAllDatesBetween(startTime, endTime)
         const value = groupBy(rows, r => r.date, l => l?.[0]?.focus)

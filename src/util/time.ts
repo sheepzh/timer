@@ -255,3 +255,11 @@ export function parseTime(dateStr: string): Date {
     result.setDate(date)
     return result
 }
+
+const dayIdx = (date: Date) => date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate()
+
+export function compareDay(a: Date, b: Date): number {
+    if (!a) return b ? -1 : 0
+    if (!b) return a ? 1 : 0
+    return dayIdx(a) - dayIdx(b)
+}

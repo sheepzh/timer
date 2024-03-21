@@ -33,6 +33,7 @@ import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { useEcharts, EchartsWrapper } from "@app/hooks/useEcharts"
+import calendar from "@src/common/calendar"
 
 const WEEK_NUM = 53
 
@@ -233,7 +234,7 @@ class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
 }
 
 const fetchData = async (): Promise<BizOption> => {
-    const endTime = new Date()
+    const endTime = calendar.nowDate()
     const startTime: Date = getWeeksAgo(endTime, locale === "zh_CN", WEEK_NUM)
     const items = await statService.select({ date: [startTime, endTime], sort: "date" })
     const value: { [date: string]: number } = {}
