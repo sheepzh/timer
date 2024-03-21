@@ -3,6 +3,9 @@
         "baseUrl": "./",
         "module": "commonjs",
         "target": "es5",
+        "lib": [
+            "ES2023"
+        ],
         "jsx": "preserve",
         "jsxFactory": "h",
         "jsxImportSource": "vue",

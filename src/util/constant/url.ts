@@ -122,18 +122,6 @@ export function getGuidePageUrl(): string {
 }
 
 /**
- * @since 0.2.2
- * @deprecated mv3
- * @returns icon url in the browser
- */
-export function iconUrlOfBrowser(protocol: string, host: string): string {
-    if (IS_CHROME || IS_EDGE) {
-        return `${IS_CHROME ? 'chrome' : 'edge'}://favicon/${protocol ? protocol + '://' : ''}${host}`
-    }
-    return undefined
-}
-
-/**
  * @since 0.9.3
  */
 export const PSL_HOMEPAGE = 'https://publicsuffix.org/'
