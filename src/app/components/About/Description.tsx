@@ -1,5 +1,5 @@
 import { t } from "@app/locale"
-import { CHROME_HOMEPAGE, EDGE_HOMEPAGE, FEEDBACK_QUESTIONNAIRE, FIREFOX_HOMEPAGE, getHomepageWithLocale, GITHUB_ISSUE_ADD, HOMEPAGE, SOURCE_CODE_PAGE, WEBSTORE_PAGE } from "@util/constant/url"
+import { CHROME_HOMEPAGE, EDGE_HOMEPAGE, FEEDBACK_QUESTIONNAIRE, FIREFOX_HOMEPAGE, getHomepageWithLocale, GITHUB_ISSUE_ADD, HOMEPAGE, REVIEW_PAGE, SOURCE_CODE_PAGE } from "@util/constant/url"
 import { ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText } from "element-plus"
 import { defineComponent, StyleValue } from "vue"
 import InstallationLink from "./InstallationLink"
@@ -17,7 +17,6 @@ const INSTALLATION_STYLE: StyleValue = {
 }
 
 const _default = defineComponent(() => {
-    const webstoreUrl = WEBSTORE_PAGE || CHROME_HOMEPAGE
     const feedbackUrl = FEEDBACK_QUESTIONNAIRE[locale] || GITHUB_ISSUE_ADD
 
     return () => <ElCard class="description-container">
@@ -75,7 +74,7 @@ const _default = defineComponent(() => {
                 <ElText size="large">
                     🌟&ensp;
                     {t(msg => msg.about.text.greet)}&ensp;
-                    <a href={webstoreUrl} target="_blank" onClick={() => metaService.saveFlag("rateOpen")}>
+                    <a href={REVIEW_PAGE || CHROME_HOMEPAGE} target="_blank" onClick={() => metaService.saveFlag("rateOpen")}>
                         {t(msg => msg.about.text.rate)}
                     </a>
                 </ElText>
