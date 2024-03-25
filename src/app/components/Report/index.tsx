@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, UnwrapRef, ComputedRef } from "vue"
+import type { Ref, ComputedRef } from "vue"
 import type { StatQueryParam } from "@service/stat-service"
 import type { Router, RouteLocation } from "vue-router"
 
-import { computed, defineComponent, watch, reactive, ref, onMounted } from "vue"
+import { computed, defineComponent, watch, ref } from "vue"
 import { I18nKey, t } from "@app/locale"
 import statService from "@service/stat-service"
 import './styles/element'
@@ -17,42 +17,28 @@ import ReportTable, { TableInstance } from "./ReportTable"
 import ReportFilter from "./ReportFilter"
 import Pagination from "../common/Pagination"
 import ContentContainer from "../common/content-container"
-import { ElLoadingService, ElMessage, ElMessageBox } from "element-plus"
+import { ElMessage, ElMessageBox } from "element-plus"
 import siteService from "@service/site-service"
 import { exportCsv, exportJson } from "./file-export"
 import { useRoute, useRouter } from "vue-router"
 import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
 import StatDatabase from "@db/stat-database"
-import { handleWindowVisibleChange } from "@util/window"
 import { initProvider } from "./context"
+import { useRequest } from "@app/hooks/useRequest"
+import { useWindowVisible } from "@app/hooks/useWindowVisible"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
-async function queryData(
-    queryParam: Ref<StatQueryParam>,
-    data: Ref<timer.stat.Row[]>,
-    page: UnwrapRef<timer.common.Pagination>,
-) {
-    const loading = ElLoadingService({ target: `.container-card>.el-card__body`, text: "LOADING..." })
-    const pageInfo = { size: page.size, num: page.num }
-    const pageResult = await statService.selectByPage(queryParam.value, pageInfo, true)
-    const { list, total } = pageResult
-    data.value = list
-    page.total = total
-    loading.close()
-}
-
-async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data: Ref<timer.stat.Row[]>) {
+async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data: timer.stat.Row[]) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
         await siteService.removeAlias(key)
     } else {
         await siteService.saveAlias(key, newAlias, 'USER')
     }
-    data.value
-        .filter(item => item.host === key.host)
-        .forEach(item => item.alias = newAlias)
+    data?.filter(item => item.host === key.host)
+        ?.forEach(item => item.alias = newAlias)
 }
 
 async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]): Promise<string> {
@@ -109,8 +95,8 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
     return t(key, i18nParam)
 }
 
-async function handleBatchDelete(tableEl: Ref, filterOption: ReportFilterOption, afterDelete: Function) {
-    const selected: timer.stat.Row[] = tableEl?.value?.getSelected?.() || []
+async function handleBatchDelete(tableInstance: TableInstance, filterOption: ReportFilterOption, afterDelete: Function) {
+    const selected: timer.stat.Row[] = tableInstance?.getSelected?.() || []
     if (!selected?.length) {
         ElMessage({ type: "info", message: t(msg => msg.report.batchDelete.noSelectedMsg) })
         return
@@ -189,8 +175,6 @@ function computeTimerQueryParam(filterOption: ReportFilterOption, sort: SortInfo
     }
 }
 
-const DEFAULT_PAGINATION: timer.common.Pagination = { size: 10, num: 1, total: 0 }
-
 const _default = defineComponent(() => {
     const route = useRoute()
     const router = useRouter()
@@ -199,52 +183,45 @@ const _default = defineComponent(() => {
     initProvider(filterOption)
     const sort: Ref<SortInfo> = ref(initialSort)
 
-    const data: Ref<timer.stat.Row[]> = ref([])
-
-    const page: UnwrapRef<timer.common.Pagination> = reactive({ size: 10, num: 1, total: 0 })
+    const page = ref<timer.common.PageQuery>({ size: 10, num: 1 })
     const queryParam: ComputedRef<StatQueryParam> = computed(() => computeTimerQueryParam(filterOption.value, sort.value))
     const table: Ref<TableInstance> = ref()
+    const { data: pagination, refresh } = useRequest(
+        () => statService.selectByPage(queryParam.value, page.value, true),
+        { loadingTarget: ".container-card>.el-card__body" }
+    )
 
-    const query = () => queryData(queryParam, data, page)
     // Query data if window become visible
-    handleWindowVisibleChange(query)
-
-    watch([filterOption, sort, () => page.num, () => page.size], query)
-    onMounted(query)
-
-    const renderFilter = () => <ReportFilter
-        initial={filterOption.value}
-        onChange={newVal => filterOption.value = newVal}
-        onDownload={async format => {
-            const rows = await statService.select(queryParam.value, true)
-            format === 'json' && exportJson(filterOption.value, rows)
-            format === 'csv' && exportCsv(filterOption.value, rows)
-        }}
-        onBatchDelete={filterOption => handleBatchDelete(table, filterOption, query)}
-    />
-
-    const renderContent = () => <>
-        <ReportTable
-            data={data.value}
-            defaultSort={sort.value}
-            ref={table}
-            onSortChange={newVal => sort.value = newVal}
-            onItemDelete={query}
-            onAliasChange={(host, newAlias) => handleAliasChange({ host, merged: filterOption.value?.mergeHost }, newAlias, data)}
-        />
-        <Pagination
-            defaultValue={[DEFAULT_PAGINATION.num, DEFAULT_PAGINATION.size]}
-            total={page.total}
-            onChange={(currentPage, pageSize) => {
-                page.num = currentPage
-                page.size = pageSize
-            }}
-        />
-    </>
+    useWindowVisible(refresh)
+    watch([queryParam, page], refresh)
+    const handleDownload = async (format: FileFormat) => {
+        const rows = await statService.select(queryParam.value, true)
+        format === 'json' && exportJson(filterOption.value, rows)
+        format === 'csv' && exportCsv(filterOption.value, rows)
+    }
 
     return () => <ContentContainer v-slots={{
-        filter: renderFilter,
-        content: renderContent,
+        filter: () => <ReportFilter
+            initial={filterOption.value}
+            onChange={newVal => filterOption.value = newVal}
+            onDownload={handleDownload}
+            onBatchDelete={filterOption => handleBatchDelete(table.value, filterOption, refresh)}
+        />,
+        content: () => <>
+            <ReportTable
+                data={pagination.value?.list}
+                defaultSort={sort.value}
+                ref={table}
+                onSortChange={newVal => sort.value = newVal}
+                onItemDelete={refresh}
+                onAliasChange={(host, newAlias) => handleAliasChange({ host, merged: filterOption.value?.mergeHost }, newAlias, pagination.value?.list)}
+            />
+            <Pagination
+                defaultValue={page.value}
+                total={pagination.value?.total || 0}
+                onChange={(num, size) => page.value = { num, size }}
+            />
+        </>,
     }} />
 })
 

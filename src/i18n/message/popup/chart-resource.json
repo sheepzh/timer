@@ -15,10 +15,7 @@
         "totalCount": "共 {totalCount} 次",
         "averageTime": "平均每天 {value}",
         "averageCount": "平均每天 {value} 次",
-        "otherLabel": "其他{count}个网站",
-        "updateVersion": "版本升级",
-        "updateVersionInfo": "最新版本：{version}",
-        "updateVersionInfo4Firefox": "新版本 {version} 已发布\n\n您可以前往插件管理页进行更新"
+        "otherLabel": "其他{count}个网站"
     },
     "zh_TW": {
         "title": {
@@ -36,10 +33,7 @@
         "totalCount": "共 {totalCount} 次",
         "averageCount": "平均每天 {value} 次",
         "averageTime": "平均每天 {value}",
-        "otherLabel": "其他 {count} 個站點",
-        "updateVersion": "版本昇級",
-        "updateVersionInfo": "最新版本：{version}",
-        "updateVersionInfo4Firefox": "新版本 {version} 已髮佈\n\n您可以前往插件管理頁進行更新"
+        "otherLabel": "其他 {count} 個站點"
     },
     "en": {
         "title": {
@@ -57,10 +51,7 @@
         "totalCount": "Total {totalCount} times",
         "averageCount": "{value} times per day on average",
         "averageTime": "{value} per day on average",
-        "otherLabel": "Other {count} sites",
-        "updateVersion": "Updatable",
-        "updateVersionInfo": "Latest: {version}",
-        "updateVersionInfo4Firefox": "Upgrade to {version} in the management page, about:addons, pls"
+        "otherLabel": "Other {count} sites"
     },
     "ja": {
         "title": {
@@ -78,10 +69,7 @@
         "totalCount": "合計 {totalCount} 回",
         "averageTime": "1日平均 {value}",
         "averageCount": "1日平均 {value} 回",
-        "otherLabel": "他 {count} サイト",
-        "updateVersion": "更新",
-        "updateVersionInfo": "最新バージョン：{version}",
-        "updateVersionInfo4Firefox": "管理ページで {version} にアップグレードしてください"
+        "otherLabel": "他 {count} サイト"
     },
     "pt_PT": {
         "mergeHostLabel": "Mesclar Sítios Web",
@@ -94,9 +82,6 @@
         "averageCount": "{value} vezes por dia em média",
         "averageTime": "{value} por dia em média",
         "otherLabel": "Outros sites do {count}",
-        "updateVersion": "Atualizável",
-        "updateVersionInfo": "Último: {version}",
-        "updateVersionInfo4Firefox": "Atualize para {version} na página de gestão, about:addons, por favor",
         "title": {
             "today": "Dados de Hoje",
             "thisWeek": "Dados desta Semana",
@@ -115,9 +100,6 @@
         "averageCount": "{value} разів на день у середньому",
         "averageTime": "{value} на день у середньому",
         "otherLabel": "Інші {count} сайтів",
-        "updateVersion": "Оновлюється",
-        "updateVersionInfo": "Найновіша: {version}",
-        "updateVersionInfo4Firefox": "Оновіть до версії {version} на сторінці about:addons",
         "title": {
             "today": "Дані за сьогодні",
             "thisWeek": "Дані за цей тиждень",
@@ -136,9 +118,6 @@
         "averageCount": "{value} veces al día en promedio",
         "averageTime": "{value} al día en promedio",
         "otherLabel": "Otros {count} sitios",
-        "updateVersion": "Actualizable",
-        "updateVersionInfo": "Última versión: {version}",
-        "updateVersionInfo4Firefox": "Actualiza a la versión {version} en la página de administración de complementos, about:addons, por favor",
         "title": {
             "today": "Datos de hoy",
             "thisWeek": "Datos de esta semana",

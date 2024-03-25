@@ -10,6 +10,7 @@ import itemMessages, { ItemMessage } from "../common/item"
 import metaMessages, { MetaMessage } from "../common/meta"
 import popupDurationMessages, { PopupDurationMessage } from "../common/popup-duration"
 import chartMessages, { ChartMessage } from "./chart"
+import footerMessages, { FooterMessage } from "./footer"
 
 export type PopupMessage = {
     chart: ChartMessage
@@ -17,6 +18,7 @@ export type PopupMessage = {
     item: ItemMessage
     meta: MetaMessage
     base: BaseMessage
+    footer: FooterMessage
 }
 
 const _default: Required<Messages<PopupMessage>> = {
@@ -26,6 +28,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.zh_CN,
         meta: metaMessages.zh_CN,
         base: baseMessages.zh_CN,
+        footer: footerMessages.zh_CN,
     },
     zh_TW: {
         chart: chartMessages.zh_TW,
@@ -33,6 +36,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.zh_TW,
         meta: metaMessages.zh_TW,
         base: baseMessages.zh_TW,
+        footer: footerMessages.zh_TW,
     },
     en: {
         chart: chartMessages.en,
@@ -40,6 +44,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.en,
         meta: metaMessages.en,
         base: baseMessages.en,
+        footer: footerMessages.en,
     },
     ja: {
         chart: chartMessages.ja,
@@ -47,6 +52,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.ja,
         meta: metaMessages.ja,
         base: baseMessages.ja,
+        footer: footerMessages.ja,
     },
     pt_PT: {
         chart: chartMessages.pt_PT,
@@ -54,6 +60,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.pt_PT,
         meta: metaMessages.pt_PT,
         base: baseMessages.pt_PT,
+        footer: footerMessages.pt_PT,
     },
     uk: {
         chart: chartMessages.uk,
@@ -61,6 +68,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.uk,
         meta: metaMessages.uk,
         base: baseMessages.uk,
+        footer: footerMessages.uk,
     },
     es: {
         chart: chartMessages.es,
@@ -68,6 +76,7 @@ const _default: Required<Messages<PopupMessage>> = {
         item: itemMessages.es,
         meta: metaMessages.es,
         base: baseMessages.es,
+        footer: footerMessages.es,
     }
 }
 

@@ -8,7 +8,6 @@
 import { getVersion, onInstalled } from "@api/chrome/runtime"
 import HostMergeInitializer from "./0-1-2/host-merge-initializer"
 import LocalFileInitializer from "./0-7-0/local-file-initializer"
-import RunningTimeClear from "./1-6-0/alias-icon-cleaner"
 
 /**
  * Version manager
@@ -22,7 +21,6 @@ class VersionManager {
         this.processorChain.push(
             new HostMergeInitializer(),
             new LocalFileInitializer(),
-            new RunningTimeClear(),
         )
         this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }

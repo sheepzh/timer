@@ -6,6 +6,11 @@ import statService from "@service/stat-service"
 import { extractHostname, HostInfo } from "@util/pattern"
 import badgeTextManager from "../badge-text-manager"
 import MessageDispatcher from "../message-dispatcher"
+import optionService from "@service/option-service"
+
+let option = null
+optionService.getAllOption().then(opt => option = opt)
+optionService.addOptionChangeListener(opt => option = opt)
 
 async function handleTime(hostInfo: HostInfo, url: string, dateRange: [number, number]): Promise<number> {
     const host = hostInfo.host
@@ -34,6 +39,7 @@ async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender)
         if (!tab?.active) return
     }
     const hostInfo = extractHostname(url)
+    if (hostInfo.protocol === "file" && !option.countLocalFiles) return
     await handleTime(hostInfo, url, [start, end])
     if (tabId) {
         const winTabs = await listTabs({ active: true, windowId })

@@ -32,7 +32,7 @@ const _default = defineComponent({
         return () => <>
             <OptionItem
                 label={msg => msg.option.statistics.countLocalFiles}
-                defaultValue={t(msg => msg.option.no)}
+                defaultValue={t(msg => msg.option.yes)}
                 hideDivider
                 v-slots={{
                     info: () => <OptionTooltip>{t(msg => msg.option.statistics.localFilesInfo)}</OptionTooltip>,

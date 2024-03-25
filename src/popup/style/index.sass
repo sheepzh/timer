@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -18,74 +18,73 @@
 $width: 750px
 $height: 500px
 $footerHeight: 40px
+$optionPadding: 10px
 
 body
-  margin: 0
-  background-color: var(--el-bg-color)
+    margin: 0
+    background-color: var(--el-bg-color)
 
 #app
-  padding: 8px
-  width: $width
-  height: calc($height + $footerHeight)
+    padding: 8px
+    width: $width
+    height:
 
 #chart-container
-  width: $width
-  height: $height
+    width: $width
+    height: $height
 
-$optionPadding: 10px
 .option-container
-  padding-bottom: $optionPadding
-  width: 95%
-  margin: auto
-  height: calc($footerHeight - $optionPadding)
-  #total-info
+    padding-bottom: $optionPadding
+    width: 95%
+    margin: auto
+    height: 30px
+#total-info
     color: var(--el-text-color-secondary)
     font-size: 12px
 
 .option-right
-  margin-left: 10px
-  float: right
-  height: 30px
-  line-height: 30px
+    margin-left: 10px
+    float: right
+    height: 30px
+    line-height: 30px
 
 .option-left
-  margin-right: 10px
-  height: 30px
-  line-height: 30px
-  padding-top: 8px
-  float: left
+    margin-right: 10px
+    height: 30px
+    line-height: 30px
+    padding-top: 8px
+    float: left
 
 .popup__hidden
-  display: none
+    display: none
 .popup__show
-  display: block
-  position: absolute
+    display: block
+    position: absolute
 
 #type-select-popup
-  z-index: 2004
-  left: 619px
-  top: 410px
-  margin: 0px
+    z-index: 2004
+    left: 619px
+    top: 410px
+    margin: 0px
 #time-select-popup
-  z-index: 2004
-  left: 489px
-  top: 342px
-  margin: 0px
+    z-index: 2004
+    left: 489px
+    top: 342px
+    margin: 0px
 
 .el-svg-icon
-  padding-right: 2px
-  margin-top: 3px
+    padding-right: 3px
 
 .el-select-dropdown__item
-  padding: 0 12px 0 8px !important
+    padding: 0 12px 0 8px !important
 
 .el-select--mini
-  width: 120px !important
+    width: 120px !important
 
 .el-select-dropdown
-  min-width: 118px !important
+    min-width: 118px !important
 
 // Remove the underline of upgrade link in the Firefox
 // @since 0.9.0
 .firefox-upgrade-no-underline
-  border-bottom: none !important
+    border-bottom: none !important

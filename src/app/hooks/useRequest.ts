@@ -19,18 +19,17 @@ export const useRequest = <T,>(getter: () => Promise<T> | T, option?: Option<T>)
     const { manual = false, defaultValue, loadingTarget, loadingText } = option || {}
     const data: Ref<T> = ref(defaultValue) as Ref<T>
     const loading = ref(false)
-    let loadingInstance: { close?: () => void } = null
 
     const refreshAsync = async () => {
         loading.value = true
         const loadingEl = typeof loadingTarget === "string" ? loadingTarget : loadingTarget?.value
-        loadingEl && (loadingInstance = ElLoadingService({ target: loadingEl, text: loadingText }))
+        const loadingInstance = loadingEl ? ElLoadingService({ target: loadingEl, text: loadingText }) : null
         try {
             const value = await getter?.()
             data.value = value
+            loadingInstance?.close?.()
         } finally {
             loading.value = false
-            loadingInstance?.close?.()
         }
     }
     const refresh = () => { refreshAsync() }

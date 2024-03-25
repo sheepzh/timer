@@ -5,59 +5,40 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, UnwrapRef } from "vue"
-
-import { reactive, defineComponent, ref, watch, } from "vue"
+import { defineComponent, ref, watch, type Ref } from "vue"
 import ContentContainer from "../common/content-container"
 import SiteManageFilter from "./SiteManageFilter"
 import Pagination from "../common/Pagination"
 import SiteManageTable from "./SiteManageTable"
 import siteService, { SiteQueryParam } from "@service/site-service"
 import Modify, { ModifyInstance } from './SiteManageModify'
+import { useRequest } from "@app/hooks/useRequest"
 
-export default defineComponent({
-    setup() {
-        const filterOption: Ref<SiteManageFilterOption> = ref()
-        const data: Ref<timer.site.SiteInfo[]> = ref([])
-        const modify: Ref<ModifyInstance> = ref()
+export default defineComponent(() => {
+    const filterOption: Ref<SiteManageFilterOption> = ref()
+    const modify: Ref<ModifyInstance> = ref()
+    const page = ref<timer.common.PageQuery>({ num: 1, size: 10 })
+    const { data: pagination, refresh } = useRequest(() => {
+        const { host, alias, onlyDetected } = filterOption.value || {}
+        const param: SiteQueryParam = { host, alias, source: onlyDetected ? "DETECTED" : undefined }
+        return siteService.selectByPage(param, page.value)
+    })
+    watch([filterOption, page], refresh)
 
-        const page: UnwrapRef<timer.common.Pagination> = reactive({
-            size: 10,
-            num: 1,
-            total: 0
-        })
-
-        async function queryData() {
-            const pageParam = { size: page.size, num: page.num }
-            const { host, alias, onlyDetected } = filterOption.value || {}
-            const param: SiteQueryParam = { host, alias, source: onlyDetected ? "DETECTED" : undefined }
-            const pageResult = await siteService.selectByPage(param, pageParam)
-            const { list, total } = pageResult
-            data.value = list
-            page.total = total
-        }
-
-        watch([() => page.size, () => page.num, filterOption], queryData)
-        queryData()
-
-        return () => <ContentContainer v-slots={{
-            filter: () => <SiteManageFilter
-                defaultValue={filterOption.value}
-                onChange={(option: SiteManageFilterOption) => filterOption.value = option}
-                onCreate={() => modify.value?.add?.()}
-            />,
-            content: () => <>
-                <SiteManageTable data={data.value} onRowDelete={queryData} onRowModify={queryData} />
-                <Pagination
-                    defaultValue={[1, 10]}
-                    total={page.total}
-                    onChange={(currentPage, pageSize) => {
-                        page.num = currentPage
-                        page.size = pageSize
-                    }}
-                />
-                <Modify ref={modify} onSave={queryData} />
-            </>,
-        }} />
-    }
+    return () => <ContentContainer v-slots={{
+        filter: () => <SiteManageFilter
+            defaultValue={filterOption.value}
+            onChange={(option: SiteManageFilterOption) => filterOption.value = option}
+            onCreate={() => modify.value?.add?.()}
+        />,
+        content: () => <>
+            <SiteManageTable data={pagination.value?.list} onRowDelete={refresh} onRowModify={refresh} />
+            <Pagination
+                defaultValue={page.value}
+                total={pagination.value?.total || 0}
+                onChange={(num, size) => page.value = { num, size }}
+            />
+            <Modify ref={modify} onSave={refresh} />
+        </>,
+    }} />
 })
