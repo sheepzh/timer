@@ -9,7 +9,7 @@ import type { StyleValue } from "vue"
 import BarWrapper from "./BarWrapper"
 import { computed, defineComponent } from "vue"
 import { usePeriodFilter, usePeriodRows } from "./context"
-import { useEcharts } from "@app/hooks/useEcharts"
+import { useEcharts } from "@hooks/useEcharts"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",

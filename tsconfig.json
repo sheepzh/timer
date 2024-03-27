@@ -25,14 +25,14 @@
             "@popup/*": [
                 "src/popup/*"
             ],
+            "@side/*": [
+                "src/side/*"
+            ],
             "@db/*": [
                 "src/database/*"
             ],
             "@service/*": [
                 "src/service/*"
-            ],
-            "@entity/*": [
-                "src/entity/*"
             ],
             "@util/*": [
                 "src/util/*"
@@ -48,6 +48,9 @@
             ],
             "@src/*": [
                 "src/*"
+            ],
+            "@hooks/*": [
+                "src/hooks/*"
             ],
             "*": [
                 "types/*"

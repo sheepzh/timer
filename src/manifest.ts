@@ -28,7 +28,7 @@ const _default: chrome.runtime.ManifestV2 = {
     icons: {
         16: "static/images/icon.png",
         48: "static/images/icon.png",
-        128: "static/images/icon.png"
+        128: "static/images/icon.png",
     },
     background: {
         scripts: ['background.js'],

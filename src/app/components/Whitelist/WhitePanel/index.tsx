@@ -13,7 +13,7 @@ import { defineComponent, ref } from "vue"
 import whitelistService from "@service/whitelist-service"
 import WhiteItem, { ItemInstance } from './WhiteItem'
 import AddButton, { AddButtonInstance } from './AddButton'
-import { useRequest } from "@app/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 
 const _default = defineComponent({
     setup: () => {

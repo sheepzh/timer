@@ -12,7 +12,7 @@ import Pagination from "../common/Pagination"
 import SiteManageTable from "./SiteManageTable"
 import siteService, { SiteQueryParam } from "@service/site-service"
 import Modify, { ModifyInstance } from './SiteManageModify'
-import { useRequest } from "@app/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 
 export default defineComponent(() => {
     const filterOption: Ref<SiteManageFilterOption> = ref()

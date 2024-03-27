@@ -21,9 +21,13 @@ import { listTabs } from "@api/chrome/tab"
 import { isNoneWindowId, onNormalWindowFocusChanged } from "@api/chrome/window"
 import initServer from "./timer/server"
 import handleInstall from "./install-handler"
+import initSidePanel from "./side-panel"
 
 // Open the log of console
 openLog()
+
+// Init side panel
+initSidePanel()
 
 const messageDispatcher = new MessageDispatcher()
 

@@ -1,4 +1,4 @@
-import { useProvide, useProvider } from "@app/hooks/useProvider"
+import { useProvide, useProvider } from "@hooks/useProvider"
 import { Ref } from "vue"
 
 type Context = {

@@ -5,19 +5,17 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { App } from "vue"
 import type { Language } from "element-plus/lib/locale"
 
-import { createApp } from "vue"
-import Main from "./Layout"
+import { App, createApp } from "vue"
 import 'element-plus/theme-chalk/index.css'
-import './styles' // global css
-import installRouter from "./router"
 import '../common/timer'
-import ElementPlus from 'element-plus'
-import { initLocale, locale as appLocale } from "@i18n"
+import ElementPlus, { ElLoadingDirective } from 'element-plus'
+import Main from "./Layout"
+import { initLocale, locale as sideLocale } from "@i18n"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
+import "./style.sass"
 
 const locales: { [locale in timer.Locale]: () => Promise<{ default: Language }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
@@ -36,10 +34,10 @@ async function main() {
     optionService.isDarkMode().then(toggle)
     await initLocale()
     const app: App = createApp(Main)
-    installRouter(app)
+    app.directive("loading", ElLoadingDirective)
+    const locale = await locales[sideLocale]?.()
+    app.use(ElementPlus, { locale: locale.default })
     app.mount('#app')
-
-    locales[appLocale]?.()?.then(locale => app.use(ElementPlus, { locale: locale.default }))
 }
 
 main()

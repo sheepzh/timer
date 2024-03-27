@@ -32,7 +32,7 @@ import { getPrimaryTextColor } from "@util/style"
 import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
-import { useEcharts, EchartsWrapper } from "@app/hooks/useEcharts"
+import { useEcharts, EchartsWrapper } from "@hooks/useEcharts"
 
 const WEEK_NUM = 53
 

@@ -10,7 +10,7 @@ import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/ut
 
 import { defineComponent, watch } from "vue"
 import ChartWrapper from "./wrapper"
-import { useEcharts } from "@app/hooks/useEcharts"
+import { useEcharts } from "@hooks/useEcharts"
 
 const _default = defineComponent({
     props: {

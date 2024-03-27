@@ -8,7 +8,7 @@
 import { StyleValue, defineComponent } from "vue"
 import TimePieWrapper from "./TimePieWrapper"
 import { useRows } from "./context"
-import { useEcharts } from "@app/hooks/useEcharts"
+import { useEcharts } from "@hooks/useEcharts"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",

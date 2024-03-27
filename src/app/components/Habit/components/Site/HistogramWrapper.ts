@@ -16,7 +16,7 @@ import { TooltipComponent, GridComponent, TitleComponent } from "echarts/compone
 import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
 import { SeriesDataItem, formatFocusTooltip, generateTitleOption } from "./common"
-import { EchartsWrapper } from "@app/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 
 use([BarChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])
 

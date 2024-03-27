@@ -21,7 +21,7 @@ import { TitleComponent, TooltipComponent, GridComponent } from "echarts/compone
 
 import { ValueFormatter } from "@app/components/Analysis/util"
 import { getSecondaryTextColor } from "@util/style"
-import { EchartsWrapper } from "@app/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { ZRColor } from "echarts/types/dist/shared"
 
 use([

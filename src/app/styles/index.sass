@@ -5,8 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-@import "./dark-theme"
-@import "./light-theme"
+@import "../../element-ui/dark-theme"
 @import "./compatible"
 
 body
@@ -148,3 +147,11 @@ a
     --el-menu-item-active-bg-color: var(--el-color-primary)
     --timer-kanban-border: 1px var(--el-border-color) var(--el-border-style)
     --el-alert-description-font-size: 75% !important
+    --el-menu-bg-color: #1d222d
+    --timer-app-container-bg-color: var(--el-fill-color-blank)
+    --el-menu-text-color: #c1c6c8
+    --el-menu-hover-bg-color: #262f3e
+
+html[data-theme='dark']:root
+    // timer
+    --timer-app-container-bg-color: var(--el-fill-color-dark)

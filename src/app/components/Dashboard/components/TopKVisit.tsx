@@ -25,7 +25,7 @@ import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
 import { echartsPalette } from "@util/echarts"
-import { useEcharts, EchartsWrapper } from "@app/hooks/useEcharts"
+import { useEcharts, EchartsWrapper } from "@hooks/useEcharts"
 
 const TOP_NUM = 6
 const DAY_NUM = 30

@@ -1,7 +1,7 @@
 import { t } from "../locale"
 import { t2Chrome } from "@i18n/chrome/t"
 import { LimitReason, LimitType, MaskModal } from "./common"
-import { sendMsg2Runtime } from "@api/chrome/runtime"
+import { getRuntimeId, sendMsg2Runtime } from "@api/chrome/runtime"
 import optionService from "@service/option-service"
 import { FILTER_STYLES, LINK_STYLE, MASK_STYLE } from "./modal-style"
 import { DelayConfirm } from "./delay/confirm"
@@ -12,6 +12,8 @@ const TYPE_SORT: { [reason in LimitType]: number } = {
     VISIT: 1,
     DAILY: 2,
 }
+
+const MASK_ID = "_timer_mask_" + getRuntimeId()
 
 function limitAlert(reason: LimitReason): HTMLParagraphElement {
     let text = ""
@@ -84,29 +86,52 @@ class ModalInstance implements MaskModal {
         () => sendMsg2Runtime('cs.moreMinutes', this.url)
     ]
     options: timer.option.AllOption
+    locked: boolean = false
+    observer: MutationObserver
 
     constructor(url: string) {
         this.url = url
-        this.mask = document.createElement('div')
-        this.mask.id = "_timer_mask"
-        this.initStyle()
+        this.initObserver()
         window?.addEventListener?.("load", () => this.refresh())
-        optionService.getAllOption().then(val => this.options = val)
+        optionService.getAllOption().then(val => {
+            this.options = val
+            this.initMask()
+        })
+        optionService.addOptionChangeListener(val => this.options = val)
+    }
+
+    private initMask() {
+        this.mask?.remove?.()
+        this.mask = document.createElement('div')
+        this.mask.id = MASK_ID
+        const filterType = this.options?.limitFilter
+        const realMaskStyle = {
+            ...MASK_STYLE,
+            ...FILTER_STYLES[filterType || 'translucent']?.mask || {}
+        }
+        Object.assign(this.mask.style || {}, realMaskStyle)
+    }
+
+    private initObserver() {
+        this.observer = new MutationObserver(mutations => {
+            const isSensitive = !!mutations?.some?.(m => {
+                const { target, removedNodes } = m || {}
+                return target === this.mask
+                    || Array.from(removedNodes || []).some(m => m === this.mask)
+            })
+            if (!isSensitive) return
+            this.observer.disconnect()
+            this.displayReason = null
+            this.initMask()
+            this.refresh()
+        })
+        window?.addEventListener?.("unload", () => this.observer?.disconnect?.())
     }
 
     addDelayHandler(handler: () => void): void {
         if (!handler) return
         if (this.delayHandlers?.includes(handler)) return
         this.delayHandlers?.push(handler)
-    }
-
-    private async initStyle() {
-        const filterType = (await optionService.getAllOption())?.limitFilter
-        const realMaskStyle = {
-            ...MASK_STYLE,
-            ...FILTER_STYLES[filterType || 'translucent']?.mask || {}
-        }
-        Object.assign(this.mask.style || {}, realMaskStyle)
     }
 
     addReason(reason: LimitReason): void {
@@ -157,6 +182,7 @@ class ModalInstance implements MaskModal {
     }
 
     private showModalInner(reason: LimitReason): void {
+        this.observer.disconnect()
         const url = this.url
 
         // Clear
@@ -172,17 +198,20 @@ class ModalInstance implements MaskModal {
                 () => delayConfirm.doConfirm().then(() => this.delayHandlers?.forEach?.(h => h?.()))
             )
             this.mask.append(delayButton.dom)
-            this.mask.append(delayConfirm.dom)
+            delayConfirm.dom && this.mask.append(delayConfirm.dom)
         }
 
         document.body.append(this.mask)
         document.body.style.overflow = 'hidden'
+        this.observer.observe(this.mask, { attributes: true, characterData: true })
+        this.observer.observe(document.body, { childList: true })
     }
 
     private hideModal() {
         if (!document.body) {
             return
         }
+        this.observer.disconnect()
         this.mask.remove()
         document.body.style.overflow = ''
     }
