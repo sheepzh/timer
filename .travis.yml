@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - 16
+  - 20
 install:
   - npm install --legacy-peer-deps
   - npm install -g jest
