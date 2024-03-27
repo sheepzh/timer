@@ -10,7 +10,7 @@ import { ElProgress, ProgressProps } from "element-plus"
 import { defineComponent } from "vue"
 import localeMessages from "@i18n/message/common/locale"
 import { t } from "@app/locale"
-import { useRequest } from "@app/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 
 type SupportedLocale = timer.Locale | timer.TranslatingLocale
 

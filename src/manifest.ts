@@ -27,7 +27,7 @@ const _default: chrome.runtime.ManifestV3 = {
     icons: {
         16: "static/images/icon.png",
         48: "static/images/icon.png",
-        128: "static/images/icon.png"
+        128: "static/images/icon.png",
     },
     background: {
         service_worker: 'background.js'
@@ -49,13 +49,14 @@ const _default: chrome.runtime.ManifestV3 = {
         'contextMenus',
         'alarms',
         'scripting',
+        'sidePanel',
     ],
     host_permissions: [
         "<all_urls>",
     ],
     action: {
         default_popup: "static/popup.html",
-        default_icon: "static/images/icon.png"
+        default_icon: "static/images/icon.png",
     },
     /**
      * @since 0.4.0

@@ -63,6 +63,9 @@ const entryConfigs: EntryConfig[] = [{
 }, {
     name: 'app',
     path: './src/app',
+}, {
+    name: 'side',
+    path: './src/side'
 }]
 
 const EXCLUDE_CHUNK_ENTRY = entryConfigs.filter(({ chunkExclusive }) => chunkExclusive).map(({ name }) => name)
@@ -183,6 +186,11 @@ const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.
             template: path.join(__dirname, '..', 'public', 'popup.html'),
             filename: path.join('static', 'popup.html'),
             chunks: ['popup'],
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, '..', 'public', 'side.html'),
+            filename: path.join('static', 'side.html'),
+            chunks: ['side'],
         }),
         new DefinePlugin({
             // https://github.com/vuejs/vue-cli/pull/7443

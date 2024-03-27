@@ -17,7 +17,7 @@ import { formatPeriodCommon, formatTime } from "@util/time"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { averageByDay } from "./common"
-import { EchartsWrapper } from "@app/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 
 use([BarChart, SVGRenderer, TooltipComponent, GridComponent])
 

@@ -13,7 +13,7 @@ import { ElTag, TagProps } from "element-plus"
 import { computed, defineComponent, h, ref } from "vue"
 import ItemInput from "./ItemInput"
 import { computeMergeTxt, computeMergeType } from "@util/merge"
-import { useShadow } from "@app/hooks/useShadow"
+import { useShadow } from "@hooks/useShadow"
 
 export type ItemInstance = {
     forceEdit(): void

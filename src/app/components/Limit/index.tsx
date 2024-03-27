@@ -15,7 +15,7 @@ import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
-import { useWindowVisible } from "@app/hooks/useWindowVisible"
+import { useWindowVisible } from "@hooks/useWindowVisible"
 
 const initialUrl = () => {
     // Init with url parameter

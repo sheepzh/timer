@@ -17,7 +17,7 @@ import statService, { StatQueryParam } from "@service/stat-service"
 import './style.sass'
 import { judgeVirtualFast } from "@util/pattern"
 import { initProvider } from "./context"
-import { useRequest } from "@app/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 import { ElLoadingService } from "element-plus"
 
 type _Queries = {
