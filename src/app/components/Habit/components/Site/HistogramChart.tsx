@@ -9,7 +9,7 @@ import { StyleValue, computed, defineComponent } from "vue"
 import HistogramWrapper from "./HistogramWrapper"
 import { useRows } from "./context"
 import { useHabitFilter } from "../context"
-import { useEcharts } from "@app/hooks/useEcharts"
+import { useEcharts } from "@hooks/useEcharts"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",

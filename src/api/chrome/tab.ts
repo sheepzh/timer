@@ -50,8 +50,8 @@ export function createTab(param: chrome.tabs.CreateProperties | string): Promise
 
 /**
  * Create one tab after current tab.
- * 
- * Must not be invocked in background.js
+ *
+ * Must not be invoked in background.js
  */
 export async function createTabAfterCurrent(url: string, currentTab?: ChromeTab): Promise<ChromeTab> {
     if (!currentTab) {

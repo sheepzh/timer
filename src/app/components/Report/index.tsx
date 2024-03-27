@@ -25,8 +25,8 @@ import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
 import StatDatabase from "@db/stat-database"
 import { initProvider } from "./context"
-import { useRequest } from "@app/hooks/useRequest"
-import { useWindowVisible } from "@app/hooks/useWindowVisible"
+import { useRequest } from "@hooks/useRequest"
+import { useWindowVisible } from "@hooks/useWindowVisible"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 

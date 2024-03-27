@@ -1,0 +1,10 @@
+{
+    "zh_CN": {
+        "searchPlaceholder": "输入域名，然后回车",
+        "title": "所有浏览数据"
+    },
+    "en": {
+        "searchPlaceholder": "Search by URL",
+        "title": "All browsing data"
+    }
+}

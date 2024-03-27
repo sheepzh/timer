@@ -16,7 +16,7 @@ import { calcMostPeriodOf2Hours } from "@util/period"
 import I18nNode from "@app/components/common/I18nNode"
 import { ElIcon } from "element-plus"
 import { Sunrise } from "@element-plus/icons-vue"
-import { useRequest } from "@app/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
