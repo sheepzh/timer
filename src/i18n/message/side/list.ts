@@ -1,4 +1,4 @@
-import resource from "./list.json"
+import resource from "./list-resource.json"
 
 export type ListMessage = {
     searchPlaceholder: string

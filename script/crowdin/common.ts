@@ -3,7 +3,7 @@ import fs from 'fs'
 import { CrowdinClient } from './client'
 import { exitWith } from '../util/process'
 
-export const ALL_DIRS: Dir[] = ['app', 'common', 'popup']
+export const ALL_DIRS: Dir[] = ['app', 'common', 'popup', 'side']
 
 export const SOURCE_LOCALE: timer.SourceLocale = 'en'
 

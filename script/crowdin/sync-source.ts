@@ -58,6 +58,7 @@ async function processByDir(client: CrowdinClient, dir: Dir, branch: SourceFiles
     console.log('Directory: ' + JSON.stringify(directory))
     // 2. iterate all messages
     const messages = await readAllMessages(dir)
+    console.log(`Found ${Object.keys(messages).length} message(s)`)
     // 3. list all files in directory
     const existFiles = await client.listFilesByDirectory(directory.id)
     console.log("Exists file count: " + existFiles.length)

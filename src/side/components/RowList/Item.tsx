@@ -21,8 +21,8 @@ const renderTitle = (siteName: string, host: string, handleJump: () => void) => 
 
 const renderAvatarText = (row: Row) => {
     const { host, alias } = row || {}
-    if (alias) return alias.substring(0)?.toUpperCase?.()
-    return host?.substring?.(0)?.toUpperCase?.()
+    if (alias) return alias.substring(0, 1)?.toUpperCase?.()
+    return host?.substring?.(0, 1)?.toUpperCase?.()
 }
 
 const _default = defineComponent({
