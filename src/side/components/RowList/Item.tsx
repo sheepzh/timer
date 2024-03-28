@@ -19,6 +19,12 @@ const renderTitle = (siteName: string, host: string, handleJump: () => void) => 
     </ElTooltip >
 }
 
+const renderAvatarText = (row: Row) => {
+    const { host, alias } = row || {}
+    if (alias) return alias.substring(0)?.toUpperCase?.()
+    return host?.substring?.(0)?.toUpperCase?.()
+}
+
 const _default = defineComponent({
     props: {
         value: Object as PropType<Row>,
@@ -52,7 +58,7 @@ const _default = defineComponent({
                         fit="fill"
                         style={{ backgroundColor: props.value?.iconUrl ? "transparent" : null }}
                     >
-                        {props.value?.host?.substring(0, 1)?.toUpperCase()}
+                        {renderAvatarText(props.value)}
                     </ElAvatar>
                 </div>
                 <div class="info-container">
