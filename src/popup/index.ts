@@ -13,7 +13,6 @@ import metaService from "@service/meta-service"
 import "../common/timer"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
-
 import { initLocale } from "@i18n"
 
 async function main() {

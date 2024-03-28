@@ -26,10 +26,16 @@ type _FilterResult = {
 function filterHost(host: string, condition: _StatCondition): boolean {
     const paramHost = condition.host?.trim() || ''
     const exclusiveVirtual = condition.exclusiveVirtual
-    if (!paramHost) return true
-    if (!!condition.fullHost && host !== paramHost) return false
-    if (!condition.fullHost && !host.includes(paramHost)) return false
-    if (exclusiveVirtual && judgeVirtualFast(host)) return false
+    // 1. virtual
+    if (exclusiveVirtual) {
+        if (judgeVirtualFast(host)) return false
+    }
+    // 2. host
+    if (paramHost) {
+        const fullHost = condition.fullHost
+        if (fullHost && host !== paramHost) return false
+        if (!fullHost && !host.includes(paramHost)) return false
+    }
     return true
 }
 

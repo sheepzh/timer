@@ -137,6 +137,7 @@ class FooterWrapper {
             sortOrder: 'DESC',
             chartTitle: t(msg => msg.chart.title[duration]),
             mergeDate: true,
+            exclusiveVirtual: true,
         }
         return param
     }
