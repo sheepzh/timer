@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -10,7 +10,7 @@ import { formatPeriodCommon, MILL_PER_MINUTE } from "@util/time"
 
 /**
  * Convert {yyyy}{mm}{dd} to locale time
- * 
+ *
  * @param date  {yyyy}{mm}{dd}
  */
 export function cvt2LocaleTime(date: string) {
@@ -24,31 +24,39 @@ export function cvt2LocaleTime(date: string) {
     return t(msg => msg.calendar.dateFormat, { y, m, d })
 }
 
+type PeriodFormatOption = {
+    format?: timer.app.TimeFormat
+    hideUnit?: boolean
+}
+
+const UNIT_MAP: { [unit in Exclude<timer.app.TimeFormat, 'default'>]: string } = {
+    second: ' s',
+    minute: ' m',
+    hour: ' h',
+}
+
 /**
- * @param milliseconds 
- * @param timeFormat 
- * @param hideUnit 
+ * @param milliseconds
+ * @param timeFormat
+ * @param hideUnit
  */
-export function periodFormatter(milliseconds: number, timeFormat?: timer.app.TimeFormat, hideUnit?: boolean): string {
-    const format = timeFormat || "default"
-    if (milliseconds === undefined) {
-        if (format === 'default') {
-            return '-'
-        } else {
-            milliseconds = 0
-        }
+export function periodFormatter(milliseconds: number, option?: PeriodFormatOption): string {
+    const { format = "default", hideUnit } = option || {}
+    if (milliseconds === undefined || Number.isNaN(milliseconds) || milliseconds === null) {
+        return "-"
     }
-    if (format === "default") {
-        return formatPeriodCommon(milliseconds)
-    } else if (format === "second") {
-        const second = Math.floor(milliseconds / 1000)
-        return second + (hideUnit ? '' : ' s')
+    if (format === "default") return formatPeriodCommon(milliseconds)
+    let val: string = null
+    if (format === "second") {
+        val = Math.floor(milliseconds / 1000).toFixed(0)
     } else if (format === "minute") {
-        const minute = (milliseconds / MILL_PER_MINUTE).toFixed(1)
-        return minute + (hideUnit ? '' : ' m')
+        val = (milliseconds / MILL_PER_MINUTE).toFixed(1)
     } else if (format === "hour") {
-        const hour = (milliseconds / (MILL_PER_MINUTE * 60)).toFixed(2)
-        return hour + (hideUnit ? '' : ' h')
+        val = (milliseconds / (MILL_PER_MINUTE * 60)).toFixed(2)
+    } else {
+        return '-'
     }
-    return '-'
+    if (hideUnit) return val
+    let unit = UNIT_MAP[format]
+    return val + unit
 }

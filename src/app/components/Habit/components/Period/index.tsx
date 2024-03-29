@@ -63,7 +63,7 @@ const computeSummary = (rows: timer.period.Row[], periodSize: number): Summary =
     let idleLength = '-'
     let idlePeriod = null
     if (start && end) {
-        idleLength = periodFormatter(end.endTime.getTime() - start.startTime.getTime(), 'hour')
+        idleLength = periodFormatter(end.endTime.getTime() - start.startTime.getTime(), { format: 'hour' })
         const format = t(msg => msg.calendar.simpleTimeFormat)
         const startTime = formatTime(start.startTime, format)
         const endTime = formatTime(end.endTime, format)
@@ -82,7 +82,7 @@ const computeSummary = (rows: timer.period.Row[], periodSize: number): Summary =
     }
 }
 
-const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => {
+const renderIndicator = (summary: Summary, format: timer.app.TimeFormat) => {
     const {
         favorite: { period: favoritePeriod = null, average = null },
         longestIdle: { period: idlePeriod, length: idleLength },
@@ -93,7 +93,7 @@ const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => 
                 mainName={t(msg => msg.habit.period.busiest)}
                 mainValue={favoritePeriod}
                 subTips={msg => msg.habit.common.focusAverage}
-                subValue={average === null ? '-' : periodFormatter(average, timeFormat)}
+                subValue={periodFormatter(average, { format })}
             />
         </div>
         <div class="indicator-wrapper">

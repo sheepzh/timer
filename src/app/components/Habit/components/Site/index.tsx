@@ -69,7 +69,7 @@ const computeSummary = (rows: timer.stat.Row[] = [], filter: FilterOption): Summ
     }
 }
 
-const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => {
+const renderIndicator = (summary: Summary, format: timer.app.TimeFormat) => {
     const {
         focus: { total: focusTotal, average: focusAverage } = {},
         count: { time, site, siteAverage },
@@ -79,9 +79,9 @@ const renderIndicator = (summary: Summary, timeFormat: timer.app.TimeFormat) => 
         <div class="indicator-wrapper">
             <KanbanIndicatorCell
                 mainName={t(msg => msg.analysis.common.focusTotal)}
-                mainValue={focusTotal ? periodFormatter(focusTotal, timeFormat) : '-'}
+                mainValue={periodFormatter(focusTotal, { format })}
                 subTips={msg => msg.habit.common.focusAverage}
-                subValue={focusAverage ? periodFormatter(focusAverage, timeFormat) : '-'}
+                subValue={periodFormatter(focusAverage, { format })}
                 subInfo={exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
             />
         </div>

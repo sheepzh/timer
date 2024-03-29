@@ -177,7 +177,7 @@ const _default = defineComponent(() => {
                         maxDate={indicators.value?.focus?.max?.date}
                         averageLabel={FOCUS_AVE}
                         average={[indicators.value?.focus?.average, previousIndicators.value?.focus?.average]}
-                        valueFormatter={val => val === undefined ? '-' : periodFormatter(val, timeFormat.value)}
+                        valueFormatter={val => periodFormatter(val, { format: timeFormat.value })}
                         data={focusData.value}
                         chartTitle={FOCUS_CHART_TITLE}
                     />

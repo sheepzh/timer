@@ -14,15 +14,13 @@ import "./indicator-cell.sass"
 import { ElIcon, ElTooltip } from "element-plus"
 import { InfoFilled } from "@element-plus/icons-vue"
 
-export type IndicatorProps = {
-    mainName: string
-    mainValue: string
+export type SubProps = {
     subTips?: I18nKey
     subValue?: string
     subInfo?: string
 }
 
-function renderSub(props: IndicatorProps): VNode {
+function renderSub(props: SubProps): VNode {
     const { subTips, subValue, subInfo } = props
     if (!subTips && !subValue) {
         return null

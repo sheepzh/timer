@@ -90,7 +90,7 @@ export function formatPeriodCommon(milliseconds: number): string {
     const defaultMessage = {
         hourMsg: '{hour} h {minute} m {second} s',
         minuteMsg: '{minute} m {second} s',
-        secondMsg: '{second} s'
+        secondMsg: '{second} s',
     }
     return formatPeriod(milliseconds, defaultMessage)
 }

@@ -125,9 +125,6 @@ class ModalInstance implements MaskModal {
             this.initMask()
             this.refresh()
         })
-        window?.addEventListener("load", () => {
-            window?.addEventListener?.("unload", () => this.observer?.disconnect?.())
-        })
     }
 
     addDelayHandler(handler: () => void): void {

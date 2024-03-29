@@ -17,7 +17,7 @@ const columnLabel = t(msg => msg.item.focus)
 
 const _default = defineComponent(() => {
     const filter = useReportFilter()
-    const formatter = (focus: number): string => periodFormatter(focus, filter.value?.timeFormat)
+    const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
     return () => (
         <ElTableColumn prop="focus" label={columnLabel} minWidth={130} align="center" sortable="custom">
             {

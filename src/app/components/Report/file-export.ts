@@ -44,7 +44,7 @@ const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
     data.date = row.date
     data.alias = row.alias
     // Always display by seconds
-    data.focus = periodFormatter(row.focus, "second", true)
+    data.focus = periodFormatter(row.focus, { format: 'second', hideUnit: true })
     data.time = row.time
     return data
 })
@@ -83,7 +83,7 @@ function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption
         if (!mergeHost) {
             line.push(row.alias || '')
         }
-        line.push(periodFormatter(row.focus, "second", true))
+        line.push(periodFormatter(row.focus, { format: 'second', hideUnit: true }))
         line.push(row.time)
         data.push(line)
     })

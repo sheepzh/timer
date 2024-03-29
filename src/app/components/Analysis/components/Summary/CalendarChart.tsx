@@ -83,7 +83,7 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
     return result
 }
 
-function optionOf(data: _Value[], weekDays: string[], timeFormat: timer.app.TimeFormat): EcOption {
+function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeFormat): EcOption {
     const xAxisLabelMap = getXAxisLabelMap(data)
     const textColor = getSecondaryTextColor()
     return {
@@ -105,14 +105,14 @@ function optionOf(data: _Value[], weekDays: string[], timeFormat: timer.app.Time
                 const [_1, _2, mills, date] = value as _Value
                 if (!mills) return undefined
                 const time = parseTime(date)
-                return `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br />${periodFormatter(mills, timeFormat)}`
+                return `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br />${periodFormatter(mills, { format })}`
             },
         },
         grid: { height: '68%', width: '90%', left: '10%', top: '18%' },
         xAxis: {
             type: 'category',
             axisLine: { show: false },
-            axisTick: { show: false, alignWithLabel: true },
+            axisTick: { show: false },
             axisLabel: {
                 formatter: (x: string) => xAxisLabelMap[x] || '',
                 interval: 0,

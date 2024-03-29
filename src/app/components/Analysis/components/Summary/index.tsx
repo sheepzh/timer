@@ -58,7 +58,7 @@ const _default = defineComponent(() => {
                         <ElCol span={12}>
                             <KanbanIndicatorCell
                                 mainName={FOCUS_LABEL}
-                                mainValue={summary.value?.focus === undefined ? '-' : periodFormatter(summary.value?.focus, timeFormat.value, false)}
+                                mainValue={periodFormatter(summary.value?.focus, { format: timeFormat.value })}
                             />
                         </ElCol>
                     </KanbanIndicatorRow>

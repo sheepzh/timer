@@ -30,13 +30,25 @@ export type SeriesDataItem = {
     row: timer.stat.Row
 }
 
-export const formatFocusTooltip = (params: [any] | any, timeFormat: timer.app.TimeFormat, splitLine?: boolean): string => {
+export const formatFocusTooltip = (
+    params: [any] | any,
+    format: timer.app.TimeFormat,
+    option?: {
+        splitLine?: boolean
+        ignorePercentage?: boolean
+    }
+): string => {
+    const { splitLine, ignorePercentage } = option || {}
     const param = (Array.isArray(params) ? params[0] : params) as { data: SeriesDataItem, percent: number }
     const { data, percent } = param || {}
     const { row } = data || {}
     const { host, alias, focus = 0 } = row || {}
     const siteLabel = host ? generateSiteLabel(host, alias) : (alias || 'Unknown')
-    return `${siteLabel}${splitLine ? '<br/>' : ' '}${periodFormatter(focus, timeFormat)} (${(percent ?? 0).toFixed(2)}%)`
+    const builder: string[] = [siteLabel]
+    builder.push(splitLine ? '<br/>' : ' ')
+    builder.push(periodFormatter(focus, { format }))
+    !ignorePercentage && builder.push(` (${(percent ?? 0).toFixed(2)}%)`)
+    return builder.join('')
 }
 
 export const formatTimeTooltip = (params: [any] | any): string => {

@@ -45,7 +45,7 @@ const renderFocus = (data: timer.imported.Data, comparedColName: string): VNode 
                 label={comparedColName}
                 align="center"
                 minWidth={180}
-                formatter={(row: timer.imported.Row) => periodFormatter(row.focus, "default")}
+                formatter={(row: timer.imported.Row) => periodFormatter(row.focus)}
             />
             <ElTableColumn
                 label={t(msg => msg.dataManage.importOther.local)}
@@ -53,7 +53,7 @@ const renderFocus = (data: timer.imported.Data, comparedColName: string): VNode 
                 minWidth={180}
                 formatter={(row: timer.imported.Row) => {
                     const localVal = row?.exist?.focus
-                    return localVal ? periodFormatter(localVal, "default") : '-'
+                    return localVal ? periodFormatter(localVal) : '-'
                 }}
             />
         </ElTableColumn>

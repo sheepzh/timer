@@ -66,7 +66,7 @@ const generateOption = ({ rows, timeFormat }: BizOption): EcOption => {
         }],
         tooltip: {
             show: true,
-            formatter: (params: [any]) => formatFocusTooltip(params, timeFormat, true)
+            formatter: (params: [any]) => formatFocusTooltip(params, timeFormat, { splitLine: true })
         },
     }
 }

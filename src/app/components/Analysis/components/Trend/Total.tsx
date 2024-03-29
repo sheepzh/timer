@@ -27,11 +27,6 @@ const computeDayValue = (activeDay: RingValue, rangeLength: number) => {
     return `${thisActiveDay?.toString() || '-'}/${rangeLength?.toString() || '-'}`
 }
 
-const computeFocusText = (focusRing: RingValue, format: timer.app.TimeFormat) => {
-    const current = focusRing?.[0]
-    return current === undefined ? '-' : periodFormatter(current, format)
-}
-
 const _default = defineComponent({
     props: {
         activeDay: [Object, Object] as PropType<RingValue>,
@@ -54,9 +49,9 @@ const _default = defineComponent({
                 <div>
                     <KanbanIndicatorCell
                         mainName={FOCUS_LABEL}
-                        mainValue={computeFocusText(props.focus, timeFormat.value)}
+                        mainValue={periodFormatter(props.focus?.[0], { format: timeFormat.value })}
                         subTips={RING_TIP}
-                        subValue={computeRingText(props.focus, delta => periodFormatter(delta, timeFormat.value))}
+                        subValue={computeRingText(props.focus, delta => periodFormatter(delta, { format: timeFormat.value }))}
                     />
                 </div>
                 <div>

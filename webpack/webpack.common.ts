@@ -195,7 +195,9 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
         }),
         new DefinePlugin({
             // https://github.com/vuejs/vue-cli/pull/7443
-            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+            __VUE_OPTIONS_API__: false,
+            __VUE_PROD_DEVTOOLS__: false,
         }),
     ]
     const config: webpack.Configuration = {

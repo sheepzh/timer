@@ -59,7 +59,7 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
         tooltip: {
             trigger: "axis",
             axisPointer: { type: "shadow" },
-            formatter: (val: [any]) => formatFocusTooltip(val, timeFormat, true),
+            formatter: (val: [any]) => formatFocusTooltip(val, timeFormat, { splitLine: true, ignorePercentage: true }),
         },
         xAxis: {
             type: "value",
@@ -92,11 +92,15 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
                     label: { show: labelW >= 50, width: labelW },
                 }
             }),
+            itemStyle: {
+                borderRadius: [0, 12, 12, 0],
+            },
             label: {
                 position: 'insideRight',
                 overflow: "truncate",
                 ellipsis: '...',
                 minMargin: 5,
+                padding: [0, 4, 0, 0],
                 formatter: (param: any) => {
                     const { row } = (param?.data || {}) as SeriesDataItem
                     const { host, alias } = row
