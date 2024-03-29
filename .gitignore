@@ -1,11 +1,5 @@
 node_modules
-dist
-dist_dev
-dist_dev_mv3
-dist_dev_safari
-dist_prod
-dist_prod_safari
-dist_analyze
+dist*
 
 Timer_Safari_DEV
 Timer

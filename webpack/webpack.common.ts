@@ -2,18 +2,16 @@ import path from "path"
 import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import webpack, { Chunk, DefinePlugin } from "webpack"
-// Generate json files
-import manifest from "../src/manifest"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 
+export const MANIFEST_JSON_NAME = "manifest.json"
+
 const tsPathAlias = tsConfig.compilerOptions.paths
 
-const generateJsonPlugins = [
-    new GenerateJsonPlugin('manifest.json', manifest) as unknown as webpack.WebpackPluginInstance
-]
+const generateJsonPlugins = []
 
 const localeJsonFiles = Object.entries(i18nChrome)
     .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
@@ -77,9 +75,6 @@ const staticOptions: webpack.Configuration = {
         const entry = {}
         entryConfigs.forEach(({ name, path }) => entry[name] = path)
         return entry
-    },
-    output: {
-        filename: '[name].js',
     },
     module: {
         rules: [
@@ -163,10 +158,16 @@ const staticOptions: webpack.Configuration = {
     },
 }
 
-const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.runtime.ManifestV3) => void) => {
-    manifestHooker?.(manifest)
+type Option = {
+    outputPath: string
+    manifest: chrome.runtime.ManifestV3 | chrome.runtime.ManifestFirefox
+    mode: webpack.Configuration["mode"]
+}
+
+const generateOption = ({ outputPath, manifest, mode }: Option) => {
     const plugins = [
         ...generateJsonPlugins,
+        new GenerateJsonPlugin(MANIFEST_JSON_NAME, manifest) as unknown as webpack.WebpackPluginInstance,
         // copy static resources
         new CopyWebpackPlugin({
             patterns: [
@@ -197,10 +198,21 @@ const optionGenerator = (outputPath: string, manifestHooker?: (manifest: chrome.
             __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
         }),
     ]
-    return {
+    const config: webpack.Configuration = {
         ...staticOptions,
-        plugins
-    } as webpack.Configuration
+        output: {
+            path: outputPath,
+            filename: '[name].js',
+        },
+        plugins, mode,
+    }
+    if (mode === "development") {
+        // no eval with development, but generate *.map.js
+        config.devtool = 'cheap-module-source-map'
+        // Use cache with filesystem
+        config.cache = { type: 'filesystem' }
+    }
+    return config
 }
 
-export default optionGenerator
+export default generateOption

@@ -5,8 +5,10 @@
     "homepage": "https://www.wfhg.cc",
     "scripts": {
         "dev": "webpack --config=webpack/webpack.dev.ts --watch",
+        "dev:firefox": "webpack --config=webpack/webpack.dev.firefox.ts --watch",
         "dev:safari": "webpack --config=webpack/webpack.dev.safari.ts --watch",
         "build": "webpack --config=webpack/webpack.prod.ts",
+        "build:firefox": "webpack --config=webpack/webpack.prod.firefox.ts",
         "build:safari": "webpack --config=webpack/webpack.prod.safari.ts",
         "analyze": "webpack --config=webpack/webpack.analyze.ts",
         "test": "jest --env=jsdom",

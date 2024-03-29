@@ -8,7 +8,7 @@
 |Track any URL|❌|❌|✅|❌
 |Track local files|❌|✅|❌|✅|
 |Whitelist|❌|✅|✅|✅
-|Data chart screenshoot|✅|❌|✅|❌
+|Data chart screenshot|✅|❌|✅|❌
 |Daily browsing restrictions|❌|✅|✅|❌
 |Daily notifications|❌|✅|❌|❌|❌
 |Pause switch|❌|❌|❌|✅
@@ -20,6 +20,6 @@
 |Export data|✅|✅|✅|❌|
 |Sync data across browsers|❌|❌|✅|❌
 |Free|✅|✅|✅|✅|
-|Opensource|❌|[GitHub](https://github.com/Stigmatoz/web-activity-time-tracker)|[GitHub](https://github.com/sheepzh/timer)|❌
+|Open Source|❌|[GitHub](https://github.com/Stigmatoz/web-activity-time-tracker)|[GitHub](https://github.com/sheepzh/timer)|❌
 |Languages|English|Deutsch, English, русский|English, português (Portugal), 中文 (简体), 中文 (繁體), 日本語|English
 |Memory usage with 5 tabs open on Chrome, MacOS<br/>|21+M|19+M|21+M|20+M

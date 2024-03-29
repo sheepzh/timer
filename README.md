@@ -10,18 +10,18 @@
 
 Time Tracker is a browser extension to track the time you spent on all websites. It's built by webpack, TypeScript and Element-plus. And you can install it for Firefox, Chrome and Edge.
 
-Time Tracker can 
+Time Tracker can
 
-- help you count the time you browsing and the visit count on each website.
-- help you count the time you read local files with browsers.
-- help you analyze your browsing habit by time period and display it as a histogram.
-- support whitelist to filter out websites that need not stat.
-- combine statistics result of multiple sites, and supports to customize the rules of combination.
-- support to set the maximum time for browsing a specific website each day to help you keey away from time wasting.
-- support to export files formatted _.csv_ and _.json_.
-- support dark mode.
-- support to sync data with GitHub Gist across serveral browser clients.
-- support to count the time of any URLs described by Ant Expressions, e.g. github.com/sheepzh/timer/**
+-   help you count the time you browsing and the visit count on each website.
+-   help you count the time you read local files with browsers.
+-   help you analyze your browsing habit by time period and display it as a histogram.
+-   support whitelist to filter out websites that need not stat.
+-   combine statistics result of multiple sites, and supports to customize the rules of combination.
+-   support to set the maximum time for browsing a specific website each day to help you key away from time wasting.
+-   support to export files formatted _.csv_ and _.json_.
+-   support dark mode.
+-   support to sync data with GitHub Gist across several browser clients.
+-   support to count the time of any URLs described by Ant Expressions, e.g. github.com/sheepzh/timer/\*\*
 
 ## Install
 
@@ -43,7 +43,7 @@ Time Tracker can
 
 ## Contribution
 
-There are some things you can do to contruibute to this software.
+There are some things you can do to contribute to this software.
 
 #### 1. Submit issues
 
@@ -59,7 +59,7 @@ In addition to Simplified Chinese, the other localized languages of this softwar
 
 #### 4. Rate 5 stars
 
- [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/) / [Chrome](https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm) / [Edge](https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc) 
+[Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/web%E6%99%82%E9%96%93%E7%B5%B1%E8%A8%88/) / [Chrome](https://chrome.google.com/webstore/detail/%E7%BD%91%E8%B4%B9%E5%BE%88%E8%B4%B5-%E4%B8%8A%E7%BD%91%E6%97%B6%E9%97%B4%E7%BB%9F%E8%AE%A1/dkdhhcbjijekmneelocdllcldcpmekmm) / [Edge](https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc)
 
 It's simple and much helpful!
 

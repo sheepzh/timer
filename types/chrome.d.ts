@@ -16,3 +16,17 @@ declare type ChromeAlarm = chrome.alarms.Alarm
 declare type ChromeOnInstalledReason = chrome.runtime.OnInstalledReason
 declare type ChromeMessageSender = chrome.runtime.MessageSender
 declare type ChromeMessageHandler<T = any, R = any> = (req: timer.mq.Request<T>, sender: ChromeMessageSender) => Promise<timer.mq.Response<R>>
+
+declare namespace chrome {
+    namespace runtime {
+        type ManifestFirefox = Omit<ManifestV2, "author"> & {
+            // "author" must be string for Firefox
+            author?: string
+            browser_specific_settings?: {
+                gecko?: {
+                    id?: string
+                }
+            }
+        }
+    }
+}
