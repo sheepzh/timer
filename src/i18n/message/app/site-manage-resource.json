@@ -30,11 +30,6 @@
             "user": "手动设置",
             "detected": "自动抓取"
         },
-        "button": {
-            "add": "新增",
-            "delete": "删除",
-            "save": "保存"
-        },
         "form": {
             "emptyAlias": "请输入网站名称",
             "emptyHost": "请输入网站域名"
@@ -51,7 +46,7 @@
         "hostPlaceholder": "請輸入網域，然後回車",
         "aliasPlaceholder": "請輸入網站名，然後回車",
         "onlyDetected": "隻看自動抓取",
-        "deleteConfirmMsg": "{host} 的名稱設置將會被刪除",
+        "deleteConfirmMsg": "{host} 的將會被刪除",
         "column": {
             "host": "網站域名",
             "type": "網站類型",
@@ -78,11 +73,6 @@
                 "info": "統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點"
             }
         },
-        "button": {
-            "add": "新增",
-            "delete": "刪除",
-            "save": "保存"
-        },
         "form": {
             "emptyAlias": "請輸入網站名稱",
             "emptyHost": "請輸入網站域名"
@@ -99,7 +89,7 @@
         "hostPlaceholder": "Partial URL, then enter",
         "aliasPlaceholder": "Partial name, then enter",
         "onlyDetected": "Only detected",
-        "deleteConfirmMsg": "The name of {host} will be deleted",
+        "deleteConfirmMsg": "{host} will be deleted",
         "column": {
             "host": "Site URL",
             "type": "Site Type",
@@ -126,11 +116,6 @@
             "user": "user-maintained",
             "detected": "auto-detected"
         },
-        "button": {
-            "add": "New",
-            "delete": "Delete",
-            "save": "Save"
-        },
         "form": {
             "emptyAlias": "Please enter site name",
             "emptyHost": "Please enter site URL"
@@ -147,7 +132,7 @@
         "hostPlaceholder": "ドメイン名で検索",
         "aliasPlaceholder": "サイト名で検索",
         "onlyDetected": "検出されただけ",
-        "deleteConfirmMsg": "{host} の名前が削除されます",
+        "deleteConfirmMsg": "{host} は削除されます",
         "column": {
             "host": "サイトのURL",
             "alias": "サイト名",
@@ -159,11 +144,6 @@
         "source": {
             "user": "手动输入",
             "detected": "システム検出"
-        },
-        "button": {
-            "add": "追加",
-            "delete": "削除",
-            "save": "保存"
         },
         "form": {
             "emptyAlias": "サイト名を入力してください",
@@ -195,7 +175,7 @@
         "hostPlaceholder": "URL parcial, e depois digite",
         "aliasPlaceholder": "Nome parcial, e depois digite",
         "onlyDetected": "Apenas detetado",
-        "deleteConfirmMsg": "O nome do {host} será apagado",
+        "deleteConfirmMsg": "{host} será excluído",
         "column": {
             "host": "URL do Site",
             "alias": "Nome do Site",
@@ -207,11 +187,6 @@
         "source": {
             "user": "usuário mantido",
             "detected": "detetado"
-        },
-        "button": {
-            "add": "Criar",
-            "delete": "Apagar",
-            "save": "Salvar"
         },
         "form": {
             "emptyAlias": "Por favor, insira um nome de site",
@@ -243,7 +218,7 @@
         "hostPlaceholder": "Почніть вводити URL і натисніть Enter",
         "aliasPlaceholder": "Почніть вводити назву і натисніть Enter",
         "onlyDetected": "Лише виявлені",
-        "deleteConfirmMsg": "Назву для {host} буде видалено",
+        "deleteConfirmMsg": "{host} буде видалено",
         "column": {
             "host": "URL-адреса сайту",
             "alias": "Назва сайту",
@@ -255,11 +230,6 @@
         "source": {
             "user": "user-maintained",
             "detected": "auto-detected"
-        },
-        "button": {
-            "add": "Новий",
-            "delete": "Видалити",
-            "save": "Зберегти"
         },
         "form": {
             "emptyAlias": "Введіть назву сайту",
@@ -291,7 +261,7 @@
         "hostPlaceholder": "URL parcial, luego ingresa",
         "aliasPlaceholder": "Nombre parcial, luego ingresa",
         "onlyDetected": "Solo detectados",
-        "deleteConfirmMsg": "Se eliminará el nombre de {host}",
+        "deleteConfirmMsg": "Se eliminará {host}",
         "column": {
             "host": "URL del sitio",
             "alias": "Nombre del sitio",
@@ -303,11 +273,6 @@
         "source": {
             "user": "mantenido por el usuario",
             "detected": "auto-detectado"
-        },
-        "button": {
-            "add": "Nuevo",
-            "delete": "Eliminar",
-            "save": "Guardar"
         },
         "form": {
             "emptyAlias": "Por favor, ingresa el nombre de sitio",
@@ -332,6 +297,49 @@
             "virtual": {
                 "name": "virtual",
                 "info": "contar cualquier URL en formato Ant Pattern, puedes agregar un sitio personalizado en la esquina superior derecha"
+            }
+        }
+    },
+    "de": {
+        "hostPlaceholder": "Suche nach URL",
+        "aliasPlaceholder": "Suche mit Name",
+        "onlyDetected": "Nur erkannt",
+        "deleteConfirmMsg": "{host} wird gelöscht",
+        "column": {
+            "host": "Seiten-URL",
+            "alias": "Site-Name",
+            "aliasInfo": "Der Name der Website wird auf der Datensatzseite und der Popup-Seite angezeigt",
+            "source": "Die Quelle des Namens",
+            "type": "Website-Typ",
+            "icon": "Symbol"
+        },
+        "source": {
+            "user": "Von Benutzern gepflegt",
+            "detected": "automatisch erkannt"
+        },
+        "form": {
+            "emptyAlias": "Bitte gib einen Website-Namen ein",
+            "emptyHost": "Bitte geben Sie die URL ein"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existiert",
+            "saved": "Erfolgreich gespeichert",
+            "existedTag": "EXISTIERT",
+            "mergedTag": "GEMEINT",
+            "virtualTag": "VIRTUELL"
+        },
+        "type": {
+            "normal": {
+                "name": "normal",
+                "info": "statistische Daten nach Domainname"
+            },
+            "merged": {
+                "name": "zusammengeführt",
+                "info": "Zusammenführungsstatistiken mehrerer verwandter Domänennamen, und die Zusammenführungsregeln können angepasst werden"
+            },
+            "virtual": {
+                "name": "virtuell",
+                "info": "Wenn Sie eine beliebige URL im Ant-Pattern-Format zählen, können Sie in der oberen rechten Ecke eine benutzerdefinierte Site hinzufügen"
             }
         }
     }

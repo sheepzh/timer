@@ -180,5 +180,31 @@
                 "percentage": "Porcentaje"
             }
         }
+    },
+    "de": {
+        "mergeDate": "Daten zusammenführen",
+        "mergeDomain": "URL zusammenführen",
+        "hostPlaceholder": "Suche nach URL",
+        "exportFileName": "Timer_Daten",
+        "added2Whitelist": "Zur Whitelist hinzugefügt",
+        "removeFromWhitelist": "Entfernte von der Whitelist",
+        "batchDelete": {
+            "buttonText": "Mehrere löschen",
+            "noSelectedMsg": "Bitte wählen Sie die Zeile aus, die Sie zuerst in der Tabelle löschen möchten",
+            "confirmMsg": "{count} Einträge für Sites wie {example} auf {date} werden gelöscht!",
+            "confirmMsgAll": "{count} Einträge für Sites wie {example} werden gelöscht!",
+            "confirmMsgRange": "{count} Einträge für Sites wie {example} zwischen {start} und {end} werden gelöscht!",
+            "successMsg": "Batch erfolgreich gelöscht"
+        },
+        "remoteReading": {
+            "on": "Lese gesicherte Daten",
+            "off": "Klicken, um gesicherte Daten zu lesen",
+            "table": {
+                "client": "Vorname Kunde",
+                "localData": "Lokale Daten",
+                "value": "Wert",
+                "percentage": "Prozentsatz"
+            }
+        }
     }
 }

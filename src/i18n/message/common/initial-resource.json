@@ -54,5 +54,13 @@
             "pic": "Imágenes",
             "txt": "Archivos de texto"
         }
+    },
+    "de": {
+        "localFile": {
+            "json": "JSON-Dateien",
+            "pdf": "PDF-Dateien",
+            "pic": "Bilder",
+            "txt": "Text-Dateien"
+        }
     }
 }

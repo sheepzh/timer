@@ -21,6 +21,9 @@ declare namespace timer {
         | 'uk'
         // @since 2.1.4
         | 'es'
+        // @since 2.2.7
+        | 'de'
+
     /**
      * @since 0.8.0
      */
@@ -32,7 +35,6 @@ declare namespace timer {
      * @since 1.4.0
      */
     type TranslatingLocale =
-        | 'de'
         | 'ko'
         | 'pl'
         | 'ru'

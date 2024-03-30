@@ -82,5 +82,17 @@
         "visitLimitMsg": "Has superado el límite de tiempo de navegación por visita",
         "periodLimitMsg": "Has sido restringido durante el periodo de tiempo actual",
         "limitRefMsg": "——Amigable recordatorio de [{appName}]"
+    },
+    "de": {
+        "closeAlert": "Sie können die oben genannten Tipps in der Option [{appName}] deaktivieren!",
+        "timeWithHour": "{hour} Stunden {minute} Minuten {second} Sekunden",
+        "timeWithMinute": "{minute} Minuten {second} Sekunden",
+        "timeWithSecond": "{seconds} Sekunde(n)",
+        "more5Minutes": "Weitere 5 Minuten, bitte!!",
+        "consoleLog": "Sie haben {host} für {time} Mal(e) geöffnet und heute {focus} durchsucht.",
+        "visitLimitMsg": "Sie haben das Browsing-Zeitlimit pro Besuch überschritten",
+        "periodLimitMsg": "Während dieser Zeit sind Sie eingeschränkt",
+        "limitRefMsg": "——Freundliche Erinnerung von [{appName}]",
+        "timeLimitMsg": "Sie haben das Surfzeitlimit pro Tag überschritten"
     }
 }

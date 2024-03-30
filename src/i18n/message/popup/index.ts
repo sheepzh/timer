@@ -77,6 +77,14 @@ const _default: Required<Messages<PopupMessage>> = {
         meta: metaMessages.es,
         base: baseMessages.es,
         footer: footerMessages.es,
+    },
+    de: {
+        chart: chartMessages.de,
+        duration: popupDurationMessages.de,
+        item: itemMessages.de,
+        meta: metaMessages.de,
+        base: baseMessages.de,
+        footer: footerMessages.de,
     }
 }
 

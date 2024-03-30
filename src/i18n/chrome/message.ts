@@ -59,6 +59,12 @@ const messages: Required<Messages<ChromeMessage>> = {
         base: baseMessages.es,
         contextMenus: contextMenusMessages.es,
         initial: initialMessages.es,
+    },
+    de: {
+        meta: metaMessages.de,
+        base: baseMessages.de,
+        contextMenus: contextMenusMessages.de,
+        initial: initialMessages.de,
     }
 }
 
@@ -71,7 +77,6 @@ const placeholder: ChromeMessage = {
         marketName: '',
     },
     base: {
-        currentVersion: '',
         allFunction: '',
         guidePage: '',
         changeLog: '',

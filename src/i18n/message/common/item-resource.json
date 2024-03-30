@@ -6,7 +6,6 @@
         "time": "打开次数",
         "operation": {
             "label": "操作",
-            "delete": "删除",
             "add2Whitelist": "白名单",
             "removeFromWhitelist": "启用",
             "analysis": "分析",
@@ -25,7 +24,6 @@
         "time": "訪問次數",
         "operation": {
             "label": "操作",
-            "delete": "刪除",
             "add2Whitelist": "白名單",
             "removeFromWhitelist": "啟用",
             "analysis": "分析",
@@ -44,7 +42,6 @@
         "time": "Site Visits",
         "operation": {
             "label": "Operations",
-            "delete": "Delete",
             "add2Whitelist": "Whitelist",
             "removeFromWhitelist": "Enable",
             "analysis": "Analysis",
@@ -63,7 +60,6 @@
         "time": "拜訪回数",
         "operation": {
             "label": "操作",
-            "delete": "削除",
             "add2Whitelist": "ホワイトリスト",
             "removeFromWhitelist": "有効にする",
             "analysis": "分析する",
@@ -82,7 +78,6 @@
         "time": "Visitas do Site",
         "operation": {
             "label": "Operações",
-            "delete": "Apagar",
             "add2Whitelist": "Ignorar",
             "removeFromWhitelist": "Habilitar",
             "deleteConfirmMsgAll": "Todos os registros de {url} serão apagados!",
@@ -101,7 +96,6 @@
         "time": "Відвідування сайту",
         "operation": {
             "label": "Операції",
-            "delete": "Видалити",
             "add2Whitelist": "Білий список",
             "removeFromWhitelist": "Увімкнути",
             "deleteConfirmMsgAll": "Усі записи для {url} будуть видалені!",
@@ -120,7 +114,6 @@
         "time": "Visitas al sitio",
         "operation": {
             "label": "Operaciones",
-            "delete": "Eliminar",
             "add2Whitelist": "Lista blanca",
             "removeFromWhitelist": "Habilitar",
             "deleteConfirmMsgAll": "¡Todos los registros de {url} serán eliminados!",
@@ -130,6 +123,24 @@
             "importWholeData": "Importar datos",
             "analysis": "Análisis",
             "importOtherData": "Importar desde otras extensiones"
+        }
+    },
+    "de": {
+        "date": "Datum",
+        "host": "Webadresse",
+        "focus": "Browsing-Zeit",
+        "time": "Besuche",
+        "operation": {
+            "label": "Aktionsknopf",
+            "add2Whitelist": "Whitelist",
+            "removeFromWhitelist": "Aktivieren",
+            "deleteConfirmMsgAll": "Alle Datensätze von {url} werden gelöscht!",
+            "deleteConfirmMsgRange": "Alle Einträge von {url} zwischen {start} und {end} werden gelöscht!",
+            "deleteConfirmMsg": "Der Eintrag von {url} auf {date} wird gelöscht!",
+            "exportWholeData": "Daten exportieren",
+            "importWholeData": "Daten importieren",
+            "analysis": "Analyse",
+            "importOtherData": "Aus anderen Erweiterungen importieren"
         }
     }
 }

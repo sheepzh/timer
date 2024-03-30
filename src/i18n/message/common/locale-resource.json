@@ -17,7 +17,7 @@
     },
     "pt_PT": {
         "name": "Português",
-        "comma": ","
+        "comma": ", "
     },
     "uk": {
         "name": "українська",
@@ -27,14 +27,15 @@
         "name": "Español",
         "comma": ", "
     },
+    "de": {
+        "name": "Deutsch",
+        "comma": ", "
+    },
     "pl": {
         "name": "Polski"
     },
     "ko": {
         "name": "한국인"
-    },
-    "de": {
-        "name": "Deutsch"
     },
     "ru": {
         "name": "Русский"

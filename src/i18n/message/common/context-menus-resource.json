@@ -47,5 +47,12 @@
         "optionPage": "Opciones",
         "repoPage": "Código fuente",
         "feedbackPage": "Problemas"
+    },
+    "de": {
+        "add2Whitelist": "Fügen Sie {host} zur Whitelist hinzu",
+        "removeFromWhitelist": "Entfernen Sie {host} von der Whitelist",
+        "optionPage": "Optionen",
+        "repoPage": "Quellcode",
+        "feedbackPage": "Issues"
     }
 }

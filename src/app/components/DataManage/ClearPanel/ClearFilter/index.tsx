@@ -61,7 +61,7 @@ const _default = defineComponent({
                         size="small"
                         onClick={() => ctx.emit("delete")}
                     >
-                        {t(msg => msg.item.operation.delete)}
+                        {t(msg => msg.button.delete)}
                     </ElButton>
                 </div>
             </div>

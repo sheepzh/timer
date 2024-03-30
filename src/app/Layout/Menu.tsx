@@ -6,10 +6,9 @@
  */
 
 import type { Ref } from "vue"
-import type { IconProps, MenuItemRegistered } from "element-plus"
+import type { IconProps } from "element-plus"
 import type { Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
-import type { MenuMessage } from "@i18n/message/app/menu"
 
 import { defineComponent, h, onMounted, ref, watch } from "vue"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
@@ -27,7 +26,7 @@ import { createTabAfterCurrent } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, MERGE_ROUTE } from "@app/router/constants"
 
 type _MenuItem = {
-    title: keyof MenuMessage
+    title: I18nKey
     icon: IconProps | string
     route?: string
     href?: string
@@ -35,7 +34,7 @@ type _MenuItem = {
 }
 
 type _MenuGroup = {
-    title: keyof MenuMessage
+    title: I18nKey
     children: _MenuItem[]
 }
 
@@ -43,67 +42,67 @@ type _MenuGroup = {
  * Menu items
  */
 const MENUS: _MenuGroup[] = [{
-    title: 'data',
+    title: msg => msg.menu.data,
     children: [{
-        title: 'dashboard',
+        title: msg => msg.menu.dashboard,
         route: '/data/dashboard',
         icon: Stopwatch
     }, {
-        title: 'dataReport',
+        title: msg => msg.menu.dataReport,
         route: '/data/report',
         icon: Table
     }, {
-        title: 'siteAnalysis',
+        title: msg => msg.menu.siteAnalysis,
         route: ANALYSIS_ROUTE,
         icon: Trend
     }, {
-        title: 'dataClear',
+        title: msg => msg.menu.dataClear,
         route: '/data/manage',
         icon: Database
     }]
 }, {
-    title: 'behavior',
+    title: msg => msg.menu.behavior,
     children: [{
-        title: 'habit',
+        title: msg => msg.menu.habit,
         route: '/behavior/habit',
         icon: Aim
     }, {
-        title: 'limit',
+        title: msg => msg.menu.limit,
         route: '/behavior/limit',
         icon: Timer
     }]
 }, {
-    title: 'additional',
+    title: msg => msg.menu.additional,
     children: [{
-        title: 'siteManage',
+        title: msg => msg.menu.siteManage,
         route: '/additional/site-manage',
         icon: Website
     }, {
-        title: 'whitelist',
+        title: msg => msg.menu.whitelist,
         route: '/additional/whitelist',
         icon: Whitelist
     }, {
-        title: 'mergeRule',
+        title: msg => msg.menu.mergeRule,
         route: MERGE_ROUTE,
         icon: Rank
     }, {
-        title: 'option',
+        title: msg => msg.menu.option,
         route: '/additional/option',
         icon: SetUp
     }]
 }, {
-    title: 'other',
+    title: msg => msg.menu.other,
     children: [{
-        title: 'userManual',
+        title: msg => msg.base.guidePage,
         href: getGuidePageUrl(),
         icon: Memo,
         index: '_guide',
     }, {
-        title: 'helpUs',
+        title: msg => msg.menu.helpUs,
         route: '/other/help',
         icon: HelpFilled,
     }, {
-        title: "about",
+        title: msg => msg.menu.about,
         route: '/other/about',
         icon: About,
     }]
@@ -122,7 +121,7 @@ const openHref = (href: string) => createTabAfterCurrent(href)
 function handleClick(menuItem: _MenuItem, router: Router, currentActive: Ref<string>) {
     const { route, title, href } = menuItem
     if (route) {
-        openMenu(route, msg => msg.menu[title], router)
+        openMenu(route, title, router)
     } else {
         openHref(href)
         currentActive.value = router.currentRoute?.value?.path
@@ -138,24 +137,17 @@ const iconStyle: Partial<CSSStyleDeclaration> = {
 
 function renderMenuLeaf(menu: _MenuItem, router: Router, currentActive: Ref<string>) {
     const { route, title, icon, index } = menu
-    const props: { onClick: (item: MenuItemRegistered) => void; index?: string } = {
-        onClick: (_item) => handleClick(menu, router, currentActive)
-    }
-    const realIndex = index || route
-    realIndex && (props.index = realIndex)
-    return h(ElMenuItem, props, {
-        default: () => (
-            <ElIcon size={15} style={iconStyle}>
-                {h(icon)}
-            </ElIcon>)
-        ,
-        title: () => h('span', t(msg => msg.menu[title])),
-    })
-}
-
-function renderMenu(menu: _MenuGroup, router: Router, currentActive: Ref<string>) {
-    const title = t(msg => msg.menu[menu.title])
-    return h(ElMenuItemGroup, { title }, () => menu.children.map(item => renderMenuLeaf(item, router, currentActive)))
+    return <ElMenuItem
+        onClick={(_item) => handleClick(menu, router, currentActive)}
+        index={index || route}
+        v-slots={{
+            default: () => (
+                <ElIcon size={15} style={iconStyle}>
+                    {h(icon)}
+                </ElIcon>),
+            title: () => <span>{t(title)}</span>
+        }}
+    />
 }
 
 async function initTitle(router: Router) {
@@ -163,7 +155,7 @@ async function initTitle(router: Router) {
     const currentPath = router.currentRoute.value.path
     for (const group of MENUS) {
         for (const { route, title } of group.children) {
-            const docTitle = route === currentPath && t(msg => msg.menu[title])
+            const docTitle = route === currentPath && t(title)
             if (docTitle) {
                 document.title = docTitle
                 return
@@ -186,7 +178,9 @@ const _default = defineComponent(() => {
     return () => (
         <div class="menu-container">
             <ElMenu defaultActive={currentActive.value}>
-                {MENUS.map(menu => renderMenu(menu, router, currentActive))}
+                {MENUS.map(menu => <ElMenuItemGroup title={t(menu.title)}>
+                    {menu.children.map(item => renderMenuLeaf(item, router, currentActive))}
+                </ElMenuItemGroup>)}
             </ElMenu>
         </div>
     )

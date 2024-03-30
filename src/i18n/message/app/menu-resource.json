@@ -15,7 +15,6 @@
         "limit": "时间限制",
         "other": "其他",
         "helpUs": "帮助我们～",
-        "userManual": "用户手册",
         "about": "关于"
     },
     "zh_TW": {
@@ -36,7 +35,6 @@
         "feedback": "有什麼反饋嗎？",
         "rate": "打個分吧！",
         "helpUs": "帮助我们～",
-        "userManual": "使用者手冊",
         "about": "關於"
     },
     "en": {
@@ -55,7 +53,6 @@
         "other": "Other Features",
         "option": "Options",
         "helpUs": "Help Translation",
-        "userManual": "User Manual",
         "about": "About"
     },
     "ja": {
@@ -73,8 +70,7 @@
         "mergeRule": "ドメイン合併",
         "other": "その他の機能",
         "option": "拡張設定",
-        "helpUs": "協力する",
-        "userManual": "ユーザーマニュアル"
+        "helpUs": "協力する"
     },
     "pt_PT": {
         "dashboard": "Painel de Controlo",
@@ -91,8 +87,7 @@
         "other": "Outras Características",
         "option": "Opções",
         "helpUs": "Ajude-nos",
-        "siteAnalysis": "Análise do Site",
-        "userManual": "Manual do Utilizador"
+        "siteAnalysis": "Análise do Site"
     },
     "uk": {
         "dashboard": "Огляд",
@@ -109,7 +104,6 @@
         "option": "Налаштування",
         "helpUs": "Допомогти нам",
         "siteAnalysis": "Аналіз сайту",
-        "userManual": "Посібник",
         "limit": "Обмеження часу",
         "about": "Про нас"
     },
@@ -128,7 +122,24 @@
         "option": "Opciones",
         "helpUs": "Ayúdanos",
         "siteAnalysis": "Análisis de sitios",
-        "userManual": "Manual del usuario",
         "limit": "Límite de tiempo"
+    },
+    "de": {
+        "dashboard": "Armaturenbrett",
+        "data": "Meine Daten",
+        "dataReport": "Aufzeichnen",
+        "dataClear": "Speicherstatus",
+        "behavior": "Nutzerverhalten",
+        "habit": "Gewohnheit",
+        "additional": "Zusatzfunktionen",
+        "siteManage": "Websites",
+        "whitelist": "Whitelist",
+        "mergeRule": "Regeln zusammenführen",
+        "other": "Andere Eigenschaften",
+        "option": "Optionen",
+        "helpUs": "Hilfe bei der Übersetzung",
+        "siteAnalysis": "Analysebericht",
+        "limit": "Zeitlimit",
+        "about": "Über uns"
     }
 }

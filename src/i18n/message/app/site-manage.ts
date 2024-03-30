@@ -25,11 +25,6 @@ export type SiteManageMessage = {
         user: string
         detected: string
     }
-    button: {
-        add: string
-        delete: string
-        save: string
-    }
     form: {
         emptyAlias: string
         emptyHost: string
@@ -43,6 +38,6 @@ export type SiteManageMessage = {
     }
 }
 
-const _default: Messages<SiteManageMessage> = resource
+const _default: Messages<SiteManageMessage> = resource satisfies Messages<SiteManageMessage>
 
 export default _default

@@ -103,5 +103,20 @@
         "infoAlert3": "Un número significa el nivel del sitio fusionado. Por ejemplo, hay una regla '*.*.edu.cn >>> 3', entonces 'www.hust.edu.cn' se fusionará con 'hust.edu.cn'",
         "infoAlert4": "Dejar en blanco significa que el sitio original no se fusionará",
         "infoAlert5": "Si no se sigue ninguna regla, se establecerá por defecto al nivel antes de {psl}"
+    },
+    "de": {
+        "removeConfirmMsg": "{origin} wird aus den benutzerdefinierten Zusammenführen Regeln entfernt.",
+        "originPlaceholder": "Ursprüngliche Website",
+        "mergedPlaceholder": "Zusammengeführt",
+        "errorOrigin": "Das Format der Original-Website ist ungültig.",
+        "duplicateMsg": "Die Regel existiert bereits: {origin}",
+        "addConfirmMsg": "Für {origin} werden benutzerdefinierte Zusammenführungsregeln festgelegt",
+        "infoAlertTitle": "Auf dieser Seite können Sie Zusammenführen Regeln für die Zählung von Websites festlegen",
+        "infoAlert0": "Klicken Sie auf die Schaltfläche [Erstellen]. Die Eingabefelder der ursprünglichen Website und der zusammengeführten Website werden angezeigt. Füllen Sie die Regel aus und speichern Sie sie",
+        "infoAlert1": "Die ursprüngliche Website kann mit einer bestimmten Website oder einem regulären Ausdruck wie www.baidu.com, *.baidu.com, *.google.com.* gefüllt werden, um zu bestimmen, welche Websites beim Zusammenführen dieser Regel entsprechen",
+        "infoAlert2": "Die zusammengeführte Website kann mit einer bestimmten Site, einer Zahl oder einem Leerzeichen gefüllt werden",
+        "infoAlert3": "Eine Zahl gibt die Ebene der zusammengeführten Website an. Gibt es beispielsweise eine Regel „*.*.edu.cn >>> 3“, dann wird „www.hust.edu.cn“ als „hust.edu.cn“ zusammengeführt",
+        "infoAlert4": "Leer bedeutet, dass die ursprüngliche Website nicht zusammengeführt wird",
+        "infoAlert5": "Wenn keine Regel zutrifft, wird standardmäßig die Ebene vor {psl} verwendet"
     }
 }

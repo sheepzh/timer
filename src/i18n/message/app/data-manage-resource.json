@@ -257,5 +257,42 @@
             "fileNotSelected": "Archivo no seleccionado",
             "conflictNotSelected": "Resolución del conflicto no seleccionada"
         }
+    },
+    "de": {
+        "totalMemoryAlert": "Der Browser stellt {size}MB zur Verfügung, um lokale Daten für jede Erweiterung zu speichern",
+        "totalMemoryAlert1": "Der vom Browser maximal verfügbare Speicher kann nicht ermittelt werden",
+        "usedMemoryAlert": "Derzeit werden {size}MB verwendet",
+        "operationAlert": "Sie können diese unwichtigen Daten löschen, um den Speicherverbrauch zu reduzieren",
+        "filterItems": "Daten filtern",
+        "filterFocus": "Die Browsing-Zeit am Tag liegt zwischen {start} Sekunden und {end} Sekunden",
+        "filterTime": "Die Anzahl der Besuche für den Tag liegt zwischen {start} und {end}",
+        "filterDate": "Aufgenommen zwischen {picker}",
+        "unlimited": "∞",
+        "paramError": "Parameterfehler, bitte überprüfen!",
+        "deleteConfirm": "Insgesamt wurden {count} Datensätze herausgefiltert. Möchten Sie sie alle löschen?",
+        "deleteSuccess": "Erfolgreich gelöscht!",
+        "migrationAlert": "Migrieren Sie Daten zwischen Browsern mithilfe von Import und Export",
+        "importError": "Falsche Dateierweiterung",
+        "migrated": "Erfolgreich importiert!",
+        "dateShortcut": {
+            "tillYesterday": "Bis gestern",
+            "till7DaysAgo": "Bis vor 7 Tagen",
+            "till30DaysAgo": "Bis vor 30 Tagen"
+        },
+        "importOther": {
+            "step1": "Daten auswählen",
+            "step2": "Daten bestätigen",
+            "dataSource": "Datenquelle",
+            "file": "Datendatei",
+            "selectFileBtn": "Wählen",
+            "conflictType": "Konfliktlösung",
+            "conflictTip": "Was tun, wenn importierte Daten mit lokalen Daten in Konflikt geraten",
+            "overwrite": "Überschreiben",
+            "accumulate": "Akkumulieren",
+            "imported": "Importierte",
+            "local": "Lokale",
+            "fileNotSelected": "Datei nicht ausgewählt",
+            "conflictNotSelected": "Konfliktlösung nicht ausgewählt"
+        }
     }
 }

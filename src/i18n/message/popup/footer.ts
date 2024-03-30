@@ -14,4 +14,4 @@ export type FooterMessage = {
     rate: string
 }
 
-export default resource satisfies Messages<FooterMessage>
+export default resource as Messages<FooterMessage>

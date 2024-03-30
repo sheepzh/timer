@@ -14,8 +14,6 @@ import { formatTime } from "@util/time"
 import { cvt2LocaleTime } from "@app/util/time"
 import { useReportFilter } from "../../context"
 
-const deleteButtonText = t(msg => msg.item.operation.delete)
-
 /**
  * Compute the confirm text for one item
  *
@@ -64,7 +62,7 @@ const _default = defineComponent({
         return () => <PopupConfirmButton
             buttonIcon={Delete}
             buttonType="danger"
-            buttonText={deleteButtonText}
+            buttonText={t(msg => msg.button.delete)}
             confirmText={deleteMsg.value}
             visible={props.visible}
             onConfirm={() => ctx.emit("confirm")}

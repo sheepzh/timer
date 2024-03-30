@@ -22,16 +22,21 @@
     "pt_PT": {
         "name": "Rastreador de Tempo",
         "marketName": "Rastreador de Tempo",
-        "description": "Ser o MELHOR rastreador de tempo da web."
+        "description": "Ser o MELHOR rastreador de tempo da web"
     },
     "uk": {
         "name": "Веб-трекер часу",
         "marketName": "Веб-трекер часу",
-        "description": "Бути КРАЩИМ веб-трекером часу."
+        "description": "Бути КРАЩИМ веб-трекером часу"
     },
     "es": {
         "name": "Rastreador de tiempo web",
         "marketName": "Rastreador de tiempo web",
-        "description": "Ser el MEJOR rastreador de tiempo web."
+        "description": "Ser el MEJOR rastreador de tiempo web"
+    },
+    "de": {
+        "name": "Zeiterfassung",
+        "marketName": "Zeiterfassung",
+        "description": "Das beste Web-Zeiterfassungstool zu sein"
     }
 }

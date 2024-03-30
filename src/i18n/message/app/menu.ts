@@ -23,7 +23,6 @@ export type MenuMessage = {
     option: string
     other: string
     helpUs: string
-    userManual: string
     about: string
 }
 

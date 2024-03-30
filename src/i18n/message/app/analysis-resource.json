@@ -191,5 +191,33 @@
             "focusTitle": "Tendencias del tiempo de navegación",
             "visitTitle": "Tendencias de visitas"
         }
+    },
+    "de": {
+        "common": {
+            "focusTotal": "Gesamte Browsingzeit",
+            "visitTotal": "Gesamtbesuche",
+            "ringGrowth": "{value} im Vergleich zur Vorperiode",
+            "merged": "Zusammengeführt",
+            "virtual": "Virtuell",
+            "hostPlaceholder": "Suchen Sie nach einer Website zur Analyse",
+            "emptyDesc": "Keine Website ausgewählt"
+        },
+        "summary": {
+            "title": "Zusammenfassung",
+            "day": "Gesamtzahl der aktiven Tage",
+            "firstDay": "Erster Besuch {value}",
+            "calendarTitle": "Aktivität in den letzten Wochen"
+        },
+        "trend": {
+            "title": "Trends",
+            "activeDay": "Aktive Tage",
+            "totalDay": "Zeitraum Tage",
+            "maxFocus": "Tägliche maximale Surfzeit",
+            "averageFocus": "Tägliche durchschnittliche Surfzeit",
+            "maxVisit": "Tägliche maximale Besuche",
+            "averageVisit": "Tägliche durchschnittliche Besuche",
+            "focusTitle": "Durchsuchen von Zeittrends",
+            "visitTitle": "Besuchen Sie Trends"
+        }
     }
 }

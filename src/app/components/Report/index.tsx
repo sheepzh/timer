@@ -104,9 +104,9 @@ async function handleBatchDelete(tableInstance: TableInstance, filterOption: Rep
     ElMessageBox({
         message: await computeBatchDeleteMsg(selected, filterOption.mergeDate, filterOption.dateRange),
         type: "warning",
-        confirmButtonText: t(msg => msg.confirm.confirmMsg),
+        confirmButtonText: t(msg => msg.button.okey),
         showCancelButton: true,
-        cancelButtonText: t(msg => msg.confirm.cancelMsg),
+        cancelButtonText: t(msg => msg.button.dont),
         // Cant close this on press ESC
         closeOnPressEscape: false,
         // Cant close this on clicking modal

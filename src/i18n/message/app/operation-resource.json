@@ -26,5 +26,9 @@
     "es": {
         "confirmTitle": "Confirmación",
         "successMsg": "¡Exitosamente!"
+    },
+    "de": {
+        "confirmTitle": "Bestätigung",
+        "successMsg": "Erfolgreich!"
     }
 }

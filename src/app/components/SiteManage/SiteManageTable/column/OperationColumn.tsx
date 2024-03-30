@@ -25,7 +25,7 @@ const _default = defineComponent({
                 ({ row }: ElTableRowScope<timer.site.SiteInfo>) => <PopupConfirmButton
                     buttonIcon={<Delete />}
                     buttonType="danger"
-                    buttonText={t(msg => msg.siteManage.button.delete)}
+                    buttonText={t(msg => msg.button.delete)}
                     confirmText={t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host })}
                     onConfirm={async () => {
                         await siteService.remove(row)

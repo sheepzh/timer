@@ -85,6 +85,7 @@ export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.Locale]: string } = {
     pt_PT: UNINSTALL_QUESTIONNAIRE_EN,
     uk: UNINSTALL_QUESTIONNAIRE_EN,
     es: UNINSTALL_QUESTIONNAIRE_EN,
+    de: UNINSTALL_QUESTIONNAIRE_EN,
 }
 
 /**

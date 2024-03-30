@@ -40,5 +40,11 @@
         "thisWeek": "De esta semana",
         "thisMonth": "De este mes",
         "last30Days": "De los últimos 30 días"
+    },
+    "de": {
+        "today": "Heute",
+        "thisWeek": "Aktuelle Woche",
+        "thisMonth": "Dieser Monat",
+        "last30Days": "Letzte 30 Tage"
     }
 }

@@ -68,8 +68,6 @@ async function handleAdd(siteInfo: timer.site.SiteInfo): Promise<boolean> {
     return !existed
 }
 
-const BTN_ADD_TXT = t(msg => msg.siteManage.button.add)
-
 function initData(): _FormData {
     return {
         key: undefined,
@@ -113,7 +111,7 @@ const _default = defineComponent({
 
         return () => <ElDialog
             width={450}
-            title={BTN_ADD_TXT}
+            title={t(msg => msg.button.create)}
             modelValue={visible.value}
             closeOnClickModal={false}
             onClose={() => visible.value = false}
@@ -123,7 +121,7 @@ const _default = defineComponent({
                     <SiteManageAliasFormItem modelValue={formData.alias} onInput={val => formData.alias = val} onEnter={save} />
                 </ElForm>,
                 footer: () => <ElButton type="primary" icon={<Check />} onClick={save}>
-                    {t(msg => msg.siteManage.button.save)}
+                    {t(msg => msg.button.save)}
                 </ElButton>,
             }}
         />

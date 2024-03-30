@@ -7,10 +7,7 @@
 
 import { t } from "@app/locale"
 import { ButtonType, ElButton, ElPopconfirm, IconProps } from "element-plus"
-import { defineComponent, PropType, h, computed } from "vue"
-
-const confirmButtonText = t(msg => msg.confirm.confirmMsg)
-const cancelButtonText = t(msg => msg.confirm.cancelMsg)
+import { defineComponent, PropType } from "vue"
 
 const _default = defineComponent({
     props: {
@@ -29,8 +26,8 @@ const _default = defineComponent({
     setup(props, ctx) {
         return () => (
             <ElPopconfirm
-                confirmButtonText={confirmButtonText}
-                cancelButtonText={cancelButtonText}
+                confirmButtonText={t(msg => msg.button.okey)}
+                cancelButtonText={t(msg => msg.button.dont)}
                 title={props.confirmText}
                 width={300}
                 onConfirm={() => ctx.emit("confirm")}

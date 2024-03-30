@@ -320,5 +320,52 @@
         },
         "step1": "Configurar URL",
         "step2": "Configurar regla"
+    },
+    "de": {
+        "conditionFilter": "Suche nach URL",
+        "filterDisabled": "Nur aktiviert",
+        "useWildcard": "Ob Platzhalter verwendet wird",
+        "urlPlaceholder": "Geben Sie bitte die URL ein, die Sie einschränken möchten, und klicken Sie auf die Schaltfläche „URL analysieren“",
+        "item": {
+            "condition": "Eingeschränkte URL",
+            "time": "Tägliches Limit",
+            "waste": "Heute durchstöbert",
+            "enabled": "Ermöglicht",
+            "delayAllowed": "Weitere 5 Minuten",
+            "delayAllowedInfo": "Wenn es zu einer Zeitüberschreitung kommt, erlauben Sie eine vorübergehende Verzögerung von 5 Minuten",
+            "operation": "Aktionsknopf",
+            "visitTime": "Limit pro Besuch",
+            "period": "Unzulässiger Zeitraum"
+        },
+        "button": {
+            "test": "Test-URL",
+            "option": "Optionen",
+            "parseUrl": "URL analysieren",
+            "reEnterUrl": "URL eingeben"
+        },
+        "message": {
+            "saved": "Erfolgreich gespeichert",
+            "noUrl": "Nicht ausgefüllte eingeschränkte URL",
+            "deleteConfirm": "Möchten Sie die Regel {cond} löschen?",
+            "deleted": "Erfolgreich gelöscht",
+            "inputTestUrl": "Bitte geben Sie zunächst den zu testenden URL-Link ein",
+            "clickTestButton": "Klicken Sie nach der Eingabe bitte auf die Schaltfläche ({buttonText}).",
+            "noRuleMatched": "Die URL entspricht keinen Regeln",
+            "rulesMatched": "Die URL erfüllt die folgenden Regeln:",
+            "noRule": "Keine Regeln ausgefüllt",
+            "noParsed": "URL nicht aufgelöst"
+        },
+        "verification": {
+            "inputTip": "Die Limitregel wurde bereits ausgelöst. Um fortzufahren, geben Sie bitte die Antwort auf die folgende Eingabeaufforderung ein: {prompt}",
+            "inputTip2": "Die Limit regel wurde bereits ausgelöst. Um fortzufahren, geben Sie sie bitte unverändert ein: {answer}",
+            "pswInputTip": "Die Limit regel wurde bereits ausgelöst. Um fortzufahren, geben Sie bitte Ihr Entsperrkennwort ein",
+            "incorrectPsw": "Falsches Passwort",
+            "incorrectAnswer": "Falsche Antwort",
+            "pi": "{digitCount} Ziffern von {startIndex} bis {endIndex} des Dezimalteils von π",
+            "confession": "Zeit vergeht",
+            "strictTip": "Die Limit-Regel wurde bereits ausgelöst und eine manuelle Entsperrung ist nicht zulässig!"
+        },
+        "step1": "URL konfigurieren",
+        "step2": "Konfiguration Regel"
     }
 }

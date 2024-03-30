@@ -180,5 +180,31 @@
             "increase": "más",
             "decline": "menos"
         }
+    },
+    "de": {
+        "heatMap": {
+            "title0": "Durchsuchte über {hour} Stunden im letzten Jahr",
+            "title1": "Durchsucht weniger als 1 Stunde im letzten Jahr",
+            "tooltip0": "Durchsucht für {minute} Minuten auf {year}-{month}-{day}",
+            "tooltip1": "Durchsucht für {hour} Stunden {minute} Minuten am {year}-{month}-{day}"
+        },
+        "topK": {
+            "title": "TOP {k} am meisten besucht in den letzten {day} Tagen",
+            "tooltip": "Besuchte {host} {visit} mal"
+        },
+        "indicator": {
+            "installedDays": "Für {number} Tage installiert",
+            "visitCount": "Besuchte {site} Websites {visit} mal",
+            "browsingTime": "Durchsucht über {minute} Minuten",
+            "mostUse": "Favoriten zwischen {start} und {end} Uhr"
+        },
+        "weekOnWeek": {
+            "title": "Top {k} der wöchentlichen Veränderungen der Surfzeit",
+            "lastBrowse": "Letzte Woche {time} lang durchsucht",
+            "thisBrowse": "Letzte Woche {time} durchsucht",
+            "wow": "{delta} {state}",
+            "increase": "erhöht",
+            "decline": "verringert"
+        }
     }
 }

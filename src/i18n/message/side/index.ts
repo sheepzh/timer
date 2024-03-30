@@ -34,6 +34,10 @@ const _default: Required<Messages<SideMessage>> = {
     es: {
         list: listMessages.es,
         calendar: calendarMessages.es,
+    },
+    de: {
+        list: listMessages.de,
+        calendar: calendarMessages.de,
     }
 }
 

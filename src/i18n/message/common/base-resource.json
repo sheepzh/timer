@@ -1,44 +1,42 @@
 {
     "en": {
-        "currentVersion": "Version: {version}",
         "allFunction": "All Functions",
         "guidePage": "User Manual",
         "changeLog": "Change Log"
     },
     "zh_CN": {
-        "currentVersion": "版本: v{version}",
         "allFunction": "所有功能",
         "guidePage": "用户手册",
         "changeLog": "更新日志"
     },
     "zh_TW": {
-        "currentVersion": "版本: v{version}",
         "allFunction": "所有功能",
         "guidePage": "使用者手冊",
         "changeLog": "更新紀錄"
     },
     "ja": {
-        "currentVersion": "バージョン: v{version}",
         "allFunction": "すべての機能",
         "guidePage": "ユーザーマニュアル",
         "changeLog": "変更履歴"
     },
     "pt_PT": {
-        "currentVersion": "Versão: {version}",
         "allFunction": "Todas as Funções",
         "guidePage": "Manual do Utilizador",
         "changeLog": "Registo de Alterações"
     },
     "uk": {
-        "currentVersion": "Версія: {version}",
         "allFunction": "Усі функції",
         "guidePage": "Посібник",
         "changeLog": "Журнал змін"
     },
     "es": {
-        "currentVersion": "Versión: {version}",
         "allFunction": "Todas las funciones",
         "guidePage": "Manual del usuario",
         "changeLog": "Registro de cambios"
+    },
+    "de": {
+        "allFunction": "Alle Funktionen",
+        "guidePage": "Benutzerhandbuch",
+        "changeLog": "Änderungsprotokoll"
     }
 }

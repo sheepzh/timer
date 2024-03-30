@@ -96,5 +96,19 @@
         "dont": "¡NO!",
         "previous": "Anterior",
         "next": "Siguiente"
+    },
+    "de": {
+        "create": "Erstellen",
+        "delete": "Löschen",
+        "modify": "Ändern",
+        "save": "Speichern",
+        "test": "Prüfen",
+        "paste": "Paste",
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen",
+        "okey": "OK",
+        "dont": "NEIN!",
+        "previous": "Vorherige",
+        "next": "Nächste"
     }
 }

@@ -68,5 +68,15 @@
         "infoAlert1": "Los sitios en la lista blanca no serán restringidos",
         "placeholder": "URL del sitio",
         "errorInput": "URL del sitio inválida"
+    },
+    "de": {
+        "addConfirmMsg": "{url} wird nach dem Hinzufügen zur Whitelist nicht mehr gezählt.",
+        "removeConfirmMsg": "{url} wird von der Whitelist entfernt.",
+        "duplicateMsg": "Dupliziert",
+        "infoAlertTitle": "Sie können eine Whitelist vonseiten auf dieser Seite festlegen",
+        "infoAlert0": "Websites auf der Whitelist werden nicht gezählt",
+        "infoAlert1": "Websites auf der Whitelist werden nicht eingeschränkt",
+        "placeholder": "Seiten-URL",
+        "errorInput": "Ungültige Seiten-URL"
     }
 }

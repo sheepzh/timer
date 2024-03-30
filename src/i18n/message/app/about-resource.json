@@ -66,5 +66,22 @@
             "rate": "Оцініть 5 зірок, щоб допомогти іншим дізнатися про це~~",
             "feedback": "Також ласкаво просимо надіслати свої відгуки та запити щодо функцій!!"
         }
+    },
+    "de": {
+        "label": {
+            "name": "Namen",
+            "version": "Aktuelle Version",
+            "website": "Offizielle Website",
+            "sourceCode": "Quellcode",
+            "installation": "Installationsseite",
+            "thanks": "Danksagung",
+            "privacy": "Datenschutzerklärung",
+            "license": "Quelloffene Lizenz"
+        },
+        "text": {
+            "greet": "Gefällt Ihnen diese Erweiterung?",
+            "rate": "Bewerte es 5 Sterne, um anderen zu helfen~~",
+            "feedback": "Bitte senden Sie uns auch Ihr Feedback und Feature-Anfragen an !!"
+        }
     }
 }

@@ -14,6 +14,7 @@ export const ALL_TRANS_LOCALES: timer.Locale[] = [
     'pt_PT',
     'uk',
     'es',
+    'de',
 ]
 
 const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
@@ -24,6 +25,7 @@ const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
     'pt-PT': 'pt_PT',
     uk: 'uk',
     'es-ES': 'es',
+    de: 'de',
 }
 
 const I18N_CROWDIN_MAP: Record<timer.Locale, CrowdinLanguage> = {
@@ -34,6 +36,7 @@ const I18N_CROWDIN_MAP: Record<timer.Locale, CrowdinLanguage> = {
     pt_PT: 'pt-PT',
     uk: 'uk',
     es: 'es-ES',
+    de: 'de',
 }
 
 export const crowdinLangOf = (locale: timer.Locale) => I18N_CROWDIN_MAP[locale]

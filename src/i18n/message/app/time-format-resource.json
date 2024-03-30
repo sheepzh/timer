@@ -40,5 +40,11 @@
         "hour": "Mostrar en horas",
         "minute": "Mostrar en minutos",
         "second": "Mostrar en segundos"
+    },
+    "de": {
+        "default": "Voreingestelltes Zeitformat",
+        "hour": "Anzeige in Stunden",
+        "minute": "Anzeige in Minuten",
+        "second": "Anzeige in Sekunden"
     }
 }

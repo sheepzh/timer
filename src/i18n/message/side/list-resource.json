@@ -6,5 +6,9 @@
     "en": {
         "searchPlaceholder": "Search by URL",
         "title": "All browsing data"
+    },
+    "de": {
+        "searchPlaceholder": "Suche nach URL",
+        "title": "Alle Browserdaten"
     }
 }

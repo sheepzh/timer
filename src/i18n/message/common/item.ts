@@ -14,7 +14,6 @@ export type ItemMessage = {
     time: string
     operation: {
         label: string
-        delete: string
         add2Whitelist: string
         removeFromWhitelist: string
         deleteConfirmMsgAll: string

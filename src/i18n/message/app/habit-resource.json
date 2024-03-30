@@ -185,5 +185,34 @@
             "countTotal": "Total de visitas/sitios",
             "siteAverage": "Promedio de visitas a {value} sitios web por día"
         }
+    },
+    "de": {
+        "common": {
+            "focusAverage": "Tagesdurchschnitt {value}"
+        },
+        "period": {
+            "title": "Gewohnheiten jeden Augenblick",
+            "busiest": "Die geschäftigste Zeit des Tages",
+            "idle": "Längste Leerlaufzeit",
+            "yAxisMin": "Browsing-Zeit / Minute",
+            "yAxisHour": "Browsing-Zeit / Stunde",
+            "averageLabel": "Täglicher Durchschnitt",
+            "sizes": {
+                "fifteen": "Pro 15 Minuten",
+                "halfHour": "Pro halbe Stunde",
+                "hour": "Pro eine Stunde",
+                "twoHour": "Pro zwei Stunden"
+            }
+        },
+        "site": {
+            "title": "Gewohnheit von Websites",
+            "focusPieTitle": "Prozentsatz der Anzeigezeit",
+            "visitPieTitle": "Prozentsatz der Besuche",
+            "otherLabel": "{count} andere Websites",
+            "histogramTitle": "TOP {n} der meistbesuchten",
+            "exclusiveToday": "Der Durchschnitt berücksichtigt nicht die heutigen Daten",
+            "countTotal": "Gesamtzahl der Besuche/Websites",
+            "siteAverage": "Durchschnittliche Besuche auf {value} Websites pro Tag"
+        }
     }
 }

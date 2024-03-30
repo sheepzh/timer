@@ -124,5 +124,23 @@
             "thisMonth": "Datos de este mes",
             "last30Days": "Datos de los últimos 30 días"
         }
+    },
+    "de": {
+        "mergeHostLabel": "Websites zusammenführen",
+        "fileName": "Web_Time_List_{today}_By_{app}",
+        "saveAsImageTitle": "Bildschirmfoto",
+        "restoreTitle": "Speichern",
+        "options": "Optionen",
+        "totalTime": "Gesamt {totalTime}",
+        "totalCount": "Gesamt {totalCount} mal",
+        "averageCount": "{value} mal pro Tag",
+        "averageTime": "{value} pro Tag im Durchschnitt",
+        "otherLabel": "{count} andere Websites",
+        "title": {
+            "today": "Heutige Daten",
+            "thisWeek": "Daten dieser Woche",
+            "thisMonth": "Die Daten dieses Monats",
+            "last30Days": "Daten der letzten 30 Tage"
+        }
     }
 }

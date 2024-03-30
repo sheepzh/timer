@@ -21,4 +21,4 @@ export type ChartMessage = {
     otherLabel: string
 }
 
-export default resource satisfies Messages<ChartMessage>
+export default resource as Messages<ChartMessage>

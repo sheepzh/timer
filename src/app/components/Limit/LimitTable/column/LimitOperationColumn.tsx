@@ -56,6 +56,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     pt_PT: 250,
     uk: 260,
     es: 240,
+    de: 250,
 }
 
 const _default = defineComponent({

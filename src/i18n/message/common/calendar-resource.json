@@ -152,5 +152,27 @@
             "last90Days": "Últimos 90 días"
         },
         "simpleTimeFormat": "{m}/{d} {h}:{i}"
+    },
+    "de": {
+        "weekDays": "Mo|Di|Dein|Dein|Fr|Sat|So",
+        "months": "Jan|Feb|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Nov|Dez",
+        "dateFormat": "{d}/{m}/{y}",
+        "label": {
+            "startDate": "Startdatum",
+            "endDate": "Enddatum"
+        },
+        "range": {
+            "today": "Heute",
+            "yesterday": "Gestern",
+            "last24Hours": "Letzte 24 Stunden",
+            "last3Days": "Letzte 3 Tage",
+            "last7Days": "Letzte 7 Tage",
+            "last15Days": "Letzte 15 Tage",
+            "last30Days": "Letzte 30 Tage",
+            "last60Days": "Letzte 60 Tage",
+            "last90Days": "Letzte 90 Tage"
+        },
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}"
     }
 }

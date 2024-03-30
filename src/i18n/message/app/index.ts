@@ -18,7 +18,6 @@ import whitelistMessages, { WhitelistMessage } from "./whitelist"
 import mergeRuleMessages, { MergeRuleMessage } from "./merge-rule"
 import siteManageManages, { SiteManageMessage } from "./site-manage"
 import operationMessages, { OperationMessage } from './operation'
-import confirmMessages, { ConfirmMessage } from './confirm'
 import dashboardMessages, { DashboardMessage } from "./dashboard"
 import timeFormatMessages, { TimeFormatMessage } from "./time-format"
 import helpUsMessages, { HelpUsMessage } from "./help-us"
@@ -27,6 +26,7 @@ import popupDurationMessages, { PopupDurationMessage } from "@i18n/message/commo
 import buttonMessages, { ButtonMessage } from "@i18n/message/common/button"
 import metaMessages, { MetaMessage } from "@i18n/message/common/meta"
 import aboutMessages, { AboutMessage } from "./about"
+import baseMessages, { BaseMessage } from "../common/base"
 
 export type AppMessage = {
     about: AboutMessage
@@ -43,7 +43,6 @@ export type AppMessage = {
     limit: LimitMessage
     siteManage: SiteManageMessage
     operation: OperationMessage
-    confirm: ConfirmMessage
     dashboard: DashboardMessage
     calendar: CalendarMessage
     timeFormat: TimeFormatMessage
@@ -51,6 +50,7 @@ export type AppMessage = {
     helpUs: HelpUsMessage
     button: ButtonMessage
     meta: MetaMessage
+    base: BaseMessage
 }
 
 const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } = {
@@ -68,7 +68,6 @@ const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } =
     limit: limitMessages,
     siteManage: siteManageManages,
     operation: operationMessages,
-    confirm: confirmMessages,
     dashboard: dashboardMessages,
     calendar: calendarMessages,
     timeFormat: timeFormatMessages,
@@ -76,6 +75,7 @@ const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } =
     helpUs: helpUsMessages,
     button: buttonMessages,
     meta: metaMessages,
+    base: baseMessages,
 }
 
 function appMessageOf(locale: timer.Locale): AppMessage {
@@ -92,6 +92,7 @@ const _default: Required<Messages<AppMessage>> = {
     pt_PT: appMessageOf('pt_PT'),
     uk: appMessageOf('uk'),
     es: appMessageOf('es'),
+    de: appMessageOf('de'),
 }
 
 export default _default

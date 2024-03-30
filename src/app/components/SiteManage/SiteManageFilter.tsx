@@ -15,7 +15,6 @@ import { t } from "@app/locale"
 const hostPlaceholder = t(msg => msg.siteManage.hostPlaceholder)
 const aliasPlaceholder = t(msg => msg.siteManage.aliasPlaceholder)
 const onlyDetectedLabel = t(msg => msg.siteManage.onlyDetected)
-const addButtonText = t(msg => msg.siteManage.button.add)
 
 const _default = defineComponent({
     props: {
@@ -49,7 +48,7 @@ const _default = defineComponent({
                 onChange={val => onlyDetected.value = val}
             />
             <ButtonFilterItem
-                text={addButtonText}
+                text={t(msg => msg.button.create)}
                 icon={<Plus />}
                 type="success"
                 onClick={() => ctx.emit("create")}

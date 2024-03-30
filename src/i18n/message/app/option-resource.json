@@ -334,7 +334,7 @@
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "Endpoint address {info} {input}",
-                    "endpointInfo": "Only HTTP is avaiable because it is not possible to configure CORS for extensions's pages",
+                    "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages",
                     "pathLabel": "The path of directory {input}"
                 }
             },
@@ -815,6 +815,129 @@
                 "strict": "No permitir desbloquear de ningún modo",
                 "strictTitle": "Confirmación de operación",
                 "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
+            }
+        }
+    },
+    "de": {
+        "yes": "Ja",
+        "no": "Nein",
+        "resetButton": "Zurücksetzen",
+        "resetSuccess": "Auf Standardwerte zurückgesetzt!",
+        "defaultValue": "Standard: {default}",
+        "popup": {
+            "title": "Popup-Seite",
+            "max": "Zeige die ersten {input} Datenelemente",
+            "defaultMergeDomain": "{input} Subdomains beim Öffnen zusammenführen",
+            "defaultDisplay": "{duration} {type} beim Öffnen anzeigen",
+            "displaySiteName": "{input} {siteName} statt URL anzeigen",
+            "weekStart": "Erster Tag der Woche {input}",
+            "weekStartAsNormal": "Wie normal"
+        },
+        "appearance": {
+            "title": "Aussehen",
+            "displayWhitelist": "{input} {whitelist} in {contextMenu} anzeigen",
+            "whitelistItem": "verwandte Whitelist Verknüpfungen",
+            "contextMenu": "Kontextmenü",
+            "displayBadgeText": "{input} {timeInfo} in {icon} anzeigen",
+            "icon": "das Symbol der Erweiterung",
+            "badgeTextContent": "die Besuchszeit der aktuellen Webseite",
+            "locale": {
+                "label": "Sprache {input}",
+                "default": "Browser verfolgen",
+                "changeConfirm": "Die Sprache wurde erfolgreich geändert. Bitte lade diese Seite neu!",
+                "reloadButton": "Neu laden"
+            },
+            "printInConsole": {
+                "label": "{input} {info} in der {console} ausgeben",
+                "console": "Konsole",
+                "info": "Die Anzahl der Besuche der aktuellen Website heute"
+            },
+            "darkMode": {
+                "label": "Dunkler Modus {input}",
+                "options": {
+                    "default": "Browser verfolgen",
+                    "on": "Immer an",
+                    "off": "Immer aus",
+                    "timed": "Zeitgesteuert"
+                }
+            }
+        },
+        "statistics": {
+            "title": "Statistik",
+            "countWhenIdle": "{input} {idleTime} {info} zählen",
+            "idleTime": "Leerlaufzeit",
+            "idleTimeInfo": "Wenn du lange Zeit nichts machst (z. B. ein Video im Vollbild ansehen), wird der Browser automatisch in den Leerlaufmodus wechseln",
+            "countLocalFiles": "{input} Zeit an {localFileTime} {info} im Browser zählen",
+            "localFileTime": "eine lokale Datei lesen",
+            "localFilesInfo": "Unterstützt Dateitypen, wie PDF, Bilder, .txt und .json",
+            "collectSiteName": "{input} Automatisch {siteName} {siteNameUsage} beim Besuch der Homepage loggen",
+            "siteName": "Der Name der Website",
+            "siteNameUsage": "Die Daten werden nur lokal gespeichert und anstelle der URL angezeigt, um die Erkennung zu erhöhen. Auf Wunsch lässt sich der Name jeder Seite anpassen."
+        },
+        "backup": {
+            "title": "Datensicherung",
+            "type": "Remote Typ {input}",
+            "client": "Kundenname {input}",
+            "meta": {
+                "none": {
+                    "label": "Immer aus"
+                },
+                "gist": {
+                    "authInfo": "Ein Token mit mindestens gist Berechtigung ist erforderlich"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "Endpunkt Adresse {info} {input}",
+                    "endpointInfo": "Es ist nur HTTP verfügbar, da CORS nicht für Erweiterungsseiten konfiguriert werden kann",
+                    "pathLabel": "Der Pfad des Verzeichnisses {input}"
+                }
+            },
+            "test": "Testen",
+            "operation": "Backup",
+            "auto": {
+                "label": "Automatische Sicherung aktivieren",
+                "interval": "und alle {input} Minuten ausführen"
+            },
+            "lastTimeTip": "Letzte Sicherungszeit: {lastTime}",
+            "alert": "Dies ist eine experimentelle Funktion. Wenn Sie Fragen haben, wenden Sie sich bitte über {email} an den Autor~",
+            "download": {
+                "btn": "Herunterladen",
+                "step2": "Daten bestätigen",
+                "willDownload": "Zum Herunterladen",
+                "confirmTip": "Lädt {size} Datenstücke von [{clientName}] herunter"
+            },
+            "clear": {
+                "btn": "Löschen",
+                "confirmTip": "{rowCount} Datenelemente für {hostCount} Websites, die von [{clientName}] verfolgt werden, werden gelöscht!"
+            },
+            "clientTable": {
+                "selectTip": "Wählen Sie ein Terminal aus",
+                "dataRange": "Datenreichweite",
+                "notSelected": "Kunde nicht ausgewählt",
+                "current": "Aktuell"
+            }
+        },
+        "dailyLimit": {
+            "title": "Tägliches Limit",
+            "filter": {
+                "label": "Der Hintergrundstil der modalen Seite {input}",
+                "translucent": "Durchsichtig",
+                "groundGlass": "Bodenglas"
+            },
+            "level": {
+                "label": "Wie man bei eingeschränktem {input} entsperrt",
+                "nothing": "Erlaube das direkte Entsperren auf der Admin-Seite",
+                "password": "Passwort zum Entsperren eingeben",
+                "verification": "Zum Entsperren muss der Bestätigungscode eingegeben",
+                "passwordLabel": "Passwort zum Entsperren von {input}",
+                "verificationLabel": "Die Schwierigkeit des Bestätigungscodes {input}",
+                "verificationDifficulty": {
+                    "easy": "Einfach",
+                    "hard": "Schwer",
+                    "disgusting": "Ekelhaft"
+                },
+                "strict": "Entsperren trotzdem nicht zulassen",
+                "strictTitle": "Operation bestätigen",
+                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
             }
         }
     }

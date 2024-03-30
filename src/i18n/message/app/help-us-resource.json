@@ -51,5 +51,17 @@
             "l4": "Cuando el progreso de traducción de un idioma llegue a 50%, consideraré añadirlo a esta extensión."
         },
         "contributors": "Lista de contribuidores"
+    },
+    "de": {
+        "title": "Hilf mit die Übersetzungen der Erweiterung zu verbessern!",
+        "button": "Zu Crowdin gehen",
+        "loading": "Übersetzungsfortschritt wird überprüft...",
+        "alert": {
+            "l1": "Aufgrund der Sprachfähigkeiten des Autors unterstützt die Erweiterung nur vereinfachtes Chinesisch und Englisch nativ, während andere Sprachen fehlen oder stark auf maschinelle Übersetzung angewiesen sind.",
+            "l2": "Um eine bessere Benutzererfahrung zu ermöglichen, habe ich die Übersetzungen für andere Sprachen auf Crowdin ausgelagert. Crowdin ist ein Übersetzungsmanagementsystem, das für Open-Source-Software kostenlos ist.",
+            "l3": "Wenn du diese Erweiterung nützlich für dich findest, und bereit bist, die Übersetzung zu verbessern, klicke auf die Schaltfläche unten, um zur Projektseite auf Crowdin zu gelangen.",
+            "l4": "Wenn der Übersetzungsfortschritt einer Sprache 50% erreicht, werde ich die Unterstützung in dieser Erweiterung erwägen."
+        },
+        "contributors": "Mitwirkende"
     }
 }
