@@ -16,7 +16,7 @@ import './styles/element'
 import ReportTable, { TableInstance } from "./ReportTable"
 import ReportFilter from "./ReportFilter"
 import Pagination from "../common/Pagination"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import { ElMessage, ElMessageBox } from "element-plus"
 import siteService from "@service/site-service"
 import { exportCsv, exportJson } from "./file-export"

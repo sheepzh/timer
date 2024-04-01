@@ -22,8 +22,8 @@ const _default = defineComponent({
         import: () => true,
     },
     setup(props, ctx) {
-        const resolution: Ref<timer.imported.ConflictResolution> = ref()
-        const importing: Ref<boolean> = ref(false)
+        const resolution = ref<timer.imported.ConflictResolution>()
+        const importing = ref<boolean>(false)
 
         const handleImport = () => {
             const resolutionVal = resolution.value

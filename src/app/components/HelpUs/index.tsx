@@ -1,8 +1,6 @@
-import type { HelpUsMessage } from "@i18n/message/app/help-us"
-
 import { ElAlert, ElButton, ElCard } from "element-plus"
 import { defineComponent } from "vue"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import ProgressList from "./ProgressList"
 import MemberList from "./MemberList"
 import { t } from "@app/locale"
@@ -11,13 +9,14 @@ import { Pointer } from "@element-plus/icons-vue"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 
-const alertKeys: (keyof HelpUsMessage['alert'])[] = ["l1", "l2", "l3", "l4"]
-
 const _default = defineComponent({
     render: () => <ContentContainer>
         <ElCard class="help-us">
             <ElAlert type="info" title={t(msg => msg.helpUs.title)}>
-                {alertKeys.map(key => <li>{t(msg => msg.helpUs.alert[key])}</li>)}
+                <li>{t(msg => msg.helpUs.alert.l1)}</li>
+                <li>{t(msg => msg.helpUs.alert.l2)}</li>
+                <li>{t(msg => msg.helpUs.alert.l3)}</li>
+                <li>{t(msg => msg.helpUs.alert.l4)}</li>
             </ElAlert>
             <div class="toolbar-container">
                 <ElButton

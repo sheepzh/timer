@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref } from "vue"
 import type { IconProps } from "element-plus"
+import type { Ref, StyleValue } from "vue"
 import type { Router } from "vue-router"
 import type { I18nKey } from "@app/locale"
 
@@ -128,7 +128,7 @@ function handleClick(menuItem: _MenuItem, router: Router, currentActive: Ref<str
     }
 }
 
-const iconStyle: Partial<CSSStyleDeclaration> = {
+const iconStyle: StyleValue = {
     paddingRight: '4px',
     paddingLeft: '4px',
     height: '1em',

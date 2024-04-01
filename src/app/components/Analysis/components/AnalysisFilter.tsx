@@ -12,7 +12,7 @@ import { ref, defineComponent } from "vue"
 import statService, { HostSet } from "@service/stat-service"
 import siteService from "@service/site-service"
 import { t } from "@app/locale"
-import TimeFormatFilterItem from "@app/components/common/time-format-filter-item"
+import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { labelOfHostInfo } from "../util"
 
 const calcUniqueKey = ({ host, virtual, merged }: timer.site.SiteInfo) => `${host}${virtual ? 1 : 0}${merged ? 1 : 0}`

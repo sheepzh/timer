@@ -15,7 +15,7 @@ export type FakedLocale = timer.Locale
 /**
  * @since 0.2.2
  */
-const FEEDBACK_LOCALE: timer.Locale = "en"
+export const FEEDBACK_LOCALE: timer.Locale = "en"
 
 export const ALL_LOCALES: timer.Locale[] = ['en', 'zh_CN', 'zh_TW', 'ja', 'pt_PT', 'uk', 'es', 'de']
 
@@ -98,6 +98,8 @@ function handleLocaleOption(option: timer.option.AllOption) {
     } else {
         locale = localOption as timer.Locale
     }
+    const htmlEl = document.getElementsByTagName("html")?.[0]
+    htmlEl.setAttribute("data-locale", locale)
 }
 
 /**

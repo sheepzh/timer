@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ComputedRef, Ref } from "vue"
+import type { ComputedRef, Ref, StyleValue } from "vue"
 
 import { ElFormItem, ElInput } from "element-plus"
 import { defineComponent, h, computed, ref, watch } from "vue"
@@ -51,7 +51,7 @@ function computeLimitInfo2Second(hourRef: Ref<number>, minuteRef: Ref<number>, s
     return time
 }
 
-const LIMIT_STYLE: Partial<CSSStyleDeclaration> = {
+const LIMIT_STYLE: StyleValue = {
     display: "flex",
     justifyContent: "space-between",
     width: "100%",

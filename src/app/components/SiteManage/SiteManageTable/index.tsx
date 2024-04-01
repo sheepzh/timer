@@ -13,7 +13,7 @@ import TypeColumn from "./column/TypeColumn"
 import SourceColumn from "./column/SourceColumn"
 import OperationColumn from "./column/OperationColumn"
 import { t } from "@app/locale"
-import HostAlert from "@app/components/common/host-alert"
+import HostAlert from "@app/components/common/HostAlert"
 import { ElTableRowScope } from "@src/element-ui/table"
 
 const _default = defineComponent({

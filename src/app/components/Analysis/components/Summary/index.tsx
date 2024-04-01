@@ -4,8 +4,6 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { Ref } from "vue"
-
 import { computed, defineComponent } from "vue"
 import Site from "./Site"
 import { KanbanIndicatorCell, KanbanCard, KanbanIndicatorRow } from "@app/components/common/kanban"
@@ -44,8 +42,7 @@ const _default = defineComponent(() => {
     const site = useAnalysisSite()
     const timeFormat = useAnalysisTimeFormat()
     const rows = useAnalysisRows()
-
-    const summary: Ref<Summary> = computed(() => computeSummary(site.value, rows.value))
+    const summary = computed(() => computeSummary(site.value, rows.value))
 
     return () => (
         <KanbanCard title={t(msg => msg.analysis.summary.title)}>

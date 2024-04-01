@@ -6,13 +6,14 @@
  */
 
 import { ElAlert, ElCard, ElProgress } from "element-plus"
-import { computed, ComputedRef, defineComponent, onMounted, ref, Ref } from "vue"
+import { computed, defineComponent } from "vue"
 import { t } from "@app/locale"
 import { alertProps } from "./common"
-import { getUsedStorage } from "@db/memory-detector"
+import { getUsedStorage, MemoryInfo } from "@db/memory-detector"
+import { useRequest } from "@hooks/useRequest"
 
 export type MemoryInfoInstance = {
-    queryData(): void
+    refresh(): void
 }
 
 const byte2Mb = (size: number) => Math.round((size || 0) / 1024.0 / 1024.0 * 1000) / 1000
@@ -28,31 +29,20 @@ function computeColor(percentage: number, total: number): string {
     if (!total) typeColor = '#E6A23C'
     return typeColor
 }
+
 const totalTitle = (totalMb: number) => totalMb
     ? t(msg => msg.dataManage.totalMemoryAlert, { size: totalMb })
     : t(msg => msg.dataManage.totalMemoryAlert1)
 
 const _default = defineComponent({
     setup(_, ctx) {
-        // Total memory with byte
-        const used: Ref<number> = ref(0)
-        // As the denominator of percentage, cannot be 0, so be 1
-        const total: Ref<number> = ref(1)
-        const queryData = async () => {
-            const { used: currentUsed, total: currentTotal } = await getUsedStorage()
-            used.value = currentUsed || 0
-            total.value = currentTotal
-        }
+        const { data, refresh } = useRequest<MemoryInfo>(() => getUsedStorage(), { defaultValue: { used: 0, total: 1 } })
+        ctx.expose({ refresh } as MemoryInfoInstance)
 
-        const instance: MemoryInfoInstance = { queryData }
-        ctx.expose(instance)
-
-        onMounted(queryData)
-
-        const usedMb: ComputedRef<number> = computed(() => byte2Mb(used.value))
-        const totalMb: ComputedRef<number> = computed(() => byte2Mb(total.value))
-        const percentage: ComputedRef<number> = computed(() => total.value ? Math.round(used.value * 10000.0 / total.value) / 100 : 0)
-        const color: ComputedRef<string> = computed(() => computeColor(percentage.value, total.value))
+        const usedMb = computed(() => byte2Mb(data.value?.used))
+        const totalMb = computed(() => byte2Mb(data.value?.total))
+        const percentage = computed(() => data.value?.total ? Math.round(data.value?.used * 10000.0 / data.value.total) / 100 : 0)
+        const color = computed(() => computeColor(percentage.value, data.value.total))
 
         return () => (
             <ElCard>

@@ -7,7 +7,7 @@
 
 import '../common/editable-tag'
 import { defineComponent } from "vue"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import AlertInfo from "./AlertInfo"
 import WhitePanel from "./WhitePanel"
 import { ElCard } from "element-plus"

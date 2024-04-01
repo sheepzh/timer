@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Ref, defineComponent } from "vue"
+import { defineComponent } from "vue"
 import { computedAsync } from "@vueuse/core"
 import { labelOfHostInfo } from "../../util"
 import { t } from "@app/locale"
@@ -33,7 +33,7 @@ const computedSiteInfo = async (siteKey: timer.site.SiteKey): Promise<timer.site
 
 const _default = defineComponent(() => {
     const site = useAnalysisSite()
-    const siteInfo: Ref<timer.site.SiteInfo> = computedAsync(() => computedSiteInfo(site.value))
+    const siteInfo = computedAsync(() => computedSiteInfo(site.value))
     return () => (
         <div class="site-container">
             {renderChildren(siteInfo.value)}

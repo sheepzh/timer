@@ -1,16 +1,15 @@
 /**
  * Copyright (c) 2023 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { ElCard } from "element-plus"
-import { defineComponent, h, useSlots } from "vue"
+import { defineComponent, useSlots } from "vue"
 
 const _default = defineComponent(() => {
-    const { default: default_ } = useSlots()
-    return () => h(ElCard, { class: 'container-card' }, () => h(default_))
+    return () => <ElCard class="container-card" v-slots={useSlots()} />
 })
 
 export default _default

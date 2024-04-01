@@ -41,7 +41,7 @@ const UNIT_MAP: { [unit in Exclude<timer.app.TimeFormat, 'default'>]: string } =
  * @param hideUnit
  */
 export function periodFormatter(milliseconds: number, option?: PeriodFormatOption): string {
-    const { format = "default", hideUnit } = option || {}
+    let { format = "default", hideUnit } = option || {}
     if (milliseconds === undefined || Number.isNaN(milliseconds) || milliseconds === null) {
         return "-"
     }

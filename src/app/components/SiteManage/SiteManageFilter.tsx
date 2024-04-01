@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import InputFilterItem from "@app/components/common/input-filter-item"
-import SwitchFilterItem from "@app/components/common/switch-filter-item"
-import ButtonFilterItem from "@app/components/common/button-filter-item"
+import InputFilterItem from "@app/components/common/InputFilterItem"
+import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
+import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
 import { Ref, defineComponent, ref, PropType, watch } from "vue"
 import { Plus } from "@element-plus/icons-vue"
 import { t } from "@app/locale"

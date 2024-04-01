@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "element-plus"
-import { Ref, defineComponent, ref } from "vue"
+import { defineComponent, ref } from "vue"
 import { Document, Close, Right } from "@element-plus/icons-vue"
 import { OtherExtension, parseFile } from "./processor"
 
@@ -31,10 +31,10 @@ const _default = defineComponent({
         next: (_rows: timer.imported.Data) => true,
     },
     setup(_, ctx) {
-        const type: Ref<OtherExtension> = ref('webtime_tracker')
-        const selectedFile: Ref<File> = ref()
-        const fileInput: Ref<HTMLInputElement> = ref()
-        const fileParsing: Ref<boolean> = ref(false)
+        const type = ref<OtherExtension>('webtime_tracker')
+        const selectedFile = ref<File>()
+        const fileInput = ref<HTMLInputElement>()
+        const fileParsing = ref<boolean>(false)
 
         const handleNext = () => {
             const file = selectedFile.value

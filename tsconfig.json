@@ -46,11 +46,11 @@
             "@echarts/*": [
                 "src/echarts/*"
             ],
-            "@src/*": [
-                "src/*"
-            ],
             "@hooks/*": [
                 "src/hooks/*"
+            ],
+            "@src/*": [
+                "src/*"
             ],
             "*": [
                 "types/*"

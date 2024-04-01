@@ -6,23 +6,22 @@
  */
 
 import { ElRow, ElCol } from "element-plus"
-import { defineComponent, Ref, ref } from "vue"
-import ContentContainer from "../common/content-container"
+import { defineComponent, ref } from "vue"
+import ContentContainer from "../common/ContentContainer"
 import Migration from "./Migration"
 import MemoryInfo, { MemoryInfoInstance } from "./MemoryInfo"
 import ClearPanel from "./ClearPanel"
 import './style'
 
 export default defineComponent(() => {
-    const memoryInfoRef: Ref<MemoryInfoInstance> = ref()
-
-    const refreshMemory = () => memoryInfoRef.value?.queryData()
+    const memoryInfo = ref<MemoryInfoInstance>()
+    const refreshMemory = () => memoryInfo.value?.refresh?.()
 
     return () => (
         <ContentContainer class="data-manage-container">
             <ElRow gutter={20}>
                 <ElCol span={8}>
-                    <MemoryInfo ref={memoryInfoRef} />
+                    <MemoryInfo ref={memoryInfo} />
                 </ElCol>
                 <ElCol span={11}>
                     <ClearPanel onDataDelete={refreshMemory} />

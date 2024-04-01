@@ -137,14 +137,14 @@ function handleDataChange(source: SourceParam, effect: EffectParam) {
 }
 
 const _default = defineComponent(() => {
-    const dateRange: Ref<[Date, Date]> = ref(daysAgo(14, 0))
-    const rangeLength: Ref<number> = computed(() => getDayLength(dateRange.value?.[0], dateRange.value?.[1]))
+    const dateRange = ref<[Date, Date]>(daysAgo(14, 0))
+    const rangeLength = computed(() => getDayLength(dateRange.value?.[0], dateRange.value?.[1]))
     initProvider(dateRange, rangeLength)
 
-    const visitData: Ref<DimensionData> = ref()
-    const focusData: Ref<DimensionData> = ref()
-    const indicators: Ref<IndicatorSet> = ref()
-    const previousIndicators: Ref<IndicatorSet> = ref()
+    const visitData = ref<DimensionData>()
+    const focusData = ref<DimensionData>()
+    const indicators = ref<IndicatorSet>()
+    const previousIndicators = ref<IndicatorSet>()
     const rows = useAnalysisRows()
     const timeFormat = useAnalysisTimeFormat()
 

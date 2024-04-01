@@ -9,9 +9,10 @@ import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 
 import { isRemainHost } from "@util/constant/remain-host"
 import { ElTable, ElTableColumn, Sort } from "element-plus"
-import HostAlert from "@app/components/common/host-alert"
-import { computed, defineComponent, PropType, ref, Ref, VNode, watch } from "vue"
+import HostAlert from "@app/components/common/HostAlert"
+import { computed, defineComponent, PropType, ref, VNode } from "vue"
 import { t } from "@app/locale"
+import { useShadow } from "@hooks/useShadow"
 
 type SortInfo = Sort & {
     prop: keyof timer.imported.Row
@@ -90,11 +91,9 @@ const _default = defineComponent({
         },
     },
     setup(props) {
-        const data: Ref<timer.imported.Data> = ref(props.data)
-        watch(() => props.data, () => data.value = props.data)
-        const sort: Ref<SortInfo> = ref({ order: 'ascending', prop: 'date' })
-
-        const list: Ref<timer.imported.Row[]> = computed(() => computeList(sort.value, data.value?.rows))
+        const data = useShadow(() => props.data)
+        const sort = ref<SortInfo>({ order: 'ascending', prop: 'date' })
+        const list = computed(() => computeList(sort.value, data.value?.rows))
         return () => (
             <ElTable
                 size="small"

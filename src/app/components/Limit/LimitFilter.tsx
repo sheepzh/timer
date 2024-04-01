@@ -7,9 +7,9 @@
 
 import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
 import { Ref, defineComponent, watch, ref } from "vue"
-import InputFilterItem from "@app/components/common/input-filter-item"
-import SwitchFilterItem from "@app/components/common/switch-filter-item"
-import ButtonFilterItem from "@app/components/common/button-filter-item"
+import InputFilterItem from "@app/components/common/InputFilterItem"
+import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
+import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
 import { t } from "@app/locale"
 import { getAppPageUrl } from "@util/constant/url"
 import { OPTION_ROUTE } from "@app/router/constants"
@@ -24,16 +24,13 @@ const _default = defineComponent({
     },
     emits: {
         create: () => true,
-        change: (_option: LimitFilterOption) => true,
+        change: (_url: string, _onlyEnabled: boolean) => true,
         test: () => true,
     },
     setup(props, ctx) {
         const url: Ref<string> = ref(props.url)
         const onlyEnabled: Ref<boolean> = ref(props.onlyEnabled)
-        watch([url, onlyEnabled], () => ctx.emit("change", {
-            url: url.value,
-            onlyEnabled: onlyEnabled.value
-        }))
+        watch([url, onlyEnabled], () => ctx.emit("change", url.value, onlyEnabled.value))
         return () => <>
             <InputFilterItem
                 defaultValue={url.value}

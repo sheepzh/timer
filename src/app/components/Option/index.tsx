@@ -8,7 +8,7 @@
 import type { Ref } from "vue"
 import type { Router } from "vue-router"
 
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import { defineComponent, ref } from "vue"
 import PopupOption from "./components/PopupOption"
 import Appearance from "./components/AppearanceOption"

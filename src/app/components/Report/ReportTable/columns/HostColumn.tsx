@@ -8,7 +8,7 @@
 import { Effect, ElTableColumn, ElTooltip } from "element-plus"
 import { h, defineComponent } from "vue"
 import { t } from "@app/locale"
-import HostAlert from "@app/components/common/host-alert"
+import HostAlert from "@app/components/common/HostAlert"
 import { isRemainHost } from "@util/constant/remain-host"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { useReportFilter } from "../../context"

@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import SelectFilterItem from '@app/components/common/select-filter-item'
-import SwitchFilterItem from '@app/components/common/switch-filter-item'
+import SelectFilterItem from '@app/components/common/SelectFilterItem'
+import SwitchFilterItem from '@app/components/common/SwitchFilterItem'
 import { t } from '@app/locale'
 import { HabitMessage } from '@i18n/message/app/habit'
 import { PropType, defineComponent, ref, watch } from 'vue'

@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import '../common/editable-tag'
 import { defineComponent } from "vue"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import AlertInfo from "./AlertInfo"
 import itemList from "./item-list"
 import { ElCard } from "element-plus"

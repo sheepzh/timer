@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -8,7 +8,7 @@
 import { ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { t } from "@app/locale"
-import Editable from "@app/components/common/editable"
+import Editable from "@app/components/common/Editable"
 
 const _default = defineComponent({
     emits: {

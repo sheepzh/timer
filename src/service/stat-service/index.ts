@@ -245,6 +245,10 @@ class StatService {
      * @returns T/F
      */
     canReadRemote = canReadRemote
+
+    async batchDelete(rows: timer.stat.Row[]) {
+        await statDatabase.delete(rows)
+    }
 }
 
 export default new StatService()

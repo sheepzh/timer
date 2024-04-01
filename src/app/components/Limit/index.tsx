@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, onMounted, ref, Ref } from "vue"
-import ContentContainer from "../common/content-container"
+import { defineComponent, ref } from "vue"
+import ContentContainer from "../common/ContentContainer"
 import LimitFilter from "./LimitFilter"
 import LimitTable from "./LimitTable"
 import LimitModify, { ModifyInstance } from "./LimitModify"
@@ -16,6 +16,7 @@ import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
 import { useWindowVisible } from "@hooks/useWindowVisible"
+import { useRequest } from "@hooks/useRequest"
 
 const initialUrl = () => {
     // Init with url parameter
@@ -25,20 +26,23 @@ const initialUrl = () => {
 }
 
 const _default = defineComponent(() => {
-    const url: Ref<string> = ref(initialUrl())
-    const onlyEnabled: Ref<boolean> = ref(false)
-    const data: Ref<timer.limit.Item[]> = ref([])
-    // Init and query
-    const queryData = async () => {
-        const list = await limitService.select({ filterDisabled: onlyEnabled.value, url: url.value || '' })
-        data.value = list
-    }
-    onMounted(queryData)
+    const url = ref(initialUrl())
+    const onlyEnabled = ref(false)
+    const { data, refresh } = useRequest(
+        () => limitService.select({ filterDisabled: onlyEnabled.value, url: url.value || '' }),
+        { defaultValue: [] },
+    )
     // Query data if the window become visible
-    useWindowVisible(queryData)
+    useWindowVisible(refresh)
 
-    const modify: Ref<ModifyInstance> = ref()
-    const test: Ref<TestInstance> = ref()
+    const handleDelete = async (row: timer.limit.Item) => {
+        await limitService.remove(row)
+        ElMessage.success(t(msg => msg.limit.message.deleted))
+        refresh()
+    }
+
+    const modify = ref<ModifyInstance>()
+    const test = ref<TestInstance>()
 
     return () => (
         <ContentContainer
@@ -47,10 +51,10 @@ const _default = defineComponent(() => {
                     <LimitFilter
                         url={url.value}
                         onlyEnabled={onlyEnabled.value}
-                        onChange={option => {
-                            url.value = option.url
-                            onlyEnabled.value = option.onlyEnabled
-                            queryData()
+                        onChange={(urlVal, onlyEnabledVal) => {
+                            url.value = urlVal
+                            onlyEnabled.value = onlyEnabledVal
+                            refresh()
                         }}
                         onCreate={() => modify.value?.create?.()}
                         onTest={() => test.value?.show?.()}
@@ -61,14 +65,10 @@ const _default = defineComponent(() => {
                         data={data.value}
                         onDelayChange={row => limitService.updateDelay(row)}
                         onEnabledChange={row => limitService.updateEnabled(row)}
-                        onDelete={async row => {
-                            await limitService.remove(row)
-                            ElMessage.success(t(msg => msg.limit.message.deleted))
-                            queryData()
-                        }}
+                        onDelete={handleDelete}
                         onModify={row => modify.value?.modify?.(row)}
                     />
-                    <LimitModify ref={modify} onSave={queryData} />
+                    <LimitModify ref={modify} onSave={refresh} />
                     <LimitTest ref={test} />
                 </>
             }}

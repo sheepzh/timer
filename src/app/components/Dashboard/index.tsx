@@ -6,7 +6,7 @@
  */
 
 import { defineComponent } from "vue"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import DashboardCard from './DashboardCard'
 import "./style"
 import { isTranslatingLocale, locale } from "@i18n"

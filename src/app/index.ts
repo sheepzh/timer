@@ -6,7 +6,6 @@
  */
 
 import type { App } from "vue"
-import type { Language } from "element-plus/lib/locale"
 
 import { createApp } from "vue"
 import Main from "./Layout"
@@ -14,21 +13,10 @@ import 'element-plus/theme-chalk/index.css'
 import './styles' // global css
 import installRouter from "./router"
 import '../common/timer'
-import ElementPlus from 'element-plus'
-import { initLocale, locale as appLocale } from "@i18n"
+import { initLocale } from "@i18n"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
-
-const locales: { [locale in timer.Locale]: () => Promise<{ default: Language }> } = {
-    zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
-    zh_TW: () => import('element-plus/lib/locale/lang/zh-tw'),
-    en: () => import('element-plus/lib/locale/lang/en'),
-    ja: () => import('element-plus/lib/locale/lang/ja'),
-    pt_PT: () => import('element-plus/lib/locale/lang/pt'),
-    uk: () => import('element-plus/lib/locale/lang/uk'),
-    es: () => import('element-plus/lib/locale/lang/es'),
-    de: () => import('element-plus/lib/locale/lang/de'),
-}
+import { initElementLocale } from "@i18n/element"
 
 async function main() {
     // Init theme with cache first
@@ -39,8 +27,7 @@ async function main() {
     const app: App = createApp(Main)
     installRouter(app)
     app.mount('#app')
-
-    locales[appLocale]?.()?.then(locale => app.use(ElementPlus, { locale: locale.default }))
+    await initElementLocale(app)
 }
 
 main()

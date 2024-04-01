@@ -4,12 +4,9 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { Ref } from "vue"
-
 import { defineComponent, watch, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import Trend from "./components/Trend"
 import Filter from "./components/AnalysisFilter"
 import Summary from "./components/Summary"
@@ -18,7 +15,6 @@ import './style.sass'
 import { judgeVirtualFast } from "@util/pattern"
 import { initProvider } from "./context"
 import { useRequest } from "@hooks/useRequest"
-import { ElLoadingService } from "element-plus"
 
 type _Queries = {
     host: string
@@ -51,29 +47,13 @@ async function query(site: timer.site.SiteKey): Promise<timer.stat.Row[]> {
 
 const _default = defineComponent(() => {
     const siteFromQuery = getSiteFromQuery()
-    const site: Ref<timer.site.SiteKey> = ref(siteFromQuery)
-    const timeFormat: Ref<timer.app.TimeFormat> = ref('default')
-    const contentId = `analysis-content-` + Date.now()
+    const site = ref<timer.site.SiteKey>(siteFromQuery)
+    const timeFormat = ref<timer.app.TimeFormat>('default')
 
-    const { data: rows, refresh, loading } = useRequest(async () => {
-        const siteKey = site.value
-        if (!siteKey) return []
-        return await query(siteKey)
-    })
-
-    let loadingService: { close: () => void }
-    watch(loading, () => {
-        if (loading.value) {
-            loadingService = ElLoadingService({ target: `#${contentId}`, text: "Loading data..." })
-        } else {
-            loadingService?.close?.()
-        }
-    })
-
-    initProvider(site, timeFormat, rows)
-
+    const { data: rows, refresh, loading } = useRequest<timer.stat.Row[]>(() => site.value ? query(site.value) : [])
     watch(site, refresh)
 
+    initProvider(site, timeFormat, rows)
     return () => (
         <ContentContainer v-slots={{
             filter: () => <Filter
@@ -83,7 +63,7 @@ const _default = defineComponent(() => {
                 onTimeFormatChange={val => timeFormat.value = val}
             />
         }}>
-            <div id={contentId}>
+            <div v-loading={loading.value}>
                 <Summary />
                 <Trend />
             </div>

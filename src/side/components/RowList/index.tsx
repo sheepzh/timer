@@ -2,7 +2,7 @@ import { ElEmpty, ElScrollbar, ScrollbarInstance } from "element-plus"
 import { computed, defineComponent, PropType, ref, StyleValue, watch } from "vue"
 import "./row-list.sass"
 import Item, { Row as Row0 } from "./Item"
-import { useShadow } from "@src/hooks/useShadow"
+import { useShadow } from "@hooks/useShadow"
 import { sum } from "@util/array"
 
 export type Row = Row0

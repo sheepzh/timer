@@ -12,8 +12,8 @@ import { ref, defineComponent, watch } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"
-import DateRangeFilterItem from "@app/components/common/date-range-filter-item"
-import TimeFormatFilterItem from "@app/components/common/time-format-filter-item"
+import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
+import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { FilterOption } from "../type"
 
 type ShortCutProp = [label: keyof CalendarMessage['range'], dayAgo: number]

@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { ElStep, ElSteps } from "element-plus"
-import { Ref, defineComponent, nextTick, ref } from "vue"
+import { defineComponent, nextTick, ref } from "vue"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 
@@ -17,8 +17,8 @@ const _default = defineComponent({
         import: () => true,
     },
     setup(_, ctx) {
-        const step: Ref<0 | 1> = ref(0)
-        const data: Ref<timer.imported.Data> = ref()
+        const step = ref<0 | 1>(0)
+        const data = ref<timer.imported.Data>()
         return () => (
             <div class="sop-dialog-container">
                 <div class="step-container">

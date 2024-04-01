@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue"
 import Search from "./components/Search"
-import { useRequest } from "@src/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 import RowList from "./components/RowList"
 import statService, { StatQueryParam } from "@service/stat-service"
 import { ElText } from "element-plus"
@@ -11,7 +11,7 @@ const _default = defineComponent(() => {
     const date = ref(new Date())
     const query = ref<string>()
 
-    const { data, refresh, loading } = useRequest(async () => {
+    const { data, refresh, loading } = useRequest(() => {
         const statParam: StatQueryParam = {
             date: date.value || new Date(),
             host: query.value,
@@ -19,7 +19,7 @@ const _default = defineComponent(() => {
             sort: "focus",
             sortOrder: "DESC",
         }
-        return await statService.select(statParam, true)
+        return statService.select(statParam, true)
     })
 
     return () => <div class="main">

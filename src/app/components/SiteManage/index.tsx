@@ -6,7 +6,7 @@
  */
 
 import { defineComponent, ref, watch, type Ref } from "vue"
-import ContentContainer from "../common/content-container"
+import ContentContainer from "../common/ContentContainer"
 import SiteManageFilter from "./SiteManageFilter"
 import Pagination from "../common/Pagination"
 import SiteManageTable from "./SiteManageTable"

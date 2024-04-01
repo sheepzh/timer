@@ -6,7 +6,7 @@
  */
 
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-import type { PropType, Ref } from "vue"
+import type { PropType } from "vue"
 import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import { t } from "@app/locale"
@@ -42,7 +42,7 @@ const _default = defineComponent({
         dateRangeChange: (_val: [Date, Date]) => true
     },
     setup(props, ctx) {
-        const dateRange: Ref<[Date, Date]> = ref(props.dateRange)
+        const dateRange = ref<[Date, Date]>(props.dateRange)
         return () => (
             <div>
                 <ElDatePicker

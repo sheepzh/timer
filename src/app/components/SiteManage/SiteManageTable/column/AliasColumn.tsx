@@ -9,7 +9,7 @@ import { ElIcon, ElTableColumn, ElTooltip } from "element-plus"
 import { defineComponent } from "vue"
 import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
-import Editable from "@app/components/common/editable"
+import Editable from "@app/components/common/Editable"
 import siteService from "@service/site-service"
 
 const label = t(msg => msg.siteManage.column.alias)
