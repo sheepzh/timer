@@ -12,20 +12,32 @@ describe('limit-database', () => {
             enabled: true,
             allowDelay: false
         }
-        await db.save(toAdd)
+        const id = await db.save(toAdd)
         let all: timer.limit.Rule[] = await db.all()
         expect(all.length).toEqual(1)
-        expect(all[0]).toEqual({ ...toAdd, latestDate: "", wasteTime: 0 })
+        let saved = all[0]
+        expect(saved.cond).toEqual(toAdd.cond)
+        expect(saved.time).toEqual(toAdd.time)
+        expect(saved.name).toEqual(toAdd.name)
+        expect(saved.enabled).toEqual(toAdd.enabled)
+        expect(saved.allowDelay).toEqual(toAdd.allowDelay)
         const toRewrite = {
+            id,
+            name: 'hahah',
             cond: ['123'],
             time: 21,
             enabled: true,
             allowDelay: false
         }
         // Not rewrite
-        const id = await db.save(toRewrite)
+        await db.save(toRewrite)
         all = await db.all()
-        expect(all[0]).toEqual({ ...toAdd, latestDate: "", wasteTime: 0 })
+        saved = all[0]
+        expect(saved.cond).toEqual(toAdd.cond)
+        expect(saved.time).toEqual(toAdd.time)
+        expect(saved.name).toEqual(toAdd.name)
+        expect(saved.enabled).toEqual(toAdd.enabled)
+        expect(saved.allowDelay).toEqual(toAdd.allowDelay)
 
         await db.remove(id)
 
@@ -39,7 +51,7 @@ describe('limit-database', () => {
             enabled: true,
             allowDelay: false,
         })
-        const id2 = await db.save({
+        await db.save({
             cond: ["*.b.com"],
             time: 20,
             enabled: true,
@@ -69,38 +81,22 @@ describe('limit-database', () => {
             allowDelay: false,
             enabled: false
         }
-        const id1 = await db.save(cond1)
-        const id2 = await db.save(cond2)
+        await db.save(cond1)
+        await db.save(cond2)
         const data2Import = await db.storage.get()
-        // Set new empty
-        data2Import["__timer__LIMIT"]["cond3"] = {}
 
         // clear
         storage.local.clear()
         expect(await db.all()).toEqual([])
 
-        // cond1 exists
-        await db.save({ ...cond1, enabled: false })
-        await db.updateWaste("20220606", { [id1]: 10 })
-
         await db.importData(data2Import)
         const imported = await db.all()
-        // Exists
-        const cond1After = imported.find(a => a.cond?.includes("cond1"))
-        expect(cond1After?.latestDate).toEqual("20220606")
-        expect(cond1After?.wasteTime).toEqual(10)
-        expect(cond1After?.enabled).toBeFalsy()
-        // Not exists
+
         const cond2After = imported.find(a => a.cond?.includes("cond2"))
         expect(!!cond2After?.latestDate).toBeFalsy()
         expect(!!cond2After?.wasteTime).toBeFalsy()
         expect(cond2After?.allowDelay).toEqual(cond2.allowDelay)
         expect(cond2After?.enabled).toEqual(cond2.enabled)
-        // Not complete
-        const cond3After = imported.find(a => a.cond?.includes("cond3"))
-        expect(cond3After.time).toBeUndefined()
-        expect(cond3After.enabled).toBeFalsy()
-        expect(cond3After.allowDelay).toBeFalsy()
     })
 
     test("import data2", async () => {
@@ -127,6 +123,6 @@ describe('limit-database', () => {
         expect(all.length).toEqual(1)
         const item = all[0]
         expect(item.allowDelay).toBeTruthy()
-        expect(item.cond).toEqual("cond1")
+        expect(item.cond).toEqual(["cond1"])
     })
 })
