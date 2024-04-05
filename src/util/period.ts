@@ -6,12 +6,12 @@
  */
 
 import { groupBy } from "./array"
-import { MILL_PER_DAY } from "./time"
+import { MILL_PER_DAY, MILL_PER_MINUTE } from "./time"
 
-export const MINUTES_PER_PERIOD = 15
-export const PERIODS_PER_DATE = 24 * 60 / MINUTES_PER_PERIOD
-export const MAX_PERIOD_ORDER = PERIODS_PER_DATE - 1
-export const MILLS_PER_PERIOD = MINUTES_PER_PERIOD * 60 * 1000
+export const MINUTE_PER_PERIOD = 15
+export const PERIOD_PER_DATE = 24 * 60 / MINUTE_PER_PERIOD
+export const MAX_PERIOD_ORDER = PERIOD_PER_DATE - 1
+export const MILL_PER_PERIOD = MINUTE_PER_PERIOD * MILL_PER_MINUTE
 
 export function keyOf(time: Date | number, order?: number): timer.period.Key {
     time = time instanceof Date ? time : new Date(time)
@@ -19,7 +19,7 @@ export function keyOf(time: Date | number, order?: number): timer.period.Key {
     const month = time.getMonth() + 1
     const date = time.getDate()
     order = order === undefined
-        ? time.getHours() * 4 + Math.floor(time.getMinutes() / MINUTES_PER_PERIOD)
+        ? time.getHours() * 4 + Math.floor(time.getMinutes() / MINUTE_PER_PERIOD)
         : order
     return { year, month, date, order }
 }
@@ -47,7 +47,7 @@ export function keyBefore(key: timer.period.Key, orderCount: number): timer.peri
 
     while (order < orderCount) {
         decomposition++
-        order += PERIODS_PER_DATE
+        order += PERIOD_PER_DATE
     }
     order = order - orderCount
     if (decomposition) {
@@ -59,12 +59,12 @@ export function keyBefore(key: timer.period.Key, orderCount: number): timer.peri
 }
 
 export function after(key: timer.period.Key, orderCount: number): timer.period.Key {
-    const date = new Date(key.year, key.month - 1, key.date, 0, (key.order + orderCount) * MINUTES_PER_PERIOD, 1)
+    const date = new Date(key.year, key.month - 1, key.date, 0, (key.order + orderCount) * MINUTE_PER_PERIOD, 1)
     return keyOf(date)
 }
 
 export function startOfKey(key: timer.period.Key): Date {
-    return new Date(key.year, key.month - 1, key.date, 0, MINUTES_PER_PERIOD * key.order)
+    return new Date(key.year, key.month - 1, key.date, 0, MINUTE_PER_PERIOD * key.order)
 }
 
 export function lastKeyOfLastDate(key: timer.period.Key): timer.period.Key {
@@ -80,13 +80,13 @@ export function rowOf(endKey: timer.period.Key, duration?: number, milliseconds?
     milliseconds = milliseconds || 0
     const date = getDateString(endKey)
     const endStart = startOfKey(endKey)
-    const endTime = new Date(endStart.getTime() + MILLS_PER_PERIOD)
-    const startTime = duration === 1 ? endStart : new Date(endStart.getTime() - (duration - 1) * MILLS_PER_PERIOD)
+    const endTime = new Date(endStart.getTime() + MILL_PER_PERIOD)
+    const startTime = duration === 1 ? endStart : new Date(endStart.getTime() - (duration - 1) * MILL_PER_PERIOD)
     return { startTime, endTime, milliseconds, date }
 }
 
 export function startOrderOfRow(row: timer.period.Row): number {
-    return (row.startTime.getHours() * 60 + row.startTime.getMinutes()) / MINUTES_PER_PERIOD
+    return (row.startTime.getHours() * 60 + row.startTime.getMinutes()) / MINUTE_PER_PERIOD
 }
 
 /**

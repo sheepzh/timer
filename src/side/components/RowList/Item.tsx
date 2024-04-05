@@ -32,15 +32,15 @@ const _default = defineComponent({
         total: Number,
     },
     setup(props) {
-        const iconUrl = useShadow(() => props.value?.iconUrl)
-        const host = useShadow(() => props.value?.host)
-        const siteName = useShadow(() => props.value?.alias)
+        const [iconUrl] = useShadow(() => props.value?.iconUrl)
+        const [host] = useShadow(() => props.value?.host)
+        const [siteName] = useShadow(() => props.value?.alias)
         const clickable = computed(() => !isRemainHost(host.value))
-        const rate = useShadow(() => {
+        const [rate] = useShadow(() => {
             if (!props.max) return 0
             return (props.value?.focus ?? 0) / props.max * 100
         }, 0)
-        const percentage = useShadow(() => {
+        const [percentage] = useShadow(() => {
             if (!props.total) return '0 %'
             const val = (props.value?.focus ?? 0) / props.total * 100
             return val.toFixed(2) + ' %'

@@ -22,8 +22,8 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const editing = ref(false)
-        const originVal = useShadow(() => props.modelValue)
-        const inputVal = useShadow(originVal)
+        const [originVal] = useShadow(() => props.modelValue)
+        const [inputVal, _, refreshInputVal] = useShadow(originVal)
         const input = ref<InputInstance>()
         const handleEnter = (ev: KeyboardEvent) => {
             if (ev.key !== 'Enter') return
@@ -32,7 +32,7 @@ const _default = defineComponent({
         }
         const handleCancel = () => {
             editing.value = false
-            inputVal.value = originVal.value
+            refreshInputVal()
         }
         const handleSave = () => {
             editing.value = false

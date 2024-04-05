@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, toRaw } from "vue"
 import ContentContainer from "../common/ContentContainer"
 import LimitFilter from "./LimitFilter"
 import LimitTable from "./LimitTable"
@@ -17,6 +17,7 @@ import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
 import { useWindowVisible } from "@hooks/useWindowVisible"
 import { useRequest } from "@hooks/useRequest"
+import { deepCopy } from "@util/lang"
 
 const initialUrl = () => {
     // Init with url parameter
@@ -37,7 +38,7 @@ const _default = defineComponent(() => {
 
     const handleDelete = async (row: timer.limit.Item) => {
         await limitService.remove(row)
-        ElMessage.success(t(msg => msg.limit.message.deleted))
+        ElMessage.success(t(msg => msg.operation.successMsg))
         refresh()
     }
 
@@ -66,7 +67,7 @@ const _default = defineComponent(() => {
                         onDelayChange={row => limitService.updateDelay(row)}
                         onEnabledChange={row => limitService.updateEnabled(row)}
                         onDelete={handleDelete}
-                        onModify={row => modify.value?.modify?.(row)}
+                        onModify={row => modify.value?.modify?.(deepCopy(toRaw(row)))}
                     />
                     <LimitModify ref={modify} onSave={refresh} />
                     <LimitTest ref={test} />

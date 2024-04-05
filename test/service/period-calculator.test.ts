@@ -1,5 +1,5 @@
 import { calculate, getMaxDivisiblePeriod, merge } from "@service/components/period-calculator"
-import { keyOf, PERIODS_PER_DATE } from "@util/period"
+import { keyOf, PERIOD_PER_DATE } from "@util/period"
 import { MILL_PER_DAY } from "@util/time"
 
 function resultOf(date: Date | number, orderNum: number, milliseconds: number): timer.period.Result {
@@ -91,13 +91,13 @@ test('merge', () => {
     ]
 
     let result = merge(toMerge, { periodSize: 1, start: keyOf(start, 0), end: keyOf(end, 3) })
-    expect(result.length).toEqual(30 * PERIODS_PER_DATE + 4)
+    expect(result.length).toEqual(30 * PERIOD_PER_DATE + 4)
     expect(result.filter(p => p.date === '20200506' && p.milliseconds > 0).length).toEqual(3)
     let milliseconds = result.filter(p => p.date === '20200506').map(p => p.milliseconds).reduce((a, b) => a + b, 0)
     expect(milliseconds).toEqual(60)
 
     result = merge(toMerge, { periodSize: 4, start: keyOf(new Date(2020, 4, 11), 0), end: keyOf(end, 3) })
-    expect(result.length).toEqual(20 * PERIODS_PER_DATE / 4 + 4 / 4)
+    expect(result.length).toEqual(20 * PERIOD_PER_DATE / 4 + 4 / 4)
     result = merge(toMerge, { periodSize: 2, start: keyOf(start, 0), end: keyOf(end, 3) })
-    expect(result.length).toEqual(30 * PERIODS_PER_DATE / 2 + 4 / 2)
+    expect(result.length).toEqual(30 * PERIOD_PER_DATE / 2 + 4 / 2)
 })

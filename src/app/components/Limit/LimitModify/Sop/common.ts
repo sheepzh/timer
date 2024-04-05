@@ -15,7 +15,7 @@ export type Protocol =
 
 export type UrlInfo = {
     protocol: Protocol
-    url: string
+    parts: UrlPart[]
 }
 
 export type UrlPart = {
@@ -29,9 +29,20 @@ export type UrlPart = {
     ignored: boolean
 }
 
+
+function cleanUrl(url: string): string {
+    if (!url) return url
+
+    const querySign = url.indexOf('?')
+    querySign > -1 && (url = url.substring(0, querySign))
+    const hashSign = url.indexOf('#')
+    hashSign > -1 && (url = url.substring(0, hashSign))
+    return url
+}
+
 export function parseUrl(url: string): UrlInfo {
     if (!url) {
-        return { protocol: null, url: null }
+        return { protocol: null, parts: null }
     }
     let protocol: Protocol = '*://'
 
@@ -46,5 +57,17 @@ export function parseUrl(url: string): UrlInfo {
         protocol = '*://'
         url = url.substring(protocol.length)
     }
-    return { protocol, url }
+    url = cleanUrl(url)
+    return { protocol, parts: url2Parts(url) }
+}
+
+const url2Parts = (url: string): UrlPart[] => {
+    if (!url) return []
+    return url.split('/')
+        .filter(path => path)
+        .map(path => ({ origin: path, ignored: path === '*' }))
+}
+
+export type StepFromInstance = {
+    validate: () => boolean
 }

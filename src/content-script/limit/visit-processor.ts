@@ -26,10 +26,10 @@ class VisitProcessor implements Processor {
     async handleTracker(data: timer.stat.Event) {
         const diff = (data?.end ?? 0) - (data?.start ?? 0)
         this.focusTime += diff
-        this.rules?.forEach?.(({ visitTime, cond, allowDelay }) => {
+        this.rules?.forEach?.(({ id, visitTime, cond, allowDelay }) => {
             if (!visitTime) return
             if (visitTime * 1000 < this.focusTime) {
-                this.context.modal.addReason({ cond, type: "VISIT", allowDelay })
+                this.context.modal.addReason({ id, cond, type: "VISIT", allowDelay })
             }
         })
     }

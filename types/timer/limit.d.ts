@@ -19,9 +19,17 @@ declare namespace timer.limit {
     }
     type Rule = {
         /**
+         * Id
+         */
+        id?: number
+        /**
+         * Name
+         */
+        name?: string
+        /**
          * Condition, can be regular expression with star signs
          */
-        cond: string
+        cond: string[]
         /**
          * Time limit per day, seconds
          */

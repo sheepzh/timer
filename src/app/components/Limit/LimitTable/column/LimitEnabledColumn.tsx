@@ -28,7 +28,7 @@ const _default = defineComponent({
         return () => (
             <ElTableColumn
                 label={t(msg => msg.limit.item.enabled)}
-                minWidth={80}
+                minWidth={100}
                 align="center"
             >
                 {({ row }: ElTableRowScope<timer.limit.Item>) => <ElSwitch

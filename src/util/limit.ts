@@ -1,6 +1,7 @@
 export function matches(item: timer.limit.Item, url: string): boolean {
-    const regular = new RegExp(`^${(item?.cond || '').split('*').join('.*')}`)
-    return regular.test(url)
+    return item?.cond?.some?.(
+        c => new RegExp(`^${(c || '').split('*').join('.*')}`).test(url)
+    )
 }
 
 export function hasLimited(item: timer.limit.Item): boolean {

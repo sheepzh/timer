@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getDateString, keyOf, MAX_PERIOD_ORDER, MILLS_PER_PERIOD } from "@util/period"
+import { getDateString, keyOf, MAX_PERIOD_ORDER, MILL_PER_PERIOD } from "@util/period"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -120,8 +120,8 @@ function migrate(exist: _Value | undefined, toMigrate: _Value) {
             if (index < 0 || index > MAX_PERIOD_ORDER) return
             let mills: number = (result[key] || 0) + (typeof value === "number" ? value : parseInt(value || "0"))
             if (isNaN(mills) || mills <= 0) return
-            if (mills > MILLS_PER_PERIOD) {
-                mills = MILLS_PER_PERIOD
+            if (mills > MILL_PER_PERIOD) {
+                mills = MILL_PER_PERIOD
             }
             result[key] = mills
         })

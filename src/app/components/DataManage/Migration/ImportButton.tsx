@@ -29,7 +29,7 @@ async function handleFileSelected(fileInputRef: Ref<HTMLInputElement>, callback:
     await immigration.importData(data)
     loading.close()
     callback?.()
-    ElMessage.success(t(msg => msg.dataManage.migrated))
+    ElMessage.success(t(msg => msg.operation.successMsg))
 }
 
 const _default = defineComponent({

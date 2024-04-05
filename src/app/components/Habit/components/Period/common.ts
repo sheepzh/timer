@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { PERIODS_PER_DATE, after, keyOf, rowOf, startOrderOfRow } from "@util/period"
+import { PERIOD_PER_DATE, after, keyOf, rowOf, startOrderOfRow } from "@util/period"
 import { MILL_PER_DAY } from "@util/time"
 
 export function averageByDay(data: timer.period.Row[], periodSize: number): timer.period.Row[] {
@@ -21,7 +21,7 @@ export function averageByDay(data: timer.period.Row[], periodSize: number): time
     })
     const result = []
     let period = keyOf(new Date(), 0)
-    for (let i = 0; i < PERIODS_PER_DATE / periodSize; i++) {
+    for (let i = 0; i < PERIOD_PER_DATE / periodSize; i++) {
         const key = period.order / periodSize
         const val = map.get(key) || 0
         const averageMill = Math.round(val / dateNum)

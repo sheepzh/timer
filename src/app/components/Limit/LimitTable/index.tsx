@@ -15,6 +15,13 @@ import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"
 
+const renderCond = (cond: string[]) => {
+    if (!cond?.length) return ""
+    return <>
+        {cond.map(c => <span style={{ display: "block" }}>{c}</span>)}
+    </>
+}
+
 const _default = defineComponent({
     props: {
         data: Array as PropType<timer.limit.Item[]>
@@ -29,32 +36,39 @@ const _default = defineComponent({
         return () => (
             <ElTable border size="small" style={{ width: "100%" }} highlightCurrentRow fit data={props.data}>
                 <ElTableColumn
-                    label={t(msg => msg.limit.item.condition)}
-                    minWidth={250}
+                    label={t(msg => msg.limit.item.name)}
+                    minWidth={160}
                     align="center"
-                    formatter={({ cond }: timer.limit.Item) => cond}
+                    formatter={({ name }: timer.limit.Item) => name || '-'}
+                    fixed
+                />
+                <ElTableColumn
+                    label={t(msg => msg.limit.item.condition)}
+                    minWidth={320}
+                    align="center"
+                    formatter={({ cond }: timer.limit.Item) => renderCond(cond)}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.time)}
-                    minWidth={90}
+                    minWidth={110}
                     align="center"
                     formatter={({ time }: timer.limit.Item) => time ? formatPeriodCommon(time * 1000) : '-'}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.waste)}
-                    minWidth={90}
+                    minWidth={110}
                     align="center"
                     formatter={({ waste }: timer.limit.Item) => formatPeriodCommon(waste)}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.visitTime)}
-                    minWidth={90}
+                    minWidth={110}
                     align="center"
                     formatter={({ visitTime }: timer.limit.Item) => visitTime ? formatPeriodCommon(visitTime * 1000) : '-'}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.period)}
-                    minWidth={100}
+                    minWidth={110}
                     align="center"
                 >
                     {({ row: { periods } }: ElTableRowScope<timer.limit.Item>) =>

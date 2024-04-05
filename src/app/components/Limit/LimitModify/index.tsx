@@ -6,12 +6,10 @@
  */
 
 import { ElDialog, ElMessage } from "element-plus"
-import { computed, defineComponent, nextTick, ref, Ref } from "vue"
+import { computed, defineComponent, nextTick, ref, toRaw } from "vue"
 import Sop, { SopInstance } from "./Sop"
 import limitService from "@service/limit-service"
 import { t } from "@app/locale"
-import "./style/el-input.sass"
-import "./style/sop.sass"
 
 export type ModifyInstance = {
     create(): void
@@ -25,45 +23,44 @@ const _default = defineComponent({
         save: (_saved: timer.limit.Rule) => true
     },
     setup: (_, ctx) => {
-        const visible: Ref<boolean> = ref(false)
-        const sop: Ref<SopInstance> = ref()
-        const mode: Ref<Mode> = ref()
+        const visible = ref(false)
+        const sop = ref<SopInstance>()
+        const mode = ref<Mode>()
         const title = computed(() => mode.value === "create" ? t(msg => msg.button.create) : t(msg => msg.button.modify))
         // Cache
         let modifyingItem: timer.limit.Rule = undefined
 
-        const onSave = async (rule: timer.limit.Rule) => {
-            const { cond, time, visitTime, periods } = rule
-            const toSave: timer.limit.Rule = { cond, time, visitTime, periods, enabled: true, allowDelay: false }
-            if (mode.value === 'modify' && modifyingItem) {
-                toSave.enabled = modifyingItem.enabled
-                toSave.allowDelay = modifyingItem.allowDelay
+        const handleSave = async (rule: timer.limit.Rule) => {
+            const { cond, enabled, name, time, visitTime, periods } = rule
+            const toSave: timer.limit.Rule = {
+                ...modifyingItem || {},
+                cond, enabled, name, time, visitTime, periods, allowDelay: false,
             }
-            if (mode.value === "modify") {
+            if (mode.value === 'modify') {
                 await limitService.update(toSave)
             } else {
                 await limitService.create(toSave)
             }
-            visible.value = false
-            ElMessage.success(t(msg => msg.limit.message.saved))
-            sop.value?.clean?.()
+            close()
+            ElMessage.success(t(msg => msg.operation.successMsg))
+            sop.value?.reset?.()
             ctx.emit("save", toSave)
         }
 
-        const onClose = () => visible.value = false
+        const close = () => visible.value = false
 
         const instance: ModifyInstance = {
             create() {
                 visible.value = true
                 mode.value = 'create'
                 modifyingItem = undefined
-                nextTick(() => sop.value?.clean?.())
+                nextTick(() => sop.value?.reset())
             },
             modify(row: timer.limit.Item) {
                 visible.value = true
                 mode.value = 'modify'
                 modifyingItem = { ...row }
-                nextTick(() => sop.value?.modify?.(row))
+                nextTick(() => sop.value?.reset?.(toRaw(row)))
             },
         }
 
@@ -74,9 +71,9 @@ const _default = defineComponent({
                 title={title.value}
                 modelValue={visible.value}
                 closeOnClickModal={false}
-                onClose={onClose}
+                onClose={close}
             >
-                <Sop ref={sop} onSave={onSave} onCancel={onClose} />
+                <Sop ref={sop} onSave={handleSave} onCancel={close} />
             </ElDialog>
         )
     }

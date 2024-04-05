@@ -31,10 +31,8 @@
         },
         "paramError": "参数错误，请检查！",
         "deleteConfirm": "共筛选出 {count} 条数据，是否全部删除？",
-        "deleteSuccess": "删除成功",
         "migrationAlert": "使用导入/导出在不同浏览器之间迁移数据",
-        "importError": "文件格式错误",
-        "migrated": "成功导入"
+        "importError": "文件格式错误"
     },
     "zh_TW": {
         "totalMemoryAlert": "瀏覽器爲每個擴充提供 {size}MB 來存儲本地數據",
@@ -53,10 +51,8 @@
         },
         "paramError": "參數錯誤，請檢查！",
         "deleteConfirm": "共篩選出 {count} 條數據，是否全部刪除？",
-        "deleteSuccess": "刪除成功",
         "migrationAlert": "使用導入/導出在不同瀏覽器之間遷移數據",
         "importError": "文件格式錯誤",
-        "migrated": "成功導入",
         "importOther": {
             "step1": "選擇數據",
             "step2": "確認數據",
@@ -105,10 +101,8 @@
         },
         "paramError": "The parameter is wrong, please check!",
         "deleteConfirm": "A total of {count} records have been filtered out. Do you want to delete them all?",
-        "deleteSuccess": "Deleted successfully!",
         "migrationAlert": "Migrate data between browsers using import and export",
-        "importError": "Wrong file extension",
-        "migrated": "Imported successfully!"
+        "importError": "Wrong file extension"
     },
     "ja": {
         "totalMemoryAlert": "ブラウザは、データを保存するために各拡張機能に {size}MB のメモリを提供します",
@@ -127,10 +121,8 @@
         },
         "paramError": "パラメータエラー、確認してください！",
         "deleteConfirm": "合計 {count} 個のデータが除外されました。すべて削除しますか？",
-        "deleteSuccess": "正常に削除されました",
         "migrationAlert": "インポート/エクスポートを使用して、異なるブラウザ間でデータを移行します",
         "importError": "ファイル形式エラー",
-        "migrated": "正常にインポートされました",
         "importOther": {
             "step1": "データを選択",
             "step2": "データを確認",
@@ -159,10 +151,8 @@
         "unlimited": "∞",
         "paramError": "O parâmetro está errado, por favor verifique!",
         "deleteConfirm": "Um total de {count} registros foram filtrados. Deseja excluir todos eles?",
-        "deleteSuccess": "Eliminado com êxito!",
         "migrationAlert": "Migrar dados entre navegadores usando a importação e exportação",
         "importError": "Formato de arquivo incorreto",
-        "migrated": "Importado com sucesso!",
         "dateShortcut": {
             "tillYesterday": "Até ontem",
             "till7DaysAgo": "Até 7 dias atrás",
@@ -196,10 +186,8 @@
         "unlimited": "∞",
         "paramError": "Хибний параметр. Будь ласка, перевірте!",
         "deleteConfirm": "Всього відфільтровано {count} записів. Ви хочете видалити їх усі?",
-        "deleteSuccess": "Успішно видалено!",
         "migrationAlert": "Переносьте дані між браузерами за допомогою імпорту й експорту",
         "importError": "Неправильне розширення файлу",
-        "migrated": "Успішно імпортовано!",
         "dateShortcut": {
             "tillYesterday": "До вчора",
             "till7DaysAgo": "До 7 днів тому",
@@ -233,10 +221,8 @@
         "unlimited": "∞",
         "paramError": "El parámetro es incorrecto, ¡por favor revísalo!",
         "deleteConfirm": "Se han filtrado un total de {count} registros. ¿Deseas eliminarlos todos?",
-        "deleteSuccess": "¡Eliminado exitosamente!",
         "migrationAlert": "Migrar los datos entre navegadores usando importar y exportar",
         "importError": "Extensión de archivo incorrecta",
-        "migrated": "¡Importado exitosamente!",
         "dateShortcut": {
             "tillYesterday": "Hasta ayer",
             "till7DaysAgo": "Hasta hace 7 días",
@@ -270,10 +256,8 @@
         "unlimited": "∞",
         "paramError": "Parameterfehler, bitte überprüfen!",
         "deleteConfirm": "Insgesamt wurden {count} Datensätze herausgefiltert. Möchten Sie sie alle löschen?",
-        "deleteSuccess": "Erfolgreich gelöscht!",
         "migrationAlert": "Migrieren Sie Daten zwischen Browsern mithilfe von Import und Export",
         "importError": "Falsche Dateierweiterung",
-        "migrated": "Erfolgreich importiert!",
         "dateShortcut": {
             "tillYesterday": "Bis gestern",
             "till7DaysAgo": "Bis vor 7 Tagen",

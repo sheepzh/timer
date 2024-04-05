@@ -76,11 +76,15 @@ const AnswerCanvas = defineComponent({
     })
 })
 
-/**
+/** 
+ * NOT TO return Promise.resolve()
+ * 
+ * NOT USE async
+ * 
  * @returns null if verification not required,
  *          or promise with resolve invoked only if verification code or password correct
  */
-export async function processVerification(option: timer.option.DailyLimitOption): Promise<void> {
+export function processVerification(option: timer.option.DailyLimitOption): Promise<void> {
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
     if (limitLevel === "strict") {
         return new Promise(
@@ -126,7 +130,7 @@ export async function processVerification(option: timer.option.DailyLimitOption)
             )
         }
     }
-    if (!messageNode || !answerValue) return Promise.resolve()
+    if (!messageNode || !answerValue) return null
 
     return new Promise(resolve => {
         ElMessageBox({

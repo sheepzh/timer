@@ -30,9 +30,9 @@ const _default = defineComponent({
         delete: (_origin: string) => true,
     },
     setup(props, ctx) {
-        const origin = useShadow(() => props.origin)
-        const merged = useShadow(() => props.merged, '')
-        const id = useShadow(() => props.index, 0)
+        const [origin, setOrigin, refreshOrigin] = useShadow(() => props.origin)
+        const [merged, setMerged, refreshMerged] = useShadow(() => props.merged, '')
+        const [id] = useShadow(() => props.index, 0)
         const editing: Ref<boolean> = ref(false)
         const type: Ref<TagProps["type"]> = computed(() => computeMergeType(merged.value))
         const tagTxt: Ref<string> = computed(() => computeMergeTxt(origin.value, merged.value,
@@ -43,15 +43,15 @@ const _default = defineComponent({
         }
         ctx.expose(instance)
         const handleSave = (newOrigin: string, newMerged: string) => {
-            origin.value = newOrigin
+            setOrigin(newOrigin)
             const newMergedVal = tryParseInteger(newMerged?.trim())[1]
-            merged.value = newMergedVal
+            setMerged(newMergedVal)
             editing.value = false
             ctx.emit("change", newOrigin, newMergedVal, id.value)
         }
         const handleCancel = () => {
-            origin.value = props.origin
-            merged.value = props.merged
+            refreshOrigin()
+            refreshMerged()
             editing.value = false
         }
 

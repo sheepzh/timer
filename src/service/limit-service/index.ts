@@ -25,16 +25,10 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     const today = formatTime(new Date(), DATE_FORMAT)
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
-        .map(({ cond, time, visitTime, periods, enabled, wasteTime, latestDate, allowDelay }) => ({
-            cond,
-            time,
-            visitTime,
-            periods,
-            enabled: !!enabled,
+        .map(({ latestDate, wasteTime, ...others }) => ({
+            ...others,
             waste: latestDate === today ? (wasteTime ?? 0) : 0,
-            latestDate,
-            allowDelay: !!allowDelay,
-        } as timer.limit.Item))
+        } satisfies timer.limit.Item))
         // If use url, then test it
         .filter(item => !url || matches(item, url))
 }
@@ -62,20 +56,20 @@ async function noticeLimitChanged() {
 }
 
 async function updateEnabled(item: timer.limit.Item): Promise<void> {
-    const { cond, time, enabled, allowDelay, visitTime, periods } = item
-    const limit: timer.limit.Rule = { cond, time, enabled, allowDelay, visitTime, periods }
+    const { id, name, cond, time, enabled, allowDelay, visitTime, periods } = item
+    const limit: timer.limit.Rule = { id, name, cond, time, enabled, allowDelay, visitTime, periods }
     await db.save(limit, true)
     await noticeLimitChanged()
     await noticePeriodChanged()
 }
 
 async function updateDelay(item: timer.limit.Item) {
-    await db.updateDelay(item.cond, item.allowDelay)
+    await db.updateDelay(item.id, item.allowDelay)
     await noticeLimitChanged()
 }
 
 async function remove(item: timer.limit.Item): Promise<void> {
-    await db.remove(item.cond)
+    await db.remove(item.id)
     await noticeLimitChanged()
     await noticePeriodChanged()
 }
@@ -106,7 +100,7 @@ async function addFocusTime(url: string, focusTime: number) {
     const result: timer.limit.Item[] = []
     allEnabled.forEach(item => {
         const limitBefore = hasLimited(item)
-        toUpdate[item.cond] = item.waste += focusTime
+        toUpdate[item.id] = item.waste += focusTime
         const limitAfter = hasLimited(item)
         if (!limitBefore && limitAfter) {
             result.push(item)
@@ -122,11 +116,11 @@ async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<tim
             .filter(item => hasLimited(item) && item.allowDelay)
     }
     const date = formatTime(new Date(), DATE_FORMAT)
-    const toUpdate: { [cond: string]: number } = {}
+    const toUpdate: { [id: number]: number } = {}
     rules.forEach(rule => {
-        const { cond, waste } = rule
+        const { id, waste } = rule
         const updatedWaste = (waste || 0) - 5 * 60 * 1000
-        rule.waste = toUpdate[cond] = updatedWaste < 0 ? 0 : updatedWaste
+        rule.waste = toUpdate[id] = updatedWaste < 0 ? 0 : updatedWaste
     })
     await db.updateWaste(date, toUpdate)
     return rules

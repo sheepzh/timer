@@ -34,7 +34,7 @@ const _default = defineComponent({
             importing.value = true
             processImportedData(props.data, resolutionVal)
                 .then(() => {
-                    ElMessage.success(t(msg => msg.dataManage.migrated))
+                    ElMessage.success(t(msg => msg.operation.successMsg))
                     ctx.emit('import')
                 })
                 .catch(e => ElMessage.error(e))

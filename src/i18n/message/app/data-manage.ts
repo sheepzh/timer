@@ -19,10 +19,8 @@ export type DataManageMessage = {
     unlimited: string
     paramError: string
     deleteConfirm: string
-    deleteSuccess: string
     migrationAlert: string
     importError: string
-    migrated: string
     importOther: {
         step1: string
         step2: string
