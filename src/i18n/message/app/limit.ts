@@ -12,9 +12,13 @@ export type LimitMessage = {
     filterDisabled: string
     useWildcard: string
     urlPlaceholder: string
-    step1: string
-    step2: string
+    step: {
+        base: string
+        url: string
+        rule: string
+    }
     item: {
+        name: string
         condition: string
         time: string
         visitTime: string
@@ -29,15 +33,11 @@ export type LimitMessage = {
         test: string
         option: string
         parseUrl: string
-        reEnterUrl: string
     }
     message: {
         noUrl: string
-        noParsed: string
         noRule: string
-        saved: string
         deleteConfirm: string
-        deleted: string
         inputTestUrl: string
         clickTestButton: string
         noRuleMatched: string

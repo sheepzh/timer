@@ -33,7 +33,6 @@ function generateParamAndSelect(option: FilterOption): Promise<timer.stat.Row[]>
         dateEnd = new Date(new Date().getTime() - MILL_PER_DAY)
     }
     param.date = [dateStart, dateEnd]
-    console.log(param)
     return statService.select(param)
 }
 
@@ -99,7 +98,7 @@ const _default = defineComponent({
                 confirmButtonText: t(msg => msg.button.confirm)
             }).then(async () => {
                 await statService.batchDelete(result)
-                ElMessage(t(msg => msg.dataManage.deleteSuccess))
+                ElMessage(t(msg => msg.operation.successMsg))
                 ctx.emit('dataDelete')
             }).catch(() => { })
         }

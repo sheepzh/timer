@@ -38,9 +38,7 @@ const COL_LABEL = t(msg => msg.item.operation.label)
 const ANALYSIS = t(msg => msg.item.operation.analysis)
 // Whitelist texts
 const ADD_WHITE = t(msg => msg.item.operation.add2Whitelist)
-const ADD_WHITE_SUCCESS = t(msg => msg.report.added2Whitelist)
 const REMOVE_WHITE = t(msg => msg.item.operation.removeFromWhitelist)
-const REMOVE_WHITE_SUCCESS = t(msg => msg.report.removeFromWhitelist)
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 330,
@@ -107,7 +105,7 @@ const _default = defineComponent({
                         onConfirm={async () => {
                             await whitelistService.add(row.host)
                             refreshWhitelist()
-                            ElMessage({ message: ADD_WHITE_SUCCESS, type: 'success' })
+                            ElMessage({ message: t(msg => msg.operation.successMsg), type: 'success' })
                         }}
                     />
                     {/* Remove from whitelist */}
@@ -120,7 +118,7 @@ const _default = defineComponent({
                         onConfirm={async () => {
                             await whitelistService.remove(row.host)
                             refreshWhitelist()
-                            ElMessage({ message: REMOVE_WHITE_SUCCESS, type: 'success' })
+                            ElMessage({ message: t(msg => msg.operation.successMsg), type: 'success' })
                         }}
                     />
                 </>}

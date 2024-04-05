@@ -1,8 +1,7 @@
-export type LimitReason = {
-    cond: string
-    type: LimitType
-    allowDelay?: boolean
-}
+export type LimitReason = Pick<timer.limit.Rule, 'id' | 'cond' | 'allowDelay'>
+    & {
+        type: LimitType
+    }
 
 export type LimitType =
     | "DAILY"
@@ -13,7 +12,6 @@ export interface MaskModal {
     addReason(reason: LimitReason): void
     removeReason(reason: LimitReason): void
     removeReasonsByType(type: LimitType): void
-    removeReasonsByTypeAndCond(type: LimitType, cound: string): void
     addDelayHandler(handler: () => void): void
 }
 

@@ -1,6 +1,6 @@
 import { DATE_FORMAT } from "@db/common/constant"
 import PeriodDatabase from "@db/period-database"
-import { keyOf, MILLS_PER_PERIOD } from "@util/period"
+import { keyOf, MILL_PER_PERIOD } from "@util/period"
 import { formatTime } from "@util/time"
 import storage from "../__mock__/storage"
 
@@ -98,7 +98,7 @@ describe('period-database', () => {
     test("importData3", async () => {
         await db.importData({
             __timer__PERIOD20210607: {
-                0: MILLS_PER_PERIOD + 1,
+                0: MILL_PER_PERIOD + 1,
                 1: 100,
                 2: "100",
             }
@@ -107,6 +107,6 @@ describe('period-database', () => {
         expect(imported.length).toEqual(3)
         const orderMillMap = {}
         imported.forEach(({ milliseconds, order }) => orderMillMap[order] = milliseconds)
-        expect(orderMillMap).toEqual({ 0: MILLS_PER_PERIOD, 1: 100, 2: 100 })
+        expect(orderMillMap).toEqual({ 0: MILL_PER_PERIOD, 1: 100, 2: 100 })
     })
 })

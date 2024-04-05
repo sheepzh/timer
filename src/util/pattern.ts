@@ -84,7 +84,6 @@ export function isValidHost(host: string) {
  * @since 1.6.0
  */
 export function isValidVirtualHost(host: string) {
-    console.log(host)
     if (!host) return false
     if (host.includes('?') || host.includes('=') || host.includes(":")) return false
     // Can't ends with /

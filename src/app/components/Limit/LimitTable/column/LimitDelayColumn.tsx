@@ -7,7 +7,7 @@
 
 import { InfoFilled } from "@element-plus/icons-vue"
 import { ElIcon, ElSwitch, ElTableColumn, ElTooltip } from "element-plus"
-import { defineComponent, toRaw } from "vue"
+import { StyleValue, defineComponent, toRaw } from "vue"
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import { ElTableRowScope } from "@src/element-ui/table"
@@ -24,6 +24,13 @@ async function handleChange(row: timer.limit.Item, newVal: boolean): Promise<voi
     }
 }
 
+const ICON_STYLE: StyleValue = {
+    fontSize: 'inherit',
+    lineHeight: 'inherit',
+    paddingLeft: 4,
+    verticalAlign: 'middle',
+}
+
 const _default = defineComponent({
     emits: {
         rowChange: (_row: timer.limit.Rule, _val: boolean) => true,
@@ -31,17 +38,18 @@ const _default = defineComponent({
     setup(_, ctx) {
         return () => (
             <ElTableColumn
-                minWidth={80}
+                minWidth={100}
                 align="center"
                 v-slots={{
-                    header: () => <div style={{ display: "flex", alignItems: "center" }}>
+                    header: () => <span>
                         {`${label} `}
                         <ElTooltip content={tooltip} placement="top">
-                            <ElIcon size={14} style={{ paddingLeft: '4px' }}>
+                            <ElIcon style={ICON_STYLE}>
                                 <InfoFilled />
                             </ElIcon>
                         </ElTooltip>
-                    </div>,
+                    </span>
+                    ,
                     default: ({ row }: ElTableRowScope<timer.limit.Item>) => <ElSwitch
                         modelValue={row.allowDelay}
                         onChange={

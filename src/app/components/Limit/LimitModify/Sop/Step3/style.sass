@@ -1,3 +1,24 @@
+/**
+ * Copyright (c) 2021 Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
+.limit-time-input
+    display: flex
+    justify-content: space-between
+    width: 100%
+    gap: 15px
+    .el-input
+        .el-input__suffix
+            // Fix shaking of clear button
+            // @see https://github.com/sheepzh/timer/issues/123
+            position: absolute
+            right: 12px
+        .el-input-group__append
+            width: 12px
+
 .period-form-item-container
     height: 50px
     display: flex
@@ -5,6 +26,7 @@
     padding: 6px 0
     .el-tag
         height: 28px
+        margin-right: 10px
     .limit-period-input
         display: inline-flex
         .el-date-editor

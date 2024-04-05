@@ -91,7 +91,7 @@ const _default = defineComponent({
         },
     },
     setup(props) {
-        const data = useShadow(() => props.data)
+        const [data] = useShadow(() => props.data)
         const sort = ref<SortInfo>({ order: 'ascending', prop: 'date' })
         const list = computed(() => computeList(sort.value, data.value?.rows))
         return () => (

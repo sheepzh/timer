@@ -116,7 +116,7 @@ async function handleBatchDelete(tableInstance: TableInstance, filterOption: Rep
         await deleteBatch(selected, filterOption.mergeDate, filterOption.dateRange)
         ElMessage({
             type: "success",
-            message: t(msg => msg.report.batchDelete.successMsg)
+            message: t(msg => msg.operation.successMsg)
         })
         afterDelete?.()
     }).catch(() => {

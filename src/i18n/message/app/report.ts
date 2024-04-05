@@ -12,15 +12,12 @@ export type ReportMessage = {
     mergeDomain: string
     hostPlaceholder: string
     exportFileName: string
-    added2Whitelist: string
-    removeFromWhitelist: string
     batchDelete: {
         buttonText: string
         noSelectedMsg: string
         confirmMsg: string
         confirmMsgAll: string
         confirmMsgRange: string
-        successMsg: string
     }
     remoteReading: {
         on: string

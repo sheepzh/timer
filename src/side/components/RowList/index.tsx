@@ -14,7 +14,7 @@ const _default = defineComponent({
         style: Object as PropType<StyleValue>,
     },
     setup(props) {
-        const data = useShadow(() => (props.data || []).filter(i => i.focus), [])
+        const [data] = useShadow(() => (props.data || []).filter(i => i.focus), [])
         const maxFocus = computed(() => data.value.map(r => r.focus).reduce((a, b) => a > b ? a : b, 0) ?? 0)
         const totalFocus = computed(() => sum(data.value.map(i => i?.focus ?? 0)))
         const scrollbar = ref<ScrollbarInstance>()

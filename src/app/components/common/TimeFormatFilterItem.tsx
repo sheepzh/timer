@@ -25,7 +25,7 @@ const _default = defineComponent({
         defaultValue: String as PropType<timer.app.TimeFormat>
     },
     setup: (props, ctx) => {
-        const data = useShadow(() => props.defaultValue, "default")
+        const [data] = useShadow(() => props.defaultValue, "default")
         return () => <SelectFilterItem
             historyName="timeFormat"
             defaultValue={data.value}

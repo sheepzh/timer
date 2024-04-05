@@ -43,7 +43,8 @@ const verifyTriggered = async (option: timer.option.DailyLimitOption, verified: 
         verified.value = true
         return
     }
-    return processVerification(option).then(() => { verified.value = true })
+    const promise = processVerification(option)
+    return (promise || Promise.resolve()).then(() => { verified.value = true })
 }
 
 function copy(target: timer.option.DailyLimitOption, source: timer.option.DailyLimitOption) {

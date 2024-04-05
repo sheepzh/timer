@@ -1,86 +1,51 @@
-/**
- * Copyright (c) 2021 Hengyang Zhang
- *
- * This software is released under the MIT License.
- * https://opensource.org/licenses/MIT
- */
-
 import { t } from "@app/locale"
-import { Close, Right } from "@element-plus/icons-vue"
-import { ElButton, ElForm, ElMessage } from "element-plus"
-import { Ref, defineComponent, ref, watch } from "vue"
-import { Protocol, parseUrl } from "./common"
-import LimitUrlEdit from "./LimitUrlEdit"
-import LimitPathEdit, { PathEditInstance } from "./LimitPathEdit"
+import { useShadow } from "@hooks/useShadow"
+import { ElCol, ElForm, ElFormItem, ElInput, ElMessage, ElRow, ElSwitch } from "element-plus"
+import { defineComponent, watch } from "vue"
+import { StepFromInstance } from "./common"
 
 const _default = defineComponent({
     props: {
-        defaultValue: {
-            type: String,
-            required: true,
-        },
-        disabled: Boolean,
+        defaultName: String,
+        defaultEnabled: Boolean,
     },
     emits: {
-        cancel: () => true,
-        next: (_cond: string) => true,
+        change: (_name: string, _enabled: boolean) => true,
     },
     setup(props, ctx) {
-        const { protocol: defaultProtocol, url: defaultUrl } = parseUrl(props.defaultValue)
-        const protocol: Ref<Protocol> = ref(defaultProtocol)
-        const pathEdit: Ref<PathEditInstance> = ref()
-        const url: Ref<string> = ref(defaultUrl)
+        const [name, setName] = useShadow(() => props.defaultName)
+        const [enabled, setEnabled] = useShadow(() => props.defaultEnabled)
+        watch([enabled, name], () => ctx.emit("change", name.value, enabled.value))
 
-        watch(() => props.defaultValue, () => {
-            const { protocol: newProtocol, url: newUrl } = parseUrl(props.defaultValue)
-            protocol.value = newProtocol
-            url.value = newUrl
-        })
-
-        const handleNext = () => {
-            let cond = props.defaultValue
-            if (!props.disabled) {
-                const urlVal = url.value?.trim?.()
-                if (!urlVal) {
-                    return ElMessage.error(t(msg => msg.limit.message.noParsed))
-                }
-                cond = urlVal ? protocol.value + urlVal : ''
-            }
-            ctx.emit("next", cond)
+        const validate = () => {
+            if (name.value?.trim?.()) return true
+            ElMessage.error("Name is empty")
+            return false
         }
 
-        return () => <>
-            <ElForm labelWidth={180} labelPosition="left">
-                <LimitUrlEdit
-                    url={url.value}
-                    protocol={protocol.value}
-                    disabled={props.disabled}
-                    onUrlChange={val => {
-                        url.value = val
-                        pathEdit.value?.updateUrl?.(val)
-                    }}
-                    onProtocolChange={val => protocol.value = val}
-                />
+        ctx.expose({ validate } satisfies StepFromInstance)
+        return () => <div class="sop-footer">
+            <ElForm labelWidth={130}>
+                <ElRow gutter={10}>
+                    <ElCol span={12}>
+                        <ElFormItem label={t(msg => msg.limit.item.name)} required>
+                            <ElInput
+                                size="small"
+                                modelValue={name.value}
+                                onInput={setName}
+                                clearable
+                                onClear={() => setName()}
+                            />
+                        </ElFormItem>
+                    </ElCol>
+                    <ElCol span={12}>
+                        <ElFormItem label={t(msg => msg.limit.item.enabled)} required>
+                            <ElSwitch modelValue={enabled.value} onChange={setEnabled} />
+                        </ElFormItem>
+                    </ElCol>
+                </ElRow>
             </ElForm>
-            <LimitPathEdit
-                v-show={!props.disabled}
-                ref={pathEdit}
-                url={url.value}
-                onUrlChange={val => url.value = val}
-            />
-            <div class="sop-footer">
-                <ElButton type="info" icon={<Close />} onClick={() => ctx.emit("cancel")}>
-                    {t(msg => msg.button.cancel)}
-                </ElButton>
-                <ElButton
-                    type="primary"
-                    icon={<Right />}
-                    onClick={handleNext}
-                >
-                    {t(msg => msg.button.next)}
-                </ElButton>
-            </div>
-        </>
+        </div>
     }
 })
 

@@ -21,8 +21,7 @@ const modifyButtonText = t((msg) => msg.button.modify)
 async function handleDelete(row: timer.limit.Item, callback: () => void) {
     let promise = undefined
     if (await judgeVerificationRequired(row)) {
-        const option =
-            (await optionService.getAllOption()) as timer.option.DailyLimitOption
+        const option = await optionService.getAllOption()
         promise = processVerification(option)
     }
     if (!promise) {
@@ -61,7 +60,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
 
 const _default = defineComponent({
     emits: {
-        rowDelete: (_row: timer.limit.Item, _cond: string) => true,
+        rowDelete: (_row: timer.limit.Item) => true,
         rowModify: (_row: timer.limit.Item) => true,
     },
     setup(_props, ctx) {
@@ -70,12 +69,13 @@ const _default = defineComponent({
             label={label}
             width={LOCALE_WIDTH[locale]}
             align="center"
+            fixed="right"
             v-slots={({ row }: ElTableRowScope<timer.limit.Item>) => <>
                 <ElButton
                     type="danger"
                     size="small"
                     icon={<Delete />}
-                    onClick={() => handleDelete(row, () => ctx.emit("rowDelete", row, row.cond))}
+                    onClick={() => handleDelete(row, () => ctx.emit("rowDelete", row))}
                 >
                     {deleteButtonText}
                 </ElButton>

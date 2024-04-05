@@ -64,7 +64,7 @@ function exitScreen(): Promise<void> {
 }
 
 function isSameReason(a: LimitReason, b: LimitReason): boolean {
-    let same = a?.cond === b?.cond && a?.type === b?.type
+    let same = a?.id === b?.id && a?.type === b?.type
     if (!same) return false
     if (a?.type === "DAILY" || a?.type === "VISIT") {
         // Need judge allow delay
@@ -169,13 +169,6 @@ class ModalInstance implements MaskModal {
     removeReasonsByType(type: LimitType): void {
         const beforeCount = this.reasons.length
         this.reasons = this.reasons.filter(r => r.type !== type)
-        const afterCount = this.reasons.length
-        beforeCount !== afterCount && this.refresh()
-    }
-
-    removeReasonsByTypeAndCond(type: LimitType, cond: string): void {
-        const beforeCount = this.reasons.length
-        this.reasons = this.reasons.filter(r => !(r.type === type && r.cond === cond))
         const afterCount = this.reasons.length
         beforeCount !== afterCount && this.refresh()
     }

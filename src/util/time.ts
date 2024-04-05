@@ -104,6 +104,8 @@ export const MILL_PER_DAY = 3600 * 1000 * 24
 
 export const MILL_PER_MINUTE = 1000 * 60
 
+export const MILL_PER_HOUR = MILL_PER_MINUTE * 60
+
 /**
  * Date range between {start} days ago and {end} days ago
  */
