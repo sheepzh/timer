@@ -24,8 +24,8 @@ import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
-import { echartsPalette } from "@util/echarts"
 import { useEcharts, EchartsWrapper } from "@hooks/useEcharts"
+import { getSeriesPalette } from "@app/util/echarts"
 
 const TOP_NUM = 6
 const DAY_NUM = 30
@@ -73,7 +73,7 @@ function generateOption(data: _Value[]): EcOption {
             radius: [20, 80],
             center: ['50%', '50%'],
             roseType: 'area',
-            color: echartsPalette(),
+            color: getSeriesPalette(),
             itemStyle: {
                 borderRadius: 7
             },

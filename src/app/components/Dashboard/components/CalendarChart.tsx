@@ -7,14 +7,14 @@
 import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
 
 import { TitleComponent, TooltipComponent, GridComponent, VisualMapComponent } from "echarts/components"
-import { HeatmapChart, type HeatmapSeriesOption } from "echarts/charts"
+import { ScatterChart, ScatterSeriesOption, type HeatmapSeriesOption } from "echarts/charts"
 import { use, type ComposeOption } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
 
 // Register echarts
 use([
     SVGRenderer,
-    HeatmapChart,
+    ScatterChart,
     TooltipComponent,
     GridComponent,
     VisualMapComponent,
@@ -33,6 +33,7 @@ import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { useEcharts, EchartsWrapper } from "@hooks/useEcharts"
+import { getHeatColors } from "@app/util/echarts"
 
 const WEEK_NUM = 53
 
@@ -48,7 +49,7 @@ type _Value = [
 ]
 
 type EcOption = ComposeOption<
-    | HeatmapSeriesOption
+    | ScatterSeriesOption
     | TitleComponentOption
     | TooltipComponentOption
     | GridComponentOption
@@ -61,22 +62,9 @@ function formatTooltip(minutes: number, date: string): string {
     const year = date.substring(0, 4)
     const month = date.substring(4, 6)
     const day = date.substring(6, 8)
-    const placeholders = {
-        hour, minute, year, month, day
-    }
-
-    return t(
-        msg => hour
-            // With hour
-            ? msg.dashboard.heatMap.tooltip1
-            // Without hour
-            : msg.dashboard.heatMap.tooltip0,
-        placeholders
-    )
-}
-
-function getGridColors() {
-    return ['#9be9a8', '#40c263', '#30a04e', '#216039']
+    const dateStr = t(msg => msg.calendar.dateFormat, { y: year, m: month, d: day })
+    const valueStr = hour ? `${hour} h ${minute} m` : `${minute} m`
+    return `${dateStr}<br/>${valueStr}`
 }
 
 function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
@@ -119,11 +107,15 @@ const cvtHeatmapItem = (d: _Value): HeatmapItem => {
     return item
 }
 
-function optionOf(data: _Value[], weekDays: string[]): EcOption {
+function optionOf(data: _Value[], weekDays: string[], dom: HTMLElement): EcOption {
     const totalMinutes = data.map(d => d[2] || 0).reduce((a, b) => a + b, 0)
     const totalHours = Math.floor(totalMinutes / 60)
     const xAxisLabelMap = getXAxisLabelMap(data)
     const textColor = getPrimaryTextColor()
+    const w = dom?.getBoundingClientRect?.()?.width
+    const gridWidth = 0.86
+    const colCount = new Set(data.map(v => v[0])).size
+    const gridCellSize = colCount ? w * gridWidth / colCount * 0.7 : 0
     return {
         title: {
             ...BASE_TITLE_OPTION,
@@ -139,7 +131,7 @@ function optionOf(data: _Value[], weekDays: string[]): EcOption {
                 return minutes ? formatTooltip(minutes as number, date) : undefined
             },
         },
-        grid: { height: '70%', width: '82%', left: '8%', top: '18%', },
+        grid: { height: '70%', left: '7%', width: `${gridWidth * 100}%`, top: '18%', },
         xAxis: {
             type: 'category',
             axisLine: { show: false },
@@ -161,7 +153,7 @@ function optionOf(data: _Value[], weekDays: string[]): EcOption {
         visualMap: {
             min: 0,
             max: Math.max(...data.map(a => a[2])),
-            inRange: { color: getGridColors() },
+            inRange: { color: getHeatColors() },
             realtime: true,
             calculable: true,
             orient: 'vertical',
@@ -171,10 +163,10 @@ function optionOf(data: _Value[], weekDays: string[]): EcOption {
             textStyle: { color: textColor },
         },
         series: {
-            type: 'heatmap',
+            type: 'scatter',
             data: data.map(cvtHeatmapItem),
-            progressive: 5,
-            progressiveThreshold: 10,
+            symbol: 'rect',
+            symbolSize: gridCellSize,
         },
     }
 }
@@ -224,7 +216,7 @@ class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
             // Saturday to Sunday
             rotate(weekDays, 1)
         }
-        return optionOf(data, weekDays)
+        return optionOf(data, weekDays, this.getDom())
     }
 
     protected afterInit(): void {

@@ -7,14 +7,17 @@
 
 import type { StatQueryParam } from "@service/stat-service"
 import type { ComposeOption } from "echarts/core"
-import type { CandlestickSeriesOption } from "echarts/charts"
-import type { GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts/components"
 
 import { use } from "echarts/core"
-import { CandlestickChart } from "echarts/charts"
-import { GridComponent, TitleComponent, TooltipComponent } from "echarts/components"
+import { BarChart, BarSeriesOption } from "echarts/charts"
+import {
+    GridComponent, type GridComponentOption,
+    TitleComponent, type TitleComponentOption,
+    TooltipComponent, type TooltipComponentOption,
+    LegendComponent, type LegendComponentOption,
+} from "echarts/components"
 
-use([CandlestickChart, GridComponent, TitleComponent, TooltipComponent])
+use([BarChart, GridComponent, TitleComponent, TooltipComponent, LegendComponent])
 
 import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
@@ -27,39 +30,52 @@ import { generateSiteLabel } from "@util/site"
 import { useEcharts, EchartsWrapper } from "@hooks/useEcharts"
 
 type EcOption = ComposeOption<
-    | CandlestickSeriesOption
+    | BarSeriesOption
     | GridComponentOption
     | TitleComponentOption
     | TooltipComponentOption
+    | LegendComponentOption
 >
 
 const PERIOD_WIDTH = 7
-const TOP_NUM = 5
+const TOP_NUM = 10
 
-type _Value = {
+type _Value = timer.site.SiteInfo & {
     lastPeriod: number
     thisPeriod: number
     delta: number
-    host: string
 }
 
-const X_AXIS_LABEL_MAX_LENGTH = 16
+const calcXAxisLabel = (host: string, alias: string, richName: string): string => {
+    if (richName) return `{${richName}|}`
+    const label = alias || host
+    return label?.substring(0, 1)?.toUpperCase?.()
+}
 
-function calculateXAxisLabel(host: string, hostAliasMap: Record<string, string>) {
-    const originLabel = hostAliasMap[host] || host
-    const originLength = originLabel?.length
-    if (!originLength || originLength <= X_AXIS_LABEL_MAX_LENGTH) {
-        return originLabel
-    }
-    return originLabel.substring(0, X_AXIS_LABEL_MAX_LENGTH - 3) + '...'
+const calcXAxiasRich = (values: _Value[]) => {
+    const rich = {}
+    let idx = 0
+    const richNameMap = {}
+    values.forEach(({ iconUrl, host }) => {
+        if (!iconUrl) return
+        const name = `ic${idx++}`
+        rich[name] = {
+            backgroundColor: {
+                image: iconUrl,
+            },
+            height: 12,
+        }
+        richNameMap[host] = name
+    })
+    return [rich, richNameMap]
 }
 
 function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat.Row[]): EcOption {
     const textColor = getPrimaryTextColor()
 
-    const hostAliasMap: { [host: string]: string } = {
-        ...groupBy(lastPeriodItems, item => item.host, grouped => grouped?.[0]?.alias),
-        ...groupBy(thisPeriodItems, item => item.host, grouped => grouped?.[0]?.alias)
+    const hostSiteMap: { [host: string]: Pick<timer.stat.Row, "alias" | "iconUrl" | "host"> } = {
+        ...groupBy(lastPeriodItems, item => item.host, grouped => grouped?.[0]),
+        ...groupBy(thisPeriodItems, item => item.host, grouped => grouped?.[0])
     }
 
     const lastPeriodMap: { [host: string]: number } = groupBy(lastPeriodItems,
@@ -71,13 +87,14 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
         item => item.host,
         grouped => Math.floor(sum(grouped.map(item => item.focus)) / 1000)
     )
-    const values: { [host: string]: _Value } = {}
+    const values: Record<string, _Value> = {}
     // 1st, iterate this period
     Object.entries(thisPeriodMap)
         .forEach(([host, thisPeriod]) => {
             const lastPeriod = lastPeriodMap[host] || 0
             const delta = thisPeriod - lastPeriod
-            values[host] = { thisPeriod, lastPeriod, delta, host }
+            const { iconUrl, alias } = hostSiteMap[host] || {}
+            values[host] = { thisPeriod, lastPeriod, delta, host, iconUrl, alias }
         })
     // 2nd, iterate last period
     Object.entries(lastPeriodMap)
@@ -85,7 +102,8 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
         .forEach(([host, lastPeriod]) => {
             const thisPeriod = thisPeriodMap[host] || 0
             const delta = thisPeriod - lastPeriod
-            values[host] = { thisPeriod, lastPeriod, delta, host }
+            const { iconUrl, alias } = hostSiteMap[host] || {}
+            values[host] = { thisPeriod, lastPeriod, delta, host, iconUrl, alias }
         })
     // 3rd, sort by delta
     const sortedValues = Object.values(values)
@@ -93,10 +111,11 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
         .reverse()
     const topK = sortedValues.slice(0, TOP_NUM)
     // 4th, sort by max value
-    topK.sort((a, b) => Math.max(a.lastPeriod, a.thisPeriod) - Math.max(b.lastPeriod, b.thisPeriod))
+    topK.sort((a, b) => Math.max(a.lastPeriod, a.thisPeriod) - Math.max(b.lastPeriod, b.thisPeriod)).reverse()
 
-    const positiveColor = getComputedStyle(document.body).getPropertyValue('--el-color-danger')
-    const negativeColor = getComputedStyle(document.body).getPropertyValue('--el-color-success-light-3')
+    const color1 = '#FFC300'
+    const color2 = '#E80054'
+    const [rich, richNameMap] = calcXAxiasRich(Object.values(topK))
     return {
         title: {
             ...BASE_TITLE_OPTION,
@@ -112,52 +131,64 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
                 type: 'shadow'
             },
             formatter(params: any) {
-                const data = params?.[0]?.data
                 const host = params?.[0]?.axisValue
-                const lastPeriod = data[1] || 0
-                const thisPeriod = data[2] || 0
+                const lastPeriod = params?.[0]?.value ?? 0
+                const thisPeriod = params?.[1]?.value ?? 0
                 const lastLabel = t(msg => msg.dashboard.weekOnWeek.lastBrowse, { time: formatPeriodCommon(lastPeriod * 1000) })
                 const thisLabel = t(msg => msg.dashboard.weekOnWeek.thisBrowse, { time: formatPeriodCommon(thisPeriod * 1000) })
                 const deltaLabel = t(msg => msg.dashboard.weekOnWeek.wow, {
                     delta: formatPeriodCommon(Math.abs(thisPeriod - lastPeriod) * 1000),
                     state: t(msg => msg.dashboard.weekOnWeek[thisPeriod < lastPeriod ? 'decline' : 'increase'])
                 })
-                const siteLabel = generateSiteLabel(host, hostAliasMap[host])
+                const siteLabel = generateSiteLabel(host, hostSiteMap[host]?.alias)
                 return `${siteLabel}<br/>${lastLabel}<br/>${thisLabel}<br/>${deltaLabel}`
             }
         },
         grid: {
-            left: '7%',
-            right: '3%',
-            bottom: '12%',
+            left: '5%',
+            right: '5%',
+            bottom: '10%',
+            top: '8%',
         },
         xAxis: {
             type: 'category',
             splitLine: { show: false },
+            axisTick: { show: false },
+            axisLine: { show: false },
             data: topK.map(a => a.host),
             axisLabel: {
                 interval: 0,
                 color: textColor,
-                formatter: (host: string) => calculateXAxisLabel(host, hostAliasMap)
+                rich,
+                formatter: host => calcXAxisLabel(host, hostSiteMap[host]?.alias, richNameMap[host])
             },
         },
         yAxis: {
             type: 'value',
-            axisLabel: {
-                color: textColor,
-            }
+            axisLabel: { show: false },
+            splitLine: { show: false },
         },
-        series: [{
-            type: 'candlestick',
-            barMaxWidth: '40px',
-            itemStyle: {
-                color: positiveColor,
-                borderColor: positiveColor,
-                borderColor0: negativeColor,
-                color0: negativeColor,
-            },
-            data: topK.map(a => [a.lastPeriod, a.thisPeriod, a.lastPeriod, a.thisPeriod])
-        }]
+        series: [
+            {
+                name: "Last Week",
+                type: 'bar',
+                barMaxWidth: '25px',
+                itemStyle: { color: color1, borderRadius: 10 },
+                data: topK.map(a => a.lastPeriod),
+            }, {
+                name: "This Week",
+                type: 'bar',
+                barMaxWidth: '25px',
+                itemStyle: { color: color2, borderRadius: 10 },
+                data: topK.map(a => a.thisPeriod)
+            }
+        ],
+        legend: {
+            right: '4%',
+            top: BASE_TITLE_OPTION.top,
+            textStyle: { color: textColor },
+            itemGap: 12,
+        },
     }
 }
 

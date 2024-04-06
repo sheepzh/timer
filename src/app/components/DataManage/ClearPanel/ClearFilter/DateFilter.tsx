@@ -11,6 +11,7 @@ import { formatTime, MILL_PER_DAY } from "@util/time"
 import { t } from "@app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
 import I18nNode from "@app/components/common/I18nNode"
+import { EL_DATE_FORMAT } from "@i18n/element"
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
 const daysBefore = (days: number) => new Date().getTime() - days * MILL_PER_DAY
@@ -32,7 +33,6 @@ const pickerShortcuts = [
     datePickerShortcut('till30DaysAgo', 30)
 ]
 
-const dateFormat = t(msg => msg.calendar.dateFormat, { y: 'YYYY', m: 'MM', d: 'DD' })
 // The birthday of browser
 const startPlaceholder = t(msg => msg.calendar.dateFormat, { y: '1994', m: '12', d: '15' })
 const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
@@ -58,7 +58,7 @@ const _default = defineComponent({
                             style={{ width: "250px" }}
                             startPlaceholder={startPlaceholder}
                             endPlaceholder={endPlaceholder}
-                            dateFormat={dateFormat}
+                            dateFormat={EL_DATE_FORMAT}
                             type="daterange"
                             disabledDate={(date: Date) => date.getTime() > yesterday}
                             shortcuts={pickerShortcuts}

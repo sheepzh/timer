@@ -18,7 +18,7 @@ import { t } from "@app/locale"
 import { MIN_PERCENT_OF_PIE, formatFocusTooltip, generateTitleOption } from "./common"
 import { sum } from "@util/array"
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { echartsPalette } from "@util/echarts"
+import { getSeriesPalette } from "@app/util/echarts"
 
 use([PieChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])
 
@@ -62,7 +62,7 @@ const generateOption = ({ rows, timeFormat }: BizOption): EcOption => {
             label: {
                 show: false,
             },
-            color: echartsPalette(),
+            color: getSeriesPalette(),
         }],
         tooltip: {
             show: true,
