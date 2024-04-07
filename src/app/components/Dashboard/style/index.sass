@@ -10,13 +10,21 @@
     .el-col
         height: 100%
 
-.el-card__body
-    padding: 20px
-    width: calc(100% - 40px)
-    height: calc(100% - 40px)
+.dashboard-card
+    .el-card__body
+        padding: 20px
+        width: calc(100% - 40px)
+        height: calc(100% - 40px)
 
-    .chart-container
+        .chart-container
+            height: 100%
+
+.dashboard-card.no-padding
+    .el-card__body
+        padding: 0
+        width: 100%
         height: 100%
+
 .help-us-link
     color: var(--el-text-color-primary)
     text-align: center

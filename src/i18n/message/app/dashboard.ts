@@ -22,13 +22,8 @@ export type DashboardMessage = {
         browsingTime: string
         mostUse: string
     }
-    weekOnWeek: {
+    monthOnMonth: {
         title: string
-        lastBrowse: string
-        thisBrowse: string
-        wow: string
-        increase: string
-        decline: string
     }
 }
 

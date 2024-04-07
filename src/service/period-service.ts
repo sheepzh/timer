@@ -33,15 +33,18 @@ function dateStrBetween(startDate: timer.period.Key, endDate: timer.period.Key):
 }
 
 
-async function list(param?: PeriodQueryParam): Promise<timer.period.Result[]> {
+async function listBetween(param?: PeriodQueryParam): Promise<timer.period.Result[]> {
     const [start, end] = param?.periodRange || []
     const allDates = dateStrBetween(start, end)
     return periodDatabase.getBatch(allDates)
 }
 
+
+
 class PeriodService {
     add = add
-    list = list
+    listBetween = listBetween
+    listAll = () => periodDatabase.getAll()
 }
 
 export default new PeriodService()

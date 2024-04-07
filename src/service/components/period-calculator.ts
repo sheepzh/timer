@@ -66,6 +66,7 @@ export type MergeConfig = {
 }
 
 export function merge(periods: timer.period.Result[], config: MergeConfig): timer.period.Row[] {
+    if (!periods?.length) return []
     const result: timer.period.Row[] = []
     let { start, end, periodSize } = config
     const map: Map<number, number> = new Map()

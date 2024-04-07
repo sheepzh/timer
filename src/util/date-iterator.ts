@@ -45,7 +45,7 @@ export default class DateIterator {
         }
     }
 
-    forEach(callback: (yearMonth: string) => void) {
+    forEach(callback: (yearMonthDate: string) => void) {
         while (this.hasNext()) {
             callback(this.next().value)
         }

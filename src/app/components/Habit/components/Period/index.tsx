@@ -16,9 +16,8 @@ import { periodFormatter } from "@app/util/time"
 import periodService from "@service/period-service"
 import { useHabitFilter } from "../context"
 import { daysAgo, formatTime, isSameDay } from "@util/time"
-import { MAX_PERIOD_ORDER, keyBefore, keyOf } from "@util/period"
+import { MAX_PERIOD_ORDER, averageByDay, keyBefore, keyOf } from "@util/period"
 import { initProvider } from "./context"
-import { averageByDay } from "./common"
 
 type Summary = {
     favorite: {
@@ -139,7 +138,7 @@ const _default = defineComponent({
         initProvider(periodRange, rows, filter)
 
         const fetchRows = async () => {
-            const results = await periodService.list({ periodRange: periodRange.value })
+            const results = await periodService.listBetween({ periodRange: periodRange.value })
             const [start, end] = periodRange.value || []
             const periodSize = filter.value?.periodSize
             rows.value = merge(results, { start, end, periodSize })
