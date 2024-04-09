@@ -5,6 +5,10 @@ export function getRuntimeId(): string {
 }
 
 export function sendMsg2Runtime<T = any, R = any>(code: timer.mq.ReqCode, data?: T): Promise<R> {
+    // Fix proxy data failed to serialized in Firefox
+    if (data !== undefined) {
+        data = JSON.parse(JSON.stringify(data))
+    }
     const request: timer.mq.Request<T> = { code, data }
     return new Promise((resolve, reject) => chrome.runtime.sendMessage(request,
         (response: timer.mq.Response<R>) => {

@@ -11,7 +11,7 @@ import ContentContainer from "../common/ContentContainer"
 import Migration from "./Migration"
 import MemoryInfo, { MemoryInfoInstance } from "./MemoryInfo"
 import ClearPanel from "./ClearPanel"
-import './style'
+import './style.sass'
 
 export default defineComponent(() => {
     const memoryInfo = ref<MemoryInfoInstance>()

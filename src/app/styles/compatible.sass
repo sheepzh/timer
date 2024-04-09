@@ -50,9 +50,15 @@
     background-color: transparent
 .el-dialog.is-align-center
     text-align: center
+.el-dialog__header.show-close
+    padding-right: 0
 \:root
     --el-input-height: 40px
     --el-input-inner-height: 38px
+
+.el-dialog
+    .sop-dialog-container
+        margin-top: 25px
 
 // SOP
 .sop-footer
@@ -67,15 +73,17 @@
     .el-button:not(:last-child)
         margin-right: 10px
 .step-container
-    width: 600px
+    width: fit-content
     margin: auto
-    .el-step__head
-        text-align: center
-        .el-step__line
-            margin-right: -50% !important
-            left: 50% !important
-    .el-step__title
-        text-align: center
+    .el-step
+        width: 200px
+        .el-step__head
+            text-align: center
+            .el-step__line
+                margin-right: -50% !important
+                left: 50% !important
+        .el-step__title
+            text-align: center
 
 html[data-locale='uk']:root, html[data-locale='pt_PT']:root, html[data-locale='es']:root
     .el-date-range-picker
