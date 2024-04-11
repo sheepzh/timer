@@ -10,12 +10,12 @@ import { Upload } from "@element-plus/icons-vue"
 import Immigration from "@service/components/immigration"
 import { deserialize } from "@util/file"
 import { ElButton, ElLoading, ElMessage } from "element-plus"
-import { Ref, defineComponent, ref } from "vue"
+import { defineComponent, ref } from "vue"
 
 const immigration: Immigration = new Immigration()
 
-async function handleFileSelected(fileInputRef: Ref<HTMLInputElement>, callback: () => void) {
-    const files: FileList | null = fileInputRef?.value?.files
+async function handleFileSelected(fileInput: HTMLInputElement, callback: () => void) {
+    const files: FileList | null = fileInput?.files
     if (!files || !files.length) {
         return
     }
@@ -51,7 +51,7 @@ const _default = defineComponent({
                     type="file"
                     accept=".json"
                     style={{ display: "none" }}
-                    onChange={() => handleFileSelected(fileInput, () => ctx.emit('import'))}
+                    onChange={() => handleFileSelected(fileInput.value, () => ctx.emit('import'))}
                 />
             </ElButton>
         )

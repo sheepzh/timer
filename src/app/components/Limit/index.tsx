@@ -7,7 +7,7 @@
 
 import { defineComponent, ref, toRaw } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import LimitFilter from "./LimitFilter"
+import LimitFilter, { type FilterOption } from "./LimitFilter"
 import LimitTable from "./LimitTable"
 import LimitModify, { ModifyInstance } from "./LimitModify"
 import LimitTest, { TestInstance } from "./LimitTest"
@@ -15,8 +15,7 @@ import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
-import { useWindowVisible } from "@hooks/useWindowVisible"
-import { useRequest } from "@hooks/useRequest"
+import { useRequest, useState, useWindowVisible } from "@hooks"
 import { deepCopy } from "@util/lang"
 
 const initialUrl = () => {
@@ -27,11 +26,10 @@ const initialUrl = () => {
 }
 
 const _default = defineComponent(() => {
-    const url = ref(initialUrl())
-    const onlyEnabled = ref(false)
+    const [filterOption, setFilterOption] = useState<FilterOption>({ url: initialUrl(), onlyEnabled: false })
     const { data, refresh } = useRequest(
-        () => limitService.select({ filterDisabled: onlyEnabled.value, url: url.value || '' }),
-        { defaultValue: [] },
+        () => limitService.select({ filterDisabled: filterOption.value?.onlyEnabled, url: filterOption.value?.url || '' }),
+        { defaultValue: [], deps: filterOption },
     )
     // Query data if the window become visible
     useWindowVisible(refresh)
@@ -50,13 +48,8 @@ const _default = defineComponent(() => {
             v-slots={{
                 filter: () => (
                     <LimitFilter
-                        url={url.value}
-                        onlyEnabled={onlyEnabled.value}
-                        onChange={(urlVal, onlyEnabledVal) => {
-                            url.value = urlVal
-                            onlyEnabled.value = onlyEnabledVal
-                            refresh()
-                        }}
+                        defaultValue={filterOption.value}
+                        onChange={setFilterOption}
                         onCreate={() => modify.value?.create?.()}
                         onTest={() => test.value?.show?.()}
                     />

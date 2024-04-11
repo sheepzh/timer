@@ -2,7 +2,7 @@ import SiteDatabase from "@db/site-database"
 
 const siteDatabase = new SiteDatabase(chrome.storage.local)
 
-function compileAntPattern(antPattern: string): RegExp {
+export function compileAntPattern(antPattern: string): RegExp {
     const segments = antPattern.split('/')
     let patternStr = segments.map(seg => {
         if (seg === "**") {
@@ -21,8 +21,8 @@ function compileAntPattern(antPattern: string): RegExp {
 
 /**
  * The singleton implementation of virtual sites holder
- * 
- * @since 1.6.0 
+ *
+ * @since 1.6.0
  */
 class VirtualSiteHolder {
     hostSiteRegMap: Record<string, RegExp> = {}
@@ -49,9 +49,9 @@ class VirtualSiteHolder {
 
     /**
      * Find the virtual sites which matches the target url
-     * 
-     * @param url 
-     * @returns virtul sites
+     *
+     * @param url
+     * @returns virtual sites
      */
     findMatched(url: string): string[] {
         return Object.entries(this.hostSiteRegMap)

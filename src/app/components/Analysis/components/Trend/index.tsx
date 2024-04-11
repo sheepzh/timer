@@ -5,9 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/util"
-import type { Ref } from "vue"
 
-import { defineComponent, ref, watch, computed, onMounted } from "vue"
+import { defineComponent, type Ref, ref, watch, computed, onMounted } from "vue"
 import { KanbanCard } from "@app/components/common/kanban"
 import Filter from "./Filter"
 import Total from "./Total"
@@ -19,6 +18,7 @@ import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { groupBy } from "@util/array"
 import { useAnalysisRows, useAnalysisTimeFormat } from "../../context"
 import { initProvider } from "./context"
+import { useState } from "@hooks"
 
 type DailyIndicator = {
     value: number
@@ -137,7 +137,7 @@ function handleDataChange(source: SourceParam, effect: EffectParam) {
 }
 
 const _default = defineComponent(() => {
-    const dateRange = ref<[Date, Date]>(daysAgo(14, 0))
+    const [dateRange, setDateRange] = useState<[Date, Date]>(daysAgo(14, 0))
     const rangeLength = computed(() => getDayLength(dateRange.value?.[0], dateRange.value?.[1]))
     initProvider(dateRange, rangeLength)
 
@@ -159,7 +159,7 @@ const _default = defineComponent(() => {
         <KanbanCard
             title={t(msg => msg.analysis.trend.title)}
             v-slots={{
-                filter: () => <Filter dateRange={dateRange.value} onDateRangeChange={val => dateRange.value = val} />
+                filter: () => <Filter dateRange={dateRange.value} onDateRangeChange={setDateRange} />
             }}
         >
             <div class="analysis-trend-content">

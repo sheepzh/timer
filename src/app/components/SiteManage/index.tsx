@@ -5,30 +5,29 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, ref, watch, type Ref } from "vue"
+import { defineComponent, ref } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import SiteManageFilter from "./SiteManageFilter"
+import SiteManageFilter, { FilterOption } from "./SiteManageFilter"
 import Pagination from "../common/Pagination"
 import SiteManageTable from "./SiteManageTable"
 import siteService, { SiteQueryParam } from "@service/site-service"
 import Modify, { ModifyInstance } from './SiteManageModify'
-import { useRequest } from "@hooks/useRequest"
+import { useRequest, useState } from "@hooks"
 
 export default defineComponent(() => {
-    const filterOption: Ref<SiteManageFilterOption> = ref()
-    const modify: Ref<ModifyInstance> = ref()
-    const page = ref<timer.common.PageQuery>({ num: 1, size: 10 })
+    const [filterOption, setFilterOption] = useState<FilterOption>()
+    const modify = ref<ModifyInstance>()
+    const [page, setPage] = useState<timer.common.PageQuery>({ num: 1, size: 10 })
     const { data: pagination, refresh } = useRequest(() => {
         const { host, alias, onlyDetected } = filterOption.value || {}
         const param: SiteQueryParam = { host, alias, source: onlyDetected ? "DETECTED" : undefined }
         return siteService.selectByPage(param, page.value)
-    })
-    watch([filterOption, page], refresh)
+    }, { deps: [filterOption, page] })
 
     return () => <ContentContainer v-slots={{
         filter: () => <SiteManageFilter
             defaultValue={filterOption.value}
-            onChange={(option: SiteManageFilterOption) => filterOption.value = option}
+            onChange={setFilterOption}
             onCreate={() => modify.value?.add?.()}
         />,
         content: () => <>
@@ -36,7 +35,7 @@ export default defineComponent(() => {
             <Pagination
                 defaultValue={page.value}
                 total={pagination.value?.total || 0}
-                onChange={(num, size) => page.value = { num, size }}
+                onChange={setPage}
             />
             <Modify ref={modify} onSave={refresh} />
         </>,

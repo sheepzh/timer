@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -22,11 +22,11 @@ export default class StoragePromise {
     /**
      * @since 0.5.0
      */
-    async getOne(key: string): Promise<any | undefined> {
-        return (await this.get(key))[key]
+    async getOne<T>(key: string): Promise<T> {
+        return (await this.get(key))[key] as T
     }
 
-    set(obj: Object): Promise<void> {
+    set(obj: any): Promise<void> {
         return new Promise<void>(resolve => this.storage.set(obj, resolve))
     }
 
@@ -34,9 +34,7 @@ export default class StoragePromise {
      * @since 0.5.0
      */
     put(key: string, val: Object): Promise<void> {
-        const toUpdate = {}
-        toUpdate[key] = val
-        return this.set(toUpdate)
+        return this.set({ [key]: val })
     }
 
     remove(key: string | string[]): Promise<void> {

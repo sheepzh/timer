@@ -1,6 +1,6 @@
 import { defineComponent, ref } from "vue"
 import Search from "./components/Search"
-import { useRequest } from "@hooks/useRequest"
+import { useRequest } from "@hooks"
 import RowList from "./components/RowList"
 import statService, { StatQueryParam } from "@service/stat-service"
 import { ElText } from "element-plus"

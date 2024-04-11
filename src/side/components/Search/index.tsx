@@ -1,8 +1,9 @@
 import { Search } from "@element-plus/icons-vue"
 import { ElDatePicker, ElInput } from "element-plus"
-import { type PropType, defineComponent, ref, watch } from "vue"
+import { type PropType, defineComponent, watch } from "vue"
 import "./search.sass"
 import { t } from "@side/locale"
+import { useState } from "@hooks"
 
 const _default = defineComponent({
     props: {
@@ -15,8 +16,8 @@ const _default = defineComponent({
     setup(props, ctx) {
         const now = Date.now()
 
-        const query = ref<string>(props.defaultQuery)
-        const date = ref<Date>(props.defaultDate)
+        const [query, setQuery] = useState(props.defaultQuery)
+        const [date, setDate] = useState<Date>(props.defaultDate)
         const handleSearch = () => ctx.emit("search", query.value?.trim?.(), date.value)
 
         watch(date, handleSearch)
@@ -27,10 +28,10 @@ const _default = defineComponent({
                     placeholder={t(msg => msg.list.searchPlaceholder)}
                     prefixIcon={<Search />}
                     modelValue={query.value}
-                    onInput={val => query.value = val}
+                    onInput={setQuery}
                     clearable
                     onClear={() => {
-                        query.value = ''
+                        setQuery('')
                         handleSearch()
                     }}
                     onKeydown={(kv: KeyboardEvent) => kv.code === 'Enter' && handleSearch()}
@@ -39,7 +40,7 @@ const _default = defineComponent({
                     clearable={false}
                     disabledDate={(date: Date) => date.getTime() > now}
                     modelValue={date.value}
-                    onUpdate:modelValue={val => date.value = val}
+                    onUpdate:modelValue={setDate}
                     class="search-calendar"
                 />
             </div>

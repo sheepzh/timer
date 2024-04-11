@@ -68,3 +68,7 @@ export const OptionTooltip = defineComponent({
         )
     }
 })
+
+export type OptionInstance = {
+    reset: () => Promise<void> | void
+}

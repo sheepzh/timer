@@ -4,15 +4,12 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { Ref } from "vue"
-
 import { computed, defineComponent, onMounted, ref } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import StatDatabase from "@db/stat-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
-import { LocationQueryRaw, Router, useRouter } from "vue-router"
+import { LocationQueryRaw, useRouter } from "vue-router"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
@@ -58,8 +55,8 @@ const _default = defineComponent({
         const filter = useReportFilter()
         const canOperate = computed(() => !filter.value?.mergeHost)
         const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
-        const router: Router = useRouter()
-        const whitelist: Ref<string[]> = ref([])
+        const router = useRouter()
+        const whitelist = ref<string[]>([])
         const refreshWhitelist = () => whitelistService.listAll().then(val => whitelist.value = val)
         onMounted(refreshWhitelist)
 
@@ -105,7 +102,7 @@ const _default = defineComponent({
                         onConfirm={async () => {
                             await whitelistService.add(row.host)
                             refreshWhitelist()
-                            ElMessage({ message: t(msg => msg.operation.successMsg), type: 'success' })
+                            ElMessage.success(t(msg => msg.operation.successMsg))
                         }}
                     />
                     {/* Remove from whitelist */}
@@ -118,7 +115,7 @@ const _default = defineComponent({
                         onConfirm={async () => {
                             await whitelistService.remove(row.host)
                             refreshWhitelist()
-                            ElMessage({ message: t(msg => msg.operation.successMsg), type: 'success' })
+                            ElMessage.success(t(msg => msg.operation.successMsg))
                         }}
                     />
                 </>}

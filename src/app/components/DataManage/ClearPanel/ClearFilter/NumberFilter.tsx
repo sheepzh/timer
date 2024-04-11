@@ -6,19 +6,19 @@
  */
 
 import { ElInput } from "element-plus"
-import { defineComponent, PropType, ref, watch } from "vue"
+import { defineComponent, type PropType, type Ref, ref, watch } from "vue"
 import { t } from "@app/locale"
 import { DataManageMessage } from "@i18n/message/app/data-manage"
 import I18nNode from "@app/components/common/I18nNode"
 
-const elInput = (val: string, setter: (val?: string) => void, placeholder: string) => <ElInput
+const elInput = (ref: Ref<string>, placeholder: string) => <ElInput
     class="filter-input"
     placeholder={placeholder}
     clearable
     size="small"
-    modelValue={val}
-    onInput={val => setter?.(val?.trim())}
-    onClear={() => setter?.()}
+    modelValue={ref.value}
+    onInput={val => ref.value = val?.trim()}
+    onClear={() => ref.value = undefined}
 />
 
 const _default = defineComponent({
@@ -41,8 +41,8 @@ const _default = defineComponent({
                 <I18nNode
                     path={msg => msg.dataManage[props.translateKey]}
                     param={{
-                        start: elInput(start.value, v => start.value = v, '0'),
-                        end: elInput(end.value, v => end.value = v, t(msg => msg.dataManage.unlimited))
+                        start: elInput(start, '0'),
+                        end: elInput(end, t(msg => msg.dataManage.unlimited))
                     }}
                 />
             </p>

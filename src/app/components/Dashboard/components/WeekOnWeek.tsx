@@ -24,7 +24,7 @@ import { BASE_TITLE_OPTION } from "../common"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
-import { useEcharts, EchartsWrapper } from "@hooks/useEcharts"
+import { useEcharts, EchartsWrapper } from "@hooks"
 
 type EcOption = ComposeOption<
     | CandlestickSeriesOption

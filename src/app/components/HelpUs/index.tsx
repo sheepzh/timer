@@ -9,8 +9,8 @@ import { Pointer } from "@element-plus/icons-vue"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 
-const _default = defineComponent({
-    render: () => <ContentContainer>
+const _default = defineComponent(() => {
+    return () => <ContentContainer>
         <ElCard class="help-us">
             <ElAlert type="info" title={t(msg => msg.helpUs.title)}>
                 <li>{t(msg => msg.helpUs.alert.l1)}</li>

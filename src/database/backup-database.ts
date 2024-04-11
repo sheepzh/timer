@@ -23,12 +23,12 @@ class BackupDatabase extends BaseDatabase {
     }
 
     async getSnapshot(type: timer.backup.Type): Promise<timer.backup.Snapshot | undefined> {
-        const cache = await this.storage.getOne(SNAPSHOT_KEY) as timer.backup.SnapshotCache
+        const cache = await this.storage.getOne<timer.backup.SnapshotCache>(SNAPSHOT_KEY)
         return cache?.[type]
     }
 
     async updateSnapshot(type: timer.backup.Type, snapshot: timer.backup.Snapshot): Promise<void> {
-        const cache = (await this.storage.getOne(SNAPSHOT_KEY) as timer.backup.SnapshotCache) || {}
+        const cache = await this.storage.getOne<timer.backup.SnapshotCache>(SNAPSHOT_KEY) || {}
         cache[type] = snapshot
         await this.storage.put(SNAPSHOT_KEY, cache)
     }
@@ -41,9 +41,8 @@ class BackupDatabase extends BaseDatabase {
         return this.storage.put(cacheKeyOf(type), newVal)
     }
 
-    importData(_data: any): Promise<void> {
+    async importData(_data: any): Promise<void> {
         // Do nothing
-        return
     }
 }
 

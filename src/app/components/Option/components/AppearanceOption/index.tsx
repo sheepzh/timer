@@ -13,7 +13,7 @@ import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
 import DarkModeInput from "./DarkModeInput"
 import { t, tWith } from "@app/locale"
-import { OptionItem, OptionTag } from "../../common"
+import { OptionInstance, OptionItem, OptionTag } from "../../common"
 import localeMessages from "@i18n/message/common/locale"
 import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import { toggle } from "@util/dark-mode"
@@ -44,7 +44,7 @@ const _default = defineComponent((_props, ctx) => {
     })
     ctx.expose({
         reset: () => copy(option, defaultAppearance())
-    })
+    } satisfies OptionInstance)
     return () => (
         <div>
             <OptionItem

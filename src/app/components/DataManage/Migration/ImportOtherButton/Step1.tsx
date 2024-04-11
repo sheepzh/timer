@@ -10,6 +10,7 @@ import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "ele
 import { defineComponent, ref } from "vue"
 import { Document, Close, Right } from "@element-plus/icons-vue"
 import { OtherExtension, parseFile } from "./processor"
+import { useState, useSwitch } from "@hooks"
 
 const OTHER_NAMES: { [ext in OtherExtension]: string } = {
     webtime_tracker: "Webtime Tracker",
@@ -31,10 +32,10 @@ const _default = defineComponent({
         next: (_rows: timer.imported.Data) => true,
     },
     setup(_, ctx) {
-        const type = ref<OtherExtension>('webtime_tracker')
-        const selectedFile = ref<File>()
+        const [type, setType] = useState<OtherExtension>('webtime_tracker')
+        const [selectedFile, setSelectedFile] = useState<File>()
         const fileInput = ref<HTMLInputElement>()
-        const fileParsing = ref<boolean>(false)
+        const [parsing, startParse, endParse] = useSwitch()
 
         const handleNext = () => {
             const file = selectedFile.value
@@ -42,16 +43,16 @@ const _default = defineComponent({
                 ElMessage.warning(t(msg => msg.dataManage.importOther.fileNotSelected))
                 return
             }
-            fileParsing.value = true
+            startParse()
             parseFile(type.value, selectedFile.value)
                 .then(data => data?.rows?.length ? ctx.emit('next', data) : ElMessage.error("No rows parsed"))
                 .catch((e: Error) => ElMessage.error(e.message))
-                .finally(() => fileParsing.value = false)
+                .finally(endParse)
         }
         return () => <>
             <ElForm labelWidth={100} class="import-other-form" labelPosition="left">
                 <ElFormItem label={t(msg => msg.dataManage.importOther.dataSource)} required>
-                    <ElSelect modelValue={type.value} onChange={(val: OtherExtension) => type.value = val}>
+                    <ElSelect modelValue={type.value} onChange={setType}>
                         {
                             ALL_TYPES.map(type => <ElOption value={type} label={OTHER_NAMES[type]} />)
                         }
@@ -65,7 +66,7 @@ const _default = defineComponent({
                             type="file"
                             accept={OTHER_FILE_FORMAT[type.value]}
                             style={{ display: 'none' }}
-                            onChange={() => selectedFile.value = fileInput.value?.files?.[0]}
+                            onChange={() => setSelectedFile(fileInput.value?.files?.[0])}
                         />
                     </ElButton>
                     {selectedFile.value?.name && <span class="select-import-file-name">{selectedFile.value?.name}</span>}
@@ -75,7 +76,7 @@ const _default = defineComponent({
                 <ElButton type="info" icon={<Close />} onClick={() => ctx.emit('cancel')}>
                     {t(msg => msg.button.cancel)}
                 </ElButton>
-                <ElButton type="primary" icon={<Right />} loading={fileParsing.value} onClick={() => handleNext()}>
+                <ElButton type="primary" icon={<Right />} loading={parsing.value} onClick={handleNext}>
                     {t(msg => msg.button.next)}
                 </ElButton>
             </div>

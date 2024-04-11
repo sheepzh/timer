@@ -10,6 +10,7 @@ import { computed, defineComponent, nextTick, ref, toRaw } from "vue"
 import Sop, { SopInstance } from "./Sop"
 import limitService from "@service/limit-service"
 import { t } from "@app/locale"
+import { useSwitch } from "@hooks"
 
 export type ModifyInstance = {
     create(): void
@@ -23,7 +24,7 @@ const _default = defineComponent({
         save: (_saved: timer.limit.Rule) => true
     },
     setup: (_, ctx) => {
-        const visible = ref(false)
+        const [visible, open, close] = useSwitch()
         const sop = ref<SopInstance>()
         const mode = ref<Mode>()
         const title = computed(() => mode.value === "create" ? t(msg => msg.button.create) : t(msg => msg.button.modify))
@@ -47,17 +48,15 @@ const _default = defineComponent({
             ctx.emit("save", toSave)
         }
 
-        const close = () => visible.value = false
-
         const instance: ModifyInstance = {
             create() {
-                visible.value = true
+                open()
                 mode.value = 'create'
                 modifyingItem = undefined
                 nextTick(() => sop.value?.reset())
             },
             modify(row: timer.limit.Item) {
-                visible.value = true
+                open()
                 mode.value = 'modify'
                 modifyingItem = { ...row }
                 nextTick(() => sop.value?.reset?.(toRaw(row)))

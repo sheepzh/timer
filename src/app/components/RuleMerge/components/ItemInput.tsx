@@ -9,8 +9,9 @@ import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
 import { isValidHost } from "@util/pattern"
 import { ElButton, ElInput, ElMessage } from "element-plus"
-import { defineComponent, Ref, ref } from "vue"
+import { defineComponent } from "vue"
 import './style.sass'
+import { useState } from "@hooks"
 
 const _default = defineComponent({
     props: {
@@ -22,8 +23,8 @@ const _default = defineComponent({
         cancel: () => true,
     },
     setup(props, ctx) {
-        const origin: Ref<string> = ref(props.origin || "")
-        const merged: Ref<string> = ref(props.merged?.toString() || "")
+        const [origin, setOrigin, resetOrigin] = useState(props.origin || "")
+        const [merged, setMerged, resetMerged] = useState(props.merged?.toString() || "")
 
         const handleSave = () => {
             const originVal = origin.value
@@ -41,24 +42,24 @@ const _default = defineComponent({
                     modelValue={origin.value}
                     placeholder={t(msg => msg.mergeRule.originPlaceholder)}
                     clearable
-                    onClear={() => origin.value = ''}
-                    onInput={val => origin.value = val?.trim?.()}
+                    onClear={() => setOrigin()}
+                    onInput={setOrigin}
                 />
                 <ElInput
                     class="input-new-tag editable-item merge-merged-input"
                     modelValue={merged.value}
                     placeholder={t(msg => msg.mergeRule.mergedPlaceholder)}
                     clearable
-                    onClear={() => merged.value = ""}
-                    onInput={val => merged.value = val?.trim?.()}
+                    onClear={() => setMerged()}
+                    onInput={setMerged}
                 />
                 <ElButton
                     size="small"
                     icon={<Close />}
                     class="item-cancel-button editable-item"
                     onClick={() => {
-                        origin.value = props.origin
-                        merged.value = props.merged?.toString()
+                        resetOrigin()
+                        resetMerged()
                         ctx.emit("cancel")
                     }}
                 />

@@ -8,25 +8,25 @@
 import { t } from "@app/locale"
 import { Upload } from "@element-plus/icons-vue"
 import { ElButton, ElDialog } from "element-plus"
-import { Ref, defineComponent, ref } from "vue"
+import { defineComponent } from "vue"
 import Sop from "./Sop"
 import "./style"
+import { useSwitch } from "@hooks"
 
 const _default = defineComponent({
     emits: {
         import: () => true
     },
     setup(_) {
-        const dialogVisible: Ref<boolean> = ref(false)
-        const open = () => dialogVisible.value = true
-        const close = () => dialogVisible.value = false
+        const [visible, open, close] = useSwitch()
         return () => <>
             <ElButton size="large" type="warning" icon={<Upload />} onClick={open}>
                 {t(msg => msg.item.operation.importOtherData)}
             </ElButton>
             <ElDialog
                 top="10vh"
-                modelValue={dialogVisible.value}
+                class="sop-dialog"
+                modelValue={visible.value}
                 title={t(msg => msg.item.operation.importOtherData)}
                 width="80%"
                 closeOnClickModal={false}

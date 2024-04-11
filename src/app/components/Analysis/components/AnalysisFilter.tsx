@@ -5,24 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, PropType } from "vue"
-
 import { ElOption, ElSelect, ElTag } from "element-plus"
-import { ref, defineComponent } from "vue"
+import { type PropType, watch, defineComponent } from "vue"
 import statService, { HostSet } from "@service/stat-service"
 import siteService from "@service/site-service"
 import { t } from "@app/locale"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { labelOfHostInfo } from "../util"
+import { useRequest, useState } from "@hooks"
 
 const calcUniqueKey = ({ host, virtual, merged }: timer.site.SiteInfo) => `${host}${virtual ? 1 : 0}${merged ? 1 : 0}`
 
-async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<timer.site.SiteInfo[]>, searching: Ref<boolean>) {
-    if (!queryStr) {
-        trendDomainOptions.value = []
-        return
-    }
-    searching.value = true
+async function fetchDomain(queryStr: string): Promise<timer.site.SiteInfo[]> {
+    if (!queryStr) return []
 
     const options: Record<string, timer.site.SiteInfo> = {}
     const sites = await siteService.selectAll({ fuzzyQuery: queryStr })
@@ -39,8 +34,7 @@ async function handleRemoteSearch(queryStr: string, trendDomainOptions: Ref<time
         const key = calcUniqueKey(o)
         !options[key] && (options[key] = o)
     })
-    trendDomainOptions.value = Object.values(options)
-    searching.value = false
+    return Object.values(options)
 }
 
 const HOST_PLACEHOLDER = t(msg => msg.analysis.common.hostPlaceholder)
@@ -85,21 +79,15 @@ const _default = defineComponent({
         timeFormatChange: (_format: timer.app.TimeFormat) => true,
     },
     setup(props, ctx) {
-        const domainKey: Ref<string> = ref('')
-        const trendSearching: Ref<boolean> = ref(false)
-        const trendDomainOptions: Ref<timer.site.SiteInfo[]> = ref([])
         const defaultSite: timer.site.SiteKey = props.site
-        const timeFormat: Ref<timer.app.TimeFormat> = ref(props.timeFormat)
-
-        if (defaultSite) {
-            domainKey.value = calcKey(defaultSite)
-            trendDomainOptions.value.push(defaultSite)
-        }
-
-        const handleSiteChange = () => {
-            const siteInfo: timer.site.SiteInfo = calcSite(domainKey.value)
-            ctx.emit('siteChange', siteInfo)
-        }
+        const [domainKey, setDomainKey] = useState(defaultSite ? calcKey(defaultSite) : '')
+        const { data: trendDomainOptions, loading: trendSearching, refresh: searchRemote } = useRequest<string, timer.site.SiteInfo[]>(
+            fetchDomain,
+            { defaultValue: defaultSite ? [defaultSite] : [], manual: true }
+        )
+        const [timeFormat, setTimeFormat] = useState(props.timeFormat)
+        watch(domainKey, () => ctx.emit('siteChange', calcSite(domainKey.value)))
+        watch(timeFormat, () => ctx.emit('timeFormatChange', timeFormat.value))
 
         return () => <>
             <ElSelect
@@ -110,15 +98,9 @@ const _default = defineComponent({
                 remote
                 loading={trendSearching.value}
                 clearable
-                remoteMethod={(query: string) => handleRemoteSearch(query, trendDomainOptions, trendSearching)}
-                onChange={(key: string) => {
-                    domainKey.value = key
-                    handleSiteChange()
-                }}
-                onClear={() => {
-                    domainKey.value = undefined
-                    handleSiteChange()
-                }}
+                remoteMethod={searchRemote}
+                onChange={setDomainKey}
+                onClear={() => setDomainKey()}
             >
                 {(trendDomainOptions.value || [])?.map(
                     site => (
@@ -136,7 +118,7 @@ const _default = defineComponent({
             </ElSelect>
             <TimeFormatFilterItem
                 defaultValue={timeFormat.value}
-                onChange={val => ctx.emit("timeFormatChange", timeFormat.value = val)}
+                onChange={setTimeFormat}
             />
         </>
     }

@@ -4,12 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { Ref, PropType, ComputedRef } from "vue"
-
 import { ElOption, ElSelect, ElTimePicker } from "element-plus"
-import { defineComponent, ref, watch, computed } from "vue"
+import { defineComponent, watch, computed, type PropType } from "vue"
 import { t } from "@app/locale"
+import { useShadow } from "@hooks"
 
 const ALL_MODES: timer.option.DarkMode[] = ["default", "on", "off", "timed"]
 
@@ -33,7 +31,6 @@ function computeDateToSecond(date: Date) {
 }
 
 const _default = defineComponent({
-    name: "DarkModeInput",
     props: {
         modelValue: String as PropType<timer.option.DarkMode>,
         startSecond: Number,
@@ -43,28 +40,29 @@ const _default = defineComponent({
         change: (_darkMode: timer.option.DarkMode, [_startSecond, _endSecond]: [number, number]) => true
     },
     setup(props, ctx) {
-        const darkMode: Ref<timer.option.DarkMode> = ref(props.modelValue)
-        // @ts-ignore
-        const start: Ref<Date> = ref(computeSecondToDate(props.startSecond))
-        // @ts-ignore
-        const end: Ref<Date> = ref(computeSecondToDate(props.endSecond))
-        watch(() => props.modelValue, newVal => darkMode.value = newVal)
-        watch(() => props.startSecond, newVal => start.value = computeSecondToDate(newVal))
-        watch(() => props.endSecond, newVal => end.value = computeSecondToDate(newVal))
-        const startSecond: ComputedRef<number> = computed(() => computeDateToSecond(start.value))
-        const endSecond: ComputedRef<number> = computed(() => computeDateToSecond(end.value))
+        const [darkMode, setDarkMode] = useShadow(() => props.modelValue)
+        const [startSecond, setStartSecond] = useShadow(() => props.startSecond)
+        const [endSecond, setEndSecond] = useShadow(() => props.endSecond)
+        const start = computed({
+            get: () => computeSecondToDate(startSecond.value),
+            set: val => setStartSecond(computeDateToSecond(val)),
+        })
+        const end = computed({
+            get: () => computeSecondToDate(endSecond.value),
+            set: val => setEndSecond(computeDateToSecond(val)),
+        })
 
-        const handleChange = () => ctx.emit("change", darkMode.value, [startSecond.value, endSecond.value])
+        watch(
+            [startSecond, endSecond, darkMode],
+            () => ctx.emit("change", darkMode.value, [startSecond.value, endSecond.value])
+        )
 
         return () => <>
             <ElSelect
                 modelValue={darkMode.value}
                 size="small"
                 style={{ width: "120px" }}
-                onChange={val => {
-                    darkMode.value = val as timer.option.DarkMode
-                    handleChange()
-                }}
+                onChange={setDarkMode}
             >
                 {
                     ALL_MODES.map(value => <ElOption value={value} label={t(msg => msg.option.appearance.darkMode.options[value])} />)
@@ -75,20 +73,14 @@ const _default = defineComponent({
                     modelValue={start.value}
                     size="small"
                     style={{ marginLeft: "10px" }}
-                    onUpdate:modelValue={val => {
-                        start.value = val
-                        handleChange()
-                    }}
+                    onUpdate:modelValue={val => start.value = val}
                     clearable={false}
                 />
                 <a>-</a>
                 <ElTimePicker
                     modelValue={end.value}
                     size="small"
-                    onUpdate:modelValue={val => {
-                        end.value = val
-                        handleChange()
-                    }}
+                    onUpdate:modelValue={val => end.value = val}
                     clearable={false}
                 />
             </>}

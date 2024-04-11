@@ -11,28 +11,25 @@ import { defineComponent } from "vue"
 
 const ALL_FILE_FORMATS: FileFormat[] = ["json", "csv"]
 
-const renderDropdown = (onMenuClick: (f: FileFormat) => void) => (
-    <ElDropdownMenu>
-        {ALL_FILE_FORMATS.map(
-            format => (
-                <ElDropdownItem onClick={() => onMenuClick(format)}>
-                    {format}
-                </ElDropdownItem>
-            )
-        )}
-    </ElDropdownMenu>
-)
-
 const _default = defineComponent({
     emits: {
         download: (_format: FileFormat) => true,
     },
     setup(_, ctx) {
+        const handleClick = (format: FileFormat) => ctx.emit('download', format)
         return () => (
             <ElDropdown
                 class="export-dropdown"
                 showTimeout={100}
-                v-slots={{ dropdown: () => renderDropdown(f => ctx.emit("download", f)) }}
+                v-slots={{
+                    dropdown: () => <ElDropdownMenu>
+                        {ALL_FILE_FORMATS.map(f =>
+                            <ElDropdownItem onClick={() => handleClick(f)}>
+                                {f}
+                            </ElDropdownItem>
+                        )}
+                    </ElDropdownMenu>
+                }}
             >
                 <ElButton size="small" class="export-dropdown-button">
                     <ElIcon size={17} style={{ padding: "0 1px" }}>

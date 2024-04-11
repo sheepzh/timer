@@ -47,20 +47,14 @@ function link2Setup(url: string): HTMLParagraphElement {
     return p
 }
 
-function exitScreen(): Promise<void> {
+async function exitScreen(): Promise<void> {
     const ele = document.fullscreenElement
-    if (!ele) {
-        return Promise.resolve()
+    if (!ele) return
+    try {
+        await document.exitFullscreen?.()
+    } catch (e) {
+        console.warn("Failed to exit fullscreen", e)
     }
-    return new Promise<void>(resolve => {
-        if (document.exitFullscreen) {
-            document.exitFullscreen()
-                .then(resolve)
-                .catch(e => console.warn("Failed to exit fullscreen", e))
-        } else {
-            resolve()
-        }
-    })
 }
 
 function isSameReason(a: LimitReason, b: LimitReason): boolean {

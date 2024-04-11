@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -43,7 +43,7 @@ const handleInputConfirm = (origin: string, merged: string | number, addButtonRe
     ).then(async () => {
         await mergeRuleDatabase.add(toInsert)
         queryData()
-        ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
+        ElMessage.success(t(msg => msg.operation.successMsg))
         addButtonRef.value.closeEdit()
     }).catch(() => { })
 }
@@ -56,7 +56,7 @@ const handleTagClose = (origin: string) => {
         .confirm(confirmMsg, confirmTitle)
         .then(async () => await mergeRuleDatabase.remove(origin))
         .then(() => {
-            ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
+            ElMessage.success(t(msg => msg.operation.successMsg))
             queryData()
         })
         .catch(() => { })
@@ -74,7 +74,7 @@ async function handleChange(origin: string, merged: string | number, index: numb
     beforeItem.origin = origin
     beforeItem.merged = merged
     await mergeRuleDatabase.add(beforeItem)
-    ElMessage({ type: 'success', message: t(msg => msg.operation.successMsg) })
+    ElMessage.success(t(msg => msg.operation.successMsg))
 }
 
 function generateTagItem(ruleItem: timer.merge.Rule, index: number): VNode {

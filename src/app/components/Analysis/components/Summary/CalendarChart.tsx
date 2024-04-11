@@ -1,4 +1,4 @@
-import { EchartsWrapper, useEcharts } from "@hooks/useEcharts"
+import { EchartsWrapper, useEcharts } from "@hooks"
 import { computed, defineComponent } from "vue"
 import { useAnalysisRows, useAnalysisTimeFormat } from "../../context"
 import {

@@ -22,7 +22,7 @@ type FilterOption = {
 function generateParamAndSelect(option: FilterOption): Promise<timer.stat.Row[]> | undefined {
     const param = checkParam(option)
     if (!param) {
-        ElMessage({ message: t(msg => msg.dataManage.paramError), type: 'warning' })
+        ElMessage.warning(t(msg => msg.dataManage.paramError))
         return
     }
 
@@ -98,7 +98,7 @@ const _default = defineComponent({
                 confirmButtonText: t(msg => msg.button.confirm)
             }).then(async () => {
                 await statService.batchDelete(result)
-                ElMessage(t(msg => msg.operation.successMsg))
+                ElMessage.success(t(msg => msg.operation.successMsg))
                 ctx.emit('dataDelete')
             }).catch(() => { })
         }

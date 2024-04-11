@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { useProvide, useProvider } from "@hooks/useProvider"
+import { useProvide, useProvider } from "@hooks"
 import { Ref } from "vue"
 import { FilterOption } from "./Filter"
 

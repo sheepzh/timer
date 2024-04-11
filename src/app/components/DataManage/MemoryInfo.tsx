@@ -9,8 +9,8 @@ import { ElAlert, ElCard, ElProgress } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { t } from "@app/locale"
 import { alertProps } from "./common"
-import { getUsedStorage, MemoryInfo } from "@db/memory-detector"
-import { useRequest } from "@hooks/useRequest"
+import { getUsedStorage } from "@db/memory-detector"
+import { useRequest } from "@hooks"
 
 export type MemoryInfoInstance = {
     refresh(): void
@@ -36,7 +36,7 @@ const totalTitle = (totalMb: number) => totalMb
 
 const _default = defineComponent({
     setup(_, ctx) {
-        const { data, refresh } = useRequest<MemoryInfo>(() => getUsedStorage(), { defaultValue: { used: 0, total: 1 } })
+        const { data, refresh } = useRequest(getUsedStorage, { defaultValue: { used: 0, total: 1 } })
         ctx.expose({ refresh } as MemoryInfoInstance)
 
         const usedMb = computed(() => byte2Mb(data.value?.used))

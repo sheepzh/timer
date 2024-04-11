@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { unref, UnwrapRef, watch } from "vue"
+import { unref, watch } from "vue"
 import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "@app/locale"
 import { I18nKey, t as t_ } from "@i18n"
 import { defineComponent, reactive } from "vue"
 import optionService from "@service/option-service"
-import { OptionItem, OptionTag } from "../common"
+import { OptionInstance, OptionItem, OptionTag } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
@@ -72,7 +72,7 @@ function copy(target: timer.option.PopupOption, source: timer.option.PopupOption
 }
 
 const _default = defineComponent((_props, ctx) => {
-    const option: UnwrapRef<timer.option.PopupOption> = reactive(defaultPopup())
+    const option = reactive(defaultPopup())
     optionService.getAllOption()
         .then(currentVal => {
             copy(option, currentVal)
@@ -80,7 +80,7 @@ const _default = defineComponent((_props, ctx) => {
         })
     ctx.expose({
         reset: () => copy(option, defaultPopup())
-    })
+    } satisfies OptionInstance)
     return () => <>
         <OptionItem
             label={msg => msg.option.popup.defaultMergeDomain}

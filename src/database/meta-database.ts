@@ -13,19 +13,14 @@ import { META_KEY } from "./common/constant"
  */
 class MetaDatabase extends BaseDatabase {
     async getMeta(): Promise<timer.ExtensionMeta> {
-        const meta = (await this.storage.getOne(META_KEY)) as timer.ExtensionMeta
-        if (!meta) {
-            return {}
-        } else {
-            return meta
-        }
+        const meta: timer.ExtensionMeta = await this.storage.getOne(META_KEY)
+        return meta || {}
     }
 
     async importData(data: any): Promise<void> {
         const meta: timer.ExtensionMeta = data[META_KEY] as timer.ExtensionMeta
-        if (!meta) {
-            return
-        }
+        if (!meta) return
+
         const existMeta = await this.getMeta()
         if (!existMeta.popupCounter) {
             existMeta.popupCounter = {}

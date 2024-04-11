@@ -8,7 +8,7 @@
 import { ElDivider, ElLink, ElMessage, ElScrollbar, ElText, ScrollbarInstance } from "element-plus"
 import { PropType, defineComponent, ref, watch } from "vue"
 import { StepFromInstance } from "../common"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow } from "@hooks"
 import UrlInput from "./UrlInput"
 import "./style.sass"
 import { Delete } from "@element-plus/icons-vue"

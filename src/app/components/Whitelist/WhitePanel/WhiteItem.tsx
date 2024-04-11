@@ -7,53 +7,50 @@
 
 import { Edit } from "@element-plus/icons-vue"
 import { ElTag } from "element-plus"
-import { defineComponent, ref, Ref, watch } from "vue"
+import { computed, defineComponent } from "vue"
 import WhiteInput from "./WhiteInput"
-
-export type ItemInstance = {
-    forceEdit(): void
-}
+import { judgeVirtualFast } from "@util/pattern"
+import { useShadow, useSwitch } from "@hooks"
 
 const _default = defineComponent({
     props: {
         white: String,
-        index: Number,
     },
     emits: {
-        change: (_white: string, _idx: number) => true,
+        change: (_white: string, _openEdit: () => void) => true,
         delete: (_white: string) => true,
     },
     setup(props, ctx) {
-        const white: Ref<string> = ref(props.white)
-        watch(() => props.white, newVal => white.value = newVal)
-        const id: Ref<number> = ref(props.index || 0)
-        watch(() => props.index, newVal => id.value = newVal)
-        const editing: Ref<boolean> = ref(false)
-        const instance: ItemInstance = {
-            forceEdit: () => editing.value = true
-        }
-        ctx.expose(instance)
-        return () => editing.value
-            ? <WhiteInput
-                white={white.value}
+        const [white, , resetWhite] = useShadow(() => props.white)
+        const isVirtual = computed(() => judgeVirtualFast(white.value))
+        const [editing, openEditing, closeEditing] = useSwitch()
+
+        return () => <>
+            <WhiteInput
+                v-show={editing.value}
+                defaultValue={white.value}
                 onSave={val => {
-                    editing.value = false
-                    ctx.emit("change", white.value = val, id.value)
+                    closeEditing()
+                    ctx.emit("change", white.value = val, openEditing)
                 }}
                 onCancel={() => {
-                    white.value = props.white
-                    editing.value = false
+                    resetWhite()
+                    closeEditing()
                 }}
             />
-            : <ElTag
+            <ElTag
+                v-show={!editing.value}
                 class="editable-item"
-                closable onClose={() => ctx.emit("delete", white.value)}
+                closable
+                onClose={() => ctx.emit("delete", white.value)}
+                type={isVirtual.value ? 'warning' : 'primary'}
             >
                 {white.value}
-                <span onClick={() => editing.value = true}>
+                <span onClick={openEditing}>
                     <Edit class="edit-icon" />
                 </span>
             </ElTag>
+        </>
     }
 })
 

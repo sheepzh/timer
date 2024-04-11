@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -73,7 +73,7 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
         return badgeLocation
     }
     const host = extractHostname(url)?.host
-    if (whitelistHolder.contains(host)) {
+    if (whitelistHolder.contains(host, url)) {
         setBadgeText('W', tabId)
         return badgeLocation
     }

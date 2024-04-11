@@ -50,7 +50,7 @@ const _default = defineComponent(() => {
             {
                 ({ row }: ElTableRowScope<timer.stat.Row>) => filter.value?.mergeHost
                     ? <HostMergedAlert mergedHost={row.host}>
-                        {() => row.mergedHosts.map(origin =>
+                        {row.mergedHosts.map(origin =>
                             <p>
                                 <HostAlert {...origin} clickable={!isRemainHost(origin.host)} />
                             </p>

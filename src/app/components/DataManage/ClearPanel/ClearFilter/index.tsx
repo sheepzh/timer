@@ -10,31 +10,32 @@ import DateFilter from "./DateFilter"
 import NumberFilter from "./NumberFilter"
 import { ElButton } from "element-plus"
 import { Delete } from "@element-plus/icons-vue"
+import { useState } from "@hooks"
 
 const _default = defineComponent({
     emits: {
         delete: (_date: [Date, Date], _focus: [string, string], _time: [string, string]) => true
     },
     setup(_, ctx) {
-        const date = ref<[Date, Date]>([null, null])
-        const focus = ref<[string, string]>(['0', '2'])
-        const time = ref<[string, string]>(['0', null])
+        const [date, setDate] = useState<[Date, Date]>([null, null])
+        const [focus, setFocus] = useState<[string, string]>(['0', '2'])
+        const [time, setTime] = useState<[string, string]>(['0', null])
 
         return () => (
             <div class="clear-panel">
                 <h3>{t(msg => msg.dataManage.filterItems)}</h3>
-                <DateFilter dateRange={date.value} onChange={(val: [Date, Date]) => date.value = val} />
+                <DateFilter dateRange={date.value} onChange={setDate} />
                 <NumberFilter
                     translateKey="filterFocus"
                     defaultValue={focus.value}
                     lineNo={2}
-                    onChange={val => focus.value = val}
+                    onChange={setFocus}
                 />
                 <NumberFilter
                     translateKey="filterTime"
                     defaultValue={time.value}
                     lineNo={3}
-                    onChange={val => time.value = val}
+                    onChange={setTime}
                 />
                 <div class="footer-container filter-container">
                     <ElButton

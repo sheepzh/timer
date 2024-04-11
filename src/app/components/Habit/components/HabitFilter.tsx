@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, PropType } from "vue"
 import type { CalendarMessage } from "@i18n/message/common/calendar"
 
-import { ref, defineComponent, watch } from "vue"
+import { defineComponent, watch, type PropType } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { FilterOption } from "../type"
+import { useState } from "@hooks"
 
 type ShortCutProp = [label: keyof CalendarMessage['range'], dayAgo: number]
 
@@ -44,8 +44,8 @@ const _default = defineComponent({
         change: (_option: FilterOption) => true
     },
     setup(props, ctx) {
-        const dateRange: Ref<[Date, Date]> = ref(props.defaultValue?.dateRange || [null, null])
-        const timeFormat: Ref<timer.app.TimeFormat> = ref(props.defaultValue?.timeFormat)
+        const [dateRange, setDateRange] = useState<[Date, Date]>(props.defaultValue?.dateRange || [null, null])
+        const [timeFormat, setTimeFormat] = useState(props.defaultValue?.timeFormat)
 
         watch([dateRange, timeFormat], () => ctx.emit("change", {
             dateRange: dateRange.value,
@@ -58,11 +58,11 @@ const _default = defineComponent({
                 disabledDate={(date: Date) => date.getTime() > new Date().getTime()}
                 defaultRange={dateRange.value}
                 shortcuts={SHORTCUTS}
-                onChange={val => dateRange.value = val}
+                onChange={setDateRange}
             />
             <TimeFormatFilterItem
                 defaultValue={timeFormat.value}
-                onChange={val => timeFormat.value = val}
+                onChange={setTimeFormat}
             />
         </>
     }

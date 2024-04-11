@@ -7,7 +7,7 @@
 import { ElSwitch } from "element-plus"
 import { defineComponent, watch } from "vue"
 import { useRoute } from "vue-router"
-import { useCached } from "@hooks/useCached"
+import { useCached } from "@hooks"
 
 const _default = defineComponent({
     emits: {

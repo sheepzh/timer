@@ -13,7 +13,7 @@ import processor from "@src/common/backup/processor"
 import { defaultBackup } from "@util/constant/option"
 import { ElInput, ElOption, ElSelect, ElAlert, ElButton, ElMessage, ElLoading } from "element-plus"
 import { defineComponent, computed, ref, watch } from "vue"
-import { OptionItem, OptionTooltip } from "../../common"
+import { OptionInstance, OptionItem, OptionTooltip } from "../../common"
 import AutoInput from "./AutoInput"
 import Footer from "./Footer"
 import { AUTHOR_EMAIL } from "@src/package"
@@ -69,7 +69,7 @@ const _default = defineComponent((_props, ctx) => {
 
     const isObsidian = computed(() => backupType.value === "obsidian_local_rest_api")
     const isNotNone = computed(() => backupType.value !== "none")
-    const auth: Ref<string> = computed({
+    const auth = computed({
         get: () => backupAuths.value?.[backupType?.value],
         set: val => {
             const typeVal = backupType.value
@@ -81,7 +81,7 @@ const _default = defineComponent((_props, ctx) => {
             backupAuths.value = newAuths
         }
     })
-    const ext: Ref<timer.backup.TypeExt> = computed({
+    const ext = computed<timer.backup.TypeExt>({
         get: () => backupExts.value?.[backupType.value],
         set: val => {
             const typeVal = backupType.value
@@ -114,7 +114,7 @@ const _default = defineComponent((_props, ctx) => {
             backupType.value = DEFAULT.backupType
             autoBackUp.value = DEFAULT.autoBackUp
         }
-    })
+    } satisfies OptionInstance)
     return () => <>
         <ElAlert closable={false} type="warning" description={t(msg => msg.option.backup.alert, { email: AUTHOR_EMAIL })} />
         <OptionItem label={msg => msg.option.backup.type} defaultValue={TYPE_NAMES[DEFAULT.backupType]}>

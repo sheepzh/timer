@@ -14,7 +14,7 @@ const _default = defineComponent({
         total: Number
     },
     emits: {
-        change: (_currentPage: number, _pageSize: number) => true,
+        change: (_val: timer.common.PageQuery) => true,
     },
     setup(props, ctx) {
         return () => (
@@ -25,7 +25,7 @@ const _default = defineComponent({
                     defaultPageSize={(props.defaultValue as timer.common.PageQuery)?.size}
                     layout="total, sizes, prev, pager, next, jumper"
                     total={props.total}
-                    onChange={(currentPage, pageSize) => ctx.emit("change", currentPage, pageSize)}
+                    onChange={(currentPage, pageSize) => ctx.emit("change", { num: currentPage, size: pageSize })}
                 />
             </div>
         )

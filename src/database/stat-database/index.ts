@@ -81,7 +81,7 @@ function migrate(exists: { [key: string]: timer.stat.Result }, data: any): { [ke
 class StatDatabase extends BaseDatabase {
 
     async refresh(): Promise<{}> {
-        const result = await this.storage.get(null)
+        const result = await this.storage.get()
         const items = {}
         Object.entries(result)
             .filter(([key]) => !key.startsWith(REMAIN_WORD_PREFIX))
@@ -95,11 +95,9 @@ class StatDatabase extends BaseDatabase {
      */
     async accumulate(host: string, date: Date | string, item: timer.stat.Result): Promise<timer.stat.Result> {
         const key = generateKey(host, date)
-        const items = await this.storage.get(key)
-        const exist: timer.stat.Result = mergeResult(items[key] as timer.stat.Result || createZeroResult(), item)
-        const toUpdate = {}
-        toUpdate[key] = exist
-        await this.storage.set(toUpdate)
+        let exist = await this.storage.getOne<timer.stat.Result>(key)
+        exist = mergeResult(exist || createZeroResult(), item)
+        await this.setByKey(key, exist)
         return exist
     }
 
@@ -166,8 +164,8 @@ class StatDatabase extends BaseDatabase {
      */
     async get(host: string, date: Date | string): Promise<timer.stat.Result> {
         const key = generateKey(host, date)
-        const items = await this.storage.get(key)
-        return Promise.resolve(items[key] || createZeroResult())
+        const exist = await this.storage.getOne<timer.stat.Result>(key)
+        return exist || createZeroResult()
     }
 
     /**
@@ -222,7 +220,7 @@ class StatDatabase extends BaseDatabase {
             .filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
 
         await this.storage.remove(keys)
-        return Promise.resolve(keys.map(k => k.substring(0, 8)))
+        return keys.map(k => k.substring(0, 8))
     }
 
     /**

@@ -4,28 +4,22 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { PropType, Ref } from "vue"
-
-import { t } from "@app/locale"
 import statService, { HostSet } from "@service/stat-service"
-import { ElFormItem, ElOption, ElSelect, ElTag } from "element-plus"
-import { defineComponent, ref } from "vue"
+import { ElOption, ElSelect, ElTag } from "element-plus"
+import { defineComponent, type PropType } from "vue"
 import { cvt2SiteKey, cvt2OptionValue, EXIST_MSG, MERGED_MSG, VIRTUAL_MSG, labelOf } from "../common"
 import { ALL_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
 import siteService from "@service/site-service"
 import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
+import { useRequest } from "@hooks"
 
 type _OptionInfo = {
     siteKey: timer.site.SiteKey
     hasAlias: boolean
 }
 
-async function handleRemoteSearch(query: string, searching: Ref<boolean>, searchedHosts: Ref<_OptionInfo[]>) {
-    if (!query) {
-        return
-    }
-    searching.value = true
+async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
+    if (!query) return []
     const hostSet: HostSet = (await statService.listHosts(query))
     const allAlias: timer.site.SiteKey[] =
         [
@@ -63,18 +57,16 @@ async function handleRemoteSearch(query: string, searching: Ref<boolean>, search
         result.push(originalOptions[existIdx])
         originalOptions.forEach((opt, idx) => idx !== existIdx && result.push(opt))
     }
-
-    searchedHosts.value = result
-    searching.value = false
+    return result
 }
 
 const renderOption = ({ siteKey, hasAlias }: _OptionInfo) => {
     const { host, merged, virtual } = siteKey
     return <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
         <span>{host}</span>
-        {merged && <ElTag size="small">{MERGED_MSG}</ElTag>}
-        {virtual && <ElTag size="small">{VIRTUAL_MSG}</ElTag>}
-        {hasAlias && <ElTag size="small" type="info">{EXIST_MSG}</ElTag>}
+        <ElTag v-show={merged} size="small">{MERGED_MSG}</ElTag>
+        <ElTag v-show={virtual} size="small">{VIRTUAL_MSG}</ElTag>
+        <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
     </ElOption>
 }
 
@@ -86,24 +78,23 @@ const _default = defineComponent({
         change: (_siteKey: timer.site.SiteKey) => true
     },
     setup(props, ctx) {
-        const searching: Ref<boolean> = ref(false)
-        const searchedHosts: Ref<_OptionInfo[]> = ref([])
-        return () => <ElFormItem
-            prop="key"
-            label={t(msg => msg.siteManage.column.host)}
-        >
+        const { data: options, loading: searching, refresh: searchOption } = useRequest(
+            handleRemoteSearch,
+            { defaultValue: [], manual: true },
+        )
+        return () => (
             <ElSelect
                 style={{ width: '100%' }}
                 modelValue={cvt2OptionValue(props.modelValue)}
                 filterable
                 remote
                 loading={searching.value}
-                remoteMethod={(query: string) => handleRemoteSearch(query, searching, searchedHosts)}
+                remoteMethod={searchOption}
                 onChange={val => ctx.emit("change", val ? cvt2SiteKey(val) : undefined)}
             >
-                {searchedHosts.value?.map(renderOption)}
+                {options.value?.map(renderOption)}
             </ElSelect>
-        </ElFormItem>
+        )
     }
 })
 

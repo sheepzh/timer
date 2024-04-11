@@ -84,12 +84,11 @@ const compatibleOldItems = (items: Items): Items => {
  */
 class LimitDatabase extends BaseDatabase {
     private async getItems(): Promise<Items> {
-        const result = await this.storage.get(KEY)
-        let items: Items = result[KEY] || {}
+        let items = await this.storage.getOne<Items>(KEY) || {}
         const isNew = Object.values(items).some(iv => !!iv.i)
         if (!isNew) {
             items = compatibleOldItems(items)
-            this.storage.set({ [KEY]: items })
+            this.storage.put(KEY, items)
         }
         return items
     }

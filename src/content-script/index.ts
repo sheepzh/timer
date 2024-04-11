@@ -48,7 +48,7 @@ async function main() {
     if (getOrSetFlag()) return
     if (!host) return
 
-    const isWhitelist = await sendMsg2Runtime('cs.isInWhitelist', host)
+    const isWhitelist = await sendMsg2Runtime('cs.isInWhitelist', { host, url })
     if (isWhitelist) return
 
     sendMsg2Runtime('cs.incVisitCount', { host, url })

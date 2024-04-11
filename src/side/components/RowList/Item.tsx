@@ -2,7 +2,7 @@ import { computed, defineComponent, PropType } from "vue"
 import "./item.sass"
 import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
 import { createTab } from "@api/chrome/tab"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow } from "@hooks"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
 

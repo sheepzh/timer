@@ -9,7 +9,7 @@ import { StyleValue, computed, defineComponent } from "vue"
 import FocusPieWrapper from "./FocusPieWrapper"
 import { useHabitFilter } from "../context"
 import { useRows } from "./context"
-import { useEcharts } from "@hooks/useEcharts"
+import { useEcharts } from "@hooks"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",

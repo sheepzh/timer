@@ -14,10 +14,6 @@ import { locale } from "@i18n"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 
-const label = t((msg) => msg.limit.item.operation)
-const deleteButtonText = t((msg) => msg.button.delete)
-const modifyButtonText = t((msg) => msg.button.modify)
-
 async function handleDelete(row: timer.limit.Item, callback: () => void) {
     let promise = undefined
     if (await judgeVerificationRequired(row)) {
@@ -25,7 +21,7 @@ async function handleDelete(row: timer.limit.Item, callback: () => void) {
         promise = processVerification(option)
     }
     if (!promise) {
-        const message = t((msg) => msg.limit.message.deleteConfirm, {
+        const message = t(msg => msg.limit.message.deleteConfirm, {
             cond: row.cond,
         })
         promise = ElMessageBox.confirm(message, { type: "warning" })
@@ -66,7 +62,7 @@ const _default = defineComponent({
     setup(_props, ctx) {
         return () => <ElTableColumn
             prop="operations"
-            label={label}
+            label={t(msg => msg.limit.item.operation)}
             width={LOCALE_WIDTH[locale]}
             align="center"
             fixed="right"
@@ -77,7 +73,7 @@ const _default = defineComponent({
                     icon={<Delete />}
                     onClick={() => handleDelete(row, () => ctx.emit("rowDelete", row))}
                 >
-                    {deleteButtonText}
+                    {t(msg => msg.button.delete)}
                 </ElButton>
                 <ElButton
                     type="primary"
@@ -85,7 +81,7 @@ const _default = defineComponent({
                     icon={<Edit />}
                     onClick={() => handleModify(row, () => ctx.emit("rowModify", row))}
                 >
-                    {modifyButtonText}
+                    {t(msg => msg.button.modify)}
                 </ElButton>
             </>
             }

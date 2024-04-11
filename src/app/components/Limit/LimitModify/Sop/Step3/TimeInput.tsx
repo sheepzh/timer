@@ -1,5 +1,4 @@
-import { useShadow } from "@hooks/useShadow"
-import { useState } from "@hooks/useState"
+import { useShadow, useState } from "@hooks"
 import { ElInput } from "element-plus"
 import { computed, defineComponent, watch } from "vue"
 

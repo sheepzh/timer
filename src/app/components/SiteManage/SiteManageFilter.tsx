@@ -4,30 +4,34 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
 import InputFilterItem from "@app/components/common/InputFilterItem"
 import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
 import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
-import { Ref, defineComponent, ref, PropType, watch } from "vue"
+import { defineComponent, PropType, watch } from "vue"
 import { Plus } from "@element-plus/icons-vue"
 import { t } from "@app/locale"
+import { useState } from "@src/hooks/useState"
 
-const hostPlaceholder = t(msg => msg.siteManage.hostPlaceholder)
-const aliasPlaceholder = t(msg => msg.siteManage.aliasPlaceholder)
-const onlyDetectedLabel = t(msg => msg.siteManage.onlyDetected)
+export type FilterOption = {
+    host?: string,
+    alias?: string,
+    onlyDetected?: boolean,
+}
 
 const _default = defineComponent({
     props: {
-        defaultValue: Object as PropType<SiteManageFilterOption>,
+        defaultValue: Object as PropType<FilterOption>,
     },
     emits: {
-        change: (_option: SiteManageFilterOption) => true,
+        change: (_option: FilterOption) => true,
         create: () => true,
     },
     setup(props, ctx) {
-        const host: Ref<string> = ref(props.defaultValue?.host)
-        const alias: Ref<string> = ref(props.defaultValue?.alias)
-        const onlyDetected: Ref<boolean> = ref(props.defaultValue?.onlyDetected || false)
+        const defaultOption = props.defaultValue as FilterOption
+        const [host, setHost] = useState(defaultOption?.host)
+        const [alias, setAlias] = useState(defaultOption?.alias)
+        const [onlyDetected, setOnlyDetected] = useState(defaultOption?.onlyDetected || false)
+
         watch([host, alias, onlyDetected], () => ctx.emit("change", {
             host: host.value,
             alias: alias.value,
@@ -35,17 +39,16 @@ const _default = defineComponent({
         }))
         return () => <>
             <InputFilterItem
-                placeholder={hostPlaceholder}
-                onSearch={val => host.value = val}
+                placeholder={t(msg => msg.siteManage.hostPlaceholder)}
+                onSearch={setHost}
             />
             <InputFilterItem
-                placeholder={aliasPlaceholder}
-                onSearch={val => alias.value = val}
-            />
+                placeholder={t(msg => msg.siteManage.aliasPlaceholder)}
+                onSearch={setAlias} />
             <SwitchFilterItem
-                label={onlyDetectedLabel}
-                defaultValue={props.defaultValue?.onlyDetected}
-                onChange={val => onlyDetected.value = val}
+                label={t(msg => msg.siteManage.onlyDetected)}
+                defaultValue={onlyDetected.value}
+                onChange={setOnlyDetected}
             />
             <ButtonFilterItem
                 text={t(msg => msg.button.create)}

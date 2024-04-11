@@ -8,7 +8,7 @@
 import { PropType, defineComponent } from "vue"
 import SelectFilterItem from "./SelectFilterItem"
 import { t } from "@app/locale"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow } from "@hooks"
 
 const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {
     default: t(msg => msg.timeFormat.default),

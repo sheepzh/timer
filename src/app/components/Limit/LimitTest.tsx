@@ -6,9 +6,10 @@
  */
 
 import { t } from "@app/locale"
+import { useState, useSwitch } from "@hooks"
 import limitService from "@service/limit-service"
 import { ElAlert, AlertProps, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
-import { defineComponent, Ref, ref, ComputedRef, computed } from "vue"
+import { defineComponent, computed } from "vue"
 
 export type TestInstance = {
     show(): void
@@ -44,56 +45,54 @@ function computeResultType(url: string, inputting: boolean, matched: timer.limit
     return matched?.length ? 'success' : 'warning'
 }
 
-const _default = defineComponent({
-    setup: (_props, ctx) => {
-        const url: Ref<string> = ref()
-        const matched: Ref<timer.limit.Rule[]> = ref([])
-        const visible: Ref<boolean> = ref(false)
-        const urlInputting: Ref<boolean> = ref(true)
-        const resultTitle: ComputedRef<string> = computed(() => computeResultTitle(url.value, urlInputting.value, matched.value))
-        const resultType: ComputedRef<_ResultType> = computed(() => computeResultType(url.value, urlInputting.value, matched.value))
-        const resultDesc: ComputedRef<string[]> = computed(() => computeResultDesc(url.value, urlInputting.value, matched.value))
+const _default = defineComponent((_props, ctx) => {
+    const [url, , clearUrl] = useState<string>()
+    const [matched, , clearMatched] = useState<timer.limit.Rule[]>([])
+    const [visible, open, close] = useSwitch()
+    const [urlInputting, startInput, endInput] = useSwitch(true)
+    const resultTitle = computed(() => computeResultTitle(url.value, urlInputting.value, matched.value))
+    const resultType = computed(() => computeResultType(url.value, urlInputting.value, matched.value))
+    const resultDesc = computed(() => computeResultDesc(url.value, urlInputting.value, matched.value))
 
-        const changeInput = (newVal: string) => (urlInputting.value = true) && (url.value = newVal?.trim())
-        const handleTest = async () => {
-            urlInputting.value = false
-            matched.value = await limitService.select({ url: url.value, filterDisabled: true })
-        }
+    const changeInput = (newVal?: string) => urlInputting.value && (url.value = newVal?.trim())
 
-        const instance: TestInstance = {
-            show() {
-                url.value = ''
-                visible.value = true
-                urlInputting.value = true
-                matched.value = []
-            }
-        }
-        ctx.expose(instance)
-        return () => (
-            <ElDialog
-                title={t(msg => msg.button.test)}
-                modelValue={visible.value}
-                closeOnClickModal={false}
-                onClose={() => visible.value = false}
-            >
-                <ElFormItem labelWidth={120} label={t(msg => msg.limit.button.test)}>
-                    <ElInput
-                        modelValue={url.value}
-                        clearable
-                        onClear={() => changeInput('')}
-                        onKeydown={ev => (ev as KeyboardEvent).key === "Enter" && handleTest()}
-                        onInput={changeInput}
-                        v-slots={{
-                            append: () => <ElButton onClick={handleTest}>{t(msg => msg.button.test)}</ElButton>
-                        }}
-                    />
-                </ElFormItem>
-                <ElAlert closable={false} type={resultType.value} title={resultTitle.value}>
-                    {resultDesc.value.map(desc => <li>{desc}</li>)}
-                </ElAlert>
-            </ElDialog>
-        )
+    const handleTest = async () => {
+        endInput()
+        matched.value = await limitService.select({ url: url.value, filterDisabled: true })
     }
+
+    ctx.expose({
+        show: () => {
+            clearUrl()
+            open()
+            startInput()
+            clearMatched()
+        }
+    } satisfies TestInstance)
+    return () => (
+        <ElDialog
+            title={t(msg => msg.button.test)}
+            modelValue={visible.value}
+            closeOnClickModal={false}
+            onClose={close}
+        >
+            <ElFormItem labelWidth={120} label={t(msg => msg.limit.button.test)}>
+                <ElInput
+                    modelValue={url.value}
+                    clearable
+                    onClear={() => changeInput()}
+                    onKeydown={ev => (ev as KeyboardEvent).key === "Enter" && handleTest()}
+                    onInput={changeInput}
+                    v-slots={{
+                        append: () => <ElButton onClick={handleTest}>{t(msg => msg.button.test)}</ElButton>
+                    }}
+                />
+            </ElFormItem>
+            <ElAlert closable={false} type={resultType.value} title={resultTitle.value}>
+                {resultDesc.value.map(desc => <li>{desc}</li>)}
+            </ElAlert>
+        </ElDialog>
+    )
 })
 
 export default _default

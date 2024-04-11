@@ -38,6 +38,7 @@ Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
         .map(folder => path.resolve(__dirname, '..', folder))
     resolveAlias[index] = webpackSourceArr
 })
+resolveAlias['@hooks'] = path.resolve(__dirname, '..', 'src', 'hooks', 'index')
 console.log("Alias of typescript: ")
 console.log(resolveAlias)
 

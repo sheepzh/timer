@@ -1,54 +1,43 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import BaseDatabase from "./common/base-database"
 import { WHITELIST_KEY } from "./common/constant"
+
 class WhitelistDatabase extends BaseDatabase {
 
-    private update(selectAll: string[]): Promise<void> {
-        const obj = {}
-        obj[WHITELIST_KEY] = selectAll
-        return this.storage.set(obj)
+    private async update(toUpdate: string[]): Promise<void> {
+        await this.setByKey(WHITELIST_KEY, toUpdate || [])
     }
 
-    async selectAll(): Promise<string[]> {
-        const items = await this.storage.get(null)
-        return Promise.resolve(items[WHITELIST_KEY] || [])
+    selectAll(): Promise<string[]> {
+        return this.storage.getOne<string[]>(WHITELIST_KEY)
     }
 
-    async add(url: string): Promise<void> {
-        const selectAll = await this.selectAll()
-        if (!selectAll.includes(url)) {
-            selectAll.push(url)
-            return this.update(selectAll)
-        } else {
-            return Promise.resolve()
-        }
+    async add(white: string): Promise<void> {
+        const exist = await this.selectAll()
+        if (exist.includes(white)) return
+        await this.update([...exist, white])
     }
 
-    async remove(url: string): Promise<void> {
-        const selectAll = await this.selectAll()
-        const index = selectAll.indexOf(url)
-        if (index !== -1) {
-            selectAll.splice(index, 1)
-            return this.update(selectAll)
-        } else {
-            return Promise.resolve()
-        }
+    async remove(white: string): Promise<void> {
+        const exist = await this.selectAll()
+        const toUpdate = exist?.filter?.(w => w !== white) || []
+        return await this.update(toUpdate)
     }
 
-    async includes(url: string): Promise<boolean> {
-        const selectAll = await this.selectAll()
-        return Promise.resolve(selectAll.includes(url))
+    async exist(white: string): Promise<boolean> {
+        const exist = await this.selectAll()
+        return exist?.includes(white)
     }
 
     /**
      * Add listener to listen changes
-     * 
+     *
      * @since 0.1.9
      */
     addChangeListener(listener: (whitelist: string[]) => void) {
@@ -67,7 +56,7 @@ class WhitelistDatabase extends BaseDatabase {
         if (!Array.isArray(toMigrate)) return
         const exist = await this.selectAll()
         toMigrate.forEach(white => !exist.includes(white) && exist.push(white))
-        this.update(exist)
+        await this.update(exist)
     }
 }
 

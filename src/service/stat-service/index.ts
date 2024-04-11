@@ -59,41 +59,28 @@ export type HostSet = {
     virtual: Set<string>
 }
 
-function calcFocusInfo(timeInfo: TimeInfo): number {
-    return Object.values(timeInfo).reduce((a, b) => a + b, 0)
-}
-
-function calcVirtualFocusInfo(data: TimeInfo[]): Record<string, timer.stat.Result> {
-    const container: Record<string, number> = {}
-    data.forEach(timeInfo => Object.entries(timeInfo).forEach(([url, focusTime]) => {
-        const virtualHosts = virtualSiteHolder.findMatched(url)
-        virtualHosts.forEach(virtualHost => (container[virtualHost] = (container[virtualHost] || 0) + focusTime))
-    }))
-    const result: Record<string, timer.stat.Result> = {}
-    Object.entries(container).forEach(([host, focusTime]) => result[host] = resultOf(focusTime, 0))
-    return result
-}
-
 /**
  * Service of timer
  * @since 0.0.5
  */
 class StatService {
 
-    async addFocusTime(data: { [host: string]: TimeInfo }): Promise<timer.stat.ResultSet> {
-        const dataExclusiveWhite: [string, TimeInfo][] = Object.entries(data).filter(([host]) => whitelistHolder.notContains(host))
-        // 1. normal sites
-        const normalFocusInfo: Record<string, timer.stat.Result> = {}
-        dataExclusiveWhite.forEach(([host, timeInfo]) => normalFocusInfo[host] = resultOf(calcFocusInfo(timeInfo), 0))
-        // 2. virtual sites
-        const virtualFocusInfo: Record<string, timer.stat.Result> = calcVirtualFocusInfo(dataExclusiveWhite.map(arr => arr[1]))
-        return statDatabase.accumulateBatch({ ...normalFocusInfo, ...virtualFocusInfo }, new Date())
+    async addFocusTime(host: string, url: string, focusTime: number): Promise<void> {
+        if (whitelistHolder.contains(host, url)) return
+
+        const resultSet: timer.stat.ResultSet = { [host]: resultOf(focusTime, 0) }
+        const virtualHosts = virtualSiteHolder.findMatched(url)
+        virtualHosts.forEach(virtualHost => resultSet[virtualHost] = resultOf(focusTime, 0))
+
+        await statDatabase.accumulateBatch(resultSet, new Date())
     }
 
     async addOneTime(host: string, url: string) {
-        const hosts: string[] = [host, ...virtualSiteHolder.findMatched(url)]
-        const resultSet: timer.stat.ResultSet = Object.fromEntries(hosts.map(host => [host, resultOf(0, 1)]))
-        statDatabase.accumulateBatch(resultSet, new Date())
+        if (whitelistHolder.contains(host, url)) return
+
+        const resultSet: timer.stat.ResultSet = { [host]: resultOf(0, 1) }
+        virtualSiteHolder.findMatched(url).forEach(virtualHost => resultSet[virtualHost] = resultOf(0, 1))
+        await statDatabase.accumulateBatch(resultSet, new Date())
     }
 
     /**
@@ -115,9 +102,7 @@ class StatService {
         const allHostArr = Array.from(allHosts)
 
         allHostArr.forEach(host => {
-            if (judgeVirtualFast(host)) {
-                return
-            }
+            if (judgeVirtualFast(host)) return
             host.includes(fuzzyQuery) && origin.add(host)
             const mergedHost = mergeRuler.merge(host)
             mergedHost?.includes(fuzzyQuery) && merged.add(mergedHost)

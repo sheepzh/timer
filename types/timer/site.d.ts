@@ -12,8 +12,8 @@ declare namespace timer.site {
          */
         merged?: boolean
         /**
-         * Whether visual site
-         * 
+         * Whether virtual site
+         *
          * @since 1.6.0
          */
         virtual?: boolean

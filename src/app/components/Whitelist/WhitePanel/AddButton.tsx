@@ -4,11 +4,11 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
 import { t } from "@app/locale"
 import { ElButton } from "element-plus"
-import { defineComponent, ref, Ref } from "vue"
+import { defineComponent } from "vue"
 import WhiteInput from './WhiteInput'
+import { useSwitch, useState } from "@hooks"
 
 export type AddButtonInstance = {
     closeEdit(): void
@@ -19,25 +19,31 @@ const _default = defineComponent({
         save: (_white: string) => true,
     },
     setup(_, ctx) {
-        const editing: Ref<boolean> = ref(false)
-        const white: Ref<string> = ref('')
-        const instance: AddButtonInstance = {
-            closeEdit: () => editing.value = false
-        }
-        ctx.expose(instance)
+        const [editing, openEdit, closeEdit] = useSwitch(false)
+        const [white, _setWhite, resetWhite] = useState('')
+        ctx.expose({ closeEdit } satisfies AddButtonInstance)
 
-        return () => editing.value
-            ? <WhiteInput
-                white={white.value}
+        const handleAdd = () => {
+            resetWhite()
+            openEdit()
+        }
+
+        return () => <>
+            <WhiteInput
+                v-show={editing.value}
+                defaultValue={white.value}
                 onSave={val => ctx.emit('save', white.value = val)}
-                onCancel={() => editing.value = false}
+                onCancel={closeEdit}
             />
-            : <ElButton size="small" class="editable-item item-add-button" onClick={() => {
-                white.value = ""
-                editing.value = true
-            }}>
+            <ElButton
+                v-show={!editing.value}
+                size="small"
+                class="editable-item item-add-button"
+                onClick={handleAdd}
+            >
                 {`+ ${t(msg => msg.button.create)}`}
             </ElButton>
+        </>
     }
 })
 

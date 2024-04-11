@@ -8,12 +8,12 @@
 import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
 import statService from "@service/stat-service"
-import whitelistService from "@service/whitelist-service"
 import MessageDispatcher from "./message-dispatcher"
+import whitelistHolder from "@service/components/whitelist-holder"
 
 /**
- * Handle request from contentscript
- * 
+ * Handle request from content script
+ *
  * @param dispatcher message dispatcher
  */
 export default function init(dispatcher: MessageDispatcher) {
@@ -30,7 +30,7 @@ export default function init(dispatcher: MessageDispatcher) {
             statService.addOneTime(host, url)
         })
         // Judge is in whitelist
-        .register<string, boolean>('cs.isInWhitelist', host => whitelistService.include(host))
+        .register<{ host?: string, url?: string }, boolean>('cs.isInWhitelist', ({ host, url } = {}) => whitelistHolder.contains(host, url))
         // Need to print the information of today
         .register<void, boolean>('cs.printTodayInfo', async () => {
             const option = await optionService.getAllOption()

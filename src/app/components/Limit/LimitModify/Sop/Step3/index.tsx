@@ -10,7 +10,7 @@ import { ElForm, ElFormItem, ElMessage } from "element-plus"
 import { PropType, defineComponent, watch } from "vue"
 import TimeInput from "./TimeInput"
 import PeriodInput from "./PeriodInput"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow } from "@hooks"
 import { StepFromInstance } from "../common"
 import "./style.sass"
 

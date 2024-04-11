@@ -11,7 +11,7 @@ import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
 import { ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
 import { defineComponent, reactive, unref, UnwrapRef, ref, Ref, watch } from "vue"
-import { OptionItem } from "../../common"
+import { OptionInstance, OptionItem } from "../../common"
 import "./limit-option.sass"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import limitService from "@service/limit-service"
@@ -80,7 +80,7 @@ const _default = defineComponent((_, ctx) => {
         copy(option, currentVal)
         watch(option, () => optionService.setDailyLimitOption(unref(option)))
     })
-    ctx.expose({ reset: () => reset(option) })
+    ctx.expose({ reset: () => reset(option) } satisfies OptionInstance)
 
     return () => <>
         <OptionItem

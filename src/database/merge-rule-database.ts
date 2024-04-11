@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -20,42 +20,34 @@ type MergeRuleSet = { [key: string]: string | number }
 class MergeRuleDatabase extends BaseDatabase {
 
     async refresh(): Promise<MergeRuleSet> {
-        const result = await this.storage.get(DB_KEY)
-        const rules = result[DB_KEY] || {}
-        return Promise.resolve(rules)
+        const result = await this.storage.getOne<MergeRuleSet>(DB_KEY)
+        return result || {}
     }
 
-    private async update(data: MergeRuleSet): Promise<void> {
-        const toUpdate = {}
-        toUpdate[DB_KEY] = data
-        return this.storage.set(toUpdate)
+    private update(data: MergeRuleSet): Promise<void> {
+        return this.setByKey(DB_KEY, data)
     }
 
     async selectAll(): Promise<timer.merge.Rule[]> {
-        const set: MergeRuleSet = await this.refresh()
-        const result: timer.merge.Rule[] = []
-        for (const [key, value] of Object.entries(set)) {
-            result.push({ origin: key, merged: value })
-        }
-        return Promise.resolve(result)
+        const set = await this.refresh()
+        return Object.entries(set)
+            .map(([origin, merged]) => ({ origin, merged } satisfies timer.merge.Rule))
     }
 
     async remove(origin: string): Promise<void> {
         const set = await this.refresh()
         delete set[origin]
-        return this.update(set)
+        await this.update(set)
     }
 
     /**
      * Add to the db
-     * 
-     * @param toAdd 
      */
     async add(...toAdd: timer.merge.Rule[]): Promise<void> {
         const set = await this.refresh()
         // Not rewrite
-        toAdd.forEach(item => set[item.origin] === undefined && (set[item.origin] = item.merged))
-        return this.update(set)
+        toAdd.forEach(({ origin, merged }) => set[origin] = set[origin] ?? merged)
+        await this.update(set)
     }
 
     async importData(data: any): Promise<void> {

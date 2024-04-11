@@ -6,12 +6,11 @@
  */
 
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-import type { PropType } from "vue"
 import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import { t } from "@app/locale"
 import { ElDatePicker } from "element-plus"
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, type PropType } from "vue"
 import { daysAgo } from "@util/time"
 
 function datePickerShortcut(msgKey: keyof CalendarMessage['range'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {

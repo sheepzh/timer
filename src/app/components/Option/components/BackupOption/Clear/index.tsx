@@ -27,6 +27,7 @@ const _default = defineComponent({
                 {t(msg => msg.option.backup.clear.btn)}
             </ElButton>
             <ElDialog
+                class="sop-dialog"
                 alignCenter
                 title={t(msg => msg.option.backup.clear.btn)}
                 width="70%"

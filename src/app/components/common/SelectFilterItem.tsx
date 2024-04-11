@@ -11,7 +11,7 @@ import { watch } from "vue"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent } from "vue"
 import { useRoute } from "vue-router"
-import { useCached } from "@hooks/useCached"
+import { useCached } from "@hooks"
 
 const _default = defineComponent({
     props: {

@@ -8,7 +8,7 @@
 import { Check, Close, Edit } from "@element-plus/icons-vue"
 import { defineComponent, ref, nextTick } from "vue"
 import { ElButton, ElIcon, ElInput, InputInstance } from "element-plus"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow } from "@hooks"
 
 /**
  * @since 0.7.1

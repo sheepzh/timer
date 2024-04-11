@@ -12,7 +12,7 @@ import { StepFromInstance } from "./common"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 import Step3 from "./Step3"
-import { useState } from "@hooks/useState"
+import { useState } from "@hooks"
 import Footer from "./Footer"
 
 type Step = 0 | 1 | 2

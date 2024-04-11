@@ -8,46 +8,73 @@
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
 import { isRemainHost } from "@util/constant/remain-host"
-import { isValidHost } from "@util/pattern"
-import { ElButton, ElInput, ElMessage } from "element-plus"
-import { defineComponent, Ref, ref } from "vue"
+import { isValidHost, judgeVirtualFast } from "@util/pattern"
+import { ElButton, ElMessage, ElOption, ElSelect, ElTag } from "element-plus"
+import { defineComponent } from "vue"
 import './style.sass'
+import { useShadow, useRequest } from "@hooks"
+import siteService from "@service/site-service"
+
+async function handleRemoteSearch(query: string): Promise<timer.site.SiteInfo[]> {
+    if (!query) return []
+
+    let sites: timer.site.SiteInfo[] = await siteService.selectAll({ fuzzyQuery: query })
+    // Add local files
+    const idx = sites.findIndex(s => s.host === query)
+    const target = idx > 0
+        // Move to the first index
+        ? sites.splice(idx, 1)?.[0]
+        : { host: query, virtual: judgeVirtualFast(query) }
+    return [target, ...sites]
+}
 
 const _default = defineComponent({
     props: {
-        white: String,
+        defaultValue: String,
     },
     emits: {
         save: (_white: string) => true,
         cancel: () => true,
     },
     setup(props, ctx) {
-        const white: Ref<string> = ref(props.white || "")
-        const input: Ref<HTMLInputElement> = ref()
+        const [white, setWhite, resetWhite] = useShadow(() => props.defaultValue)
+        const { data: sites, refresh: search, loading: searching } = useRequest(handleRemoteSearch)
+
         const handleSubmit = () => {
-            const whiteVal = white.value
-            if (isRemainHost(whiteVal) || isValidHost(white.value)) {
-                ctx.emit("save", white.value)
+            const val = white.value
+            if (isRemainHost(val) || isValidHost(val) || judgeVirtualFast(val)) {
+                ctx.emit("save", val)
             } else {
                 ElMessage.warning(t(msg => msg.whitelist.errorInput))
             }
         }
+
         return () => <div class="item-input-container">
-            <ElInput
-                ref={input}
+            <ElSelect
                 class="input-new-tag editable-item whitelist-item-input"
                 modelValue={white.value}
+                onChange={setWhite}
                 placeholder={t(msg => msg.whitelist.placeholder)}
                 clearable
-                onClear={() => white.value = ''}
-                onInput={val => white.value = val?.trim?.()}
-            />
+                onClear={() => setWhite()}
+                filterable
+                remote
+                loading={searching.value}
+                remoteMethod={search}
+            >
+                {sites.value?.map(({ host, virtual }) => <ElOption value={host} label={host}>
+                    <span>{host}</span>
+                    <ElTag v-show={virtual} size="small" >
+                        {t(msg => msg.siteManage.msg.virtualTag)}
+                    </ElTag>
+                </ElOption>)}
+            </ElSelect>
             <ElButton
                 size="small"
                 icon={<Close />}
                 class="item-cancel-button editable-item"
                 onClick={() => {
-                    white.value = props.white
+                    resetWhite()
                     ctx.emit("cancel")
                 }}
             />

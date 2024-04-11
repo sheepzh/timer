@@ -15,13 +15,6 @@ import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"
 
-const renderCond = (cond: string[]) => {
-    if (!cond?.length) return ""
-    return <>
-        {cond.map(c => <span style={{ display: "block" }}>{c}</span>)}
-    </>
-}
-
 const _default = defineComponent({
     props: {
         data: Array as PropType<timer.limit.Item[]>
@@ -46,7 +39,7 @@ const _default = defineComponent({
                     label={t(msg => msg.limit.item.condition)}
                     minWidth={320}
                     align="center"
-                    formatter={({ cond }: timer.limit.Item) => renderCond(cond)}
+                    formatter={({ cond }: timer.limit.Item) => <>{cond?.map?.(c => <span style={{ display: "block" }}>{c}</span>) || ''}</>}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.time)}

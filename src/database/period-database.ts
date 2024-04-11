@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -11,7 +11,7 @@ import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 type DailyResult = {
     /**
-     * order => milliseconds of focus 
+     * order => milliseconds of focus
      */
     [minuteOrder: number]: number
 }
@@ -57,15 +57,15 @@ class PeriodDatabase extends BaseDatabase {
 
     async get(date: string): Promise<DailyResult> {
         const key = generateKey(date)
-        const items = await this.storage.get(key)
-        return items[key] || {}
+        const result = await this.storage.getOne<DailyResult>(key)
+        return result || {}
     }
 
     async accumulate(items: timer.period.Result[]): Promise<void> {
         const dates = Array.from(new Set(items.map(getDateString)))
         const exists = await this.getBatch0(dates)
         merge(exists, items)
-        this.updateBatch(exists)
+        await this.updateBatch(exists)
     }
 
     private updateBatch(data: { [dateKey: string]: DailyResult }): Promise<void> {
@@ -81,7 +81,8 @@ class PeriodDatabase extends BaseDatabase {
     }
 
     async getBatch(dates: string[]): Promise<timer.period.Result[]> {
-        return db2PeriodInfos(await this.getBatch0(dates))
+        const data = await this.getBatch0(dates)
+        return db2PeriodInfos(data)
     }
 
     /**

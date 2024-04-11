@@ -4,18 +4,17 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { PropType } from "vue"
-
 import { ElTable, ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, type PropType } from "vue"
 import DateColumn from "./columns/DateColumn"
 import HostColumn from "./columns/HostColumn"
-import AliasColumn from "./columns/AliasColumn"
 import FocusColumn from "./columns/FocusColumn"
 import TimeColumn from "./columns/TimeColumn"
 import OperationColumn from "./columns/OperationColumn"
 import { useReportFilter } from "../context"
+import { useState } from "@hooks"
+import { t } from "@app/locale"
+import Editable from "@app/components/common/Editable"
 
 export type TableInstance = {
     getSelected(): timer.stat.Row[]
@@ -33,9 +32,8 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const filterOption = useReportFilter()
-        let selectedRows: timer.stat.Row[] = []
-        const instance: TableInstance = { getSelected: () => selectedRows }
-        ctx.expose(instance)
+        const [selection, setSelection] = useState<timer.stat.Row[]>([])
+        ctx.expose({ getSelected: () => selection.value } satisfies TableInstance)
         return () => (
             <ElTable
                 data={props.data}
@@ -45,13 +43,21 @@ const _default = defineComponent({
                 style={{ width: "100%" }}
                 fit
                 highlightCurrentRow
-                onSelection-change={(data: timer.stat.Row[]) => selectedRows = data}
+                onSelection-change={setSelection}
                 onSort-change={(newSortInfo: SortInfo) => ctx.emit("sortChange", newSortInfo)}
             >
                 <ElTableColumn type="selection" selectable={() => !filterOption.value?.mergeHost} />
                 {!filterOption.value?.mergeDate && <DateColumn />}
                 <HostColumn />
-                <AliasColumn onAliasChange={(host, newAlias) => ctx.emit("aliasChange", host, newAlias)} />
+                <ElTableColumn
+                    label={t(msg => msg.siteManage.column.alias)}
+                    minWidth={140}
+                    align="center"
+                    v-slots={({ row }: { row: timer.stat.Row }) => <Editable
+                        modelValue={row.alias}
+                        onChange={newAlias => ctx.emit("aliasChange", row.host, newAlias)}
+                    />}
+                />
                 <FocusColumn />
                 <TimeColumn />
                 <OperationColumn onDelete={row => ctx.emit("itemDelete", row)} />

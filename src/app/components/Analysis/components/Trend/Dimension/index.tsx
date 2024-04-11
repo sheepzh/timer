@@ -4,12 +4,8 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { DimensionEntry, RingValue, ValueFormatter } from "@app/components/Analysis/util"
-import type { PropType } from "vue"
-
-import { computeRingText, formatValue } from "@app/components/Analysis/util"
-import { defineComponent } from "vue"
+import { computeRingText, formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@app/components/Analysis/util"
+import { defineComponent, type PropType } from "vue"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import Chart from "./Chart"
 import { cvt2LocaleTime } from "@app/util/time"
@@ -30,7 +26,7 @@ const _default = defineComponent({
         valueFormatter: Function as PropType<ValueFormatter>,
         chartTitle: String,
     },
-    setup(p) {
+    setup: p => {
         return () => (
             <div class="analysis-trend-dimension-container" >
                 <div class="analysis-trend-dimension-indicator-container">

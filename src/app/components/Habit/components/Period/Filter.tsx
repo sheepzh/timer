@@ -28,8 +28,6 @@ function allOptions(): Record<number, string> {
     return allOptions
 }
 
-const AVERAGE_LABEL = t((msg) => msg.habit.period.averageLabel)
-
 export type FilterOption = {
     periodSize: number
     average: boolean
@@ -64,7 +62,7 @@ const _default = defineComponent({
             />
             <SwitchFilterItem
                 historyName='average'
-                label={t((msg) => msg.habit.period.averageLabel)}
+                label={t(msg => msg.habit.period.averageLabel)}
                 defaultValue={average.value}
                 onChange={(val: boolean) => average.value = val}
             />

@@ -17,7 +17,7 @@ import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
 import { MIN_PERCENT_OF_PIE, formatTimeTooltip, generateTitleOption } from "./common"
 import { sum } from "@util/array"
-import { EchartsWrapper } from "@hooks/useEcharts"
+import { EchartsWrapper } from "@hooks"
 import { echartsPalette } from "@util/echarts"
 
 use([PieChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])

@@ -8,7 +8,7 @@
 import PeriodDatabase from "@db/period-database"
 import statService from "@service/stat-service"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
-import { computed, defineComponent, PropType, ref, Ref, VNode, watch } from "vue"
+import { computed, defineComponent, type PropType, type VNode } from "vue"
 import NumberGrow from "@app/components/common/NumberGrow"
 import "./style"
 import { I18nKey } from "@app/locale"
@@ -16,7 +16,7 @@ import { calcMostPeriodOf2Hours } from "@util/period"
 import I18nNode from "@app/components/common/I18nNode"
 import { ElIcon } from "element-plus"
 import { Sunrise } from "@element-plus/icons-vue"
-import { useRequest } from "@hooks/useRequest"
+import { useRequest, useShadow } from "@hooks"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
@@ -88,13 +88,12 @@ const IndicatorLabel = defineComponent({
         duration: Number,
     },
     setup: props => {
-        const myParam: Ref<Record<string, number>> = ref()
-        watch(() => props.param, () => myParam.value = props.param)
-        const i18nParam = computed(() => computeI18nParam(myParam.value, props.duration))
+        const [param] = useShadow(() => props.param)
+        const i18nParam = computed(() => computeI18nParam(param.value, props.duration))
         return () => (
             <div class="indicator-label" >
                 {
-                    myParam.value !== undefined && <I18nNode path={props.path} param={i18nParam.value} />
+                    param.value && <I18nNode path={props.path} param={i18nParam.value} />
                 }
             </div>
         )

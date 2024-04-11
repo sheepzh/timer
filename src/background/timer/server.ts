@@ -3,7 +3,7 @@ import { getWindow } from "@api/chrome/window"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import statService from "@service/stat-service"
-import { extractHostname, HostInfo } from "@util/pattern"
+import { extractHostname } from "@util/pattern"
 import badgeTextManager from "../badge-text-manager"
 import MessageDispatcher from "../message-dispatcher"
 import optionService from "@service/option-service"
@@ -12,12 +12,11 @@ let option = null
 optionService.getAllOption().then(opt => option = opt)
 optionService.addOptionChangeListener(opt => option = opt)
 
-async function handleTime(hostInfo: HostInfo, url: string, dateRange: [number, number]): Promise<number> {
-    const host = hostInfo.host
+async function handleTime(host: string, url: string, dateRange: [number, number]): Promise<number> {
     const [start, end] = dateRange
     const focusTime = end - start
     // 1. Save async
-    await statService.addFocusTime({ [host]: { [url]: focusTime } })
+    await statService.addFocusTime(host, url, focusTime)
     // 2. Process limit
     const meedLimits = await limitService.addFocusTime(host, url, focusTime)
     // If time limited after this operation, send messages
@@ -38,9 +37,9 @@ async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender)
         const tab = await getTab(tabId)
         if (!tab?.active) return
     }
-    const hostInfo = extractHostname(url)
-    if (hostInfo.protocol === "file" && !option.countLocalFiles) return
-    await handleTime(hostInfo, url, [start, end])
+    const { protocol, host } = extractHostname(url) || {}
+    if (protocol === "file" && !option.countLocalFiles) return
+    await handleTime(host, url, [start, end])
     if (tabId) {
         const winTabs = await listTabs({ active: true, windowId })
         const firstActiveTab = winTabs?.[0]

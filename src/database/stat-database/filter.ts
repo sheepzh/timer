@@ -27,9 +27,7 @@ function filterHost(host: string, condition: _StatCondition): boolean {
     const paramHost = condition.host?.trim() || ''
     const exclusiveVirtual = condition.exclusiveVirtual
     // 1. virtual
-    if (exclusiveVirtual) {
-        if (judgeVirtualFast(host)) return false
-    }
+    if (exclusiveVirtual && judgeVirtualFast(host)) return false
     // 2. host
     if (paramHost) {
         const fullHost = condition.fullHost
@@ -39,20 +37,20 @@ function filterHost(host: string, condition: _StatCondition): boolean {
     return true
 }
 
-function filterDate(date: string, condition: _StatCondition): boolean {
-    if (condition.useExactDate) {
-        if (condition.exactDateStr !== date) return false
+function filterDate(
+    date: string,
+    { useExactDate, exactDateStr, startDateStr, endDateStr }: _StatCondition
+): boolean {
+    if (useExactDate) {
+        if (exactDateStr !== date) return false
     } else {
-        const { startDateStr, endDateStr } = condition
         if (startDateStr && startDateStr > date) return false
         if (endDateStr && endDateStr < date) return false
     }
     return true
 }
 
-function filterNumberRange(val: number, range: number[]): boolean {
-    const start = range[0]
-    const end = range[1]
+function filterNumberRange(val: number, [start, end]: [start: number, end: number]): boolean {
     if (start !== null && start !== undefined && start > val) return false
     if (end !== null && end !== undefined && end < val) return false
     return true

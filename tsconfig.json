@@ -46,8 +46,8 @@
             "@echarts/*": [
                 "src/echarts/*"
             ],
-            "@hooks/*": [
-                "src/hooks/*"
+            "@hooks": [
+                "src/hooks/index"
             ],
             "@src/*": [
                 "src/*"

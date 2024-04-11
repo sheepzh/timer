@@ -27,6 +27,7 @@ const _default = defineComponent({
                 {t(msg => msg.option.backup.download.btn)}
             </ElButton>
             <ElDialog
+                class="sop-dialog"
                 alignCenter
                 title={t(msg => msg.option.backup.download.btn)}
                 width="70%"

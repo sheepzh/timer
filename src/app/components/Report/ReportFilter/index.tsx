@@ -5,13 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, PropType } from "vue"
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
 import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import DownloadFile from "./DownloadFile"
 import RemoteClient from "./RemoteClient"
-import { watch, defineComponent, ref } from "vue"
+import { watch, defineComponent, computed, type PropType } from "vue"
 import { t } from "@app/locale"
 import InputFilterItem from '@app/components/common/InputFilterItem'
 import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
@@ -20,16 +19,8 @@ import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { DeleteFilled } from "@element-plus/icons-vue"
+import { useState } from "@hooks"
 
-const hostPlaceholder = t(msg => msg.report.hostPlaceholder)
-const mergeDateLabel = t(msg => msg.report.mergeDate)
-const mergeHostLabel = t(msg => msg.report.mergeDomain)
-// Batch Delete
-const batchDeleteButtonText = t(msg => msg.report.batchDelete.buttonText)
-// Date range
-const dateStartPlaceholder = t(msg => msg.calendar.label.startDate)
-const dateEndPlaceholder = t(msg => msg.calendar.label.endDate)
-// date range
 function datePickerShortcut(msg: keyof CalendarMessage['range'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const text = t(messages => messages.calendar.range[msg])
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -55,47 +46,46 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const initial: ReportFilterOption = props.initial
-        const host: Ref<string> = ref(initial?.host)
-        const dateRange: Ref<[Date, Date]> = ref(initial?.dateRange)
-        const mergeDate: Ref<boolean> = ref(initial?.mergeDate)
-        const mergeHost: Ref<boolean> = ref(initial?.mergeHost)
-        const timeFormat: Ref<timer.app.TimeFormat> = ref(initial?.timeFormat)
+        const [host, setHost] = useState(initial?.host)
+        const [dateRange, setDateRange] = useState<[Date, Date]>(initial?.dateRange)
+        const [mergeDate, setMergeDate] = useState(initial?.mergeDate)
+        const [mergeHost, setMergeHost] = useState(initial?.mergeHost)
+        const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
         // Whether to read remote backup data
-        const readRemote: Ref<boolean> = ref(initial?.readRemote)
-        const computeOption = () => ({
+        const [readRemote, setReadRemote] = useState(initial?.readRemote)
+        const option = computed(() => ({
             host: host.value,
             dateRange: dateRange.value,
             mergeDate: mergeDate.value,
             mergeHost: mergeHost.value,
             timeFormat: timeFormat.value,
             readRemote: readRemote.value,
-        } as ReportFilterOption)
-        watch([host, dateRange, mergeDate, mergeHost, timeFormat, readRemote], () => {
-            const option = computeOption()
-            ctx.emit("change", option)
-        })
+        } as ReportFilterOption))
+
+        watch(option, () => ctx.emit("change", option.value))
+
         return () => <>
-            <InputFilterItem placeholder={hostPlaceholder} onSearch={val => host.value = val} />
+            <InputFilterItem placeholder={t(msg => msg.report.hostPlaceholder)} onSearch={setHost} />
             <DateRangeFilterItem
-                startPlaceholder={dateStartPlaceholder}
-                endPlaceholder={dateEndPlaceholder}
+                startPlaceholder={t(msg => msg.calendar.label.startDate)}
+                endPlaceholder={t(msg => msg.calendar.label.endDate)}
                 disabledDate={(date: Date | number) => new Date(date) > new Date()}
                 shortcuts={dateShortcuts}
                 defaultRange={dateRange.value}
-                onChange={val => dateRange.value = val}
+                onChange={setDateRange}
             />
-            <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={val => timeFormat.value = val} />
+            <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={setTimeFormat} />
             <SwitchFilterItem
                 historyName="mergeDate"
-                label={mergeDateLabel}
+                label={t(msg => msg.report.mergeDate)}
                 defaultValue={mergeDate.value}
-                onChange={val => mergeDate.value = val}
+                onChange={setMergeDate}
             />
             <SwitchFilterItem
                 historyName="mergeHost"
-                label={mergeHostLabel}
+                label={t(msg => msg.report.mergeDomain)}
                 defaultValue={mergeHost.value}
-                onChange={val => mergeHost.value = val}
+                onChange={setMergeHost}
             />
             <div class="filter-item-right-group">
                 <ElButton
@@ -105,11 +95,11 @@ const _default = defineComponent({
                     type="primary"
                     link
                     icon={<DeleteFilled />}
-                    onClick={() => ctx.emit("batchDelete", computeOption())}
+                    onClick={() => ctx.emit("batchDelete", option.value)}
                 >
-                    {batchDeleteButtonText}
+                    {t(msg => msg.report.batchDelete.buttonText)}
                 </ElButton>
-                <RemoteClient onChange={val => readRemote.value = val} />
+                <RemoteClient onChange={setReadRemote} />
                 <DownloadFile onDownload={format => ctx.emit("download", format)} />
             </div>
         </>

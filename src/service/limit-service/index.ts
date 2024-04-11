@@ -151,11 +151,8 @@ class LimitService {
      * @returns The rules limited cause of this operation
      */
     async addFocusTime(host: string, url: string, focusTime: number): Promise<timer.limit.Item[]> {
-        if (whitelistHolder.notContains(host)) {
-            return addFocusTime(url, focusTime)
-        } else {
-            return []
-        }
+        if (whitelistHolder.contains(host, url)) return []
+        return addFocusTime(url, focusTime)
     }
 }
 

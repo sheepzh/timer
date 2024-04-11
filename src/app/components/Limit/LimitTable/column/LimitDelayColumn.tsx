@@ -13,9 +13,6 @@ import optionService from "@service/option-service"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 
-const label = t(msg => msg.limit.item.delayAllowed)
-const tooltip = t(msg => msg.limit.item.delayAllowedInfo)
-
 async function handleChange(row: timer.limit.Item, newVal: boolean): Promise<void> {
     if (newVal && await judgeVerificationRequired(row)) {
         // Open delay for limited rules, so verification is required
@@ -42,25 +39,23 @@ const _default = defineComponent({
                 align="center"
                 v-slots={{
                     header: () => <span>
-                        {`${label} `}
-                        <ElTooltip content={tooltip} placement="top">
+                        {`${t(msg => msg.limit.item.delayAllowed)} `}
+                        <ElTooltip content={t(msg => msg.limit.item.delayAllowedInfo)} placement="top">
                             <ElIcon style={ICON_STYLE}>
                                 <InfoFilled />
                             </ElIcon>
                         </ElTooltip>
-                    </span>
-                    ,
+                    </span>,
                     default: ({ row }: ElTableRowScope<timer.limit.Item>) => <ElSwitch
                         modelValue={row.allowDelay}
-                        onChange={
-                            (val: boolean) => handleChange(row, val)
-                                .then(() => {
-                                    row.allowDelay = val
-                                    ctx.emit("rowChange", toRaw(row), val)
-                                })
-                                .catch(console.log)
+                        onChange={(val: boolean) => handleChange(row, val)
+                            .then(() => {
+                                row.allowDelay = val
+                                ctx.emit("rowChange", toRaw(row), val)
+                            })
+                            .catch(console.log)
                         }
-                    />
+                    />,
                 }}
             />
         )

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -17,8 +17,8 @@ const pslStyle: StyleValue = {
     marginRight: "2px",
 }
 
-const _default = defineComponent({
-    render: () => (
+const _default = defineComponent(() => {
+    return () => (
         <ElAlert
             type="info"
             title={t(msg => msg.mergeRule.infoAlertTitle)}

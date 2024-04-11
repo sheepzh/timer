@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { defineComponent, watch, ref } from "vue"
+import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import Trend from "./components/Trend"
@@ -14,7 +14,7 @@ import statService, { StatQueryParam } from "@service/stat-service"
 import './style.sass'
 import { judgeVirtualFast } from "@util/pattern"
 import { initProvider } from "./context"
-import { useRequest } from "@hooks/useRequest"
+import { useRequest, useState } from "@hooks"
 
 type _Queries = {
     host: string
@@ -32,9 +32,8 @@ function getSiteFromQuery(): timer.site.SiteInfo {
 }
 
 async function query(site: timer.site.SiteKey): Promise<timer.stat.Row[]> {
-    if (!site?.host) {
-        return []
-    }
+    if (!site?.host) return []
+
     const param: StatQueryParam = {
         host: site.host,
         mergeHost: site?.merged || false,
@@ -46,12 +45,10 @@ async function query(site: timer.site.SiteKey): Promise<timer.stat.Row[]> {
 }
 
 const _default = defineComponent(() => {
-    const siteFromQuery = getSiteFromQuery()
-    const site = ref<timer.site.SiteKey>(siteFromQuery)
-    const timeFormat = ref<timer.app.TimeFormat>('default')
+    const [site, setSite] = useState(getSiteFromQuery())
+    const [timeFormat, setTimeFormat] = useState<timer.app.TimeFormat>('default')
 
-    const { data: rows, refresh, loading } = useRequest<timer.stat.Row[]>(() => site.value ? query(site.value) : [])
-    watch(site, refresh)
+    const { data: rows, loading } = useRequest(() => query(site.value), { deps: site })
 
     initProvider(site, timeFormat, rows)
     return () => (
@@ -59,8 +56,8 @@ const _default = defineComponent(() => {
             filter: () => <Filter
                 site={site.value}
                 timeFormat={timeFormat.value}
-                onSiteChange={val => site.value = val}
-                onTimeFormatChange={val => timeFormat.value = val}
+                onSiteChange={setSite}
+                onTimeFormatChange={setTimeFormat}
             />
         }}>
             <div v-loading={loading.value}>

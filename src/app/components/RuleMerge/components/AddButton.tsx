@@ -8,8 +8,9 @@
 import { t } from "@app/locale"
 import { tryParseInteger } from "@util/number"
 import { ElButton } from "element-plus"
-import { defineComponent, ref, Ref } from "vue"
+import { defineComponent } from "vue"
 import ItemInput from './ItemInput'
+import { useState, useSwitch } from "@hooks"
 
 export type AddButtonInstance = {
     closeEdit(): void
@@ -20,16 +21,13 @@ const _default = defineComponent({
         save: (_origin: string, _merged: string | number) => true,
     },
     setup(_props, ctx) {
-        const editing: Ref<boolean> = ref(false)
-        const origin: Ref<string> = ref('')
-        const merged: Ref<string | number> = ref('')
-        const instance: AddButtonInstance = {
-            closeEdit: () => editing.value = false
-        }
+        const [editing, startEdit, closeEdit] = useSwitch()
+        const [origin, , resetOrigin] = useState('')
+        const [merged, , resetMerged] = useState<string | number>('')
         const handleEdit = () => {
-            origin.value = ""
-            merged.value = ""
-            editing.value = true
+            resetOrigin()
+            resetMerged()
+            startEdit()
         }
         const handleSave = (newOrigin: string, newMerged: string) => {
             const newMergedVal = tryParseInteger(newMerged?.trim())[1]
@@ -37,13 +35,13 @@ const _default = defineComponent({
             origin.value = newOrigin
             ctx.emit('save', newOrigin, newMergedVal)
         }
-        ctx.expose(instance)
+        ctx.expose({ closeEdit } satisfies AddButtonInstance)
         return () => editing.value
             ? <ItemInput
                 origin={origin.value}
                 merged={merged.value}
                 onSave={handleSave}
-                onCancel={() => editing.value = false}
+                onCancel={closeEdit}
             />
             : <ElButton size="small" class="editable-item item-add-button" onClick={handleEdit}>
                 {`+ ${t(msg => msg.button.create)}`}

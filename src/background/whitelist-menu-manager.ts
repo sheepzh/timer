@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -23,7 +23,7 @@ let whitelist: string[] = []
 
 let visible = true
 
-const removeOrAdd = (removeOrAddFlag: boolean, host: string) => removeOrAddFlag ? db.remove(host) : db.add(host)
+const removeOrAdd = (removeOrAddFlag: boolean, white: string) => removeOrAddFlag ? db.remove(white) : db.add(white)
 
 const menuInitialOptions: ChromeContextMenuCreateProps = {
     contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio'],
@@ -39,9 +39,8 @@ async function updateContextMenuInner(param: ChromeTab | number) {
         const tab: ChromeTab = await getTab(currentActiveId)
         tab && updateContextMenuInner(tab)
     } else {
-        const tab = param as ChromeTab
-        const { url } = tab
-        const targetHost = url && !isBrowserUrl(url) ? extractHostname(tab.url).host : ''
+        const { url } = param || {}
+        const targetHost = url && !isBrowserUrl(url) ? extractHostname(url).host : ''
         const changeProp: ChromeContextMenuUpdateProps = {}
         if (!targetHost) {
             // If not a valid host, hide this menu
@@ -76,7 +75,6 @@ async function init() {
     createContextMenu(menuInitialOptions)
     onTabUpdated(handleTabUpdated)
     onTabActivated((_tabId, activeInfo) => handleTabActivated(activeInfo))
-    whitelist = await db.selectAll()
     db.addChangeListener(handleListChange)
     visible = (await optionService.getAllOption()).displayWhitelistMenu
     optionService.addOptionChangeListener(option => visible = option.displayWhitelistMenu)

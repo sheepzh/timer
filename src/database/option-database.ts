@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -13,7 +13,7 @@ const DB_KEY = REMAIN_WORD_PREFIX + 'OPTION'
 
 /**
  * Database of options
- * 
+ *
  * @since 0.3.0
  */
 class OptionDatabase extends BaseDatabase {
@@ -27,10 +27,8 @@ class OptionDatabase extends BaseDatabase {
     }
 
     async getOption(): Promise<Partial<timer.option.AllOption>> {
-        const data = await this.storage.get(DB_KEY)
-        const option = data[DB_KEY]
-        if (!option) return defaultOption()
-        return option as Partial<timer.option.AllOption>
+        const option = await this.storage.getOne<timer.option.AllOption>(DB_KEY)
+        return option || defaultOption()
     }
 
     async setOption(option: timer.option.AllOption): Promise<void> {
@@ -38,7 +36,7 @@ class OptionDatabase extends BaseDatabase {
     }
 
     /**
-     * @since 0.3.2 
+     * @since 0.3.2
      */
     addOptionChangeListener(listener: (newVal: timer.option.AllOption) => void) {
         const storageListener = (

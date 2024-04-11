@@ -4,16 +4,13 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { Ref, UnwrapRef } from "vue"
-
-import { ElButton, ElDialog, ElForm, FormInstance, ElMessage } from "element-plus"
+import { ElButton, ElDialog, ElForm, FormInstance, ElMessage, ElFormItem, ElInput } from "element-plus"
 import { defineComponent, reactive, ref } from "vue"
 import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
 import siteService from "@service/site-service"
-import SiteManageHostFormItem from "./SiteManageHostFormItem"
-import SiteManageAliasFormItem from "./SiteManageAliasFormItem"
+import HostSelect from "./HostSelect"
+import { useSwitch } from "@hooks"
 
 export type ModifyInstance = {
     add(): void
@@ -44,9 +41,9 @@ const formRule = {
     ]
 }
 
-function validateForm(form: Ref<FormInstance>): Promise<boolean> {
+function validateForm(form: FormInstance): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-        const validate = form.value?.validate
+        const validate = form?.validate
         validate
             ? validate((valid: boolean) => valid ? resolve(true) : resolve(false))
             : reject(false)
@@ -80,22 +77,22 @@ const _default = defineComponent({
         save: (_siteKey: timer.site.SiteKey, _name: string) => true
     },
     setup: (_, ctx) => {
-        const visible: Ref<boolean> = ref(false)
-        const formData: UnwrapRef<_FormData> = reactive(initData())
-        const form: Ref<FormInstance> = ref()
+        const [visible, open, close] = useSwitch()
+        const formData = reactive(initData())
+        const form = ref<FormInstance>()
 
         const instance: ModifyInstance = {
             add: () => {
                 formData.key = undefined
                 formData.alias = undefined
-                visible.value = true
+                open()
             },
         }
 
         ctx.expose(instance)
 
-        const save = async () => {
-            const valid: boolean = await validateForm(form)
+        const handleSave = async () => {
+            const valid: boolean = await validateForm(form.value)
             if (!valid) return false
 
             const siteKey = formData.key
@@ -103,7 +100,7 @@ const _default = defineComponent({
             const siteInfo: timer.site.SiteInfo = { ...siteKey, alias }
             const saved = await handleAdd(siteInfo)
             if (saved) {
-                visible.value = false
+                close()
                 ElMessage.success(t(msg => msg.siteManage.msg.saved))
                 ctx.emit("save", siteKey, alias)
             }
@@ -114,13 +111,21 @@ const _default = defineComponent({
             title={t(msg => msg.button.create)}
             modelValue={visible.value}
             closeOnClickModal={false}
-            onClose={() => visible.value = false}
+            onClose={close}
             v-slots={{
                 default: () => <ElForm model={formData} rules={formRule} ref={form}>
-                    <SiteManageHostFormItem modelValue={formData.key} onChange={val => formData.key = val} />
-                    <SiteManageAliasFormItem modelValue={formData.alias} onInput={val => formData.alias = val} onEnter={save} />
+                    <ElFormItem prop="key" label={t(msg => msg.siteManage.column.host)}>
+                        <HostSelect modelValue={formData.key} onChange={val => formData.key = val} />
+                    </ElFormItem>
+                    <ElFormItem prop="alias" label={t(msg => msg.siteManage.column.alias)}>
+                        <ElInput
+                            modelValue={formData.alias}
+                            onInput={val => formData.alias = val}
+                            onKeydown={(ev: KeyboardEvent) => ev.key === "Enter" && handleSave()}
+                        />
+                    </ElFormItem>
                 </ElForm>,
-                footer: () => <ElButton type="primary" icon={<Check />} onClick={save}>
+                footer: () => <ElButton type="primary" icon={<Check />} onClick={handleSave}>
                     {t(msg => msg.button.save)}
                 </ElButton>,
             }}

@@ -6,13 +6,12 @@
  */
 
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
-
 import { isRemainHost } from "@util/constant/remain-host"
-import { ElTable, ElTableColumn, Sort } from "element-plus"
+import { ElTable, ElTableColumn, type Sort } from "element-plus"
 import HostAlert from "@app/components/common/HostAlert"
-import { computed, defineComponent, PropType, ref, VNode } from "vue"
+import { computed, defineComponent, type PropType, type VNode } from "vue"
 import { t } from "@app/locale"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow, useState } from "@hooks"
 
 type SortInfo = Sort & {
     prop: keyof timer.imported.Row
@@ -92,7 +91,7 @@ const _default = defineComponent({
     },
     setup(props) {
         const [data] = useShadow(() => props.data)
-        const sort = ref<SortInfo>({ order: 'ascending', prop: 'date' })
+        const [sort, setSort] = useState<SortInfo>({ order: 'ascending', prop: 'date' })
         const list = computed(() => computeList(sort.value, data.value?.rows))
         return () => (
             <ElTable
@@ -102,7 +101,7 @@ const _default = defineComponent({
                 highlightCurrentRow
                 fit
                 defaultSort={sort.value}
-                onSort-change={newSort => sort.value = newSort}
+                onSort-change={setSort}
                 data={list.value || []}
             >
                 <ElTableColumn type="index" align="center" />

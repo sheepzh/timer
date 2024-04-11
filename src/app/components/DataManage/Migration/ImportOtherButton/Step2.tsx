@@ -7,11 +7,12 @@
 
 import { t } from "@app/locale"
 import { ElButton, ElMessage } from "element-plus"
-import { PropType, Ref, defineComponent, ref } from "vue"
+import { PropType, defineComponent, ref } from "vue"
 import { Back, Check } from "@element-plus/icons-vue"
 import { processImportedData } from "@service/components/import-processor"
 import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
 import CompareTable from "@app/components/common/imported/CompareTable"
+import { useRequest } from "@hooks"
 
 const _default = defineComponent({
     props: {
@@ -23,23 +24,21 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const resolution = ref<timer.imported.ConflictResolution>()
-        const importing = ref<boolean>(false)
 
-        const handleImport = () => {
+        const { loading: importing, refresh: doImport } = useRequest(() => {
             const resolutionVal = resolution.value
             if (!resolutionVal) {
-                ElMessage.warning(t(msg => msg.dataManage.importOther.conflictNotSelected))
-                return
+                return ElMessage.warning(t(msg => msg.dataManage.importOther.conflictNotSelected))
             }
-            importing.value = true
+
             processImportedData(props.data, resolutionVal)
                 .then(() => {
                     ElMessage.success(t(msg => msg.operation.successMsg))
                     ctx.emit('import')
                 })
                 .catch(e => ElMessage.error(e))
-                .finally(() => importing.value = false)
-        }
+        }, { manual: true })
+
         return () => <>
             <CompareTable
                 data={props.data}
@@ -57,7 +56,7 @@ const _default = defineComponent({
                 >
                     {t(msg => msg.button.previous)}
                 </ElButton>
-                <ElButton type="success" icon={<Check />} loading={importing.value} onClick={handleImport}>
+                <ElButton type="success" icon={<Check />} loading={importing.value} onClick={doImport}>
                     {t(msg => msg.button.confirm)}
                 </ElButton>
             </div>
