@@ -1,7 +1,5 @@
 name: Sync Crowdin
-on:
-    push:
-        branches: [main]
+on: [workflow_dispatch]
 jobs:
     sync:
         runs-on: ubuntu-latest
