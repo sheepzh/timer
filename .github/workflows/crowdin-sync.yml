@@ -1,0 +1,19 @@
+name: Sync Crowdin
+on:
+    push:
+        branches: [main]
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Test using Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "v20.11.0"
+            - name: Install dependencies
+              run: npm install
+            - name: Sync source
+              run: ts-node ./script/crowdin/sync-source.ts
+            - name: Sync translations
+              run: ts-node ./script/crowdin/sync-translation.ts
