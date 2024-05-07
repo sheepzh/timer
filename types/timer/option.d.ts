@@ -118,13 +118,13 @@ declare namespace timer.option {
 
     type DailyLimitOption = {
         /**
+         * Motto displayed when restricted
+         */
+        limitPrompt?: string
+        /**
          * restriction level
          */
         limitLevel: limit.RestrictionLevel
-        /**
-         * The filter of limit mark
-         */
-        limitFilter: limit.FilterType
         /**
          * The password to unlock
          */

@@ -14,8 +14,9 @@ class WhitelistDatabase extends BaseDatabase {
         await this.setByKey(WHITELIST_KEY, toUpdate || [])
     }
 
-    selectAll(): Promise<string[]> {
-        return this.storage.getOne<string[]>(WHITELIST_KEY)
+    async selectAll(): Promise<string[]> {
+        const exist = await this.storage.getOne<string[]>(WHITELIST_KEY)
+        return exist || []
     }
 
     async add(white: string): Promise<void> {

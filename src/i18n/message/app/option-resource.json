@@ -53,11 +53,7 @@
             "siteNameUsage": "数据只存放在本地，将代替域名用于展示，增加辨识度。当然您可以自定义每个网站的名称"
         },
         "dailyLimit": {
-            "filter": {
-                "label": "模态页面的背景风格 {input}",
-                "translucent": "半透明",
-                "groundGlass": "毛玻璃"
-            },
+            "prompt": "受限时显示的提示文本 {input}",
             "level": {
                 "label": "受限时如何解锁 {input}",
                 "nothing": "允许在管理页面直接解锁",
@@ -175,12 +171,6 @@
             "siteNameUsage": "數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱"
         },
         "dailyLimit": {
-            "filter": {
-                "label": "模態頁面的背景風格 {input}",
-                "translucent": "半透明",
-                "groundGlass": "毛玻璃"
-            },
-            "title": "每日時限",
             "level": {
                 "label": "受限時如何解鎖 {input}",
                 "nothing": "允許在管理頁面直接解鎖",
@@ -298,12 +288,7 @@
             "siteNameUsage": "The data is only stored locally and will be displayed instead of the URL to increase the recognition.Of course, you can also customize the name of each site."
         },
         "dailyLimit": {
-            "title": "Daily Limit",
-            "filter": {
-                "label": "The background style of the modal page {input}",
-                "translucent": "Translucent",
-                "groundGlass": "Ground Glass"
-            },
+            "prompt": "Prompt displayed when restricted {input}",
             "level": {
                 "label": "How to unlock while restricted {input}",
                 "nothing": "Allow direct unlocking on the admin page",
@@ -421,12 +406,6 @@
             "siteNameUsage": "データはローカルにのみ存在し、認識を高めるためにホストの代わりに表示に使用されます。もちろん、各Webサイトの名前をカスタマイズできます。"
         },
         "dailyLimit": {
-            "filter": {
-                "label": "モーダルページ {input} の背景スタイル",
-                "translucent": "半透明",
-                "groundGlass": "すりガラス"
-            },
-            "title": "閲覧の制限",
             "level": {
                 "label": "制限中のロック解除方法 {input}",
                 "nothing": "管理者ページでの直接のロック解除を許可する",
@@ -544,12 +523,6 @@
             "siteNameUsage": "Os dados são armazenados apenas localmente e serão exibidos em vez da URL para aumentar o reconhecimento. F, também pode personalizar o nome de cada site."
         },
         "dailyLimit": {
-            "filter": {
-                "label": "O estilo de fundo da página modal {input}",
-                "translucent": "Translúcido",
-                "groundGlass": "Vidro no Solo"
-            },
-            "title": "Limite diário",
             "level": {
                 "label": "Como desbloquear enquanto restrito {input}",
                 "nothing": "Permitir o desbloqueio direto na página de administração",
@@ -794,12 +767,6 @@
             }
         },
         "dailyLimit": {
-            "title": "Límite diario",
-            "filter": {
-                "label": "El estilo de fondo de la página modal {input}",
-                "translucent": "Translúcido",
-                "groundGlass": "Vidrio esmerilado"
-            },
             "level": {
                 "label": "Cómo desbloquear cuando está restringido {input}",
                 "nothing": "Permitir desbloqueo directo en la página de administrador",
@@ -917,12 +884,6 @@
             }
         },
         "dailyLimit": {
-            "title": "Tägliches Limit",
-            "filter": {
-                "label": "Der Hintergrundstil der modalen Seite {input}",
-                "translucent": "Durchsichtig",
-                "groundGlass": "Bodenglas"
-            },
             "level": {
                 "label": "Wie man bei eingeschränktem {input} entsperrt",
                 "nothing": "Erlaube das direkte Entsperren auf der Admin-Seite",

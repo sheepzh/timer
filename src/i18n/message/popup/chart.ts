@@ -21,4 +21,6 @@ export type ChartMessage = {
     otherLabel: string
 }
 
-export default resource as Messages<ChartMessage>
+const _default = resource as Messages<ChartMessage>
+
+export default _default

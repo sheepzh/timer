@@ -10,6 +10,32 @@ import optionService from "@service/option-service"
 import statService from "@service/stat-service"
 import MessageDispatcher from "./message-dispatcher"
 import whitelistHolder from "@service/components/whitelist-holder"
+import { extractFileHost, extractHostname } from "@util/pattern"
+import { getUrl } from "@api/chrome/runtime"
+import { getAppPageUrl } from "@util/constant/url"
+import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
+import { createTab } from "@api/chrome/tab"
+
+const handleOpenAnalysisPage = (sender: ChromeMessageSender) => {
+    const { tab, url } = sender || {}
+    if (!url) return
+    const host = extractFileHost(url) || extractHostname(url)?.host
+    const appUrl = getAppPageUrl(true, ANALYSIS_ROUTE) + "?host=" + host
+    const newTabUrl = getUrl(appUrl)
+    const tabIndex = tab?.index
+    const newTabIndex = tabIndex ? tabIndex + 1 : null
+    createTab({ url: newTabUrl, index: newTabIndex })
+}
+
+const handleOpenLimitPage = (sender: ChromeMessageSender) => {
+    const { tab, url } = sender || {}
+    if (!url) return
+    const limitUrl = getAppPageUrl(true, LIMIT_ROUTE) + "?url=" + url
+    const newTabUrl = getUrl(limitUrl)
+    const tabIndex = tab?.index
+    const newTabIndex = tabIndex ? tabIndex + 1 : null
+    createTab({ url: newTabUrl, index: newTabIndex })
+}
 
 /**
  * Handle request from content script
@@ -41,4 +67,6 @@ export default function init(dispatcher: MessageDispatcher) {
         // cs.getLimitedRules
         .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
+        .register<void, void>('cs.openAnalysis', (_, sender) => handleOpenAnalysisPage(sender))
+        .register<void, void>('cs.openLimit', (_, sender) => handleOpenLimitPage(sender))
 }

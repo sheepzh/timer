@@ -1,0 +1,58 @@
+{
+    "zh_CN": {
+        "consoleLog": "今天您打开了 {time} 次 {host}，花费了 {focus} 来浏览它。",
+        "closeAlert": "你可以在【网费很贵】的选项中关闭以上提示！",
+        "timeWithHour": "{hour} 小时 {minute} 分 {second} 秒",
+        "timeWithMinute": "{minute} 分 {second} 秒",
+        "timeWithSecond": "{second} 秒"
+    },
+    "zh_TW": {
+        "consoleLog": "今天您打開了 {time} 次 {host}，花費了 {focus} 來瀏覽它。",
+        "closeAlert": "你可以在【{appName}】的選項中關閉以上提示！",
+        "timeWithHour": "{hour} 小時 {minute} 分 {second} 秒",
+        "timeWithMinute": "{minute} 分 {second} 秒",
+        "timeWithSecond": "{second} 秒"
+    },
+    "en": {
+        "consoleLog": "You have open {host} for {time} time(s) and browsed it for {focus} today.",
+        "closeAlert": "You can turn off the above tips in the option of [{appName}]!",
+        "timeWithHour": "{hour} hour(s) {minute} minute(s) {second} second(s)",
+        "timeWithMinute": "{minute} minute(s) {second} second(s)",
+        "timeWithSecond": "{second} second(s)"
+    },
+    "ja": {
+        "consoleLog": "{host} を {time} 回開いて、今日 {focus} をブラウズしました。",
+        "closeAlert": "{appName} のオプションで上記のヒントをオフにすることができます！",
+        "timeWithHour": "{hour} 時間 {minute} 分 {second} 秒",
+        "timeWithMinute": "{minute} 分 {second} 秒",
+        "timeWithSecond": "{second} 秒"
+    },
+    "pt_PT": {
+        "consoleLog": "Abriu {host} por {time} vez(es) e navegou por {focus} hoje.",
+        "closeAlert": "Você pode desligar as dicas acima na opção do {appName}!",
+        "timeWithHour": "{hour} horas {minute} minutos {second} segundos",
+        "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
+        "timeWithSecond": "{second} segundo(s)"
+    },
+    "uk": {
+        "consoleLog": "Сьогодні ви відкривали {host} {time} разів і перебували там {focus}.",
+        "closeAlert": "Ви можете вимкнути поради в налаштуваннях [{appName}]!",
+        "timeWithHour": "{hour} год {minute} хв {second} с",
+        "timeWithMinute": "{minute} хв {second} с",
+        "timeWithSecond": "{second} с"
+    },
+    "es": {
+        "consoleLog": "Has abierto {host} por {time} vez(veces) y navegado por {focus} hoy.",
+        "closeAlert": "¡Puedes desactivar los consejos de arriba en la opción de [{appName}]!",
+        "timeWithHour": "{hour} hora(s) {minute} minuto(s) {second} segundo(s)",
+        "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
+        "timeWithSecond": "{second} segundo(s)"
+    },
+    "de": {
+        "consoleLog": "Sie haben {host} für {time} Mal(e) geöffnet und heute {focus} durchsucht.",
+        "closeAlert": "Sie können die oben genannten Tipps in der Option [{appName}] deaktivieren!",
+        "timeWithHour": "{hour} Stunden {minute} Minuten {second} Sekunden",
+        "timeWithMinute": "{minute} Minuten {second} Sekunden",
+        "timeWithSecond": "{seconds} Sekunde(n)"
+    }
+}

@@ -32,7 +32,7 @@ const _default = defineComponent(() => {
         { defaultValue: [], deps: filterOption },
     )
     // Query data if the window become visible
-    useWindowVisible(refresh)
+    useWindowVisible({ onVisible: refresh })
 
     const handleDelete = async (row: timer.limit.Item) => {
         await limitService.remove(row)

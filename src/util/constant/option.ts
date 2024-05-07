@@ -47,7 +47,6 @@ export function defaultStatistics(): timer.option.StatisticsOption {
 export function defaultDailyLimit(): timer.option.DailyLimitOption {
     return {
         limitLevel: 'nothing',
-        limitFilter: 'translucent',
         limitPassword: '',
         limitVerifyDifficulty: 'easy',
     }

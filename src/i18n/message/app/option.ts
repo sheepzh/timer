@@ -55,11 +55,7 @@ export type OptionMessage = {
         siteName: string
     }
     dailyLimit: {
-        filter: {
-            [filterType in timer.limit.FilterType]: string
-        } & {
-            label: string
-        }
+        prompt: string
         level: {
             [level in timer.limit.RestrictionLevel]: string
         } & {

@@ -20,7 +20,8 @@ export const get = (origin: string): string | null => {
     const parts = ascii.split(".")
     const chains: Chain[] = []
     get0(TREE, parts, parts.length - 1, chains)
-    const idx = chains.findLastIndex(c => typeof c === "string" || c[1])
+    let idx = -1
+    chains.forEach((c, i) => (typeof c === "string" || c[1]) && (idx = i))
     const partLen = idx + 2
     return parts.splice(parts.length - partLen, partLen).join('.')
 }

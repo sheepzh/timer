@@ -10,6 +10,7 @@ import { initLocale } from "@i18n"
 import TrackerClient from "@src/background/timer/client"
 import processLimit from "./limit"
 import printInfo from "./printer"
+import { injectPolyfill } from "./polyfill/inject"
 
 const host = document?.location?.host
 const url = document?.location?.href
@@ -56,6 +57,7 @@ async function main() {
     await initLocale()
     const needPrintInfo = await sendMsg2Runtime('cs.printTodayInfo')
     !!needPrintInfo && printInfo(host)
+    injectPolyfill()
     processLimit(url)
 }
 

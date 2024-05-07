@@ -16,11 +16,6 @@ import "./limit-option.sass"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import limitService from "@service/limit-service"
 
-const ALL_FILTER: timer.limit.FilterType[] = [
-    'translucent',
-    'groundGlass',
-]
-
 const ALL_LEVEL: timer.limit.RestrictionLevel[] = [
     'nothing',
     'verification',
@@ -48,7 +43,7 @@ const verifyTriggered = async (option: timer.option.DailyLimitOption, verified: 
 }
 
 function copy(target: timer.option.DailyLimitOption, source: timer.option.DailyLimitOption) {
-    target.limitFilter = source.limitFilter
+    target.limitPrompt = source.limitPrompt
     target.limitLevel = source.limitLevel
     target.limitPassword = source.limitPassword
     target.limitVerifyDifficulty = source.limitVerifyDifficulty
@@ -84,21 +79,9 @@ const _default = defineComponent((_, ctx) => {
 
     return () => <>
         <OptionItem
-            label={msg => msg.option.dailyLimit.filter.label}
-            defaultValue={t(msg => msg.option.dailyLimit.filter[defaultDailyLimit().limitFilter])}
-            hideDivider
-        >
-            <ElSelect
-                modelValue={option.limitFilter}
-                size="small"
-                onChange={val => option.limitFilter = val}
-            >
-                {ALL_FILTER.map(item => <ElOption value={item} label={t(msg => msg.option.dailyLimit.filter[item])} />)}
-            </ElSelect>
-        </OptionItem>
-        <OptionItem
             label={msg => msg.option.dailyLimit.level.label}
             defaultValue={t(msg => msg.option.dailyLimit.level[defaultDailyLimit().limitLevel])}
+            hideDivider
         >
             <ElSelect
                 modelValue={option.limitLevel}
@@ -144,6 +127,15 @@ const _default = defineComponent((_, ctx) => {
             >
                 {ALL_DIFF.map(item => <ElOption value={item} label={t(msg => msg.option.dailyLimit.level.verificationDifficulty[item])} />)}
             </ElSelect>
+        </OptionItem>
+        <OptionItem label={msg => msg.option.dailyLimit.prompt}>
+            <ElInput
+                modelValue={option.limitPrompt}
+                size="small"
+                onInput={val => option.limitPrompt = val}
+                placeholder={t(msg => msg.limitModal.defaultPrompt)}
+                style={{ width: "250px" }}
+            />
         </OptionItem>
     </>
 })

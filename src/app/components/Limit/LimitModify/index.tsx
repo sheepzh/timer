@@ -35,7 +35,7 @@ const _default = defineComponent({
             const { cond, enabled, name, time, visitTime, periods } = rule
             const toSave: timer.limit.Rule = {
                 ...modifyingItem || {},
-                cond, enabled, name, time, visitTime, periods, allowDelay: false,
+                cond, enabled, name, time, visitTime, periods
             }
             if (mode.value === 'modify') {
                 await limitService.update(toSave)

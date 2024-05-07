@@ -5,9 +5,9 @@
         "timeWithHour": "{hour} 小时 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
-        "timeLimitMsg": "您已被限制上网",
-        "visitLimitMsg": "您已超过单次浏览时间限制",
-        "periodLimitMsg": "您在当前时间段已被限制浏览该网页",
+        "limit": {
+            "blockedMsg": "该网页已被锁定"
+        },
         "limitRefMsg": "——来自于【{appName}】的友情提醒",
         "more5Minutes": "再看 5 分钟！！我保证！"
     },
@@ -17,10 +17,7 @@
         "timeWithHour": "{hour} 小時 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
-        "timeLimitMsg": "您已被限製上網",
         "more5Minutes": "再看 5 分鐘！！我保証！",
-        "visitLimitMsg": "您已超過單次瀏覽時間限制",
-        "periodLimitMsg": "您在目前時段已被限制瀏覽該網頁",
         "limitRefMsg": "——來自於【{appName}】的友誼提醒"
     },
     "en": {
@@ -29,9 +26,9 @@
         "timeWithHour": "{hour} hour(s) {minute} minute(s) {second} second(s)",
         "timeWithMinute": "{minute} minute(s) {second} second(s)",
         "timeWithSecond": "{second} second(s)",
-        "timeLimitMsg": "You have exceeded the browsing time limit per day",
-        "visitLimitMsg": "You have exceeded the browsing time limit per visit",
-        "periodLimitMsg": "You have been restricted during the current time period",
+        "limit": {
+            "blockedMsg": "This page was blocked!"
+        },
         "limitRefMsg": "——Friendly reminder from [{appName}]",
         "more5Minutes": "More 5 minutes, please!!"
     },
@@ -41,10 +38,7 @@
         "timeWithHour": "{hour} 時間 {minute} 分 {second} 秒",
         "timeWithMinute": "{minute} 分 {second} 秒",
         "timeWithSecond": "{second} 秒",
-        "timeLimitMsg": "1日あたりの閲覧時間制限を超えています",
         "more5Minutes": "さらに5分間見てください！ ！ 約束します！",
-        "visitLimitMsg": "閲覧時間を超えています",
-        "periodLimitMsg": "あなたは現在の期間中に制限されています",
         "limitRefMsg": "——フレンドリーリマインダー：[{appName}]"
     },
     "pt_PT": {
@@ -52,11 +46,8 @@
         "timeWithHour": "{hour} horas {minute} minutos {second} segundos",
         "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
         "timeWithSecond": "{second} segundo(s)",
-        "timeLimitMsg": "Excedeu o limite de tempo de navegação por dia",
         "more5Minutes": "Mais 5 minutos, por favor!!",
         "consoleLog": "Abriu {host} por {time} vez(es) e navegou por {focus} hoje.",
-        "visitLimitMsg": "Excedeu o tempo limite de navegação por visita",
-        "periodLimitMsg": "Foi restrito durante o período atual",
         "limitRefMsg": "— Lembrete amigável de [{appName}]"
     },
     "uk": {
@@ -65,10 +56,7 @@
         "timeWithSecond": "{second} с",
         "more5Minutes": "Ще 5 хвилин, будь ласка!",
         "consoleLog": "Сьогодні ви відкривали {host} {time} разів і перебували там {focus}.",
-        "visitLimitMsg": "Ви перевищили ліміт часу перегляду за відвідування",
-        "periodLimitMsg": "Ви були обмежені протягом поточного періоду часу",
         "limitRefMsg": "——Дружнє нагадування з [{appName}]",
-        "timeLimitMsg": "Ви перевищили ліміт часу перегляду на день",
         "closeAlert": "Ви можете вимкнути поради в налаштуваннях [{appName}]!"
     },
     "es": {
@@ -76,11 +64,8 @@
         "timeWithHour": "{hour} hora(s) {minute} minuto(s) {second} segundo(s)",
         "timeWithMinute": "{minute} minuto(s) {second} segundo(s)",
         "timeWithSecond": "{second} segundo(s)",
-        "timeLimitMsg": "Has superado el límite de tiempo de navegación por día",
         "more5Minutes": "5 minutos más, ¡¡por favor!!",
         "consoleLog": "Has abierto {host} por {time} vez(veces) y navegado por {focus} hoy.",
-        "visitLimitMsg": "Has superado el límite de tiempo de navegación por visita",
-        "periodLimitMsg": "Has sido restringido durante el periodo de tiempo actual",
         "limitRefMsg": "——Amigable recordatorio de [{appName}]"
     },
     "de": {
@@ -90,9 +75,6 @@
         "timeWithSecond": "{seconds} Sekunde(n)",
         "more5Minutes": "Weitere 5 Minuten, bitte!!",
         "consoleLog": "Sie haben {host} für {time} Mal(e) geöffnet und heute {focus} durchsucht.",
-        "visitLimitMsg": "Sie haben das Browsing-Zeitlimit pro Besuch überschritten",
-        "periodLimitMsg": "Während dieser Zeit sind Sie eingeschränkt",
-        "limitRefMsg": "——Freundliche Erinnerung von [{appName}]",
-        "timeLimitMsg": "Sie haben das Surfzeitlimit pro Tag überschritten"
+        "limitRefMsg": "——Freundliche Erinnerung von [{appName}]"
     }
 }

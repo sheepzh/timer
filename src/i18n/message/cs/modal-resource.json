@@ -1,0 +1,14 @@
+{
+    "zh_CN": {
+        "defaultPrompt": "古希腊时间与浏览器之神正在阻止您访问该页面",
+        "more5Minutes": "再看五分钟",
+        "browsingTime": "当前浏览时长",
+        "ruleDetail": "规则详情"
+    },
+    "en": {
+        "defaultPrompt": "This page was blocked !",
+        "more5Minutes": "More 5 minutes",
+        "browsingTime": "Browsing time",
+        "ruleDetail": "Rule detail"
+    }
+}

@@ -187,7 +187,7 @@ const _default = defineComponent(() => {
     )
 
     // Query data if window become visible
-    useWindowVisible(refresh)
+    useWindowVisible({ onVisible: refresh })
 
     const handleDownload = async (format: FileFormat) => {
         const rows = await statService.select(queryParam.value, true)

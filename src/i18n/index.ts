@@ -17,7 +17,18 @@ export type FakedLocale = timer.Locale
  */
 export const FEEDBACK_LOCALE: timer.Locale = "en"
 
-export const ALL_LOCALES: timer.Locale[] = ['en', 'zh_CN', 'zh_TW', 'ja', 'pt_PT', 'uk', 'es', 'de']
+const ALL_LOCALE_VALIDATOR: { [locale in timer.Locale]: 0 } = {
+    en: 0,
+    zh_CN: 0,
+    ja: 0,
+    zh_TW: 0,
+    pt_PT: 0,
+    uk: 0,
+    es: 0,
+    de: 0,
+}
+
+export const ALL_LOCALES: timer.Locale[] = Object.keys(ALL_LOCALE_VALIDATOR) as timer.Locale[]
 
 export const defaultLocale: timer.Locale = "zh_CN"
 
