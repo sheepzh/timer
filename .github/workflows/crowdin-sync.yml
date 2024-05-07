@@ -11,6 +11,8 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: "v20.11.0"
+            - name: Install ts-node
+              run: npm i -g ts-node
             - name: Install dependencies
               run: npm install
             - name: Sync source
