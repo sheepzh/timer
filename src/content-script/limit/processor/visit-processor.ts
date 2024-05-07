@@ -1,5 +1,5 @@
 import TrackerClient from "@src/background/timer/client"
-import { ModalContext, Processor } from "./common"
+import { ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 
 class VisitProcessor implements Processor {
@@ -29,7 +29,13 @@ class VisitProcessor implements Processor {
         this.rules?.forEach?.(({ id, visitTime, cond, allowDelay }) => {
             if (!visitTime) return
             if (visitTime * 1000 < this.focusTime) {
-                this.context.modal.addReason({ id, cond, type: "VISIT", allowDelay })
+                this.context.modal.addReason({
+                    id,
+                    cond,
+                    type: "VISIT",
+                    allowDelay,
+                    getVisitTime: () => this.focusTime,
+                })
             }
         })
     }

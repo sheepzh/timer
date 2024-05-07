@@ -4,7 +4,7 @@ import { locale } from "@i18n"
 import { VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
 import { getCssVariable } from "@util/style"
-import { ElMessageBox, ElMessage } from "element-plus"
+import { ElMessageBox, ElMessage, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, VNode } from "vue"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { hasLimited, dateMinute2Idx } from "@util/limit"
@@ -76,19 +76,21 @@ const AnswerCanvas = defineComponent({
     })
 })
 
-/** 
+/**
  * NOT TO return Promise.resolve()
- * 
- * NOT USE async
- * 
+ *
+ * NOT TO use async
+ *
  * @returns null if verification not required,
  *          or promise with resolve invoked only if verification code or password correct
  */
-export function processVerification(option: timer.option.DailyLimitOption): Promise<void> {
+export function processVerification(option: timer.option.DailyLimitOption, context?: Pick<ElMessageBoxOptions, 'appendTo'>): Promise<void> {
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
+    const { appendTo } = context || {}
     if (limitLevel === "strict") {
         return new Promise(
             (_, reject) => ElMessageBox({
+                appendTo,
                 boxType: 'alert',
                 type: 'warning',
                 title: '',
@@ -134,6 +136,7 @@ export function processVerification(option: timer.option.DailyLimitOption): Prom
 
     return new Promise(resolve => {
         ElMessageBox({
+            appendTo,
             boxType: 'prompt',
             type: 'warning',
             title: '',
@@ -144,7 +147,7 @@ export function processVerification(option: timer.option.DailyLimitOption): Prom
         }).then(data => {
             const { value } = data
             if (value === answerValue) return resolve()
-            ElMessage.error(incorrectMessage)
+            ElMessage.error({ appendTo, message: incorrectMessage })
         }).catch(() => { })
     })
 }

@@ -1,8 +1,8 @@
 import { MaskModal, ModalContext, Processor } from "./common"
 import ModalInstance from "./modal"
-import DailyProcessor from "./daily-processor"
-import VisitProcessor from "./visit-processor"
-import PeriodProcessor from "./period-processor"
+import DailyProcessor from "./processor/daily-processor"
+import VisitProcessor from "./processor/visit-processor"
+import PeriodProcessor from "./processor/period-processor"
 import { onRuntimeMessage } from "@api/chrome/runtime"
 import { allMatch } from "@util/array"
 

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2022-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -24,10 +24,10 @@ function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
         .catch(err => console.error(`Failed to wake with limit rule: rules=${JSON.stringify(rules)}, msg=${err.msg}`))
 }
 
-async function processOpenPage(limittedUrl: string, sender: ChromeMessageSender) {
+async function processOpenPage(limitedUrl: string, sender: ChromeMessageSender) {
     const originTab = sender?.tab
     if (!originTab) return
-    const realUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(limittedUrl) })
+    const realUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(limitedUrl) })
     const baseUrl = getAppPageUrl(true, LIMIT_ROUTE)
     const rightTab = await getRightOf(originTab)
     const rightUrl = rightTab?.url

@@ -51,21 +51,20 @@ const _default = defineComponent(() => {
     const { data: rows, loading } = useRequest(() => query(site.value), { deps: site })
 
     initProvider(site, timeFormat, rows)
-    return () => (
-        <ContentContainer v-slots={{
+    return () => <ContentContainer
+        v-slots={{
             filter: () => <Filter
                 site={site.value}
                 timeFormat={timeFormat.value}
                 onSiteChange={setSite}
                 onTimeFormatChange={setTimeFormat}
-            />
-        }}>
-            <div v-loading={loading.value}>
+            />,
+            default: () => <div v-loading={loading.value}>
                 <Summary />
                 <Trend />
             </div>
-        </ContentContainer>
-    )
+        }}
+    />
 })
 
 export default _default

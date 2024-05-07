@@ -48,8 +48,7 @@ class WhitelistHolder {
     }
 
     contains(host: string, url: string): boolean {
-        console.log(host, url, this.host, this.virtual?.[0])
-        return this.host.includes(host) || this.virtual.some(r => r.test(url))
+        return this.host?.includes(host) || this.virtual?.some(r => r.test(url))
     }
 }
 

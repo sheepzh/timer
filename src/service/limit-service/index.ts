@@ -17,14 +17,16 @@ const db: LimitDatabase = new LimitDatabase(storage)
 
 export type QueryParam = {
     filterDisabled: boolean
+    id?: number
     url?: string
 }
 
 async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
-    const { filterDisabled, url } = cond ? cond : { filterDisabled: undefined, url: undefined }
+    const { filterDisabled, url, id } = cond || {}
     const today = formatTime(new Date(), DATE_FORMAT)
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
+        .filter(item => !id || id === item?.id)
         .map(({ latestDate, wasteTime, ...others }) => ({
             ...others,
             waste: latestDate === today ? (wasteTime ?? 0) : 0,

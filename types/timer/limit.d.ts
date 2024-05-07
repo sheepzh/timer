@@ -58,14 +58,6 @@ declare namespace timer.limit {
         wasteTime: number
     }
     /**
-     * @since 1.3.2
-     */
-    type FilterType =
-        // translucent filter
-        | 'translucent'
-        // ground glass filter
-        | 'groundGlass'
-    /**
      * @since 1.9.0
      */
     type RestrictionLevel =

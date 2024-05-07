@@ -27,6 +27,8 @@ import buttonMessages, { ButtonMessage } from "@i18n/message/common/button"
 import metaMessages, { MetaMessage } from "@i18n/message/common/meta"
 import aboutMessages, { AboutMessage } from "./about"
 import baseMessages, { BaseMessage } from "../common/base"
+import limitModalMessages, { ModalMessage } from "../cs/modal"
+import { merge, type MessageRoot } from "../merge"
 
 export type AppMessage = {
     about: AboutMessage
@@ -51,9 +53,10 @@ export type AppMessage = {
     button: ButtonMessage
     meta: MetaMessage
     base: BaseMessage
+    limitModal: ModalMessage
 }
 
-const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } = {
+const MESSAGE_ROOT: MessageRoot<AppMessage> = {
     about: aboutMessages,
     dataManage: dataManageMessages,
     item: itemMessages,
@@ -76,23 +79,9 @@ const CHILD_MESSAGES: { [key in keyof AppMessage]: Messages<AppMessage[key]> } =
     button: buttonMessages,
     meta: metaMessages,
     base: baseMessages,
+    limitModal: limitModalMessages,
 }
 
-function appMessageOf(locale: timer.Locale): AppMessage {
-    const entries: [string, any][] = Object.entries(CHILD_MESSAGES).map(([key, val]) => ([key, val[locale]]))
-    const result = Object.fromEntries(entries) as AppMessage
-    return result
-}
-
-const _default: Required<Messages<AppMessage>> = {
-    zh_CN: appMessageOf('zh_CN'),
-    zh_TW: appMessageOf('zh_TW'),
-    en: appMessageOf('en'),
-    ja: appMessageOf('ja'),
-    pt_PT: appMessageOf('pt_PT'),
-    uk: appMessageOf('uk'),
-    es: appMessageOf('es'),
-    de: appMessageOf('de'),
-}
+const _default = merge<AppMessage>(MESSAGE_ROOT)
 
 export default _default

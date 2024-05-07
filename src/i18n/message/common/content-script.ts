@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -13,9 +13,9 @@ export type ContentScriptMessage = {
     timeWithHour: string
     timeWithMinute: string
     timeWithSecond: string
-    timeLimitMsg: string
-    visitLimitMsg: string
-    periodLimitMsg: string
+    limit: {
+        blockedMsg: string
+    }
     limitRefMsg: string
     more5Minutes: string
 }

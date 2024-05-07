@@ -14,4 +14,6 @@ export type FooterMessage = {
     rate: string
 }
 
-export default resource as Messages<FooterMessage>
+const _default = resource as Messages<FooterMessage>
+
+export default _default

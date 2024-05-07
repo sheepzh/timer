@@ -5,6 +5,7 @@ import metaService from "@service/meta-service"
 import { isBrowserUrl } from "@util/pattern"
 import UninstallListener from './uninstall-listener'
 import { getGuidePageUrl } from "@util/constant/url"
+import { IS_FROM_STORE } from "@util/constant/meta"
 
 async function onFirstInstall() {
     metaService.updateInstallTime(new Date())
@@ -27,6 +28,6 @@ export default function handleInstall() {
         // Questionnaire for uninstall
         new UninstallListener().listen()
         // Reload content-script
-        await reloadContentScript()
+        IS_FROM_STORE && await reloadContentScript()
     })
 }

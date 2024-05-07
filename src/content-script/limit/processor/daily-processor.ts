@@ -1,5 +1,5 @@
 import { matches } from "@util/limit"
-import { LimitReason, ModalContext, Processor } from "./common"
+import { LimitReason, ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 
 class DailyProcessor implements Processor {
@@ -16,21 +16,21 @@ class DailyProcessor implements Processor {
                 return { code: "fail" }
             }
             items.filter(item => matches(item, this.context.url))
-                .forEach(item => {
-                    const reason: LimitReason = { type: "DAILY", cond: item.cond, allowDelay: item.allowDelay }
+                .forEach(({ cond, allowDelay, id }) => {
+                    const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
                     this.context.modal.addReason(reason)
                 })
             return { code: "success" }
         } else if (code === "limitChanged") {
             this.context.modal.removeReasonsByType("DAILY")
-            items?.forEach(item => {
-                const reason: LimitReason = { type: "DAILY", cond: item.cond, allowDelay: item.allowDelay }
+            items?.forEach(({ cond, allowDelay, id }) => {
+                const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
                 this.context.modal.addReason(reason)
             })
             return { code: "success" }
         } else if (code === "limitWaking") {
-            items?.forEach(item => {
-                const reason: LimitReason = { type: "DAILY", cond: item.cond, allowDelay: item.allowDelay }
+            items?.forEach(({ cond, allowDelay, id }) => {
+                const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
                 this.context.modal.removeReason(reason)
             })
             return { code: "success" }
@@ -42,8 +42,8 @@ class DailyProcessor implements Processor {
         const limitedRules: timer.limit.Item[] = await sendMsg2Runtime('cs.getLimitedRules', this.context.url)
         if (!limitedRules?.length) return
 
-        limitedRules?.forEach(item => {
-            const reason: LimitReason = { type: "DAILY", cond: item.cond, allowDelay: item.allowDelay }
+        limitedRules?.forEach(({ cond, allowDelay, id }) => {
+            const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
             this.context.modal.addReason(reason)
         })
     }

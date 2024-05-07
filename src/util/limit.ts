@@ -47,6 +47,7 @@ export const dateMinute2Idx = (date: Date): number => {
 }
 
 export const period2Str = (p: timer.limit.Period): string => {
-    const [start, end] = p || []
+    const start = p?.[0]
+    const end = p?.[1]
     return `${idx2Str(start)}-${idx2Str(end)}`
 }

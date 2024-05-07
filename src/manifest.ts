@@ -14,6 +14,7 @@
 // Not use path alias in manifest.json
 import packageInfo from "./package"
 import { OPTION_ROUTE } from "./app/router/constants"
+import { POLYFILL_SCRIPT_NAME } from "./content-script/polyfill/inject"
 const { version, author: { email }, homepage } = packageInfo
 
 const _default: chrome.runtime.ManifestV3 = {
@@ -54,6 +55,15 @@ const _default: chrome.runtime.ManifestV3 = {
     host_permissions: [
         "<all_urls>",
     ],
+    web_accessible_resources: [{
+        resources: [
+            `${POLYFILL_SCRIPT_NAME}.js`,
+            'content_scripts.css',
+            'static/images/*',
+            'bundle/*',
+        ],
+        matches: ["<all_urls>"],
+    }],
     action: {
         default_popup: "static/popup.html",
         default_icon: "static/images/icon.png",

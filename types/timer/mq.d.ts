@@ -26,6 +26,8 @@ declare namespace timer.mq {
         | "cs.getRelatedRules"
         | "cs.trackTime"
         | "cs.onInjected"
+        | "cs.openAnalysis"
+        | "cs.openLimit"
 
     type ResCode = "success" | "fail" | "ignore"
 

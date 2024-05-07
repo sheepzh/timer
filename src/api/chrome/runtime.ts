@@ -26,7 +26,7 @@ export function onRuntimeMessage<T = any, R = any>(handler: ChromeMessageHandler
     // Can't use await/async in callback parameter
     chrome.runtime.onMessage.addListener((message: timer.mq.Request<T>, sender: chrome.runtime.MessageSender, sendResponse: timer.mq.Callback<R>) => {
         handler(message, sender).then((response: timer.mq.Response<R>) => sendResponse(response))
-        // 'return ture' will force chrome to wait for the response processed in the above promise.
+        // 'return true' will force chrome to wait for the response processed in the above promise.
         // @see https://github.com/mozilla/webextension-polyfill/issues/130
         return true
     })

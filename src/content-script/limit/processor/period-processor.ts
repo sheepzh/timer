@@ -1,5 +1,5 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
-import { LimitReason, ModalContext, Processor } from "./common"
+import { LimitReason, ModalContext, Processor } from "../common"
 import { date2Idx } from "@util/limit"
 
 class PeriodProcessor implements Processor {
@@ -30,12 +30,12 @@ class PeriodProcessor implements Processor {
         const nowSeconds = date2Idx(new Date())
         const timers = []
         rules?.forEach?.(rule => {
-            const { cond, periods } = rule
+            const { cond, periods, id } = rule
             periods?.forEach(p => {
                 const [s, e] = p
                 const startSeconds = s * 60
                 const endSeconds = (e + 1) * 60
-                const reason: LimitReason = { cond, type: "PERIOD" }
+                const reason: LimitReason = { id, cond, type: "PERIOD" }
                 if (nowSeconds < startSeconds) {
                     timers.push(setInterval(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * 1000))
                     timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))

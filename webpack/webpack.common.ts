@@ -6,6 +6,7 @@ import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
+import { POLYFILL_SCRIPT_NAME } from "../src/content-script/polyfill/inject"
 
 export const MANIFEST_JSON_NAME = "manifest.json"
 
@@ -55,6 +56,10 @@ const entryConfigs: EntryConfig[] = [{
 }, {
     name: 'content_scripts',
     path: './src/content-script',
+    chunkExclusive: true,
+}, {
+    name: POLYFILL_SCRIPT_NAME,
+    path: './src/content-script/polyfill',
     chunkExclusive: true,
 }, {
     name: 'popup',

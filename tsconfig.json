@@ -19,6 +19,9 @@
             "@api/*": [
                 "src/api/*"
             ],
+            "@cs/*": [
+                "src/content-script/*"
+            ],
             "@app/*": [
                 "src/app/*"
             ],
