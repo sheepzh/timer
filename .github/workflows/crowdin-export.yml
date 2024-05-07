@@ -1,0 +1,23 @@
+name: Export Crowdin
+on: [workflow_dispatch]
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        env:
+            TIMER_CROWDIN_AUTH: ${{ secrets.TIMER_CROWDIN_AUTH }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Test using Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "v20.11.0"
+            - name: Install ts-node
+              run: npm i -g ts-node
+            - name: Install dependencies
+              run: npm install
+            - name: Export translations
+              run: ts-node ./script/crowdin/export-translation.ts
+            - name: Commit
+              run: git add .
+            - run: git commit -m "Export translations by Github Action"
+            - run: git push
