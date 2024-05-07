@@ -5,6 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             TIMER_CROWDIN_AUTH: ${{ secrets.TIMER_CROWDIN_AUTH }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
             - uses: actions/checkout@v2
             - name: Test using Node.js
@@ -17,7 +18,13 @@ jobs:
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
-            - name: Commit
-              run: git add .
-            - run: git commit -m "Export translations by Github Action"
-            - run: git push
+            - name: Commit change
+              run: |
+                git add .
+                git commit -m "Export translations by Github Action"
+            - name: Push change
+              env:
+                GITHUB_LOGIN: sheepzh
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: git push https://$GITHUB_LOGIN:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+    
