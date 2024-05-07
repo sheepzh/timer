@@ -5,6 +5,8 @@ on:
 jobs:
     sync:
         runs-on: ubuntu-latest
+        env:
+            TIMER_CROWDIN_AUTH: ${{ secrets.TIMER_CROWDIN_AUTH }}
         steps:
             - uses: actions/checkout@v2
             - name: Test using Node.js
