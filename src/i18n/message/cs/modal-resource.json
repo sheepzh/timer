@@ -10,5 +10,23 @@
         "more5Minutes": "More 5 minutes",
         "browsingTime": "Browsing time",
         "ruleDetail": "Rule detail"
+    },
+    "ja": {
+        "defaultPrompt": "このページはブロックされました !",
+        "more5Minutes": "さらに5分間閲覧する",
+        "browsingTime": "閲覧時間",
+        "ruleDetail": "規則明細"
+    },
+    "zh_TW": {
+        "defaultPrompt": "古希臘時間與瀏覽器之神正在阻止您訪問該頁面",
+        "more5Minutes": "再看 5 分鐘",
+        "browsingTime": "目前瀏覽時長",
+        "ruleDetail": "規則詳情"
+    },
+    "pt_PT": {
+        "defaultPrompt": "Esta página foi bloqueada!",
+        "more5Minutes": "Mais 5 minutos",
+        "browsingTime": "Tempo de navegação",
+        "ruleDetail": "Detalhe da regra"
     }
 }

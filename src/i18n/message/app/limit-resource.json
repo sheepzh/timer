@@ -59,7 +59,8 @@
             "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
             "operation": "操作",
             "visitTime": "每次訪問限制時長",
-            "period": "受限時段"
+            "period": "受限時段",
+            "name": "規則名稱"
         },
         "button": {
             "test": "網址測試",
@@ -89,7 +90,8 @@
         },
         "step": {
             "url": "設定 URL",
-            "rule": "設定規則"
+            "rule": "設定規則",
+            "base": "基本信息"
         },
         "urlPlaceholder": "請輸入你想要限制的網址，然後點選解析按鈕"
     },
@@ -200,11 +202,13 @@
             "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
             "operation": "Operações",
             "visitTime": "Limitar por visita",
-            "period": "Períodos não permitidos"
+            "period": "Períodos não permitidos",
+            "name": "Nome da regra"
         },
         "button": {
             "test": "Testar URL",
-            "option": "Opções"
+            "option": "Opções",
+            "parseUrl": "Analisar"
         },
         "message": {
             "noUrl": "URL limitada não preenchida",
@@ -222,12 +226,15 @@
             "incorrectPsw": "Palavra-passe incorreta",
             "incorrectAnswer": "Resposta incorreta",
             "pi": "{digitCount} dígitos de {startIndex} a {endIndex} da parte decimal de π",
-            "confession": "Tempo é dinheiro"
+            "confession": "Tempo é dinheiro",
+            "strictTip": "A regra de limite já foi acionada e o desbloqueio manual não é permitido!"
         },
         "step": {
             "url": "Configurar URL",
-            "rule": "Configurar regra"
-        }
+            "rule": "Configurar regra",
+            "base": "Informação básica"
+        },
+        "urlPlaceholder": "Insira o URL que deseja restringir e clique no botão Analisar"
     },
     "uk": {
         "conditionFilter": "URL",

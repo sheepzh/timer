@@ -125,7 +125,23 @@
                 "halfHour": "Por meia hora",
                 "hour": "Por 1 hora",
                 "twoHour": "Por 2 horas"
-            }
+            },
+            "title": "Hábito de períodos de tempo",
+            "busiest": "Hora do dia da compra",
+            "idle": "Período ocioso mais longo"
+        },
+        "common": {
+            "focusAverage": "Média de {value} por dia"
+        },
+        "site": {
+            "title": "Hábito de sites",
+            "focusPieTitle": "Percentagem de navegação",
+            "visitPieTitle": "Porcentagem de visitas",
+            "otherLabel": "Outros {count} sites",
+            "histogramTitle": "TOP {n} mais visitados",
+            "exclusiveToday": "Os dados de hoje não estão incluídos na média",
+            "countTotal": "Total de visitas/sites",
+            "siteAverage": "Média de visitas a {value} sites por dia"
         }
     },
     "uk": {

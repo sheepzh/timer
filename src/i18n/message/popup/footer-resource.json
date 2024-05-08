@@ -14,7 +14,8 @@
     "zh_TW": {
         "updateVersion": "版本升級",
         "updateVersionInfo": "最新版本：{version}",
-        "updateVersionInfo4Firefox": "新版本 {version} 已髮佈\n\n您可以前往插件管理頁進行更新"
+        "updateVersionInfo4Firefox": "新版本 {version} 已髮佈\n\n您可以前往插件管理頁進行更新",
+        "rate": "打個分吧！"
     },
     "ja": {
         "updateVersion": "更新",
@@ -25,7 +26,8 @@
     "pt_PT": {
         "updateVersion": "Atualizável",
         "updateVersionInfo": "Último: {version}",
-        "updateVersionInfo4Firefox": "Atualize para {version} na página de gestão, about:addons, por favor"
+        "updateVersionInfo4Firefox": "Atualize para {version} na página de gestão, about:addons, por favor",
+        "rate": "Avalie"
     },
     "uk": {
         "updateVersion": "Оновлюється",

@@ -186,7 +186,8 @@
                 "strict": "不允許手動解鎖",
                 "strictTitle": "危險操作",
                 "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！"
-            }
+            },
+            "prompt": "受限時顯示的提示文字 {input}"
         },
         "backup": {
             "title": "數據備份",
@@ -538,8 +539,12 @@
                     "easy": "Fácil",
                     "hard": "Difícil",
                     "disgusting": "Nojento"
-                }
-            }
+                },
+                "strict": "Não permitir desbloqueio mesmo assim",
+                "strictTitle": "Confirmação de operação",
+                "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!"
+            },
+            "prompt": "Prompt exibido quando restrito {input}"
         },
         "backup": {
             "title": "Backup de Dados",

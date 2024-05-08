@@ -100,5 +100,22 @@
             "rate": "5つ星を評価して他の人に知ってもらおう~~",
             "feedback": "また、フィードバックと機能のリクエストを送信することを歓迎!!"
         }
+    },
+    "pt_PT": {
+        "label": {
+            "name": "Nome",
+            "version": "Versão Atual",
+            "website": "Website Oficial",
+            "sourceCode": "Código Fonte",
+            "installation": "Página de Instalação",
+            "thanks": "Graças a",
+            "privacy": "Declaração de Privacidade",
+            "license": "Licenças de código aberto"
+        },
+        "text": {
+            "greet": "Você gosta da extensão?",
+            "rate": "Classifique com 5 estrelas para ajudar os outros a saber~~",
+            "feedback": "Além disso, seja bem-vindo para enviar os seus comentários e solicitações de recursos!!"
+        }
     }
 }

@@ -14,5 +14,13 @@
     "ja": {
         "searchPlaceholder": "URLで検索",
         "title": "すべての閲覧データ"
+    },
+    "zh_TW": {
+        "searchPlaceholder": "輸入網域，然後回車",
+        "title": "所有瀏覽數據"
+    },
+    "pt_PT": {
+        "searchPlaceholder": "Busca por URL",
+        "title": "Todos os dados de navegação"
     }
 }
