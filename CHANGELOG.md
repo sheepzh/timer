@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.3.0] - 2024-05-08
+
+-   Beautified the restricted page (#270)
+-   Supported changing the background color of badge (#279)
+
 ## [2.2.9] - 2024-04-11
 
 -   Supported adding virtual sites into the whitelist (#274)
