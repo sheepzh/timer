@@ -96,7 +96,8 @@
         "summary": {
             "title": "まとめ",
             "day": "合計アクティブ日数",
-            "firstDay": "{value} を初めて訪問する"
+            "firstDay": "{value} を初めて訪問する",
+            "calendarTitle": "最近の活動"
         },
         "trend": {
             "title": "レンジトレンド",

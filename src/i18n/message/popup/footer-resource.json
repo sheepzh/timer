@@ -19,7 +19,8 @@
     "ja": {
         "updateVersion": "更新",
         "updateVersionInfo": "最新バージョン：{version}",
-        "updateVersionInfo4Firefox": "管理ページで {version} にアップグレードしてください"
+        "updateVersionInfo4Firefox": "管理ページで {version} にアップグレードしてください",
+        "rate": "それを評価"
     },
     "pt_PT": {
         "updateVersion": "Atualizável",

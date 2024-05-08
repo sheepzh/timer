@@ -75,7 +75,7 @@
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
             "noRuleMatched": "該網址未命中任何規則",
             "rulesMatched": "該網址命中以下規則：",
-            "noRule": "未配置限制網址"
+            "noRule": "未填寫任何規則"
         },
         "verification": {
             "inputTip": "時限規則已觸發，如要繼續操作，請輸入以下問題的答案：{prompt}",
@@ -152,7 +152,8 @@
             "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます",
             "operation": "操作",
             "visitTime": "訪問ごとの制限",
-            "period": "許可されない期間"
+            "period": "許可されない期間",
+            "name": "規則名"
         },
         "button": {
             "test": "テストURL",
@@ -181,7 +182,8 @@
         },
         "step": {
             "url": "設定 URL",
-            "rule": "設定ルール"
+            "rule": "設定ルール",
+            "base": "基本情報"
         },
         "urlPlaceholder": "制限したいURLを入力して解析ボタンをクリックしてください"
     },

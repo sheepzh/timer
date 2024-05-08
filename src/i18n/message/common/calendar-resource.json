@@ -154,8 +154,8 @@
         "simpleTimeFormat": "{m}/{d} {h}:{i}"
     },
     "de": {
-        "weekDays": "Mo|Di|Dein|Dein|Fr|Sat|So",
-        "months": "Jan|Feb|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Nov|Dez",
+        "weekDays": "Mo|Di|Mi|Do|Fr|Sa|So",
+        "months": "Jan|Feb|März|Apr|Mai|Juni|Juli|Aug|Sept|Okt|Nov|Dez",
         "dateFormat": "{d}/{m}/{y}",
         "label": {
             "startDate": "Startdatum",

@@ -70,7 +70,8 @@
         "mergeRule": "ドメイン合併",
         "other": "その他の機能",
         "option": "拡張設定",
-        "helpUs": "協力する"
+        "helpUs": "協力する",
+        "about": "について"
     },
     "pt_PT": {
         "dashboard": "Painel de Controlo",

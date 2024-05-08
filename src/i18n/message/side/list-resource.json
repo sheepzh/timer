@@ -10,5 +10,9 @@
     "de": {
         "searchPlaceholder": "Suche nach URL",
         "title": "Alle Browserdaten"
+    },
+    "ja": {
+        "searchPlaceholder": "URLで検索",
+        "title": "すべての閲覧データ"
     }
 }

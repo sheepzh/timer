@@ -83,5 +83,22 @@
             "rate": "Bewerte es 5 Sterne, um anderen zu helfen~~",
             "feedback": "Bitte senden Sie uns auch Ihr Feedback und Feature-Anfragen an !!"
         }
+    },
+    "ja": {
+        "label": {
+            "name": "名前",
+            "version": "現在のバージョン",
+            "website": "公式サイト",
+            "sourceCode": "ソースコード",
+            "installation": "インストールページ",
+            "thanks": "Thanks To",
+            "privacy": "プライバシーに関する声明",
+            "license": "オープンソースライセンス"
+        },
+        "text": {
+            "greet": "この拡張機能を気に入っていただけましたか？",
+            "rate": "5つ星を評価して他の人に知ってもらおう~~",
+            "feedback": "また、フィードバックと機能のリクエストを送信することを歓迎!!"
+        }
     }
 }
