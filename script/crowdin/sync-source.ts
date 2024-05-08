@@ -69,14 +69,14 @@ async function processByDir(client: CrowdinClient, dir: Dir, branch: SourceFiles
             console.log(`Ignored file: ${dir}/${fileName}`)
             continue
         }
-        const crwodinFilename = fileName + '.json'
+        const crowdinFilename = fileName + '.json'
         const fileContent = transMsg(msg[SOURCE_LOCALE])
-        let existFile = existFileNameMap[crwodinFilename]
+        let existFile = existFileNameMap[crowdinFilename]
         if (!existFile) {
             // Create with empty file
-            const storage = await client.createStorage(crwodinFilename, fileContent)
-            existFile = await client.createFile(directory.id, storage, crwodinFilename)
-            console.log(`Created new file: dir=${dir}, fileName=${crwodinFilename}, id=${existFile.id}`)
+            const storage = await client.createStorage(crowdinFilename, fileContent)
+            existFile = await client.createFile(directory.id, storage, crowdinFilename)
+            console.log(`Created new file: dir=${dir}, fileName=${crowdinFilename}, id=${existFile.id}`)
         }
         // Process by strings
         await processStrings(client, existFile, fileContent)

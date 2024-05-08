@@ -20,14 +20,14 @@ type OriginData = {
 }
 
 type ChartData = {
-    xAixs: string[]
-    yAixses: {
+    xAxis: string[]
+    yAxises: {
         [browser in Browser]: number[]
     }
 }
 
 function preProcess(originData: OriginData): ChartData {
-    // 1. sort datess
+    // 1. sort dates
     const dateSet = new Set<string>()
     Object.values(originData).forEach(ud => Object.keys(ud).forEach(date => dateSet.add(date)))
     let allDates = Array.from(dateSet).sort()
@@ -42,9 +42,9 @@ function preProcess(originData: OriginData): ChartData {
     allDates.forEach(
         date => ALL_BROWSERS.forEach(b => ctx[b].process(originData[b][date]))
     )
-    const result = {
-        xAixs: allDates,
-        yAixses: {
+    const result: ChartData = {
+        xAxis: allDates,
+        yAxises: {
             chrome: ctx.chrome.end(),
             firefox: ctx.firefox.end(),
             edge: ctx.edge.end(),
@@ -53,8 +53,8 @@ function preProcess(originData: OriginData): ChartData {
 
     // 3. zoom
     const reduction = Math.floor(Object.keys(allDates).length / POINT_COUNT)
-    result.xAixs = zoom(result.xAixs, reduction)
-    ALL_BROWSERS.forEach(b => result.yAixses[b] = zoom(result.yAixses[b], reduction))
+    result.xAxis = zoom(result.xAxis, reduction)
+    ALL_BROWSERS.forEach(b => result.yAxises[b] = zoom(result.yAxises[b], reduction))
     return result
 }
 
@@ -117,20 +117,20 @@ function zoom<T>(data: T[], reduction: number): T[] {
 }
 
 function render2Svg(chartData: ChartData): string {
-    const { xAixs, yAixses } = chartData
+    const { xAxis, yAxises } = chartData
     const chart: EChartsType = init(null, null, {
         renderer: 'svg',
         ssr: true,
         width: 960,
         height: 640
     })
-    const totalUserCount = Object.values(yAixses)
+    const totalUserCount = Object.values(yAxises)
         .map(v => v[v.length - 1] || 0)
         .reduce((a, b) => a + b)
     chart.setOption({
         title: {
             text: 'Total Active User Count',
-            subtext: `${xAixs[0]} to ${xAixs[xAixs.length - 1]}  |  currently ${totalUserCount} `
+            subtext: `${xAxis[0]} to ${xAxis[xAxis.length - 1]}  |  currently ${totalUserCount} `
         },
         legend: { data: ALL_BROWSERS },
         grid: {
@@ -142,7 +142,7 @@ function render2Svg(chartData: ChartData): string {
         xAxis: [{
             type: 'category',
             boundaryGap: false,
-            data: xAixs
+            data: xAxis
         }],
         yAxis: [
             { type: 'value' }
@@ -153,7 +153,7 @@ function render2Svg(chartData: ChartData): string {
             stack: 'Total',
             // Fill the area
             areaStyle: {},
-            data: yAixses[b]
+            data: yAxises[b]
         }))
     })
     return chart.renderToSVGString()

@@ -61,8 +61,8 @@ async function processDir(client: CrowdinClient, dir: Dir, branch: SourceFilesMo
                 continue
             }
             const strings = transMsg(message[locale])
-            const crwodinLang = crowdinLangOf(locale)
-            await processDirMessage(client, crowdinFile, strings, crwodinLang)
+            const crowdinLang = crowdinLangOf(locale)
+            await processDirMessage(client, crowdinFile, strings, crowdinLang)
         }
     }
 }
