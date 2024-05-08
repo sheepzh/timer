@@ -7,7 +7,7 @@
 
 import type { UnwrapRef } from "vue"
 
-import { ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
+import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { defineComponent, reactive, unref, watch } from "vue"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
@@ -26,6 +26,7 @@ const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...SORTED_LOCA
 function copy(target: timer.option.AppearanceOption, source: timer.option.AppearanceOption) {
     target.displayWhitelistMenu = source.displayWhitelistMenu
     target.displayBadgeText = source.displayBadgeText
+    target.badgeBgColor = source.badgeBgColor
     target.locale = source.locale
     target.printInConsole = source.printInConsole
     target.darkMode = source.darkMode
@@ -117,6 +118,16 @@ const _default = defineComponent((_props, ctx) => {
                 <ElSwitch
                     modelValue={option.displayBadgeText}
                     onChange={(val: boolean) => option.displayBadgeText = val}
+                />
+            </OptionItem>
+            <OptionItem
+                v-show={option.displayBadgeText}
+                label={msg => msg.option.appearance.badgeBgColor}
+            >
+                <ElColorPicker
+                    size="small"
+                    modelValue={option.badgeBgColor}
+                    onChange={val => option.badgeBgColor = val}
                 />
             </OptionItem>
             <OptionItem

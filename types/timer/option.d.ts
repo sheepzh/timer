@@ -76,6 +76,12 @@ declare namespace timer.option {
          */
         displayBadgeText: boolean
         /**
+         * The background color of badge text
+         *
+         * @since 2.3.0
+         */
+        badgeBgColor?: string
+        /**
          * The language of this extension
          *
          * @since 0.8.0

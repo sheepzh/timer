@@ -27,6 +27,7 @@ export type OptionMessage = {
         contextMenu: string
         // badge text
         displayBadgeText: string
+        badgeBgColor: string
         icon: string
         badgeTextContent: string
         locale: {

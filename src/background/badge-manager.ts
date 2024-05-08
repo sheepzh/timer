@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { setBadgeText } from "@api/chrome/action"
+import { setBadgeBgColor, setBadgeText } from "@api/chrome/action"
 import { listTabs } from "@api/chrome/tab"
 import { getFocusedNormalWindow } from "@api/chrome/window"
 import StatDatabase from "@db/stat-database"
@@ -82,14 +82,14 @@ async function updateFocus(badgeLocation?: BadgeLocation, lastLocation?: BadgeLo
     return badgeLocation
 }
 
-class BadgeTextManager {
+class BadgeManager {
     isPaused: boolean
     lastLocation: BadgeLocation
 
     async init() {
-        const option: Partial<timer.option.AllOption> = await optionService.getAllOption()
-        this.pauseOrResumeAccordingToOption(!!option.displayBadgeText)
-        optionService.addOptionChangeListener(({ displayBadgeText }) => this.pauseOrResumeAccordingToOption(displayBadgeText))
+        const option: timer.option.AllOption = await optionService.getAllOption()
+        this.processOption(option)
+        optionService.addOptionChangeListener(opt => this.processOption(opt))
         whitelistHolder.addPostHandler(updateFocus)
     }
 
@@ -116,9 +116,11 @@ class BadgeTextManager {
         this.lastLocation = await updateFocus(badgeLocation, this.lastLocation)
     }
 
-    private pauseOrResumeAccordingToOption(displayBadgeText: boolean) {
+    private processOption(option: timer.option.AppearanceOption) {
+        const { displayBadgeText, badgeBgColor } = option || {}
         displayBadgeText ? this.resume() : this.pause()
+        setBadgeBgColor(badgeBgColor)
     }
 }
 
-export default new BadgeTextManager()
+export default new BadgeManager()

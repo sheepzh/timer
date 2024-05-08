@@ -4,7 +4,7 @@ import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import statService from "@service/stat-service"
 import { extractHostname } from "@util/pattern"
-import badgeTextManager from "../badge-text-manager"
+import badgeManager from "../badge-manager"
 import MessageDispatcher from "../message-dispatcher"
 import optionService from "@service/option-service"
 
@@ -46,7 +46,7 @@ async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender)
         // Cause there is no way to determine whether this tab is selected in screen-split mode
         // So only show badge for first tab for screen-split mode
         // @see #246
-        firstActiveTab?.id === tabId && badgeTextManager.forceUpdate({ tabId, url })
+        firstActiveTab?.id === tabId && badgeManager.forceUpdate({ tabId, url })
     }
 }
 

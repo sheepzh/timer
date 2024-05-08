@@ -17,6 +17,7 @@
             "whitelistItem": "白名单",
             "contextMenu": "浏览器的右键菜单",
             "displayBadgeText": "{input}  是否在 {icon} 上，显示 {timeInfo}",
+            "badgeBgColor": "图标上文本的背景色 {input}",
             "icon": "扩展图标",
             "badgeTextContent": "当前网站的今日浏览时长",
             "locale": {
@@ -253,6 +254,7 @@
             "whitelistItem": "whitelist related shortcuts",
             "contextMenu": "the context menu",
             "displayBadgeText": "{input}  Whether to display {timeInfo} in {icon}",
+            "badgeBgColor": "The background color of the text on the icon {input}",
             "icon": "the icon of extension",
             "badgeTextContent": "the browsing time of current website",
             "locale": {
