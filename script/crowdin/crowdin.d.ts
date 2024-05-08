@@ -6,6 +6,7 @@ type Dir =
     | 'common'
     | 'popup'
     | 'side'
+    | 'cs'
 
 /**
  * Key of crowdin file/directory
