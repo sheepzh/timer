@@ -22,7 +22,7 @@ jobs:
             - name: Commit change
               run: |
                 git add .
-                git commit -m "Export translations by Github Action"
+                git commit -m "Export translations by Github Action" --author=GithubAction
             - name: Push change
               run: git push https://$GITHUB_LOGIN:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
     
