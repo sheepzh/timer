@@ -157,7 +157,8 @@
                     "off": "始終關閉",
                     "timed": "定時開啟"
                 }
-            }
+            },
+            "badgeBgColor": "圖示上文字的背景色 {input}"
         },
         "statistics": {
             "title": "統計",
@@ -394,7 +395,8 @@
                     "off": "常にオフ",
                     "timed": "時限スタート"
                 }
-            }
+            },
+            "badgeBgColor": "アイコン上のテキストの背景色 {input}"
         },
         "statistics": {
             "title": "統計",
@@ -515,7 +517,8 @@
                     "off": "Sempre desativado",
                     "timed": "Cronometrando"
                 }
-            }
+            },
+            "badgeBgColor": "A cor de fundo do texto no ícone {input}"
         },
         "statistics": {
             "title": "Estatísticas",
