@@ -117,7 +117,10 @@ class LimitDatabase extends BaseDatabase {
         const items = await this.getItems()
         let { id, name, cond, time, enabled, allowDelay, visitTime, periods } = data
         if (!id) {
-            const lastId = Object.values(items).map(e => e.i).filter(i => !!i).sort().reverse()?.[0] ?? 0
+            const lastId = Object.values(items)
+                .map(e => e.i)
+                .filter(i => !!i)
+                .sort((a, b) => b - a)?.[0] ?? 0
             id = lastId + 1
         }
         const existItem = items[id]
