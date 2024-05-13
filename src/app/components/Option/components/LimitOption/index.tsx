@@ -75,7 +75,11 @@ const _default = defineComponent((_, ctx) => {
         copy(option, currentVal)
         watch(option, () => optionService.setDailyLimitOption(unref(option)))
     })
-    ctx.expose({ reset: () => reset(option) } satisfies OptionInstance)
+    ctx.expose({
+        reset: () => verifyTriggered(option, verified)
+            .then(() => reset(option))
+            .catch(() => { })
+    } satisfies OptionInstance)
 
     return () => <>
         <OptionItem
