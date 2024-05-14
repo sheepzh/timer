@@ -1,25 +1,39 @@
 import { LimitReason, LimitType, MaskModal } from "../common"
 import { getUrl, sendMsg2Runtime } from "@api/chrome/runtime"
-import { type RootElement } from "../element"
+import { TAG_NAME, type RootElement } from "../element"
 import { App, createApp, Ref } from "vue"
 import Main from "./Main"
 import { provideDelayHandler, provideReason } from "./context"
 import { init as initTheme, toggle } from "@util/dark-mode"
 import optionService from "@service/option-service"
 
-function exitScreen(): Promise<void> {
-    const ele = document.fullscreenElement
-    if (!ele) {
-        return Promise.resolve()
+async function exitScreen(): Promise<void> {
+    if (!document?.fullscreenElement) return
+    if (!document?.exitFullscreen) return
+    try {
+        await document.exitFullscreen()
+    } catch (e) {
+        console.warn("Failed to exit fullscreen", e)
     }
-    return new Promise<void>(resolve => {
-        if (document.exitFullscreen) {
-            document.exitFullscreen()
-                .then(resolve)
-                .catch(e => console.warn("Failed to exit fullscreen", e))
-        } else {
-            resolve()
-        }
+}
+
+function pauseAllVideo(): void {
+    const elements = document?.getElementsByTagName('video')
+    if (!elements) return
+    Array.from(elements).forEach(video => {
+        try {
+            video?.pause?.()
+        } catch { }
+    })
+}
+
+function pauseAllAudio(): void {
+    const elements = document?.getElementsByTagName('audio')
+    if (!elements) return
+    Array.from(elements).forEach(audio => {
+        try {
+            audio?.pause?.()
+        } catch { }
     })
 }
 
@@ -57,12 +71,10 @@ class ModalInstance implements MaskModal {
     addReason(reason: LimitReason): void {
         const exist = this.reasons.some(r => isSameReason(r, reason))
         if (exist) return
-        exitScreen().then(() => {
-            this.reasons.push(reason)
-            // Sort
-            this.reasons.sort((a, b) => TYPE_SORT[a.type] - TYPE_SORT[b.type])
-            this.refresh()
-        })
+        this.reasons.push(reason)
+        // Sort
+        this.reasons.sort((a, b) => TYPE_SORT[a.type] - TYPE_SORT[b.type])
+        this.refresh()
     }
 
     removeReason(reason: LimitReason): void {
@@ -86,20 +98,9 @@ class ModalInstance implements MaskModal {
         reason ? this.show(reason) : this.hide()
     }
 
-    private show(reason: LimitReason) {
-        if (!document?.body) return
-        if (!this.rootElement) this.init()
-
-        this.reason.value = reason
-        document.body.style.overflow = 'hidden'
-        this.body.style.display = 'block'
-    }
-
-    private init() {
+    private async init() {
         // 1. Create mask element
-        this.rootElement = document.createElement('time-tracker-overlay') as RootElement
-        document.body.appendChild(this.rootElement)
-        const root = this.rootElement.attachShadow({ mode: 'open' })
+        const root = await this.prepareRoot()
 
         // 1. Create mask element
         const html = document.createElement('html')
@@ -129,8 +130,41 @@ class ModalInstance implements MaskModal {
         this.app.mount(body)
     }
 
+    private async prepareRoot(): Promise<ShadowRoot> {
+        const inner = () => {
+            const exist = this.rootElement || document.querySelector(TAG_NAME) as RootElement
+            if (exist) {
+                this.rootElement = exist
+                return exist.shadowRoot
+            }
+            this.rootElement = document.createElement(TAG_NAME) as RootElement
+            document.body.appendChild(this.rootElement)
+            return this.rootElement.attachShadow({ mode: 'open' })
+        }
+        if (document.body) {
+            return inner()
+        } else {
+            return new Promise(resolve => {
+                window.addEventListener('load', () => resolve(inner()))
+            })
+        }
+    }
+
+    private async show(reason: LimitReason) {
+        if (!this.rootElement) {
+            await this.init()
+        }
+        await exitScreen()
+        pauseAllVideo()
+        pauseAllAudio()
+
+        this.reason.value = reason
+        document?.documentElement && (document.documentElement.style.overflow = 'hidden')
+        this.body.style.display = 'block'
+    }
+
     private hide() {
-        document?.body && (document.body.style.overflow = '')
+        document?.documentElement && (document.documentElement.style.overflow = '')
         this.body && (this.body.style.display = 'none')
         this.reason && (this.reason.value = null)
     }

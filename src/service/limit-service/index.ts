@@ -112,6 +112,9 @@ async function addFocusTime(url: string, focusTime: number) {
     return result
 }
 
+/**
+ * @returns Rules to wake
+ */
 async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<timer.limit.Item[]> {
     if (rules === undefined || rules === null) {
         rules = (await select({ url: url, filterDisabled: true }))
@@ -122,10 +125,10 @@ async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<tim
     rules.forEach(rule => {
         const { id, waste } = rule
         const updatedWaste = (waste || 0) - 5 * 60 * 1000
-        rule.waste = toUpdate[id] = updatedWaste < 0 ? 0 : updatedWaste
+        rule.waste = toUpdate[id] = Math.max(updatedWaste, 0)
     })
     await db.updateWaste(date, toUpdate)
-    return rules
+    return rules.filter(r => !hasLimited(r))
 }
 
 async function update(rule: timer.limit.Rule) {
