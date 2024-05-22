@@ -2,6 +2,10 @@
     "recommendations": [
         "streetsidesoftware.code-spell-checker",
         "editorconfig.editorconfig",
-        "foxundermoon.shell-format"
+        "foxundermoon.shell-format",
+        "ms-vscode.vscode-typescript-next",
+    ],
+    "unwantedRecommendations": [
+        "esbenp.prettier-vscode",
     ]
 }
