@@ -192,12 +192,12 @@ async function upload2Gist(token: string, svg: string) {
         description: USER_COUNT_GIST_DESC,
         files
     }
-    const gist = await findTarget(token, gist => gist.description === USER_COUNT_GIST_DESC)
+    const gist = await findTarget({ token }, gist => gist.description === USER_COUNT_GIST_DESC)
     if (gist) {
-        await updateGist(token, gist.id, form)
+        await updateGist({ token }, gist.id, form)
         console.log('Updated gist')
     } else {
-        await createGist(token, form)
+        await createGist({ token }, form)
         console.log('Created new gist')
     }
 }

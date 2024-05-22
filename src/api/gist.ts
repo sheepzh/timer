@@ -35,6 +35,10 @@ export type Gist = BaseGist<File> & {
 
 export type GistForm = BaseGist<FileForm>
 
+export interface GistAuth {
+    token: string
+}
+
 const BASE_URL = 'https://api.github.com/gists'
 
 /**
@@ -76,22 +80,22 @@ async function post<T, R>(token: string, uri: string, body?: R): Promise<T> {
  * @param id    id
  * @returns detail of Gist
  */
-export function getGist(token: string, id: string): Promise<Gist> {
-    return get(token, `/${id}`)
+export function getGist(auth: GistAuth, id: string): Promise<Gist> {
+    return get(auth.token, `/${id}`);
 }
 
 /**
  * Find the first target gist with predicate
  *
- * @param token     gist token
+ * @param auth     gist token
  * @param predicate predicate
  * @returns
  */
-export async function findTarget(token: string, predicate: (gist: Gist) => boolean): Promise<Gist> {
+export async function findTarget(auth: GistAuth, predicate: (gist: Gist) => boolean): Promise<Gist> {
     let pageNum = 1
     while (true) {
         const uri = `?per_page=100&page=${pageNum}`
-        const gists: Gist[] = await get(token, uri)
+        const gists: Gist[] = await get(auth.token, uri)
         if (!gists?.length) {
             break
         }
@@ -107,12 +111,12 @@ export async function findTarget(token: string, predicate: (gist: Gist) => boole
 /**
  * Create one gist
  *
- * @param token  token
+ * @param auth  auth token
  * @param gist   gist info
  * @returns gist info with id
  */
-export function createGist(token: string, gist: GistForm): Promise<Gist> {
-    return post(token, "", gist)
+export function createGist(auth: GistAuth, gist: GistForm): Promise<Gist> {
+    return post(auth.token, "", gist)
 }
 
 /**
@@ -122,8 +126,8 @@ export function createGist(token: string, gist: GistForm): Promise<Gist> {
  * @param gist  gist
  * @returns
  */
-export async function updateGist(token: string, id: string, gist: GistForm): Promise<void> {
-    await post(token, `/${id}`, gist)
+export async function updateGist(auth: GistAuth, id: string, gist: GistForm): Promise<void> {
+    await post(auth.token, `/${id}`, gist)
 }
 
 /**
@@ -152,11 +156,11 @@ export async function getJsonFileContent<T>(file: File): Promise<T> {
  *
  * @returns errorMsg or null/undefined
  */
-export async function testToken(token: string): Promise<string> {
+export async function testToken(auth: GistAuth): Promise<string> {
     const response = await fetchGet(BASE_URL + '?per_page=1&page=1', {
         headers: {
             "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`
+            "Authorization": `token ${auth.token}`
         }
     })
     const { status, statusText } = response || {}

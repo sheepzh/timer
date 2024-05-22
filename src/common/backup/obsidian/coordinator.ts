@@ -1,6 +1,7 @@
 import {
     ObsidianRequestContext,
-    getFileContent, listAllFiles, updateFile, deleteFile
+    getFileContent, listAllFiles, updateFile, deleteFile,
+    ObsidianAuth
 } from "@api/obsidian"
 import { convertClients2Markdown, divideByDate, parseData } from "./compressor"
 import DateIterator from "@util/date-iterator"
@@ -21,7 +22,7 @@ function processDir(dirPath: string) {
     return dirPath
 }
 
-function prepareContext(context: timer.backup.CoordinatorContext<never>) {
+function prepareContext(context: timer.backup.CoordinatorContext<never, ObsidianAuth>) {
     const { auth, ext, cid } = context
     let { endpoint, dirPath } = ext || {}
     dirPath = processDir(dirPath)
@@ -29,28 +30,28 @@ function prepareContext(context: timer.backup.CoordinatorContext<never>) {
     return { ctx, dirPath, cid }
 }
 
-export default class ObsidianCoordinator implements timer.backup.Coordinator<never> {
+export default class ObsidianCoordinator implements timer.backup.Coordinator<never, ObsidianAuth> {
 
-    async updateClients(context: timer.backup.CoordinatorContext<never>, clients: timer.backup.Client[]): Promise<void> {
+    async updateClients(context: timer.backup.CoordinatorContext<never, ObsidianAuth>, clients: timer.backup.Client[]): Promise<void> {
         const { ctx, dirPath } = prepareContext(context)
         const clientFilePath = `${dirPath}${CLIENT_FILE_NAME}`
         const content = convertClients2Markdown(clients)
         await updateFile(ctx, clientFilePath, content)
     }
 
-    async listAllClients(context: timer.backup.CoordinatorContext<never>): Promise<timer.backup.Client[]> {
+    async listAllClients(context: timer.backup.CoordinatorContext<never, ObsidianAuth>): Promise<timer.backup.Client[]> {
         const { ctx, dirPath } = prepareContext(context)
         const clientFilePath = `${dirPath}${CLIENT_FILE_NAME}`
         try {
             const content = await getFileContent(ctx, clientFilePath)
-            return parseData(content)
+            return parseData(content) || [];
         } catch (e) {
             console.error(e)
             return []
         }
     }
 
-    async download(context: timer.backup.CoordinatorContext<never>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
+    async download(context: timer.backup.CoordinatorContext<never, ObsidianAuth>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
         const { ctx, dirPath, cid } = prepareContext(context)
 
         const dateIterator = new DateIterator(dateStart, dateEnd)
@@ -64,7 +65,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         return result
     }
 
-    async upload(context: timer.backup.CoordinatorContext<never>, rows: timer.stat.RowBase[]): Promise<void> {
+    async upload(context: timer.backup.CoordinatorContext<never, ObsidianAuth>, rows: timer.stat.RowBase[]): Promise<void> {
         const { ctx, dirPath, cid } = prepareContext(context)
 
         const dateAndContents = divideByDate(rows)
@@ -76,7 +77,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         )
     }
 
-    async testAuth(auth: string, ext: timer.backup.TypeExt): Promise<string> {
+    async testAuth(auth: ObsidianAuth, ext: timer.backup.TypeExt): Promise<string> {
         let { endpoint, dirPath } = ext || {}
         dirPath = processDir(dirPath)
         if (!dirPath) {
@@ -86,7 +87,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         return result?.message
     }
 
-    async clear(context: timer.backup.CoordinatorContext<never>, client: timer.backup.Client): Promise<void> {
+    async clear(context: timer.backup.CoordinatorContext<never, ObsidianAuth>, client: timer.backup.Client): Promise<void> {
         const cid = client.id
         const { ctx, dirPath } = prepareContext(context)
         const clientDirPath = `${dirPath}${cid}/`

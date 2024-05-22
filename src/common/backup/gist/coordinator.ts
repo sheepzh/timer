@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Gist, GistForm, File, FileForm } from "@api/gist"
+import type { Gist, GistForm, File, FileForm, GistAuth } from "@api/gist"
 
 import { getJsonFileContent, findTarget, getGist, createGist, updateGist, testToken } from "@api/gist"
 import { SOURCE_CODE_PAGE } from "@util/constant/url"
@@ -55,9 +55,9 @@ function filterDate(row: timer.stat.RowBase, start: string, end: string) {
     return true
 }
 
-export default class GistCoordinator implements timer.backup.Coordinator<Cache> {
+export default class GistCoordinator implements timer.backup.Coordinator<Cache, GistAuth> {
     async updateClients(
-        context: timer.backup.CoordinatorContext<Cache>,
+        context: timer.backup.CoordinatorContext<Cache, GistAuth>,
         clients: timer.backup.Client[],
     ): Promise<void> {
         const gist = await this.getMetaGist(context)
@@ -73,7 +73,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         await updateGist(context.auth, gist.id, { description: gist.description, public: false, files })
     }
 
-    async listAllClients(context: timer.backup.CoordinatorContext<Cache>): Promise<timer.backup.Client[]> {
+    async listAllClients(context: timer.backup.CoordinatorContext<Cache, GistAuth>): Promise<timer.backup.Client[]> {
         const gist = await this.getMetaGist(context)
         if (!gist) {
             return []
@@ -82,7 +82,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return file ? getJsonFileContent(file) || [] : []
     }
 
-    async download(context: timer.backup.CoordinatorContext<Cache>, startTime: Date, endTime: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
+    async download(context: timer.backup.CoordinatorContext<Cache, GistAuth>, startTime: Date, endTime: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
         const allYearMonth = new MonthIterator(startTime, endTime || new Date()).toArray()
         const result: timer.stat.RowBase[] = []
         const start = formatTime(startTime, "{y}{m}{d}")
@@ -103,7 +103,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
 
 
 
-    async upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void> {
+    async upload(context: timer.backup.CoordinatorContext<Cache, GistAuth>, rows: timer.stat.RowBase[]): Promise<void> {
         const cid = context.cid
         const buckets = divide2Buckets(rows)
         const gist = await this.getStatGist(context)
@@ -130,7 +130,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return gist.description === TIMER_DATA_GIST_DESC
     }
 
-    private async getMetaGist(context: timer.backup.CoordinatorContext<Cache>): Promise<Gist> {
+    private async getMetaGist(context: timer.backup.CoordinatorContext<Cache, GistAuth>): Promise<Gist> {
         const gistId = context.cache.metaGistId
         const auth = context.auth
         // 1. Find by id
@@ -158,7 +158,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return created
     }
 
-    private async getStatGist(context: timer.backup.CoordinatorContext<Cache>): Promise<Gist> {
+    private async getStatGist(context: timer.backup.CoordinatorContext<Cache, GistAuth>): Promise<Gist> {
         const gistId = context.cache.statGistId
         const auth = context.auth
         // 1. Find by id
@@ -185,11 +185,11 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return created
     }
 
-    testAuth(auth: string): Promise<string> {
+    testAuth(auth: GistAuth): Promise<string> {
         return testToken(auth)
     }
 
-    async clear(context: timer.backup.CoordinatorContext<Cache>, client: timer.backup.Client): Promise<void> {
+    async clear(context: timer.backup.CoordinatorContext<Cache, GistAuth>, client: timer.backup.Client): Promise<void> {
         // 1. Find the names of file to delete
         const { minDate, maxDate, id: cid } = client || {}
         const allBuckets = calcAllBuckets(minDate, maxDate)

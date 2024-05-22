@@ -27,5 +27,5 @@ export function filenameOf(browser: Browser): string {
 }
 
 export async function getExistGist(token: string, browser: Browser): Promise<Gist> {
-    return await findTarget(token, gist => gist.description === descriptionOf(browser))
+    return await findTarget({ token }, gist => gist.description === descriptionOf(browser))
 }

@@ -13,13 +13,14 @@ import { judgeVirtualFast } from "@util/pattern"
 import { formatTime, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
+import WebdavCoordinator from './webdav/coordinator'
 
 const storage = chrome.storage.local
 const syncDb = new BackupDatabase(storage)
 
 export type AuthCheckResult = {
     option: timer.option.BackupOption
-    auth: string
+    auth: {}
     ext: timer.backup.TypeExt
     type: timer.backup.Type
     coordinator: timer.backup.Coordinator<unknown>
@@ -27,13 +28,13 @@ export type AuthCheckResult = {
 }
 
 class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContext<Cache> {
-    auth: string
+    auth: {}
     ext?: timer.backup.TypeExt
     cache: Cache
     type: timer.backup.Type
     cid: string
 
-    constructor(cid: string, auth: string, ext: timer.backup.TypeExt, type: timer.backup.Type) {
+    constructor(cid: string, auth: {}, ext: timer.backup.TypeExt, type: timer.backup.Type) {
         this.cid = cid
         this.auth = auth
         this.ext = ext
@@ -153,6 +154,7 @@ class Processor {
             none: undefined,
             gist: new GistCoordinator(),
             obsidian_local_rest_api: new ObsidianCoordinator(),
+            webdav: new WebdavCoordinator(),
         }
     }
 

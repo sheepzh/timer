@@ -16,13 +16,16 @@ export type ObsidianResult<T> = {
     errorCode?: number
 } & T
 
+export interface ObsidianAuth {
+    token: string
+}
 export type ObsidianRequestContext = {
     endpoint?: string
-    auth: string
+    auth: ObsidianAuth
 }
 
-const authHeaders = (auth: string) => ({
-    "Authorization": `Bearer ${auth}`
+const authHeaders = (auth: ObsidianAuth) => ({
+    "Authorization": `Bearer ${auth.token}`
 })
 
 export async function listAllFiles(context: ObsidianRequestContext, dirPath: string): Promise<ObsidianResult<{ files: string[] }>> {

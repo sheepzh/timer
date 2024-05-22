@@ -9,34 +9,15 @@ import type { Ref } from "vue"
 
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
-import processor from "@src/common/backup/processor"
 import { defaultBackup } from "@util/constant/option"
-import { ElInput, ElOption, ElSelect, ElAlert, ElButton, ElMessage, ElLoading } from "element-plus"
+import { ElInput, ElOption, ElSelect, ElAlert } from "element-plus"
 import { defineComponent, computed, ref, watch } from "vue"
 import { OptionInstance, OptionItem, OptionTooltip } from "../../common"
 import AutoInput from "./AutoInput"
 import Footer from "./Footer"
 import { AUTHOR_EMAIL } from "@src/package"
-import { DEFAULT_ENDPOINT } from "@api/obsidian"
 import "./style.sass"
-
-const ALL_TYPES: timer.backup.Type[] = [
-    'none',
-    'gist',
-    'obsidian_local_rest_api',
-]
-
-const AUTH_LABELS: { [t in timer.backup.Type]: string } = {
-    'none': '',
-    'gist': 'Personal Access Token {info} {input}',
-    'obsidian_local_rest_api': 'Authorization {input}'
-}
-
-const TYPE_NAMES: { [t in timer.backup.Type]: string } = {
-    none: t(msg => msg.option.backup.meta.none.label),
-    gist: 'GitHub Gist',
-    obsidian_local_rest_api: "Obsidian - Local REST API",
-}
+import { ALL_TYPES, AUTH_LABELS, EXT_LABELS, TYPE_NAMES } from "./label"
 
 const DEFAULT = defaultBackup()
 
@@ -67,46 +48,43 @@ const _default = defineComponent((_props, ctx) => {
         clientName.value = val?.clientName
     })
 
-    const isObsidian = computed(() => backupType.value === "obsidian_local_rest_api")
     const isNotNone = computed(() => backupType.value !== "none")
     const auth = computed({
-        get: () => backupAuths.value?.[backupType?.value],
+        get: () => {
+            const auth = backupAuths.value[backupType.value]
+            if (!auth) {
+                backupAuths.value[backupType.value] = {}
+            }
+            return auth
+        },
         set: val => {
             const typeVal = backupType.value
             if (!typeVal) return
             const newAuths = {
-                ...backupAuths.value || {},
+                ...(backupAuths.value || {}),
                 [typeVal]: val,
             }
             backupAuths.value = newAuths
         }
     })
     const ext = computed<timer.backup.TypeExt>({
-        get: () => backupExts.value?.[backupType.value],
+        get: () => {
+            const ext = backupExts.value[backupType.value]
+            if (!ext) {
+                backupExts.value[backupType.value] = {}
+            }
+            return ext
+        },
         set: val => {
             const typeVal = backupType.value
             if (!typeVal) return
             const newExts = {
-                ...backupExts.value || {},
+                ...(backupExts.value || {}),
                 [typeVal]: val,
             }
             backupExts.value = newExts
         },
     })
-
-    async function handleTest() {
-        const loading = ElLoading.service({ text: "Please wait...." })
-        try {
-            const { errorMsg } = await processor.checkAuth()
-            if (!errorMsg) {
-                ElMessage.success("Valid!")
-            } else {
-                ElMessage.error(errorMsg)
-            }
-        } finally {
-            loading.close()
-        }
-    }
 
     ctx.expose({
         reset: () => {
@@ -140,50 +118,72 @@ const _default = defineComponent((_props, ctx) => {
                 }}
             />
         </OptionItem>
-        <OptionItem
-            v-show={isObsidian.value}
-            label={msg => msg.option.backup.meta.obsidian_local_rest_api.endpointLabel}
-            v-slots={{
-                info: () => <OptionTooltip>{t(msg => msg.option.backup.meta.obsidian_local_rest_api.endpointInfo)}</OptionTooltip>
-            }}
-        >
-            <ElInput
-                placeholder={DEFAULT_ENDPOINT}
-                modelValue={ext.value?.endpoint}
-                size="small"
-                style={{ width: "400px" }}
-                onInput={val => ext.value = { ...(ext.value || {}), endpoint: val?.trim?.() || '' }}
-            />
-        </OptionItem>
-        <OptionItem
-            v-show={isObsidian.value}
-            label={msg => msg.option.backup.meta.obsidian_local_rest_api.pathLabel}>
-            <ElInput
-                modelValue={ext.value?.dirPath}
-                size="small"
-                style={{ width: "400px" }}
-                onInput={val => ext.value = { ...(ext.value || {}), dirPath: val?.trim?.() || '' }}
-            />
-        </OptionItem>
-        <OptionItem
-            v-show={isNotNone.value}
-            label={_ => AUTH_LABELS[backupType.value]}
-            v-slots={{
-                info: () => <OptionTooltip>{t(msg => msg.option.backup.meta[backupType.value]?.authInfo)}</OptionTooltip>
-            }}
-        >
-            <ElInput
-                modelValue={auth.value}
-                size="small"
-                type="password"
-                showPassword
-                style={{ width: "400px" }}
-                onInput={val => auth.value = val?.trim?.() || ''}
-                v-slots={{
-                    append: () => <ElButton onClick={handleTest}>{t(msg => msg.option.backup.test)}</ElButton>
-                }}
-            />
-        </OptionItem>
+        {isNotNone.value &&
+            EXT_LABELS[backupType.value].map((item, index) => {
+                return (
+                    <OptionItem
+                        key={item.name}
+                        label={(_) => item.label}
+                    // v-slots={{
+                    //     info: () => (
+                    //         <OptionTooltip>
+                    //             {t(
+                    //                 (msg) =>
+                    //                     msg.option.backup.meta[
+                    //                         backupType.value
+                    //                     ]?.authInfo
+                    //             )}
+                    //         </OptionTooltip>
+                    //     ),
+                    // }}
+                    >
+                        <ElInput
+                            modelValue={ext.value[item.name]}
+                            size="small"
+                            key={index}
+                            style={{ width: "400px" }}
+                            onInput={(val) => {
+                                ext.value[item.name] = val?.trim?.() || ""
+                            }}
+                        />
+                    </OptionItem>
+                )
+            })}
+
+        {isNotNone.value &&
+            AUTH_LABELS[backupType.value].map((item, index) => {
+                return (
+                    <OptionItem
+                        key={item.name}
+                        label={(_) => item.label}
+                    // v-slots={{
+                    //     info: () => (
+                    //         <OptionTooltip>
+                    //             {t(
+                    //                 (msg) =>
+                    //                     msg.option.backup.meta[
+                    //                         backupType.value
+                    //                     ]?.authInfo
+                    //             )}
+                    //         </OptionTooltip>
+                    //     ),
+                    // }}
+                    >
+                        <ElInput
+                            modelValue={auth.value[item.name]}
+                            size="small"
+                            key={index}
+                            type="password"
+                            showPassword
+                            style={{ width: "400px" }}
+                            onInput={(val) => {
+                                auth.value[item.name] = val?.trim?.() || ""
+                            }}
+                        />
+                    </OptionItem>
+                )
+            })}
+
         <OptionItem v-show={isNotNone.value} label={msg => msg.option.backup.client}>
             <ElInput
                 modelValue={clientName.value}

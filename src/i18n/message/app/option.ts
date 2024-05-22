@@ -80,7 +80,10 @@ export type OptionMessage = {
                 authInfo?: string
             }
         } & {
-            [type in Extract<timer.backup.Type, "obsidian_local_rest_api">]: {
+            [type in Extract<
+                timer.backup.Type,
+                "obsidian_local_rest_api" | "webdav"
+            >]: {
                 endpointLabel: string
                 endpointInfo: string
                 pathLabel: string

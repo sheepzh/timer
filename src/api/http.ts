@@ -58,3 +58,16 @@ export async function fetchDelete(url: string, option?: Option): Promise<Respons
         throw Error(e)
     }
 }
+
+export async function fetchFind(url: string, option?: Option): Promise<Response> {
+    try {
+        const response = await fetch(url, {
+            ...(option || {}),
+            method: "PROPFIND",
+        })
+        return response
+    } catch (e) {
+        console.error("Failed to fetch propfind", e)
+        throw Error(e)
+    }
+}

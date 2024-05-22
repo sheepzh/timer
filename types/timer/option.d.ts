@@ -154,7 +154,7 @@ declare namespace timer.option {
         /**
          * The auth of types, maybe ak/sk or static token
          */
-        backupAuths: { [type in backup.Type]?: string }
+        backupAuths: { [type in backup.Type]?: {} }
         /**
          * The extended information of types, including url, file path, and so on
          */
