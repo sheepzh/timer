@@ -4,6 +4,11 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": "always"
     },
+    "editor.foldingImportsByDefault": true,
+    "editor.trimAutoWhitespace": true,
+    "javascript.format.insertSpaceAfterCommaDelimiter": true,
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.format.semicolons": "remove",
     "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
     "cSpell.words": [
         "Auths",
