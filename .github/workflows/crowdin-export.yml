@@ -8,7 +8,6 @@ jobs:
             GITHUB_LOGIN: sheepzh
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
-            - uses: actions/checkout@v2
             - name: Test using Node.js
               uses: actions/setup-node@v1
               with:
@@ -19,10 +18,12 @@ jobs:
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
+            - uses: actions/checkout@v2
             - name: Commit change
               run: |
+                git config --global user.name 'sheepzh'
+                git config --global user.email 'returnzhy1996@outlook.com'
                 git add .
-                git commit -m "Export translations by Github Action" --author=GithubAction
+                git commit -m "Export translations by Github Action"
             - name: Push change
-              run: git push https://$GITHUB_LOGIN:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
-    
+              run: git push
