@@ -30,9 +30,10 @@
         "rate": "Avalie"
     },
     "uk": {
-        "updateVersion": "Оновлюється",
+        "updateVersion": "Доступне оновлення",
         "updateVersionInfo": "Найновіша: {version}",
-        "updateVersionInfo4Firefox": "Оновіть до версії {version} на сторінці about:addons"
+        "updateVersionInfo4Firefox": "Оновіть до версії {version} на сторінці about:addons",
+        "rate": "Оцінити"
     },
     "es": {
         "updateVersion": "Actualizable",

@@ -28,5 +28,11 @@
         "more5Minutes": "Mais 5 minutos",
         "browsingTime": "Tempo de navegação",
         "ruleDetail": "Detalhe da regra"
+    },
+    "uk": {
+        "defaultPrompt": "Цю сторінку заблоковано!",
+        "more5Minutes": "Ще 5 хвилин",
+        "browsingTime": "Час перегляду",
+        "ruleDetail": "Подробиці правила"
     }
 }

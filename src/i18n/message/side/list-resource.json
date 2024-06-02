@@ -22,5 +22,9 @@
     "pt_PT": {
         "searchPlaceholder": "Busca por URL",
         "title": "Todos os dados de navegação"
+    },
+    "uk": {
+        "searchPlaceholder": "Пошук за URL",
+        "title": "Усі дані перегляду"
     }
 }
