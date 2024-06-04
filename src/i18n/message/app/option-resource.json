@@ -81,17 +81,21 @@
                     "label": "不开启备份"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "需要创建一个至少包含 gist 权限的 token"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "服务地址 {info} {input}",
                     "endpointInfo": "因为无法为浏览器插件配置跨域，所以只能使用 HTTP 协议",
-                    "pathLabel": "文件夹路径 {input}"
+                    "pathLabel": "文件夹路径 {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "服务地址 {info} {input}",
                     "endpointInfo": "因为无法为浏览器插件配置跨域，所以只能使用 HTTP 协议",
-                    "pathLabel": "文件夹路径 {input}"
+                    "pathLabel": "文件夹路径 {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "alert": "这是一项实验性功能，如果有任何问题请联系作者~ ({email})",
@@ -205,17 +209,21 @@
                     "label": "關閉備份"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "需要創建一個至少包含 gist 權限的 token"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "服務地址 {info} {input}",
                     "endpointInfo": "僅 HTTP 可用，因為無法為擴展頁面配置 CORS",
-                    "pathLabel": "目錄的路徑 {input}"
+                    "pathLabel": "目錄的路徑 {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "服務地址 {info} {input}",
                     "endpointInfo": "僅 HTTP 可用，因為無法為擴展頁面配置 CORS",
-                    "pathLabel": "目錄的路徑 {input}"
+                    "pathLabel": "目錄的路徑 {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
@@ -329,17 +337,21 @@
                     "label": "Always off"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "One token with at least gist permission is required"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "Endpoint address {info} {input}",
                     "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages",
-                    "pathLabel": "The path of directory {input}"
+                    "pathLabel": "The path of directory {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "Endpoint address {info} {input}",
                     "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages",
-                    "pathLabel": "The path of directory {input}"
+                    "pathLabel": "The path of directory {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
@@ -453,17 +465,21 @@
                     "label": "バックアップを有効にしない"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "少なくとも gist 権限を持つトークンが 1 つ必要です"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "エンドポイントアドレス {info} {input}",
                     "endpointInfo": "拡張機能のページに CORS を設定できないため、HTTP のみが利用できます。",
-                    "pathLabel": "ディレクトリのパス {input}"
+                    "pathLabel": "ディレクトリのパス {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "エンドポイントアドレス {info} {input}",
                     "endpointInfo": "拡張機能のページに CORS を設定できないため、HTTP のみが利用できます。",
-                    "pathLabel": "ディレクトリのパス {input}"
+                    "pathLabel": "ディレクトリのパス {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
@@ -580,17 +596,21 @@
                     "label": "Sempre desativado"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "É necessário um token com pelo menos gist permissão"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "Endereço Intendente {info} {input}",
                     "endpointInfo": "Somente HTTP está disponível porque não é possível configurar CORS para páginas de extensões",
-                    "pathLabel": "O caminho do diretório {input}"
+                    "pathLabel": "O caminho do diretório {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "Endereço Intendente {info} {input}",
                     "endpointInfo": "Somente HTTP está disponível porque não é possível configurar CORS para páginas de extensões",
-                    "pathLabel": "O caminho do diretório {input}"
+                    "pathLabel": "O caminho do diretório {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "test": "Testar",
@@ -772,17 +792,21 @@
                     "label": "Siempre apagado"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "Se requiere un token con al menos los permisos esenciales"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "Dirección de punto final {info} {input}",
                     "endpointInfo": "Solo HTTP está disponible porque no es posible configurar CORS para las páginas de extensiones",
-                    "pathLabel": "La ruta del directorio {input}"
+                    "pathLabel": "La ruta del directorio {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "Dirección de punto final {info} {input}",
                     "endpointInfo": "Solo HTTP está disponible porque no es posible configurar CORS para las páginas de extensiones",
-                    "pathLabel": "La ruta del directorio {input}"
+                    "pathLabel": "La ruta del directorio {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "test": "Probar",
@@ -894,17 +918,21 @@
                     "label": "Immer aus"
                 },
                 "gist": {
+                    "label": "Personal Access Token {info} {input}",
                     "authInfo": "Ein Token mit mindestens gist Berechtigung ist erforderlich"
                 },
                 "obsidian_local_rest_api": {
                     "endpointLabel": "Endpunkt Adresse {info} {input}",
                     "endpointInfo": "Es ist nur HTTP verfügbar, da CORS nicht für Erweiterungsseiten konfiguriert werden kann",
-                    "pathLabel": "Der Pfad des Verzeichnisses {input}"
+                    "pathLabel": "Der Pfad des Verzeichnisses {input}",
+                    "authLabel": "Authorization {input}"
                 },
                 "webdav": {
                     "endpointLabel": "Endpunkt Adresse {info} {input}",
                     "endpointInfo": "Es ist nur HTTP verfügbar, da CORS nicht für Erweiterungsseiten konfiguriert werden kann",
-                    "pathLabel": "Der Pfad des Verzeichnisses {input}"
+                    "pathLabel": "Der Pfad des Verzeichnisses {input}",
+                    "usernameLabel": "用户名 {input}",
+                    "passwordLabel": "密码 {input}"
                 }
             },
             "test": "Testen",

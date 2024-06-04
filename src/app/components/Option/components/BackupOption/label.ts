@@ -8,31 +8,31 @@ export const ALL_TYPES: timer.backup.Type[] = [
 ];
 
 export const AUTH_LABELS: {
-    [t in timer.backup.Type]: { name: string; label: string }[];
+    [t in timer.backup.Type]: { name: string; label: string, info?: string }[];
 } = {
     none: [],
-    gist: [{ name: "token", label: "Personal Access Token {info} {input}" }],
+    gist: [{ name: "token", label: "label", info: "authInfo" }],
     webdav: [
-        { name: "username", label: "Username {input}" },
-        { name: "password", label: "Password {input}" },
+        { name: "username", label: "usernameLabel" },
+        { name: "password", label: "passwordLabel" },
     ],
     obsidian_local_rest_api: [
-        { name: "token", label: "Authorization {input}" },
+        { name: "token", label: "authLabel" },
     ],
 };
 
 export const EXT_LABELS: {
-    [t in timer.backup.Type]: { name: string; label: string }[];
+    [t in timer.backup.Type]: { name: string; label: string, info?: string }[];
 } = {
     none: [],
     gist: [],
     webdav: [
-        { name: "endpoint", label: "服务地址 {input}" },
-        { name: "dirPath", label: "文件夹路径 {input}" },
+        { name: "endpoint", label: "endpointLabel", info: "endpointInfo" },
+        { name: "dirPath", label: "pathLabel" },
     ],
     obsidian_local_rest_api: [
-        { name: "endpoint", label: "服务地址 {input}" },
-        { name: "dirPath", label: "文件夹路径 {input}" },
+        { name: "endpoint", label: "endpointLabel", info: "endpointInfo" },
+        { name: "dirPath", label: "pathLabel" },
     ],
 };
 

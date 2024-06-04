@@ -80,13 +80,19 @@ export type OptionMessage = {
                 authInfo?: string
             }
         } & {
-            [type in Extract<
-                timer.backup.Type,
-                "obsidian_local_rest_api" | "webdav"
-            >]: {
+            [type in Extract<timer.backup.Type, "obsidian_local_rest_api">]: {
                 endpointLabel: string
                 endpointInfo: string
                 pathLabel: string
+                authLabel: string
+            }
+        } & {
+            [type in Extract<timer.backup.Type, "webdav">]: {
+                endpointLabel: string
+                endpointInfo: string
+                pathLabel: string
+                usernameLabel: string
+                passwordLabel: string
             }
         }
         alert: string

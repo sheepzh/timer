@@ -123,19 +123,19 @@ const _default = defineComponent((_props, ctx) => {
                 return (
                     <OptionItem
                         key={item.name}
-                        label={(_) => item.label}
-                    // v-slots={{
-                    //     info: () => (
-                    //         <OptionTooltip>
-                    //             {t(
-                    //                 (msg) =>
-                    //                     msg.option.backup.meta[
-                    //                         backupType.value
-                    //                     ]?.authInfo
-                    //             )}
-                    //         </OptionTooltip>
-                    //     ),
-                    // }}
+                        label={(msg) => msg.option.backup.meta[backupType.value]?.[item.label]}
+                        v-slots={item.info ? {
+                            info: () => (
+                                <OptionTooltip>
+                                    {t(
+                                        (msg) =>
+                                            msg.option.backup.meta[
+                                            backupType.value
+                                            ]?.[item.info]
+                                    )}
+                                </OptionTooltip>
+                            ),
+                        } : {}}
                     >
                         <ElInput
                             modelValue={ext.value[item.name]}
@@ -146,28 +146,29 @@ const _default = defineComponent((_props, ctx) => {
                                 ext.value[item.name] = val?.trim?.() || ""
                             }}
                         />
-                    </OptionItem>
+                    </OptionItem >
                 )
             })}
 
-        {isNotNone.value &&
+        {
+            isNotNone.value &&
             AUTH_LABELS[backupType.value].map((item, index) => {
                 return (
                     <OptionItem
                         key={item.name}
-                        label={(_) => item.label}
-                    // v-slots={{
-                    //     info: () => (
-                    //         <OptionTooltip>
-                    //             {t(
-                    //                 (msg) =>
-                    //                     msg.option.backup.meta[
-                    //                         backupType.value
-                    //                     ]?.authInfo
-                    //             )}
-                    //         </OptionTooltip>
-                    //     ),
-                    // }}
+                        label={(msg) => msg.option.backup.meta[backupType.value]?.[item.label]}
+                        v-slots={item.info ? {
+                            info: () => (
+                                <OptionTooltip>
+                                    {t(
+                                        (msg) =>
+                                            msg.option.backup.meta[
+                                            backupType.value
+                                            ]?.[item.info]
+                                    )}
+                                </OptionTooltip>
+                            ),
+                        } : {}}
                     >
                         <ElInput
                             modelValue={auth.value[item.name]}
@@ -182,7 +183,8 @@ const _default = defineComponent((_props, ctx) => {
                         />
                     </OptionItem>
                 )
-            })}
+            })
+        }
 
         <OptionItem v-show={isNotNone.value} label={msg => msg.option.backup.client}>
             <ElInput
