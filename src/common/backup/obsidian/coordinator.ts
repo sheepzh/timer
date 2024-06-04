@@ -1,12 +1,15 @@
 import {
     ObsidianRequestContext,
     getFileContent, listAllFiles, updateFile, deleteFile,
-    ObsidianAuth
 } from "@api/obsidian"
 import { convertClients2Markdown, divideByDate, parseData } from "./compressor"
 import DateIterator from "@util/date-iterator"
 
 const CLIENT_FILE_NAME = "clients_no_modify.md"
+
+interface ObsidianAuth {
+    token: string
+}
 
 function processDir(dirPath: string) {
     dirPath = dirPath?.trim?.()
@@ -26,7 +29,7 @@ function prepareContext(context: timer.backup.CoordinatorContext<never, Obsidian
     const { auth, ext, cid } = context
     let { endpoint, dirPath } = ext || {}
     dirPath = processDir(dirPath)
-    const ctx: ObsidianRequestContext = { auth, endpoint }
+    const ctx: ObsidianRequestContext = { auth: auth.token, endpoint }
     return { ctx, dirPath, cid }
 }
 
@@ -83,7 +86,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         if (!dirPath) {
             return "Path of directory is blank"
         }
-        const result = await listAllFiles({ endpoint, auth }, dirPath)
+        const result = await listAllFiles({ endpoint, auth: auth.token }, dirPath)
         return result?.message
     }
 

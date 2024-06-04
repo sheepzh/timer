@@ -16,23 +16,20 @@ export type ObsidianResult<T> = {
     errorCode?: number
 } & T
 
-export interface ObsidianAuth {
-    token: string
-}
 export type ObsidianRequestContext = {
     endpoint?: string
-    auth: ObsidianAuth
+    auth: string
 }
 
-const authHeaders = (auth: ObsidianAuth) => ({
-    "Authorization": `Bearer ${auth.token}`
+const authHeaders = (token: string) => ({
+    "Authorization": `Bearer ${token}`
 })
 
-export async function listAllFiles(context: ObsidianRequestContext, dirPath: string): Promise<ObsidianResult<{ files: string[] }>> {
+export async function listAllFiles(context: ObsidianRequestContext, dirPath: string) {
     const { endpoint, auth } = context || {}
     const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${dirPath || ''}`
     const response = await fetchGet(url, { headers: authHeaders(auth) })
-    return await response?.json()
+    return await response?.json() as (Promise<ObsidianResult<{ files: string[] }>>)
 }
 
 export async function updateFile(context: ObsidianRequestContext, filePath: string, content: string): Promise<void> {

@@ -51,7 +51,7 @@ async function createGist(token: string, browser: Browser, data: UserCount) {
         description,
         files
     }
-    await createGistApi({ token }, gistForm)
+    await createGistApi(token, gistForm)
 }
 
 async function updateGist(token: string, browser: Browser, data: UserCount, gist: Gist) {
@@ -71,7 +71,7 @@ async function updateGist(token: string, browser: Browser, data: UserCount, gist
         description,
         files
     }
-    updateGistApi({ token }, gist.id, gistForm)
+    updateGistApi(token, gist.id, gistForm)
 }
 
 function parseChrome(content: string): UserCount {

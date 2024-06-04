@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Hengyang Zhang
+ * Copyright (c) 2024 Hengyang Zhang
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
