@@ -7,7 +7,7 @@ import { provideDelayHandler, provideReason } from "./context"
 import { init as initTheme, toggle } from "@util/dark-mode"
 import optionService from "@service/option-service"
 
-async function exitScreen(): Promise<void> {
+async function exitFullscreen(): Promise<void> {
     if (!document?.fullscreenElement) return
     if (!document?.exitFullscreen) return
     try {
@@ -154,12 +154,14 @@ class ModalInstance implements MaskModal {
         if (!this.rootElement) {
             await this.init()
         }
-        await exitScreen()
+        await exitFullscreen()
         pauseAllVideo()
         pauseAllAudio()
 
         this.reason.value = reason
-        document?.documentElement && (document.documentElement.style.overflow = 'hidden')
+        if (document?.documentElement) {
+            document.documentElement.style.setProperty('overflow', 'hidden', 'important')
+        }
         this.body.style.display = 'block'
     }
 
