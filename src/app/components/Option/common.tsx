@@ -21,7 +21,7 @@ export const OptionItem = defineComponent({
         hideDivider: {
             type: Boolean,
             default: false,
-        }
+        },
     },
     setup: (props, ctx) => {
         return () => {

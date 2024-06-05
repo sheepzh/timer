@@ -54,6 +54,8 @@ export type OptionMessage = {
         collectSiteName: string
         siteNameUsage: string
         siteName: string
+        fileAccessDisabled: string
+        fileAccessFirefox: string
     }
     dailyLimit: {
         prompt: string

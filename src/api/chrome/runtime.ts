@@ -52,3 +52,8 @@ export function setUninstallURL(url: string): Promise<void> {
 export function getUrl(path: string): string {
     return chrome.runtime.getURL(path)
 }
+
+export async function isAllowedFileSchemeAccess(): Promise<boolean> {
+    const res = await chrome.extension?.isAllowedFileSchemeAccess?.()
+    return !!res
+}

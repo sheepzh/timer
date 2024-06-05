@@ -51,7 +51,9 @@
             "localFilesInfo": "支持 PDF、图片、txt 以及 json 等格式",
             "collectSiteName": "{input}  访问网站主页时，是否自动收集 {siteName} {siteNameUsage}",
             "siteName": "网站的名称",
-            "siteNameUsage": "数据只存放在本地，将代替域名用于展示，增加辨识度。当然您可以自定义每个网站的名称"
+            "siteNameUsage": "数据只存放在本地，将代替域名用于展示，增加辨识度。当然您可以自定义每个网站的名称",
+            "fileAccessDisabled": "目前不允许访问文件网址，请先在管理界面开启",
+            "fileAccessFirefox": "很抱歉，该功能在 Firefox 中不支持"
         },
         "dailyLimit": {
             "prompt": "受限时显示的提示文本 {input}",
@@ -286,10 +288,12 @@
             "idleTimeInfo": "If you do not operate for a long time (such as watching a video in full screen), the browser will automatically enter the idle state",
             "countLocalFiles": "{input}  Whether to count the time to {localFileTime} {info} in the browser",
             "localFileTime": "read a local file",
-            "localFilesInfo": "Supports files of types such as PDF, image, txt and json",
+            "localFilesInfo": "Supports files of types such as PDF, image, txt and json.",
             "collectSiteName": "{input}  Whether to automatically collect {siteName} {siteNameUsage} when visiting the site homepage",
             "siteName": "the site name",
-            "siteNameUsage": "The data is only stored locally and will be displayed instead of the URL to increase the recognition.Of course, you can also customize the name of each site."
+            "siteNameUsage": "The data is only stored locally and will be displayed instead of the URL to increase the recognition.Of course, you can also customize the name of each site.",
+            "fileAccessDisabled": "Access to file URLs is currently not allowed. Please enable it in the manage page first",
+            "fileAccessFirefox": "Sorry, this feature is not supported in Firefox"
         },
         "dailyLimit": {
             "prompt": "Prompt displayed when restricted {input}",
