@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { ElStep, ElSteps } from "element-plus"
+import { ElStep, ElSteps, rangeArr } from "element-plus"
 import { Ref, computed, defineComponent, reactive, ref, toRaw } from "vue"
 import { StepFromInstance } from "./common"
 import Step1 from "./Step1"
@@ -31,6 +31,7 @@ const createInitial = (): Required<Omit<timer.limit.Rule, 'id' | 'allowDelay'>> 
     visitTime: null,
     periods: null,
     enabled: true,
+    weekdays: rangeArr(7),
 })
 
 const _default = defineComponent({
@@ -54,6 +55,8 @@ const _default = defineComponent({
 
         const reset = (rule?: timer.limit.Rule) => {
             Object.entries(rule || createInitial()).forEach(([k, v]) => data[k] = v)
+            // Compatible with old items
+            if (!data.weekdays?.length) data.weekdays = rangeArr(7)
             resetStep()
         }
 
@@ -81,9 +84,11 @@ const _default = defineComponent({
                         ref={stepInstances[0]}
                         defaultName={data.name}
                         defaultEnabled={data.enabled}
-                        onChange={(name, enabled) => {
+                        defaultWeekdays={data.weekdays}
+                        onChange={(name, enabled, weekdays) => {
                             data.name = name
                             data.enabled = enabled
+                            data.weekdays = weekdays
                         }}
                     />
                     <Step2

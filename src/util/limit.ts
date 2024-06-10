@@ -1,3 +1,5 @@
+import { getWeekDay } from "./time"
+
 export function matches(item: timer.limit.Item, url: string): boolean {
     return item?.cond?.some?.(
         c => new RegExp(`^${(c || '').split('*').join('.*')}`).test(url)
@@ -8,6 +10,16 @@ export function hasLimited(item: timer.limit.Item): boolean {
     const { time, waste = 0 } = item || {}
     if (!time) return false
     return waste >= time * 1000
+}
+
+export function skipToday(item: timer.limit.Item): boolean {
+    const weekdays = item?.weekdays
+    const weekdayLen = weekdays?.length
+    if (weekdayLen && weekdayLen !== 7) {
+        const weekday = getWeekDay(new Date(), true)
+        if (!weekdays.includes(weekday)) return true
+    }
+    return false
 }
 
 export const checkImpact = (p1: timer.limit.Period, p2: timer.limit.Period): boolean => {

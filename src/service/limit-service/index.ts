@@ -8,7 +8,7 @@
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
-import { hasLimited, matches } from "@util/limit"
+import { hasLimited, matches, skipToday } from "@util/limit"
 import { formatTime } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
 
@@ -35,13 +35,6 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
         .filter(item => !url || matches(item, url))
 }
 
-async function noticePeriodChanged() {
-    const tabs = await listTabs()
-    tabs.forEach(tab => sendMsg2Tab(tab?.id, 'limitPeriodChange', undefined)
-        .catch(err => console.log(err.message))
-    )
-}
-
 /**
  * Fired if the item is removed or disabled
  *
@@ -49,12 +42,19 @@ async function noticePeriodChanged() {
  */
 async function noticeLimitChanged() {
     const allItems: timer.limit.Item[] = await select({ filterDisabled: false, url: undefined })
+    const effectiveItems = allItems.filter(item => item.enabled && hasLimited(item) && !skipToday(item))
     const tabs = await listTabs()
     tabs.forEach(tab => {
-        const limitedItems = allItems.filter(item => matches(item, tab.url) && item.enabled && hasLimited(item))
+        const limitedItems = effectiveItems.filter(item => matches(item, tab.url))
         sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
             .catch(err => console.log(err.message))
     })
+}
+
+async function noticeLimitRemoved(item: timer.limit.Item) {
+    const tabs = await listTabs()
+    tabs.filter(tab => matches(item, tab.url))
+        .forEach(tab => sendMsg2Tab(tab?.id, 'limitRemoved', item))
 }
 
 async function updateEnabled(item: timer.limit.Item): Promise<void> {
@@ -62,7 +62,6 @@ async function updateEnabled(item: timer.limit.Item): Promise<void> {
     const limit: timer.limit.Rule = { id, name, cond, time, enabled, allowDelay, visitTime, periods }
     await db.save(limit, true)
     await noticeLimitChanged()
-    await noticePeriodChanged()
 }
 
 async function updateDelay(item: timer.limit.Item) {
@@ -72,8 +71,7 @@ async function updateDelay(item: timer.limit.Item) {
 
 async function remove(item: timer.limit.Item): Promise<void> {
     await db.remove(item.id)
-    await noticeLimitChanged()
-    await noticePeriodChanged()
+    await noticeLimitRemoved(item)
 }
 
 async function getLimited(url: string): Promise<timer.limit.Item[]> {
@@ -81,6 +79,7 @@ async function getLimited(url: string): Promise<timer.limit.Item[]> {
         .filter(item => item.enabled)
         .filter(item => matches(item, url))
         .filter(item => hasLimited(item))
+        .filter(item => !skipToday(item))
     return list
 }
 
@@ -134,12 +133,11 @@ async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<tim
 async function update(rule: timer.limit.Rule) {
     await db.save(rule, true)
     await noticeLimitChanged()
-    await noticePeriodChanged()
 }
 
 async function create(rule: timer.limit.Rule) {
     await db.save(rule, false)
-    await noticePeriodChanged()
+    await noticeLimitChanged()
 }
 
 class LimitService {
@@ -152,6 +150,7 @@ class LimitService {
     remove = remove
     update = update
     create = create
+    broadcastRules = noticeLimitChanged
     /**
      * @returns The rules limited cause of this operation
      */

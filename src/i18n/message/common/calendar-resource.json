@@ -12,6 +12,7 @@
         "range": {
             "today": "今天",
             "yesterday": "昨天",
+            "everyday": "每天",
             "last24Hours": "最近 24 小时",
             "last3Days": "最近 3 天",
             "last7Days": "最近 7 天",
@@ -56,6 +57,7 @@
         "range": {
             "today": "Today",
             "yesterday": "Yesterday",
+            "everyday": "Everyday",
             "last24Hours": "Last 24 hours",
             "last3Days": "Last 3 days",
             "last7Days": "Last 7 days",

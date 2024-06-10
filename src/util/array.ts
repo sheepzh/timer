@@ -81,3 +81,7 @@ export function allMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {
 export function anyMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {
     return !!arr?.filter?.(e => predicate?.(e))?.length
 }
+
+export function range(len: number): number[] {
+    return [...new Array(len).keys()]
+}

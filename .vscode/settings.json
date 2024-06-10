@@ -10,6 +10,7 @@
     "javascript.preferences.quoteStyle": "single",
     "javascript.format.semicolons": "remove",
     "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "files.eol": "\n",
     "cSpell.words": [
         "Auths",
         "countup",

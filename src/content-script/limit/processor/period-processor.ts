@@ -10,17 +10,21 @@ class PeriodProcessor implements Processor {
         this.context = context
     }
 
-    async handleMsg(code: timer.mq.ReqCode): Promise<timer.mq.Response> {
-        if (code === "limitPeriodChange") {
+    async handleMsg(code: timer.mq.ReqCode, data: timer.limit.Item[]): Promise<timer.mq.Response> {
+        if (code === "limitChanged") {
             this.timers?.forEach(clearInterval)
-            await this.init()
+            await this.init0(data)
             return { code: "success" }
         }
         return { code: "ignore" }
     }
 
-    async init(): Promise<void> {
-        const rules: timer.limit.Item[] = await sendMsg2Runtime("cs.getRelatedRules", this.context.url)
+    init(): Promise<void> {
+        return this.init0()
+    }
+
+    private async init0(rules?: timer.limit.Item[]) {
+        rules = rules || await sendMsg2Runtime("cs.getRelatedRules", this.context.url)
         // Clear first
         this.context.modal.removeReasonsByType("PERIOD")
         this.timers = this.calcInterval(rules, this.context)

@@ -9,8 +9,8 @@ declare namespace timer.mq {
         | 'limitWaking'
         // @since 1.2.3
         | 'limitChanged'
-        // @since 2.0.0
-        | 'limitPeriodChange'
+        // @since 2.3.4
+        | 'limitRemoved'
         | 'moreVisitMinutes'
         // @since 2.0.0
         | 'askVisitTime'
