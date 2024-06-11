@@ -52,6 +52,10 @@ type ItemValue = {
      * @since 0.4.0
      */
     ad: boolean
+    /**
+     * Effective days
+     */
+    wd?: number[]
 }
 
 type Items = Record<number, ItemValue>
@@ -99,23 +103,24 @@ class LimitDatabase extends BaseDatabase {
 
     async all(): Promise<timer.limit.Record[]> {
         const items = await this.getItems()
-        return Object.values(items).map(({ i, n, c, t, v, p, e, ad, w, d }) => ({
+        return Object.values(items).map(({ i, n, c, t, v, p, e, ad, w, d, wd }) => ({
             id: i,
             name: n,
             cond: c,
             time: t,
             visitTime: v,
-            periods: p,
+            periods: p?.map(i => [i?.[0], i?.[1]]),
             enabled: e,
             allowDelay: !!ad,
             wasteTime: w,
             latestDate: d,
+            weekdays: wd,
         }))
     }
 
     async save(data: timer.limit.Rule, rewrite?: boolean): Promise<number> {
         const items = await this.getItems()
-        let { id, name, cond, time, enabled, allowDelay, visitTime, periods } = data
+        let { id, name, cond, time, enabled, allowDelay, visitTime, periods, weekdays } = data
         if (!id) {
             const lastId = Object.values(items)
                 .map(e => e.i)
@@ -129,7 +134,7 @@ class LimitDatabase extends BaseDatabase {
             // Can be overridden by existing
             d: '', w: 0,
             ...(existItem || {}),
-            i: id, n: name, c: cond, t: time, e: enabled, ad: allowDelay, v: visitTime, p: periods,
+            i: id, n: name, c: cond, t: time, e: enabled, ad: allowDelay, v: visitTime, p: periods, wd: weekdays
         }
         await this.update(items)
         return id

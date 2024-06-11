@@ -32,10 +32,12 @@ const _default = defineComponent({
         let modifyingItem: timer.limit.Rule = undefined
 
         const handleSave = async (rule: timer.limit.Rule) => {
-            const { cond, enabled, name, time, visitTime, periods } = rule
+            const { cond, enabled, name, time, visitTime, periods, weekdays } = rule
             const toSave: timer.limit.Rule = {
                 ...modifyingItem || {},
-                cond, enabled, name, time, visitTime, periods
+                cond, enabled, name, time, visitTime, weekdays,
+                // Object to array
+                periods: periods?.map(i => [i?.[0], i?.[1]]),
             }
             if (mode.value === 'modify') {
                 await limitService.update(toSave)

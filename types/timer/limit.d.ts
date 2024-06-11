@@ -42,6 +42,10 @@ declare namespace timer.limit {
         visitTime?: number
         enabled?: boolean
         /**
+         * @since 2.3.4
+         */
+        weekdays?: number[]
+        /**
          * Allow to delay 5 minutes if time over
          */
         allowDelay?: boolean

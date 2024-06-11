@@ -1,11 +1,11 @@
-import { LimitReason, LimitType, MaskModal } from "../common"
-import { getUrl, sendMsg2Runtime } from "@api/chrome/runtime"
-import { TAG_NAME, type RootElement } from "../element"
-import { App, createApp, Ref } from "vue"
-import Main from "./Main"
-import { provideDelayHandler, provideReason } from "./context"
-import { init as initTheme, toggle } from "@util/dark-mode"
-import optionService from "@service/option-service"
+import { LimitReason, LimitType, MaskModal } from '../common'
+import { getUrl, sendMsg2Runtime } from '@api/chrome/runtime'
+import { TAG_NAME, type RootElement } from '../element'
+import { App, createApp, Ref } from 'vue'
+import Main from './Main'
+import { provideDelayHandler, provideReason } from './context'
+import { init as initTheme, toggle } from '@util/dark-mode'
+import optionService from '@service/option-service'
 
 async function exitFullscreen(): Promise<void> {
     if (!document?.fullscreenElement) return
@@ -13,7 +13,7 @@ async function exitFullscreen(): Promise<void> {
     try {
         await document.exitFullscreen()
     } catch (e) {
-        console.warn("Failed to exit fullscreen", e)
+        console.warn('Failed to exit fullscreen', e)
     }
 }
 
@@ -40,7 +40,7 @@ function pauseAllAudio(): void {
 function isSameReason(a: LimitReason, b: LimitReason): boolean {
     let same = a?.id === b?.id && a?.type === b?.type
     if (!same) return false
-    if (a?.type === "DAILY" || a?.type === "VISIT") {
+    if (a?.type === 'DAILY' || a?.type === 'VISIT') {
         // Need judge allow delay
         same = same && a?.allowDelay === b?.allowDelay
     }
@@ -58,7 +58,7 @@ class ModalInstance implements MaskModal {
     rootElement: RootElement
     body: HTMLBodyElement
     delayHandlers: (() => void)[] = [
-        () => sendMsg2Runtime('cs.moreMinutes', this.url)
+        () => sendMsg2Runtime('cs.moreMinutes', this.url),
     ]
     reasons: LimitReason[] = []
     reason: Ref<LimitReason>
@@ -101,8 +101,6 @@ class ModalInstance implements MaskModal {
     private async init() {
         // 1. Create mask element
         const root = await this.prepareRoot()
-
-        // 1. Create mask element
         const html = document.createElement('html')
         root.append(html)
 
@@ -155,6 +153,8 @@ class ModalInstance implements MaskModal {
             await this.init()
         }
         await exitFullscreen()
+        // Scroll to top
+        scrollTo(0, 0)
         pauseAllVideo()
         pauseAllAudio()
 

@@ -10,9 +10,6 @@ declare namespace timer.mq {
         // @since 1.2.3
         | 'limitChanged'
         // @since 2.0.0
-        | 'limitPeriodChange'
-        | 'moreVisitMinutes'
-        // @since 2.0.0
         | 'askVisitTime'
         | 'askHitVisit'
         // Request by content script

@@ -24,9 +24,11 @@ export type LimitMessage = {
         visitTime: string
         period: string
         enabled: string
+        effectiveDay: string
         delayAllowed: string
         delayAllowedInfo: string
         waste: string
+        detail: string
         operation: string
     }
     button: {

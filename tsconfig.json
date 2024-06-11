@@ -2,7 +2,7 @@
     "compilerOptions": {
         "baseUrl": "./",
         "module": "commonjs",
-        "target": "es5",
+        "target": "ES2022",
         "lib": [
             "ES2023"
         ],

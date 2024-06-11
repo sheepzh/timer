@@ -18,9 +18,9 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
     // 1. Save async
     await statService.addFocusTime(host, url, focusTime)
     // 2. Process limit
-    const meedLimits = await limitService.addFocusTime(host, url, focusTime)
+    const metLimits = await limitService.addFocusTime(host, url, focusTime)
     // If time limited after this operation, send messages
-    meedLimits && meedLimits.length && sendLimitedMessage(meedLimits)
+    metLimits?.length && sendLimitedMessage(metLimits)
     // 3. Add period time
     await periodService.add(start, focusTime)
     return focusTime
@@ -50,10 +50,10 @@ async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender)
     }
 }
 
-async function sendLimitedMessage(item: timer.limit.Item[]) {
+async function sendLimitedMessage(items: timer.limit.Item[]) {
     const tabs = await listTabs({ status: 'complete' })
-    tabs.forEach(tab => sendMsg2Tab(tab.id, 'limitTimeMeet', item)
-        .then(() => console.log(`Processed limit rules: rule=${JSON.stringify(item)}`))
+    tabs.forEach(tab => sendMsg2Tab(tab.id, 'limitTimeMeet', items)
+        .then(() => console.log(`Processed limit rules: rule=${JSON.stringify(items)}`))
         .catch(() => {/*Ignored*/ })
     )
 }

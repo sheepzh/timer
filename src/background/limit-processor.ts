@@ -12,6 +12,8 @@ import MessageDispatcher from "./message-dispatcher"
 import { matches } from "@util/limit"
 import limitService from "@service/limit-service"
 import { isBrowserUrl } from "@util/pattern"
+import alarmManager from "./alarm-manager"
+import { getStartOfDay, MILL_PER_DAY } from "@util/time"
 
 function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
     const { url } = tab
@@ -39,17 +41,22 @@ async function processOpenPage(limitedUrl: string, sender: ChromeMessageSender) 
     }
 }
 
+function initDailyBroadcast() {
+    // Broadcast rules at the start of each day
+    alarmManager.setWhen(
+        'limit-daily-broadcast',
+        () => {
+            const startOfThisDay = getStartOfDay(new Date())
+            return startOfThisDay.getTime() + MILL_PER_DAY
+        },
+        () => limitService.broadcastRules(),
+    )
+}
+
 export default function init(dispatcher: MessageDispatcher) {
+    initDailyBroadcast()
     dispatcher
         .register<string>('openLimitPage', processOpenPage)
-        .register<timer.limit.Item[]>(
-            'limitWaking',
-            async data => {
-                const rules = data || []
-                const tabs = await listTabs({ status: 'complete' })
-                tabs.forEach(tab => processLimitWaking(rules, tab))
-            }
-        )
         // More minutes
         .register<string>('cs.moreMinutes', async url => {
             const rules = await limitService.moreMinutes(url)

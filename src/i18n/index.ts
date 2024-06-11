@@ -109,8 +109,10 @@ function handleLocaleOption(option: timer.option.AllOption) {
     } else {
         locale = localOption as timer.Locale
     }
-    const htmlEl = document.getElementsByTagName("html")?.[0]
-    htmlEl.setAttribute("data-locale", locale)
+    if (window?.document) {
+        const htmlEl = document.getElementsByTagName("html")?.[0]
+        htmlEl?.setAttribute?.("data-locale", locale)
+    }
 }
 
 /**

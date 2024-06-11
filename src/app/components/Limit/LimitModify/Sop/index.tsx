@@ -14,6 +14,7 @@ import Step2 from "./Step2"
 import Step3 from "./Step3"
 import { useState } from "@hooks"
 import Footer from "./Footer"
+import { range } from "@util/array"
 
 type Step = 0 | 1 | 2
 
@@ -31,6 +32,7 @@ const createInitial = (): Required<Omit<timer.limit.Rule, 'id' | 'allowDelay'>> 
     visitTime: null,
     periods: null,
     enabled: true,
+    weekdays: range(7),
 })
 
 const _default = defineComponent({
@@ -54,6 +56,8 @@ const _default = defineComponent({
 
         const reset = (rule?: timer.limit.Rule) => {
             Object.entries(rule || createInitial()).forEach(([k, v]) => data[k] = v)
+            // Compatible with old items
+            if (!data.weekdays?.length) data.weekdays = range(7)
             resetStep()
         }
 
@@ -81,9 +85,11 @@ const _default = defineComponent({
                         ref={stepInstances[0]}
                         defaultName={data.name}
                         defaultEnabled={data.enabled}
-                        onChange={(name, enabled) => {
+                        defaultWeekdays={data.weekdays}
+                        onChange={(name, enabled, weekdays) => {
                             data.name = name
                             data.enabled = enabled
+                            data.weekdays = weekdays
                         }}
                     />
                     <Step2
