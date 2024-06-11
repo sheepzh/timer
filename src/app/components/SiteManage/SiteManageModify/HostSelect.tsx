@@ -18,7 +18,20 @@ type _OptionInfo = {
     hasAlias: boolean
 }
 
+function cleanQuery(query: string) {
+    try {
+        const url = new URL(query)
+        const { host, pathname } = url
+        let result = host + pathname
+        if (result.endsWith('/')) result = result.substring(0, result.length - 1)
+        return result
+    } catch {
+    }
+    return query
+}
+
 async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
+    query = cleanQuery(query)
     if (!query) return []
     const hostSet: HostSet = (await statService.listHosts(query))
     const allAlias: timer.site.SiteKey[] =
