@@ -3,7 +3,6 @@
         "common": {
             "focusTotal": "总计浏览时长",
             "visitTotal": "总计访问次数",
-            "ringGrowth": "与上期相比 {value}",
             "merged": "合并",
             "virtual": "自定义",
             "hostPlaceholder": "搜索你想分析的站点",
@@ -31,7 +30,6 @@
         "common": {
             "focusTotal": "總計瀏覽時長",
             "visitTotal": "總計訪問次數",
-            "ringGrowth": "與前期相比 {value}",
             "merged": "合並",
             "virtual": "自定義",
             "hostPlaceholder": "蒐索你想分析的站點",
@@ -59,7 +57,6 @@
         "common": {
             "focusTotal": "Total browsing time",
             "visitTotal": "Total visits",
-            "ringGrowth": "{value} compared to the previous period",
             "merged": "Merged",
             "virtual": "Virtual",
             "hostPlaceholder": "Search for a site to analyze",
@@ -87,7 +84,6 @@
         "common": {
             "focusTotal": "総閲覧時間",
             "visitTotal": "総訪問数",
-            "ringGrowth": "前期比 {value}",
             "merged": "合并",
             "virtual": "カスタマイズ",
             "hostPlaceholder": "ドメイン名を検索",
@@ -115,7 +111,6 @@
         "common": {
             "focusTotal": "Tempo total de navegação",
             "visitTotal": "Total de visitas",
-            "ringGrowth": "{value} em comparação com o período anterior",
             "merged": "Mesclado",
             "virtual": "Virtual",
             "hostPlaceholder": "Procure um site para analisar",
@@ -143,7 +138,6 @@
         "common": {
             "focusTotal": "Загальний час перегляду",
             "visitTotal": "Всього відвідувань",
-            "ringGrowth": "{value} порівняно з попереднім періодом",
             "merged": "Об'єднано",
             "virtual": "Віртуальний",
             "hostPlaceholder": "Знайти сайт для аналізу",
@@ -171,7 +165,6 @@
         "common": {
             "focusTotal": "Tiempo total de navegación",
             "visitTotal": "Total de visitas",
-            "ringGrowth": "{value} comparado con el periodo anterior",
             "merged": "Fusionado",
             "virtual": "Virtual",
             "hostPlaceholder": "Buscar un sitio para analizar",
@@ -198,7 +191,6 @@
         "common": {
             "focusTotal": "Gesamte Browsingzeit",
             "visitTotal": "Gesamtbesuche",
-            "ringGrowth": "{value} im Vergleich zur Vorperiode",
             "merged": "Zusammengeführt",
             "virtual": "Virtuell",
             "hostPlaceholder": "Suchen Sie nach einer Website zur Analyse",

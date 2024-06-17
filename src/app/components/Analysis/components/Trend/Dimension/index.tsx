@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { computeRingText, formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@app/components/Analysis/util"
+import { formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@app/components/Analysis/util"
 import { defineComponent, type PropType } from "vue"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import Chart from "./Chart"
@@ -41,8 +41,8 @@ const _default = defineComponent({
                         <KanbanIndicatorCell
                             mainName={p.averageLabel}
                             mainValue={formatValue(p.average?.[0], p.valueFormatter)}
-                            subTips={msg => msg.analysis.common.ringGrowth}
-                            subValue={computeRingText(p.average, p.valueFormatter)}
+                            subRing={p.average}
+                            valueFormatter={p.valueFormatter}
                         />
                     </div>
                 </div>

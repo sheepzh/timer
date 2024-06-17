@@ -11,7 +11,6 @@ export type AnalysisMessage = {
     common: {
         focusTotal: string
         visitTotal: string
-        ringGrowth: string
         merged: string
         virtual: string
         hostPlaceholder: string

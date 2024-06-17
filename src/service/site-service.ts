@@ -37,6 +37,13 @@ async function saveAlias(this: SiteService, key: timer.site.SiteKey, alias: stri
     await siteDatabase.save(toUpdate)
 }
 
+async function removeIconUrl(this: SiteService, key: timer.site.SiteKey) {
+    const exist = await siteDatabase.get(key)
+    if (!exist) return
+    delete exist.iconUrl
+    await siteDatabase.save(exist)
+}
+
 async function saveIconUrl(this: SiteService, key: timer.site.SiteKey, iconUrl: string) {
     const exist = await siteDatabase.get(key)
     let toUpdate: timer.site.SiteInfo
@@ -76,10 +83,9 @@ class SiteService {
     }
 
     saveAlias = saveAlias
-
     removeAlias = removeAlias
-
     saveIconUrl = saveIconUrl
+    removeIconUrl = removeIconUrl
 
     exist(host: timer.site.SiteKey): Promise<boolean> {
         return siteDatabase.exist(host)

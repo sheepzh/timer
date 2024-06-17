@@ -15,6 +15,7 @@ import OperationColumn from "./column/OperationColumn"
 import { t } from "@app/locale"
 import HostAlert from "@app/components/common/HostAlert"
 import { ElTableRowScope } from "@src/element-ui/table"
+import siteService from "@service/site-service"
 
 const _default = defineComponent({
     props: {
@@ -25,6 +26,10 @@ const _default = defineComponent({
         rowModify: (_row: timer.site.SiteInfo) => true,
     },
     setup(props, ctx) {
+        const handleIconError = async (row: timer.site.SiteInfo) => {
+            await siteService.removeIconUrl(row)
+            row.iconUrl = null
+        }
         return () => <ElTable
             data={props.data}
             size="small"
@@ -44,7 +49,15 @@ const _default = defineComponent({
                 label={t(msg => msg.siteManage.column.icon)}
                 minWidth={40}
                 align="center"
-                v-slots={({ row: { iconUrl } }: ElTableRowScope<timer.site.SiteInfo>) => iconUrl ? <img width={12} height={12} src={iconUrl} /> : ''}
+                v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => {
+                    const { iconUrl } = row || {}
+                    if (!iconUrl) return ''
+                    return (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img width={12} height={12} src={iconUrl} onError={() => handleIconError(row)} />
+                        </div>
+                    )
+                }}
             />
             <AliasColumn onRowAliasSaved={row => ctx.emit("rowModify", row)} />
             <SourceColumn />

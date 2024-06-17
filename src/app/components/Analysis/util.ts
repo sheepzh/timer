@@ -20,7 +20,10 @@ export function labelOfHostInfo(site: timer.site.SiteKey): string {
     return `${host}${label}`
 }
 
-export type RingValue = [number, number]
+export type RingValue = [
+    current: number,
+    last: number,
+]
 
 /**
  * Compute ring text
@@ -31,12 +34,12 @@ export type RingValue = [number, number]
  */
 export function computeRingText(ring: RingValue, formatter?: ValueFormatter): string {
     if (!ring) {
-        return '-'
+        return ''
     }
     const [current, last] = ring
     if (current === undefined && last === undefined) {
         // return undefined if both are undefined
-        return '-'
+        return ''
     }
     const delta = (current || 0) - (last || 0)
     let result = formatter ? formatter(delta) : delta?.toString()

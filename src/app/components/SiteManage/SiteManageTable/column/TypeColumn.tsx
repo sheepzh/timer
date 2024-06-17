@@ -32,24 +32,35 @@ function computeType({ merged, virtual }: timer.site.SiteInfo): TagProps["type"]
     }
 }
 
-const _default = defineComponent({
-    render: () => <ElTableColumn
+const header = () => (
+    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', alignItems: 'center' }}>
+        <span>{label}</span>
+        <ElTooltip
+            placement="top"
+            v-slots={{
+                content: () => ALL_TYPES
+                    .map(type => `${t(msg => msg.siteManage.type[type].name)} - ${t(msg => msg.siteManage.type[type].info)}`)
+                    .reduce((a, b) => {
+                        a.length && a.push(<br />)
+                        a.push(b)
+                        return a
+                    }, []),
+                default: () => (
+                    <div style={{ display: 'flex' }}>
+                        <ElIcon size={11}><InfoFilled /></ElIcon>
+                    </div>
+                )
+            }}
+        />
+    </div>
+)
+
+const _default = defineComponent(() => {
+    return () => <ElTableColumn
         minWidth={60}
         align="center"
         v-slots={{
-            header: () => <>
-                {label}&emsp;
-                <ElTooltip placement="top" v-slots={{
-                    content: () => ALL_TYPES
-                        .map(type => `${t(msg => msg.siteManage.type[type].name)} - ${t(msg => msg.siteManage.type[type].info)}`)
-                        .reduce((a, b) => {
-                            a.length && a.push(<br />)
-                            a.push(b)
-                            return a
-                        }, []),
-                    default: () => <ElIcon size={11}><InfoFilled /></ElIcon>
-                }} />
-            </>,
+            header,
             default: ({ row }: ElTableRowScope<timer.site.SiteInfo>) => <ElTag
                 size="small"
                 type={computeType(row)}

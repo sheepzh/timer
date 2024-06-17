@@ -9,12 +9,6 @@ import { IS_SAFARI } from "@util/constant/environment"
 import { ElLink } from "element-plus"
 import { computed, defineComponent, StyleValue } from "vue"
 
-const HOST_ICON_STYLE: StyleValue = {
-    height: "23px",
-    lineHeight: "23px",
-    paddingLeft: "2px"
-}
-
 const _default = defineComponent({
     props: {
         host: {
@@ -43,14 +37,14 @@ const _default = defineComponent({
             ? <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
                 {props.host}
             </ElLink>
-            : <div>
+            : <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
                     {props.host}
                 </ElLink>
                 {props.iconUrl &&
-                    <span style={HOST_ICON_STYLE}>
+                    <div style={{ height: '20px', marginLeft: '3px' }}>
                         <img src={props.iconUrl} width={12} height={12} />
-                    </span>
+                    </div>
                 }
             </div>
     }

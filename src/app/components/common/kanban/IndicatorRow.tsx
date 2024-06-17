@@ -14,7 +14,7 @@ const _default = defineComponent({
         style: Object as PropType<StyleValue>
     },
     setup: ({ style }, ctx) => {
-        return () => h(ElRow, { class: "kanban-indicator-row", style }, ctx.slots)
+        return () => <ElRow class='kanban-indicator-row' style={style} v-slots={ctx.slots} />
     }
 })
 

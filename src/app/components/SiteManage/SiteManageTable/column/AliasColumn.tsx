@@ -12,8 +12,18 @@ import { InfoFilled } from "@element-plus/icons-vue"
 import Editable from "@app/components/common/Editable"
 import siteService from "@service/site-service"
 
-const label = t(msg => msg.siteManage.column.alias)
-const tooltip = t(msg => msg.siteManage.column.aliasInfo)
+const header = () => (
+    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', alignItems: 'center' }}>
+        <span>{t(msg => msg.siteManage.column.alias)}</span>
+        <ElTooltip placement="top" content={t(msg => msg.siteManage.column.aliasInfo)}>
+            <div style={{ display: 'flex' }}>
+                <ElIcon>
+                    <InfoFilled />
+                </ElIcon>
+            </div>
+        </ElTooltip>
+    </div>
+)
 
 const _default = defineComponent({
     emits: {
@@ -30,19 +40,20 @@ const _default = defineComponent({
             }
             ctx.emit("rowAliasSaved", row, newAlias)
         }
-        return () => <ElTableColumn minWidth={100} align="center" v-slots={{
-            header: () => <>
-                {label}
-                &emsp;
-                <ElTooltip content={tooltip} placement="top">
-                    <ElIcon><InfoFilled /></ElIcon>
-                </ElTooltip>
-            </>,
-            default: ({ row }: { row: timer.site.SiteInfo }) => <Editable
-                modelValue={row.alias}
-                onChange={val => handleChange(val, row)}
-            />,
-        }} />
+
+        return () => (
+            <ElTableColumn
+                minWidth={100}
+                align="center"
+                v-slots={{
+                    header,
+                    default: ({ row }: { row: timer.site.SiteInfo }) => <Editable
+                        modelValue={row.alias}
+                        onChange={val => handleChange(val, row)}
+                    />,
+                }}
+            />
+        )
     }
 })
 

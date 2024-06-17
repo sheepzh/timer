@@ -60,10 +60,10 @@ function cvt2SiteKey(key: string): timer.site.SiteKey {
 }
 
 function cvt2Entry({ alias, source, iconUrl }: timer.site.SiteInfo): _Entry {
-    const entry: _Entry = {}
+    const entry: _Entry = { i: iconUrl }
     alias && (entry.a = alias)
     source === 'DETECTED' && (entry.d = true)
-    iconUrl && (entry.i = iconUrl)
+    entry.i = iconUrl
     return entry
 }
 
