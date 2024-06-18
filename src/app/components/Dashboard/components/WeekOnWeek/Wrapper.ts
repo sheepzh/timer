@@ -118,8 +118,8 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
         },
         grid: {
             left: '7%',
-            right: '3%',
-            bottom: '12%',
+            right: '2%',
+            bottom: '10%',
         },
         xAxis: {
             type: 'category',

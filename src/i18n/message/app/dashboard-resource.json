@@ -2,9 +2,7 @@
     "zh_CN": {
         "heatMap": {
             "title0": "近一年上网总时长超过 {hour} 小时",
-            "title1": "近一年上网总时长不足 1 小时",
-            "tooltip0": "{year}/{month}/{day} 浏览网页 {minute} 分钟",
-            "tooltip1": "{year}/{month}/{day} 浏览网页 {hour} 小时 {minute} 分钟"
+            "title1": "近一年上网总时长不足 1 小时"
         },
         "topK": {
             "title": "近 {day} 天最常访问 TOP {k}"
@@ -52,9 +50,7 @@
     "en": {
         "heatMap": {
             "title0": "Browsed over {hour} hours in the last year",
-            "title1": "Browsed less than 1 hour last year",
-            "tooltip0": "Browsed for {minute} minutes on {month}/{day}/{year}",
-            "tooltip1": "Browsed for {hour} hours {minute} minutes on {month}/{day}/{year}"
+            "title1": "Browsed less than 1 hour last year"
         },
         "topK": {
             "title": "TOP {k} most visited in the past {day} days"
@@ -77,9 +73,7 @@
     "ja": {
         "heatMap": {
             "title0": "過去1年間に {hour} 時間以上オンラインで過ごした",
-            "title1": "過去 1 年間にオンラインで費やした時間は 1 時間未満",
-            "tooltip0": "{year} 年 {month} 月 {day} 日 {minute} 分間ウェブを閲覧する",
-            "tooltip1": "{year} 年 {month} 月 {day} 日 ウェブを {hour} 時間 {minute} 分閲覧する"
+            "title1": "過去 1 年間にオンラインで費やした時間は 1 時間未満"
         },
         "topK": {
             "title": "過去 {day} 日間に最も拜訪された TOP {k}"
@@ -102,9 +96,7 @@
     "pt_PT": {
         "heatMap": {
             "title0": "Navegou mais de {hour} horas no último ano",
-            "title1": "Navegue por menos de 1 hora no ano passado",
-            "tooltip0": "Navegado por {minute} minutos em {day}/{month}/{year}",
-            "tooltip1": "Navegado por {hour} horas e {minute} minutos em {day}/{month}/{year}"
+            "title1": "Navegue por menos de 1 hora no ano passado"
         },
         "topK": {
             "title": "TOP {k} mais visitados nos últimos {day} dias"
@@ -127,9 +119,7 @@
     "uk": {
         "heatMap": {
             "title0": "Перегляд понад {hour} годин за минулий рік",
-            "title1": "Перегляд менш ніж 1 годину за минулий рік",
-            "tooltip0": "{minute} хв. – {day}.{month}.{year}",
-            "tooltip1": "{hour} год. {minute} хв. – {day}.{month}.{year}"
+            "title1": "Перегляд менш ніж 1 годину за минулий рік"
         },
         "topK": {
             "title": "Найбільші {k} відвідувань за минулих {day} днів"
@@ -152,9 +142,7 @@
     "es": {
         "heatMap": {
             "title0": "Navegó más de {hour} horas en el último año",
-            "title1": "Navegó menos de 1 hora en el último año",
-            "tooltip0": "Navegó por {minute} minutos en {month}/{day}/{year}",
-            "tooltip1": "Navegó por {hour} horas {minute} minutos en {month}/{day}/{year}"
+            "title1": "Navegó menos de 1 hora en el último año"
         },
         "topK": {
             "title": "TOP {k} más visitado en los últimos {day} días"
@@ -177,9 +165,7 @@
     "de": {
         "heatMap": {
             "title0": "Durchsuchte über {hour} Stunden im letzten Jahr",
-            "title1": "Durchsucht weniger als 1 Stunde im letzten Jahr",
-            "tooltip0": "Durchsucht für {minute} Minuten auf {year}-{month}-{day}",
-            "tooltip1": "Durchsucht für {hour} Stunden {minute} Minuten am {year}-{month}-{day}"
+            "title1": "Durchsucht weniger als 1 Stunde im letzten Jahr"
         },
         "topK": {
             "title": "TOP {k} am meisten besucht in den letzten {day} Tagen"

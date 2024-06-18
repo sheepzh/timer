@@ -89,10 +89,10 @@ function generateOption({ data, averageByDate, periodSize }: BizOption): EcOptio
             formatter: (params: any) => formatTimeOfEcharts(params, averageByDate)
         },
         grid: {
-            top: 35,
+            top: 60,
             bottom: 30,
             left: 100,
-            right: 100,
+            right: 80,
         },
         xAxis: {
             axisLabel: { formatter: xAxisAxisLabelFormatter, color: textColor },
@@ -102,9 +102,9 @@ function generateOption({ data, averageByDate, periodSize }: BizOption): EcOptio
             max: xAxisMax
         },
         yAxis: {
-            name: getYAxisName(periodSize),
-            nameTextStyle: { color: textColor },
             type: 'value',
+            name: getYAxisName(periodSize),
+            nameTextStyle: { color: textColor, lineHeight: 40 },
             axisLabel: { color: textColor },
         },
         series: [{

@@ -21,9 +21,9 @@ use([
 ])
 
 import { EchartsWrapper } from "@hooks"
-import { getAllDatesBetween, MILL_PER_MINUTE } from "@util/time"
+import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR } from "@util/time"
 import { locale } from "@i18n"
-import { groupBy, rotate } from "@util/array"
+import { groupBy, rotate, sum } from "@util/array"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
 import { BASE_TITLE_OPTION } from "../../common"
@@ -31,16 +31,11 @@ import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 
-
 type _Value = [
-    // X
-    number,
-    // Y
-    number,
-    // Value
-    number,
-    // date yyyyMMdd
-    string,
+    x: number,
+    y: number,
+    dailyMill: number,
+    date: string, // yyyymmdd
 ]
 
 type EcOption = ComposeOption<
@@ -57,24 +52,13 @@ export type BizOption = {
     value: { [date: string]: number }
 }
 
-function formatTooltip(minutes: number, date: string): string {
-    const hour = Math.floor(minutes / 60)
-    const minute = minutes % 60
-    const year = date.substring(0, 4)
-    const month = date.substring(4, 6)
-    const day = date.substring(6, 8)
-    const placeholders = {
-        hour, minute, year, month, day
-    }
-
-    return t(
-        msg => hour
-            // With hour
-            ? msg.dashboard.heatMap.tooltip1
-            // Without hour
-            : msg.dashboard.heatMap.tooltip0,
-        placeholders
-    )
+function formatTooltip(mills: number, date: string): string {
+    const y = date.substring(0, 4)
+    const m = date.substring(4, 6)
+    const d = date.substring(6, 8)
+    const dateStr = t(msg => msg.calendar.dateFormat, { y, m, d })
+    const timeStr = formatPeriodCommon(mills)
+    return `${dateStr}</br>${timeStr}`
 }
 
 function getGridColors() {
@@ -122,8 +106,8 @@ const cvtHeatmapItem = (d: _Value): HeatmapItem => {
 }
 
 function optionOf(data: _Value[], weekDays: string[]): EcOption {
-    const totalMinutes = data.map(d => d[2] || 0).reduce((a, b) => a + b, 0)
-    const totalHours = Math.floor(totalMinutes / 60)
+    const totalMills = sum(data?.map(d => d[2] ?? 0))
+    const totalHours = Math.floor(totalMills / MILL_PER_HOUR)
     const xAxisLabelMap = getXAxisLabelMap(data)
     const textColor = getPrimaryTextColor()
     return {
@@ -137,8 +121,8 @@ function optionOf(data: _Value[], weekDays: string[]): EcOption {
             formatter: (params: any) => {
                 const { data } = params
                 const { value } = data
-                const [_1, _2, minutes, date] = value
-                return minutes ? formatTooltip(minutes as number, date) : undefined
+                const [_1, _2, mills, date] = value
+                return mills ? formatTooltip(mills as number, date) : undefined
             },
         },
         grid: { height: '70%', width: '82%', left: '8%', top: '18%', },
@@ -208,11 +192,10 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
         const data: _Value[] = []
         allDates.forEach((date, index) => {
             const dailyMills = value[date] || 0
-            const dailyMinutes = Math.floor(dailyMills / MILL_PER_MINUTE)
             const colIndex = parseInt((index / 7).toString())
             const weekDay = index % 7
             const x = colIndex, y = 7 - (1 + weekDay)
-            data.push([x, y, dailyMinutes, date])
+            data.push([x, y, dailyMills, date])
         })
         const weekDays = (t(msg => msg.calendar.weekDays)?.split?.('|') || []).reverse()
         if (locale !== "zh_CN") {

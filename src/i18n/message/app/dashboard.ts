@@ -11,8 +11,6 @@ export type DashboardMessage = {
     heatMap: {
         title0: string
         title1: string
-        tooltip0: string
-        tooltip1: string
     },
     topK: {
         title: string
