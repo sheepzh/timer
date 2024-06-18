@@ -53,26 +53,30 @@ function initDailyBroadcast() {
     )
 }
 
+const processMoreMinutes = async (url: string) => {
+    const rules = await limitService.moreMinutes(url)
+
+    const tabs = await listTabs({ status: 'complete' })
+    tabs.forEach(tab => processLimitWaking(rules, tab))
+}
+
+const processAskHitVisit = async (item: timer.limit.Item) => {
+    let tabs = await listTabs()
+    tabs = tabs?.filter(({ url }) => matches(item, url))
+    const { visitTime = 0 } = item || {}
+    for (const { id } of tabs) {
+        const tabFocus = await sendMsg2Tab(id, "askVisitTime", undefined)
+        if (tabFocus && tabFocus > visitTime * 1000) return true
+    }
+    return false
+}
+
 export default function init(dispatcher: MessageDispatcher) {
     initDailyBroadcast()
     dispatcher
         .register<string>('openLimitPage', processOpenPage)
         // More minutes
-        .register<string>('cs.moreMinutes', async url => {
-            const rules = await limitService.moreMinutes(url)
-
-            const tabs = await listTabs({ status: 'complete' })
-            tabs.forEach(tab => processLimitWaking(rules, tab))
-        })
+        .register<string>('cs.moreMinutes', processMoreMinutes)
         // Judge any tag hit the time limit per visit
-        .register<timer.limit.Item, boolean>("askHitVisit", async item => {
-            let tabs = await listTabs()
-            tabs = tabs?.filter(({ url }) => matches(item, url))
-            const { visitTime = 0 } = item || {}
-            for (const { id } of tabs) {
-                const tabFocus = await sendMsg2Tab(id, "askVisitTime", undefined)
-                if (tabFocus && tabFocus > visitTime * 1000) return true
-            }
-            return false
-        })
+        .register<timer.limit.Item, boolean>("askHitVisit", processAskHitVisit)
 }

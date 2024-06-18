@@ -8,7 +8,8 @@
             "installation": "Installation Page",
             "thanks": "Thanks To",
             "privacy": "Privacy Statement",
-            "license": "Open-source License"
+            "license": "Open-source License",
+            "support": "Support"
         },
         "text": {
             "greet": "Do you love this extension?",
@@ -25,7 +26,8 @@
             "installation": "安装地址",
             "thanks": "致谢",
             "privacy": "隐私声明",
-            "license": "开源许可证"
+            "license": "开源许可证",
+            "support": "支持"
         },
         "text": {
             "greet": "你喜欢这个扩展吗？",
@@ -42,7 +44,8 @@
             "installation": "安裝位址",
             "thanks": "致謝",
             "privacy": "隱私權聲明",
-            "license": "開源許可證"
+            "license": "開源許可證",
+            "support": "支援"
         },
         "text": {
             "greet": "你喜歡這個擴充嗎？",

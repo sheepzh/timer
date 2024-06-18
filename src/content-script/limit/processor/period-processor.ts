@@ -2,6 +2,25 @@ import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { LimitReason, ModalContext, Processor } from "../common"
 import { date2Idx } from "@util/limit"
 
+function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalContext): number[] {
+    const { cond, periods, id } = rule
+    return periods?.flatMap?.(p => {
+        const [s, e] = p
+        const startSeconds = s * 60
+        const endSeconds = (e + 1) * 60
+        const reason: LimitReason = { id, cond, type: "PERIOD" }
+        const timers = []
+        if (nowSeconds < startSeconds) {
+            timers.push(setInterval(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * 1000))
+            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))
+        } else if (nowSeconds >= startSeconds && nowSeconds <= endSeconds) {
+            context.modal.addReason(reason)
+            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))
+        }
+        return timers
+    })
+}
+
 class PeriodProcessor implements Processor {
     private context: ModalContext
     private timers: number[] = []
@@ -27,29 +46,8 @@ class PeriodProcessor implements Processor {
         rules = rules || await sendMsg2Runtime("cs.getRelatedRules", this.context.url)
         // Clear first
         this.context.modal.removeReasonsByType("PERIOD")
-        this.timers = this.calcInterval(rules, this.context)
-    }
-
-    private calcInterval(rules: timer.limit.Rule[], context: ModalContext): number[] {
         const nowSeconds = date2Idx(new Date())
-        const timers = []
-        rules?.forEach?.(rule => {
-            const { cond, periods, id } = rule
-            periods?.forEach(p => {
-                const [s, e] = p
-                const startSeconds = s * 60
-                const endSeconds = (e + 1) * 60
-                const reason: LimitReason = { id, cond, type: "PERIOD" }
-                if (nowSeconds < startSeconds) {
-                    timers.push(setInterval(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * 1000))
-                    timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))
-                } else if (nowSeconds >= startSeconds && nowSeconds <= endSeconds) {
-                    context.modal.addReason(reason)
-                    timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))
-                }
-            })
-        })
-        return undefined
+        this.timers = rules?.flatMap?.(r => processRule(r, nowSeconds, this.context)) || []
     }
 }
 

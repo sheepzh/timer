@@ -4,27 +4,19 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { StatQueryParam } from "@service/stat-service"
-import type { ComposeOption } from "echarts/core"
-import type { CandlestickSeriesOption } from "echarts/charts"
+import { EchartsWrapper } from "@hooks"
+import { use, type ComposeOption } from "echarts/core"
+import { CandlestickChart, type CandlestickSeriesOption } from "echarts/charts"
 import type { GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts/components"
-
-import { use } from "echarts/core"
-import { CandlestickChart } from "echarts/charts"
 import { GridComponent, TitleComponent, TooltipComponent } from "echarts/components"
+import { getPrimaryTextColor } from "@util/style"
+import { groupBy, sum } from "@util/array"
+import { formatPeriodCommon } from "@util/time"
+import { t } from "@app/locale"
+import { generateSiteLabel } from "@util/site"
+import { BASE_TITLE_OPTION } from "../../common"
 
 use([CandlestickChart, GridComponent, TitleComponent, TooltipComponent])
-
-import { formatPeriodCommon, MILL_PER_DAY } from "@util/time"
-import { defineComponent } from "vue"
-import statService from "@service/stat-service"
-import { groupBy, sum } from "@util/array"
-import { BASE_TITLE_OPTION } from "../common"
-import { t } from "@app/locale"
-import { getPrimaryTextColor } from "@util/style"
-import { generateSiteLabel } from "@util/site"
-import { useEcharts, EchartsWrapper } from "@hooks"
 
 type EcOption = ComposeOption<
     | CandlestickSeriesOption
@@ -33,9 +25,6 @@ type EcOption = ComposeOption<
     | TooltipComponentOption
 >
 
-const PERIOD_WIDTH = 7
-const TOP_NUM = 5
-
 type _Value = {
     lastPeriod: number
     thisPeriod: number
@@ -43,6 +32,7 @@ type _Value = {
     host: string
 }
 
+const TOP_NUM = 5
 const X_AXIS_LABEL_MAX_LENGTH = 16
 
 function calculateXAxisLabel(host: string, hostAliasMap: Record<string, string>) {
@@ -140,11 +130,20 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
                 color: textColor,
                 formatter: (host: string) => calculateXAxisLabel(host, hostAliasMap)
             },
+            axisTick: {
+                show: false,
+            }
         },
         yAxis: {
             type: 'value',
+            splitLine: {
+                show: false,
+            },
             axisLabel: {
                 color: textColor,
+            },
+            axisLine: {
+                show: true,
             }
         },
         series: [{
@@ -161,32 +160,7 @@ function optionOf(lastPeriodItems: timer.stat.Row[], thisPeriodItems: timer.stat
     }
 }
 
-class ChartWrapper extends EchartsWrapper<timer.stat.Row[][], EcOption> {
+
+export default class WeekOnWeekWrapper extends EchartsWrapper<timer.stat.Row[][], EcOption> {
     generateOption = ([lastPeriodItems, thisPeriodItems]) => optionOf(lastPeriodItems, thisPeriodItems)
 }
-
-const fetchData = async (): Promise<timer.stat.Row[][]> => {
-    const now = new Date()
-    const lastPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH * 2)
-    const lastPeriodEnd = new Date(lastPeriodStart.getTime() + MILL_PER_DAY * (PERIOD_WIDTH - 1))
-    const thisPeriodStart = new Date(now.getTime() - MILL_PER_DAY * PERIOD_WIDTH)
-    // Not includes today
-    const thisPeriodEnd = new Date(now.getTime() - MILL_PER_DAY)
-    const query: StatQueryParam = {
-        date: [lastPeriodStart, lastPeriodEnd],
-        mergeDate: true,
-    }
-    // Query with alias
-    // @since 1.1.8
-    const lastPeriodItems: timer.stat.Row[] = await statService.select(query, true)
-    query.date = [thisPeriodStart, thisPeriodEnd]
-    const thisPeriodItems: timer.stat.Row[] = await statService.select(query, true)
-    return [lastPeriodItems, thisPeriodItems]
-}
-
-const _default = defineComponent(() => {
-    const { elRef } = useEcharts(ChartWrapper, fetchData)
-    return () => <div class="chart-container" ref={elRef} />
-})
-
-export default _default

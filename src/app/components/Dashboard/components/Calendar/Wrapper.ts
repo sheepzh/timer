@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
-
 import { TitleComponent, TooltipComponent, GridComponent, VisualMapComponent } from "echarts/components"
 import { HeatmapChart, type HeatmapSeriesOption } from "echarts/charts"
 import { use, type ComposeOption } from "echarts/core"
@@ -21,20 +20,17 @@ use([
     TitleComponent,
 ])
 
-import { t } from "@app/locale"
-import statService from "@service/stat-service"
+import { EchartsWrapper } from "@hooks"
+import { getAllDatesBetween, MILL_PER_MINUTE } from "@util/time"
 import { locale } from "@i18n"
-import { getAllDatesBetween, getWeeksAgo, MILL_PER_MINUTE } from "@util/time"
-import { defineComponent } from "vue"
 import { groupBy, rotate } from "@util/array"
-import { BASE_TITLE_OPTION } from "../common"
+import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
+import { BASE_TITLE_OPTION } from "../../common"
 import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
-import { useEcharts, EchartsWrapper } from "@hooks"
 
-const WEEK_NUM = 53
 
 type _Value = [
     // X
@@ -54,6 +50,12 @@ type EcOption = ComposeOption<
     | GridComponentOption
     | VisualMapComponentOption
 >
+
+export type BizOption = {
+    startTime: Date
+    endTime: Date
+    value: { [date: string]: number }
+}
 
 function formatTooltip(minutes: number, date: string): string {
     const hour = Math.floor(minutes / 60)
@@ -200,13 +202,7 @@ function handleClick(value: _Value): void {
     createTabAfterCurrent(url)
 }
 
-type BizOption = {
-    startTime: Date
-    endTime: Date
-    value: { [date: string]: number }
-}
-
-class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
+class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     protected generateOption({ startTime, endTime, value }: BizOption): EcOption | Promise<EcOption> {
         const allDates = getAllDatesBetween(startTime, endTime)
         const data: _Value[] = []
@@ -232,19 +228,5 @@ class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
     }
 }
 
-const fetchData = async (): Promise<BizOption> => {
-    const endTime = new Date()
-    const startTime: Date = getWeeksAgo(endTime, locale === "zh_CN", WEEK_NUM)
-    const items = await statService.select({ date: [startTime, endTime], sort: "date" })
-    const value: { [date: string]: number } = {}
-    items.forEach(({ date, focus }) => value[date] = (value[date] || 0) + focus)
-    return { value, startTime, endTime }
-}
 
-const _default = defineComponent(() => {
-    const { elRef } = useEcharts(ChartWrapper, fetchData)
-
-    return () => <div class="chart-container" ref={elRef} />
-})
-
-export default _default
+export default Wrapper

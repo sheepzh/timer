@@ -1,6 +1,10 @@
-import { EchartsWrapper, useEcharts } from "@hooks"
-import { computed, defineComponent } from "vue"
-import { useAnalysisRows, useAnalysisTimeFormat } from "../../context"
+/**
+ * Copyright (c) 2023 Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+import { EchartsWrapper } from "@hooks"
 import {
     ComposeOption,
     GridComponentOption,
@@ -142,12 +146,12 @@ function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeForm
     }
 }
 
-type BizOption = {
+export type BizOption = {
     rows: timer.stat.Row[]
     timeFormat: timer.app.TimeFormat
 }
 
-class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
+class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     protected generateOption({ rows = [], timeFormat }: BizOption): EcOption | Promise<EcOption> {
         const endTime = new Date()
         const startTime = getWeeksAgo(endTime, locale === "zh_CN", WEEK_NUM)
@@ -171,12 +175,4 @@ class ChartWrapper extends EchartsWrapper<BizOption, EcOption> {
     }
 }
 
-const _default = defineComponent(() => {
-    const rows = useAnalysisRows()
-    const timeFormat = useAnalysisTimeFormat()
-    const bizOption = computed<BizOption>(() => ({ rows: rows.value, timeFormat: timeFormat.value }))
-    const { elRef } = useEcharts(ChartWrapper, bizOption, { manual: false })
-    return () => <div class="analysis-calendar-chart" ref={elRef} />
-})
-
-export default _default
+export default Wrapper

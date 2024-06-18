@@ -17,6 +17,7 @@ export type AboutMessage = {
         thanks: string
         privacy: string
         license: string
+        support: string
     },
     text: {
         greet: string

@@ -53,6 +53,17 @@ const TYPE_SORT: { [reason in LimitType]: number } = {
     DAILY: 2,
 }
 
+const createHeader = () => {
+    const header = document.createElement('header')
+    // Style script
+    const style = document.createElement('link')
+    style.type = 'text/css'
+    style.rel = 'stylesheet'
+    style.href = getUrl('content_scripts.css')
+    header.append(style)
+    return header
+}
+
 class ModalInstance implements MaskModal {
     url: string
     rootElement: RootElement
@@ -105,27 +116,26 @@ class ModalInstance implements MaskModal {
         root.append(html)
 
         // header
-        const header = document.createElement('header')
+        const header = createHeader()
         html.append(header)
-        const style = document.createElement('link')
-        style.type = 'text/css'
-        style.rel = 'stylesheet'
-        style.href = getUrl('content_scripts.css')
-        header.append(style)
 
         // body
-        const body = this.body = document.createElement('body')
-        html.append(body)
+        this.body = document.createElement('body')
+        html.append(this.body)
 
         // 2. Init dark mode
         initTheme(html)
         optionService.isDarkMode().then(val => toggle(val, html))
 
         // 3. Init vue app instance
+        this.initApp()
+    }
+
+    private initApp() {
         this.app = createApp(Main)
         this.reason = provideReason(this.app)
         provideDelayHandler(this.app, () => this.delayHandlers?.forEach(h => h?.()))
-        this.app.mount(body)
+        this.app.mount(this.body)
     }
 
     private async prepareRoot(): Promise<ShadowRoot> {

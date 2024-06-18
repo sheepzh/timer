@@ -12,7 +12,7 @@ import { ElCol, ElRow } from "element-plus"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { useAnalysisRows, useAnalysisSite, useAnalysisTimeFormat } from "../../context"
-import CalendarChart from "./CalendarChart"
+import Calendar from "./Calendar"
 
 type Summary = {
     focus: number
@@ -74,7 +74,7 @@ const _default = defineComponent(() => {
                     </KanbanIndicatorRow>
                 </ElCol>
                 <ElCol span={12}>
-                    <CalendarChart />
+                    <Calendar />
                 </ElCol>
             </ElRow>
         </KanbanCard>

@@ -4,31 +4,24 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
 import type { ComposeOption } from "echarts/core"
 import type { PieSeriesOption } from "echarts/charts"
 import type { TitleComponentOption, TooltipComponentOption } from "echarts/components"
-import type { StatQueryParam } from "@service/stat-service"
 
 import { use } from "echarts/core"
 import { PieChart } from "echarts/charts"
 import { TitleComponent, TooltipComponent } from "echarts/components"
 import { SVGRenderer } from "echarts/renderers"
+import { EchartsWrapper } from "@hooks"
+import { getPrimaryTextColor } from "@util/style"
+import { BASE_TITLE_OPTION } from "../../common"
+import { t } from "@app/locale"
+import { generateSiteLabel } from "@util/site"
+import { echartsPalette } from "@util/echarts"
 
 use([PieChart, TitleComponent, TooltipComponent, SVGRenderer])
 
-import statService from "@service/stat-service"
-import { MILL_PER_DAY } from "@util/time"
-import { defineComponent } from "vue"
-import { BASE_TITLE_OPTION } from "../common"
-import { t } from "@app/locale"
-import { getPrimaryTextColor } from "@util/style"
-import { generateSiteLabel } from "@util/site"
-import { echartsPalette } from "@util/echarts"
-import { useEcharts, EchartsWrapper } from "@hooks"
-
-const TOP_NUM = 6
-const DAY_NUM = 30
+export const TOP_NUM = 6, DAY_NUM = 30
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -36,7 +29,7 @@ type EcOption = ComposeOption<
     | TooltipComponentOption
 >
 
-type _Value = {
+export type BizOption = {
     name: string
     value: number
     // Extensive info
@@ -44,7 +37,7 @@ type _Value = {
     alias?: string
 }
 
-function generateOption(data: _Value[]): EcOption {
+function generateOption(data: BizOption[]): EcOption {
     const textColor = getPrimaryTextColor()
     return {
         title: {
@@ -63,7 +56,7 @@ function generateOption(data: _Value[]): EcOption {
                 const host = params.data?.host || ''
                 const alias = params.data?.alias || ''
                 const hostLabel = generateSiteLabel(host, alias)
-                return t(msg => msg.dashboard.topK.tooltip, { visit, host: hostLabel })
+                return `${hostLabel}<br/>${visit}`
             }
         },
         series: {
@@ -83,30 +76,8 @@ function generateOption(data: _Value[]): EcOption {
     }
 }
 
-class ChartWrapper extends EchartsWrapper<_Value[], EcOption> {
+class Wrapper extends EchartsWrapper<BizOption[], EcOption> {
     generateOption = generateOption
 }
 
-const fetchData = async () => {
-    const now = new Date()
-    const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * DAY_NUM)
-    const query: StatQueryParam = {
-        date: [startTime, now],
-        sort: "time",
-        sortOrder: 'DESC',
-        mergeDate: true,
-    }
-    const top: timer.stat.Row[] = (await statService.selectByPage(query, { num: 1, size: TOP_NUM }, true)).list
-    const data: _Value[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
-    for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
-        data.push({ name: '', host: '', value: 0 })
-    }
-    return data
-}
-
-const _default = defineComponent(() => {
-    const { elRef } = useEcharts(ChartWrapper, fetchData)
-    return () => <div class="chart-container" ref={elRef} />
-})
-
-export default _default
+export default Wrapper

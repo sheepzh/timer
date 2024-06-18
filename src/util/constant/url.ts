@@ -64,6 +64,10 @@ export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
  */
 export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
 
+export const PRIVACY_PAGE = 'https://www.wfhg.cc/en/privacy.html'
+
+export const LICENSE_PAGE = 'https://github.com/sheepzh/timer/blob/main/LICENSE'
+
 /**
  * @since 0.9.6
  */

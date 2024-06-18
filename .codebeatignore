@@ -1,1 +1,2 @@
 src/**/*.tsx
+src/**/*Wrapper.ts

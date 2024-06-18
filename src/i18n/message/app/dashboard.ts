@@ -16,7 +16,6 @@ export type DashboardMessage = {
     },
     topK: {
         title: string
-        tooltip: string
     }
     indicator: {
         installedDays: string

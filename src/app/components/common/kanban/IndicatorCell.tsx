@@ -30,7 +30,6 @@ function renderSubVal(valText: string) {
 }
 
 function renderComparisonIcons(ring: RingValue): VNode {
-    console.log(ring)
     const [current = 0, last = 0] = ring
     if (current === last) return null
     const clz = classNames(

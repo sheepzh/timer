@@ -7,8 +7,7 @@
             "tooltip1": "{year}/{month}/{day} 浏览网页 {hour} 小时 {minute} 分钟"
         },
         "topK": {
-            "title": "近 {day} 天最常访问 TOP {k}",
-            "tooltip": "访问 {host} {visit} 次"
+            "title": "近 {day} 天最常访问 TOP {k}"
         },
         "indicator": {
             "installedDays": "已使用 {number} 天",
@@ -33,8 +32,7 @@
             "tooltip1": "{year}/{month}/{day} 瀏覽網頁 {hour} 小時 {minute} 分鐘"
         },
         "topK": {
-            "title": "近 {day} 天最常拜訪 TOP {k}",
-            "tooltip": "拜訪 {host} {visit} 次"
+            "title": "近 {day} 天最常拜訪 TOP {k}"
         },
         "indicator": {
             "installedDays": "已使用 {number} 天",
@@ -59,8 +57,7 @@
             "tooltip1": "Browsed for {hour} hours {minute} minutes on {month}/{day}/{year}"
         },
         "topK": {
-            "title": "TOP {k} most visited in the past {day} days",
-            "tooltip": "Visited {host} {visit} times"
+            "title": "TOP {k} most visited in the past {day} days"
         },
         "indicator": {
             "installedDays": "Installed for {number} days",
@@ -85,8 +82,7 @@
             "tooltip1": "{year} 年 {month} 月 {day} 日 ウェブを {hour} 時間 {minute} 分閲覧する"
         },
         "topK": {
-            "title": "過去 {day} 日間に最も拜訪された TOP {k}",
-            "tooltip": "{host} {visit} 回拜訪"
+            "title": "過去 {day} 日間に最も拜訪された TOP {k}"
         },
         "indicator": {
             "installedDays": "使用 {number} 日",
@@ -111,8 +107,7 @@
             "tooltip1": "Navegado por {hour} horas e {minute} minutos em {day}/{month}/{year}"
         },
         "topK": {
-            "title": "TOP {k} mais visitados nos últimos {day} dias",
-            "tooltip": "Visitou {host} por {visit} vezes"
+            "title": "TOP {k} mais visitados nos últimos {day} dias"
         },
         "indicator": {
             "installedDays": "Instalado por {number} dias",
@@ -137,8 +132,7 @@
             "tooltip1": "{hour} год. {minute} хв. – {day}.{month}.{year}"
         },
         "topK": {
-            "title": "Найбільші {k} відвідувань за минулих {day} днів",
-            "tooltip": "Відвідано {host} {visit} разів"
+            "title": "Найбільші {k} відвідувань за минулих {day} днів"
         },
         "indicator": {
             "installedDays": "Встановлено впродовж {number} днів",
@@ -163,8 +157,7 @@
             "tooltip1": "Navegó por {hour} horas {minute} minutos en {month}/{day}/{year}"
         },
         "topK": {
-            "title": "TOP {k} más visitado en los últimos {day} días",
-            "tooltip": "Visitó {host} {visit} veces"
+            "title": "TOP {k} más visitado en los últimos {day} días"
         },
         "indicator": {
             "installedDays": "Instalado durante {number} días",
@@ -189,8 +182,7 @@
             "tooltip1": "Durchsucht für {hour} Stunden {minute} Minuten am {year}-{month}-{day}"
         },
         "topK": {
-            "title": "TOP {k} am meisten besucht in den letzten {day} Tagen",
-            "tooltip": "Besuchte {host} {visit} mal"
+            "title": "TOP {k} am meisten besucht in den letzten {day} Tagen"
         },
         "indicator": {
             "installedDays": "Für {number} Tage installiert",

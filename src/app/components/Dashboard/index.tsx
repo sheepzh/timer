@@ -14,7 +14,7 @@ import { ElRow } from "element-plus"
 import Indicator from "./components/Indicator"
 import WeekOnWeek from "./components/WeekOnWeek"
 import TopKVisit from "./components/TopKVisit"
-import CalendarHeatmapChart from "./components/CalendarHeatmapChart"
+import Calendar from "./components/Calendar"
 import { useRouter } from "vue-router"
 import { useRequest } from "@hooks"
 import metaService from "@service/meta-service"
@@ -48,7 +48,7 @@ const _default = defineComponent(() => {
             </ElRow>
             <ElRow gutter={40} style={{ height: "280px" }}>
                 <DashboardCard span={24}>
-                    <CalendarHeatmapChart />
+                    <Calendar />
                 </DashboardCard>
             </ElRow>
             <ElRow v-show={showHelp || showRate.value}>

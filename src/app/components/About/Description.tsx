@@ -1,9 +1,14 @@
 import { t } from "@app/locale"
-import { CHROME_HOMEPAGE, EDGE_HOMEPAGE, FEEDBACK_QUESTIONNAIRE, FIREFOX_HOMEPAGE, getHomepageWithLocale, GITHUB_ISSUE_ADD, HOMEPAGE, REVIEW_PAGE, SOURCE_CODE_PAGE } from "@util/constant/url"
+import {
+    HOMEPAGE, CHROME_HOMEPAGE, EDGE_HOMEPAGE, FIREFOX_HOMEPAGE,
+    FEEDBACK_QUESTIONNAIRE, GITHUB_ISSUE_ADD, REVIEW_PAGE,
+    LICENSE_PAGE, PRIVACY_PAGE, SOURCE_CODE_PAGE, CHANGE_LOG_PAGE,
+    getHomepageWithLocale,
+} from "@util/constant/url"
 import { ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText } from "element-plus"
 import { defineComponent, StyleValue } from "vue"
 import InstallationLink from "./InstallationLink"
-import packageInfo from "@src/package"
+import packageInfo, { AUTHOR_EMAIL } from "@src/package"
 import { locale } from "@i18n"
 import "./description.sass"
 import metaService from "@service/meta-service"
@@ -33,8 +38,8 @@ const _default = defineComponent(() => {
                 </DescLink>
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.privacy)} labelAlign="right">
-                <DescLink href="https://www.wfhg.cc/en/privacy.html">
-                    https://www.wfhg.cc/en/privacy.html
+                <DescLink href={PRIVACY_PAGE}>
+                    {PRIVACY_PAGE}
                 </DescLink>
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.sourceCode)} labelAlign="right">
@@ -43,9 +48,17 @@ const _default = defineComponent(() => {
                 </DescLink>
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.license)} labelAlign="right">
-                <DescLink href="https://github.com/sheepzh/timer/blob/main/LICENSE">
+                <DescLink href={LICENSE_PAGE}>
                     MIT License
                 </DescLink>
+            </ElDescriptionsItem>
+            <ElDescriptionsItem label={t(msg => msg.base.changeLog)} labelAlign="right">
+                <DescLink href={CHANGE_LOG_PAGE} icon="github">
+                    {CHANGE_LOG_PAGE}
+                </DescLink>
+            </ElDescriptionsItem>
+            <ElDescriptionsItem label={t(msg => msg.about.label.support)} labelAlign="right">
+                {AUTHOR_EMAIL}
             </ElDescriptionsItem>
             <ElDescriptionsItem label={t(msg => msg.about.label.installation)} labelAlign="right">
                 <div style={INSTALLATION_STYLE}>
