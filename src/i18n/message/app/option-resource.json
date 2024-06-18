@@ -350,8 +350,8 @@
                     "endpointLabel": "Endpoint address {info} {input}",
                     "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages",
                     "pathLabel": "The path of directory {input}",
-                    "usernameLabel": "用户名 {input}",
-                    "passwordLabel": "密码 {input}"
+                    "usernameLabel": "Username {input}",
+                    "passwordLabel": "Password {input}"
                 }
             },
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
