@@ -90,8 +90,15 @@ const staticOptions: webpack.Configuration = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        assumptions: {
+                            // Fix that react transform array proxy to object, and error occurs while destructing
+                            iterableIsArray: true,
+                        },
                         presets: ["@babel/preset-env"],
-                        plugins: ["@vue/babel-plugin-jsx", "@babel/plugin-transform-modules-commonjs"],
+                        plugins: [
+                            "@vue/babel-plugin-jsx",
+                            "@babel/plugin-transform-modules-commonjs",
+                        ],
                     },
                 }, 'ts-loader'],
             }, {

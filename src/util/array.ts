@@ -83,5 +83,9 @@ export function anyMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {
 }
 
 export function range(len: number): number[] {
-    return [...new Array(len).keys()]
+    const arr = []
+    for (let i = 0; i < len; i++) {
+        arr.push(i)
+    }
+    return arr
 }
