@@ -129,7 +129,8 @@
             "last15Days": "Минулих 15 днів",
             "last30Days": "Минулих 30 днів",
             "last60Days": "Минулих 60 днів",
-            "last90Days": "Минулих 90 днів"
+            "last90Days": "Минулих 90 днів",
+            "everyday": "Щодня"
         },
         "simpleTimeFormat": "{d}.{m} {h}:{i}"
     },
