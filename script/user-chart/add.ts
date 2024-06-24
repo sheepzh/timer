@@ -85,7 +85,7 @@ function parseChrome(content: string): UserCount {
         if (!dateStr || !numberStr) {
             return
         }
-        // Replace '/' to '-', then rjust month and date 
+        // Replace '/' to '-', then rjust month and date
         const date = dateStr.split('/').map(str => rjust(str, 2, '0')).join('-')
         const number = parseInt(numberStr)
         date && number && (result[date] = number)
@@ -106,7 +106,7 @@ function parseEdge(content: string): UserCount {
         if (!dateStr || !numberStr) {
             return
         }
-        // Replace '/' to '-', then rjust month and date 
+        // Replace '/' to '-', then rjust month and date
         const date = dateStr.split('/').map(str => rjust(str, 2, '0')).join('-')
         const number = parseInt(numberStr)
         date && number && (result[date] = number)

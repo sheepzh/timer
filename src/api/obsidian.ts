@@ -21,15 +21,15 @@ export type ObsidianRequestContext = {
     auth: string
 }
 
-const authHeaders = (auth: string) => ({
-    "Authorization": `Bearer ${auth}`
+const authHeaders = (token: string) => ({
+    "Authorization": `Bearer ${token}`
 })
 
-export async function listAllFiles(context: ObsidianRequestContext, dirPath: string): Promise<ObsidianResult<{ files: string[] }>> {
+export async function listAllFiles(context: ObsidianRequestContext, dirPath: string) {
     const { endpoint, auth } = context || {}
     const url = `${endpoint || DEFAULT_ENDPOINT}/vault/${dirPath || ''}`
     const response = await fetchGet(url, { headers: authHeaders(auth) })
-    return await response?.json()
+    return await response?.json() as (Promise<ObsidianResult<{ files: string[] }>>)
 }
 
 export async function updateFile(context: ObsidianRequestContext, filePath: string, content: string): Promise<void> {

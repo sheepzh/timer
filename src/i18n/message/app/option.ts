@@ -86,6 +86,15 @@ export type OptionMessage = {
                 endpointLabel: string
                 endpointInfo: string
                 pathLabel: string
+                authLabel: string
+            }
+        } & {
+            [type in Extract<timer.backup.Type, "webdav">]: {
+                endpointLabel: string
+                endpointInfo: string
+                pathLabel: string
+                usernameLabel: string
+                passwordLabel: string
             }
         }
         alert: string

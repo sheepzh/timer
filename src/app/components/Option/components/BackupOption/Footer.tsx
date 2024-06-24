@@ -8,7 +8,7 @@
 import type { PropType, Ref } from "vue"
 
 import { t } from "@app/locale"
-import { UploadFilled } from "@element-plus/icons-vue"
+import { UploadFilled, RefreshRight } from "@element-plus/icons-vue"
 import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
 import { defineComponent, ref, watch } from "vue"
 import metaService from "@service/meta-service"
@@ -51,9 +51,30 @@ const _default = defineComponent({
         queryLastTime()
         watch(() => props.type, queryLastTime)
 
+        async function handleTest() {
+            const loading = ElLoading.service({ text: "Please wait...." });
+            try {
+                const { errorMsg } = await processor.checkAuth();
+                if (!errorMsg) {
+                    ElMessage.success("Valid!");
+                } else {
+                    ElMessage.error(errorMsg);
+                }
+            } finally {
+                loading.close();
+            }
+        }
+
         return () => <div>
             <ElDivider />
             <div class="backup-footer">
+                <ElButton
+                    onClick={handleTest}
+                    icon={<RefreshRight />}
+                    style={{ marginRight: "12px" }}
+                >
+                    {t((msg) => msg.option.backup.test)}
+                </ElButton>
                 <Clear />
                 <Download />
                 <ElButton

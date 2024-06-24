@@ -35,6 +35,7 @@ export type Gist = BaseGist<File> & {
 
 export type GistForm = BaseGist<FileForm>
 
+
 const BASE_URL = 'https://api.github.com/gists'
 
 /**
@@ -77,7 +78,7 @@ async function post<T, R>(token: string, uri: string, body?: R): Promise<T> {
  * @returns detail of Gist
  */
 export function getGist(token: string, id: string): Promise<Gist> {
-    return get(token, `/${id}`)
+    return get(token, `/${id}`);
 }
 
 /**
@@ -107,7 +108,7 @@ export async function findTarget(token: string, predicate: (gist: Gist) => boole
 /**
  * Create one gist
  *
- * @param token  token
+ * @param token  auth token
  * @param gist   gist info
  * @returns gist info with id
  */
@@ -144,7 +145,7 @@ export async function getJsonFileContent<T>(file: File): Promise<T> {
         return undefined
     }
     const response = await fetchGet(rawUrl)
-    return await response.json()
+    return await response.json() as Promise<T>
 }
 
 /**
