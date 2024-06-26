@@ -9,7 +9,7 @@ import { t } from "@app/locale"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
-import { ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
+import { ElButton, ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
 import { defineComponent, reactive, unref, UnwrapRef, ref, Ref, watch } from "vue"
 import { OptionInstance, OptionItem } from "../../common"
 import "./limit-option.sass"
@@ -131,6 +131,9 @@ const _default = defineComponent((_, ctx) => {
             >
                 {ALL_DIFF.map(item => <ElOption value={item} label={t(msg => msg.option.dailyLimit.level.verificationDifficulty[item])} />)}
             </ElSelect>
+            <ElButton size="small" onClick={() => processVerification(option)}>
+                {t(msg => msg.button.test)}
+            </ElButton>
         </OptionItem>
         <OptionItem label={msg => msg.option.dailyLimit.prompt}>
             <ElInput
@@ -138,7 +141,7 @@ const _default = defineComponent((_, ctx) => {
                 size="small"
                 onInput={val => option.limitPrompt = val}
                 placeholder={t(msg => msg.limitModal.defaultPrompt)}
-                style={{ width: "250px" }}
+                style={{ width: "280px" }}
             />
         </OptionItem>
     </>
