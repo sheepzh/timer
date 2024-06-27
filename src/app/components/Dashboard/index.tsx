@@ -34,7 +34,7 @@ const _default = defineComponent(() => {
     }
 
     return () => (
-        <ContentContainer>
+        <ContentContainer class="dashboard-container">
             <ElRow gutter={20} style={{ height: "300px" }}>
                 <DashboardCard span={4}>
                     <Indicator />

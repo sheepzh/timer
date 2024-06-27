@@ -75,7 +75,7 @@ const _default = defineComponent({
                 <div class="step-container">
                     <ElSteps space={200} finishStatus="success" active={step.value}>
                         <ElStep title={t(msg => msg.limit.step.base)} />
-                        <ElStep title={t(msg => msg.limit.step.url)} />
+                        <ElStep title={t(msg => msg.limit.step.scope)} />
                         <ElStep title={t(msg => msg.limit.step.rule)} />
                     </ElSteps>
                 </div>

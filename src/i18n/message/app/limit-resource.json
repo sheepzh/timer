@@ -18,8 +18,8 @@
         },
         "step": {
             "base": "规则信息",
-            "url": "设置 URL",
-            "rule": "设置规则"
+            "scope": "生效范围",
+            "rule": "限制规则"
         },
         "button": {
             "test": "网址测试",
@@ -91,7 +91,6 @@
             "confession": "一寸光陰一寸金，寸金難買寸光陰"
         },
         "step": {
-            "url": "設定 URL",
             "rule": "設定規則",
             "base": "基本信息"
         },
@@ -116,8 +115,8 @@
         },
         "step": {
             "base": "Basic Information",
-            "url": "Config URL",
-            "rule": "Config rule"
+            "scope": "Scope of effect",
+            "rule": "Details of rule"
         },
         "button": {
             "test": "Test URL",
@@ -187,7 +186,6 @@
             "strictTip": "制限ルールがすでにトリガーされており、手動によるロック解除は許可されていません。"
         },
         "step": {
-            "url": "設定 URL",
             "rule": "設定ルール",
             "base": "基本情報"
         },
@@ -234,7 +232,6 @@
             "strictTip": "A regra de limite já foi acionada e o desbloqueio manual não é permitido!"
         },
         "step": {
-            "url": "Configurar URL",
             "rule": "Configurar regra",
             "base": "Informação básica"
         },
@@ -283,7 +280,6 @@
             "strictTip": "Правило обмеження вже активовано і ручне розблокування не дозволено!"
         },
         "step": {
-            "url": "URL конфігурації",
             "rule": "Правило конфігурації",
             "base": "Загальна інформація"
         },
@@ -328,7 +324,6 @@
             "strictTip": "¡La regla de límite ya ha sido activada y el desbloqueo manual no está permitido!"
         },
         "step": {
-            "url": "Configurar URL",
             "rule": "Configurar regla"
         }
     },
@@ -374,7 +369,6 @@
             "strictTip": "Die Limit-Regel wurde bereits ausgelöst und eine manuelle Entsperrung ist nicht zulässig!"
         },
         "step": {
-            "url": "URL konfigurieren",
             "rule": "Konfiguration Regel"
         }
     }

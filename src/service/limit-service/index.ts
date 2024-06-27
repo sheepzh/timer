@@ -35,6 +35,10 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
         .filter(item => !url || matches(item, url))
 }
 
+async function get(id: number): Promise<timer.limit.Item> {
+    return (await db.all()).find(i => i?.id === id)
+}
+
 /**
  * Fired if the item is removed or disabled
  *
@@ -136,6 +140,7 @@ class LimitService {
     getRelated = getRelated
     updateEnabled = updateEnabled
     updateDelay = updateDelay
+    get = get
     select = select
     remove = remove
     update = update

@@ -40,10 +40,17 @@ const behaviorRoutes: RouteRecordRaw[] = [
         redirect: '/behavior/habit'
     }, {
         path: '/behavior/habit',
-        component: () => import('../components/Habit')
+        component: () => import('../components/Habit'),
     }, {
         path: LIMIT_ROUTE,
-        component: () => import('../components/Limit')
+        component: () => import('../components/Limit'),
+    },
+    {
+        path: LIMIT_ROUTE + '/:id',
+        component: () => import('../components/Limit/Detail'),
+    }, {
+        path: LIMIT_ROUTE + '/create',
+        component: () => import('../components/Limit/Detail'),
     }
 ]
 

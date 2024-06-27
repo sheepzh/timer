@@ -14,7 +14,7 @@ export type LimitMessage = {
     urlPlaceholder: string
     step: {
         base: string
-        url: string
+        scope: string
         rule: string
     }
     item: {
