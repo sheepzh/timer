@@ -8,10 +8,13 @@ import { ElBreadcrumb, ElBreadcrumbItem, ElButton, ElCol, ElForm, ElFormItem, El
 import { defineComponent } from "vue"
 import { useRoute } from "vue-router"
 import UrlInput from "./UrlInput"
+import "./style.sass"
 
 type Mode = "create" | "modify"
 
 const GUTTER = 30
+
+type RuleType = 'daily' | 'visit' | 'period'
 
 const _default = defineComponent(() => {
 
@@ -23,22 +26,19 @@ const _default = defineComponent(() => {
     const [enabled, setEnabled] = useState(false)
     const [delayAllowed, setDelayAllowed] = useState(true)
     const [weekdays, setWeekdays] = useState<number[]>([])
-    const [urls, setUrls] = useState<string[]>([])
+    const [urls, setUrls] = useState<string[]>(['123', '123123', '3123'])
 
     return () => (
         <ContentContainer>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+            <div class="limit-detail">
                 {/* header */}
-                <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '5px' }}>
-                    <ElBreadcrumb
-                        style={{ flex: 1 }}
-                        separatorIcon={<ArrowRight />}
-                    >
+                <div class="header">
+                    <ElBreadcrumb separatorIcon={<ArrowRight />}>
                         <ElBreadcrumbItem>{t(msg => msg.menu.limit)}</ElBreadcrumbItem>
                         <ElBreadcrumbItem>{t(msg => msg.button[mode.value])}</ElBreadcrumbItem>
                     </ElBreadcrumb>
-                    <div style={{ width: 'fit-content' }}>
-                        <ElButton icon={<Close />}>
+                    <div class="button-container">
+                        <ElButton type="text" icon={<Close />}>
                             {t(msg => msg.button.cancel)}
                         </ElButton>
                         <ElButton type="primary" icon={<Check />}>
@@ -48,7 +48,7 @@ const _default = defineComponent(() => {
                 </div>
                 <ElScrollbar>
                     <ElForm labelWidth={130} labelPosition="right">
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+                        <div class="content">
                             {/* Base Info */}
                             <CollapseCard title={t(msg => msg.limit.step.base)}>
                                 <ElRow gutter={GUTTER}>
@@ -68,16 +68,11 @@ const _default = defineComponent(() => {
                                             <ElSwitch modelValue={enabled.value} onChange={setEnabled} />
                                         </ElFormItem>
                                     </ElCol>
-                                    {/* <ElCol span={7}>
-                                        <ElFormItem label={t(msg => msg.limit.item.delayAllowed)}>
-                                            <ElSwitch modelValue={delayAllowed.value} onChange={setDelayAllowed} />
-                                        </ElFormItem>
-                                    </ElCol> */}
                                 </ElRow>
                             </CollapseCard>
                             {/* Scope */}
                             <CollapseCard title={t(msg => msg.limit.step.scope)}>
-                                <ElRow gutter={30}>
+                                <ElRow gutter={GUTTER}>
                                     <ElCol span={12}>
                                         <ElFormItem label={t(msg => msg.limit.item.effectiveDay)} required>
                                             <ElSelect
@@ -94,6 +89,10 @@ const _default = defineComponent(() => {
                                 <ElFormItem label={t(msg => msg.limit.item.condition)} required>
                                     <UrlInput modelValue={urls.value} onChange={setUrls} />
                                 </ElFormItem>
+                            </CollapseCard>
+                            {/* Rule */}
+                            <CollapseCard title={t(msg => msg.limit.step.rule)}>
+
                             </CollapseCard>
                         </div>
                     </ElForm>
