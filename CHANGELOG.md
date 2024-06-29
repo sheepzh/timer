@@ -4,11 +4,15 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.3.6] - 2024-06-29
+
+-   Optimized UI
+-   Supported French
+
 ## [2.3.5] - 2024-06-23
 
 -   Fixed bugs for Edge
 -   Optimized UI of charts
-
 
 ## [2.3.4] - 2024-06-17
 
