@@ -30,5 +30,9 @@
     "fr": {
         "searchPlaceholder": "Rechercher par URL",
         "title": "Toutes les données de navigation"
+    },
+    "es": {
+        "searchPlaceholder": "Buscar por URL",
+        "title": "Todos los datos de navegación"
     }
 }

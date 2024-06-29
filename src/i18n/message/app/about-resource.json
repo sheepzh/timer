@@ -80,7 +80,8 @@
             "installation": "Installationsseite",
             "thanks": "Danksagung",
             "privacy": "Datenschutzerklärung",
-            "license": "Quelloffene Lizenz"
+            "license": "Quelloffene Lizenz",
+            "support": "Kundendienst"
         },
         "text": {
             "greet": "Gefällt Ihnen diese Erweiterung?",
@@ -97,7 +98,8 @@
             "installation": "インストールページ",
             "thanks": "Thanks To",
             "privacy": "プライバシーに関する声明",
-            "license": "オープンソースライセンス"
+            "license": "オープンソースライセンス",
+            "support": "支援"
         },
         "text": {
             "greet": "この拡張機能を気に入っていただけましたか？",
@@ -114,7 +116,8 @@
             "installation": "Página de Instalação",
             "thanks": "Graças a",
             "privacy": "Declaração de Privacidade",
-            "license": "Licenças de código aberto"
+            "license": "Licenças de código aberto",
+            "support": "Suporte"
         },
         "text": {
             "greet": "Você gosta da extensão?",
@@ -138,6 +141,24 @@
             "greet": "Aimez-vous cette extension ?",
             "rate": "Donnez-lui 5 étoiles pour aider les autres à le savoir ~~",
             "feedback": "Aussi, bienvenue pour soumettre vos commentaires et demandes de fonctionnalités !!"
+        }
+    },
+    "es": {
+        "label": {
+            "name": "Nombre",
+            "version": "Versión actual",
+            "website": "Sitio Web Oficial",
+            "sourceCode": "Código Fuente",
+            "installation": "Página de Instalación",
+            "thanks": "Gracias a",
+            "privacy": "Declaración de Privacidad",
+            "license": "Licencia de Código Abierto",
+            "support": "Soporte"
+        },
+        "text": {
+            "greet": "¿Te encanta esta extensión?",
+            "rate": "Califícalo con 5 estrellas para ayudar a otros a conocerlo ~~",
+            "feedback": "Además, ¡bienvenido a enviar sus comentarios y solicitudes de funciones!!"
         }
     }
 }

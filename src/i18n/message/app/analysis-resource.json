@@ -173,7 +173,8 @@
         "summary": {
             "title": "Resumen",
             "day": "Total de días activos",
-            "firstDay": "Primera visita a {value}"
+            "firstDay": "Primera visita a {value}",
+            "calendarTitle": "Actividad en Semanas Recientes"
         },
         "trend": {
             "title": "Tendencias",

@@ -62,7 +62,9 @@
             "operation": "操作",
             "visitTime": "每次訪問限制時長",
             "period": "受限時段",
-            "name": "規則名稱"
+            "name": "規則名稱",
+            "detail": "規則詳情",
+            "effectiveDay": "生效日期"
         },
         "button": {
             "test": "網址測試",
@@ -159,7 +161,9 @@
             "operation": "操作",
             "visitTime": "訪問ごとの制限",
             "period": "許可されない期間",
-            "name": "規則名"
+            "name": "規則名",
+            "detail": "規則明細",
+            "effectiveDay": "発効日"
         },
         "button": {
             "test": "テストURL",
@@ -207,7 +211,9 @@
             "operation": "Operações",
             "visitTime": "Limitar por visita",
             "period": "Períodos não permitidos",
-            "name": "Nome da regra"
+            "name": "Nome da regra",
+            "detail": "Detalhe da regra",
+            "effectiveDay": "Efetivo ativado"
         },
         "button": {
             "test": "Testar URL",
@@ -302,11 +308,15 @@
             "delayAllowedInfo": "Si se pausa, permite un retraso temporal de 5 minutos",
             "operation": "Operaciones",
             "visitTime": "Límite por visita",
-            "period": "Periodos no permitidos"
+            "period": "Periodos no permitidos",
+            "name": "Nombre de la regla",
+            "detail": "Detalle de la regla",
+            "effectiveDay": "En vigor él"
         },
         "button": {
             "test": "Probar URL",
-            "option": "Opciones"
+            "option": "Opciones",
+            "parseUrl": "Analizar URL"
         },
         "message": {
             "noUrl": "URL restringida sin completar",
@@ -329,8 +339,10 @@
         },
         "step": {
             "url": "Configurar URL",
-            "rule": "Configurar regla"
-        }
+            "rule": "Configurar regla",
+            "base": "Información básica"
+        },
+        "urlPlaceholder": "Ingrese la URL que desea restringir y haga clic en el botón Analizar"
     },
     "de": {
         "conditionFilter": "Suche nach URL",
@@ -346,7 +358,10 @@
             "delayAllowedInfo": "Wenn es zu einer Zeitüberschreitung kommt, erlauben Sie eine vorübergehende Verzögerung von 5 Minuten",
             "operation": "Aktionsknopf",
             "visitTime": "Limit pro Besuch",
-            "period": "Unzulässiger Zeitraum"
+            "period": "Unzulässiger Zeitraum",
+            "name": "Regelname",
+            "detail": "Regeldetail",
+            "effectiveDay": "Wirksam auf"
         },
         "button": {
             "test": "Test-URL",
@@ -375,7 +390,8 @@
         },
         "step": {
             "url": "URL konfigurieren",
-            "rule": "Konfiguration Regel"
+            "rule": "Konfiguration Regel",
+            "base": "Basisdaten"
         }
     },
     "fr": {

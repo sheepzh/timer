@@ -40,5 +40,17 @@
         "more5Minutes": "Plus de 5 minutes",
         "browsingTime": "Temps de navigation",
         "ruleDetail": "Détail des règles"
+    },
+    "es": {
+        "defaultPrompt": "¡Esta página fue bloqueada!",
+        "more5Minutes": "Más de 5 minutos",
+        "browsingTime": "Tiempo de navegación",
+        "ruleDetail": "Detalle de la regla"
+    },
+    "de": {
+        "defaultPrompt": "Diese Seite wurde gesperrt!",
+        "more5Minutes": "Weitere 5 Minuten",
+        "browsingTime": "Browsing-Zeit",
+        "ruleDetail": "Regeldetail"
     }
 }

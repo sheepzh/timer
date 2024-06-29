@@ -41,7 +41,8 @@
             "last15Days": "最近 15 天",
             "last30Days": "最近 30 天",
             "last60Days": "最近 60 天",
-            "last90Days": "最近 90 天"
+            "last90Days": "最近 90 天",
+            "everyday": "每天"
         }
     },
     "en": {
@@ -86,7 +87,8 @@
             "last15Days": "過去 15 日間",
             "last30Days": "過去 30 日間",
             "last60Days": "過去 60 日間",
-            "last90Days": "過去 90 日間"
+            "last90Days": "過去 90 日間",
+            "everyday": "毎日"
         }
     },
     "pt_PT": {
@@ -108,7 +110,8 @@
             "last30Days": "Últimos 30 dias",
             "last60Days": "Últimos 60 dias",
             "last90Days": "Últimos 90 dias",
-            "last24Hours": "Últimas 24 horas"
+            "last24Hours": "Últimas 24 horas",
+            "everyday": "Diariamente"
         }
     },
     "uk": {
@@ -152,7 +155,8 @@
             "last15Days": "Últimos 15 días",
             "last30Days": "Últimos 30 días",
             "last60Days": "Últimos 60 días",
-            "last90Days": "Últimos 90 días"
+            "last90Days": "Últimos 90 días",
+            "everyday": "Cada día"
         },
         "simpleTimeFormat": "{m}/{d} {h}:{i}"
     },
@@ -173,7 +177,8 @@
             "last15Days": "Letzte 15 Tage",
             "last30Days": "Letzte 30 Tage",
             "last60Days": "Letzte 60 Tage",
-            "last90Days": "Letzte 90 Tage"
+            "last90Days": "Letzte 90 Tage",
+            "everyday": "Täglich"
         },
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}/{m} {h}:{i}"

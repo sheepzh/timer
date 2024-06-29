@@ -125,8 +125,8 @@
         "popup": {
             "title": "彈窗頁",
             "max": "隻顯示前 {input} 條數據，剩下的條目合並顯示",
-            "defaultMergeDomain": "{input} 打開時合併子域名",
-            "defaultDisplay": "打開時顯示 {duration} {type}",
+            "defaultMergeDomain": "{input} 是否在開啟時合併子網域",
+            "defaultDisplay": "開啟時顯示 {duration} {type}",
             "displaySiteName": "{input}  顯示時是否使用 {siteName} 來代替域名",
             "weekStart": "每週的第一天 {input}",
             "weekStartAsNormal": "按照慣例"
@@ -171,7 +171,9 @@
             "localFilesInfo": "支持 PDF、圖片、txt 以及 json 等格式",
             "collectSiteName": "{input}  拜訪網站主頁時，是否自動收集 {siteName} {siteNameUsage}",
             "siteName": "網站的名稱",
-            "siteNameUsage": "數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱"
+            "siteNameUsage": "數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱",
+            "fileAccessDisabled": "目前不允許存取文件 URL。請先在管理頁面啟用",
+            "fileAccessFirefox": "抱歉，Firefox 不支援此功能"
         },
         "dailyLimit": {
             "level": {
@@ -233,9 +235,9 @@
                 "current": "當前"
             }
         },
-        "resetButton": "恢複默認",
-        "resetSuccess": "成功重置爲默認值",
-        "defaultValue": "默認值： {default}"
+        "resetButton": "重置",
+        "resetSuccess": "恢復預設成功！",
+        "defaultValue": "預設值：{default}"
     },
     "en": {
         "yes": "Yes",
@@ -409,7 +411,9 @@
             "localFilesInfo": "PDF、画像、txt、jsonを含む",
             "collectSiteName": "{input} サイトのホームページにアクセスしたときに {siteName} {siteNameUsage} を自動的に収集するかどうか",
             "siteName": "サイト名",
-            "siteNameUsage": "データはローカルにのみ存在し、認識を高めるためにホストの代わりに表示に使用されます。もちろん、各Webサイトの名前をカスタマイズできます。"
+            "siteNameUsage": "データはローカルにのみ存在し、認識を高めるためにホストの代わりに表示に使用されます。もちろん、各Webサイトの名前をカスタマイズできます。",
+            "fileAccessDisabled": "ファイル URL へのアクセスは現在許可されていません。まず管理ページで有効にしてください。",
+            "fileAccessFirefox": "申し訳ありませんが、この機能はFirefoxではサポートされていません"
         },
         "dailyLimit": {
             "level": {
@@ -530,7 +534,9 @@
             "localFilesInfo": "Suporta arquivos de tipos como PDF, imagem, TXT e JSON",
             "collectSiteName": "{input}  Se deseja coletar automaticamente o {siteName} {siteNameUsage} quando visitar a página inicial do site",
             "siteName": "o nome do site",
-            "siteNameUsage": "Os dados são armazenados apenas localmente e serão exibidos em vez da URL para aumentar o reconhecimento. F, também pode personalizar o nome de cada site."
+            "siteNameUsage": "Os dados são armazenados apenas localmente e serão exibidos em vez da URL para aumentar o reconhecimento. F, também pode personalizar o nome de cada site.",
+            "fileAccessDisabled": "O acesso aos URL dos ficheiros não é permitido de momento. Ative-o primeiro na página de gestão",
+            "fileAccessFirefox": "Lamentamos, esta funcionalidade não é compatível com o Firefox"
         },
         "dailyLimit": {
             "level": {
@@ -755,7 +761,8 @@
                     "off": "Siempre apagado",
                     "timed": "Cronometrado"
                 }
-            }
+            },
+            "badgeBgColor": "El color de fondo del texto en el icono {input}"
         },
         "statistics": {
             "title": "Estadísticas",
@@ -767,7 +774,9 @@
             "localFilesInfo": "Soporta archivos de tipos como PDF, imagen, TXT y JSON",
             "collectSiteName": "{input}  Recopilar automáticamente {siteName} {siteNameUsage} al visitar la página principal del sitio",
             "siteName": "el nombre del sitio",
-            "siteNameUsage": "Los datos solo se almacenan localmente y se mostrarán en lugar de la URL para aumentar el reconocimiento. Por supuesto, también puedes personalizar el nombre de cada sitio."
+            "siteNameUsage": "Los datos solo se almacenan localmente y se mostrarán en lugar de la URL para aumentar el reconocimiento. Por supuesto, también puedes personalizar el nombre de cada sitio.",
+            "fileAccessDisabled": "Actualmente no se permite el acceso a las URL de archivos. Habilítelo primero en la página de administración",
+            "fileAccessFirefox": "Lo sentimos, esta función no es compatible con Firefox"
         },
         "backup": {
             "title": "Respaldo de datos",
@@ -826,7 +835,8 @@
                 "strict": "No permitir desbloquear de ningún modo",
                 "strictTitle": "Confirmación de operación",
                 "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
-            }
+            },
+            "prompt": "Punto mostrado cuando está restringido {input}"
         }
     },
     "de": {
@@ -871,7 +881,8 @@
                     "off": "Immer aus",
                     "timed": "Zeitgesteuert"
                 }
-            }
+            },
+            "badgeBgColor": "Die Hintergrundfarbe des Textes auf dem Symbol {input}"
         },
         "statistics": {
             "title": "Statistik",
@@ -883,7 +894,9 @@
             "localFilesInfo": "Unterstützt Dateitypen, wie PDF, Bilder, .txt und .json",
             "collectSiteName": "{input} Automatisch {siteName} {siteNameUsage} beim Besuch der Homepage loggen",
             "siteName": "Der Name der Website",
-            "siteNameUsage": "Die Daten werden nur lokal gespeichert und anstelle der URL angezeigt, um die Erkennung zu erhöhen. Auf Wunsch lässt sich der Name jeder Seite anpassen."
+            "siteNameUsage": "Die Daten werden nur lokal gespeichert und anstelle der URL angezeigt, um die Erkennung zu erhöhen. Auf Wunsch lässt sich der Name jeder Seite anpassen.",
+            "fileAccessDisabled": "Der Zugriff auf Datei-URLs ist derzeit nicht erlaubt. Bitte aktiviere ihn zuerst auf der Verwaltungsseite",
+            "fileAccessFirefox": "Leider wird diese Funktion in Firefox nicht unterstützt"
         },
         "backup": {
             "title": "Datensicherung",
@@ -942,7 +955,8 @@
                 "strict": "Entsperren trotzdem nicht zulassen",
                 "strictTitle": "Operation bestätigen",
                 "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
-            }
+            },
+            "prompt": "Eingabeaufforderung wird angezeigt, wenn eingeschränkt {input}"
         }
     },
     "fr": {
@@ -999,7 +1013,7 @@
             "localFileTime": "lire un fichier local",
             "localFilesInfo": "Prend en charge les fichiers de types tels que PDF, image, txt et json.",
             "collectSiteName": "{input} S'il faut collecter automatiquement {siteName} {siteNameUsage} lors de la visite de la page d'accueil du site",
-            "siteName": "le nom du site.",
+            "siteName": "le nom du site",
             "siteNameUsage": "Les données sont uniquement stockées localement et seront affichées à la place de l'URL pour augmenter la reconnaissance. Bien entendu, vous pouvez également personnaliser le nom de chaque site.",
             "fileAccessDisabled": "L'accès aux URL des fichiers n'est actuellement pas autorisé. Veuillez d'abord l'activer dans la page de gestion.",
             "fileAccessFirefox": "Désolé, cette fonctionnalité n'est pas prise en charge dans Firefox"

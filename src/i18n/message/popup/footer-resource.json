@@ -38,7 +38,8 @@
     "es": {
         "updateVersion": "Actualizable",
         "updateVersionInfo": "Última versión: {version}",
-        "updateVersionInfo4Firefox": "Actualiza a la versión {version} en la página de administración de complementos, about:addons, por favor"
+        "updateVersionInfo4Firefox": "Actualiza a la versión {version} en la página de administración de complementos, about:addons, por favor",
+        "rate": "Puntúalo"
     },
     "de": {
         "updateVersion": "Aktualisierbar",

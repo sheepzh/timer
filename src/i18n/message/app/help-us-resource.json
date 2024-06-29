@@ -75,5 +75,15 @@
             "l4": "Lorsque la progression de la traduction d'une langue atteindra 50 %, j'envisagerai de la soutenir dans cette extension."
         },
         "contributors": "Liste des contributeurs"
+    },
+    "ja": {
+        "button": "Crowdin に移動",
+        "loading": "翻訳の進捗を確認しています...",
+        "contributors": "貢献者一覧"
+    },
+    "pt_PT": {
+        "button": "Vá Crowdin",
+        "loading": "A verificar o progresso da tradução...",
+        "contributors": "Lista de colaboradores"
     }
 }
