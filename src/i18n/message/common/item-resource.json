@@ -142,5 +142,23 @@
             "analysis": "Analyse",
             "importOtherData": "Aus anderen Erweiterungen importieren"
         }
+    },
+    "fr": {
+        "date": "Date",
+        "host": "URL du site",
+        "focus": "Temps de navigation",
+        "time": "Visites sur site",
+        "operation": {
+            "label": "Opérations",
+            "add2Whitelist": "Whitelist",
+            "removeFromWhitelist": "Activer",
+            "deleteConfirmMsgAll": "Tous les enregistrements de {url} seront supprimés !",
+            "deleteConfirmMsgRange": "Tous les enregistrements de {url} entre {start} et {end} seront supprimés !",
+            "deleteConfirmMsg": "L'enregistrement de {url} sur {date} sera supprimé !",
+            "exportWholeData": "Exporter les données",
+            "importWholeData": "Importer Données",
+            "analysis": "Analyse",
+            "importOtherData": "Importer depuis d'autres extensions"
+        }
     }
 }

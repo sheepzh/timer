@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -10,7 +10,8 @@ export const ANALYSIS_ROUTE = '/data/analysis'
 export const OPTION_ROUTE = '/additional/option'
 
 /**
- * Use in the app page and background script
+ * Use on the app page and background script
+ *
  * @since 0.2.2
  */
 export const LIMIT_ROUTE = '/behavior/limit'

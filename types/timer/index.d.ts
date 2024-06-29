@@ -23,6 +23,8 @@ declare namespace timer {
         | 'es'
         // @since 2.2.7
         | 'de'
+        // @since 2.3.6
+        | 'fr'
 
     /**
      * @since 0.8.0
@@ -38,7 +40,6 @@ declare namespace timer {
         | 'ko'
         | 'pl'
         | 'ru'
-        | 'fr'
         | 'it'
         | 'sv'
         | 'fi'

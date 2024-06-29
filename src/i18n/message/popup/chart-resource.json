@@ -142,5 +142,23 @@
             "thisMonth": "Die Daten dieses Monats",
             "last30Days": "Daten der letzten 30 Tage"
         }
+    },
+    "fr": {
+        "mergeHostLabel": "Fusionner les sites",
+        "fileName": "Liste Web_Time_List_{today}_par_{app}",
+        "saveAsImageTitle": "Capture d'écran",
+        "restoreTitle": "Restaurer",
+        "options": "Options",
+        "totalTime": "{totalTime} au total",
+        "totalCount": "{totalCount} fois au total",
+        "averageCount": "{value} fois par jour en moyenne",
+        "averageTime": "{value} fois par jour en moyenne",
+        "otherLabel": "{count} autres sites",
+        "title": {
+            "today": "Les données d'aujourd'hui",
+            "thisWeek": "Les données de cette semaine",
+            "thisMonth": "Les données de ce mois",
+            "last30Days": "Les données de ces 30 derniers jours"
+        }
     }
 }

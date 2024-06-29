@@ -278,5 +278,40 @@
             "fileNotSelected": "Datei nicht ausgewählt",
             "conflictNotSelected": "Konfliktlösung nicht ausgewählt"
         }
+    },
+    "fr": {
+        "totalMemoryAlert": "Le navigateur fournit {size}Mo pour stocker des données locales pour chaque extension",
+        "totalMemoryAlert1": "Impossible de déterminer la mémoire maximale disponible autorisée par le navigateur",
+        "usedMemoryAlert": "{size}Mo sont actuellement utilisés",
+        "operationAlert": "Vous pouvez supprimer ces données sans importance afin de réduire l'utilisation de la mémoire",
+        "filterItems": "Filtrer les données",
+        "filterFocus": "Le temps de navigation de la journée est compris entre {start} secondes et {end} secondes",
+        "filterTime": "Le nombre de visites du jour se situe entre {start} et {end}",
+        "filterDate": "Enregistré entre {picker}",
+        "unlimited": "∞",
+        "paramError": "Le paramètre est incorrect, veuillez vérifier!",
+        "deleteConfirm": "Un total de {count} enregistrements a été filtré. Souhaitez-vous tous les supprimer ?",
+        "migrationAlert": "Migrer les données entre les navigateurs à l'aide de l'importation et de l'exportation",
+        "importError": "Mauvaise extension de fichier",
+        "dateShortcut": {
+            "tillYesterday": "Jusqu'hier",
+            "till7DaysAgo": "Jusqu'à 7 jours",
+            "till30DaysAgo": "Jusqu'à 30 jours"
+        },
+        "importOther": {
+            "step1": "Sélectionner les données",
+            "step2": "Valider les données",
+            "dataSource": "Source de données",
+            "file": "Fichier de données",
+            "selectFileBtn": "Sélectionner",
+            "conflictType": "Résolution des conflits",
+            "conflictTip": "Que faire si les données importées sont en conflit avec les données locales",
+            "overwrite": "Écraser",
+            "accumulate": "Accumuler",
+            "imported": "Importé",
+            "local": "Local",
+            "fileNotSelected": "Aucun fichier sélectionné",
+            "conflictNotSelected": "Aucune résolution de conflit sélectionnée"
+        }
     }
 }

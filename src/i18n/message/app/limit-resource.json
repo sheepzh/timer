@@ -377,5 +377,54 @@
             "url": "URL konfigurieren",
             "rule": "Konfiguration Regel"
         }
+    },
+    "fr": {
+        "conditionFilter": "URL",
+        "filterDisabled": "Activé uniquement",
+        "useWildcard": "Utiliser des caractères génériques",
+        "urlPlaceholder": "Veuillez entrer l'URL que vous voulez restreindre et cliquez sur le bouton Analyser",
+        "item": {
+            "condition": "URL restreinte",
+            "time": "Limite quotidienne",
+            "waste": "Consulté aujourd'hui",
+            "enabled": "Activé",
+            "delayAllowed": "Plus de 5 minutes",
+            "delayAllowedInfo": "Si le délai est écoulé, autorisez un délai temporaire de 5 minutes",
+            "operation": "Opérations",
+            "visitTime": "Limite par visite",
+            "period": "Périodes bloquées",
+            "name": "Nom de règle",
+            "detail": "Détail des règles",
+            "effectiveDay": "Effectif le"
+        },
+        "button": {
+            "test": "Test URL",
+            "option": "Options",
+            "parseUrl": "Parse URL"
+        },
+        "message": {
+            "noUrl": "Aucune URL de restriction configurée",
+            "deleteConfirm": "Voulez-vous supprimer la règle de {cond}?",
+            "inputTestUrl": "Veuillez entrer le lien URL à tester en premier",
+            "clickTestButton": "Après l'entrée, cliquez sur le bouton ({buttonText})",
+            "noRuleMatched": "L'URL ne correspond à aucune règle",
+            "rulesMatched": "L'URL atteint les règles suivantes :",
+            "noRule": "Aucune règle remplie"
+        },
+        "verification": {
+            "inputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez entrer la réponse à l'invite suivante : {prompt}",
+            "inputTip2": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez la saisir telle quelle : {answer}",
+            "pswInputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez saisir votre mot de passe de déverrouillage",
+            "incorrectPsw": "Mot de passe incorrect",
+            "incorrectAnswer": "Réponse incorrecte",
+            "pi": "{digitCount} chiffres de {startIndex} à {endIndex} de la partie décimale de π",
+            "confession": "Le temps, c'est de l'argent",
+            "strictTip": "La règle de limite a déjà été déclenchée et le déverrouillage manuel n'est pas autorisé !"
+        },
+        "step": {
+            "base": "Informations de base",
+            "url": "URL de configuration",
+            "rule": "Règle de configuration"
+        }
     }
 }

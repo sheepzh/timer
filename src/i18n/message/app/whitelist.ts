@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -14,7 +14,6 @@ export type WhitelistMessage = {
     infoAlertTitle: string
     infoAlert0: string
     infoAlert1: string
-    placeholder: string
     errorInput: string
 }
 

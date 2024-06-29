@@ -42,3 +42,4 @@ type CrowdinLanguage =
     | 'uk'
     | 'es-ES'
     | 'de'
+    | 'fr'

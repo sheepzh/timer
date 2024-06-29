@@ -182,5 +182,28 @@
                 "percentage": "Prozentsatz"
             }
         }
+    },
+    "fr": {
+        "mergeDate": "Fusionner les Dates",
+        "mergeDomain": "Fusionner l'URL",
+        "hostPlaceholder": "URL partielle, puis entrer",
+        "exportFileName": "Mon_heure_de_navigation",
+        "batchDelete": {
+            "buttonText": "Suppression par lot",
+            "noSelectedMsg": "Veuillez d'abord sélectionner la ligne que vous souhaitez supprimer dans le tableau",
+            "confirmMsg": "{count} enregistrements pour des sites comme {example} le {date} seront supprimés !",
+            "confirmMsgAll": "{count} enregistrements pour des sites comme {example} seront supprimés !",
+            "confirmMsgRange": "{count} enregistrements pour des sites comme {example} entre {start} et {end} seront supprimés !"
+        },
+        "remoteReading": {
+            "on": "Lecture des données sauvegardées à distance",
+            "off": "Cliquez pour lire les données sauvegardées à distance",
+            "table": {
+                "client": "Nom du client",
+                "localData": "Données locales",
+                "value": "Valeur",
+                "percentage": "Pourcentage"
+            }
+        }
     }
 }

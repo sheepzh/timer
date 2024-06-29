@@ -22,6 +22,7 @@ const _default: { [locale in FakedLocale]: any } = {
     uk: compile(messages.uk),
     es: compile(messages.es),
     de: compile(messages.de),
+    fr: compile(messages.fr),
 }
 
 export default _default

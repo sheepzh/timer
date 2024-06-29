@@ -4,9 +4,6 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import type { Ref } from "vue"
-
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import processor from "@src/common/backup/processor"
@@ -180,7 +177,7 @@ const _default = defineComponent((_props, ctx) => {
                 style={{ width: "400px" }}
                 onInput={val => auth.value = val?.trim?.() || ''}
                 v-slots={{
-                    append: () => <ElButton onClick={handleTest}>{t(msg => msg.option.backup.test)}</ElButton>
+                    append: () => <ElButton onClick={handleTest}>{t(msg => msg.button.test)}</ElButton>
                 }}
             />
         </OptionItem>

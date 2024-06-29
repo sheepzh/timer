@@ -230,5 +230,34 @@
             "countTotal": "Gesamtzahl der Besuche/Websites",
             "siteAverage": "Durchschnittliche Besuche auf {value} Websites pro Tag"
         }
+    },
+    "fr": {
+        "common": {
+            "focusAverage": "{value} par jour en moyenne"
+        },
+        "period": {
+            "title": "Habitude des périodes de temps",
+            "busiest": "Période de la journée la plus chargée",
+            "idle": "La plus longue période d'inactivité",
+            "yAxisMin": "Temps / minute de navigation",
+            "yAxisHour": "Temps / heure de navigation",
+            "averageLabel": "Moyenne quotidienne",
+            "sizes": {
+                "fifteen": "Par tranche de 15 minutes",
+                "halfHour": "Par demi-heure",
+                "hour": "Par heure",
+                "twoHour": "Par tranche de deux heures"
+            }
+        },
+        "site": {
+            "title": "Habitude des sites web",
+            "focusPieTitle": "Pourcentage de temps de navigation",
+            "visitPieTitle": "Pourcentage des visites",
+            "otherLabel": "{count} autres sites",
+            "histogramTitle": "Top {n} des plus visités",
+            "exclusiveToday": "Les données d'aujourd'hui ne sont pas incluses dans la moyenne",
+            "countTotal": "Nombre total de visites/sites",
+            "siteAverage": "Une moyenne de {value} visites de site internet quotidienne"
+        }
     }
 }

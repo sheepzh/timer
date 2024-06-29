@@ -5,7 +5,6 @@
         "onlyDetected": "只看自动抓取",
         "deleteConfirmMsg": "{host} 的名称设置将会被删除",
         "column": {
-            "host": "网站域名",
             "type": "网站类型",
             "alias": "网站名称",
             "aliasInfo": "网站名称会在报表以及今日数据（需要在扩展选项里设置）里展示，方便您快速识别域名",
@@ -48,7 +47,6 @@
         "onlyDetected": "隻看自動抓取",
         "deleteConfirmMsg": "{host} 的將會被刪除",
         "column": {
-            "host": "網站域名",
             "type": "網站類型",
             "alias": "網站名稱",
             "aliasInfo": "網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域",
@@ -91,7 +89,6 @@
         "onlyDetected": "Only detected",
         "deleteConfirmMsg": "{host} will be deleted",
         "column": {
-            "host": "Site URL",
             "type": "Site Type",
             "alias": "Site Name",
             "aliasInfo": "The site name will be shown on the record page and the popup page",
@@ -134,7 +131,6 @@
         "onlyDetected": "検出されただけ",
         "deleteConfirmMsg": "{host} は削除されます",
         "column": {
-            "host": "サイトのURL",
             "alias": "サイト名",
             "aliasInfo": "サイト名はレコードページとポップアップページに表示されます",
             "source": "ソース",
@@ -177,7 +173,6 @@
         "onlyDetected": "Apenas detetado",
         "deleteConfirmMsg": "{host} será excluído",
         "column": {
-            "host": "URL do Site",
             "alias": "Nome do Site",
             "aliasInfo": "O nome do site será mostrado na página de registro e na página pop-up",
             "source": "Nome Fonte",
@@ -220,7 +215,6 @@
         "onlyDetected": "Лише виявлені",
         "deleteConfirmMsg": "{host} буде видалено",
         "column": {
-            "host": "URL-адреса сайту",
             "alias": "Назва сайту",
             "aliasInfo": "Назву сайту буде показано на сторінці записів і в спливному вікні",
             "source": "Джерело назви",
@@ -263,7 +257,6 @@
         "onlyDetected": "Solo detectados",
         "deleteConfirmMsg": "Se eliminará {host}",
         "column": {
-            "host": "URL del sitio",
             "alias": "Nombre del sitio",
             "aliasInfo": "El nombre del sitio se mostrará en la página de registro y en la página emergente",
             "source": "Fuente del nombre",
@@ -306,7 +299,6 @@
         "onlyDetected": "Nur erkannt",
         "deleteConfirmMsg": "{host} wird gelöscht",
         "column": {
-            "host": "Seiten-URL",
             "alias": "Site-Name",
             "aliasInfo": "Der Name der Website wird auf der Datensatzseite und der Popup-Seite angezeigt",
             "source": "Die Quelle des Namens",
@@ -340,6 +332,48 @@
             "virtual": {
                 "name": "virtuell",
                 "info": "Wenn Sie eine beliebige URL im Ant-Pattern-Format zählen, können Sie in der oberen rechten Ecke eine benutzerdefinierte Site hinzufügen"
+            }
+        }
+    },
+    "fr": {
+        "hostPlaceholder": "URL partielle, appuyez sur Entrée",
+        "aliasPlaceholder": "Nom partiel, appuyez sur Entrée",
+        "onlyDetected": "Seulement si détecté",
+        "deleteConfirmMsg": "{host} sera supprimé",
+        "column": {
+            "alias": "Nom du site",
+            "aliasInfo": "Le nom du site sera affiché sur la page d'enregistrement et la page contextuelle",
+            "source": "Source du nom",
+            "type": "Type de Site",
+            "icon": "Icône"
+        },
+        "source": {
+            "user": "utilisateur",
+            "detected": "détecté"
+        },
+        "form": {
+            "emptyAlias": "Veuillez entrer le nom du site",
+            "emptyHost": "Veuillez saisir l'URL du site"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existe",
+            "saved": "Enregistré",
+            "existedTag": "EXISÉ",
+            "mergedTag": "FUSIONNÉ",
+            "virtualTag": "VIRTUEL"
+        },
+        "type": {
+            "normal": {
+                "name": "normal",
+                "info": "statistiques par nom de domaine"
+            },
+            "merged": {
+                "name": "fusionné",
+                "info": "fusionner les statistiques de plusieurs noms de domaine connexes, et les règles de fusion peuvent être personnalisées"
+            },
+            "virtual": {
+                "name": "virtuel",
+                "info": "comptez n'importe quelle URL au format Ant Pattern, vous pouvez ajouter un site personnalisé dans le coin supérieur droit"
             }
         }
     }

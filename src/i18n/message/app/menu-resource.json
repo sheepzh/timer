@@ -143,5 +143,23 @@
         "siteAnalysis": "Analysebericht",
         "limit": "Zeitlimit",
         "about": "Über uns"
+    },
+    "fr": {
+        "dashboard": "Tableau de bord",
+        "data": "Mes données",
+        "dataReport": "Enregistrement",
+        "dataClear": "Situation de la mémoire",
+        "behavior": "Comportement de l'utilisateur",
+        "habit": "Habitudes",
+        "additional": "Fonctionnalités supplémentaires",
+        "siteManage": "Gestion des sites",
+        "whitelist": "Whitelist",
+        "mergeRule": "Fusionner les règles du site",
+        "other": "Autres fonctionnalités",
+        "option": "Options",
+        "helpUs": "Aider à la traduction",
+        "siteAnalysis": "Analyse du site",
+        "limit": "Limite de temps",
+        "about": "À propos"
     }
 }

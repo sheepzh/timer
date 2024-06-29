@@ -46,5 +46,11 @@
         "thisWeek": "Aktuelle Woche",
         "thisMonth": "Dieser Monat",
         "last30Days": "Letzte 30 Tage"
+    },
+    "fr": {
+        "today": "Jours",
+        "thisWeek": "Cette semaine",
+        "thisMonth": "Ce mois-ci",
+        "last30Days": "Ces 30 derniers jours"
     }
 }

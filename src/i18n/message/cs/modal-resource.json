@@ -34,5 +34,11 @@
         "more5Minutes": "Ще 5 хвилин",
         "browsingTime": "Час перегляду",
         "ruleDetail": "Подробиці правила"
+    },
+    "fr": {
+        "defaultPrompt": "Cette page a été bloquée !",
+        "more5Minutes": "Plus de 5 minutes",
+        "browsingTime": "Temps de navigation",
+        "ruleDetail": "Détail des règles"
     }
 }

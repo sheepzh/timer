@@ -12,6 +12,7 @@ const LOCALES: { [locale in timer.Locale]: () => Promise<{ default: Language }> 
     uk: () => import('element-plus/lib/locale/lang/uk'),
     es: () => import('element-plus/lib/locale/lang/es'),
     de: () => import('element-plus/lib/locale/lang/de'),
+    fr: () => import('element-plus/lib/locale/lang/fr'),
 }
 
 let EL_LOCALE: Language = null

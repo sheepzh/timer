@@ -54,5 +54,12 @@
         "optionPage": "Optionen",
         "repoPage": "Quellcode",
         "feedbackPage": "Issues"
+    },
+    "fr": {
+        "add2Whitelist": "Ajouter {host} à la liste blanche",
+        "removeFromWhitelist": "Supprimer {host} de la liste blanche",
+        "optionPage": "Options",
+        "repoPage": "Code Source",
+        "feedbackPage": "Problèmes"
     }
 }

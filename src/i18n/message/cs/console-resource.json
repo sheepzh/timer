@@ -54,5 +54,12 @@
         "timeWithHour": "{hour} Stunden {minute} Minuten {second} Sekunden",
         "timeWithMinute": "{minute} Minuten {second} Sekunden",
         "timeWithSecond": "{seconds} Sekunde(n)"
+    },
+    "fr": {
+        "consoleLog": "Vous avez ouvert {host} pendant {time} fois et vous l'avez parcouru pendant {focus} aujourd'hui.",
+        "closeAlert": "Vous pouvez désactiver les conseils ci-dessus dans l'option [{appName}] !",
+        "timeWithHour": "{heure} heures {minute} minutes {seconde} secondes",
+        "timeWithMinute": "{minute} minutes {seconde} secondes",
+        "timeWithSecond": "{second} seconds"
     }
 }

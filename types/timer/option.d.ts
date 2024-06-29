@@ -12,7 +12,7 @@ declare namespace timer.option {
      */
     type PopupOption = {
         /**
-         * The max count of today's data to display in popup page
+         * The max count of today's data to display on popup page
          */
         popupMax: number
         /**

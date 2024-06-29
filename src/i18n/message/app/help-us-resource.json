@@ -63,5 +63,17 @@
             "l4": "Wenn der Übersetzungsfortschritt einer Sprache 50% erreicht, werde ich die Unterstützung in dieser Erweiterung erwägen."
         },
         "contributors": "Mitwirkende"
+    },
+    "fr": {
+        "title": "N'hésitez pas à aider à améliorer la traduction de l'extension !",
+        "button": "Allez sur Crowdin",
+        "loading": "Vérification de la progression de la traduction...",
+        "alert": {
+            "l1": "En raison des compétences linguistiques de l'auteur, l'extension ne prend en charge que le chinois simplifié et l'anglais en mode natif, les autres langues étant soit absentes, soit fortement tributaires de la traduction automatique.",
+            "l2": "Afin de fournir une meilleure expérience d'utilisateur, j'héberge les tâches de traduction pour d'autres langues sur Crowdin. rowdin est un système de gestion de la traduction gratuit pour les logiciels open source.",
+            "l3": "Si vous trouvez cette extension utile pour vous et que vous êtes prêt à améliorer sa traduction, ou peut cliquer sur le bouton ci-dessous pour aller à la page d'accueil du projet sur Crowdin.",
+            "l4": "Lorsque la progression de la traduction d'une langue atteindra 50 %, j'envisagerai de la soutenir dans cette extension."
+        },
+        "contributors": "Liste des contributeurs"
     }
 }

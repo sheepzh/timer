@@ -13,7 +13,6 @@ export type SiteManageMessage = {
     onlyDetected: string
     deleteConfirmMsg: string
     column: {
-        host: string
         type: string
         alias: string
         aliasInfo: string

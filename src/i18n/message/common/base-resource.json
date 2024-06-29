@@ -38,5 +38,10 @@
         "allFunction": "Alle Funktionen",
         "guidePage": "Benutzerhandbuch",
         "changeLog": "Änderungsprotokoll"
+    },
+    "fr": {
+        "allFunction": "Toutes les fonctions",
+        "guidePage": "Manuel d'utilisateur",
+        "changeLog": "Historique des changements"
     }
 }

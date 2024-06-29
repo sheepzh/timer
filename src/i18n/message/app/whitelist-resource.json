@@ -6,7 +6,6 @@
         "infoAlertTitle": "你可以在这里配置网站白名单",
         "infoAlert0": "白名单内网站的上网时长和打开次数不会被统计",
         "infoAlert1": "白名单内网站的上网时间也不会被限制",
-        "placeholder": "域名",
         "errorInput": "域名格式错误"
     },
     "zh_TW": {
@@ -16,17 +15,15 @@
         "infoAlertTitle": "你可以在這裡配置網站白名單",
         "infoAlert0": "白名單內網站的上網時長和打開次數不會被統計",
         "infoAlert1": "白名單內網站的上網時間也不會被限製",
-        "placeholder": "網域",
         "errorInput": "網域格式錯誤"
     },
     "en": {
         "addConfirmMsg": "{url} won't be counted after added into the whitelist any more.",
         "removeConfirmMsg": "{url} will be removed from the whitelist.",
         "duplicateMsg": "Duplicated",
-        "infoAlertTitle": "You can set a whitelist of sites in this page",
+        "infoAlertTitle": "You can whitelist sites on this page",
         "infoAlert0": "Whitelisted sites will not be counted",
         "infoAlert1": "Whitelisted sites will not be restricted",
-        "placeholder": "Site URL",
         "errorInput": "Invalid site URL"
     },
     "ja": {
@@ -36,7 +33,6 @@
         "infoAlertTitle": "このページでサイトのホワイトリストを設定できます",
         "infoAlert0": "ホワイトリストのサイトはカウントされません。",
         "infoAlert1": "ホワイトリストのサイトは制限されません。",
-        "placeholder": "URL",
         "errorInput": "無効なURL"
     },
     "pt_PT": {
@@ -46,7 +42,6 @@
         "infoAlertTitle": "Você pode definir uma lista de sites ignorados nesta página",
         "infoAlert0": "Sites na lista ignorada não serão contados",
         "infoAlert1": "Sites na lista ignorada não serão restritos",
-        "placeholder": "URL do Site",
         "errorInput": "URL inválido do site"
     },
     "uk": {
@@ -56,7 +51,6 @@
         "infoAlertTitle": "На цій сторінці ви можете налаштувати білий список сайтів",
         "infoAlert0": "Сайти в білому списку не враховуватимуться",
         "infoAlert1": "Сайти в білому списку не матимуть обмежень",
-        "placeholder": "URL-адреса сайту",
         "errorInput": "Неприпустима URL-адреса сайту"
     },
     "es": {
@@ -66,7 +60,6 @@
         "infoAlertTitle": "Puedes configurar una lista blanca de sitios en esta página",
         "infoAlert0": "Los sitios en la lista blanca no serán contados",
         "infoAlert1": "Los sitios en la lista blanca no serán restringidos",
-        "placeholder": "URL del sitio",
         "errorInput": "URL del sitio inválida"
     },
     "de": {
@@ -76,7 +69,15 @@
         "infoAlertTitle": "Sie können eine Whitelist vonseiten auf dieser Seite festlegen",
         "infoAlert0": "Websites auf der Whitelist werden nicht gezählt",
         "infoAlert1": "Websites auf der Whitelist werden nicht eingeschränkt",
-        "placeholder": "Seiten-URL",
         "errorInput": "Ungültige Seiten-URL"
+    },
+    "fr": {
+        "addConfirmMsg": "{url} ne sera plus compté après avoir été ajouté à la liste blanche.",
+        "removeConfirmMsg": "{url} sera supprimé de la liste blanche.",
+        "duplicateMsg": "Doublon",
+        "infoAlertTitle": "Vous pouvez ajouter des sites à la liste blanche sur cette page",
+        "infoAlert0": "Les sites sur liste blanche ne seront pas comptés",
+        "infoAlert1": "Les sites sur liste blanche ne seront pas restreints",
+        "errorInput": "URL du site invalide"
     }
 }

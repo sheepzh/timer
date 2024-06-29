@@ -184,5 +184,28 @@
             "increase": "erhöht",
             "decline": "verringert"
         }
+    },
+    "fr": {
+        "heatMap": {
+            "title0": "Plus de {hour} heures parcourues au cours de l'année dernière",
+            "title1": "Parcouru moins d'une heure l'année dernière"
+        },
+        "topK": {
+            "title": "Top {k} des sites les plus visités les {day} derniers jours"
+        },
+        "indicator": {
+            "installedDays": "Installé depuis {number} jours",
+            "visitCount": "{site} visité {visit} fois",
+            "browsingTime": "Parcouru pendant {minute} minutes",
+            "mostUse": "Navigation favorite entre {start} et {end}"
+        },
+        "weekOnWeek": {
+            "title": "Top {k} du changement hebdomadaire de temps de navigation hebdomadaire",
+            "lastBrowse": "Parcouru {time} la semaine dernière",
+            "thisBrowse": "Parcouru {time} cette semaine",
+            "wow": "{delta} {state}",
+            "increase": "en hausse",
+            "decline": "en diminution"
+        }
     }
 }

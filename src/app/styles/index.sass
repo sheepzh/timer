@@ -64,10 +64,18 @@ a
     align-items: center
     user-select: none
     .el-card__body
-        padding-bottom: 10px
-        padding-top: 18px
-        margin-bottom: 10px
         display: flex
+        flex-wrap: wrap
+        padding-top: 20px
+        padding-bottom: 10px
+        >*
+            margin-bottom: 10px
+        .el-input
+            min-width: 180px
+        .el-select
+            min-width: 180px
+        .el-date-editor.el-input__wrapper
+            width: 280px
 
 .filter-name
     margin-right: 4px

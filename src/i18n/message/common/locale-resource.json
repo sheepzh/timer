@@ -31,6 +31,10 @@
         "name": "Deutsch",
         "comma": ", "
     },
+    "fr": {
+        "name": "Français",
+        "comma": ", "
+    },
     "pl": {
         "name": "Polski"
     },
@@ -39,9 +43,6 @@
     },
     "ru": {
         "name": "Русский"
-    },
-    "fr": {
-        "name": "Français"
     },
     "it": {
         "name": "italiano"

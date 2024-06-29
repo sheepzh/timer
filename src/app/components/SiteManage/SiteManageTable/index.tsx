@@ -39,7 +39,7 @@ const _default = defineComponent({
             fit
         >
             <ElTableColumn
-                label={t(msg => msg.siteManage.column.host)}
+                label={t(msg => msg.item.host)}
                 minWidth={120}
                 align="center"
                 v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => <HostAlert host={row.host} clickable={false} />}

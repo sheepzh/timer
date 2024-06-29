@@ -4,7 +4,6 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
 import resource from './option-resource.json'
 
 export type OptionMessage = {
@@ -89,7 +88,6 @@ export type OptionMessage = {
             }
         }
         alert: string
-        test: string
         operation: string
         clientTable: {
             selectTip: string

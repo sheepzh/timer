@@ -16,27 +16,32 @@
     },
     "en": {
         "name": "Time Tracker",
-        "marketName": "Time Tracker",
+        "marketName": "Time Tracker - Web Habit Builder",
         "description": "Track, analyze, control, then improve efficiency"
     },
     "pt_PT": {
         "name": "Rastreador de Tempo",
         "marketName": "Rastreador de Tempo",
-        "description": "Ser o MELHOR rastreador de tempo da web"
+        "description": "Acompanhe, analise, controle e melhore a eficiência"
     },
     "uk": {
         "name": "Веб-трекер часу",
         "marketName": "Веб-трекер часу",
-        "description": "Бути КРАЩИМ веб-трекером часу"
+        "description": "Відстежуйте, аналізуйте, контролюйте, а потім підвищуйте ефективність"
     },
     "es": {
         "name": "Rastreador de tiempo web",
         "marketName": "Rastreador de tiempo web",
-        "description": "Ser el MEJOR rastreador de tiempo web"
+        "description": "Realice un seguimiento, analice, controle y luego mejore la eficiencia"
     },
     "de": {
         "name": "Zeiterfassung",
         "marketName": "Zeiterfassung",
-        "description": "Das beste Web-Zeiterfassungstool zu sein"
+        "description": "Verfolgen, analysieren, kontrollieren und dann die Effizienz verbessern"
+    },
+    "fr": {
+        "name": "Suivi du temps Web",
+        "marketName": "Suivi du temps Web - Online Habit Formers",
+        "description": "Suivre, analyser, contrôler, puis améliorer l’efficacité"
     }
 }

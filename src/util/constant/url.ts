@@ -81,15 +81,11 @@ const UNINSTALL_QUESTIONNAIRE_EN = 'https://docs.google.com/forms/d/e/1FAIpQLSfl
 /**
  * @since 0.9.6
  */
-export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.Locale]: string } = {
+export const UNINSTALL_QUESTIONNAIRE: { [locale in timer.RequiredLocale]: string } & { [locale in timer.OptionalLocale]?: string } = {
     zh_CN: 'https://www.wjx.cn/vj/YDgY9Yz.aspx',
     zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdK93q-548dK-2naoS3DaArdc7tEGoUY9JQvaXP5Kpov8h6-A/viewform?usp=sf_link',
     ja: 'https://docs.google.com/forms/d/e/1FAIpQLSdsB3onZuleNf6j7KJJLbcote647WV6yeUr-9m7Db5QXakfpg/viewform?usp=sf_link',
     en: UNINSTALL_QUESTIONNAIRE_EN,
-    pt_PT: UNINSTALL_QUESTIONNAIRE_EN,
-    uk: UNINSTALL_QUESTIONNAIRE_EN,
-    es: UNINSTALL_QUESTIONNAIRE_EN,
-    de: UNINSTALL_QUESTIONNAIRE_EN,
 }
 
 /**
@@ -101,7 +97,7 @@ let updatePage = SOURCE_CODE_PAGE
 if (IS_CHROME) {
     updatePage = `chrome://extensions/?id=${getRuntimeId()}`
 } else if (IS_EDGE) {
-    // In the management page with developing-mode open
+    // on the management page with developing-mode open
     updatePage = 'edge://extensions'
 }
 

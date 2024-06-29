@@ -65,6 +65,12 @@ const messages: Required<Messages<ChromeMessage>> = {
         base: baseMessages.de,
         contextMenus: contextMenusMessages.de,
         initial: initialMessages.de,
+    },
+    fr: {
+        meta: metaMessages.fr,
+        base: baseMessages.fr,
+        contextMenus: contextMenusMessages.fr,
+        initial: initialMessages.fr,
     }
 }
 

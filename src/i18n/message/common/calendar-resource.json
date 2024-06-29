@@ -177,5 +177,28 @@
         },
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}/{m} {h}:{i}"
+    },
+    "fr": {
+        "weekDays": "Lun|Mar|Mer|Jeu|Ven|Sam|Dim",
+        "months": "Jan|Fév|Mar|Avr|Mai|Juin|Jul|Août|Sep|Oct|Nov|Déc",
+        "dateFormat": "{d}/{m}/{y}",
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "label": {
+            "startDate": "Date de début",
+            "endDate": "Date de fin"
+        },
+        "range": {
+            "today": "Aujourd'hui",
+            "yesterday": "Hier",
+            "last24Hours": "Les dernières 24 Heures",
+            "last3Days": "Les 3 derniers jours",
+            "last7Days": "Les 7 derniers jours",
+            "last15Days": "Les 15 derniers jours",
+            "last30Days": "Les 30 derniers jours",
+            "last60Days": "Les 60 derniers jours",
+            "last90Days": "Les 90 derniers jours",
+            "everyday": "Tous les jours"
+        },
+        "simpleTimeFormat": "{d}/{m} {h}:{i}"
     }
 }

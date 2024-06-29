@@ -121,5 +121,23 @@
             "rate": "Classifique com 5 estrelas para ajudar os outros a saber~~",
             "feedback": "Além disso, seja bem-vindo para enviar os seus comentários e solicitações de recursos!!"
         }
+    },
+    "fr": {
+        "label": {
+            "name": "Nom",
+            "version": "Version actuelle",
+            "website": "Site Officiel",
+            "sourceCode": "Code Source",
+            "installation": "Page d'installation",
+            "thanks": "Merci à",
+            "privacy": "Déclaration de confidentialité",
+            "license": "Licence open source",
+            "support": "Soutien"
+        },
+        "text": {
+            "greet": "Aimez-vous cette extension ?",
+            "rate": "Donnez-lui 5 étoiles pour aider les autres à le savoir ~~",
+            "feedback": "Aussi, bienvenue pour soumettre vos commentaires et demandes de fonctionnalités !!"
+        }
     }
 }

@@ -54,7 +54,7 @@ const _default = defineComponent({
                 class="input-new-tag editable-item whitelist-item-input"
                 modelValue={white.value}
                 onChange={setWhite}
-                placeholder={t(msg => msg.whitelist.placeholder)}
+                placeholder={t(msg => msg.item.host)}
                 clearable
                 onClear={() => setWhite()}
                 filterable

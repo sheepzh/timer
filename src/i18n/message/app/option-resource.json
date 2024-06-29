@@ -92,7 +92,6 @@
                 }
             },
             "alert": "这是一项实验性功能，如果有任何问题请联系作者~ ({email})",
-            "test": "测试",
             "lastTimeTip": "上次备份时间: {lastTime}",
             "operation": "备份数据",
             "download": {
@@ -211,7 +210,6 @@
                 }
             },
             "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
-            "test": "測試",
             "operation": "備份數據",
             "lastTimeTip": "上次備份時間: {lastTime}",
             "auto": {
@@ -292,7 +290,7 @@
             "collectSiteName": "{input}  Whether to automatically collect {siteName} {siteNameUsage} when visiting the site homepage",
             "siteName": "the site name",
             "siteNameUsage": "The data is only stored locally and will be displayed instead of the URL to increase the recognition.Of course, you can also customize the name of each site.",
-            "fileAccessDisabled": "Access to file URLs is currently not allowed. Please enable it in the manage page first",
+            "fileAccessDisabled": "Access to file URLs is currently not allowed. Please enable it on the manage page first",
             "fileAccessFirefox": "Sorry, this feature is not supported in Firefox"
         },
         "dailyLimit": {
@@ -332,7 +330,6 @@
                 }
             },
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
-            "test": "Test",
             "operation": "Backup",
             "download": {
                 "btn": "Download",
@@ -451,7 +448,6 @@
                 }
             },
             "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
-            "test": "テスト",
             "operation": "バックアップ",
             "lastTimeTip": "前回のバックアップ時間: {lastTime}",
             "auto": {
@@ -572,7 +568,6 @@
                     "pathLabel": "O caminho do diretório {input}"
                 }
             },
-            "test": "Testar",
             "operation": "Backup",
             "auto": {
                 "label": "Se deseja ativar o backup automático",
@@ -672,7 +667,6 @@
                     "pathLabel": "Шлях каталогу {input}"
                 }
             },
-            "test": "Тест",
             "operation": "Зробити резервну копію",
             "auto": {
                 "label": "Увімкнути автоматичне резервне копіювання",
@@ -792,7 +786,6 @@
                     "pathLabel": "La ruta del directorio {input}"
                 }
             },
-            "test": "Probar",
             "operation": "Copia de seguridad",
             "auto": {
                 "label": "Activar la copia de seguridad automática",
@@ -909,7 +902,6 @@
                     "pathLabel": "Der Pfad des Verzeichnisses {input}"
                 }
             },
-            "test": "Testen",
             "operation": "Backup",
             "auto": {
                 "label": "Automatische Sicherung aktivieren",
@@ -951,6 +943,126 @@
                 "strictTitle": "Operation bestätigen",
                 "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
             }
+        }
+    },
+    "fr": {
+        "yes": "Oui",
+        "no": "Non",
+        "resetButton": "Réinitialiser",
+        "resetSuccess": "Remise à zéro avec succès !",
+        "defaultValue": "Par défaut : {default}",
+        "popup": {
+            "title": "Page pop-up",
+            "max": "Afficher les {input} premiers éléments de données",
+            "defaultMergeDomain": "{input} S'il faut fusionner les sous-domaines à l'ouverture",
+            "defaultDisplay": "Afficher {duration} {type} à l'ouverture",
+            "displaySiteName": "{input} S'il faut afficher {siteName} au lieu de l'URL",
+            "weekStart": "Le premier jour de chaque semaine {input}",
+            "weekStartAsNormal": "Comme d'habitude"
+        },
+        "appearance": {
+            "title": "Apparence",
+            "displayWhitelist": "{input} S'il faut afficher là {whitelist} dans {contextMenu}",
+            "whitelistItem": "whitelist related shortcuts",
+            "contextMenu": "le menu contextuel.",
+            "displayBadgeText": "{input} S'il faut afficher là {timeInfo} dans {icon}",
+            "icon": "l'icône de l'extension",
+            "badgeTextContent": "le temps de navigation du site actuel",
+            "locale": {
+                "label": "Langue {input}",
+                "default": "Suivre le navigateur",
+                "changeConfirm": "La langue a été modifiée avec succès, veuillez recharger cette page !",
+                "reloadButton": "Redémarrer"
+            },
+            "printInConsole": {
+                "label": "{input} S'il faut imprimer {info} dans là {console}",
+                "console": "console",
+                "info": "le nombre de visites du site actuel aujourd'hui"
+            },
+            "darkMode": {
+                "label": "Mode sombre {input}",
+                "options": {
+                    "default": "Suivre le navigateur",
+                    "on": "Toujours On",
+                    "off": "Toujours éteint",
+                    "timed": "Horaire"
+                }
+            },
+            "badgeBgColor": "La couleur de fond du texte sur l'icône {input}"
+        },
+        "statistics": {
+            "title": "Statistiques",
+            "countWhenIdle": "{input} S'il faut compter {idleTime} {info}",
+            "idleTime": "temps d'inactivité",
+            "idleTimeInfo": "Si vous n'utilisez pas pendant une longue période (comme regarder une vidéo en plein écran), le navigateur entrera automatiquement en état d'inactivité",
+            "countLocalFiles": "{input} S'il faut compter le temps jusqu'à {localFileTime} {info} dans le navigateur",
+            "localFileTime": "lire un fichier local",
+            "localFilesInfo": "Prend en charge les fichiers de types tels que PDF, image, txt et json.",
+            "collectSiteName": "{input} S'il faut collecter automatiquement {siteName} {siteNameUsage} lors de la visite de la page d'accueil du site",
+            "siteName": "le nom du site.",
+            "siteNameUsage": "Les données sont uniquement stockées localement et seront affichées à la place de l'URL pour augmenter la reconnaissance. Bien entendu, vous pouvez également personnaliser le nom de chaque site.",
+            "fileAccessDisabled": "L'accès aux URL des fichiers n'est actuellement pas autorisé. Veuillez d'abord l'activer dans la page de gestion.",
+            "fileAccessFirefox": "Désolé, cette fonctionnalité n'est pas prise en charge dans Firefox"
+        },
+        "backup": {
+            "title": "Sauvegarde des données",
+            "type": "Type distant {input}",
+            "client": "Nom du client {input}",
+            "meta": {
+                "none": {
+                    "label": "Toujours éteint"
+                },
+                "gist": {
+                    "authInfo": "Un jeton avec au moins une permission de gist est requis"
+                },
+                "obsidian_local_rest_api": {
+                    "endpointLabel": "Adresse de fin {info} {input}",
+                    "endpointInfo": "Seul HTTP est disponible car il n'est pas possible de configurer CORS pour les pages d'extensions",
+                    "pathLabel": "Le chemin du répertoire {input}"
+                }
+            },
+            "operation": "Sauvegarder",
+            "auto": {
+                "label": "Activer la sauvegarde automatique",
+                "interval": "et exécuter toutes les {input} minutes"
+            },
+            "lastTimeTip": "Dernière sauvegarde : {lastTime}",
+            "alert": "Ceci est une fonctionnalité expérimentale, si vous avez des questions, veuillez contacter l'auteur via {email}~",
+            "download": {
+                "btn": "Télécharger",
+                "step2": "Confirmer les données",
+                "willDownload": "À télécharger",
+                "confirmTip": "{size} éléments de données de [{clientName}] seront téléchargés"
+            },
+            "clear": {
+                "btn": "Effacer",
+                "confirmTip": "Les données {rowCount} pour les sites {hostCount} suivis par [{clientName}] seront supprimées !"
+            },
+            "clientTable": {
+                "selectTip": "Sélectionnez le client",
+                "dataRange": "Plage de données",
+                "notSelected": "Client non sélectionné",
+                "current": "Courant"
+            }
+        },
+        "dailyLimit": {
+            "level": {
+                "label": "Comment déverrouiller en étant restreint {input}",
+                "nothing": "Autoriser le déverrouillage direct sur la page d'administration",
+                "password": "Vous devez entrer le mot de passe pour déverrouiller",
+                "verification": "Vous devez entrer le code de vérification pour déverrouiller",
+                "passwordLabel": "Déverrouiller le mot de passe {input}",
+                "verificationLabel": "La difficulté du code de vérification {input}",
+                "verificationDifficulty": {
+                    "easy": "Étapes",
+                    "hard": "Strict",
+                    "disgusting": "Dégoûtant"
+                },
+                "strict": "Ne pas autoriser le déblocage quand même",
+                "strictTitle": "Confirmation de l'opération",
+                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !"
+            },
+            "prompt": "Invite affichée en cas de restriction {input}"
         }
     }
 }

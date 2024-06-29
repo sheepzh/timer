@@ -26,6 +26,7 @@ const ALL_LOCALE_VALIDATOR: { [locale in timer.Locale]: 0 } = {
     uk: 0,
     es: 0,
     de: 0,
+    fr: 0,
 }
 
 export const ALL_LOCALES: timer.Locale[] = Object.keys(ALL_LOCALE_VALIDATOR) as timer.Locale[]
@@ -44,13 +45,13 @@ const chrome2I18n: { [key: string]: timer.Locale } = {
     'pt-PT': 'pt_PT',
     'pt-BR': 'pt_PT',
     'de': 'de',
+    'fr': 'fr',
 }
 
 const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
     ko: 'ko',
     pl: 'pl',
     ru: 'ru',
-    fr: 'fr',
     it: 'it',
     sv: 'sv',
     fi: 'fi',
@@ -70,7 +71,7 @@ const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
  * Codes returned by getUILanguage() are defined by Chrome browser
  * @see https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc
  * But supported locale codes in Chrome extension
- * @see https://developer.chrome.com/docs/webstore/i18n/#localeTable
+ * @see https://developer.chrome.com/docs/extensions/reference/api/i18n#locales
  *
  * They are different, so translate
  */

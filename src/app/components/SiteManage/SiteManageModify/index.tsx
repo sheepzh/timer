@@ -114,7 +114,7 @@ const _default = defineComponent({
             onClose={close}
             v-slots={{
                 default: () => <ElForm model={formData} rules={formRule} ref={form}>
-                    <ElFormItem prop="key" label={t(msg => msg.siteManage.column.host)}>
+                    <ElFormItem prop="key" label={t(msg => msg.item.host)}>
                         <HostSelect modelValue={formData.key} onChange={val => formData.key = val} />
                     </ElFormItem>
                     <ElFormItem prop="alias" label={t(msg => msg.siteManage.column.alias)}>

@@ -23,8 +23,11 @@
     margin: 22px 10px 10px 10px
     font-size: 14px
     .option-line
+        display: flex
+        align-items: center
+        justify-content: space-between
+        gap: 10px
         height: 30px
-        line-height: 30px
         .el-input--small
             height: 28px
             .el-input__wrapper
@@ -67,8 +70,8 @@
                 color: #F56C6C
                 margin: 0 3px
         .option-default
+            display: flex
             color: var(--el-text-color-primary)
-            float: right
             .el-tag
                 height: 20px
 .option-container>span

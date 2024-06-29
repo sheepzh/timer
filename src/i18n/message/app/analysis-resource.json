@@ -213,5 +213,32 @@
             "focusTitle": "Durchsuchen von Zeittrends",
             "visitTitle": "Besuchen Sie Trends"
         }
+    },
+    "fr": {
+        "common": {
+            "focusTotal": "Temps total de navigation",
+            "visitTotal": "Nombre total de visites",
+            "merged": "Fusionné",
+            "virtual": "Virtuel",
+            "hostPlaceholder": "Chercher un site à analyser",
+            "emptyDesc": "Aucun site sélectionné"
+        },
+        "summary": {
+            "title": "Bilan général",
+            "day": "Nombre total de jours actifs",
+            "firstDay": "Première visite {value}",
+            "calendarTitle": "Activité des dernières semaines"
+        },
+        "trend": {
+            "title": "Tendances",
+            "activeDay": "Jours actifs",
+            "totalDay": "Période de temps",
+            "maxFocus": "Temps de navigation maximum quotidien",
+            "averageFocus": "Durée moyenne de navigation quotidienne",
+            "maxVisit": "Visites maximales quotidiennes",
+            "averageVisit": "Visites moyennes quotidiennes",
+            "focusTitle": "Tendances sur le temps de navigation",
+            "visitTitle": "Tendances de visite"
+        }
     }
 }

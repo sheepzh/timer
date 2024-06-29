@@ -36,7 +36,7 @@
         "errorOrigin": "The format of original site is invalid.",
         "duplicateMsg": "The rule already exists: {origin}",
         "addConfirmMsg": "Customized merge rules will be set for {origin}",
-        "infoAlertTitle": "You can set the merge rules when counting sites on this page",
+        "infoAlertTitle": "the merge rules when counting sites on this page",
         "infoAlert0": "Click the [New One] button, the input boxes of the source site and the merge site will be displayed, fill in and save the rule",
         "infoAlert1": "The original site can be filled with a specific site or regular expression, such as www.baidu.com, *.baidu.com, *.google.com.*, to determine which sites will match this rule while merging",
         "infoAlert2": "The merged site can be filled with a specific site, a number or blank",
@@ -118,5 +118,20 @@
         "infoAlert3": "Eine Zahl gibt die Ebene der zusammengeführten Website an. Gibt es beispielsweise eine Regel „*.*.edu.cn >>> 3“, dann wird „www.hust.edu.cn“ als „hust.edu.cn“ zusammengeführt",
         "infoAlert4": "Leer bedeutet, dass die ursprüngliche Website nicht zusammengeführt wird",
         "infoAlert5": "Wenn keine Regel zutrifft, wird standardmäßig die Ebene vor {psl} verwendet"
+    },
+    "fr": {
+        "removeConfirmMsg": "{origin} sera supprimé des règles de fusion personnalisées.",
+        "originPlaceholder": "Site original",
+        "mergedPlaceholder": "Fusionné",
+        "errorOrigin": "Le format du site original est invalide.",
+        "duplicateMsg": "La règle existe déjà : {origin}",
+        "addConfirmMsg": "Les règles de fusion personnalisées seront définies pour {origin}",
+        "infoAlertTitle": "Vous pouvez définir les règles de fusion lorsque vous comptez des sites sur cette page",
+        "infoAlert0": "Cliquez sur le bouton [Nouveau], les boîtes de saisie du site source et le site de fusion sera affiché, remplissez et enregistrez la règle",
+        "infoAlert1": "Le site d'origine peut être rempli avec un site spécifique ou une expression régulière, telle que www.baidu.com, *.baidu.com, *.google.com.*, pour déterminer quels sites correspondront à cette règle lors de la fusion.",
+        "infoAlert2": "Le site fusionné peut être rempli avec un site spécifique, un numéro ou vide",
+        "infoAlert3": "Un nombre signifie le niveau du site fusionné. Par exemple, il existe une règle '*.*.edu.cn >>> 3', alors 'www.hust.edu.cn' sera fusionné avec 'hust.edu.cn'",
+        "infoAlert4": "Vide signifie que le site d'origine ne sera pas fusionné",
+        "infoAlert5": "Si aucune règle ne correspond, le niveau par défaut sera celui d'avant {psl}."
     }
 }

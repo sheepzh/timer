@@ -46,6 +46,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     uk: 400,
     es: 360,
     de: 370,
+    fr: 330,
 }
 const _default = defineComponent({
     emits: {

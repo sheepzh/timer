@@ -110,5 +110,19 @@
         "dont": "NEIN!",
         "previous": "Vorherige",
         "next": "Nächste"
+    },
+    "fr": {
+        "create": "Nouveau",
+        "delete": "Supprimer",
+        "modify": "Modifier",
+        "save": "Sauvegarder",
+        "test": "Test",
+        "paste": "Coller",
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "okey": "OK",
+        "dont": "NON!",
+        "previous": "Retour",
+        "next": "Suivant"
     }
 }

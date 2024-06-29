@@ -2,7 +2,7 @@
     "en": {
         "updateVersion": "Updatable",
         "updateVersionInfo": "Latest: {version}",
-        "updateVersionInfo4Firefox": "Upgrade to {version} in the management page, about:addons, pls",
+        "updateVersionInfo4Firefox": "Upgrade to {version} on the management page, about:addons, pls",
         "rate": "Rate It"
     },
     "zh_CN": {
@@ -45,5 +45,11 @@
         "updateVersionInfo": "Neueste: {version}",
         "updateVersionInfo4Firefox": "Bitte aktualisieren Sie auf der Verwaltungsseite about:addons auf {version}",
         "rate": "Bewerte es"
+    },
+    "fr": {
+        "updateVersion": "Actualisable",
+        "updateVersionInfo": "Dernière version : {version}",
+        "updateVersionInfo4Firefox": "Mettez à niveau vers là {version} dans la page de gestion, about:addons, s'il vous plaît",
+        "rate": "Donnez votre avis"
     }
 }

@@ -46,5 +46,11 @@
             "blank": "Nicht zusammenführen",
             "level": "Level behalten {level}"
         }
+    },
+    "fr": {
+        "tagResult": {
+            "blank": "Non Fusionner",
+            "level": "Garder le niveau {level}"
+        }
     }
 }

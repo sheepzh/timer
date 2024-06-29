@@ -46,5 +46,11 @@
         "hour": "Anzeige in Stunden",
         "minute": "Anzeige in Minuten",
         "second": "Anzeige in Sekunden"
+    },
+    "fr": {
+        "default": "Format d'heure par défaut",
+        "hour": "Afficher en heures",
+        "minute": "Afficher en minutes",
+        "second": "Afficher en secondes"
     }
 }
