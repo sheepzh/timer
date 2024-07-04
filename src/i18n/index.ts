@@ -46,6 +46,8 @@ const chrome2I18n: { [key: string]: timer.Locale } = {
     'pt-BR': 'pt_PT',
     'de': 'de',
     'fr': 'fr',
+    'fr-CA': 'fr',
+    'fr-CH': 'fr',
 }
 
 const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
@@ -69,7 +71,7 @@ const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
 
 /**
  * Codes returned by getUILanguage() are defined by Chrome browser
- * @see https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc
+ * @see https://github.com/unicode-cldr/cldr-localenames-modern/blob/master/main/en/languages.json
  * But supported locale codes in Chrome extension
  * @see https://developer.chrome.com/docs/extensions/reference/api/i18n#locales
  *
