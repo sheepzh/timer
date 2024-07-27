@@ -1,5 +1,7 @@
 import { getWeekDay } from "./time"
 
+export const DELAY_MILL = 5 * 60 * 1000
+
 export function matches(item: timer.limit.Item, url: string): boolean {
     return item?.cond?.some?.(
         c => new RegExp(`^${(c || '').split('*').join('.*')}`).test(url)
@@ -7,9 +9,9 @@ export function matches(item: timer.limit.Item, url: string): boolean {
 }
 
 export function hasLimited(item: timer.limit.Item): boolean {
-    const { time, waste = 0 } = item || {}
+    const { time, waste = 0, delayCount = 0 } = item || {}
     if (!time) return false
-    return waste >= time * 1000
+    return waste >= time * 1000 + delayCount * DELAY_MILL
 }
 
 export function skipToday(item: timer.limit.Item): boolean {

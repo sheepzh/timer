@@ -27,9 +27,10 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
         .filter(item => !id || id === item?.id)
-        .map(({ latestDate, wasteTime, ...others }) => ({
+        .map(({ latestDate, wasteTime, delay: { count: dc, date: dd } = {}, ...others }) => ({
             ...others,
             waste: latestDate === today ? (wasteTime ?? 0) : 0,
+            delayCount: dd === today ? (dc ?? 0) : 0,
         } satisfies timer.limit.Item))
         // If use url, then test it
         .filter(item => !url || matches(item, url))
@@ -104,19 +105,13 @@ async function addFocusTime(url: string, focusTime: number) {
 /**
  * @returns Rules to wake
  */
-async function moreMinutes(url: string, rules?: timer.limit.Item[]): Promise<timer.limit.Item[]> {
-    if (rules === undefined || rules === null) {
-        rules = (await select({ url: url, filterDisabled: true }))
-            .filter(item => hasLimited(item) && item.allowDelay)
-    }
+async function moreMinutes(url: string): Promise<timer.limit.Item[]> {
+    const rules = (await select({ url: url, filterDisabled: true }))
+        .filter(item => hasLimited(item) && item.allowDelay)
+    rules.forEach(rule => rule.delayCount = (rule.delayCount ?? 0) + 1)
+
     const date = formatTime(new Date(), DATE_FORMAT)
-    const toUpdate: { [id: number]: number } = {}
-    rules.forEach(rule => {
-        const { id, waste } = rule
-        const updatedWaste = (waste || 0) - 5 * 60 * 1000
-        rule.waste = toUpdate[id] = Math.max(updatedWaste, 0)
-    })
-    await db.updateWaste(date, toUpdate)
+    await db.updateDelayCount(date, rules)
     return rules.filter(r => !hasLimited(r))
 }
 

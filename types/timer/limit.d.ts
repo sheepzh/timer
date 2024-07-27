@@ -15,7 +15,13 @@ declare namespace timer.limit {
         /**
          * Waste today, milliseconds
          */
-        waste?: number
+        waste: number
+        /**
+         * Number of delays today
+         *
+         * @since 2.6.7
+         */
+        delayCount: number
     }
     type Rule = {
         /**
@@ -60,6 +66,13 @@ declare namespace timer.limit {
          * Time wasted in the latest record date
          */
         wasteTime: number
+        /**
+         * Click count of more time
+         */
+        delay?: {
+            date: string
+            count: number
+        }
     }
     /**
      * @since 1.9.0

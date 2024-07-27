@@ -30,7 +30,7 @@ const ICON_STYLE: StyleValue = {
 
 const _default = defineComponent({
     emits: {
-        rowChange: (_row: timer.limit.Rule, _val: boolean) => true,
+        rowChange: (_row: timer.limit.Item, _val: boolean) => true,
     },
     setup(_, ctx) {
         return () => (

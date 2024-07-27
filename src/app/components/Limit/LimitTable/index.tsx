@@ -59,6 +59,22 @@ const renderDetail = (row: timer.limit.Item) => {
     </div>
 }
 
+const renderToday = (row: timer.limit.Item) => {
+    const { waste, delayCount, allowDelay } = row
+    return <div style={{ display: 'flex', flexDirection: 'column', gap: "4px" }}>
+        <div>
+            {formatPeriodCommon(waste)}
+        </div>
+        {(!!allowDelay || !!delayCount) && (
+            <div>
+                <ElTag size="small" type={delayCount ? 'danger' : 'info'}>
+                    {t(msg => msg.limit.item.delayCount)}: {delayCount ?? 0}
+                </ElTag>
+            </div>
+        )}
+    </div>
+}
+
 const _default = defineComponent({
     props: {
         data: Array as PropType<timer.limit.Item[]>
@@ -103,8 +119,10 @@ const _default = defineComponent({
                     label={t(msg => msg.limit.item.waste)}
                     minWidth={110}
                     align="center"
-                    formatter={({ waste }: timer.limit.Item) => formatPeriodCommon(waste)}
-                />
+                // formatter={({ waste }: timer.limit.Item) => formatPeriodCommon(waste)}
+                >
+                    {({ row }: ElTableRowScope<timer.limit.Item>) => renderToday(row)}
+                </ElTableColumn>
                 <LimitDelayColumn onRowChange={row => ctx.emit("delayChange", row)} />
                 <LimitEnabledColumn onRowChange={row => ctx.emit("enabledChange", row)} />
                 <LimitOperationColumn

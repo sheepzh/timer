@@ -56,6 +56,16 @@ type ItemValue = {
      * Effective days
      */
     wd?: number[]
+    /**
+     * Delay date
+     * @since 2.6.7
+     */
+    dd?: string
+    /**
+     * Delay count
+     * @since 2.6.7
+     */
+    dc?: number
 }
 
 type Items = Record<number, ItemValue>
@@ -103,7 +113,7 @@ class LimitDatabase extends BaseDatabase {
 
     async all(): Promise<timer.limit.Record[]> {
         const items = await this.getItems()
-        return Object.values(items).map(({ i, n, c, t, v, p, e, ad, w, d, wd }) => ({
+        return Object.values(items).map(({ i, n, c, t, v, p, e, ad, w, d, wd, dd, dc }) => ({
             id: i,
             name: n,
             cond: c,
@@ -115,6 +125,7 @@ class LimitDatabase extends BaseDatabase {
             wasteTime: w,
             latestDate: d,
             weekdays: wd,
+            delay: { count: dc, date: dd }
         }))
     }
 
@@ -143,7 +154,7 @@ class LimitDatabase extends BaseDatabase {
     async remove(id: number): Promise<void> {
         const items = await this.getItems()
         delete items[id]
-        this.update(items)
+        await this.update(items)
     }
 
     async updateWaste(date: string, toUpdate: { [id: number]: number }): Promise<void> {
@@ -154,7 +165,18 @@ class LimitDatabase extends BaseDatabase {
             entry.d = date
             entry.w = waste
         })
-        this.update(items)
+        await this.update(items)
+    }
+
+    async updateDelayCount(date: string, toUpdate: timer.limit.Item[]): Promise<void> {
+        const items = await this.getItems()
+        toUpdate?.forEach(({ id, delayCount }) => {
+            const entry = items[id]
+            if (!entry) return
+            entry.dc = delayCount
+            entry.dd = date
+        })
+        await this.update(items)
     }
 
     async updateDelay(id: number, allowDelay: boolean) {

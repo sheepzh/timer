@@ -1,6 +1,7 @@
 import TrackerClient from "@src/background/timer/client"
 import { ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
+import { DELAY_MILL } from "@util/limit"
 
 class VisitProcessor implements Processor {
 
@@ -8,6 +9,7 @@ class VisitProcessor implements Processor {
     private focusTime: number = 0
     private rules: timer.limit.Rule[]
     private tracker: TrackerClient
+    private delayCount: number = 0
 
     constructor(context: ModalContext) {
         this.context = context
@@ -23,20 +25,26 @@ class VisitProcessor implements Processor {
         return { code: "ignore" }
     }
 
+    hasLimited(rule: timer.limit.Rule): boolean {
+        const { visitTime } = rule || {}
+        if (!visitTime) return false
+        return visitTime * 1000 + this.delayCount * DELAY_MILL < this.focusTime
+    }
+
     async handleTracker(data: timer.stat.Event) {
         const diff = (data?.end ?? 0) - (data?.start ?? 0)
         this.focusTime += diff
-        this.rules?.forEach?.(({ id, visitTime, cond, allowDelay }) => {
-            if (!visitTime) return
-            if (visitTime * 1000 < this.focusTime) {
-                this.context.modal.addReason({
-                    id,
-                    cond,
-                    type: "VISIT",
-                    allowDelay,
-                    getVisitTime: () => this.focusTime,
-                })
-            }
+        this.rules?.forEach?.(rule => {
+            if (!this.hasLimited(rule)) return
+            const { id, cond, allowDelay } = rule
+            this.context.modal.addReason({
+                id,
+                cond,
+                type: "VISIT",
+                allowDelay,
+                delayCount: this.delayCount,
+                getVisitTime: () => this.focusTime,
+            })
         })
     }
 
@@ -53,7 +61,7 @@ class VisitProcessor implements Processor {
     }
 
     private processMore5Minutes() {
-        this.focusTime = Math.max(0, this.focusTime - 5 * 60 * 1000)
+        this.delayCount = (this.delayCount ?? 0) + 1
         this.context.modal.removeReasonsByType("VISIT")
     }
 }

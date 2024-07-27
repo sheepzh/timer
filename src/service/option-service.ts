@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -77,6 +77,7 @@ async function isDarkMode(targetVal?: timer.option.AppearanceOption): Promise<bo
     const option = targetVal || await getAllOption()
     const darkMode = option.darkMode
     if (darkMode === "default") {
+        if (typeof window === 'undefined') return false
         return !!window.matchMedia('(prefers-color-scheme: dark)')?.matches
     } else if (darkMode === "on") {
         return true

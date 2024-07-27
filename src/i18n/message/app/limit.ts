@@ -28,6 +28,7 @@ export type LimitMessage = {
         delayAllowed: string
         delayAllowedInfo: string
         waste: string
+        delayCount: string
         detail: string
         operation: string
     }

@@ -29,6 +29,11 @@ const _default = defineComponent(() => {
                         <ElDescriptionsItem label={t(msg => msg.limit.item.time)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.time * 1000) || '-'}
                         </ElDescriptionsItem>
+                        {(!!reason.value?.allowDelay || !!reason.value?.delayCount) && (
+                            <ElDescriptionsItem label={t(msg => msg.limit.item.delayCount)} labelAlign="right">
+                                {rule.value?.delayCount ?? 0}
+                            </ElDescriptionsItem>
+                        )}
                         <ElDescriptionsItem label={t(msg => msg.limit.item.waste)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.waste) || '-'}
                         </ElDescriptionsItem>
@@ -39,6 +44,11 @@ const _default = defineComponent(() => {
                         <ElDescriptionsItem label={t(msg => msg.limit.item.visitTime)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.visitTime * 1000) || '-'}
                         </ElDescriptionsItem>
+                        {(!!reason.value?.allowDelay || !!reason.value?.delayCount) && (
+                            <ElDescriptionsItem label={t(msg => msg.limit.item.delayCount)} labelAlign="right">
+                                {reason.value?.delayCount ?? 0}
+                            </ElDescriptionsItem>
+                        )}
                         <ElDescriptionsItem label={t(msg => msg.modal.browsingTime)} labelAlign="right">
                             {browsingTime.value ? formatPeriodCommon(browsingTime.value) : '-'}
                         </ElDescriptionsItem>

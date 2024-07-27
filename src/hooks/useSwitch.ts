@@ -1,7 +1,16 @@
 import { Ref, ref } from "vue"
 
-export const useSwitch = (defaultValue?: boolean):
-    [ref: Ref<boolean>, open: () => void, close: () => void] => {
+type Result = [
+    ref: Ref<boolean>,
+    open: () => void,
+    close: () => void,
+    toggle: () => void,
+]
+
+export const useSwitch = (defaultValue?: boolean): Result => {
     const value = ref(defaultValue || false)
-    return [value, () => value.value = true, () => value.value = false]
+    const open = () => value.value = true
+    const close = () => value.value = false
+    const toggle = () => value.value ? close() : open()
+    return [value, open, close, toggle]
 }

@@ -2,6 +2,11 @@ import { hasLimited, matches } from "@util/limit"
 import { LimitReason, ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 
+const cvtItem2Reason = (item: timer.limit.Item): LimitReason => {
+    const { cond, allowDelay, id, delayCount } = item
+    return { type: "DAILY", cond, allowDelay, id, delayCount }
+}
+
 class DailyProcessor implements Processor {
     private context: ModalContext
 
@@ -16,24 +21,18 @@ class DailyProcessor implements Processor {
                 return { code: "fail" }
             }
             items.filter(item => matches(item, this.context.url))
-                .forEach(({ cond, allowDelay, id }) => {
-                    const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
-                    this.context.modal.addReason(reason)
-                })
+                .map(cvtItem2Reason)
+                .forEach(reason => this.context.modal.addReason(reason))
             return { code: "success" }
         } else if (code === "limitChanged") {
             this.context.modal.removeReasonsByType("DAILY")
             items?.filter?.(i => hasLimited(i))
-                ?.forEach(({ cond, allowDelay, id }) => {
-                    const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
-                    this.context.modal.addReason(reason)
-                })
+                ?.map(cvtItem2Reason)
+                ?.forEach(reason => this.context.modal.addReason(reason))
             return { code: "success" }
         } else if (code === "limitWaking") {
-            items?.forEach(({ cond, allowDelay, id }) => {
-                const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
-                this.context.modal.removeReason(reason)
-            })
+            items?.map(cvtItem2Reason)
+                ?.forEach(reason => this.context.modal.removeReason(reason))
             return { code: "success" }
         }
         return { code: "ignore" }
@@ -43,8 +42,8 @@ class DailyProcessor implements Processor {
         const limitedRules: timer.limit.Item[] = await sendMsg2Runtime('cs.getLimitedRules', this.context.url)
         if (!limitedRules?.length) return
 
-        limitedRules?.forEach(({ cond, allowDelay, id }) => {
-            const reason: LimitReason = { type: "DAILY", cond, allowDelay, id }
+        limitedRules?.forEach(({ cond, allowDelay, id, delayCount }) => {
+            const reason: LimitReason = { type: "DAILY", cond, allowDelay, id, delayCount }
             this.context.modal.addReason(reason)
         })
     }
