@@ -39,8 +39,13 @@ class DailyProcessor implements Processor {
     }
 
     async init(): Promise<void> {
+        this.initRules?.()
+        this.context.modal?.addDelayHandler(() => this.initRules())
+    }
+
+    async initRules(): Promise<void> {
+        this.context.modal?.removeReasonsByType?.('DAILY')
         const limitedRules: timer.limit.Item[] = await sendMsg2Runtime('cs.getLimitedRules', this.context.url)
-        if (!limitedRules?.length) return
 
         limitedRules?.forEach(({ cond, allowDelay, id, delayCount }) => {
             const reason: LimitReason = { type: "DAILY", cond, allowDelay, id, delayCount }

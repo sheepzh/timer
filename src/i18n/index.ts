@@ -112,7 +112,7 @@ function handleLocaleOption(option: timer.option.AllOption) {
     } else {
         locale = localOption as timer.Locale
     }
-    if (window?.document) {
+    if (typeof window !== 'undefined' && window?.document) {
         const htmlEl = document.getElementsByTagName("html")?.[0]
         htmlEl?.setAttribute?.("data-locale", locale)
     }
