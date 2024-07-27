@@ -1,14 +1,12 @@
 import { t } from "@app/locale"
-import { ElIcon, ElTableColumn, ElTag, TagProps, ElTooltip } from "element-plus"
-import { InfoFilled } from "@element-plus/icons-vue"
+import { ElTableColumn, ElTag, TagProps } from "element-plus"
 import { defineComponent } from "vue"
 import { SiteManageMessage } from "@i18n/message/app/site-manage"
 import { ElTableRowScope } from "@src/element-ui/table"
+import ColumnHeader from "@app/components/common/ColumnHeader"
 
 type Type = keyof SiteManageMessage['type']
 const ALL_TYPES: Type[] = ['normal', 'merged', 'virtual']
-
-const label = t(msg => msg.siteManage.column.type)
 
 function computeText({ merged, virtual }: timer.site.SiteInfo): string {
     let type: Type = undefined
@@ -32,41 +30,28 @@ function computeType({ merged, virtual }: timer.site.SiteInfo): TagProps["type"]
     }
 }
 
-const header = () => (
-    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', alignItems: 'center' }}>
-        <span>{label}</span>
-        <ElTooltip
-            placement="top"
-            v-slots={{
-                content: () => ALL_TYPES
-                    .map(type => `${t(msg => msg.siteManage.type[type].name)} - ${t(msg => msg.siteManage.type[type].info)}`)
-                    .reduce((a, b) => {
-                        a.length && a.push(<br />)
-                        a.push(b)
-                        return a
-                    }, []),
-                default: () => (
-                    <div style={{ display: 'flex' }}>
-                        <ElIcon size={11}><InfoFilled /></ElIcon>
-                    </div>
-                )
-            }}
-        />
-    </div>
-)
-
 const _default = defineComponent(() => {
     return () => <ElTableColumn
         minWidth={60}
         align="center"
         v-slots={{
-            header,
-            default: ({ row }: ElTableRowScope<timer.site.SiteInfo>) => <ElTag
-                size="small"
-                type={computeType(row)}
-            >
-                {computeText(row)}
-            </ElTag>
+            header: () => <ColumnHeader
+                label={t(msg => msg.siteManage.column.type)}
+                v-slots={{
+                    tooltipContent: () => ALL_TYPES
+                        .map(type => `${t(msg => msg.siteManage.type[type].name)} - ${t(msg => msg.siteManage.type[type].info)}`)
+                        .reduce((a, b) => {
+                            a.length && a.push(<br />)
+                            a.push(b)
+                            return a
+                        }, []),
+                }}
+            />,
+            default: ({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
+                <ElTag size="small" type={computeType(row)}>
+                    {computeText(row)}
+                </ElTag>
+            )
         }}
     />
 })
