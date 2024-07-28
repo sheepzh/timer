@@ -39,18 +39,18 @@
         "label": {
             "name": "擴充名稱",
             "version": "目前版本",
-            "website": "官網",
+            "website": "官方網站",
             "sourceCode": "原始碼",
-            "installation": "安裝位址",
+            "installation": "安裝頁面",
             "thanks": "致謝",
             "privacy": "隱私權聲明",
             "license": "開源許可證",
             "support": "支援"
         },
         "text": {
-            "greet": "你喜歡這個擴充嗎？",
-            "rate": "給它評分5星，以幫助其他人了解它~~",
-            "feedback": "另外，歡迎提交您的回饋和功能請求！"
+            "greet": "你喜歡這個擴充功能嗎？",
+            "rate": "給5星吧，讓更多人了解它~~",
+            "feedback": "另外，請隨時提交您的回饋和功能請求！"
         }
     },
     "uk": {

@@ -65,7 +65,8 @@
             "period": "受限時段",
             "name": "規則名稱",
             "detail": "規則詳情",
-            "effectiveDay": "生效日期"
+            "effectiveDay": "生效日期",
+            "delayCount": "延遲次數"
         },
         "button": {
             "test": "網址測試",
@@ -165,7 +166,8 @@
             "period": "許可されない期間",
             "name": "規則名",
             "detail": "規則明細",
-            "effectiveDay": "発効日"
+            "effectiveDay": "発効日",
+            "delayCount": "遅延回数"
         },
         "button": {
             "test": "テストURL",
@@ -215,7 +217,8 @@
             "period": "Períodos não permitidos",
             "name": "Nome da regra",
             "detail": "Detalhe da regra",
-            "effectiveDay": "Efetivo ativado"
+            "effectiveDay": "Efetivo ativado",
+            "delayCount": "Contagem de atraso"
         },
         "button": {
             "test": "Testar URL",
@@ -264,7 +267,8 @@
             "period": "Недозволені періоди",
             "name": "Назва правила",
             "detail": "Подробиці правила",
-            "effectiveDay": "Діє"
+            "effectiveDay": "Діє",
+            "delayCount": "Кількість затримок"
         },
         "button": {
             "test": "Тестова URL-адреса",
@@ -313,7 +317,8 @@
             "period": "Periodos no permitidos",
             "name": "Nombre de la regla",
             "detail": "Detalle de la regla",
-            "effectiveDay": "En vigor él"
+            "effectiveDay": "En vigor él",
+            "delayCount": "Contagem de atraso"
         },
         "button": {
             "test": "Probar URL",
@@ -363,7 +368,8 @@
             "period": "Unzulässiger Zeitraum",
             "name": "Regelname",
             "detail": "Regeldetail",
-            "effectiveDay": "Wirksam auf"
+            "effectiveDay": "Wirksam auf",
+            "delayCount": "Anzahl der Verspätungen"
         },
         "button": {
             "test": "Test-URL",
@@ -413,7 +419,8 @@
             "period": "Périodes bloquées",
             "name": "Nom de règle",
             "detail": "Détail des règles",
-            "effectiveDay": "Effectif le"
+            "effectiveDay": "Effectif le",
+            "delayCount": "Nombre de retards"
         },
         "button": {
             "test": "Test URL",

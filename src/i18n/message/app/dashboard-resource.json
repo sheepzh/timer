@@ -24,8 +24,8 @@
     },
     "zh_TW": {
         "heatMap": {
-            "title0": "近一年上網總時長超過 {hour} 小時",
-            "title1": "近一年上網總時長不足 1 小時",
+            "title0": "近一年瀏覽時間超過 {hour} 小時",
+            "title1": "近一年瀏覽時間不到 1 小時",
             "tooltip0": "{year}/{month}/{day} 瀏覽網頁 {minute} 分鐘",
             "tooltip1": "{year}/{month}/{day} 瀏覽網頁 {hour} 小時 {minute} 分鐘"
         },
@@ -39,7 +39,7 @@
             "mostUse": "最喜歡在 {start} 點至 {end} 點之間上網"
         },
         "weekOnWeek": {
-            "title": "近一周瀏覽時長環比變化 TOP {k}",
+            "title": "瀏覽時間週環比變化 TOP {k}",
             "lastBrowse": "上週瀏覽 {time}",
             "thisBrowse": "本週瀏覽 {time}",
             "wow": "環比{state} {delta}",
