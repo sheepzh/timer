@@ -13,25 +13,25 @@
         a:not(:last-child)
             margin-right: 15px
     .progress-container
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
+        display: grid
+        padding-left: 30px
+        padding-right: 30px
+        box-sizing: border-box
         width: 100%
-        min-height: 128px
+        min-height: 200px
+        grid-template-columns: repeat(3, 30%)
+        grid-column-gap: 5%
+        grid-row-gap: 30px
+        margin-bottom: 40px
         .el-progress
-            flex: 0 0 25%
-            margin-bottom: 30px
-            width: 400px
+            width: 100%
             font-size: 16px
             .el-progress__text
-                top: 35%
                 color: var(--el-text-color-regular)
-                padding-left: 15px
                 text-align: right
+                width: 70px
                 .language-name,.progress-text
                     display: block
                     font-size: 12px
                 .language-name
                     margin-top: 10px
-        .el-progress:not(:nth-child(3n))
-            margin-right: 12.5%

@@ -117,7 +117,7 @@
         },
         "resetButton": "恢复默认",
         "resetSuccess": "成功重置为默认值",
-        "defaultValue": "默认值： {default}"
+        "defaultValue": "默认值: {default}"
     },
     "zh_TW": {
         "yes": "是",

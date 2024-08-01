@@ -63,6 +63,7 @@ const _default = defineComponent(() => {
                 modelValue={tab.value}
                 type="border-card"
                 beforeLeave={handleBeforeLeave}
+                class="option-tab"
             >
                 <ElTabPane name={"appearance" as _Category} label={t(msg => msg.option.appearance.title)}>
                     <Appearance ref={paneRefMap.appearance} />

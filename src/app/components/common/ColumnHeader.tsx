@@ -13,11 +13,13 @@ const ColumnHeader = defineComponent({
                 <span>
                     {props.label}
                 </span>
-                <ElTooltip content={props.tooltipContent} placement="top"
+                <ElTooltip
+                    content={props.tooltipContent}
+                    placement="top"
                     v-slots={{
                         content: ctx.slots.tooltipContent,
                         default: () => (
-                            <div>
+                            <div style={{ display: 'inline-flex' }}>
                                 <ElIcon>
                                     <InfoFilled />
                                 </ElIcon>
