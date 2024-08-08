@@ -8,6 +8,7 @@ jobs:
             GITHUB_LOGIN: sheepzh
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
+            - uses: actions/checkout@v2
             - name: Test using Node.js
               uses: actions/setup-node@v1
               with:
@@ -18,7 +19,6 @@ jobs:
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
-            - uses: actions/checkout@v2
             - name: Commit change
               run: |
                 git config --global user.name 'sheepzh'
