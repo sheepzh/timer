@@ -154,7 +154,8 @@
             "last30Days": "Les 30 derniers jours",
             "last60Days": "Les 60 derniers jours",
             "last90Days": "Les 90 derniers jours",
-            "everyday": "Tous les jours"
+            "everyday": "Tous les jours",
+            "lastDays": "{n} derniers jours"
         },
         "simpleTimeFormat": "{d}/{m} {h}:{i}"
     }

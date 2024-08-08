@@ -116,16 +116,14 @@ const pieOptionOf = (centerX: string, data: PieSeriesOption['data']): PieSeriesO
     }
 }
 
-
-
-const BASE_LEGEND_TITLE: TitleComponentOption = {
+const baseLegendTitle = (): TitleComponentOption => ({
     textStyle: {
         fontSize: 12,
         color: getPrimaryTextColor(),
         fontWeight: 'normal',
     },
     top: '18%',
-}
+})
 
 function generateOption(bizOption: BizOption): EcOption {
     let { rows, dateRange } = bizOption || {}
@@ -164,11 +162,11 @@ function generateOption(bizOption: BizOption): EcOption {
             {
                 text: t(msg => msg.habit.site.distribution.aveVisit),
                 left: '6%',
-                ...BASE_LEGEND_TITLE,
+                ...baseLegendTitle(),
             }, {
                 text: t(msg => msg.habit.site.distribution.aveTime),
                 right: '4%',
-                ...BASE_LEGEND_TITLE,
+                ...baseLegendTitle(),
             },
         ],
         tooltip: { show: true },

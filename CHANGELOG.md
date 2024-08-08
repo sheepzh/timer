@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.4.0] - 2024-08-08
+
+-   Refactored charts on background pages
+-   Fixed some styling errors
+
 ## [2.3.7] - 2024-07-28
 
 -   Supported recording delay count after time blocking
@@ -144,13 +149,13 @@ It is worth mentioning that the release time of each change refers to the time w
 
 ## [v2.0.1] - 2023-12-04
 
--   Supported new file format for History Trends Unlimited.
+-   Supported new file format for History Trends Unlimited
 
 ## [v2.0.0] - 2023-11-13
 
--   Supported restricted period for limit rules.
--   Supported limiting the time of each visit.
--   Refactored the UI for configuring limit rules.
+-   Supported restricted period for limit rules
+-   Supported limiting the time of each visit
+-   Refactored the UI for configuring limit rules
 
 ## [v1.9.7] - 2023-10-17 [For Chrome]
 

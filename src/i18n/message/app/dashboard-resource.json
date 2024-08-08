@@ -68,6 +68,9 @@
             "visitCount": "{site} つのサイトへの合計 {visit} 回の拜訪",
             "browsingTime": "{minute} 分以上ウェブを閲覧する",
             "mostUse": "{start}:00 から {end}:00 までのお気に入りのインターネットアクセス"
+        },
+        "monthOnMonth": {
+            "title": "閲覧時間の月間推移"
         }
     },
     "pt_PT": {
@@ -83,6 +86,9 @@
             "visitCount": "Visite {site} sites {visit} vezes",
             "browsingTime": "Navegado por {minute} minutos",
             "mostUse": "Navegação favorita entre {start} e {end} horas"
+        },
+        "monthOnMonth": {
+            "title": "Tendência mês a mês do tempo de navegação"
         }
     },
     "uk": {
@@ -98,6 +104,9 @@
             "visitCount": "Відвідано {site} вебсайтів {visit} разів",
             "browsingTime": "Перегляд понад {minute} хвилин",
             "mostUse": "Улюблений перегляд між {start} і {end} годинами"
+        },
+        "monthOnMonth": {
+            "title": "Тенденція часу перегляду за місяць"
         }
     },
     "es": {
@@ -113,6 +122,9 @@
             "visitCount": "Visitó {site} sitios web {visit} veces",
             "browsingTime": "Navegó más de {minute} minutos",
             "mostUse": "Prefiere navegar entre las {start} y las {end} horas"
+        },
+        "monthOnMonth": {
+            "title": "Tendencia mes a mes del tiempo de navegación"
         }
     },
     "de": {
@@ -128,6 +140,9 @@
             "visitCount": "Besuchte {site} Websites {visit} mal",
             "browsingTime": "Durchsucht über {minute} Minuten",
             "mostUse": "Favoriten zwischen {start} und {end} Uhr"
+        },
+        "monthOnMonth": {
+            "title": "Monatlicher Trend der Browsing-Zeit"
         }
     },
     "fr": {
@@ -140,7 +155,7 @@
         },
         "indicator": {
             "installedDays": "Installé depuis {number} jours",
-            "visitCount": "{site} visité {visit} fois",
+            "visitCount": "Visité {site} sites Web {visit} fois",
             "browsingTime": "Parcouru pendant {minute} minutes",
             "mostUse": "Navigation favorite entre {start} et {end}"
         },
@@ -151,6 +166,9 @@
             "wow": "{delta} {state}",
             "increase": "en hausse",
             "decline": "en diminution"
+        },
+        "monthOnMonth": {
+            "title": "Tendance mensuelle du temps de navigation"
         }
     }
 }

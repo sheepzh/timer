@@ -47,7 +47,12 @@
             },
             "title": "不同時段的訪問習慣",
             "busiest": "每天最繁忙時段",
-            "idle": "最長空閒時段"
+            "idle": "最長空閒時段",
+            "chartType": {
+                "average": "日平均",
+                "trend": "趨勢",
+                "stack": "累計"
+            }
         },
         "common": {
             "focusAverage": "平均每天 {value}"
@@ -57,7 +62,17 @@
             "histogramTitle": "最長造訪 TOP {n}",
             "exclusiveToday": "今天的數據不計入平均值",
             "countTotal": "總計造訪次數/網站數",
-            "siteAverage": "平均每天造訪 {value} 個網站"
+            "siteAverage": "平均每天造訪 {value} 個網站",
+            "distribution": {
+                "title": "日均頻率分佈",
+                "aveTime": "日均瀏覽時間",
+                "aveVisit": "日均瀏覽次數",
+                "tooltip": "總共 {value} 個網站"
+            },
+            "trend": {
+                "title": "每日趨勢",
+                "siteCount": "網站數"
+            }
         }
     },
     "en": {
@@ -108,7 +123,12 @@
             },
             "title": "期間の習慣",
             "busiest": "一日の中で一番の時間",
-            "idle": "最も長いアイドル期間"
+            "idle": "最も長いアイドル期間",
+            "chartType": {
+                "average": "日平均",
+                "trend": "トレンド",
+                "stack": "スタック"
+            }
         },
         "common": {
             "focusAverage": "1日あたりの平均 {value}"
@@ -118,7 +138,17 @@
             "histogramTitle": "トップ {n} が最も多く訪れた",
             "exclusiveToday": "今日のデータは平均に含まれていません",
             "countTotal": "総訪問数/サイト",
-            "siteAverage": "1日あたりの平均訪問数 {value}"
+            "siteAverage": "1日あたりの平均訪問数 {value}",
+            "distribution": {
+                "title": "毎日の平均頻度分布",
+                "aveTime": "毎日の平均閲覧時間",
+                "aveVisit": "毎日の平均訪問回数",
+                "tooltip": "合計 {value} ウェブサイト数"
+            },
+            "trend": {
+                "title": "日々のトレンド",
+                "siteCount": "ウェブサイト数"
+            }
         }
     },
     "pt_PT": {
@@ -131,7 +161,12 @@
             },
             "title": "Hábito de períodos de tempo",
             "busiest": "Hora do dia da compra",
-            "idle": "Período ocioso mais longo"
+            "idle": "Período ocioso mais longo",
+            "chartType": {
+                "average": "Média diária",
+                "trend": "Tendências",
+                "stack": "Conjunto"
+            }
         },
         "common": {
             "focusAverage": "Média de {value} por dia"
@@ -141,7 +176,17 @@
             "histogramTitle": "TOP {n} mais visitados",
             "exclusiveToday": "Os dados de hoje não estão incluídos na média",
             "countTotal": "Total de visitas/sites",
-            "siteAverage": "Média de visitas a {value} sites por dia"
+            "siteAverage": "Média de visitas a {value} sites por dia",
+            "distribution": {
+                "title": "Distribuição média diária de frequência",
+                "aveTime": "Tempo médio diário de navegação",
+                "aveVisit": "Contagem média de visitas diárias",
+                "tooltip": "Total de sites de {value}"
+            },
+            "trend": {
+                "title": "Tendências diárias",
+                "siteCount": "Contagem de sites"
+            }
         }
     },
     "uk": {
@@ -154,7 +199,12 @@
             },
             "title": "Проміжки часу",
             "busiest": "Найзавантаженіший час доби",
-            "idle": "Найдовший період бездіяльності"
+            "idle": "Найдовший період бездіяльності",
+            "chartType": {
+                "average": "Середнє за день",
+                "trend": "Тенденція",
+                "stack": "Стопка"
+            }
         },
         "common": {
             "focusAverage": "В середньому {value} на день"
@@ -164,7 +214,17 @@
             "histogramTitle": "{n} найвідвідуваніших сайтів",
             "exclusiveToday": "Сьогоднішні дані не включені в середній показник",
             "countTotal": "Всього відвідувань/сайтів",
-            "siteAverage": "Середнє відвідування – {value} вебсайтів на день"
+            "siteAverage": "Середнє відвідування – {value} вебсайтів на день",
+            "distribution": {
+                "title": "Розподіл середньодобової частоти",
+                "aveTime": "Середній щоденний час перегляду",
+                "aveVisit": "Середньодобова кількість відвідувань",
+                "tooltip": "Всього {value} сайтів"
+            },
+            "trend": {
+                "title": "Щоденні тенденції",
+                "siteCount": "Кількість вебсайт"
+            }
         }
     },
     "es": {
@@ -180,6 +240,11 @@
                 "halfHour": "Por media hora",
                 "hour": "Por una hora",
                 "twoHour": "Por dos horas"
+            },
+            "chartType": {
+                "average": "Promedio diario",
+                "trend": "Tendencia",
+                "stack": "Apilado"
             }
         },
         "site": {
@@ -187,7 +252,17 @@
             "histogramTitle": "TOP {n} más visitados",
             "exclusiveToday": "Los datos de hoy no están incluidos en el promedio",
             "countTotal": "Total de visitas/sitios",
-            "siteAverage": "Promedio de visitas a {value} sitios web por día"
+            "siteAverage": "Promedio de visitas a {value} sitios web por día",
+            "distribution": {
+                "title": "Distribución de frecuencia promedio diaria",
+                "aveTime": "Tiempo medio de navegación diario",
+                "aveVisit": "Recuento promedio de visitas diarias",
+                "tooltip": "Total de {value} sitios web"
+            },
+            "trend": {
+                "title": "Tendencias diarias",
+                "siteCount": "Recuento de sitios web"
+            }
         }
     },
     "de": {
@@ -203,6 +278,11 @@
                 "halfHour": "Pro halbe Stunde",
                 "hour": "Pro eine Stunde",
                 "twoHour": "Pro zwei Stunden"
+            },
+            "chartType": {
+                "average": "Täglicher Durchschnitt",
+                "trend": "Trend",
+                "stack": "Stapel"
             }
         },
         "site": {
@@ -210,7 +290,17 @@
             "histogramTitle": "TOP {n} der meistbesuchten",
             "exclusiveToday": "Der Durchschnitt berücksichtigt nicht die heutigen Daten",
             "countTotal": "Gesamtzahl der Besuche/Websites",
-            "siteAverage": "Durchschnittliche Besuche auf {value} Websites pro Tag"
+            "siteAverage": "Durchschnittliche Besuche auf {value} Websites pro Tag",
+            "distribution": {
+                "title": "Tägliche durchschnittliche Häufigkeitsverteilung",
+                "aveTime": "Durchschnittliche tägliche Browsing-Zeit",
+                "aveVisit": "Durchschnittliche tägliche Besuchszahl",
+                "tooltip": "{value} Websites insgesamt"
+            },
+            "trend": {
+                "title": "Tagestrends",
+                "siteCount": "Webseitenanzahl"
+            }
         }
     },
     "fr": {
@@ -226,6 +316,11 @@
                 "halfHour": "Par demi-heure",
                 "hour": "Par heure",
                 "twoHour": "Par tranche de deux heures"
+            },
+            "chartType": {
+                "average": "Moyenne quotidienne",
+                "trend": "Tendances",
+                "stack": "Cumulées"
             }
         },
         "site": {
@@ -233,7 +328,17 @@
             "histogramTitle": "Top {n} des plus visités",
             "exclusiveToday": "Les données d'aujourd'hui ne sont pas incluses dans la moyenne",
             "countTotal": "Nombre total de visites/sites",
-            "siteAverage": "Une moyenne de {value} visites de site internet quotidienne"
+            "siteAverage": "Une moyenne de {value} visites de site internet quotidienne",
+            "distribution": {
+                "title": "Distribution de fréquence moyenne quotidienne",
+                "aveTime": "Temps de navigation quotidien moyen",
+                "aveVisit": "Nombre moyen de visites quotidiennes",
+                "tooltip": "Total de {value} sites Web"
+            },
+            "trend": {
+                "title": "Tendances quotidiennes",
+                "siteCount": "Nombre de sites Web"
+            }
         }
     }
 }

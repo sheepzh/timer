@@ -19,7 +19,7 @@ import { LineChart } from "echarts/charts"
 import { SVGRenderer } from "echarts/renderers"
 import { TitleComponent, TooltipComponent, GridComponent } from "echarts/components"
 import { ValueFormatter } from "@app/components/Analysis/util"
-import { getSecondaryTextColor } from "@util/style"
+import { getRegularTextColor } from "@util/style"
 import { EchartsWrapper } from "@hooks"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
@@ -77,13 +77,12 @@ const generateOption = ({ entries, preEntries, title, valueFormatter }: BizOptio
     const thisPeriod: ValueItem[] = entries?.map(r => ({ name: r.date, value: r.value, _data: r }))
     const prevPeriod: ValueItem[] = preEntries?.map(r => ({ name: r.date, value: r.value, _data: r }))
 
-    const secondaryTextColor = getSecondaryTextColor()
     const option: EcOption = {
         backgroundColor: 'rgba(0,0,0,0)',
         title: {
             text: title,
             textStyle: {
-                color: secondaryTextColor,
+                color: getRegularTextColor(),
                 fontSize: '14px',
                 fontWeight: 'normal',
             },

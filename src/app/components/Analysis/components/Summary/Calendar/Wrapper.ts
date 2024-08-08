@@ -21,7 +21,7 @@ import { use } from "echarts/core"
 import { GridComponent, TitleComponent, TooltipComponent, VisualMapComponent } from "echarts/components"
 import { groupBy, rotate } from "@util/array"
 import { t } from "@app/locale"
-import { getSecondaryTextColor } from "@util/style"
+import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
 import { periodFormatter } from "@app/util/time"
 
 type EcOption = ComposeOption<
@@ -89,12 +89,12 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
 
 function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeFormat): EcOption {
     const xAxisLabelMap = getXAxisLabelMap(data)
-    const textColor = getSecondaryTextColor()
+    const axisTextColor = getSecondaryTextColor()
     return {
         title: {
             text: t(msg => msg.analysis.summary.calendarTitle),
             textStyle: {
-                color: textColor,
+                color: getRegularTextColor(),
                 fontSize: '14px',
                 fontWeight: 'normal',
             },
@@ -109,7 +109,7 @@ function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeForm
                 const [_1, _2, mills, date] = value as _Value
                 if (!mills) return undefined
                 const time = parseTime(date)
-                return `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br />${periodFormatter(mills, { format })}`
+                return `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br /><b>${periodFormatter(mills, { format })}</b>`
             },
         },
         grid: { height: '68%', width: '90%', left: '10%', top: '18%' },
@@ -120,13 +120,13 @@ function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeForm
             axisLabel: {
                 formatter: (x: string) => xAxisLabelMap[x] || '',
                 interval: 0,
-                color: textColor,
+                color: axisTextColor,
             },
         },
         yAxis: {
             type: 'category',
             data: weekDays,
-            axisLabel: { padding: /* T R B L */[0, 12, 0, 0], color: textColor },
+            axisLabel: { padding: /* T R B L */[0, 12, 0, 0], color: axisTextColor },
             axisLine: { show: false },
             axisTick: { show: false, alignWithLabel: true },
         },
