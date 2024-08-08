@@ -5,7 +5,7 @@ declare namespace timer.limit {
     * [0, 120] means from 00:00 to 02:00
     * @since 2.0.0
     */
-    type Period = [number, number]
+    type Period = Vector<2>
     /**
      * Limit rule in runtime
      *

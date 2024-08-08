@@ -5,28 +5,38 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { PERIOD_PER_DATE, after, keyOf, rowOf, startOrderOfRow } from "@util/period"
-import { MILL_PER_DAY } from "@util/time"
+import { t } from "@app/locale"
+import { formatTime } from "@util/time"
+import type { GridComponentOption } from "echarts/components"
 
-export function averageByDay(data: timer.period.Row[], periodSize: number): timer.period.Row[] {
-    if (!data?.length) return []
-    const rangeStart = data[0]?.startTime
-    const rangeEnd = data[data.length - 1]?.endTime
-    const dateNum = (rangeEnd.getTime() - rangeStart.getTime()) / MILL_PER_DAY
-    const map: Map<number, number> = new Map()
-    data.forEach(item => {
-        const key = Math.floor(startOrderOfRow(item) / periodSize)
-        const val = map.get(key) || 0
-        map.set(key, val + item.milliseconds)
-    })
-    const result = []
-    let period = keyOf(new Date(), 0)
-    for (let i = 0; i < PERIOD_PER_DATE / periodSize; i++) {
-        const key = period.order / periodSize
-        const val = map.get(key) || 0
-        const averageMill = Math.round(val / dateNum)
-        result.push(rowOf(after(period, periodSize - 1), periodSize, averageMill))
-        period = after(period, periodSize)
+export const generateGridOption = (): GridComponentOption => {
+    return {
+        top: 30,
+        bottom: 40,
+        left: 40,
+        right: 20,
     }
-    return result
+}
+
+export type ChartType = 'average' | 'trend' | 'stack'
+
+export type FilterOption = {
+    periodSize: number
+    chartType: ChartType
+}
+
+const MONTHS = t(msg => msg.calendar.months).split('|')
+
+export const formatXAxisTime = (time: number, idx: number): string => {
+    const date = new Date(time)
+    const dateStr = formatTime(date, '{d}{h}{i}{s}')
+    const isStartOfMonth = dateStr === '01000000'
+    const isStartOfDate = dateStr.endsWith('000000')
+    if (idx === 0 || isStartOfMonth) {
+        return MONTHS[date.getMonth()]
+    } else if (isStartOfDate) {
+        return date.getDate()?.toString?.()?.padStart(2, '0')
+    } else {
+        return formatTime(date, "{h}:{i}")
+    }
 }

@@ -13,13 +13,8 @@
             "browsingTime": "浏览时长超过 {minute} 分钟",
             "mostUse": "最喜欢在 {start} 点至 {end} 点之间打开浏览器"
         },
-        "weekOnWeek": {
-            "title": "近一周浏览时长环比变化 TOP {k}",
-            "lastBrowse": "上周浏览 {time}",
-            "thisBrowse": "本周浏览 {time}",
-            "wow": "环比{state} {delta}",
-            "increase": "增长",
-            "decline": "减少"
+        "monthOnMonth": {
+            "title": "浏览时间环比趋势"
         }
     },
     "zh_TW": {
@@ -38,13 +33,8 @@
             "browsingTime": "瀏覽網頁超過 {minute} 分鐘",
             "mostUse": "最喜歡在 {start} 點至 {end} 點之間上網"
         },
-        "weekOnWeek": {
-            "title": "瀏覽時間週環比變化 TOP {k}",
-            "lastBrowse": "上週瀏覽 {time}",
-            "thisBrowse": "本週瀏覽 {time}",
-            "wow": "環比{state} {delta}",
-            "increase": "增長",
-            "decline": "減少"
+        "monthOnMonth": {
+            "title": "瀏覽時間環比趨勢"
         }
     },
     "en": {
@@ -61,13 +51,8 @@
             "browsingTime": "Browsed over {minute} minutes",
             "mostUse": "Favorite browsing between {start} and {end} o'clock"
         },
-        "weekOnWeek": {
-            "title": "TOP {k} week-on-week change of browsing time",
-            "lastBrowse": "Browsed {time} last week",
-            "thisBrowse": "Browsed {time} this week",
-            "wow": "{delta} {state}",
-            "increase": "increased",
-            "decline": "decreased"
+        "monthOnMonth": {
+            "title": "Browsing time month-on-month trend"
         }
     },
     "ja": {
@@ -83,14 +68,6 @@
             "visitCount": "{site} つのサイトへの合計 {visit} 回の拜訪",
             "browsingTime": "{minute} 分以上ウェブを閲覧する",
             "mostUse": "{start}:00 から {end}:00 までのお気に入りのインターネットアクセス"
-        },
-        "weekOnWeek": {
-            "title": "週ごとの変更 TOP {k}",
-            "lastBrowse": "先週 {time} 閲覧",
-            "thisBrowse": "今週は {time} で閲覧",
-            "wow": "毎週 {delta} の {state}",
-            "increase": "増加",
-            "decline": "減らす"
         }
     },
     "pt_PT": {
@@ -106,14 +83,6 @@
             "visitCount": "Visite {site} sites {visit} vezes",
             "browsingTime": "Navegado por {minute} minutos",
             "mostUse": "Navegação favorita entre {start} e {end} horas"
-        },
-        "weekOnWeek": {
-            "title": "TOP {k} semana após semana mudança no tempo de navegação",
-            "lastBrowse": "Navegou {time} na última semana",
-            "thisBrowse": "Navegou {time} nesta semana",
-            "wow": "{delta} {state}",
-            "increase": "aumentou",
-            "decline": "diminuiu"
         }
     },
     "uk": {
@@ -129,14 +98,6 @@
             "visitCount": "Відвідано {site} вебсайтів {visit} разів",
             "browsingTime": "Перегляд понад {minute} хвилин",
             "mostUse": "Улюблений перегляд між {start} і {end} годинами"
-        },
-        "weekOnWeek": {
-            "title": "Найбільші {k} щотижневих змін часу перегляду",
-            "lastBrowse": "Перегляд {time} минулого тижня",
-            "thisBrowse": "Перегляд {time} цього тижня",
-            "wow": "{delta} {state}",
-            "increase": "збільшилося",
-            "decline": "зменшилося"
         }
     },
     "es": {
@@ -152,14 +113,6 @@
             "visitCount": "Visitó {site} sitios web {visit} veces",
             "browsingTime": "Navegó más de {minute} minutos",
             "mostUse": "Prefiere navegar entre las {start} y las {end} horas"
-        },
-        "weekOnWeek": {
-            "title": "TOP {k} cambios semanales del tiempo de navegación",
-            "lastBrowse": "Navegó {time} la semana pasada",
-            "thisBrowse": "Navegó {time} esta semana",
-            "wow": "{delta} {state}",
-            "increase": "más",
-            "decline": "menos"
         }
     },
     "de": {
@@ -175,14 +128,6 @@
             "visitCount": "Besuchte {site} Websites {visit} mal",
             "browsingTime": "Durchsucht über {minute} Minuten",
             "mostUse": "Favoriten zwischen {start} und {end} Uhr"
-        },
-        "weekOnWeek": {
-            "title": "Top {k} der wöchentlichen Veränderungen der Surfzeit",
-            "lastBrowse": "Letzte Woche {time} lang durchsucht",
-            "thisBrowse": "Letzte Woche {time} durchsucht",
-            "wow": "{delta} {state}",
-            "increase": "erhöht",
-            "decline": "verringert"
         }
     },
     "fr": {

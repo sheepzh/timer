@@ -17,7 +17,7 @@ import { getPrimaryTextColor } from "@util/style"
 import { BASE_TITLE_OPTION } from "../../common"
 import { t } from "@app/locale"
 import { generateSiteLabel } from "@util/site"
-import { echartsPalette } from "@util/echarts"
+import { getSeriesPalette } from "@app/util/echarts"
 
 use([PieChart, TitleComponent, TooltipComponent, SVGRenderer])
 
@@ -56,7 +56,7 @@ function generateOption(data: BizOption[]): EcOption {
                 const host = params.data?.host || ''
                 const alias = params.data?.alias || ''
                 const hostLabel = generateSiteLabel(host, alias)
-                return `${hostLabel}<br/>${visit}`
+                return `${hostLabel}<br/><b>${visit}</b>`
             }
         },
         series: {
@@ -66,7 +66,7 @@ function generateOption(data: BizOption[]): EcOption {
             radius: [20, 80],
             center: ['50%', '50%'],
             roseType: 'area',
-            color: echartsPalette(),
+            color: getSeriesPalette(),
             itemStyle: {
                 borderRadius: 7
             },

@@ -30,6 +30,7 @@ export function copyKeyWith(old: timer.period.Key, newOrder: number): timer.peri
 }
 
 export function indexOf(key: timer.period.Key): number {
+    if (!key) return 0
     const { year, month, date, order } = key
     return (year << 18)
         | (month << 14)
@@ -118,4 +119,36 @@ export function calcMostPeriodOf2Hours(rows: timer.period.Result[]): number {
             .reverse()[0]?.[0]
     )
     return most2Hour
+}
+
+function generateOrderMap(data: timer.period.Row[], periodSize: number): Map<number, number> {
+    const map: Map<number, number> = new Map()
+    data.forEach(item => {
+        const key = Math.floor(startOrderOfRow(item) / periodSize)
+        const val = map.get(key) || 0
+        map.set(key, val + item.milliseconds)
+    })
+    return map
+}
+
+function cvt2AverageResult(map: Map<number, number>, periodSize: number, dateNum: number): timer.period.Row[] {
+    const result = []
+    let period = keyOf(new Date(), 0)
+    for (let i = 0; i < PERIOD_PER_DATE / periodSize; i++) {
+        const key = period.order / periodSize
+        const val = map.get(key) ?? 0
+        const averageMill = Math.round(val / dateNum)
+        result.push(rowOf(after(period, periodSize - 1), periodSize, averageMill))
+        period = after(period, periodSize)
+    }
+    return result
+}
+
+export function averageByDay(data: timer.period.Row[], periodSize: number): timer.period.Row[] {
+    if (!data?.length) return []
+    const rangeStart = data[0]?.startTime
+    const rangeEnd = data[data.length - 1]?.endTime
+    const dateNum = (rangeEnd.getTime() - rangeStart.getTime()) / MILL_PER_DAY
+    const map = generateOrderMap(data, periodSize)
+    return cvt2AverageResult(map, periodSize, dateNum)
 }

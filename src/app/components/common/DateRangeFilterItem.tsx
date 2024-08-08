@@ -9,6 +9,7 @@ import { ElDatePicker } from "element-plus"
 import { defineComponent, PropType, ref, Ref } from "vue"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import { t } from "@app/locale"
+import { EL_DATE_FORMAT } from "@i18n/element"
 
 const _default = defineComponent({
     props: {
@@ -30,7 +31,7 @@ const _default = defineComponent({
         return () => <span class="filter-item">
             <ElDatePicker
                 modelValue={dateRange.value}
-                format={t(msg => msg.calendar.dateFormat, { y: 'YYYY', m: 'MM', d: 'DD' })}
+                format={EL_DATE_FORMAT}
                 type="daterange"
                 rangeSeparator="-"
                 disabledDate={props.disabledDate}

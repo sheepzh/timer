@@ -6,8 +6,8 @@
  */
 
 import { Ref } from "vue"
-import { FilterOption } from "../type"
 import { useProvide, useProvider } from "@hooks"
+import { FilterOption } from "./HabitFilter"
 
 type Context = {
     filter: Ref<FilterOption>

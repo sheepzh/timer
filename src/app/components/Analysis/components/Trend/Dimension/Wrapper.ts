@@ -18,11 +18,11 @@ import { use } from "echarts/core"
 import { LineChart } from "echarts/charts"
 import { SVGRenderer } from "echarts/renderers"
 import { TitleComponent, TooltipComponent, GridComponent } from "echarts/components"
-
 import { ValueFormatter } from "@app/components/Analysis/util"
 import { getSecondaryTextColor } from "@util/style"
 import { EchartsWrapper } from "@hooks"
-import { ZRColor } from "echarts/types/dist/shared"
+import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
+import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 
 use([
     LineChart,
@@ -50,67 +50,25 @@ type ValueItem = LineSeriesOption["data"][0] & {
     _data: DimensionEntry
 }
 
-const THIS_COLOR: ZRColor = {
-    type: "linear",
-    x: 0, y: 0,
-    x2: 0, y2: 1,
-    colorStops: [
-        { offset: 0, color: 'rgb(55, 162, 255)' },
-        { offset: 1, color: 'rgb(116, 21, 219)' },
-    ],
-}
-const PREV_COLOR: ZRColor = {
-    type: "linear",
-    x: 0, y: 0,
-    x2: 0, y2: 1,
-    colorStops: [
-        { offset: 0, color: 'rgb(255, 0, 135)' },
-        { offset: 1, color: 'rgb(135, 0, 157)' },
-    ],
-}
+const [THIS_COLOR, PREV_COLOR] = getLineSeriesPalette()
 
-const createTooltipLine = (param: any, valueFormatter: ValueFormatter) => {
+const createTooltipLine = (param: any, valueFormatter: ValueFormatter): string => {
     const data = param.data as ValueItem
     const { _data: { value, date } } = data
-    const color = param.color as string
-    const p = document.createElement('p')
-    p.style.margin = "0"
-    p.style.padding = "0"
-    p.style.alignItems = "center"
-    p.style.display = "flex"
-
-    const dotEl = document.createElement('div')
-    dotEl.style.width = '8px'
-    dotEl.style.height = '8px'
-    dotEl.style.display = 'inline-flex'
-    dotEl.style.borderRadius = '4px'
-    dotEl.style.backgroundColor = color
-    dotEl.style.marginRight = '7px'
-    p.append(dotEl)
-
-    const dateEl = document.createElement('span')
-    dateEl.innerText = date
-    dateEl.style.marginRight = "7px"
-    p.appendChild(dateEl)
 
     const valStr = valueFormatter?.(value) || value?.toString() || "NaN"
-    const valEL = document.createElement('span')
-    valEL.innerText = valStr
-    valEL.style.fontWeight = "500"
-    p.appendChild(valEL)
-    return p
+
+    return tooltipFlexLine(
+        `${tooltipDot(param.color)}&ensp;${date}`,
+        `<b>${valStr}</b>`
+    )
 }
 
-const formatTooltip = (params: any[], valueFormatter: ValueFormatter) => {
-    const container = document.createElement('div')
-    container.style.height = "50px"
-    container.style.display = "flex"
-    container.style.flexDirection = "column"
-    container.style.justifyContent = "space-around"
+const formatTooltip = (params: TopLevelFormatterParams, valueFormatter: ValueFormatter) => {
+    if (!Array.isArray(params)) return ''
 
     const lines = params.map(param => createTooltipLine(param, valueFormatter))
-    lines.forEach(l => container.append(l))
-    return container
+    return lines.join('')
 }
 
 const generateOption = ({ entries, preEntries, title, valueFormatter }: BizOption) => {
@@ -141,7 +99,7 @@ const generateOption = ({ entries, preEntries, title, valueFormatter }: BizOptio
         tooltip: {
             trigger: 'axis',
             axisPointer: { type: "line" },
-            formatter: (params: any[]) => formatTooltip(params, valueFormatter),
+            formatter: (params: TopLevelFormatterParams) => formatTooltip(params, valueFormatter),
         },
         xAxis: {
             type: 'category',

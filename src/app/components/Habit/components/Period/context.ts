@@ -7,26 +7,34 @@
 
 import { useProvide, useProvider } from "@hooks"
 import { Ref } from "vue"
-import { FilterOption } from "./Filter"
+import { FilterOption } from "./common"
+
+type Value = {
+    curr: timer.period.Row[]
+    prev: timer.period.Row[]
+}
+
+export type PeriodRange = {
+    curr: timer.period.KeyRange
+    prev: timer.period.KeyRange
+}
 
 type Context = {
-    keyRange: Ref<timer.period.KeyRange>
-    rows: Ref<timer.period.Row[]>
+    value: Ref<Value>
     filter: Ref<FilterOption>
+    periodRange: Ref<PeriodRange>
 }
 
 const NAMESPACE = 'habitPeriod'
 
 export const initProvider = (
-    keyRange: Ref<timer.period.KeyRange>,
-    rows: Ref<timer.period.Row[]>,
+    value: Ref<Value>,
     filter: Ref<FilterOption>,
-) => useProvide<Context>(NAMESPACE, {
-    keyRange, rows, filter
-})
+    periodRange: Ref<PeriodRange>,
+) => useProvide<Context>(NAMESPACE, { value, filter, periodRange })
 
-export const usePeriodRange = (): Ref<timer.period.KeyRange> => useProvider<Context>(NAMESPACE, "keyRange").keyRange
-
-export const usePeriodRows = (): Ref<timer.period.Row[]> => useProvider<Context>(NAMESPACE, "rows").rows
+export const usePeriodValue = (): Ref<Value> => useProvider<Context>(NAMESPACE, "value").value
 
 export const usePeriodFilter = (): Ref<FilterOption> => useProvider<Context>(NAMESPACE, "filter").filter
+
+export const usePeriodRange = (): Ref<PeriodRange> => useProvider<Context>(NAMESPACE, "periodRange").periodRange

@@ -5,36 +5,31 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { CalendarMessage } from "@i18n/message/common/calendar"
-
 import { defineComponent, watch, type PropType } from "vue"
 import { daysAgo } from "@util/time"
 import { t } from "@app/locale"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
-import { FilterOption } from "../type"
 import { useState } from "@hooks"
 
-type ShortCutProp = [label: keyof CalendarMessage['range'], dayAgo: number]
-
-const shortcutProps: ShortCutProp[] = [
-    ["last24Hours", 1],
-    ["last3Days", 3],
-    ["last7Days", 7],
-    ["last15Days", 15],
-    ["last30Days", 30],
-    ["last60Days", 60]
-]
-
-function datePickerShortcut(msg: keyof CalendarMessage['range'], agoOfStart: number): ElementDatePickerShortcut {
-    return {
-        text: t(messages => messages.calendar.range[msg]),
-        value: daysAgo(agoOfStart, 0)
-    }
+export type FilterOption = {
+    timeFormat: timer.app.TimeFormat
+    dateRange: [Date, Date]
 }
 
-const SHORTCUTS: ElementDatePickerShortcut[] = shortcutProps.map(([label, dayAgo]) => datePickerShortcut(label, dayAgo))
+type ShortCutProp = [label: string, dayAgo: number]
+
+const shortcutProps: ShortCutProp[] = [
+    [t(msg => msg.calendar.range.today), 0],
+    [t(msg => msg.calendar.range.lastDays, { n: 3 }), 3],
+    [t(msg => msg.calendar.range.lastDays, { n: 7 }), 7],
+    [t(msg => msg.calendar.range.lastDays, { n: 15 }), 15],
+    [t(msg => msg.calendar.range.lastDays, { n: 30 }), 30],
+    [t(msg => msg.calendar.range.lastDays, { n: 60 }), 60],
+]
+
+const SHORTCUTS: ElementDatePickerShortcut[] = shortcutProps.map(([text, agoOfStart]) => ({ text, value: daysAgo(agoOfStart, 0) }))
 
 const _default = defineComponent({
     props: {
@@ -55,7 +50,6 @@ const _default = defineComponent({
         return () => <>
             <DateRangeFilterItem
                 clearable={false}
-                disabledDate={(date: Date) => date.getTime() > new Date().getTime()}
                 defaultRange={dateRange.value}
                 shortcuts={SHORTCUTS}
                 onChange={setDateRange}

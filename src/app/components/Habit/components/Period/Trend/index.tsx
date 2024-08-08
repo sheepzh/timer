@@ -6,10 +6,11 @@
  */
 
 import type { StyleValue } from "vue"
-import BarWrapper from "./BarWrapper"
+import Wrapper, { BizOption } from "./Wrapper"
 import { computed, defineComponent } from "vue"
-import { usePeriodFilter, usePeriodRows } from "./context"
+import { usePeriodValue } from "../context"
 import { useEcharts } from "@hooks"
+import { useHabitFilter } from "../../context"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",
@@ -17,13 +18,13 @@ const CONTAINER_STYLE: StyleValue = {
 }
 
 const _default = defineComponent(() => {
-    const rows = usePeriodRows()
-    const filter = usePeriodFilter()
-    const bizOption = computed(() => {
-        const { periodSize, average } = filter.value || {}
-        return { data: rows.value, averageByDate: average, periodSize }
-    })
-    const { elRef } = useEcharts(BarWrapper, bizOption, { manual: true })
+    const value = usePeriodValue()
+    const globalFilter = useHabitFilter()
+    const bizOption = computed<BizOption>(() => ({
+        data: value.value?.curr,
+        timeFormat: globalFilter.value?.timeFormat,
+    }))
+    const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
     return () => <div style={CONTAINER_STYLE} ref={elRef} />
 })
 

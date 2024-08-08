@@ -21,7 +21,7 @@ const _default = defineComponent({
         periods: Array as PropType<timer.limit.Period[]>,
     },
     emits: {
-        change: (_time: number, _visitTime: number, _periods: [number, number][]) => true,
+        change: (_time: number, _visitTime: number, _periods: Vector<2>[]) => true,
     },
     setup(props, ctx) {
         const [time, setTime] = useShadow(() => props.time)

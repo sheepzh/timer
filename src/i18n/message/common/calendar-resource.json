@@ -13,13 +13,7 @@
             "today": "今天",
             "yesterday": "昨天",
             "everyday": "每天",
-            "last24Hours": "最近 24 小时",
-            "last3Days": "最近 3 天",
-            "last7Days": "最近 7 天",
-            "last15Days": "最近 15 天",
-            "last30Days": "最近 30 天",
-            "last60Days": "最近 60 天",
-            "last90Days": "最近 90 天"
+            "lastDays": "最近 {n} 天"
         }
     },
     "zh_TW": {
@@ -35,14 +29,8 @@
         "range": {
             "today": "今天",
             "yesterday": "昨天",
-            "last24Hours": "最近 24 小時",
-            "last3Days": "最近 3 天",
-            "last7Days": "最近 7 天",
-            "last15Days": "最近 15 天",
-            "last30Days": "最近 30 天",
-            "last60Days": "最近 60 天",
-            "last90Days": "最近 90 天",
-            "everyday": "每天"
+            "everyday": "每天",
+            "lastDays": "最近 {n} 天"
         }
     },
     "en": {
@@ -59,13 +47,7 @@
             "today": "Today",
             "yesterday": "Yesterday",
             "everyday": "Everyday",
-            "last24Hours": "Last 24 hours",
-            "last3Days": "Last 3 days",
-            "last7Days": "Last 7 days",
-            "last15Days": "Last 15 days",
-            "last30Days": "Last 30 days",
-            "last60Days": "Last 60 days",
-            "last90Days": "Last 90 days"
+            "lastDays": "Last {n} days"
         }
     },
     "ja": {
@@ -81,14 +63,8 @@
         "range": {
             "today": "今日",
             "yesterday": "昨日",
-            "last24Hours": "過去 24 時間",
-            "last3Days": "過去 3 日間",
-            "last7Days": "過去 7 日間",
-            "last15Days": "過去 15 日間",
-            "last30Days": "過去 30 日間",
-            "last60Days": "過去 60 日間",
-            "last90Days": "過去 90 日間",
-            "everyday": "毎日"
+            "everyday": "毎日",
+            "lastDays": "過去 {n} 日間"
         }
     },
     "pt_PT": {
@@ -104,14 +80,8 @@
         "range": {
             "today": "Hoje",
             "yesterday": "Ontem",
-            "last3Days": "Últimos 3 dias",
-            "last7Days": "Últimos 7 dias",
-            "last15Days": "Últimos 15 dias",
-            "last30Days": "Últimos 30 dias",
-            "last60Days": "Últimos 60 dias",
-            "last90Days": "Últimos 90 dias",
-            "last24Hours": "Últimas 24 horas",
-            "everyday": "Diariamente"
+            "everyday": "Diariamente",
+            "lastDays": "Últimos {n} dias"
         }
     },
     "uk": {
@@ -126,14 +96,8 @@
         "range": {
             "today": "Сьогодні",
             "yesterday": "Учора",
-            "last24Hours": "Минулі 24 години",
-            "last3Days": "Минулі 3 дні",
-            "last7Days": "Минулих 7 днів",
-            "last15Days": "Минулих 15 днів",
-            "last30Days": "Минулих 30 днів",
-            "last60Days": "Минулих 60 днів",
-            "last90Days": "Минулих 90 днів",
-            "everyday": "Щодня"
+            "everyday": "Щодня",
+            "lastDays": "Минулі {n} дні"
         },
         "simpleTimeFormat": "{d}.{m} {h}:{i}"
     },
@@ -149,14 +113,8 @@
         "range": {
             "today": "Hoy",
             "yesterday": "Ayer",
-            "last24Hours": "Últimas 24 horas",
-            "last3Days": "Últimos 3 días",
-            "last7Days": "Últimos 7 días",
-            "last15Days": "Últimos 15 días",
-            "last30Days": "Últimos 30 días",
-            "last60Days": "Últimos 60 días",
-            "last90Days": "Últimos 90 días",
-            "everyday": "Cada día"
+            "everyday": "Cada día",
+            "lastDays": "Últimos {n} días"
         },
         "simpleTimeFormat": "{m}/{d} {h}:{i}"
     },
@@ -171,14 +129,8 @@
         "range": {
             "today": "Heute",
             "yesterday": "Gestern",
-            "last24Hours": "Letzte 24 Stunden",
-            "last3Days": "Letzte 3 Tage",
-            "last7Days": "Letzte 7 Tage",
-            "last15Days": "Letzte 15 Tage",
-            "last30Days": "Letzte 30 Tage",
-            "last60Days": "Letzte 60 Tage",
-            "last90Days": "Letzte 90 Tage",
-            "everyday": "Täglich"
+            "everyday": "Täglich",
+            "lastDays": "Letzte {n} Tage"
         },
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}/{m} {h}:{i}"

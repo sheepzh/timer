@@ -6,31 +6,25 @@
  */
 
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import { t } from "@app/locale"
 import { ElDatePicker } from "element-plus"
 import { defineComponent, ref, type PropType } from "vue"
 import { daysAgo } from "@util/time"
+import { EL_DATE_FORMAT } from "@i18n/element"
 
-function datePickerShortcut(msgKey: keyof CalendarMessage['range'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
+function datePickerShortcut(agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     return {
-        text: t(msg => msg.calendar.range[msgKey]),
-        value: daysAgo(agoOfStart - 1 || 0, agoOfEnd || 0)
+        text: t(msg => msg.calendar.range.lastDays, { n: agoOfStart }),
+        value: daysAgo(agoOfStart - 1 || 0, agoOfEnd || 0),
     }
 }
 
-const DATE_FORMAT = t(msg => msg.calendar.dateFormat, {
-    y: 'YYYY',
-    m: 'MM',
-    d: 'DD'
-})
-
 const SHORTCUTS = [
-    datePickerShortcut('last7Days', 7),
-    datePickerShortcut('last15Days', 15),
-    datePickerShortcut('last30Days', 30),
-    datePickerShortcut("last90Days", 90)
+    datePickerShortcut(7),
+    datePickerShortcut(15),
+    datePickerShortcut(30),
+    datePickerShortcut(90),
 ]
 
 const _default = defineComponent({
@@ -47,7 +41,7 @@ const _default = defineComponent({
                 <ElDatePicker
                     modelValue={dateRange.value}
                     disabledDate={(date: Date) => date.getTime() > new Date().getTime()}
-                    format={DATE_FORMAT}
+                    format={EL_DATE_FORMAT}
                     type="daterange"
                     shortcuts={SHORTCUTS}
                     rangeSeparator="-"
