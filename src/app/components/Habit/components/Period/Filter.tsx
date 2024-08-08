@@ -6,10 +6,12 @@
  */
 
 import SelectFilterItem from '@app/components/common/SelectFilterItem'
-import SwitchFilterItem from '@app/components/common/SwitchFilterItem'
 import { t } from '@app/locale'
+import { useCached } from '@hooks'
 import { HabitMessage } from '@i18n/message/app/habit'
+import { ElRadioButton, ElRadioGroup } from 'element-plus'
 import { PropType, defineComponent, ref, watch } from 'vue'
+import { ChartType, FilterOption } from './common'
 
 // [value, label]
 type _SizeOption = [number, keyof HabitMessage['period']['sizes']]
@@ -28,9 +30,10 @@ function allOptions(): Record<number, string> {
     return allOptions
 }
 
-export type FilterOption = {
-    periodSize: number
-    average: boolean
+const CHART_CONFIG: { [type in ChartType]: string } = {
+    average: t(msg => msg.habit.period.chartType.average),
+    trend: t(msg => msg.habit.period.chartType.trend),
+    stack: t(msg => msg.habit.period.chartType.stack),
 }
 
 const _default = defineComponent({
@@ -42,31 +45,43 @@ const _default = defineComponent({
     },
     setup(prop, ctx) {
         const periodSize = ref(prop.defaultValue?.periodSize || 1)
-        const average = ref(prop.defaultValue?.average || false)
-        watch([periodSize, average], () =>
+        const { data: chartType, setter: setChartType } = useCached<ChartType>('habit-period-chart-type', prop.defaultValue?.chartType)
+        watch([periodSize, chartType], () =>
             ctx.emit('change', {
                 periodSize: periodSize.value,
-                average: average.value,
+                chartType: chartType.value,
             })
         )
-        return () => <>
-            <SelectFilterItem
-                historyName='periodSize'
-                defaultValue={periodSize.value?.toString?.()}
-                options={allOptions()}
-                onSelect={(val: string) => {
-                    const newPeriodSize = parseInt(val)
-                    if (isNaN(newPeriodSize)) return
-                    periodSize.value = newPeriodSize
+        return () => (
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'self-start',
                 }}
-            />
-            <SwitchFilterItem
-                historyName='average'
-                label={t(msg => msg.habit.period.averageLabel)}
-                defaultValue={average.value}
-                onChange={(val: boolean) => average.value = val}
-            />
-        </>
+            >
+                <SelectFilterItem
+                    historyName='periodSize'
+                    defaultValue={periodSize.value?.toString?.()}
+                    options={allOptions()}
+                    onSelect={(val: string) => {
+                        const newPeriodSize = parseInt(val)
+                        if (isNaN(newPeriodSize)) return
+                        periodSize.value = newPeriodSize
+                    }}
+                />
+                <ElRadioGroup
+                    modelValue={chartType.value}
+                    onChange={val => val && setChartType(val as ChartType)}
+                >
+                    {Object.entries(CHART_CONFIG).map(([type, name]) => (
+                        <ElRadioButton value={type}>
+                            {name}
+                        </ElRadioButton>
+                    ))}
+                </ElRadioGroup>
+            </div>
+        )
     },
 })
 

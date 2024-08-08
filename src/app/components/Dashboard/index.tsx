@@ -12,7 +12,7 @@ import "./style"
 import { isTranslatingLocale, locale } from "@i18n"
 import { ElRow } from "element-plus"
 import Indicator from "./components/Indicator"
-import WeekOnWeek from "./components/WeekOnWeek"
+import MonthOnMonth from "./components/MonthOnMonth"
 import TopKVisit from "./components/TopKVisit"
 import Calendar from "./components/Calendar"
 import { useRouter } from "vue-router"
@@ -20,6 +20,8 @@ import { useRequest } from "@hooks"
 import metaService from "@service/meta-service"
 import { t } from "@app/locale"
 import { REVIEW_PAGE } from "@util/constant/url"
+
+const ROW_GUTTER = 15
 
 const _default = defineComponent(() => {
     const router = useRouter()
@@ -35,18 +37,18 @@ const _default = defineComponent(() => {
 
     return () => (
         <ContentContainer class="dashboard-container">
-            <ElRow gutter={20} style={{ height: "300px" }}>
+            <ElRow gutter={ROW_GUTTER} style={{ height: "300px" }}>
                 <DashboardCard span={4}>
                     <Indicator />
                 </DashboardCard>
                 <DashboardCard span={12}>
-                    <WeekOnWeek />
+                    <MonthOnMonth />
                 </DashboardCard>
                 <DashboardCard span={8}>
                     <TopKVisit />
                 </DashboardCard>
             </ElRow>
-            <ElRow gutter={40} style={{ height: "280px" }}>
+            <ElRow gutter={ROW_GUTTER} style={{ height: "280px" }}>
                 <DashboardCard span={24}>
                     <Calendar />
                 </DashboardCard>

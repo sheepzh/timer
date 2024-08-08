@@ -95,16 +95,18 @@ export function formatPeriodCommon(milliseconds: number): string {
     return formatPeriod(milliseconds, defaultMessage)
 }
 
+export const MILL_PER_SECOND = 1000
+
+export const MILL_PER_MINUTE = MILL_PER_SECOND * 60
+
+export const MILL_PER_HOUR = MILL_PER_MINUTE * 60
+
 /**
  * Milliseconds per day
  *
  * @since 0.0.8
  */
-export const MILL_PER_DAY = 3600 * 1000 * 24
-
-export const MILL_PER_MINUTE = 1000 * 60
-
-export const MILL_PER_HOUR = MILL_PER_MINUTE * 60
+export const MILL_PER_DAY = MILL_PER_HOUR * 24
 
 /**
  * Date range between {start} days ago and {end} days ago

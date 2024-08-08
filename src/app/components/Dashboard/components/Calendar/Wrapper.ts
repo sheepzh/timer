@@ -6,14 +6,14 @@
  */
 import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
 import { TitleComponent, TooltipComponent, GridComponent, VisualMapComponent } from "echarts/components"
-import { HeatmapChart, type HeatmapSeriesOption } from "echarts/charts"
+import { ScatterChart, ScatterSeriesOption, type HeatmapSeriesOption } from "echarts/charts"
 import { use, type ComposeOption } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
 
 // Register echarts
 use([
     SVGRenderer,
-    HeatmapChart,
+    ScatterChart,
     TooltipComponent,
     GridComponent,
     VisualMapComponent,
@@ -30,6 +30,7 @@ import { BASE_TITLE_OPTION } from "../../common"
 import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
+import { getStepColors } from "@app/util/echarts"
 
 type _Value = [
     x: number,
@@ -39,7 +40,7 @@ type _Value = [
 ]
 
 type EcOption = ComposeOption<
-    | HeatmapSeriesOption
+    | ScatterSeriesOption
     | TitleComponentOption
     | TooltipComponentOption
     | GridComponentOption
@@ -58,11 +59,7 @@ function formatTooltip(mills: number, date: string): string {
     const d = date.substring(6, 8)
     const dateStr = t(msg => msg.calendar.dateFormat, { y, m, d })
     const timeStr = formatPeriodCommon(mills)
-    return `${dateStr}</br>${timeStr}`
-}
-
-function getGridColors() {
-    return ['#9be9a8', '#40c263', '#30a04e', '#216039']
+    return `${dateStr}</br><b>${timeStr}</b>`
 }
 
 function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
@@ -105,11 +102,48 @@ const cvtHeatmapItem = (d: _Value): HeatmapItem => {
     return item
 }
 
-function optionOf(data: _Value[], weekDays: string[]): EcOption {
+type Piece = {
+    label: string
+    min: number
+    max: number
+    color?: string
+}
+
+const minOf = (min: number) => min * 60 * 1000
+const hourOf = (hour: number) => hour * 60 * 60 * 1000
+
+const ALL_PIECES: Piece[] = [
+    { min: 1, max: minOf(10), label: "<10m" },
+    { min: minOf(10), max: minOf(30), label: "<30m" },
+    { min: minOf(30), max: hourOf(1), label: "<1h" },
+    { min: hourOf(1), max: hourOf(2), label: "<2h" },
+    { min: hourOf(2), max: hourOf(4), label: "<4h" },
+    { min: hourOf(4), max: hourOf(7), label: "<7h" },
+    { min: hourOf(7), max: hourOf(12), label: "<12h" },
+    { min: hourOf(12), max: hourOf(18), label: "<18h" },
+    { min: hourOf(18), max: hourOf(24), label: ">=18h" },
+]
+
+const computePieces = (min: number, max: number): Piece[] => {
+    let pieces = ALL_PIECES.filter((p, i) => i === 0 || p.min <= max)
+    pieces = pieces.filter((p, i) => p.max > min || i === pieces.length - 1)
+
+    const colors = getStepColors(pieces.length)
+    return pieces.map((p, idx) => ({ ...p, color: colors[idx] }))
+}
+
+function optionOf(data: _Value[], weekDays: string[], dom: HTMLElement): EcOption {
     const totalMills = sum(data?.map(d => d[2] ?? 0))
     const totalHours = Math.floor(totalMills / MILL_PER_HOUR)
     const xAxisLabelMap = getXAxisLabelMap(data)
     const textColor = getPrimaryTextColor()
+    const w = dom?.getBoundingClientRect?.()?.width
+    const gridWidth = 0.85
+    const colCount = new Set(data.map(v => v[0])).size
+    const gridCellSize = colCount ? w * gridWidth / colCount * 0.75 : 0
+
+    const maxVal = Math.max(...data.map(a => a[2]))
+    const minVal = Math.min(...data.map(a => a[2]).filter(v => v))
     return {
         title: {
             ...BASE_TITLE_OPTION,
@@ -125,7 +159,7 @@ function optionOf(data: _Value[], weekDays: string[]): EcOption {
                 return mills ? formatTooltip(mills as number, date) : undefined
             },
         },
-        grid: { height: '70%', width: '82%', left: '8%', top: '18%', },
+        grid: { height: '70%', left: '7%', width: `${gridWidth * 100}%`, top: '18%', },
         xAxis: {
             type: 'category',
             axisLine: { show: false },
@@ -145,22 +179,23 @@ function optionOf(data: _Value[], weekDays: string[]): EcOption {
             axisTick: { show: false, alignWithLabel: true },
         },
         visualMap: {
-            min: 0,
-            max: Math.max(...data.map(a => a[2])),
-            inRange: { color: getGridColors() },
+            type: 'piecewise',
             realtime: true,
             calculable: true,
             orient: 'vertical',
             right: '2%',
             top: 'center',
             dimension: 2,
-            textStyle: { color: textColor },
+            splitNumber: 6,
+            showLabel: true,
+            pieces: computePieces(minVal, maxVal),
+            textStyle: { color: getPrimaryTextColor() },
         },
         series: {
-            type: 'heatmap',
+            type: 'scatter',
             data: data.map(cvtHeatmapItem),
-            progressive: 5,
-            progressiveThreshold: 10,
+            symbol: 'circle',
+            symbolSize: gridCellSize,
         },
     }
 }
@@ -203,7 +238,7 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
             // Saturday to Sunday
             rotate(weekDays, 1)
         }
-        return optionOf(data, weekDays)
+        return optionOf(data, weekDays, this.getDom())
     }
 
     protected afterInit(): void {

@@ -17,6 +17,10 @@ export function getPrimaryTextColor(): string {
     return getCssVariable("--el-text-color-primary")
 }
 
+export function getRegularTextColor(): string {
+    return getCssVariable("--el-text-color-regular")
+}
+
 export function getSecondaryTextColor(): string {
     return getCssVariable("--el-text-color-secondary")
 }

@@ -1,7 +1,8 @@
 import type { Language } from "element-plus/lib/locale"
 import type { App } from "vue"
 import ElementPlus from 'element-plus'
-import { FEEDBACK_LOCALE, locale } from "."
+import { FEEDBACK_LOCALE, locale, t } from "."
+import calendarMessages from "./message/common/calendar"
 
 const LOCALES: { [locale in timer.Locale]: () => Promise<{ default: Language }> } = {
     zh_CN: () => import('element-plus/lib/locale/lang/zh-cn'),
@@ -25,9 +26,4 @@ export const initElementLocale = async (app: App) => {
     EL_LOCALE_FALLBACK = (await LOCALES[FEEDBACK_LOCALE]?.())?.default
 }
 
-type I18nKey = (lang: Language['el']) => string
-
-export const tEl = (key: I18nKey): string => {
-    const locale = EL_LOCALE || EL_LOCALE_FALLBACK
-    return key?.(locale?.el)
-}
+export const EL_DATE_FORMAT = t(calendarMessages, { key: msg => msg.dateFormat, param: { y: 'YYYY', m: 'MM', d: 'DD' } })

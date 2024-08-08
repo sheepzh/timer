@@ -21,7 +21,8 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
     async render(biz: BizOption) {
         if (!this.instance) return
         const option = await this.generateOption(biz)
-        option && this.instance.setOption(option, { notMerge: false })
+        if (!option) return
+        this.instance.setOption(option, { notMerge: false })
     }
 
     protected getDom(): HTMLElement {

@@ -7,12 +7,13 @@
 
 import type { TitleComponentOption } from "echarts/components"
 
-import { getSecondaryTextColor } from "@util/style"
+import { getRegularTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
 import { periodFormatter } from "@app/util/time"
+import { formatTime, getDayLength, isSameDay } from "@util/time"
 
 export const generateTitleOption = (text: string): TitleComponentOption => {
-    const secondaryTextColor = getSecondaryTextColor()
+    const secondaryTextColor = getRegularTextColor()
     return {
         text,
         textStyle: {
@@ -30,35 +31,19 @@ export type SeriesDataItem = {
     row: timer.stat.Row
 }
 
-export const formatFocusTooltip = (
-    params: [any] | any,
-    format: timer.app.TimeFormat,
-    option?: {
-        splitLine?: boolean
-        ignorePercentage?: boolean
+/**
+ * @param dateRange date range of filter
+ * @returns [averageLen, exclusiveToday4Average, exclusiveDate]
+ */
+export const computeAverageLen = (dateRange: [Date, Date] = [null, null]): [number, boolean, string] => {
+    const [start, end] = dateRange
+    if (!end) return [0, false, null]
+    if (isSameDay(start, end)) return [1, false, null]
+    const dateDiff = getDayLength(start, end)
+    const endIsTody = isSameDay(end, new Date())
+    if (endIsTody) {
+        return [dateDiff - 1, true, formatTime(end, "{y}{m}{d}")]
+    } else {
+        return [dateDiff, false, null]
     }
-): string => {
-    const { splitLine, ignorePercentage } = option || {}
-    const param = (Array.isArray(params) ? params[0] : params) as { data: SeriesDataItem, percent: number }
-    const { data, percent } = param || {}
-    const { row } = data || {}
-    const { host, alias, focus = 0 } = row || {}
-    const siteLabel = host ? generateSiteLabel(host, alias) : (alias || 'Unknown')
-    const builder: string[] = [siteLabel]
-    builder.push(splitLine ? '<br/>' : ' ')
-    builder.push(periodFormatter(focus, { format }))
-    !ignorePercentage && builder.push(` (${(percent ?? 0).toFixed(2)}%)`)
-    return builder.join('')
 }
-
-export const formatTimeTooltip = (params: [any] | any): string => {
-    const param = (Array.isArray(params) ? params[0] : params) as { data: SeriesDataItem, percent: number }
-    const { data, percent } = param || {}
-    const { row, value } = data || {}
-    const { host, alias } = row || {}
-    const siteLabel = host ? generateSiteLabel(host, alias) : (alias || 'Unknown')
-    return `${siteLabel}<br/>${value} (${(percent ?? 0).toFixed(2)}%)`
-}
-
-// Not show percentages less than 3 degrees
-export const MIN_PERCENT_OF_PIE = 3 / 360

@@ -97,7 +97,7 @@ describe('stat-database', () => {
 
         // time [2, 3]
         cond.timeRange = [2, 3]
-        cond.focusRange = []
+        cond.focusRange = [, null]
         expect((await db.select(cond)).length).toEqual(2)
     })
 

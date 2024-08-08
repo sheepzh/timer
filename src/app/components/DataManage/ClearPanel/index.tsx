@@ -43,10 +43,9 @@ function generateParamAndSelect(option: FilterOption): Promise<timer.stat.Row[]>
  * @param mustInteger must be integer?
  * @returns true when has error, or false
  */
-function assertQueryParam(range: number[], mustInteger?: boolean): boolean {
+function assertQueryParam(range: Vector<2>, mustInteger?: boolean): boolean {
     const reg = mustInteger ? /^[0-9]+$/ : /^[0-9]+.?[0-9]*$/
-    const start = range[0]
-    const end = range[1]
+    const [start, end] = range || []
     const noStart = start !== undefined && start !== null
     const noEnd = end !== undefined && end !== null
     return (noStart && !reg.test(start.toString()))
@@ -73,7 +72,7 @@ function checkParam(option: FilterOption): StatQueryParam | undefined {
     return condition
 }
 
-function str2Range(startAndEnd: [string, string], numAmplifier?: (origin: number) => number): [number, number] {
+function str2Range(startAndEnd: [string, string], numAmplifier?: (origin: number) => number): Vector<2> {
     const startStr = startAndEnd[0]
     const endStr = startAndEnd[1]
     let start = str2Num(startStr, 0)

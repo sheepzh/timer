@@ -6,10 +6,10 @@
  */
 
 import { StyleValue, computed, defineComponent } from "vue"
-import HistogramWrapper from "./HistogramWrapper"
-import { useRows } from "./context"
-import { useHabitFilter } from "../context"
+import Wrapper, { BizOption } from "./Wrapper"
 import { useEcharts } from "@hooks"
+import { useRows } from "../context"
+import { useHabitFilter } from "../../context"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",
@@ -19,8 +19,8 @@ const CONTAINER_STYLE: StyleValue = {
 const _default = defineComponent(() => {
     const rows = useRows()
     const filter = useHabitFilter()
-    const bizOption = computed(() => ({ rows: rows.value, timeFormat: filter.value?.timeFormat }))
-    const { elRef } = useEcharts(HistogramWrapper, bizOption, { manual: true })
+    const bizOption = computed(() => ({ rows: rows.value, dateRange: filter.value?.dateRange } as BizOption))
+    const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
 
     return () => <div style={CONTAINER_STYLE} ref={elRef} />
 })

@@ -28,13 +28,13 @@ export type StatCondition = {
      *
      * @since 0.0.9
      */
-    focusRange?: number[]
+    focusRange?: Vector<2>
     /**
      * Time range
      *
      * @since 0.0.9
      */
-    timeRange?: number[]
+    timeRange?: Vector<2>
     /**
      * Whether to enable full host search, default is false
      *

@@ -7,7 +7,7 @@
 import { ElTable, ElTableColumn, ElTag } from "element-plus"
 import { defineComponent, PropType } from "vue"
 import { t } from "@app/locale"
-import { formatPeriod, formatPeriodCommon } from "@util/time"
+import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { period2Str } from "@util/limit"
 import LimitDelayColumn from "./column/LimitDelayColumn"
@@ -42,12 +42,12 @@ const renderDetail = (row: timer.limit.Item) => {
     return <div style={{ display: 'flex', flexDirection: 'column', gap: "4px" }}>
         {!!time && <div>
             <ElTag size="small">
-                {t(msg => msg.limit.item.time)}: {formatPeriod(time * 1000, timeMsg)}
+                {t(msg => msg.limit.item.time)}: {formatPeriod(time * MILL_PER_SECOND, timeMsg)}
             </ElTag>
         </div>}
         {!!visitTime && <div>
             <ElTag size="small">
-                {t(msg => msg.limit.item.visitTime)}: {formatPeriod(visitTime * 1000, timeMsg)}
+                {t(msg => msg.limit.item.visitTime)}: {formatPeriod(visitTime * MILL_PER_SECOND, timeMsg)}
             </ElTag>
         </div>}
         {!!periods?.length && <div>

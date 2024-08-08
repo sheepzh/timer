@@ -15,8 +15,12 @@ import { SVGRenderer } from "echarts/renderers"
 import { TooltipComponent, GridComponent, TitleComponent } from "echarts/components"
 import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
-import { SeriesDataItem, formatFocusTooltip, generateTitleOption } from "./common"
+import { SeriesDataItem, generateTitleOption } from "../common"
 import { EchartsWrapper } from "@hooks"
+import { getStepColors } from "@app/util/echarts"
+import { TopLevelFormatterParams } from "echarts/types/dist/shared"
+import { generateSiteLabel } from "@util/site"
+import { periodFormatter } from "@app/util/time"
 
 use([BarChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])
 
@@ -32,15 +36,30 @@ type BizOption = {
     timeFormat: timer.app.TimeFormat
 }
 
+const TOP_NUM = 8
+
 const MARGIN_LEFT_P = 8
-const MARGIN_RIGHT_P = 4
-const TOP_NUM = 7
+const MARGIN_RIGHT_P = 8
+
+const formatFocusTooltip = (params: TopLevelFormatterParams, format: timer.app.TimeFormat): string => {
+    const param = Array.isArray(params) ? params[0] : params
+    const { data } = param || {}
+    const { row } = (data as any) || {}
+    const { host, alias, focus = 0 } = row || {}
+    const siteLabel = host ? generateSiteLabel(host, alias) : (alias || 'Unknown')
+    return `
+        <div>${siteLabel}</div>
+        <div>
+            <b>${periodFormatter(focus, { format })}</b>
+        </div>
+    `
+}
 
 async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app.TimeFormat, dom: HTMLElement): Promise<EcOption> {
     const merged = mergeDate(rows)
-    const top10 = merged.sort((a, b) => b.focus - a.focus).splice(0, TOP_NUM).reverse()
-    const max = top10[top10.length - 1]?.focus ?? 0
-    const hosts = top10.map(r => r.alias || r.host)
+    const topList = merged.sort((a, b) => b.focus - a.focus).splice(0, TOP_NUM).reverse()
+    const max = topList[topList.length - 1]?.focus ?? 0
+    const hosts = topList.map(r => r.alias || r.host)
 
     const domW = dom.getBoundingClientRect().width
     const chartW = domW * (100 - MARGIN_LEFT_P - MARGIN_RIGHT_P) / 100
@@ -53,13 +72,13 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
             left: `${MARGIN_LEFT_P}%`,
             containLabel: true,
             right: `${MARGIN_RIGHT_P}%`,
-            top: "12%",
+            top: "16%",
             bottom: '4%',
         },
         tooltip: {
             trigger: "axis",
             axisPointer: { type: "shadow" },
-            formatter: (val: [any]) => formatFocusTooltip(val, timeFormat, { splitLine: true, ignorePercentage: true }),
+            formatter: (params: TopLevelFormatterParams) => formatFocusTooltip(params, timeFormat),
         },
         xAxis: {
             type: "value",
@@ -84,17 +103,22 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
         },
         series: [{
             type: "bar",
-            data: top10.map(row => {
+            barWidth: '100%',
+            data: topList.map((row, idx) => {
+                const isBottom = idx === 0
+                const isTop = idx === topList.length - 1
                 const { focus: value = 0 } = row || {}
                 const labelW = (value / max) * chartW - 8
                 return {
                     value, row,
                     label: { show: labelW >= 50, width: labelW },
+                    itemStyle: {
+                        borderRadius: [
+                            isTop ? 5 : 0, isTop ? 5 : 0, 5, isBottom ? 5 : 0
+                        ]
+                    }
                 }
             }),
-            itemStyle: {
-                borderRadius: [0, 12, 12, 0],
-            },
             label: {
                 position: 'insideRight',
                 overflow: "truncate",
@@ -106,11 +130,13 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
                     const { host, alias } = row
                     return alias || host
                 },
-            }
-        }]
+            },
+            colorBy: 'data',
+            color: getStepColors(topList.length, 1.5),
+        }],
     }
 }
 
-export default class HistogramWrapper extends EchartsWrapper<BizOption, EcOption> {
+export default class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     generateOption = ({ rows, timeFormat }: BizOption) => generateOption(rows, timeFormat, this.getDom())
 }

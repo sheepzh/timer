@@ -18,16 +18,10 @@ export type CalendarMessage = {
         endDate: string
     }
     range: {
+        everyday: string
         today: string
         yesterday: string
-        everyday: string
-        last24Hours: string
-        last3Days: string
-        last7Days: string
-        last15Days: string
-        last30Days: string
-        last60Days: string
-        last90Days: string
+        lastDays: string
     }
 }
 

@@ -6,7 +6,6 @@
  */
 
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-import type { CalendarMessage } from "@i18n/message/common/calendar"
 
 import DownloadFile from "./DownloadFile"
 import RemoteClient from "./RemoteClient"
@@ -21,18 +20,17 @@ import { ElButton } from "element-plus"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 
-function datePickerShortcut(msg: keyof CalendarMessage['range'], agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
-    const text = t(messages => messages.calendar.range[msg])
+function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
     return { text, value }
 }
 
 const dateShortcuts: ElementDatePickerShortcut[] = [
-    datePickerShortcut('today'),
-    datePickerShortcut('yesterday', 1, 1),
-    datePickerShortcut('last7Days', 7),
-    datePickerShortcut('last30Days', 30),
-    datePickerShortcut('last60Days', 60),
+    datePickerShortcut(t(msg => msg.calendar.range.today)),
+    datePickerShortcut(t(msg => msg.calendar.range.yesterday), 1, 1),
+    datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 7 }), 7),
+    datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 30 }), 30),
+    datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 60 }), 60),
 ]
 
 const _default = defineComponent({

@@ -15,9 +15,11 @@ export type HabitMessage = {
         title: string
         busiest: string
         idle: string
-        yAxisMin: string
-        yAxisHour: string
-        averageLabel: string
+        chartType: {
+            average: string
+            trend: string
+            stack: string
+        }
         sizes: {
             fifteen: string
             halfHour: string
@@ -27,13 +29,20 @@ export type HabitMessage = {
     }
     site: {
         title: string
-        focusPieTitle: string
-        visitPieTitle: string
-        otherLabel: string
         histogramTitle: string
         exclusiveToday: string
         countTotal: string
         siteAverage: string
+        distribution: {
+            title: string
+            aveTime: string
+            aveVisit: string
+            tooltip: string
+        }
+        trend: {
+            siteCount: string
+            title: string
+        }
     }
 }
 

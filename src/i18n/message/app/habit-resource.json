@@ -7,9 +7,11 @@
             "title": "不同时段的访问习惯",
             "busiest": "每天最繁忙时段",
             "idle": "最长空闲时段",
-            "yAxisMin": "浏览时长 / 分钟",
-            "yAxisHour": "浏览时长 / 小时",
-            "averageLabel": "平均每天",
+            "chartType": {
+                "average": "日均",
+                "trend": "趋势",
+                "stack": "累积"
+            },
             "sizes": {
                 "fifteen": "每十五分钟统计一次",
                 "halfHour": "每半小时统计一次",
@@ -19,20 +21,24 @@
         },
         "site": {
             "title": "网站访问习惯",
-            "focusPieTitle": "浏览时间占比",
-            "visitPieTitle": "访问次数占比",
-            "otherLabel": "其他{count}个网站",
             "histogramTitle": "最长访问 TOP {n}",
             "exclusiveToday": "今天的数据不计入平均值",
             "countTotal": "总计访问次数/网站数",
-            "siteAverage": "平均每天访问 {value} 个网站"
+            "siteAverage": "平均每天访问 {value} 个网站",
+            "distribution": {
+                "title": "日均访问频率分布",
+                "aveTime": "日平均浏览时间",
+                "aveVisit": "日平均访问次数",
+                "tooltip": "共 {value} 个网站"
+            },
+            "trend": {
+                "title": "访问日趋势",
+                "siteCount": "网站数"
+            }
         }
     },
     "zh_TW": {
         "period": {
-            "yAxisMin": "瀏覽時長 / 分鐘",
-            "yAxisHour": "瀏覽時長 / 小時",
-            "averageLabel": "平均每天",
             "sizes": {
                 "fifteen": "按十五分鐘統計",
                 "halfHour": "按半小時統計",
@@ -48,9 +54,6 @@
         },
         "site": {
             "title": "網站造訪習慣",
-            "focusPieTitle": "瀏覽時間佔比",
-            "visitPieTitle": "造訪次數佔比",
-            "otherLabel": "其他 {count} 個網站",
             "histogramTitle": "最長造訪 TOP {n}",
             "exclusiveToday": "今天的數據不計入平均值",
             "countTotal": "總計造訪次數/網站數",
@@ -65,9 +68,11 @@
             "title": "Habit of time periods",
             "busiest": "Busiest time of day",
             "idle": "Longest idle period",
-            "yAxisMin": "Browsing Time / minute",
-            "yAxisHour": "Browsing Time / hour",
-            "averageLabel": "Daily average",
+            "chartType": {
+                "average": "Daily average",
+                "trend": "Trend",
+                "stack": "Stack"
+            },
             "sizes": {
                 "fifteen": "Per 15 minutes",
                 "halfHour": "Per half hour",
@@ -77,20 +82,24 @@
         },
         "site": {
             "title": "Habit of websites",
-            "focusPieTitle": "Percentage of browsing time",
-            "visitPieTitle": "Percentage of visits",
-            "otherLabel": "Other {count} sites",
             "histogramTitle": "TOP {n} most visited",
             "exclusiveToday": "Today's data is not included in the average",
             "countTotal": "Total visits/sites",
-            "siteAverage": "Average visits to {value} websites per day"
+            "siteAverage": "Average visits to {value} websites per day",
+            "distribution": {
+                "title": "Daily average frequency distribution",
+                "aveTime": "Average daily browsing time",
+                "aveVisit": "Average daily visit count",
+                "tooltip": "Total {value} websites"
+            },
+            "trend": {
+                "title": "Daily trends",
+                "siteCount": "Website count"
+            }
         }
     },
     "ja": {
         "period": {
-            "yAxisMin": "閲覧時間/分",
-            "yAxisHour": "閲覧時間/時間",
-            "averageLabel": "1日平均",
             "sizes": {
                 "fifteen": "15分で統計",
                 "halfHour": "30分で統計",
@@ -106,9 +115,6 @@
         },
         "site": {
             "title": "ウェブサイトの習慣について",
-            "focusPieTitle": "閲覧時間の割合",
-            "visitPieTitle": "訪問の割合",
-            "otherLabel": "他 {count} サイト",
             "histogramTitle": "トップ {n} が最も多く訪れた",
             "exclusiveToday": "今日のデータは平均に含まれていません",
             "countTotal": "総訪問数/サイト",
@@ -117,9 +123,6 @@
     },
     "pt_PT": {
         "period": {
-            "yAxisMin": "Tempo de Navegação / Minutos",
-            "yAxisHour": "Tempo de Navegação / Hora",
-            "averageLabel": "Média diária",
             "sizes": {
                 "fifteen": "Por 15 minutos",
                 "halfHour": "Por meia hora",
@@ -135,9 +138,6 @@
         },
         "site": {
             "title": "Hábito de sites",
-            "focusPieTitle": "Percentagem de navegação",
-            "visitPieTitle": "Porcentagem de visitas",
-            "otherLabel": "Outros {count} sites",
             "histogramTitle": "TOP {n} mais visitados",
             "exclusiveToday": "Os dados de hoje não estão incluídos na média",
             "countTotal": "Total de visitas/sites",
@@ -152,9 +152,6 @@
                 "hour": "Кожну годину",
                 "twoHour": "Кожні 2 години"
             },
-            "averageLabel": "Середнє за день",
-            "yAxisMin": "Час перегляду за хвилину",
-            "yAxisHour": "Час перегляду за годину",
             "title": "Проміжки часу",
             "busiest": "Найзавантаженіший час доби",
             "idle": "Найдовший період бездіяльності"
@@ -164,9 +161,6 @@
         },
         "site": {
             "title": "Вебсайти",
-            "focusPieTitle": "Відсоток часу перегляду",
-            "visitPieTitle": "Відсоток відвідувань",
-            "otherLabel": "Інші сайти: {count}",
             "histogramTitle": "{n} найвідвідуваніших сайтів",
             "exclusiveToday": "Сьогоднішні дані не включені в середній показник",
             "countTotal": "Всього відвідувань/сайтів",
@@ -181,9 +175,6 @@
             "title": "Hábito de períodos de tiempo",
             "busiest": "Hora más ocupada del día",
             "idle": "Periodo inactivo más largo",
-            "yAxisMin": "Tiempo de navegación / minuto",
-            "yAxisHour": "Tiempo de navegación / hora",
-            "averageLabel": "Promedio diario",
             "sizes": {
                 "fifteen": "Por 15 minutos",
                 "halfHour": "Por media hora",
@@ -193,9 +184,6 @@
         },
         "site": {
             "title": "Hábito de sitios web",
-            "focusPieTitle": "Porcentaje de tiempo de navegación",
-            "visitPieTitle": "Porcentaje de visitas",
-            "otherLabel": "Otros {count} sitios",
             "histogramTitle": "TOP {n} más visitados",
             "exclusiveToday": "Los datos de hoy no están incluidos en el promedio",
             "countTotal": "Total de visitas/sitios",
@@ -210,9 +198,6 @@
             "title": "Gewohnheiten jeden Augenblick",
             "busiest": "Die geschäftigste Zeit des Tages",
             "idle": "Längste Leerlaufzeit",
-            "yAxisMin": "Browsing-Zeit / Minute",
-            "yAxisHour": "Browsing-Zeit / Stunde",
-            "averageLabel": "Täglicher Durchschnitt",
             "sizes": {
                 "fifteen": "Pro 15 Minuten",
                 "halfHour": "Pro halbe Stunde",
@@ -222,9 +207,6 @@
         },
         "site": {
             "title": "Gewohnheit von Websites",
-            "focusPieTitle": "Prozentsatz der Anzeigezeit",
-            "visitPieTitle": "Prozentsatz der Besuche",
-            "otherLabel": "{count} andere Websites",
             "histogramTitle": "TOP {n} der meistbesuchten",
             "exclusiveToday": "Der Durchschnitt berücksichtigt nicht die heutigen Daten",
             "countTotal": "Gesamtzahl der Besuche/Websites",
@@ -239,9 +221,6 @@
             "title": "Habitude des périodes de temps",
             "busiest": "Période de la journée la plus chargée",
             "idle": "La plus longue période d'inactivité",
-            "yAxisMin": "Temps / minute de navigation",
-            "yAxisHour": "Temps / heure de navigation",
-            "averageLabel": "Moyenne quotidienne",
             "sizes": {
                 "fifteen": "Par tranche de 15 minutes",
                 "halfHour": "Par demi-heure",
@@ -251,9 +230,6 @@
         },
         "site": {
             "title": "Habitude des sites web",
-            "focusPieTitle": "Pourcentage de temps de navigation",
-            "visitPieTitle": "Pourcentage des visites",
-            "otherLabel": "{count} autres sites",
             "histogramTitle": "Top {n} des plus visités",
             "exclusiveToday": "Les données d'aujourd'hui ne sont pas incluses dans la moyenne",
             "countTotal": "Nombre total de visites/sites",

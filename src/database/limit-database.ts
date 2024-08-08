@@ -34,7 +34,7 @@ type ItemValue = {
     /**
      * Forbidden periods
      */
-    p?: [number, number][]
+    p?: Vector<2>[]
     /**
      * Enabled flag
      */

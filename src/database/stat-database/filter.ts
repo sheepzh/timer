@@ -95,13 +95,13 @@ function processDateCondition(cond: _StatCondition, paramDate: Date | [Date, Dat
     }
 }
 
-function processParamTimeCondition(cond: _StatCondition, paramTime: number[]) {
+function processParamTimeCondition(cond: _StatCondition, paramTime: Vector<2>) {
     if (!paramTime) return
     paramTime.length >= 2 && (cond.timeEnd = paramTime[1])
     paramTime.length >= 1 && (cond.timeStart = paramTime[0])
 }
 
-function processParamFocusCondition(cond: _StatCondition, paramFocus: number[]) {
+function processParamFocusCondition(cond: _StatCondition, paramFocus: Vector<2>) {
     if (!paramFocus) return
     paramFocus.length >= 2 && (cond.focusEnd = paramFocus[1])
     paramFocus.length >= 1 && (cond.focusStart = paramFocus[0])
