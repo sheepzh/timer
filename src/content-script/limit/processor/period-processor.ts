@@ -1,6 +1,7 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { LimitReason, ModalContext, Processor } from "../common"
 import { date2Idx } from "@util/limit"
+import { MILL_PER_SECOND } from "@util/time"
 
 function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalContext): number[] {
     const { cond, periods, id } = rule
@@ -11,11 +12,11 @@ function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalC
         const reason: LimitReason = { id, cond, type: "PERIOD" }
         const timers = []
         if (nowSeconds < startSeconds) {
-            timers.push(setInterval(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * 1000))
-            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))
+            timers.push(setInterval(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * MILL_PER_SECOND))
+            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
         } else if (nowSeconds >= startSeconds && nowSeconds <= endSeconds) {
             context.modal.addReason(reason)
-            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * 1000))
+            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
         }
         return timers
     })

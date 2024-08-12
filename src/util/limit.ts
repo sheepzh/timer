@@ -1,17 +1,27 @@
-import { getWeekDay } from "./time"
+import { getWeekDay, MILL_PER_MINUTE, MILL_PER_SECOND } from "./time"
 
-export const DELAY_MILL = 5 * 60 * 1000
+export const DELAY_MILL = 5 * MILL_PER_MINUTE
 
-export function matches(item: timer.limit.Item, url: string): boolean {
-    return item?.cond?.some?.(
+export function matches(cond: timer.limit.Item['cond'], url: string): boolean {
+    return cond?.some?.(
         c => new RegExp(`^${(c || '').split('*').join('.*')}`).test(url)
     )
 }
 
 export function hasLimited(item: timer.limit.Item): boolean {
+    return hasDailyLimited(item) || hasWeeklyLimited(item)
+}
+
+export function hasDailyLimited(item: timer.limit.Item): boolean {
     const { time, waste = 0, delayCount = 0 } = item || {}
     if (!time) return false
     return waste >= time * 1000 + delayCount * DELAY_MILL
+}
+
+export function hasWeeklyLimited(item: timer.limit.Item): boolean {
+    const { weekly, weeklyWaste = 0, weeklyDelayCount = 0 } = item || {}
+    if (!weekly) return false
+    return weeklyWaste >= weekly * 1000 + weeklyDelayCount * DELAY_MILL
 }
 
 export function skipToday(item: timer.limit.Item): boolean {

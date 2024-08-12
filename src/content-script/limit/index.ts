@@ -1,6 +1,6 @@
 import { MaskModal, ModalContext, Processor } from "./common"
 import ModalInstance from "./modal"
-import DailyProcessor from "./processor/daily-processor"
+import MessageAdaptor from "./processor/message-adaptor"
 import VisitProcessor from "./processor/visit-processor"
 import PeriodProcessor from "./processor/period-processor"
 import { onRuntimeMessage } from "@api/chrome/runtime"
@@ -11,7 +11,7 @@ export default async function processLimit(url: string) {
     const context: ModalContext = { modal, url }
 
     const processors: Processor[] = [
-        new DailyProcessor(context),
+        new MessageAdaptor(context),
         new PeriodProcessor(context),
         new VisitProcessor(context),
     ]

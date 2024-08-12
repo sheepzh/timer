@@ -9,10 +9,10 @@ import { ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText 
 import { defineComponent, StyleValue } from "vue"
 import InstallationLink from "./InstallationLink"
 import packageInfo, { AUTHOR_EMAIL } from "@src/package"
-import { locale } from "@i18n"
 import "./description.sass"
 import metaService from "@service/meta-service"
 import DescLink from "./DescLink"
+import { locale } from "@i18n"
 
 const INSTALLATION_STYLE: StyleValue = {
     display: "flex",

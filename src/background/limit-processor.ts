@@ -13,11 +13,11 @@ import { matches } from "@util/limit"
 import limitService from "@service/limit-service"
 import { isBrowserUrl } from "@util/pattern"
 import alarmManager from "./alarm-manager"
-import { getStartOfDay, MILL_PER_DAY } from "@util/time"
+import { getStartOfDay, MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 
 function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
     const { url } = tab
-    const anyMatch = rules.map(rule => matches(rule, url)).reduce((a, b) => a || b, false)
+    const anyMatch = rules.map(rule => matches(rule?.cond, url)).reduce((a, b) => a || b, false)
     if (!anyMatch) {
         return
     }
@@ -62,11 +62,11 @@ const processMoreMinutes = async (url: string) => {
 
 const processAskHitVisit = async (item: timer.limit.Item) => {
     let tabs = await listTabs()
-    tabs = tabs?.filter(({ url }) => matches(item, url))
+    tabs = tabs?.filter(({ url }) => matches(item?.cond, url))
     const { visitTime = 0 } = item || {}
     for (const { id } of tabs) {
         const tabFocus = await sendMsg2Tab(id, "askVisitTime", undefined)
-        if (tabFocus && tabFocus > visitTime * 1000) return true
+        if (tabFocus && tabFocus > visitTime * MILL_PER_SECOND) return true
     }
     return false
 }

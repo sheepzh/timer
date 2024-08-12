@@ -21,8 +21,7 @@ use([
 ])
 
 import { EchartsWrapper } from "@hooks"
-import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR } from "@util/time"
-import { locale } from "@i18n"
+import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR, MILL_PER_MINUTE } from "@util/time"
 import { groupBy, rotate, sum } from "@util/array"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
@@ -31,6 +30,7 @@ import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { getStepColors } from "@app/util/echarts"
+import { locale } from "@i18n"
 
 type _Value = [
     x: number,
@@ -109,8 +109,8 @@ type Piece = {
     color?: string
 }
 
-const minOf = (min: number) => min * 60 * 1000
-const hourOf = (hour: number) => hour * 60 * 60 * 1000
+const minOf = (min: number) => min * MILL_PER_MINUTE
+const hourOf = (hour: number) => hour * MILL_PER_HOUR
 
 const ALL_PIECES: Piece[] = [
     { min: 1, max: minOf(10), label: "<10m" },

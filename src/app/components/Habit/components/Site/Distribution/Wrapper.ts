@@ -126,7 +126,7 @@ const baseLegendTitle = (): TitleComponentOption => ({
 })
 
 function generateOption(bizOption: BizOption): EcOption {
-    let { rows, dateRange } = bizOption || {}
+    let { rows = [], dateRange } = bizOption || {}
     const [averageLen, _, exclusiveDate] = computeAverageLen(dateRange)
     if (exclusiveDate) {
         rows = rows.filter(r => r.date !== exclusiveDate)

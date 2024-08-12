@@ -65,6 +65,7 @@ function computeLimitInfo2Second(hour: number, minute: number, second: number): 
 const _default = defineComponent({
     props: {
         modelValue: Number,
+        hourMax: Number
     },
     emits: {
         change: (_val: number) => true
@@ -83,12 +84,13 @@ const _default = defineComponent({
         const limitTime = computed(() => computeLimitInfo2Second(hour.value, minute.value, second.value))
         watch(limitTime, () => ctx.emit('change', limitTime.value))
 
-        return () => <div class="limit-time-input">
-            <UnitInput modelValue={hour.value} onChange={setHour} unit="H" max={23} />
-            <UnitInput modelValue={minute.value} onChange={setMinute} unit="M" max={59} />
-            <UnitInput modelValue={second.value} onChange={setSecond} unit="S" max={59} />
-        </div>
-
+        return () => (
+            <div class="limit-time-input">
+                <UnitInput modelValue={hour.value} onChange={setHour} unit="H" max={props.hourMax ?? 23} />
+                <UnitInput modelValue={minute.value} onChange={setMinute} unit="M" max={59} />
+                <UnitInput modelValue={second.value} onChange={setSecond} unit="S" max={59} />
+            </div>
+        )
     }
 })
 

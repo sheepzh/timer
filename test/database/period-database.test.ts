@@ -1,7 +1,6 @@
-import { DATE_FORMAT } from "@db/common/constant"
 import PeriodDatabase from "@db/period-database"
 import { keyOf, MILL_PER_PERIOD } from "@util/period"
-import { formatTime } from "@util/time"
+import { formatTimeYMD } from "@util/time"
 import storage from "../__mock__/storage"
 
 const db = new PeriodDatabase(storage.local)
@@ -15,7 +14,7 @@ describe('period-database', () => {
 
     test('1', async () => {
         const date = new Date(2021, 5, 7)
-        const dateStr = formatTime(date, DATE_FORMAT)
+        const dateStr = formatTimeYMD(date)
         const yesterday = new Date(2021, 5, 6)
 
         expect((await db.get(dateStr))).toEqual({})
@@ -31,7 +30,7 @@ describe('period-database', () => {
         ])
         const data = await db.get(dateStr)
         expect(data).toEqual({ 0: 56999, 1: 22 })
-        const yesterdayStr = formatTime(yesterday, DATE_FORMAT)
+        const yesterdayStr = formatTimeYMD(yesterday)
         const yesterdayData = await db.get(yesterdayStr)
         expect(yesterdayData).toEqual({ 95: 2 })
     })

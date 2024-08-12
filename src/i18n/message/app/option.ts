@@ -15,8 +15,6 @@ export type OptionMessage = {
         defaultMergeDomain: string
         defaultDisplay: string
         displaySiteName: string
-        weekStart: string
-        weekStartAsNormal: string
     }
     appearance: {
         title: string
@@ -55,6 +53,8 @@ export type OptionMessage = {
         siteName: string
         fileAccessDisabled: string
         fileAccessFirefox: string
+        weekStart: string
+        weekStartAsNormal: string
     }
     dailyLimit: {
         prompt: string

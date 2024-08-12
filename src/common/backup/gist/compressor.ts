@@ -6,7 +6,7 @@
  */
 
 import { groupBy } from "@util/array"
-import { formatTime, getBirthday, parseTime } from "@util/time"
+import { formatTimeYMD, getBirthday, parseTime } from "@util/time"
 
 function calcGroupKey(row: timer.stat.RowBase): string {
     const date = row.date
@@ -48,15 +48,15 @@ export function divide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][]
  * Calculate all the buckets between {@param startDate} and {@param endDate}
  */
 export function calcAllBuckets(startDate: string, endDate: string) {
-    endDate = endDate || formatTime(new Date(), '{y}{m}{d}')
+    endDate = endDate || formatTimeYMD(new Date())
     const result = []
     const start = startDate ? parseTime(startDate) : getBirthday()
     const end = parseTime(endDate)
     while (start < end) {
-        result.push(formatTime(start, '{y}{m}{d}'))
+        result.push(formatTimeYMD(start))
         start.setMonth(start.getMonth() + 1)
     }
-    const lastMonth = formatTime(end, '{y}{m}{d}')
+    const lastMonth = formatTimeYMD(end)
     !result.includes(lastMonth) && (result.push(lastMonth))
     return result
 }

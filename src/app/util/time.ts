@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { formatPeriodCommon, MILL_PER_MINUTE } from "@util/time"
+import { formatPeriodCommon, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 
 /**
  * Convert {yyyy}{mm}{dd} to locale time
@@ -48,7 +48,7 @@ export function periodFormatter(milliseconds: number, option?: PeriodFormatOptio
     if (format === "default") return formatPeriodCommon(milliseconds)
     let val: string = null
     if (format === "second") {
-        val = Math.floor(milliseconds / 1000).toFixed(0)
+        val = Math.floor(milliseconds / MILL_PER_SECOND).toFixed(0)
     } else if (format === "minute") {
         val = (milliseconds / MILL_PER_MINUTE).toFixed(1)
     } else if (format === "hour") {

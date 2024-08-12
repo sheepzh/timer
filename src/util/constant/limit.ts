@@ -1,1 +1,0 @@
-export const DELAY_MILL = 5 * 60 * 1000

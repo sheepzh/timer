@@ -32,12 +32,6 @@ declare namespace timer.option {
          */
         displaySiteName: boolean
         /**
-         * The start of one week
-         *
-         * @since 1.2.5
-         */
-        weekStart: WeekStartOption
-        /**
          * Whether to merge domain by default
          *
          * @since 1.3.2
@@ -120,6 +114,11 @@ declare namespace timer.option {
          * @since 0.7.0
          */
         countLocalFiles: boolean
+        /**
+         * The start of one week
+         * @since 2.4.1
+         */
+        weekStart?: WeekStartOption
     }
 
     type DailyLimitOption = {

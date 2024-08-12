@@ -21,13 +21,16 @@ export type LimitMessage = {
         name: string
         condition: string
         time: string
+        waste: string
+        weekly: string
+        wasteWeekly: string
+        weekStartInfo: string
         visitTime: string
         period: string
         enabled: string
         effectiveDay: string
         delayAllowed: string
         delayAllowedInfo: string
-        waste: string
         delayCount: string
         detail: string
         operation: string

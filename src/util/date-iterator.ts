@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { MILL_PER_DAY, formatTime, isSameDay } from "./time"
+import { MILL_PER_DAY, formatTimeYMD, isSameDay } from "./time"
 
 /**
  * Iterate from the {@param start} to the {@param end}
@@ -31,7 +31,7 @@ export default class DateIterator {
 
     next(): IteratorResult<string> {
         if (this.hasNext()) {
-            const value = formatTime(this.cursor, '{y}{m}{d}')
+            const value = formatTimeYMD(this.cursor)
             this.cursor = new Date(this.cursor.getTime() + MILL_PER_DAY)
             return {
                 value,

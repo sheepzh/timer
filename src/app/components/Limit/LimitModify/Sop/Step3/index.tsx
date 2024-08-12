@@ -14,24 +14,38 @@ import { useShadow } from "@hooks"
 import { StepFromInstance } from "../common"
 import "./style.sass"
 
+type Value = Pick<timer.limit.Item, 'time' | 'visitTime' | 'weekly' | 'periods'>
+
+const MAX_HOUR_WEEKLY = 7 * 24 - 1
+
 const _default = defineComponent({
     props: {
         time: Number,
         visitTime: Number,
+        weekly: Number,
         periods: Array as PropType<timer.limit.Period[]>,
     },
     emits: {
-        change: (_time: number, _visitTime: number, _periods: Vector<2>[]) => true,
+        change: (_val: Value) => true,
     },
     setup(props, ctx) {
         const [time, setTime] = useShadow(() => props.time)
+        const [weekly, setWeekly] = useShadow(() => props.weekly)
         const [visitTime, setVisitTime] = useShadow(() => props.visitTime)
         const [periods, setPeriods] = useShadow(() => props.periods, [])
 
-        watch([time, visitTime, periods], () => ctx.emit("change", time.value, visitTime.value, periods.value))
+        watch([time, visitTime, periods, weekly], () => {
+            const val: Value = {
+                time: time.value,
+                visitTime: visitTime.value,
+                weekly: weekly.value,
+                periods: periods.value,
+            }
+            ctx.emit("change", val)
+        })
 
         const validate = () => {
-            if (!time.value && !visitTime.value && !periods.value?.length) {
+            if (!time.value && !visitTime.value && !periods.value?.length && !weekly.value) {
                 ElMessage.error(t(msg => msg.limit.message.noRule))
                 return false
             }
@@ -43,6 +57,13 @@ const _default = defineComponent({
             <ElForm labelWidth={180} labelPosition="left">
                 <ElFormItem label={t(msg => msg.limit.item.time)}>
                     <TimeInput modelValue={time.value} onChange={setTime} />
+                </ElFormItem>
+                <ElFormItem label={t(msg => msg.limit.item.weekly)}>
+                    <TimeInput
+                        modelValue={weekly.value}
+                        onChange={setWeekly}
+                        hourMax={MAX_HOUR_WEEKLY}
+                    />
                 </ElFormItem>
                 <ElFormItem label={t(msg => msg.limit.item.visitTime)}>
                     <TimeInput modelValue={visitTime.value} onChange={setVisitTime} />

@@ -32,10 +32,10 @@ const _default = defineComponent({
         let modifyingItem: timer.limit.Rule = undefined
 
         const handleSave = async (rule: timer.limit.Rule) => {
-            const { cond, enabled, name, time, visitTime, periods, weekdays } = rule
+            const { cond, enabled, name, time, weekly, visitTime, periods, weekdays } = rule
             const toSave: timer.limit.Rule = {
                 ...modifyingItem || {},
-                cond, enabled, name, time, visitTime, weekdays,
+                cond, enabled, name, time, weekly, visitTime, weekdays,
                 // Object to array
                 periods: periods?.map(i => [i?.[0], i?.[1]]),
             }

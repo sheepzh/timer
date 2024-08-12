@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { formatTime } from "@util/time"
+import { formatTimeYMD } from "@util/time"
 import { periodFormatter } from "@app/util/time"
 import {
     exportCsv as exportCsv_,
@@ -30,8 +30,8 @@ function computeFileName(filterParam: ReportFilterOption): string {
     if (dateRange && dateRange.length === 2) {
         const start = dateRange[0]
         const end = dateRange[1]
-        baseName += '_' + formatTime(start, '{y}{m}{d}')
-        baseName += '_' + formatTime(end, '{y}{m}{d}')
+        baseName += '_' + formatTimeYMD(start)
+        baseName += '_' + formatTimeYMD(end)
     }
     mergeDate && (baseName += '_' + t(msg => msg.report.mergeDate))
     mergeHost && (baseName += '_' + t(msg => msg.report.mergeDomain))

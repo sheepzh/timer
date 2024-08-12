@@ -16,7 +16,6 @@ export function defaultPopup(): timer.option.PopupOption {
          * Change the default value to 'true' since v0.5.4
          */
         displaySiteName: true,
-        weekStart: 'default',
         defaultMergeDomain: false,
     }
 }
@@ -41,6 +40,7 @@ export function defaultStatistics(): timer.option.StatisticsOption {
     return {
         collectSiteName: true,
         countLocalFiles: true,
+        weekStart: 'default',
     }
 }
 

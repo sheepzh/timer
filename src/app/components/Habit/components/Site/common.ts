@@ -8,9 +8,7 @@
 import type { TitleComponentOption } from "echarts/components"
 
 import { getRegularTextColor } from "@util/style"
-import { generateSiteLabel } from "@util/site"
-import { periodFormatter } from "@app/util/time"
-import { formatTime, getDayLength, isSameDay } from "@util/time"
+import { formatTimeYMD, getDayLength, isSameDay } from "@util/time"
 
 export const generateTitleOption = (text: string): TitleComponentOption => {
     const secondaryTextColor = getRegularTextColor()
@@ -42,7 +40,7 @@ export const computeAverageLen = (dateRange: [Date, Date] = [null, null]): [numb
     const dateDiff = getDayLength(start, end)
     const endIsTody = isSameDay(end, new Date())
     if (endIsTody) {
-        return [dateDiff - 1, true, formatTime(end, "{y}{m}{d}")]
+        return [dateDiff - 1, true, formatTimeYMD(end)]
     } else {
         return [dateDiff, false, null]
     }

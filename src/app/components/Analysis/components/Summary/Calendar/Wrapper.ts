@@ -14,7 +14,6 @@ import {
     EffectScatterSeriesOption
 } from "echarts"
 import { formatTime, getAllDatesBetween, getWeeksAgo, parseTime } from "@util/time"
-import { locale } from "@i18n"
 import { EffectScatterChart } from "echarts/charts"
 import { SVGRenderer } from "echarts/renderers"
 import { use } from "echarts/core"
@@ -23,6 +22,7 @@ import { groupBy, rotate } from "@util/array"
 import { t } from "@app/locale"
 import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
 import { periodFormatter } from "@app/util/time"
+import { locale } from "@i18n"
 
 type EcOption = ComposeOption<
     | EffectScatterSeriesOption

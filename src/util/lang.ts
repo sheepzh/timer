@@ -17,9 +17,9 @@ export const deepCopy = <T = any>(obj: T): T => {
             deep[k] = new Map(v)
         } else if (v instanceof Date) {
             deep[k] = new Date(v.getTime())
-        } else if (v instanceof Proxy) {
+        } else {
             // Ignored type
-            deep[k] = v
+            deep[k] = deepCopy(v)
         }
     })
     return deep as T

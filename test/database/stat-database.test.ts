@@ -1,12 +1,11 @@
-import { DATE_FORMAT } from "@db/common/constant"
 import StatDatabase, { StatCondition } from "@db/stat-database"
-import { formatTime, MILL_PER_DAY } from "@util/time"
+import { formatTimeYMD, MILL_PER_DAY } from "@util/time"
 import { resultOf } from "@util/stat"
 import storage from "../__mock__/storage"
 
 const db = new StatDatabase(storage.local)
 const now = new Date()
-const nowStr = formatTime(now, DATE_FORMAT)
+const nowStr = formatTimeYMD(now)
 const yesterday = new Date(now.getTime() - MILL_PER_DAY)
 const beforeYesterday = new Date(now.getTime() - MILL_PER_DAY * 2)
 const baidu = 'www.baidu.com'
@@ -163,7 +162,7 @@ describe('stat-database', () => {
         const data = await db.select({})
         expect(data.length).toEqual(1)
         const item = data[0]
-        expect(item.date).toEqual(formatTime(now, "{y}{m}{d}"))
+        expect(item.date).toEqual(formatTimeYMD(now))
         expect(item.host).toEqual(baidu)
         expect(item.focus).toEqual(1)
         expect(item.time).toEqual(1)

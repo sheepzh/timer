@@ -55,6 +55,10 @@ export function formatTime(time: Date | string | number, cFormat?: string) {
     return timeStr
 }
 
+export function formatTimeYMD(time: Date | string | number) {
+    return formatTime(time, '{y}{m}{d}')
+}
+
 /**
  * Format milliseconds for display
  */
@@ -129,11 +133,34 @@ export function isSameDay(a: Date, b: Date): boolean {
  *
  * @since 0.6.0
  */
-export function getWeekTime(now: Date, isChinese: boolean): [Date, Date] {
-    const date = new Date(now)
-    const nowWeekday = getWeekDay(date, isChinese)
-    const startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() - nowWeekday)
-    return [new Date(startTime), now]
+export function getWeekTime(now: Date, weekStart: timer.option.WeekStartOption, locale: timer.Locale): [Date, Date] {
+    weekStart = getRealWeekStart(weekStart, locale)
+    // Returns 0 - 6 means Monday to Sunday
+    const weekDayNow = getWeekDay(now, true)
+    const optionWeekDay = weekDayNow + 1
+    let start: Date = undefined
+    if (optionWeekDay === weekStart) {
+        start = now
+    } else if (optionWeekDay < weekStart) {
+        const millDelta = (optionWeekDay + 7 - weekStart) * MILL_PER_DAY
+        start = new Date(now.getTime() - millDelta)
+    } else {
+        const millDelta = (optionWeekDay - weekStart) * MILL_PER_DAY
+        start = new Date(now.getTime() - millDelta)
+    }
+    return [start, now]
+}
+
+/**
+ * return 1-7
+ */
+export function getRealWeekStart(weekStart: timer.option.WeekStartOption, locale: timer.Locale): number {
+    weekStart = weekStart ?? 'default'
+    if (weekStart === 'default') {
+        return locale === 'zh_CN' ? 1 : 7
+    } else {
+        return weekStart
+    }
 }
 
 /**
@@ -234,14 +261,13 @@ export function getDayLength(dateStart: Date, dateEnd: Date): number {
  *  [20221110, 20221111]    if 2022-11-10 08:00:00 to 2022-11-11 00:00:01
  */
 export function getAllDatesBetween(dateStart: Date, dateEnd: Date): string[] {
-    const format = '{y}{m}{d}'
     let cursor = new Date(dateStart)
     let dates = []
     do {
-        dates.push(formatTime(cursor, format))
+        dates.push(formatTimeYMD(cursor))
         cursor = new Date(cursor.getTime() + MILL_PER_DAY)
     } while (cursor.getTime() < dateEnd.getTime())
-    isSameDay(cursor, dateEnd) && dates.push(formatTime(dateEnd, format))
+    isSameDay(cursor, dateEnd) && dates.push(formatTimeYMD(dateEnd))
     return dates
 }
 

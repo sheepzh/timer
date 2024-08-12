@@ -91,7 +91,7 @@ test("get week time", () => {
     // now 2022/05/22, Sun.
     const now = new Date(2022, 4, 22)
     // [2022/05/16, 2022/05/22]
-    let [s1, e1] = getWeekTime(now, true)
+    let [s1, e1] = getWeekTime(now, 'default', 'zh_CN')
     expect(s1.getDate()).toEqual(16)
     expect(s1.getHours()).toEqual(0)
     expect(s1.getMinutes()).toEqual(0)
@@ -99,7 +99,7 @@ test("get week time", () => {
     expect(s1.getMilliseconds()).toEqual(0)
     expect(e1).toEqual(now)
     // [2022/05/22, 2022/05/28]
-    let [s2] = getWeekTime(now, false)
+    let [s2] = getWeekTime(now, 'default', 'en')
     expect(s2.getDate()).toEqual(22)
 })
 

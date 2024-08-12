@@ -6,9 +6,9 @@
  */
 
 import { log } from "../../common/logger"
-import { formatTime } from "@util/time"
+import { formatTimeYMD } from "@util/time"
 import BaseDatabase from "../common/base-database"
-import { DATE_FORMAT, REMAIN_WORD_PREFIX } from "../common/constant"
+import { REMAIN_WORD_PREFIX } from "../common/constant"
 import { createZeroResult, mergeResult, isNotZeroResult } from "@util/stat"
 import { judgeVirtualFast } from "@util/pattern"
 import { filter } from "./filter"
@@ -61,7 +61,7 @@ function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
  * @param date date
  */
 function generateKey(host: string, date: Date | string) {
-    const str = typeof date === 'object' ? formatTime(date as Date, DATE_FORMAT) : date
+    const str = typeof date === 'object' ? formatTimeYMD(date as Date) : date
     return str + host
 }
 
@@ -111,7 +111,7 @@ class StatDatabase extends BaseDatabase {
     async accumulateBatch(data: timer.stat.ResultSet, date: Date): Promise<timer.stat.ResultSet> {
         const hosts = Object.keys(data)
         if (!hosts.length) return
-        const dateStr = formatTime(date, DATE_FORMAT)
+        const dateStr = formatTimeYMD(date)
         const keys: { [host: string]: string } = {}
         hosts.forEach(host => keys[host] = generateKey(host, dateStr))
 
@@ -209,8 +209,8 @@ class StatDatabase extends BaseDatabase {
      * @since 0.0.7
      */
     async deleteByUrlBetween(host: string, start?: Date, end?: Date): Promise<string[]> {
-        const startStr = start ? formatTime(start, DATE_FORMAT) : undefined
-        const endStr = end ? formatTime(end, DATE_FORMAT) : undefined
+        const startStr = start ? formatTimeYMD(start) : undefined
+        const endStr = end ? formatTimeYMD(end) : undefined
         const dateFilter = (date: string) => (startStr ? startStr <= date : true) && (endStr ? date <= endStr : true)
         const items = await this.refresh()
 

@@ -1,5 +1,6 @@
 import LimitDatabase from "@db/limit-database"
 import storage from "../__mock__/storage"
+import { formatTimeYMD } from "@util/time"
 
 const db = new LimitDatabase(storage.local)
 
@@ -45,6 +46,7 @@ describe('limit-database', () => {
     })
 
     test("update waste", async () => {
+        const date = formatTimeYMD(new Date())
         const id1 = await db.save({
             cond: ["a.*.com"],
             time: 21,
@@ -57,15 +59,15 @@ describe('limit-database', () => {
             enabled: true,
             allowDelay: false,
         })
-        await db.updateWaste("20220606", {
+        await db.updateWaste(date, {
             [id1]: 10,
             // Not exist, no error throws
-            [Number.MAX_VALUE]: 20,
+            [-1]: 20,
         })
         const all = await db.all()
         const used = all.find(a => a.cond?.includes("a.*.com"))
-        expect(used?.latestDate).toEqual("20220606")
-        expect(used?.wasteTime).toEqual(10)
+        expect(used?.records?.[date]).toBeTruthy()
+        expect(used?.records?.[date].mill).toEqual(10)
     })
 
     test("import data", async () => {
@@ -93,8 +95,7 @@ describe('limit-database', () => {
         const imported = await db.all()
 
         const cond2After = imported.find(a => a.cond?.includes("cond2"))
-        expect(!!cond2After?.latestDate).toBeFalsy()
-        expect(!!cond2After?.wasteTime).toBeFalsy()
+        expect(Object.values(cond2After?.records)).toBeTruthy()
         expect(cond2After?.allowDelay).toEqual(cond2.allowDelay)
         expect(cond2After?.enabled).toEqual(cond2.enabled)
     })
@@ -119,7 +120,7 @@ describe('limit-database', () => {
         const id = await db.save(data)
         await db.updateDelay(id, true)
         await db.updateDelay(Number.MAX_VALUE, true)
-        const all: timer.limit.Record[] = await db.all()
+        const all = await db.all()
         expect(all.length).toEqual(1)
         const item = all[0]
         expect(item.allowDelay).toBeTruthy()

@@ -16,7 +16,7 @@ import TypeSelectWrapper from "./select/type-select"
 import statService from "@service/stat-service"
 import { t } from "@popup/locale"
 import { locale } from "@i18n"
-import { getDayLength, getMonthTime, getWeekDay, getWeekTime, MILL_PER_DAY } from "@util/time"
+import { getDayLength, getMonthTime, getWeekTime, MILL_PER_DAY } from "@util/time"
 import optionService from "@service/option-service"
 
 type FooterParam = StatQueryParam & {
@@ -29,28 +29,7 @@ type DateRangeCalculator = (now: Date, weekStart: timer.option.WeekStartOption) 
 
 const dateRangeCalculators: { [duration in PopupDuration]: DateRangeCalculator } = {
     today: now => now,
-    thisWeek(now, weekStart) {
-        const weekStartAsNormal = !weekStart || weekStart === 'default'
-        if (weekStartAsNormal) {
-            return getWeekTime(now, locale === 'zh_CN')
-        } else {
-            const weekOffset: number = weekStart as number
-            // Returns 0 - 6 means Monday to Sunday
-            const weekDayNow = getWeekDay(now, true)
-            const optionWeekDay = weekDayNow + 1
-            let start: Date = undefined
-            if (optionWeekDay === weekStart) {
-                start = now
-            } else if (optionWeekDay < weekStart) {
-                const millDelta = (optionWeekDay + 7 - weekOffset) * MILL_PER_DAY
-                start = new Date(now.getTime() - millDelta)
-            } else {
-                const millDelta = (optionWeekDay - weekOffset) * MILL_PER_DAY
-                start = new Date(now.getTime() - millDelta)
-            }
-            return [start, now]
-        }
-    },
+    thisWeek: (now, weekStart) => getWeekTime(now, weekStart, locale),
     thisMonth: now => [getMonthTime(now)[0], now],
     last30Days: now => [new Date(now.getTime() - MILL_PER_DAY * 29), now],
 }
@@ -86,7 +65,7 @@ class FooterWrapper {
     }
 
     async query() {
-        const option = await optionService.getAllOption() as timer.option.PopupOption
+        const option = await optionService.getAllOption()
         const itemCount = option.popupMax
         const queryParam = this.getQueryParam(option.weekStart)
         const rows = await statService.select(queryParam, true)

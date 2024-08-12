@@ -18,10 +18,16 @@ declare namespace timer.limit {
         waste: number
         /**
          * Number of delays today
-         *
-         * @since 2.6.7
          */
         delayCount: number
+        /**
+         * Waste this week, milliseconds
+         */
+        weeklyWaste: number
+        /**
+         * Delay count of this week
+         */
+        weeklyDelayCount: number
     }
     type Rule = {
         /**
@@ -41,6 +47,12 @@ declare namespace timer.limit {
          */
         time: number
         /**
+         * Time limit per week, seconds
+         *
+         * @since 2.4.1
+         */
+        weekly?: number
+        /**
          * Time limit per visit, seconds
          *
          * @since 2.0.0
@@ -56,23 +68,6 @@ declare namespace timer.limit {
          */
         allowDelay?: boolean
         periods?: Period[]
-    }
-    type Record = Rule & {
-        /**
-         * The latest record date
-         */
-        latestDate: string
-        /**
-         * Time wasted in the latest record date
-         */
-        wasteTime: number
-        /**
-         * Click count of more time
-         */
-        delay?: {
-            date: string
-            count: number
-        }
     }
     /**
      * @since 1.9.0

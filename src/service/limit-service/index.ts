@@ -6,11 +6,12 @@
  */
 
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
-import { DATE_FORMAT } from "@db/common/constant"
 import LimitDatabase from "@db/limit-database"
 import { hasLimited, matches, skipToday } from "@util/limit"
-import { formatTime } from "@util/time"
+import { formatTimeYMD } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
+import { sum } from "@util/array"
+import weekHelper from "@service/components/week-helper"
 
 const storage = chrome.storage.local
 const db: LimitDatabase = new LimitDatabase(storage)
@@ -23,17 +24,30 @@ export type QueryParam = {
 
 async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     const { filterDisabled, url, id } = cond || {}
-    const today = formatTime(new Date(), DATE_FORMAT)
+    const now = new Date()
+    const today = formatTimeYMD(now)
+    const [startDate, endDate] = await weekHelper.getWeekDateRange(now)
+
     return (await db.all())
         .filter(item => filterDisabled ? item.enabled : true)
         .filter(item => !id || id === item?.id)
-        .map(({ latestDate, wasteTime, delay: { count: dc, date: dd } = {}, ...others }) => ({
-            ...others,
-            waste: latestDate === today ? (wasteTime ?? 0) : 0,
-            delayCount: dd === today ? (dc ?? 0) : 0,
-        } satisfies timer.limit.Item))
         // If use url, then test it
-        .filter(item => !url || matches(item, url))
+        .filter(item => !url || matches(item?.cond, url))
+        .map(({ records, ...others }) => {
+            const todayRec = records[today]
+            const thisWeekRec = Object.entries(records)
+                .filter(([k]) => k >= startDate && k <= endDate)
+                .map(([, v]) => v)
+            const weeklyWaste = sum(thisWeekRec.map(r => r.mill ?? 0))
+            const weeklyDelayCount = sum(thisWeekRec.map(r => r.delay ?? 0))
+            return {
+                ...others,
+                waste: todayRec?.mill ?? 0,
+                delayCount: todayRec?.delay ?? 0,
+                weeklyWaste,
+                weeklyDelayCount,
+            } satisfies timer.limit.Item
+        })
 }
 
 /**
@@ -46,16 +60,14 @@ async function noticeLimitChanged() {
     const effectiveItems = allItems.filter(item => item.enabled && !skipToday(item))
     const tabs = await listTabs()
     tabs.forEach(tab => {
-        const limitedItems = effectiveItems.filter(item => matches(item, tab.url))
+        const limitedItems = effectiveItems.filter(item => matches(item?.cond, tab.url))
         sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
             .catch(err => console.log(err.message))
     })
 }
 
 async function updateEnabled(item: timer.limit.Item): Promise<void> {
-    const { id, name, cond, time, enabled, allowDelay, visitTime, periods } = item
-    const limit: timer.limit.Rule = { id, name, cond, time, enabled, allowDelay, visitTime, periods }
-    await db.save(limit, true)
+    await db.updateEnabled(item.id, item.enabled)
     await noticeLimitChanged()
 }
 
@@ -77,28 +89,31 @@ async function getLimited(url: string): Promise<timer.limit.Item[]> {
 async function getRelated(url: string): Promise<timer.limit.Item[]> {
     return (await select())
         .filter(item => item.enabled && !skipToday(item))
-        .filter(item => matches(item, url))
+        .filter(item => matches(item?.cond, url))
 }
 
 /**
  * Add time
+ *
  * @param url url
  * @param focusTime time, milliseconds
  * @returns the rules is limit cause of this operation
  */
-async function addFocusTime(url: string, focusTime: number) {
+async function addFocusTime(url: string, focusTime: number): Promise<timer.limit.Item[]> {
     const allEnabled: timer.limit.Item[] = await select({ filterDisabled: true, url })
     const toUpdate: { [cond: string]: number } = {}
     const result: timer.limit.Item[] = []
     allEnabled.forEach(item => {
         const limitBefore = hasLimited(item)
         toUpdate[item.id] = item.waste += focusTime
+        // Fast increase
+        item.weeklyWaste += focusTime
         const limitAfter = hasLimited(item)
         if (!limitBefore && limitAfter) {
             result.push(item)
         }
     })
-    await db.updateWaste(formatTime(new Date, DATE_FORMAT), toUpdate)
+    await db.updateWaste(formatTimeYMD(new Date()), toUpdate)
     return result
 }
 
@@ -108,9 +123,13 @@ async function addFocusTime(url: string, focusTime: number) {
 async function moreMinutes(url: string): Promise<timer.limit.Item[]> {
     const rules = (await select({ url: url, filterDisabled: true }))
         .filter(item => hasLimited(item) && item.allowDelay)
-    rules.forEach(rule => rule.delayCount = (rule.delayCount ?? 0) + 1)
+    rules.forEach(rule => {
+        rule.delayCount = (rule.delayCount ?? 0) + 1
+        // Fast increase
+        rule.weeklyDelayCount = (rule.weeklyDelayCount ?? 0) + 1
+    })
 
-    const date = formatTime(new Date(), DATE_FORMAT)
+    const date = formatTimeYMD(new Date())
     await db.updateDelayCount(date, rules)
     return rules.filter(r => !hasLimited(r))
 }

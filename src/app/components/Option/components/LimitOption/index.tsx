@@ -6,7 +6,6 @@
  */
 
 import { t } from "@app/locale"
-import { locale } from "@i18n"
 import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
 import { ElButton, ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
@@ -15,6 +14,7 @@ import { OptionInstance, OptionItem } from "../../common"
 import "./limit-option.sass"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import limitService from "@service/limit-service"
+import { locale } from "@i18n"
 
 const ALL_LEVEL: timer.limit.RestrictionLevel[] = [
     'nothing',

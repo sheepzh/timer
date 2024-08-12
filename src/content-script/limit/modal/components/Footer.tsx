@@ -10,7 +10,7 @@ import { Plus, Timer } from "@element-plus/icons-vue"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { TAG_NAME } from "@cs/limit/element"
 
-const DELAY_ENABLED: LimitType[] = ['DAILY', 'VISIT']
+const DELAY_ENABLED: LimitType[] = ['DAILY', 'VISIT', 'WEEKLY']
 
 async function handleMore5Minutes(rule: timer.limit.Item, callback: () => void) {
     let promise: Promise<void> = undefined

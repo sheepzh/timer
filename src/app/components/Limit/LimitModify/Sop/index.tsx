@@ -28,6 +28,7 @@ export type SopInstance = {
 const createInitial = (): Required<Omit<timer.limit.Rule, 'id' | 'allowDelay'>> => ({
     name: null,
     time: 3600,
+    weekly: null,
     cond: [],
     visitTime: null,
     periods: null,
@@ -102,12 +103,14 @@ const _default = defineComponent({
                         v-show={step.value === 2}
                         ref={stepInstances[2]}
                         time={data.time}
+                        weekly={data.weekly}
                         visitTime={data.visitTime}
                         periods={data.periods}
-                        onChange={(time, visitTime, periods) => {
+                        onChange={({ time, visitTime, periods, weekly }) => {
                             data.time = time
                             data.visitTime = visitTime
                             data.periods = periods
+                            data.weekly = weekly
                         }}
                     />
                 </div>

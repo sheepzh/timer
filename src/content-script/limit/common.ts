@@ -9,13 +9,14 @@ export type LimitReason =
 
 export type LimitType =
     | "DAILY"
+    | "WEEKLY"
     | "VISIT"
     | "PERIOD"
 
 export interface MaskModal {
-    addReason(reason: LimitReason): void
-    removeReason(reason: LimitReason): void
-    removeReasonsByType(type: LimitType): void
+    addReason(...reasons: LimitReason[]): void
+    removeReason(...reasons: LimitReason[]): void
+    removeReasonsByType(...types: LimitType[]): void
     addDelayHandler(handler: () => void): void
 }
 

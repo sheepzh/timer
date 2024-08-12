@@ -10,7 +10,7 @@ import metaService from "@service/meta-service"
 import optionService from "@service/option-service"
 import statService from "@service/stat-service"
 import { judgeVirtualFast } from "@util/pattern"
-import { formatTime, getBirthday } from "@util/time"
+import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
 
@@ -123,7 +123,7 @@ async function syncFull(
     }
     return {
         ts: end.getTime(),
-        date: formatTime(end, '{y}{m}{d}')
+        date: formatTimeYMD(end),
     }
 }
 
@@ -219,8 +219,8 @@ class Processor {
         // 1. init context
         const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(localCid, auth, ext, type).init()
         // 2. query all clients, and filter them
-        let startStr = start ? formatTime(start, '{y}{m}{d}') : undefined
-        let endStr = end ? formatTime(end, '{y}{m}{d}') : undefined
+        let startStr = start ? formatTimeYMD(start) : undefined
+        let endStr = end ? formatTimeYMD(end) : undefined
         const allClients = (await coordinator.listAllClients(context))
             .filter(c => filterClient(c, excludeLocal, localCid, startStr, endStr))
             .filter(c => !specCid || c.id === specCid)

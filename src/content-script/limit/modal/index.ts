@@ -51,6 +51,7 @@ const TYPE_SORT: { [reason in LimitType]: number } = {
     PERIOD: 0,
     VISIT: 1,
     DAILY: 2,
+    WEEKLY: 3,
 }
 
 const createHeader = () => {
@@ -79,22 +80,30 @@ class ModalInstance implements MaskModal {
         this.url = url
     }
 
-    addReason(reason: LimitReason): void {
-        const exist = this.reasons.some(r => isSameReason(r, reason))
-        if (exist) return
-        this.reasons.push(reason)
+    addReason(...reasons2Add: LimitReason[]): void {
+        reasons2Add = reasons2Add.filter(r => {
+            const anyExist = this.reasons?.some(reason => isSameReason(r, reason))
+            return !anyExist
+        })
+        if (!reasons2Add?.length) return
+        this.reasons.push(...reasons2Add)
         // Sort
         this.reasons.sort((a, b) => TYPE_SORT[a.type] - TYPE_SORT[b.type])
         this.refresh()
     }
 
-    removeReason(reason: LimitReason): void {
-        this.reasons = this.reasons?.filter(r => !isSameReason(r, reason))
+    removeReason(...reasons2Remove: LimitReason[]): void {
+        if (!reasons2Remove?.length) return
+        this.reasons = this.reasons?.filter(reason => {
+            const anyRemove = reasons2Remove.some(r => isSameReason(reason, r))
+            return !anyRemove
+        })
         this.refresh()
     }
 
-    removeReasonsByType(type: LimitType): void {
-        this.reasons = this.reasons?.filter(r => r.type !== type)
+    removeReasonsByType(...types: LimitType[]): void {
+        if (!types?.length) return
+        this.reasons = this.reasons?.filter(r => !types?.includes(r.type))
         this.refresh()
     }
 

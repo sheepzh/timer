@@ -15,8 +15,6 @@ import { OptionInstance, OptionItem, OptionTag } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
-import { locale } from "@i18n"
-import { rotate } from "@util/array"
 
 type LocaleStyle = {
     durationSelectWidth: number
@@ -48,15 +46,6 @@ const STYLES: Messages<LocaleStyle> = {
 
 const tStyle = (key: I18nKey<LocaleStyle>) => t_(STYLES, { key })
 
-const weekStartOptionPairs: [[timer.option.WeekStartOption, string]] = [
-    ['default', t(msg => msg.option.popup.weekStartAsNormal)]
-]
-const allWeekDays = t(msg => msg.calendar.weekDays)
-    .split('|')
-    .map((weekDay, idx) => [idx + 1, weekDay] as [timer.option.WeekStartOption, string])
-rotate(allWeekDays, locale === 'zh_CN' ? 0 : 1, true)
-allWeekDays.forEach(weekDayInfo => weekStartOptionPairs.push(weekDayInfo))
-
 const defaultPopOptions = defaultPopup()
 const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
 const defaultDurationLabel = t(msg => msg.duration[defaultPopOptions.defaultDuration])
@@ -68,7 +57,6 @@ function copy(target: timer.option.PopupOption, source: timer.option.PopupOption
     target.defaultType = source.defaultType
     target.displaySiteName = source.displaySiteName
     target.popupMax = source.popupMax
-    target.weekStart = source.weekStart
 }
 
 const _default = defineComponent((_props, ctx) => {
@@ -118,15 +106,6 @@ const _default = defineComponent((_props, ctx) => {
                 )
             }}
         />
-        <OptionItem label={msg => msg.option.popup.weekStart} defaultValue={t(msg => msg.option.popup.weekStartAsNormal)}>
-            <ElSelect
-                modelValue={option.weekStart}
-                size="small"
-                onChange={(val: timer.option.WeekStartOption) => option.weekStart = val}
-            >
-                {weekStartOptionPairs.map(([val, label]) => <ElOption value={val} label={label} />)}
-            </ElSelect>
-        </OptionItem>
         <OptionItem
             label={msg => msg.option.popup.max}
             defaultValue={defaultPopOptions.popupMax}

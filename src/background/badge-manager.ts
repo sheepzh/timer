@@ -12,6 +12,7 @@ import StatDatabase from "@db/stat-database"
 import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
+import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 
 const storage = chrome.storage.local
 const statDatabase: StatDatabase = new StatDatabase(storage)
@@ -29,14 +30,14 @@ export type BadgeLocation = {
 }
 
 function mill2Str(milliseconds: number) {
-    if (milliseconds < 60000) {
+    if (milliseconds < MILL_PER_MINUTE) {
         // no more than 1 minutes
-        return `${Math.round(milliseconds / 1000)}s`
-    } else if (milliseconds < 3600000) {
+        return `${Math.round(milliseconds / MILL_PER_SECOND)}s`
+    } else if (milliseconds < MILL_PER_HOUR) {
         // no more than 1 hour
-        return `${Math.round(milliseconds / 60000)}m`
+        return `${Math.round(milliseconds / MILL_PER_MINUTE)}m`
     } else {
-        return `${(milliseconds / 3600000).toFixed(1)}h`
+        return `${(milliseconds / MILL_PER_HOUR).toFixed(1)}h`
     }
 }
 

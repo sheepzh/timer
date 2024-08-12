@@ -1,6 +1,5 @@
-import { DATE_FORMAT } from "@db/common/constant"
 import { judgeVirtualFast } from "@util/pattern"
-import { formatTime } from "@util/time"
+import { formatTimeYMD } from "@util/time"
 import StatDatabase, { StatCondition } from "."
 
 type _StatCondition = StatCondition & {
@@ -82,7 +81,7 @@ function processDateCondition(cond: _StatCondition, paramDate: Date | [Date, Dat
 
     if (paramDate instanceof Date) {
         cond.useExactDate = true
-        cond.exactDateStr = formatTime(paramDate as Date, DATE_FORMAT)
+        cond.exactDateStr = formatTimeYMD(paramDate as Date)
     } else {
         let startDate: Date = undefined
         let endDate: Date = undefined
@@ -90,8 +89,8 @@ function processDateCondition(cond: _StatCondition, paramDate: Date | [Date, Dat
         dateArr && dateArr.length >= 2 && (endDate = dateArr[1])
         dateArr && dateArr.length >= 1 && (startDate = dateArr[0])
         cond.useExactDate = false
-        startDate && (cond.startDateStr = formatTime(startDate, DATE_FORMAT))
-        endDate && (cond.endDateStr = formatTime(endDate, DATE_FORMAT))
+        startDate && (cond.startDateStr = formatTimeYMD(startDate))
+        endDate && (cond.endDateStr = formatTimeYMD(endDate))
     }
 }
 

@@ -1,6 +1,5 @@
 import I18nNode from "@app/components/common/I18nNode"
 import { t } from "@app/locale"
-import { locale } from "@i18n"
 import { VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
 import { getCssVariable } from "@util/style"
@@ -8,6 +7,7 @@ import { ElMessageBox, ElMessage, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, VNode } from "vue"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { hasLimited, dateMinute2Idx, skipToday } from "@util/limit"
+import { locale } from "@i18n"
 
 /**
  * Judge wether verification is required
@@ -17,7 +17,7 @@ import { hasLimited, dateMinute2Idx, skipToday } from "@util/limit"
 export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
     const { visitTime, periods, enabled } = item || {}
     if (!enabled || skipToday(item)) return false
-    // Daily
+    // Daily or weekly
     if (hasLimited(item)) return true
     // Period
     if (periods?.length) {

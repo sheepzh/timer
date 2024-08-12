@@ -14,9 +14,9 @@ import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import OperationDeleteButton from "./OperationDeleteButton"
-import { locale } from "@i18n"
 import { useReportFilter } from "../../context"
 import { ElTableRowScope } from "@src/element-ui/table"
+import { locale } from "@i18n"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 

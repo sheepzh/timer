@@ -2,6 +2,7 @@ import TrackerClient from "@src/background/timer/client"
 import { ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { DELAY_MILL } from "@util/limit"
+import { MILL_PER_SECOND } from "@util/time"
 
 class VisitProcessor implements Processor {
 
@@ -28,7 +29,7 @@ class VisitProcessor implements Processor {
     hasLimited(rule: timer.limit.Rule): boolean {
         const { visitTime } = rule || {}
         if (!visitTime) return false
-        return visitTime * 1000 + this.delayCount * DELAY_MILL < this.focusTime
+        return visitTime * MILL_PER_SECOND + this.delayCount * DELAY_MILL < this.focusTime
     }
 
     async handleTracker(data: timer.stat.Event) {

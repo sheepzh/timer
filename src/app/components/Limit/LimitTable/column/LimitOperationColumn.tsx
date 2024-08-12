@@ -9,8 +9,8 @@ import { Delete, Edit } from "@element-plus/icons-vue"
 import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { t } from "@app/locale"
-import optionService from "@service/option-service"
 import { locale } from "@i18n"
+import optionService from "@service/option-service"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 
@@ -34,8 +34,7 @@ async function handleDelete(row: timer.limit.Item, callback: () => void) {
 async function handleModify(row: timer.limit.Item, callback: () => void) {
     let promise: Promise<void> = undefined
     if (await judgeVerificationRequired(row)) {
-        const option =
-            (await optionService.getAllOption()) as timer.option.DailyLimitOption
+        const option = (await optionService.getAllOption()) as timer.option.DailyLimitOption
         promise = processVerification(option)
         promise ? promise.then(callback).catch(() => { }) : callback()
     } else {

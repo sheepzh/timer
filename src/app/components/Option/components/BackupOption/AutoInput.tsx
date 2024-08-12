@@ -9,9 +9,9 @@ import { t } from "@app/locale"
 import { ElInputNumber, ElSwitch } from "element-plus"
 import { defineComponent, watch } from "vue"
 import localeMessages from "@i18n/message/common/locale"
-import { locale } from "@i18n"
 import I18nNode from "@app/components/common/I18nNode"
 import { useShadow } from "@hooks"
+import { locale } from "@i18n"
 
 const _default = defineComponent({
     props: {

@@ -8,6 +8,7 @@
 import optionService from "@service/option-service"
 import alarmManager from "./alarm-manager"
 import processor from "@src/common/backup/processor"
+import { MILL_PER_MINUTE } from "@util/time"
 
 const ALARM_NAME = 'auto-backup-data'
 
@@ -26,7 +27,7 @@ class BackupScheduler {
     private handleOption(option: timer.option.BackupOption) {
         const { autoBackUp, backupType, autoBackUpInterval = 0 } = option || {}
         this.needBackup = backupType !== "none" && !!backupType && !!autoBackUp
-        this.interval = autoBackUpInterval * 60 * 1000
+        this.interval = autoBackUpInterval * MILL_PER_MINUTE
         if (this.needSchedule()) {
             alarmManager.setInterval(ALARM_NAME, this.interval, () => this.doBackup())
         } else {

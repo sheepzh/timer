@@ -8,7 +8,7 @@
 import { fillExist } from "@service/components/import-processor"
 import { AUTHOR_EMAIL } from "@src/package"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
-import { formatTime } from "@util/time"
+import { formatTimeYMD, MILL_PER_SECOND } from "@util/time"
 
 export type OtherExtension =
     | "webtime_tracker"
@@ -52,7 +52,7 @@ async function parseWebActivityTimeTracker(file: File): Promise<timer.imported.R
         const [year, month, day] = date.split('/')
         !year || !month || !day && throwError()
         const realDate = `${year}${month.length == 2 ? month : '0' + month}${day.length == 2 ? day : '0' + day}`
-        return { host, date: realDate, focus: parseInt(seconds) * 1000 }
+        return { host, date: realDate, focus: parseInt(seconds) * MILL_PER_SECOND }
     })
     return rows
 }
@@ -89,7 +89,7 @@ async function parseWebtimeTracker(file: File): Promise<timer.imported.Row[]> {
             .map(([host, date, seconds]) => ({
                 host,
                 date,
-                focus: seconds * 1000
+                focus: seconds * MILL_PER_SECOND
             } as timer.imported.Row))
         return rows
     } else if (isCsvFile(file)) {
@@ -103,7 +103,7 @@ async function parseWebtimeTracker(file: File): Promise<timer.imported.Row[]> {
             for (let i = 1; i < colHeaders?.length; i++) {
                 const seconds = Number.parseInt(cells[i])
                 const date = cvtWebtimeTrackerDate(colHeaders[i])
-                seconds && date && rows.push({ host, date, focus: seconds * 1000 })
+                seconds && date && rows.push({ host, date, focus: seconds * MILL_PER_SECOND })
             }
         })
         return rows
@@ -120,7 +120,7 @@ function parseHistoryTrendsUnlimitedLine(line: string, data: { [dateAndHost: str
         // Backup data
         let date: string;
         try {
-            date = formatTime(parseFloat(tsMaybe.substring(1)), "{y}{m}{d}")
+            date = formatTimeYMD(parseFloat(tsMaybe.substring(1)))
         } catch {
             console.error("Invalid line: " + line)
             return;

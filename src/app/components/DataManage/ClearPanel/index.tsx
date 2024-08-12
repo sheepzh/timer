@@ -10,7 +10,7 @@ import { defineComponent } from "vue"
 import { t } from "@app/locale"
 import { alertProps } from "../common"
 import ClearFilter from "./ClearFilter"
-import { MILL_PER_DAY } from "@util/time"
+import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import statService, { StatQueryParam } from "@service/stat-service"
 
 type FilterOption = {
@@ -54,7 +54,7 @@ function assertQueryParam(range: Vector<2>, mustInteger?: boolean): boolean {
 }
 
 const str2Num = (str: string, defaultVal?: number) => (str && str !== '') ? parseInt(str) : defaultVal
-const seconds2Milliseconds = (a: number) => a * 1000
+const seconds2Milliseconds = (a: number) => a * MILL_PER_SECOND
 
 function checkParam(option: FilterOption): StatQueryParam | undefined {
     const { focus = [null, null], time = [null, null] } = option || {}
