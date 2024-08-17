@@ -121,13 +121,10 @@ export function processVerification(option: timer.option.DailyLimitOption, conte
                 />
             )
         } else {
-            const answer: VNode = limitVerifyDifficulty === 'disgusting'
-                ? <AnswerCanvas text={answerValue} />
-                : <b>{answerValue}</b>
             messageNode = (
                 <I18nNode
                     path={msg => msg.limit.verification.inputTip2}
-                    param={{ answer }}
+                    param={{ answer: <AnswerCanvas text={answerValue} /> }}
                 />
             )
         }

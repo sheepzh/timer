@@ -7,6 +7,10 @@
 
 import { randomIntBetween } from "@util/number"
 import { VerificationContext, VerificationGenerator, VerificationPair } from "../common"
+import { rangeArr } from "element-plus"
+
+const BASE = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\`-=[]/.,:\"<>?!@#$%^&*()_+;'"
+const BASE_LEN = BASE.length
 
 class UglyGenerator implements VerificationGenerator {
     supports(context: VerificationContext): boolean {
@@ -14,12 +18,13 @@ class UglyGenerator implements VerificationGenerator {
     }
 
     generate(_: VerificationContext): VerificationPair {
-        const min = 1 << 6
-        const max = 1 << 8
-        const random = randomIntBetween(min, max)
-        return {
-            answer: random?.toString(2)
-        }
+        const len = randomIntBetween(16, 20)
+        const answer = rangeArr(len)
+            .map(() => randomIntBetween(0, BASE_LEN))
+            .map(decimal => BASE.charAt(decimal))
+            .join('')
+
+        return { answer }
     }
 }
 
