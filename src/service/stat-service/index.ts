@@ -212,7 +212,7 @@ class StatService {
         const list = result.list
         // Filter after page sliced
         if (fillSiteInfo && param?.mergeHost) {
-            for (const beforeMerge of list) await this.fillSiteInfo(beforeMerge.mergedHosts, true)
+            for (const beforeMerge of list) await this.fillSiteInfo(beforeMerge.mergedHosts, false)
         }
         log("result of selectByPage:{param}, {page}, {result}", param, page, result)
         return result
