@@ -7,7 +7,7 @@
 
 import { StyleValue, computed, defineComponent } from "vue"
 import Wrapper, { BizOption } from "./Wrapper"
-import { useEcharts } from "@hooks"
+import { useEcharts } from "@hooks/useEcharts"
 import { useRows } from "../context"
 import { useHabitFilter } from "../../context"
 

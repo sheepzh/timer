@@ -16,7 +16,7 @@ use([PieChart, TitleComponent, TooltipComponent, SVGRenderer])
 import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
-import { useEcharts } from "@hooks"
+import { useEcharts } from "@hooks/useEcharts"
 import Wrapper, { BizOption, DAY_NUM, TOP_NUM } from "./Wrapper"
 
 const fetchData = async () => {

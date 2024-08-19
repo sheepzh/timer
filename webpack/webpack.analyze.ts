@@ -11,9 +11,11 @@ import manifest from '../src/manifest'
 const option = generateOption({
     outputPath: path.join(__dirname, '..', 'dist_analyze'),
     manifest,
-    mode: "production"
+    mode: "production",
 })
 
+option.optimization.minimize = true
+option.optimization.usedExports = true
 option.plugins.push(new BundleAnalyzerPlugin())
 
 export default option

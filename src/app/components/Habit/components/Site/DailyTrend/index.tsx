@@ -6,7 +6,7 @@
  */
 
 import { StyleValue, computed, defineComponent } from "vue"
-import { useEcharts } from "@hooks"
+import { useEcharts } from "@hooks/useEcharts"
 import TimelineWrapper, { BizOption } from "./Wrapper"
 import { useHabitFilter } from "../../context"
 import { useRows } from "../context"

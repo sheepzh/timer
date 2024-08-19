@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { EchartsWrapper } from "@hooks"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import {
     ComposeOption,
     GridComponentOption,

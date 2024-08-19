@@ -9,7 +9,7 @@ import type { StyleValue } from "vue"
 import Wrapper, { BizOption } from "./Wrapper"
 import { computed, defineComponent } from "vue"
 import { usePeriodValue } from "../context"
-import { useEcharts } from "@hooks"
+import { useEcharts } from "@hooks/useEcharts"
 import { useHabitFilter } from "../../context"
 
 const CONTAINER_STYLE: StyleValue = {

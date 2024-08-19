@@ -46,8 +46,8 @@
             "@i18n": [
                 "src/i18n/index"
             ],
-            "@echarts/*": [
-                "src/echarts/*"
+            "@hooks/*": [
+                "src/hooks/*"
             ],
             "@hooks": [
                 "src/hooks/index"

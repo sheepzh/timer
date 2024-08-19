@@ -29,7 +29,7 @@ import { getPrimaryTextColor } from "@util/style"
 import DateIterator from "@util/date-iterator"
 import { cvt2LocaleTime } from "@app/util/time"
 import { getCompareColor, getDiffColor, tooltipDot } from "@app/util/echarts"
-import { EchartsWrapper, useEcharts } from "@hooks"
+import { EchartsWrapper, useEcharts } from "@hooks/useEcharts"
 
 type EcOption = ComposeOption<
     | BarSeriesOption

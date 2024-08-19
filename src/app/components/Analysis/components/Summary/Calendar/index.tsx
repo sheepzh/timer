@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { useEcharts } from "@hooks"
+import { useEcharts } from "@hooks/useEcharts"
 import { computed, defineComponent } from "vue"
 import { useAnalysisRows, useAnalysisTimeFormat } from "../../../context"
 import Wrapper, { BizOption } from "./Wrapper"

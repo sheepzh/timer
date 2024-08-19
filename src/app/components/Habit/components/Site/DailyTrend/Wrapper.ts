@@ -1,4 +1,4 @@
-import { EchartsWrapper } from "@hooks"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import {
     ComposeOption,
     GridComponentOption,

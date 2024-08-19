@@ -1,5 +1,5 @@
 import { getLineSeriesPalette } from "@app/util/echarts"
-import { EchartsWrapper } from "@hooks"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { ComposeOption, GridComponentOption, LineSeriesOption, TooltipComponentOption } from "echarts"
 import { LineChart } from "echarts/charts"
 import { GridComponent, TooltipComponent } from "echarts/components"

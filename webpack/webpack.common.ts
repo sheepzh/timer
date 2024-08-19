@@ -39,7 +39,6 @@ Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
         .map(folder => path.resolve(__dirname, '..', folder))
     resolveAlias[index] = webpackSourceArr
 })
-resolveAlias['@hooks'] = path.resolve(__dirname, '..', 'src', 'hooks', 'index')
 console.log("Alias of typescript: ")
 console.log(resolveAlias)
 
@@ -135,37 +134,46 @@ const staticOptions: webpack.Configuration = {
     optimization: {
         splitChunks: {
             cacheGroups: {
+                //////// libraries start ////////
                 echarts: {
                     name: 'echarts',
                     chunks: excludeChunk,
+                    filename: 'bundle/echarts.js',
                     test: /[\\/]node_modules[\\/](echarts|zrender)[\\/]/,
                 },
                 // @vue & vue-router
                 vue: {
                     name: 'vue',
                     chunks: excludeChunk,
+                    filename: 'bundle/vue.js',
                     test: /[\\/]node_modules[\\/]@?vue(use)?(-router)?[\\/]/,
                 },
                 element: {
                     name: 'element',
                     chunks: excludeChunk,
+                    filename: 'bundle/element.js',
                     test: /[\\/]node_modules[\\/]@?element-plus[\\/]/,
                 },
                 lodash: {
                     name: 'lodash',
                     chunks: excludeChunk,
+                    filename: 'bundle/lodash.js',
                     test: /[\\/]node_modules[\\/]lodash[\\/]/,
                 },
-                axios: {
-                    name: 'axios',
+                //////// libraries end ////////
+                //////// common start ////////
+                api: {
+                    name: 'api',
                     chunks: excludeChunk,
-                    test: /[\\/]node_modules[\\/]axios[\\/]/,
+                    filename: 'common/api.js',
+                    test: /[\\/]src[\\/]api[\\/]/,
                 },
                 common: {
                     name: 'common',
                     chunks: excludeChunk,
                     test: /[\\/]src[\\/](service|database|util)[\\/]/,
                 },
+                //////// common end ////////
             }
         },
     },

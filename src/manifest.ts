@@ -61,6 +61,8 @@ const _default: chrome.runtime.ManifestV3 = {
             'content_scripts.css',
             'static/images/*',
             'bundle/*',
+            'common/*',
+            'app/*',
         ],
         matches: ["<all_urls>"],
     }],

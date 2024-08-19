@@ -16,7 +16,7 @@ import { TooltipComponent, GridComponent, TitleComponent } from "echarts/compone
 import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
 import { SeriesDataItem, generateTitleOption } from "../common"
-import { EchartsWrapper } from "@hooks"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { getStepColors } from "@app/util/echarts"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { generateSiteLabel } from "@util/site"
