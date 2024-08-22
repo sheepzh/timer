@@ -155,7 +155,7 @@ async function parseHistoryTrendsUnlimited(file: File): Promise<timer.imported.R
     throw new Error("Invalid file format")
 }
 
-const isJsonFile = (file: File): boolean => file?.type?.startsWith('application/json')
+const isJsonFile = (file: File): boolean => file?.type?.startsWith('application/json') || file.name.endsWith('.tsv')
 
 const isCsvFile = (file: File): boolean => file?.type?.startsWith('text/csv')
 
