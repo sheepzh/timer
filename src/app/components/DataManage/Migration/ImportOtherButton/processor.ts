@@ -7,6 +7,7 @@
 
 import { fillExist } from "@service/components/import-processor"
 import { AUTHOR_EMAIL } from "@src/package"
+import { IS_WINDOWS } from "@util/constant/environment"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 import { formatTimeYMD, MILL_PER_SECOND } from "@util/time"
 
@@ -155,8 +156,13 @@ async function parseHistoryTrendsUnlimited(file: File): Promise<timer.imported.R
     throw new Error("Invalid file format")
 }
 
-const isJsonFile = (file: File): boolean => file?.type?.startsWith('application/json')
+const isJsonFile = (file: File): boolean => matchFileTypeOrExtOnWin(file, 'application/json', '.json')
 
-const isCsvFile = (file: File): boolean => file?.type?.startsWith('text/csv')
+const isCsvFile = (file: File): boolean => matchFileTypeOrExtOnWin(file, 'text/csv', '.csv')
 
-const isTsvFile = (file: File): boolean => file?.type?.startsWith('text/tab-separated-values')
+const isTsvFile = (file: File): boolean => matchFileTypeOrExtOnWin(file, 'text/tab-separated-values', '.tsv')
+
+const matchFileTypeOrExtOnWin = (file: File, fileType: string, fileExtOnWin: string): boolean => {
+    const { type, name } = file || {}
+    return type?.startsWith(fileType) || (IS_WINDOWS && name?.toLowerCase()?.endsWith(fileExtOnWin))
+}

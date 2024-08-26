@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-const { userAgent } = navigator
+const { userAgent, platform } = navigator
 let isFirefox = false
 let isChrome = false
 let isEdge = false
@@ -57,6 +57,24 @@ export const IS_SAFARI: boolean = isSafari
  * @since 1.3.2
  */
 export const BROWSER_MAJOR_VERSION = browserMajorVersion
+
+type NavigatorWithUAData = Navigator & {
+    userAgentData?: {
+        platform: string
+    }
+}
+
+let isWindows = false
+if (((navigator as unknown as NavigatorWithUAData)?.userAgentData)?.platform === 'Windows') {
+    isWindows = true
+} else if (platform?.startsWith('Win')) {
+    isWindows = true
+}
+
+/**
+ * @since 2.4.2
+ */
+export const IS_WINDOWS = isWindows
 
 /**
  * @since 1.4.4
