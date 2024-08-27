@@ -31,7 +31,7 @@ const _default = defineComponent({
                     </ElDropdownMenu>
                 }}
             >
-                <ElButton size="small" class="export-dropdown-button">
+                <ElButton size="small" class="record-filter-icon-button">
                     <ElIcon size={17} style={{ padding: "0 1px" }}>
                         <Download />
                     </ElIcon>

@@ -17,13 +17,17 @@ import { initLocale } from "@i18n"
 import { toggle, init as initTheme } from "@util/dark-mode"
 import optionService from "@service/option-service"
 import { initElementLocale } from "@i18n/element"
+import { initEcharts } from "./echarts"
+import { listenMediaSizeChange } from "@hooks/useMediaSize"
 
 async function main() {
     // Init theme with cache first
     initTheme()
+    listenMediaSizeChange()
     // Calculate the latest mode
     optionService.isDarkMode().then(toggle)
     await initLocale()
+    initEcharts()
     const app: App = createApp(Main)
     installRouter(app)
     app.mount('#app')

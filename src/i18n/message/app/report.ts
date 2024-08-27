@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -29,6 +29,7 @@ export type ReportMessage = {
             percentage: string
         }
     }
+    noMore: string
 }
 
 const _default: Messages<ReportMessage> = resource

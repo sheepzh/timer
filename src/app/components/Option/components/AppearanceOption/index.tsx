@@ -7,16 +7,18 @@
 
 import type { UnwrapRef } from "vue"
 
-import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, reactive, unref, watch } from "vue"
+import { t, tWith } from "@app/locale"
+import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
+import localeMessages from "@i18n/message/common/locale"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
-import DarkModeInput from "./DarkModeInput"
-import { t, tWith } from "@app/locale"
-import { OptionInstance, OptionItem, OptionTag } from "../../common"
-import localeMessages from "@i18n/message/common/locale"
-import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import { toggle } from "@util/dark-mode"
+import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
+import { defineComponent, reactive, unref, watch } from "vue"
+import { OptionInstance } from "../../common"
+import OptionItem from "../OptionItem"
+import OptionTag from "../OptionTag"
+import DarkModeInput from "./DarkModeInput"
 
 const SORTED_LOCALES: timer.Locale[] = ALL_LOCALES
     // Keep the locale same as this browser first position

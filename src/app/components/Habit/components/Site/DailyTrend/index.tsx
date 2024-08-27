@@ -5,16 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { StyleValue, computed, defineComponent } from "vue"
 import { useEcharts } from "@hooks/useEcharts"
-import TimelineWrapper, { BizOption } from "./Wrapper"
+import { computed, defineComponent } from "vue"
 import { useHabitFilter } from "../../context"
 import { useRows } from "../context"
-
-const CONTAINER_STYLE: StyleValue = {
-    width: "100%",
-    height: "100%",
-}
+import TimelineWrapper, { BizOption } from "./Wrapper"
 
 const _default = defineComponent(() => {
     const rows = useRows()
@@ -28,7 +23,7 @@ const _default = defineComponent(() => {
     })
     const { elRef } = useEcharts(TimelineWrapper, bizOption, { manual: true })
 
-    return () => <div style={CONTAINER_STYLE} ref={elRef} />
+    return () => <div class="daily-trend" ref={elRef} />
 })
 
 export default _default

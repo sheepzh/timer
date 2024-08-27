@@ -4,17 +4,17 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import { unref, watch } from "vue"
-import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { t } from "@app/locale"
 import { I18nKey, t as t_ } from "@i18n"
-import { defineComponent, reactive } from "vue"
 import optionService from "@service/option-service"
-import { OptionInstance, OptionItem, OptionTag } from "../common"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
+import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
+import { defineComponent, reactive, unref, watch } from "vue"
+import { OptionInstance } from "../common"
+import OptionItem from "./OptionItem"
+import OptionTag from "./OptionTag"
 
 type LocaleStyle = {
     durationSelectWidth: number

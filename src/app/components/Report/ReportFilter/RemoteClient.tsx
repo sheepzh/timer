@@ -28,7 +28,7 @@ const _default = defineComponent({
                     size="small"
                     style={{ display: visible.value ? 'inline-flex' : 'none' }}
                     type={readRemote.value ? 'primary' : null}
-                    class="export-dropdown-button"
+                    class="record-filter-icon-button"
                     onClick={() => readRemote.value = !readRemote.value}
                 >
                     <ElIcon size={17} style={{ padding: "0 1px" }}>

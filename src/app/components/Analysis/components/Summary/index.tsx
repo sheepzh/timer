@@ -46,37 +46,25 @@ const _default = defineComponent(() => {
 
     return () => (
         <KanbanCard title={t(msg => msg.analysis.summary.title)}>
-            <ElRow>
-                <ElCol span={12} style={{ borderRight: "1px var(--el-border-color) var(--el-border-style)" }}>
-                    <KanbanIndicatorRow style={{ borderBottom: "1px var(--el-border-color) var(--el-border-style)" }}>
-                        <ElCol span={12}>
-                            <Site />
-                        </ElCol>
-                        <ElCol span={12}>
-                            <KanbanIndicatorCell
-                                mainName={FOCUS_LABEL}
-                                mainValue={periodFormatter(summary.value?.focus, { format: timeFormat.value })}
-                            />
-                        </ElCol>
-                    </KanbanIndicatorRow>
-                    <KanbanIndicatorRow>
-                        <ElCol span={12}>
-                            <KanbanIndicatorCell
-                                mainName={DAYS_LABEL}
-                                mainValue={summary.value?.day?.toString?.() || '-'}
-                                subTips={msg => msg.analysis.summary.firstDay}
-                                subValue={summary.value?.firstDay ? `@${cvt2LocaleTime(summary.value?.firstDay)}` : ''}
-                            />
-                        </ElCol>
-                        <ElCol span={12}>
-                            <KanbanIndicatorCell mainName={VISIT_LABEL} mainValue={summary.value?.visit?.toString?.() || '-'} />
-                        </ElCol>
-                    </KanbanIndicatorRow>
-                </ElCol>
-                <ElCol span={12}>
+            <div class="analysis-summary-container">
+                <div class='indicator-area'>
+                    <Site />
+                    <KanbanIndicatorCell
+                        mainName={FOCUS_LABEL}
+                        mainValue={periodFormatter(summary.value?.focus, { format: timeFormat.value })}
+                    />
+                    <KanbanIndicatorCell
+                        mainName={DAYS_LABEL}
+                        mainValue={summary.value?.day?.toString?.() || '-'}
+                        subTips={msg => msg.analysis.summary.firstDay}
+                        subValue={summary.value?.firstDay ? `@${cvt2LocaleTime(summary.value?.firstDay)}` : ''}
+                    />
+                    <KanbanIndicatorCell mainName={VISIT_LABEL} mainValue={summary.value?.visit?.toString?.() || '-'} />
+                </div>
+                <div>
                     <Calendar />
-                </ElCol>
-            </ElRow>
+                </div>
+            </div>
         </KanbanCard>
     )
 })

@@ -4,17 +4,19 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { DEFAULT_ENDPOINT } from "@api/obsidian"
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import processor from "@src/common/backup/processor"
+import { AUTHOR_EMAIL } from "@src/package"
 import { defaultBackup } from "@util/constant/option"
-import { ElInput, ElOption, ElSelect, ElAlert, ElButton, ElMessage, ElLoading } from "element-plus"
-import { defineComponent, computed, ref, watch } from "vue"
-import { OptionInstance, OptionItem, OptionTooltip } from "../../common"
+import { ElAlert, ElButton, ElInput, ElLoading, ElMessage, ElOption, ElSelect } from "element-plus"
+import { computed, defineComponent, ref, watch } from "vue"
+import { OptionInstance } from "../../common"
+import OptionItem from "../OptionItem"
+import OptionTooltip from "../OptionTooltip"
 import AutoInput from "./AutoInput"
 import Footer from "./Footer"
-import { AUTHOR_EMAIL } from "@src/package"
-import { DEFAULT_ENDPOINT } from "@api/obsidian"
 import "./style.sass"
 
 const ALL_TYPES: timer.backup.Type[] = [

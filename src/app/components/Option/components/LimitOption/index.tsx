@@ -6,15 +6,16 @@
  */
 
 import { t } from "@app/locale"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
+import { locale } from "@i18n"
+import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
 import { ElButton, ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
-import { defineComponent, reactive, unref, UnwrapRef, ref, Ref, watch } from "vue"
-import { OptionInstance, OptionItem } from "../../common"
+import { defineComponent, reactive, ref, Ref, unref, UnwrapRef, watch } from "vue"
+import { OptionInstance } from "../../common"
+import OptionItem from "../OptionItem"
 import "./limit-option.sass"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
-import limitService from "@service/limit-service"
-import { locale } from "@i18n"
 
 const ALL_LEVEL: timer.limit.RestrictionLevel[] = [
     'nothing',

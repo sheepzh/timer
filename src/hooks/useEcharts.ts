@@ -9,9 +9,15 @@
 import { ElLoading } from "element-plus"
 import { type Ref, onMounted, ref, isRef, watch } from "vue"
 import { init, type ECharts } from "echarts"
+import { useWindowSize } from "@vueuse/core"
 
 export abstract class EchartsWrapper<BizOption, EchartsOption> {
     protected instance: ECharts
+    /**
+     * true if need to re-generate option while size changing, or false
+     */
+    protected isSizeSensitize: boolean = false
+    private lastBizOption: BizOption
 
     init(container: HTMLDivElement) {
         this.instance = init(container)
@@ -20,9 +26,21 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
 
     async render(biz: BizOption) {
         if (!this.instance) return
+        this.lastBizOption = biz
+        await this.innerRender()
+    }
+
+    private async innerRender() {
+        const biz = this.lastBizOption
         const option = await this.generateOption(biz)
         if (!option) return
         this.instance.setOption(option, { notMerge: false })
+    }
+
+    async resize() {
+        if (!this.instance) return
+        this.isSizeSensitize && await this.innerRender()
+        this.instance.resize()
     }
 
     protected getDom(): HTMLElement {
@@ -32,6 +50,10 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
     protected abstract generateOption(biz: BizOption): Promise<EchartsOption> | EchartsOption
 
     protected afterInit() {
+    }
+
+    protected getDomWidth(): number {
+        return this.getDom()?.clientWidth ?? 0
     }
 }
 
@@ -73,6 +95,10 @@ export const useEcharts = <BizOption, EchartsOption, EW extends EchartsWrapper<B
         !manual && refresh()
         watchRef && isRef(fetch) && watch(fetch, refresh)
     })
+
+    const { width, height } = useWindowSize()
+    watch([width, height], () => wrapperInstance?.resize?.())
+
     return {
         refresh,
         elRef,

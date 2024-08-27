@@ -5,14 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ComposeOption } from "echarts/core"
-import type { GridComponentOption, TooltipComponentOption, TitleComponentOption } from "echarts/components"
-import type { BarSeriesOption } from "echarts/charts"
+import type { ComposeOption, BarSeriesOption, GridComponentOption, TooltipComponentOption, TitleComponentOption } from "echarts"
 
-import { use } from "echarts/core"
-import { BarChart } from "echarts/charts"
-import { SVGRenderer } from "echarts/renderers"
-import { TooltipComponent, GridComponent, TitleComponent } from "echarts/components"
 import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
 import { SeriesDataItem, generateTitleOption } from "../common"
@@ -21,8 +15,6 @@ import { getStepColors } from "@app/util/echarts"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { generateSiteLabel } from "@util/site"
 import { periodFormatter } from "@app/util/time"
-
-use([BarChart, SVGRenderer, TooltipComponent, GridComponent, TitleComponent])
 
 type EcOption = ComposeOption<
     | BarSeriesOption
@@ -101,7 +93,7 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
                 show: false,
             },
         },
-        series: [{
+        series: {
             type: "bar",
             barWidth: '100%',
             data: topList.map((row, idx) => {
@@ -133,7 +125,7 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
             },
             colorBy: 'data',
             color: getStepColors(topList.length, 1.5),
-        }],
+        },
     }
 }
 

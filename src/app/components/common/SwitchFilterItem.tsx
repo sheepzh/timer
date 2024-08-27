@@ -23,10 +23,12 @@ const _default = defineComponent({
         const { data, setter } = useCached(cacheKey, props.defaultValue)
         watch(data, () => ctx.emit("change", data.value))
 
-        return () => <span class='filter-switch'>
-            <a class='filter-item'>{props.label}</a>
-            <ElSwitch class='filter-item' modelValue={data.value} onChange={setter} />
-        </span>
+        return () => (
+            <span class='filter-item filter-switch'>
+                <a class='filter-name'>{props.label}</a>
+                <ElSwitch modelValue={data.value} onChange={setter} />
+            </span>
+        )
     }
 })
 

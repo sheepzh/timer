@@ -202,6 +202,12 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '..', 'public', 'app.html'),
             filename: path.join('static', 'app.html'),
+            meta: {
+                viewport: {
+                    name: "viewport",
+                    content: 'width=device-width',
+                },
+            },
             chunks: ['app'],
         }),
         new HtmlWebpackPlugin({

@@ -4,38 +4,19 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { computed, defineComponent, onMounted, ref } from "vue"
+import { computed, defineComponent } from "vue"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
-import StatDatabase from "@db/stat-database"
 import whitelistService from "@service/whitelist-service"
 import { t } from "@app/locale"
 import { LocationQueryRaw, useRouter } from "vue-router"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
-import { Open, Plus, Stopwatch } from "@element-plus/icons-vue"
+import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
-import OperationDeleteButton from "./OperationDeleteButton"
 import { useReportFilter } from "../../context"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { locale } from "@i18n"
-
-const statDatabase = new StatDatabase(chrome.storage.local)
-
-async function handleDeleteByRange(itemHost2Delete: string, dateRange: [Date, Date]): Promise<string[]> {
-    // Delete all
-    if (!dateRange || !dateRange.length) {
-        return await statDatabase.deleteByUrl(itemHost2Delete)
-    }
-    // Delete by range
-    const start = dateRange[0]
-    const end = dateRange[1]
-    await statDatabase.deleteByUrlBetween(itemHost2Delete, start, end)
-}
-
-const COL_LABEL = t(msg => msg.item.operation.label)
-const ANALYSIS = t(msg => msg.item.operation.analysis)
-// Whitelist texts
-const ADD_WHITE = t(msg => msg.item.operation.add2Whitelist)
-const REMOVE_WHITE = t(msg => msg.item.operation.removeFromWhitelist)
+import { computeDeleteConfirmMsg, handleDelete } from "../../common"
+import { useRequest } from "@hooks/useRequest"
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 330,
@@ -48,6 +29,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     de: 370,
     fr: 330,
 }
+
 const _default = defineComponent({
     emits: {
         delete: (_row: timer.stat.Row) => true,
@@ -57,9 +39,10 @@ const _default = defineComponent({
         const canOperate = computed(() => !filter.value?.mergeHost)
         const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
         const router = useRouter()
-        const whitelist = ref<string[]>([])
-        const refreshWhitelist = () => whitelistService.listAll().then(val => whitelist.value = val)
-        onMounted(refreshWhitelist)
+        const {
+            data: whitelist,
+            refresh: refreshWhitelist,
+        } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })
 
         const jump2Analysis = (host: string) => {
             const query: LocationQueryRaw = {
@@ -68,8 +51,13 @@ const _default = defineComponent({
             }
             router.push({ path: ANALYSIS_ROUTE, query })
         }
+
         return () => (
-            <ElTableColumn width={width.value} label={COL_LABEL} align="center">
+            <ElTableColumn
+                width={width.value}
+                label={t(msg => msg.item.operation.label)}
+                align="center"
+            >
                 {({ row }: ElTableRowScope<timer.stat.Row>) => <>
                     {/* Analysis */}
                     <ElButton
@@ -78,18 +66,17 @@ const _default = defineComponent({
                         type="primary"
                         onClick={() => jump2Analysis(row.host)}
                     >
-                        {ANALYSIS}
+                        {t(msg => msg.item.operation.analysis)}
                     </ElButton>
                     {/* Delete button */}
-                    <OperationDeleteButton
-                        itemUrl={row.host}
-                        itemDate={row.date}
+                    <PopupConfirmButton
+                        buttonIcon={Delete}
+                        buttonType="danger"
+                        buttonText={t(msg => msg.button.delete)}
+                        confirmText={computeDeleteConfirmMsg(row, filter.value)}
                         visible={canOperate.value}
                         onConfirm={async () => {
-                            const host = row.host
-                            filter.value?.mergeDate
-                                ? await handleDeleteByRange(host, filter.value?.dateRange)
-                                : await statDatabase.deleteByUrlAndDate(host, row.date)
+                            await handleDelete(row, filter.value)
                             ctx.emit("delete", row)
                         }}
                     />
@@ -97,7 +84,7 @@ const _default = defineComponent({
                     <PopupConfirmButton
                         buttonIcon={Plus}
                         buttonType="warning"
-                        buttonText={ADD_WHITE}
+                        buttonText={t(msg => msg.item.operation.add2Whitelist)}
                         confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.host })}
                         visible={canOperate.value && !whitelist.value?.includes(row.host)}
                         onConfirm={async () => {
@@ -110,7 +97,7 @@ const _default = defineComponent({
                     <PopupConfirmButton
                         buttonIcon={Open}
                         buttonType="primary"
-                        buttonText={REMOVE_WHITE}
+                        buttonText={t(msg => msg.item.operation.removeFromWhitelist)}
                         confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.host })}
                         visible={canOperate.value && whitelist.value?.includes(row.host)}
                         onConfirm={async () => {

@@ -1,12 +1,12 @@
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
+import { sum } from "@util/array"
 import { computed, defineComponent } from "vue"
 import { useHabitFilter } from "../context"
-import { useRows } from "./context"
-import { computeAverageLen } from "./common"
-import { sum } from "@util/array"
 import { FilterOption } from "../HabitFilter"
+import { computeAverageLen } from "./common"
+import { useRows } from "./context"
 
 type Result = {
     focus: {
@@ -43,42 +43,34 @@ const computeSummary = (rows: timer.stat.Row[] = [], filter: FilterOption): Resu
     }
 }
 
-const renderIndicator = (summary: Result, format: timer.app.TimeFormat) => {
-    const {
-        focus: { total: focusTotal, average: focusAverage } = {},
-        count: { time, site, siteAverage },
-        exclusiveToday4Average,
-    } = summary
-    return <>
-        <div class="indicator-wrapper">
-            <KanbanIndicatorCell
-                mainName={t(msg => msg.analysis.common.focusTotal)}
-                mainValue={periodFormatter(focusTotal, { format })}
-                subTips={msg => msg.habit.common.focusAverage}
-                subValue={periodFormatter(focusAverage, { format })}
-                subInfo={exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
-            />
-        </div>
-        <div class="indicator-wrapper">
-            <KanbanIndicatorCell
-                mainName={t(msg => msg.habit.site.countTotal)}
-                mainValue={[time ? `${time}` : '-', site ? `${site}` : '-'].join(" / ")}
-                subTips={msg => msg.habit.site.siteAverage}
-                subValue={siteAverage?.toFixed(0) || '-'}
-                subInfo={exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
-            />
-        </div>
-    </>
+const computeCountText = (count: Result['count']): string => {
+    const { time, site } = count || {}
+    return [time ? `${time}` : '-', site ? `${site}` : '-'].join(" / ")
 }
 
-const _default = defineComponent({
-    setup: () => {
-        const filter = useHabitFilter()
-        const rows = useRows()
-        const summary = computed(() => computeSummary(rows.value, filter.value))
+const _default = defineComponent(() => {
+    const filter = useHabitFilter()
+    const rows = useRows()
+    const summary = computed(() => computeSummary(rows.value, filter.value))
 
-        return () => renderIndicator(summary.value, filter.value?.timeFormat)
-    }
+    return () => (
+        <div class="summary-container">
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.analysis.common.focusTotal)}
+                mainValue={periodFormatter(summary.value?.focus?.total, { format: filter.value?.timeFormat })}
+                subTips={msg => msg.habit.common.focusAverage}
+                subValue={periodFormatter(summary.value?.focus?.average, { format: filter.value?.timeFormat })}
+                subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
+            />
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.habit.site.countTotal)}
+                mainValue={computeCountText(summary.value?.count)}
+                subTips={msg => msg.habit.site.siteAverage}
+                subValue={summary.value?.count?.siteAverage?.toFixed(0) || '-'}
+                subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
+            />
+        </div>
+    )
 })
 
 export default _default

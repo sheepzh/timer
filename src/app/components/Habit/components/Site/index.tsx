@@ -21,31 +21,24 @@ import { getDayLength } from "@util/time"
 
 const DISTRIBUTION_MIN_DAY_LENGTH = 15
 
-const _default = defineComponent({
-    setup: () => {
-        const filter = useHabitFilter()
-        const rows = computedAsync(() => statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true))
-        initProvider(rows)
-        const dateRangeLength = computed(() => getDayLength(filter.value?.dateRange?.[0], filter?.value?.dateRange?.[1]))
-        return () => (
-            <KanbanCard title={t(msg => msg.habit.site.title)}>
-                <div class="habit-site-content">
-                    <div class="col0">
-                        <Summary />
-                    </div>
-                    <div class="col1" >
-                        <TopK />
-                    </div>
-                    <div class="col2">
-                        {dateRangeLength.value >= DISTRIBUTION_MIN_DAY_LENGTH
-                            ? <DailyTrend />
-                            : <Distribution />
-                        }
-                    </div>
-                </div>
-            </KanbanCard>
-        )
-    }
+const _default = defineComponent(() => {
+    const filter = useHabitFilter()
+    const rows = computedAsync(() => statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true))
+    initProvider(rows)
+    const dateRangeLength = computed(() => getDayLength(filter.value?.dateRange?.[0], filter?.value?.dateRange?.[1]))
+
+    return () => (
+        <KanbanCard title={t(msg => msg.habit.site.title)}>
+            <div class="habit-site-content">
+                <Summary />
+                <TopK />
+                {dateRangeLength.value >= DISTRIBUTION_MIN_DAY_LENGTH
+                    ? <DailyTrend />
+                    : <Distribution />
+                }
+            </div>
+        </KanbanCard>
+    )
 })
 
 export default _default

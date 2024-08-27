@@ -1,7 +1,7 @@
 import { PropType, defineComponent } from "vue"
 import "./installation-link.sass"
 
-type _Source = 'chrome' | 'firefox' | 'edge'
+type _Source = 'chrome' | 'firefox' | 'edge' | 'kiwi'
 
 const _default = defineComponent({
     props: {

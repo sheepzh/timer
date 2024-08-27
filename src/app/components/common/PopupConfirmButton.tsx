@@ -13,6 +13,7 @@ const _default = defineComponent({
     props: {
         confirmText: String,
         buttonText: String,
+        text: Boolean,
         buttonType: String as PropType<ButtonType>,
         buttonIcon: Object as PropType<IconProps>,
         visible: {
@@ -36,6 +37,7 @@ const _default = defineComponent({
                         <ElButton
                             v-show={props.visible}
                             size="small"
+                            text={props.text}
                             type={props.buttonType}
                             icon={props.buttonIcon}
                         >

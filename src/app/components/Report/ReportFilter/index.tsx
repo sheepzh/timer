@@ -19,6 +19,10 @@ import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import { ReportFilterOption } from "../context"
+import { exportCsv, exportJson } from "../file-export"
+import statService from "@service/stat-service"
+import { cvtOption2Param } from "../common"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -32,6 +36,12 @@ const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 30 }), 30),
     datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 60 }), 60),
 ]
+const handleDownload = async (format: FileFormat, option: ReportFilterOption) => {
+    const param = cvtOption2Param(option)
+    const rows = await statService.select(param, true)
+    format === 'json' && exportJson(option, rows)
+    format === 'csv' && exportCsv(option, rows)
+}
 
 const _default = defineComponent({
     props: {
@@ -39,7 +49,6 @@ const _default = defineComponent({
     },
     emits: {
         change: (_filterOption: ReportFilterOption) => true,
-        download: (_format: FileFormat) => true,
         batchDelete: (_filterOption: ReportFilterOption) => true,
     },
     setup(props, ctx) {
@@ -98,7 +107,7 @@ const _default = defineComponent({
                     {t(msg => msg.report.batchDelete.buttonText)}
                 </ElButton>
                 <RemoteClient onChange={setReadRemote} />
-                <DownloadFile onDownload={format => ctx.emit("download", format)} />
+                <DownloadFile onDownload={format => handleDownload(format, option.value)} />
             </div>
         </>
     }

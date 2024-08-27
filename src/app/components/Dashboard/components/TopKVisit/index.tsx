@@ -6,18 +6,13 @@
  */
 import type { StatQueryParam } from "@service/stat-service"
 
-import { use } from "echarts/core"
-import { PieChart } from "echarts/charts"
-import { TitleComponent, TooltipComponent } from "echarts/components"
-import { SVGRenderer } from "echarts/renderers"
-
-use([PieChart, TitleComponent, TooltipComponent, SVGRenderer])
-
 import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
 import { useEcharts } from "@hooks/useEcharts"
 import Wrapper, { BizOption, DAY_NUM, TOP_NUM } from "./Wrapper"
+import ChartTitle from "../../ChartTitle"
+import { t } from "@app/locale"
 
 const fetchData = async () => {
     const now = new Date()
@@ -38,7 +33,13 @@ const fetchData = async () => {
 
 const _default = defineComponent(() => {
     const { elRef } = useEcharts(Wrapper, fetchData)
-    return () => <div class="chart-container" ref={elRef} />
+    const title = t(msg => msg.dashboard.topK.title, { k: TOP_NUM, day: DAY_NUM })
+    return () => (
+        <div class="top-visit-container">
+            <ChartTitle text={title} />
+            <div style={{ flex: 1 }} ref={elRef} />
+        </div>
+    )
 })
 
 export default _default

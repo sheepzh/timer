@@ -8,8 +8,8 @@
 import { ElCard } from "element-plus"
 import { defineComponent, useSlots } from "vue"
 
-const _default = defineComponent(() => {
-    return () => <ElCard class="container-card" v-slots={useSlots()} />
+const _default = defineComponent((props: any) => {
+    return () => <ElCard {...props} class="container-card" v-slots={useSlots()} />
 })
 
 export default _default
