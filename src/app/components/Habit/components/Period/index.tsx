@@ -7,21 +7,21 @@
 
 import { KanbanCard } from "@app/components/common/kanban"
 import { t } from "@app/locale"
-import { PropType, defineComponent, ref, computed } from "vue"
-import Filter from "./Filter"
-import Summary from "./Summary"
-import Trend from "./Trend"
-import Average from "./Average"
-import Stack from "./Stack"
-import "./style.sass"
 import { merge } from "@service/components/period-calculator"
 import periodService from "@service/period-service"
-import { useHabitFilter } from "../context"
-import { getDayLength, MILL_PER_DAY } from "@util/time"
-import { MAX_PERIOD_ORDER, keyOf } from "@util/period"
-import { initProvider, PeriodRange } from "./context"
 import { useRequest } from "@src/hooks/useRequest"
+import { keyOf, MAX_PERIOD_ORDER } from "@util/period"
+import { getDayLength, MILL_PER_DAY } from "@util/time"
+import { computed, defineComponent, PropType, ref } from "vue"
+import { useHabitFilter } from "../context"
+import Average from "./Average"
 import { FilterOption } from "./common"
+import { initProvider, PeriodRange } from "./context"
+import Filter from "./Filter"
+import Stack from "./Stack"
+import "./style.sass"
+import Summary from "./Summary"
+import Trend from "./Trend"
 
 const computeRange = (filterDateRange: [Date, Date]): PeriodRange => {
     const [startDate, endDate] = filterDateRange || []
@@ -62,22 +62,23 @@ const _default = defineComponent({
 
         initProvider(data, filter, periodRange)
 
-        return () => <KanbanCard
-            title={t(msg => msg.habit.period.title)}
-            v-slots={{
-                filter: () => <Filter defaultValue={filter.value} onChange={val => filter.value = val} />,
-                default: () => <div class="habit-period-content">
-                    <div class="col0">
-                        <Summary />
-                    </div>
-                    <div class="col1">
+        return () => (
+            <KanbanCard
+                title={t(msg => msg.habit.period.title)}
+                v-slots={{
+                    filter: () => <Filter defaultValue={filter.value} onChange={val => filter.value = val} />
+                }}
+            >
+                <div class="habit-period-content">
+                    <Summary />
+                    <div class="chart-container">
                         {filter.value?.chartType === 'average' && <Average />}
                         {filter.value?.chartType === 'trend' && <Trend />}
                         {filter.value?.chartType === 'stack' && <Stack />}
                     </div>
                 </div>
-            }}
-        />
+            </KanbanCard>
+        )
     }
 })
 

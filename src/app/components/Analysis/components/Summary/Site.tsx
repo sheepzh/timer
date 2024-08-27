@@ -13,7 +13,7 @@ import { useAnalysisSite } from "../../context"
 import siteService from "@service/site-service"
 
 function renderChildren(site: timer.site.SiteInfo) {
-    if (!site) return <h1 class="site-alias">{t(msg => msg.analysis.common.emptyDesc)}</h1>
+    if (!site) return <h1 class="alias">{t(msg => msg.analysis.common.emptyDesc)}</h1>
 
     const { iconUrl, alias } = site
     const label = labelOfHostInfo(site)
@@ -21,8 +21,8 @@ function renderChildren(site: timer.site.SiteInfo) {
     const subtitle: string = alias ? label : undefined
     return <>
         {iconUrl && <img src={iconUrl} width={24} height={24} />}
-        <h1 class="site-alias">{title}</h1>
-        {subtitle && <p class="site-host">{subtitle}</p>}
+        <h1 class="alias">{title}</h1>
+        {subtitle && <p class="host">{subtitle}</p>}
     </>
 }
 
@@ -36,7 +36,9 @@ const _default = defineComponent(() => {
     const siteInfo = computedAsync(() => computedSiteInfo(site.value))
     return () => (
         <div class="site-container">
-            {renderChildren(siteInfo.value)}
+            <div class="site-info">
+                {renderChildren(siteInfo.value)}
+            </div>
         </div>
     )
 })

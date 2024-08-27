@@ -8,12 +8,12 @@
 import type { RingValue } from "@app/components/Analysis/util"
 import type { PropType } from "vue"
 
-import { defineComponent, watch } from "vue"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
-import { useAnalysisTrendRangeLength } from "./context"
+import { defineComponent } from "vue"
 import { useAnalysisTimeFormat } from "../../context"
+import { useAnalysisTrendRangeLength } from "./context"
 
 const DAY_LABEL = `${t(msg => msg.analysis.trend.activeDay)}/${t(msg => msg.analysis.trend.totalDay)}`
 const VISIT_LABEL = t(msg => msg.analysis.common.visitTotal)
@@ -35,28 +35,22 @@ const _default = defineComponent({
         const timeFormat = useAnalysisTimeFormat()
         return () => (
             <div class="analysis-trend-total-container">
-                <div>
-                    <KanbanIndicatorCell
-                        mainName={DAY_LABEL}
-                        mainValue={computeDayValue(props.activeDay, rangeLength.value)}
-                        subRing={props.activeDay}
-                    />
-                </div>
-                <div>
-                    <KanbanIndicatorCell
-                        mainName={FOCUS_LABEL}
-                        mainValue={periodFormatter(props.focus?.[0], { format: timeFormat.value })}
-                        subRing={props.focus}
-                        valueFormatter={delta => periodFormatter(delta, { format: timeFormat.value })}
-                    />
-                </div>
-                <div>
-                    <KanbanIndicatorCell
-                        mainName={VISIT_LABEL}
-                        mainValue={props.visit?.[0]?.toString() || '-'}
-                        subRing={props.visit}
-                    />
-                </div>
+                <KanbanIndicatorCell
+                    mainName={DAY_LABEL}
+                    mainValue={computeDayValue(props.activeDay, rangeLength.value)}
+                    subRing={props.activeDay}
+                />
+                <KanbanIndicatorCell
+                    mainName={FOCUS_LABEL}
+                    mainValue={periodFormatter(props.focus?.[0], { format: timeFormat.value })}
+                    subRing={props.focus}
+                    valueFormatter={delta => periodFormatter(delta, { format: timeFormat.value })}
+                />
+                <KanbanIndicatorCell
+                    mainName={VISIT_LABEL}
+                    mainValue={props.visit?.[0]?.toString() || '-'}
+                    subRing={props.visit}
+                />
             </div>
         )
     }

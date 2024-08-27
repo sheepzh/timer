@@ -19,11 +19,13 @@ const style: StyleValue = {
 }
 
 const _default = defineComponent(() => {
-    return () => <div style={style}>
-        <p style={{ fontSize: "10px" }}>
-            {`v${packageInfo.version}`}
-        </p>
-    </div>
+    return () => (
+        <div class="version-tag hidden-md-and-down" style={style}>
+            <p style={{ fontSize: "10px" }}>
+                {`v${packageInfo.version}`}
+            </p>
+        </div>
+    )
 })
 
 export default _default

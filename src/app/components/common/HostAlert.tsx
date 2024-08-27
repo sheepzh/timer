@@ -7,7 +7,7 @@
 
 import { IS_SAFARI } from "@util/constant/environment"
 import { ElLink } from "element-plus"
-import { computed, defineComponent, StyleValue } from "vue"
+import { computed, defineComponent } from "vue"
 
 const _default = defineComponent({
     props: {
@@ -33,20 +33,29 @@ const _default = defineComponent({
         const href = computed(() => props.clickable ? `http://${props.host}` : '')
         const target = computed(() => props.clickable ? '_blank' : '')
         const cursor = computed(() => props.clickable ? "cursor" : "default")
-        return () => IS_SAFARI
-            ? <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
-                {props.host}
-            </ElLink>
-            : <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
+        return () => <div style={{ wordBreak: "break-all" }}>
+            {IS_SAFARI ? (
+                <ElLink
+                    href={href.value}
+                    target={target.value}
+                    underline={props.clickable}
+                    style={{ cursor: cursor.value }}
+                >
                     {props.host}
                 </ElLink>
-                {props.iconUrl &&
-                    <div style={{ height: '20px', marginLeft: '3px' }}>
-                        <img src={props.iconUrl} width={12} height={12} />
-                    </div>
-                }
-            </div>
+            ) : (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                    <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
+                        {props.host}
+                    </ElLink>
+                    {props.iconUrl &&
+                        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+                            <img src={props.iconUrl} width={12} height={12} />
+                        </div>
+                    }
+                </div>
+            )}
+        </div>
     }
 })
 

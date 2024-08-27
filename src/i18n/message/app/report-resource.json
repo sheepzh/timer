@@ -20,7 +20,8 @@
                 "value": "对应数值",
                 "percentage": "百分比"
             }
-        }
+        },
+        "noMore": "没有更多了"
     },
     "zh_TW": {
         "mergeDate": "合並日期",
@@ -66,7 +67,8 @@
                 "value": "Value",
                 "percentage": "Percentage"
             }
-        }
+        },
+        "noMore": "No More"
     },
     "ja": {
         "mergeDate": "マージ日",

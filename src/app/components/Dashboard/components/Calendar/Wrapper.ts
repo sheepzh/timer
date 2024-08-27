@@ -4,28 +4,17 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { TitleComponentOption, TooltipComponentOption, GridComponentOption, VisualMapComponentOption } from "echarts/components"
-import { TitleComponent, TooltipComponent, GridComponent, VisualMapComponent } from "echarts/components"
-import { ScatterChart, ScatterSeriesOption, type HeatmapSeriesOption } from "echarts/charts"
-import { use, type ComposeOption } from "echarts/core"
-import { SVGRenderer } from "echarts/renderers"
-
-// Register echarts
-use([
-    SVGRenderer,
-    ScatterChart,
-    TooltipComponent,
-    GridComponent,
-    VisualMapComponent,
-    TitleComponent,
-])
+import type {
+    ComposeOption,
+    TooltipComponentOption, GridComponentOption, VisualMapComponentOption,
+    ScatterSeriesOption, HeatmapSeriesOption,
+} from "echarts"
 
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR, MILL_PER_MINUTE } from "@util/time"
-import { groupBy, rotate, sum } from "@util/array"
+import { groupBy, rotate } from "@util/array"
 import { t } from "@app/locale"
 import { getPrimaryTextColor } from "@util/style"
-import { BASE_TITLE_OPTION } from "../../common"
 import { getAppPageUrl } from "@util/constant/url"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
@@ -41,7 +30,6 @@ type _Value = [
 
 type EcOption = ComposeOption<
     | ScatterSeriesOption
-    | TitleComponentOption
     | TooltipComponentOption
     | GridComponentOption
     | VisualMapComponentOption
@@ -83,12 +71,6 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
     })
     return result
 }
-
-const titleText = (totalHours: number) => t(msg => totalHours
-    ? msg.dashboard.heatMap.title0
-    : msg.dashboard.heatMap.title1,
-    { hour: totalHours }
-)
 
 type HeatmapItem = HeatmapSeriesOption["data"][number]
 
@@ -133,8 +115,6 @@ const computePieces = (min: number, max: number): Piece[] => {
 }
 
 function optionOf(data: _Value[], weekDays: string[], dom: HTMLElement): EcOption {
-    const totalMills = sum(data?.map(d => d[2] ?? 0))
-    const totalHours = Math.floor(totalMills / MILL_PER_HOUR)
     const xAxisLabelMap = getXAxisLabelMap(data)
     const textColor = getPrimaryTextColor()
     const w = dom?.getBoundingClientRect?.()?.width
@@ -145,11 +125,6 @@ function optionOf(data: _Value[], weekDays: string[], dom: HTMLElement): EcOptio
     const maxVal = Math.max(...data.map(a => a[2]))
     const minVal = Math.min(...data.map(a => a[2]).filter(v => v))
     return {
-        title: {
-            ...BASE_TITLE_OPTION,
-            text: titleText(totalHours),
-            textStyle: { fontSize: '14px', color: textColor }
-        },
         tooltip: {
             borderWidth: 0,
             formatter: (params: any) => {
@@ -222,7 +197,12 @@ function handleClick(value: _Value): void {
 }
 
 class Wrapper extends EchartsWrapper<BizOption, EcOption> {
-    protected generateOption({ startTime, endTime, value }: BizOption): EcOption | Promise<EcOption> {
+    protected isSizeSensitize: boolean = true
+
+    protected generateOption(option: BizOption): EcOption | Promise<EcOption> {
+        if (!option) return {}
+
+        const { startTime, endTime, value } = option
         const allDates = getAllDatesBetween(startTime, endTime)
         const data: _Value[] = []
         allDates.forEach((date, index) => {
@@ -242,7 +222,8 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     }
 
     protected afterInit(): void {
-        this.instance.on("click", (params: { value: _Value }) => handleClick(params.value as _Value))
+        const supportClick = !window.matchMedia("(any-pointer:coarse)").matches
+        supportClick && this.instance.on("click", (params: any) => handleClick(params.value as _Value))
     }
 }
 

@@ -20,11 +20,24 @@ const _default = defineComponent({
         span: {
             type: Number,
             required: true
-        }
+        },
+        height: Number,
+        xs: Number,
+        sm: Number,
+        md: Number,
+        lg: Number,
+        xl: Number,
     },
     setup(props, ctx) {
         return () => (
-            <ElCol span={props.span}>
+            <ElCol
+                span={props.span}
+                xs={props.xs}
+                sm={props.sm}
+                md={props.md}
+                lg={props.lg}
+                xl={props.xl}
+            >
                 <ElCard class={clzName(props.noPadding)} style={{ height: "100%" }} v-slots={ctx.slots} />
             </ElCol>
         )

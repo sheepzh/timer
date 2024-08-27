@@ -53,13 +53,7 @@ const _default = defineComponent({
             })
         )
         return () => (
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'self-start',
-                }}
-            >
+            <div class='habit-filter-container'>
                 <SelectFilterItem
                     historyName='periodSize'
                     defaultValue={periodSize.value?.toString?.()}

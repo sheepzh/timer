@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { computed, ComputedRef, defineComponent, PropType } from "vue"
+import { computed, defineComponent, PropType } from "vue"
 import { ElTable, ElTableColumn } from "element-plus"
 import { sum } from "@util/array"
 import { t } from "@app/locale"
@@ -34,13 +34,20 @@ function computeRows(data: timer.stat.RemoteCompositionVal[]): Row[] {
     return rows
 }
 
+const formatValue = (value: number, valueFormatter?: ValueFormatter) => {
+    if (valueFormatter) {
+        return valueFormatter(value)
+    }
+    return value?.toString?.()
+}
+
 const _default = defineComponent({
     props: {
         data: Array as PropType<timer.stat.RemoteCompositionVal[]>,
         valueFormatter: Function as PropType<ValueFormatter>,
     },
     setup(props) {
-        const rows: ComputedRef<Row[]> = computed(() => computeRows(props.data))
+        const rows = computed(() => computeRows(props.data))
         return () => (
             <div style={{ width: "400px" }}>
                 <ElTable data={rows.value} size="small" border>
@@ -52,7 +59,7 @@ const _default = defineComponent({
                     />
                     <ElTableColumn
                         label={VALUE}
-                        formatter={(r: Row) => props.valueFormatter?.(r.value)}
+                        formatter={(r: Row) => formatValue(r.value, props.valueFormatter)}
                         align="center"
                         width={150}
                     />

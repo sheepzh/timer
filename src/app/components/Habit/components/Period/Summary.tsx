@@ -18,30 +18,6 @@ type Result = {
     }
 }
 
-const renderIndicator = (summary: Result, format: timer.app.TimeFormat) => {
-    const {
-        favorite: { period: favoritePeriod = null, average = null },
-        longestIdle: { period: idlePeriod, length: idleLength },
-    } = summary || {}
-    return <>
-        <div class="indicator-wrapper">
-            <KanbanIndicatorCell
-                mainName={t(msg => msg.habit.period.busiest)}
-                mainValue={favoritePeriod}
-                subTips={msg => msg.habit.common.focusAverage}
-                subValue={periodFormatter(average, { format })}
-            />
-        </div>
-        <div class="indicator-wrapper">
-            <KanbanIndicatorCell
-                mainName={t(msg => msg.habit.period.idle)}
-                mainValue={idleLength}
-                subTips={() => idlePeriod}
-            />
-        </div>
-    </>
-}
-
 const computeSummary = (rows: timer.period.Row[], periodSize: number): Result => {
     const averaged = averageByDay(rows, periodSize)
     const favoriteRow = averaged.sort((b, a) => a.milliseconds - b.milliseconds)[0]
@@ -93,15 +69,27 @@ const computeSummary = (rows: timer.period.Row[], periodSize: number): Result =>
     }
 }
 
-const _default = defineComponent({
-    setup() {
-        const data = usePeriodValue()
-        const filter = usePeriodFilter()
-        const globalFilter = useHabitFilter()
-        const summary = computed(() => computeSummary(data.value?.curr, filter.value?.periodSize))
+const _default = defineComponent(() => {
+    const data = usePeriodValue()
+    const filter = usePeriodFilter()
+    const globalFilter = useHabitFilter()
+    const summary = computed(() => computeSummary(data.value?.curr, filter.value?.periodSize))
 
-        return () => renderIndicator(summary.value, globalFilter.value?.timeFormat)
-    }
+    return () => (
+        <div class="summary-container">
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.habit.period.busiest)}
+                mainValue={summary.value?.favorite?.period}
+                subTips={msg => msg.habit.common.focusAverage}
+                subValue={periodFormatter(summary.value?.favorite?.average, { format: globalFilter.value?.timeFormat })}
+            />
+            <KanbanIndicatorCell
+                mainName={t(msg => msg.habit.period.idle)}
+                mainValue={summary.value?.longestIdle?.length}
+                subTips={() => summary.value?.longestIdle?.period}
+            />
+        </div>
+    )
 })
 
 export default _default

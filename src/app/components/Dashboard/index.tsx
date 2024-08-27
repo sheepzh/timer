@@ -5,21 +5,23 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent } from "vue"
-import ContentContainer from "../common/ContentContainer"
-import DashboardCard from './DashboardCard'
-import "./style"
+import { t } from "@app/locale"
+import { useMediaSize, useRequest } from "@hooks"
+import { MediaSize } from "@hooks/useMediaSize"
 import { isTranslatingLocale, locale } from "@i18n"
+import metaService from "@service/meta-service"
+import { REVIEW_PAGE } from "@util/constant/url"
+import { useWindowSize } from "@vueuse/core"
 import { ElRow } from "element-plus"
+import { computed, defineComponent } from "vue"
+import { useRouter } from "vue-router"
+import ContentContainer from "../common/ContentContainer"
+import Calendar from "./components/Calendar"
 import Indicator from "./components/Indicator"
 import MonthOnMonth from "./components/MonthOnMonth"
 import TopKVisit from "./components/TopKVisit"
-import Calendar from "./components/Calendar"
-import { useRouter } from "vue-router"
-import { useRequest } from "@hooks"
-import metaService from "@service/meta-service"
-import { t } from "@app/locale"
-import { REVIEW_PAGE } from "@util/constant/url"
+import DashboardCard from './DashboardCard'
+import "./style"
 
 const ROW_GUTTER = 15
 
@@ -35,21 +37,37 @@ const _default = defineComponent(() => {
         refresh()
     }
 
+    const { width } = useWindowSize()
+    const mediaSize = useMediaSize()
+    const showCalendar = computed(() => mediaSize.value >= MediaSize.lg)
+
     return () => (
         <ContentContainer class="dashboard-container">
-            <ElRow gutter={ROW_GUTTER} style={{ height: "300px" }}>
-                <DashboardCard span={4}>
-                    <Indicator />
-                </DashboardCard>
-                <DashboardCard span={12}>
-                    <MonthOnMonth />
-                </DashboardCard>
-                <DashboardCard span={8}>
-                    <TopKVisit />
-                </DashboardCard>
-            </ElRow>
-            <ElRow gutter={ROW_GUTTER} style={{ height: "280px" }}>
-                <DashboardCard span={24}>
+            <ElRow gutter={ROW_GUTTER}>
+                {width.value < 1400
+                    ? <>
+                        <DashboardCard span={width.value < 600 ? 24 : 8}>
+                            <Indicator />
+                        </DashboardCard>
+                        <DashboardCard span={width.value < 600 ? 24 : 16}>
+                            <TopKVisit />
+                        </DashboardCard>
+                        <DashboardCard span={24}>
+                            <MonthOnMonth />
+                        </DashboardCard>
+                    </>
+                    : <>
+                        <DashboardCard span={4}>
+                            <Indicator />
+                        </DashboardCard>
+                        <DashboardCard span={12}>
+                            <MonthOnMonth />
+                        </DashboardCard>
+                        <DashboardCard span={8}>
+                            <TopKVisit />
+                        </DashboardCard>
+                    </>}
+                <DashboardCard v-show={showCalendar.value} span={24}>
                     <Calendar />
                 </DashboardCard>
             </ElRow>

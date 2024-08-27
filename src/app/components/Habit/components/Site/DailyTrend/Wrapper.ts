@@ -1,5 +1,6 @@
+
 import { EchartsWrapper } from "@hooks/useEcharts"
-import {
+import type {
     ComposeOption,
     GridComponentOption,
     TitleComponentOption,
@@ -8,19 +9,14 @@ import {
     LineSeriesOption,
     LinearGradientObject,
 } from "echarts"
+
 import { getAllDatesBetween } from "@util/time"
 import { groupBy, sum } from "@util/array"
 import { t } from "@app/locale"
-import { GridComponent, LegendComponent, TitleComponent, TooltipComponent } from "echarts/components"
-import { BarChart, LineChart, PieChart } from "echarts/charts"
-import { use } from "echarts/core"
-import { SVGRenderer } from "echarts/renderers"
 import { TopLevelFormatterParams, YAXisOption } from "echarts/types/dist/shared"
 import { generateTitleOption } from "../common"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@app/util/echarts"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
-
-use([SVGRenderer, GridComponent, LegendComponent, TooltipComponent, TitleComponent, LineChart, PieChart, BarChart])
 
 type EcOption = ComposeOption<
     | GridComponentOption

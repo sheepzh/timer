@@ -1,38 +1,49 @@
+// Split Line
+.kanban-card
+    .analysis-trend-content
+        background-color: var(--el-border-color)
+        .kanban-indicator-cell-container,.analysis-trend-dimension-indicator-item,.analysis-trend-dimension-chart-container
+            background-color: var(--el-card-bg-color)
 
 .kanban-card
     .analysis-trend-content
-        height: 380px
         display: flex
-        .analysis-trend-content-col0
+        gap: 1px
+        .analysis-trend-total-container
             flex: 1 1 0
-        .analysis-trend-content-col1,.analysis-trend-content-col2
+            display: flex
+            flex-direction: column
+            gap: 1px
+            >div
+                width: 100%
+                flex: 1
+        .analysis-trend-dimension-container
             flex: 2 1 0
+            display: flex
+            flex-direction: column
+            gap: 1px
+            .analysis-trend-dimension-indicator-container
+                display: flex
+                gap: 1px
+                .analysis-trend-dimension-indicator-item
+                    flex: 1 0 0
+            .analysis-trend-dimension-chart-container
+                height: 281px
+                .analysis-trend-dimension-chart
+                    width: 100%
+                    height: 100%
 
-.analysis-trend-total-container
-    display: flex
-    flex-direction: column
-    height: 100%
-    >div
-        width: 100%
-        flex: 1
-    >div:not(:first-child)
-        border-top: var(--timer-kanban-border)
-.analysis-trend-dimension-container
-    display: flex
-    height: 100%
-    flex-direction: column
-    border-left: var(--timer-kanban-border)
-    .analysis-trend-dimension-indicator-container
+html[data-media-size='xs']
+    .analysis-trend-content
         display: flex
-        flex: 1 1 0
-        border-bottom: var(--timer-kanban-border)
-        .analysis-trend-dimension-indicator-item
-            flex: 1 0 0
-        >.analysis-trend-dimension-indicator-item:first-child
-            border-right: var(--timer-kanban-border)
-    .analysis-trend-dimension-chart-container
-        display: flex
-        flex: 2 1 0
-        .analysis-trend-dimension-chart
-            width: 100%
-            height: 100%
+        flex-direction: column
+        .kanban-indicator-cell-container
+            padding: 0
+            text-align: center
+            .kanban-indicator-cell-sub-tip
+                margin: 0 auto
+        .analysis-trend-dimension-container
+            .analysis-trend-dimension-indicator-container
+                display: none
+            .analysis-trend-dimension-chart-container
+                height: 200px

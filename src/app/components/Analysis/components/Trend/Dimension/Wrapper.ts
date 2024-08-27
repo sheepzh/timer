@@ -14,23 +14,11 @@ import type {
     GridComponentOption,
 } from "echarts/components"
 
-import { use } from "echarts/core"
-import { LineChart } from "echarts/charts"
-import { SVGRenderer } from "echarts/renderers"
-import { TitleComponent, TooltipComponent, GridComponent } from "echarts/components"
 import { ValueFormatter } from "@app/components/Analysis/util"
 import { getRegularTextColor } from "@util/style"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
-
-use([
-    LineChart,
-    TitleComponent,
-    TooltipComponent,
-    GridComponent,
-    SVGRenderer,
-])
 
 type EcOption = ComposeOption<
     | LineSeriesOption

@@ -113,7 +113,7 @@ const _default = defineComponent(() => {
     const most2HourParam = computed(() => computeMost2HourParam(data.value))
 
     return () => (
-        <div class="chart-container">
+        <div class="indicator-container">
             <div class="indicator-icon-header">
                 <ElIcon>
                     <Sunrise />

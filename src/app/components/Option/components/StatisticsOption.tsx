@@ -4,17 +4,20 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
-import optionService from "@service/option-service"
-import { defaultStatistics } from "@util/constant/option"
-import { defineComponent, reactive, unref, watch } from "vue"
-import { t } from "@app/locale"
-import { OptionInstance, OptionItem, OptionTag, OptionTooltip } from "../common"
-import { useRequest } from "@hooks"
 import { isAllowedFileSchemeAccess } from "@api/chrome/runtime"
-import { IS_FIREFOX } from "@util/constant/environment"
-import { rotate } from "@util/array"
+import { t } from "@app/locale"
+import { useRequest } from "@hooks"
 import { locale } from "@i18n"
+import optionService from "@service/option-service"
+import { rotate } from "@util/array"
+import { IS_FIREFOX } from "@util/constant/environment"
+import { defaultStatistics } from "@util/constant/option"
+import { ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
+import { defineComponent, reactive, unref, watch } from "vue"
+import { OptionInstance } from "../common"
+import OptionItem from "./OptionItem"
+import OptionTag from "./OptionTag"
+import OptionTooltip from "./OptionTooltip"
 
 const weekStartOptionPairs: [[timer.option.WeekStartOption, string]] = [
     ['default', t(msg => msg.option.statistics.weekStartAsNormal)]
@@ -76,6 +79,7 @@ const _default = defineComponent((_props, ctx) => {
             <ElSelect
                 modelValue={option.weekStart}
                 size="small"
+                style={{ width: '120px' }}
                 onChange={(val: timer.option.WeekStartOption) => option.weekStart = val}
             >
                 {weekStartOptionPairs.map(([val, label]) => <ElOption value={val} label={label} />)}

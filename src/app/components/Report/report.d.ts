@@ -8,18 +8,6 @@ declare type SortInfo = {
     order: SortDirect
 }
 
-declare type ReportFilterOption = {
-    host: string
-    dateRange: [Date, Date]
-    mergeDate: boolean
-    mergeHost: boolean
-    /**
-     * @since 1.1.7
-     */
-    timeFormat: timer.app.TimeFormat
-    readRemote?: boolean
-}
-
 /**
 * The query param of report page
 */

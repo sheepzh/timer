@@ -1,11 +1,14 @@
 .kanban-indicator-cell-container
+    display: flex
+    flex-direction: column
+    justify-content: center
     position: relative
-    top: 50%
-    transform: translateY(-50%)
     padding-left: 40px
     padding-top: 10px
     padding-bottom: 10px
     padding-right: 20px
+    min-height: 140px
+    box-sizing: border-box
     .kanban-indicator-cell-name
         font-size: 14px
         color: var(--el-text-color-secondary)

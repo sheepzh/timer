@@ -1,5 +1,4 @@
-
-/**
+ /**
  * Copyright (c) 2022-present Hengyang Zhang
  *
  * This software is released under the MIT License.

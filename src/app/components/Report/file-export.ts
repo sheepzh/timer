@@ -12,6 +12,7 @@ import {
     exportCsv as exportCsv_,
     exportJson as exportJson_,
 } from "@util/file"
+import { ReportFilterOption } from "./context"
 
 type _ExportInfo = {
     host: string

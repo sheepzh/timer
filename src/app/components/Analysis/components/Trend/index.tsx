@@ -6,19 +6,19 @@
  */
 import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/util"
 
-import { defineComponent, type Ref, ref, watch, computed, onMounted } from "vue"
 import { KanbanCard } from "@app/components/common/kanban"
-import Filter from "./Filter"
-import Total from "./Total"
-import Dimension, { DimensionData } from "./Dimension"
 import { t } from "@app/locale"
-import './style.sass'
-import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLength } from "@util/time"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
+import { useState } from "@hooks"
 import { groupBy } from "@util/array"
+import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLength } from "@util/time"
+import { computed, defineComponent, onMounted, ref, watch, type Ref } from "vue"
 import { useAnalysisRows, useAnalysisTimeFormat } from "../../context"
 import { initProvider } from "./context"
-import { useState } from "@hooks"
+import Dimension, { DimensionData } from "./Dimension"
+import Filter from "./Filter"
+import './style.sass'
+import Total from "./Total"
 
 type DailyIndicator = {
     value: number
@@ -163,37 +163,31 @@ const _default = defineComponent(() => {
             }}
         >
             <div class="analysis-trend-content">
-                <div class="analysis-trend-content-col0">
-                    <Total
-                        activeDay={[indicators.value?.activeDay, previousIndicators.value?.activeDay]}
-                        visit={[indicators.value?.visit?.total, previousIndicators.value?.visit?.total]}
-                        focus={[indicators.value?.focus?.total, previousIndicators.value?.focus?.total]}
-                    />
-                </div>
-                <div class="analysis-trend-content-col1">
-                    <Dimension
-                        maxLabel={FOCUS_MAX}
-                        maxValue={indicators.value?.focus?.max?.value}
-                        maxDate={indicators.value?.focus?.max?.date}
-                        averageLabel={FOCUS_AVE}
-                        average={[indicators.value?.focus?.average, previousIndicators.value?.focus?.average]}
-                        valueFormatter={val => periodFormatter(val, { format: timeFormat.value })}
-                        data={focusData.value}
-                        chartTitle={FOCUS_CHART_TITLE}
-                    />
-                </div>
-                <div class="analysis-trend-content-col2">
-                    <Dimension
-                        maxLabel={VISIT_MAX}
-                        maxValue={indicators.value?.visit?.max?.value}
-                        maxDate={indicators.value?.visit?.max?.date}
-                        averageLabel={VISIT_AVE}
-                        average={[indicators.value?.visit?.average, previousIndicators.value?.visit?.average]}
-                        valueFormatter={visitFormatter}
-                        data={visitData.value}
-                        chartTitle={VISIT_CHART_TITLE}
-                    />
-                </div>
+                <Total
+                    activeDay={[indicators.value?.activeDay, previousIndicators.value?.activeDay]}
+                    visit={[indicators.value?.visit?.total, previousIndicators.value?.visit?.total]}
+                    focus={[indicators.value?.focus?.total, previousIndicators.value?.focus?.total]}
+                />
+                <Dimension
+                    maxLabel={FOCUS_MAX}
+                    maxValue={indicators.value?.focus?.max?.value}
+                    maxDate={indicators.value?.focus?.max?.date}
+                    averageLabel={FOCUS_AVE}
+                    average={[indicators.value?.focus?.average, previousIndicators.value?.focus?.average]}
+                    valueFormatter={val => periodFormatter(val, { format: timeFormat.value })}
+                    data={focusData.value}
+                    chartTitle={FOCUS_CHART_TITLE}
+                />
+                <Dimension
+                    maxLabel={VISIT_MAX}
+                    maxValue={indicators.value?.visit?.max?.value}
+                    maxDate={indicators.value?.visit?.max?.date}
+                    averageLabel={VISIT_AVE}
+                    average={[indicators.value?.visit?.average, previousIndicators.value?.visit?.average]}
+                    valueFormatter={visitFormatter}
+                    data={visitData.value}
+                    chartTitle={VISIT_CHART_TITLE}
+                />
             </div>
         </KanbanCard>
     )

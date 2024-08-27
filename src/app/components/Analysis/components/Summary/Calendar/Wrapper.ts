@@ -4,25 +4,21 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { t } from "@app/locale"
+import { periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
+import { locale } from "@i18n"
+import { groupBy, rotate } from "@util/array"
+import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
+import { formatTime, getAllDatesBetween, getWeeksAgo, parseTime } from "@util/time"
 import {
     ComposeOption,
+    EffectScatterSeriesOption,
     GridComponentOption,
     TitleComponentOption,
     TooltipComponentOption,
-    VisualMapComponentOption,
-    EffectScatterSeriesOption
+    VisualMapComponentOption
 } from "echarts"
-import { formatTime, getAllDatesBetween, getWeeksAgo, parseTime } from "@util/time"
-import { EffectScatterChart } from "echarts/charts"
-import { SVGRenderer } from "echarts/renderers"
-import { use } from "echarts/core"
-import { GridComponent, TitleComponent, TooltipComponent, VisualMapComponent } from "echarts/components"
-import { groupBy, rotate } from "@util/array"
-import { t } from "@app/locale"
-import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
-import { periodFormatter } from "@app/util/time"
-import { locale } from "@i18n"
 
 type EcOption = ComposeOption<
     | EffectScatterSeriesOption
@@ -43,16 +39,13 @@ type _Value = [
     string,
 ]
 
-use([
-    SVGRenderer,
-    EffectScatterChart,
-    TooltipComponent,
-    GridComponent,
-    VisualMapComponent,
-    TitleComponent,
-])
+const MAX_WEEK_NUM = 26
+const MIN_GRID_LEFT_PX = 50
 
-const WEEK_NUM = 26
+const getWeekNum = (domWidth: number): number => {
+    const weekNum = Math.floor(domWidth - MIN_GRID_LEFT_PX) / 27
+    return Math.floor(Math.min(weekNum, MAX_WEEK_NUM))
+}
 
 type EffectScatterItem = EffectScatterSeriesOption["data"][number]
 const cvtHeatmapItem = (d: _Value): EffectScatterItem => {
@@ -87,9 +80,10 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
     return result
 }
 
-function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeFormat): EcOption {
+function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeFormat, domWidth: number): EcOption {
     const xAxisLabelMap = getXAxisLabelMap(data)
     const axisTextColor = getSecondaryTextColor()
+    const gridLeft = domWidth * 0.1 < MIN_GRID_LEFT_PX ? MIN_GRID_LEFT_PX : '10%'
     return {
         title: {
             text: t(msg => msg.analysis.summary.calendarTitle),
@@ -112,7 +106,7 @@ function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeForm
                 return `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br /><b>${periodFormatter(mills, { format })}</b>`
             },
         },
-        grid: { height: '68%', width: '90%', left: '10%', top: '18%' },
+        grid: { height: '68%', left: gridLeft, right: 0, top: '18%' },
         xAxis: {
             type: 'category',
             axisLine: { show: false },
@@ -152,9 +146,13 @@ export type BizOption = {
 }
 
 class Wrapper extends EchartsWrapper<BizOption, EcOption> {
+    isSizeSensitize = true
+
     protected generateOption({ rows = [], timeFormat }: BizOption): EcOption | Promise<EcOption> {
+        const width = this.getDomWidth()
+        const weekNum = getWeekNum(width)
         const endTime = new Date()
-        const startTime = getWeeksAgo(endTime, locale === "zh_CN", WEEK_NUM)
+        const startTime = getWeeksAgo(endTime, locale === "zh_CN", weekNum)
         const allDates = getAllDatesBetween(startTime, endTime)
         const value = groupBy(rows, r => r.date, l => l?.[0]?.focus)
         const data: _Value[] = []
@@ -171,7 +169,7 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
             // Saturday to Sunday
             rotate(weekDays, 1)
         }
-        return optionOf(data, weekDays, timeFormat)
+        return optionOf(data, weekDays, timeFormat, width)
     }
 }
 
