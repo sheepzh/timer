@@ -4,10 +4,15 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.4.3] - 2024-08-27
+
+-   Adapted to kiwi browser
+-   Fixed the file type not detected on Windows (#310)
+
 ## [2.4.2] - 2024-08-19
 
--   Increase the difficulty of hard mode
--   Fix some bugs
+-   Increased the difficulty of hard mode
+-   Fixed some bugs
 
 ## [2.4.1] - 2024-08-12
 
