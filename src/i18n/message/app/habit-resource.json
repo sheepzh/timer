@@ -328,7 +328,7 @@
             "histogramTitle": "Top {n} des plus visités",
             "exclusiveToday": "Les données d'aujourd'hui ne sont pas incluses dans la moyenne",
             "countTotal": "Nombre total de visites/sites",
-            "siteAverage": "Une moyenne de {value} visites de site internet quotidienne",
+            "siteAverage": "Visite en moyenne {value} sites Web par jour",
             "distribution": {
                 "title": "Distribution de fréquence moyenne quotidienne",
                 "aveTime": "Temps de navigation quotidien moyen",

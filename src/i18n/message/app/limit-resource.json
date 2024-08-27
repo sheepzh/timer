@@ -69,7 +69,10 @@
             "name": "規則名稱",
             "detail": "規則詳情",
             "effectiveDay": "生效日期",
-            "delayCount": "延遲次數"
+            "delayCount": "延遲次數",
+            "weekly": "每週限製時長",
+            "weekStartInfo": "每週的第一天是：{weekStart}，您可以在統計選項中變更此值",
+            "wasteWeekly": "本週瀏覽時長"
         },
         "button": {
             "test": "網址測試",
@@ -416,7 +419,7 @@
         "item": {
             "condition": "URL restreinte",
             "time": "Limite quotidienne",
-            "waste": "Consulté aujourd'hui",
+            "waste": "Heure d'aujourd'hui",
             "enabled": "Activé",
             "delayAllowed": "Plus de 5 minutes",
             "delayAllowedInfo": "Si le délai est écoulé, autorisez un délai temporaire de 5 minutes",
@@ -426,7 +429,10 @@
             "name": "Nom de règle",
             "detail": "Détail des règles",
             "effectiveDay": "Effectif le",
-            "delayCount": "Nombre de retards"
+            "delayCount": "Nombre de retards",
+            "weekly": "Limite hebdomadaire",
+            "weekStartInfo": "Le premier jour de chaque semaine est : {weekStart}, vous pouvez modifier cette valeur dans les options de statistiques",
+            "wasteWeekly": "Le temps de cette semaine"
         },
         "button": {
             "test": "Test URL",
