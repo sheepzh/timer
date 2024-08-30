@@ -22,17 +22,18 @@ const _default = defineComponent({
             label={t(msg => msg.item.operation.label)}
             align="center"
             v-slots={
-                ({ row }: ElTableRowScope<timer.site.SiteInfo>) => <PopupConfirmButton
-                    buttonIcon={<Delete />}
-                    buttonType="danger"
-                    buttonText={t(msg => msg.button.delete)}
-                    confirmText={t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host })}
-                    onConfirm={async () => {
-                        await siteService.remove(row)
-                        ctx.emit("delete", row)
-                    }}
-                />
-            }
+                ({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
+                    <PopupConfirmButton
+                        buttonIcon={<Delete />}
+                        buttonType="danger"
+                        buttonText={t(msg => msg.button.delete)}
+                        confirmText={t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host })}
+                        onConfirm={async () => {
+                            await siteService.remove(row)
+                            ctx.emit("delete", row)
+                        }}
+                    />
+                )}
         />
     }
 })

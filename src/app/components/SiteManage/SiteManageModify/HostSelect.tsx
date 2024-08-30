@@ -8,7 +8,7 @@ import statService, { HostSet } from "@service/stat-service"
 import { ElOption, ElSelect, ElTag } from "element-plus"
 import { defineComponent, type PropType } from "vue"
 import { cvt2SiteKey, cvt2OptionValue, EXIST_MSG, MERGED_MSG, VIRTUAL_MSG, labelOf } from "../common"
-import { ALL_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
+import { ALL_HOSTS as REMAIN_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
 import siteService from "@service/site-service"
 import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
 import { useRequest } from "@hooks"
@@ -22,11 +22,10 @@ function cleanQuery(query: string) {
     try {
         const url = new URL(query)
         const { host, pathname } = url
-        let result = host + pathname
-        if (result.endsWith('/')) result = result.substring(0, result.length - 1)
-        return result
+        query = host + pathname
     } catch {
     }
+    if (query.endsWith('/')) query += '**'
     return query
 }
 
@@ -34,13 +33,12 @@ async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
     query = cleanQuery(query)
     if (!query) return []
     const hostSet: HostSet = (await statService.listHosts(query))
-    const allAlias: timer.site.SiteKey[] =
-        [
-            ...Array.from(hostSet.origin || []).map(host => ({ host, merged: false })),
-            ...Array.from(hostSet.merged || []).map(host => ({ host, merged: true })),
-        ]
+    const allAlias: timer.site.SiteKey[] = [
+        ...Array.from(hostSet.origin || []).map(host => ({ host, merged: false })),
+        ...Array.from(hostSet.merged || []).map(host => ({ host, merged: true })),
+    ]
     // Add local files
-    ALL_HOSTS.forEach(remain => allAlias.push({ host: remain, merged: false }))
+    REMAIN_HOSTS.forEach(remain => allAlias.push({ host: remain, merged: false }))
     allAlias.push({ host: MERGED_HOST, merged: true })
     const existedAliasSet = new Set()
     const existedKeys = await siteService.existBatch(allAlias)

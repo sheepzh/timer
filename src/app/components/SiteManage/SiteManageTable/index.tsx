@@ -42,7 +42,11 @@ const _default = defineComponent({
                 label={t(msg => msg.item.host)}
                 minWidth={120}
                 align="center"
-                v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => <HostAlert host={row.host} clickable={false} />}
+                v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
+                    <div style={{ margin: 'auto', width: 'fit-content' }}>
+                        <HostAlert host={row.host} clickable={false} />
+                    </div>
+                )}
             />
             <TypeColumn />
             <ElTableColumn
