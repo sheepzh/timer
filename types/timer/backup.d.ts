@@ -61,6 +61,12 @@ declare namespace timer.backup {
         | 'obsidian_local_rest_api'
 
     type TypeExt = {
+        /**
+         * The vault of obsidian
+         *
+         * @since 2.4.4
+         */
+        bucket?: string
         endpoint?: string
         dirPath?: string
     }

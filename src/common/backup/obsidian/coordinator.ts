@@ -1,6 +1,9 @@
 import {
     ObsidianRequestContext,
-    getFileContent, listAllFiles, updateFile, deleteFile
+    getFileContent, listAllFiles, updateFile, deleteFile,
+    NOT_FOUND_CODE,
+    INVALID_AUTH_CODE,
+    DEFAULT_VAULT
 } from "@api/obsidian"
 import { convertClients2Markdown, divideByDate, parseData } from "./compressor"
 import DateIterator from "@util/date-iterator"
@@ -23,9 +26,9 @@ function processDir(dirPath: string) {
 
 function prepareContext(context: timer.backup.CoordinatorContext<never>) {
     const { auth, ext, cid } = context
-    let { endpoint, dirPath } = ext || {}
+    let { endpoint, dirPath, bucket } = ext || {}
     dirPath = processDir(dirPath)
-    const ctx: ObsidianRequestContext = { auth, endpoint }
+    const ctx: ObsidianRequestContext = { auth, endpoint, vault: bucket }
     return { ctx, dirPath, cid }
 }
 
@@ -43,7 +46,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         const clientFilePath = `${dirPath}${CLIENT_FILE_NAME}`
         try {
             const content = await getFileContent(ctx, clientFilePath)
-            return parseData(content)
+            return parseData(content) || []
         } catch (e) {
             console.error(e)
             return []
@@ -77,13 +80,30 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
     }
 
     async testAuth(auth: string, ext: timer.backup.TypeExt): Promise<string> {
-        let { endpoint, dirPath } = ext || {}
+        let { endpoint, dirPath, bucket } = ext || {}
         dirPath = processDir(dirPath)
         if (!dirPath) {
             return "Path of directory is blank"
         }
-        const result = await listAllFiles({ endpoint, auth }, dirPath)
-        return result?.message
+        try {
+            const result = await listAllFiles({ endpoint, auth, vault: bucket }, dirPath)
+            const { errorCode, message } = result || {}
+            if (errorCode === NOT_FOUND_CODE) {
+                return `Directory[vault=${bucket || DEFAULT_VAULT}, path=${dirPath}] not found`
+            } else if (errorCode === INVALID_AUTH_CODE) {
+                return 'Your authorization token is invalid'
+            }
+            return message
+        } catch (e) {
+            const message = e.message?.toLowerCase?.()
+            console.log(message?.toLowerCase())
+            if (message?.includes("failed to fetch")) {
+                return "Unable to fetch this endpoint, please make sure it is accessible"
+            } else if (message?.includes("failed to parse url from")) {
+                return "The endpoint is invalid, please check it"
+            }
+            return e.message
+        }
     }
 
     async clear(context: timer.backup.CoordinatorContext<never>, client: timer.backup.Client): Promise<void> {

@@ -4,7 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { DEFAULT_ENDPOINT } from "@api/obsidian"
+import {
+    DEFAULT_ENDPOINT as DEFAULT_OBSIDIAN_ENDPOINT,
+    DEFAULT_VAULT as DEFAULT_OBSIDIAN_BUCKET,
+} from "@api/obsidian"
 import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import processor from "@src/common/backup/processor"
@@ -147,11 +150,23 @@ const _default = defineComponent((_props, ctx) => {
             }}
         >
             <ElInput
-                placeholder={DEFAULT_ENDPOINT}
+                placeholder={DEFAULT_OBSIDIAN_ENDPOINT}
                 modelValue={ext.value?.endpoint}
                 size="small"
                 style={{ width: "400px" }}
                 onInput={val => ext.value = { ...(ext.value || {}), endpoint: val?.trim?.() || '' }}
+            />
+        </OptionItem>
+        <OptionItem
+            v-show={isObsidian.value}
+            label={_ => "Vault Name {input}"}
+        >
+            <ElInput
+                placeholder={DEFAULT_OBSIDIAN_BUCKET}
+                modelValue={ext.value?.bucket}
+                size="small"
+                style={{ width: "200px" }}
+                onInput={val => ext.value = { ...(ext.value || {}), bucket: val?.trim?.() || '' }}
             />
         </OptionItem>
         <OptionItem
