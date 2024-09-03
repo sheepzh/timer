@@ -44,7 +44,8 @@
                 "value": "對應數值",
                 "percentage": "百分比"
             }
-        }
+        },
+        "noMore": "沒有更多了"
     },
     "en": {
         "mergeDate": "Merge date",
