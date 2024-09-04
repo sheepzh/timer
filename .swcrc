@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true
+        },
+        "target": "es2022",
+        "keepClassNames": true
+    }
+}

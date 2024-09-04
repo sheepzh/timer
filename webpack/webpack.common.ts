@@ -86,20 +86,7 @@ const staticOptions: webpack.Configuration = {
             {
                 test: /\.tsx?$/,
                 exclude: /^(node_modules|test|script)/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        assumptions: {
-                            // Fix that react transform array proxy to object, and error occurs while destructing
-                            iterableIsArray: true,
-                        },
-                        presets: ["@babel/preset-env"],
-                        plugins: [
-                            "@vue/babel-plugin-jsx",
-                            "@babel/plugin-transform-modules-commonjs",
-                        ],
-                    },
-                }, 'ts-loader'],
+                use: ['swc-loader', 'ts-loader'],
             }, {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
@@ -113,7 +100,7 @@ const staticOptions: webpack.Configuration = {
             }, {
                 test: /\.m?js$/,
                 exclude: /(node_modules)/,
-                use: ['babel-loader']
+                use: ['swc-loader']
             }
         ]
     },
