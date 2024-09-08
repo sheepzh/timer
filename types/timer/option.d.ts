@@ -155,6 +155,10 @@ declare namespace timer.option {
          */
         backupAuths: { [type in backup.Type]?: string }
         /**
+         * Login info of types
+         */
+        backupLogin: { [type in backup.Type]?: backup.LoginInfo }
+        /**
          * The extended information of types, including url, file path, and so on
          */
         backupExts?: {

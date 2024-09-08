@@ -86,10 +86,15 @@
                     "authInfo": "需要创建一个至少包含 gist 权限的 token"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "服务地址 {info} {input}",
-                    "endpointInfo": "因为无法为浏览器插件配置跨域，所以只能使用 HTTP 协议",
-                    "pathLabel": "文件夹路径 {input}"
-                }
+                    "endpointInfo": "因为无法为浏览器插件配置跨域，所以只能使用 HTTP 协议"
+                },
+                "web_dav": {}
+            },
+            "label": {
+                "endpoint": "服务地址 {info} {input}",
+                "path": "文件夹路径 {input}",
+                "account": "账号 {input}",
+                "password": "密码 {input}"
             },
             "alert": "这是一项实验性功能，如果有任何问题请联系作者~ ({email})",
             "lastTimeTip": "上次备份时间: {lastTime}",
@@ -206,10 +211,12 @@
                     "authInfo": "需要創建一個至少包含 gist 權限的 token"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "服務地址 {info} {input}",
-                    "endpointInfo": "僅 HTTP 可用，因為無法為擴展頁面配置 CORS",
-                    "pathLabel": "目錄的路徑 {input}"
+                    "endpointInfo": "僅 HTTP 可用，因為無法為擴展頁面配置 CORS"
                 }
+            },
+            "label": {
+                "endpoint": "服務地址 {info} {input}",
+                "path": "目錄的路徑 {input}"
             },
             "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
             "operation": "備份數據",
@@ -326,10 +333,15 @@
                     "authInfo": "One token with at least gist permission is required"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "Endpoint address {info} {input}",
-                    "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages",
-                    "pathLabel": "The path of directory {input}"
-                }
+                    "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages"
+                },
+                "web_dav": {}
+            },
+            "label": {
+                "endpoint": "Endpoint address {info} {input}",
+                "path": "The path of directory {input}",
+                "account": "Username {input}",
+                "password": "Password {input}"
             },
             "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
             "operation": "Backup",
@@ -446,10 +458,12 @@
                     "authInfo": "少なくとも gist 権限を持つトークンが 1 つ必要です"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "エンドポイントアドレス {info} {input}",
-                    "endpointInfo": "拡張機能のページに CORS を設定できないため、HTTP のみが利用できます。",
-                    "pathLabel": "ディレクトリのパス {input}"
+                    "endpointInfo": "拡張機能のページに CORS を設定できないため、HTTP のみが利用できます。"
                 }
+            },
+            "label": {
+                "endpoint": "エンドポイントアドレス {info} {input}",
+                "path": "ディレクトリのパス {input}"
             },
             "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
             "operation": "バックアップ",
@@ -569,10 +583,12 @@
                     "authInfo": "É necessário um token com pelo menos gist permissão"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "Endereço Intendente {info} {input}",
-                    "endpointInfo": "Somente HTTP está disponível porque não é possível configurar CORS para páginas de extensões",
-                    "pathLabel": "O caminho do diretório {input}"
+                    "endpointInfo": "Somente HTTP está disponível porque não é possível configurar CORS para páginas de extensões"
                 }
+            },
+            "label": {
+                "endpoint": "Endereço Intendente {info} {input}",
+                "path": "O caminho do diretório {input}"
             },
             "operation": "Backup",
             "auto": {
@@ -668,10 +684,12 @@
                     "authInfo": "Потрібно вказати токен для доступу gist"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "Адреса кінцевої точки {info} {input}",
-                    "endpointInfo": "Підтримується лише HTTP-доступ, оскільки для сторінок розширень неможливо налаштувати CORS",
-                    "pathLabel": "Шлях каталогу {input}"
+                    "endpointInfo": "Підтримується лише HTTP-доступ, оскільки для сторінок розширень неможливо налаштувати CORS"
                 }
+            },
+            "label": {
+                "endpoint": "Адреса кінцевої точки {info} {input}",
+                "path": "Шлях каталогу {input}"
             },
             "operation": "Зробити резервну копію",
             "auto": {
@@ -790,10 +808,12 @@
                     "authInfo": "Se requiere un token con al menos los permisos esenciales"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "Dirección de punto final {info} {input}",
-                    "endpointInfo": "Solo HTTP está disponible porque no es posible configurar CORS para las páginas de extensiones",
-                    "pathLabel": "La ruta del directorio {input}"
+                    "endpointInfo": "Solo HTTP está disponible porque no es posible configurar CORS para las páginas de extensiones"
                 }
+            },
+            "label": {
+                "endpoint": "Dirección de punto final {info} {input}",
+                "path": "La ruta del directorio {input}"
             },
             "operation": "Copia de seguridad",
             "auto": {
@@ -910,10 +930,12 @@
                     "authInfo": "Ein Token mit mindestens gist Berechtigung ist erforderlich"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "Endpunkt Adresse {info} {input}",
-                    "endpointInfo": "Es ist nur HTTP verfügbar, da CORS nicht für Erweiterungsseiten konfiguriert werden kann",
-                    "pathLabel": "Der Pfad des Verzeichnisses {input}"
+                    "endpointInfo": "Es ist nur HTTP verfügbar, da CORS nicht für Erweiterungsseiten konfiguriert werden kann"
                 }
+            },
+            "label": {
+                "endpoint": "Endpunkt Adresse {info} {input}",
+                "path": "Der Pfad des Verzeichnisses {input}"
             },
             "operation": "Backup",
             "auto": {
@@ -1030,10 +1052,12 @@
                     "authInfo": "Un jeton avec au moins une permission de gist est requis"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointLabel": "Adresse de fin {info} {input}",
-                    "endpointInfo": "Seul HTTP est disponible car il n'est pas possible de configurer CORS pour les pages d'extensions",
-                    "pathLabel": "Le chemin du répertoire {input}"
+                    "endpointInfo": "Seul HTTP est disponible car il n'est pas possible de configurer CORS pour les pages d'extensions"
                 }
+            },
+            "label": {
+                "endpoint": "Adresse de fin {info} {input}",
+                "path": "Le chemin du répertoire {input}"
             },
             "operation": "Sauvegarder",
             "auto": {

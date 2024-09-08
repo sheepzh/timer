@@ -7,11 +7,13 @@
 
 import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
+import { Loading, RefreshRight } from "@element-plus/icons-vue"
+import { useRequest } from "@hooks"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
 import { ElTableRowScope } from "@src/element-ui/table"
-import { ElMessage, ElRadio, ElTable, ElTableColumn, ElTag } from "element-plus"
-import { defineComponent, ref, Ref, onMounted } from "vue"
+import { ElLink, ElMessage, ElRadio, ElTable, ElTableColumn, ElTag } from "element-plus"
+import { defineComponent, ref } from "vue"
 
 const formatTime = (value: timer.backup.Client): string => {
     const { minDate, maxDate } = value || {}
@@ -25,33 +27,28 @@ const _default = defineComponent({
         select: (_: timer.backup.Client) => true,
     },
     setup(_, ctx) {
-        const list: Ref<timer.backup.Client[]> = ref([])
-        const loading: Ref<boolean> = ref(false)
-        const selectedCid: Ref<string> = ref()
-        const localCid: Ref<string> = ref()
-
-        onMounted(() => {
-            loading.value = true
-            processor.listClients()
-                .then(res => {
-                    if (res.success) {
-                        list.value = res.data
-                    } else {
-                        throw res.errorMsg
-                    }
-                })
-                .catch(e => ElMessage.error(typeof e === 'string' ? e : (e as Error).message || 'Unknown error...'))
-                .finally(() => loading.value = false)
-            metaService.getCid().then(cid => localCid.value = cid)
+        const { data: list, loading, refresh } = useRequest(async () => {
+            const { success, data, errorMsg } = await processor.listClients() || {}
+            if (!success) {
+                throw new Error(errorMsg)
+            }
+            return data
+        }, {
+            defaultValue: [],
+            onError: e => ElMessage.error(typeof e === 'string' ? e : (e as Error).message || 'Unknown error...')
         })
 
+        const { data: localCid } = useRequest(() => metaService.getCid())
+
+        const selectedCid = ref<string>()
         const handleRowSelect = (row: timer.backup.Client) => {
             selectedCid.value = row.id
             ctx.emit("select", row)
         }
 
         return () => (
-            <ElTable data={list.value}
+            <ElTable
+                data={list.value}
                 border
                 maxHeight="40vh"
                 class="backup-client-table"
@@ -59,18 +56,27 @@ const _default = defineComponent({
                 onCurrent-change={(row: timer.backup.Client) => handleRowSelect(row)}
                 emptyText={loading.value ? 'Loading data ...' : 'Empty data'}
             >
-                <ElTableColumn align="center" width={50}>
-                    {
-                        ({ row }: ElTableRowScope<timer.backup.Client>) => (
+                <ElTableColumn
+                    align="center"
+                    width={50}
+                    v-slots={{
+                        header: () => (
+                            <ElLink
+                                icon={loading.value ? <Loading /> : <RefreshRight />}
+                                onClick={refresh}
+                                type="primary"
+                                underline={false}
+                            />
+                        ),
+                        default: ({ row }: ElTableRowScope<timer.backup.Client>) => (
                             <ElRadio
-                                label={row.id}
+                                value={row.id}
                                 modelValue={selectedCid.value}
                                 onChange={() => handleRowSelect(row)}
-                                v-slots={() => ''}
                             />
-                        )
-                    }
-                </ElTableColumn>
+                        ),
+                    }}
+                />
                 <ElTableColumn
                     label="CID"
                     align="center"
@@ -83,14 +89,12 @@ const _default = defineComponent({
                     align="center"
                     headerAlign="center"
                 >
-                    {
-                        ({ row: client }: ElTableRowScope<timer.backup.Client>) => <>
-                            {client.name || '-'}
-                            <ElTag v-show={localCid.value === client?.id} size="small" type="danger">
-                                {t(msg => msg.option.backup.clientTable.current)}
-                            </ElTag>
-                        </>
-                    }
+                    {({ row: client }: ElTableRowScope<timer.backup.Client>) => <>
+                        {client.name || '-'}
+                        <ElTag v-show={localCid.value === client?.id} size="small" type="danger">
+                            {t(msg => msg.option.backup.clientTable.current)}
+                        </ElTag>
+                    </>}
                 </ElTableColumn>
                 <ElTableColumn
                     label={t(msg => msg.option.backup.clientTable.dataRange)}

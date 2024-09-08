@@ -1,4 +1,4 @@
-import { divide2Buckets, gistData2Rows } from "@src/common/backup/gist/compressor"
+import { divide2Buckets, GistData, gistData2Rows } from "@src/common/backup/gist/compressor"
 
 test('divide 1', () => {
     const rows: timer.stat.Row[] = [{

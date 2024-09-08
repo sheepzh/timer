@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
+import HostAlert from "@app/components/common/HostAlert"
+import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
+import { useShadow, useState } from "@hooks"
 import { isRemainHost } from "@util/constant/remain-host"
 import { ElTable, ElTableColumn, type Sort } from "element-plus"
-import HostAlert from "@app/components/common/HostAlert"
 import { computed, defineComponent, type PropType, type VNode } from "vue"
-import { t } from "@app/locale"
-import { useShadow, useState } from "@hooks"
 
 type SortInfo = Sort & {
     prop: keyof timer.imported.Row
@@ -119,7 +119,11 @@ const _default = defineComponent({
                     sortable
                     minWidth={300}
                     align="center"
-                    formatter={({ host }: timer.imported.Row) => <HostAlert host={host} clickable={!isRemainHost(host)} />}
+                    formatter={({ host }: timer.imported.Row) => (
+                        <p>
+                            <HostAlert host={host} clickable={!isRemainHost(host)} />
+                        </p>
+                    )}
                 />
                 {renderFocus(data.value, props.comparedColName)}
                 {renderTime(data.value, props.comparedColName)}

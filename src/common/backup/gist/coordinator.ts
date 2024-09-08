@@ -9,7 +9,7 @@ import type { Gist, GistForm, File, FileForm } from "@api/gist"
 
 import { getJsonFileContent, findTarget, getGist, createGist, updateGist, testToken } from "@api/gist"
 import { SOURCE_CODE_PAGE } from "@util/constant/url"
-import { calcAllBuckets, divide2Buckets, gistData2Rows } from "./compressor"
+import { calcAllBuckets, divide2Buckets, GistData, gistData2Rows } from "./compressor"
 import MonthIterator from "@util/month-iterator"
 import { formatTimeYMD } from "@util/time"
 
@@ -70,7 +70,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
             filename: CLIENT_FILE_NAME,
             content: JSON.stringify(clients)
         }
-        await updateGist(context.auth, gist.id, { description: gist.description, public: false, files })
+        await updateGist(context.auth?.token, gist.id, { description: gist.description, public: false, files })
     }
 
     async listAllClients(context: timer.backup.CoordinatorContext<Cache>): Promise<timer.backup.Client[]> {
@@ -117,7 +117,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
             files: files2Update,
             description: TIMER_DATA_GIST_DESC
         }
-        updateGist(context.auth, gist.id, gist2update)
+        updateGist(context.auth?.token, gist.id, gist2update)
     }
 
     private isTargetMetaGist(gist: Gist): boolean {
@@ -130,16 +130,16 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
 
     private async getMetaGist(context: timer.backup.CoordinatorContext<Cache>): Promise<Gist> {
         const gistId = context.cache.metaGistId
-        const auth = context.auth
+        const token = context.auth?.token
         // 1. Find by id
         if (gistId) {
-            const gist = await getGist(auth, gistId)
+            const gist = await getGist(token, gistId)
             if (gist && this.isTargetMetaGist(gist)) {
                 return gist
             }
         }
         // 2. Find another
-        const anotherGist = await findTarget(auth, gist => this.isTargetMetaGist(gist))
+        const anotherGist = await findTarget(token, gist => this.isTargetMetaGist(gist))
         if (anotherGist) {
             context.cache.metaGistId = anotherGist.id
             context.handleCacheChanged()
@@ -150,7 +150,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         files[INIT_README_MD.filename] = INIT_README_MD
         files[INIT_CLIENT_JSON.filename] = INIT_CLIENT_JSON
         const gist2Create: GistForm = { description: TIMER_META_GIST_DESC, files, public: false }
-        const created = await createGist(auth, gist2Create)
+        const created = await createGist(token, gist2Create)
         const newId = created?.id
         newId && (context.cache.metaGistId = newId) && context.handleCacheChanged()
         return created
@@ -158,16 +158,16 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
 
     private async getStatGist(context: timer.backup.CoordinatorContext<Cache>): Promise<Gist> {
         const gistId = context.cache.statGistId
-        const auth = context.auth
+        const token = context.auth?.token
         // 1. Find by id
         if (gistId) {
-            const gist = await getGist(auth, gistId)
+            const gist = await getGist(token, gistId)
             if (gist && this.isTargetStatGist(gist)) {
                 return gist
             }
         }
         // 2. Find another
-        const anotherGist = await findTarget(auth, gist => this.isTargetStatGist(gist))
+        const anotherGist = await findTarget(token, gist => this.isTargetStatGist(gist))
         if (anotherGist) {
             context.cache.statGistId = anotherGist.id
             context.handleCacheChanged()
@@ -177,14 +177,14 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         const files = {}
         files[README_FILE_NAME] = INIT_README_MD
         const gist2Create: GistForm = { description: TIMER_DATA_GIST_DESC, files, public: false }
-        const created = await createGist(auth, gist2Create)
+        const created = await createGist(token, gist2Create)
         const newId = created?.id
         newId && (context.cache.statGistId = newId) && context.handleCacheChanged()
         return created
     }
 
-    testAuth(auth: string): Promise<string> {
-        return testToken(auth)
+    testAuth(auth: timer.backup.Auth): Promise<string> {
+        return testToken(auth?.token)
     }
 
     async clear(context: timer.backup.CoordinatorContext<Cache>, client: timer.backup.Client): Promise<void> {
@@ -202,6 +202,6 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
             files: files2Delete,
             description: TIMER_DATA_GIST_DESC
         }
-        await updateGist(context.auth, gist.id, gist2update)
+        await updateGist(context.auth?.token, gist.id, gist2update)
     }
 }

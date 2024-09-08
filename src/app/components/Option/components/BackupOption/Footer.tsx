@@ -8,14 +8,14 @@
 import type { PropType, Ref } from "vue"
 
 import { t } from "@app/locale"
-import { UploadFilled } from "@element-plus/icons-vue"
-import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
-import { defineComponent, ref, watch } from "vue"
+import { Operation, UploadFilled } from "@element-plus/icons-vue"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
 import { formatTime } from "@util/time"
-import Download from "./Download"
+import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
+import { defineComponent, ref, watch } from "vue"
 import Clear from "./Clear"
+import Download from "./Download"
 
 async function handleBackup(lastTime: Ref<number>) {
     const loading = ElLoading.service({
@@ -28,6 +28,20 @@ async function handleBackup(lastTime: Ref<number>) {
         lastTime.value = result.data || Date.now()
     } else {
         ElMessage.error(result.errorMsg || 'Unknown error')
+    }
+}
+
+async function handleTest() {
+    const loading = ElLoading.service({ text: "Please wait...." })
+    try {
+        const { errorMsg } = await processor.checkAuth()
+        if (!errorMsg) {
+            ElMessage.success("Valid!")
+        } else {
+            ElMessage.error(errorMsg)
+        }
+    } finally {
+        loading.close()
     }
 }
 
@@ -54,6 +68,9 @@ const _default = defineComponent({
         return () => <div>
             <ElDivider />
             <div class="backup-footer">
+                <ElButton type="primary" icon={<Operation />} onClick={handleTest}>
+                    {t(msg => msg.button.test)}
+                </ElButton>
                 <Clear />
                 <Download />
                 <ElButton
@@ -63,10 +80,8 @@ const _default = defineComponent({
                 >
                     {t(msg => msg.option.backup.operation)}
                 </ElButton>
-                <ElText v-show={!!lastTime.value} style={{ marginLeft: "20px" }}>
-                    {
-                        t(msg => msg.option.backup.lastTimeTip, { lastTime: formatTime(lastTime.value, TIME_FORMAT) })
-                    }
+                <ElText v-show={!!lastTime.value} style={{ marginLeft: "8px" }}>
+                    {t(msg => msg.option.backup.lastTimeTip, { lastTime: formatTime(lastTime.value, TIME_FORMAT) })}
                 </ElText>
             </div>
         </div>

@@ -44,7 +44,7 @@ class OptionDatabase extends BaseDatabase {
             _areaName: "sync" | "local" | "managed"
         ) => {
             const optionInfo = changes[DB_KEY]
-            optionInfo && listener(optionInfo.newValue as timer.option.AllOption)
+            optionInfo && listener(optionInfo.newValue || {} as timer.option.AllOption)
         }
         chrome.storage.onChanged.addListener(storageListener)
     }

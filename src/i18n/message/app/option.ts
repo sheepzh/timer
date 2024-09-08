@@ -81,12 +81,16 @@ export type OptionMessage = {
                 authInfo?: string
             }
         } & {
-            [type in Extract<timer.backup.Type, "obsidian_local_rest_api">]: {
-                endpointLabel: string
+            [type in Extract<timer.backup.Type, 'obsidian_local_rest_api'>]: {
                 endpointInfo: string
-                pathLabel: string
             }
         }
+        label: {
+            endpoint: string
+            path: string
+            account: string
+            password: string
+        },
         alert: string
         operation: string
         clientTable: {
