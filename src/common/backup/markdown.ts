@@ -8,6 +8,8 @@
 import { groupBy } from "@util/array"
 import { formatPeriodCommon } from "@util/time"
 
+export const CLIENT_FILE_NAME = "clients_no_modify.md"
+
 const CLIENT_FIELDS: MarkdownTableField<timer.backup.Client>[] = [
     {
         name: "Client Id",

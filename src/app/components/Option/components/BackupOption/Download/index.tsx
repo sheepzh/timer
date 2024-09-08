@@ -21,7 +21,6 @@ const _default = defineComponent({
             <ElButton
                 type="primary"
                 icon={<Files />}
-                style={{ marginRight: "12px" }}
                 onClick={() => dialogVisible.value = true}
             >
                 {t(msg => msg.option.backup.download.btn)}

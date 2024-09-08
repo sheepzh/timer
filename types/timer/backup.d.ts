@@ -10,9 +10,20 @@ declare namespace timer.backup {
         maxDate?: string
     }
 
+    type LoginInfo = {
+        acc?: string
+        psw?: string
+    }
+
+    type Auth = {
+        token?: string
+        login?: LoginInfo
+    }
+
     interface CoordinatorContext<Cache> {
         cid: string
-        auth: string
+        auth?: Auth
+        login?: LoginInfo
         ext?: TypeExt
         cache: Cache
         handleCacheChanged: () => Promise<void>
@@ -46,7 +57,7 @@ declare namespace timer.backup {
          *
          * @returns errorMsg or null/undefined
          */
-        testAuth(auth: string, ext: timer.backup.TypeExt): Promise<string>
+        testAuth(auth: Auth, ext: timer.backup.TypeExt): Promise<string>
         /**
          * Clear data
          */
@@ -59,6 +70,12 @@ declare namespace timer.backup {
         // Sync into Obsidian via its plugin Local REST API
         // @since 1.9.4
         | 'obsidian_local_rest_api'
+        // @since 2.4.5
+        | 'web_dav'
+
+    type AuthType =
+        | 'token'
+        | 'password'
 
     type TypeExt = {
         /**

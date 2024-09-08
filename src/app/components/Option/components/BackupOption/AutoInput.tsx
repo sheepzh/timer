@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@app/locale"
-import { ElInputNumber, ElSwitch } from "element-plus"
-import { defineComponent, watch } from "vue"
-import localeMessages from "@i18n/message/common/locale"
 import I18nNode from "@app/components/common/I18nNode"
+import { t } from "@app/locale"
 import { useShadow } from "@hooks"
 import { locale } from "@i18n"
+import localeMessages from "@i18n/message/common/locale"
+import { ElInputNumber, ElSwitch } from "element-plus"
+import { defineComponent, watch } from "vue"
 
 const _default = defineComponent({
     props: {
@@ -28,7 +28,7 @@ const _default = defineComponent({
         return () => <>
             <ElSwitch modelValue={autoBackUp.value} onChange={setAutoBackUp} />
             {' ' + t(msg => msg.option.backup.auto.label)}
-            <div v-show={autoBackUp.value}>
+            {!!autoBackUp.value && <>
                 {localeMessages[locale].comma || ' '}
                 <I18nNode
                     path={msg => msg.option.backup.auto.interval}
@@ -41,8 +41,7 @@ const _default = defineComponent({
                         />
                     }}
                 />
-            </div>
-            <span v-show={autoBackUp.value}>{localeMessages[locale].comma || ' '}</span>
+            </>}
         </>
     },
 })

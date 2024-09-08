@@ -13,13 +13,14 @@ import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
+import WebDAVCoordinator from "./web-dav/coordinator"
 
 const storage = chrome.storage.local
 const syncDb = new BackupDatabase(storage)
 
 export type AuthCheckResult = {
     option: timer.option.BackupOption
-    auth: string
+    auth: timer.backup.Auth
     ext: timer.backup.TypeExt
     type: timer.backup.Type
     coordinator: timer.backup.Coordinator<unknown>
@@ -27,13 +28,13 @@ export type AuthCheckResult = {
 }
 
 class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContext<Cache> {
-    auth: string
+    auth: timer.backup.Auth
     ext?: timer.backup.TypeExt
     cache: Cache
     type: timer.backup.Type
     cid: string
 
-    constructor(cid: string, auth: string, ext: timer.backup.TypeExt, type: timer.backup.Type) {
+    constructor(cid: string, auth: timer.backup.Auth, ext: timer.backup.TypeExt, type: timer.backup.Type) {
         this.cid = cid
         this.auth = auth
         this.ext = ext
@@ -116,11 +117,7 @@ async function syncFull(
     client.maxDate = allDates[allDates.length - 1]
     client.minDate = allDates[0]
     // 2. upload
-    try {
-        await coordinator.upload(context, rows)
-    } catch (error) {
-        console.log(error)
-    }
+    await coordinator.upload(context, rows)
     return {
         ts: end.getTime(),
         date: formatTimeYMD(end),
@@ -134,6 +131,13 @@ function filterClient(c: timer.backup.Client, excludeLocal: boolean, localClient
     if (start && c.maxDate && c.maxDate < start) return false
     if (end && c.minDate && c.minDate > end) return false
     return true
+}
+
+function prepareAuth(option: timer.option.BackupOption): timer.backup.Auth {
+    const type = option?.backupType || 'none'
+    const token = option?.backupAuths?.[type]
+    const login = option.backupLogin?.[type]
+    return { token, login }
 }
 
 export type RemoteQueryParam = {
@@ -153,6 +157,7 @@ class Processor {
             none: undefined,
             gist: new GistCoordinator(),
             obsidian_local_rest_api: new ObsidianCoordinator(),
+            web_dav: new WebDAVCoordinator(),
         }
     }
 
@@ -168,15 +173,21 @@ class Processor {
             minDate: undefined,
             maxDate: undefined
         }
-        let snapshot: timer.backup.Snapshot = await syncFull(context, coordinator, client)
-        await syncDb.updateSnapshot(type, snapshot)
-        const clients: timer.backup.Client[] = (await coordinator.listAllClients(context)).filter(a => a.id !== cid) || []
-        clients.push(client)
-        await coordinator.updateClients(context, clients)
-        // Update time
-        const now = Date.now()
-        metaService.updateBackUpTime(type, now)
-        return success(now)
+        try {
+            let snapshot: timer.backup.Snapshot = await syncFull(context, coordinator, client)
+            await syncDb.updateSnapshot(type, snapshot)
+            const clients: timer.backup.Client[] = (await coordinator.listAllClients(context)).filter(a => a.id !== cid) || []
+            clients.push(client)
+            await coordinator.updateClients(context, clients)
+            // Update time
+            const now = Date.now()
+            metaService.updateBackUpTime(type, now)
+            return success(now)
+        } catch (e) {
+            console.error("Error to sync data", e)
+            const msg = (e as Error)?.message || e
+            return error(msg)
+        }
     }
 
     async listClients(): Promise<Result<timer.backup.Client[]>> {
@@ -191,8 +202,8 @@ class Processor {
     async checkAuth(): Promise<AuthCheckResult> {
         const option = (await optionService.getAllOption()) as timer.option.BackupOption
         const type = option?.backupType || 'none'
-        const auth = option?.backupAuths?.[type]
         const ext = option?.backupExts?.[type]
+        const auth = prepareAuth(option)
 
         const coordinator: timer.backup.Coordinator<unknown> = type && this.coordinators[type]
         if (!coordinator) {

@@ -8,6 +8,8 @@ type Option<T, P> = {
     loadingText?: string
     defaultParam?: P
     deps?: WatchSource<unknown> | WatchSource<unknown>[]
+    onSuccess?: (result: T) => void,
+    onError?: (e: unknown) => void
 }
 
 type Result<T, P> = {
@@ -18,7 +20,13 @@ type Result<T, P> = {
 }
 
 export const useRequest = <P, T>(getter: (p?: P) => Promise<T> | T, option?: Option<T, P>): Result<T, P> => {
-    const { manual = false, defaultValue, defaultParam, loadingTarget, loadingText, deps } = option || {}
+    const {
+        manual = false,
+        defaultValue, defaultParam,
+        loadingTarget, loadingText,
+        deps,
+        onSuccess, onError,
+    } = option || {}
     const data: Ref<T> = ref(defaultValue) as Ref<T>
     const loading = ref(false)
 
@@ -29,9 +37,12 @@ export const useRequest = <P, T>(getter: (p?: P) => Promise<T> | T, option?: Opt
         try {
             const value = await getter?.(p)
             data.value = value
-            loadingInstance?.close?.()
+            onSuccess?.(value)
+        } catch (e) {
+            onError?.(e)
         } finally {
             loading.value = false
+            loadingInstance?.close?.()
         }
     }
     const refresh = (p?: P) => { refreshAsync(p) }

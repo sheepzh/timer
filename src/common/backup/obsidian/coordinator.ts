@@ -1,34 +1,22 @@
 import {
-    ObsidianRequestContext,
-    getFileContent, listAllFiles, updateFile, deleteFile,
-    NOT_FOUND_CODE,
+    DEFAULT_VAULT,
+    deleteFile,
+    getFileContent,
     INVALID_AUTH_CODE,
-    DEFAULT_VAULT
+    listAllFiles,
+    NOT_FOUND_CODE,
+    ObsidianRequestContext,
+    updateFile
 } from "@api/obsidian"
-import { convertClients2Markdown, divideByDate, parseData } from "./compressor"
 import DateIterator from "@util/date-iterator"
-
-const CLIENT_FILE_NAME = "clients_no_modify.md"
-
-function processDir(dirPath: string) {
-    dirPath = dirPath?.trim?.()
-    if (!dirPath) {
-        return null
-    }
-    while (dirPath.startsWith("/")) {
-        dirPath = dirPath.substring(1)
-    }
-    if (!dirPath.endsWith("/")) {
-        dirPath = dirPath + '/'
-    }
-    return dirPath
-}
+import { processDir } from "../common"
+import { CLIENT_FILE_NAME, convertClients2Markdown, divideByDate, parseData } from "../markdown"
 
 function prepareContext(context: timer.backup.CoordinatorContext<never>) {
     const { auth, ext, cid } = context
     let { endpoint, dirPath, bucket } = ext || {}
     dirPath = processDir(dirPath)
-    const ctx: ObsidianRequestContext = { auth, endpoint, vault: bucket }
+    const ctx: ObsidianRequestContext = { auth: auth?.token, endpoint, vault: bucket }
     return { ctx, dirPath, cid }
 }
 
@@ -79,11 +67,15 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         )
     }
 
-    async testAuth(auth: string, ext: timer.backup.TypeExt): Promise<string> {
+    async testAuth(authInfo: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string> {
         let { endpoint, dirPath, bucket } = ext || {}
+        let { token: auth } = authInfo || {}
         dirPath = processDir(dirPath)
         if (!dirPath) {
             return "Path of directory is blank"
+        }
+        if (!auth) {
+            return "Authorization is blank"
         }
         try {
             const result = await listAllFiles({ endpoint, auth, vault: bucket }, dirPath)

@@ -12,6 +12,7 @@ import { Back, Check } from "@element-plus/icons-vue"
 import { processImportedData } from "@service/components/import-processor"
 import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
 import CompareTable from "@app/components/common/imported/CompareTable"
+import { useRequest } from "@hooks/useRequest"
 
 const _default = defineComponent({
     props: {
@@ -27,23 +28,21 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const resolution: Ref<timer.imported.ConflictResolution> = ref()
-        const downloading: Ref<boolean> = ref(false)
 
-        const handleDownload = () => {
+        const { refresh: handleDownload, loading: downloading } = useRequest(async () => {
             const resolutionVal = resolution.value
             if (!resolutionVal) {
                 ElMessage.warning(t(msg => msg.dataManage.importOther.conflictNotSelected))
                 return
             }
-            downloading.value = true
-            processImportedData(props.data, resolutionVal)
-                .then(() => {
-                    ElMessage.success(t(msg => msg.operation.successMsg))
-                    ctx.emit('download')
-                })
-                .catch()
-                .finally(() => downloading.value = false)
-        }
+            await processImportedData(props.data, resolutionVal)
+        }, {
+            manual: true,
+            onSuccess() {
+                ElMessage.success(t(msg => msg.operation.successMsg))
+                ctx.emit('download')
+            }
+        })
         return () => <>
             <ElAlert type="success" closable={false}>
                 {

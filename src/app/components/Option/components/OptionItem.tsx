@@ -14,6 +14,7 @@ const _default = defineComponent({
             type: Boolean,
             default: false,
         },
+        required: Boolean
     },
     setup: (props, ctx) => {
         return () => {
@@ -24,6 +25,7 @@ const _default = defineComponent({
                     <ElDivider v-show={!props.hideDivider} />
                     <div class="option-line">
                         <a class="option-label">
+                            {!!props.required && <span class="option-item-required">*</span>}
                             <I18nNode path={props.label} param={param} />
                         </a>
                         {props.defaultValue && (

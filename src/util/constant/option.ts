@@ -57,6 +57,7 @@ export function defaultBackup(): timer.option.BackupOption {
         backupType: 'none',
         clientName: 'unknown',
         backupAuths: {},
+        backupLogin: {},
         backupExts: {},
         autoBackUp: false,
         autoBackUpInterval: 30,

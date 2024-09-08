@@ -8,6 +8,26 @@
 import { groupBy } from "@util/array"
 import { formatTimeYMD, getBirthday, parseTime } from "@util/time"
 
+/**
+ * Data format in each json file in gist
+ */
+export type GistData = {
+    /**
+     * Index = month_of_part * 32 + date_of_month
+     */
+    [index: string]: GistRow
+}
+
+/**
+ * Row stored in the gist
+ */
+export type GistRow = {
+    [host: string]: [
+        number,     // Visit count
+        number,     // Browsing time
+    ]
+}
+
 function calcGroupKey(row: timer.stat.RowBase): string {
     const date = row.date
     if (!date) {
