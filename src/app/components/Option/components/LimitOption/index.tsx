@@ -7,11 +7,11 @@
 
 import { t } from "@app/locale"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
-import { locale } from "@i18n"
+import { Edit, Lock } from "@element-plus/icons-vue"
 import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
-import { ElButton, ElInput, ElMessageBox, ElOption, ElSelect } from "element-plus"
+import { ElButton, ElInput, ElMessage, ElMessageBox, ElOption, ElSelect } from "element-plus"
 import { defineComponent, reactive, ref, Ref, unref, UnwrapRef, watch } from "vue"
 import { OptionInstance } from "../../common"
 import OptionItem from "../OptionItem"
@@ -69,6 +69,30 @@ const confirm4Strict = async (): Promise<void> => {
     })
 }
 
+const modifyPsw = async (oldPsw?: string): Promise<string> => {
+    const content = t(msg => msg.option.dailyLimit.level.passwordContent)
+    const data = await ElMessageBox({
+        message: content,
+        type: 'success',
+        icon: <Lock />,
+        confirmButtonText: t(msg => msg.button.save),
+        showCancelButton: true,
+        cancelButtonText: t(msg => msg.button.cancel),
+        showInput: true,
+        inputValue: oldPsw,
+        closeOnClickModal: false,
+    })
+    const { action, value } = data || {}
+    if (action !== 'confirm') {
+        ElMessage.warning("Unknown action: " + action)
+        throw "Ignore this message"
+    } else if (!value) {
+        ElMessage.error("No password filled in")
+        throw "No password filled in"
+    }
+    return value
+}
+
 const _default = defineComponent((_, ctx) => {
     const option: UnwrapRef<timer.option.DailyLimitOption> = reactive(defaultDailyLimit())
     const verified = ref(false)
@@ -82,6 +106,30 @@ const _default = defineComponent((_, ctx) => {
             .catch(() => { })
     } satisfies OptionInstance)
 
+    const handleLevelChange = async (val: timer.limit.RestrictionLevel) => {
+        try {
+            await verifyTriggered(option, verified)
+            if (val === "strict") {
+                await confirm4Strict()
+            } else if (val === "password") {
+                option.limitPassword = await modifyPsw()
+            }
+            option.limitLevel = val
+        } catch (e) {
+            console.log("Failed to verify", e)
+        }
+    }
+
+    const handlePswEdit = async () => {
+        try {
+            await verifyTriggered(option, verified)
+            option.limitPassword = await modifyPsw(option.limitPassword)
+            ElMessage.success(t(msg => msg.operation.successMsg))
+        } catch (e) {
+            console.log("Failed to verify", e)
+        }
+    }
+
     return () => <>
         <OptionItem
             label={msg => msg.option.dailyLimit.level.label}
@@ -91,12 +139,8 @@ const _default = defineComponent((_, ctx) => {
             <ElSelect
                 modelValue={option.limitLevel}
                 size="small"
-                class={`option-daily-limit-level-select ${locale}`}
-                onChange={(val: timer.limit.RestrictionLevel) => verifyTriggered(option, verified)
-                    .then(() => val === "strict" ? confirm4Strict() : Promise.resolve())
-                    .then(() => option.limitLevel = val)
-                    .catch(console.log)
-                }
+                class='option-daily-limit-level-select'
+                onChange={handleLevelChange}
             >
                 {ALL_LEVEL.map(item => <ElOption value={item} label={t(msg => msg.option.dailyLimit.level[item])} />)}
             </ElSelect>
@@ -109,12 +153,11 @@ const _default = defineComponent((_, ctx) => {
                 modelValue={option.limitPassword}
                 size="small"
                 type="password"
-                showPassword
-                style={{ width: "200px" }}
-                onInput={val => verifyTriggered(option, verified)
-                    .then(() => option.limitPassword = val?.trim())
-                    .catch(console.log)
-                }
+                showPassword={verified.value}
+                style={{ width: "300px" }}
+                v-slots={{
+                    append: () => <ElButton icon={<Edit />} onClick={handlePswEdit} />,
+                }}
             />
         </OptionItem>
         <OptionItem

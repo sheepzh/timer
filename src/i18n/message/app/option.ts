@@ -69,6 +69,7 @@ export type OptionMessage = {
             }
             strictTitle: string
             strictContent: string
+            passwordContent: string
         }
     }
     backup: {

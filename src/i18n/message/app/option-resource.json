@@ -71,7 +71,8 @@
                 },
                 "strict": "不允许手动解锁",
                 "strictTitle": "危险操作",
-                "strictContent": "当您选择这个选项之后，如果某个站点触发了每日限制，除了等到第二天自动解锁以外，不允许您手动解锁。如果规则设置不当，很有可能会阻碍您的日常工作！"
+                "strictContent": "当您选择这个选项之后，如果某个站点触发了每日限制，除了等到第二天自动解锁以外，不允许您手动解锁。如果规则设置不当，很有可能会阻碍您的日常工作！",
+                "passwordContent": "请设置您的解锁密码"
             }
         },
         "backup": {
@@ -318,7 +319,8 @@
                 },
                 "strict": "Not allow unlocking anyway",
                 "strictTitle": "Operation confirm",
-                "strictContent": "When you select this option, if a site triggers daily limit, you will not be allowed to manually unblock it other than waiting until the next day. If rules are not set up properly, they can very well hinder your routines!"
+                "strictContent": "When you select this option, if a site triggers daily limit, you will not be allowed to manually unblock it other than waiting until the next day. If rules are not set up properly, they can very well hinder your routines!",
+                "passwordContent": "Please set your unlock password"
             }
         },
         "backup": {
