@@ -22,8 +22,9 @@ declare namespace timer.backup {
 
     interface CoordinatorContext<Cache> {
         cid: string
+        cname: string
+        type: timer.backup.Type
         auth?: Auth
-        login?: LoginInfo
         ext?: TypeExt
         cache: Cache
         handleCacheChanged: () => Promise<void>
@@ -72,6 +73,8 @@ declare namespace timer.backup {
         | 'obsidian_local_rest_api'
         // @since 2.4.5
         | 'web_dav'
+        // @since 3.0.0
+        | 'quantified_resume'
 
     type AuthType =
         | 'token'

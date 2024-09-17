@@ -13,18 +13,24 @@ import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
+import QuantifiedResumeCoordinator from "./quantified-resume/coordinator"
 import WebDAVCoordinator from "./web-dav/coordinator"
 
 const storage = chrome.storage.local
 const syncDb = new BackupDatabase(storage)
 
 export type AuthCheckResult = {
-    option: timer.option.BackupOption
-    auth: timer.backup.Auth
-    ext: timer.backup.TypeExt
     type: timer.backup.Type
+    context: CoordinatorContextWrapper<unknown>
     coordinator: timer.backup.Coordinator<unknown>
     errorMsg?: string
+}
+
+function prepareAuth(option: timer.option.BackupOption): timer.backup.Auth {
+    const type = option?.backupType || 'none'
+    const token = option?.backupAuths?.[type]
+    const login = option.backupLogin?.[type]
+    return { token, login }
 }
 
 class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContext<Cache> {
@@ -33,12 +39,16 @@ class CoordinatorContextWrapper<Cache> implements timer.backup.CoordinatorContex
     cache: Cache
     type: timer.backup.Type
     cid: string
+    cname: string
 
-    constructor(cid: string, auth: timer.backup.Auth, ext: timer.backup.TypeExt, type: timer.backup.Type) {
+    constructor(cid: string, option: timer.option.BackupOption) {
+        const { backupType, backupExts, clientName } = option || {}
+        this.type = backupType || 'none'
+        this.ext = backupExts?.[this.type]
+        this.auth = prepareAuth(option)
+
         this.cid = cid
-        this.auth = auth
-        this.ext = ext
-        this.type = type
+        this.cname = clientName
     }
 
     async init(): Promise<timer.backup.CoordinatorContext<Cache>> {
@@ -133,13 +143,6 @@ function filterClient(c: timer.backup.Client, excludeLocal: boolean, localClient
     return true
 }
 
-function prepareAuth(option: timer.option.BackupOption): timer.backup.Auth {
-    const type = option?.backupType || 'none'
-    const token = option?.backupAuths?.[type]
-    const login = option.backupLogin?.[type]
-    return { token, login }
-}
-
 export type RemoteQueryParam = {
     start: Date
     end: Date
@@ -158,18 +161,17 @@ class Processor {
             gist: new GistCoordinator(),
             obsidian_local_rest_api: new ObsidianCoordinator(),
             web_dav: new WebDAVCoordinator(),
+            quantified_resume: new QuantifiedResumeCoordinator(),
         }
     }
 
     async syncData(): Promise<Result<number>> {
-        const { option, auth, ext, type, coordinator, errorMsg } = await this.checkAuth()
+        const { type, context, coordinator, errorMsg } = await this.checkAuth()
         if (errorMsg) return error(errorMsg)
-
-        const cid = await lazyGetCid()
-        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(cid, auth, ext, type).init()
+        let cid = context.cid
         const client: timer.backup.Client = {
             id: cid,
-            name: option.clientName,
+            name: context.cname,
             minDate: undefined,
             maxDate: undefined
         }
@@ -191,49 +193,47 @@ class Processor {
     }
 
     async listClients(): Promise<Result<timer.backup.Client[]>> {
-        const { auth, ext, type, coordinator, errorMsg } = await this.checkAuth()
+        const { context, coordinator, errorMsg } = await this.checkAuth()
         if (errorMsg) return error(errorMsg)
-        const cid = await lazyGetCid()
-        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(cid, auth, ext, type).init()
+        await context.init()
         const clients = await coordinator.listAllClients(context)
         return success(clients)
     }
 
     async checkAuth(): Promise<AuthCheckResult> {
         const option = (await optionService.getAllOption()) as timer.option.BackupOption
-        const type = option?.backupType || 'none'
-        const ext = option?.backupExts?.[type]
-        const auth = prepareAuth(option)
+        const type = option.backupType
+        const cid = await lazyGetCid()
+        const context = new CoordinatorContextWrapper<unknown>(cid, option)
 
-        const coordinator: timer.backup.Coordinator<unknown> = type && this.coordinators[type]
+        const coordinator: timer.backup.Coordinator<unknown> = this.coordinators?.[context.type]
         if (!coordinator) {
             // no coordinator, do nothing
-            return { option, auth, ext, type, coordinator, errorMsg: "Invalid type" }
+            return { type, context, coordinator, errorMsg: "Invalid type" }
         }
         let errorMsg: string
         try {
-            errorMsg = await coordinator.testAuth(auth, ext)
+            errorMsg = await coordinator.testAuth(context.auth, context.ext)
         } catch (e) {
             errorMsg = (e as Error)?.message || 'Unknown error'
         }
-        return { option, auth, ext, type, coordinator, errorMsg }
+        return { type, context, coordinator, errorMsg }
     }
 
     async query(param: RemoteQueryParam): Promise<timer.stat.Row[]> {
-        const { type, coordinator, auth, ext, errorMsg } = await this.checkAuth()
+        const { coordinator, context, errorMsg } = await this.checkAuth()
         if (errorMsg || !coordinator) {
             return []
         }
 
         const { start = getBirthday(), end, specCid, excludeLocal } = param
-        let localCid = await metaService.getCid()
         // 1. init context
-        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(localCid, auth, ext, type).init()
+        await context.init()
         // 2. query all clients, and filter them
         let startStr = start ? formatTimeYMD(start) : undefined
         let endStr = end ? formatTimeYMD(end) : undefined
         const allClients = (await coordinator.listAllClients(context))
-            .filter(c => filterClient(c, excludeLocal, localCid, startStr, endStr))
+            .filter(c => filterClient(c, excludeLocal, context.cid, startStr, endStr))
             .filter(c => !specCid || c.id === specCid)
         // 3. iterate clients
         const result: timer.stat.Row[] = []
@@ -255,10 +255,9 @@ class Processor {
     }
 
     async clear(cid: string): Promise<Result<void>> {
-        const { auth, ext, type, coordinator, errorMsg } = await this.checkAuth()
+        const { context, coordinator, errorMsg } = await this.checkAuth()
         if (errorMsg) return error(errorMsg)
-        let localCid = await metaService.getCid()
-        const context: timer.backup.CoordinatorContext<unknown> = await new CoordinatorContextWrapper<unknown>(localCid, auth, ext, type).init()
+        await context.init()
         // 1. Find the client
         const allClients = await coordinator.listAllClients(context)
         const client = allClients?.filter(c => c?.id === cid)?.[0]

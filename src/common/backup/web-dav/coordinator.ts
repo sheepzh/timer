@@ -101,7 +101,7 @@ export default class WebDAVCoordinator implements timer.backup.Coordinator<never
                 return "Directory not found"
             }
         } catch (e) {
-            return (e as Error)?.message || e
+            return (e as Error)?.message || e || 'Unknown error'
         }
     }
 

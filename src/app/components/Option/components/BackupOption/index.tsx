@@ -8,6 +8,9 @@ import {
     DEFAULT_VAULT as DEFAULT_OBSIDIAN_BUCKET,
     DEFAULT_ENDPOINT as DEFAULT_OBSIDIAN_ENDPOINT,
 } from "@api/obsidian"
+import {
+    DEFAULT_ENDPOINT as DEFAULT_QR_ENDPOINT,
+} from "@api/quantified-resume"
 import { t } from "@app/locale"
 import { AUTHOR_EMAIL } from "@src/package"
 import { ElAlert, ElInput, ElOption, ElSelect } from "element-plus"
@@ -25,13 +28,15 @@ const ALL_TYPES: timer.backup.Type[] = [
     'gist',
     'web_dav',
     'obsidian_local_rest_api',
+    'quantified_resume',
 ]
 
 const TYPE_NAMES: { [t in timer.backup.Type]: string } = {
     none: t(msg => msg.option.backup.meta.none.label),
     gist: 'GitHub Gist',
     obsidian_local_rest_api: 'Obsidian - Local REST API',
-    web_dav: 'WebDAV'
+    web_dav: 'WebDAV',
+    quantified_resume: 'Quantified Resume',
 }
 
 const _default = defineComponent((_props, ctx) => {
@@ -169,6 +174,20 @@ const _default = defineComponent((_props, ctx) => {
                     showPassword
                     style={{ width: "300px" }}
                     onInput={val => password.value = val?.trim?.()}
+                />
+            </OptionItem>
+        </>}
+        {backupType.value === 'quantified_resume' && <>
+            <OptionItem
+                label={msg => msg.option.backup.label.endpoint}
+                v-slots={{ info: () => '' }}
+            >
+                <ElInput
+                    modelValue={ext.value?.endpoint}
+                    placeholder={DEFAULT_QR_ENDPOINT}
+                    size="small"
+                    style={{ width: "400px" }}
+                    onInput={val => setExtField('endpoint', val)}
                 />
             </OptionItem>
         </>}

@@ -77,12 +77,13 @@ export type OptionMessage = {
         type: string
         client: string
         meta: {
-            [type in timer.backup.Type]: {
-                label?: string
-                authInfo?: string
+            none: {
+                label: string
             }
-        } & {
-            [type in Extract<timer.backup.Type, 'obsidian_local_rest_api'>]: {
+            gist: {
+                authInfo: string
+            }
+            obsidian_local_rest_api: {
                 endpointInfo: string
             }
         }
