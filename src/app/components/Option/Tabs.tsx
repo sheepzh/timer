@@ -1,11 +1,11 @@
 import { t } from "@app/locale"
 import { Refresh } from "@element-plus/icons-vue"
+import { useShadow } from "@hooks/useShadow"
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import { useRouter } from "vue-router"
-import { changeQuery, OptionCategory, parseQuery } from "./common"
-import { useShadow } from "@hooks/useShadow"
 import ContentContainer from "../common/ContentContainer"
+import { changeQuery, OptionCategory, parseQuery } from "./common"
 
 const resetButtonName = "reset"
 
@@ -66,6 +66,12 @@ const _default = defineComponent({
                             {h(ctx.slots.dailyLimit)}
                         </ElTabPane>
                     )}
+                    <ElTabPane
+                        name={"accessibility" satisfies OptionCategory}
+                        label={t(msg => msg.option.accessibility.title)}
+                    >
+                        {h(ctx.slots.accessibility)}
+                    </ElTabPane>
                     <ElTabPane
                         name={"backup" satisfies OptionCategory}
                         label={t(msg => msg.option.backup.title)}

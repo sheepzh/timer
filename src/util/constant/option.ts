@@ -64,6 +64,12 @@ export function defaultBackup(): timer.option.BackupOption {
     }
 }
 
+export function defaultAccessibility(): timer.option.AccessibilityOption {
+    return {
+        chartDecal: false,
+    }
+}
+
 export function defaultOption(): timer.option.AllOption {
     return {
         ...defaultPopup(),
@@ -71,5 +77,6 @@ export function defaultOption(): timer.option.AllOption {
         ...defaultStatistics(),
         ...defaultBackup(),
         ...defaultDailyLimit(),
+        ...defaultAccessibility(),
     }
 }
