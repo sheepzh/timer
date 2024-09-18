@@ -1,10 +1,26 @@
-import { Bucket, listBuckets } from "@api/quantified-resume"
+import { Bucket, createBucket, listBuckets, updateBucket } from "@api/quantified-resume"
+import metaMessages, { } from "@i18n/message/common/meta"
+import { t } from "@i18n"
+import { groupBy } from "@util/array"
 
 export type QuantifiedResumeCache = {
     bucketIds: {
         // clientId => bucketId
         [clientId: string]: number
     }
+}
+
+async function createNewBucket(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>): Promise<number> {
+    const { cid, cname } = context || {}
+    const { endpoint } = context?.ext || {}
+    const appName = t(metaMessages, { key: msg => msg.name })
+    const bucket: Bucket = {
+        name: `${appName}: ${cid}`,
+        builtin: "BrowserTime",
+        builtinRefId: cid,
+        payload: { name: cname }
+    }
+    return createBucket({ endpoint }, bucket)
 }
 
 async function getBucketId(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>): Promise<number> {
@@ -16,25 +32,31 @@ async function getBucketId(context: timer.backup.CoordinatorContext<QuantifiedRe
     const { endpoint } = context?.ext || {}
     // 2. query again
     bucketId = (await listBuckets({ endpoint }, cid))?.[0]?.id
-    // TODO
     if (!bucketId) {
         // 3. create one
-        const bucket: Bucket = {
-            name: "Time Tracker: " + cid,
-            builtin: "BrowserTime",
-            builtinRefId: cid,
-            payload: {
-                name: ""
-            }
-        }
+        bucketId = await createNewBucket(context)
     }
-    throw new Error("TODO")
+    return bucketId
 }
 
 export default class QuantifiedResumeCoordinator implements timer.backup.Coordinator<QuantifiedResumeCache> {
-
-    updateClients(_: timer.backup.CoordinatorContext<QuantifiedResumeCache>, clients: timer.backup.Client[]): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateClients(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, clients: timer.backup.Client[]): Promise<void> {
+        const { endpoint } = context?.ext || {}
+        const existBuckets = groupBy(await listBuckets({ endpoint }) || [], b => b.builtinRefId, l => l?.[0])
+        if (!clients?.length) return
+        const promises = Promise.all(clients.map(
+            async ({ id, name, minDate, maxDate }) => {
+                const exist = existBuckets[id]
+                if (exist) {
+                    // update payload
+                    exist.payload = { name, minDate, maxDate }
+                    await updateBucket({ endpoint }, exist)
+                } else {
+                    await createNewBucket(context)
+                }
+            })
+        )
+        await promises
     }
 
     async listAllClients(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>): Promise<timer.backup.Client[]> {
@@ -66,7 +88,9 @@ export default class QuantifiedResumeCoordinator implements timer.backup.Coordin
 
     async upload(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, rows: timer.stat.RowBase[]): Promise<void> {
         const bucketId = await getBucketId(context)
-        throw new Error("Method not implemented.");
+        rows.forEach(row => {
+
+        })
     }
 
     async testAuth(_auth: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string> {
