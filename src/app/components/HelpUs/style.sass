@@ -6,12 +6,21 @@
     .member-container
         margin-top: 10px
         text-align: center
-        img
-            width: 60px
-            height: 60px
-            border-radius: 30px
-        a:not(:last-child)
-            margin-right: 15px
+        .list
+            min-height: 60px
+            display: flex
+            flex-wrap: wrap
+            gap: 15px
+            justify-content: space-around
+            width: fit-content
+            margin: 0 auto
+            padding: 5px 0
+            a:last-child
+                margin-right: auto
+            img
+                width: 60px
+                height: 60px
+                border-radius: 30px
     .progress-container
         display: grid
         padding-left: 30px
