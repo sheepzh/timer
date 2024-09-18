@@ -121,6 +121,10 @@
                 "interval": "每 {input} 分钟备份一次"
             }
         },
+        "accessibility": {
+            "title": "无障碍功能",
+            "chartDecal": "{input} 是否显示图表的贴花图案"
+        },
         "resetButton": "恢复默认",
         "resetSuccess": "成功重置为默认值",
         "defaultValue": "默认值: {default}"
@@ -368,6 +372,10 @@
                 "label": "Whether to enable automatic backup",
                 "interval": "and run every {input} minutes"
             }
+        },
+        "accessibility": {
+            "title": "Accessibility",
+            "chartDecal": "{input} Whether to display the chart decal"
         },
         "resetButton": "Reset",
         "resetSuccess": "Reset to default successfully!",
