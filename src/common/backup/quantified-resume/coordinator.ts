@@ -1,7 +1,8 @@
-import { Bucket, createBucket, listBuckets, updateBucket } from "@api/quantified-resume"
+import { batchCreateItems, Bucket, createBucket, Item, listAllItems, listBuckets, removeBucket, updateBucket } from "@api/quantified-resume"
 import metaMessages, { } from "@i18n/message/common/meta"
 import { t } from "@i18n"
 import { groupBy } from "@util/array"
+import { formatTimeYMD, parseTime } from "@util/time"
 
 export type QuantifiedResumeCache = {
     bucketIds: {
@@ -23,15 +24,16 @@ async function createNewBucket(context: timer.backup.CoordinatorContext<Quantifi
     return createBucket({ endpoint }, bucket)
 }
 
-async function getBucketId(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>): Promise<number> {
-    const { cid, cache } = context || {}
+async function getBucketId(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, specificCid?: string): Promise<number> {
+    const cid = specificCid || context?.cid
+    const { cache } = context || {}
     // 1. query from cache
     let bucketId = cache?.bucketIds?.[cid]
-    if (!bucketId) return bucketId
+    if (bucketId) return bucketId
 
     const { endpoint } = context?.ext || {}
     // 2. query again
-    bucketId = (await listBuckets({ endpoint }, cid))?.[0]?.id
+    bucketId = (await listBuckets({ endpoint }, cid))?.filter(b => b.builtinRefId === cid)?.[0]?.id
     if (!bucketId) {
         // 3. create one
         bucketId = await createNewBucket(context)
@@ -82,15 +84,44 @@ export default class QuantifiedResumeCoordinator implements timer.backup.Coordin
         return result
     }
 
-    download(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
-        throw new Error("Method not implemented.");
+    async download(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
+        let bucketId = await getBucketId(context, targetCid)
+        if (!bucketId) return []
+        const items = await listAllItems({ endpoint: context?.ext?.endpoint }, bucketId)
+        return items?.map(({ name, timestamp, metrics }) => ({
+            host: name,
+            date: formatTimeYMD(timestamp),
+            focus: metrics?.focus,
+            time: metrics?.visit,
+        } satisfies timer.stat.RowBase)) || []
     }
 
     async upload(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, rows: timer.stat.RowBase[]): Promise<void> {
-        const bucketId = await getBucketId(context)
-        rows.forEach(row => {
+        if (!rows?.length) return
 
+        const bucketId = await getBucketId(context)
+        let items = rows.map(({ host, date, focus, time: visit }) => {
+            const time = parseTime(date)
+            time.setHours(0)
+            time.setMinutes(0)
+            time.setSeconds(0)
+            time.setMilliseconds(0)
+            const item: Item = {
+                refId: `${date}${host}`,
+                timestamp: time.getTime(),
+                metrics: { visit, focus },
+                action: "web_time",
+                name: host,
+                payload: { date, host, cid: context.cid },
+            }
+            return item
         })
+        const groups = groupBy(items, (_, idx) => Math.floor(idx / 2000), l => l)
+
+        const { endpoint } = context?.ext || {}
+        for (const group of Object.values(groups)) {
+            await batchCreateItems({ endpoint }, bucketId, group)
+        }
     }
 
     async testAuth(_auth: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string> {
@@ -102,7 +133,9 @@ export default class QuantifiedResumeCoordinator implements timer.backup.Coordin
         }
     }
 
-    clear(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, client: timer.backup.Client): Promise<void> {
-        throw new Error("Method not implemented.");
+    async clear(context: timer.backup.CoordinatorContext<QuantifiedResumeCache>, client: timer.backup.Client): Promise<void> {
+        const bucketId = await getBucketId(context, client.id)
+        if (!bucketId) return
+        await removeBucket({ endpoint: context?.ext?.endpoint }, bucketId)
     }
 }
