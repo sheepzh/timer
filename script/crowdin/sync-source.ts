@@ -1,7 +1,15 @@
 import { SourceFilesModel, SourceStringsModel } from "@crowdin/crowdin-api-client"
 import { groupBy } from "@util/array"
-import { CrowdinClient, getClientFromEnv } from "./client"
-import { ALL_DIRS, isIgnored, readAllMessages, SOURCE_LOCALE, transMsg } from "./common"
+import { CrowdinClient, getClientFromEnv, NameKey } from "./client"
+import {
+    ALL_DIRS,
+    Dir,
+    isIgnored,
+    ItemSet,
+    readAllMessages,
+    SOURCE_LOCALE,
+    transMsg
+} from "./common"
 
 async function initBranch(client: CrowdinClient): Promise<SourceFilesModel.Branch> {
     const branch = await client.getOrCreateMainBranch()

@@ -1,9 +1,13 @@
 
-import { exitWith } from "../util/process"
-import { ALL_DIRS, ALL_TRANS_LOCALES, checkMainBranch, crowdinLangOf, isIgnored, readAllMessages, transMsg } from "./common"
-import { CrowdinClient, getClientFromEnv } from "./client"
 import { SourceFilesModel } from "@crowdin/crowdin-api-client"
 import { groupBy } from "@util/array"
+import { exitWith } from "../util/process"
+import { CrowdinClient, getClientFromEnv } from "./client"
+import {
+    ALL_DIRS, ALL_TRANS_LOCALES,
+    CrowdinLanguage, Dir, ItemSet,
+    checkMainBranch, crowdinLangOf, isIgnored, readAllMessages, transMsg,
+} from "./common"
 
 async function processDirMessage(client: CrowdinClient, file: SourceFilesModel.File, message: ItemSet, lang: CrowdinLanguage): Promise<void> {
     console.log(`Start to process dir message: fileName=${file.name}, lang=${lang}`)

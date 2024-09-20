@@ -8,8 +8,7 @@ import Crowdin, {
     StringTranslationsModel,
     UploadStorageModel,
 } from '@crowdin/crowdin-api-client'
-import axios from 'axios'
-import { transMsg } from './common'
+import { ALL_CROWDIN_LANGUAGES, CrowdinLanguage, Dir, ItemSet } from './common'
 
 const PROJECT_ID = 516822
 
@@ -139,6 +138,14 @@ async function getOrCreateMainBranch(this: CrowdinClient): Promise<SourceFilesMo
     return branch
 }
 
+/**
+ * Key of crowdin file/directory
+ */
+export type NameKey = {
+    name: Dir
+    branchId: number
+}
+
 function getFileByName(this: CrowdinClient, param: NameKey): Promise<SourceFilesModel.File> {
     return new PaginationIterator(
         p => this.crowdin.sourceFilesApi.listProjectFiles(PROJECT_ID, { ...p, branchId: param.branchId })
@@ -219,11 +226,9 @@ async function batchDeleteString(this: CrowdinClient, stringIds: number[]): Prom
     console.log("=========end to delete strings========")
 }
 
-async function listAllTranslationByStringAndLang(this: CrowdinClient, transKey: TranslationKey): Promise<StringTranslationsModel.StringTranslation[]> {
-    const { stringId, lang } = transKey
-    return new PaginationIterator(
-        p => this.crowdin.stringTranslationsApi.listStringTranslations(PROJECT_ID, stringId, lang, { ...p })
-    ).findAll()
+export type TranslationKey = {
+    stringId: number
+    lang: CrowdinLanguage
 }
 
 async function existTranslationByStringAndLang(this: CrowdinClient, transKey: TranslationKey): Promise<boolean> {
@@ -244,18 +249,15 @@ async function createTranslation(this: CrowdinClient, transKey: TranslationKey, 
     await this.crowdin.stringTranslationsApi.addTranslation(PROJECT_ID, request)
 }
 
-async function downloadTranslations(this: CrowdinClient, fileId: number, lang: CrowdinLanguage): Promise<ItemSet> {
-    const res = await this.crowdin.translationsApi.buildProjectFileTranslation(PROJECT_ID, fileId, {
-        targetLanguageId: lang,
+async function buildProjectTranslation(this: CrowdinClient, branchId: number) {
+    const buildRes = await this.crowdin.translationsApi.buildProject(PROJECT_ID, {
+        branchId,
+        targetLanguageIds: [...ALL_CROWDIN_LANGUAGES],
         skipUntranslatedStrings: true,
-        exportApprovedOnly: false,
-        // exportWithMinApprovalsCount: 2,
     })
-    const downloadUrl = res?.data?.url
-    const fileRes = await axios.get(downloadUrl)
-    // JSON object
-    const translation = fileRes.data
-    return transMsg(translation, '')
+    const buildId = buildRes?.data?.id
+    const res = await this.crowdin.translationsApi.downloadTranslations(PROJECT_ID, buildId)
+    return res?.data?.url
 }
 
 /**
@@ -306,13 +308,11 @@ export class CrowdinClient {
 
     batchDeleteString = batchDeleteString
 
-    listAllTranslationByStringAndLang = listAllTranslationByStringAndLang
-
     existTranslationByStringAndLang = existTranslationByStringAndLang
 
     createTranslation = createTranslation
 
-    downloadTranslations = downloadTranslations
+    buildProjectTranslation = buildProjectTranslation
 }
 
 /**
