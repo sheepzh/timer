@@ -16,7 +16,7 @@ async function processDir(client: CrowdinClient, branch: SourceFilesModel.Branch
     const directory = await client.getDirByName({ name: dir, branchId: branch.id })
     const files = await client.listFilesByDirectory(directory.id)
     for (const file of files) {
-        processFile(client, file, dir)
+        await processFile(client, file, dir)
     }
 }
 
@@ -24,7 +24,8 @@ async function main() {
     const client = getClientFromEnv()
     const branch = await checkMainBranch(client)
     for (const dir of ALL_DIRS) {
-        await processDir(client, branch, dir)
+        // Parallel execution for each directory
+        processDir(client, branch, dir)
     }
 }
 
