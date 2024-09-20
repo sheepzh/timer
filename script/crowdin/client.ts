@@ -9,7 +9,7 @@ import Crowdin, {
     UploadStorageModel,
 } from '@crowdin/crowdin-api-client'
 import axios from 'axios'
-import { transMsg } from './common'
+import { ALL_CROWDIN_LANGUAGES, transMsg } from './common'
 
 const PROJECT_ID = 516822
 
@@ -258,6 +258,22 @@ async function downloadTranslations(this: CrowdinClient, fileId: number, lang: C
     return transMsg(translation, '')
 }
 
+async function buildProjectTranslation(this: CrowdinClient, branchId: number) {
+    const buildRes = await this.crowdin.translationsApi.buildProject(PROJECT_ID, {
+        branchId,
+        targetLanguageIds: [...ALL_CROWDIN_LANGUAGES],
+        skipUntranslatedStrings: true,
+    })
+    const buildId = buildRes?.data?.id
+    const res = await this.crowdin.translationsApi.downloadTranslations(PROJECT_ID, buildId)
+    const downloadUrl = res?.data?.url
+    console.log(downloadUrl)
+    const fileRes = await axios.get(downloadUrl)
+    // JSON object
+    const translation = fileRes.data
+    return translation
+}
+
 /**
  * The wrapper of client with auth
  */
@@ -313,6 +329,8 @@ export class CrowdinClient {
     createTranslation = createTranslation
 
     downloadTranslations = downloadTranslations
+
+    buildProjectTranslation = buildProjectTranslation
 }
 
 /**
