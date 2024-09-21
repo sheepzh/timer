@@ -1,4 +1,4 @@
-name: Export Crowdin
+name: Export translations from Crowdin
 on: [workflow_dispatch]
 jobs:
     sync:
@@ -6,11 +6,12 @@ jobs:
         env:
             TIMER_CROWDIN_AUTH: ${{ secrets.TIMER_CROWDIN_AUTH }}
         steps:
-            - name: Checkout
+            - name: Checkout branch i18n-export
               uses: actions/checkout@v4
               with:
-                  fetch-depth: 0
+                  fetch-depth: 1
                   token: ${{secrets.GITHUB_TOKEN}}
+                  ref: i18n-export
             - name: Test using Node.js
               uses: actions/setup-node@v1
               with:
@@ -23,7 +24,7 @@ jobs:
               run: ts-node ./script/crowdin/export-translation.ts
             - name: Commit change
               run: |
-                  git config --global user.name 'sheepzh'
+                  git config --global user.name 'Crowdin Bot'
                   git config --global user.email 'returnzhy1996@outlook.com'
                   git add .
                   git commit -m "Export translations by Github Action"

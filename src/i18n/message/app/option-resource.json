@@ -121,6 +121,10 @@
                 "interval": "每 {input} 分钟备份一次"
             }
         },
+        "accessibility": {
+            "title": "无障碍功能",
+            "chartDecal": "{input} 是否显示图表的贴花图案"
+        },
         "resetButton": "恢复默认",
         "resetSuccess": "成功重置为默认值",
         "defaultValue": "默认值: {default}"
@@ -196,7 +200,8 @@
                 },
                 "strict": "不允許手動解鎖",
                 "strictTitle": "危險操作",
-                "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！"
+                "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！",
+                "passwordContent": "請設定您的解鎖密碼"
             },
             "prompt": "受限時顯示的提示文字 {input}"
         },
@@ -217,7 +222,9 @@
             },
             "label": {
                 "endpoint": "服務地址 {info} {input}",
-                "path": "目錄的路徑 {input}"
+                "path": "目錄的路徑 {input}",
+                "account": "使用者名稱 {input}",
+                "password": "密碼 {input}"
             },
             "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
             "operation": "備份數據",
@@ -369,6 +376,10 @@
                 "interval": "and run every {input} minutes"
             }
         },
+        "accessibility": {
+            "title": "Accessibility",
+            "chartDecal": "{input} Whether to display the chart decal"
+        },
         "resetButton": "Reset",
         "resetSuccess": "Reset to default successfully!",
         "defaultValue": "Default: {default}"
@@ -444,7 +455,8 @@
                 },
                 "strict": "とにかくロック解除を許可しない",
                 "strictTitle": "操作確認",
-                "strictContent": "このオプションを選択した場合、サイトが毎日の制限をトリガーする場合 手動でブロックを解除することは翌日まで待つ以外はできません ルールが適切に設定されていない場合、彼らはあなたのルーチンを非常によく妨げることができます!"
+                "strictContent": "このオプションを選択した場合、サイトが毎日の制限をトリガーする場合 手動でブロックを解除することは翌日まで待つ以外はできません ルールが適切に設定されていない場合、彼らはあなたのルーチンを非常によく妨げることができます!",
+                "passwordContent": "ロック解除パスワードを設定してください"
             },
             "prompt": "制限時に表示されるプロンプト {input}"
         },
@@ -465,7 +477,9 @@
             },
             "label": {
                 "endpoint": "エンドポイントアドレス {info} {input}",
-                "path": "ディレクトリのパス {input}"
+                "path": "ディレクトリのパス {input}",
+                "account": "ユーザー名 {input}",
+                "password": "パスワード {input}"
             },
             "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
             "operation": "バックアップ",
@@ -569,7 +583,8 @@
                 },
                 "strict": "Não permitir desbloqueio mesmo assim",
                 "strictTitle": "Confirmação de operação",
-                "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!"
+                "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!",
+                "passwordContent": "Por favor, defina a sua palavra-passe de desbloqueio"
             },
             "prompt": "Prompt exibido quando restrito {input}"
         },
@@ -590,7 +605,9 @@
             },
             "label": {
                 "endpoint": "Endereço Intendente {info} {input}",
-                "path": "O caminho do diretório {input}"
+                "path": "O caminho do diretório {input}",
+                "account": "Nome de utilizador {input}",
+                "password": "Senha {input}"
             },
             "operation": "Backup",
             "auto": {
@@ -691,7 +708,9 @@
             },
             "label": {
                 "endpoint": "Адреса кінцевої точки {info} {input}",
-                "path": "Шлях каталогу {input}"
+                "path": "Шлях до каталогу {input}",
+                "account": "Ім'я користувача {input}",
+                "password": "Пароль {input}"
             },
             "operation": "Зробити резервну копію",
             "auto": {
@@ -734,7 +753,8 @@
                 "password": "Ввести пароль, щоб розблокувати",
                 "verification": "Ввести код підтвердження, щоб розблокувати",
                 "passwordLabel": "Пароль для розблокування {input}",
-                "verificationLabel": "Складність коду підтвердження {input}"
+                "verificationLabel": "Складність коду підтвердження {input}",
+                "passwordContent": "Встановіть пароль розблокування"
             },
             "prompt": "Запит, який відображається під час обмеження {input}"
         }

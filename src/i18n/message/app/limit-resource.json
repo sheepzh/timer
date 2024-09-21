@@ -166,7 +166,7 @@
         "item": {
             "condition": "制限 URL",
             "waste": "今日の時間を閲覧する",
-            "time": "1日あたりの制限",
+            "time": "1日の限度",
             "enabled": "有效",
             "delayAllowed": "さらに5分間閲覧する",
             "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます",
@@ -176,7 +176,10 @@
             "name": "規則名",
             "detail": "規則明細",
             "effectiveDay": "発効日",
-            "delayCount": "遅延回数"
+            "delayCount": "遅延回数",
+            "weekly": "週間の限度",
+            "weekStartInfo": "各週の最初の日は: {weekStart}, 統計オプションでこの値を変更することができます",
+            "wasteWeekly": "今週閲覧した"
         },
         "button": {
             "test": "テストURL",
@@ -227,7 +230,10 @@
             "name": "Nome da regra",
             "detail": "Detalhe da regra",
             "effectiveDay": "Efetivo ativado",
-            "delayCount": "Contagem de atraso"
+            "delayCount": "Contagem de atraso",
+            "weekly": "Limite semanal",
+            "weekStartInfo": "O primeiro dia de cada semana é: {weekStart}, pode alterar este valor nas opções de estatísticas",
+            "wasteWeekly": "Navegados esta semana"
         },
         "button": {
             "test": "Testar URL",
@@ -277,7 +283,10 @@
             "name": "Назва правила",
             "detail": "Подробиці правила",
             "effectiveDay": "Діє",
-            "delayCount": "Лічильник затримок"
+            "delayCount": "Лічильник затримок",
+            "weekly": "Тижневий ліміт",
+            "weekStartInfo": "Перший день кожного тижня: {weekStart}. Ви можете змінити це значення у налаштуваннях статистики",
+            "wasteWeekly": "Перегляд цього тижня"
         },
         "button": {
             "test": "Тестова URL-адреса",

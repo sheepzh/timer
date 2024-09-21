@@ -92,7 +92,8 @@
                 "value": "対応する値",
                 "percentage": "パーセンテージ"
             }
-        }
+        },
+        "noMore": "これ以上なし"
     },
     "pt_PT": {
         "mergeDate": "Mesclar Datas",
@@ -115,7 +116,8 @@
                 "value": "Valor",
                 "percentage": "Percentagem"
             }
-        }
+        },
+        "noMore": "Não mais"
     },
     "uk": {
         "mergeDate": "Об'єднати дату",
@@ -138,7 +140,8 @@
                 "value": "Значення",
                 "percentage": "Відсоток"
             }
-        }
+        },
+        "noMore": "Більше немає"
     },
     "es": {
         "mergeDate": "Fusionar fecha",

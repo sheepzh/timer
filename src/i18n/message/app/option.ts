@@ -117,6 +117,10 @@ export type OptionMessage = {
             interval: string
         }
     }
+    accessibility: {
+        title: string
+        chartDecal: string
+    }
     resetButton: string
     resetSuccess: string
     defaultValue: string

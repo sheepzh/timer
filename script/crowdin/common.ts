@@ -1,9 +1,30 @@
-import path from 'path'
 import fs from 'fs'
-import { CrowdinClient } from './client'
+import path from 'path'
 import { exitWith } from '../util/process'
+import { CrowdinClient } from './client'
 
-export const ALL_DIRS: Dir[] = ['app', 'common', 'popup', 'side', 'cs']
+export const ALL_DIRS = ['app', 'common', 'popup', 'side', 'cs'] as const
+
+/**
+ * The directory of messages
+ */
+export type Dir = typeof ALL_DIRS[number]
+
+/**
+ * Items of message
+ */
+export type ItemSet = {
+    [path: string]: string
+}
+
+export const ALL_CROWDIN_LANGUAGES = ['zh-TW', 'ja', 'pt-PT', 'uk', 'es-ES', 'de', 'fr'] as const
+
+/**
+ * The language code of crowdin
+ *
+ * @see https://developer.crowdin.com/language-codes/
+ */
+export type CrowdinLanguage = typeof ALL_CROWDIN_LANGUAGES[number]
 
 export const SOURCE_LOCALE: timer.SourceLocale = 'en'
 
@@ -19,9 +40,7 @@ export const ALL_TRANS_LOCALES: timer.Locale[] = [
 ]
 
 const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
-    en: 'en',
     ja: 'ja',
-    'zh-CN': 'zh_CN',
     'zh-TW': 'zh_TW',
     'pt-PT': 'pt_PT',
     uk: 'uk',
@@ -30,10 +49,8 @@ const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
     fr: 'fr',
 }
 
-const I18N_CROWDIN_MAP: Record<timer.Locale, CrowdinLanguage> = {
-    en: 'en',
+const I18N_CROWDIN_MAP: Record<timer.OptionalLocale, CrowdinLanguage> = {
     ja: 'ja',
-    zh_CN: 'zh-CN',
     zh_TW: 'zh-TW',
     pt_PT: 'pt-PT',
     uk: 'uk',

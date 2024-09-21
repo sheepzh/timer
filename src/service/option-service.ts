@@ -6,46 +6,15 @@
  */
 
 import OptionDatabase from "@db/option-database"
-import {
-    defaultAppearance,
-    defaultPopup,
-    defaultStatistics,
-    defaultBackup,
-    defaultDailyLimit,
-} from "@util/constant/option"
+import { defaultOption } from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
-
-const defaultOption = () => ({
-    ...defaultAppearance(),
-    ...defaultPopup(),
-    ...defaultStatistics(),
-    ...defaultDailyLimit(),
-    ...defaultBackup(),
-})
 
 async function getAllOption(): Promise<timer.option.AllOption> {
     const exist: Partial<timer.option.AllOption> = await db.getOption()
     const result: timer.option.AllOption = defaultOption()
     Object.entries(exist).forEach(([key, val]) => result[key] = val)
     return result
-}
-
-async function setPopupOption(option: timer.option.PopupOption): Promise<void> {
-    await setOption(option)
-}
-
-async function setAppearanceOption(option: timer.option.AppearanceOption): Promise<void> {
-    await setOption(option)
-}
-
-async function setStatisticsOption(option: timer.option.StatisticsOption): Promise<void> {
-    await setOption(option)
-}
-
-async function setDailyLimitOption(option: timer.option.DailyLimitOption): Promise<void> {
-    // Rewrite password
-    await setOption(option)
 }
 
 async function setBackupOption(option: Partial<timer.option.BackupOption>): Promise<void> {
@@ -105,13 +74,14 @@ async function isDarkMode(targetVal?: timer.option.AppearanceOption): Promise<bo
 
 class OptionService {
     getAllOption = getAllOption
-    setPopupOption = setPopupOption
-    setAppearanceOption = setAppearanceOption
-    setStatisticsOption = setStatisticsOption
+    setPopupOption = setOption
+    setAppearanceOption = setOption
+    setAccessibilityOption = setOption
+    setStatisticsOption = setOption
     /**
      * @since 1.9.0
      */
-    setDailyLimitOption = setDailyLimitOption
+    setDailyLimitOption = setOption
     /**
      * @since 1.2.0
      */

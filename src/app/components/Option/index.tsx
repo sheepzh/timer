@@ -9,6 +9,7 @@ import { MediaSize } from "@hooks/useMediaSize"
 import { defineComponent, ref, type Ref } from "vue"
 import { JSX } from "vue/jsx-runtime"
 import { OptionCategory, OptionInstance } from "./common"
+import AccessibilityOption from "./components/AccessibilityOption"
 import AppearanceOption from "./components/AppearanceOption"
 import BackupOption from './components/BackupOption'
 import LimitOption from './components/LimitOption'
@@ -25,6 +26,7 @@ const _default = defineComponent(() => {
         popup: ref(),
         backup: ref(),
         dailyLimit: ref(),
+        accessibility: ref(),
     }
 
     const mediaSize = useMediaSize()
@@ -34,6 +36,7 @@ const _default = defineComponent(() => {
         statistics: () => <StatisticsOption ref={paneRefMap.statistics} />,
         popup: () => <PopupOption ref={paneRefMap.popup} />,
         dailyLimit: () => <LimitOption ref={paneRefMap.dailyLimit} />,
+        accessibility: () => <AccessibilityOption ref={paneRefMap.accessibility} />,
         backup: () => <BackupOption ref={paneRefMap.backup} />,
     }
 

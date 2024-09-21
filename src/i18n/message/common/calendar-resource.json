@@ -97,7 +97,7 @@
             "today": "Сьогодні",
             "yesterday": "Учора",
             "everyday": "Щодня",
-            "lastDays": "Минулі {n} дні"
+            "lastDays": "Минулі {n} днів"
         },
         "simpleTimeFormat": "{d}.{m} {h}:{i}"
     },

@@ -178,7 +178,19 @@ declare namespace timer.option {
         autoBackUpInterval: number
     }
 
-    type AllOption = PopupOption & AppearanceOption & StatisticsOption & DailyLimitOption & BackupOption
+    type AccessibilityOption = {
+        /**
+         * Show decals for charts
+         */
+        chartDecal: boolean
+    }
+
+    type AllOption = PopupOption
+        & AppearanceOption
+        & StatisticsOption
+        & DailyLimitOption
+        & AccessibilityOption
+        & BackupOption
     /**
      * @since 0.8.0
      */
