@@ -4,19 +4,19 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { computed, defineComponent } from "vue"
-import { ElButton, ElMessage, ElTableColumn } from "element-plus"
-import whitelistService from "@service/whitelist-service"
+import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
-import { LocationQueryRaw, useRouter } from "vue-router"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons-vue"
-import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
-import { useReportFilter } from "../../context"
-import { ElTableRowScope } from "@src/element-ui/table"
-import { locale } from "@i18n"
-import { computeDeleteConfirmMsg, handleDelete } from "../../common"
 import { useRequest } from "@hooks/useRequest"
+import { locale } from "@i18n"
+import whitelistService from "@service/whitelist-service"
+import { ElTableRowScope } from "@src/element-ui/table"
+import { ElButton, ElMessage, ElTableColumn } from "element-plus"
+import { computed, defineComponent } from "vue"
+import { LocationQueryRaw, useRouter } from "vue-router"
+import { computeDeleteConfirmMsg, handleDelete } from "../../common"
+import { useReportFilter } from "../../context"
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 330,
@@ -70,7 +70,7 @@ const _default = defineComponent({
                     </ElButton>
                     {/* Delete button */}
                     <PopupConfirmButton
-                        buttonIcon={Delete}
+                        buttonIcon={<Delete />}
                         buttonType="danger"
                         buttonText={t(msg => msg.button.delete)}
                         confirmText={computeDeleteConfirmMsg(row, filter.value)}
@@ -82,7 +82,7 @@ const _default = defineComponent({
                     />
                     {/* Add 2 whitelist */}
                     <PopupConfirmButton
-                        buttonIcon={Plus}
+                        buttonIcon={<Plus />}
                         buttonType="warning"
                         buttonText={t(msg => msg.item.operation.add2Whitelist)}
                         confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.host })}
@@ -95,7 +95,7 @@ const _default = defineComponent({
                     />
                     {/* Remove from whitelist */}
                     <PopupConfirmButton
-                        buttonIcon={Open}
+                        buttonIcon={<Open />}
                         buttonType="primary"
                         buttonText={t(msg => msg.item.operation.removeFromWhitelist)}
                         confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.host })}

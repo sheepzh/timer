@@ -4,22 +4,22 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import ContentCard from "@app/components/common/ContentCard"
+import Editable from "@app/components/common/Editable"
+import Pagination from "@app/components/common/Pagination"
+import { t } from "@app/locale"
+import { useRequest, useState, useWindowVisible } from "@hooks"
+import siteService from "@service/site-service"
+import statService, { StatQueryParam } from "@service/stat-service"
 import { ElTable, ElTableColumn } from "element-plus"
 import { computed, defineComponent, type PropType } from "vue"
-import DateColumn from "./columns/DateColumn"
-import HostColumn from "./columns/HostColumn"
-import FocusColumn from "./columns/FocusColumn"
-import TimeColumn from "./columns/TimeColumn"
-import OperationColumn from "./columns/OperationColumn"
-import { DisplayComponent, ReportFilterOption, useReportFilter } from "../context"
-import { useRequest, useState, useWindowVisible } from "@hooks"
-import { t } from "@app/locale"
-import Editable from "@app/components/common/Editable"
-import ContentCard from "@app/components/common/ContentCard"
-import Pagination from "@app/components/common/Pagination"
-import statService, { StatQueryParam } from "@service/stat-service"
-import siteService from "@service/site-service"
 import { cvtOption2Param } from "../common"
+import { DisplayComponent, ReportFilterOption, useReportFilter } from "../context"
+import DateColumn from "./columns/DateColumn"
+import FocusColumn from "./columns/FocusColumn"
+import HostColumn from "./columns/HostColumn"
+import OperationColumn from "./columns/OperationColumn"
+import TimeColumn from "./columns/TimeColumn"
 
 function computeTimerQueryParam(filterOption: ReportFilterOption, sort: SortInfo): StatQueryParam {
     const param = cvtOption2Param(filterOption) || {}
@@ -50,7 +50,7 @@ const _default = defineComponent({
         const queryParam = computed(() => computeTimerQueryParam(filterOption.value, sort.value))
         const { data, refresh } = useRequest(
             () => statService.selectByPage(queryParam.value, page.value, true),
-            { loadingTarget: "#report-table-content", deps: [queryParam, page], manual: true }
+            { loadingTarget: "#report-table-content", deps: [queryParam, page] },
         )
         // Query data if window become visible
         useWindowVisible({ onVisible: refresh })
