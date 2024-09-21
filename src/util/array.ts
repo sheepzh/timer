@@ -15,12 +15,12 @@
  */
 export function groupBy<T, R>(
     arr: T[],
-    keyFunc: (e: T) => string | number,
+    keyFunc: (e: T, idx: number) => string | number,
     downstream: (grouped: T[], key: string) => R
 ): { [key: string]: R } {
     const groupedMap: { [key: string]: T[] } = {}
-    arr.forEach(e => {
-        const key = keyFunc(e)
+    arr.forEach((e, idx) => {
+        const key = keyFunc(e, idx)
         if (key === undefined || key === null) {
             return
         }

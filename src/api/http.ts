@@ -32,6 +32,20 @@ export async function fetchPost<T>(url: string, body?: T, option?: Option): Prom
     }
 }
 
+export async function fetchPut<T>(url: string, body?: T, option?: Option): Promise<Response> {
+    try {
+        const response = await fetch(url, {
+            ...(option || {}),
+            method: "PUT",
+            body: body ? JSON.stringify(body) : null,
+        })
+        return response
+    } catch (e) {
+        console.error("Failed to fetch post", e)
+        throw Error(e)
+    }
+}
+
 export async function fetchPutText(url: string, bodyText?: string, option?: Option): Promise<Response> {
     try {
         const response = await fetch(url, {
