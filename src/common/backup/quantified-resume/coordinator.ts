@@ -1,6 +1,6 @@
 import { batchCreateItems, Bucket, createBucket, Item, listAllItems, listBuckets, removeBucket, updateBucket } from "@api/quantified-resume"
-import metaMessages, { } from "@i18n/message/common/meta"
 import { t } from "@i18n"
+import metaMessages from "@i18n/message/common/meta"
 import { groupBy } from "@util/array"
 import { formatTimeYMD, parseTime } from "@util/time"
 
