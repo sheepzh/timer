@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [2.4.6] - 2024-09-22
+
+-   Fixed some bugs
+-   Supported Russian
+
 ## [2.4.5] - 2024-09-08
 
 -   Supported WebDAV to backup data (#314)
@@ -95,7 +100,7 @@ It is worth mentioning that the release time of each change refers to the time w
 ## [2.2.4] - 2024-03-25
 
 -   Count local files by default
--   Improved PSL's performance
+-   Improved PSL performance
 -   Added rate link on the popup page
 
 ## [2.2.3] - 2024-03-21
