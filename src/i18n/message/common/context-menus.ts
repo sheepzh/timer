@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -13,8 +13,6 @@ import resource from './context-menus-resource.json'
 export type ContextMenusMessage = {
     add2Whitelist: string
     removeFromWhitelist: string
-    optionPage: string
-    repoPage: string
     feedbackPage: string
 }
 

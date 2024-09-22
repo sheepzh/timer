@@ -19,7 +19,7 @@ const _default = defineComponent({
     setup(_, ctx) {
         return () => <ElTableColumn
             width={150}
-            label={t(msg => msg.item.operation.label)}
+            label={t(msg => msg.button.operation)}
             align="center"
             v-slots={
                 ({ row }: ElTableRowScope<timer.site.SiteInfo>) => (

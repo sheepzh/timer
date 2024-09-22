@@ -13,7 +13,6 @@ export type ChartMessage = {
     fileName: string
     saveAsImageTitle: string
     restoreTitle: string
-    options: string
     totalTime: string
     totalCount: string
     averageTime: string

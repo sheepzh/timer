@@ -34,5 +34,9 @@
     "es": {
         "searchPlaceholder": "Buscar por URL",
         "title": "Todos los datos de navegación"
+    },
+    "ru": {
+        "searchPlaceholder": "Поиск по URL",
+        "title": "Все данные браузера"
     }
 }

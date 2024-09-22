@@ -10,7 +10,6 @@ import resource from './report-resource.json'
 export type ReportMessage = {
     mergeDate: string
     mergeDomain: string
-    hostPlaceholder: string
     exportFileName: string
     batchDelete: {
         buttonText: string

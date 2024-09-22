@@ -28,6 +28,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     es: 360,
     de: 370,
     fr: 330,
+    ru: 350,
 }
 
 const _default = defineComponent({
@@ -55,7 +56,7 @@ const _default = defineComponent({
         return () => (
             <ElTableColumn
                 width={width.value}
-                label={t(msg => msg.item.operation.label)}
+                label={t(msg => msg.button.operation)}
                 align="center"
             >
                 {({ row }: ElTableRowScope<timer.stat.Row>) => <>

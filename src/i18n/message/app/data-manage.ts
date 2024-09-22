@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -16,7 +16,6 @@ export type DataManageMessage = {
     filterFocus: string
     filterTime: string
     filterDate: string
-    unlimited: string
     paramError: string
     deleteConfirm: string
     migrationAlert: string
@@ -35,11 +34,6 @@ export type DataManageMessage = {
         conflictNotSelected: string
     } & {
         [resolution in timer.imported.ConflictResolution]: string
-    }
-    dateShortcut: {
-        tillYesterday: string
-        till7DaysAgo: string
-        till30DaysAgo: string
     }
 }
 

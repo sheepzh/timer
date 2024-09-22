@@ -2,7 +2,6 @@
     "zh_CN": {
         "mergeDate": "合并日期",
         "mergeDomain": "合并子域名",
-        "hostPlaceholder": "请输入域名，然后回车",
         "exportFileName": "我的上网时间",
         "batchDelete": {
             "buttonText": "批量删除",
@@ -26,7 +25,6 @@
     "zh_TW": {
         "mergeDate": "合並日期",
         "mergeDomain": "合並子域名",
-        "hostPlaceholder": "請輸入域名，然後回車",
         "exportFileName": "我的上網時間",
         "batchDelete": {
             "buttonText": "批量刪除",
@@ -50,7 +48,6 @@
     "en": {
         "mergeDate": "Merge date",
         "mergeDomain": "Merge URL",
-        "hostPlaceholder": "Partial URL, then enter",
         "exportFileName": "My_Browsing_Time",
         "batchDelete": {
             "buttonText": "Batch delete",
@@ -74,7 +71,6 @@
     "ja": {
         "mergeDate": "マージ日",
         "mergeDomain": "URLをマージ",
-        "hostPlaceholder": "URL を入力してください",
         "exportFileName": "私のウェブ時間データ",
         "batchDelete": {
             "buttonText": "バッチ削除",
@@ -98,7 +94,6 @@
     "pt_PT": {
         "mergeDate": "Mesclar Datas",
         "mergeDomain": "Mesclar URL",
-        "hostPlaceholder": "URL parcial, e depois digite",
         "exportFileName": "Meu_Tempo_de_Navegação",
         "batchDelete": {
             "buttonText": "Apagar em lote",
@@ -122,7 +117,6 @@
     "uk": {
         "mergeDate": "Об'єднати дату",
         "mergeDomain": "Об'єднати URL",
-        "hostPlaceholder": "Почніть вводити URL і натисніть Enter",
         "exportFileName": "My_Browsing_Time",
         "batchDelete": {
             "buttonText": "Масове видалення",
@@ -146,7 +140,6 @@
     "es": {
         "mergeDate": "Fusionar fecha",
         "mergeDomain": "Fusionar URL",
-        "hostPlaceholder": "URL parcial, luego ingresa",
         "exportFileName": "Mi_Tiempo_De_Navegación",
         "batchDelete": {
             "buttonText": "Eliminar Lote",
@@ -169,7 +162,6 @@
     "de": {
         "mergeDate": "Daten zusammenführen",
         "mergeDomain": "URL zusammenführen",
-        "hostPlaceholder": "Suche nach URL",
         "exportFileName": "Timer_Daten",
         "batchDelete": {
             "buttonText": "Mehrere löschen",
@@ -192,7 +184,6 @@
     "fr": {
         "mergeDate": "Fusionner les Dates",
         "mergeDomain": "Fusionner l'URL",
-        "hostPlaceholder": "URL partielle, puis entrer",
         "exportFileName": "Mon_heure_de_navigation",
         "batchDelete": {
             "buttonText": "Suppression par lot",
@@ -211,5 +202,28 @@
                 "percentage": "Pourcentage"
             }
         }
+    },
+    "ru": {
+        "mergeDate": "Дата слияния",
+        "mergeDomain": "URL слияния",
+        "exportFileName": "Мое_время_просмотра",
+        "batchDelete": {
+            "buttonText": "Мягкое удаление",
+            "noSelectedMsg": "Пожалуйста, выберите строку, которую вы хотите удалить в таблице",
+            "confirmMsg": "{count} записи для таких сайтов, как {example} на {date} будут удалены!",
+            "confirmMsgAll": "{count} записи для таких сайтов, как {example}, будут удалены!",
+            "confirmMsgRange": "{count} записи для таких сайтов, как {example} между {start} и {end} будут удалены!"
+        },
+        "remoteReading": {
+            "on": "Чтение удаленных резервных данных",
+            "off": "Нажмите, чтобы прочитать данные удаленного резервного копирования",
+            "table": {
+                "client": "Имя клиента",
+                "localData": "Локальные данные",
+                "value": "Значение",
+                "percentage": "Проценты"
+            }
+        },
+        "noMore": "Больше нет"
     }
 }

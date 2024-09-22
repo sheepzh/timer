@@ -5,11 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
+import I18nNode from "@app/components/common/I18nNode"
+import { DataManageMessage } from "@i18n/message/app/data-manage"
 import { ElInput } from "element-plus"
 import { defineComponent, type PropType, type Ref, ref, watch } from "vue"
-import { t } from "@app/locale"
-import { DataManageMessage } from "@i18n/message/app/data-manage"
-import I18nNode from "@app/components/common/I18nNode"
 
 const elInput = (ref: Ref<string>, placeholder: string) => <ElInput
     class="filter-input"
@@ -42,7 +41,7 @@ const _default = defineComponent({
                     path={msg => msg.dataManage[props.translateKey]}
                     param={{
                         start: elInput(start, '0'),
-                        end: elInput(end, t(msg => msg.dataManage.unlimited))
+                        end: elInput(end, '∞')
                     }}
                 />
             </p>

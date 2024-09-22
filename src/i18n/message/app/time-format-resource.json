@@ -52,5 +52,11 @@
         "hour": "Afficher en heures",
         "minute": "Afficher en minutes",
         "second": "Afficher en secondes"
+    },
+    "ru": {
+        "default": "Формат времени по умолчанию",
+        "hour": "Отображение в часах",
+        "minute": "Отображение в минутах",
+        "second": "Отображение в секундах"
     }
 }

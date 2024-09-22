@@ -20,9 +20,7 @@
     "zh_TW": {
         "heatMap": {
             "title0": "近一年瀏覽時間超過 {hour} 小時",
-            "title1": "近一年瀏覽時間不到 1 小時",
-            "tooltip0": "{year}/{month}/{day} 瀏覽網頁 {minute} 分鐘",
-            "tooltip1": "{year}/{month}/{day} 瀏覽網頁 {hour} 小時 {minute} 分鐘"
+            "title1": "近一年瀏覽時間不到 1 小時"
         },
         "topK": {
             "title": "近 {day} 天最常拜訪 TOP {k}"
@@ -159,16 +157,26 @@
             "browsingTime": "Parcouru pendant {minute} minutes",
             "mostUse": "Navigation favorite entre {start} et {end}"
         },
-        "weekOnWeek": {
-            "title": "Top {k} du changement hebdomadaire de temps de navigation hebdomadaire",
-            "lastBrowse": "Parcouru {time} la semaine dernière",
-            "thisBrowse": "Parcouru {time} cette semaine",
-            "wow": "{delta} {state}",
-            "increase": "en hausse",
-            "decline": "en diminution"
-        },
         "monthOnMonth": {
             "title": "Tendance mensuelle du temps de navigation"
+        }
+    },
+    "ru": {
+        "heatMap": {
+            "title0": "За последний год просмотрено более {hour} часов",
+            "title1": "За последний год просмотрено менее 1 часа"
+        },
+        "topK": {
+            "title": "ТОП-{k} самых посещаемых сайтов за последние {day} дней"
+        },
+        "indicator": {
+            "installedDays": "Прошло дней с установки: {number}",
+            "visitCount": "Посещено {site} сайтов {visit} раз",
+            "browsingTime": "Минут за просмотром сайтов: {minute}",
+            "mostUse": "Чаще всего браузер используется между {start} и {end} часами"
+        },
+        "monthOnMonth": {
+            "title": "Время просмотра за последние 30 дней"
         }
     }
 }

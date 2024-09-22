@@ -7,22 +7,22 @@
 
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
 
-import DownloadFile from "./DownloadFile"
-import RemoteClient from "./RemoteClient"
-import { watch, defineComponent, computed, type PropType } from "vue"
-import { t } from "@app/locale"
+import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import InputFilterItem from '@app/components/common/InputFilterItem'
 import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
-import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
-import { daysAgo } from "@util/time"
-import { ElButton } from "element-plus"
+import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import statService from "@service/stat-service"
+import { daysAgo } from "@util/time"
+import { ElButton } from "element-plus"
+import { computed, defineComponent, watch, type PropType } from "vue"
+import { cvtOption2Param } from "../common"
 import { ReportFilterOption } from "../context"
 import { exportCsv, exportJson } from "../file-export"
-import statService from "@service/stat-service"
-import { cvtOption2Param } from "../common"
+import DownloadFile from "./DownloadFile"
+import RemoteClient from "./RemoteClient"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -67,12 +67,12 @@ const _default = defineComponent({
             mergeHost: mergeHost.value,
             timeFormat: timeFormat.value,
             readRemote: readRemote.value,
-        } as ReportFilterOption))
+        } satisfies ReportFilterOption))
 
         watch(option, () => ctx.emit("change", option.value))
 
         return () => <>
-            <InputFilterItem placeholder={t(msg => msg.report.hostPlaceholder)} onSearch={setHost} />
+            <InputFilterItem placeholder="URL + ↵" onSearch={setHost} />
             <DateRangeFilterItem
                 startPlaceholder={t(msg => msg.calendar.label.startDate)}
                 endPlaceholder={t(msg => msg.calendar.label.endDate)}

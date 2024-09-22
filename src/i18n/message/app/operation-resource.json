@@ -34,5 +34,9 @@
     "fr": {
         "confirmTitle": "Confirmation",
         "successMsg": "Réussi !"
+    },
+    "ru": {
+        "confirmTitle": "Подтверждение",
+        "successMsg": "Успешно!"
     }
 }

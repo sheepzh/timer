@@ -13,7 +13,11 @@
             "today": "今天",
             "yesterday": "昨天",
             "everyday": "每天",
-            "lastDays": "最近 {n} 天"
+            "thisWeek": "本周",
+            "thisMonth": "本月",
+            "lastDays": "最近 {n} 天",
+            "tillYesterday": "直到昨天",
+            "tillDaysAgo": "直到 {n} 天前"
         }
     },
     "zh_TW": {
@@ -30,7 +34,11 @@
             "today": "今天",
             "yesterday": "昨天",
             "everyday": "每天",
-            "lastDays": "最近 {n} 天"
+            "thisWeek": "本週",
+            "thisMonth": "本月",
+            "lastDays": "最近 {n} 天",
+            "tillYesterday": "直到昨天",
+            "tillDaysAgo": "直到 {n} 天前"
         }
     },
     "en": {
@@ -47,7 +55,11 @@
             "today": "Today",
             "yesterday": "Yesterday",
             "everyday": "Everyday",
-            "lastDays": "Last {n} days"
+            "thisWeek": "This week",
+            "thisMonth": "This month",
+            "lastDays": "Last {n} days",
+            "tillYesterday": "Until yesterday",
+            "tillDaysAgo": "Until {n} days ago"
         }
     },
     "ja": {
@@ -64,7 +76,11 @@
             "today": "今日",
             "yesterday": "昨日",
             "everyday": "毎日",
-            "lastDays": "過去 {n} 日間"
+            "thisWeek": "今週",
+            "thisMonth": "今月",
+            "lastDays": "過去 {n} 日間",
+            "tillYesterday": "昨日まで",
+            "tillDaysAgo": "{n} 日前まで"
         }
     },
     "pt_PT": {
@@ -81,7 +97,11 @@
             "today": "Hoje",
             "yesterday": "Ontem",
             "everyday": "Diariamente",
-            "lastDays": "Últimos {n} dias"
+            "thisWeek": "Esta semana",
+            "thisMonth": "Este mês",
+            "lastDays": "Últimos {n} dias",
+            "tillYesterday": "Até ontem",
+            "tillDaysAgo": "Até {n} dias atrás"
         }
     },
     "uk": {
@@ -89,6 +109,7 @@
         "months": "Січ|Лют|Бер|Кві|Тра|Чер|Лип|Сер|Вер|Жов|Лис|Гру",
         "dateFormat": "{d}.{m}.{y}",
         "timeFormat": "{d}.{m}.{y}, {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}.{m} {h}:{i}",
         "label": {
             "startDate": "Дата початку",
             "endDate": "Дата завершення"
@@ -97,15 +118,19 @@
             "today": "Сьогодні",
             "yesterday": "Учора",
             "everyday": "Щодня",
-            "lastDays": "Минулі {n} днів"
-        },
-        "simpleTimeFormat": "{d}.{m} {h}:{i}"
+            "thisWeek": "Цього тижня",
+            "thisMonth": "Цей місяць",
+            "lastDays": "Минулі {n} днів",
+            "tillYesterday": "До вчора",
+            "tillDaysAgo": "До {n} днів тому"
+        }
     },
     "es": {
         "weekDays": "Lun|Mar|Mié|Jue|Vie|Sáb|Dom",
         "months": "Ene|Feb|Mar|Abr|May|Jun|Jul|Ago|Sep|Oct|Nov|Dic",
         "dateFormat": "{m}/{d}/{y}",
         "timeFormat": "{m}/{d}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{m}/{d} {h}:{i}",
         "label": {
             "startDate": "Fecha inicial",
             "endDate": "Fecha final"
@@ -114,14 +139,19 @@
             "today": "Hoy",
             "yesterday": "Ayer",
             "everyday": "Cada día",
-            "lastDays": "Últimos {n} días"
-        },
-        "simpleTimeFormat": "{m}/{d} {h}:{i}"
+            "thisWeek": "Esta semana",
+            "thisMonth": "Este mes",
+            "lastDays": "Últimos {n} días",
+            "tillYesterday": "Hasta ayer",
+            "tillDaysAgo": "Hasta hace {n} días"
+        }
     },
     "de": {
         "weekDays": "Mo|Di|Mi|Do|Fr|Sa|So",
         "months": "Jan|Feb|März|Apr|Mai|Juni|Juli|Aug|Sept|Okt|Nov|Dez",
         "dateFormat": "{d}/{m}/{y}",
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}",
         "label": {
             "startDate": "Startdatum",
             "endDate": "Enddatum"
@@ -130,16 +160,19 @@
             "today": "Heute",
             "yesterday": "Gestern",
             "everyday": "Täglich",
-            "lastDays": "Letzte {n} Tage"
-        },
-        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
-        "simpleTimeFormat": "{d}/{m} {h}:{i}"
+            "thisWeek": "Diese woche",
+            "thisMonth": "Diesen monat",
+            "lastDays": "Letzte {n} Tage",
+            "tillYesterday": "Bis gestern",
+            "tillDaysAgo": "Bis vor {n} Tagen"
+        }
     },
     "fr": {
         "weekDays": "Lun|Mar|Mer|Jeu|Ven|Sam|Dim",
         "months": "Jan|Fév|Mar|Avr|Mai|Juin|Jul|Août|Sep|Oct|Nov|Déc",
         "dateFormat": "{d}/{m}/{y}",
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}",
         "label": {
             "startDate": "Date de début",
             "endDate": "Date de fin"
@@ -147,16 +180,33 @@
         "range": {
             "today": "Aujourd'hui",
             "yesterday": "Hier",
-            "last24Hours": "Les dernières 24 Heures",
-            "last3Days": "Les 3 derniers jours",
-            "last7Days": "Les 7 derniers jours",
-            "last15Days": "Les 15 derniers jours",
-            "last30Days": "Les 30 derniers jours",
-            "last60Days": "Les 60 derniers jours",
-            "last90Days": "Les 90 derniers jours",
             "everyday": "Tous les jours",
-            "lastDays": "{n} derniers jours"
+            "thisWeek": "Cette semaine",
+            "thisMonth": "Ce mois-ci",
+            "lastDays": "{n} derniers jours",
+            "tillYesterday": "Jusqu'hier",
+            "tillDaysAgo": "Jusqu'à {n} jours"
+        }
+    },
+    "ru": {
+        "weekDays": "Пн|Вт|Ср|Чт|Пт|Сб|Вс",
+        "months": "Янв|Фев|Мар|Апр|Май|Июн|Июль|Авг|Сен|Окт|Ноя|Дек",
+        "dateFormat": "{d}.{m}.{y}",
+        "timeFormat": "{d}.{m}.{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}.{m} {h}:{i}",
+        "label": {
+            "startDate": "Дата начала",
+            "endDate": "Дате окончания"
         },
-        "simpleTimeFormat": "{d}/{m} {h}:{i}"
+        "range": {
+            "today": "Сегодня",
+            "yesterday": "Вчера",
+            "everyday": "Ежедневно",
+            "thisWeek": "На этой неделе",
+            "thisMonth": "В этом месяце",
+            "lastDays": "Последние {n} дней",
+            "tillYesterday": "До вчерашнего дня",
+            "tillDaysAgo": "До {n} дней назад"
+        }
     }
 }

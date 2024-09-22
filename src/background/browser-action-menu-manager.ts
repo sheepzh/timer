@@ -1,21 +1,20 @@
 ﻿/**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import { OPTION_ROUTE } from "../app/router/constants"
-import {
-    getAppPageUrl, getGuidePageUrl,
-    GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE, CHANGE_LOG_PAGE
-} from "@util/constant/url"
-import { t2Chrome } from "@i18n/chrome/t"
-import { IS_MV3, IS_SAFARI } from "@util/constant/environment"
-import { createTab } from "@api/chrome/tab"
 import { createContextMenu } from "@api/chrome/context-menu"
 import { getRuntimeId } from "@api/chrome/runtime"
+import { createTab } from "@api/chrome/tab"
 import { locale } from "@i18n"
+import { t2Chrome } from "@i18n/chrome/t"
+import { IS_MV3, IS_SAFARI } from "@util/constant/environment"
+import {
+    CHANGE_LOG_PAGE, GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE,
+    getAppPageUrl, getGuidePageUrl,
+} from "@util/constant/url"
+import { OPTION_ROUTE } from "../app/router/constants"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 
@@ -45,14 +44,14 @@ const allFunctionProps: ChromeContextMenuCreateProps = {
 
 const optionPageProps: ChromeContextMenuCreateProps = {
     id: getRuntimeId() + '_timer_menu_item_option_link',
-    title: titleOf('🥰', t2Chrome(msg => msg.contextMenus.optionPage)),
+    title: titleOf('🥰', t2Chrome(msg => msg.base.option)),
     onclick: () => createTab(APP_PAGE_URL + '#' + OPTION_ROUTE),
     ...baseProps
 }
 
 const repoPageProps: ChromeContextMenuCreateProps = {
     id: getRuntimeId() + '_timer_menu_item_repo_link',
-    title: titleOf('🍻', t2Chrome(msg => msg.contextMenus.repoPage)),
+    title: titleOf('🍻', t2Chrome(msg => msg.base.sourceCode)),
     onclick: () => createTab(SOURCE_CODE_PAGE),
     ...baseProps
 }

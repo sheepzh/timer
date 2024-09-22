@@ -1,6 +1,5 @@
 {
     "zh_CN": {
-        "conditionFilter": "输入网址，然后回车",
         "filterDisabled": "过滤无效规则",
         "item": {
             "name": "规则名称",
@@ -17,8 +16,7 @@
             "enabled": "是否有效",
             "effectiveDay": "生效日期",
             "delayAllowed": "再看 5 分钟",
-            "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。",
-            "operation": "操作"
+            "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。"
         },
         "step": {
             "base": "规则信息",
@@ -54,42 +52,44 @@
         }
     },
     "zh_TW": {
-        "conditionFilter": "輸入網址，然後回車",
         "filterDisabled": "過濾無效規則",
         "item": {
+            "name": "規則名稱",
             "condition": "限製網址",
             "time": "每日限製時長",
             "waste": "今日瀏覽時長",
-            "enabled": "是否有效",
-            "delayAllowed": "再看 5 分鐘",
-            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
-            "operation": "操作",
-            "visitTime": "每次訪問限制時長",
-            "period": "受限時段",
-            "name": "規則名稱",
-            "detail": "規則詳情",
-            "effectiveDay": "生效日期",
-            "delayCount": "延遲次數",
             "weekly": "每週限製時長",
             "weekStartInfo": "每週的第一天是：{weekStart}，您可以在統計選項中變更此值",
-            "wasteWeekly": "本週瀏覽時長"
+            "wasteWeekly": "本週瀏覽時長",
+            "delayCount": "延遲次數",
+            "detail": "規則詳情",
+            "visitTime": "每次訪問限制時長",
+            "period": "受限時段",
+            "enabled": "是否有效",
+            "effectiveDay": "生效日期",
+            "delayAllowed": "再看 5 分鐘",
+            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。"
+        },
+        "step": {
+            "base": "基本信息",
+            "url": "設定 URL",
+            "rule": "設定規則"
         },
         "button": {
             "test": "網址測試",
-            "option": "設置",
             "parseUrl": "解析 URL"
         },
         "useWildcard": "是否使用通配符",
         "message": {
             "noUrl": "未填冩限製網址",
+            "noRule": "未填寫任何規則",
             "deleteConfirm": "是否刪除限製：{cond}？",
-            "noPermissionFirefox": "請先在插件管理頁【about:addons】開啟該插件的粘貼闆權限",
             "inputTestUrl": "請先輸入需要測試的網址鏈接",
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
             "noRuleMatched": "該網址未命中任何規則",
-            "rulesMatched": "該網址命中以下規則：",
-            "noRule": "未填寫任何規則"
+            "rulesMatched": "該網址命中以下規則："
         },
+        "urlPlaceholder": "請輸入你想要限制的網址，然後點選解析按鈕",
         "verification": {
             "inputTip": "時限規則已觸發，如要繼續操作，請輸入以下問題的答案：{prompt}",
             "inputTip2": "時限規則已觸發，如要繼續操作，請在下列輸入框中原樣輸入：{answer}",
@@ -99,16 +99,9 @@
             "incorrectAnswer": "答案不正確",
             "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
             "confession": "一寸光陰一寸金，寸金難買寸光陰"
-        },
-        "step": {
-            "url": "設定 URL",
-            "rule": "設定規則",
-            "base": "基本信息"
-        },
-        "urlPlaceholder": "請輸入你想要限制的網址，然後點選解析按鈕"
+        }
     },
     "en": {
-        "conditionFilter": "URL",
         "filterDisabled": "Only enabled",
         "item": {
             "name": "Rule name",
@@ -125,8 +118,7 @@
             "enabled": "Enabled",
             "effectiveDay": "Effective On",
             "delayAllowed": "More 5 minutes",
-            "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes",
-            "operation": "Operations"
+            "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes"
         },
         "step": {
             "base": "Basic Information",
@@ -135,7 +127,6 @@
         },
         "button": {
             "test": "Test URL",
-            "option": "Options",
             "parseUrl": "Parse URL"
         },
         "useWildcard": "Whether to use wildcard",
@@ -161,316 +152,347 @@
         }
     },
     "ja": {
-        "conditionFilter": "URL",
         "filterDisabled": "有效",
         "item": {
-            "condition": "制限 URL",
-            "waste": "今日の時間を閲覧する",
-            "time": "1日の限度",
-            "enabled": "有效",
-            "delayAllowed": "さらに5分間閲覧する",
-            "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます",
-            "operation": "操作",
-            "visitTime": "訪問ごとの制限",
-            "period": "許可されない期間",
             "name": "規則名",
-            "detail": "規則明細",
-            "effectiveDay": "発効日",
-            "delayCount": "遅延回数",
+            "condition": "制限 URL",
+            "time": "1日の限度",
+            "waste": "今日の時間を閲覧する",
             "weekly": "週間の限度",
             "weekStartInfo": "各週の最初の日は: {weekStart}, 統計オプションでこの値を変更することができます",
-            "wasteWeekly": "今週閲覧した"
+            "wasteWeekly": "今週閲覧した",
+            "delayCount": "遅延回数",
+            "detail": "規則明細",
+            "visitTime": "訪問ごとの制限",
+            "period": "許可されない期間",
+            "enabled": "有效",
+            "effectiveDay": "発効日",
+            "delayAllowed": "さらに5分間閲覧する",
+            "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます"
+        },
+        "step": {
+            "base": "基本情報",
+            "url": "設定 URL",
+            "rule": "設定ルール"
         },
         "button": {
             "test": "テストURL",
-            "option": "設定",
             "parseUrl": "解析 URL"
         },
         "useWildcard": "ワイルドカードを使用するかどうか",
         "message": {
             "noUrl": "埋められていない制限URL",
+            "noRule": "ルールが記入されていません",
             "deleteConfirm": "{cond} の制限を削除しますか？",
             "inputTestUrl": "最初にテストする URL リンクを入力してください",
             "clickTestButton": "入力後、ボタン({buttonText})をクリックしてください",
             "noRuleMatched": "URL がどのルールとも一致しません",
-            "rulesMatched": "URL は次のルールに一致します。",
-            "noRule": "ルールが記入されていません"
+            "rulesMatched": "URL は次のルールに一致します。"
         },
+        "urlPlaceholder": "制限したいURLを入力して解析ボタンをクリックしてください",
         "verification": {
             "inputTip": "このルールはすでにトリガーされています。 続行するには、次のプロンプトに対する答えを入力してください {prompt}",
             "inputTip2": "このルールはすでにトリガーされています。 続ける場合はそのまま入力してください: {answer}",
             "pswInputTip": "このルールはすでにトリガーされています。続行するには、ロック解除パスワードを入力してください",
+            "strictTip": "制限ルールがすでにトリガーされており、手動によるロック解除は許可されていません。",
             "incorrectPsw": "間違ったパスワード",
             "incorrectAnswer": "間違った回答",
             "pi": "πの小数部の{digitCount} から {startIndex} までの {endIndex} 桁の数",
-            "confession": "人生とは今日一日のことである",
-            "strictTip": "制限ルールがすでにトリガーされており、手動によるロック解除は許可されていません。"
-        },
-        "step": {
-            "url": "設定 URL",
-            "rule": "設定ルール",
-            "base": "基本情報"
-        },
-        "urlPlaceholder": "制限したいURLを入力して解析ボタンをクリックしてください"
+            "confession": "人生とは今日一日のことである"
+        }
     },
     "pt_PT": {
-        "conditionFilter": "URL",
         "filterDisabled": "Apenas Habilitadas",
-        "useWildcard": "Se deseja usar caractere curinga",
         "item": {
+            "name": "Nome da regra",
             "condition": "Restrito URL",
             "time": "Limite de tempo diário",
             "waste": "Tempo de navegação hoje",
-            "enabled": "Ativado",
-            "delayAllowed": "Mais 5 minutos",
-            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
-            "operation": "Operações",
-            "visitTime": "Limitar por visita",
-            "period": "Períodos não permitidos",
-            "name": "Nome da regra",
-            "detail": "Detalhe da regra",
-            "effectiveDay": "Efetivo ativado",
-            "delayCount": "Contagem de atraso",
             "weekly": "Limite semanal",
             "weekStartInfo": "O primeiro dia de cada semana é: {weekStart}, pode alterar este valor nas opções de estatísticas",
-            "wasteWeekly": "Navegados esta semana"
+            "wasteWeekly": "Navegados esta semana",
+            "delayCount": "Contagem de atraso",
+            "detail": "Detalhe da regra",
+            "visitTime": "Limitar por visita",
+            "period": "Períodos não permitidos",
+            "enabled": "Ativado",
+            "effectiveDay": "Efetivo ativado",
+            "delayAllowed": "Mais 5 minutos",
+            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos"
+        },
+        "step": {
+            "base": "Informação básica",
+            "url": "Configurar URL",
+            "rule": "Configurar regra"
         },
         "button": {
             "test": "Testar URL",
-            "option": "Opções",
             "parseUrl": "Analisar"
         },
+        "useWildcard": "Se deseja usar caractere curinga",
         "message": {
             "noUrl": "URL limitada não preenchida",
+            "noRule": "Nenhuma regra preenchida",
             "deleteConfirm": "Deseja excluir a regra de {cond}?",
             "inputTestUrl": "Por favor insira o link de URL para testar primeiro",
             "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
             "noRuleMatched": "O URL não atinge nenhuma regra",
-            "rulesMatched": "A URL atinge as seguintes regras:",
-            "noRule": "Nenhuma regra preenchida"
+            "rulesMatched": "A URL atinge as seguintes regras:"
         },
+        "urlPlaceholder": "Insira o URL que deseja restringir e clique no botão Analisar",
         "verification": {
             "inputTip": "Esta regra já foi acionada. Para continuar, digite a resposta ao seguinte prompt: {prompt}",
             "inputTip2": "Esta regra já foi acionada. Para continuar, por favor insira-a como está: {answer}",
             "pswInputTip": "Esta regra já foi acionada. Para continuar, digite a sua senha de desbloqueio",
+            "strictTip": "A regra de limite já foi acionada e o desbloqueio manual não é permitido!",
             "incorrectPsw": "Palavra-passe incorreta",
             "incorrectAnswer": "Resposta incorreta",
             "pi": "{digitCount} dígitos de {startIndex} a {endIndex} da parte decimal de π",
-            "confession": "Tempo é dinheiro",
-            "strictTip": "A regra de limite já foi acionada e o desbloqueio manual não é permitido!"
-        },
-        "step": {
-            "url": "Configurar URL",
-            "rule": "Configurar regra",
-            "base": "Informação básica"
-        },
-        "urlPlaceholder": "Insira o URL que deseja restringir e clique no botão Analisar"
+            "confession": "Tempo é dinheiro"
+        }
     },
     "uk": {
-        "conditionFilter": "URL",
         "filterDisabled": "Лише увімкнені",
-        "useWildcard": "Використовувати символ підставлення",
         "item": {
+            "name": "Назва правила",
             "condition": "Обмежена URL-адреса",
             "time": "Денний ліміт",
             "waste": "Переглянуто сьогодні",
-            "enabled": "Увімкнено",
-            "delayAllowed": "Ще 5 хвилин",
-            "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин",
-            "operation": "Операції",
-            "visitTime": "Ліміт на відвідування",
-            "period": "Недозволені періоди",
-            "name": "Назва правила",
-            "detail": "Подробиці правила",
-            "effectiveDay": "Діє",
-            "delayCount": "Лічильник затримок",
             "weekly": "Тижневий ліміт",
             "weekStartInfo": "Перший день кожного тижня: {weekStart}. Ви можете змінити це значення у налаштуваннях статистики",
-            "wasteWeekly": "Перегляд цього тижня"
+            "wasteWeekly": "Перегляд цього тижня",
+            "delayCount": "Лічильник затримок",
+            "detail": "Подробиці правила",
+            "visitTime": "Ліміт на відвідування",
+            "period": "Недозволені періоди",
+            "enabled": "Увімкнено",
+            "effectiveDay": "Діє",
+            "delayAllowed": "Ще 5 хвилин",
+            "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин"
+        },
+        "step": {
+            "base": "Загальна інформація",
+            "url": "URL конфігурації",
+            "rule": "Правило конфігурації"
         },
         "button": {
             "test": "Тестова URL-адреса",
-            "option": "Налаштування",
             "parseUrl": "Обробити URL"
         },
+        "useWildcard": "Використовувати символ підставлення",
         "message": {
             "noUrl": "Не заповнена обмежена URL-адреса",
+            "noRule": "Не заповнено жодного правила",
             "deleteConfirm": "Ви дійсно хочете видалити правило {cond}?",
             "inputTestUrl": "Спочатку введіть URL-адресу посилання для перевірки",
             "clickTestButton": "Після введення натисніть кнопку ({buttonText})",
             "noRuleMatched": "URL не відповідає жодному правилу",
-            "rulesMatched": "URL-адреса отримує такі правила:",
-            "noRule": "Не заповнено жодного правила"
+            "rulesMatched": "URL-адреса отримує такі правила:"
         },
+        "urlPlaceholder": "Введіть URL-адресу, яку ви хочете обмежити, а потім натисніть кнопку Обробити",
         "verification": {
             "inputTip": "Правило обмеження вже було запущено. Щоб продовжити, введіть відповідь на запит: {prompt}",
             "inputTip2": "Правило обмеження вже було запущено. Щоб продовжити, введіть те, що ви бачите: {answer}",
             "pswInputTip": "Правило обмеження вже було запущено. Щоб продовжити, введіть пароль",
+            "strictTip": "Правило обмеження вже активовано і ручне розблокування не дозволено!",
             "incorrectPsw": "Неправильний пароль",
             "incorrectAnswer": "Неправильна відповідь",
             "pi": "{digitCount} цифр від {startIndex} до {endIndex} десяткової частини числа π",
-            "confession": "Час спливає",
-            "strictTip": "Правило обмеження вже активовано і ручне розблокування не дозволено!"
-        },
-        "step": {
-            "url": "URL конфігурації",
-            "rule": "Правило конфігурації",
-            "base": "Загальна інформація"
-        },
-        "urlPlaceholder": "Введіть URL-адресу, яку ви хочете обмежити, а потім натисніть кнопку Обробити"
+            "confession": "Час спливає"
+        }
     },
     "es": {
-        "conditionFilter": "URL",
         "filterDisabled": "Solo habilitados",
-        "useWildcard": "Cuando usar un comodín",
         "item": {
+            "name": "Nombre de la regla",
             "condition": "URL restringida",
             "time": "Límite diario",
             "waste": "Navegados hoy",
-            "enabled": "Habilitado",
-            "delayAllowed": "Más de 5 minutos",
-            "delayAllowedInfo": "Si se pausa, permite un retraso temporal de 5 minutos",
-            "operation": "Operaciones",
+            "delayCount": "Contagem de atraso",
+            "detail": "Detalle de la regla",
             "visitTime": "Límite por visita",
             "period": "Periodos no permitidos",
-            "name": "Nombre de la regla",
-            "detail": "Detalle de la regla",
+            "enabled": "Habilitado",
             "effectiveDay": "En vigor él",
-            "delayCount": "Contagem de atraso"
+            "delayAllowed": "Más de 5 minutos",
+            "delayAllowedInfo": "Si se pausa, permite un retraso temporal de 5 minutos"
+        },
+        "step": {
+            "base": "Información básica",
+            "url": "Configurar URL",
+            "rule": "Configurar regla"
         },
         "button": {
             "test": "Probar URL",
-            "option": "Opciones",
             "parseUrl": "Analizar URL"
         },
+        "useWildcard": "Cuando usar un comodín",
         "message": {
             "noUrl": "URL restringida sin completar",
+            "noRule": "No hay reglas llenadas",
             "deleteConfirm": "¿Deseas eliminar la regla de {cond}?",
             "inputTestUrl": "Por favor, introduce primero el enlace URL a ser probado",
             "clickTestButton": "Después de ingresarla, haz clic en el botón ({buttonText})",
             "noRuleMatched": "La URL no sigue ninguna regla",
-            "rulesMatched": "La URL sigue las siguientes reglas:",
-            "noRule": "No hay reglas llenadas"
+            "rulesMatched": "La URL sigue las siguientes reglas:"
         },
+        "urlPlaceholder": "Ingrese la URL que desea restringir y haga clic en el botón Analizar",
         "verification": {
             "inputTip": "La regla de límite ya ha sido activada. Para continuar, por favor introduce la respuesta a la siguiente indicación: {prompt}",
             "inputTip2": "La regla de límite ya ha sido activada. Para continuar, por favor introdúcela tal como está: {answer}",
             "pswInputTip": "La regla de límite ya ha sido activada. Para continuar, por favor introduce tu contraseña de desbloqueo",
+            "strictTip": "¡La regla de límite ya ha sido activada y el desbloqueo manual no está permitido!",
             "incorrectPsw": "Contraseña incorrecta",
             "incorrectAnswer": "Respuesta incorrecta",
             "pi": "{digitCount} dígitos de {startIndex} a {endIndex} de la parte decimal de π",
-            "confession": "El tiempo se está fugando",
-            "strictTip": "¡La regla de límite ya ha sido activada y el desbloqueo manual no está permitido!"
-        },
-        "step": {
-            "url": "Configurar URL",
-            "rule": "Configurar regla",
-            "base": "Información básica"
-        },
-        "urlPlaceholder": "Ingrese la URL que desea restringir y haga clic en el botón Analizar"
+            "confession": "El tiempo se está fugando"
+        }
     },
     "de": {
-        "conditionFilter": "Suche nach URL",
         "filterDisabled": "Nur aktiviert",
-        "useWildcard": "Ob Platzhalter verwendet wird",
-        "urlPlaceholder": "Geben Sie bitte die URL ein, die Sie einschränken möchten, und klicken Sie auf die Schaltfläche „URL analysieren“",
         "item": {
+            "name": "Regelname",
             "condition": "Eingeschränkte URL",
             "time": "Tägliches Limit",
             "waste": "Heute durchstöbert",
-            "enabled": "Ermöglicht",
-            "delayAllowed": "Weitere 5 Minuten",
-            "delayAllowedInfo": "Wenn es zu einer Zeitüberschreitung kommt, erlauben Sie eine vorübergehende Verzögerung von 5 Minuten",
-            "operation": "Aktionsknopf",
+            "delayCount": "Anzahl der Verspätungen",
+            "detail": "Regeldetail",
             "visitTime": "Limit pro Besuch",
             "period": "Unzulässiger Zeitraum",
-            "name": "Regelname",
-            "detail": "Regeldetail",
+            "enabled": "Ermöglicht",
             "effectiveDay": "Wirksam auf",
-            "delayCount": "Anzahl der Verspätungen"
+            "delayAllowed": "Weitere 5 Minuten",
+            "delayAllowedInfo": "Wenn es zu einer Zeitüberschreitung kommt, erlauben Sie eine vorübergehende Verzögerung von 5 Minuten"
+        },
+        "step": {
+            "base": "Basisdaten",
+            "url": "URL konfigurieren",
+            "rule": "Konfiguration Regel"
         },
         "button": {
             "test": "Test-URL",
-            "option": "Optionen",
             "parseUrl": "URL analysieren"
         },
+        "useWildcard": "Ob Platzhalter verwendet wird",
         "message": {
             "noUrl": "Nicht ausgefüllte eingeschränkte URL",
+            "noRule": "Keine Regeln ausgefüllt",
             "deleteConfirm": "Möchten Sie die Regel {cond} löschen?",
             "inputTestUrl": "Bitte geben Sie zunächst den zu testenden URL-Link ein",
             "clickTestButton": "Klicken Sie nach der Eingabe bitte auf die Schaltfläche ({buttonText}).",
             "noRuleMatched": "Die URL entspricht keinen Regeln",
-            "rulesMatched": "Die URL erfüllt die folgenden Regeln:",
-            "noRule": "Keine Regeln ausgefüllt",
-            "": "URL nicht aufgelöst"
+            "rulesMatched": "Die URL erfüllt die folgenden Regeln:"
         },
+        "urlPlaceholder": "Geben Sie bitte die URL ein, die Sie einschränken möchten, und klicken Sie auf die Schaltfläche „URL analysieren“",
         "verification": {
             "inputTip": "Die Limitregel wurde bereits ausgelöst. Um fortzufahren, geben Sie bitte die Antwort auf die folgende Eingabeaufforderung ein: {prompt}",
             "inputTip2": "Die Limit regel wurde bereits ausgelöst. Um fortzufahren, geben Sie sie bitte unverändert ein: {answer}",
             "pswInputTip": "Die Limit regel wurde bereits ausgelöst. Um fortzufahren, geben Sie bitte Ihr Entsperrkennwort ein",
+            "strictTip": "Die Limit-Regel wurde bereits ausgelöst und eine manuelle Entsperrung ist nicht zulässig!",
             "incorrectPsw": "Falsches Passwort",
             "incorrectAnswer": "Falsche Antwort",
             "pi": "{digitCount} Ziffern von {startIndex} bis {endIndex} des Dezimalteils von π",
-            "confession": "Zeit vergeht",
-            "strictTip": "Die Limit-Regel wurde bereits ausgelöst und eine manuelle Entsperrung ist nicht zulässig!"
-        },
-        "step": {
-            "url": "URL konfigurieren",
-            "rule": "Konfiguration Regel",
-            "base": "Basisdaten"
+            "confession": "Zeit vergeht"
         }
     },
     "fr": {
-        "conditionFilter": "URL",
         "filterDisabled": "Activé uniquement",
-        "useWildcard": "Utiliser des caractères génériques",
-        "urlPlaceholder": "Veuillez entrer l'URL que vous voulez restreindre et cliquez sur le bouton Analyser",
         "item": {
+            "name": "Nom de règle",
             "condition": "URL restreinte",
             "time": "Limite quotidienne",
             "waste": "Heure d'aujourd'hui",
-            "enabled": "Activé",
-            "delayAllowed": "Plus de 5 minutes",
-            "delayAllowedInfo": "Si le délai est écoulé, autorisez un délai temporaire de 5 minutes",
-            "operation": "Opérations",
-            "visitTime": "Limite par visite",
-            "period": "Périodes bloquées",
-            "name": "Nom de règle",
-            "detail": "Détail des règles",
-            "effectiveDay": "Effectif le",
-            "delayCount": "Nombre de retards",
             "weekly": "Limite hebdomadaire",
             "weekStartInfo": "Le premier jour de chaque semaine est : {weekStart}, vous pouvez modifier cette valeur dans les options de statistiques",
-            "wasteWeekly": "Le temps de cette semaine"
-        },
-        "button": {
-            "test": "Test URL",
-            "option": "Options",
-            "parseUrl": "Parse URL"
-        },
-        "message": {
-            "noUrl": "Aucune URL de restriction configurée",
-            "deleteConfirm": "Voulez-vous supprimer la règle de {cond}?",
-            "inputTestUrl": "Veuillez entrer le lien URL à tester en premier",
-            "clickTestButton": "Après l'entrée, cliquez sur le bouton ({buttonText})",
-            "noRuleMatched": "L'URL ne correspond à aucune règle",
-            "rulesMatched": "L'URL atteint les règles suivantes :",
-            "noRule": "Aucune règle remplie"
-        },
-        "verification": {
-            "inputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez entrer la réponse à l'invite suivante : {prompt}",
-            "inputTip2": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez la saisir telle quelle : {answer}",
-            "pswInputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez saisir votre mot de passe de déverrouillage",
-            "incorrectPsw": "Mot de passe incorrect",
-            "incorrectAnswer": "Réponse incorrecte",
-            "pi": "{digitCount} chiffres de {startIndex} à {endIndex} de la partie décimale de π",
-            "confession": "Le temps, c'est de l'argent",
-            "strictTip": "La règle de limite a déjà été déclenchée et le déverrouillage manuel n'est pas autorisé !"
+            "wasteWeekly": "Le temps de cette semaine",
+            "delayCount": "Nombre de retards",
+            "detail": "Détail des règles",
+            "visitTime": "Limite par visite",
+            "period": "Périodes bloquées",
+            "enabled": "Activé",
+            "effectiveDay": "Effectif le",
+            "delayAllowed": "Plus de 5 minutes",
+            "delayAllowedInfo": "Si le délai est écoulé, autorisez un délai temporaire de 5 minutes"
         },
         "step": {
             "base": "Informations de base",
             "url": "URL de configuration",
             "rule": "Règle de configuration"
+        },
+        "button": {
+            "test": "Test URL",
+            "parseUrl": "Parse URL"
+        },
+        "useWildcard": "Utiliser des caractères génériques",
+        "message": {
+            "noUrl": "Aucune URL de restriction configurée",
+            "noRule": "Aucune règle remplie",
+            "deleteConfirm": "Voulez-vous supprimer la règle de {cond}?",
+            "inputTestUrl": "Veuillez entrer le lien URL à tester en premier",
+            "clickTestButton": "Après l'entrée, cliquez sur le bouton ({buttonText})",
+            "noRuleMatched": "L'URL ne correspond à aucune règle",
+            "rulesMatched": "L'URL atteint les règles suivantes :"
+        },
+        "urlPlaceholder": "Veuillez entrer l'URL que vous voulez restreindre et cliquez sur le bouton Analyser",
+        "verification": {
+            "inputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez entrer la réponse à l'invite suivante : {prompt}",
+            "inputTip2": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez la saisir telle quelle : {answer}",
+            "pswInputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez saisir votre mot de passe de déverrouillage",
+            "strictTip": "La règle de limite a déjà été déclenchée et le déverrouillage manuel n'est pas autorisé !",
+            "incorrectPsw": "Mot de passe incorrect",
+            "incorrectAnswer": "Réponse incorrecte",
+            "pi": "{digitCount} chiffres de {startIndex} à {endIndex} de la partie décimale de π",
+            "confession": "Le temps, c'est de l'argent"
+        }
+    },
+    "ru": {
+        "filterDisabled": "Только включен",
+        "item": {
+            "name": "Имя правила",
+            "condition": "Ограниченный URL",
+            "time": "Дневной лимит",
+            "waste": "Просмотрено сегодня",
+            "weekly": "Недельный лимит",
+            "weekStartInfo": "Первый день каждой недели: {weekStart}, вы можете изменить это значение в настройках статистики",
+            "wasteWeekly": "Просмотрено на этой неделе",
+            "delayCount": "Отложенный",
+            "detail": "Детали правила",
+            "visitTime": "Лимит за посещение",
+            "period": "Заблокированное время",
+            "enabled": "Включено",
+            "effectiveDay": "Эффективный",
+            "delayAllowed": "Еще 5 минут",
+            "delayAllowedInfo": "Если время истекло, разрешите временную задержку 5 минут"
+        },
+        "step": {
+            "base": "Основная информация",
+            "url": "Установить URL-адрес",
+            "rule": "Установить правило"
+        },
+        "button": {
+            "test": "Тестовый URL",
+            "parseUrl": "Анализ URL"
+        },
+        "useWildcard": "Использовать ли подстановку",
+        "message": {
+            "noUrl": "Ограничение URL-адресов не настроено",
+            "noRule": "Нет заполненных правил",
+            "deleteConfirm": "Вы хотите удалить правило {cond}?",
+            "inputTestUrl": "Пожалуйста, введите ссылку для тестирования",
+            "clickTestButton": "После ввода информации, пожалуйста, нажмите кнопку ({buttonText})",
+            "noRuleMatched": "URL не содержит правил",
+            "rulesMatched": "URL попадает в следующие правила:"
+        },
+        "urlPlaceholder": "Пожалуйста, введите URL, который вы хотите ограничить и нажмите на кнопку \"Анализ\"",
+        "verification": {
+            "inputTip": "Лимит правило уже был сработан. Чтобы продолжить, введите ответ на следующую подсказку: {prompt}",
+            "inputTip2": "Лимит правило уже был сработан. Для продолжения, пожалуйста, введите его, как это: {answer}",
+            "pswInputTip": "Лимит правило уже срабатывается. Чтобы продолжить, введите пароль разблокировки",
+            "strictTip": "Ограниченное правило уже было вызвано и разблокировка вручную запрещена!",
+            "incorrectPsw": "Неправильный пароль",
+            "incorrectAnswer": "Неправильный ответ",
+            "pi": "{digitCount} цифр от {startIndex} до {endIndex} десятичной части числа π",
+            "confession": "Время быстротечно"
         }
     }
 }

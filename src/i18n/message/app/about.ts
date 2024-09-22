@@ -12,7 +12,6 @@ export type AboutMessage = {
         name: string
         version: string
         website: string
-        sourceCode: string
         installation: string
         thanks: string
         privacy: string

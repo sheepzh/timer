@@ -4,15 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import { Delete, Edit } from "@element-plus/icons-vue"
-import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
 import { t } from "@app/locale"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
+import { Delete, Edit } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"
 import { ElTableRowScope } from "@src/element-ui/table"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
+import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
+import { defineComponent } from "vue"
 
 async function handleDelete(row: timer.limit.Item, callback: () => void) {
     let promise = undefined
@@ -52,6 +51,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     es: 240,
     de: 250,
     fr: 230,
+    ru: 240,
 }
 
 const _default = defineComponent({
@@ -62,7 +62,7 @@ const _default = defineComponent({
     setup(_props, ctx) {
         return () => <ElTableColumn
             prop="operations"
-            label={t(msg => msg.limit.item.operation)}
+            label={t(msg => msg.button.operation)}
             width={LOCALE_WIDTH[locale]}
             align="center"
             fixed="right"

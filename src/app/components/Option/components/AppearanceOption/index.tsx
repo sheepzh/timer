@@ -48,6 +48,23 @@ const _default = defineComponent((_props, ctx) => {
     ctx.expose({
         reset: () => copy(option, defaultAppearance())
     } satisfies OptionInstance)
+
+    const handleLocaleChange = (newVal: timer.option.LocaleOption) => {
+        option.locale = newVal
+        // await maybe not work in Firefox, so calculate the real locale again
+        // GG Firefox
+        const realLocale: timer.Locale = newVal === "default"
+            ? localeSameAsBrowser
+            : newVal
+        ElMessageBox({
+            message: tWith(msg => msg.option.appearance.locale.changeConfirm, realLocale),
+            type: "success",
+            confirmButtonText: tWith(msg => msg.option.appearance.locale.reloadButton, realLocale),
+            closeOnPressEscape: false,
+            closeOnClickModal: false
+        }).then(() => { location.reload?.() }).catch(() => {/* do nothing */ })
+    }
+
     return () => (
         <div>
             <OptionItem
@@ -71,24 +88,8 @@ const _default = defineComponent((_props, ctx) => {
                     modelValue={option.locale}
                     size="small"
                     style={{ width: "120px" }}
-                    onChange={(newVal: timer.option.LocaleOption) => {
-                        option.locale = newVal
-                        // await maybe not work in Firefox, so calculate the real locale again
-                        // GG Firefox
-                        const realLocale: timer.Locale = newVal === "default"
-                            ? localeSameAsBrowser
-                            : newVal
-                        ElMessageBox({
-                            message: tWith(msg => msg.option.appearance.locale.changeConfirm, realLocale),
-                            type: "success",
-                            confirmButtonText: tWith(msg => msg.option.appearance.locale.reloadButton, realLocale),
-                            // Cant close this on press ESC
-                            closeOnPressEscape: false,
-                            // Cant close this on clicking modal
-                            closeOnClickModal: false
-                        }).then(() => { location.reload?.() })
-                            .catch(() => {/* do nothing */ })
-                    }}
+                    onChange={(newVal: timer.option.LocaleOption) => handleLocaleChange(newVal)}
+                    filterable
                 >
                     {allLocaleOptions.map(locale => <ElOption
                         value={locale}

@@ -25,6 +25,8 @@ declare namespace timer {
         | 'de'
         // @since 2.3.6
         | 'fr'
+        // @since 2.4.6
+        | 'ru'
 
     /**
      * @since 0.8.0
@@ -39,7 +41,6 @@ declare namespace timer {
     type TranslatingLocale =
         | 'ko'
         | 'pl'
-        | 'ru'
         | 'it'
         | 'sv'
         | 'fi'
@@ -54,6 +55,7 @@ declare namespace timer {
         | 'sk'
         | 'mn'
         | 'ar'
+        | 'hi'
 
     type ExtensionMetaFlag = "rateOpen"
 

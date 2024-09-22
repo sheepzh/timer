@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import metaMessages, { MetaMessage } from "../message/common/meta"
+import baseMessages, { BaseMessage } from "../message/common/base"
 import contextMenusMessages, { ContextMenusMessage } from "../message/common/context-menus"
 import initialMessages, { InitialMessage } from "../message/common/initial"
-import baseMessages, { BaseMessage } from "../message/common/base"
+import metaMessages, { MetaMessage } from "../message/common/meta"
 
 export type ChromeMessage = {
     meta: MetaMessage
@@ -71,6 +71,12 @@ const messages: Required<Messages<ChromeMessage>> = {
         base: baseMessages.fr,
         contextMenus: contextMenusMessages.fr,
         initial: initialMessages.fr,
+    },
+    ru: {
+        meta: metaMessages.ru,
+        base: baseMessages.ru,
+        contextMenus: contextMenusMessages.ru,
+        initial: initialMessages.ru,
     }
 }
 
@@ -86,12 +92,12 @@ const placeholder: ChromeMessage = {
         allFunction: '',
         guidePage: '',
         changeLog: '',
+        option: '',
+        sourceCode: '',
     },
     contextMenus: {
         add2Whitelist: '',
         removeFromWhitelist: '',
-        optionPage: '',
-        repoPage: '',
         feedbackPage: '',
     },
     initial: {

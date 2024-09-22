@@ -241,5 +241,32 @@
             "focusTitle": "Tendances sur le temps de navigation",
             "visitTitle": "Tendances de visite"
         }
+    },
+    "ru": {
+        "common": {
+            "focusTotal": "Общее время просмотра",
+            "visitTotal": "Всего посещений",
+            "merged": "Соединено",
+            "virtual": "Виртуальное",
+            "hostPlaceholder": "Поиск сайта для анализа",
+            "emptyDesc": "Сайт не выбран"
+        },
+        "summary": {
+            "title": "В целом",
+            "day": "Всего активных дней",
+            "firstDay": "Первое посещение {value}",
+            "calendarTitle": "Активность за последние недели"
+        },
+        "trend": {
+            "title": "Тренды",
+            "activeDay": "Активные дни",
+            "totalDay": "Дни периода",
+            "maxFocus": "Ежедневное максимальное время просмотра",
+            "averageFocus": "Ежедневное среднее время просмотра",
+            "maxVisit": "Ежедневные максимальные посещения",
+            "averageVisit": "Ежедневные средние посещения",
+            "focusTitle": "Время просмотра трендов",
+            "visitTitle": "Посетить тренды"
+        }
     }
 }

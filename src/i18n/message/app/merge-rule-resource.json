@@ -133,5 +133,20 @@
         "infoAlert3": "Un nombre signifie le niveau du site fusionné. Par exemple, il existe une règle '*.*.edu.cn >>> 3', alors 'www.hust.edu.cn' sera fusionné avec 'hust.edu.cn'",
         "infoAlert4": "Vide signifie que le site d'origine ne sera pas fusionné",
         "infoAlert5": "Si aucune règle ne correspond, le niveau par défaut sera celui d'avant {psl}."
+    },
+    "ru": {
+        "removeConfirmMsg": "{origin} будет удален из настроенных правил слияния.",
+        "originPlaceholder": "Оригинальный сайт",
+        "mergedPlaceholder": "Соединено",
+        "errorOrigin": "Недопустимый формат оригинального сайта.",
+        "duplicateMsg": "Это правило уже существует: {origin}",
+        "addConfirmMsg": "Для {origin} будут установлены индивидуальные правила слияния",
+        "infoAlertTitle": "правила слияния при подсчете сайтов на этой странице",
+        "infoAlert0": "Нажмите кнопку [Новый], будут показаны поля ввода сайта источника и будут отображаться слияния, заполнять и сохранять правило",
+        "infoAlert1": "Исходный сайт может быть заполнен определенным сайтом или регулярным выражением, например www.baidu.com, *.baidu.com, *.google.com.*, чтобы определить, какие сайты будут соответствовать этому правилу при слиянии",
+        "infoAlert2": "Объединенный сайт может быть заполнен определенным сайтом, номером или пустым местом",
+        "infoAlert3": "Число означает уровень слияния сайта. Например, правило '*.*.edu.cn >>> 3', то 'www.hust.edu.cn' будет объединено с 'hust.edu.cn'",
+        "infoAlert4": "Пустое значение означает, что оригинальный сайт не будет объединён",
+        "infoAlert5": "Если правило не совпадает, оно будет по умолчанию на уровне до {psl}"
     }
 }

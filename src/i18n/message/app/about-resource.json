@@ -4,7 +4,6 @@
             "name": "Name",
             "version": "Current Version",
             "website": "Official Website",
-            "sourceCode": "Source Code",
             "installation": "Installation Page",
             "thanks": "Thanks To",
             "privacy": "Privacy Statement",
@@ -22,7 +21,6 @@
             "name": "扩展名称",
             "version": "当前版本",
             "website": "官网",
-            "sourceCode": "源代码",
             "installation": "安装地址",
             "thanks": "致谢",
             "privacy": "隐私声明",
@@ -40,7 +38,6 @@
             "name": "擴充名稱",
             "version": "目前版本",
             "website": "官方網站",
-            "sourceCode": "原始碼",
             "installation": "安裝頁面",
             "thanks": "致謝",
             "privacy": "隱私權聲明",
@@ -58,7 +55,6 @@
             "name": "Назва",
             "version": "Поточна версія",
             "website": "Офіційний вебсайт",
-            "sourceCode": "Програмний код",
             "installation": "Сторінка встановлення",
             "thanks": "Подяки",
             "privacy": "Положення про приватність",
@@ -76,7 +72,6 @@
             "name": "Namen",
             "version": "Aktuelle Version",
             "website": "Offizielle Website",
-            "sourceCode": "Quellcode",
             "installation": "Installationsseite",
             "thanks": "Danksagung",
             "privacy": "Datenschutzerklärung",
@@ -94,7 +89,6 @@
             "name": "名前",
             "version": "現在のバージョン",
             "website": "公式サイト",
-            "sourceCode": "ソースコード",
             "installation": "インストールページ",
             "thanks": "Thanks To",
             "privacy": "プライバシーに関する声明",
@@ -112,7 +106,6 @@
             "name": "Nome",
             "version": "Versão Atual",
             "website": "Website Oficial",
-            "sourceCode": "Código Fonte",
             "installation": "Página de Instalação",
             "thanks": "Graças a",
             "privacy": "Declaração de Privacidade",
@@ -130,7 +123,6 @@
             "name": "Nom",
             "version": "Version actuelle",
             "website": "Site Officiel",
-            "sourceCode": "Code Source",
             "installation": "Page d'installation",
             "thanks": "Merci à",
             "privacy": "Déclaration de confidentialité",
@@ -148,7 +140,6 @@
             "name": "Nombre",
             "version": "Versión actual",
             "website": "Sitio Web Oficial",
-            "sourceCode": "Código Fuente",
             "installation": "Página de Instalación",
             "thanks": "Gracias a",
             "privacy": "Declaración de Privacidad",
@@ -159,6 +150,23 @@
             "greet": "¿Te encanta esta extensión?",
             "rate": "Califícalo con 5 estrellas para ayudar a otros a conocerlo ~~",
             "feedback": "Además, ¡bienvenido a enviar sus comentarios y solicitudes de funciones!!"
+        }
+    },
+    "ru": {
+        "label": {
+            "name": "Имя",
+            "version": "Текущая версия",
+            "website": "Официальный сайт",
+            "installation": "Страница установки",
+            "thanks": "Благодаря",
+            "privacy": "Заявление о конфиденциальности",
+            "license": "Лицензия с открытым исходным кодом",
+            "support": "Поддержка"
+        },
+        "text": {
+            "greet": "Вам нравится это расширение?",
+            "rate": "Оцените 5 звезд, чтобы помочь другим узнать об этом ~~",
+            "feedback": "Также Добро пожаловать на ваш отзыв и запросы по функции!!"
         }
     }
 }

@@ -13,7 +13,6 @@ export type ItemMessage = {
     focus: string
     time: string
     operation: {
-        label: string
         add2Whitelist: string
         removeFromWhitelist: string
         deleteConfirmMsgAll: string
