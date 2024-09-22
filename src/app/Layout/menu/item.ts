@@ -94,7 +94,7 @@ export const MENUS: MenuGroup[] = [{
         route: MERGE_ROUTE,
         icon: Rank
     }, {
-        title: msg => msg.menu.option,
+        title: msg => msg.base.option,
         route: '/additional/option',
         icon: SetUp,
         mobile: true,

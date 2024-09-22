@@ -52,5 +52,11 @@
             "blank": "Non Fusionner",
             "level": "Garder le niveau {level}"
         }
+    },
+    "ru": {
+        "tagResult": {
+            "blank": "Не объединять",
+            "level": "Сохранять уровень {level}"
+        }
     }
 }

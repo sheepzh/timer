@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
-import { defineComponent, watch, type PropType } from "vue"
+import { createTabAfterCurrent } from "@api/chrome/tab"
+import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
 import InputFilterItem from "@app/components/common/InputFilterItem"
 import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
-import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
 import { t } from "@app/locale"
-import { getAppPageUrl } from "@util/constant/url"
 import { OPTION_ROUTE } from "@app/router/constants"
-import { createTabAfterCurrent } from "@api/chrome/tab"
+import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import { getAppPageUrl } from "@util/constant/url"
+import { defineComponent, watch, type PropType } from "vue"
 
 export type FilterOption = {
     url: string
@@ -39,7 +39,7 @@ const _default = defineComponent({
         return () => <>
             <InputFilterItem
                 defaultValue={url.value}
-                placeholder={t(msg => msg.limit.conditionFilter)}
+                placeholder="URL + ↵"
                 onSearch={setUrl}
             />
             <SwitchFilterItem
@@ -55,7 +55,7 @@ const _default = defineComponent({
                 onClick={() => ctx.emit("test")}
             />
             <ButtonFilterItem
-                text={t(msg => msg.limit.button.option)}
+                text={t(msg => msg.base.option)}
                 icon={<SetUp />}
                 type="primary"
                 onClick={() => createTabAfterCurrent(optionPageUrl)}

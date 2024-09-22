@@ -38,13 +38,10 @@
         }
     },
     "zh_TW": {
+        "common": {
+            "focusAverage": "平均每天 {value}"
+        },
         "period": {
-            "sizes": {
-                "fifteen": "按十五分鐘統計",
-                "halfHour": "按半小時統計",
-                "hour": "按一小時統計",
-                "twoHour": "按兩小時統計"
-            },
             "title": "不同時段的訪問習慣",
             "busiest": "每天最繁忙時段",
             "idle": "最長空閒時段",
@@ -52,10 +49,13 @@
                 "average": "日平均",
                 "trend": "趨勢",
                 "stack": "累計"
+            },
+            "sizes": {
+                "fifteen": "按十五分鐘統計",
+                "halfHour": "按半小時統計",
+                "hour": "按一小時統計",
+                "twoHour": "按兩小時統計"
             }
-        },
-        "common": {
-            "focusAverage": "平均每天 {value}"
         },
         "site": {
             "title": "網站造訪習慣",
@@ -114,13 +114,10 @@
         }
     },
     "ja": {
+        "common": {
+            "focusAverage": "1日あたりの平均 {value}"
+        },
         "period": {
-            "sizes": {
-                "fifteen": "15分で統計",
-                "halfHour": "30分で統計",
-                "hour": "1時間ごとの統計",
-                "twoHour": "2時間ごとの統計"
-            },
             "title": "期間の習慣",
             "busiest": "一日の中で一番の時間",
             "idle": "最も長いアイドル期間",
@@ -128,10 +125,13 @@
                 "average": "日平均",
                 "trend": "トレンド",
                 "stack": "スタック"
+            },
+            "sizes": {
+                "fifteen": "15分で統計",
+                "halfHour": "30分で統計",
+                "hour": "1時間ごとの統計",
+                "twoHour": "2時間ごとの統計"
             }
-        },
-        "common": {
-            "focusAverage": "1日あたりの平均 {value}"
         },
         "site": {
             "title": "ウェブサイトの習慣について",
@@ -152,13 +152,10 @@
         }
     },
     "pt_PT": {
+        "common": {
+            "focusAverage": "Média de {value} por dia"
+        },
         "period": {
-            "sizes": {
-                "fifteen": "Por 15 minutos",
-                "halfHour": "Por meia hora",
-                "hour": "Por 1 hora",
-                "twoHour": "Por 2 horas"
-            },
             "title": "Hábito de períodos de tempo",
             "busiest": "Hora do dia da compra",
             "idle": "Período ocioso mais longo",
@@ -166,10 +163,13 @@
                 "average": "Média diária",
                 "trend": "Tendências",
                 "stack": "Conjunto"
+            },
+            "sizes": {
+                "fifteen": "Por 15 minutos",
+                "halfHour": "Por meia hora",
+                "hour": "Por 1 hora",
+                "twoHour": "Por 2 horas"
             }
-        },
-        "common": {
-            "focusAverage": "Média de {value} por dia"
         },
         "site": {
             "title": "Hábito de sites",
@@ -190,13 +190,10 @@
         }
     },
     "uk": {
+        "common": {
+            "focusAverage": "В середньому {value} на день"
+        },
         "period": {
-            "sizes": {
-                "fifteen": "Кожних 15 хвилин",
-                "halfHour": "Кожні пів години",
-                "hour": "Кожну годину",
-                "twoHour": "Кожні 2 години"
-            },
             "title": "Проміжки часу",
             "busiest": "Найзавантаженіший час доби",
             "idle": "Найдовший період бездіяльності",
@@ -204,10 +201,13 @@
                 "average": "Середнє за день",
                 "trend": "Тенденція",
                 "stack": "Накопичення"
+            },
+            "sizes": {
+                "fifteen": "Кожних 15 хвилин",
+                "halfHour": "Кожні пів години",
+                "hour": "Кожну годину",
+                "twoHour": "Кожні 2 години"
             }
-        },
-        "common": {
-            "focusAverage": "В середньому {value} на день"
         },
         "site": {
             "title": "Вебсайти",
@@ -235,16 +235,16 @@
             "title": "Hábito de períodos de tiempo",
             "busiest": "Hora más ocupada del día",
             "idle": "Periodo inactivo más largo",
+            "chartType": {
+                "average": "Promedio diario",
+                "trend": "Tendencia",
+                "stack": "Apilado"
+            },
             "sizes": {
                 "fifteen": "Por 15 minutos",
                 "halfHour": "Por media hora",
                 "hour": "Por una hora",
                 "twoHour": "Por dos horas"
-            },
-            "chartType": {
-                "average": "Promedio diario",
-                "trend": "Tendencia",
-                "stack": "Apilado"
             }
         },
         "site": {
@@ -273,16 +273,16 @@
             "title": "Gewohnheiten jeden Augenblick",
             "busiest": "Die geschäftigste Zeit des Tages",
             "idle": "Längste Leerlaufzeit",
+            "chartType": {
+                "average": "Täglicher Durchschnitt",
+                "trend": "Trend",
+                "stack": "Stapel"
+            },
             "sizes": {
                 "fifteen": "Pro 15 Minuten",
                 "halfHour": "Pro halbe Stunde",
                 "hour": "Pro eine Stunde",
                 "twoHour": "Pro zwei Stunden"
-            },
-            "chartType": {
-                "average": "Täglicher Durchschnitt",
-                "trend": "Trend",
-                "stack": "Stapel"
             }
         },
         "site": {
@@ -311,16 +311,16 @@
             "title": "Habitude des périodes de temps",
             "busiest": "Période de la journée la plus chargée",
             "idle": "La plus longue période d'inactivité",
+            "chartType": {
+                "average": "Moyenne quotidienne",
+                "trend": "Tendances",
+                "stack": "Cumulées"
+            },
             "sizes": {
                 "fifteen": "Par tranche de 15 minutes",
                 "halfHour": "Par demi-heure",
                 "hour": "Par heure",
                 "twoHour": "Par tranche de deux heures"
-            },
-            "chartType": {
-                "average": "Moyenne quotidienne",
-                "trend": "Tendances",
-                "stack": "Cumulées"
             }
         },
         "site": {
@@ -338,6 +338,44 @@
             "trend": {
                 "title": "Tendances quotidiennes",
                 "siteCount": "Nombre de sites Web"
+            }
+        }
+    },
+    "ru": {
+        "common": {
+            "focusAverage": "Средняя {value} в день"
+        },
+        "period": {
+            "title": "Привычка разного времени",
+            "busiest": "Самое загруженное время",
+            "idle": "Максимальное время простоя",
+            "chartType": {
+                "average": "Среднесуточная",
+                "trend": "Тенденция",
+                "stack": "Стек"
+            },
+            "sizes": {
+                "fifteen": "За 15 минут",
+                "halfHour": "За полчаса",
+                "hour": "За один час",
+                "twoHour": "За два часа"
+            }
+        },
+        "site": {
+            "title": "Привычка к веб-сайту",
+            "histogramTitle": "ТОП {n} наиболее посещаемые",
+            "exclusiveToday": "Сегодняшние данные не включены в среднее значение",
+            "countTotal": "Всего посещений/сайтов",
+            "siteAverage": "Средние посещения {value} сайтов в день",
+            "distribution": {
+                "title": "Распределение среднесуточной частоты",
+                "aveTime": "Среднее дневное время просмотра",
+                "aveVisit": "Среднее количество посещений",
+                "tooltip": "Всего {value} сайтов"
+            },
+            "trend": {
+                "title": "Ежедневные тренды",
+                "siteCount": "Счетчик сайтов"
             }
         }
     }

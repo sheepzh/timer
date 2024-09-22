@@ -8,7 +8,6 @@
 import resource from './limit-resource.json'
 
 export type LimitMessage = {
-    conditionFilter: string
     filterDisabled: string
     useWildcard: string
     urlPlaceholder: string
@@ -33,11 +32,9 @@ export type LimitMessage = {
         delayAllowedInfo: string
         delayCount: string
         detail: string
-        operation: string
     }
     button: {
         test: string
-        option: string
         parseUrl: string
     }
     message: {

@@ -17,7 +17,7 @@ export type ItemSet = {
     [path: string]: string
 }
 
-export const ALL_CROWDIN_LANGUAGES = ['zh-TW', 'ja', 'pt-PT', 'uk', 'es-ES', 'de', 'fr'] as const
+export const ALL_CROWDIN_LANGUAGES = ['zh-TW', 'ja', 'pt-PT', 'uk', 'es-ES', 'de', 'fr', 'ru'] as const
 
 /**
  * The language code of crowdin
@@ -37,6 +37,7 @@ export const ALL_TRANS_LOCALES: timer.Locale[] = [
     'es',
     'de',
     'fr',
+    'ru',
 ]
 
 const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
@@ -47,6 +48,7 @@ const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
     'es-ES': 'es',
     de: 'de',
     fr: 'fr',
+    ru: 'ru',
 }
 
 const I18N_CROWDIN_MAP: Record<timer.OptionalLocale, CrowdinLanguage> = {
@@ -57,6 +59,7 @@ const I18N_CROWDIN_MAP: Record<timer.OptionalLocale, CrowdinLanguage> = {
     es: 'es-ES',
     de: 'de',
     fr: 'fr',
+    ru: 'ru',
 }
 
 export const crowdinLangOf = (locale: timer.Locale) => I18N_CROWDIN_MAP[locale]
@@ -122,25 +125,25 @@ export async function mergeMessage(
         return
     }
     const sourceItemSet = transMsg(existMessages[SOURCE_LOCALE])
+    const sourceKeyIdx = Object.keys(sourceItemSet)
     Object.entries(messages).forEach(([locale, itemSet]) => {
-        let existMessage: any = existMessages[locale] || {}
-        Object.entries(itemSet).forEach(([path, text]) => {
-            // Not translated
-            if (!text) return
-            const sourceText = sourceItemSet[path]
-            // Deleted key
-            if (!sourceText) return
-            if (!checkPlaceholder(text, sourceText)) {
-                console.error(`Invalid placeholder: dir=${dir}, filename=${filename}, path=${path}, source=${sourceText}, translated=${text}`)
-                return
-            }
-            const pathSeg = path.split('.')
-            fillItem(pathSeg, 0, existMessage, text)
-        })
-        if (Object.keys(existMessage).length) {
-            // Only merge the locale with any translated strings
-            existMessages[locale] = existMessage
-        }
+        const newMessage: any = {}
+        Object.entries(itemSet)
+            .sort((a, b) => (sourceKeyIdx.findIndex(v => v === a[0]) - sourceKeyIdx.findIndex(v => v === b[0])))
+            .forEach(([path, text]) => {
+                // Not translated
+                if (!text) return
+                const sourceText = sourceItemSet[path]
+                // Deleted key
+                if (!sourceText) return
+                if (!checkPlaceholder(text, sourceText)) {
+                    console.error(`Invalid placeholder: dir=${dir}, filename=${filename}, path=${path}, source=${sourceText}, translated=${text}`)
+                    return
+                }
+                const pathSeg = path.split('.')
+                fillItem(pathSeg, 0, newMessage, text)
+            })
+        existMessages[locale] = newMessage
     })
 
     const newFileContent = JSON.stringify(existMessages, null, 4)

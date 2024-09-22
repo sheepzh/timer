@@ -7,13 +7,13 @@
 
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
+import { useRequest, useShadow } from "@hooks"
+import siteService from "@service/site-service"
 import { isRemainHost } from "@util/constant/remain-host"
 import { isValidHost, judgeVirtualFast } from "@util/pattern"
 import { ElButton, ElMessage, ElOption, ElSelect, ElTag } from "element-plus"
 import { defineComponent } from "vue"
 import './style.sass'
-import { useShadow, useRequest } from "@hooks"
-import siteService from "@service/site-service"
 
 async function handleRemoteSearch(query: string): Promise<timer.site.SiteInfo[]> {
     if (!query) return []
@@ -65,7 +65,7 @@ const _default = defineComponent({
                 {sites.value?.map(({ host, virtual }) => <ElOption value={host} label={host}>
                     <span>{host}</span>
                     <ElTag v-show={virtual} size="small" >
-                        {t(msg => msg.siteManage.msg.virtualTag)}
+                        {t(msg => msg.siteManage.type.virtual?.name)?.toLocaleUpperCase?.()}
                     </ElTag>
                 </ElOption>)}
             </ElSelect>

@@ -6,6 +6,7 @@
  */
 import { t } from "@app/locale"
 import { I18nKey, t as t_ } from "@i18n"
+import { durationLabelOf } from "@popup/common"
 import optionService from "@service/option-service"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
@@ -48,7 +49,7 @@ const tStyle = (key: I18nKey<LocaleStyle>) => t_(STYLES, { key })
 
 const defaultPopOptions = defaultPopup()
 const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
-const defaultDurationLabel = t(msg => msg.duration[defaultPopOptions.defaultDuration])
+const defaultDurationLabel = durationLabelOf(defaultPopOptions.defaultDuration)
 const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 
 function copy(target: timer.option.PopupOption, source: timer.option.PopupOption) {
@@ -91,7 +92,7 @@ const _default = defineComponent((_props, ctx) => {
                         style={{ width: `${tStyle(m => m.durationSelectWidth)}px` }}
                         onChange={(val: PopupDuration) => option.defaultDuration = val}
                     >
-                        {ALL_POPUP_DURATION.map(item => <ElOption value={item} label={t(msg => msg.duration[item])} />)}
+                        {ALL_POPUP_DURATION.map(item => <ElOption value={item} label={durationLabelOf(item)} />)}
                     </ElSelect>
                 ),
                 type: () => (

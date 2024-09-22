@@ -52,5 +52,11 @@
         "more5Minutes": "Weitere 5 Minuten",
         "browsingTime": "Browsing-Zeit",
         "ruleDetail": "Regeldetail"
+    },
+    "ru": {
+        "defaultPrompt": "Эта страница заблокирована!",
+        "more5Minutes": "Плюс 5 минут",
+        "browsingTime": "Время просмотра",
+        "ruleDetail": "Детали правила"
     }
 }

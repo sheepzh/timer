@@ -1,13 +1,13 @@
+import HostAlert from "@app/components/common/HostAlert"
+import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
+import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
+import { Calendar, Delete, Mouse, QuartzWatch } from "@element-plus/icons-vue"
 import { Effect, ElCheckbox, ElDivider, ElIcon, ElTag } from "element-plus"
 import { computed, defineComponent, PropType, ref, watch } from "vue"
-import { useReportFilter } from "../context"
-import HostAlert from "@app/components/common/HostAlert"
-import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
-import CompositionTable from "../CompositionTable"
-import { Calendar, Delete, Mouse, QuartzWatch } from "@element-plus/icons-vue"
-import TooltipWrapper from "@app/components/common/TooltipWrapper"
-import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { computeDeleteConfirmMsg, handleDelete } from "../common"
+import CompositionTable from "../CompositionTable"
+import { useReportFilter } from "../context"
 
 const _default = defineComponent({
     props: {
@@ -30,7 +30,7 @@ const _default = defineComponent({
             await handleDelete(props.value, filter.value)
             ctx.emit('delete', props.value)
         }
-        return () => <>
+        return () => (
             <div class="report-item">
                 <div class="report-item-head">
                     <div class="report-item-title">
@@ -62,7 +62,7 @@ const _default = defineComponent({
                         </TooltipWrapper>
                     </div>
                     <PopupConfirmButton
-                        buttonIcon={Delete}
+                        buttonIcon={<Delete />}
                         buttonType="danger"
                         confirmText={computeDeleteConfirmMsg(props.value, filter.value)}
                         visible={canDelete.value}
@@ -106,7 +106,7 @@ const _default = defineComponent({
                     </TooltipWrapper>
                 </div>
             </div>
-        </>
+        )
     },
 })
 

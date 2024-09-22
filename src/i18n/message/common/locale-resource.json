@@ -35,14 +35,15 @@
         "name": "Français",
         "comma": ", "
     },
+    "ru": {
+        "name": "Русский",
+        "comma": ","
+    },
     "pl": {
         "name": "Polski"
     },
     "ko": {
         "name": "한국인"
-    },
-    "ru": {
-        "name": "Русский"
     },
     "it": {
         "name": "italiano"
@@ -86,5 +87,8 @@
     "ar": {
         "name": "عربي",
         "rtl": true
+    },
+    "hi": {
+        "name": "हिन्दी"
     }
 }

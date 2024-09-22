@@ -79,5 +79,14 @@
         "infoAlert0": "Les sites sur liste blanche ne seront pas comptés",
         "infoAlert1": "Les sites sur liste blanche ne seront pas restreints",
         "errorInput": "URL du site invalide"
+    },
+    "ru": {
+        "addConfirmMsg": "{url} больше не будет учитываться после добавления в белый список.",
+        "removeConfirmMsg": "{url} будет удален из белого списка.",
+        "duplicateMsg": "Дублированный",
+        "infoAlertTitle": "Вы можете добавить сайты в белый список на этой странице",
+        "infoAlert0": "Сайты, внесенные в белый список, не будут учитываться",
+        "infoAlert1": "Сайты из белого списка не будут ограничены",
+        "errorInput": "Неверный URL-адрес сайта"
     }
 }

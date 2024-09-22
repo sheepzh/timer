@@ -145,6 +145,7 @@
             "whitelistItem": "白名單",
             "contextMenu": "瀏覽器的右鍵菜單",
             "displayBadgeText": "{input}  是否在 {icon} 上，顯示 {timeInfo}",
+            "badgeBgColor": "圖示上文字的背景色 {input}",
             "icon": "擴充圖標",
             "badgeTextContent": "當前網站的今日瀏覽時長",
             "locale": {
@@ -166,8 +167,7 @@
                     "off": "始終關閉",
                     "timed": "定時開啟"
                 }
-            },
-            "badgeBgColor": "圖示上文字的背景色 {input}"
+            }
         },
         "statistics": {
             "title": "統計",
@@ -186,6 +186,7 @@
             "weekStartAsNormal": "按照慣例"
         },
         "dailyLimit": {
+            "prompt": "受限時顯示的提示文字 {input}",
             "level": {
                 "label": "受限時如何解鎖 {input}",
                 "nothing": "允許在管理頁面直接解鎖",
@@ -202,8 +203,7 @@
                 "strictTitle": "危險操作",
                 "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！",
                 "passwordContent": "請設定您的解鎖密碼"
-            },
-            "prompt": "受限時顯示的提示文字 {input}"
+            }
         },
         "backup": {
             "title": "數據備份",
@@ -228,11 +228,6 @@
             },
             "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
             "operation": "備份數據",
-            "lastTimeTip": "上次備份時間: {lastTime}",
-            "auto": {
-                "label": "是否開啟自動備份",
-                "interval": "每 {input} 分鐘備份一次"
-            },
             "download": {
                 "btn": "下載",
                 "step2": "確認數據",
@@ -248,6 +243,11 @@
                 "dataRange": "數據范圍",
                 "notSelected": "用戶端未選擇",
                 "current": "當前"
+            },
+            "lastTimeTip": "上次備份時間: {lastTime}",
+            "auto": {
+                "label": "是否開啟自動備份",
+                "interval": "每 {input} 分鐘備份一次"
             }
         },
         "resetButton": "重置",
@@ -400,6 +400,7 @@
             "whitelistItem": "ホワイトリスト機能",
             "contextMenu": "コンテキストメニュー",
             "displayBadgeText": "{input}  {icon} に {timeInfo} を表示するかどうか",
+            "badgeBgColor": "アイコン上のテキストの背景色 {input}",
             "icon": "拡張機能のアイコン",
             "badgeTextContent": "現在のウェブサイトの閲覧時間",
             "locale": {
@@ -421,8 +422,7 @@
                     "off": "常にオフ",
                     "timed": "時限スタート"
                 }
-            },
-            "badgeBgColor": "アイコン上のテキストの背景色 {input}"
+            }
         },
         "statistics": {
             "title": "統計",
@@ -441,6 +441,7 @@
             "weekStartAsNormal": "いつものように"
         },
         "dailyLimit": {
+            "prompt": "制限時に表示されるプロンプト {input}",
             "level": {
                 "label": "制限中のロック解除方法 {input}",
                 "nothing": "管理者ページでの直接のロック解除を許可する",
@@ -457,8 +458,7 @@
                 "strictTitle": "操作確認",
                 "strictContent": "このオプションを選択した場合、サイトが毎日の制限をトリガーする場合 手動でブロックを解除することは翌日まで待つ以外はできません ルールが適切に設定されていない場合、彼らはあなたのルーチンを非常によく妨げることができます!",
                 "passwordContent": "ロック解除パスワードを設定してください"
-            },
-            "prompt": "制限時に表示されるプロンプト {input}"
+            }
         },
         "backup": {
             "title": "データバックアップ",
@@ -483,11 +483,6 @@
             },
             "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
             "operation": "バックアップ",
-            "lastTimeTip": "前回のバックアップ時間: {lastTime}",
-            "auto": {
-                "label": "自動バックアップを有効にするかどうか",
-                "interval": "{input} 分ごとに実行"
-            },
             "download": {
                 "btn": "ダウンロード",
                 "step2": "データを確認",
@@ -503,6 +498,11 @@
                 "dataRange": "データ範囲",
                 "notSelected": "クライアントが選択されていません",
                 "current": "現在"
+            },
+            "lastTimeTip": "前回のバックアップ時間: {lastTime}",
+            "auto": {
+                "label": "自動バックアップを有効にするかどうか",
+                "interval": "{input} 分ごとに実行"
             }
         },
         "resetButton": "リセット",
@@ -512,9 +512,6 @@
     "pt_PT": {
         "yes": "Sim",
         "no": "Não",
-        "resetButton": "Reiniciar",
-        "resetSuccess": "Redefinido para padrão com sucesso!",
-        "defaultValue": "Padrão: {default}",
         "popup": {
             "title": "Página de Pop-up",
             "max": "Mostrar os primeiros {input} itens de dados",
@@ -528,6 +525,7 @@
             "whitelistItem": "atalhos relacionados à lista ignorada",
             "contextMenu": "o ementa de contexto",
             "displayBadgeText": "{input} Se deve exibir {timeInfo} em {icon}",
+            "badgeBgColor": "A cor de fundo do texto no ícone {input}",
             "icon": "o ícone de extensão",
             "badgeTextContent": "o tempo de navegação do site atual",
             "locale": {
@@ -549,8 +547,7 @@
                     "off": "Sempre desativado",
                     "timed": "Cronometrando"
                 }
-            },
-            "badgeBgColor": "A cor de fundo do texto no ícone {input}"
+            }
         },
         "statistics": {
             "title": "Estatísticas",
@@ -569,6 +566,7 @@
             "weekStartAsNormal": "Normal"
         },
         "dailyLimit": {
+            "prompt": "Prompt exibido quando restrito {input}",
             "level": {
                 "label": "Como desbloquear enquanto restrito {input}",
                 "nothing": "Permitir o desbloqueio direto na página de administração",
@@ -585,8 +583,7 @@
                 "strictTitle": "Confirmação de operação",
                 "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!",
                 "passwordContent": "Por favor, defina a sua palavra-passe de desbloqueio"
-            },
-            "prompt": "Prompt exibido quando restrito {input}"
+            }
         },
         "backup": {
             "title": "Backup de Dados",
@@ -609,13 +606,8 @@
                 "account": "Nome de utilizador {input}",
                 "password": "Senha {input}"
             },
-            "operation": "Backup",
-            "auto": {
-                "label": "Se deseja ativar o backup automático",
-                "interval": "e executar a cada {input} minutos"
-            },
-            "lastTimeTip": "Hora do último backup: {lastTime}",
             "alert": "Este é um recurso experimental, se tiver alguma dúvida, entre em contacto com o autor via {email}~",
+            "operation": "Backup",
             "download": {
                 "btn": "Transferir",
                 "step2": "Confirmar dados",
@@ -631,15 +623,20 @@
                 "dataRange": "Intervalo de dados",
                 "notSelected": "Cliente não selecionado",
                 "current": "Corrente"
+            },
+            "lastTimeTip": "Hora do último backup: {lastTime}",
+            "auto": {
+                "label": "Se deseja ativar o backup automático",
+                "interval": "e executar a cada {input} minutos"
             }
-        }
+        },
+        "resetButton": "Reiniciar",
+        "resetSuccess": "Redefinido para padrão com sucesso!",
+        "defaultValue": "Padrão: {default}"
     },
     "uk": {
         "yes": "Так",
         "no": "Ні",
-        "resetButton": "Скинути",
-        "resetSuccess": "Скидання виконано успішно!",
-        "defaultValue": "Типово: {default}",
         "popup": {
             "title": "Вікно розширення",
             "max": "Кількість записів для показу: {input}",
@@ -653,6 +650,7 @@
             "whitelistItem": "комбінації клавіш для білого списку",
             "contextMenu": "контекстному меню",
             "displayBadgeText": "{input}  Показувати {timeInfo} на {icon}",
+            "badgeBgColor": "Колір заднього плану тексту піктограми {input}",
             "icon": "піктограмі розширення",
             "badgeTextContent": "час перегляду поточного вебсайту",
             "locale": {
@@ -674,8 +672,7 @@
                     "off": "Вимкнено",
                     "timed": "За розкладом"
                 }
-            },
-            "badgeBgColor": "Колір заднього плану тексту піктограми {input}"
+            }
         },
         "statistics": {
             "title": "Статистика",
@@ -693,8 +690,30 @@
             "weekStart": "Перший день тижня: {input}",
             "weekStartAsNormal": "Типово"
         },
+        "dailyLimit": {
+            "prompt": "Запит, який відображається під час обмеження {input}",
+            "level": {
+                "label": "Спосіб розблокування під час обмеження {input}",
+                "nothing": "Розблокування на сторінці адміністрування",
+                "password": "Ввести пароль, щоб розблокувати",
+                "verification": "Ввести код підтвердження, щоб розблокувати",
+                "passwordLabel": "Пароль для розблокування {input}",
+                "verificationLabel": "Складність коду підтвердження {input}",
+                "verificationDifficulty": {
+                    "easy": "Легкий",
+                    "hard": "Складний",
+                    "disgusting": "Відчайдушний"
+                },
+                "strict": "Не дозволяти розблокування",
+                "strictTitle": "Підтвердження операції",
+                "strictContent": "Коли ви вибираєте цю опцію, якщо сайт активує щоденний ліміт, ви не зможете розблокувати його вручну до наступного дня. Якщо не налаштувати правила належним чином, вони можуть дуже заважати вашій роботі!",
+                "passwordContent": "Встановіть пароль розблокування"
+            }
+        },
         "backup": {
             "title": "Резервне копіювання",
+            "type": "Тип резервного копіювання {input}",
+            "client": "Назва клієнта {input}",
             "meta": {
                 "none": {
                     "label": "Завжди вимкнено"
@@ -712,16 +731,11 @@
                 "account": "Ім'я користувача {input}",
                 "password": "Пароль {input}"
             },
-            "operation": "Зробити резервну копію",
-            "auto": {
-                "label": "Увімкнути автоматичне резервне копіювання",
-                "interval": "і виконувати кожні {input} хвилин"
-            },
-            "lastTimeTip": "Час останнього резервного копіювання: {lastTime}",
             "alert": "Це експериментальна функція. Якщо у вас виникли запитання, зв'яжіться з автором за адресою {email}~",
+            "operation": "Зробити резервну копію",
             "download": {
                 "btn": "Завантажити",
-                "step2": "Підтвердити дані",
+                "step2": "Підтвердження даних",
                 "willDownload": "До завантаження",
                 "confirmTip": "Буде завантажено {size} елементів даних із [{clientName}]"
             },
@@ -729,42 +743,25 @@
                 "btn": "Очистити",
                 "confirmTip": "Буде видалено {rowCount} елементів даних для {hostCount} сайтів, записаних у [{clientName}]!"
             },
-            "type": "Тип резервного копіювання {input}",
-            "client": "Назва клієнта {input}",
             "clientTable": {
-                "selectTip": "Виберіть клієнта",
+                "selectTip": "Вибір клієнта",
                 "dataRange": "Діапазон даних",
                 "notSelected": "Клієнта не вибрано",
                 "current": "Поточний"
+            },
+            "lastTimeTip": "Час останнього резервного копіювання: {lastTime}",
+            "auto": {
+                "label": "Увімкнути автоматичне резервне копіювання",
+                "interval": "і виконувати кожні {input} хвилин"
             }
         },
-        "dailyLimit": {
-            "level": {
-                "verificationDifficulty": {
-                    "easy": "Легкий",
-                    "hard": "Складний",
-                    "disgusting": "Відчайдушний"
-                },
-                "strict": "Не дозволяти розблокування",
-                "strictTitle": "Підтвердження операції",
-                "strictContent": "Коли ви вибираєте цю опцію, якщо сайт активує щоденний ліміт, ви не зможете розблокувати його вручну до наступного дня. Якщо не налаштувати правила належним чином, вони можуть дуже заважати вашій роботі!",
-                "label": "Спосіб розблокування під час обмеження {input}",
-                "nothing": "Розблокування на сторінці адміністрування",
-                "password": "Ввести пароль, щоб розблокувати",
-                "verification": "Ввести код підтвердження, щоб розблокувати",
-                "passwordLabel": "Пароль для розблокування {input}",
-                "verificationLabel": "Складність коду підтвердження {input}",
-                "passwordContent": "Встановіть пароль розблокування"
-            },
-            "prompt": "Запит, який відображається під час обмеження {input}"
-        }
+        "resetButton": "Скинути",
+        "resetSuccess": "Скидання виконано успішно!",
+        "defaultValue": "Типово: {default}"
     },
     "es": {
         "yes": "Sí",
         "no": "No",
-        "resetButton": "Restablecer",
-        "resetSuccess": "¡Restablecer predeterminado con éxito!",
-        "defaultValue": "Predeterminado: {default}",
         "popup": {
             "title": "Página emergente",
             "max": "Mostrar los primeros {input} elementos de datos",
@@ -778,6 +775,7 @@
             "whitelistItem": "atajos relacionados con la lista blanca",
             "contextMenu": "el menú de contexto",
             "displayBadgeText": "{input}  Mostrar {timeInfo} en {icon}",
+            "badgeBgColor": "El color de fondo del texto en el icono {input}",
             "icon": "el icono de la extensión",
             "badgeTextContent": "el tiempo de navegación del sitio web actual",
             "locale": {
@@ -799,8 +797,7 @@
                     "off": "Siempre apagado",
                     "timed": "Cronometrado"
                 }
-            },
-            "badgeBgColor": "El color de fondo del texto en el icono {input}"
+            }
         },
         "statistics": {
             "title": "Estadísticas",
@@ -817,6 +814,25 @@
             "fileAccessFirefox": "Lo sentimos, esta función no es compatible con Firefox",
             "weekStart": "El primer día de cada semana {input}",
             "weekStartAsNormal": "Como normalmente"
+        },
+        "dailyLimit": {
+            "prompt": "Punto mostrado cuando está restringido {input}",
+            "level": {
+                "label": "Cómo desbloquear cuando está restringido {input}",
+                "nothing": "Permitir desbloqueo directo en la página de administrador",
+                "password": "Debe introducir la contraseña para desbloquear",
+                "verification": "Debe introducir el código de verificación para desbloquear",
+                "passwordLabel": "Contraseña para desbloquear {input}",
+                "verificationLabel": "La dificultad del código de verificación {input}",
+                "verificationDifficulty": {
+                    "easy": "Fácil",
+                    "hard": "Difícil",
+                    "disgusting": "Desagradable"
+                },
+                "strict": "No permitir desbloquear de ningún modo",
+                "strictTitle": "Confirmación de operación",
+                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
+            }
         },
         "backup": {
             "title": "Respaldo de datos",
@@ -837,13 +853,8 @@
                 "endpoint": "Dirección de punto final {info} {input}",
                 "path": "La ruta del directorio {input}"
             },
-            "operation": "Copia de seguridad",
-            "auto": {
-                "label": "Activar la copia de seguridad automática",
-                "interval": "y ejecutar cada {input} minutos"
-            },
-            "lastTimeTip": "Fecha de la última copia de seguridad: {lastTime}",
             "alert": "Esta es una característica experimental, si tienes alguna pregunta, por favor ponte en contacto con el autor a través de {email}~",
+            "operation": "Copia de seguridad",
             "download": {
                 "btn": "Descargar",
                 "step2": "Confirmar datos",
@@ -859,34 +870,20 @@
                 "dataRange": "Rango de datos",
                 "notSelected": "Cliente no seleccionado",
                 "current": "Actual"
+            },
+            "lastTimeTip": "Fecha de la última copia de seguridad: {lastTime}",
+            "auto": {
+                "label": "Activar la copia de seguridad automática",
+                "interval": "y ejecutar cada {input} minutos"
             }
         },
-        "dailyLimit": {
-            "level": {
-                "label": "Cómo desbloquear cuando está restringido {input}",
-                "nothing": "Permitir desbloqueo directo en la página de administrador",
-                "password": "Debe introducir la contraseña para desbloquear",
-                "verification": "Debe introducir el código de verificación para desbloquear",
-                "passwordLabel": "Contraseña para desbloquear {input}",
-                "verificationLabel": "La dificultad del código de verificación {input}",
-                "verificationDifficulty": {
-                    "easy": "Fácil",
-                    "hard": "Difícil",
-                    "disgusting": "Desagradable"
-                },
-                "strict": "No permitir desbloquear de ningún modo",
-                "strictTitle": "Confirmación de operación",
-                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
-            },
-            "prompt": "Punto mostrado cuando está restringido {input}"
-        }
+        "resetButton": "Restablecer",
+        "resetSuccess": "¡Restablecer predeterminado con éxito!",
+        "defaultValue": "Predeterminado: {default}"
     },
     "de": {
         "yes": "Ja",
         "no": "Nein",
-        "resetButton": "Zurücksetzen",
-        "resetSuccess": "Auf Standardwerte zurückgesetzt!",
-        "defaultValue": "Standard: {default}",
         "popup": {
             "title": "Popup-Seite",
             "max": "Zeige die ersten {input} Datenelemente",
@@ -900,6 +897,7 @@
             "whitelistItem": "verwandte Whitelist Verknüpfungen",
             "contextMenu": "Kontextmenü",
             "displayBadgeText": "{input} {timeInfo} in {icon} anzeigen",
+            "badgeBgColor": "Die Hintergrundfarbe des Textes auf dem Symbol {input}",
             "icon": "das Symbol der Erweiterung",
             "badgeTextContent": "die Besuchszeit der aktuellen Webseite",
             "locale": {
@@ -921,8 +919,7 @@
                     "off": "Immer aus",
                     "timed": "Zeitgesteuert"
                 }
-            },
-            "badgeBgColor": "Die Hintergrundfarbe des Textes auf dem Symbol {input}"
+            }
         },
         "statistics": {
             "title": "Statistik",
@@ -939,6 +936,25 @@
             "fileAccessFirefox": "Leider wird diese Funktion in Firefox nicht unterstützt",
             "weekStart": "Erster Tag der Woche {input}",
             "weekStartAsNormal": "Wie normal"
+        },
+        "dailyLimit": {
+            "prompt": "Eingabeaufforderung wird angezeigt, wenn eingeschränkt {input}",
+            "level": {
+                "label": "Wie man bei eingeschränktem {input} entsperrt",
+                "nothing": "Erlaube das direkte Entsperren auf der Admin-Seite",
+                "password": "Passwort zum Entsperren eingeben",
+                "verification": "Zum Entsperren muss der Bestätigungscode eingegeben",
+                "passwordLabel": "Passwort zum Entsperren von {input}",
+                "verificationLabel": "Die Schwierigkeit des Bestätigungscodes {input}",
+                "verificationDifficulty": {
+                    "easy": "Einfach",
+                    "hard": "Schwer",
+                    "disgusting": "Ekelhaft"
+                },
+                "strict": "Entsperren trotzdem nicht zulassen",
+                "strictTitle": "Operation bestätigen",
+                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
+            }
         },
         "backup": {
             "title": "Datensicherung",
@@ -959,13 +975,8 @@
                 "endpoint": "Endpunkt Adresse {info} {input}",
                 "path": "Der Pfad des Verzeichnisses {input}"
             },
-            "operation": "Backup",
-            "auto": {
-                "label": "Automatische Sicherung aktivieren",
-                "interval": "und alle {input} Minuten ausführen"
-            },
-            "lastTimeTip": "Letzte Sicherungszeit: {lastTime}",
             "alert": "Dies ist eine experimentelle Funktion. Wenn Sie Fragen haben, wenden Sie sich bitte über {email} an den Autor~",
+            "operation": "Backup",
             "download": {
                 "btn": "Herunterladen",
                 "step2": "Daten bestätigen",
@@ -981,34 +992,20 @@
                 "dataRange": "Datenreichweite",
                 "notSelected": "Kunde nicht ausgewählt",
                 "current": "Aktuell"
+            },
+            "lastTimeTip": "Letzte Sicherungszeit: {lastTime}",
+            "auto": {
+                "label": "Automatische Sicherung aktivieren",
+                "interval": "und alle {input} Minuten ausführen"
             }
         },
-        "dailyLimit": {
-            "level": {
-                "label": "Wie man bei eingeschränktem {input} entsperrt",
-                "nothing": "Erlaube das direkte Entsperren auf der Admin-Seite",
-                "password": "Passwort zum Entsperren eingeben",
-                "verification": "Zum Entsperren muss der Bestätigungscode eingegeben",
-                "passwordLabel": "Passwort zum Entsperren von {input}",
-                "verificationLabel": "Die Schwierigkeit des Bestätigungscodes {input}",
-                "verificationDifficulty": {
-                    "easy": "Einfach",
-                    "hard": "Schwer",
-                    "disgusting": "Ekelhaft"
-                },
-                "strict": "Entsperren trotzdem nicht zulassen",
-                "strictTitle": "Operation bestätigen",
-                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
-            },
-            "prompt": "Eingabeaufforderung wird angezeigt, wenn eingeschränkt {input}"
-        }
+        "resetButton": "Zurücksetzen",
+        "resetSuccess": "Auf Standardwerte zurückgesetzt!",
+        "defaultValue": "Standard: {default}"
     },
     "fr": {
         "yes": "Oui",
         "no": "Non",
-        "resetButton": "Réinitialiser",
-        "resetSuccess": "Remise à zéro avec succès !",
-        "defaultValue": "Par défaut : {default}",
         "popup": {
             "title": "Page pop-up",
             "max": "Afficher les {input} premiers éléments de données",
@@ -1022,6 +1019,7 @@
             "whitelistItem": "whitelist related shortcuts",
             "contextMenu": "le menu contextuel.",
             "displayBadgeText": "{input} S'il faut afficher là {timeInfo} dans {icon}",
+            "badgeBgColor": "La couleur de fond du texte sur l'icône {input}",
             "icon": "l'icône de l'extension",
             "badgeTextContent": "le temps de navigation du site actuel",
             "locale": {
@@ -1043,8 +1041,7 @@
                     "off": "Toujours éteint",
                     "timed": "Horaire"
                 }
-            },
-            "badgeBgColor": "La couleur de fond du texte sur l'icône {input}"
+            }
         },
         "statistics": {
             "title": "Statistiques",
@@ -1061,6 +1058,25 @@
             "fileAccessFirefox": "Désolé, cette fonctionnalité n'est pas prise en charge dans Firefox",
             "weekStart": "Le premier jour de chaque semaine {input}",
             "weekStartAsNormal": "Comme d'habitude"
+        },
+        "dailyLimit": {
+            "prompt": "Invite affichée en cas de restriction {input}",
+            "level": {
+                "label": "Comment déverrouiller en étant restreint {input}",
+                "nothing": "Autoriser le déverrouillage direct sur la page d'administration",
+                "password": "Vous devez entrer le mot de passe pour déverrouiller",
+                "verification": "Vous devez entrer le code de vérification pour déverrouiller",
+                "passwordLabel": "Déverrouiller le mot de passe {input}",
+                "verificationLabel": "La difficulté du code de vérification {input}",
+                "verificationDifficulty": {
+                    "easy": "Étapes",
+                    "hard": "Strict",
+                    "disgusting": "Dégoûtant"
+                },
+                "strict": "Ne pas autoriser le déblocage quand même",
+                "strictTitle": "Confirmation de l'opération",
+                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !"
+            }
         },
         "backup": {
             "title": "Sauvegarde des données",
@@ -1081,13 +1097,8 @@
                 "endpoint": "Adresse de fin {info} {input}",
                 "path": "Le chemin du répertoire {input}"
             },
-            "operation": "Sauvegarder",
-            "auto": {
-                "label": "Activer la sauvegarde automatique",
-                "interval": "et exécuter toutes les {input} minutes"
-            },
-            "lastTimeTip": "Dernière sauvegarde : {lastTime}",
             "alert": "Ceci est une fonctionnalité expérimentale, si vous avez des questions, veuillez contacter l'auteur via {email}~",
+            "operation": "Sauvegarder",
             "download": {
                 "btn": "Télécharger",
                 "step2": "Confirmer les données",
@@ -1103,26 +1114,37 @@
                 "dataRange": "Plage de données",
                 "notSelected": "Client non sélectionné",
                 "current": "Courant"
+            },
+            "lastTimeTip": "Dernière sauvegarde : {lastTime}",
+            "auto": {
+                "label": "Activer la sauvegarde automatique",
+                "interval": "et exécuter toutes les {input} minutes"
             }
         },
-        "dailyLimit": {
-            "level": {
-                "label": "Comment déverrouiller en étant restreint {input}",
-                "nothing": "Autoriser le déverrouillage direct sur la page d'administration",
-                "password": "Vous devez entrer le mot de passe pour déverrouiller",
-                "verification": "Vous devez entrer le code de vérification pour déverrouiller",
-                "passwordLabel": "Déverrouiller le mot de passe {input}",
-                "verificationLabel": "La difficulté du code de vérification {input}",
-                "verificationDifficulty": {
-                    "easy": "Étapes",
-                    "hard": "Strict",
-                    "disgusting": "Dégoûtant"
-                },
-                "strict": "Ne pas autoriser le déblocage quand même",
-                "strictTitle": "Confirmation de l'opération",
-                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !"
-            },
-            "prompt": "Invite affichée en cas de restriction {input}"
-        }
+        "resetButton": "Réinitialiser",
+        "resetSuccess": "Remise à zéro avec succès !",
+        "defaultValue": "Par défaut : {default}"
+    },
+    "ru": {
+        "yes": "Да",
+        "no": "Нет",
+        "popup": {
+            "title": "Всплывающее окно",
+            "max": "Показать первые {input} элементов данных",
+            "defaultMergeDomain": "{input} Следует ли объединять поддомены при открытии",
+            "defaultDisplay": "Показать {duration} {type} при открытии",
+            "displaySiteName": "{input} Отображать ли {siteName} вместо URL"
+        },
+        "appearance": {
+            "title": "Появление",
+            "displayWhitelist": "{input} Отображать ли {whitelist} в {contextMenu}",
+            "whitelistItem": "список связанных ярлыков",
+            "contextMenu": "контекстное меню",
+            "displayBadgeText": "{input} Отображать ли {timeInfo} в {icon}",
+            "icon": "иконка расширения"
+        },
+        "resetButton": "Сброс",
+        "resetSuccess": "Сброс к настройкам по умолчанию выполнен успешно!",
+        "defaultValue": "По умолчанию: {default}"
     }
 }

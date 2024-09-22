@@ -70,5 +70,13 @@
             "pic": "Images",
             "txt": "Fichiers texte"
         }
+    },
+    "ru": {
+        "localFile": {
+            "json": "JSON файлы",
+            "pdf": "PDF файлы",
+            "pic": "Изображения",
+            "txt": "Текстовые файлы"
+        }
     }
 }

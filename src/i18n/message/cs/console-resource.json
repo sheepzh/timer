@@ -61,5 +61,12 @@
         "timeWithHour": "{heure} heures {minute} minutes {seconde} secondes",
         "timeWithMinute": "{minute} minutes {seconde} secondes",
         "timeWithSecond": "{second} seconds"
+    },
+    "ru": {
+        "consoleLog": "Вы открыли {host} для {time} раз(а) и просматривали его сегодня для {focus}.",
+        "closeAlert": "Вы можете выключить вышеперечисленные советы по адресу [{appName}]!",
+        "timeWithHour": "{hour} часов {minute} минут {second} секунд",
+        "timeWithMinute": "{minute} минут {second} секунд",
+        "timeWithSecond": "{second} секунд"
     }
 }

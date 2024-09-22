@@ -32,8 +32,6 @@ export type SiteManageMessage = {
         hostExistWarn: string
         saved: string
         existedTag: string
-        mergedTag: string
-        virtualTag: string
     }
 }
 

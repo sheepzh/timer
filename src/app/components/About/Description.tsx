@@ -61,7 +61,7 @@ const _default = defineComponent(() => {
                         {PRIVACY_PAGE}
                     </DescLink>
                 </ElDescriptionsItem>
-                <ElDescriptionsItem label={t(msg => msg.about.label.sourceCode)} labelAlign="right">
+                <ElDescriptionsItem label={t(msg => msg.base.sourceCode)} labelAlign="right">
                     <DescLink href={SOURCE_CODE_PAGE} icon="github">
                         {SOURCE_CODE_PAGE}
                     </DescLink>

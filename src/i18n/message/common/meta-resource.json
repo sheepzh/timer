@@ -43,5 +43,10 @@
         "name": "Suivi du temps Web",
         "marketName": "Suivi du temps Web - Online Habit Formers",
         "description": "Suivre, analyser, contrôler, puis améliorer l’efficacité"
+    },
+    "ru": {
+        "name": "Трекер времени",
+        "marketName": "Трекер времени",
+        "description": "Отслеживайте, анализируйте, контролируйте, а затем повышайте эффективность"
     }
 }

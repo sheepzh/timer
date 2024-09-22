@@ -20,7 +20,6 @@ export type MenuMessage = {
     siteManage: string
     whitelist: string
     mergeRule: string
-    option: string
     other: string
     helpUs: string
     about: string

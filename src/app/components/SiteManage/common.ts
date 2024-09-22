@@ -39,8 +39,8 @@ export function cvt2SiteKey(optionValue: string): timer.site.SiteKey {
 }
 
 export const EXIST_MSG = t(msg => msg.siteManage.msg.existedTag)
-export const MERGED_MSG = t(msg => msg.siteManage.msg.mergedTag)
-export const VIRTUAL_MSG = t(msg => msg.siteManage.msg.virtualTag)
+export const MERGED_MSG = t(msg => msg.siteManage.type.merged?.name)?.toLocaleUpperCase?.()
+export const VIRTUAL_MSG = t(msg => msg.siteManage.type.virtual?.name)?.toLocaleUpperCase?.()
 
 /**
  * Calculate the label of alias key to display

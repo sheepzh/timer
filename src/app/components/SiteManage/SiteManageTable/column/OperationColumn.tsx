@@ -4,13 +4,13 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElTableColumn } from "element-plus"
-import { t } from "@app/locale"
-import { defineComponent } from "vue"
-import { Delete } from "@element-plus/icons-vue"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
+import { t } from "@app/locale"
+import { Delete } from "@element-plus/icons-vue"
 import siteService from "@service/site-service"
 import { ElTableRowScope } from "@src/element-ui/table"
+import { ElTableColumn } from "element-plus"
+import { defineComponent } from "vue"
 
 const _default = defineComponent({
     emits: {
@@ -19,7 +19,7 @@ const _default = defineComponent({
     setup(_, ctx) {
         return () => <ElTableColumn
             width={150}
-            label={t(msg => msg.item.operation.label)}
+            label={t(msg => msg.button.operation)}
             align="center"
             v-slots={
                 ({ row }: ElTableRowScope<timer.site.SiteInfo>) => (

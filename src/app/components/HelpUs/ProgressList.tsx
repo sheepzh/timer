@@ -6,11 +6,11 @@
  */
 
 import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
-import { ElProgress, ProgressProps } from "element-plus"
-import { defineComponent } from "vue"
-import localeMessages from "@i18n/message/common/locale"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
+import localeMessages from "@i18n/message/common/locale"
+import { ElProgress, ProgressProps } from "element-plus"
+import { defineComponent } from "vue"
 
 type SupportedLocale = timer.Locale | timer.TranslatingLocale
 
@@ -41,6 +41,7 @@ const localeCrowdMap: { [locale in SupportedLocale]: string } = {
     sk: "sk",
     mn: "mn",
     ar: "ar",
+    hi: "hi",
 }
 
 const crowdLocaleMap: { [locale: string]: SupportedLocale } = {}

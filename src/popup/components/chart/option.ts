@@ -5,24 +5,24 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ComposeOption } from "echarts/core"
 import type { PieSeriesOption } from "echarts/charts"
 import type {
+    LegendComponentOption,
     TitleComponentOption,
     ToolboxComponentOption,
     TooltipComponentOption,
-    LegendComponentOption,
 } from "echarts/components"
+import type { ComposeOption } from "echarts/core"
 
-import { formatPeriodCommon, formatTime } from "@util/time"
-import { t } from "@popup/locale"
-import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
-import { generateSiteLabel } from "@util/site"
-import { IS_SAFARI } from "@util/constant/environment"
-import { OPTION_ROUTE } from "@app/router/constants"
-import { getAppPageUrl } from "@util/constant/url"
-import { optionIcon } from "./toolbox-icon"
 import { createTab } from "@api/chrome/tab"
+import { OPTION_ROUTE } from "@app/router/constants"
+import { t } from "@popup/locale"
+import { IS_SAFARI } from "@util/constant/environment"
+import { getAppPageUrl } from "@util/constant/url"
+import { generateSiteLabel } from "@util/site"
+import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
+import { formatPeriodCommon, formatTime } from "@util/time"
+import { optionIcon } from "./toolbox-icon"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -220,7 +220,7 @@ export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOpti
                 // Customized tool's name must start with 'my'
                 myOptions: {
                     show: true,
-                    title: t(msg => msg.chart.options),
+                    title: t(msg => msg.base.option),
                     icon: optionIcon,
                     onclick: () => createTab(getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }))
                 }

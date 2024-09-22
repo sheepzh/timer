@@ -6,8 +6,9 @@
  */
 
 import { t } from "@app/locale"
-import { ButtonType, ElButton, ElPopconfirm, IconProps } from "element-plus"
+import { ButtonType, ElButton, ElPopconfirm } from "element-plus"
 import { defineComponent, PropType } from "vue"
+import { JSX } from "vue/jsx-runtime"
 
 const _default = defineComponent({
     props: {
@@ -15,7 +16,7 @@ const _default = defineComponent({
         buttonText: String,
         text: Boolean,
         buttonType: String as PropType<ButtonType>,
-        buttonIcon: Object as PropType<IconProps>,
+        buttonIcon: Object as PropType<JSX.Element>,
         visible: {
             type: Boolean,
             default: true,

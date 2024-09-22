@@ -4,33 +4,29 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
+import I18nNode from "@app/components/common/I18nNode"
+import { t } from "@app/locale"
+import { EL_DATE_FORMAT } from "@i18n/element"
+import { ElementDatePickerShortcut } from "@src/element-ui/date"
+import { formatTime, getBirthday, MILL_PER_DAY } from "@util/time"
 import { DateModelType, ElDatePicker } from "element-plus"
 import { defineComponent, PropType } from "vue"
-import { formatTime, MILL_PER_DAY } from "@util/time"
-import { t } from "@app/locale"
-import { DataManageMessage } from "@i18n/message/app/data-manage"
-import I18nNode from "@app/components/common/I18nNode"
-import { EL_DATE_FORMAT } from "@i18n/element"
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
-const daysBefore = (days: number) => new Date().getTime() - days * MILL_PER_DAY
+const daysBefore = (days: number) => new Date(new Date().getTime() - days * MILL_PER_DAY)
 
-const birthdayOfBrowser = new Date()
-birthdayOfBrowser.setFullYear(1994)
-birthdayOfBrowser.setMonth(12 - 1)
-birthdayOfBrowser.setDate(15)
-
-const datePickerShortcut = (msg: keyof DataManageMessage['dateShortcut'], days: number) => {
-    const text = t(messages => messages.dataManage.dateShortcut[msg])
-    const value = [birthdayOfBrowser, daysBefore(days)]
-    return { text, value }
-}
-
-const pickerShortcuts = [
-    datePickerShortcut('tillYesterday', 1),
-    datePickerShortcut('till7DaysAgo', 7),
-    datePickerShortcut('till30DaysAgo', 30)
+const birthday = getBirthday()
+const pickerShortcuts: ElementDatePickerShortcut[] = [
+    {
+        text: t(msg => msg.calendar.range.tillYesterday),
+        value: [birthday, daysBefore(1)],
+    }, {
+        text: t(msg => msg.calendar.range.tillDaysAgo, { n: 7 }),
+        value: [birthday, daysBefore(7)],
+    }, {
+        text: t(msg => msg.calendar.range.tillDaysAgo, { n: 30 }),
+        value: [birthday, daysBefore(30)],
+    }
 ]
 
 // The birthday of browser

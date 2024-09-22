@@ -27,6 +27,7 @@ const ALL_LOCALE_VALIDATOR: { [locale in timer.Locale]: 0 } = {
     es: 0,
     de: 0,
     fr: 0,
+    ru: 0,
 }
 
 export const ALL_LOCALES: timer.Locale[] = Object.keys(ALL_LOCALE_VALIDATOR) as timer.Locale[]
@@ -53,7 +54,6 @@ const chrome2I18n: { [key: string]: timer.Locale } = {
 const translationChrome2I18n: { [key: string]: timer.TranslatingLocale } = {
     ko: 'ko',
     pl: 'pl',
-    ru: 'ru',
     it: 'it',
     sv: 'sv',
     fi: 'fi',

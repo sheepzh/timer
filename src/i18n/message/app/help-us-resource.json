@@ -24,87 +24,99 @@
         "contributors": "Contributor List"
     },
     "zh_TW": {
-        "button": "前往 Crowdin",
-        "loading": "正在檢查翻譯進度...",
-        "contributors": "貢獻者名單",
         "title": "歡迎幫助我們完善擴充的本地化翻譯！",
         "alert": {
             "l1": "由於作者的語言能力，此擴充功能僅原生支援簡體中文和英文，其他語言要麼缺失，要麼嚴重依賴機器翻譯。",
             "l2": "為了提供更好的使用者體驗，我们將其他語言的翻譯任務託管在Crowdin上。",
             "l3": "如果您覺得這個擴充功能對您有用並且願意改進它的翻譯，您可以點擊下面的按鈕進入 Crowdin 主頁。",
             "l4": "當一種語言的翻譯進度達到50%時，我會考慮在這個擴展中支援它。"
-        }
+        },
+        "button": "前往 Crowdin",
+        "loading": "正在檢查翻譯進度...",
+        "contributors": "貢獻者名單"
     },
     "uk": {
         "title": "Допоможіть поліпшити переклад розширення!",
-        "button": "Перейти на Crowdin",
-        "loading": "Перевірка перекладу...",
         "alert": {
             "l1": "У зв'язку з мовою автора розширення, підтримуються лише спрощена китайська та англійська мови. Інші мови наразі недоступні або потребують перекладу.",
             "l2": "Щоб інші користувачі могли зручно користуватися розширенням своєю мовою, переклад можна зробити на платформі Crowdin.",
             "l3": "Якщо вам подобається розширення і ви бажаєте поліпшити його переклад, натисніть кнопку нижче, щоб відкрити сторінку проєкту на Crowdin.",
             "l4": "Коли прогрес перекладу сягне 50%, цю мову буде активовано в розширенні."
         },
+        "button": "Перейти на Crowdin",
+        "loading": "Перевірка перекладу...",
         "contributors": "Список помічників"
     },
     "es": {
         "title": "¡Siéntete libre de ayudar a mejorar las traducciones de la extensión!",
-        "button": "Ir a Crowdin",
-        "loading": "Comprobando el progreso de la traducción...",
         "alert": {
             "l1": "Debido a la capacidad lingüística del autor, la extensión sólo soporta el chino simplificado y el inglés de manera nativa y otros idiomas no se encuentran o dependen en gran medida de la traducción automática.",
             "l2": "Con el fin de ofrecer una mejor experiencia a los usuarios, guardo las tareas de traducción de otros idiomas en Crowdin. Crowdin es un sistema de administración de traducciones gratuito para software de código abierto.",
             "l3": "Si esta extensión te resulta útil y estás deseas mejorar su traducción, puedes dar clic en el botón de abajo para ir a la página principal del proyecto en Crowdin.",
             "l4": "Cuando el progreso de traducción de un idioma llegue a 50%, consideraré añadirlo a esta extensión."
         },
+        "button": "Ir a Crowdin",
+        "loading": "Comprobando el progreso de la traducción...",
         "contributors": "Lista de contribuidores"
     },
     "de": {
         "title": "Hilf mit die Übersetzungen der Erweiterung zu verbessern!",
-        "button": "Zu Crowdin gehen",
-        "loading": "Übersetzungsfortschritt wird überprüft...",
         "alert": {
             "l1": "Aufgrund der Sprachfähigkeiten des Autors unterstützt die Erweiterung nur vereinfachtes Chinesisch und Englisch nativ, während andere Sprachen fehlen oder stark auf maschinelle Übersetzung angewiesen sind.",
             "l2": "Um eine bessere Benutzererfahrung zu ermöglichen, habe ich die Übersetzungen für andere Sprachen auf Crowdin ausgelagert. Crowdin ist ein Übersetzungsmanagementsystem, das für Open-Source-Software kostenlos ist.",
             "l3": "Wenn du diese Erweiterung nützlich für dich findest, und bereit bist, die Übersetzung zu verbessern, klicke auf die Schaltfläche unten, um zur Projektseite auf Crowdin zu gelangen.",
             "l4": "Wenn der Übersetzungsfortschritt einer Sprache 50% erreicht, werde ich die Unterstützung in dieser Erweiterung erwägen."
         },
+        "button": "Zu Crowdin gehen",
+        "loading": "Übersetzungsfortschritt wird überprüft...",
         "contributors": "Mitwirkende"
     },
     "fr": {
         "title": "N'hésitez pas à aider à améliorer la traduction de l'extension !",
-        "button": "Allez sur Crowdin",
-        "loading": "Vérification de la progression de la traduction...",
         "alert": {
             "l1": "En raison des compétences linguistiques de l'auteur, l'extension ne prend en charge que le chinois simplifié et l'anglais en mode natif, les autres langues étant soit absentes, soit fortement tributaires de la traduction automatique.",
             "l2": "Afin de fournir une meilleure expérience d'utilisateur, j'héberge les tâches de traduction pour d'autres langues sur Crowdin. rowdin est un système de gestion de la traduction gratuit pour les logiciels open source.",
             "l3": "Si vous trouvez cette extension utile pour vous et que vous êtes prêt à améliorer sa traduction, ou peut cliquer sur le bouton ci-dessous pour aller à la page d'accueil du projet sur Crowdin.",
             "l4": "Lorsque la progression de la traduction d'une langue atteindra 50 %, j'envisagerai de la soutenir dans cette extension."
         },
+        "button": "Allez sur Crowdin",
+        "loading": "Vérification de la progression de la traduction...",
         "contributors": "Liste des contributeurs"
     },
     "ja": {
-        "button": "Crowdin に移動",
-        "loading": "翻訳の進捗を確認しています...",
-        "contributors": "貢献者一覧",
         "title": "拡張機能のローカライズ翻訳を改善するために自由にご協力ください!",
         "alert": {
             "l1": "著者の言語能力のために、拡張機能はネイティブに簡体字中国語と英語のみをサポートしています。 他の言語は欠落しているか機械翻訳に大きく依存しています",
             "l2": "より良いユーザー エクスペリエンスを提供するために、他の言語の翻訳タスクを Crowdin でホストしています。Crowdin は、オープン ソース ソフトウェアの無料翻訳管理システムです。",
             "l3": "この拡張機能があなたにとって有用であり、翻訳を改善したいと考えている場合。 下のボタンをクリックすると、Crowdinのプロジェクトのホームページに移動できます。",
             "l4": "言語の翻訳進捗率が50%に達したら、この拡張機能をサポートすることを検討します。"
-        }
+        },
+        "button": "Crowdin に移動",
+        "loading": "翻訳の進捗を確認しています...",
+        "contributors": "貢献者一覧"
     },
     "pt_PT": {
-        "button": "Vá Crowdin",
-        "loading": "A verificar o progresso da tradução...",
-        "contributors": "Lista de colaboradores",
         "title": "Sinta-se livre para ajudar a melhorar a localização das traduções!",
         "alert": {
             "l1": "Devido à capacidade linguística do autor, a extensão suporta naturalmente apenas o chinês simplificado e o inglês, e outras línguas estão em falta ou dependem fortemente da tradução automática.",
             "l2": "Para proporcionar uma melhor experiência ao utilizador, alojo tarefas de tradução para outros idiomas no Crowdin. O Crowdin é um sistema de gestão de tradução gratuito para software de código aberto.",
             "l3": "Se achar esta extensão útil e estiver disposto a melhorar a sua tradução, clique no botão abaixo para ir para a página inicial do projeto no Crowdin.",
             "l4": "Quando o progresso da tradução de uma língua atingir os 50%, considerarei apoiá-lo nesta extensão."
-        }
+        },
+        "button": "Vá Crowdin",
+        "loading": "A verificar o progresso da tradução...",
+        "contributors": "Lista de colaboradores"
+    },
+    "ru": {
+        "title": "Не стесняйтесь помочь улучшить локализацию расширений!",
+        "alert": {
+            "l1": "Из-за возможности автора, расширение поддерживает только упрощенный китайский и английский языки, и другие языки либо отсутствуют, либо сильно зависят от машинного перевода.",
+            "l2": "Чтобы обеспечить лучший пользовательский опыт, я размещаю задачи перевода для других языков на Crowdin. rowdin - это бесплатная система управления переводами для программного обеспечения с открытым исходным кодом.",
+            "l3": "Если вы считаете это расширение полезным для вас и вы готовы улучшить его перевод, ou можете нажать на кнопку ниже, чтобы перейти на домашнюю страницу проекта на Crowdin.",
+            "l4": "Когда прогресс перевода языка достигает 50%, я подумаю о его поддержке в этом расширении."
+        },
+        "button": "Перейти в Crowdin",
+        "loading": "Проверка перевода...",
+        "contributors": "Список участников"
     }
 }

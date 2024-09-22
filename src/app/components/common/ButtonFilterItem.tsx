@@ -5,14 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 import { classNames } from "@util/style"
-import { ElButton, IconProps, ButtonType } from "element-plus"
+import { ButtonType, ElButton } from "element-plus"
 import { defineComponent, PropType } from "vue"
+import { JSX } from "vue/jsx-runtime"
 
 const _default = defineComponent({
     props: {
         type: String as PropType<ButtonType>,
         text: String,
-        icon: Object as PropType<IconProps>,
+        icon: Object as PropType<JSX.Element>,
         right: {
             type: Boolean,
             default: true

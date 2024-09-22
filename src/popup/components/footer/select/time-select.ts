@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 // Time select
-import { t } from "@popup/locale"
+import { durationLabelOf } from "@popup/common"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
 const SELECTED_CLASS = 'selected'
@@ -34,14 +34,14 @@ class TimeSelectWrapper {
         this.timeSelect.onclick = () => this.isOpen ? this.hidePopup() : this.openPopup()
         // Init options
         ALL_POPUP_DURATION.forEach(duration => this.initOption(duration))
-        // Set initial value 
+        // Set initial value
         this.selected(initialVal)
     }
 
     private initOption(item: PopupDuration) {
         const li = document.createElement('li')
         li.classList.add('el-select-dropdown__item')
-        li.innerText = t(msg => msg.duration[item])
+        li.innerText = durationLabelOf(item)
         li.onclick = () => {
             this.selected(item)
             this.handleSelected?.()
@@ -55,7 +55,7 @@ class TimeSelectWrapper {
         this.currentSelected = item
         Array.from(this.optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
         this.optionItems.get(item).classList.add(SELECTED_CLASS)
-        this.timeSelectInput.value = t(msg => msg.duration[item])
+        this.timeSelectInput.value = durationLabelOf(item)
     }
 
     private openPopup() {

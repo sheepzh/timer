@@ -11,7 +11,8 @@
         "previous": "Previous",
         "next": "Next",
         "okey": "OK",
-        "dont": "NO!"
+        "dont": "NO!",
+        "operation": "Operations"
     },
     "zh_CN": {
         "create": "新增",
@@ -25,7 +26,8 @@
         "previous": "上一步",
         "next": "下一步",
         "okey": "好的",
-        "dont": "不用了"
+        "dont": "不用了",
+        "operation": "操作"
     },
     "zh_TW": {
         "create": "新增",
@@ -36,10 +38,11 @@
         "paste": "粘貼",
         "confirm": "確認",
         "cancel": "取消",
+        "previous": "往前",
+        "next": "繼續",
         "okey": "好的",
         "dont": "不用了",
-        "previous": "往前",
-        "next": "繼續"
+        "operation": "操作"
     },
     "ja": {
         "create": "追加",
@@ -50,10 +53,11 @@
         "paste": "貼り付ける",
         "confirm": "確かめる",
         "cancel": "取り消す",
+        "previous": "前へ",
+        "next": "次へ",
         "okey": "OK",
         "dont": "いいえ！",
-        "previous": "前へ",
-        "next": "次へ"
+        "operation": "操作"
     },
     "pt_PT": {
         "create": "Criar",
@@ -64,10 +68,11 @@
         "paste": "Colar",
         "confirm": "Confirmar",
         "cancel": "Cancelar",
+        "previous": "Voltar",
+        "next": "Continuar",
         "okey": "OK",
         "dont": "NÃO!",
-        "previous": "Voltar",
-        "next": "Continuar"
+        "operation": "Operações"
     },
     "uk": {
         "create": "Новий",
@@ -78,10 +83,11 @@
         "paste": "Вставити",
         "confirm": "Підтвердити",
         "cancel": "Скасувати",
+        "previous": "Назад",
+        "next": "Далі",
         "okey": "Гаразд",
         "dont": "НІ",
-        "previous": "Назад",
-        "next": "Далі"
+        "operation": "Операції"
     },
     "es": {
         "create": "Nuevo",
@@ -92,10 +98,11 @@
         "paste": "Pegar",
         "confirm": "Confirmar",
         "cancel": "Cancelar",
+        "previous": "Anterior",
+        "next": "Siguiente",
         "okey": "OK",
         "dont": "¡NO!",
-        "previous": "Anterior",
-        "next": "Siguiente"
+        "operation": "Operaciones"
     },
     "de": {
         "create": "Erstellen",
@@ -106,10 +113,11 @@
         "paste": "Paste",
         "confirm": "Bestätigen",
         "cancel": "Abbrechen",
+        "previous": "Vorherige",
+        "next": "Nächste",
         "okey": "OK",
         "dont": "NEIN!",
-        "previous": "Vorherige",
-        "next": "Nächste"
+        "operation": "Aktionsknopf"
     },
     "fr": {
         "create": "Nouveau",
@@ -120,9 +128,25 @@
         "paste": "Coller",
         "confirm": "Confirmer",
         "cancel": "Annuler",
+        "previous": "Retour",
+        "next": "Suivant",
         "okey": "OK",
         "dont": "NON!",
-        "previous": "Retour",
-        "next": "Suivant"
+        "operation": "Opérations"
+    },
+    "ru": {
+        "create": "Новые",
+        "delete": "Удалить",
+        "modify": "Изменить",
+        "save": "Сохранить",
+        "test": "Проверка",
+        "paste": "Вставить",
+        "confirm": "Подтвердить",
+        "cancel": "Отменить",
+        "previous": "Предыдущая",
+        "next": "Далее",
+        "okey": "ОК",
+        "dont": "НЕТ!",
+        "operation": "Операции"
     }
 }

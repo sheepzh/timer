@@ -36,9 +36,7 @@
         "msg": {
             "hostExistWarn": "{host} 已经存在",
             "saved": "已保存",
-            "existedTag": "已存在",
-            "mergedTag": "合并",
-            "virtualTag": "自定义"
+            "existedTag": "已存在"
         }
     },
     "zh_TW": {
@@ -52,10 +50,6 @@
             "aliasInfo": "網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域",
             "source": "名稱來源",
             "icon": "網站圖標"
-        },
-        "source": {
-            "user": "手動設置",
-            "detected": "自動抓取"
         },
         "type": {
             "normal": {
@@ -71,6 +65,10 @@
                 "info": "統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點"
             }
         },
+        "source": {
+            "user": "手動設置",
+            "detected": "自動抓取"
+        },
         "form": {
             "emptyAlias": "請輸入網站名稱",
             "emptyHost": "請輸入網站域名"
@@ -78,9 +76,7 @@
         "msg": {
             "hostExistWarn": "{host} 已經存在",
             "saved": "已保存",
-            "existedTag": "已存在",
-            "mergedTag": "合並",
-            "virtualTag": "虛擬"
+            "existedTag": "已存在"
         }
     },
     "en": {
@@ -120,9 +116,7 @@
         "msg": {
             "hostExistWarn": "{host} exists",
             "saved": "Saved",
-            "existedTag": "EXISTED",
-            "mergedTag": "MERGED",
-            "virtualTag": "VIRTUAL"
+            "existedTag": "EXISTED"
         }
     },
     "ja": {
@@ -131,26 +125,11 @@
         "onlyDetected": "検出されただけ",
         "deleteConfirmMsg": "{host} は削除されます",
         "column": {
+            "type": "サイト種別",
             "alias": "サイト名",
             "aliasInfo": "サイト名はレコードページとポップアップページに表示されます",
             "source": "ソース",
-            "type": "サイト種別",
             "icon": "Icon"
-        },
-        "source": {
-            "user": "手动输入",
-            "detected": "システム検出"
-        },
-        "form": {
-            "emptyAlias": "サイト名を入力してください",
-            "emptyHost": "ドメイン名を入力してください"
-        },
-        "msg": {
-            "hostExistWarn": "{host} が存在します",
-            "saved": "保存しました",
-            "existedTag": "既存",
-            "mergedTag": "合并",
-            "virtualTag": "バーチャル"
         },
         "type": {
             "normal": {
@@ -165,6 +144,19 @@
                 "name": "バーチャル",
                 "info": "Ant Pattern 形式の任意の URL をカウントします。右上隅にカスタムサイトを追加できます"
             }
+        },
+        "source": {
+            "user": "手动输入",
+            "detected": "システム検出"
+        },
+        "form": {
+            "emptyAlias": "サイト名を入力してください",
+            "emptyHost": "ドメイン名を入力してください"
+        },
+        "msg": {
+            "hostExistWarn": "{host} が存在します",
+            "saved": "保存しました",
+            "existedTag": "既存"
         }
     },
     "pt_PT": {
@@ -173,26 +165,11 @@
         "onlyDetected": "Apenas detetado",
         "deleteConfirmMsg": "{host} será excluído",
         "column": {
+            "type": "Categoria de Sítio Web",
             "alias": "Nome do Site",
             "aliasInfo": "O nome do site será mostrado na página de registro e na página pop-up",
             "source": "Nome Fonte",
-            "type": "Categoria de Sítio Web",
             "icon": "Ícone"
-        },
-        "source": {
-            "user": "usuário mantido",
-            "detected": "detetado"
-        },
-        "form": {
-            "emptyAlias": "Por favor, insira um nome de site",
-            "emptyHost": "Por favor, insira um URL de site"
-        },
-        "msg": {
-            "hostExistWarn": "{host} existe",
-            "saved": "Guardado",
-            "existedTag": "EXISTADO",
-            "mergedTag": "MERGADO",
-            "virtualTag": "VIRTUAL"
         },
         "type": {
             "normal": {
@@ -207,6 +184,19 @@
                 "name": "virtual",
                 "info": "conta qualquer URL no formato Ant Pattern, pode adicionar um site personalizado no canto superior direito"
             }
+        },
+        "source": {
+            "user": "usuário mantido",
+            "detected": "detetado"
+        },
+        "form": {
+            "emptyAlias": "Por favor, insira um nome de site",
+            "emptyHost": "Por favor, insira um URL de site"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existe",
+            "saved": "Guardado",
+            "existedTag": "EXISTADO"
         }
     },
     "uk": {
@@ -215,26 +205,11 @@
         "onlyDetected": "Лише виявлені",
         "deleteConfirmMsg": "{host} буде видалено",
         "column": {
+            "type": "Тип сайту",
             "alias": "Назва сайту",
             "aliasInfo": "Назву сайту буде показано на сторінці записів і в спливному вікні",
             "source": "Джерело назви",
-            "type": "Тип сайту",
             "icon": "Піктограма"
-        },
-        "source": {
-            "user": "user-maintained",
-            "detected": "auto-detected"
-        },
-        "form": {
-            "emptyAlias": "Введіть назву сайту",
-            "emptyHost": "Введіть URL-адресу сайту"
-        },
-        "msg": {
-            "hostExistWarn": "{host} вже існує",
-            "saved": "Збережено",
-            "existedTag": "ВЖЕ ІСНУЄ",
-            "mergedTag": "ОБ'ЄДНАНО",
-            "virtualTag": "ВІРТУАЛЬНИЙ"
         },
         "type": {
             "normal": {
@@ -249,6 +224,19 @@
                 "name": "віртуальний",
                 "info": "враховувати будь-яку URL-адресу в форматі параметрів Ant, ви можете додати свій сайт у верхньому правому куті"
             }
+        },
+        "source": {
+            "user": "user-maintained",
+            "detected": "auto-detected"
+        },
+        "form": {
+            "emptyAlias": "Введіть назву сайту",
+            "emptyHost": "Введіть URL-адресу сайту"
+        },
+        "msg": {
+            "hostExistWarn": "{host} вже існує",
+            "saved": "Збережено",
+            "existedTag": "ВЖЕ ІСНУЄ"
         }
     },
     "es": {
@@ -257,26 +245,11 @@
         "onlyDetected": "Solo detectados",
         "deleteConfirmMsg": "Se eliminará {host}",
         "column": {
+            "type": "Tipo de sitio",
             "alias": "Nombre del sitio",
             "aliasInfo": "El nombre del sitio se mostrará en la página de registro y en la página emergente",
             "source": "Fuente del nombre",
-            "type": "Tipo de sitio",
             "icon": "Icono"
-        },
-        "source": {
-            "user": "mantenido por el usuario",
-            "detected": "auto-detectado"
-        },
-        "form": {
-            "emptyAlias": "Por favor, ingresa el nombre de sitio",
-            "emptyHost": "Por favor, ingresa la URL del sitio"
-        },
-        "msg": {
-            "hostExistWarn": "{host} existe",
-            "saved": "Guardado",
-            "existedTag": "EXISTIÓ",
-            "mergedTag": "FUSIONADO",
-            "virtualTag": "VIRTUAL"
         },
         "type": {
             "normal": {
@@ -291,6 +264,19 @@
                 "name": "virtual",
                 "info": "contar cualquier URL en formato Ant Pattern, puedes agregar un sitio personalizado en la esquina superior derecha"
             }
+        },
+        "source": {
+            "user": "mantenido por el usuario",
+            "detected": "auto-detectado"
+        },
+        "form": {
+            "emptyAlias": "Por favor, ingresa el nombre de sitio",
+            "emptyHost": "Por favor, ingresa la URL del sitio"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existe",
+            "saved": "Guardado",
+            "existedTag": "EXISTIÓ"
         }
     },
     "de": {
@@ -299,26 +285,11 @@
         "onlyDetected": "Nur erkannt",
         "deleteConfirmMsg": "{host} wird gelöscht",
         "column": {
+            "type": "Website-Typ",
             "alias": "Site-Name",
             "aliasInfo": "Der Name der Website wird auf der Datensatzseite und der Popup-Seite angezeigt",
             "source": "Die Quelle des Namens",
-            "type": "Website-Typ",
             "icon": "Symbol"
-        },
-        "source": {
-            "user": "Von Benutzern gepflegt",
-            "detected": "automatisch erkannt"
-        },
-        "form": {
-            "emptyAlias": "Bitte gib einen Website-Namen ein",
-            "emptyHost": "Bitte geben Sie die URL ein"
-        },
-        "msg": {
-            "hostExistWarn": "{host} existiert",
-            "saved": "Erfolgreich gespeichert",
-            "existedTag": "EXISTIERT",
-            "mergedTag": "GEMEINT",
-            "virtualTag": "VIRTUELL"
         },
         "type": {
             "normal": {
@@ -333,6 +304,19 @@
                 "name": "virtuell",
                 "info": "Wenn Sie eine beliebige URL im Ant-Pattern-Format zählen, können Sie in der oberen rechten Ecke eine benutzerdefinierte Site hinzufügen"
             }
+        },
+        "source": {
+            "user": "Von Benutzern gepflegt",
+            "detected": "automatisch erkannt"
+        },
+        "form": {
+            "emptyAlias": "Bitte gib einen Website-Namen ein",
+            "emptyHost": "Bitte geben Sie die URL ein"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existiert",
+            "saved": "Erfolgreich gespeichert",
+            "existedTag": "EXISTIERT"
         }
     },
     "fr": {
@@ -341,26 +325,11 @@
         "onlyDetected": "Seulement si détecté",
         "deleteConfirmMsg": "{host} sera supprimé",
         "column": {
+            "type": "Type de Site",
             "alias": "Nom du site",
             "aliasInfo": "Le nom du site sera affiché sur la page d'enregistrement et la page contextuelle",
             "source": "Source du nom",
-            "type": "Type de Site",
             "icon": "Icône"
-        },
-        "source": {
-            "user": "utilisateur",
-            "detected": "détecté"
-        },
-        "form": {
-            "emptyAlias": "Veuillez entrer le nom du site",
-            "emptyHost": "Veuillez saisir l'URL du site"
-        },
-        "msg": {
-            "hostExistWarn": "{host} existe",
-            "saved": "Enregistré",
-            "existedTag": "EXISÉ",
-            "mergedTag": "FUSIONNÉ",
-            "virtualTag": "VIRTUEL"
         },
         "type": {
             "normal": {
@@ -375,6 +344,59 @@
                 "name": "virtuel",
                 "info": "comptez n'importe quelle URL au format Ant Pattern, vous pouvez ajouter un site personnalisé dans le coin supérieur droit"
             }
+        },
+        "source": {
+            "user": "utilisateur",
+            "detected": "détecté"
+        },
+        "form": {
+            "emptyAlias": "Veuillez entrer le nom du site",
+            "emptyHost": "Veuillez saisir l'URL du site"
+        },
+        "msg": {
+            "hostExistWarn": "{host} existe",
+            "saved": "Enregistré",
+            "existedTag": "EXISÉ"
+        }
+    },
+    "ru": {
+        "hostPlaceholder": "Частичный URL, затем введите",
+        "aliasPlaceholder": "Частичное имя, затем введите",
+        "onlyDetected": "Обнаружено только",
+        "deleteConfirmMsg": "{host} будет удален",
+        "column": {
+            "type": "Тип сайта",
+            "alias": "Название сайта",
+            "aliasInfo": "Название сайта будет показано на странице записи и всплывающей странице",
+            "source": "Источник имени",
+            "icon": "Иконки"
+        },
+        "type": {
+            "normal": {
+                "name": "нормальный",
+                "info": "статистика по доменному имени"
+            },
+            "merged": {
+                "name": "соединено",
+                "info": "статистика слияния нескольких связанных доменных имен, а также возможность настройки правил слияния"
+            },
+            "virtual": {
+                "name": "виртуальный",
+                "info": "подсчитайте любой URL в формате Ant Pattern, вы можете добавить пользовательский сайт в правом верхнем углу"
+            }
+        },
+        "source": {
+            "user": "ручной",
+            "detected": "выявленный"
+        },
+        "form": {
+            "emptyAlias": "Введите название сайта",
+            "emptyHost": "Введите URL-адрес сайта"
+        },
+        "msg": {
+            "hostExistWarn": "{host} существует",
+            "saved": "Сохранено",
+            "existedTag": "ВЫПОЛНЕНО"
         }
     }
 }
