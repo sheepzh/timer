@@ -6,6 +6,11 @@
  */
 
 /**
+ * Copy from chrome.storage
+ */
+type NoInferX<T> = T[][T extends any ? 0 : never]
+
+/**
  * Wrap the storage with promise
  */
 export default class StoragePromise {
@@ -15,7 +20,9 @@ export default class StoragePromise {
         this.storage = storage
     }
 
-    get(keys?: string | string[] | Object | null): Promise<{ [key: string]: any }> {
+    get<T = { [key: string]: any }>(
+        keys?: NoInferX<keyof T> | Array<NoInferX<keyof T>> | Partial<NoInferX<T>> | null,
+    ): Promise<{ [key: string]: any }> {
         return new Promise(resolve => this.storage.get(keys, resolve))
     }
 
