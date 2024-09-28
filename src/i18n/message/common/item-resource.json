@@ -156,7 +156,7 @@
         "date": "Дата",
         "host": "URL-адрес сайта",
         "focus": "Время просмотра",
-        "time": "Количество посещений",
+        "time": "Посещения",
         "operation": {
             "add2Whitelist": "Белый список",
             "removeFromWhitelist": "Включить",
