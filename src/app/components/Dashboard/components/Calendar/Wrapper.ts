@@ -20,6 +20,7 @@ import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
 import { getStepColors } from "@app/util/echarts"
 import { locale } from "@i18n"
+import { cvt2LocaleTime } from "@app/util/time"
 
 type _Value = [
     x: number,
@@ -42,10 +43,7 @@ export type BizOption = {
 }
 
 function formatTooltip(mills: number, date: string): string {
-    const y = date.substring(0, 4)
-    const m = date.substring(4, 6)
-    const d = date.substring(6, 8)
-    const dateStr = t(msg => msg.calendar.dateFormat, { y, m, d })
+    const dateStr = cvt2LocaleTime(date)
     const timeStr = formatPeriodCommon(mills)
     return `${dateStr}</br><b>${timeStr}</b>`
 }

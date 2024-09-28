@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-// Time select
 import { durationLabelOf } from "@popup/common"
 import { ALL_POPUP_DURATION } from "@util/constant/popup"
 
@@ -15,17 +14,17 @@ class TimeSelectWrapper {
     private timeSelectPopup: HTMLElement
     private timeSelectInput: HTMLInputElement
     private isOpen: boolean = false
-    private currentSelected: PopupDuration = undefined
+    private currentSelected: timer.option.PopupDuration = undefined
     private handleSelected: Function
 
     private optionList: HTMLElement
-    private optionItems: Map<PopupDuration, HTMLLIElement> = new Map()
+    private optionItems: Map<timer.option.PopupDuration, HTMLLIElement> = new Map()
 
     constructor(handleSelected: Function) {
         this.handleSelected = handleSelected
     }
 
-    async init(initialVal: PopupDuration): Promise<void> {
+    async init(initialVal: timer.option.PopupDuration): Promise<void> {
         this.timeSelect = document.getElementById('time-select-container')
         this.timeSelectPopup = document.getElementById('time-select-popup')
         this.timeSelectInput = document.getElementById('time-select-input') as HTMLInputElement
@@ -38,7 +37,7 @@ class TimeSelectWrapper {
         this.selected(initialVal)
     }
 
-    private initOption(item: PopupDuration) {
+    private initOption(item: timer.option.PopupDuration) {
         const li = document.createElement('li')
         li.classList.add('el-select-dropdown__item')
         li.innerText = durationLabelOf(item)
@@ -51,7 +50,7 @@ class TimeSelectWrapper {
         this.optionItems.set(item, li)
     }
 
-    private selected(item: PopupDuration) {
+    private selected(item: timer.option.PopupDuration) {
         this.currentSelected = item
         Array.from(this.optionItems.values()).forEach(item => item.classList.remove(SELECTED_CLASS))
         this.optionItems.get(item).classList.add(SELECTED_CLASS)
@@ -70,7 +69,7 @@ class TimeSelectWrapper {
         this.isOpen = false
     }
 
-    getSelectedTime(): PopupDuration {
+    getSelectedTime(): timer.option.PopupDuration {
         return this.currentSelected
     }
 }

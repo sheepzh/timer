@@ -5,4 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-export const ALL_POPUP_DURATION: PopupDuration[] = ["today", "thisWeek", "thisMonth", "last30Days"]
+export const ALL_POPUP_DURATION: timer.option.PopupDuration[] = [
+    "today", "thisWeek", "thisMonth", "last30Days", "allTime",
+]

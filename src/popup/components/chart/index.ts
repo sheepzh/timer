@@ -8,18 +8,18 @@
 import type { ECharts } from "echarts/core"
 import type { CallbackDataParams } from "echarts/types/dist/shared"
 
-import { init, use } from "echarts/core"
+import OptionDatabase from "@db/option-database"
+import { PopupQueryResult } from "@popup/common"
+import { defaultStatistics } from "@util/constant/option"
 import { PieChart } from "echarts/charts"
-import { TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent } from "echarts/components"
+import { LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from "echarts/components"
+import { init, use } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
+import handleClick from "./click-handler"
+import { pieOptions } from "./option"
 
 // Register echarts
 use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, SVGRenderer, PieChart])
-
-import { defaultStatistics } from "@util/constant/option"
-import OptionDatabase from "@db/option-database"
-import handleClick from "./click-handler"
-import { pieOptions } from "./option"
 
 const optionDatabase = new OptionDatabase(chrome.storage.local)
 

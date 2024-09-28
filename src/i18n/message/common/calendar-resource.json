@@ -17,7 +17,8 @@
             "thisMonth": "本月",
             "lastDays": "最近 {n} 天",
             "tillYesterday": "直到昨天",
-            "tillDaysAgo": "直到 {n} 天前"
+            "tillDaysAgo": "直到 {n} 天前",
+            "allTime": "所有时间"
         }
     },
     "zh_TW": {
@@ -59,7 +60,8 @@
             "thisMonth": "This month",
             "lastDays": "Last {n} days",
             "tillYesterday": "Until yesterday",
-            "tillDaysAgo": "Until {n} days ago"
+            "tillDaysAgo": "Until {n} days ago",
+            "allTime": "All time"
         }
     },
     "ja": {

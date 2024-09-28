@@ -1,15 +1,16 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
+import type { PopupQueryResult, PopupRow } from "@popup/common"
 import type { CallbackDataParams } from "echarts/types/dist/shared"
 
+import { createTab } from "@api/chrome/tab"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
-import { createTab } from "@api/chrome/tab"
 
 function generateUrl(data: PopupRow, queryResult: PopupQueryResult): string {
     const { host, isOther } = data

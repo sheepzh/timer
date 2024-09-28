@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import type { PopupQueryResult, PopupRow } from "@popup/common"
 import type { PieSeriesOption } from "echarts/charts"
 import type {
     LegendComponentOption,
@@ -21,7 +22,7 @@ import { IS_SAFARI } from "@util/constant/environment"
 import { getAppPageUrl } from "@util/constant/url"
 import { generateSiteLabel } from "@util/site"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
-import { formatPeriodCommon, formatTime } from "@util/time"
+import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
 import { optionIcon } from "./toolbox-icon"
 
 type EcOption = ComposeOption<
@@ -145,30 +146,59 @@ function calcPositionOfTooltip(container: HTMLDivElement, point: (number | strin
     return [...point]
 }
 
-const Y_M_D = "{y}/{m}/{d}"
-function calculateSubTitleText(date: Date | [Date, Date?]) {
-    if (date instanceof Array) {
-        const [start, _] = date
-        const startStr = formatTime(start, Y_M_D)
-        let endStr = formatTime(new Date(), Y_M_D)
-        if (startStr === endStr) {
-            return startStr
-        } else {
-            if (startStr.substring(0, 4) === endStr.substring(0, 4)) {
-                // the same year
-                endStr = endStr.substring(5)
-            }
-            return `${startStr}-${endStr}`
-        }
-    } else {
-        return formatTime(date, Y_M_D)
+function calculateSubTitleText(date: Date | [Date, Date?], dataDate: [string, string]): string {
+    const format = t(msg => msg.calendar.dateFormat)
+
+    if (!date) {
+        date = dataDate?.map(parseTime) as [Date, Date]
+    } else if (!(date instanceof Array)) {
+        // Single day
+        return formatTime(date, format)
     }
+
+    const [start, end] = date
+    if (!start && !end) return ''
+    if (!start) return formatTime(end, format)
+    if (!end) return formatTime(start, format)
+
+    return combineDate(start, end, format)
+}
+
+function combineDate(start: Date, end: Date, format: string): string {
+    const startStr = formatTime(start, format)
+    const endStr = formatTime(end, format)
+    if (startStr === endStr) {
+        return startStr
+    }
+    const normalStr = `${startStr}-${endStr}`
+
+    const sy = start.getFullYear()
+    const ey = end.getFullYear()
+    if (sy !== ey) {
+        // Different years
+        return normalStr
+    }
+
+    // The same years
+    const execRes = /({d}|{m})[^{}]*({d}|{m})/.exec(format)
+    let monthDatePart = execRes?.[0]
+
+    if (!monthDatePart) return normalStr
+
+    const newPart = `${monthDatePart}-${monthDatePart.replace('{m}', '{em}').replace('{d}', '{ed}')}`
+    const newFormat = format.replace(monthDatePart, newPart)
+    const em = end.getMonth() + 1
+    const ed = end.getDate()
+    return formatTime(start, newFormat)
+        .replace('{em}', em.toString().padStart(2, '0'))
+        .replace('{ed}', ed.toString().padStart(2, '0'))
 }
 
 export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOption {
     const { type, data, displaySiteName, chartTitle, date } = props
     const titleText = chartTitle
-    const subTitleText = `${calculateSubTitleText(date)} @ ${t(msg => msg.meta.name)}`
+    const dateText = calculateSubTitleText(date, props.dataDate)
+    const subTitleText = `${dateText} @ ${t(msg => msg.meta.name)}`
     const textColor = getPrimaryTextColor()
     const secondaryColor = getSecondaryTextColor()
     const options: EcOption = {

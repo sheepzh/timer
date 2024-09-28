@@ -90,7 +90,7 @@ const _default = defineComponent((_props, ctx) => {
                         modelValue={option.defaultDuration}
                         size="small"
                         style={{ width: `${tStyle(m => m.durationSelectWidth)}px` }}
-                        onChange={(val: PopupDuration) => option.defaultDuration = val}
+                        onChange={(val: timer.option.PopupDuration) => option.defaultDuration = val}
                     >
                         {ALL_POPUP_DURATION.map(item => <ElOption value={item} label={durationLabelOf(item)} />)}
                     </ElSelect>

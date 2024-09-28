@@ -54,6 +54,12 @@ declare namespace timer.stat {
          */
         mergedHosts: Row[]
         /**
+         * The merged dates
+         *
+         * @since 2.4.7
+         */
+        mergedDates?: string[]
+        /**
          * Whether virtual host
          *
          * @since 1.6.0

@@ -26,6 +26,7 @@ export type CalendarMessage = {
         lastDays: string
         tillYesterday: string
         tillDaysAgo: string
+        allTime: string
     }
 }
 
