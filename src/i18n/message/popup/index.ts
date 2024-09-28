@@ -7,6 +7,7 @@
 
 import menuMessages, { MenuMessage } from "../app/menu"
 import baseMessages, { BaseMessage } from "../common/base"
+import calendarMessages, { CalendarMessage } from "../common/calendar"
 import itemMessages, { ItemMessage } from "../common/item"
 import metaMessages, { MetaMessage } from "../common/meta"
 import { merge, MessageRoot } from "../merge"
@@ -20,6 +21,7 @@ export type PopupMessage = {
     base: BaseMessage
     footer: FooterMessage
     menu: MenuMessage
+    calendar: CalendarMessage
 }
 
 const MESSAGE_ROOT: MessageRoot<PopupMessage> = {
@@ -29,6 +31,7 @@ const MESSAGE_ROOT: MessageRoot<PopupMessage> = {
     base: baseMessages,
     footer: footerMessages,
     menu: menuMessages,
+    calendar: calendarMessages,
 }
 
 const _default = merge<PopupMessage>(MESSAGE_ROOT)

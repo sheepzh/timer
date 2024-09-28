@@ -70,14 +70,20 @@ function accCompositionValue(map: _RemoteCompositionMap, value: timer.stat.Remot
     }
 }
 
-export function mergeDate<T extends timer.stat.Row>(origin: T[]): T[] {
-    const map: Record<string, T> = {}
-    origin.forEach(o => merge(map, o, o.host).date = '')
+export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
+    const map: Record<string, timer.stat.Row> = {}
+    origin.forEach(o => {
+        let merged = merge(map, o, o.host)
+        merged.date = null
+        let mergedDates = merged.mergedDates || []
+        mergedDates.push(o.date)
+        merged.mergedDates = mergedDates
+    })
     const newRows = Object.values(map)
     return newRows
 }
 
-export async function mergeHost<T extends timer.stat.Row>(origin: T[]): Promise<T[]> {
+export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
     const newRows = []
     const map = {}
 

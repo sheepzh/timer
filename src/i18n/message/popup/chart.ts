@@ -8,7 +8,7 @@
 import resource from './chart-resource.json'
 
 export type ChartMessage = {
-    title: { [key in PopupDuration]: string }
+    title: { [key in timer.option.PopupDuration]: string }
     mergeHostLabel: string
     fileName: string
     saveAsImageTitle: string

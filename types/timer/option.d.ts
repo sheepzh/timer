@@ -7,6 +7,7 @@ declare namespace timer.option {
     type PopupDuration =
         | "today" | "thisWeek" | "thisMonth"
         | "last30Days"
+        | "allTime"
     /**
      * Options used for the popup page
      */
