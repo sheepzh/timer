@@ -63,6 +63,7 @@ const entryConfigs: EntryConfig[] = [{
 }, {
     name: 'popup',
     path: './src/popup',
+    chunkExclusive: true,
 }, {
     name: 'app',
     path: './src/app',
