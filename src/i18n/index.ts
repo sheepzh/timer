@@ -115,6 +115,7 @@ function handleLocaleOption(option: timer.option.AllOption) {
     if (typeof window !== 'undefined' && window?.document) {
         const htmlEl = document.getElementsByTagName("html")?.[0]
         htmlEl?.setAttribute?.("data-locale", locale)
+        htmlEl?.setAttribute('dir', 'rtl')
     }
 }
 
