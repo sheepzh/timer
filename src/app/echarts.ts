@@ -1,17 +1,17 @@
 import { BarChart, EffectScatterChart, HeatmapChart, LineChart, PieChart, ScatterChart } from "echarts/charts"
 import {
     GridComponent,
+    LegendComponent,
     TitleComponent,
     TooltipComponent,
     VisualMapComponent,
-    LegendComponent,
 } from "echarts/components"
 import { use } from "echarts/core"
-import { SVGRenderer } from "echarts/renderers"
+import { CanvasRenderer } from "echarts/renderers"
 
 export const initEcharts = () => {
     use([
-        SVGRenderer,
+        CanvasRenderer,
         GridComponent, TooltipComponent, TitleComponent, VisualMapComponent, LegendComponent,
         BarChart, PieChart, LineChart, HeatmapChart, ScatterChart, EffectScatterChart,
     ])

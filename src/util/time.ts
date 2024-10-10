@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { isRtl } from "./document"
+
 /**
  * Copyright (c) 2017-present PanJiaChen
  *
@@ -91,7 +93,11 @@ export function formatPeriod(milliseconds: number, message: { hourMsg: string, m
  * @return (xx+h)(xx+m)xx+s
  */
 export function formatPeriodCommon(milliseconds: number): string {
-    const defaultMessage = {
+    const defaultMessage = isRtl() ? {
+        hourMsg: 's {second} m {minute} h {hour}',
+        minuteMsg: 's {second} m {minute}',
+        secondMsg: 's {second}',
+    } : {
         hourMsg: '{hour} h {minute} m {second} s',
         minuteMsg: '{minute} m {second} s',
         secondMsg: '{second} s',

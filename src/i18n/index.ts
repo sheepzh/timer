@@ -7,6 +7,7 @@
 
 import { getUILanguage } from "@api/chrome/i18n"
 import optionService from "@service/option-service"
+import { setLocale, setRtl } from "@util/document"
 
 /**
  * Not to import this one if not necessary
@@ -112,11 +113,9 @@ function handleLocaleOption(option: timer.option.AllOption) {
     } else {
         locale = localOption as timer.Locale
     }
-    if (typeof window !== 'undefined' && window?.document) {
-        const htmlEl = document.getElementsByTagName("html")?.[0]
-        htmlEl?.setAttribute?.("data-locale", locale)
-        htmlEl?.setAttribute('dir', 'rtl')
-    }
+
+    setLocale(locale)
+    locale === 'en' && setRtl()
 }
 
 /**
