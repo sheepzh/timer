@@ -8,10 +8,11 @@
 import type { ElementDatePickerShortcut } from "@src/element-ui/date"
 
 import { t } from "@app/locale"
+import { EL_DATE_FORMAT } from "@i18n/element"
+import { getDatePickerIconSlots } from "@src/element-ui/rtl"
+import { daysAgo } from "@util/time"
 import { ElDatePicker } from "element-plus"
 import { defineComponent, ref, type PropType } from "vue"
-import { daysAgo } from "@util/time"
-import { EL_DATE_FORMAT } from "@i18n/element"
 
 function datePickerShortcut(agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     return {
@@ -47,6 +48,7 @@ const _default = defineComponent({
                     rangeSeparator="-"
                     clearable={false}
                     onUpdate:modelValue={(newVal: [Date, Date]) => ctx.emit("dateRangeChange", dateRange.value = newVal)}
+                    v-slots={getDatePickerIconSlots()}
                 />
             </div>
         )

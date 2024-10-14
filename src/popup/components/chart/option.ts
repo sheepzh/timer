@@ -104,27 +104,6 @@ function labelFormatter({ mergeHost }: PopupQueryResult, params: any): string {
         : `{${legend2LabelStyle(name)}|} {a|${name}}`
 }
 
-const staticOptions: EcOption = {
-    tooltip: {
-        trigger: 'item'
-    },
-    series: [{
-        name: "Wasted Time",
-        type: "pie",
-        radius: "55%",
-        center: ["64%", "52%"],
-        startAngle: 300,
-        data: [],
-        emphasis: {
-            itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
-        }
-    }]
-}
-
 const maxWidth = 750
 
 function calcPositionOfTooltip(container: HTMLDivElement, point: (number | string)[]) {
@@ -210,7 +189,7 @@ export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOpti
             subtextStyle: { color: secondaryColor },
         },
         tooltip: {
-            ...staticOptions.tooltip,
+            trigger: 'item',
             formatter: (params: any) => toolTipFormatter(props, params),
             position: (point: (number | string)[]) => calcPositionOfTooltip(container, point)
         },
@@ -223,11 +202,23 @@ export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOpti
             textStyle: { color: textColor }
         },
         series: [{
-            ...staticOptions.series[0],
+            name: "Wasted Time",
+            type: "pie",
+            radius: "55%",
+            center: ["64%", "52%"],
+            startAngle: 300,
+            data: [],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: "rgba(0, 0, 0, 0.5)",
+                },
+            },
             label: {
                 formatter: params => labelFormatter(props, params),
                 color: textColor
-            }
+            },
         }],
         toolbox: {
             show: true,
