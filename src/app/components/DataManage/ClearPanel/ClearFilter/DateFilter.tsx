@@ -8,6 +8,7 @@ import I18nNode from "@app/components/common/I18nNode"
 import { t } from "@app/locale"
 import { EL_DATE_FORMAT } from "@i18n/element"
 import { ElementDatePickerShortcut } from "@src/element-ui/date"
+import { getDatePickerIconSlots } from "@src/element-ui/rtl"
 import { formatTime, getBirthday, MILL_PER_DAY } from "@util/time"
 import { DateModelType, ElDatePicker } from "element-plus"
 import { defineComponent, PropType } from "vue"
@@ -59,6 +60,7 @@ const _default = defineComponent({
                             disabledDate={(date: Date) => date.getTime() > yesterday}
                             shortcuts={pickerShortcuts}
                             rangeSeparator="-"
+                            v-slots={getDatePickerIconSlots()}
                         />
                     }}
                 />

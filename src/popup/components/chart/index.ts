@@ -12,14 +12,16 @@ import OptionDatabase from "@db/option-database"
 import { PopupQueryResult } from "@popup/common"
 import { defaultStatistics } from "@util/constant/option"
 import { PieChart } from "echarts/charts"
-import { LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from "echarts/components"
+import { AriaComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from "echarts/components"
 import { init, use } from "echarts/core"
-import { SVGRenderer } from "echarts/renderers"
+import { CanvasRenderer } from "echarts/renderers"
 import handleClick from "./click-handler"
 import { pieOptions } from "./option"
+import accessibilityHelper from "@service/components/accessibility-helper"
+import { processAria, processRtl } from "@util/echarts"
 
 // Register echarts
-use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, SVGRenderer, PieChart])
+use([TitleComponent, ToolboxComponent, TooltipComponent, LegendComponent, AriaComponent, CanvasRenderer, PieChart])
 
 const optionDatabase = new OptionDatabase(chrome.storage.local)
 
@@ -44,9 +46,15 @@ export const handleRestore = (handler: () => void) => {
 // Store
 let _queryResult: PopupQueryResult
 
-function renderChart(queryResult: PopupQueryResult) {
+async function renderChart(queryResult: PopupQueryResult) {
     _queryResult = queryResult
-    pie.setOption(pieOptions({ ...queryResult, displaySiteName }, chartContainer), true, false)
+    const option = pieOptions({ ...queryResult, displaySiteName }, chartContainer)
+
+    const { chartDecal } = await accessibilityHelper.getOption() || {}
+    processAria(option, chartDecal)
+    processRtl(option)
+
+    pie.setOption(option, true, false)
 }
 
 export default renderChart

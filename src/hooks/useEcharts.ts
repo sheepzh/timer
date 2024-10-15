@@ -5,60 +5,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
-import { ElLoading } from "element-plus"
-import { type Ref, onMounted, ref, isRef, watch } from "vue"
-import { AriaComponentOption, ComposeOption, init, ECharts } from "echarts"
-import { useWindowSize } from "@vueuse/core"
 import accessibilityHelper from "@service/components/accessibility-helper"
+import { processAria, processRtl } from "@util/echarts"
+import { useWindowSize } from "@vueuse/core"
+import { AriaComponentOption, ComposeOption, ECharts, init } from "echarts"
+import { ElLoading } from "element-plus"
+import { type Ref, isRef, onMounted, ref, watch } from "vue"
 
 type BaseEchartsOption = ComposeOption<AriaComponentOption>
-
-export const generateAriaOption = async (): Promise<AriaComponentOption> => {
-    const { chartDecal } = await accessibilityHelper.getOption() || {}
-    if (!chartDecal) {
-        return { enabled: false }
-    }
-    const color = "rgba(0, 0, 0, 0.2)"
-    return {
-        enabled: true,
-        decal: {
-            show: true,
-            decals: [{
-                color,
-                dashArrayX: [1, 0],
-                dashArrayY: [2, 5],
-                rotation: .5235987755982988,
-            }, {
-                color,
-                symbol: 'circle',
-                dashArrayX: [[8, 8], [0, 8, 8, 0]],
-                dashArrayY: [6, 0],
-                symbolSize: .8,
-            }, {
-                color,
-                dashArrayX: [1, 0],
-                dashArrayY: [4, 3],
-                rotation: -.7853981633974483
-            }, {
-                color,
-                dashArrayX: [[6, 6], [0, 6, 6, 0]],
-                dashArrayY: [6, 0],
-            }, {
-                color,
-                dashArrayX: [[1, 0], [1, 6]],
-                dashArrayY: [1, 0, 6, 0],
-                rotation: .7853981633974483,
-            }, {
-                color,
-                symbol: 'triangle',
-                dashArrayX: [[9, 9], [0, 9, 9, 0]],
-                dashArrayY: [7, 2],
-                symbolSize: .75,
-            }]
-        }
-    }
-}
 
 export abstract class EchartsWrapper<BizOption, EchartsOption> {
     protected instance: ECharts
@@ -83,8 +37,11 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
         const biz = this.lastBizOption
         const option = await this.generateOption(biz) as (EchartsOption & BaseEchartsOption)
         if (!option) return
-        const aria = await generateAriaOption()
-        option.aria = aria
+
+        const { chartDecal } = await accessibilityHelper.getOption() || {}
+        processAria(option, chartDecal)
+        processRtl(option)
+
         this.instance.setOption(option, { notMerge: false })
     }
 

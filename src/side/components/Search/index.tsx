@@ -1,9 +1,10 @@
 import { Search } from "@element-plus/icons-vue"
+import { useState } from "@hooks"
+import { t } from "@side/locale"
+import { getDatePickerIconSlots } from "@src/element-ui/rtl"
 import { ElDatePicker, ElInput } from "element-plus"
 import { type PropType, defineComponent, watch } from "vue"
 import "./search.sass"
-import { t } from "@side/locale"
-import { useState } from "@hooks"
 
 const _default = defineComponent({
     props: {
@@ -42,6 +43,7 @@ const _default = defineComponent({
                     modelValue={date.value}
                     onUpdate:modelValue={setDate}
                     class="search-calendar"
+                    v-slots={getDatePickerIconSlots()}
                 />
             </div>
         )
