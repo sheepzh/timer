@@ -27,6 +27,8 @@ declare namespace timer {
         | 'fr'
         // @since 2.4.6
         | 'ru'
+        // @since 2.5.0
+        | 'ar'
 
     /**
      * @since 0.8.0
@@ -54,7 +56,6 @@ declare namespace timer {
         | 'vi'
         | 'sk'
         | 'mn'
-        | 'ar'
         | 'hi'
 
     type ExtensionMetaFlag = "rateOpen"

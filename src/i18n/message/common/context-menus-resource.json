@@ -48,5 +48,6 @@
         "add2Whitelist": "Добавить {host} в белый список",
         "removeFromWhitelist": "Удалить {host} из белого списка",
         "feedbackPage": "Проблемы"
-    }
+    },
+    "ar": {}
 }

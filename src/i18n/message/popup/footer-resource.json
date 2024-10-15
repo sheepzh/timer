@@ -51,12 +51,18 @@
         "updateVersion": "Actualisable",
         "updateVersionInfo": "Dernière version : {version}",
         "updateVersionInfo4Firefox": "Mettez à niveau vers là {version} dans la page de gestion, about:addons, s'il vous plaît",
-        "rate": "Avis"
+        "rate": "Donnez votre avis"
     },
     "ru": {
         "updateVersion": "Обновляемый",
         "updateVersionInfo": "Последняя: {version}",
         "updateVersionInfo4Firefox": "Обновите до {version} на странице управления, about:addons, пожалуйста",
         "rate": "Оценить"
+    },
+    "ar": {
+        "updateVersion": "قابل للتحديث",
+        "updateVersionInfo": "آخر: {version}",
+        "updateVersionInfo4Firefox": "الترقية إلى {version} على صفحة الإدارة، عن: addons, pls",
+        "rate": "قيمه"
     }
 }

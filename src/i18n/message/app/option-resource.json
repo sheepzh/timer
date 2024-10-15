@@ -397,7 +397,7 @@
         "appearance": {
             "title": "外観",
             "displayWhitelist": "{input}  {contextMenu} に {whitelist} を表示するかどうか",
-            "whitelistItem": "ホワイトリスト機能",
+            "whitelistItem": "ホワイトリストのショートカット",
             "contextMenu": "コンテキストメニュー",
             "displayBadgeText": "{input}  {icon} に {timeInfo} を表示するかどうか",
             "badgeBgColor": "アイコン上のテキストの背景色 {input}",
@@ -505,6 +505,10 @@
                 "interval": "{input} 分ごとに実行"
             }
         },
+        "accessibility": {
+            "title": "ユーザー補助機能",
+            "chartDecal": "{input} チャートデカールを表示するかどうか"
+        },
         "resetButton": "リセット",
         "resetSuccess": "デフォルトに正常にリセット",
         "defaultValue": "デフォルト値：{default}"
@@ -524,9 +528,9 @@
             "displayWhitelist": "{input}  Se deseja exibir {whitelist} em {contextMenu}",
             "whitelistItem": "atalhos relacionados à lista ignorada",
             "contextMenu": "o ementa de contexto",
-            "displayBadgeText": "{input} Se deve exibir {timeInfo} em {icon}",
+            "displayBadgeText": "{input} Se deve exibir {timeInfo} no {icon}",
             "badgeBgColor": "A cor de fundo do texto no ícone {input}",
-            "icon": "o ícone de extensão",
+            "icon": "ícone da extensão",
             "badgeTextContent": "o tempo de navegação do site atual",
             "locale": {
                 "label": "Idioma {input}",
@@ -629,6 +633,10 @@
                 "label": "Se deseja ativar o backup automático",
                 "interval": "e executar a cada {input} minutos"
             }
+        },
+        "accessibility": {
+            "title": "Acessibilidade",
+            "chartDecal": "{input} Se deve exibir o decalque do gráfico"
         },
         "resetButton": "Reiniciar",
         "resetSuccess": "Redefinido para padrão com sucesso!",
@@ -1146,5 +1154,6 @@
         "resetButton": "Сброс",
         "resetSuccess": "Сброс к настройкам по умолчанию выполнен успешно!",
         "defaultValue": "По умолчанию: {default}"
-    }
+    },
+    "ar": {}
 }

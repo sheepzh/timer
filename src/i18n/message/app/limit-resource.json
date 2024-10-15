@@ -494,5 +494,6 @@
             "pi": "{digitCount} цифр от {startIndex} до {endIndex} десятичной части числа π",
             "confession": "Время быстротечно"
         }
-    }
+    },
+    "ar": {}
 }

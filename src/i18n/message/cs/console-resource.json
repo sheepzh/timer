@@ -68,5 +68,6 @@
         "timeWithHour": "{hour} часов {minute} минут {second} секунд",
         "timeWithMinute": "{minute} минут {second} секунд",
         "timeWithSecond": "{second} секунд"
-    }
+    },
+    "ar": {}
 }

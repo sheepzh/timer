@@ -56,7 +56,7 @@
         "changeLog": "Änderungsprotokoll"
     },
     "fr": {
-        "allFunction": "Page back-end",
+        "allFunction": "Toutes les fonctions",
         "guidePage": "Manuel d'utilisateur",
         "sourceCode": "Code Source",
         "changeLog": "Historique des changements"
@@ -67,5 +67,12 @@
         "option": "Опции",
         "sourceCode": "Исходный код",
         "changeLog": "История изменений"
+    },
+    "ar": {
+        "allFunction": "جميع الوظائف",
+        "guidePage": "دليل المستخدم",
+        "option": "خيارات",
+        "sourceCode": "كود المصدر",
+        "changeLog": "سجل التغيير"
     }
 }

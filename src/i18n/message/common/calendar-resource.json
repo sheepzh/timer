@@ -210,5 +210,26 @@
             "tillYesterday": "До вчерашнего дня",
             "tillDaysAgo": "До {n} дней назад"
         }
+    },
+    "ar": {
+        "weekDays": "الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت|الأحد",
+        "months": "يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر",
+        "dateFormat": "{d}/{m}/{y}",
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}",
+        "label": {
+            "startDate": "تاريخ البدء",
+            "endDate": "تاريخ الانتهاء"
+        },
+        "range": {
+            "today": "اليوم",
+            "yesterday": "يوم أمس",
+            "everyday": "كل يوم",
+            "thisWeek": "هذا الأسبوع",
+            "thisMonth": "هذا الشهر",
+            "lastDays": "آخر {n} أيام",
+            "tillYesterday": "حتى الأمس",
+            "tillDaysAgo": "حتى {n} يوم مضت"
+        }
     }
 }

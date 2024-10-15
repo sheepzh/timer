@@ -225,5 +225,28 @@
             }
         },
         "noMore": "Больше нет"
+    },
+    "ar": {
+        "mergeDate": "تاريخ الدمج",
+        "mergeDomain": "دمج المواقع",
+        "exportFileName": "وقت_التصفح_الخاص_بي",
+        "batchDelete": {
+            "buttonText": "حذف الدفعة",
+            "noSelectedMsg": "الرجاء تحديد الصف الذي تريد حذفه في الجدول أولاً",
+            "confirmMsg": "سيتم حذف {count} سجلًا لمواقع مثل {example} في {date}!",
+            "confirmMsgAll": "سيتم حذف {count} سجلًا للمواقع مثل {example}!",
+            "confirmMsgRange": "سيتم حذف {count} سجلًا لمواقع مثل {example} بين {start} و{end}!"
+        },
+        "remoteReading": {
+            "on": "قراءة بيانات النسخ الاحتياطي",
+            "off": "انقر لقراءة بيانات النسخ الاحتياطي",
+            "table": {
+                "client": "اسم العميل",
+                "localData": "البيانات المحلية",
+                "value": "قيمة",
+                "percentage": "نسبة مئوية"
+            }
+        },
+        "noMore": "لا مزيد"
     }
 }

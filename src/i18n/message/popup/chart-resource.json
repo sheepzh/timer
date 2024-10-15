@@ -170,5 +170,21 @@
         "averageCount": "{value} раз в день в среднем",
         "averageTime": "{value} в день в среднем",
         "otherLabel": "Другие {count} сайты"
+    },
+    "ar": {
+        "title": {
+            "today": "بيانات اليوم",
+            "thisWeek": "بيانات هذا الأسبوع",
+            "thisMonth": "بيانات هذا الشهر",
+            "last30Days": "بيانات آخر 30 يوم"
+        },
+        "mergeHostLabel": "دمج المواقع",
+        "saveAsImageTitle": "تحميل",
+        "restoreTitle": "تحديث",
+        "totalTime": "الإجمالي {totalTime}",
+        "totalCount": "الإجمالي {totalCount} زيارة",
+        "averageCount": "متوسط {value} زيارة يومياً",
+        "averageTime": "متوسط {value} يومياً",
+        "otherLabel": "{count} مواقع أخرى"
     }
 }

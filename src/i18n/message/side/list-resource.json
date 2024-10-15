@@ -38,5 +38,9 @@
     "ru": {
         "searchPlaceholder": "Поиск по URL",
         "title": "Все данные браузера"
+    },
+    "ar": {
+        "searchPlaceholder": "ابحث بواسطة عنوان URL",
+        "title": "جميع بيانات التصفح"
     }
 }
