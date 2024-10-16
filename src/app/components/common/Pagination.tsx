@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getPaginationIconProps } from "@src/element-ui/rtl"
 import { ElPagination } from "element-plus"
 import { PropType, defineComponent } from "vue"
 
@@ -20,6 +21,7 @@ const _default = defineComponent({
         return () => (
             <div class="pagination-container">
                 <ElPagination
+                    {...getPaginationIconProps() || {}}
                     pageSizes={[10, 20, 50]}
                     defaultCurrentPage={(props.defaultValue as timer.common.PageQuery)?.num}
                     defaultPageSize={(props.defaultValue as timer.common.PageQuery)?.size}

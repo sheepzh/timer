@@ -12,3 +12,14 @@ export const getDatePickerIconSlots = () => {
         "next-year": () => <ElIcon><DArrowLeft /></ElIcon>,
     }
 }
+
+export const getPaginationIconProps = (): {
+    prevIcon?: unknown
+    nextIcon?: unknown
+} => {
+    if (!isRtl()) return {}
+    return {
+        prevIcon: <ElIcon><ArrowRight /></ElIcon>,
+        nextIcon: <ElIcon><ArrowLeft /></ElIcon>,
+    }
+}
