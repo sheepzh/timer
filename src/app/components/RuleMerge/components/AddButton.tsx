@@ -6,11 +6,10 @@
  */
 
 import { t } from "@app/locale"
-import { tryParseInteger } from "@util/number"
+import { useState, useSwitch } from "@hooks"
 import { ElButton } from "element-plus"
 import { defineComponent } from "vue"
 import ItemInput from './ItemInput'
-import { useState, useSwitch } from "@hooks"
 
 export type AddButtonInstance = {
     closeEdit(): void
@@ -22,18 +21,17 @@ const _default = defineComponent({
     },
     setup(_props, ctx) {
         const [editing, startEdit, closeEdit] = useSwitch()
-        const [origin, , resetOrigin] = useState('')
-        const [merged, , resetMerged] = useState<string | number>('')
+        const [origin, setOrigin, resetOrigin] = useState('')
+        const [merged, setMerged, resetMerged] = useState<string | number>('')
         const handleEdit = () => {
             resetOrigin()
             resetMerged()
             startEdit()
         }
-        const handleSave = (newOrigin: string, newMerged: string) => {
-            const newMergedVal = tryParseInteger(newMerged?.trim())[1]
-            merged.value = newMergedVal
-            origin.value = newOrigin
-            ctx.emit('save', newOrigin, newMergedVal)
+        const handleSave = (newOrigin: string, newMerged: string | number) => {
+            setMerged(newMerged)
+            setOrigin(newOrigin)
+            ctx.emit('save', newOrigin, newMerged)
         }
         ctx.expose({ closeEdit } satisfies AddButtonInstance)
         return () => editing.value

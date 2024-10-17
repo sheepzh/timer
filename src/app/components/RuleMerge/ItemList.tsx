@@ -15,15 +15,6 @@ import Item, { ItemInstance } from './components/Item'
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
-const cvtRealMerged = (displayedVal: timer.merge.Rule['merged']): timer.merge.Rule['merged'] => {
-    // todo 数值必须 > 1
-    if (typeof displayedVal === 'number') {
-        return Math.max(0, displayedVal - 1)
-    } else {
-        return displayedVal ?? ''
-    }
-}
-
 const _default = defineComponent(() => {
     const { data: items, refresh } = useRequest(() => mergeRuleDatabase.selectAll())
     const handleSucc = () => {
@@ -54,7 +45,7 @@ const _default = defineComponent(() => {
             itemRefs.value?.[index]?.forceEdit?.()
             return
         }
-        update(origin, cvtRealMerged(merged))
+        update(origin, merged)
     }
 
     const addButton: Ref<AddButtonInstance> = ref()
@@ -77,7 +68,7 @@ const _default = defineComponent(() => {
         const title = t(msg => msg.operation.confirmTitle)
         const content = t(msg => msg.mergeRule.addConfirmMsg, { origin })
         ElMessageBox.confirm(content, title, { dangerouslyUseHTMLString: true })
-            .then(() => add({ origin, merged: cvtRealMerged(merged) }))
+            .then(() => add({ origin, merged }))
     }
 
     return () => (

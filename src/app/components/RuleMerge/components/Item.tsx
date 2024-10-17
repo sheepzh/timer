@@ -7,14 +7,27 @@
 import { t } from "@app/locale"
 import { Edit } from "@element-plus/icons-vue"
 import { useShadow, useSwitch } from "@hooks"
-import { computeMergeTxt, computeMergeType } from "@util/merge"
-import { tryParseInteger } from "@util/number"
-import { ElTag } from "element-plus"
+import { LOCAL_HOST_PATTERN } from "@util/constant/remain-host"
+import { ElTag, TagProps } from "element-plus"
 import { computed, defineComponent } from "vue"
 import ItemInput from "./ItemInput"
 
 export type ItemInstance = {
     forceEdit(): void
+}
+
+function computeMergeTxt(mergedVal: number | string,): string {
+    if (typeof mergedVal === 'number') {
+        return t(msg => msg.mergeCommon.tagResult.level, { level: mergedVal + 1 })
+    }
+    if (!mergedVal) return t(msg => msg.mergeCommon.tagResult.blank)
+    return mergedVal
+}
+
+function computeMergeType(mergedVal: number | string): TagProps["type"] {
+    if (typeof mergedVal === 'number') return 'success'
+    if (!mergedVal) return 'info'
+    return null
 }
 
 const _default = defineComponent({
@@ -27,24 +40,18 @@ const _default = defineComponent({
         delete: (_origin: string) => true,
     },
     setup(props, ctx) {
-        const [origin, setOrigin, refreshOrigin] = useShadow(() => props.origin)
-        const [merged, setMerged, refreshMerged] = useShadow(() => {
-            const mergedVal = props.merged
-            return typeof mergedVal === 'number' ? mergedVal + 1 : mergedVal
-        }, '')
+        const [origin, , refreshOrigin] = useShadow(() => props.origin)
+        const [merged, , refreshMerged] = useShadow(() => props.merged, '')
+
         const [editing, openEditing, closeEditing] = useSwitch()
         const type = computed(() => computeMergeType(merged.value))
-        const tagTxt = computed(() => computeMergeTxt(origin.value, merged.value,
-            (finder, param) => t(msg => finder(msg.mergeCommon), param)
-        ))
+        const mergeText = computed(() => computeMergeTxt(merged.value))
+
         ctx.expose({ forceEdit: openEditing } satisfies ItemInstance)
 
-        const handleSave = (newOrigin: string, newMerged: string) => {
-            setOrigin(newOrigin)
-            const newMergedVal = tryParseInteger(newMerged?.trim())[1]
-            setMerged(newMergedVal)
+        const handleSave = (newOrigin: string, newMerged: string | number) => {
             closeEditing()
-            ctx.emit("change", newOrigin, newMergedVal)
+            ctx.emit("change", newOrigin, newMerged)
         }
 
         const handleCancel = () => {
@@ -63,10 +70,14 @@ const _default = defineComponent({
             : <ElTag
                 class="editable-item"
                 type={type.value}
-                closable
+                closable={LOCAL_HOST_PATTERN !== origin.value}
                 onClose={() => ctx.emit("delete", props.origin)}
             >
-                {tagTxt.value}
+                <div class="tag-content">
+                    <span dir="ltr">{origin.value}</span>
+                    <span>{'>>>'}</span>
+                    <span>{mergeText.value}</span>
+                </div>
                 <i onClick={openEditing}>
                     <Edit class="edit-icon" />
                 </i>
