@@ -1,16 +1,14 @@
-import { ElEmpty, ElScrollbar, ScrollbarInstance } from "element-plus"
-import { computed, defineComponent, PropType, ref, StyleValue, watch } from "vue"
-import "./row-list.sass"
-import Item, { Row as Row0 } from "./Item"
 import { useShadow } from "@hooks"
 import { sum } from "@util/array"
-
-export type Row = Row0
+import { ElEmpty, ElScrollbar, ScrollbarInstance } from "element-plus"
+import { computed, defineComponent, PropType, ref, StyleValue, watch } from "vue"
+import Item from "./Item"
+import "./row-list.sass"
 
 const _default = defineComponent({
     props: {
         loading: Boolean,
-        data: Array as PropType<Row[]>,
+        data: Array as PropType<timer.stat.Row[]>,
         style: Object as PropType<StyleValue>,
     },
     setup(props) {

@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import MergeRuleDatabase from "@db/merge-rule-database"
-import { useRequest } from "@hooks/useRequest"
+import { useManualRequest, useRequest } from "@hooks"
 import { ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, Ref, ref } from "vue"
 import AddButton, { AddButtonInstance } from './components/AddButton'
@@ -21,14 +21,14 @@ const _default = defineComponent(() => {
         ElMessage.success(t(msg => msg.operation.successMsg))
         refresh()
     }
-    const { refreshAsync: remove } = useRequest(
+    const { refreshAsync: remove } = useManualRequest(
         (origin: string) => mergeRuleDatabase.remove(origin),
-        { onSuccess: handleSucc, manual: true },
+        { onSuccess: handleSucc },
     )
-    const { refresh: update } = useRequest(async (origin: string, merged: string | number) => {
+    const { refresh: update } = useManualRequest(async (origin: string, merged: string | number) => {
         await mergeRuleDatabase.remove(origin)
         await mergeRuleDatabase.add({ origin, merged })
-    }, { onSuccess: handleSucc, manual: true })
+    }, { onSuccess: handleSucc })
 
     const itemRefs = ref<ItemInstance[]>([])
 
@@ -50,13 +50,15 @@ const _default = defineComponent(() => {
 
     const addButton: Ref<AddButtonInstance> = ref()
 
-    const { refresh: add } = useRequest((rule: timer.merge.Rule) => mergeRuleDatabase.add(rule), {
-        onSuccess: () => {
-            handleSucc()
-            addButton.value?.closeEdit?.()
-        },
-        manual: true,
-    })
+    const { refresh: add } = useManualRequest(
+        (rule: timer.merge.Rule) => mergeRuleDatabase.add(rule),
+        {
+            onSuccess: () => {
+                handleSucc()
+                addButton.value?.closeEdit?.()
+            },
+        }
+    )
 
     const handleAdd = (origin: string, merged: string | number) => {
         const alreadyExist = items.value?.filter(item => item.origin === origin).length > 0

@@ -4,14 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { useManualRequest } from "@hooks"
+import siteService from "@service/site-service"
 import statService, { HostSet } from "@service/stat-service"
+import { MERGED_HOST, ALL_HOSTS as REMAIN_HOSTS } from "@util/constant/remain-host"
+import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
 import { ElOption, ElSelect, ElTag } from "element-plus"
 import { defineComponent, type PropType } from "vue"
-import { cvt2SiteKey, cvt2OptionValue, EXIST_MSG, MERGED_MSG, VIRTUAL_MSG, labelOf } from "../common"
-import { ALL_HOSTS as REMAIN_HOSTS, MERGED_HOST } from "@util/constant/remain-host"
-import siteService from "@service/site-service"
-import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
-import { useRequest } from "@hooks"
+import { cvt2OptionValue, cvt2SiteKey, EXIST_MSG, labelOf, MERGED_MSG, VIRTUAL_MSG } from "../common"
 
 type _OptionInfo = {
     siteKey: timer.site.SiteKey
@@ -89,10 +89,7 @@ const _default = defineComponent({
         change: (_siteKey: timer.site.SiteKey) => true
     },
     setup(props, ctx) {
-        const { data: options, loading: searching, refresh: searchOption } = useRequest(
-            handleRemoteSearch,
-            { defaultValue: [], manual: true },
-        )
+        const { data: options, loading: searching, refresh: searchOption } = useManualRequest(handleRemoteSearch)
         return () => (
             <ElSelect
                 style={{ width: '100%' }}

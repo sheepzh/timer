@@ -32,18 +32,30 @@ const parse = (tree: PslTree, parts: string[], index: number) => {
     }
 }
 
+const sortByKey = (tree: PslTree): PslTree => {
+    if (!tree) return tree
+    const newTree: PslTree = {}
+    Object.entries(tree)
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .forEach(([k, v]) => newTree[k] = typeof v === 'number' ? v : sortByKey(v))
+    return newTree
+}
+
 async function main() {
     const list = await downloadList()
     const lines = list.split("\n")
         .filter(l => !l.startsWith("//"))
         .map(l => l.trim())
         .filter(l => !!l)
-    const tree: PslTree = {}
+    let tree: PslTree = {}
     lines.forEach(line => {
         const parts = line.split('.')
         parse(tree, parts, parts.length - 1)
         console.log("Parsed " + line)
     })
+
+    tree = sortByKey(tree)
+
     writeFileSync(JSON_PATH, JSON.stringify(tree, null, 4), { encoding: "utf-8" })
 }
 

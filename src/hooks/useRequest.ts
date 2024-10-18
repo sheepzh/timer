@@ -52,3 +52,7 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
     }
     return { data, refresh, refreshAsync, loading }
 }
+
+export const useManualRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Omit<Option<T, P>, 'manual'>): Result<T, P> => {
+    return useRequest(getter, { ...option || {}, manual: true })
+}

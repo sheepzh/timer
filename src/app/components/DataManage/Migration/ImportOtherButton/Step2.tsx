@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
+import CompareTable from "@app/components/common/imported/CompareTable"
+import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
 import { t } from "@app/locale"
+import { Back, Check } from "@element-plus/icons-vue"
+import { useManualRequest } from "@hooks"
+import { processImportedData } from "@service/components/import-processor"
 import { ElButton, ElMessage } from "element-plus"
 import { PropType, defineComponent, ref } from "vue"
-import { Back, Check } from "@element-plus/icons-vue"
-import { processImportedData } from "@service/components/import-processor"
-import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
-import CompareTable from "@app/components/common/imported/CompareTable"
-import { useRequest } from "@hooks"
 
 const _default = defineComponent({
     props: {
@@ -25,19 +25,25 @@ const _default = defineComponent({
     setup(props, ctx) {
         const resolution = ref<timer.imported.ConflictResolution>()
 
-        const { loading: importing, refresh: doImport } = useRequest(() => {
-            const resolutionVal = resolution.value
-            if (!resolutionVal) {
-                return ElMessage.warning(t(msg => msg.dataManage.importOther.conflictNotSelected))
-            }
-
-            processImportedData(props.data, resolutionVal)
-                .then(() => {
+        const { loading: importing, refresh: doImport } = useManualRequest(
+            (resolution: timer.imported.ConflictResolution) => processImportedData(props.data, resolution),
+            {
+                onSuccess: () => {
                     ElMessage.success(t(msg => msg.operation.successMsg))
                     ctx.emit('import')
-                })
-                .catch(e => ElMessage.error(e))
-        }, { manual: true })
+                },
+                onError: (e) => ElMessage.error(e),
+            }
+        )
+
+        const handleImport = () => {
+            const resolutionVal = resolution.value
+            if (resolutionVal) {
+                doImport(resolutionVal)
+                return
+            }
+            ElMessage.warning(t(msg => msg.dataManage.importOther.conflictNotSelected))
+        }
 
         return () => <>
             <CompareTable
@@ -56,7 +62,12 @@ const _default = defineComponent({
                 >
                     {t(msg => msg.button.previous)}
                 </ElButton>
-                <ElButton type="success" icon={<Check />} loading={importing.value} onClick={doImport}>
+                <ElButton
+                    type="success"
+                    icon={<Check />}
+                    loading={importing.value}
+                    onClick={handleImport}
+                >
                     {t(msg => msg.button.confirm)}
                 </ElButton>
             </div>

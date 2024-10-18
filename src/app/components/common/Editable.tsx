@@ -6,7 +6,7 @@
  */
 
 import { Check, Close, Edit } from "@element-plus/icons-vue"
-import { useShadow } from "@hooks"
+import { useShadow, useSwitch } from "@hooks"
 import { ElButton, ElIcon, ElInput, InputInstance } from "element-plus"
 import { defineComponent, nextTick, ref } from "vue"
 
@@ -21,25 +21,25 @@ const _default = defineComponent({
         change: (_newVal: string) => true
     },
     setup(props, ctx) {
-        const editing = ref(false)
+        const [editing, openEditing, closeEditing] = useSwitch(false)
         const [originVal] = useShadow(() => props.modelValue)
         const [inputVal, _, refreshInputVal] = useShadow(originVal)
         const input = ref<InputInstance>()
         const handleEnter = (ev: KeyboardEvent) => {
             if (ev.key !== 'Enter') return
-            editing.value = false
+            closeEditing()
             ctx.emit("change", inputVal.value)
         }
         const handleCancel = () => {
-            editing.value = false
+            closeEditing()
             refreshInputVal()
         }
         const handleSave = () => {
-            editing.value = false
+            closeEditing()
             ctx.emit("change", inputVal.value?.trim())
         }
         const handleEdit = () => {
-            editing.value = true
+            openEditing()
             nextTick(() => input.value?.focus?.())
         }
         return () => editing.value

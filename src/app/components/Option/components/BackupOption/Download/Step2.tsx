@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
+import CompareTable from "@app/components/common/imported/CompareTable"
+import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
 import { t } from "@app/locale"
+import { Back, Check } from "@element-plus/icons-vue"
+import { useManualRequest } from "@hooks"
+import { processImportedData } from "@service/components/import-processor"
 import { ElAlert, ElButton, ElMessage } from "element-plus"
 import { PropType, Ref, defineComponent, ref } from "vue"
-import { Back, Check } from "@element-plus/icons-vue"
-import { processImportedData } from "@service/components/import-processor"
-import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
-import CompareTable from "@app/components/common/imported/CompareTable"
-import { useRequest } from "@hooks/useRequest"
 
 const _default = defineComponent({
     props: {
@@ -29,20 +29,24 @@ const _default = defineComponent({
     setup(props, ctx) {
         const resolution: Ref<timer.imported.ConflictResolution> = ref()
 
-        const { refresh: handleDownload, loading: downloading } = useRequest(async () => {
+        const { refresh: download, loading: downloading } = useManualRequest(
+            (resolution: timer.imported.ConflictResolution) => processImportedData(props.data, resolution),
+            {
+                onSuccess: () => {
+                    ElMessage.success(t(msg => msg.operation.successMsg))
+                    ctx.emit('download')
+                }
+            })
+
+        const handleDownload = () => {
             const resolutionVal = resolution.value
             if (!resolutionVal) {
                 ElMessage.warning(t(msg => msg.dataManage.importOther.conflictNotSelected))
                 return
             }
-            await processImportedData(props.data, resolutionVal)
-        }, {
-            manual: true,
-            onSuccess() {
-                ElMessage.success(t(msg => msg.operation.successMsg))
-                ctx.emit('download')
-            }
-        })
+            download(resolutionVal)
+        }
+
         return () => <>
             <ElAlert type="success" closable={false}>
                 {
