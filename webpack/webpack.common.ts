@@ -211,8 +211,8 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
         }),
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'app.html'),
             filename: path.join('static', 'app.html'),
+            title: 'Loading...',
             meta: {
                 viewport: {
                     name: "viewport",
@@ -227,8 +227,8 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
             chunks: ['popup'],
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'side.html'),
             filename: path.join('static', 'side.html'),
+            title: 'Loading...',
             chunks: ['side'],
         }),
         new DefinePlugin({

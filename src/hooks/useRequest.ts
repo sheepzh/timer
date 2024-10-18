@@ -1,7 +1,7 @@
 import { ElLoadingService } from "element-plus"
 import { Ref, WatchSource, onMounted, ref, watch } from "vue"
 
-type Option<T, P> = {
+type Option<T, P extends any[]> = {
     manual?: boolean
     defaultValue?: T
     loadingTarget?: string | Ref<HTMLElement>
@@ -12,17 +12,17 @@ type Option<T, P> = {
     onError?: (e: unknown) => void
 }
 
-type Result<T, P> = {
+type Result<T, P extends any[]> = {
     data: Ref<T>
-    refresh: (p?: P) => void
-    refreshAsync: (p?: P) => Promise<void>
+    refresh: (...p: P) => void
+    refreshAsync: (...p: P) => Promise<void>
     loading: Ref<boolean>
 }
 
-export const useRequest = <P, T>(getter: (p?: P) => Promise<T> | T, option?: Option<T, P>): Result<T, P> => {
+export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Option<T, P>): Result<T, P> => {
     const {
         manual = false,
-        defaultValue, defaultParam,
+        defaultValue, defaultParam = ([] as P),
         loadingTarget, loadingText,
         deps,
         onSuccess, onError,
@@ -30,12 +30,12 @@ export const useRequest = <P, T>(getter: (p?: P) => Promise<T> | T, option?: Opt
     const data: Ref<T> = ref(defaultValue) as Ref<T>
     const loading = ref(false)
 
-    const refreshAsync = async (p?: P) => {
+    const refreshAsync = async (...p: P) => {
         loading.value = true
         const loadingEl = typeof loadingTarget === "string" ? loadingTarget : loadingTarget?.value
         const loadingInstance = loadingEl ? ElLoadingService({ target: loadingEl, text: loadingText }) : null
         try {
-            const value = await getter?.(p)
+            const value = await getter?.(...p)
             data.value = value
             onSuccess?.(value)
         } catch (e) {
@@ -45,10 +45,10 @@ export const useRequest = <P, T>(getter: (p?: P) => Promise<T> | T, option?: Opt
             loadingInstance?.close?.()
         }
     }
-    const refresh = (p?: P) => { refreshAsync(p) }
-    if (!manual) onMounted(() => refresh(defaultParam))
+    const refresh = (...p: P) => { refreshAsync(...p) }
+    if (!manual) onMounted(() => refresh(...defaultParam))
     if (deps && (!Array.isArray(deps) || deps?.length)) {
-        watch(deps, () => refresh(defaultParam))
+        watch(deps, () => refresh(...defaultParam))
     }
     return { data, refresh, refreshAsync, loading }
 }

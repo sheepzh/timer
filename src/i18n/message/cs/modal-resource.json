@@ -58,5 +58,11 @@
         "more5Minutes": "Плюс 5 минут",
         "browsingTime": "Время просмотра",
         "ruleDetail": "Детали правила"
+    },
+    "ar": {
+        "defaultPrompt": "تم حظر هذه الصفحة!",
+        "more5Minutes": "أكثر من 5 دقائق",
+        "browsingTime": "وقت التصفح",
+        "ruleDetail": "تفاصيل القاعدة"
     }
 }

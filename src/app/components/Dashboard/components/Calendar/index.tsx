@@ -42,7 +42,7 @@ const fetchData = async (): Promise<BizOption> => {
 }
 
 const _default = defineComponent(() => {
-    const { data } = useRequest<void, BizOption>(fetchData)
+    const { data } = useRequest(fetchData)
     const { elRef } = useEcharts(Wrapper, data)
 
     return () => (

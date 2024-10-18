@@ -256,8 +256,12 @@ async function buildProjectTranslation(this: CrowdinClient, branchId: number) {
         skipUntranslatedStrings: true,
     })
     const buildId = buildRes?.data?.id
-    const res = await this.crowdin.translationsApi.downloadTranslations(PROJECT_ID, buildId)
-    return res?.data?.url
+    while (true) {
+        // Wait finished
+        const res = await this.crowdin.translationsApi.downloadTranslations(PROJECT_ID, buildId)
+        const url = res?.data?.url
+        if (url) return url
+    }
 }
 
 /**

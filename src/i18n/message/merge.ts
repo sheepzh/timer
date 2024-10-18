@@ -1,4 +1,18 @@
-import { ALL_LOCALES } from ".."
+const ALL_LOCALE_VALIDATOR: { [locale in timer.Locale]: 0 } = {
+    en: 0,
+    zh_CN: 0,
+    ja: 0,
+    zh_TW: 0,
+    pt_PT: 0,
+    uk: 0,
+    es: 0,
+    de: 0,
+    fr: 0,
+    ru: 0,
+    ar: 0,
+}
+
+export const ALL_LOCALES: timer.Locale[] = Object.keys(ALL_LOCALE_VALIDATOR) as timer.Locale[]
 
 export type MessageRoot<T = any> = { [key in keyof T]: Messages<T[key]> }
 

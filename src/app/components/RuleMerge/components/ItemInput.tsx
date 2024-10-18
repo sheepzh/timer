@@ -7,11 +7,13 @@
 
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
+import { useShadow } from "@hooks"
+import { LOCAL_HOST_PATTERN } from "@util/constant/remain-host"
+import { tryParseInteger } from "@util/number"
 import { isValidHost } from "@util/pattern"
 import { ElButton, ElInput, ElMessage } from "element-plus"
-import { defineComponent } from "vue"
+import { computed, defineComponent } from "vue"
 import './style.sass'
-import { useState } from "@hooks"
 
 const _default = defineComponent({
     props: {
@@ -19,12 +21,24 @@ const _default = defineComponent({
         merged: [String, Number],
     },
     emits: {
-        save: (_origin: string, _merged: string) => true,
+        save: (_origin: string, _merged: string | number) => true,
         cancel: () => true,
     },
     setup(props, ctx) {
-        const [origin, setOrigin, resetOrigin] = useState(props.origin || "")
-        const [merged, setMerged, resetMerged] = useState(props.merged?.toString() || "")
+        const [origin, setOrigin, resetOrigin] = useShadow(() => props.origin, '')
+        const [merged, setMerged, resetMerged] = useShadow(() => props.merged, '')
+
+        const mergedTxt = computed({
+            get() {
+                const mergedVal = merged.value
+                if (typeof mergedVal === 'number') return `${mergedVal + 1}`
+                else return mergedVal
+            },
+            set(val: string) {
+                const newVal = tryParseInteger(val?.trim())[1]
+                setMerged(typeof newVal === 'number' ? newVal - 1 : newVal)
+            },
+        })
 
         const handleSave = () => {
             const originVal = origin.value
@@ -35,6 +49,13 @@ const _default = defineComponent({
                 ElMessage.warning(t(msg => msg.mergeRule.errorOrigin))
             }
         }
+
+        const handleCancel = () => {
+            resetOrigin()
+            resetMerged()
+            ctx.emit("cancel")
+        }
+
         return () => (
             <div class="item-input-container">
                 <ElInput
@@ -44,24 +65,21 @@ const _default = defineComponent({
                     clearable
                     onClear={() => setOrigin()}
                     onInput={setOrigin}
+                    disabled={origin.value === LOCAL_HOST_PATTERN}
                 />
                 <ElInput
                     class="input-new-tag editable-item merge-merged-input"
-                    modelValue={merged.value}
+                    modelValue={mergedTxt.value}
                     placeholder={t(msg => msg.mergeRule.mergedPlaceholder)}
                     clearable
-                    onClear={() => setMerged()}
-                    onInput={setMerged}
+                    onClear={() => mergedTxt.value = ''}
+                    onInput={val => mergedTxt.value = val}
                 />
                 <ElButton
                     size="small"
                     icon={<Close />}
                     class="item-cancel-button editable-item"
-                    onClick={() => {
-                        resetOrigin()
-                        resetMerged()
-                        ctx.emit("cancel")
-                    }}
+                    onClick={handleCancel}
                 />
                 <ElButton
                     size="small"

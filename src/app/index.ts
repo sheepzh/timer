@@ -30,7 +30,12 @@ async function main() {
     initEcharts()
     const app: App = createApp(Main)
     installRouter(app)
-    app.mount('#app')
+
+    const el = document.createElement('div')
+    document.body.append(el)
+    el.id = 'app'
+    app.mount(el)
+
     await initElementLocale(app)
 }
 

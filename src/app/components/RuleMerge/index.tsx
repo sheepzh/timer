@@ -5,19 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
-import '../common/editable-tag'
+import { ElCard } from "element-plus"
 import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
+import '../common/editable-tag'
 import AlertInfo from "./AlertInfo"
-import itemList from "./item-list"
-import { ElCard } from "element-plus"
+import ItemList from "./ItemList"
 
-const _default = defineComponent({
-    render: () => (
+const _default = defineComponent(() => {
+    return () => (
         <ContentContainer>
             <ElCard>
                 <AlertInfo />
-                {itemList()}
+                <ItemList />
             </ElCard>
         </ContentContainer>
     )

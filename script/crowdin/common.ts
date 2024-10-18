@@ -17,7 +17,7 @@ export type ItemSet = {
     [path: string]: string
 }
 
-export const ALL_CROWDIN_LANGUAGES = ['zh-TW', 'ja', 'pt-PT', 'uk', 'es-ES', 'de', 'fr', 'ru'] as const
+export const ALL_CROWDIN_LANGUAGES = ['zh-TW', 'ja', 'pt-PT', 'uk', 'es-ES', 'de', 'fr', 'ru', 'ar'] as const
 
 /**
  * The language code of crowdin
@@ -38,6 +38,7 @@ export const ALL_TRANS_LOCALES: timer.Locale[] = [
     'de',
     'fr',
     'ru',
+    'ar',
 ]
 
 const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
@@ -49,6 +50,7 @@ const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
     de: 'de',
     fr: 'fr',
     ru: 'ru',
+    ar: 'ar',
 }
 
 const I18N_CROWDIN_MAP: Record<timer.OptionalLocale, CrowdinLanguage> = {
@@ -60,6 +62,7 @@ const I18N_CROWDIN_MAP: Record<timer.OptionalLocale, CrowdinLanguage> = {
     de: 'de',
     fr: 'fr',
     ru: 'ru',
+    ar: 'ar',
 }
 
 export const crowdinLangOf = (locale: timer.Locale) => I18N_CROWDIN_MAP[locale]
@@ -143,7 +146,7 @@ export async function mergeMessage(
                 const pathSeg = path.split('.')
                 fillItem(pathSeg, 0, newMessage, text)
             })
-        existMessages[locale] = newMessage
+        Object.entries(newMessage).length && (existMessages[locale] = newMessage)
     })
 
     const newFileContent = JSON.stringify(existMessages, null, 4)

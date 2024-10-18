@@ -148,5 +148,20 @@
         "okey": "ОК",
         "dont": "НЕТ!",
         "operation": "Операции"
+    },
+    "ar": {
+        "create": "جديد",
+        "delete": "حذف",
+        "modify": "يُعدِّل",
+        "save": "يحفظ",
+        "test": "اختبار",
+        "paste": "لصق",
+        "confirm": "تأكيد",
+        "cancel": "إلغاء",
+        "previous": "السابقة",
+        "next": "التالي",
+        "okey": "حسناً",
+        "dont": "لا!",
+        "operation": "العملية"
     }
 }

@@ -1,3 +1,4 @@
+@use "sass:meta"
 /**
  * Copyright (c) 2021 Hengyang Zhang
  *
@@ -13,7 +14,7 @@
 @import url("element-plus/theme-chalk/el-popper.css")
 @import url("element-plus/theme-chalk/el-option.css")
 @import url("element-plus/theme-chalk/el-icon.css")
-@import ./dark-theme
+@include meta.load-css("dark-theme")
 
 $width: 750px
 $height: 500px

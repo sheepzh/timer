@@ -24,7 +24,11 @@ async function main() {
     const app: App = createApp(Main)
     await initElementLocale(app)
     app.directive("loading", ElLoadingDirective)
-    app.mount('#app')
+
+    const el = document.createElement('div')
+    document.body.append(el)
+    el.id = 'app'
+    app.mount(el)
 }
 
 main()
