@@ -7,6 +7,8 @@
 
 import { getUILanguage } from "@api/chrome/i18n"
 import optionService from "@service/option-service"
+import { setDir, setLocale } from "@util/document"
+import { ALL_LOCALES as _ALL_LOCALES } from "./message/merge"
 
 /**
  * Not to import this one if not necessary
@@ -17,20 +19,7 @@ export type FakedLocale = timer.Locale
  */
 export const FEEDBACK_LOCALE: timer.Locale = "en"
 
-const ALL_LOCALE_VALIDATOR: { [locale in timer.Locale]: 0 } = {
-    en: 0,
-    zh_CN: 0,
-    ja: 0,
-    zh_TW: 0,
-    pt_PT: 0,
-    uk: 0,
-    es: 0,
-    de: 0,
-    fr: 0,
-    ru: 0,
-}
-
-export const ALL_LOCALES: timer.Locale[] = Object.keys(ALL_LOCALE_VALIDATOR) as timer.Locale[]
+export const ALL_LOCALES: timer.Locale[] = _ALL_LOCALES
 
 export const defaultLocale: timer.Locale = "zh_CN"
 
@@ -112,10 +101,9 @@ function handleLocaleOption(option: timer.option.AllOption) {
     } else {
         locale = localOption as timer.Locale
     }
-    if (typeof window !== 'undefined' && window?.document) {
-        const htmlEl = document.getElementsByTagName("html")?.[0]
-        htmlEl?.setAttribute?.("data-locale", locale)
-    }
+
+    setLocale(locale)
+    setDir(locale === 'ar' ? 'rtl' : 'ltr')
 }
 
 /**

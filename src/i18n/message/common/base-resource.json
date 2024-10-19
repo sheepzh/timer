@@ -67,5 +67,12 @@
         "option": "Опции",
         "sourceCode": "Исходный код",
         "changeLog": "История изменений"
+    },
+    "ar": {
+        "allFunction": "جميع الوظائف",
+        "guidePage": "دليل المستخدم",
+        "option": "خيارات",
+        "sourceCode": "كود المصدر",
+        "changeLog": "سجل التغيير"
     }
 }

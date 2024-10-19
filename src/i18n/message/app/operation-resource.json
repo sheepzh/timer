@@ -38,5 +38,9 @@
     "ru": {
         "confirmTitle": "Подтверждение",
         "successMsg": "Успешно!"
+    },
+    "ar": {
+        "confirmTitle": "تأكيد",
+        "successMsg": "بنجاح!"
     }
 }

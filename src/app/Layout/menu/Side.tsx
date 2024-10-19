@@ -51,7 +51,7 @@ const _default = defineComponent(() => {
 
     return () => (
         <div class="menu-container">
-            <ElMenu defaultActive={currentActive.value}>
+            <ElMenu defaultActive={currentActive.value} style={{ border: 'none' }}>
                 {MENUS.map(menu => <ElMenuItemGroup title={t(menu.title)}>
                     {menu.children.map(item => renderMenuLeaf(item, router, currentActive))}
                 </ElMenuItemGroup>)}

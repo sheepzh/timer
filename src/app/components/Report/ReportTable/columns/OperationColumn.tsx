@@ -8,7 +8,7 @@ import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons-vue"
-import { useRequest } from "@hooks/useRequest"
+import { useRequest } from "@hooks"
 import { locale } from "@i18n"
 import whitelistService from "@service/whitelist-service"
 import { ElTableRowScope } from "@src/element-ui/table"
@@ -29,6 +29,7 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     de: 370,
     fr: 330,
     ru: 350,
+    ar: 320,
 }
 
 const _default = defineComponent({

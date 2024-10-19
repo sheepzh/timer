@@ -9,6 +9,7 @@ import baseMessages, { BaseMessage } from "../message/common/base"
 import contextMenusMessages, { ContextMenusMessage } from "../message/common/context-menus"
 import initialMessages, { InitialMessage } from "../message/common/initial"
 import metaMessages, { MetaMessage } from "../message/common/meta"
+import { merge, MessageRoot } from "../message/merge"
 
 export type ChromeMessage = {
     meta: MetaMessage
@@ -17,68 +18,14 @@ export type ChromeMessage = {
     initial: InitialMessage
 }
 
-const messages: Required<Messages<ChromeMessage>> = {
-    zh_CN: {
-        meta: metaMessages.zh_CN,
-        base: baseMessages.zh_CN,
-        contextMenus: contextMenusMessages.zh_CN,
-        initial: initialMessages.zh_CN,
-    },
-    zh_TW: {
-        meta: metaMessages.zh_TW,
-        base: baseMessages.zh_TW,
-        contextMenus: contextMenusMessages.zh_TW,
-        initial: initialMessages.zh_TW,
-    },
-    en: {
-        meta: metaMessages.en,
-        base: baseMessages.en,
-        contextMenus: contextMenusMessages.en,
-        initial: initialMessages.en,
-    },
-    ja: {
-        meta: metaMessages.ja,
-        base: baseMessages.ja,
-        contextMenus: contextMenusMessages.ja,
-        initial: initialMessages.ja,
-    },
-    pt_PT: {
-        meta: metaMessages.pt_PT,
-        base: baseMessages.pt_PT,
-        contextMenus: contextMenusMessages.pt_PT,
-        initial: initialMessages.pt_PT,
-    },
-    uk: {
-        meta: metaMessages.uk,
-        base: baseMessages.uk,
-        contextMenus: contextMenusMessages.uk,
-        initial: initialMessages.uk,
-    },
-    es: {
-        meta: metaMessages.es,
-        base: baseMessages.es,
-        contextMenus: contextMenusMessages.es,
-        initial: initialMessages.es,
-    },
-    de: {
-        meta: metaMessages.de,
-        base: baseMessages.de,
-        contextMenus: contextMenusMessages.de,
-        initial: initialMessages.de,
-    },
-    fr: {
-        meta: metaMessages.fr,
-        base: baseMessages.fr,
-        contextMenus: contextMenusMessages.fr,
-        initial: initialMessages.fr,
-    },
-    ru: {
-        meta: metaMessages.ru,
-        base: baseMessages.ru,
-        contextMenus: contextMenusMessages.ru,
-        initial: initialMessages.ru,
-    }
+const MESSAGE_ROOT: MessageRoot<ChromeMessage> = {
+    meta: metaMessages,
+    base: baseMessages,
+    contextMenus: contextMenusMessages,
+    initial: initialMessages,
 }
+
+const messages = merge<ChromeMessage>(MESSAGE_ROOT)
 
 export default messages
 

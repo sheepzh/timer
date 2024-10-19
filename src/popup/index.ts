@@ -5,15 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import "./style"
-
+import { initLocale } from "@i18n"
+import metaService from "@service/meta-service"
+import optionService from "@service/option-service"
+import { init as initTheme, toggle } from "@util/dark-mode"
+import "../common/timer"
 import renderChart, { handleRestore } from "./components/chart"
 import FooterWrapper from "./components/footer"
-import metaService from "@service/meta-service"
-import "../common/timer"
-import { toggle, init as initTheme } from "@util/dark-mode"
-import optionService from "@service/option-service"
-import { initLocale } from "@i18n"
+import "./style"
 
 async function main() {
     await initLocale()

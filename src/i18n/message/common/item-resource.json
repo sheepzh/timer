@@ -168,5 +168,22 @@
             "importWholeData": "Импорт данных",
             "importOtherData": "Импорт из других расширений"
         }
+    },
+    "ar": {
+        "date": "تاريخ",
+        "host": "عنوان URL",
+        "focus": "وقت التصفح",
+        "time": "زيارات الموقع",
+        "operation": {
+            "add2Whitelist": "القائمة البيضاء",
+            "removeFromWhitelist": "يُمكَِن",
+            "analysis": "تحليل",
+            "deleteConfirmMsgAll": "سيتم حذف جميع سجلات {url}!",
+            "deleteConfirmMsgRange": "سيتم حذف جميع سجلات {url} بين {start} و {end}!",
+            "deleteConfirmMsg": "سيتم حذف سجل {url} في {date}!",
+            "exportWholeData": "تصدير البيانات",
+            "importWholeData": "استيراد البيانات",
+            "importOtherData": "الاستيراد من ملحقات أخرى"
+        }
     }
 }

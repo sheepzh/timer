@@ -1,13 +1,11 @@
-import { computed, defineComponent, PropType } from "vue"
-import "./item.sass"
-import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
 import { createTab } from "@api/chrome/tab"
 import { useShadow } from "@hooks"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
-
-export type Row = timer.stat.Row & {
-}
+import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
+import { computed, defineComponent, PropType } from "vue"
+import "./item.sass"
+import { classNames } from "@util/style"
 
 const renderTitle = (siteName: string, host: string, handleJump: () => void) => {
     const text = siteName || host
@@ -19,7 +17,7 @@ const renderTitle = (siteName: string, host: string, handleJump: () => void) => 
     </ElTooltip >
 }
 
-const renderAvatarText = (row: Row) => {
+const renderAvatarText = (row: timer.stat.Row) => {
     const { host, alias } = row || {}
     if (alias) return alias.substring(0, 1)?.toUpperCase?.()
     return host?.substring?.(0, 1)?.toUpperCase?.()
@@ -27,7 +25,7 @@ const renderAvatarText = (row: Row) => {
 
 const _default = defineComponent({
     props: {
-        value: Object as PropType<Row>,
+        value: Object as PropType<timer.stat.Row>,
         max: Number,
         total: Number,
     },
@@ -49,7 +47,7 @@ const _default = defineComponent({
         return () => (
             <ElCard class="row-item" shadow="hover">
                 <div
-                    class={`avatar-container ${clickable.value ? 'clickable' : ''}`}
+                    class={classNames('avatar-container', clickable.value && 'clickable')}
                     onClick={handleJump}
                 >
                     <ElAvatar

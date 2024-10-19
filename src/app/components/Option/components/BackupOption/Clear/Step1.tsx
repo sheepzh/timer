@@ -7,6 +7,7 @@
 
 import { t } from "@app/locale"
 import { Close, Right } from "@element-plus/icons-vue"
+import { useManualRequest } from "@hooks"
 import processor from "@src/common/backup/processor"
 import { BIRTHDAY, parseTime } from "@util/time"
 import { ElButton, ElMessage } from "element-plus"
@@ -45,7 +46,11 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         const client: Ref<timer.backup.Client> = ref()
-        const loading: Ref<boolean> = ref()
+
+        const { loading, refresh: fetchClient } = useManualRequest(fetchStatResult, {
+            onSuccess: data => ctx.emit('next', data),
+            onError: (e: Error) => ElMessage.error(e.message || 'Unknown error...'),
+        })
 
         const handleNext = () => {
             const clientVal = client.value
@@ -53,14 +58,7 @@ const _default = defineComponent({
                 ElMessage.warning(t(msg => msg.option.backup.clientTable.notSelected))
                 return
             }
-            loading.value = true
-            fetchStatResult(clientVal)
-                .then(data => ctx.emit('next', data))
-                .catch((e: Error) => {
-                    ElMessage.error(e.message || 'Unknown error...')
-                    console.error(e)
-                })
-                .finally(() => loading.value = false)
+            fetchClient(clientVal)
         }
 
         return () => <>

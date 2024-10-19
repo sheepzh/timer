@@ -26,14 +26,4 @@ export function resultOf(focus: number, time: number): timer.stat.Result {
     return { focus, time }
 }
 
-export function rowOf(key: timer.stat.RowKey, item?: timer.stat.Result): timer.stat.Row {
-    return {
-        ...key,
-        focus: item && item.focus || 0,
-        time: item && item.time || 0,
-        mergedHosts: [],
-        virtual: judgeVirtualFast(key.host),
-    }
-}
-
 export const ALL_DIMENSIONS: timer.stat.Dimension[] = ['focus', 'time']

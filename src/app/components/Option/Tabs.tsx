@@ -1,6 +1,6 @@
 import { t } from "@app/locale"
 import { Refresh } from "@element-plus/icons-vue"
-import { useShadow } from "@hooks/useShadow"
+import { useShadow } from "@hooks"
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import { useRouter } from "vue-router"

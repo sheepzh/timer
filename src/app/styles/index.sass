@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-@import "../../element-ui/dark-theme"
-@import "./echarts"
-@import "./element"
+@use "../../element-ui/dark-theme"
+@use "echarts"
+@use "element"
 
 body
     height: 100vh
@@ -133,19 +133,6 @@ a
 .collapse-card.collapse
     .el-card__body
         display: none
-
-.el-menu
-    height: 100%
-    border: none
-    padding-top: 10px
-
-.el-menu-item
-    font-family: Roboto,San Francisco,Helvetica Neue,Helvetica,Arial,PingFangSC-Light,Hiragina Sans GB,WenQuanYi Micro Hei,microsoft yahei ui,microsoft yahei,sans-serif
-    .el-icon
-        font-size: 18px !important
-
-.el-menu-item.is-active
-    background: var(--el-menu-item-active-bg-color)
 
 \:root
     --el-menu-item-height: 48px

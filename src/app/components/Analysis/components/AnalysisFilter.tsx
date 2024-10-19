@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElOption, ElSelect, ElTag } from "element-plus"
-import { type PropType, watch, defineComponent } from "vue"
-import statService, { HostSet } from "@service/stat-service"
-import siteService from "@service/site-service"
-import { t } from "@app/locale"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import { t } from "@app/locale"
+import { useManualRequest, useState } from "@hooks"
+import siteService from "@service/site-service"
+import statService, { HostSet } from "@service/stat-service"
+import { ElOption, ElSelect, ElTag } from "element-plus"
+import { defineComponent, type PropType, watch } from "vue"
 import { labelOfHostInfo } from "../util"
-import { useRequest, useState } from "@hooks"
 
 const calcUniqueKey = ({ host, virtual, merged }: timer.site.SiteInfo) => `${host}${virtual ? 1 : 0}${merged ? 1 : 0}`
 
@@ -79,11 +79,11 @@ const _default = defineComponent({
         timeFormatChange: (_format: timer.app.TimeFormat) => true,
     },
     setup(props, ctx) {
-        const defaultSite: timer.site.SiteKey = props.site
+        const defaultSite: timer.site.SiteInfo = props.site
         const [domainKey, setDomainKey] = useState(defaultSite ? calcKey(defaultSite) : '')
-        const { data: trendDomainOptions, loading: trendSearching, refresh: searchRemote } = useRequest<string, timer.site.SiteInfo[]>(
+        const { data: trendDomainOptions, loading: trendSearching, refresh: searchRemote } = useManualRequest(
             fetchDomain,
-            { defaultValue: defaultSite ? [defaultSite] : [], manual: true }
+            { defaultValue: defaultSite ? [defaultSite] : [] },
         )
         const [timeFormat, setTimeFormat] = useState(props.timeFormat)
         watch(domainKey, () => ctx.emit('siteChange', calcSite(domainKey.value)))

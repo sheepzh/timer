@@ -1,12 +1,13 @@
-import path from "path"
-import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import CopyWebpackPlugin from "copy-webpack-plugin"
-import webpack, { Chunk, DefinePlugin } from "webpack"
+import GenerateJsonPlugin from "generate-json-webpack-plugin"
+import HtmlWebpackPlugin from "html-webpack-plugin"
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import path from "path"
+import postcssRTLCSS from 'postcss-rtlcss'
+import webpack, { Chunk, DefinePlugin, RuleSetRule } from "webpack"
+import { POLYFILL_SCRIPT_NAME } from "../src/content-script/polyfill/inject"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
-import HtmlWebpackPlugin from "html-webpack-plugin"
-import { POLYFILL_SCRIPT_NAME } from "../src/content-script/polyfill/inject"
 
 export const MANIFEST_JSON_NAME = "manifest.json"
 
@@ -63,6 +64,7 @@ const entryConfigs: EntryConfig[] = [{
 }, {
     name: 'popup',
     path: './src/popup',
+    chunkExclusive: true,
 }, {
     name: 'app',
     path: './src/app',
@@ -74,6 +76,15 @@ const entryConfigs: EntryConfig[] = [{
 const EXCLUDE_CHUNK_ENTRY = entryConfigs.filter(({ chunkExclusive }) => chunkExclusive).map(({ name }) => name)
 
 const excludeChunk = (chunk: Chunk) => !EXCLUDE_CHUNK_ENTRY.includes(chunk.name)
+
+const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
+    loader: 'postcss-loader',
+    options: {
+        postcssOptions: {
+            plugins: [postcssRTLCSS({ mode: 'combined' })],
+        },
+    },
+}
 
 const staticOptions: webpack.Configuration = {
     entry() {
@@ -102,10 +113,10 @@ const staticOptions: webpack.Configuration = {
                 }, 'ts-loader'],
             }, {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader"],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', POSTCSS_LOADER_CONF],
             }, {
                 test: /\.sc|ass$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', POSTCSS_LOADER_CONF, 'sass-loader']
             }, {
                 test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
                 exclude: /node_modules/,
@@ -200,8 +211,8 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
         }),
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'app.html'),
             filename: path.join('static', 'app.html'),
+            title: 'Loading...',
             meta: {
                 viewport: {
                     name: "viewport",
@@ -216,8 +227,8 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
             chunks: ['popup'],
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'side.html'),
             filename: path.join('static', 'side.html'),
+            title: 'Loading...',
             chunks: ['side'],
         }),
         new DefinePlugin({

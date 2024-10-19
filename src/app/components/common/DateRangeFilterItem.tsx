@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { EL_DATE_FORMAT } from "@i18n/element"
+import { ElementDatePickerShortcut } from "@src/element-ui/date"
+import { getDatePickerIconSlots } from "@src/element-ui/rtl"
 import { ElDatePicker } from "element-plus"
 import { defineComponent, PropType, ref, Ref } from "vue"
-import { ElementDatePickerShortcut } from "@src/element-ui/date"
-import { t } from "@app/locale"
-import { EL_DATE_FORMAT } from "@i18n/element"
 
 const _default = defineComponent({
     props: {
@@ -40,6 +40,7 @@ const _default = defineComponent({
                 startPlaceholder={props.startPlaceholder}
                 endPlaceholder={props.endPlaceholder}
                 clearable={props.clearable}
+                v-slots={getDatePickerIconSlots()}
             />
         </span>
     }
