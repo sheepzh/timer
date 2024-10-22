@@ -28,7 +28,7 @@ export function skipToday(item: timer.limit.Item): boolean {
     const weekdays = item?.weekdays
     const weekdayLen = weekdays?.length
     if (weekdayLen && weekdayLen !== 7) {
-        const weekday = getWeekDay(new Date(), true)
+        const weekday = getWeekDay(new Date())
         if (!weekdays.includes(weekday)) return true
     }
     return false

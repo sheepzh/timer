@@ -6,21 +6,24 @@
  */
 import type {
     ComposeOption,
-    TooltipComponentOption, GridComponentOption, VisualMapComponentOption,
-    ScatterSeriesOption, HeatmapSeriesOption,
+    GridComponentOption,
+    HeatmapSeriesOption,
+    ScatterSeriesOption,
+    TooltipComponentOption,
+    VisualMapComponentOption,
 } from "echarts"
 
-import { EchartsWrapper } from "@hooks/useEcharts"
-import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR, MILL_PER_MINUTE } from "@util/time"
-import { groupBy, rotate } from "@util/array"
-import { t } from "@app/locale"
-import { getPrimaryTextColor } from "@util/style"
-import { getAppPageUrl } from "@util/constant/url"
-import { REPORT_ROUTE } from "@app/router/constants"
 import { createTabAfterCurrent } from "@api/chrome/tab"
+import { t } from "@app/locale"
+import { REPORT_ROUTE } from "@app/router/constants"
 import { getStepColors } from "@app/util/echarts"
-import { locale } from "@i18n"
 import { cvt2LocaleTime } from "@app/util/time"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import weekHelper from "@service/components/week-helper"
+import { groupBy, rotate } from "@util/array"
+import { getAppPageUrl } from "@util/constant/url"
+import { getPrimaryTextColor } from "@util/style"
+import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR, MILL_PER_MINUTE } from "@util/time"
 
 type _Value = [
     x: number,
@@ -197,7 +200,7 @@ function handleClick(value: _Value): void {
 class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     protected isSizeSensitize: boolean = true
 
-    protected generateOption(option: BizOption): EcOption | Promise<EcOption> {
+    protected async generateOption(option: BizOption): Promise<EcOption> {
         if (!option) return {}
 
         const { startTime, endTime, value } = option
@@ -211,11 +214,8 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
             data.push([x, y, dailyMills, date])
         })
         const weekDays = (t(msg => msg.calendar.weekDays)?.split?.('|') || []).reverse()
-        if (locale !== "zh_CN") {
-            // Let Sunday last
-            // Saturday to Sunday
-            rotate(weekDays, 1)
-        }
+        const weekStart = await weekHelper.getRealWeekStart()
+        weekStart && rotate(weekDays, weekStart, true)
         return optionOf(data, weekDays, this.getDom())
     }
 
