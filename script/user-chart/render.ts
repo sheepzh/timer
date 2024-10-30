@@ -7,9 +7,10 @@ import {
     GistForm,
     updateGist
 } from "@api/gist"
-import { filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 import { EChartsType, init } from "echarts"
+import { writeFileSync } from "fs"
 import { exit } from "process"
+import { filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 
 const ALL_BROWSERS: Browser[] = ['firefox', 'edge', 'chrome']
 
@@ -210,6 +211,7 @@ async function main(): Promise<void> {
     const chartData = preProcess(originData)
     // 3. render csv
     const svg = render2Svg(chartData)
+    writeFileSync('user-chart.svg', svg, 'utf-8')
     // 4. upload
     await upload2Gist(token, svg)
     // 5. finish
