@@ -235,9 +235,12 @@
         "c": {
             "co": 1,
             "ed": 1,
+            "edu": 1,
+            "gov": 1,
             "gv": 1,
             "it": 1,
             "og": 1,
+            "org": 1,
             "pb": 1
         },
         "l": 1
@@ -377,6 +380,7 @@
     "arpa": {
         "c": {
             "e164": 1,
+            "home": 1,
             "in-addr": 1,
             "ip6": 1,
             "iris": 1,
@@ -963,6 +967,7 @@
     "biz": {
         "c": {
             "activetrail": 1,
+            "cloud-ip": 1,
             "cloudns": 1,
             "dscloud": 1,
             "dyndns": 1,
@@ -1589,11 +1594,9 @@
             "go": 1,
             "gouv": 1,
             "int": 1,
-            "md": 1,
             "net": 1,
             "or": 1,
             "org": 1,
-            "presse": 1,
             "xn--aroport-bya": 1
         },
         "l": 1
@@ -3636,6 +3639,7 @@
                     "jcloud-ver-jpc": 1
                 }
             },
+            "ip-ddns": 1,
             "is-a-anarchist": 1,
             "is-a-blogger": 1,
             "is-a-bookkeeper": 1,
@@ -3939,6 +3943,7 @@
             "streakusercontent": 1,
             "streamlitapp": 1,
             "stufftoread": 1,
+            "taveusercontent": 1,
             "tb-hosting": {
                 "c": {
                     "site": 1
@@ -4070,7 +4075,6 @@
             "com": 1,
             "edu": 1,
             "gob": 1,
-            "gov": 1,
             "inf": 1,
             "nat": 1,
             "net": 1,
@@ -5558,6 +5562,7 @@
             },
             "browsersafetymark": 1,
             "cleverapps": 1,
+            "co": 1,
             "com": 1,
             "dappnode": {
                 "c": {
@@ -5569,6 +5574,7 @@
             "definima": 1,
             "drud": 1,
             "editorx": 1,
+            "edu": 1,
             "edugit": 1,
             "fh-muenster": 1,
             "forgerock": {
@@ -5578,6 +5584,7 @@
             },
             "github": 1,
             "gitlab": 1,
+            "gov": 1,
             "hasura-app": 1,
             "hostyhosting": 1,
             "hypernode": 1,
@@ -5590,6 +5597,7 @@
             },
             "loginline": 1,
             "lolipop": 1,
+            "mil": 1,
             "mo-siemens": 1,
             "moonscale": {
                 "c": {
@@ -5598,6 +5606,7 @@
             },
             "musician": 1,
             "myrdbx": 1,
+            "net": 1,
             "ngrok": {
                 "c": {
                     "ap": 1,
@@ -5615,6 +5624,7 @@
                     "stage": 1
                 }
             },
+            "nom": 1,
             "on-acorn": {
                 "c": {
                     "*": 1
@@ -5630,6 +5640,7 @@
                     "*": 1
                 }
             },
+            "org": 1,
             "pantheonsite": 1,
             "protonet": 1,
             "pstmn": {
@@ -9323,6 +9334,7 @@
             "ctfcloud": 1,
             "dattolocal": 1,
             "ddns": 1,
+            "ddns-ip": 1,
             "debian": 1,
             "definima": 1,
             "dns-cloud": 1,
@@ -9386,6 +9398,7 @@
             "gb": 1,
             "gets-it": 1,
             "ggff": 1,
+            "grafana-dev": 1,
             "ham-radio-op": 1,
             "heteml": 1,
             "hicam": 1,
@@ -10855,6 +10868,7 @@
             "httpbin": 1,
             "in-dsl": 1,
             "in-vpn": 1,
+            "ip-dynamic": 1,
             "is-a-bruinsfan": 1,
             "is-a-candidate": 1,
             "is-a-celticsfan": 1,
@@ -11689,7 +11703,6 @@
                 }
             },
             "development": 1,
-            "hs": 1,
             "migration": {
                 "c": {
                     "*": 1
@@ -12077,6 +12090,7 @@
     "ss": {
         "c": {
             "biz": 1,
+            "co": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -13812,7 +13826,6 @@
     "zone": {
         "c": {
             "cloud66": 1,
-            "hs": 1,
             "lima": 1,
             "stackit": 1,
             "triton": {
