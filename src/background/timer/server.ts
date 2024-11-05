@@ -1,12 +1,12 @@
 import { getTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { getWindow } from "@api/chrome/window"
+import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
+import optionService from "@service/option-service"
 import periodService from "@service/period-service"
-import statService from "@service/stat-service"
 import { extractHostname } from "@util/pattern"
 import badgeManager from "../badge-manager"
 import MessageDispatcher from "../message-dispatcher"
-import optionService from "@service/option-service"
 
 let option = null
 optionService.getAllOption().then(opt => option = opt)
@@ -16,7 +16,7 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
     const [start, end] = dateRange
     const focusTime = end - start
     // 1. Save async
-    await statService.addFocusTime(host, url, focusTime)
+    await itemService.addFocusTime(host, url, focusTime)
     // 2. Process limit
     const metLimits = await limitService.addFocusTime(host, url, focusTime)
     // If time limited after this operation, send messages
