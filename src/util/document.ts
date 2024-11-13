@@ -1,5 +1,3 @@
-import { anyMatch } from "./array"
-
 export const setDir = (direction: 'ltr' | 'rtl') => {
     if (isNotExtensionPage()) return
     const htmlEl = document.getElementsByTagName("html")?.[0]
@@ -16,9 +14,14 @@ const isNotExtensionPage = (): boolean => {
     if (typeof location === 'undefined' || typeof chrome === 'undefined' || typeof window === 'undefined') {
         return true
     }
-    if (location.hostname !== chrome.runtime?.id) return true
 
-    return !window?.document
+    const { protocol } = location || {}
+
+    if (protocol === 'https:' || protocol === 'http:' || protocol === "ftp:" || protocol === "file:") {
+        return true
+    }
+
+    return !chrome.runtime?.id
 }
 
 export const isRtl = (): boolean => {

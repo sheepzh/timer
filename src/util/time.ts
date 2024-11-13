@@ -118,6 +118,8 @@ export const MILL_PER_HOUR = MILL_PER_MINUTE * 60
  */
 export const MILL_PER_DAY = MILL_PER_HOUR * 24
 
+export const MILL_PER_WEEK = MILL_PER_DAY * 7
+
 /**
  * Date range between {start} days ago and {end} days ago
  */
@@ -133,64 +135,10 @@ export function isSameDay(a: Date, b: Date): boolean {
 }
 
 /**
- * Get the start time and end time of this week
- * @param now the specific time
- * @returns [startTime, endTime]
- *
- * @since 0.6.0
+ * @returns 0 to 6, means Monday to Sunday
  */
-export function getWeekTime(now: Date, weekStart: timer.option.WeekStartOption, locale: timer.Locale): [Date, Date] {
-    weekStart = getRealWeekStart(weekStart, locale)
-    // Returns 0 - 6 means Monday to Sunday
-    const weekDayNow = getWeekDay(now, true)
-    const optionWeekDay = weekDayNow + 1
-    let start: Date = undefined
-    if (optionWeekDay === weekStart) {
-        start = now
-    } else if (optionWeekDay < weekStart) {
-        const millDelta = (optionWeekDay + 7 - weekStart) * MILL_PER_DAY
-        start = new Date(now.getTime() - millDelta)
-    } else {
-        const millDelta = (optionWeekDay - weekStart) * MILL_PER_DAY
-        start = new Date(now.getTime() - millDelta)
-    }
-    return [start, now]
-}
-
-/**
- * return 1-7
- */
-export function getRealWeekStart(weekStart: timer.option.WeekStartOption, locale: timer.Locale): number {
-    weekStart = weekStart ?? 'default'
-    if (weekStart === 'default') {
-        return locale === 'zh_CN' ? 1 : 7
-    } else {
-        return weekStart
-    }
-}
-
-/**
- * Get the start time {@param weekCount} weeks ago
- *
- * @param now the specific time
- * @param weekCount weekCount
- * @since 1.0.0
- */
-export function getWeeksAgo(now: Date, isChinese: boolean, weekCount: number): Date {
-    const date = new Date(now)
-    const nowWeekday = getWeekDay(date, isChinese)
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate() - nowWeekday - weekCount * 7)
-}
-
-/**
- * @returns 0 to 6, means Monday to Sunday if Chinese, or Sunday to Saturday
- */
-export function getWeekDay(now: Date, isChinese: boolean): number {
-    const date = new Date(now)
-    return isChinese
-        // Trans 2 chinese weekday
-        ? (date.getDay() + 6) % 7
-        : date.getDay()
+export function getWeekDay(date: Date): number {
+    return (date.getDay() + 6) % 7
 }
 
 /**

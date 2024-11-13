@@ -8,8 +8,8 @@
 import { t } from "@app/locale"
 import { useState, useSwitch } from "@hooks"
 import limitService from "@service/limit-service"
-import { ElAlert, AlertProps, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
-import { defineComponent, computed } from "vue"
+import { AlertProps, ElAlert, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
+import { computed, defineComponent } from "vue"
 
 export type TestInstance = {
     show(): void
@@ -54,7 +54,10 @@ const _default = defineComponent((_props, ctx) => {
     const resultType = computed(() => computeResultType(url.value, urlInputting.value, matched.value))
     const resultDesc = computed(() => computeResultDesc(url.value, urlInputting.value, matched.value))
 
-    const changeInput = (newVal?: string) => urlInputting.value && (url.value = newVal?.trim())
+    const changeInput = (newVal?: string) => {
+        startInput()
+        url.value = newVal?.trim()
+    }
 
     const handleTest = async () => {
         endInput()

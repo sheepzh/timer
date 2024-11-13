@@ -63,7 +63,8 @@ async function post<T, R>(token: string, uri: string, body?: R): Promise<T> {
         }
     })
     const result = await response.json()
-    if (response.status === 200) {
+    const { status } = response
+    if (status >= 200 && status < 300) {
         // Clear cache if success to request
         GET_CACHE.clear()
         return result as T

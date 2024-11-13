@@ -6,9 +6,9 @@
  */
 
 import BackupDatabase from "@db/backup-database"
+import itemService from "@service/item-service"
 import metaService from "@service/meta-service"
 import optionService from "@service/option-service"
-import statService from "@service/stat-service"
 import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
@@ -122,7 +122,7 @@ async function syncFull(
     // 1. select rows
     let start = getBirthday()
     let end = new Date()
-    const rows = await statService.select({ date: [start, end] })
+    const rows = await itemService.selectItems({ date: [start, end] })
     const allDates = rows.map(r => r.date).sort((a, b) => a == b ? 0 : a > b ? 1 : -1)
     client.maxDate = allDates[allDates.length - 1]
     client.minDate = allDates[0]

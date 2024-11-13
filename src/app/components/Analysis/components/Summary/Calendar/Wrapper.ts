@@ -7,10 +7,10 @@
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { locale } from "@i18n"
+import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"
 import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
-import { formatTime, getAllDatesBetween, getWeeksAgo, parseTime } from "@util/time"
+import { formatTime, getAllDatesBetween, MILL_PER_WEEK, parseTime } from "@util/time"
 import {
     ComposeOption,
     EffectScatterSeriesOption,
@@ -148,11 +148,11 @@ export type BizOption = {
 class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     isSizeSensitize = true
 
-    protected generateOption({ rows = [], timeFormat }: BizOption): EcOption | Promise<EcOption> {
+    protected async generateOption({ rows = [], timeFormat }: BizOption): Promise<EcOption> {
         const width = this.getDomWidth()
-        const weekNum = getWeekNum(width)
+        const colNum = getWeekNum(width)
         const endTime = new Date()
-        const startTime = getWeeksAgo(endTime, locale === "zh_CN", weekNum)
+        const [startTime,] = await weekHelper.getWeekDate(endTime.getTime() - MILL_PER_WEEK * (colNum - 1))
         const allDates = getAllDatesBetween(startTime, endTime)
         const value = groupBy(rows, r => r.date, l => l?.[0]?.focus)
         const data: _Value[] = []
@@ -163,12 +163,9 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
             const x = colIndex, y = 7 - (1 + weekDay)
             data.push([x, y, dailyMills, date])
         })
+        const weekStart = await weekHelper.getRealWeekStart()
         const weekDays = (t(msg => msg.calendar.weekDays)?.split?.('|') || []).reverse()
-        if (locale !== "zh_CN") {
-            // Let Sunday last
-            // Saturday to Sunday
-            rotate(weekDays, 1)
-        }
+        rotate(weekDays, weekStart, true)
         return optionOf(data, weekDays, timeFormat, width)
     }
 }

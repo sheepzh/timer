@@ -4,50 +4,54 @@
 
 使用到的技术栈有：
 
-* [webpack](https://github.com/webpack/webpack) + [TypeScript](https://github.com/microsoft/TypeScript)
-* [Vue3 (Composition API)](https://vuejs.org/api/#:~:text=defineCustomElement()-,Composition%20API,-setup())
-* [sass](https://github.com/sass/sass)
-* [Element Plus](https://element-plus.gitee.io/)
-* [echarts](https://github.com/apache/echarts)
+-   [webpack](https://github.com/webpack/webpack) + [TypeScript](https://github.com/microsoft/TypeScript)
+-   [Vue3 (Composition API)](<https://vuejs.org/api/#:~:text=defineCustomElement()-,Composition%20API,-setup()>)
+-   [sass](https://github.com/sass/sass)
+-   [Element Plus](https://element-plus.gitee.io/)
+-   [echarts](https://github.com/apache/echarts)
 
 以及 [Chrome Extension 开发文档](https://developer.chrome.com/docs/webstore/)，目前 manifest 的版本 Chrome 和 Edge 使用的使 v3, Firefox 使用的是 v2。请注意接口兼容。
 
 还集成了一些免费的开源工具：
 
-* 单元测试工具 [jest](https://jestjs.io/docs/getting-started)
-* 单元测试覆盖率 [Codecov](https://app.codecov.io/gh/sheepzh/timer)
-* 代码质量检测 [CODEBEAT](https://codebeat.co/projects/github-com-sheepzh-timer-main)
-* 多语言翻译管理 [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)
+-   单元测试工具 [jest](https://jestjs.io/docs/getting-started)
+-   单元测试覆盖率 [Codecov](https://app.codecov.io/gh/sheepzh/timer)
+-   代码质量检测 [CODEBEAT](https://codebeat.co/projects/github-com-sheepzh-timer-main)
+-   多语言翻译管理 [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)
 
 ## 2. 开发步骤
 
 1. fork 自己的仓库
 2. 安装依赖
+
 ```shell
 npm install
 ```
+
 3. 创建对应的需求分支
 4. code
 5. run 开发环境
-首先执行命令
+   首先执行命令
+
 ```shell
 npm run dev
 # 在 Firefox 中测试
 npm run dev:firefox
-# Optional to fix some error caused by node-sass
-npm rebuild node-sass
 ```
 
 项目根目录下会输出两个文件夹，dist_dev 和 firefox_dev。
 
 然后根据测试浏览器的不同导入不同的文件夹到浏览器中：
 
-* Chrome 和 Edge 导入 dist_dev 文件夹
-* Firefox 导入 firefox_dev 文件夹下的 manifest.json 文件。
+-   Chrome 和 Edge 导入 dist_dev 文件夹
+-   Firefox 导入 firefox_dev 文件夹下的 manifest.json 文件。
+
 6. 运行单元测试
+
 ```shell
 npm run test
 ```
+
 7. 提交代码，并 PR 主仓库的 main 分支
 
 ## 3. 应用架构设计
@@ -107,10 +111,12 @@ project
 ## 5. 代码格式
 
 请使用 VSCode 自带的代码格式工具，请<u>**禁用 Prettier Eslint**</u> 等格式化工具
-* 尽量使用单引号
-* 在符合语法正确情况下，尽量保持代码简洁
-* 行尾无分号
-* 换行符使用 LF (\n)，Windows 下需要执行以下指令关闭警告
+
+-   尽量使用单引号
+-   在符合语法正确情况下，尽量保持代码简洁
+-   行尾无分号
+-   换行符使用 LF (\n)，Windows 下需要执行以下指令关闭警告
+
 ```
 git config core.autocrlf false
 ```

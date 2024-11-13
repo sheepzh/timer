@@ -8,11 +8,11 @@
 import type { PopupQueryResult, PopupRow } from "@popup/common"
 import type { StatQueryParam } from "@service/stat-service"
 
-import { locale } from "@i18n"
 import { t } from "@popup/locale"
+import weekHelper from "@service/components/week-helper"
 import optionService from "@service/option-service"
 import statService from "@service/stat-service"
-import { getDayLength, getMonthTime, getWeekTime, MILL_PER_DAY } from "@util/time"
+import { getDayLength, getMonthTime, MILL_PER_DAY } from "@util/time"
 import initAllFunction from './all-function'
 import MergeHostWrapper from "./merge-host"
 import TimeSelectWrapper from "./select/time-select"
@@ -26,11 +26,15 @@ type FooterParam = StatQueryParam & {
 
 type QueryResultHandler = (result: PopupQueryResult) => void
 
-type DateRangeCalculator = (now: Date, weekStart: timer.option.WeekStartOption) => Date | [Date, Date]
+type DateRangeCalculator = (now: Date) => Promise<Date | [Date, Date]> | Date | [Date, Date]
 
 const dateRangeCalculators: { [duration in timer.option.PopupDuration]: DateRangeCalculator } = {
     today: now => now,
-    thisWeek: (now, weekStart) => getWeekTime(now, weekStart, locale),
+    thisWeek: async now => {
+        const [start] = await weekHelper.getWeekDate(now)
+        console.log(start)
+        return [start, now]
+    },
     thisMonth: now => [getMonthTime(now)[0], now],
     last30Days: now => [new Date(now.getTime() - MILL_PER_DAY * 29), now],
     allTime: () => null,
@@ -79,7 +83,7 @@ class FooterWrapper {
     async query() {
         const option = await optionService.getAllOption()
         const itemCount = option.popupMax
-        const queryParam = this.getQueryParam(option.weekStart)
+        const queryParam = await this.getQueryParam()
         const rows = await statService.select(queryParam, true)
         const popupRows: PopupRow[] = []
         const other = otherPopupRow()
@@ -117,10 +121,10 @@ class FooterWrapper {
         this.afterQuery?.(queryResult)
     }
 
-    getQueryParam(weekStart: timer.option.WeekStartOption): FooterParam {
+    async getQueryParam(): Promise<FooterParam> {
         const duration = this.timeSelectWrapper.getSelectedTime()
         const param: FooterParam = {
-            date: dateRangeCalculators[duration]?.(new Date(), weekStart),
+            date: await dateRangeCalculators[duration]?.(new Date()),
             mergeHost: this.mergeHostWrapper.mergedHost(),
             sort: this.typeSelectWrapper.getSelectedType(),
             sortOrder: 'DESC',

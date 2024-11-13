@@ -5,17 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
+import MergeRuleDatabase from "@db/merge-rule-database"
+import SiteDatabase from "@db/site-database"
 import StatDatabase, { StatCondition } from "@db/stat-database"
+import { judgeVirtualFast } from "@util/pattern"
 import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
-import MergeRuleDatabase from "@db/merge-rule-database"
 import { slicePageResult } from "../components/page-info"
-import whitelistHolder from '../components/whitelist-holder'
-import { resultOf } from "@util/stat"
-import SiteDatabase from "@db/site-database"
 import { mergeDate, mergeHost } from "./merge"
-import virtualSiteHolder from "@service/components/virtual-site-holder"
-import { judgeVirtualFast } from "@util/pattern"
 import { canReadRemote, processRemote } from "./remote"
 
 const storage = chrome.storage.local
@@ -64,25 +61,6 @@ export type HostSet = {
  * @since 0.0.5
  */
 class StatService {
-
-    async addFocusTime(host: string, url: string, focusTime: number): Promise<void> {
-        if (whitelistHolder.contains(host, url)) return
-
-        const resultSet: timer.stat.ResultSet = { [host]: resultOf(focusTime, 0) }
-        const virtualHosts = virtualSiteHolder.findMatched(url)
-        virtualHosts.forEach(virtualHost => resultSet[virtualHost] = resultOf(focusTime, 0))
-
-        await statDatabase.accumulateBatch(resultSet, new Date())
-    }
-
-    async addOneTime(host: string, url: string) {
-        if (whitelistHolder.contains(host, url)) return
-
-        const resultSet: timer.stat.ResultSet = { [host]: resultOf(0, 1) }
-        virtualSiteHolder.findMatched(url).forEach(virtualHost => resultSet[virtualHost] = resultOf(0, 1))
-        await statDatabase.accumulateBatch(resultSet, new Date())
-    }
-
     /**
      * Query hosts
      *
@@ -194,10 +172,6 @@ class StatService {
         // Filter merged host if full host
         fullHost && (origin = origin.filter(dataItem => dataItem.host === fullHost))
         return origin
-    }
-
-    getResult(host: string, date: Date): Promise<timer.stat.Result> {
-        return statDatabase.get(host, date)
     }
 
     async selectByPage(

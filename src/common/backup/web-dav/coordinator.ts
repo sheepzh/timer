@@ -3,9 +3,17 @@ import DateIterator from "@util/date-iterator"
 import { processDir } from "../common"
 import { CLIENT_FILE_NAME, convertClients2Markdown, divideByDate, parseData } from "../markdown"
 
+function getEndpoint(ext: timer.backup.TypeExt): string {
+    let { endpoint } = ext || {}
+    if (endpoint?.endsWith('/')) {
+        endpoint = endpoint.substring(0, endpoint.length - 1)
+    }
+    return endpoint
+}
+
 function prepareContext(context: timer.backup.CoordinatorContext<never>): WebDAVContext {
     const { auth, ext } = context
-    let { endpoint } = ext || {}
+    const endpoint = getEndpoint(ext)
     const webDavAuth: WebDAVAuth = {
         type: "password",
         username: auth?.login?.acc,
@@ -78,10 +86,11 @@ export default class WebDAVCoordinator implements timer.backup.Coordinator<never
     }
 
     async testAuth(auth: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string> {
-        const { endpoint, dirPath } = ext || {}
+        const endpoint = getEndpoint(ext)
         if (!endpoint) {
             return "The endpoint is blank"
         }
+        const { dirPath } = ext || {}
         if (!dirPath) {
             return "The path of directory is blank"
         }

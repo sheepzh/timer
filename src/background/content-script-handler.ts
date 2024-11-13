@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getUrl } from "@api/chrome/runtime"
+import { createTab } from "@api/chrome/tab"
+import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
+import whitelistHolder from "@service/components/whitelist-holder"
+import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
-import statService from "@service/stat-service"
-import MessageDispatcher from "./message-dispatcher"
-import whitelistHolder from "@service/components/whitelist-holder"
-import { extractFileHost, extractHostname } from "@util/pattern"
-import { getUrl } from "@api/chrome/runtime"
 import { getAppPageUrl } from "@util/constant/url"
-import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
-import { createTab } from "@api/chrome/tab"
+import { extractFileHost, extractHostname } from "@util/pattern"
+import MessageDispatcher from "./message-dispatcher"
 
 const handleOpenAnalysisPage = (sender: ChromeMessageSender) => {
     const { tab, url } = sender || {}
@@ -53,7 +53,7 @@ export default function init(dispatcher: MessageDispatcher) {
                 host = param?.host
                 url = param?.url
             }
-            statService.addOneTime(host, url)
+            itemService.addOneTime(host, url)
         })
         // Judge is in whitelist
         .register<{ host?: string, url?: string }, boolean>('cs.isInWhitelist', ({ host, url } = {}) => whitelistHolder.contains(host, url))
@@ -63,7 +63,7 @@ export default function init(dispatcher: MessageDispatcher) {
             return !!option.printInConsole
         })
         // Get today info
-        .register<string, timer.stat.Result>('cs.getTodayInfo', host => statService.getResult(host, new Date()))
+        .register<string, timer.stat.Result>('cs.getTodayInfo', host => itemService.getResult(host, new Date()))
         // cs.getLimitedRules
         .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
