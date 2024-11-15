@@ -10,18 +10,27 @@
 
 Time Tracker is a browser extension to track the time you spent on all websites. It's built by webpack, TypeScript and Element-plus. And you can install it for Firefox, Chrome and Edge.
 
-Time Tracker can
+## Screenshots
 
--   help you count the time you browsing and the visit count on each website.
--   help you count the time you read local files with browsers.
--   help you analyze your browsing habit by time period and display it as a histogram.
--   support whitelist to filter out websites that need not stat.
--   combine statistics result of multiple sites, and supports to customize the rules of combination.
--   support to set the maximum time for browsing a specific website each day to help you key away from time wasting.
--   support to export files formatted _.csv_ and _.json_.
--   support dark mode.
--   support to sync data with GitHub Gist across several browser clients.
--   support to count the time of any URLs described by Ant Expressions, e.g. github.com/sheepzh/timer/\*\*
+<div align="center">
+    <img src="./doc/screenshot/popup.png" width="100%">
+    <p>Pie Chart on the Popup Page</p>
+</div>
+
+<div align="center">
+    <img src="./doc/screenshot/app.png" width="100%">
+    <p>Dashboard</p>
+</div>
+
+<div align="center">
+    <img src="./doc/screenshot/analyze.png" width="100%">
+    <p>Analytical Report</p>
+</div>
+
+<div align="center">
+    <img src="./doc/screenshot/habit.png" width="100%">
+    <p>Habit Report</p>
+</div>
 
 ## Install
 
