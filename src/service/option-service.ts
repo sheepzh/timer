@@ -10,11 +10,23 @@ import { defaultOption } from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
 
+function migrateOld(result: timer.option.AllOption): timer.option.AllOption {
+    if (!result) return result
+    const newRes = { ...result }
+    const duration = newRes['defaultDuration']
+    if (duration as string === 'last30Days') {
+        // old option, deprecated since v2.5.3, Nov 23 2024
+        newRes.defaultDuration = 'lastDays'
+        newRes.defaultDurationNum = 30
+    }
+    return newRes
+}
+
 async function getAllOption(): Promise<timer.option.AllOption> {
     const exist: Partial<timer.option.AllOption> = await db.getOption()
     const result: timer.option.AllOption = defaultOption()
     Object.entries(exist).forEach(([key, val]) => result[key] = val)
-    return result
+    return migrateOld(result)
 }
 
 async function setBackupOption(option: Partial<timer.option.BackupOption>): Promise<void> {

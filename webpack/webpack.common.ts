@@ -222,7 +222,7 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
             chunks: ['app'],
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'popup.html'),
+            // template: path.join(__dirname, '..', 'public', 'popup.html'),
             filename: path.join('static', 'popup.html'),
             chunks: ['popup'],
         }),

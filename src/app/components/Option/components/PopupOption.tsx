@@ -6,13 +6,12 @@
  */
 import { t } from "@app/locale"
 import { I18nKey, t as t_ } from "@i18n"
-import { durationLabelOf } from "@popup/common"
+import DurationSelect, { rangeLabel } from "@popup/components/DurationSelect"
 import optionService from "@service/option-service"
 import { defaultPopup } from "@util/constant/option"
-import { ALL_POPUP_DURATION } from "@util/constant/popup"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, reactive, unref, watch } from "vue"
+import { defineComponent, onMounted, reactive, unref, watch } from "vue"
 import { OptionInstance } from "../common"
 import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
@@ -49,12 +48,13 @@ const tStyle = (key: I18nKey<LocaleStyle>) => t_(STYLES, { key })
 
 const defaultPopOptions = defaultPopup()
 const defaultTypeLabel = t(msg => msg.item[defaultPopOptions.defaultType])
-const defaultDurationLabel = durationLabelOf(defaultPopOptions.defaultDuration)
+const defaultDurationLabel = rangeLabel(defaultPopOptions.defaultDuration, defaultPopOptions.defaultDurationNum)
 const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 
 function copy(target: timer.option.PopupOption, source: timer.option.PopupOption) {
     target.defaultMergeDomain = source.defaultMergeDomain
     target.defaultDuration = source.defaultDuration
+    target.defaultDurationNum = source.defaultDurationNum
     target.defaultType = source.defaultType
     target.displaySiteName = source.displaySiteName
     target.popupMax = source.popupMax
@@ -62,14 +62,17 @@ function copy(target: timer.option.PopupOption, source: timer.option.PopupOption
 
 const _default = defineComponent((_props, ctx) => {
     const option = reactive(defaultPopup())
-    optionService.getAllOption()
-        .then(currentVal => {
-            copy(option, currentVal)
-            watch(option, () => optionService.setPopupOption(unref(option)))
-        })
+
+    onMounted(async () => {
+        const currentVal = await optionService.getAllOption()
+        copy(option, currentVal)
+        watch(option, () => optionService.setPopupOption(unref(option)))
+    })
+
     ctx.expose({
         reset: () => copy(option, defaultPopup())
     } satisfies OptionInstance)
+
     return () => <>
         <OptionItem
             label={msg => msg.option.popup.defaultMergeDomain}
@@ -86,14 +89,15 @@ const _default = defineComponent((_props, ctx) => {
             defaultValue={displayDefaultLabel}
             v-slots={{
                 duration: () => (
-                    <ElSelect
-                        modelValue={option.defaultDuration}
+                    <DurationSelect
                         size="small"
-                        style={{ width: `${tStyle(m => m.durationSelectWidth)}px` }}
-                        onChange={(val: timer.option.PopupDuration) => option.defaultDuration = val}
-                    >
-                        {ALL_POPUP_DURATION.map(item => <ElOption value={item} label={durationLabelOf(item)} />)}
-                    </ElSelect>
+                        expandTrigger="hover"
+                        modelValue={[option.defaultDuration, option.defaultDurationNum]}
+                        onChange={([duration, num]) => {
+                            option.defaultDuration = duration
+                            option.defaultDurationNum = num
+                        }}
+                    />
                 ),
                 type: () => (
                     <ElSelect
@@ -115,7 +119,7 @@ const _default = defineComponent((_props, ctx) => {
                 modelValue={option.popupMax}
                 size="small"
                 min={5}
-                max={30}
+                max={100}
                 onChange={val => option.popupMax = val}
             />
         </OptionItem>

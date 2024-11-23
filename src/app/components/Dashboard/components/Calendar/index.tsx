@@ -5,16 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { createTabAfterCurrent } from "@api/chrome/tab"
 import { t } from "@app/locale"
+import { REPORT_ROUTE } from "@app/router/constants"
 import { useRequest } from "@hooks"
 import { useEcharts } from "@hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
+import { getAppPageUrl } from "@util/constant/url"
 import { formatTimeYMD, MILL_PER_DAY, MILL_PER_HOUR } from "@util/time"
 import { computed, defineComponent } from "vue"
 import ChartTitle from "../../ChartTitle"
-import Wrapper, { BizOption } from "./Wrapper"
+import Wrapper, { BizOption, ChartValue } from "./Wrapper"
 
 const titleText = (option: Result) => {
     const { value, yearAgo } = option || {}
@@ -44,10 +47,36 @@ const fetchData = async (): Promise<Result> => {
     return { value, startTime, endTime, yearAgo }
 }
 
+/**
+ * Click to jump to the report page
+ *
+ * @since 1.1.1
+ */
+function handleClick(value: ChartValue): void {
+    const [_1, _2, minutes, currentDate] = value
+    if (!minutes) {
+        return
+    }
+
+    const currentYear = parseInt(currentDate.substring(0, 4))
+    const currentMonth = parseInt(currentDate.substring(4, 6)) - 1
+    const currentDay = parseInt(currentDate.substring(6, 8))
+    const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
+    const query: ReportQueryParam = { ds: currentTs, de: currentTs }
+
+    const url = getAppPageUrl(false, REPORT_ROUTE, query)
+    createTabAfterCurrent(url)
+}
+
 const _default = defineComponent(() => {
     const { data } = useRequest(fetchData)
     const biz = computed(() => (data.value as BizOption))
-    const { elRef } = useEcharts(Wrapper, biz)
+    const { elRef } = useEcharts(Wrapper, biz, {
+        afterInit(ew) {
+            const supportClick = !window.matchMedia("(any-pointer:coarse)").matches
+            supportClick && ew.instance.on("click", (params: any) => handleClick(params.value as ChartValue))
+        }
+    })
 
     return () => (
         <div class="calendar-container">

@@ -6,8 +6,8 @@
  */
 
 import { getRuntimeId } from "@api/chrome/runtime"
-import { IS_FIREFOX, IS_CHROME, IS_EDGE } from "./environment"
 import { locale } from "@i18n"
+import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "./environment"
 
 export const FIREFOX_HOMEPAGE = 'https://addons.mozilla.org/firefox/addon/besttimetracker'
 export const CHROME_HOMEPAGE = 'https://chromewebstore.google.com/detail/time-tracker/dkdhhcbjijekmneelocdllcldcpmekmm'

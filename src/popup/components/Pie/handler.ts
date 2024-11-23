@@ -1,25 +1,17 @@
-/**
- * Copyright (c) 2021 Hengyang Zhang
- *
- * This software is released under the MIT License.
- * https://opensource.org/licenses/MIT
- */
-
-import type { PopupQueryResult, PopupRow } from "@popup/common"
-import type { CallbackDataParams } from "echarts/types/dist/shared"
-
 import { createTab } from "@api/chrome/tab"
 import { REPORT_ROUTE } from "@app/router/constants"
+import { PopupResult, PopupRow } from "@popup/common"
 import { getAppPageUrl } from "@util/constant/url"
+import { CallbackDataParams } from "echarts/types/dist/shared"
 
-function generateUrl(data: PopupRow, queryResult: PopupQueryResult): string {
+function generateUrl(data: PopupRow, queryResult: PopupResult): string {
     const { host, isOther } = data
     if (!isOther) {
         return host ? `http://${host}` : undefined
     }
     const query: ReportQueryParam = {}
     // Merge host
-    queryResult.mergeHost && (query.mh = "1")
+    queryResult?.query?.mergeHost && (query.mh = "1")
     // Date
     const date = queryResult.date
     if (Array.isArray(date)) {
@@ -35,11 +27,11 @@ function generateUrl(data: PopupRow, queryResult: PopupQueryResult): string {
         query.ds = query.de = date.getTime?.()?.toString?.()
     }
     // Sorted column
-    query.sc = queryResult.type
+    query.sc = queryResult?.query?.type
     return getAppPageUrl(false, REPORT_ROUTE, query)
 }
 
-function handleClick(params: CallbackDataParams, queryResult: PopupQueryResult) {
+export function handleClick(params: CallbackDataParams, queryResult: PopupResult) {
     const data: PopupRow = params.data as PopupRow
     if (!data) {
         return
@@ -50,5 +42,3 @@ function handleClick(params: CallbackDataParams, queryResult: PopupQueryResult) 
         url && createTab(url)
     }
 }
-
-export default handleClick
