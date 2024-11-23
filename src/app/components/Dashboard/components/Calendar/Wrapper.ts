@@ -13,19 +13,16 @@ import type {
     VisualMapComponentOption,
 } from "echarts"
 
-import { createTabAfterCurrent } from "@api/chrome/tab"
 import { t } from "@app/locale"
-import { REPORT_ROUTE } from "@app/router/constants"
 import { getStepColors } from "@app/util/echarts"
 import { cvt2LocaleTime } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"
-import { getAppPageUrl } from "@util/constant/url"
 import { getPrimaryTextColor } from "@util/style"
 import { formatPeriodCommon, getAllDatesBetween, MILL_PER_HOUR, MILL_PER_MINUTE } from "@util/time"
 
-type _Value = [
+export type ChartValue = [
     x: number,
     y: number,
     dailyMill: number,
@@ -51,7 +48,7 @@ function formatTooltip(mills: number, date: string): string {
     return `${dateStr}</br><b>${timeStr}</b>`
 }
 
-function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
+function getXAxisLabelMap(data: ChartValue[]): { [x: string]: string } {
     const allMonthLabel = t(msg => msg.calendar.months).split('|')
     const result = {}
     // {[ x:string ]: Set<string> }
@@ -75,7 +72,7 @@ function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
 
 type HeatmapItem = HeatmapSeriesOption["data"][number]
 
-const cvtHeatmapItem = (d: _Value): HeatmapItem => {
+const cvtHeatmapItem = (d: ChartValue): HeatmapItem => {
     let item: HeatmapItem = { value: d, itemStyle: undefined, label: undefined, emphasis: undefined }
     const minutes = d[2]
     if (!minutes) {
@@ -115,7 +112,7 @@ const computePieces = (min: number, max: number): Piece[] => {
     return pieces.map((p, idx) => ({ ...p, color: colors[idx] }))
 }
 
-function optionOf(data: _Value[], weekDays: string[], dom: HTMLElement): EcOption {
+function optionOf(data: ChartValue[], weekDays: string[], dom: HTMLElement): EcOption {
     const xAxisLabelMap = getXAxisLabelMap(data)
     const textColor = getPrimaryTextColor()
     const w = dom?.getBoundingClientRect?.()?.width
@@ -176,27 +173,6 @@ function optionOf(data: _Value[], weekDays: string[], dom: HTMLElement): EcOptio
     }
 }
 
-/**
- * Click to jump to the report page
- *
- * @since 1.1.1
- */
-function handleClick(value: _Value): void {
-    const [_1, _2, minutes, currentDate] = value
-    if (!minutes) {
-        return
-    }
-
-    const currentYear = parseInt(currentDate.substring(0, 4))
-    const currentMonth = parseInt(currentDate.substring(4, 6)) - 1
-    const currentDay = parseInt(currentDate.substring(6, 8))
-    const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
-    const query: ReportQueryParam = { ds: currentTs, de: currentTs }
-
-    const url = getAppPageUrl(false, REPORT_ROUTE, query)
-    createTabAfterCurrent(url)
-}
-
 class Wrapper extends EchartsWrapper<BizOption, EcOption> {
     protected isSizeSensitize: boolean = true
 
@@ -205,7 +181,7 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
 
         const { startTime, endTime, value } = option
         const allDates = getAllDatesBetween(startTime, endTime)
-        const data: _Value[] = []
+        const data: ChartValue[] = []
         allDates.forEach((date, index) => {
             const dailyMills = value[date] || 0
             const colIndex = parseInt((index / 7).toString())
@@ -217,11 +193,6 @@ class Wrapper extends EchartsWrapper<BizOption, EcOption> {
         const weekStart = await weekHelper.getRealWeekStart()
         weekStart && rotate(weekDays, weekStart, true)
         return optionOf(data, weekDays, this.getDom())
-    }
-
-    protected afterInit(): void {
-        const supportClick = !window.matchMedia("(any-pointer:coarse)").matches
-        supportClick && this.instance.on("click", (params: any) => handleClick(params.value as _Value))
     }
 }
 

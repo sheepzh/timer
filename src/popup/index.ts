@@ -9,20 +9,25 @@ import { initLocale } from "@i18n"
 import metaService from "@service/meta-service"
 import optionService from "@service/option-service"
 import { init as initTheme, toggle } from "@util/dark-mode"
+import { createApp } from "vue"
 import "../common/timer"
-import renderChart, { handleRestore } from "./components/chart"
-import FooterWrapper from "./components/footer"
+import Main from "./Main"
 import "./style"
 
 async function main() {
+    const el = document.createElement('div')
+    el.id = 'app'
+    document.body.append(el)
+
     await initLocale()
     // Calculate the latest mode
     initTheme()
     optionService.isDarkMode().then(toggle)
 
-    const footer: FooterWrapper = new FooterWrapper(renderChart)
-    handleRestore(() => footer.query())
-    footer.init()
+    const app = createApp(Main)
+    app.mount(el)
+    document.body.append(el)
+
     metaService.increasePopup()
 }
 
