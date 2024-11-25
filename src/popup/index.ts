@@ -18,10 +18,10 @@ async function main() {
     const el = document.createElement('div')
     el.id = 'app'
     document.body.append(el)
-
-    await initLocale()
     // Calculate the latest mode
     initTheme()
+
+    await initLocale()
     optionService.isDarkMode().then(toggle)
 
     const app = createApp(Main)

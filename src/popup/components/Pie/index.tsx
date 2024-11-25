@@ -17,7 +17,7 @@ const Chart = defineComponent({
         const { elRef } = useEcharts(Wrapper, myValue, {
             watch: true,
             afterInit(ew) {
-                ew.instance.on('click', handleClick)
+                ew.instance.on('click', params => handleClick(params, myValue.value))
                 ew.instance.on('restore', () => ctx.emit('restore'))
             }
         })

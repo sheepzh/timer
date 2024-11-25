@@ -8,8 +8,12 @@ import { getAppPageUrl } from "@util/constant/url"
 import { generateSiteLabel } from "@util/site"
 import { getInfoColor, getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
-import { ComposeOption, LegendComponentOption, PieSeriesOption, TitleComponentOption, ToolboxComponentOption, TooltipComponentOption } from "echarts"
-import { use } from "echarts/core"
+import { PieChart, PieSeriesOption } from "echarts/charts"
+import {
+    LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent,
+    LegendComponentOption, TitleComponentOption, ToolboxComponentOption, TooltipComponentOption,
+} from "echarts/components"
+import { ComposeOption, use } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
 import { optionIcon } from "./toolbox-icon"
 
@@ -21,7 +25,7 @@ type EcOption = ComposeOption<
     | LegendComponentOption
 >
 
-use([SVGRenderer])
+use([SVGRenderer, PieChart, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
 
 // The declarations of labels
 type PieLabelRichOption = PieSeriesOption['label']['rich']
