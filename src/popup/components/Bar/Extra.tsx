@@ -7,21 +7,25 @@ import metaService from "@service/meta-service"
 import packageInfo from "@src/package"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { IS_FROM_STORE } from "@util/constant/meta"
-import { REVIEW_PAGE } from "@util/constant/url"
+import { REVIEW_PAGE, UPDATE_PAGE } from "@util/constant/url"
 import { ElLink, ElPopover } from "element-plus"
-import { defineComponent } from "vue"
+import { computed, defineComponent } from "vue"
 
 const Extra = defineComponent(() => {
-    const { data: upgradeVisible } = useRequest(async () => {
-        const latestVersion = await getLatestVersion()
-        return latestVersion && packageInfo.version !== latestVersion && IS_FROM_STORE
-    })
+    const { data: latestVersion } = useRequest(getLatestVersion)
+
+    const upgradeVisible = computed(() => latestVersion.value && packageInfo.version !== latestVersion.value && IS_FROM_STORE)
 
     const { data: rateVisible } = useRequest(() => metaService.recommendRate())
 
     const handleRateClick = async () => {
         await metaService.saveFlag("rateOpen")
         createTab(REVIEW_PAGE)
+    }
+
+    const handleUpgradeClick = () => {
+        if (IS_FIREFOX) return
+        createTab(UPDATE_PAGE)
     }
 
     return () => {
@@ -35,7 +39,12 @@ const Extra = defineComponent(() => {
                     width="auto"
                     v-slots={{
                         reference: () => (
-                            <ElLink type="success" underline={!IS_FIREFOX} icon={<Download />}>
+                            <ElLink
+                                type="success"
+                                underline={!IS_FIREFOX}
+                                icon={<Download />}
+                                onClick={handleUpgradeClick}
+                            >
                                 {t(msg => msg.footer.updateVersion)}
                             </ElLink>
                         )
