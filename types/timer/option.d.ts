@@ -111,6 +111,18 @@ declare namespace timer.option {
 
     type StatisticsOption = {
         /**
+         * Whether to pause tracking if no activity detected
+         *
+         * @since 2.5.4
+         */
+        autoPauseTracking: boolean
+        /**
+         * Check interval of auto pausing, seconds
+         *
+         * @since 2.5.4
+         */
+        autoPauseInterval: number
+        /**
          * Whether to collect the site name
          *
          * @since 0.5.0

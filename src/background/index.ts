@@ -56,7 +56,7 @@ WhitelistMenuManager()
 BrowserActionMenuManager()
 
 // Badge manager
-badgeTextManager.init()
+badgeTextManager.init(messageDispatcher)
 
 // Listen to tab active changed
 new ActiveTabListener()

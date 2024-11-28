@@ -37,6 +37,9 @@ export function defaultAppearance(): timer.option.AppearanceOption {
 
 export function defaultStatistics(): timer.option.StatisticsOption {
     return {
+        autoPauseTracking: false,
+        // 10 minutes
+        autoPauseInterval: 600,
         collectSiteName: true,
         countLocalFiles: true,
         weekStart: 'default',

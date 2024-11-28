@@ -13,6 +13,7 @@ import whitelistHolder from "@service/components/whitelist-holder"
 import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
+import MessageDispatcher from "./message-dispatcher"
 
 const storage = chrome.storage.local
 const statDatabase: StatDatabase = new StatDatabase(storage)
@@ -87,20 +88,27 @@ class BadgeManager {
     isPaused: boolean
     lastLocation: BadgeLocation
 
-    async init() {
+    async init(messageDispatcher: MessageDispatcher) {
         const option: timer.option.AllOption = await optionService.getAllOption()
         this.processOption(option)
         optionService.addOptionChangeListener(opt => this.processOption(opt))
         whitelistHolder.addPostHandler(updateFocus)
+        messageDispatcher.register('cs.idleChange', (isIdle, sender) => {
+            const tabId = sender?.tab?.id
+            isIdle ? this.pause(tabId) : this.resume()
+        })
     }
 
     /**
      * Hide the badge text
      */
-    private async pause() {
+    private async pause(tabId?: number) {
         this.isPaused = true
-        const tab = await findActiveTab()
-        setBadgeText('', tab?.tabId)
+        if (!tabId) {
+            const tab = await findActiveTab()
+            tabId = tab?.tabId
+        }
+        setBadgeText('P', tabId)
     }
 
     /**
