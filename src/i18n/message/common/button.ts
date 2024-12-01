@@ -20,6 +20,7 @@ export type ButtonMessage = {
     okey: string
     dont: string
     operation: string
+    clear: string
 }
 
 const _default: Messages<ButtonMessage> = resource
