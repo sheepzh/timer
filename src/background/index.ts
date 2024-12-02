@@ -5,23 +5,22 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { openLog } from "../common/logger"
-import WhitelistMenuManager from "./whitelist-menu-manager"
-import BrowserActionMenuManager from "./browser-action-menu-manager"
-import IconAndAliasCollector from "./icon-and-alias-collector"
-import VersionManager from "./version-manager"
-import ActiveTabListener from "./active-tab-listener"
-import badgeTextManager from "./badge-manager"
-import MessageDispatcher from "./message-dispatcher"
-import initLimitProcessor from "./limit-processor"
-import initCsHandler from "./content-script-handler"
-import { isBrowserUrl } from "@util/pattern"
-import BackupScheduler from "./backup-scheduler"
 import { listTabs } from "@api/chrome/tab"
 import { isNoneWindowId, onNormalWindowFocusChanged } from "@api/chrome/window"
-import initServer from "./timer/server"
+import { isBrowserUrl } from "@util/pattern"
+import { openLog } from "../common/logger"
+import ActiveTabListener from "./active-tab-listener"
+import BackupScheduler from "./backup-scheduler"
+import badgeTextManager from "./badge-manager"
+import BrowserActionMenuManager from "./browser-action-menu-manager"
+import initCsHandler from "./content-script-handler"
 import handleInstall from "./install-handler"
+import initLimitProcessor from "./limit-processor"
+import MessageDispatcher from "./message-dispatcher"
 import initSidePanel from "./side-panel"
+import initTrackServer from "./timer/server"
+import VersionManager from "./version-manager"
+import WhitelistMenuManager from "./whitelist-menu-manager"
 
 // Open the log of console
 openLog()
@@ -38,10 +37,7 @@ initLimitProcessor(messageDispatcher)
 initCsHandler(messageDispatcher)
 
 // Start server
-initServer(messageDispatcher)
-
-// Collect the icon url and title
-new IconAndAliasCollector().init(messageDispatcher)
+initTrackServer(messageDispatcher)
 
 // Process version
 new VersionManager().init()
@@ -60,7 +56,7 @@ badgeTextManager.init(messageDispatcher)
 
 // Listen to tab active changed
 new ActiveTabListener()
-    .register(({ url, tabId }) => badgeTextManager.forceUpdate({ url, tabId }))
+    .register(({ url, tabId }) => badgeTextManager.updateFocus({ url, tabId }))
     .listen()
 
 handleInstall()
@@ -73,5 +69,5 @@ onNormalWindowFocusChanged(async windowId => {
     if (isNoneWindowId(windowId)) return
     const tabs = await listTabs({ windowId, active: true })
     tabs.filter(tab => !isBrowserUrl(tab?.url))
-        .forEach(({ url, id }) => badgeTextManager.forceUpdate({ url, tabId: id }))
+        .forEach(({ url, id }) => badgeTextManager.updateFocus({ url, tabId: id }))
 })

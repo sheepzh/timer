@@ -55,6 +55,7 @@ export default class IdleDetector {
         window.addEventListener('mousemove', handleActive)
         window.addEventListener('keypress', handleActive)
         window.addEventListener('scroll', handleActive)
+        window.addEventListener('wheel', handleActive)
         document?.addEventListener('fullscreenchange', () => {
             this.fullScreen = !!document?.fullscreenElement
             handleActive()

@@ -1,7 +1,4 @@
-import { sendMsg2Runtime } from "@api/chrome/runtime"
 import IdleDetector from "./idle-detector"
-
-type ReportFunction = (ev: timer.stat.Event) => Promise<void>
 
 const INTERVAL = 1000
 
@@ -45,16 +42,22 @@ class TrackContext {
     }
 }
 
+export type TrackerClientOption = {
+    onReport: (ev: timer.stat.Event) => Promise<void>
+    onResume?: (reason: StateChangeReason) => void
+    onPause?: (reason: StateChangeReason) => void
+}
+
 /**
  * Tracker client, used in the content-script
  */
 export default class TrackerClient {
     context: TrackContext
     start: number = Date.now()
-    report: ReportFunction
+    option: TrackerClientOption
 
-    constructor(report: ReportFunction) {
-        this.report = report
+    constructor(option: TrackerClientOption) {
+        this.option = option
     }
 
     init() {
@@ -89,18 +92,18 @@ export default class TrackerClient {
             ignoreTabCheck
         }
         try {
-            await this.report?.(data)
+            await this.option?.onReport?.(data)
         } catch (_) { }
     }
 
     private pause(reason: StateChangeReason) {
-        reason === 'idle' && sendMsg2Runtime('cs.idleChange', true)
+        this.option?.onPause?.(reason)
 
         this.collect(true)
     }
 
     private resume(reason: StateChangeReason) {
-        reason === 'idle' && sendMsg2Runtime('cs.idleChange', false)
+        this.option?.onResume?.(reason)
 
         this.start = Date.now()
     }
