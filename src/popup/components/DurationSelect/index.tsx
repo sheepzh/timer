@@ -17,19 +17,22 @@ const cvt2Opt = (value: timer.option.PopupDuration, n?: string | number): Cascad
     value, label: rangeLabel(value, n),
 })
 
-const DEFAULT_OPTIONS: CascaderOption[] = [
-    ...(['today', 'thisWeek', 'thisMonth', 'yesterday'] satisfies timer.option.PopupDuration[]).map(cvt2Opt),
-    {
-        ...cvt2Opt('lastDays', 'X'),
-        children: [
-            ...BUILTIN_DAY_NUM.map(value => ({
-                value,
-                label: rangeLabel('lastDays', value),
-            })),
-        ],
-    },
-    cvt2Opt('allTime'),
-]
+const options = (reverse?: boolean): CascaderOption[] => {
+    const result: CascaderOption[] = [
+        ...(['today', 'thisWeek', 'thisMonth', 'yesterday'] satisfies timer.option.PopupDuration[]).map(cvt2Opt),
+        {
+            ...cvt2Opt('lastDays', 'X'),
+            children: [
+                ...BUILTIN_DAY_NUM.map(value => ({
+                    value,
+                    label: rangeLabel('lastDays', value),
+                })),
+            ],
+        },
+        cvt2Opt('allTime'),
+    ]
+    return reverse ? result.reverse() : result
+}
 
 export type DurationValue = [timer.option.PopupDuration, number?]
 
@@ -53,7 +56,7 @@ const DurationSelect = defineComponent({
             <ElCascader
                 modelValue={casVal.value}
                 onChange={(val: [timer.option.PopupDuration, number?]) => ctx.emit('change', val)}
-                options={props.reverse ? DEFAULT_OPTIONS.reverse() : DEFAULT_OPTIONS}
+                options={options(props.reverse)}
                 props={{ expandTrigger: props.expandTrigger }}
                 show-all-levels={false}
                 style={{ width: '130px' }}
