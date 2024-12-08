@@ -26,6 +26,7 @@ export type Item = {
     metrics: {
         visit: number
         focus: number
+        host: string
     }
     payload?: Record<string, any>
 }

@@ -109,7 +109,7 @@ export default class QuantifiedResumeCoordinator implements timer.backup.Coordin
             const item: Item = {
                 refId: `${date}${host}`,
                 timestamp: time.getTime(),
-                metrics: { visit, focus },
+                metrics: { visit, focus, host },
                 action: "web_time",
                 name: host,
                 payload: { date, host, cid: context.cid },
