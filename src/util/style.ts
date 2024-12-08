@@ -25,6 +25,10 @@ export function getSecondaryTextColor(): string {
     return getCssVariable("--el-text-color-secondary")
 }
 
+export function getInfoColor(): string {
+    return getCssVariable("--el-color-info")
+}
+
 export function classNames(...names: (string | boolean | number)[]): string {
     return names?.filter(n => typeof n === 'string' && n).join(' ')
 }

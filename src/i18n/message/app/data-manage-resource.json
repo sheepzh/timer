@@ -59,9 +59,9 @@
     },
     "en": {
         "totalMemoryAlert": "The browser provides {size}MB to store local data for each extension",
-        "totalMemoryAlert1": "Unable to determine the maximum memory available allowed by the browser",
+        "totalMemoryAlert1": "Unable to determine the maximum storage available allowed by the browser",
         "usedMemoryAlert": "{size}MB is currently used",
-        "operationAlert": "You can delete those unimportant data to reduce memory usage",
+        "operationAlert": "You can delete those unimportant data to reduce storage usage",
         "filterItems": "Filter data",
         "filterFocus": "The browsing time of the day is between {start} seconds and {end} seconds",
         "filterTime": "The number of visits for the day is between {start} and {end}",

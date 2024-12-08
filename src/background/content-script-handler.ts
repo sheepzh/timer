@@ -14,6 +14,8 @@ import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
 import { getAppPageUrl } from "@util/constant/url"
 import { extractFileHost, extractHostname } from "@util/pattern"
+import badgeManager from "./badge-manager"
+import { collectIconAndAlias } from "./icon-and-alias-collector"
 import MessageDispatcher from "./message-dispatcher"
 
 const handleOpenAnalysisPage = (sender: ChromeMessageSender) => {
@@ -69,4 +71,8 @@ export default function init(dispatcher: MessageDispatcher) {
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
         .register<void, void>('cs.openAnalysis', (_, sender) => handleOpenAnalysisPage(sender))
         .register<void, void>('cs.openLimit', (_, sender) => handleOpenLimitPage(sender))
+        .register<void, void>('cs.onInjected', (_, sender) => {
+            collectIconAndAlias(sender)
+            badgeManager.updateFocus()
+        })
 }

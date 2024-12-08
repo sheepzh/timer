@@ -2,9 +2,10 @@
     "zh_CN": {
         "title": {
             "today": "今日数据",
+            "yesterday": "昨日数据",
             "thisWeek": "本周数据",
             "thisMonth": "本月数据",
-            "last30Days": "近 30 天数据",
+            "lastDays": "近 {n} 天数据",
             "allTime": "全部数据"
         },
         "mergeHostLabel": "合并子域名",
@@ -20,9 +21,10 @@
     "zh_TW": {
         "title": {
             "today": "今日數據",
+            "yesterday": "昨日數據",
             "thisWeek": "本週數據",
             "thisMonth": "本月數據",
-            "last30Days": "近 30 天數據"
+            "lastDays": "近 {n} 天數據"
         },
         "mergeHostLabel": "合並子網域",
         "fileName": "上網時長清單_{today}_by_{app}",
@@ -37,9 +39,10 @@
     "en": {
         "title": {
             "today": "Today's Data",
+            "yesterday": "Yesterday's Data",
             "thisWeek": "This Week's Data",
             "thisMonth": "This Month's Data",
-            "last30Days": "Last 30 days' data",
+            "lastDays": "Last {n} days' data",
             "allTime": "All data"
         },
         "mergeHostLabel": "Merge Sites",
@@ -57,7 +60,7 @@
             "today": "今日のデータ",
             "thisWeek": "今週のデータ",
             "thisMonth": "今月のデータ",
-            "last30Days": "過去 30 日間のデータ"
+            "lastDays": "過去 {n} 日間のデータ"
         },
         "mergeHostLabel": "URLをマージ",
         "fileName": "オンライン時間_{today}_by_{app}",
@@ -74,7 +77,7 @@
             "today": "Dados de Hoje",
             "thisWeek": "Dados desta Semana",
             "thisMonth": "Dados deste Mês",
-            "last30Days": "Dados dos últimos 30 dias"
+            "lastDays": "Dados dos últimos {n} dias"
         },
         "mergeHostLabel": "Mesclar Sítios Web",
         "fileName": "Lista_de_Horários_da_Web_{today}_por_{app}",
@@ -91,7 +94,7 @@
             "today": "Дані за сьогодні",
             "thisWeek": "Дані за цей тиждень",
             "thisMonth": "Дані за цей місяць",
-            "last30Days": "Дані за минулі 30 днів"
+            "lastDays": "Дані за минулі {n} днів"
         },
         "mergeHostLabel": "Об'єднати сайти",
         "fileName": "Web_Time_List_{today}_By_{app}",
@@ -108,7 +111,7 @@
             "today": "Datos de hoy",
             "thisWeek": "Datos de esta semana",
             "thisMonth": "Datos de este mes",
-            "last30Days": "Datos de los últimos 30 días"
+            "lastDays": "Datos de los últimos {n} días"
         },
         "mergeHostLabel": "Fusionar sitios",
         "fileName": "Web_Time_List_{today}_By_{app}",
@@ -125,7 +128,7 @@
             "today": "Heutige Daten",
             "thisWeek": "Daten dieser Woche",
             "thisMonth": "Die Daten dieses Monats",
-            "last30Days": "Daten der letzten 30 Tage"
+            "lastDays": "Daten der letzten {n} Tage"
         },
         "mergeHostLabel": "Websites zusammenführen",
         "fileName": "Web_Time_List_{today}_By_{app}",
@@ -142,7 +145,7 @@
             "today": "Les données d'aujourd'hui",
             "thisWeek": "Les données de cette semaine",
             "thisMonth": "Les données de ce mois",
-            "last30Days": "Les données de ces 30 derniers jours"
+            "lastDays": "Les données de ces {n} derniers jours"
         },
         "mergeHostLabel": "Fusionner les sites",
         "fileName": "Liste Web_Time_List_{today}_par_{app}",
@@ -159,7 +162,7 @@
             "today": "Сегодня",
             "thisWeek": "Данные этой недели",
             "thisMonth": "Данные за этот месяц",
-            "last30Days": "Последние 30 дней"
+            "lastDays": "Последние {n} дней"
         },
         "mergeHostLabel": "Объединить сайты",
         "fileName": "Список_веб_времени_{сегодня}_от_{app}",
@@ -176,7 +179,7 @@
             "today": "بيانات اليوم",
             "thisWeek": "بيانات هذا الأسبوع",
             "thisMonth": "بيانات هذا الشهر",
-            "last30Days": "بيانات آخر 30 يوم"
+            "lastDays": "آخر {n} يوم"
         },
         "mergeHostLabel": "دمج المواقع",
         "saveAsImageTitle": "تحميل",

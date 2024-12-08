@@ -1,11 +1,10 @@
-@use "sass:meta"
 /**
  * Copyright (c) 2021 Hengyang Zhang
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
+@use "sass:meta"
 @import url("element-plus/theme-chalk/base.css")
 @import url("element-plus/theme-chalk/el-select.css")
 @import url("element-plus/theme-chalk/el-input.css")
@@ -14,78 +13,57 @@
 @import url("element-plus/theme-chalk/el-popper.css")
 @import url("element-plus/theme-chalk/el-option.css")
 @import url("element-plus/theme-chalk/el-icon.css")
-@include meta.load-css("dark-theme")
+@import url("element-plus/theme-chalk/el-text.css")
+@import url("element-plus/theme-chalk/el-cascader.css")
+@import url("element-plus/theme-chalk/el-cascader-panel.css")
+@import url("element-plus/theme-chalk/el-scrollbar.css")
 
-$width: 750px
-$height: 500px
-$footerHeight: 40px
-$optionPadding: 10px
+@include meta.load-css("dark-theme")
 
 body
     margin: 0
     background-color: var(--el-bg-color)
 
 #app
+    display: flex
+    flex-direction: column
+    gap: 10px
+    overflow-y: hidden
+
     padding: 8px
-    width: $width
-    height: calc($height + $footerHeight)
+    width: 750px
+    height: 580px
+    max-height: 580px
 
 #chart-container
-    width: $width
-    height: $height
+    width: 100%
+    height: 0
+    flex: 1
 
 .option-container
-    padding-bottom: $optionPadding
+    display: flex
+    justify-content: space-between
+
+    padding-bottom: 5px
     width: 95%
     margin: auto
     height: 30px
+    .el-select
+        width: 120px
+    .right
+        display: flex
+        gap: 10px
+        .el-link
+            .el-icon
+                padding-right: 4px
+
 #total-info
     color: var(--el-text-color-secondary)
     font-size: 12px
 
-.option-right
-    margin-left: 10px
-    float: right
-    height: 30px
-    line-height: 30px
-
-.option-left
-    margin-right: 10px
-    height: 30px
-    line-height: 30px
-    padding-top: 8px
-    float: left
-
-.popup__hidden
-    display: none
-.popup__show
-    display: block
-    position: absolute
-
-#type-select-popup
-    z-index: 2004
-    left: 619px
-    top: 410px
-    margin: 0px
-#time-select-popup
-    z-index: 2004
-    left: 489px
-    top: 308px
-    margin: 0px
-
-.el-svg-icon
-    padding-right: 3px
-
 .el-select-dropdown__item
     padding: 0 12px 0 8px !important
 
-.el-select--mini
-    width: 120px !important
-
-.el-select-dropdown
-    min-width: 118px !important
-
-// Remove the underline of upgrade link in the Firefox
-// @since 0.9.0
-.firefox-upgrade-no-underline
-    border-bottom: none !important
+.el-popper
+    // Must greater than z-index of echarts tooltip: 9999999
+    z-index: 99999999

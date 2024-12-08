@@ -45,6 +45,8 @@ export type OptionMessage = {
     }
     statistics: {
         title: string
+        autoPauseTrack: string
+        noActivityInfo: string
         countLocalFiles: string
         localFileTime: string
         localFilesInfo: string

@@ -8,14 +8,15 @@
 import accessibilityHelper from "@service/components/accessibility-helper"
 import { processAria, processRtl } from "@util/echarts"
 import { useWindowSize } from "@vueuse/core"
-import { AriaComponentOption, ComposeOption, ECharts, init } from "echarts"
+import type { AriaComponentOption, ComposeOption } from "echarts"
+import { ECharts, init } from "echarts/core"
 import { ElLoading } from "element-plus"
 import { type Ref, isRef, onMounted, ref, watch } from "vue"
 
 type BaseEchartsOption = ComposeOption<AriaComponentOption>
 
 export abstract class EchartsWrapper<BizOption, EchartsOption> {
-    protected instance: ECharts
+    public instance: ECharts
     /**
      * true if need to re-generate option while size changing, or false
      */
@@ -24,7 +25,6 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
 
     init(container: HTMLDivElement) {
         this.instance = init(container)
-        this.afterInit()
     }
 
     async render(biz: BizOption) {
@@ -57,9 +57,6 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
 
     protected abstract generateOption(biz: BizOption): Promise<EchartsOption> | EchartsOption
 
-    protected afterInit() {
-    }
-
     protected getDomWidth(): number {
         return this.getDom()?.clientWidth ?? 0
     }
@@ -79,6 +76,7 @@ export const useEcharts = <BizOption, EchartsOption, EW extends EchartsWrapper<B
         hideLoading?: boolean
         manual?: boolean
         watch?: boolean
+        afterInit?: (ew: EW) => void
     }): WrapperResult<BizOption, EchartsOption, EW> => {
     const elRef: Ref<HTMLDivElement> = ref()
     const wrapperInstance = new Wrapper()
@@ -86,6 +84,7 @@ export const useEcharts = <BizOption, EchartsOption, EW extends EchartsWrapper<B
         hideLoading = false,
         manual = false,
         watch: watchRef = true,
+        afterInit,
     } = option || {}
 
     let refresh = async () => {
@@ -100,6 +99,7 @@ export const useEcharts = <BizOption, EchartsOption, EW extends EchartsWrapper<B
     onMounted(() => {
         const target = elRef.value
         wrapperInstance.init(target)
+        afterInit?.(wrapperInstance)
         !manual && refresh()
         watchRef && isRef(fetch) && watch(fetch, refresh)
     })

@@ -8,8 +8,7 @@
 export function defaultPopup(): timer.option.PopupOption {
     // Use template
     return {
-        // Change 10 to 7 since 1.3.4
-        popupMax: 7,
+        popupMax: 10,
         defaultType: 'focus',
         defaultDuration: "today",
         /**
@@ -38,6 +37,9 @@ export function defaultAppearance(): timer.option.AppearanceOption {
 
 export function defaultStatistics(): timer.option.StatisticsOption {
     return {
+        autoPauseTracking: false,
+        // 10 minutes
+        autoPauseInterval: 600,
         collectSiteName: true,
         countLocalFiles: true,
         weekStart: 'default',

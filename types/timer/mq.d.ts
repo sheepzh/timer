@@ -25,6 +25,8 @@ declare namespace timer.mq {
         | "cs.onInjected"
         | "cs.openAnalysis"
         | "cs.openLimit"
+        // @since 2.5.5
+        | "cs.idleChange"
 
     type ResCode = "success" | "fail" | "ignore"
 

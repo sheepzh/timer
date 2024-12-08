@@ -46,7 +46,7 @@ async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender)
         // Cause there is no way to determine whether this tab is selected in screen-split mode
         // So only show badge for first tab for screen-split mode
         // @see #246
-        firstActiveTab?.id === tabId && badgeManager.forceUpdate({ tabId, url })
+        firstActiveTab?.id === tabId && badgeManager.updateFocus({ tabId, url })
     }
 }
 
@@ -58,6 +58,6 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
     )
 }
 
-export default function initServer(messageDispatcher: MessageDispatcher) {
+export default function initTrackServer(messageDispatcher: MessageDispatcher) {
     messageDispatcher.register<timer.stat.Event, void>('cs.trackTime', handleEvent)
 }

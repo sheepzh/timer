@@ -1,8 +1,8 @@
-import TrackerClient from "@src/background/timer/client"
-import { ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
+import TrackerClient from "@src/background/timer/client"
 import { DELAY_MILL } from "@util/limit"
 import { MILL_PER_SECOND } from "@util/time"
+import { ModalContext, Processor } from "../common"
 
 class VisitProcessor implements Processor {
 
@@ -55,7 +55,9 @@ class VisitProcessor implements Processor {
     }
 
     async init(): Promise<void> {
-        this.tracker = new TrackerClient(data => this.handleTracker(data))
+        this.tracker = new TrackerClient({
+            onReport: data => this.handleTracker(data),
+        })
         this.tracker.init()
         this.initRules()
         this.context.modal.addDelayHandler(() => this.processMore5Minutes())

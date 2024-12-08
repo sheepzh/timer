@@ -12,7 +12,8 @@
         "next": "Next",
         "okey": "OK",
         "dont": "NO!",
-        "operation": "Operations"
+        "operation": "Operations",
+        "clear": "Clear"
     },
     "zh_CN": {
         "create": "新增",
@@ -27,7 +28,8 @@
         "next": "下一步",
         "okey": "好的",
         "dont": "不用了",
-        "operation": "操作"
+        "operation": "操作",
+        "clear": "清除"
     },
     "zh_TW": {
         "create": "新增",

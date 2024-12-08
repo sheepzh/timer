@@ -12,12 +12,13 @@ import optionService from "@service/option-service"
 import { rotate } from "@util/array"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { defaultStatistics } from "@util/constant/option"
-import { ElOption, ElSelect, ElSwitch, ElTooltip } from "element-plus"
-import { defineComponent, reactive, unref, watch } from "vue"
+import { ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
+import { computed, defineComponent, onMounted, reactive, unref, watch } from "vue"
 import { OptionInstance } from "../common"
 import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
 import OptionTooltip from "./OptionTooltip"
+import { MILL_PER_SECOND } from "@util/time"
 
 const weekStartOptionPairs: [[timer.option.WeekStartOption, string]] = [
     ['default', t(msg => msg.option.statistics.weekStartAsNormal)]
@@ -32,23 +33,74 @@ function copy(target: timer.option.StatisticsOption, source: timer.option.Statis
     target.collectSiteName = source.collectSiteName
     target.countLocalFiles = source.countLocalFiles
     target.weekStart = source.weekStart
+    target.autoPauseTracking = source.autoPauseTracking
+    target.autoPauseInterval = source.autoPauseInterval
 }
 
 const _default = defineComponent((_props, ctx) => {
     const option = reactive(defaultStatistics())
     const { data: fileAccess } = useRequest(isAllowedFileSchemeAccess)
-    optionService.getAllOption().then(currentVal => {
+    onMounted(async () => {
+        const currentVal = await optionService.getAllOption()
         copy(option, currentVal)
         watch(option, () => optionService.setStatisticsOption(unref(option)))
     })
     ctx.expose({
-        reset: () => copy(option, defaultStatistics())
+        reset: () => {
+            const oldInterval = option.autoPauseInterval
+            copy(option, defaultStatistics())
+            option.autoPauseInterval = oldInterval
+        }
     } satisfies OptionInstance)
+
+    const interval = computed<number>({
+        get: _oldValue => {
+            const intervalNum = option.autoPauseInterval
+            const now = new Date()
+            now.setHours(0)
+            now.setMinutes(0)
+            now.setSeconds(0)
+            return now.getTime() + intervalNum * MILL_PER_SECOND
+        },
+        set: val => {
+            const date = new Date(val)
+            const interval = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
+            option.autoPauseInterval = Math.max(5, interval)
+        },
+    })
+
+    const intervalFormat = computed(() => {
+        const intervalNum = option.autoPauseInterval
+        if (intervalNum > 3600) return 'HH [hr] mm [min] ss [sec]'
+        if (intervalNum > 60) return 'mm [min] ss [sec]'
+        return 'ss [sec]'
+    })
+
     return () => <>
+        <OptionItem
+            label={msg => msg.option.statistics.autoPauseTrack}
+            defaultValue={t(msg => msg.option.no)}
+            hideDivider
+            v-slots={{
+                info: () => <OptionTooltip>{t(msg => msg.option.statistics.noActivityInfo)}</OptionTooltip>,
+                maxTime: () => <ElTimePicker
+                    size="small"
+                    clearable={false}
+                    disabled={!option.autoPauseTracking}
+                    format={intervalFormat.value}
+                    modelValue={interval.value}
+                    onUpdate:modelValue={val => interval.value = val}
+                    style={{ width: '150px' }}
+                />,
+                default: () => <ElSwitch
+                    modelValue={option.autoPauseTracking}
+                    onChange={(val: boolean) => option.autoPauseTracking = val}
+                />
+            }}
+        />
         <OptionItem
             label={msg => msg.option.statistics.collectSiteName}
             defaultValue={t(msg => msg.option.yes)}
-            hideDivider
             v-slots={{
                 siteName: () => <OptionTag>{t(msg => msg.option.statistics.siteName)}</OptionTag>,
                 siteNameUsage: () => <OptionTooltip>{t(msg => msg.option.statistics.siteNameUsage)}</OptionTooltip>,

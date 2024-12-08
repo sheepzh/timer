@@ -16,7 +16,9 @@ type Result<T, P extends any[]> = {
     data: Ref<T>
     refresh: (...p: P) => void
     refreshAsync: (...p: P) => Promise<void>
+    refreshAgain: () => void
     loading: Ref<boolean>
+    param: Ref<P>
 }
 
 export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Option<T, P>): Result<T, P> => {
@@ -29,12 +31,14 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
     } = option || {}
     const data: Ref<T> = ref(defaultValue) as Ref<T>
     const loading = ref(false)
+    const param = ref<P>()
 
     const refreshAsync = async (...p: P) => {
         loading.value = true
         const loadingEl = typeof loadingTarget === "string" ? loadingTarget : loadingTarget?.value
         const loadingInstance = loadingEl ? ElLoadingService({ target: loadingEl, text: loadingText }) : null
         try {
+            param.value = p
             const value = await getter?.(...p)
             data.value = value
             onSuccess?.(value)
@@ -50,7 +54,8 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
     if (deps && (!Array.isArray(deps) || deps?.length)) {
         watch(deps, () => refresh(...defaultParam))
     }
-    return { data, refresh, refreshAsync, loading }
+    const refreshAgain = () => param.value && refresh(...param.value)
+    return { data, refresh, refreshAsync, refreshAgain, loading, param }
 }
 
 export const useManualRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Omit<Option<T, P>, 'manual'>): Result<T, P> => {

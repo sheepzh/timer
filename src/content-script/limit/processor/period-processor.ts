@@ -3,20 +3,20 @@ import { LimitReason, ModalContext, Processor } from "../common"
 import { date2Idx } from "@util/limit"
 import { MILL_PER_SECOND } from "@util/time"
 
-function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalContext): number[] {
+function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalContext): NodeJS.Timeout[] {
     const { cond, periods, id } = rule
     return periods?.flatMap?.(p => {
         const [s, e] = p
         const startSeconds = s * 60
         const endSeconds = (e + 1) * 60
         const reason: LimitReason = { id, cond, type: "PERIOD" }
-        const timers = []
+        const timers: NodeJS.Timeout[] = []
         if (nowSeconds < startSeconds) {
-            timers.push(setInterval(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * MILL_PER_SECOND))
-            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
+            timers.push(setTimeout(() => context.modal.addReason(reason), (startSeconds - nowSeconds) * MILL_PER_SECOND))
+            timers.push(setTimeout(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
         } else if (nowSeconds >= startSeconds && nowSeconds <= endSeconds) {
             context.modal.addReason(reason)
-            timers.push(setInterval(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
+            timers.push(setTimeout(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
         }
         return timers
     })
@@ -24,7 +24,7 @@ function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalC
 
 class PeriodProcessor implements Processor {
     private context: ModalContext
-    private timers: number[] = []
+    private timers: NodeJS.Timeout[] = []
 
     constructor(context: ModalContext) {
         this.context = context
@@ -32,7 +32,7 @@ class PeriodProcessor implements Processor {
 
     async handleMsg(code: timer.mq.ReqCode, data: timer.limit.Item[]): Promise<timer.mq.Response> {
         if (code === "limitChanged") {
-            this.timers?.forEach(clearInterval)
+            this.timers?.forEach(clearTimeout)
             await this.init0(data)
             return { code: "success" }
         }

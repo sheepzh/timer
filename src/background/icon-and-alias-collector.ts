@@ -12,7 +12,6 @@ import { defaultStatistics } from "@util/constant/option"
 import { extractSiteName } from "@util/site"
 import { getTab } from "@api/chrome/tab"
 import siteService from "@service/site-service"
-import MessageDispatcher from "./message-dispatcher"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const optionDatabase = new OptionDatabase(storage)
@@ -55,24 +54,13 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
         && await collectAlias(siteKey, tab.title)
 }
 
-
-function init(dispatcher: MessageDispatcher) {
-    const handler: timer.mq.Handler<never, void> = IS_SAFARI
-        ? async () => { /* do nothing for safari */ }
-        : async (_, sender) => {
-            const tabId = sender?.tab?.id
-            if (!tabId) return
-            const tab = await getTab(tabId)
-            tab && processTabInfo(tab)
-        }
-    dispatcher.register("cs.onInjected", handler)
-}
-
 /**
  * Collect the favicon of host
  */
-class IconAndAliasCollector {
-    init = init
+export const collectIconAndAlias = async (sender: chrome.runtime.MessageSender) => {
+    if (IS_SAFARI) return
+    const tabId = sender?.tab?.id
+    if (!tabId) return
+    const tab = await getTab(tabId)
+    tab && processTabInfo(tab)
 }
-
-export default IconAndAliasCollector

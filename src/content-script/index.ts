@@ -39,9 +39,11 @@ function getOrSetFlag(): boolean {
 
 async function main() {
     // Execute in every injections
-    const tracker = new TrackerClient(
-        data => sendMsg2Runtime('cs.trackTime', data)
-    )
+    const tracker = new TrackerClient({
+        onReport: data => sendMsg2Runtime('cs.trackTime', data),
+        onResume: reason => reason === 'idle' && sendMsg2Runtime('cs.idleChange', false),
+        onPause: reason => reason === 'idle' && sendMsg2Runtime('cs.idleChange', true),
+    })
     tracker.init()
     sendMsg2Runtime('cs.onInjected')
 

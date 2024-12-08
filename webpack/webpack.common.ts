@@ -46,25 +46,24 @@ console.log(resolveAlias)
 type EntryConfig = {
     name: string
     path: string
-    chunkExclusive?: boolean
 }
 
+const BACKGROUND = 'background'
+const CONTENT_SCRIPT = 'content_scripts'
+const POPUP = 'popup'
+
 const entryConfigs: EntryConfig[] = [{
-    name: 'background',
+    name: BACKGROUND,
     path: './src/background',
-    chunkExclusive: true,
 }, {
-    name: 'content_scripts',
+    name: CONTENT_SCRIPT,
     path: './src/content-script',
-    chunkExclusive: true,
 }, {
     name: POLYFILL_SCRIPT_NAME,
     path: './src/content-script/polyfill',
-    chunkExclusive: true,
 }, {
-    name: 'popup',
+    name: POPUP,
     path: './src/popup',
-    chunkExclusive: true,
 }, {
     name: 'app',
     path: './src/app',
@@ -73,10 +72,6 @@ const entryConfigs: EntryConfig[] = [{
     path: './src/side'
 }]
 
-const EXCLUDE_CHUNK_ENTRY = entryConfigs.filter(({ chunkExclusive }) => chunkExclusive).map(({ name }) => name)
-
-const excludeChunk = (chunk: Chunk) => !EXCLUDE_CHUNK_ENTRY.includes(chunk.name)
-
 const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
     loader: 'postcss-loader',
     options: {
@@ -84,6 +79,10 @@ const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
             plugins: [postcssRTLCSS({ mode: 'combined' })],
         },
     },
+}
+
+const chunkFilter = ({ name }: Chunk) => {
+    return ![BACKGROUND, CONTENT_SCRIPT, POLYFILL_SCRIPT_NAME].includes(name)
 }
 
 const staticOptions: webpack.Configuration = {
@@ -144,47 +143,11 @@ const staticOptions: webpack.Configuration = {
     },
     optimization: {
         splitChunks: {
+            chunks: chunkFilter,
             cacheGroups: {
-                //////// libraries start ////////
-                echarts: {
-                    name: 'echarts',
-                    chunks: excludeChunk,
-                    filename: 'bundle/echarts.js',
-                    test: /[\\/]node_modules[\\/](echarts|zrender)[\\/]/,
-                },
-                // @vue & vue-router
-                vue: {
-                    name: 'vue',
-                    chunks: excludeChunk,
-                    filename: 'bundle/vue.js',
-                    test: /[\\/]node_modules[\\/]@?vue(use)?(-router)?[\\/]/,
-                },
-                element: {
-                    name: 'element',
-                    chunks: excludeChunk,
-                    filename: 'bundle/element.js',
-                    test: /[\\/]node_modules[\\/]@?element-plus[\\/]/,
-                },
-                lodash: {
-                    name: 'lodash',
-                    chunks: excludeChunk,
-                    filename: 'bundle/lodash.js',
-                    test: /[\\/]node_modules[\\/]lodash[\\/]/,
-                },
-                //////// libraries end ////////
-                //////// common start ////////
-                api: {
-                    name: 'api',
-                    chunks: excludeChunk,
-                    filename: 'common/api.js',
-                    test: /[\\/]src[\\/]api[\\/]/,
-                },
-                common: {
-                    name: 'common',
-                    chunks: excludeChunk,
-                    test: /[\\/]src[\\/](service|database|util)[\\/]/,
-                },
-                //////// common end ////////
+                defaultVendors: {
+                    filename: 'vendor/[name].js'
+                }
             }
         },
     },
@@ -222,7 +185,6 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
             chunks: ['app'],
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '..', 'public', 'popup.html'),
             filename: path.join('static', 'popup.html'),
             chunks: ['popup'],
         }),

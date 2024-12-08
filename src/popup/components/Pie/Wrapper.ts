@@ -1,28 +1,20 @@
-/**
- * Copyright (c) 2021 Hengyang Zhang
- *
- * This software is released under the MIT License.
- * https://opensource.org/licenses/MIT
- */
-
-import type { PopupQueryResult, PopupRow } from "@popup/common"
-import type { PieSeriesOption } from "echarts/charts"
-import type {
-    LegendComponentOption,
-    TitleComponentOption,
-    ToolboxComponentOption,
-    TooltipComponentOption,
-} from "echarts/components"
-import type { ComposeOption } from "echarts/core"
-
 import { createTab } from "@api/chrome/tab"
 import { OPTION_ROUTE } from "@app/router/constants"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import { PopupResult, PopupRow } from "@popup/common"
 import { t } from "@popup/locale"
 import { IS_SAFARI } from "@util/constant/environment"
 import { getAppPageUrl } from "@util/constant/url"
 import { generateSiteLabel } from "@util/site"
-import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
+import { getInfoColor, getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
+import { PieChart, PieSeriesOption } from "echarts/charts"
+import {
+    LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent,
+    LegendComponentOption, TitleComponentOption, ToolboxComponentOption, TooltipComponentOption,
+} from "echarts/components"
+import { ComposeOption, use } from "echarts/core"
+import { SVGRenderer } from "echarts/renderers"
 import { optionIcon } from "./toolbox-icon"
 
 type EcOption = ComposeOption<
@@ -33,6 +25,8 @@ type EcOption = ComposeOption<
     | LegendComponentOption
 >
 
+use([SVGRenderer, PieChart, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
+
 // The declarations of labels
 type PieLabelRichOption = PieSeriesOption['label']['rich']
 type PieLabelRichValueOption = PieLabelRichOption[string]
@@ -41,10 +35,6 @@ type PieSeriesItemOption = PieSeriesOption['data'][0] & {
     host: string,
     iconUrl?: string,
     isOther?: boolean
-}
-
-type ChartProps = PopupQueryResult & {
-    displaySiteName: boolean
 }
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
@@ -74,7 +64,7 @@ function calculateAverageText(type: timer.stat.Dimension, averageValue: number):
     return undefined
 }
 
-function toolTipFormatter({ type, dateLength }: PopupQueryResult, params: any): string {
+function toolTipFormatter({ query, dateLength }: PopupResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
     const data = format.data as PopupRow
@@ -82,6 +72,7 @@ function toolTipFormatter({ type, dateLength }: PopupQueryResult, params: any): 
     const siteLabel = generateSiteLabel(host, name)
     let result = siteLabel
     const itemValue = typeof value === 'number' ? value as number : 0
+    const { type } = query
     const valueText = type === 'time' ? itemValue : formatPeriodCommon(itemValue)
     result += '<br/>' + valueText
     // Display percent only when query focus time
@@ -93,20 +84,20 @@ function toolTipFormatter({ type, dateLength }: PopupQueryResult, params: any): 
     return result
 }
 
-function labelFormatter({ mergeHost }: PopupQueryResult, params: any): string {
+function labelFormatter(result: PopupResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name } = format
     const data = format.data as PieSeriesItemOption
     const { isOther, iconUrl } = data
     // Un-supported to get favicon url in Safari
-    return mergeHost || isOther || !iconUrl || IS_SAFARI
+    return result?.query?.mergeHost || isOther || !iconUrl || IS_SAFARI
         ? name
         : `{${legend2LabelStyle(name)}|} {a|${name}}`
 }
 
 const maxWidth = 750
 
-function calcPositionOfTooltip(container: HTMLDivElement, point: (number | string)[]) {
+function calcPositionOfTooltip(container: HTMLElement, point: (number | string)[]) {
     let p: number | string = point[0]
     const pN: number = typeof p === 'number' ? p : Number.parseFloat(p)
     const tooltip = container.children.item(1) as HTMLDivElement
@@ -173,95 +164,102 @@ function combineDate(start: Date, end: Date, format: string): string {
         .replace('{ed}', ed.toString().padStart(2, '0'))
 }
 
-export function pieOptions(props: ChartProps, container: HTMLDivElement): EcOption {
-    const { type, data, displaySiteName, chartTitle, date } = props
-    const titleText = chartTitle
-    const dateText = calculateSubTitleText(date, props.dataDate)
-    const subTitleText = `${dateText} @ ${t(msg => msg.meta.name)}`
-    const textColor = getPrimaryTextColor()
-    const secondaryColor = getSecondaryTextColor()
-    const options: EcOption = {
-        title: {
-            text: titleText,
-            subtext: subTitleText,
-            left: 'center',
-            textStyle: { color: textColor },
-            subtextStyle: { color: secondaryColor },
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: (params: any) => toolTipFormatter(props, params),
-            position: (point: (number | string)[]) => calcPositionOfTooltip(container, point)
-        },
-        legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            left: 15,
-            top: 20,
-            bottom: 20,
-            textStyle: { color: textColor }
-        },
-        series: [{
-            name: "Wasted Time",
-            type: "pie",
-            radius: "55%",
-            center: ["64%", "52%"],
-            startAngle: 300,
-            data: [],
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: "rgba(0, 0, 0, 0.5)",
-                },
+export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
+    protected generateOption(result: PopupResult): EcOption | Promise<EcOption> {
+        if (!result) return {}
+
+        const { query, date, displaySiteName, data, dataDate, chartTitle, } = result
+        const titleText = chartTitle
+        const dateText = calculateSubTitleText(date, dataDate)
+        const subTitleText = `${dateText} @ ${t(msg => msg.meta.name)}`
+        const textColor = getPrimaryTextColor()
+        const secondaryColor = getSecondaryTextColor()
+        const inactiveColor = getInfoColor()
+        const options: EcOption = {
+            title: {
+                text: titleText,
+                subtext: subTitleText,
+                left: 'center',
+                textStyle: { color: textColor },
+                subtextStyle: { color: secondaryColor },
             },
-            label: {
-                formatter: params => labelFormatter(props, params),
-                color: textColor
+            tooltip: {
+                trigger: 'item',
+                formatter: (params: any) => toolTipFormatter(result, params),
+                position: (point: (number | string)[]) => calcPositionOfTooltip(this.getDom(), point)
             },
-        }],
-        toolbox: {
-            show: true,
-            feature: {
-                restore: {
-                    show: true,
-                    title: t(msg => msg.chart.restoreTitle)
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                left: 15,
+                top: 20,
+                bottom: 20,
+                textStyle: { color: textColor },
+                pageTextStyle: { color: textColor },
+                inactiveColor,
+            },
+            series: [{
+                name: "NO_DATA",
+                type: "pie",
+                radius: "55%",
+                center: ["64%", "52%"],
+                startAngle: 300,
+                data: [],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)",
+                    },
                 },
-                saveAsImage: {
-                    show: true,
-                    title: t(msg => msg.chart.saveAsImageTitle),
-                    // file name
-                    name: t(msg => msg.chart.fileName, {
-                        app: t(msg => msg.meta.name),
-                        today
-                    }),
-                    excludeComponents: ['toolbox'],
-                    pixelRatio: 1
+                label: {
+                    formatter: params => labelFormatter(result, params),
+                    color: textColor
                 },
-                // Customized tool's name must start with 'my'
-                myOptions: {
-                    show: true,
-                    title: t(msg => msg.base.option),
-                    icon: optionIcon,
-                    onclick: () => createTab(getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }))
+            }],
+            toolbox: {
+                show: true,
+                feature: {
+                    restore: {
+                        show: true,
+                        title: t(msg => msg.chart.restoreTitle)
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: t(msg => msg.chart.saveAsImageTitle),
+                        // file name
+                        name: t(msg => msg.chart.fileName, {
+                            app: t(msg => msg.meta.name),
+                            today
+                        }),
+                        excludeComponents: ['toolbox'],
+                        pixelRatio: 1
+                    },
+                    // Customized tool's name must start with 'my'
+                    myOptions: {
+                        show: true,
+                        title: t(msg => msg.base.option),
+                        icon: optionIcon,
+                        onclick: () => createTab(getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }))
+                    }
                 }
             }
         }
+        const series: PieSeriesItemOption[] = []
+        const iconRich: PieLabelRichOption = {}
+        data.forEach(d => {
+            const { host, alias, isOther, iconUrl } = d
+            const legend = displaySiteName ? (alias || host) : host
+            series.push({ name: legend, value: d[query?.type] || 0, host, isOther, iconUrl })
+            const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
+            iconUrl && (richValue.backgroundColor = { image: iconUrl })
+            iconRich[legend2LabelStyle(legend)] = richValue
+        })
+        options.series[0].data = series
+        options.series[0].label.rich = {
+            a: { fontSize: LABEL_FONT_SIZE },
+            ...iconRich
+        }
+        return options
     }
-    const series: PieSeriesItemOption[] = []
-    const iconRich: PieLabelRichOption = {}
-    data.forEach(d => {
-        const { host, alias, isOther, iconUrl } = d
-        const legend = displaySiteName ? (alias || host) : host
-        series.push({ name: legend, value: d[type] || 0, host, isOther, iconUrl })
-        const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
-        iconUrl && (richValue.backgroundColor = { image: iconUrl })
-        iconRich[legend2LabelStyle(legend)] = richValue
-    })
-    options.series[0].data = series
-    options.series[0].label.rich = {
-        a: { fontSize: LABEL_FONT_SIZE },
-        ...iconRich
-    }
-    return options
 }
