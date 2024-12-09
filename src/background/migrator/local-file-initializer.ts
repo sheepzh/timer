@@ -9,21 +9,20 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import { JSON_HOST, LOCAL_HOST_PATTERN, MERGED_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
 import { t2Chrome } from "@i18n/chrome/t"
 import siteService from "@service/site-service"
+import { Migrator } from "./common"
 
-const storage: chrome.storage.StorageArea = chrome.storage.local
-const mergeRuleDatabase = new MergeRuleDatabase(storage)
+const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 /**
  * Process the host of local files
- * 
+ *
  * @since 0.7.0
  */
-export default class LocalFileInitializer implements VersionProcessor {
-    since(): string {
-        return '0.7.0'
+export default class LocalFileInitializer implements Migrator {
+    onUpdate(_version: string): void {
     }
 
-    process(): void {
+    onInstall(): void {
         // Add merged rules
         mergeRuleDatabase.add({
             origin: LOCAL_HOST_PATTERN,

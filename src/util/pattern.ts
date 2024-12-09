@@ -102,7 +102,7 @@ export function isValidVirtualHost(host: string) {
  * @returns T/F
  */
 export function judgeVirtualFast(host: string): boolean {
-    return host?.includes('/')
+    return host?.includes('/') || host?.includes('*')
 }
 
 export type HostInfo = {

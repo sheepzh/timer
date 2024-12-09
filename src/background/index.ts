@@ -19,7 +19,7 @@ import initLimitProcessor from "./limit-processor"
 import MessageDispatcher from "./message-dispatcher"
 import initSidePanel from "./side-panel"
 import initTrackServer from "./timer/server"
-import VersionManager from "./version-manager"
+import VersionMigrator from "./migrator"
 import WhitelistMenuManager from "./whitelist-menu-manager"
 
 // Open the log of console
@@ -40,7 +40,7 @@ initCsHandler(messageDispatcher)
 initTrackServer(messageDispatcher)
 
 // Process version
-new VersionManager().init()
+new VersionMigrator().init()
 
 // Backup scheduler
 new BackupScheduler().init()

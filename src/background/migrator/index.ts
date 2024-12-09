@@ -1,40 +1,40 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { getVersion, onInstalled } from "@api/chrome/runtime"
-import HostMergeInitializer from "./0-1-2/host-merge-initializer"
-import LocalFileInitializer from "./0-7-0/local-file-initializer"
+import HostMergeInitializer from "./host-merge-initializer"
+import LocalFileInitializer from "./local-file-initializer"
+import { Migrator } from "./common"
+import WhitelistInitializer from "./whitelist-initializer"
 
 /**
  * Version manager
- *  
+ *
  * @since 0.1.2
  */
 class VersionManager {
-    processorChain: VersionProcessor[] = []
+    processorChain: Migrator[] = []
 
     constructor() {
         this.processorChain.push(
             new HostMergeInitializer(),
             new LocalFileInitializer(),
+            new WhitelistInitializer(),
         )
-        this.processorChain = this.processorChain.sort((a, b) => a.since() >= b.since() ? 1 : 0)
     }
 
     private onChromeInstalled(reason: ChromeOnInstalledReason) {
         const version: string = getVersion()
         if (reason === 'update') {
             // Update, process the latest version, which equals to current version
-            this.processorChain
-                .filter(processor => processor.since() === version)
-                .forEach(processor => processor.process(reason))
+            this.processorChain.forEach(processor => processor.onUpdate(version))
         } else if (reason === 'install') {
-            // All 
-            this.processorChain.forEach(processor => processor.process(reason))
+            // All
+            this.processorChain.forEach(processor => processor.onInstall())
         }
     }
 

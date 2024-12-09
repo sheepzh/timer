@@ -6,6 +6,7 @@
  */
 
 import MergeRuleDatabase from "@db/merge-rule-database"
+import { Migrator } from "./common"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
@@ -14,13 +15,11 @@ const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
  *
  * Initialize the merge rules
  */
-export default class HostMergeInitializer implements VersionProcessor {
-
-    since(): string {
-        return '0.1.2'
+export default class HostMergeInitializer implements Migrator {
+    onUpdate(_version: string): void {
     }
 
-    process(): void {
+    onInstall(): void {
         mergeRuleDatabase.add(
             // Google's regional hosts
             { origin: '*.google.com.*', merged: 'google.com' },
