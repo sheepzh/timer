@@ -108,6 +108,10 @@ class SiteService {
     listAllCategories(): Promise<timer.site.Cate[]> {
         return siteCateDatabase.listAll()
     }
+
+    addCategory(cate: Pick<timer.site.Cate, 'name' | 'color'>): Promise<timer.site.Cate> {
+        return siteCateDatabase.add(cate)
+    }
 }
 
 export default new SiteService()

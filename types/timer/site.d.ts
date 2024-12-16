@@ -40,7 +40,7 @@ declare namespace timer.site {
      */
     type Cate = {
         id: number
-        label: string
+        name: string
         color?: string
     }
 }

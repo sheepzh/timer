@@ -12,9 +12,9 @@ const KEY = REMAIN_WORD_PREFIX + 'TAG'
 
 type Item = {
     /**
-     * Label
+     * Name
      */
-    l: string
+    n: string
     /**
      * Color
      */
@@ -25,15 +25,15 @@ type Items = Record<number, Item>
 
 function migrate(exist: Items, toMigrate: any) {
     let idBase = Object.keys(exist).map(parseInt).sort().reverse()?.[0] ?? 0 + 1
-    const existLabels = new Set(Object.values(exist).map(e => e.l))
+    const existLabels = new Set(Object.values(exist).map(e => e.n))
 
     Object.values(toMigrate).forEach(value => {
-        const { l, c } = (value as Item) || {}
-        if (!l || existLabels.has(l)) return
+        const { n, c } = (value as Item) || {}
+        if (!n || existLabels.has(n)) return
 
         const id = idBase
         idBase++;
-        exist[id] = { l, c }
+        exist[id] = { n, c }
     })
 }
 
@@ -43,19 +43,35 @@ function migrate(exist: Items, toMigrate: any) {
  * @since 2.6.0
  */
 class SiteCateDatabase extends BaseDatabase {
+    private async getItems(): Promise<Items> {
+        return await this.storage.getOne<Items>(KEY) || {}
+    }
+
+    private async saveItems(items: Items): Promise<void> {
+        await this.storage.put(KEY, items || {})
+    }
+
     async listAll(): Promise<timer.site.Cate[]> {
         const items = await this.getItems()
-        return Object.entries(items).map(([id, { l, c } = {}]) => {
+        return Object.entries(items).map(([id, { n, c } = {}]) => {
             return {
                 id: parseInt(id),
-                label: l,
+                name: n,
                 color: c,
             } satisfies timer.site.Cate
         })
     }
 
-    private async getItems(): Promise<Items> {
-        return await this.storage.getOne<Items>(KEY) || {}
+    async add(cate: Pick<timer.site.Cate, "name" | "color">): Promise<timer.site.Cate> {
+        const { name, color } = cate || {}
+        if (!name) return
+
+        const items = await this.getItems()
+        const id = (Object.keys(items || {}).map(parseInt).sort().reverse()?.[0] ?? 0) + 1
+        items[id] = { n: cate.name, c: color }
+
+        await this.saveItems(items)
+        return { name, color, id }
     }
 
     async importData(data: any): Promise<void> {
