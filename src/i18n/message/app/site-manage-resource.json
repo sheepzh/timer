@@ -8,7 +8,7 @@
             "type": "网站类型",
             "alias": "网站名称",
             "aliasInfo": "网站名称会在报表以及今日数据（需要在扩展选项里设置）里展示，方便您快速识别域名",
-            "source": "名称来源",
+            "cate": "网站类目",
             "icon": "网站图标"
         },
         "type": {
@@ -26,8 +26,11 @@
             }
         },
         "source": {
-            "user": "手动设置",
             "detected": "自动抓取"
+        },
+        "cate": {
+            "name": "类目名称",
+            "color": "区别色"
         },
         "form": {
             "emptyAlias": "请输入网站名称",
@@ -48,7 +51,6 @@
             "type": "網站類型",
             "alias": "網站名稱",
             "aliasInfo": "網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域",
-            "source": "名稱來源",
             "icon": "網站圖標"
         },
         "type": {
@@ -66,7 +68,6 @@
             }
         },
         "source": {
-            "user": "手動設置",
             "detected": "自動抓取"
         },
         "form": {
@@ -88,7 +89,7 @@
             "type": "Site Type",
             "alias": "Site Name",
             "aliasInfo": "The site name will be shown on the record page and the popup page",
-            "source": "Name Source",
+            "cate": "Category",
             "icon": "Icon"
         },
         "type": {
@@ -106,8 +107,11 @@
             }
         },
         "source": {
-            "user": "user-maintained",
             "detected": "auto-detected"
+        },
+        "cate": {
+            "name": "Name",
+            "color": "Color"
         },
         "form": {
             "emptyAlias": "Please enter site name",
@@ -128,7 +132,6 @@
             "type": "サイト種別",
             "alias": "サイト名",
             "aliasInfo": "サイト名はレコードページとポップアップページに表示されます",
-            "source": "ソース",
             "icon": "Icon"
         },
         "type": {
@@ -146,7 +149,6 @@
             }
         },
         "source": {
-            "user": "手动输入",
             "detected": "システム検出"
         },
         "form": {
@@ -168,7 +170,6 @@
             "type": "Categoria de Sítio Web",
             "alias": "Nome do Site",
             "aliasInfo": "O nome do site será mostrado na página de registro e na página pop-up",
-            "source": "Nome Fonte",
             "icon": "Ícone"
         },
         "type": {
@@ -186,7 +187,6 @@
             }
         },
         "source": {
-            "user": "usuário mantido",
             "detected": "detetado"
         },
         "form": {
@@ -208,7 +208,6 @@
             "type": "Тип сайту",
             "alias": "Назва сайту",
             "aliasInfo": "Назву сайту буде показано на сторінці записів і в спливному вікні",
-            "source": "Джерело назви",
             "icon": "Піктограма"
         },
         "type": {
@@ -226,7 +225,6 @@
             }
         },
         "source": {
-            "user": "user-maintained",
             "detected": "auto-detected"
         },
         "form": {
@@ -248,7 +246,6 @@
             "type": "Tipo de sitio",
             "alias": "Nombre del sitio",
             "aliasInfo": "El nombre del sitio se mostrará en la página de registro y en la página emergente",
-            "source": "Fuente del nombre",
             "icon": "Icono"
         },
         "type": {
@@ -266,7 +263,6 @@
             }
         },
         "source": {
-            "user": "mantenido por el usuario",
             "detected": "auto-detectado"
         },
         "form": {
@@ -288,7 +284,6 @@
             "type": "Website-Typ",
             "alias": "Site-Name",
             "aliasInfo": "Der Name der Website wird auf der Datensatzseite und der Popup-Seite angezeigt",
-            "source": "Die Quelle des Namens",
             "icon": "Symbol"
         },
         "type": {
@@ -306,7 +301,6 @@
             }
         },
         "source": {
-            "user": "Von Benutzern gepflegt",
             "detected": "automatisch erkannt"
         },
         "form": {
@@ -328,7 +322,6 @@
             "type": "Type de Site",
             "alias": "Nom du site",
             "aliasInfo": "Le nom du site sera affiché sur la page d'enregistrement et la page contextuelle",
-            "source": "Source du nom",
             "icon": "Icône"
         },
         "type": {
@@ -346,7 +339,6 @@
             }
         },
         "source": {
-            "user": "utilisateur",
             "detected": "détecté"
         },
         "form": {
@@ -368,7 +360,6 @@
             "type": "Тип сайта",
             "alias": "Название сайта",
             "aliasInfo": "Название сайта будет показано на странице записи и всплывающей странице",
-            "source": "Источник имени",
             "icon": "Иконки"
         },
         "type": {
@@ -386,7 +377,6 @@
             }
         },
         "source": {
-            "user": "ручной",
             "detected": "выявленный"
         },
         "form": {
@@ -408,7 +398,6 @@
             "type": "نوع الموقع",
             "alias": "اسم الموقع",
             "aliasInfo": "سيتم عرض اسم الموقع على صفحة السجل وصفحة النافذة المنبثقة",
-            "source": "مصدر الاسم",
             "icon": "رمز"
         },
         "type": {
@@ -426,7 +415,6 @@
             }
         },
         "source": {
-            "user": "صيانة المستخدم",
             "detected": "تم الكشف عنه تلقائيًا"
         },
         "form": {

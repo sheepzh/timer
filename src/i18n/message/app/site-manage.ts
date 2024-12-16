@@ -16,13 +16,16 @@ export type SiteManageMessage = {
         type: string
         alias: string
         aliasInfo: string
-        source: string
+        cate: string
         icon: string
     }
     type: Record<'normal' | 'merged' | 'virtual', Record<'name' | 'info', string>>
     source: {
-        user: string
         detected: string
+    }
+    cate: {
+        name: string
+        color: string
     }
     form: {
         emptyAlias: string

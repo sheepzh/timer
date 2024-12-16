@@ -6,16 +6,17 @@
  */
 import type { PropType } from "vue"
 
+import Flex from "@app/components/common/Flex"
+import HostAlert from "@app/components/common/HostAlert"
+import { t } from "@app/locale"
+import siteService from "@service/site-service"
+import { ElTableRowScope } from "@src/element-ui/table"
 import { ElTable, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
+import Category from "./Category"
 import AliasColumn from "./column/AliasColumn"
-import TypeColumn from "./column/TypeColumn"
-import SourceColumn from "./column/SourceColumn"
 import OperationColumn from "./column/OperationColumn"
-import { t } from "@app/locale"
-import HostAlert from "@app/components/common/HostAlert"
-import { ElTableRowScope } from "@src/element-ui/table"
-import siteService from "@service/site-service"
+import TypeColumn from "./column/TypeColumn"
 
 const _default = defineComponent({
     props: {
@@ -40,7 +41,7 @@ const _default = defineComponent({
         >
             <ElTableColumn
                 label={t(msg => msg.item.host)}
-                minWidth={120}
+                minWidth={220}
                 align="center"
                 v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
                     <div style={{ margin: 'auto', width: 'fit-content' }}>
@@ -51,20 +52,25 @@ const _default = defineComponent({
             <TypeColumn />
             <ElTableColumn
                 label={t(msg => msg.siteManage.column.icon)}
-                minWidth={40}
+                minWidth={100}
                 align="center"
                 v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => {
                     const { iconUrl } = row || {}
                     if (!iconUrl) return ''
                     return (
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Flex align="center" justify="center">
                             <img width={12} height={12} src={iconUrl} onError={() => handleIconError(row)} />
-                        </div>
+                        </Flex>
                     )
                 }}
             />
             <AliasColumn onRowAliasSaved={row => ctx.emit("rowModify", row)} />
-            <SourceColumn />
+            <ElTableColumn
+                label={t(msg => msg.siteManage.column.cate)}
+                minWidth={140}
+                align="center"
+                v-slots={({ row }: { row: timer.site.SiteInfo }) => <Category modelValue={row.cate} />}
+            />
             <OperationColumn onDelete={row => ctx.emit("rowDelete", row)} />
         </ElTable>
     }

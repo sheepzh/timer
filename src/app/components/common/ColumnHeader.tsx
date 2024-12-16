@@ -1,6 +1,7 @@
 import { InfoFilled } from "@element-plus/icons-vue"
 import { ElIcon, ElTooltip } from "element-plus"
 import { defineComponent } from "vue"
+import Flex from "./Flex"
 
 const ColumnHeader = defineComponent({
     props: {
@@ -9,7 +10,7 @@ const ColumnHeader = defineComponent({
     },
     setup(props, ctx) {
         return () => (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4px' }}>
+            <Flex justify="center" align="center" gap={4}>
                 <span>
                     {props.label}
                 </span>
@@ -27,7 +28,7 @@ const ColumnHeader = defineComponent({
                         ),
                     }}>
                 </ElTooltip>
-            </div>
+            </Flex>
         )
     }
 })

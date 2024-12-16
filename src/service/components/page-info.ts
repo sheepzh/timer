@@ -10,7 +10,6 @@ const DEFAULT_PAGE_SIZE = 10
 
 /**
  * Slice the origin list to page
- * @returns 
  */
 export function slicePageResult<T>(originList: T[], pageQuery: timer.common.PageQuery): timer.common.PageResult<T> {
     let pageNum = pageQuery.num

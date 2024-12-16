@@ -9,6 +9,7 @@ import { Check, Close, Edit } from "@element-plus/icons-vue"
 import { useShadow, useSwitch } from "@hooks"
 import { ElButton, ElIcon, ElInput, InputInstance } from "element-plus"
 import { defineComponent, nextTick, ref } from "vue"
+import Flex from "./Flex"
 
 /**
  * @since 0.7.1
@@ -42,6 +43,7 @@ const _default = defineComponent({
             openEditing()
             nextTick(() => input.value?.focus?.())
         }
+        const labelSlot = ctx.slots?.label
         return () => editing.value
             ? <ElInput
                 size="small"
@@ -56,17 +58,19 @@ const _default = defineComponent({
                     </>
                 }}
             />
-            : <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
-                {inputVal.value && <span>{inputVal.value}</span>}
-                <span
+            : <Flex justify="center" gap={4}>
+                {labelSlot ? labelSlot(inputVal.value) : inputVal.value && <span>{inputVal.value}</span>}
+                <Flex
                     onClick={handleEdit}
-                    style={{ display: 'flex', alignContent: 'center', flexWrap: 'wrap', paddingTop: '2px' }}
+                    align="center"
+                    wrap="wrap"
+                    style={{ paddingTop: '2px' }}
                 >
                     <ElIcon class="edit-btn">
                         <Edit />
                     </ElIcon>
-                </span>
-            </div>
+                </Flex>
+            </Flex>
     }
 })
 

@@ -157,7 +157,7 @@ async function existBatch(this: SiteDatabase, siteKeys: timer.site.SiteKey[]): P
     return Object.entries(items).map(([key]) => cvt2SiteKey(key))
 }
 
-async function importData(this: SiteDatabase, data: any) {
+async function importData(this: SiteDatabase, _data: any) {
     throw new Error("Method not implemented.")
 }
 

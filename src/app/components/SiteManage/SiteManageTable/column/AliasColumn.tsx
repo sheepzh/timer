@@ -5,12 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
-import { t } from "@app/locale"
-import Editable from "@app/components/common/Editable"
-import siteService from "@service/site-service"
 import ColumnHeader from "@app/components/common/ColumnHeader"
+import Editable from "@app/components/common/Editable"
+import Flex from "@app/components/common/Flex"
+import { t } from "@app/locale"
+import { MagicStick } from "@element-plus/icons-vue"
+import siteService from "@service/site-service"
+import { ElIcon, ElTableColumn, ElText, ElTooltip } from "element-plus"
+import { defineComponent } from "vue"
 
 const _default = defineComponent({
     emits: {
@@ -30,7 +32,7 @@ const _default = defineComponent({
 
         return () => (
             <ElTableColumn
-                minWidth={100}
+                minWidth={160}
                 align="center"
                 v-slots={{
                     header: () => <ColumnHeader
@@ -40,6 +42,25 @@ const _default = defineComponent({
                     default: ({ row }: { row: timer.site.SiteInfo }) => <Editable
                         modelValue={row.alias}
                         onChange={val => handleChange(val, row)}
+                        v-slots={{
+                            label: (val: string) => (
+                                <Flex align="center" gap={3}>
+                                    {row.source === 'DETECTED' && val && (
+                                        <ElTooltip
+                                            content={t(msg => msg.siteManage.source.detected)}
+                                            placement="top"
+                                        >
+                                            <ElText size="small" type="primary" style={{ cursor: 'pointer' }}>
+                                                <ElIcon style={{ transform: 'rotateY(180deg)' }}>
+                                                    <MagicStick />
+                                                </ElIcon>
+                                            </ElText>
+                                        </ElTooltip>
+                                    )}
+                                    <span>{val}</span>
+                                </Flex>
+                            )
+                        }}
                     />,
                 }}
             />
