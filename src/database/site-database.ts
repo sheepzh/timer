@@ -17,6 +17,10 @@ export type SiteCondition = {
     fuzzyQuery?: string
     source?: timer.site.AliasSource
     virtual?: boolean
+    /**
+     * @since 2.6.0
+     */
+    cateIds?: number | number[]
 }
 
 type _Entry = {
@@ -99,9 +103,10 @@ async function select(this: SiteDatabase, condition?: SiteCondition): Promise<ti
 }
 
 function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => boolean {
-    const { host, alias, source, virtual, fuzzyQuery } = condition || {}
+    const { host, alias, source, virtual, fuzzyQuery, cateIds } = condition || {}
+    let cateFilter = typeof cateIds === 'number' ? [cateIds] : (cateIds?.length ? cateIds : undefined)
     return site => {
-        const { host: siteHost, alias: siteAlias, source: siteSource, virtual: siteVirtual } = site || {}
+        const { host: siteHost, alias: siteAlias, source: siteSource, virtual: siteVirtual, cate } = site || {}
         if (host && !siteHost.includes(host)) return false
         if (alias && !siteAlias?.includes(alias)) return false
         if (source && source !== siteSource) return false
@@ -111,6 +116,7 @@ function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => b
             if (virtualCond !== virtualFactor) return false
         }
         if (fuzzyQuery && !(siteHost?.includes(fuzzyQuery) || siteAlias?.includes(fuzzyQuery))) return false
+        if (cateFilter && !cateFilter.includes(cate)) return false
         return true
     }
 }

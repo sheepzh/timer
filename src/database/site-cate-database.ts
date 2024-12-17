@@ -15,10 +15,6 @@ type Item = {
      * Name
      */
     n: string
-    /**
-     * Color
-     */
-    c?: string
 }
 
 type Items = Record<number, Item>
@@ -28,12 +24,12 @@ function migrate(exist: Items, toMigrate: any) {
     const existLabels = new Set(Object.values(exist).map(e => e.n))
 
     Object.values(toMigrate).forEach(value => {
-        const { n, c } = (value as Item) || {}
+        const { n } = (value as Item) || {}
         if (!n || existLabels.has(n)) return
 
         const id = idBase
         idBase++;
-        exist[id] = { n, c }
+        exist[id] = { n }
     })
 }
 
@@ -53,25 +49,43 @@ class SiteCateDatabase extends BaseDatabase {
 
     async listAll(): Promise<timer.site.Cate[]> {
         const items = await this.getItems()
-        return Object.entries(items).map(([id, { n, c } = {}]) => {
+        return Object.entries(items).map(([id, { n } = {}]) => {
             return {
                 id: parseInt(id),
                 name: n,
-                color: c,
             } satisfies timer.site.Cate
         })
     }
 
-    async add(cate: Pick<timer.site.Cate, "name" | "color">): Promise<timer.site.Cate> {
-        const { name, color } = cate || {}
+    async add(name: string): Promise<timer.site.Cate> {
         if (!name) return
 
         const items = await this.getItems()
+        const existId = Object.entries(items).find(([_, v]) => v.n === name)?.[0]
+        if (existId) {
+            // Exist already
+            return { id: parseInt(existId), name }
+        }
+
         const id = (Object.keys(items || {}).map(parseInt).sort().reverse()?.[0] ?? 0) + 1
-        items[id] = { n: cate.name, c: color }
+        items[id] = { n: name }
 
         await this.saveItems(items)
-        return { name, color, id }
+        return { name, id }
+    }
+
+    async update(id: number, name: string): Promise<void> {
+        if (!name) return
+
+        const items = await this.getItems()
+        const existId = Object.entries(items).find(([_, v]) => v.n === name)?.[0]
+
+        if (existId) {
+            return
+        }
+
+        items[id] = { ...items[id] || {}, n: name }
+        await this.saveItems(items)
     }
 
     async importData(data: any): Promise<void> {

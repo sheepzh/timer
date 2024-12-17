@@ -5,13 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import SiteCateDatabase from "@db/site-cate-database"
 import SiteDatabase, { SiteCondition } from "@db/site-database"
 import { slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
 const siteDatabase = new SiteDatabase(storage)
-const siteCateDatabase = new SiteCateDatabase(storage)
 
 export type SiteQueryParam = SiteCondition
 
@@ -103,14 +101,6 @@ class SiteService {
     async get(siteKey: timer.site.SiteKey): Promise<timer.site.SiteInfo | undefined> {
         const info = await siteDatabase.get(siteKey)
         return info || siteKey
-    }
-
-    listAllCategories(): Promise<timer.site.Cate[]> {
-        return siteCateDatabase.listAll()
-    }
-
-    addCategory(cate: Pick<timer.site.Cate, 'name' | 'color'>): Promise<timer.site.Cate> {
-        return siteCateDatabase.add(cate)
     }
 }
 

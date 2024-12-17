@@ -41,6 +41,5 @@ declare namespace timer.site {
     type Cate = {
         id: number
         name: string
-        color?: string
     }
 }

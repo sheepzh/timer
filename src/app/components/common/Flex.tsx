@@ -3,6 +3,7 @@ import { CSSProperties, defineComponent, h, PropType } from "vue"
 const _default = defineComponent({
     props: {
         direction: String as PropType<CSSProperties['flexDirection']>,
+        flex: Number,
         align: String as PropType<CSSProperties['alignItems']>,
         justify: String as PropType<CSSProperties['justifyContent']>,
         gap: [String, Number],
@@ -12,19 +13,22 @@ const _default = defineComponent({
         style: Object as PropType<CSSProperties>,
     },
     emits: {
-        click: () => true,
+        click: (ev: MouseEvent) => true,
     },
     setup(props, ctx) {
         return () => (
             <div
-                onClick={() => ctx.emit('click')}
+                onClick={ev => ctx.emit('click', ev)}
                 style={{
                     display: 'flex',
+                    flex: props.flex,
                     flexDirection: props.direction,
                     alignItems: props.align,
                     justifyContent: props.justify,
                     flexWrap: props.wrap,
                     gap: typeof props.gap === 'number' ? `${props.gap}px` : props.gap,
+                    width: props.width,
+                    height: props.height,
                     ...props.style || {},
                 }}
             >

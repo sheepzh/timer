@@ -25,7 +25,7 @@ export type SiteManageMessage = {
     }
     cate: {
         name: string
-        color: string
+        relatedMsg: string
     }
     form: {
         emptyAlias: string

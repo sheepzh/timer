@@ -30,7 +30,7 @@
         },
         "cate": {
             "name": "类目名称",
-            "color": "区别色"
+            "relatedMsg": "该类目已有 {siteCount} 个站点，无法删除"
         },
         "form": {
             "emptyAlias": "请输入网站名称",
@@ -111,7 +111,7 @@
         },
         "cate": {
             "name": "Name",
-            "color": "Color"
+            "relatedMsg": "This category has been associated with {siteCount} sites and cannot be deleted"
         },
         "form": {
             "emptyAlias": "Please enter site name",

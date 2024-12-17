@@ -1,10 +1,11 @@
 import Flex from "@app/components/common/Flex"
 import { t } from "@app/locale"
-import { Check, Close, Edit, Plus, Remove } from "@element-plus/icons-vue"
-import { useRequest, useState, useSwitch } from "@hooks"
+import { Check, Close, Delete, Edit, Plus } from "@element-plus/icons-vue"
+import { useManualRequest, useRequest, useState, useSwitch } from "@hooks"
+import cateService from "@service/cate-service"
 import siteService from "@service/site-service"
-import { ElButton, ElColorPicker, ElForm, ElFormItem, ElIcon, ElInput, ElMessage, ElOption, ElSelect, ElTag, ElText } from "element-plus"
-import { computed, defineComponent } from "vue"
+import { ElButton, ElForm, ElFormItem, ElIcon, ElInput, ElMessage, ElMessageBox, ElOption, ElPopconfirm, ElPopover, ElSelect, ElTag } from "element-plus"
+import { computed, defineComponent, nextTick, PropType, ref } from "vue"
 
 const SelectFooter = defineComponent({
     emits: {
@@ -13,16 +14,14 @@ const SelectFooter = defineComponent({
     setup(_, ctx) {
         const [editing, openEditing, closeEditing] = useSwitch(false)
         const [name, setName] = useState<string>()
-        const [color, setColor] = useState<string>()
 
-        const { refresh: saveCate, loading } = useRequest(
-            (name: string, color?: string) => siteService.addCategory({ name, color }),
+        const { refresh: saveCate, loading } = useManualRequest(
+            (name: string) => cateService.addCategory(name),
             {
                 onSuccess() {
                     ctx.emit('create')
                     closeEditing()
                     setName()
-                    setColor()
                 }
             }
         )
@@ -33,7 +32,7 @@ const SelectFooter = defineComponent({
                 ElMessage.warning("Name is empty")
                 return
             }
-            saveCate(nameVal, color.value?.trim?.())
+            saveCate(nameVal)
         }
 
         return () => (
@@ -50,14 +49,6 @@ const SelectFooter = defineComponent({
                                 size="small"
                                 modelValue={name.value}
                                 onInput={setName}
-                            />
-                        </ElFormItem>
-                        <ElFormItem label={t(msg => msg.siteManage.cate.color)}>
-                            <ElColorPicker
-                                size="small"
-                                modelValue={color.value}
-                                onChange={setColor}
-                                teleported={false}
                             />
                         </ElFormItem>
                     </ElForm>
@@ -92,12 +83,124 @@ const SelectFooter = defineComponent({
     }
 })
 
+const OptionItem = defineComponent({
+    props: {
+        value: Object as PropType<timer.site.Cate>,
+    },
+    emits: {
+        change: () => true,
+    },
+    setup(props, ctx) {
+        const [editing, openEditing, closeEditing] = useSwitch(false)
+        const [editingName, setEditingName] = useState(props.value.name)
+        const inputRef = ref<HTMLInputElement>()
+
+        const { refresh: saveCate, loading: saving } = useManualRequest(
+            (name: string) => cateService.saveCategory(props.value.id, name),
+            {
+                onSuccess() {
+                    ctx.emit('change')
+                    closeEditing()
+                }
+            }
+        )
+        const { data: relatedSites, loading: queryingSites } = useRequest(() => siteService.selectAll({ cateIds: props.value?.id }))
+
+        const onSaveClick = (e: MouseEvent) => {
+            const name = editingName.value?.trim?.()
+            if (!name) {
+                ElMessage.warning("Name is blank")
+                return
+            }
+            saveCate(name)
+        }
+
+        const onRemoveClick = (e: MouseEvent) => {
+            e.stopPropagation()
+
+            const siteCount = relatedSites.value?.length ?? 0
+            if (siteCount) {
+                ElMessage.warning(t(msg => msg.siteManage.cate.relatedMsg, { siteCount }))
+                return
+            }
+            ElMessageBox.confirm('123', {
+                closeOnClickModal: false,
+            })
+                .then(() => { })
+                .catch(() => { })
+        }
+
+        return () => (
+            <Flex
+                justify="space-between" align="center" gap={5}
+                width='100%' height='100%'
+                onClick={ev => editing.value && ev.stopPropagation()}
+            >
+                {editing.value ? <>
+                    <Flex flex={1}>
+                        <ElInput
+                            ref={inputRef}
+                            size="small"
+                            modelValue={editingName.value}
+                            onInput={setEditingName}
+                            style={{ maxWidth: '120px' }}
+                        />
+                    </Flex>
+                    <Flex>
+                        <ElButton
+                            size="small"
+                            link
+                            icon={<Close />}
+                            type="info"
+                            onClick={ev => {
+                                closeEditing()
+                                ev.stopPropagation()
+                            }}
+                        />
+                        <ElButton
+                            size="small"
+                            link
+                            icon={<Check />}
+                            type="primary"
+                            onClick={onSaveClick}
+                        />
+                    </Flex>
+                </> : <>
+                    <Flex flex={1}>{props.value.name}</Flex>
+                    <Flex>
+                        <ElButton
+                            size="small"
+                            link
+                            icon={<Edit />}
+                            type="primary"
+                            onClick={e => {
+                                setEditingName(props.value.name)
+                                openEditing()
+                                nextTick(() => inputRef.value?.focus?.())
+                                e.stopPropagation()
+                            }}
+                        />
+                        <ElButton
+                            size="small"
+                            link
+                            icon={<Delete />}
+                            type="danger"
+                            disabled={queryingSites.value}
+                            onClick={onRemoveClick}
+                        />
+                    </Flex>
+                </>}
+            </Flex>
+        )
+    },
+})
+
 const _default = defineComponent({
     props: {
         modelValue: Number
     },
     setup(props) {
-        const { data: categories, refresh } = useRequest(() => siteService.listAllCategories())
+        const { data: categories, refresh } = useRequest(() => cateService.listAllCategories())
         const [editing, _1, _2, toggleEditing] = useSwitch(true)
 
         const current = computed(() => {
@@ -109,13 +212,13 @@ const _default = defineComponent({
         return () => {
             if (!editing.value) {
                 return <div>
-                    {current.value && <ElTag color={current.value.color}>{current.value.name}</ElTag>}
+                    {current.value && <ElTag>{current.value.name}</ElTag>}
                     <span onClick={toggleEditing}>
                         <ElIcon style={{ cursor: 'pointer' }}>
                             <Edit />
                         </ElIcon>
                     </span>
-                </div>
+                </div >
             } else {
                 return <ElSelect
                     size="small"
@@ -123,21 +226,11 @@ const _default = defineComponent({
                         footer: () => <SelectFooter onCreate={refresh} />
                     }}
                 >
-                    {
-                        categories.value?.map(c => (
-                            <ElOption value={c.id}>
-                                <Flex justify="space-between" width='100%' align="center">
-                                    <ElTag color={c.color} size="small">
-                                        {c.name}
-                                    </ElTag>
-                                    <Flex>
-                                        <ElText><Edit /></ElText>
-                                        <ElText><Remove /></ElText>
-                                    </Flex>
-                                </Flex>
-                            </ElOption>
-                        ))
-                    }
+                    {categories.value?.map(c => (
+                        <ElOption value={c.id}>
+                            <OptionItem value={c} onChange={refresh} />
+                        </ElOption>
+                    ))}
                 </ElSelect>
             }
         }
