@@ -6,16 +6,16 @@
  */
 import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
 import InputFilterItem from "@app/components/common/InputFilterItem"
-import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
 import { t } from "@app/locale"
-import { Plus } from "@element-plus/icons-vue"
+import { ArrowDown, Connection, Delete, Grid, Plus } from "@element-plus/icons-vue"
 import { useState } from "@src/hooks"
+import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElLink } from "element-plus"
 import { defineComponent, PropType, watch } from "vue"
+import Flex from "../common/Flex"
 
 export type FilterOption = {
     host?: string,
     alias?: string,
-    onlyDetected?: boolean,
 }
 
 const _default = defineComponent({
@@ -25,18 +25,20 @@ const _default = defineComponent({
     emits: {
         change: (_option: FilterOption) => true,
         create: () => true,
+        batchDelete: () => true,
+        batchChangeCate: () => true,
+        batchDisassociate: () => true,
     },
     setup(props, ctx) {
         const defaultOption = props.defaultValue as FilterOption
         const [host, setHost] = useState(defaultOption?.host)
         const [alias, setAlias] = useState(defaultOption?.alias)
-        const [onlyDetected, setOnlyDetected] = useState(defaultOption?.onlyDetected || false)
 
-        watch([host, alias, onlyDetected], () => ctx.emit("change", {
+        watch([host, alias], () => ctx.emit("change", {
             host: host.value,
             alias: alias.value,
-            onlyDetected: onlyDetected.value
         }))
+
         return () => <>
             <InputFilterItem
                 placeholder={t(msg => msg.siteManage.hostPlaceholder)}
@@ -45,11 +47,35 @@ const _default = defineComponent({
             <InputFilterItem
                 placeholder={t(msg => msg.siteManage.aliasPlaceholder)}
                 onSearch={setAlias} />
-            <SwitchFilterItem
-                label={t(msg => msg.siteManage.onlyDetected)}
-                defaultValue={onlyDetected.value}
-                onChange={setOnlyDetected}
-            />
+            <Flex align="center" class="filter-item-right" gap={3}>
+                <ElButton
+                    link
+                    type="primary"
+                    icon={<Grid />}
+                    onClick={() => ctx.emit('batchChangeCate')}
+                >
+                    {t(msg => msg.siteManage.cate.batchChange)}
+                </ElButton>
+                <ElDropdown v-slots={{
+                    default: () => <ElLink type="primary" underline={false} icon={ArrowDown} />,
+                    dropdown: () => (
+                        <ElDropdownMenu>
+                            <ElDropdownItem
+                                icon={<Connection />}
+                                onClick={() => ctx.emit('batchDisassociate')}
+                            >
+                                {t(msg => msg.siteManage.cate.batchDisassociate)}
+                            </ElDropdownItem>
+                            <ElDropdownItem
+                                icon={<Delete />}
+                                onClick={() => ctx.emit('batchDelete')}
+                            >
+                                {t(msg => msg.button.batchDelete)}
+                            </ElDropdownItem>
+                        </ElDropdownMenu>
+                    )
+                }} />
+            </Flex>
             <ButtonFilterItem
                 text={t(msg => msg.button.create)}
                 icon={<Plus />}

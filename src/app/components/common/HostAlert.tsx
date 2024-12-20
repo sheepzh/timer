@@ -8,6 +8,7 @@
 import { IS_SAFARI } from "@util/constant/environment"
 import { ElLink } from "element-plus"
 import { computed, defineComponent } from "vue"
+import Flex from "./Flex"
 
 const _default = defineComponent({
     props: {
@@ -44,18 +45,18 @@ const _default = defineComponent({
                     {props.host}
                 </ElLink>
             ) : (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                <Flex align="center" gap={3}>
                     <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
                         {props.host}
                     </ElLink>
                     {props.iconUrl &&
-                        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <Flex align="center">
                             <img src={props.iconUrl} width={12} height={12} />
-                        </div>
+                        </Flex>
                     }
-                </div>
+                </Flex>
             )}
-        </div>
+        </div >
     }
 })
 

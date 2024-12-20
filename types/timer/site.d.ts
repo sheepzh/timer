@@ -25,5 +25,21 @@ declare namespace timer.site {
          */
         source?: AliasSource
         iconUrl?: string
+        /**
+         * Category ID
+         *
+         * @since 2.6.0
+         */
+        cate?: number
+    }
+
+    /**
+     * Site tag
+     *
+     * @since 2.6.0
+     */
+    type Cate = {
+        id: number
+        name: string
     }
 }

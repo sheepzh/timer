@@ -89,6 +89,8 @@ a
             width: 280px
         .el-button+.el-button
             margin-left: 0px
+        .filter-item-right+.filter-item-right
+            margin-left: 0px
 
 .filter-name
     margin-right: 4px
@@ -110,14 +112,14 @@ a
 .filter-item-right-group
     gap: 4px
 
-.filter-item.el-input
-    width: 225px
-.el-select.filter-item
-    display: inline-flex
-    width: 220px
-    height: 40px
-    .el-select__wrapper
-        width: 100%
+.filter-item
+    &.el-input
+        width: 180px
+    &.el-select
+        display: inline-flex
+        width: 200px
+        .el-select__wrapper
+            width: 100%
 
 .pagination-container
     display: flex

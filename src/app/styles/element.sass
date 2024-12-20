@@ -9,61 +9,12 @@
 
 // Compatible element-plus 2.x.x for element-ui
 
-.el-button--small
-    min-height: 28px
-    padding: 7px 15px
-.el-input__wrapper
-    height: var(--el-input-inner-height)
-
-.el-table
-    .el-checkbox.el-checkbox--small
-        height: 28px
-
-.el-table--small .el-table__cell
-    padding: 6px 0
-
-.el-pagination
-    --el-pagination-font-size: 13px
-    --el-pagination-button-width: 35.5px
-    --el-pagination-button-height: 28px
-
-    .el-pagination__sizes>.el-select--default, .el-pagination__jump>.el-input
-        line-height: 28px
-        --el-input-inner-height: 26px
-
 .filter-item.el-button
     min-height: 40px
-
-.el-input--prefix
-    .el-input__wrapper
-        padding-left: 0px
-        .el-select
-            input
-                padding-left: 11px
-// The tag in select options
-.el-select-dropdown__item
-    .el-tag--small
-        height: 20px !important
-        margin-right: 0px !important
-        margin-left: 7px
-        text-align: center
-        font-size: 10px
-.el-divider__text
-    background-color: transparent
-.el-dialog.is-align-center
-    text-align: center
-.el-dialog__header.show-close
-    padding-right: 0
-\:root
-    --el-input-height: 40px
-    --el-input-inner-height: 38px
 
 .el-dialog
     .sop-dialog-container
         margin-top: 25px
-.el-form-item
-    .el-select__wrapper
-        height: var(--el-input-inner-height)
 
 // SOP
 .sop-dialog
@@ -94,13 +45,6 @@
         .el-step__title
             text-align: center
 
-.el-color-dropdown__btns
-    margin-bottom: 5px
-    .el-color-dropdown__value
-        width: 110px
-        .el-input__wrapper
-            height: 26px
-
 html[data-locale='uk']:root, html[data-locale='pt_PT']:root, html[data-locale='es']:root
     .el-date-range-picker
         width: 781px
@@ -123,3 +67,13 @@ html[data-locale='fr']:root, html[data-locale='ru']:root
             width: 175px
         .el-picker-panel__body
             margin-left: 175px
+
+// Fix header icon not align
+.el-table__header
+    tr
+        .cell
+            height: 23px
+            line-height: unset
+            display: flex
+            align-items: center
+            justify-content: center
