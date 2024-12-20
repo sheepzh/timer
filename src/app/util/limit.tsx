@@ -27,7 +27,13 @@ export async function judgeVerificationRequired(item: timer.limit.Item): Promise
     }
     // Visit
     if (visitTime) {
-        const hitVisit = await sendMsg2Runtime("askHitVisit", item)
+        let hitVisit = false
+        try {
+            hitVisit = await sendMsg2Runtime("askHitVisit", item)
+        } catch (e) {
+            // If error occurs, regarded as not hitting
+            // ignored
+        }
         if (hitVisit) return true
     }
     return false
