@@ -2,7 +2,6 @@
     "zh_CN": {
         "hostPlaceholder": "请输入域名，然后回车",
         "aliasPlaceholder": "请输入网站名，然后回车",
-        "onlyDetected": "只看自动抓取",
         "deleteConfirmMsg": "{host} 的名称设置将会被删除",
         "column": {
             "type": "网站类型",
@@ -25,12 +24,13 @@
                 "info": "统计 Ant Pattern 格式的任意 URL，可以在右上角新增自定义站点"
             }
         },
-        "source": {
-            "detected": "自动抓取"
-        },
+        "detected": "自动抓取",
         "cate": {
             "name": "类目名称",
-            "relatedMsg": "该类目已有 {siteCount} 个站点，无法删除"
+            "relatedMsg": "该类目已有 {siteCount} 个站点，无法删除",
+            "removeConfirm": "确认删除类目：{category}？",
+            "batchChange": "批量修改类目",
+            "batchDisassociate": "批量清除类目"
         },
         "form": {
             "emptyAlias": "请输入网站名称",
@@ -38,14 +38,16 @@
         },
         "msg": {
             "hostExistWarn": "{host} 已经存在",
-            "saved": "已保存",
-            "existedTag": "已存在"
+            "existedTag": "已存在",
+            "noSelected": "未选择站点",
+            "noSupported": "所选站点均不能设置类目",
+            "disassociatedMsg": "是否需要清除所有已选中站点的类目？",
+            "batchDeleteMsg": "是否需要删除所有已选中站点？"
         }
     },
     "zh_TW": {
         "hostPlaceholder": "請輸入網域，然後回車",
         "aliasPlaceholder": "請輸入網站名，然後回車",
-        "onlyDetected": "隻看自動抓取",
         "deleteConfirmMsg": "{host} 的將會被刪除",
         "column": {
             "type": "網站類型",
@@ -67,23 +69,19 @@
                 "info": "統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點"
             }
         },
-        "source": {
-            "detected": "自動抓取"
-        },
+        "detected": "自動抓取",
         "form": {
             "emptyAlias": "請輸入網站名稱",
             "emptyHost": "請輸入網站域名"
         },
         "msg": {
             "hostExistWarn": "{host} 已經存在",
-            "saved": "已保存",
             "existedTag": "已存在"
         }
     },
     "en": {
         "hostPlaceholder": "Partial URL, then enter",
         "aliasPlaceholder": "Partial name, then enter",
-        "onlyDetected": "Only detected",
         "deleteConfirmMsg": "{host} will be deleted",
         "column": {
             "type": "Site Type",
@@ -106,12 +104,13 @@
                 "info": "count any URL in Ant Pattern format, you can add a custom site in the upper right corner"
             }
         },
-        "source": {
-            "detected": "auto-detected"
-        },
+        "detected": "Automatically detected",
         "cate": {
             "name": "Name",
-            "relatedMsg": "This category has been associated with {siteCount} sites and cannot be deleted"
+            "relatedMsg": "This category has been associated with {siteCount} sites and cannot be deleted",
+            "removeConfirm": "Confirm to delete category: {category}?",
+            "batchChange": "Change categories",
+            "batchDisassociate": "Disassociate categories"
         },
         "form": {
             "emptyAlias": "Please enter site name",
@@ -119,14 +118,16 @@
         },
         "msg": {
             "hostExistWarn": "{host} exists",
-            "saved": "Saved",
-            "existedTag": "EXISTED"
+            "existedTag": "EXISTED",
+            "noSelected": "No site selected",
+            "noSupported": "The selected sites cannot set categories",
+            "disassociatedMsg": "Do you want to clear the categories of all selected sites?",
+            "batchDeleteMsg": "Do you want to delete all selected sites?"
         }
     },
     "ja": {
         "hostPlaceholder": "ドメイン名で検索",
         "aliasPlaceholder": "サイト名で検索",
-        "onlyDetected": "検出されただけ",
         "deleteConfirmMsg": "{host} は削除されます",
         "column": {
             "type": "サイト種別",
@@ -148,23 +149,19 @@
                 "info": "Ant Pattern 形式の任意の URL をカウントします。右上隅にカスタムサイトを追加できます"
             }
         },
-        "source": {
-            "detected": "システム検出"
-        },
+        "detected": "システム検出",
         "form": {
             "emptyAlias": "サイト名を入力してください",
             "emptyHost": "ドメイン名を入力してください"
         },
         "msg": {
             "hostExistWarn": "{host} が存在します",
-            "saved": "保存しました",
             "existedTag": "既存"
         }
     },
     "pt_PT": {
         "hostPlaceholder": "URL parcial, e depois digite",
         "aliasPlaceholder": "Nome parcial, e depois digite",
-        "onlyDetected": "Apenas detetado",
         "deleteConfirmMsg": "{host} será excluído",
         "column": {
             "type": "Categoria de Sítio Web",
@@ -186,23 +183,19 @@
                 "info": "conta qualquer URL no formato Ant Pattern, pode adicionar um site personalizado no canto superior direito"
             }
         },
-        "source": {
-            "detected": "detetado"
-        },
+        "detected": "detetado",
         "form": {
             "emptyAlias": "Por favor, insira um nome de site",
             "emptyHost": "Por favor, insira um URL de site"
         },
         "msg": {
             "hostExistWarn": "{host} existe",
-            "saved": "Guardado",
             "existedTag": "EXISTADO"
         }
     },
     "uk": {
         "hostPlaceholder": "Почніть вводити URL і натисніть Enter",
         "aliasPlaceholder": "Почніть вводити назву і натисніть Enter",
-        "onlyDetected": "Лише виявлені",
         "deleteConfirmMsg": "{host} буде видалено",
         "column": {
             "type": "Тип сайту",
@@ -224,23 +217,19 @@
                 "info": "враховувати будь-яку URL-адресу в форматі параметрів Ant, ви можете додати свій сайт у верхньому правому куті"
             }
         },
-        "source": {
-            "detected": "auto-detected"
-        },
+        "detected": "auto-detected",
         "form": {
             "emptyAlias": "Введіть назву сайту",
             "emptyHost": "Введіть URL-адресу сайту"
         },
         "msg": {
             "hostExistWarn": "{host} вже існує",
-            "saved": "Збережено",
             "existedTag": "ВЖЕ ІСНУЄ"
         }
     },
     "es": {
         "hostPlaceholder": "URL parcial, luego ingresa",
         "aliasPlaceholder": "Nombre parcial, luego ingresa",
-        "onlyDetected": "Solo detectados",
         "deleteConfirmMsg": "Se eliminará {host}",
         "column": {
             "type": "Tipo de sitio",
@@ -262,23 +251,19 @@
                 "info": "contar cualquier URL en formato Ant Pattern, puedes agregar un sitio personalizado en la esquina superior derecha"
             }
         },
-        "source": {
-            "detected": "auto-detectado"
-        },
+        "detected": "auto-detectado",
         "form": {
             "emptyAlias": "Por favor, ingresa el nombre de sitio",
             "emptyHost": "Por favor, ingresa la URL del sitio"
         },
         "msg": {
             "hostExistWarn": "{host} existe",
-            "saved": "Guardado",
             "existedTag": "EXISTIÓ"
         }
     },
     "de": {
         "hostPlaceholder": "Suche nach URL",
         "aliasPlaceholder": "Suche mit Name",
-        "onlyDetected": "Nur erkannt",
         "deleteConfirmMsg": "{host} wird gelöscht",
         "column": {
             "type": "Website-Typ",
@@ -300,23 +285,19 @@
                 "info": "Wenn Sie eine beliebige URL im Ant-Pattern-Format zählen, können Sie in der oberen rechten Ecke eine benutzerdefinierte Site hinzufügen"
             }
         },
-        "source": {
-            "detected": "automatisch erkannt"
-        },
+        "detected": "automatisch erkannt",
         "form": {
             "emptyAlias": "Bitte gib einen Website-Namen ein",
             "emptyHost": "Bitte geben Sie die URL ein"
         },
         "msg": {
             "hostExistWarn": "{host} existiert",
-            "saved": "Erfolgreich gespeichert",
             "existedTag": "EXISTIERT"
         }
     },
     "fr": {
         "hostPlaceholder": "URL partielle, appuyez sur Entrée",
         "aliasPlaceholder": "Nom partiel, appuyez sur Entrée",
-        "onlyDetected": "Seulement si détecté",
         "deleteConfirmMsg": "{host} sera supprimé",
         "column": {
             "type": "Type de Site",
@@ -338,23 +319,19 @@
                 "info": "comptez n'importe quelle URL au format Ant Pattern, vous pouvez ajouter un site personnalisé dans le coin supérieur droit"
             }
         },
-        "source": {
-            "detected": "détecté"
-        },
+        "detected": "détecté",
         "form": {
             "emptyAlias": "Veuillez entrer le nom du site",
             "emptyHost": "Veuillez saisir l'URL du site"
         },
         "msg": {
             "hostExistWarn": "{host} existe",
-            "saved": "Enregistré",
             "existedTag": "EXISÉ"
         }
     },
     "ru": {
         "hostPlaceholder": "Частичный URL, затем введите",
         "aliasPlaceholder": "Частичное имя, затем введите",
-        "onlyDetected": "Обнаружено только",
         "deleteConfirmMsg": "{host} будет удален",
         "column": {
             "type": "Тип сайта",
@@ -376,23 +353,19 @@
                 "info": "подсчитайте любой URL в формате Ant Pattern, вы можете добавить пользовательский сайт в правом верхнем углу"
             }
         },
-        "source": {
-            "detected": "выявленный"
-        },
+        "detected": "выявленный",
         "form": {
             "emptyAlias": "Введите название сайта",
             "emptyHost": "Введите URL-адрес сайта"
         },
         "msg": {
             "hostExistWarn": "{host} существует",
-            "saved": "Сохранено",
             "existedTag": "ВЫПОЛНЕНО"
         }
     },
     "ar": {
         "hostPlaceholder": "عنوان URL جزئي، ثم أدخل",
         "aliasPlaceholder": "الاسم الجزئي، ثم أدخل",
-        "onlyDetected": "تم الكشف فقط",
         "deleteConfirmMsg": "سيتم حذف {host}",
         "column": {
             "type": "نوع الموقع",
@@ -414,16 +387,13 @@
                 "info": "احسب أي عنوان URL بتنسيق Ant Pattern، ويمكنك إضافة موقع مخصص في الزاوية اليمنى العليا"
             }
         },
-        "source": {
-            "detected": "تم الكشف عنه تلقائيًا"
-        },
+        "detected": "تم الكشف عنه تلقائيًا",
         "form": {
             "emptyAlias": "الرجاء إدخال اسم الموقع",
             "emptyHost": "الرجاء إدخال عنوان الموقع"
         },
         "msg": {
             "hostExistWarn": "{host} موجود فعلًا",
-            "saved": "أنقذ",
             "existedTag": "موجودة"
         }
     }

@@ -20,11 +20,11 @@ const ColumnHeader = defineComponent({
                     v-slots={{
                         content: ctx.slots.tooltipContent,
                         default: () => (
-                            <div style={{ display: 'inline-flex' }}>
+                            <Flex height='100%'>
                                 <ElIcon>
                                     <InfoFilled />
                                 </ElIcon>
-                            </div>
+                            </Flex>
                         ),
                     }}>
                 </ElTooltip>

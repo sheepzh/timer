@@ -73,12 +73,14 @@ async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
 
 const renderOption = ({ siteKey, hasAlias }: _OptionInfo) => {
     const { host, merged, virtual } = siteKey
-    return <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
-        <span>{host}</span>
-        <ElTag v-show={merged} size="small">{MERGED_MSG}</ElTag>
-        <ElTag v-show={virtual} size="small">{VIRTUAL_MSG}</ElTag>
-        <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
-    </ElOption>
+    return (
+        <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
+            <span>{host}</span>
+            <ElTag v-show={merged} size="small">{MERGED_MSG}</ElTag>
+            <ElTag v-show={virtual} size="small">{VIRTUAL_MSG}</ElTag>
+            <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
+        </ElOption>
+    )
 }
 
 const _default = defineComponent({

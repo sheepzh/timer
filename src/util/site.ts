@@ -48,3 +48,13 @@ export function generateSiteLabel(host: string, name?: string): string {
         return host
     }
 }
+
+/**
+ * Whether to support category
+ *
+ * @since 2.6.0
+ */
+export function supportCategory(siteKey: timer.site.SiteKey): boolean {
+    const { merged, virtual } = siteKey || {}
+    return !merged && !virtual
+}

@@ -12,7 +12,6 @@ export type ReportMessage = {
     mergeDomain: string
     exportFileName: string
     batchDelete: {
-        buttonText: string
         noSelectedMsg: string
         confirmMsg: string
         confirmMsgAll: string

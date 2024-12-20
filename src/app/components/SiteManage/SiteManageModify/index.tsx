@@ -4,13 +4,15 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElButton, ElDialog, ElForm, FormInstance, ElMessage, ElFormItem, ElInput } from "element-plus"
-import { defineComponent, reactive, ref } from "vue"
 import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
-import siteService from "@service/site-service"
-import HostSelect from "./HostSelect"
 import { useSwitch } from "@hooks"
+import siteService from "@service/site-service"
+import { supportCategory } from "@util/site"
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormInstance } from "element-plus"
+import { computed, defineComponent, reactive, ref } from "vue"
+import CategorySelect from "../CategorySelect"
+import HostSelect from "./HostSelect"
 
 export type ModifyInstance = {
     add(): void
@@ -22,6 +24,7 @@ type _FormData = {
      */
     key: timer.site.SiteKey
     alias: string
+    category: number
 }
 
 const formRule = {
@@ -69,6 +72,7 @@ function initData(): _FormData {
     return {
         key: undefined,
         alias: undefined,
+        category: undefined,
     }
 }
 
@@ -79,6 +83,7 @@ const _default = defineComponent({
     setup: (_, ctx) => {
         const [visible, open, close] = useSwitch()
         const formData = reactive(initData())
+        const showCate = computed(() => supportCategory(formData.key))
         const form = ref<FormInstance>()
 
         const instance: ModifyInstance = {
@@ -97,11 +102,11 @@ const _default = defineComponent({
 
             const siteKey = formData.key
             const alias = formData.alias?.trim()
-            const siteInfo: timer.site.SiteInfo = { ...siteKey, alias }
+            const siteInfo: timer.site.SiteInfo = { ...siteKey, alias, cate: formData.category }
             const saved = await handleAdd(siteInfo)
             if (saved) {
                 close()
-                ElMessage.success(t(msg => msg.siteManage.msg.saved))
+                ElMessage.success(t(msg => msg.operation.successMsg))
                 ctx.emit("save", siteKey, alias)
             }
         }
@@ -113,24 +118,38 @@ const _default = defineComponent({
             closeOnClickModal={false}
             onClose={close}
             v-slots={{
-                default: () => <ElForm model={formData} rules={formRule} ref={form}>
-                    <ElFormItem prop="key" label={t(msg => msg.item.host)}>
-                        <HostSelect modelValue={formData.key} onChange={val => formData.key = val} />
-                    </ElFormItem>
-                    <ElFormItem prop="alias" label={t(msg => msg.siteManage.column.alias)}>
-                        <ElInput
-                            modelValue={formData.alias}
-                            onInput={val => formData.alias = val}
-                            onKeydown={(ev: KeyboardEvent) => ev.key === "Enter" && handleSave()}
+                footer: () => (
+                    <ElButton type="primary" icon={<Check />} onClick={handleSave}>
+                        {t(msg => msg.button.save)}
+                    </ElButton>
+                )
+            }}
+        >
+            <ElForm model={formData} rules={formRule} ref={form}>
+                <ElFormItem prop="key" label={t(msg => msg.item.host)}>
+                    <HostSelect
+                        modelValue={formData.key}
+                        onChange={val => formData.key = val}
+                    />
+                </ElFormItem>
+                <ElFormItem prop="alias" label={t(msg => msg.siteManage.column.alias)}>
+                    <ElInput
+                        modelValue={formData.alias}
+                        onInput={val => formData.alias = val}
+                        onKeydown={(ev: KeyboardEvent) => ev.key === "Enter" && handleSave()}
+                    />
+                </ElFormItem>
+                {showCate.value && (
+                    <ElFormItem prop="category" label={t(msg => msg.siteManage.column.cate)}>
+                        <CategorySelect
+                            clearable
+                            modelValue={formData.category}
+                            onChange={val => formData.category = val}
                         />
                     </ElFormItem>
-                </ElForm>,
-                footer: () => <ElButton type="primary" icon={<Check />} onClick={handleSave}>
-                    {t(msg => msg.button.save)}
-                </ElButton>,
-            }}
-        />
-
+                )}
+            </ElForm>
+        </ElDialog>
     }
 })
 

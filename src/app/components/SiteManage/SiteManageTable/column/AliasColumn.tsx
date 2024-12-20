@@ -47,7 +47,7 @@ const _default = defineComponent({
                                 <Flex align="center" gap={3}>
                                     {row.source === 'DETECTED' && val && (
                                         <ElTooltip
-                                            content={t(msg => msg.siteManage.source.detected)}
+                                            content={t(msg => msg.siteManage.detected)}
                                             placement="top"
                                         >
                                             <ElText size="small" type="primary" style={{ cursor: 'pointer' }}>

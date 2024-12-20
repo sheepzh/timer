@@ -11,6 +11,7 @@ const _default = defineComponent({
         width: [String, Number] as PropType<CSSProperties['width']>,
         height: [String, Number] as PropType<CSSProperties['height']>,
         style: Object as PropType<CSSProperties>,
+        id: String,
     },
     emits: {
         click: (ev: MouseEvent) => true,
@@ -18,6 +19,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         return () => (
             <div
+                id={props.id}
                 onClick={ev => ctx.emit('click', ev)}
                 style={{
                     display: 'flex',

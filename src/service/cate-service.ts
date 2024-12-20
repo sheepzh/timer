@@ -4,17 +4,20 @@ const siteCateDatabase = new SiteCateDatabase(chrome.storage.local)
 
 class CateService {
 
-    listAllCategories(): Promise<timer.site.Cate[]> {
+    listAll(): Promise<timer.site.Cate[]> {
         return siteCateDatabase.listAll()
     }
 
-    addCategory(name: string): Promise<timer.site.Cate> {
+    add(name: string): Promise<timer.site.Cate> {
         return siteCateDatabase.add(name)
     }
 
-    saveCategory(id: number, name: string): any {
-        console.log(id, name)
+    saveName(id: number, name: string): Promise<void> {
         return siteCateDatabase.update(id, name)
+    }
+
+    remove(id: number): Promise<void> {
+        return siteCateDatabase.delete(id)
     }
 }
 

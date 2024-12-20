@@ -10,7 +10,6 @@ import resource from './site-manage-resource.json'
 export type SiteManageMessage = {
     hostPlaceholder: string
     aliasPlaceholder: string
-    onlyDetected: string
     deleteConfirmMsg: string
     column: {
         type: string
@@ -20,12 +19,13 @@ export type SiteManageMessage = {
         icon: string
     }
     type: Record<'normal' | 'merged' | 'virtual', Record<'name' | 'info', string>>
-    source: {
-        detected: string
-    }
+    detected: string
     cate: {
         name: string
         relatedMsg: string
+        batchChange: string
+        batchDisassociate: string
+        removeConfirm: string
     }
     form: {
         emptyAlias: string
@@ -33,8 +33,11 @@ export type SiteManageMessage = {
     }
     msg: {
         hostExistWarn: string
-        saved: string
         existedTag: string
+        noSelected: string
+        noSupported: string
+        disassociatedMsg: string
+        batchDeleteMsg: string
     }
 }
 

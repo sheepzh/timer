@@ -11,6 +11,7 @@ import HostAlert from "@app/components/common/HostAlert"
 import { t } from "@app/locale"
 import siteService from "@service/site-service"
 import { ElTableRowScope } from "@src/element-ui/table"
+import { supportCategory } from "@util/site"
 import { ElTable, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import Category from "./Category"
@@ -25,12 +26,14 @@ const _default = defineComponent({
     emits: {
         rowDelete: (_row: timer.site.SiteInfo) => true,
         rowModify: (_row: timer.site.SiteInfo) => true,
+        selectionChange: (_rows: timer.site.SiteInfo[]) => true,
     },
     setup(props, ctx) {
         const handleIconError = async (row: timer.site.SiteInfo) => {
             await siteService.removeIconUrl(row)
             row.iconUrl = null
         }
+
         return () => <ElTable
             data={props.data}
             size="small"
@@ -38,7 +41,9 @@ const _default = defineComponent({
             highlightCurrentRow
             border
             fit
+            onSelection-change={rows => ctx.emit('selectionChange', rows)}
         >
+            <ElTableColumn type="selection" align="center" />
             <ElTableColumn
                 label={t(msg => msg.item.host)}
                 minWidth={220}
@@ -69,7 +74,12 @@ const _default = defineComponent({
                 label={t(msg => msg.siteManage.column.cate)}
                 minWidth={140}
                 align="center"
-                v-slots={({ row }: { row: timer.site.SiteInfo }) => <Category modelValue={row.cate} />}
+                v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => supportCategory(row) && (
+                    <Category
+                        modelValue={row}
+                        onChange={cateId => row.cate = cateId}
+                    />
+                )}
             />
             <OperationColumn onDelete={row => ctx.emit("rowDelete", row)} />
         </ElTable>

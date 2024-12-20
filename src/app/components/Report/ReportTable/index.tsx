@@ -74,7 +74,7 @@ const _default = defineComponent({
                     onSelection-change={setSelection}
                     onSort-change={(newSortInfo: SortInfo) => setSort(newSortInfo)}
                 >
-                    <ElTableColumn type="selection" selectable={() => !filterOption.value?.mergeHost} />
+                    {!filterOption.value?.mergeHost && <ElTableColumn type="selection" align="center" />}
                     {!filterOption.value?.mergeDate && <DateColumn />}
                     <HostColumn />
                     <ElTableColumn

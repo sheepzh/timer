@@ -15,7 +15,6 @@ export type SiteCondition = {
      * Fuzzy query of host or alias
      */
     fuzzyQuery?: string
-    source?: timer.site.AliasSource
     virtual?: boolean
     /**
      * @since 2.6.0
@@ -36,6 +35,10 @@ type _Entry = {
      * Icon url
      */
     i?: string
+    /**
+     * Category ID
+     */
+    c?: number
 }
 
 const DB_KEY_PREFIX = REMAIN_WORD_PREFIX + 'SITE_'
@@ -63,9 +66,10 @@ function cvt2SiteKey(key: string): timer.site.SiteKey {
     }
 }
 
-function cvt2Entry({ alias, source, iconUrl }: timer.site.SiteInfo): _Entry {
+function cvt2Entry({ alias, source, iconUrl, cate }: timer.site.SiteInfo): _Entry {
     const entry: _Entry = { i: iconUrl }
     alias && (entry.a = alias)
+    cate && (entry.c = cate)
     source === 'DETECTED' && (entry.d = true)
     entry.i = iconUrl
     return entry
@@ -73,12 +77,13 @@ function cvt2Entry({ alias, source, iconUrl }: timer.site.SiteInfo): _Entry {
 
 function cvt2SiteInfo(key: timer.site.SiteKey, entry: _Entry): timer.site.SiteInfo {
     if (!entry) return undefined
-    const { a, d, i } = entry
+    const { a, d, i, c } = entry
     const siteInfo: timer.site.SiteInfo = { ...key }
     siteInfo.alias = a
+    siteInfo.cate = c
+    siteInfo.iconUrl = i
     // Only exist if alias is not empty
     a && (siteInfo.source = d ? 'DETECTED' : 'USER')
-    siteInfo.iconUrl = i
     return siteInfo
 }
 
@@ -103,13 +108,12 @@ async function select(this: SiteDatabase, condition?: SiteCondition): Promise<ti
 }
 
 function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => boolean {
-    const { host, alias, source, virtual, fuzzyQuery, cateIds } = condition || {}
+    const { host, alias, virtual, fuzzyQuery, cateIds } = condition || {}
     let cateFilter = typeof cateIds === 'number' ? [cateIds] : (cateIds?.length ? cateIds : undefined)
     return site => {
-        const { host: siteHost, alias: siteAlias, source: siteSource, virtual: siteVirtual, cate } = site || {}
+        const { host: siteHost, alias: siteAlias, virtual: siteVirtual, cate } = site || {}
         if (host && !siteHost.includes(host)) return false
         if (alias && !siteAlias?.includes(alias)) return false
-        if (source && source !== siteSource) return false
         if (virtual !== undefined && virtual !== null) {
             const virtualCond = virtual || false
             const virtualFactor = siteVirtual || false
@@ -144,11 +148,23 @@ async function getBatch(this: SiteDatabase, keys: timer.site.SiteKey[]): Promise
  * Save site info
  */
 async function save(this: SiteDatabase, siteInfo: timer.site.SiteInfo): Promise<void> {
-    this.storage.put(cvt2Key(siteInfo), cvt2Entry(siteInfo))
+    await this.storage.put(cvt2Key(siteInfo), cvt2Entry(siteInfo))
+}
+
+async function saveBatch(this: SiteDatabase, sites: timer.site.SiteInfo[]): Promise<void> {
+    const toSet = {}
+    sites?.forEach(s => toSet[cvt2Key(s)] = cvt2Entry(s))
+    await this.storage.set(toSet)
 }
 
 async function remove(this: SiteDatabase, siteKey: timer.site.SiteKey): Promise<void> {
-    this.storage.remove(cvt2Key(siteKey))
+    await this.storage.remove(cvt2Key(siteKey))
+}
+
+async function removeBatch(this: SiteDatabase, siteKeys: timer.site.SiteKey[]): Promise<void> {
+    const keys = siteKeys?.map(s => cvt2Key(s))
+    if (!keys?.length) return
+    await this.storage.remove(keys)
 }
 
 async function exist(this: SiteDatabase, siteKey: timer.site.SiteKey): Promise<boolean> {
@@ -178,10 +194,11 @@ class SiteDatabase extends BaseDatabase {
     get = get
     getBatch = getBatch
     save = save
+    saveBatch = saveBatch
     remove = remove
+    removeBatch = removeBatch
     exist = exist
     existBatch = existBatch
-
     importData = importData
 
     /**

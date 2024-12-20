@@ -104,7 +104,7 @@ const _default = defineComponent({
                     icon={<DeleteFilled />}
                     onClick={() => ctx.emit("batchDelete", option.value)}
                 >
-                    {t(msg => msg.report.batchDelete.buttonText)}
+                    {t(msg => msg.button.batchDelete)}
                 </ElButton>
                 <RemoteClient onChange={setReadRemote} />
                 <DownloadFile onDownload={format => handleDownload(format, option.value)} />

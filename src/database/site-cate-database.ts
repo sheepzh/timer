@@ -8,7 +8,7 @@
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
-const KEY = REMAIN_WORD_PREFIX + 'TAG'
+const KEY = REMAIN_WORD_PREFIX + 'CATE'
 
 type Item = {
     /**
@@ -67,7 +67,7 @@ class SiteCateDatabase extends BaseDatabase {
             return { id: parseInt(existId), name }
         }
 
-        const id = (Object.keys(items || {}).map(parseInt).sort().reverse()?.[0] ?? 0) + 1
+        const id = (Object.keys(items || {}).map(k => parseInt(k)).sort().reverse()?.[0] ?? 0) + 1
         items[id] = { n: name }
 
         await this.saveItems(items)
@@ -95,6 +95,14 @@ class SiteCateDatabase extends BaseDatabase {
         const exists: Items = await this.getItems()
         migrate(exists, toImport)
         this.setByKey(KEY, exists)
+    }
+
+    async delete(id: number): Promise<void> {
+        const items = await this.getItems()
+
+        if (!items[id]) return
+        delete items[id]
+        await this.saveItems(items)
     }
 }
 
