@@ -132,8 +132,8 @@ function generateOption(bizOption: BizOption): EcOption {
         rows = rows.filter(r => r.date !== exclusiveDate)
     }
 
-    const focusAve = groupBy(rows, r => r.host, l => sum(l.map(e => e.focus ?? 0)) / averageLen)
-    const visitAve = groupBy(rows, r => r.host, l => sum(l.map(e => e.time ?? 0)) / averageLen)
+    const focusAve = groupBy(rows, r => r.siteKey.host, l => sum(l.map(e => e.focus ?? 0)) / averageLen)
+    const visitAve = groupBy(rows, r => r.siteKey.host, l => sum(l.map(e => e.time ?? 0)) / averageLen)
 
     const focusGroup = groupBy(
         Object.entries(focusAve),

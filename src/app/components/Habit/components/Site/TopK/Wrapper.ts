@@ -5,16 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ComposeOption, BarSeriesOption, GridComponentOption, TooltipComponentOption, TitleComponentOption } from "echarts"
+import type { BarSeriesOption, ComposeOption, GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts"
 
-import { mergeDate } from "@service/stat-service/merge"
 import { t } from "@app/locale"
-import { SeriesDataItem, generateTitleOption } from "../common"
-import { EchartsWrapper } from "@hooks/useEcharts"
 import { getStepColors } from "@app/util/echarts"
-import { TopLevelFormatterParams } from "echarts/types/dist/shared"
-import { generateSiteLabel } from "@util/site"
 import { periodFormatter } from "@app/util/time"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import { generateSiteLabel, identifySiteKey } from "@util/site"
+import { TopLevelFormatterParams } from "echarts/types/dist/shared"
+import { SeriesDataItem, generateTitleOption } from "../common"
 
 type EcOption = ComposeOption<
     | BarSeriesOption
@@ -47,11 +46,35 @@ const formatFocusTooltip = (params: TopLevelFormatterParams, format: timer.app.T
     `
 }
 
+function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
+    const map: Record<string, timer.stat.Row> = {}
+    origin.forEach(ele => {
+        const { date, siteKey, cateKey, focus, time, iconUrl, alias, cateId } = ele || {}
+        const key = [date ?? '', identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
+        let exist = map[key]
+        if (!exist) {
+            exist = map[key] = {
+                iconUrl, alias, cateId,
+                focus: 0,
+                time: 0,
+                mergedRows: [],
+                mergedDates: [],
+                composition: { focus: [], time: [] },
+            }
+        }
+        exist.focus += focus ?? 0
+        exist.time += time ?? 0
+        exist.mergedDates.push(date)
+    })
+    const newRows = Object.values(map)
+    return newRows
+}
+
 async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app.TimeFormat, dom: HTMLElement): Promise<EcOption> {
     const merged = mergeDate(rows)
     const topList = merged.sort((a, b) => b.focus - a.focus).splice(0, TOP_NUM).reverse()
     const max = topList[topList.length - 1]?.focus ?? 0
-    const hosts = topList.map(r => r.alias || r.host)
+    const hosts = topList.map(r => r?.alias || r.siteKey?.host)
 
     const domW = dom.getBoundingClientRect().width
     const chartW = domW * (100 - MARGIN_LEFT_P - MARGIN_RIGHT_P) / 100
@@ -119,8 +142,8 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
                 padding: [0, 4, 0, 0],
                 formatter: (param: any) => {
                     const { row } = (param?.data || {}) as SeriesDataItem
-                    const { host, alias } = row
-                    return alias || host
+                    const { siteKey, alias } = row
+                    return alias || siteKey?.host
                 },
             },
             colorBy: 'data',

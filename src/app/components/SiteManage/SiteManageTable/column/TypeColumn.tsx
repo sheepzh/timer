@@ -1,39 +1,26 @@
+import ColumnHeader from "@app/components/common/ColumnHeader"
 import { t } from "@app/locale"
+import { ElTableRowScope } from "@src/element-ui/table"
 import { ElTableColumn, ElTag, TagProps } from "element-plus"
 import { defineComponent } from "vue"
-import { SiteManageMessage } from "@i18n/message/app/site-manage"
-import { ElTableRowScope } from "@src/element-ui/table"
-import ColumnHeader from "@app/components/common/ColumnHeader"
+import { ALL_TYPES } from "../../common"
 
-type Type = keyof SiteManageMessage['type']
-const ALL_TYPES: Type[] = ['normal', 'merged', 'virtual']
-
-function computeText({ merged, virtual }: timer.site.SiteInfo): string {
-    let type: Type = undefined
-    if (merged) {
-        type = 'merged'
-    } else if (virtual) {
-        type = 'virtual'
-    } else {
-        type = 'normal'
-    }
+function computeText({ type }: timer.site.SiteInfo): string {
     return t(msg => msg.siteManage.type[type].name)
 }
 
-function computeType({ merged, virtual }: timer.site.SiteInfo): TagProps["type"] {
-    if (merged) {
-        return 'info'
-    } else if (virtual) {
-        return 'success'
-    } else {
-        return null
+function computeType({ type }: timer.site.SiteInfo): TagProps["type"] {
+    switch (type) {
+        case 'merged': return 'info'
+        case 'virtual': return 'success'
+        default: return null
     }
 }
 
 const _default = defineComponent(() => {
     return () => (
         <ElTableColumn
-            minWidth={60}
+            minWidth={130}
             align="center"
             v-slots={{
                 header: () => (

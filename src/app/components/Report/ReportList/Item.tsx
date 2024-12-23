@@ -19,13 +19,13 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const filter = useReportFilter()
-        const mergeHost = computed(() => !!filter.value?.mergeHost)
+        const mergeHost = computed(() => !!filter.value?.mergeMethod?.includes('domain'))
         const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
-        const { iconUrl, host, mergedHosts, date, focus, composition, time } = props.value || {}
+        const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value || {}
         const selected = ref(false)
         watch(selected, val => ctx.emit('selectedChange', val))
 
-        const canDelete = computed(() => !filter.value?.mergeHost && !filter.value.readRemote)
+        const canDelete = computed(() => !mergeHost.value && !filter.value.readRemote)
         const onDelete = async () => {
             await handleDelete(props.value, filter.value)
             ctx.emit('delete', props.value)
@@ -47,15 +47,15 @@ const _default = defineComponent({
                             trigger="click"
                             showPopover={mergeHost.value}
                             v-slots={{
-                                content: () => mergedHosts?.map(({ host, iconUrl }) => (
+                                content: () => mergedRows?.map(({ siteKey, iconUrl }) => (
                                     <p>
-                                        <HostAlert host={host} iconUrl={iconUrl} clickable={false} />
+                                        <HostAlert host={siteKey?.host} iconUrl={iconUrl} clickable={false} />
                                     </p>
                                 )),
                             }}
                         >
                             <HostAlert
-                                host={host}
+                                host={siteKey?.host}
                                 iconUrl={mergeHost.value ? null : iconUrl}
                                 clickable={false}
                             />
@@ -72,7 +72,7 @@ const _default = defineComponent({
                 </div>
                 <ElDivider style={{ margin: "5px 0" }} />
                 <div class="report-item-content">
-                    <ElTag v-show={!filter.value?.mergeDate} type="info" size="small">
+                    <ElTag v-show={!filter.value?.mergeMethod?.includes('date')} type="info" size="small">
                         <ElIcon><Calendar /></ElIcon>
                         <span>{cvt2LocaleTime(date)}</span>
                     </ElTag>

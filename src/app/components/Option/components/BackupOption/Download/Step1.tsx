@@ -19,7 +19,7 @@ async function fetchData(client: timer.backup.Client): Promise<timer.imported.Da
     const { id: specCid, maxDate, minDate = BIRTHDAY } = client
     const start = parseTime(minDate)
     const end = maxDate ? parseTime(maxDate) : new Date()
-    const remoteRows: timer.stat.Row[] = await processor.query({ specCid, start, end })
+    const remoteRows = await processor.query({ specCid, start, end })
     const rows: timer.imported.Row[] = (remoteRows || []).map(rr => ({
         date: rr.date,
         host: rr.host,

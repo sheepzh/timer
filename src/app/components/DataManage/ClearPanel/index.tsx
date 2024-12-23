@@ -5,13 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { t } from "@app/locale"
+import { StatCondition } from "@db/stat-database"
+import statService from "@service/stat-service"
+import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import { ElAlert, ElCard, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent } from "vue"
-import { t } from "@app/locale"
 import { alertProps } from "../common"
 import ClearFilter from "./ClearFilter"
-import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
-import statService, { StatQueryParam } from "@service/stat-service"
 
 type FilterOption = {
     date: [Date, Date]
@@ -19,7 +20,7 @@ type FilterOption = {
     time: [string, string]
 }
 
-function generateParamAndSelect(option: FilterOption): Promise<timer.stat.Row[]> | undefined {
+function generateParamAndSelect(option: FilterOption): Promise<timer.core.Row[]> | undefined {
     const param = checkParam(option)
     if (!param) {
         ElMessage.warning(t(msg => msg.dataManage.paramError))
@@ -33,7 +34,7 @@ function generateParamAndSelect(option: FilterOption): Promise<timer.stat.Row[]>
         dateEnd = new Date(new Date().getTime() - MILL_PER_DAY)
     }
     param.date = [dateStart, dateEnd]
-    return statService.select(param)
+    return statService.selectBase(param)
 }
 
 /**
@@ -56,7 +57,7 @@ function assertQueryParam(range: Vector<2>, mustInteger?: boolean): boolean {
 const str2Num = (str: string, defaultVal?: number) => (str && str !== '') ? parseInt(str) : defaultVal
 const seconds2Milliseconds = (a: number) => a * MILL_PER_SECOND
 
-function checkParam(option: FilterOption): StatQueryParam | undefined {
+function checkParam(option: FilterOption): StatCondition | undefined {
     const { focus = [null, null], time = [null, null] } = option || {}
     let hasError = false
     const focusRange = str2Range(focus, seconds2Milliseconds)
@@ -66,7 +67,7 @@ function checkParam(option: FilterOption): StatQueryParam | undefined {
     if (hasError) {
         return undefined
     }
-    const condition: StatQueryParam = {}
+    const condition: StatCondition = {}
     condition.focusRange = focusRange
     condition.timeRange = timeRange
     return condition
@@ -88,7 +89,7 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         async function handleClick(option: FilterOption) {
-            const result: timer.stat.Row[] = await generateParamAndSelect(option)
+            const result: timer.core.Row[] = await generateParamAndSelect(option)
 
             const count = result.length
             const confirmMsg = t(msg => msg.dataManage.deleteConfirm, { count })
@@ -96,7 +97,7 @@ const _default = defineComponent({
                 cancelButtonText: t(msg => msg.button.cancel),
                 confirmButtonText: t(msg => msg.button.confirm)
             }).then(async () => {
-                await statService.batchDelete(result)
+                await statService.batchDeleteBase(result)
                 ElMessage.success(t(msg => msg.operation.successMsg))
                 ctx.emit('dataDelete')
             }).catch(() => { })

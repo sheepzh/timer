@@ -6,16 +6,21 @@
  */
 import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
 import InputFilterItem from "@app/components/common/InputFilterItem"
-import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
+import { useCategories } from "@app/context"
 import { t } from "@app/locale"
-import { Plus } from "@element-plus/icons-vue"
+import { ArrowDown, Connection, Delete, Grid, Plus } from "@element-plus/icons-vue"
 import { useState } from "@src/hooks"
-import { defineComponent, PropType, watch } from "vue"
+import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElLink } from "element-plus"
+import { computed, defineComponent, PropType, ref, watch } from "vue"
+import Flex from "../common/Flex"
+import MultiSelectFilterItem, { MultiSelectFilterItemInstance } from "../common/MultiSelectFilterItem"
+import { ALL_TYPES } from "./common"
 
 export type FilterOption = {
     host?: string,
     alias?: string,
-    onlyDetected?: boolean,
+    types?: timer.site.Type[],
+    cateIds?: number[],
 }
 
 const _default = defineComponent({
@@ -25,18 +30,41 @@ const _default = defineComponent({
     emits: {
         change: (_option: FilterOption) => true,
         create: () => true,
+        batchDelete: () => true,
+        batchChangeCate: () => true,
+        batchDisassociate: () => true,
     },
     setup(props, ctx) {
-        const defaultOption = props.defaultValue as FilterOption
+        const { categories } = useCategories()
+
+        const defaultOption = props.defaultValue
         const [host, setHost] = useState(defaultOption?.host)
         const [alias, setAlias] = useState(defaultOption?.alias)
-        const [onlyDetected, setOnlyDetected] = useState(defaultOption?.onlyDetected || false)
+        const [types, setTypes] = useState(defaultOption?.types)
 
-        watch([host, alias, onlyDetected], () => ctx.emit("change", {
+        const cateDisabled = computed(() => !!types.value?.length && !types.value?.includes?.('normal'))
+        watch([cateDisabled], () => cateDisabled.value && cateSelect.value?.updateValue?.([]))
+
+        const [cateIds, setCateIds] = useState(defaultOption?.cateIds)
+
+        watch(categories, () => {
+            const allCateIds = categories.value?.map(c => c.id) || []
+            const newVal = cateIds.value?.filter(cid => allCateIds.includes(cid))
+            if (newVal?.length !== cateIds.value?.length) {
+                // Selected category is deleted, so reset the select value
+                cateSelect.value?.updateValue?.(newVal)
+            }
+        })
+
+        watch([host, alias, types, cateIds], () => ctx.emit("change", {
             host: host.value,
             alias: alias.value,
-            onlyDetected: onlyDetected.value
+            types: types.value,
+            cateIds: cateIds.value,
         }))
+
+        const cateSelect = ref<MultiSelectFilterItemInstance>()
+
         return () => <>
             <InputFilterItem
                 placeholder={t(msg => msg.siteManage.hostPlaceholder)}
@@ -44,12 +72,53 @@ const _default = defineComponent({
             />
             <InputFilterItem
                 placeholder={t(msg => msg.siteManage.aliasPlaceholder)}
-                onSearch={setAlias} />
-            <SwitchFilterItem
-                label={t(msg => msg.siteManage.onlyDetected)}
-                defaultValue={onlyDetected.value}
-                onChange={setOnlyDetected}
+                onSearch={setAlias}
             />
+            <MultiSelectFilterItem
+                historyName="type"
+                placeholder={t(msg => msg.siteManage.column.type)}
+                options={ALL_TYPES.map(type => ({ value: type, label: t(msg => msg.siteManage.type[type].name) }))}
+                defaultValue={types.value}
+                onChange={setTypes}
+            />
+            <MultiSelectFilterItem
+                historyName="cate"
+                disabled={cateDisabled.value}
+                ref={cateSelect}
+                placeholder={t(msg => msg.siteManage.column.cate)}
+                options={categories.value?.map(cate => ({ value: cate.id, label: cate.name }))}
+                defaultValue={cateIds.value}
+                onChange={setCateIds}
+            />
+            <Flex align="center" class="filter-item-right" gap={3}>
+                <ElButton
+                    link
+                    type="primary"
+                    icon={<Grid />}
+                    onClick={() => ctx.emit('batchChangeCate')}
+                >
+                    {t(msg => msg.siteManage.cate.batchChange)}
+                </ElButton>
+                <ElDropdown v-slots={{
+                    default: () => <ElLink type="primary" underline={false} icon={ArrowDown} />,
+                    dropdown: () => (
+                        <ElDropdownMenu>
+                            <ElDropdownItem
+                                icon={<Connection />}
+                                onClick={() => ctx.emit('batchDisassociate')}
+                            >
+                                {t(msg => msg.siteManage.cate.batchDisassociate)}
+                            </ElDropdownItem>
+                            <ElDropdownItem
+                                icon={<Delete />}
+                                onClick={() => ctx.emit('batchDelete')}
+                            >
+                                {t(msg => msg.button.batchDelete)}
+                            </ElDropdownItem>
+                        </ElDropdownMenu>
+                    )
+                }} />
+            </Flex>
             <ButtonFilterItem
                 text={t(msg => msg.button.create)}
                 icon={<Plus />}

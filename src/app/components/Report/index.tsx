@@ -18,18 +18,19 @@ import { ElMessage, ElMessageBox } from "element-plus"
 import { computed, defineComponent, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
+import { MergeMethod } from "./common"
 import { DisplayComponent, initProvider, ReportFilterOption } from "./context"
 import ReportFilter from "./ReportFilter"
 import ReportList from "./ReportList"
 import ReportTable from "./ReportTable"
-import './styles/element'
+import './style'
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
 async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]): Promise<string> {
     // host => total focus
     const hostFocus: { [host: string]: number } = groupBy(selected,
-        a => a.host,
+        a => a.siteKey?.host,
         grouped => grouped.map(a => a.focus).reduce((a, b) => a + b, 0)
     )
     const hosts = Object.keys(hostFocus)
@@ -86,8 +87,9 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
         ElMessage.info(t(msg => msg.report.batchDelete.noSelectedMsg))
         return
     }
+    const mergeDate = filterOption.mergeMethod?.includes('date')
     ElMessageBox({
-        message: await computeBatchDeleteMsg(selected, filterOption.mergeDate, filterOption.dateRange),
+        message: await computeBatchDeleteMsg(selected, mergeDate, filterOption.dateRange),
         type: "warning",
         confirmButtonText: t(msg => msg.button.okey),
         showCancelButton: true,
@@ -98,7 +100,7 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
         closeOnClickModal: false
     }).then(async () => {
         // Delete
-        await deleteBatch(selected, filterOption.mergeDate, filterOption.dateRange)
+        await deleteBatch(selected, mergeDate, filterOption.dateRange)
         ElMessage.success(t(msg => msg.operation.successMsg))
         displayComp?.refresh?.()
     }).catch(() => {
@@ -107,15 +109,14 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
 }
 
 async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]) {
-    if (!mergeDate) {
-        // If not merge date
-        // Delete batch
-        await statDatabase.delete(selected)
-    } else {
+    if (mergeDate) {
         // Delete according to the date range
         const start = dateRange?.[0]
         const end = dateRange?.[1]
-        await Promise.all(selected.map(d => statDatabase.deleteByUrlBetween(d.host, start, end)))
+        await Promise.all(selected.map(d => statDatabase.deleteByUrlBetween(d.siteKey.host, start, end)))
+    } else {
+        // If not merge date, batch delete
+        await statService.batchDelete(selected)
     }
 }
 
@@ -130,12 +131,14 @@ function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOpti
     // Remove queries
     router.replace({ query: {} })
 
+    const mergeMethod: MergeMethod[] = []
+    if (mh === "true" || mh === "1") mergeMethod.push('domain')
+
     const now = new Date()
     const filterOption: ReportFilterOption = {
         host: '',
         dateRange: [dateStart || now, dateEnd || now],
-        mergeDate: false,
-        mergeHost: mh === "true" || mh === "1",
+        mergeMethod,
         timeFormat: "default"
     }
     const sortInfo: SortInfo = {

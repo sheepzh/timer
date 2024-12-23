@@ -1,11 +1,11 @@
 import { createTab } from "@api/chrome/tab"
 import { useShadow } from "@hooks"
 import { isRemainHost } from "@util/constant/remain-host"
+import { classNames } from "@util/style"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
 import { computed, defineComponent, PropType } from "vue"
 import "./item.sass"
-import { classNames } from "@util/style"
 
 const renderTitle = (siteName: string, host: string, handleJump: () => void) => {
     const text = siteName || host
@@ -18,9 +18,9 @@ const renderTitle = (siteName: string, host: string, handleJump: () => void) => 
 }
 
 const renderAvatarText = (row: timer.stat.Row) => {
-    const { host, alias } = row || {}
+    const { siteKey, alias } = row || {}
     if (alias) return alias.substring(0, 1)?.toUpperCase?.()
-    return host?.substring?.(0, 1)?.toUpperCase?.()
+    return siteKey?.host?.substring?.(0, 1)?.toUpperCase?.()
 }
 
 const _default = defineComponent({
@@ -31,7 +31,7 @@ const _default = defineComponent({
     },
     setup(props) {
         const [iconUrl] = useShadow(() => props.value?.iconUrl)
-        const [host] = useShadow(() => props.value?.host)
+        const [host] = useShadow(() => props.value?.siteKey?.host)
         const [siteName] = useShadow(() => props.value?.alias)
         const clickable = computed(() => !isRemainHost(host.value))
         const [rate] = useShadow(() => {

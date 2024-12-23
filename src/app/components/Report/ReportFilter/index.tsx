@@ -9,7 +9,6 @@ import type { ElementDatePickerShortcut } from "@src/element-ui/date"
 
 import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import InputFilterItem from '@app/components/common/InputFilterItem'
-import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
@@ -18,10 +17,11 @@ import statService from "@service/stat-service"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { computed, defineComponent, watch, type PropType } from "vue"
-import { cvtOption2Param } from "../common"
+import { cvtOption2Param, MergeMethod } from "../common"
 import { ReportFilterOption } from "../context"
 import { exportCsv, exportJson } from "../file-export"
 import DownloadFile from "./DownloadFile"
+import MergeFilterItem from "./MergeFilterItem"
 import RemoteClient from "./RemoteClient"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
@@ -55,16 +55,14 @@ const _default = defineComponent({
         const initial: ReportFilterOption = props.initial
         const [host, setHost] = useState(initial?.host)
         const [dateRange, setDateRange] = useState<[Date, Date]>(initial?.dateRange)
-        const [mergeDate, setMergeDate] = useState(initial?.mergeDate)
-        const [mergeHost, setMergeHost] = useState(initial?.mergeHost)
+        const [mergeMethod, setMergeMethod] = useState<MergeMethod[]>([])
         const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
         // Whether to read remote backup data
         const [readRemote, setReadRemote] = useState(initial?.readRemote)
         const option = computed(() => ({
             host: host.value,
             dateRange: dateRange.value,
-            mergeDate: mergeDate.value,
-            mergeHost: mergeHost.value,
+            mergeMethod: mergeMethod.value,
             timeFormat: timeFormat.value,
             readRemote: readRemote.value,
         } satisfies ReportFilterOption))
@@ -82,29 +80,18 @@ const _default = defineComponent({
                 onChange={setDateRange}
             />
             <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={setTimeFormat} />
-            <SwitchFilterItem
-                historyName="mergeDate"
-                label={t(msg => msg.report.mergeDate)}
-                defaultValue={mergeDate.value}
-                onChange={setMergeDate}
-            />
-            <SwitchFilterItem
-                historyName="mergeHost"
-                label={t(msg => msg.report.mergeDomain)}
-                defaultValue={mergeHost.value}
-                onChange={setMergeHost}
-            />
+            <MergeFilterItem defaultValue={mergeMethod.value} onChange={setMergeMethod} />
             <div class="filter-item-right-group">
                 <ElButton
                     style={{ display: readRemote.value ? 'none' : 'inline-flex' }}
                     class="batch-delete-button"
-                    disabled={mergeHost.value}
+                    disabled={mergeMethod.value?.includes('domain')}
                     type="primary"
                     link
                     icon={<DeleteFilled />}
                     onClick={() => ctx.emit("batchDelete", option.value)}
                 >
-                    {t(msg => msg.report.batchDelete.buttonText)}
+                    {t(msg => msg.button.batchDelete)}
                 </ElButton>
                 <RemoteClient onChange={setReadRemote} />
                 <DownloadFile onDownload={format => handleDownload(format, option.value)} />

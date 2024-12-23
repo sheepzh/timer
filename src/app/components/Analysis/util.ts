@@ -12,11 +12,11 @@ import { t } from "@app/locale"
  */
 export function labelOfHostInfo(site: timer.site.SiteKey): string {
     if (!site) return ''
-    const { host, merged, virtual } = site
+    const { host, type } = site
     if (!host) return ''
     let label = ''
-    merged && (label = `[${t(msg => msg.analysis.common.merged)}]`)
-    virtual && (label = `[${t(msg => msg.analysis.common.virtual)}]`)
+    type === 'merged' && (label = `[${t(msg => msg.analysis.common.merged)}]`)
+    type === 'virtual' && (label = `[${t(msg => msg.analysis.common.virtual)}]`)
     return `${host}${label}`
 }
 

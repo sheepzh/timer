@@ -1,11 +1,11 @@
-import { LimitReason, LimitType, MaskModal } from '../common'
 import { getUrl, sendMsg2Runtime } from '@api/chrome/runtime'
-import { TAG_NAME, type RootElement } from '../element'
+import optionService from '@service/option-service'
+import { init as initTheme, toggle } from '@util/dark-mode'
 import { App, createApp, Ref } from 'vue'
+import { isSameReason, LimitReason, LimitType, MaskModal } from '../common'
+import { TAG_NAME, type RootElement } from '../element'
 import Main from './Main'
 import { provideDelayHandler, provideReason } from './context'
-import { init as initTheme, toggle } from '@util/dark-mode'
-import optionService from '@service/option-service'
 
 async function exitFullscreen(): Promise<void> {
     if (!document?.fullscreenElement) return
@@ -35,16 +35,6 @@ function pauseAllAudio(): void {
             audio?.pause?.()
         } catch { }
     })
-}
-
-function isSameReason(a: LimitReason, b: LimitReason): boolean {
-    let same = a?.id === b?.id && a?.type === b?.type
-    if (!same) return false
-    if (a?.type === 'DAILY' || a?.type === 'VISIT') {
-        // Need judge allow delay
-        same = same && a?.allowDelay === b?.allowDelay
-    }
-    return same
 }
 
 const TYPE_SORT: { [reason in LimitType]: number } = {

@@ -38,7 +38,7 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         const filter = useReportFilter()
-        const canOperate = computed(() => !filter.value?.mergeHost)
+        const canOperate = computed(() => !filter.value?.mergeMethod?.includes?.('domain'))
         const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
         const router = useRouter()
         const {
@@ -49,7 +49,7 @@ const _default = defineComponent({
         const jump2Analysis = (host: string) => {
             const query: LocationQueryRaw = {
                 host,
-                merge: filter.value?.mergeHost ? '1' : '0',
+                merge: filter.value?.mergeMethod?.includes?.('domain') ? '1' : '0',
             }
             router.push({ path: ANALYSIS_ROUTE, query })
         }
@@ -66,7 +66,7 @@ const _default = defineComponent({
                         icon={<Stopwatch />}
                         size="small"
                         type="primary"
-                        onClick={() => jump2Analysis(row.host)}
+                        onClick={() => jump2Analysis(row.siteKey?.host)}
                     >
                         {t(msg => msg.item.operation.analysis)}
                     </ElButton>
@@ -87,10 +87,10 @@ const _default = defineComponent({
                         buttonIcon={<Plus />}
                         buttonType="warning"
                         buttonText={t(msg => msg.item.operation.add2Whitelist)}
-                        confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.host })}
-                        visible={canOperate.value && !whitelist.value?.includes(row.host)}
+                        confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.siteKey?.host })}
+                        visible={canOperate.value && !whitelist.value?.includes(row.siteKey?.host)}
                         onConfirm={async () => {
-                            await whitelistService.add(row.host)
+                            await whitelistService.add(row.siteKey?.host)
                             refreshWhitelist()
                             ElMessage.success(t(msg => msg.operation.successMsg))
                         }}
@@ -100,10 +100,10 @@ const _default = defineComponent({
                         buttonIcon={<Open />}
                         buttonType="primary"
                         buttonText={t(msg => msg.item.operation.removeFromWhitelist)}
-                        confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.host })}
-                        visible={canOperate.value && whitelist.value?.includes(row.host)}
+                        confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.siteKey?.host })}
+                        visible={canOperate.value && whitelist.value?.includes(row.siteKey?.host)}
                         onConfirm={async () => {
-                            await whitelistService.remove(row.host)
+                            await whitelistService.remove(row.siteKey?.host)
                             refreshWhitelist()
                             ElMessage.success(t(msg => msg.operation.successMsg))
                         }}

@@ -4,31 +4,37 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { useRequest, useState } from "@hooks"
+import statService, { StatQueryParam } from "@service/stat-service"
+import { judgeVirtualFast } from "@util/pattern"
 import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import Trend from "./components/Trend"
 import Filter from "./components/AnalysisFilter"
 import Summary from "./components/Summary"
-import statService, { StatQueryParam } from "@service/stat-service"
-import './style.sass'
-import { judgeVirtualFast } from "@util/pattern"
+import Trend from "./components/Trend"
 import { initProvider } from "./context"
-import { useRequest, useState } from "@hooks"
+import './style.sass'
 
 type _Queries = {
     host: string
     merge?: '1' | '0'
 }
 
-function getSiteFromQuery(): timer.site.SiteInfo {
+function getSiteFromQuery(): timer.site.SiteKey {
     // Process the query param
     const query: _Queries = useRoute().query as unknown as _Queries
     useRouter().replace({ query: {} })
     const { host, merge } = query
     // Init with queries
     if (!host) return undefined
-    return { host, merged: merge === "1", virtual: judgeVirtualFast(host) }
+    let type: timer.site.Type = 'normal'
+    if (merge === '1') {
+        type = 'merged'
+    } else if (judgeVirtualFast(host)) {
+        type = 'virtual'
+    }
+    return { host, type }
 }
 
 async function query(site: timer.site.SiteKey): Promise<timer.stat.Row[]> {
@@ -36,7 +42,7 @@ async function query(site: timer.site.SiteKey): Promise<timer.stat.Row[]> {
 
     const param: StatQueryParam = {
         host: site.host,
-        mergeHost: site?.merged || false,
+        mergeHost: site?.type === 'merged',
         fullHost: true,
         sort: 'date',
         sortOrder: 'ASC'

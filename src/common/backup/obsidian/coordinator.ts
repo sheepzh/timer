@@ -41,21 +41,21 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         }
     }
 
-    async download(context: timer.backup.CoordinatorContext<never>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
+    async download(context: timer.backup.CoordinatorContext<never>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.core.Row[]> {
         const { ctx, dirPath, cid } = prepareContext(context)
 
         const dateIterator = new DateIterator(dateStart, dateEnd)
-        const result: timer.stat.RowBase[] = []
+        const result: timer.core.Row[] = []
         await Promise.all(dateIterator.toArray().map(async date => {
             const filePath = `${dirPath}${targetCid || cid}/${date}.md`
             const fileContent = await getFileContent(ctx, filePath)
-            const rows: timer.stat.RowBase[] = parseData(fileContent)
+            const rows: timer.core.Row[] = parseData(fileContent)
             rows?.forEach?.(row => result.push(row))
         }))
         return result
     }
 
-    async upload(context: timer.backup.CoordinatorContext<never>, rows: timer.stat.RowBase[]): Promise<void> {
+    async upload(context: timer.backup.CoordinatorContext<never>, rows: timer.core.Row[]): Promise<void> {
         const { ctx, dirPath, cid } = prepareContext(context)
 
         const dateAndContents = divideByDate(rows)

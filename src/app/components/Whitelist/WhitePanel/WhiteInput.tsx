@@ -24,7 +24,7 @@ async function handleRemoteSearch(query: string): Promise<timer.site.SiteInfo[]>
     const target = idx > 0
         // Move to the first index
         ? sites.splice(idx, 1)?.[0]
-        : { host: query, virtual: judgeVirtualFast(query) }
+        : { host: query, type: judgeVirtualFast(query) ? 'virtual' : 'normal' } satisfies timer.site.SiteKey
     return [target, ...sites]
 }
 
@@ -62,9 +62,9 @@ const _default = defineComponent({
                 loading={searching.value}
                 remoteMethod={search}
             >
-                {sites.value?.map(({ host, virtual }) => <ElOption value={host} label={host}>
+                {sites.value?.map(({ host, type }) => <ElOption value={host} label={host}>
                     <span>{host}</span>
-                    <ElTag v-show={virtual} size="small" >
+                    <ElTag v-show={type === 'virtual'} size="small">
                         {t(msg => msg.siteManage.type.virtual?.name)?.toLocaleUpperCase?.()}
                     </ElTag>
                 </ElOption>)}

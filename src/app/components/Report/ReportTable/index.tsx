@@ -11,10 +11,12 @@ import { t } from "@app/locale"
 import { useRequest, useState, useWindowVisible } from "@hooks"
 import siteService from "@service/site-service"
 import statService, { StatQueryParam } from "@service/stat-service"
+import { siteEqual } from "@util/site"
 import { ElTable, ElTableColumn } from "element-plus"
 import { computed, defineComponent, type PropType } from "vue"
 import { cvtOption2Param } from "../common"
 import { DisplayComponent, ReportFilterOption, useReportFilter } from "../context"
+import CateColumn from "./columns/CateColumn"
 import DateColumn from "./columns/DateColumn"
 import FocusColumn from "./columns/FocusColumn"
 import HostColumn from "./columns/HostColumn"
@@ -35,7 +37,7 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data
     } else {
         await siteService.saveAlias(key, newAlias, 'USER')
     }
-    data?.filter(item => item.host === key.host)
+    data?.filter(item => siteEqual(item?.siteKey, key))
         ?.forEach(item => item.alias = newAlias)
 }
 
@@ -44,12 +46,12 @@ const _default = defineComponent({
         defaultSort: Object as PropType<SortInfo>,
     },
     setup(props, ctx) {
-        const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
+        const [page, setPage] = useState<timer.common.PageQuery>({ size: 20, num: 1 })
         const [sort, setSort] = useState(props.defaultSort)
         const filterOption = useReportFilter()
         const queryParam = computed(() => computeTimerQueryParam(filterOption.value, sort.value))
         const { data, refresh } = useRequest(
-            () => statService.selectByPage(queryParam.value, page.value, true),
+            () => statService.selectByPage(queryParam.value, page.value),
             { loadingTarget: "#report-table-content", deps: [queryParam, page] },
         )
         // Query data if window become visible
@@ -74,17 +76,18 @@ const _default = defineComponent({
                     onSelection-change={setSelection}
                     onSort-change={(newSortInfo: SortInfo) => setSort(newSortInfo)}
                 >
-                    <ElTableColumn type="selection" selectable={() => !filterOption.value?.mergeHost} />
-                    {!filterOption.value?.mergeDate && <DateColumn />}
-                    <HostColumn />
+                    {!filterOption.value?.mergeMethod.includes('domain') && <ElTableColumn type="selection" align="center" />}
+                    {!filterOption.value?.mergeMethod.includes('date') && <DateColumn />}
+                    {!filterOption.value?.mergeMethod?.includes('cate') && <HostColumn />}
+                    <CateColumn />
                     <ElTableColumn
                         label={t(msg => msg.siteManage.column.alias)}
                         minWidth={140}
                         align="center"
                         v-slots={({ row }: { row: timer.stat.Row }) => (
                             <Editable
-                                modelValue={row.alias}
-                                onChange={newAlias => handleAliasChange({ host: row.host, merged: filterOption.value?.mergeHost }, newAlias, data.value?.list)}
+                                modelValue={row?.alias}
+                                onChange={newAlias => handleAliasChange(row.siteKey, newAlias, data.value?.list)}
                             />
                         )}
                     />

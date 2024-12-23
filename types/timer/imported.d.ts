@@ -4,13 +4,13 @@
 declare namespace timer.imported {
     type ConflictResolution = 'overwrite' | 'accumulate'
 
-    type Row = Required<timer.stat.RowKey> & Partial<timer.stat.Result> & {
-        exist?: timer.stat.Result
+    type Row = Required<timer.core.RowKey> & Partial<timer.core.Result> & {
+        exist?: timer.core.Result
     }
 
     type Data = {
         // Whether there is data for this dimension
-        [dimension in timer.stat.Dimension]?: boolean
+        [dimension in timer.core.Dimension]?: boolean
     } & {
         rows: Row[]
     }

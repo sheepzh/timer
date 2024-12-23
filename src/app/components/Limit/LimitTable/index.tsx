@@ -4,19 +4,19 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElIcon, ElTable, ElTableColumn, ElTag, ElTooltip } from "element-plus"
-import { defineComponent, PropType } from "vue"
+import ColumnHeader from "@app/components/common/ColumnHeader"
+import Flex from "@app/components/common/Flex"
 import { t } from "@app/locale"
-import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
+import { useRequest } from "@hooks"
+import weekHelper from "@service/components/week-helper"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { period2Str } from "@util/limit"
+import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
+import { ElTable, ElTableColumn, ElTag } from "element-plus"
+import { defineComponent, PropType } from "vue"
 import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"
-import { InfoFilled } from "@element-plus/icons-vue"
-import ColumnHeader from "@app/components/common/ColumnHeader"
-import weekHelper from "@service/components/week-helper"
-import { useRequest } from "@hooks"
 
 const ALL_WEEKDAYS = t(msg => msg.calendar.weekDays)?.split('|')
 
@@ -31,9 +31,9 @@ const renderWeekdays = (weekdays: number[]) => {
     }
 
     return (
-        <div style={{ display: "flex", gap: '5px', justifyContent: 'center', margin: "0 10px", flexWrap: "wrap" }}>
+        <Flex justify="center" wrap="wrap" gap={5} style={{ margin: "0 10px" }}>
             {weekdays.map(w => <ElTag size="small">{ALL_WEEKDAYS[w]}</ElTag>)}
-        </div>
+        </Flex>
     )
 }
 
@@ -46,7 +46,7 @@ const timeMsg = {
 const renderDetail = (row: timer.limit.Item) => {
     const { time, weekly, visitTime, periods } = row
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: "4px" }}>
+        <Flex direction="column" gap={4}>
             {!!time && (
                 <div>
                     <ElTag size="small">
@@ -72,18 +72,18 @@ const renderDetail = (row: timer.limit.Item) => {
                 <div>
                     <ElTag size="small" type="info">{t(msg => msg.limit.item.period)}</ElTag>
                 </div>
-                <div style={{ display: "flex", justifyContent: "center", gap: '4px', flexWrap: 'wrap' }}>
+                <Flex justify="center" gap={4} wrap="wrap">
                     {periods.map(p => <ElTag size="small" type="info">{period2Str(p)}</ElTag>)}
-                </div>
+                </Flex>
             </>}
-        </div>
+        </Flex>
     )
 }
 
 const renderToday = (row: timer.limit.Item) => {
     const { waste, delayCount, allowDelay } = row
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: "4px" }}>
+        <Flex direction="column" gap={4}>
             <div>
                 {formatPeriodCommon(waste)}
             </div>
@@ -94,14 +94,14 @@ const renderToday = (row: timer.limit.Item) => {
                     </ElTag>
                 </div>
             )}
-        </div>
+        </Flex >
     )
 }
 
 const renderWeekly = (row: timer.limit.Item) => {
     const { weeklyWaste, weeklyDelayCount, allowDelay } = row
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: "4px" }}>
+        <Flex direction="column" gap={4}>
             <div>
                 {formatPeriodCommon(weeklyWaste)}
             </div>
@@ -112,7 +112,7 @@ const renderWeekly = (row: timer.limit.Item) => {
                     </ElTag>
                 </div>
             )}
-        </div>
+        </Flex>
     )
 }
 

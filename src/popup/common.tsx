@@ -5,7 +5,7 @@ export type PopupQuery = {
     mergeHost: boolean
     duration: timer.option.PopupDuration
     durationNum?: number
-    type: timer.stat.Dimension
+    type: timer.core.Dimension
 }
 
 export type PopupResult = {

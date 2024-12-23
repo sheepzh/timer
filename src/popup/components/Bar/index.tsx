@@ -86,7 +86,7 @@ const Bar = defineComponent({
                     />
                     <ElSelect
                         modelValue={query?.value?.type}
-                        onChange={(v: timer.stat.Dimension) => updateQuery('type', v)}
+                        onChange={(v: timer.core.Dimension) => updateQuery('type', v)}
                         popperOptions={{ placement: 'top' }}
                     >
                         {ALL_DIMENSIONS.map(item => <ElOption value={item} label={t(msg => msg.item[item])} />)}

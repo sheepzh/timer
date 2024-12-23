@@ -1,11 +1,11 @@
-import { computed, defineComponent, ref } from "vue"
-import Item from "./Item"
-import { ElCard } from "element-plus"
 import { t } from "@app/locale"
-import { DisplayComponent, useReportFilter } from "../context"
 import { useScrollRequest } from "@hooks/useScrollRequest"
 import statService from "@service/stat-service"
+import { ElCard } from "element-plus"
+import { computed, defineComponent, ref } from "vue"
 import { cvtOption2Param } from "../common"
+import { DisplayComponent, useReportFilter } from "../context"
+import Item from "./Item"
 import "./style"
 
 const _default = defineComponent({
@@ -14,7 +14,7 @@ const _default = defineComponent({
         const param = computed(() => cvtOption2Param(filterOption.value))
 
         const { data, loading, loadMoreAsync, end, reset } = useScrollRequest(async (num, size) => {
-            const pagination = await statService.selectByPage(param.value, { num, size }, true)
+            const pagination = await statService.selectByPage(param.value, { num, size })
             return pagination?.list
         }, { manual: true, resetDeps: param })
 
@@ -41,7 +41,7 @@ const _default = defineComponent({
                     {data.value?.map((row, idx) => (
                         <ElCard>
                             <Item
-                                key={`row-${row.host}-${idx}`}
+                                key={`row-${row.siteKey?.host}-${idx}`}
                                 value={row}
                                 onSelectedChange={val => handleSelectedChange(val, idx)}
                                 onDelete={() => reset()}

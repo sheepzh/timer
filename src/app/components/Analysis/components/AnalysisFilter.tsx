@@ -14,7 +14,7 @@ import { ElOption, ElSelect, ElTag } from "element-plus"
 import { defineComponent, type PropType, watch } from "vue"
 import { labelOfHostInfo } from "../util"
 
-const calcUniqueKey = ({ host, virtual, merged }: timer.site.SiteInfo) => `${host}${virtual ? 1 : 0}${merged ? 1 : 0}`
+const calcUniqueKey = ({ host, type }: timer.site.SiteInfo) => `${host}${type === 'virtual' ? 1 : 0}${type === 'merged' ? 1 : 0}`
 
 async function fetchDomain(queryStr: string): Promise<timer.site.SiteInfo[]> {
     if (!queryStr) return []
@@ -27,9 +27,9 @@ async function fetchDomain(queryStr: string): Promise<timer.site.SiteInfo[]> {
 
     const { origin, merged, virtual } = hosts
     const originSiteInfo: timer.site.SiteInfo[] = []
-    origin.forEach(host => originSiteInfo.push({ host }))
-    merged.forEach(host => originSiteInfo.push({ host, merged: true }))
-    virtual.forEach(host => originSiteInfo.push({ host, virtual: true }))
+    origin.forEach(host => originSiteInfo.push({ host, type: 'normal' }))
+    merged.forEach(host => originSiteInfo.push({ host, type: 'merged' }))
+    virtual.forEach(host => originSiteInfo.push({ host, type: 'virtual' }))
     originSiteInfo.forEach(o => {
         const key = calcUniqueKey(o)
         !options[key] && (options[key] = o)
@@ -40,17 +40,21 @@ async function fetchDomain(queryStr: string): Promise<timer.site.SiteInfo[]> {
 const HOST_PLACEHOLDER = t(msg => msg.analysis.common.hostPlaceholder)
 
 function calcKey(option: timer.site.SiteKey): string {
-    const { merged, virtual, host } = option
+    const { host, type } = option
     let prefix = '_'
-    merged && (prefix = 'm')
-    virtual && (prefix = 'v')
+    type === 'merged' && (prefix = 'm')
+    type === 'virtual' && (prefix = 'v')
     return `${prefix}${host || ''}`
 }
 
 function calcSite(key: string): timer.site.SiteKey {
     if (!key?.length) return undefined
     const prefix = key.charAt(0)
-    return { host: key.substring(1), merged: prefix === 'm', virtual: prefix === 'v' }
+    const host = key.substring(1)
+    let type: timer.site.Type = 'normal'
+    prefix === 'm' && (type = 'merged')
+    prefix === 'v' && (type = 'virtual')
+    return { host, type }
 }
 
 const MERGED_TAG_TXT = t(msg => msg.analysis.common.merged)
@@ -110,8 +114,8 @@ const _default = defineComponent({
                         >
                             <span>{site.host}</span>
                             {site.alias && <ElTag size="small" type="info">{site.alias}</ElTag>}
-                            {site.merged && <SiteOptionTag text={MERGED_TAG_TXT} />}
-                            {site.virtual && <SiteOptionTag text={VIRTUAL_TAG_TXT} />}
+                            {site.type === 'merged' && <SiteOptionTag text={MERGED_TAG_TXT} />}
+                            {site.type === 'virtual' && <SiteOptionTag text={VIRTUAL_TAG_TXT} />}
                         </ElOption>
                     )
                 )}

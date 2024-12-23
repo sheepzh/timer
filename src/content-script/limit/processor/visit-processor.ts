@@ -32,7 +32,7 @@ class VisitProcessor implements Processor {
         return visitTime * MILL_PER_SECOND + this.delayCount * DELAY_MILL < this.focusTime
     }
 
-    async handleTracker(data: timer.stat.Event) {
+    async handleTracker(data: timer.core.Event) {
         const diff = (data?.end ?? 0) - (data?.start ?? 0)
         this.focusTime += diff
         this.rules?.forEach?.(rule => {

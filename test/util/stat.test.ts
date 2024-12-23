@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { mergeResult, resultOf, createZeroResult } from "@util/stat"
+import { createZeroResult, mergeResult, resultOf } from "@util/stat"
 
 test('default values of WastePerDay', () => {
     const newOne = createZeroResult()

@@ -1,0 +1,43 @@
+import { CSSProperties, defineComponent, h, PropType } from "vue"
+
+const _default = defineComponent({
+    props: {
+        direction: String as PropType<CSSProperties['flexDirection']>,
+        flex: Number,
+        align: String as PropType<CSSProperties['alignItems']>,
+        justify: String as PropType<CSSProperties['justifyContent']>,
+        gap: [String, Number],
+        wrap: String as PropType<CSSProperties['flexWrap']>,
+        width: [String, Number] as PropType<CSSProperties['width']>,
+        height: [String, Number] as PropType<CSSProperties['height']>,
+        style: Object as PropType<CSSProperties>,
+        id: String,
+    },
+    emits: {
+        click: (ev: MouseEvent) => true,
+    },
+    setup(props, ctx) {
+        return () => (
+            <div
+                id={props.id}
+                onClick={ev => ctx.emit('click', ev)}
+                style={{
+                    display: 'flex',
+                    flex: props.flex,
+                    flexDirection: props.direction,
+                    alignItems: props.align,
+                    justifyContent: props.justify,
+                    flexWrap: props.wrap,
+                    gap: typeof props.gap === 'number' ? `${props.gap}px` : props.gap,
+                    width: props.width,
+                    height: props.height,
+                    ...props.style || {},
+                }}
+            >
+                {h(ctx.slots.default)}
+            </div>
+        )
+    }
+})
+
+export default _default

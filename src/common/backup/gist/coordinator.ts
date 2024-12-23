@@ -47,7 +47,7 @@ function bucket2filename(bucket: string, cid: string) {
     return `${bucket}_${cid}.json`
 }
 
-function filterDate(row: timer.stat.RowBase, start: string, end: string) {
+function filterDate(row: timer.core.Row, start: string, end: string) {
     const { date } = row
     if (!date) return false
     if (start && date < start) return false
@@ -82,9 +82,9 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return file ? getJsonFileContent(file) || [] : []
     }
 
-    async download(context: timer.backup.CoordinatorContext<Cache>, startTime: Date, endTime: Date, targetCid?: string): Promise<timer.stat.RowBase[]> {
+    async download(context: timer.backup.CoordinatorContext<Cache>, startTime: Date, endTime: Date, targetCid?: string): Promise<timer.core.Row[]> {
         const allYearMonth = new MonthIterator(startTime, endTime || new Date()).toArray()
-        const result: timer.stat.RowBase[] = []
+        const result: timer.core.Row[] = []
         const start = formatTimeYMD(startTime)
         const end = formatTimeYMD(endTime)
         await Promise.all(allYearMonth.map(async yearMonth => {
@@ -101,7 +101,7 @@ export default class GistCoordinator implements timer.backup.Coordinator<Cache> 
         return result
     }
 
-    async upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void> {
+    async upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.core.Row[]): Promise<void> {
         const cid = context.cid
         const buckets = divide2Buckets(rows)
         const gist = await this.getStatGist(context)

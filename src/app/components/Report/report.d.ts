@@ -4,7 +4,7 @@ declare type FileFormat = 'json' | 'csv'
 declare type SortDirect = 'ascending' | 'descending'
 
 declare type SortInfo = {
-    prop: timer.stat.Dimension | 'host'
+    prop: timer.core.Dimension | 'host'
     order: SortDirect
 }
 
@@ -27,5 +27,5 @@ declare type ReportQueryParam = {
     /**
      * Sorted column
      */
-    sc?: timer.stat.Dimension
+    sc?: timer.core.Dimension
 }

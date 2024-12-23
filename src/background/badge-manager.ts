@@ -6,7 +6,7 @@
  */
 
 import { setBadgeBgColor, setBadgeText } from "@api/chrome/action"
-import { listTabs, onTabUpdated } from "@api/chrome/tab"
+import { listTabs } from "@api/chrome/tab"
 import { getFocusedNormalWindow } from "@api/chrome/window"
 import StatDatabase from "@db/stat-database"
 import whitelistHolder from "@service/components/whitelist-holder"

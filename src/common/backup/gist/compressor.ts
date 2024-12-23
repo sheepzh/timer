@@ -28,7 +28,7 @@ export type GistRow = {
     ]
 }
 
-function calcGroupKey(row: timer.stat.RowBase): string {
+function calcGroupKey(row: timer.core.Row): string {
     const date = row.date
     if (!date) {
         return undefined
@@ -41,7 +41,7 @@ function calcGroupKey(row: timer.stat.RowBase): string {
  *
  * @param rows row array
  */
-function compress(rows: timer.stat.RowBase[]): GistData {
+function compress(rows: timer.core.Row[]): GistData {
     const result: GistData = groupBy(
         rows,
         row => row.date.substring(6),
@@ -59,7 +59,7 @@ function compress(rows: timer.stat.RowBase[]): GistData {
  *
  * @returns [bucket, data][]
  */
-export function divide2Buckets(rows: timer.stat.RowBase[]): [string, GistData][] {
+export function divide2Buckets(rows: timer.core.Row[]): [string, GistData][] {
     const grouped: { [yearAndPart: string]: GistData } = groupBy(rows.filter(r => !!r), calcGroupKey, compress)
     return Object.entries(grouped)
 }
@@ -88,13 +88,13 @@ export function calcAllBuckets(startDate: string, endDate: string) {
  * @param gistData gistData
  * @returns rows
  */
-export function gistData2Rows(yearMonth: string, gistData: GistData): timer.stat.RowBase[] {
+export function gistData2Rows(yearMonth: string, gistData: GistData): timer.core.Row[] {
     const result = []
     Object.entries(gistData).forEach(([dateOfMonth, gistRow]) => {
         const date = yearMonth + dateOfMonth
         Object.entries(gistRow).forEach(([host, val]) => {
             const [time, focus] = val
-            const row: timer.stat.RowBase = {
+            const row: timer.core.Row = {
                 date,
                 host,
                 time,

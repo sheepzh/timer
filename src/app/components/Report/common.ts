@@ -1,17 +1,19 @@
 import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
 import StatDatabase from "@db/stat-database"
+import type { ReportMessage } from "@i18n/message/app/report"
+import type { StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
-import { ReportFilterOption } from "./context"
-import { StatQueryParam } from "@service/stat-service"
+import type { ReportFilterOption } from "./context"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
 export const cvtOption2Param = (filterOption: ReportFilterOption): StatQueryParam => ({
     host: filterOption.host,
     date: [filterOption.dateRange?.[0], filterOption.dateRange?.[1]],
-    mergeHost: filterOption.mergeHost,
-    mergeDate: filterOption.mergeDate,
+    mergeHost: filterOption.mergeMethod?.includes('domain'),
+    mergeDate: filterOption.mergeMethod?.includes('date'),
+    mergeCate: filterOption.mergeMethod?.includes('cate'),
     inclusiveRemote: filterOption.readRemote,
 })
 
@@ -44,17 +46,19 @@ function computeRangeConfirmText(url: string, dateRange: [Date, Date]): string {
 }
 
 export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: ReportFilterOption): string {
-    const { host, date } = row || {}
-    const { mergeDate, dateRange } = filterOption || {}
-    return mergeDate
+    const { siteKey, date } = row || {}
+    const { host } = siteKey || {}
+    const { mergeMethod, dateRange } = filterOption || {}
+    return mergeMethod?.includes('date')
         ? computeRangeConfirmText(host, dateRange)
         : computeSingleConfirmText(host, date)
 }
 
 export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilterOption) {
-    const { host, date } = row || {}
-    const { mergeDate, dateRange } = filterOption || {}
-    if (!mergeDate) {
+    const { siteKey, date } = row || {}
+    const { host } = siteKey || {}
+    const { mergeMethod, dateRange } = filterOption || {}
+    if (!mergeMethod?.includes('date')) {
         // Delete one day
         await statDatabase.deleteByUrlAndDate(host, date)
         return
@@ -70,3 +74,5 @@ export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilt
     // Delete by range
     await statDatabase.deleteByUrlBetween(host, start, end)
 }
+
+export type MergeMethod = keyof ReportMessage['mergeMethod']

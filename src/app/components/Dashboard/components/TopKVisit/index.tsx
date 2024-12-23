@@ -6,13 +6,13 @@
  */
 import type { StatQueryParam } from "@service/stat-service"
 
+import { t } from "@app/locale"
+import { useEcharts } from "@hooks/useEcharts"
 import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
-import { useEcharts } from "@hooks/useEcharts"
-import Wrapper, { BizOption, DAY_NUM, TOP_NUM } from "./Wrapper"
 import ChartTitle from "../../ChartTitle"
-import { t } from "@app/locale"
+import Wrapper, { BizOption, DAY_NUM, TOP_NUM } from "./Wrapper"
 
 const fetchData = async () => {
     const now = new Date()
@@ -23,8 +23,13 @@ const fetchData = async () => {
         sortOrder: 'DESC',
         mergeDate: true,
     }
-    const top: timer.stat.Row[] = (await statService.selectByPage(query, { num: 1, size: TOP_NUM }, true)).list
-    const data: BizOption[] = top.map(({ time, host, alias }) => ({ name: alias || host, host, alias, value: time }))
+    const top = (await statService.selectByPage(query, { num: 1, size: TOP_NUM })).list
+    const data: BizOption[] = top.map(({ time, siteKey, alias }) => ({
+        name: alias || siteKey?.host,
+        host: siteKey?.host,
+        alias,
+        value: time,
+    }))
     for (let realSize = top.length; realSize < TOP_NUM; realSize++) {
         data.push({ name: '', host: '', value: 0 })
     }

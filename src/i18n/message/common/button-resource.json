@@ -2,6 +2,7 @@
     "en": {
         "create": "New",
         "delete": "Delete",
+        "batchDelete": "Batch delete",
         "modify": "Modify",
         "save": "Save",
         "test": "Test",
@@ -18,6 +19,7 @@
     "zh_CN": {
         "create": "新增",
         "delete": "删除",
+        "batchDelete": "批量删除",
         "modify": "修改",
         "save": "保存",
         "test": "测试",
@@ -34,6 +36,7 @@
     "zh_TW": {
         "create": "新增",
         "delete": "刪除",
+        "batchDelete": "批量刪除",
         "modify": "修改",
         "save": "保存",
         "test": "測試",
@@ -49,6 +52,7 @@
     "ja": {
         "create": "追加",
         "delete": "消去",
+        "batchDelete": "バッチ削除",
         "modify": "変更",
         "save": "保存",
         "test": "試す",
@@ -64,6 +68,7 @@
     "pt_PT": {
         "create": "Criar",
         "delete": "Excluir",
+        "batchDelete": "Apagar em lote",
         "modify": "Modificar",
         "save": "Salvar",
         "test": "Ensaiar",
@@ -79,6 +84,7 @@
     "uk": {
         "create": "Новий",
         "delete": "Видалити",
+        "batchDelete": "Масове видалення",
         "modify": "Змінити",
         "save": "Зберегти",
         "test": "Тест",
@@ -94,6 +100,7 @@
     "es": {
         "create": "Nuevo",
         "delete": "Eliminar",
+        "batchDelete": "Eliminar Lote",
         "modify": "Modificar",
         "save": "Guardar",
         "test": "Probar",
@@ -109,6 +116,7 @@
     "de": {
         "create": "Erstellen",
         "delete": "Löschen",
+        "batchDelete": "Mehrere löschen",
         "modify": "Ändern",
         "save": "Speichern",
         "test": "Prüfen",
@@ -124,6 +132,7 @@
     "fr": {
         "create": "Nouveau",
         "delete": "Supprimer",
+        "batchDelete": "Suppression par lot",
         "modify": "Modifier",
         "save": "Sauvegarder",
         "test": "Test",
@@ -139,6 +148,7 @@
     "ru": {
         "create": "Новые",
         "delete": "Удалить",
+        "batchDelete": "Мягкое удаление",
         "modify": "Изменить",
         "save": "Сохранить",
         "test": "Проверка",
@@ -154,6 +164,7 @@
     "ar": {
         "create": "جديد",
         "delete": "حذف",
+        "batchDelete": "حذف الدفعة",
         "modify": "يُعدِّل",
         "save": "يحفظ",
         "test": "اختبار",

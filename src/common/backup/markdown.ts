@@ -82,7 +82,7 @@ function genMarkdownTable<T>(list: T[], fields: MarkdownTableField<T>[]): string
     return lines.join('\n')
 }
 
-const ROW_FIELDS: MarkdownTableField<timer.stat.Row>[] = [
+const ROW_FIELDS: MarkdownTableField<timer.core.Row>[] = [
     {
         name: "Date",
         formatter: r => r.date,
@@ -98,7 +98,7 @@ const ROW_FIELDS: MarkdownTableField<timer.stat.Row>[] = [
     },
 ]
 
-export function divideByDate(rows: timer.stat.RowBase[]): { [date: string]: string } {
+export function divideByDate(rows: timer.core.Row[]): { [date: string]: string } {
     return groupBy(rows, row => row.date, list => genMarkdownTable(list, ROW_FIELDS))
 }
 

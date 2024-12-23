@@ -9,7 +9,6 @@ import BackupDatabase from "@db/backup-database"
 import itemService from "@service/item-service"
 import metaService from "@service/meta-service"
 import optionService from "@service/option-service"
-import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
@@ -219,7 +218,7 @@ class Processor {
         return { option, auth, ext, type, coordinator, errorMsg }
     }
 
-    async query(param: RemoteQueryParam): Promise<timer.stat.Row[]> {
+    async query(param: RemoteQueryParam): Promise<timer.backup.Row[]> {
         const { type, coordinator, auth, ext, errorMsg } = await this.checkAuth()
         if (errorMsg || !coordinator) {
             return []
@@ -236,7 +235,7 @@ class Processor {
             .filter(c => filterClient(c, excludeLocal, localCid, startStr, endStr))
             .filter(c => !specCid || c.id === specCid)
         // 3. iterate clients
-        const result: timer.stat.Row[] = []
+        const result: timer.backup.Row[] = []
         await Promise.all(
             allClients.map(async client => {
                 const { id, name } = client
@@ -245,8 +244,6 @@ class Processor {
                     ...row,
                     cid: id,
                     cname: name,
-                    mergedHosts: [],
-                    virtual: judgeVirtualFast(row.host),
                 }))
             })
         )

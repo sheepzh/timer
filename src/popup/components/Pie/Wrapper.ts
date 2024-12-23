@@ -10,8 +10,14 @@ import { getInfoColor, getPrimaryTextColor, getSecondaryTextColor } from "@util/
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
 import { PieChart, PieSeriesOption } from "echarts/charts"
 import {
-    LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent,
-    LegendComponentOption, TitleComponentOption, ToolboxComponentOption, TooltipComponentOption,
+    LegendComponent,
+    LegendComponentOption,
+    TitleComponent,
+    TitleComponentOption,
+    ToolboxComponent,
+    ToolboxComponentOption,
+    TooltipComponent,
+    TooltipComponentOption,
 } from "echarts/components"
 import { ComposeOption, use } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
@@ -55,7 +61,7 @@ const legend2LabelStyle = (legend: string) => {
     return code.join('')
 }
 
-function calculateAverageText(type: timer.stat.Dimension, averageValue: number): string | undefined {
+function calculateAverageText(type: timer.core.Dimension, averageValue: number): string | undefined {
     if (type === 'focus') {
         return t(msg => msg.chart.averageTime, { value: formatPeriodCommon(parseInt(averageValue.toFixed(0))) })
     } else if (type === 'time') {
@@ -68,7 +74,7 @@ function toolTipFormatter({ query, dateLength }: PopupResult, params: any): stri
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
     const data = format.data as PopupRow
-    const host = data.host
+    const host = data.siteKey?.host
     const siteLabel = generateSiteLabel(host, name)
     let result = siteLabel
     const itemValue = typeof value === 'number' ? value as number : 0
@@ -248,7 +254,8 @@ export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
         const series: PieSeriesItemOption[] = []
         const iconRich: PieLabelRichOption = {}
         data.forEach(d => {
-            const { host, alias, isOther, iconUrl } = d
+            const { siteKey, alias, isOther, iconUrl } = d
+            const host = siteKey?.host
             const legend = displaySiteName ? (alias || host) : host
             series.push({ name: legend, value: d[query?.type] || 0, host, isOther, iconUrl })
             const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }

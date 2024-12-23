@@ -5,8 +5,9 @@ import { getAppPageUrl } from "@util/constant/url"
 import { CallbackDataParams } from "echarts/types/dist/shared"
 
 function generateUrl(data: PopupRow, queryResult: PopupResult): string {
-    const { host, isOther } = data
-    if (!isOther) {
+    const { siteKey, isOther } = data || {}
+    const { host, type } = siteKey || {}
+    if (!isOther && type === 'normal') {
         return host ? `http://${host}` : undefined
     }
     const query: ReportQueryParam = {}

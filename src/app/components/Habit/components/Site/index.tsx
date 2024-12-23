@@ -23,7 +23,7 @@ const DISTRIBUTION_MIN_DAY_LENGTH = 15
 
 const _default = defineComponent(() => {
     const filter = useHabitFilter()
-    const rows = computedAsync(() => statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true))
+    const rows = computedAsync(() => statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }))
     initProvider(rows)
     const dateRangeLength = computed(() => getDayLength(filter.value?.dateRange?.[0], filter?.value?.dateRange?.[1]))
 

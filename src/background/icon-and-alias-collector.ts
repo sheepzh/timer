@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import OptionDatabase from "@db/option-database"
-import { IS_CHROME, IS_SAFARI } from "@util/constant/environment"
-import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
-import { defaultStatistics } from "@util/constant/option"
-import { extractSiteName } from "@util/site"
 import { getTab } from "@api/chrome/tab"
+import OptionDatabase from "@db/option-database"
 import siteService from "@service/site-service"
+import { IS_CHROME, IS_SAFARI } from "@util/constant/environment"
+import { defaultStatistics } from "@util/constant/option"
+import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
+import { extractSiteName } from "@util/site"
 
 const storage: chrome.storage.StorageArea = chrome.storage.local
 const optionDatabase = new OptionDatabase(storage)
@@ -46,7 +46,7 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
     let favIconUrl = tab.favIconUrl
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
-    const siteKey: timer.site.SiteKey = { host }
+    const siteKey: timer.site.SiteKey = { host, type: 'normal' }
     favIconUrl && await siteService.saveIconUrl(siteKey, favIconUrl)
     collectAliasEnabled
         && !isBrowserUrl(url)

@@ -36,9 +36,12 @@ export const doQuery = async (param: PopupQuery) => {
             otherCount++
         }
     }
-    other.host = t(msg => msg.chart.otherLabel, { count: otherCount })
+    other.siteKey = {
+        host: t(msg => msg.chart.otherLabel, { count: otherCount }),
+        type: 'normal',
+    }
     popupRows.push(other)
-    const type = statQuery.sort as timer.stat.Dimension
+    const type = statQuery.sort as timer.core.Dimension
     const data = popupRows.filter(item => item[type])
     const date = statQuery.date
     let mixDate: string, maxDate: string
@@ -72,11 +75,14 @@ const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> => {
 }
 
 const otherPopupRow = (): PopupRow => ({
-    host: t(msg => msg.chart.otherLabel, { count: 0 }),
+    siteKey: {
+        host: t(msg => msg.chart.otherLabel, { count: 0 }),
+        type: 'normal',
+    },
     focus: 0,
     date: '0000-00-00',
     time: 0,
-    mergedHosts: [],
     isOther: true,
-    virtual: false,
+    iconUrl: undefined,
+    alias: undefined,
 })

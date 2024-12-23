@@ -6,32 +6,14 @@
  */
 
 import MergeRuleDatabase from "@db/merge-rule-database"
+import SiteDatabase from "@db/site-database"
 import CustomizedHostMergeRuler from "@service/components/host-merge-ruler"
+import { distinctSites, identifySiteKey, SiteMap } from "@util/site"
 
 const storage = chrome.storage.local
 
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
-
-function merge(map: Record<string, timer.stat.Row>, origin: timer.stat.Row, key: string): timer.stat.Row {
-    let exist: timer.stat.Row = map[key]
-    !exist && (exist = map[key] = {
-        ...origin,
-        focus: 0,
-        time: 0,
-        mergedHosts: [],
-        composition: { focus: [], time: [] },
-        virtual: false,
-    })
-
-    exist.time += origin.time
-    exist.focus += origin.focus
-    exist.composition = mergeComposition(exist.composition, origin.composition)
-
-    origin.mergedHosts && origin.mergedHosts.forEach(originHost =>
-        !exist.mergedHosts.find(existOrigin => existOrigin.host === originHost.host) && exist.mergedHosts.push(originHost)
-    )
-    return exist
-}
+const siteDatabase = new SiteDatabase(storage)
 
 type _RemoteCompositionMap = Record<'_' | string, timer.stat.RemoteCompositionVal>
 
@@ -72,36 +54,91 @@ function accCompositionValue(map: _RemoteCompositionMap, value: timer.stat.Remot
 
 export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
     const map: Record<string, timer.stat.Row> = {}
-    origin.forEach(o => {
-        let merged = merge(map, o, o.host)
-        merged.date = null
-        let mergedDates = merged.mergedDates || []
-        mergedDates.push(o.date)
-        merged.mergedDates = mergedDates
+    origin.forEach(ele => {
+        const { date, siteKey, cateKey, iconUrl, alias, cateId } = ele || {}
+        const key = [date ?? '', identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
+        let exist = map[key]
+        if (!exist) {
+            exist = map[key] = {
+                siteKey, cateKey,
+                iconUrl, alias, cateId,
+                focus: 0,
+                time: 0,
+                mergedRows: [],
+                mergedDates: [],
+                composition: { focus: [], time: [] },
+            }
+        }
+        mergeResult(exist, ele)
+        exist.mergedRows.push(ele)
+        exist.mergedDates.push(date)
     })
     const newRows = Object.values(map)
     return newRows
 }
 
 export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const newRows = []
-    const map = {}
+    const map: Record<string, timer.stat.Row> = {}
 
     // Generate ruler
     const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
     const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
-    origin.forEach(o => {
-        const host = o.host
-        const date = o.date
+    origin.forEach(ele => {
+        const { siteKey, date } = ele || {}
+        const { host, type } = siteKey || {}
+        if (type !== 'normal') return
         let mergedHost = mergeRuler.merge(host)
-        const merged = merge(map, o, mergedHost + date)
-        merged.host = mergedHost
-        const mergedHosts = merged.mergedHosts || (merged.mergedHosts = [])
-        mergedHosts.push(o)
+        const key = (date ?? '') + mergedHost
+        let exist = map[key]
+        if (!exist) {
+            exist = map[key] = {
+                siteKey: { type: 'merged', host: mergedHost },
+                date,
+                focus: 0,
+                time: 0,
+                mergedRows: [],
+                composition: { focus: [], time: [] },
+            } satisfies timer.stat.Row
+        }
+        mergeResult(exist, ele)
+        exist.mergedRows.push(ele)
     })
-    for (let key in map) {
-        newRows.push(map[key])
-    }
-    return newRows
+    return Object.values(map)
+}
+
+export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
+    const siteKeys = distinctSites(origin?.map(r => r.siteKey))
+    const allSites = await siteDatabase.getBatch(siteKeys)
+    const siteMap = new SiteMap<number>()
+    allSites?.forEach(s => siteMap.put(s, s?.cate))
+
+    const noCatePlaceholder = ""
+
+    const rowMap: Record<string, timer.stat.Row> = {}
+    origin?.forEach(ele => {
+        const { siteKey, date } = ele || {}
+        const cateId = siteMap.get(siteKey)
+        const key = cateId?.toString?.() ?? noCatePlaceholder
+        let exist = rowMap[key]
+        if (!exist) {
+            exist = rowMap[key] = {
+                cateKey: cateId, date,
+                focus: 0,
+                time: 0,
+                mergedRows: [],
+                composition: { focus: [], time: [] },
+            } satisfies timer.stat.Row
+        }
+        mergeResult(exist, ele)
+        exist.mergedRows.push(ele)
+    })
+    return Object.values(siteMap)
+}
+
+function mergeResult(target: timer.stat.Row, delta: timer.stat.Row) {
+    const { focus, time, composition } = delta || {}
+    target.focus += focus ?? 0
+    target.time += time ?? 0
+    target.composition = mergeComposition(target.composition, composition)
 }

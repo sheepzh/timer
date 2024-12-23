@@ -16,10 +16,10 @@ const NONE_FLAG = '_'
  */
 export function cvt2OptionValue(siteKey: timer.site.SiteKey): string {
     if (!siteKey) return ''
-    const { merged, virtual } = siteKey
+    const { type } = siteKey
     let flag = NONE_FLAG
-    merged && (flag = MERGED_FLAG)
-    virtual && (flag = VIRTUAL_FLAG)
+    type === 'merged' && (flag = MERGED_FLAG)
+    type === 'virtual' && (flag = VIRTUAL_FLAG)
     return `${flag}${siteKey.host}`
 }
 
@@ -30,11 +30,11 @@ export function cvt2SiteKey(optionValue: string): timer.site.SiteKey {
     const flag = optionValue.substring(0, 1)
     const host = optionValue.substring(1)
     if (flag === MERGED_FLAG) {
-        return { host, merged: true }
+        return { host, type: 'merged' }
     } else if (flag === VIRTUAL_FLAG) {
-        return { host, virtual: true }
+        return { host, type: 'virtual' }
     } else {
-        return { host }
+        return { host, type: 'normal' }
     }
 }
 
@@ -54,11 +54,13 @@ export const VIRTUAL_MSG = t(msg => msg.siteManage.type.virtual?.name)?.toLocale
  *      3. www.google.com[MERGED-EXISTED]
  */
 export function labelOf(siteKey: timer.site.SiteKey, exists?: boolean): string {
-    let label = siteKey.host
+    let { host: label, type } = siteKey || {}
     const suffix = []
-    siteKey.merged && suffix.push(MERGED_MSG)
-    siteKey.virtual && suffix.push(VIRTUAL_MSG)
+    type === 'merged' && suffix.push(MERGED_MSG)
+    type === 'virtual' && suffix.push(VIRTUAL_MSG)
     exists && suffix.push(EXIST_MSG)
     suffix.length && (label += `[${suffix.join('-')}]`)
     return label
 }
+
+export const ALL_TYPES: timer.site.Type[] = ['normal', 'merged', 'virtual']

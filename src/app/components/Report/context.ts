@@ -1,11 +1,11 @@
 import { useProvide, useProvider } from "@hooks"
 import { Ref } from "vue"
+import { MergeMethod } from "./common"
 
 export type ReportFilterOption = {
     host: string
     dateRange: [Date, Date]
-    mergeDate: boolean
-    mergeHost: boolean
+    mergeMethod: MergeMethod[]
     /**
      * @since 1.1.7
      */

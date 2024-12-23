@@ -104,7 +104,7 @@ const _default = defineComponent((_props, ctx) => {
                         modelValue={option.defaultType}
                         size="small"
                         style={{ width: `${tStyle(m => m.typeSelectWidth)}px` }}
-                        onChange={(val: timer.stat.Dimension) => option.defaultType = val}
+                        onChange={(val: timer.core.Dimension) => option.defaultType = val}
                     >
                         {ALL_DIMENSIONS.map(item => <ElOption value={item} label={t(msg => msg.item[item])} />)}
                     </ElSelect>

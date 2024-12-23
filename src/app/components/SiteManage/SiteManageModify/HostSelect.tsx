@@ -34,12 +34,12 @@ async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
     if (!query) return []
     const hostSet: HostSet = (await statService.listHosts(query))
     const allAlias: timer.site.SiteKey[] = [
-        ...Array.from(hostSet.origin || []).map(host => ({ host, merged: false })),
-        ...Array.from(hostSet.merged || []).map(host => ({ host, merged: true })),
+        ...Array.from(hostSet.origin || []).map(host => ({ host, type: 'normal' } satisfies timer.site.SiteKey)),
+        ...Array.from(hostSet.merged || []).map(host => ({ host, type: 'merged' } satisfies timer.site.SiteKey)),
     ]
     // Add local files
-    REMAIN_HOSTS.forEach(remain => allAlias.push({ host: remain, merged: false }))
-    allAlias.push({ host: MERGED_HOST, merged: true })
+    REMAIN_HOSTS.forEach(remain => allAlias.push({ host: remain, type: 'normal' }))
+    allAlias.push({ host: MERGED_HOST, type: 'merged' })
     const existedAliasSet = new Set()
     const existedKeys = await siteService.existBatch(allAlias)
     existedKeys.forEach(key => existedAliasSet.add(cvt2OptionValue(key)))
@@ -59,9 +59,9 @@ async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
         // Not exist host, insert site into the first
         const isVirtual = judgeVirtualFast(query)
         if (isVirtual) {
-            isValidVirtualHost(query) && result.push({ siteKey: { host: query, virtual: true }, hasAlias: false })
+            isValidVirtualHost(query) && result.push({ siteKey: { host: query, type: 'virtual' }, hasAlias: false })
         } else {
-            result.push({ siteKey: { host: query, virtual: false }, hasAlias: false })
+            result.push({ siteKey: { host: query, type: 'normal' }, hasAlias: false })
         }
         result.push(...originalOptions)
     } else {
@@ -72,13 +72,15 @@ async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
 }
 
 const renderOption = ({ siteKey, hasAlias }: _OptionInfo) => {
-    const { host, merged, virtual } = siteKey
-    return <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
-        <span>{host}</span>
-        <ElTag v-show={merged} size="small">{MERGED_MSG}</ElTag>
-        <ElTag v-show={virtual} size="small">{VIRTUAL_MSG}</ElTag>
-        <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
-    </ElOption>
+    const { host, type } = siteKey
+    return (
+        <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
+            <span>{host}</span>
+            <ElTag v-show={type === 'merged'} size="small">{MERGED_MSG}</ElTag>
+            <ElTag v-show={type === 'virtual'} size="small">{VIRTUAL_MSG}</ElTag>
+            <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
+        </ElOption>
+    )
 }
 
 const _default = defineComponent({

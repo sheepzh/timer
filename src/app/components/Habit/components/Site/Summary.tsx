@@ -26,7 +26,7 @@ const computeSummary = (rows: timer.stat.Row[] = [], filter: FilterOption): Resu
     const totalFocus = sum(rows.map(r => r.focus))
     const totalFocus4Average = exclusiveDate ? sum(rows.filter(r => r.date !== exclusiveDate).map(r => r.focus)) : totalFocus
     const totalTime = sum(rows.map(r => r.time))
-    const totalSite = new Set(rows.map(row => row.host)).size
+    const totalSite = new Set(rows.map(row => row.siteKey?.host)).size
     const totalSite4Average = exclusiveDate ? rows.filter(r => r.date !== exclusiveDate).length : rows.length
 
     return {
