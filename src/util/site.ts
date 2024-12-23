@@ -94,7 +94,7 @@ export function distinctSites(list: timer.site.SiteKey[]): timer.site.SiteKey[] 
 
 
 export class SiteMap<T> {
-    private innerMap: Record<string, T>
+    private innerMap: Record<string, [timer.site.SiteKey, T]>
 
     constructor() {
         this.innerMap = {}
@@ -102,11 +102,15 @@ export class SiteMap<T> {
 
     public put(site: timer.site.SiteKey, t: T): void {
         const key = identifySiteKey(site)
-        this.innerMap[key] = t
+        this.innerMap[key] = [site, t]
     }
 
     public get(site: timer.site.SiteKey): T {
         const key = identifySiteKey(site)
-        return this.innerMap[key]
+        return this.innerMap[key]?.[1]
+    }
+
+    public map<R>(mapper: (key: timer.site.SiteKey, value: T) => R): R[] {
+        return Object.values(this.innerMap).map(([site, val]) => mapper?.(site, val))
     }
 }

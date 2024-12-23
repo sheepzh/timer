@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { escapeRegExp } from "@util/pattern"
 import { createZeroResult, isNotZeroResult, mergeResult } from "@util/stat"
 import { formatTimeYMD } from "@util/time"
 import { log } from "../../common/logger"
@@ -214,7 +215,7 @@ class StatDatabase extends BaseDatabase {
         const items = await this.refresh()
 
         // Key format: 20201112www.google.com
-        const keyReg = RegExp('\\d{8}' + host)
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(host))
         const keys: string[] = Object.keys(items)
             .filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
 
@@ -232,7 +233,7 @@ class StatDatabase extends BaseDatabase {
         const items = await this.refresh()
 
         // Key format: 20201112www.google.com
-        const keyReg = RegExp('\\d{8}' + host)
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(host))
         const keys: string[] = Object.keys(items).filter(key => keyReg.test(key))
         await this.storage.remove(keys)
 

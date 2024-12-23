@@ -70,7 +70,11 @@ export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
             }
         }
         mergeResult(exist, ele)
-        exist.mergedRows.push(ele)
+        if (ele.siteKey?.type === 'merged') {
+            exist.mergedRows.push(...ele.mergedRows ?? [])
+        } else {
+            exist.mergedRows.push(ele)
+        }
         exist.mergedDates.push(date)
     })
     const newRows = Object.values(map)

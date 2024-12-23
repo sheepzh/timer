@@ -10,6 +10,7 @@ import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { isRemainHost } from "@util/constant/remain-host"
+import { SiteMap } from "@util/site"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { useReportFilter } from "../../context"
@@ -27,15 +28,20 @@ const _default = defineComponent(() => {
                     offset={10}
                     placement="left"
                     v-slots={{
-                        content: () => mergedRows?.map(({ siteKey, iconUrl }) =>
-                            <p>
-                                <HostAlert
-                                    host={siteKey?.host}
-                                    iconUrl={iconUrl}
-                                    clickable={!isRemainHost(siteKey?.host)}
-                                />
-                            </p>
-                        )
+                        content: () => {
+                            const siteMap = new SiteMap<string>()
+                            mergedRows?.forEach(({ siteKey, iconUrl }) => siteMap.put(siteKey, iconUrl))
+                            return siteMap.map((siteKey, iconUrl) => (
+                                <p>
+                                    <HostAlert
+                                        host={siteKey?.host}
+                                        iconUrl={iconUrl}
+                                        clickable={!isRemainHost(siteKey?.host)}
+                                    />
+                                </p>
+                            ))
+
+                        }
                     }}
                 >
                     <div style={{ margin: 'auto', width: 'fit-content' }}>
@@ -46,8 +52,9 @@ const _default = defineComponent(() => {
                         />
                     </div>
                 </TooltipWrapper>
-            )}
-        </ElTableColumn>
+            )
+            }
+        </ElTableColumn >
     )
 })
 
