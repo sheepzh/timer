@@ -26,6 +26,7 @@ export type SiteManageMessage = {
         batchChange: string
         batchDisassociate: string
         removeConfirm: string
+        notSet: string
     }
     form: {
         emptyAlias: string

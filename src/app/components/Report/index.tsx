@@ -18,7 +18,6 @@ import { ElMessage, ElMessageBox } from "element-plus"
 import { computed, defineComponent, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import { MergeMethod } from "./common"
 import { DisplayComponent, initProvider, ReportFilterOption } from "./context"
 import ReportFilter from "./ReportFilter"
 import ReportList from "./ReportList"
@@ -87,9 +86,9 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
         ElMessage.info(t(msg => msg.report.batchDelete.noSelectedMsg))
         return
     }
-    const mergeDate = filterOption.mergeMethod?.includes('date')
+    const { dateRange, mergeDate } = filterOption || {}
     ElMessageBox({
-        message: await computeBatchDeleteMsg(selected, mergeDate, filterOption.dateRange),
+        message: await computeBatchDeleteMsg(selected, mergeDate, dateRange),
         type: "warning",
         confirmButtonText: t(msg => msg.button.okey),
         showCancelButton: true,
@@ -100,7 +99,7 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
         closeOnClickModal: false
     }).then(async () => {
         // Delete
-        await deleteBatch(selected, mergeDate, filterOption.dateRange)
+        await deleteBatch(selected, mergeDate, dateRange)
         ElMessage.success(t(msg => msg.operation.successMsg))
         displayComp?.refresh?.()
     }).catch(() => {
@@ -131,14 +130,15 @@ function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOpti
     // Remove queries
     router.replace({ query: {} })
 
-    const mergeMethod: MergeMethod[] = []
-    if (mh === "true" || mh === "1") mergeMethod.push('domain')
+    let siteMerge: ReportFilterOption['siteMerge']
+    if (mh === "true" || mh === "1") siteMerge = 'domain'
 
     const now = new Date()
     const filterOption: ReportFilterOption = {
         host: '',
         dateRange: [dateStart || now, dateEnd || now],
-        mergeMethod,
+        mergeDate: false,
+        siteMerge,
         timeFormat: "default"
     }
     const sortInfo: SortInfo = {
@@ -166,6 +166,7 @@ const _default = defineComponent(() => {
                 initial={filterOption.value}
                 onChange={setFilterOption}
                 onBatchDelete={filterOption => handleBatchDelete(displayComp.value, filterOption)}
+                hideCateFilter={isXs.value}
             />
         ),
         default: () => isXs.value

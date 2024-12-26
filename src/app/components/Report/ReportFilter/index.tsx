@@ -14,6 +14,7 @@ import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 import statService from "@service/stat-service"
+import { containsAny } from "@util/array"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { computed, defineComponent, watch, type PropType } from "vue"
@@ -23,6 +24,7 @@ import { exportCsv, exportJson } from "../file-export"
 import DownloadFile from "./DownloadFile"
 import MergeFilterItem from "./MergeFilterItem"
 import RemoteClient from "./RemoteClient"
+import { useCategories } from "@app/context"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -36,22 +38,19 @@ const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 30 }), 30),
     datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 60 }), 60),
 ]
-const handleDownload = async (format: FileFormat, option: ReportFilterOption) => {
-    const param = cvtOption2Param(option)
-    const rows = await statService.select(param, true)
-    format === 'json' && exportJson(option, rows)
-    format === 'csv' && exportCsv(option, rows)
-}
 
 const _default = defineComponent({
     props: {
-        initial: Object as PropType<ReportFilterOption>
+        initial: Object as PropType<ReportFilterOption>,
+        hideCateFilter: Boolean,
     },
     emits: {
         change: (_filterOption: ReportFilterOption) => true,
         batchDelete: (_filterOption: ReportFilterOption) => true,
     },
     setup(props, ctx) {
+        const { categories } = useCategories()
+
         const initial: ReportFilterOption = props.initial
         const [host, setHost] = useState(initial?.host)
         const [dateRange, setDateRange] = useState<[Date, Date]>(initial?.dateRange)
@@ -62,12 +61,24 @@ const _default = defineComponent({
         const option = computed(() => ({
             host: host.value,
             dateRange: dateRange.value,
-            mergeMethod: mergeMethod.value,
+            mergeDate: mergeMethod.value?.includes?.('date'),
+            siteMerge: (['domain', 'cate'] satisfies ReportFilterOption['siteMerge'][])
+                .filter(t => mergeMethod.value?.includes?.(t))
+                ?.[0],
             timeFormat: timeFormat.value,
             readRemote: readRemote.value,
         } satisfies ReportFilterOption))
 
         watch(option, () => ctx.emit("change", option.value))
+
+        const handleDownload = async (format: FileFormat) => {
+            const optionVal = option.value
+            const categoriesVal = categories.value
+            const param = cvtOption2Param(optionVal)
+            const rows = await statService.select(param, true)
+            format === 'json' && exportJson(optionVal, rows, categoriesVal)
+            format === 'csv' && exportCsv(optionVal, rows, categoriesVal)
+        }
 
         return () => <>
             <InputFilterItem placeholder="URL + ↵" onSearch={setHost} />
@@ -80,12 +91,12 @@ const _default = defineComponent({
                 onChange={setDateRange}
             />
             <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={setTimeFormat} />
-            <MergeFilterItem defaultValue={mergeMethod.value} onChange={setMergeMethod} />
+            <MergeFilterItem defaultValue={mergeMethod.value} hideCate={props.hideCateFilter} onChange={setMergeMethod} />
             <div class="filter-item-right-group">
                 <ElButton
                     style={{ display: readRemote.value ? 'none' : 'inline-flex' }}
                     class="batch-delete-button"
-                    disabled={mergeMethod.value?.includes('domain')}
+                    disabled={containsAny(mergeMethod.value, ['cate', 'domain'])}
                     type="primary"
                     link
                     icon={<DeleteFilled />}
@@ -94,7 +105,7 @@ const _default = defineComponent({
                     {t(msg => msg.button.batchDelete)}
                 </ElButton>
                 <RemoteClient onChange={setReadRemote} />
-                <DownloadFile onDownload={format => handleDownload(format, option.value)} />
+                <DownloadFile onDownload={handleDownload} />
             </div>
         </>
     }

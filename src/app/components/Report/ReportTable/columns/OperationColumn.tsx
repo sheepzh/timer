@@ -4,6 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { AnalysisQuery } from "@app/components/Analysis/common"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
@@ -14,7 +15,7 @@ import whitelistService from "@service/whitelist-service"
 import { ElTableRowScope } from "@src/element-ui/table"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import { computed, defineComponent } from "vue"
-import { LocationQueryRaw, useRouter } from "vue-router"
+import { useRouter } from "vue-router"
 import { computeDeleteConfirmMsg, handleDelete } from "../../common"
 import { useReportFilter } from "../../context"
 
@@ -38,7 +39,7 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         const filter = useReportFilter()
-        const canOperate = computed(() => !filter.value?.mergeMethod?.includes?.('domain'))
+        const canOperate = computed(() => !filter.value?.siteMerge)
         const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
         const router = useRouter()
         const {
@@ -46,10 +47,13 @@ const _default = defineComponent({
             refresh: refreshWhitelist,
         } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })
 
-        const jump2Analysis = (host: string) => {
-            const query: LocationQueryRaw = {
-                host,
-                merge: filter.value?.mergeMethod?.includes?.('domain') ? '1' : '0',
+        const jump2Analysis = (row: timer.stat.Row) => {
+            let query: AnalysisQuery
+            const siteMerge = filter.value?.siteMerge
+            if (siteMerge === 'cate') {
+                query = { cateId: row?.cateId?.toString?.() }
+            } else if (siteMerge === 'domain') {
+                query = { ...row.siteKey }
             }
             router.push({ path: ANALYSIS_ROUTE, query })
         }
@@ -66,7 +70,7 @@ const _default = defineComponent({
                         icon={<Stopwatch />}
                         size="small"
                         type="primary"
-                        onClick={() => jump2Analysis(row.siteKey?.host)}
+                        onClick={() => jump2Analysis(row)}
                     >
                         {t(msg => msg.item.operation.analysis)}
                     </ElButton>

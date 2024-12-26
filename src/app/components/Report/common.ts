@@ -8,13 +8,13 @@ import type { ReportFilterOption } from "./context"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
-export const cvtOption2Param = (filterOption: ReportFilterOption): StatQueryParam => ({
-    host: filterOption.host,
-    date: [filterOption.dateRange?.[0], filterOption.dateRange?.[1]],
-    mergeHost: filterOption.mergeMethod?.includes('domain'),
-    mergeDate: filterOption.mergeMethod?.includes('date'),
-    mergeCate: filterOption.mergeMethod?.includes('cate'),
-    inclusiveRemote: filterOption.readRemote,
+export const cvtOption2Param = ({ host, dateRange, mergeDate, siteMerge, readRemote }: ReportFilterOption): StatQueryParam => ({
+    host: host,
+    date: [dateRange?.[0], dateRange?.[1]],
+    mergeDate,
+    mergeHost: siteMerge === 'domain',
+    mergeCate: siteMerge === 'cate',
+    inclusiveRemote: readRemote,
 })
 
 /**
@@ -48,8 +48,8 @@ function computeRangeConfirmText(url: string, dateRange: [Date, Date]): string {
 export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: ReportFilterOption): string {
     const { siteKey, date } = row || {}
     const { host } = siteKey || {}
-    const { mergeMethod, dateRange } = filterOption || {}
-    return mergeMethod?.includes('date')
+    const { mergeDate, dateRange } = filterOption || {}
+    return mergeDate
         ? computeRangeConfirmText(host, dateRange)
         : computeSingleConfirmText(host, date)
 }
@@ -57,8 +57,8 @@ export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: Repor
 export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilterOption) {
     const { siteKey, date } = row || {}
     const { host } = siteKey || {}
-    const { mergeMethod, dateRange } = filterOption || {}
-    if (!mergeMethod?.includes('date')) {
+    const { mergeDate, dateRange } = filterOption || {}
+    if (!mergeDate) {
         // Delete one day
         await statDatabase.deleteByUrlAndDate(host, date)
         return

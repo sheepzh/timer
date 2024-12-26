@@ -8,3 +8,5 @@ export function cvt2StatRow(rowBase: timer.core.Row): timer.stat.Row {
         ...otherFields,
     }
 }
+
+export const CATE_MERGE_PLACEHOLDER_ID = -1

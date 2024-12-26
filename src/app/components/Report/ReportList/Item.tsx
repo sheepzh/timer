@@ -8,6 +8,7 @@ import { computed, defineComponent, PropType, ref, watch } from "vue"
 import { computeDeleteConfirmMsg, handleDelete } from "../common"
 import CompositionTable from "../CompositionTable"
 import { useReportFilter } from "../context"
+import TooltipSiteList from "../ReportTable/columns/TooltipSiteList"
 
 const _default = defineComponent({
     props: {
@@ -19,7 +20,7 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const filter = useReportFilter()
-        const mergeHost = computed(() => !!filter.value?.mergeMethod?.includes('domain'))
+        const mergeHost = computed(() => filter.value?.siteMerge === 'domain')
         const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
         const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value || {}
         const selected = ref(false)
@@ -47,11 +48,7 @@ const _default = defineComponent({
                             trigger="click"
                             showPopover={mergeHost.value}
                             v-slots={{
-                                content: () => mergedRows?.map(({ siteKey, iconUrl }) => (
-                                    <p>
-                                        <HostAlert host={siteKey?.host} iconUrl={iconUrl} clickable={false} />
-                                    </p>
-                                )),
+                                content: () => <TooltipSiteList modelValue={mergedRows} />,
                             }}
                         >
                             <HostAlert
@@ -72,7 +69,7 @@ const _default = defineComponent({
                 </div>
                 <ElDivider style={{ margin: "5px 0" }} />
                 <div class="report-item-content">
-                    <ElTag v-show={!filter.value?.mergeMethod?.includes('date')} type="info" size="small">
+                    <ElTag v-show={!filter.value?.mergeDate} type="info" size="small">
                         <ElIcon><Calendar /></ElIcon>
                         <span>{cvt2LocaleTime(date)}</span>
                     </ElTag>

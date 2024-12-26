@@ -14,6 +14,7 @@ function judgeAdded(target: MergeMethod, newVal: MergeMethod[], oldVal: MergeMet
 const MergeFilterItem = defineComponent({
     props: {
         defaultValue: Array as PropType<MergeMethod[]>,
+        hideCate: Boolean,
     },
     emits: {
         change: (_val: MergeMethod[]) => true,
@@ -39,7 +40,7 @@ const MergeFilterItem = defineComponent({
             <Flex gap={9} class="merge-filter-item-wrapper">
                 <ElText>{t(msg => msg.report.mergeBy)}</ElText>
                 <ElCheckboxGroup modelValue={data.value} onChange={handleChange}>
-                    {MERGE_METHODS.map(method => (
+                    {MERGE_METHODS.filter(m => m !== 'cate' || !props.hideCate).map(method => (
                         <ElCheckboxButton value={method}>
                             {t(msg => msg.report.mergeMethod[method])}
                         </ElCheckboxButton>

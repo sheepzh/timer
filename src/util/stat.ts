@@ -29,5 +29,5 @@ export const ALL_DIMENSIONS: timer.core.Dimension[] = ['focus', 'time']
 
 export function identifyStatKey(rowKey: timer.stat.StatKey) {
     const { siteKey, date, cateKey } = rowKey || {}
-    return [identifySiteKey(siteKey), date ?? '', cateKey ?? ''].join('_')
+    return [date ?? '', identifySiteKey(siteKey), cateKey ?? ''].join('_')
 }

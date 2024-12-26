@@ -5,7 +5,8 @@ import { MergeMethod } from "./common"
 export type ReportFilterOption = {
     host: string
     dateRange: [Date, Date]
-    mergeMethod: MergeMethod[]
+    mergeDate: boolean
+    siteMerge?: MergeMethod & ('cate' | 'domain')
     /**
      * @since 1.1.7
      */
