@@ -7,6 +7,7 @@ export type ReportFilterOption = {
     dateRange: [Date, Date]
     mergeDate: boolean
     siteMerge?: MergeMethod & ('cate' | 'domain')
+    cateIds?: number[]
     /**
      * @since 1.1.7
      */

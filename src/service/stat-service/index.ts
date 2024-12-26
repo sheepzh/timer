@@ -47,6 +47,12 @@ export type StatQueryParam = StatCondition & {
      */
     mergeDate?: boolean
     /**
+     * Categories
+     *
+     * @since 2.6.0
+     */
+    cateIds?: number[]
+    /**
      * The name of sorted column
      */
     sort?: keyof timer.core.Row
@@ -163,10 +169,15 @@ class StatService {
     async select(param?: StatQueryParam, fillSiteInfo?: boolean): Promise<timer.stat.Row[]> {
         log("service: select:{param}", param)
         let rows = await this.filterRows(param)
-        if (fillSiteInfo || param.mergeCate) {
+        const { mergeCate: needMergeCate, cateIds } = param || {}
+
+        if (fillSiteInfo || needMergeCate || cateIds?.length) {
             await this.fillSite(rows)
         }
-        if (param.mergeCate) {
+        if (cateIds?.length) {
+            rows = rows.filter(row => cateIds?.includes(row?.cateId))
+        }
+        if (needMergeCate) {
             rows = await mergeCate(rows)
         }
         this.processSort(rows, param)
@@ -203,7 +214,7 @@ class StatService {
         return statRows
     }
 
-    private async fillSite(rows: timer.stat.Row[]): Promise<void> {
+    private async fillSite(rows: timer.stat.Row[]): Promise<true> {
         let keys: timer.site.SiteKey[] = []
         extractAllSiteKeys(rows, keys)
         keys = distinctSites(keys)
@@ -213,6 +224,7 @@ class StatService {
         siteInfos.forEach(siteInfo => siteInfoMap.put(siteInfo, siteInfo))
 
         rows.forEach(item => fillRowWithSiteInfo(item, siteInfoMap))
+        return true
     }
 
     async selectBase(cond: StatCondition): Promise<timer.core.Row[]> {
@@ -226,17 +238,22 @@ class StatService {
         log("selectByPage:{param},{page}", param, page)
         // Not fill at first
         let origin = await this.filterRows(param)
-        let result: timer.common.PageResult<timer.stat.Row>
-        if (param.mergeCate) {
+        const { mergeCate: needMergeCate, cateIds } = param || {}
+        let siteFilled = false
+        if (cateIds?.length) {
+            siteFilled = await this.fillSite(origin)
+            origin = origin.filter(row => cateIds?.includes(row?.cateId))
+        }
+        if (needMergeCate) {
             // If merge cate, fill firstly
-            await this.fillSite(origin)
+            siteFilled = siteFilled || await this.fillSite(origin)
             origin = await mergeCate(origin)
         }
 
         this.processSort(origin, param)
-        result = slicePageResult(origin, page)
+        let result = slicePageResult(origin, page)
 
-        if (!param.mergeCate) await this.fillSite(result?.list)
+        if (!siteFilled) await this.fillSite(result?.list)
 
         log("result of selectByPage:{param}, {page}, {result}", param, page, result)
         return result

@@ -17,7 +17,7 @@ import statService from "@service/stat-service"
 import { containsAny } from "@util/array"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
-import { computed, defineComponent, watch, type PropType } from "vue"
+import { computed, defineComponent, ref, watch, type PropType } from "vue"
 import { cvtOption2Param, MergeMethod } from "../common"
 import { ReportFilterOption } from "../context"
 import { exportCsv, exportJson } from "../file-export"
@@ -25,6 +25,7 @@ import DownloadFile from "./DownloadFile"
 import MergeFilterItem from "./MergeFilterItem"
 import RemoteClient from "./RemoteClient"
 import { useCategories } from "@app/context"
+import MultiSelectFilterItem, { MultiSelectFilterItemInstance } from "@app/components/common/MultiSelectFilterItem"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -55,9 +56,12 @@ const _default = defineComponent({
         const [host, setHost] = useState(initial?.host)
         const [dateRange, setDateRange] = useState<[Date, Date]>(initial?.dateRange)
         const [mergeMethod, setMergeMethod] = useState<MergeMethod[]>([])
+        const [cateIds, setCateIds] = useState(initial.cateIds)
         const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
         // Whether to read remote backup data
         const [readRemote, setReadRemote] = useState(initial?.readRemote)
+        const cateSelect = ref<MultiSelectFilterItemInstance>()
+
         const option = computed(() => ({
             host: host.value,
             dateRange: dateRange.value,
@@ -67,9 +71,12 @@ const _default = defineComponent({
                 ?.[0],
             timeFormat: timeFormat.value,
             readRemote: readRemote.value,
+            cateIds: cateIds.value,
         } satisfies ReportFilterOption))
 
         watch(option, () => ctx.emit("change", option.value))
+
+        watch(mergeMethod, () => mergeMethod.value?.includes('domain') && cateSelect.value?.updateValue?.([]))
 
         const handleDownload = async (format: FileFormat) => {
             const optionVal = option.value
@@ -89,6 +96,15 @@ const _default = defineComponent({
                 shortcuts={dateShortcuts}
                 defaultRange={dateRange.value}
                 onChange={setDateRange}
+            />
+            <MultiSelectFilterItem
+                ref={cateSelect}
+                historyName="cate"
+                disabled={mergeMethod.value?.includes('domain')}
+                placeholder={t(msg => msg.siteManage.column.cate)}
+                options={categories.value?.map(cate => ({ value: cate.id, label: cate.name }))}
+                defaultValue={cateIds.value}
+                onChange={setCateIds}
             />
             <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={setTimeFormat} />
             <MergeFilterItem defaultValue={mergeMethod.value} hideCate={props.hideCateFilter} onChange={setMergeMethod} />
