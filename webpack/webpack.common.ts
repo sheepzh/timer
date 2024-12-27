@@ -65,6 +65,9 @@ const entryConfigs: EntryConfig[] = [{
     name: POPUP,
     path: './src/popup',
 }, {
+    name: 'popup_skeleton',
+    path: './src/popup/skeleton',
+}, {
     name: 'app',
     path: './src/app',
 }, {
@@ -141,16 +144,6 @@ const staticOptions: webpack.Configuration = {
             // fallbacks of axios's dependencies end
         }
     },
-    optimization: {
-        splitChunks: {
-            chunks: chunkFilter,
-            cacheGroups: {
-                defaultVendors: {
-                    filename: 'vendor/[name].js'
-                }
-            }
-        },
-    },
 }
 
 type Option = {
@@ -187,6 +180,10 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
         new HtmlWebpackPlugin({
             filename: path.join('static', 'popup.html'),
             chunks: ['popup'],
+        }),
+        new HtmlWebpackPlugin({
+            filename: path.join('static', 'popup_skeleton.html'),
+            chunks: ['popup_skeleton'],
         }),
         new HtmlWebpackPlugin({
             filename: path.join('static', 'side.html'),
