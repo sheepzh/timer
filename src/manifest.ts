@@ -60,11 +60,12 @@ const _default: chrome.runtime.ManifestV3 = {
             `${POLYFILL_SCRIPT_NAME}.js`,
             'content_scripts.css',
             'static/images/*',
+            'static/popup.html',
         ],
         matches: ["<all_urls>"],
     }],
     action: {
-        default_popup: "static/popup.html",
+        default_popup: "static/popup_skeleton.html",
         default_icon: "static/images/icon.png",
     },
     /**

@@ -51,7 +51,7 @@ const _default: chrome.runtime.ManifestFirefox = {
         "<all_urls>",
     ],
     browser_action: {
-        default_popup: "static/popup.html",
+        default_popup: "static/popup_skeleton.html",
         default_icon: "static/images/icon.png",
     },
 }
