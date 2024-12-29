@@ -13,7 +13,7 @@
  */
 // Not use path alias in manifest.json
 import packageInfo from "./package"
-import { OPTION_ROUTE } from "./app/router/constants"
+import { OPTION_ROUTE } from "./pages/app/router/constants"
 import { POLYFILL_SCRIPT_NAME } from "./content-script/polyfill/inject"
 const { version, author: { email }, homepage } = packageInfo
 

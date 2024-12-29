@@ -6,7 +6,7 @@
  */
 
 import { StatCondition } from "@db/stat-database"
-import processor from "@src/common/backup/processor"
+import processor from "@service/backup/processor"
 import { identifyStatKey } from "@util/stat"
 import { getBirthday } from "@util/time"
 import { cvt2StatRow } from "./common"

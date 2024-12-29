@@ -6,7 +6,7 @@
  */
 
 import { createTabAfterCurrent, getRightOf, listTabs, resetTabUrl, sendMsg2Tab } from "@api/chrome/tab"
-import { LIMIT_ROUTE } from "@app/router/constants"
+import { LIMIT_ROUTE } from "@src/pages/app/router/constants"
 import { getAppPageUrl } from "@util/constant/url"
 import MessageDispatcher from "./message-dispatcher"
 import { matches } from "@util/limit"

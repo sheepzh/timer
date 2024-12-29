@@ -7,7 +7,7 @@
 
 import { getUrl } from "@api/chrome/runtime"
 import { createTab } from "@api/chrome/tab"
-import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
+import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@src/pages/app/router/constants"
 import whitelistHolder from "@service/components/whitelist-holder"
 import itemService from "@service/item-service"
 import limitService from "@service/limit-service"

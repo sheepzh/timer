@@ -63,16 +63,16 @@ const entryConfigs: EntryConfig[] = [{
     path: './src/content-script/polyfill',
 }, {
     name: POPUP,
-    path: './src/popup',
+    path: './src/pages/popup',
 }, {
     name: 'popup_skeleton',
-    path: './src/popup/skeleton',
+    path: './src/pages/popup/skeleton',
 }, {
     name: 'app',
-    path: './src/app',
+    path: './src/pages/app',
 }, {
     name: 'side',
-    path: './src/side'
+    path: './src/pages/side'
 }]
 
 const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
