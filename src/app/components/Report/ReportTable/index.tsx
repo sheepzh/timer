@@ -12,8 +12,8 @@ import { useRequest, useState, useWindowVisible } from "@hooks"
 import siteService from "@service/site-service"
 import statService, { StatQueryParam } from "@service/stat-service"
 import { siteEqual } from "@util/site"
-import { ElTable, ElTableColumn } from "element-plus"
-import { computed, defineComponent, type PropType } from "vue"
+import { ElTable, ElTableColumn, TableInstance } from "element-plus"
+import { computed, defineComponent, ref, watch, type PropType } from "vue"
 import { cvtOption2Param } from "../common"
 import { DisplayComponent, ReportFilterOption, useReportFilter } from "../context"
 import CateColumn from "./columns/CateColumn"
@@ -63,9 +63,17 @@ const _default = defineComponent({
             refresh,
         } satisfies DisplayComponent)
 
+        const tableRef = ref<TableInstance>()
+        // Force to re-layout after merge change
+        watch([
+            () => filterOption.value?.mergeDate,
+            () => filterOption.value?.siteMerge,
+        ], () => tableRef.value?.doLayout?.())
+
         return () => (
             <ContentCard id="report-table-content">
                 <ElTable
+                    ref={tableRef}
                     data={data.value?.list}
                     border
                     size="small"
@@ -76,24 +84,26 @@ const _default = defineComponent({
                     onSelection-change={setSelection}
                     onSort-change={(newSortInfo: SortInfo) => setSort(newSortInfo)}
                 >
-                    {!filterOption.value?.mergeMethod.includes('domain') && <ElTableColumn type="selection" align="center" />}
-                    {!filterOption.value?.mergeMethod.includes('date') && <DateColumn />}
-                    {!filterOption.value?.mergeMethod?.includes('cate') && <HostColumn />}
-                    <CateColumn />
-                    <ElTableColumn
-                        label={t(msg => msg.siteManage.column.alias)}
-                        minWidth={140}
-                        align="center"
-                        v-slots={({ row }: { row: timer.stat.Row }) => (
-                            <Editable
-                                modelValue={row?.alias}
-                                onChange={newAlias => handleAliasChange(row.siteKey, newAlias, data.value?.list)}
-                            />
-                        )}
-                    />
+                    {!filterOption.value?.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
+                    {!filterOption.value?.mergeDate && <DateColumn />}
+                    {filterOption.value?.siteMerge !== 'cate' && <>
+                        <HostColumn />
+                        <ElTableColumn
+                            label={t(msg => msg.siteManage.column.alias)}
+                            minWidth={140}
+                            align="center"
+                            v-slots={({ row }: { row: timer.stat.Row }) => (
+                                <Editable
+                                    modelValue={row?.alias}
+                                    onChange={newAlias => handleAliasChange(row.siteKey, newAlias, data.value?.list)}
+                                />
+                            )}
+                        />
+                    </>}
+                    {filterOption.value?.siteMerge !== 'domain' && <CateColumn />}
                     <FocusColumn />
                     <TimeColumn />
-                    <OperationColumn onDelete={refresh} />
+                    {filterOption.value?.siteMerge !== 'cate' && <OperationColumn onDelete={refresh} />}
                 </ElTable>
                 <Pagination
                     defaultValue={page.value}

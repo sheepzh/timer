@@ -47,6 +47,12 @@ export type StatQueryParam = StatCondition & {
      */
     mergeDate?: boolean
     /**
+     * Categories
+     *
+     * @since 2.6.0
+     */
+    cateIds?: number[]
+    /**
      * The name of sorted column
      */
     sort?: keyof timer.core.Row
@@ -162,12 +168,23 @@ class StatService {
 
     async select(param?: StatQueryParam, fillSiteInfo?: boolean): Promise<timer.stat.Row[]> {
         log("service: select:{param}", param)
-        const rows = await this.selectInner(param)
-        fillSiteInfo && this.fillSite(rows)
+        let rows = await this.filterRows(param)
+        const { mergeCate: needMergeCate, cateIds } = param || {}
+
+        if (fillSiteInfo || needMergeCate || cateIds?.length) {
+            await this.fillSite(rows)
+        }
+        if (cateIds?.length) {
+            rows = rows.filter(row => cateIds?.includes(row?.cateId))
+        }
+        if (needMergeCate) {
+            rows = await mergeCate(rows)
+        }
+        this.processSort(rows, param)
         return rows
     }
 
-    private async selectInner(param?: StatQueryParam): Promise<timer.stat.Row[]> {
+    private async filterRows(param?: StatQueryParam): Promise<timer.stat.Row[]> {
         // Need match full host after merged
         let fullHost = undefined
         // If merged and full host
@@ -191,18 +208,13 @@ class StatService {
             // filter again, cause of the exchange of the host, if the param.mergeHost is true
             statRows = this.filter(statRows, param)
         }
-        if (param.mergeCate) {
-            statRows = await mergeCate(statRows)
-        }
         param.mergeDate && (statRows = mergeDate(statRows))
-        // 2nd sort
-        this.processSort(statRows, param)
         // Filter merged host if full host
         fullHost && (statRows = statRows.filter(dataItem => dataItem.siteKey?.host === fullHost))
         return statRows
     }
 
-    private async fillSite(rows: timer.stat.Row[]): Promise<void> {
+    private async fillSite(rows: timer.stat.Row[]): Promise<true> {
         let keys: timer.site.SiteKey[] = []
         extractAllSiteKeys(rows, keys)
         keys = distinctSites(keys)
@@ -212,6 +224,7 @@ class StatService {
         siteInfos.forEach(siteInfo => siteInfoMap.put(siteInfo, siteInfo))
 
         rows.forEach(item => fillRowWithSiteInfo(item, siteInfoMap))
+        return true
     }
 
     async selectBase(cond: StatCondition): Promise<timer.core.Row[]> {
@@ -224,9 +237,24 @@ class StatService {
     ): Promise<timer.common.PageResult<timer.stat.Row>> {
         log("selectByPage:{param},{page}", param, page)
         // Not fill at first
-        const origin = await this.selectInner(param)
-        const result = slicePageResult(origin, page)
-        this.fillSite(result?.list)
+        let origin = await this.filterRows(param)
+        const { mergeCate: needMergeCate, cateIds } = param || {}
+        let siteFilled = false
+        if (cateIds?.length) {
+            siteFilled = await this.fillSite(origin)
+            origin = origin.filter(row => cateIds?.includes(row?.cateId))
+        }
+        if (needMergeCate) {
+            // If merge cate, fill firstly
+            siteFilled = siteFilled || await this.fillSite(origin)
+            origin = await mergeCate(origin)
+        }
+
+        this.processSort(origin, param)
+        let result = slicePageResult(origin, page)
+
+        if (!siteFilled) await this.fillSite(result?.list)
+
         log("result of selectByPage:{param}, {page}, {result}", param, page, result)
         return result
     }

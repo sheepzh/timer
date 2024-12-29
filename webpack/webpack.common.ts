@@ -144,16 +144,6 @@ const staticOptions: webpack.Configuration = {
             // fallbacks of axios's dependencies end
         }
     },
-    optimization: {
-        splitChunks: {
-            chunks: chunkFilter,
-            cacheGroups: {
-                defaultVendors: {
-                    filename: 'vendor/[name].js'
-                }
-            }
-        },
-    },
 }
 
 type Option = {

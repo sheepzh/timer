@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@app/locale"
+import { I18nKey, t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
 import {
     exportCsv as exportCsv_,
@@ -13,11 +13,13 @@ import {
 } from "@util/file"
 import { formatTimeYMD } from "@util/time"
 import { ReportFilterOption } from "./context"
+import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 
-type _ExportInfo = {
+type ExportInfo = {
+    date?: string
     host: string
     alias?: string
-    date?: string
+    cate?: string
     focus?: string
     time?: number
 }
@@ -27,28 +29,39 @@ type _ExportInfo = {
  */
 function computeFileName(filterParam: ReportFilterOption): string {
     let baseName = t(msg => msg.report.exportFileName)
-    const { dateRange, mergeMethod, timeFormat } = filterParam
+    const { dateRange, siteMerge, mergeDate, timeFormat } = filterParam
     if (dateRange && dateRange.length === 2) {
         const start = dateRange[0]
         const end = dateRange[1]
         baseName += '_' + formatTimeYMD(start)
         baseName += '_' + formatTimeYMD(end)
     }
-    const mergeSuffix = mergeMethod?.map(m => t(msg => msg.report.mergeMethod[m]))?.join?.('_')
-    mergeSuffix && (baseName += '_' + mergeSuffix)
+    mergeDate && (baseName += '_' + t(msg => msg.report.mergeMethod.date))
+    siteMerge && (baseName += '_' + t(msg => msg.report.mergeMethod[siteMerge]))
     timeFormat && (baseName += '_' + t(msg => msg.timeFormat[timeFormat]))
     return baseName
 }
 
-const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
-    const data: _ExportInfo = { host: row.siteKey.host }
-    data.date = row.date
-    data.alias = row.alias
-    // Always display by seconds
-    data.focus = periodFormatter(row.focus, { format: 'second', hideUnit: true })
-    data.time = row.time
-    return data
-})
+const generateJsonData = (rows: timer.stat.Row[], categories: timer.site.Cate[]) => rows.map(row => ({
+    host: row.siteKey?.host,
+    date: row.date,
+    alias: row.alias,
+    cate: getCateName(row, categories),
+    focus: periodFormatter(row.focus, { format: 'second', hideUnit: true }),
+    time: row.time
+} satisfies ExportInfo))
+
+const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string => {
+    const cateId = row?.cateId || row?.cateKey
+    let cate: string
+    if (cateId === CATE_MERGE_PLACEHOLDER_ID) {
+        cate = t(msg => msg.siteManage.cate.notSet)
+    } else if (cateId) {
+        const current = categories?.find(c => c.id === cateId)
+        cate = current?.name
+    }
+    return cate ?? ''
+}
 
 /**
  * Export json data
@@ -56,41 +69,61 @@ const generateJsonData = (rows: timer.stat.Row[]) => rows.map(row => {
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportJson(filterParam: ReportFilterOption, rows: timer.stat.Row[]): void {
+export function exportJson(filterParam: ReportFilterOption, rows: timer.stat.Row[], categories: timer.site.Cate[]): void {
     const fileName = computeFileName(filterParam)
-    const jsonData = generateJsonData(rows)
+    const jsonData = generateJsonData(rows, categories)
     exportJson_(jsonData, fileName)
 }
 
-function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption): string[][] {
-    const { mergeMethod } = filterParam
-    const mergeDate = mergeMethod?.includes('date')
-    const mergeHost = mergeMethod?.includes('domain')
-    const columnName: string[] = []
-    if (!mergeDate) {
-        columnName.push(t(msg => msg.item.date))
-    }
-    columnName.push(t(msg => msg.item.host))
-    if (!mergeHost) {
-        columnName.push(t(msg => msg.siteManage.column.alias))
-    }
-    columnName.push(t(msg => msg.item.focus))
-    columnName.push(t(msg => msg.item.time))
-    const data = [columnName]
-    rows.forEach(row => {
-        const line = []
-        if (!mergeDate) {
-            line.push(row.date)
-        }
-        line.push(row.siteKey.host)
-        if (!mergeHost) {
-            line.push(row.alias || '')
-        }
-        line.push(periodFormatter(row.focus, { format: 'second', hideUnit: true }))
-        line.push(row.time)
-        data.push(line)
-    })
-    return data
+type CsvColumn = keyof ExportInfo
+
+type CsvColumnConfig = {
+    visible: (mergeDate: boolean, siteMerge: ReportFilterOption['siteMerge']) => boolean
+    i18n: I18nKey
+    formatter: (row: timer.stat.Row, categories: timer.site.Cate[]) => string
+}
+
+const CSV_COLUMN_CONFIGS: Record<CsvColumn, CsvColumnConfig> = {
+    date: {
+        visible: mergeDate => !mergeDate,
+        i18n: msg => msg.item.date,
+        formatter: row => row.date,
+    },
+    host: {
+        visible: (_, siteMerge) => siteMerge !== 'cate',
+        i18n: msg => msg.item.host,
+        formatter: row => row.siteKey?.host ?? '',
+    },
+    alias: {
+        visible: (_, siteMerge) => siteMerge !== 'cate',
+        i18n: msg => msg.siteManage.column.alias,
+        formatter: row => row?.alias ?? '',
+    },
+    cate: {
+        visible: (_, siteMerge) => siteMerge !== 'domain',
+        i18n: msg => msg.siteManage.column.cate,
+        formatter: (row, categories) => getCateName(row, categories),
+    },
+    focus: {
+        visible: () => true,
+        i18n: msg => msg.item.focus,
+        formatter: row => periodFormatter(row.focus, { format: 'second', hideUnit: true }),
+    },
+    time: {
+        visible: () => true,
+        i18n: msg => msg.item.time,
+        formatter: row => row.time?.toString?.() ?? '',
+    },
+}
+
+function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption, categories: timer.site.Cate[]): string[][] {
+    const { siteMerge, mergeDate } = filterParam
+
+    const colConfigs = Object.values(CSV_COLUMN_CONFIGS).filter(({ visible }) => visible?.(mergeDate, siteMerge))
+
+    const columnTitles = colConfigs.map(({ i18n }) => t(i18n))
+    const lines = rows.map(row => colConfigs.map(({ formatter }) => formatter(row, categories)))
+    return [columnTitles, ...lines]
 }
 
 /**
@@ -99,8 +132,8 @@ function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportCsv(filterParam: ReportFilterOption, rows: timer.stat.Row[]): void {
+export function exportCsv(filterParam: ReportFilterOption, rows: timer.stat.Row[], cateService: timer.site.Cate[]): void {
     const fileName = computeFileName(filterParam)
-    const csvData = generateCsvData(rows, filterParam)
+    const csvData = generateCsvData(rows, filterParam, cateService)
     exportCsv_(csvData, fileName)
 }

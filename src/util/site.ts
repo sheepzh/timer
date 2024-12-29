@@ -113,4 +113,8 @@ export class SiteMap<T> {
     public map<R>(mapper: (key: timer.site.SiteKey, value: T) => R): R[] {
         return Object.values(this.innerMap).map(([site, val]) => mapper?.(site, val))
     }
+
+    public count(): number {
+        return Object.keys(this.innerMap).length
+    }
 }

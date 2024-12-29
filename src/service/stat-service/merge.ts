@@ -6,14 +6,13 @@
  */
 
 import MergeRuleDatabase from "@db/merge-rule-database"
-import SiteDatabase from "@db/site-database"
 import CustomizedHostMergeRuler from "@service/components/host-merge-ruler"
-import { distinctSites, identifySiteKey, SiteMap } from "@util/site"
+import { identifySiteKey } from "@util/site"
+import { CATE_MERGE_PLACEHOLDER_ID } from "./common"
 
 const storage = chrome.storage.local
 
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
-const siteDatabase = new SiteDatabase(storage)
 
 type _RemoteCompositionMap = Record<'_' | string, timer.stat.RemoteCompositionVal>
 
@@ -56,7 +55,7 @@ export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
     const map: Record<string, timer.stat.Row> = {}
     origin.forEach(ele => {
         const { date, siteKey, cateKey, iconUrl, alias, cateId } = ele || {}
-        const key = [date ?? '', identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
+        const key = [identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
         let exist = map[key]
         if (!exist) {
             exist = map[key] = {
@@ -72,8 +71,6 @@ export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
         mergeResult(exist, ele)
         if (ele.siteKey?.type === 'merged') {
             exist.mergedRows.push(...ele.mergedRows ?? [])
-        } else {
-            exist.mergedRows.push(ele)
         }
         exist.mergedDates.push(date)
     })
@@ -112,18 +109,13 @@ export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Ro
 }
 
 export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const siteKeys = distinctSites(origin?.map(r => r.siteKey))
-    const allSites = await siteDatabase.getBatch(siteKeys)
-    const siteMap = new SiteMap<number>()
-    allSites?.forEach(s => siteMap.put(s, s?.cate))
-
-    const noCatePlaceholder = ""
-
     const rowMap: Record<string, timer.stat.Row> = {}
     origin?.forEach(ele => {
-        const { siteKey, date } = ele || {}
-        const cateId = siteMap.get(siteKey)
-        const key = cateId?.toString?.() ?? noCatePlaceholder
+        let { siteKey, date, cateId } = ele || {}
+        if (siteKey?.type !== 'normal') return
+
+        cateId = cateId ?? CATE_MERGE_PLACEHOLDER_ID
+        const key = (date ?? '') + cateId.toString()
         let exist = rowMap[key]
         if (!exist) {
             exist = rowMap[key] = {
@@ -137,7 +129,7 @@ export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Ro
         mergeResult(exist, ele)
         exist.mergedRows.push(ele)
     })
-    return Object.values(siteMap)
+    return Object.values(rowMap)
 }
 
 function mergeResult(target: timer.stat.Row, delta: timer.stat.Row) {

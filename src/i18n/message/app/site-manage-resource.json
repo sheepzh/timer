@@ -30,7 +30,8 @@
             "relatedMsg": "该类目已有 {siteCount} 个站点，无法删除",
             "removeConfirm": "确认删除类目：{category}？",
             "batchChange": "批量修改类目",
-            "batchDisassociate": "批量清除类目"
+            "batchDisassociate": "批量清除类目",
+            "notSet": "未分类"
         },
         "form": {
             "emptyAlias": "请输入网站名称",
@@ -110,7 +111,8 @@
             "relatedMsg": "This category has been associated with {siteCount} sites and cannot be deleted",
             "removeConfirm": "Confirm to delete category: {category}?",
             "batchChange": "Change categories",
-            "batchDisassociate": "Disassociate categories"
+            "batchDisassociate": "Disassociate categories",
+            "notSet": "Not Set"
         },
         "form": {
             "emptyAlias": "Please enter site name",

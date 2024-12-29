@@ -89,3 +89,9 @@ export function range(len: number): number[] {
     }
     return arr
 }
+
+export function containsAny<T>(arr1: T[], arr2: T[]): boolean {
+    if (!arr1?.length || !arr2?.length) return false
+
+    return !!arr1.find(e => arr2.includes(e))
+}

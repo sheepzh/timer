@@ -6,6 +6,7 @@
  */
 
 import { IS_SAFARI } from "@util/constant/environment"
+import { isRemainHost } from "@util/constant/remain-host"
 import { ElLink } from "element-plus"
 import { computed, defineComponent } from "vue"
 import Flex from "./Flex"
@@ -31,22 +32,23 @@ const _default = defineComponent({
         }
     },
     setup(props) {
-        const href = computed(() => props.clickable ? `http://${props.host}` : '')
-        const target = computed(() => props.clickable ? '_blank' : '')
-        const cursor = computed(() => props.clickable ? "cursor" : "default")
+        const clickable = computed(() => props.clickable && !isRemainHost(props.host))
+        const href = computed(() => clickable.value ? `http://${props.host}` : '')
+        const target = computed(() => clickable.value ? '_blank' : '')
+        const cursor = computed(() => clickable.value ? "cursor" : "default")
         return () => <div style={{ wordBreak: "break-all" }}>
             {IS_SAFARI ? (
                 <ElLink
                     href={href.value}
                     target={target.value}
-                    underline={props.clickable}
+                    underline={clickable.value}
                     style={{ cursor: cursor.value }}
                 >
                     {props.host}
                 </ElLink>
             ) : (
                 <Flex align="center" gap={3}>
-                    <ElLink href={href.value} target={target.value} underline={props.clickable} style={{ cursor: cursor.value }}>
+                    <ElLink href={href.value} target={target.value} underline={clickable.value} style={{ cursor: cursor.value }}>
                         {props.host}
                     </ElLink>
                     {props.iconUrl &&
