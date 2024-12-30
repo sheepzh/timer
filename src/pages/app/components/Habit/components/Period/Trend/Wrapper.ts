@@ -9,9 +9,9 @@ import type { ComposeOption, GridComponentOption, TooltipComponentOption, BarSer
 import { formatTime } from "@util/time"
 import { getPrimaryTextColor } from "@util/style"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
-import { getSeriesPalette } from "@src/pages/app/util/echarts"
+import { getSeriesPalette } from "@app/util/echarts"
 import { formatXAxisTime, generateGridOption } from "../common"
-import { periodFormatter } from "@src/pages/app/util/time"
+import { periodFormatter } from "@app/util/time"
 
 type EcOption = ComposeOption<
     | BarSeriesOption

@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, StyleValue } from "vue"
-import type { Router } from "vue-router"
-import { defineComponent, h, onMounted, ref, watch } from "vue"
+import { t } from "@app/locale"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
+import type { Ref, StyleValue } from "vue"
+import { defineComponent, h, onMounted, ref, watch } from "vue"
+import type { Router } from "vue-router"
 import { useRouter } from "vue-router"
-import { t } from "@src/pages/app/locale"
 import { MenuItem, MENUS } from "./item"
 import { handleClick, initTitle } from "./route"
 

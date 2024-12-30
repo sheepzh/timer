@@ -7,8 +7,8 @@
 import type { PropType } from "vue"
 
 import Flex from "@src/pages/components/Flex"
-import HostAlert from "@src/pages/app/components/common/HostAlert"
-import { t } from "@src/pages/app/locale"
+import HostAlert from "@app/components/common/HostAlert"
+import { t } from "@app/locale"
 import siteService from "@service/site-service"
 import { ElTableRowScope } from "@pages/element-ui/table"
 import { supportCategory } from "@util/site"

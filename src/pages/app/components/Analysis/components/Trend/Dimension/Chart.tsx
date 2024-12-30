@@ -6,7 +6,7 @@
  */
 
 import type { PropType } from "vue"
-import type { DimensionEntry, ValueFormatter } from "@src/pages/app/components/Analysis/util"
+import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/util"
 
 import { defineComponent, watch } from "vue"
 import Wrapper from "./Wrapper"

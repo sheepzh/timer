@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
 import { useRequest, useShadow } from "@pages/hooks"
 import siteService from "@service/site-service"

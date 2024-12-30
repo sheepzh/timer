@@ -12,11 +12,11 @@ import type {
 
 import { getAllDatesBetween } from "@util/time"
 import { groupBy, sum } from "@util/array"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { TopLevelFormatterParams, YAXisOption } from "echarts/types/dist/shared"
 import { generateTitleOption } from "../common"
-import { getLineSeriesPalette, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@src/pages/app/util/echarts"
-import { cvt2LocaleTime, periodFormatter } from "@src/pages/app/util/time"
+import { getLineSeriesPalette, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@app/util/echarts"
+import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 
 type EcOption = ComposeOption<
     | GridComponentOption

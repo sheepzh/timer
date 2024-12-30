@@ -5,15 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { I18nKey } from "@src/pages/app/locale"
+import type { I18nKey } from "@app/locale"
 import type { PropType, VNode } from "vue"
 
-import { tN } from "@src/pages/app/locale"
+import { tN } from "@app/locale"
 import { defineComponent } from "vue"
 import "./indicator-cell.sass"
 import { ElIcon, ElTooltip } from "element-plus"
 import { BottomRight, InfoFilled, TopRight } from "@element-plus/icons-vue"
-import { computeRingText, RingValue, ValueFormatter } from "@src/pages/app/components/Analysis/util"
+import { computeRingText, RingValue, ValueFormatter } from "@app/components/Analysis/util"
 import { classNames } from "@util/style"
 import { range } from "@util/array"
 

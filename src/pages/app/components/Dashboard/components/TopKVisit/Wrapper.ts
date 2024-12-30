@@ -11,7 +11,7 @@ import type { TooltipComponentOption, GridComponentOption } from "echarts/compon
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import { getPrimaryTextColor } from "@util/style"
 import { generateSiteLabel } from "@util/site"
-import { getSeriesPalette, getStepColors } from "@src/pages/app/util/echarts"
+import { getSeriesPalette, getStepColors } from "@app/util/echarts"
 
 export const TOP_NUM = 6, DAY_NUM = 30
 

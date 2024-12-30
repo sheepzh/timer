@@ -1,6 +1,6 @@
 import { useRequest } from "@pages/hooks/useRequest"
-import { t } from "@src/pages/popup/locale"
-import { doQuery } from "@src/pages/popup/query"
+import { t } from "@popup/locale"
+import { doQuery } from "@popup/query"
 import { sum } from "@util/array"
 import { formatPeriodCommon } from "@util/time"
 import { computed, defineComponent } from "vue"

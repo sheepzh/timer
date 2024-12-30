@@ -7,11 +7,11 @@
 
 import { defineComponent } from "vue"
 import { Effect, ElTableColumn } from "element-plus"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import CompositionTable from "../../CompositionTable"
 import { useReportFilter } from "../../context"
 import { ElTableRowScope } from "@pages/element-ui/table"
-import TooltipWrapper from "@src/pages/app/components/common/TooltipWrapper"
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
 
 const columnLabel = t(msg => msg.item.time)
 

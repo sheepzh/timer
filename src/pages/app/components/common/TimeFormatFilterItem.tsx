@@ -7,7 +7,7 @@
 
 import { PropType, defineComponent } from "vue"
 import SelectFilterItem from "./SelectFilterItem"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useShadow } from "@pages/hooks"
 
 const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {

@@ -7,8 +7,8 @@
 
 import { ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
-import { t } from "@src/pages/app/locale"
-import { cvt2LocaleTime } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { cvt2LocaleTime } from "@app/util/time"
 import { ElTableRowScope } from "@pages/element-ui/table"
 
 const columnLabel = t(msg => msg.item.date)

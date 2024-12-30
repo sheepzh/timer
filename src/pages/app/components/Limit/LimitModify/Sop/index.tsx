@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElStep, ElSteps } from "element-plus"
 import { Ref, computed, defineComponent, reactive, ref, toRaw } from "vue"
 import { StepFromInstance } from "./common"

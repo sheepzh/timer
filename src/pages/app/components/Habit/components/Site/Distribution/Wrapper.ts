@@ -1,11 +1,11 @@
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import { ComposeOption, LegendComponentOption, PieSeriesOption, TitleComponentOption } from "echarts"
-import { getPieBorderColor, getSeriesPalette } from "@src/pages/app/util/echarts"
+import { getPieBorderColor, getSeriesPalette } from "@app/util/echarts"
 import { groupBy, sum } from "@util/array"
 import { MILL_PER_MINUTE, MILL_PER_SECOND, MILL_PER_HOUR } from "@util/time"
 import { computeAverageLen, generateTitleOption } from "../common"
 import { GridOption, TooltipOption } from "echarts/types/dist/shared"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { getPrimaryTextColor, getRegularTextColor } from "@util/style"
 
 export type BizOption = {

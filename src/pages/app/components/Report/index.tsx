@@ -7,7 +7,7 @@
 
 import type { RouteLocation, Router } from "vue-router"
 
-import { I18nKey, t } from "@src/pages/app/locale"
+import { I18nKey, t } from "@app/locale"
 import StatDatabase from "@db/stat-database"
 import { useMediaSize, useState } from "@pages/hooks"
 import { MediaSize } from "@pages/hooks/useMediaSize"

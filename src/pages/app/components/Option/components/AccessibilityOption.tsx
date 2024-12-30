@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import optionService from "@service/option-service"
 import { defaultAccessibility } from "@util/constant/option"
 import { ElSwitch } from "element-plus"

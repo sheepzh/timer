@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { initProvider } from "@src/pages/app/context"
+import { initProvider } from "@app/context"
+import { CLZ_HIDDEN_MD_AND_UP, CLZ_HIDDEN_SM_AND_DOWN } from "@pages/element-ui/style"
 import { useRequest } from "@pages/hooks"
 import cateService from "@service/cate-service"
-import { CLZ_HIDDEN_MD_AND_UP, CLZ_HIDDEN_SM_AND_DOWN } from "@pages/element-ui/style"
 import { classNames } from "@util/style"
 import { ElAside, ElContainer, ElHeader, ElScrollbar } from "element-plus"
 import { defineComponent } from "vue"

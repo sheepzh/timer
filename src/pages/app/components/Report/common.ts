@@ -1,5 +1,5 @@
-import { t } from "@src/pages/app/locale"
-import { cvt2LocaleTime } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { cvt2LocaleTime } from "@app/util/time"
 import StatDatabase from "@db/stat-database"
 import type { ReportMessage } from "@i18n/message/app/report"
 import type { StatQueryParam } from "@service/stat-service"

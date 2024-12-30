@@ -1,6 +1,6 @@
 import Flex from "@src/pages/components/Flex"
-import { useCategories } from "@src/pages/app/context"
-import { t } from "@src/pages/app/locale"
+import { useCategories } from "@app/context"
+import { t } from "@app/locale"
 import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import { ElTableRowScope } from "@pages/element-ui/table"
 import { SiteMap } from "@util/site"

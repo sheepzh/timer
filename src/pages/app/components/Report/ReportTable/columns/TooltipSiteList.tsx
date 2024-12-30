@@ -1,5 +1,5 @@
 import Flex from "@src/pages/components/Flex"
-import HostAlert from "@src/pages/app/components/common/HostAlert"
+import HostAlert from "@app/components/common/HostAlert"
 import { SiteMap } from "@util/site"
 import { ElScrollbar } from "element-plus"
 import { defineComponent, PropType } from "vue"

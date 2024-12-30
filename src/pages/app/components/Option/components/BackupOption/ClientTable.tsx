@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
-import { cvt2LocaleTime } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { cvt2LocaleTime } from "@app/util/time"
 import { Loading, RefreshRight } from "@element-plus/icons-vue"
 import { useRequest } from "@pages/hooks"
 import metaService from "@service/meta-service"

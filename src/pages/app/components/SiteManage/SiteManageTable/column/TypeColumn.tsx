@@ -1,5 +1,5 @@
-import ColumnHeader from "@src/pages/app/components/common/ColumnHeader"
-import { t } from "@src/pages/app/locale"
+import ColumnHeader from "@app/components/common/ColumnHeader"
+import { t } from "@app/locale"
 import { ElTableRowScope } from "@pages/element-ui/table"
 import { ElTableColumn, ElTag, TagProps } from "element-plus"
 import { defineComponent } from "vue"

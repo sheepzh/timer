@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Close, Right } from "@element-plus/icons-vue"
 import { useManualRequest } from "@pages/hooks"
 import { fillExist } from "@service/components/import-processor"

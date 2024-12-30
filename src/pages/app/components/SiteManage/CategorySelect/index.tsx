@@ -1,4 +1,4 @@
-import { useCategories } from "@src/pages/app/context"
+import { useCategories } from "@app/context"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, PropType, ref } from "vue"
 import OptionItem from "./OptionItem"

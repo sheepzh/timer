@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElStep, ElSteps } from "element-plus"
 import { Ref, defineComponent, nextTick, ref } from "vue"
 import Step1, { StatResult } from "./Step1"

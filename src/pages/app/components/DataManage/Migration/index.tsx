@@ -8,7 +8,7 @@
 import { defineComponent } from "vue"
 
 import { ElAlert, ElButton, ElCard, ElMain } from "element-plus"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { alertProps } from "../common"
 import { exportJson } from "@util/file"
 import { formatTime } from "@util/time"

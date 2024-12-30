@@ -1,5 +1,5 @@
-import I18nNode from "@src/pages/app/components/common/I18nNode"
-import { I18nKey } from "@src/pages/app/locale"
+import I18nNode from "@app/components/common/I18nNode"
+import { I18nKey } from "@app/locale"
 import { ElDivider, ElTag } from "element-plus"
 import { defineComponent, h, PropType, VNode } from "vue"
 

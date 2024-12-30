@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Check, Close, WarnTriangleFilled } from "@element-plus/icons-vue"
 import { useRequest, useState, useSwitch } from "@pages/hooks"
 import siteService, { SiteQueryParam } from "@service/site-service"

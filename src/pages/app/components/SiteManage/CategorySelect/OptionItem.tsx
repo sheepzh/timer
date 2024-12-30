@@ -1,6 +1,6 @@
 import Flex from "@src/pages/components/Flex"
-import { useCategories } from "@src/pages/app/context"
-import { t } from "@src/pages/app/locale"
+import { useCategories } from "@app/context"
+import { t } from "@app/locale"
 import { Check, Close, Delete, Edit } from "@element-plus/icons-vue"
 import { useManualRequest, useRequest, useState, useSwitch } from "@pages/hooks"
 import cateService from "@service/cate-service"

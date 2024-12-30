@@ -6,7 +6,7 @@
  */
 
 import { ElAlert } from "element-plus"
-import { t, tN } from "@src/pages/app/locale"
+import { t, tN } from "@app/locale"
 import { StyleValue, defineComponent } from "vue"
 import { PSL_HOMEPAGE } from "@util/constant/url"
 

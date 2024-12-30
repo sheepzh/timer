@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useShadow } from "@pages/hooks"
 import { ElCol, ElForm, ElFormItem, ElInput, ElMessage, ElOption, ElRow, ElSelect, ElSwitch } from "element-plus"
 import { defineComponent, PropType, watch } from "vue"

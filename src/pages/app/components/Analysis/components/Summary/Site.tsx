@@ -8,7 +8,7 @@
 import { defineComponent } from "vue"
 import { computedAsync } from "@vueuse/core"
 import { labelOfHostInfo } from "../../util"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useAnalysisSite } from "../../context"
 import siteService from "@service/site-service"
 

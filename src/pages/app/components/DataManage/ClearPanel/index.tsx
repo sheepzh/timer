@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { StatCondition } from "@db/stat-database"
 import statService from "@service/stat-service"
 import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"

@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeFormatFilterItem from "@src/pages/app/components/common/TimeFormatFilterItem"
-import { t } from "@src/pages/app/locale"
+import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import { t } from "@app/locale"
 import { useManualRequest, useState } from "@pages/hooks"
 import siteService from "@service/site-service"
 import statService, { HostSet } from "@service/stat-service"

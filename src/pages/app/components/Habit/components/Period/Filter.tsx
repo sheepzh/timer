@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import SelectFilterItem from '@src/pages/app/components/common/SelectFilterItem'
-import { t } from '@src/pages/app/locale'
+import SelectFilterItem from '@app/components/common/SelectFilterItem'
+import { t } from '@app/locale'
 import { useCached } from '@pages/hooks'
 import { HabitMessage } from '@i18n/message/app/habit'
 import { ElRadioButton, ElRadioGroup } from 'element-plus'

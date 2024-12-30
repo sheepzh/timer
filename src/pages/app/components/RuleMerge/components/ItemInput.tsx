@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
 import { useShadow } from "@pages/hooks"
 import { LOCAL_HOST_PATTERN } from "@util/constant/remain-host"

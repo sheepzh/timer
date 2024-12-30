@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElAlert, ElButton, ElMessage } from "element-plus"
 import { PropType, Ref, defineComponent, ref } from "vue"
 import { Back, Check } from "@element-plus/icons-vue"

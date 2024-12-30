@@ -6,7 +6,7 @@
  */
 
 import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useRequest } from "@pages/hooks"
 import localeMessages from "@i18n/message/common/locale"
 import { ElProgress, ProgressProps } from "element-plus"

@@ -6,11 +6,11 @@
  */
 
 import { createTabAfterCurrent } from "@api/chrome/tab"
-import ButtonFilterItem from "@src/pages/app/components/common/ButtonFilterItem"
-import InputFilterItem from "@src/pages/app/components/common/InputFilterItem"
-import SwitchFilterItem from "@src/pages/app/components/common/SwitchFilterItem"
-import { t } from "@src/pages/app/locale"
-import { OPTION_ROUTE } from "@src/pages/app/router/constants"
+import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
+import InputFilterItem from "@app/components/common/InputFilterItem"
+import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
+import { t } from "@app/locale"
+import { OPTION_ROUTE } from "@app/router/constants"
 import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
 import { useState } from "@pages/hooks"
 import { getAppPageUrl } from "@util/constant/url"

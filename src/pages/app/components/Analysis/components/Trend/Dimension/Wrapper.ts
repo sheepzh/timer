@@ -14,10 +14,10 @@ import type {
     GridComponentOption,
 } from "echarts/components"
 
-import { ValueFormatter } from "@src/pages/app/components/Analysis/util"
+import { ValueFormatter } from "@app/components/Analysis/util"
 import { getRegularTextColor } from "@util/style"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
-import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@src/pages/app/util/echarts"
+import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 
 type EcOption = ComposeOption<

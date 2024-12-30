@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
 import { ElButton, ElDialog } from "element-plus"
 import { defineComponent, Ref, ref } from "vue"

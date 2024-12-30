@@ -1,4 +1,4 @@
-import { I18nKey, tN } from "@src/pages/app/locale"
+import { I18nKey, tN } from "@app/locale"
 import { PropType, VNode, defineComponent } from "vue"
 
 const _default = defineComponent({

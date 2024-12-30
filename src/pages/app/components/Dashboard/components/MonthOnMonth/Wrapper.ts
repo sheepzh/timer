@@ -1,7 +1,7 @@
 import type { BarSeriesOption, ComposeOption, GridComponentOption, LegendComponentOption, TooltipComponentOption } from "echarts"
 
-import { getCompareColor, getDiffColor, tooltipDot } from "@src/pages/app/util/echarts"
-import { cvt2LocaleTime } from "@src/pages/app/util/time"
+import { getCompareColor, getDiffColor, tooltipDot } from "@app/util/echarts"
+import { cvt2LocaleTime } from "@app/util/time"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import { formatPeriodCommon } from "@util/time"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"

@@ -7,10 +7,10 @@
 
 import type { ElementDatePickerShortcut } from "@pages/element-ui/date"
 
-import DateRangeFilterItem from "@src/pages/app/components/common/DateRangeFilterItem"
-import InputFilterItem from '@src/pages/app/components/common/InputFilterItem'
-import TimeFormatFilterItem from "@src/pages/app/components/common/TimeFormatFilterItem"
-import { t } from "@src/pages/app/locale"
+import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
+import InputFilterItem from '@app/components/common/InputFilterItem'
+import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@pages/hooks"
 import statService from "@service/stat-service"
@@ -24,8 +24,8 @@ import { exportCsv, exportJson } from "../file-export"
 import DownloadFile from "./DownloadFile"
 import MergeFilterItem from "./MergeFilterItem"
 import RemoteClient from "./RemoteClient"
-import { useCategories } from "@src/pages/app/context"
-import MultiSelectFilterItem, { MultiSelectFilterItemInstance } from "@src/pages/app/components/common/MultiSelectFilterItem"
+import { useCategories } from "@app/context"
+import MultiSelectFilterItem, { MultiSelectFilterItemInstance } from "@app/components/common/MultiSelectFilterItem"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)

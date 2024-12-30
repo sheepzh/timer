@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useMediaSize } from "@pages/hooks"
 import { MediaSize } from "@pages/hooks/useMediaSize"
 import { locale } from "@i18n"

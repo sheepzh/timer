@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Check, Close, Plus } from "@element-plus/icons-vue"
 import { ElButton, ElTag, ElTimePicker } from "element-plus"
 import { PropType, defineComponent, watch } from "vue"

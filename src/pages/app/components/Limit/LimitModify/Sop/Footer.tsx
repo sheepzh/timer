@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Right, Back, Close, Check } from "@element-plus/icons-vue"
 import { ElButton } from "element-plus"
 import { defineComponent } from "vue"

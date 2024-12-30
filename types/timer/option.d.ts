@@ -19,7 +19,7 @@ declare namespace timer.option {
         /**
          * The default type to display
          */
-        defaultType: stat.Dimension
+        defaultType: core.Dimension
         /**
          * The default duration to search
          * @since 0.6.0

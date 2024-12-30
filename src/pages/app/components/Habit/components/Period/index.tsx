@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { KanbanCard } from "@src/pages/app/components/common/kanban"
-import { t } from "@src/pages/app/locale"
+import { KanbanCard } from "@app/components/common/kanban"
+import { t } from "@app/locale"
 import { merge } from "@service/components/period-calculator"
 import periodService from "@service/period-service"
 import { useRequest } from "@pages/hooks/useRequest"

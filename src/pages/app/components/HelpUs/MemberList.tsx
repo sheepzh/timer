@@ -6,7 +6,7 @@
  */
 
 import { getMembers } from "@api/crowdin"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useRequest } from "@pages/hooks"
 import { ElDivider } from "element-plus"
 import { defineComponent } from "vue"

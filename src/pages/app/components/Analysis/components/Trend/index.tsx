@@ -4,11 +4,11 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { DimensionEntry, ValueFormatter } from "@src/pages/app/components/Analysis/util"
+import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/util"
 
-import { KanbanCard } from "@src/pages/app/components/common/kanban"
-import { t } from "@src/pages/app/locale"
-import { cvt2LocaleTime, periodFormatter } from "@src/pages/app/util/time"
+import { KanbanCard } from "@app/components/common/kanban"
+import { t } from "@app/locale"
+import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { useState } from "@pages/hooks"
 import { groupBy } from "@util/array"
 import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLength } from "@util/time"

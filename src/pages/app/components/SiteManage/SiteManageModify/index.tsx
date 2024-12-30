@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
 import { useSwitch } from "@pages/hooks"
 import siteService from "@service/site-service"

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import { useManualRequest, useRequest } from "@pages/hooks"
 import { ElMessage, ElMessageBox } from "element-plus"

@@ -1,13 +1,13 @@
-import I18nNode from "@src/pages/app/components/common/I18nNode"
-import { t } from "@src/pages/app/locale"
+import { sendMsg2Runtime } from "@api/chrome/runtime"
+import I18nNode from "@app/components/common/I18nNode"
+import { t } from "@app/locale"
+import { locale } from "@i18n"
 import { VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
+import { dateMinute2Idx, hasLimited, skipToday } from "@util/limit"
 import { getCssVariable } from "@util/style"
-import { ElMessageBox, ElMessage, type ElMessageBoxOptions } from "element-plus"
+import { ElMessage, ElMessageBox, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, VNode } from "vue"
-import { sendMsg2Runtime } from "@api/chrome/runtime"
-import { hasLimited, dateMinute2Idx, skipToday } from "@util/limit"
-import { locale } from "@i18n"
 
 /**
  * Judge wether verification is required

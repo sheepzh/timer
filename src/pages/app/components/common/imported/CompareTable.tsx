@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import HostAlert from "@src/pages/app/components/common/HostAlert"
-import { t } from "@src/pages/app/locale"
-import { cvt2LocaleTime, periodFormatter } from "@src/pages/app/util/time"
+import HostAlert from "@app/components/common/HostAlert"
+import { t } from "@app/locale"
+import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { useShadow, useState } from "@pages/hooks"
 import { ElTable, ElTableColumn, type Sort } from "element-plus"
 import { computed, defineComponent, type PropType, type VNode } from "vue"

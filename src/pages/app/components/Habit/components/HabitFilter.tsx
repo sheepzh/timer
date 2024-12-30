@@ -7,10 +7,10 @@
 
 import { defineComponent, watch, type PropType } from "vue"
 import { daysAgo } from "@util/time"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElementDatePickerShortcut } from "@pages/element-ui/date"
-import DateRangeFilterItem from "@src/pages/app/components/common/DateRangeFilterItem"
-import TimeFormatFilterItem from "@src/pages/app/components/common/TimeFormatFilterItem"
+import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
+import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { useState } from "@pages/hooks"
 
 export type FilterOption = {

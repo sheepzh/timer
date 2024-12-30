@@ -12,7 +12,7 @@ import { useShadow } from "@pages/hooks"
 import UrlInput from "./UrlInput"
 import "./style.sass"
 import { Delete } from "@element-plus/icons-vue"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 
 const _default = defineComponent({
     props: {

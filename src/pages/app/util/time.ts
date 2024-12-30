@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { formatPeriodCommon, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 
 /**

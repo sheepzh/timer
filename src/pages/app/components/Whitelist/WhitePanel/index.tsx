@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import { ElMessage, ElMessageBox } from "element-plus"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { defineComponent, ref } from "vue"
 import whitelistService from "@service/whitelist-service"
 import WhiteItem from './WhiteItem'

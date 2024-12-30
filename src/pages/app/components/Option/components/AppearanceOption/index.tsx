@@ -7,7 +7,7 @@
 
 import type { UnwrapRef } from "vue"
 
-import { t, tWith } from "@src/pages/app/locale"
+import { t, tWith } from "@app/locale"
 import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"
 import optionService from "@service/option-service"
@@ -83,7 +83,10 @@ const _default = defineComponent((_props, ctx) => {
                     }}
                 />
             </OptionItem>
-            <OptionItem label={msg => msg.option.appearance.locale.label} defaultValue={t(msg => msg.option.appearance.locale.default)}>
+            <OptionItem
+                label={msg => msg.option.appearance.locale.label}
+                defaultValue={t(msg => msg.option.appearance.locale.default)}
+            >
                 <ElSelect
                     modelValue={option.locale}
                     size="small"

@@ -4,8 +4,8 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { t } from "@src/pages/app/locale"
-import { judgeVerificationRequired, processVerification } from "@src/pages/app/util/limit"
+import { t } from "@app/locale"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"

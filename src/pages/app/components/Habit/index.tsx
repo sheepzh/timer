@@ -6,7 +6,7 @@
  */
 import { defineComponent } from "vue"
 import { daysAgo } from "@util/time"
-import ContentContainer from "@src/pages/app/components/common/ContentContainer"
+import ContentContainer from "@app/components/common/ContentContainer"
 import HabitFilter, { FilterOption } from "./components/HabitFilter"
 import Site from "./components/Site"
 import Period from "./components/Period"

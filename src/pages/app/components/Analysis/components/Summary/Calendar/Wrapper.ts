@@ -4,8 +4,8 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { t } from "@src/pages/app/locale"
-import { periodFormatter } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"

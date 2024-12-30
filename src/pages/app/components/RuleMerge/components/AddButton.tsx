@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useState, useSwitch } from "@pages/hooks"
 import { ElButton } from "element-plus"
 import { defineComponent } from "vue"

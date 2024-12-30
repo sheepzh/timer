@@ -4,11 +4,11 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@src/pages/app/components/Analysis/util"
+import { formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@app/components/Analysis/util"
 import { defineComponent, type PropType } from "vue"
-import { KanbanIndicatorCell } from "@src/pages/app/components/common/kanban"
+import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import Chart from "./Chart"
-import { cvt2LocaleTime } from "@src/pages/app/util/time"
+import { cvt2LocaleTime } from "@app/util/time"
 
 export type DimensionData = {
     thisPeriod: DimensionEntry[]

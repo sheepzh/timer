@@ -6,8 +6,8 @@
  */
 
 import { computed, defineComponent } from "vue"
-import { t } from "@src/pages/app/locale"
-import { KanbanCard } from "@src/pages/app/components/common/kanban"
+import { t } from "@app/locale"
+import { KanbanCard } from "@app/components/common/kanban"
 import Summary from "./Summary"
 import TopK from "./TopK"
 import Distribution from "./Distribution"

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { EL_DATE_FORMAT } from "@i18n/element"
 import { ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"

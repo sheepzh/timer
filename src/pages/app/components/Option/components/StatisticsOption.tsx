@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import { isAllowedFileSchemeAccess } from "@api/chrome/runtime"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useRequest } from "@pages/hooks"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"

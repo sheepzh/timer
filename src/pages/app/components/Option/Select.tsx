@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElCard, ElSelect } from "element-plus"
 import { defineComponent, h, ref, useSlots, watch } from "vue"
 import { useRouter } from "vue-router"

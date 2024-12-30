@@ -1,5 +1,7 @@
 import { CSSProperties, defineComponent, h, PropType } from "vue"
 
+const cvtPxScale = (val: number | string): string => typeof val === 'number' ? `${val}px` : val
+
 const _default = defineComponent({
     props: {
         direction: String as PropType<CSSProperties['flexDirection']>,
@@ -29,8 +31,8 @@ const _default = defineComponent({
                     justifyContent: props.justify,
                     flexWrap: props.wrap,
                     gap: typeof props.gap === 'number' ? `${props.gap}px` : props.gap,
-                    width: props.width,
-                    height: props.height,
+                    width: cvtPxScale(props.width),
+                    height: cvtPxScale(props.height),
                     ...props.style || {},
                 }}
             >

@@ -1,5 +1,5 @@
 import Flex from "@src/pages/components/Flex"
-import { useCategories } from "@src/pages/app/context"
+import { useCategories } from "@app/context"
 import { Edit } from "@element-plus/icons-vue"
 import { useSwitch } from "@pages/hooks"
 import siteService from "@service/site-service"

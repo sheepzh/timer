@@ -4,10 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { AnalysisQuery } from "@src/pages/app/components/Analysis/common"
-import PopupConfirmButton from "@src/pages/app/components/common/PopupConfirmButton"
-import { t } from "@src/pages/app/locale"
-import { ANALYSIS_ROUTE } from "@src/pages/app/router/constants"
+import { AnalysisQuery } from "@app/components/Analysis/common"
+import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
+import { t } from "@app/locale"
+import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import { useRequest } from "@pages/hooks"
 import { locale } from "@i18n"

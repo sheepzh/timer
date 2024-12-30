@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { UploadFilled } from "@element-plus/icons-vue"
 import { useRequest } from "@pages/hooks"
 import statService from "@service/stat-service"

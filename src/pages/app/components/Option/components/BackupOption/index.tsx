@@ -8,7 +8,7 @@ import {
     DEFAULT_VAULT as DEFAULT_OBSIDIAN_BUCKET,
     DEFAULT_ENDPOINT as DEFAULT_OBSIDIAN_ENDPOINT,
 } from "@api/obsidian"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { AUTHOR_EMAIL } from "@src/package"
 import { ElAlert, ElInput, ElOption, ElSelect } from "element-plus"
 import { computed, defineComponent } from "vue"

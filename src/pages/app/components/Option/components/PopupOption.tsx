@@ -4,9 +4,9 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { I18nKey, t as t_ } from "@i18n"
-import DurationSelect, { rangeLabel } from "@src/pages/popup/components/Chart/DurationSelect"
+import DurationSelect, { rangeLabel } from "@popup/components/Chart/DurationSelect"
 import optionService from "@service/option-service"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_DIMENSIONS } from "@util/stat"

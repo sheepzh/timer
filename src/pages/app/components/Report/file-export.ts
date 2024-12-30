@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey, t } from "@src/pages/app/locale"
-import { periodFormatter } from "@src/pages/app/util/time"
+import { I18nKey, t } from "@app/locale"
+import { periodFormatter } from "@app/util/time"
 import {
     exportCsv as exportCsv_,
     exportJson as exportJson_,

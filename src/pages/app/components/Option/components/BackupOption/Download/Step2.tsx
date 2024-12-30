@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import CompareTable from "@src/pages/app/components/common/imported/CompareTable"
-import { renderResolutionFormItem } from "@src/pages/app/components/common/imported/conflict"
-import { t } from "@src/pages/app/locale"
+import CompareTable from "@app/components/common/imported/CompareTable"
+import { renderResolutionFormItem } from "@app/components/common/imported/conflict"
+import { t } from "@app/locale"
 import { Back, Check } from "@element-plus/icons-vue"
 import { useManualRequest } from "@pages/hooks"
 import { processImportedData } from "@service/components/import-processor"

@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import I18nNode from "@src/pages/app/components/common/I18nNode"
-import NumberGrow from "@src/pages/app/components/common/NumberGrow"
-import { I18nKey } from "@src/pages/app/locale"
+import I18nNode from "@app/components/common/I18nNode"
+import NumberGrow from "@app/components/common/NumberGrow"
+import { I18nKey } from "@app/locale"
 import PeriodDatabase from "@db/period-database"
 import { Sunrise } from "@element-plus/icons-vue"
 import { useRequest, useShadow } from "@pages/hooks"

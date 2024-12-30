@@ -1,6 +1,6 @@
 import { useEcharts } from "@pages/hooks/useEcharts"
 import { useShadow } from "@pages/hooks/useShadow"
-import { PopupResult } from "@src/pages/popup/common"
+import { PopupResult } from "@popup/common"
 import { defineComponent, PropType } from "vue"
 import Wrapper from "./Wrapper"
 import { handleClick } from "./handler"

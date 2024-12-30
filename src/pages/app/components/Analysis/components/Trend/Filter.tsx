@@ -7,7 +7,7 @@
 
 import type { ElementDatePickerShortcut } from "@pages/element-ui/date"
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { EL_DATE_FORMAT } from "@i18n/element"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { daysAgo } from "@util/time"

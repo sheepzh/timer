@@ -8,7 +8,7 @@
 import { computed, defineComponent, PropType } from "vue"
 import { ElTable, ElTableColumn } from "element-plus"
 import { sum } from "@util/array"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 
 type Row = {
     name: string

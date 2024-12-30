@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ButtonType, ElButton, ElPopconfirm } from "element-plus"
 import { defineComponent, PropType } from "vue"
 import { JSX } from "vue/jsx-runtime"

@@ -6,7 +6,7 @@ import { groupBy, sum } from "@util/array"
 import DateIterator from "@util/date-iterator"
 import { MILL_PER_DAY } from "@util/time"
 import statService from "@service/stat-service"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 
 const PERIOD_WIDTH = 30
 const TOP_NUM = 15

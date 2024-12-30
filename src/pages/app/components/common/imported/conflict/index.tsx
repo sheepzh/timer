@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
 import { ElRadio, ElForm, ElFormItem, ElTooltip, ElIcon, ElRadioGroup } from "element-plus"
 import { VNode, Ref } from "vue"

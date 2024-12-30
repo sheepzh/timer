@@ -4,8 +4,8 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import PopupConfirmButton from "@src/pages/app/components/common/PopupConfirmButton"
-import { t } from "@src/pages/app/locale"
+import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
+import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
 import siteService from "@service/site-service"
 import { ElTableRowScope } from "@pages/element-ui/table"

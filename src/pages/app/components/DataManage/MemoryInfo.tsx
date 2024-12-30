@@ -7,7 +7,7 @@
 
 import { ElAlert, ElCard, ElProgress } from "element-plus"
 import { computed, defineComponent } from "vue"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { alertProps } from "./common"
 import { getUsedStorage } from "@db/memory-detector"
 import { useRequest } from "@pages/hooks"

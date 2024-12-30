@@ -6,7 +6,7 @@
  */
 import type { StatQueryParam } from "@service/stat-service"
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useEcharts } from "@pages/hooks/useEcharts"
 import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"

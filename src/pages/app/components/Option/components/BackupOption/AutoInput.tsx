@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import I18nNode from "@src/pages/app/components/common/I18nNode"
-import { t } from "@src/pages/app/locale"
+import I18nNode from "@app/components/common/I18nNode"
+import { t } from "@app/locale"
 import { useShadow } from "@pages/hooks"
 import { locale } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"

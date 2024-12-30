@@ -1,5 +1,5 @@
 import Flex from "@src/pages/components/Flex"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useCached } from "@pages/hooks/index"
 import { ElCheckboxButton, ElCheckboxGroup, ElText } from "element-plus"
 import { defineComponent, PropType, watch } from "vue"

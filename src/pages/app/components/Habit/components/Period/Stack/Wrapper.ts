@@ -1,12 +1,12 @@
 import type { ComposeOption, GridComponentOption, LineSeriesOption, TooltipComponentOption } from "echarts"
 
-import { getLineSeriesPalette } from "@src/pages/app/util/echarts"
+import { getLineSeriesPalette } from "@app/util/echarts"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import { formatXAxisTime, generateGridOption } from "../common"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { formatTime } from "@util/time"
-import { t } from "@src/pages/app/locale"
-import { periodFormatter } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { periodFormatter } from "@app/util/time"
 
 type EcOption = ComposeOption<
     | LineSeriesOption

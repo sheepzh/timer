@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Check, Close, Cpu } from "@element-plus/icons-vue"
 import { useState, useSwitch } from "@pages/hooks"
 import { ElButton, ElInput, ElLink, ElMessage, ElOption, ElSelect, ElSwitch, ElTag, ElTooltip } from "element-plus"

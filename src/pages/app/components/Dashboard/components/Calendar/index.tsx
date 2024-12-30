@@ -6,8 +6,8 @@
  */
 
 import { createTabAfterCurrent } from "@api/chrome/tab"
-import { t } from "@src/pages/app/locale"
-import { REPORT_ROUTE } from "@src/pages/app/router/constants"
+import { t } from "@app/locale"
+import { REPORT_ROUTE } from "@app/router/constants"
 import { useRequest } from "@pages/hooks"
 import { useEcharts } from "@pages/hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"

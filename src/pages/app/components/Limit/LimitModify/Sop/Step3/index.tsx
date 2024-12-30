@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElForm, ElFormItem, ElMessage } from "element-plus"
 import { PropType, defineComponent, watch } from "vue"
 import TimeInput from "./TimeInput"

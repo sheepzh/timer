@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Refresh } from "@element-plus/icons-vue"
 import { useShadow } from "@pages/hooks"
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"

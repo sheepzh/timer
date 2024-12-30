@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
-import { judgeVerificationRequired, processVerification } from "@src/pages/app/util/limit"
+import { t } from "@app/locale"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { Edit, Lock } from "@element-plus/icons-vue"
 import limitService from "@service/limit-service"
 import optionService from "@service/option-service"

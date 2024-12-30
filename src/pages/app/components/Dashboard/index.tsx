@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useMediaSize, useRequest } from "@pages/hooks"
 import { MediaSize } from "@pages/hooks/useMediaSize"
 import { isTranslatingLocale, locale } from "@i18n"

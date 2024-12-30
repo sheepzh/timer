@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import ColumnHeader from "@src/pages/app/components/common/ColumnHeader"
-import Editable from "@src/pages/app/components/common/Editable"
+import ColumnHeader from "@app/components/common/ColumnHeader"
+import Editable from "@app/components/common/Editable"
 import Flex from "@src/pages/components/Flex"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { MagicStick } from "@element-plus/icons-vue"
 import siteService from "@service/site-service"
 import { ElIcon, ElTableColumn, ElText, ElTooltip } from "element-plus"

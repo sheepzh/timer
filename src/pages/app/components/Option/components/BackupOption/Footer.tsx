@@ -7,7 +7,7 @@
 
 import type { PropType, Ref } from "vue"
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Operation, UploadFilled } from "@element-plus/icons-vue"
 import metaService from "@service/meta-service"
 import processor from "@service/backup/processor"

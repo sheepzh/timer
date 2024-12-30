@@ -6,8 +6,8 @@
  */
 import type { BarSeriesOption, ComposeOption, GridComponentOption, TooltipComponentOption } from "echarts"
 
-import { t } from "@src/pages/app/locale"
-import { getCompareColor, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@src/pages/app/util/echarts"
+import { t } from "@app/locale"
+import { getCompareColor, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@app/util/echarts"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import { averageByDay, MINUTE_PER_PERIOD } from "@util/period"
 import { getPrimaryTextColor } from "@util/style"

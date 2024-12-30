@@ -6,11 +6,11 @@
  */
 import { computed, defineComponent } from "vue"
 import Site from "./Site"
-import { KanbanIndicatorCell, KanbanCard, KanbanIndicatorRow } from "@src/pages/app/components/common/kanban"
+import { KanbanIndicatorCell, KanbanCard, KanbanIndicatorRow } from "@app/components/common/kanban"
 import "./summary.sass"
 import { ElCol, ElRow } from "element-plus"
-import { t } from "@src/pages/app/locale"
-import { cvt2LocaleTime, periodFormatter } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { useAnalysisRows, useAnalysisSite, useAnalysisTimeFormat } from "../../context"
 import Calendar from "./Calendar"
 

@@ -4,10 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import ButtonFilterItem from "@src/pages/app/components/common/ButtonFilterItem"
-import InputFilterItem from "@src/pages/app/components/common/InputFilterItem"
-import { useCategories } from "@src/pages/app/context"
-import { t } from "@src/pages/app/locale"
+import ButtonFilterItem from "@app/components/common/ButtonFilterItem"
+import InputFilterItem from "@app/components/common/InputFilterItem"
+import { useCategories } from "@app/context"
+import { t } from "@app/locale"
 import { ArrowDown, Connection, Delete, Grid, Plus } from "@element-plus/icons-vue"
 import { useState } from "@pages/hooks"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElLink } from "element-plus"

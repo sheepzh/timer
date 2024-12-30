@@ -1,4 +1,4 @@
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useScrollRequest } from "@pages/hooks/useScrollRequest"
 import statService from "@service/stat-service"
 import { ElCard } from "element-plus"

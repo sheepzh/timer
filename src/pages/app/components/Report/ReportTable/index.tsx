@@ -4,10 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import ContentCard from "@src/pages/app/components/common/ContentCard"
-import Editable from "@src/pages/app/components/common/Editable"
-import Pagination from "@src/pages/app/components/common/Pagination"
-import { t } from "@src/pages/app/locale"
+import ContentCard from "@app/components/common/ContentCard"
+import Editable from "@app/components/common/Editable"
+import Pagination from "@app/components/common/Pagination"
+import { t } from "@app/locale"
 import { useRequest, useState, useWindowVisible } from "@pages/hooks"
 import siteService from "@service/site-service"
 import statService, { StatQueryParam } from "@service/stat-service"

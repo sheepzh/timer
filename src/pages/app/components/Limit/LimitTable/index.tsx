@@ -4,9 +4,9 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import ColumnHeader from "@src/pages/app/components/common/ColumnHeader"
+import ColumnHeader from "@app/components/common/ColumnHeader"
 import Flex from "@src/pages/components/Flex"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { useRequest } from "@pages/hooks"
 import weekHelper from "@service/components/week-helper"
 import { ElTableRowScope } from "@pages/element-ui/table"

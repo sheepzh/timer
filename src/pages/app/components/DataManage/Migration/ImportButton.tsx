@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { Upload } from "@element-plus/icons-vue"
 import Immigration from "@service/components/immigration"
 import { deserialize } from "@util/file"

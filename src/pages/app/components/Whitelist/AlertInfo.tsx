@@ -13,7 +13,7 @@
  */
 import { defineComponent } from "vue"
 import { ElAlert } from "element-plus"
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 
 const _default = defineComponent(() => {
     return () => (

@@ -13,9 +13,9 @@ import type {
     VisualMapComponentOption,
 } from "echarts"
 
-import { t } from "@src/pages/app/locale"
-import { getStepColors } from "@src/pages/app/util/echarts"
-import { cvt2LocaleTime } from "@src/pages/app/util/time"
+import { t } from "@app/locale"
+import { getStepColors } from "@app/util/echarts"
+import { cvt2LocaleTime } from "@app/util/time"
 import { EchartsWrapper } from "@pages/hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"

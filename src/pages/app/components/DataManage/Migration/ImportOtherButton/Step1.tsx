@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@src/pages/app/locale"
+import { t } from "@app/locale"
 import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "element-plus"
 import { defineComponent, ref } from "vue"
 import { Document, Close, Right } from "@element-plus/icons-vue"

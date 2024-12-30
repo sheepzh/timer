@@ -1,6 +1,6 @@
 import { Search } from "@element-plus/icons-vue"
 import { useState } from "@pages/hooks"
-import { t } from "@src/pages/side/locale"
+import { t } from "@side/locale"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { ElDatePicker, ElInput } from "element-plus"
 import { type PropType, defineComponent, watch } from "vue"

@@ -6,9 +6,9 @@
  */
 
 import Flex from "@src/pages/components/Flex"
-import HostAlert from "@src/pages/app/components/common/HostAlert"
-import TooltipWrapper from "@src/pages/app/components/common/TooltipWrapper"
-import { t } from "@src/pages/app/locale"
+import HostAlert from "@app/components/common/HostAlert"
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
+import { t } from "@app/locale"
 import { ElTableRowScope } from "@pages/element-ui/table"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
