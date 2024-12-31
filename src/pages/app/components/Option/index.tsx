@@ -4,8 +4,8 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { useMediaSize } from "@pages/hooks"
-import { MediaSize } from "@pages/hooks/useMediaSize"
+import { useMediaSize } from "@hooks"
+import { MediaSize } from "@hooks/useMediaSize"
 import { defineComponent, ref, type Ref } from "vue"
 import { JSX } from "vue/jsx-runtime"
 import { OptionCategory, OptionInstance } from "./common"

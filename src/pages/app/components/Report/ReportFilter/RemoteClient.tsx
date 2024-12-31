@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { UploadFilled } from "@element-plus/icons-vue"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import statService from "@service/stat-service"
 import { ElButton, ElIcon, ElTooltip } from "element-plus"
 import { computed, defineComponent, ref, watch } from "vue"

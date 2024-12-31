@@ -8,7 +8,7 @@
 import { getUrl } from "@api/chrome/runtime"
 import { t } from "@app/locale"
 import { CloseBold, Link, Menu } from "@element-plus/icons-vue"
-import { useSwitch } from "@pages/hooks"
+import { useSwitch } from "@hooks"
 import { classNames } from "@util/style"
 import { ElBreadcrumb, ElBreadcrumbItem, ElIcon, ElMenu, ElMenuItem } from "element-plus"
 import { defineComponent, h, onMounted, ref, watch } from "vue"

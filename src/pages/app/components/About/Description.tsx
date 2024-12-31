@@ -1,6 +1,6 @@
 import { t } from "@app/locale"
-import { useMediaSize } from "@pages/hooks"
-import { MediaSize } from "@pages/hooks/useMediaSize"
+import { useMediaSize } from "@hooks"
+import { MediaSize } from "@hooks/useMediaSize"
 import { locale } from "@i18n"
 import metaService from "@service/meta-service"
 import packageInfo, { AUTHOR_EMAIL } from "@src/package"

@@ -11,7 +11,7 @@ import HabitFilter, { FilterOption } from "./components/HabitFilter"
 import Site from "./components/Site"
 import Period from "./components/Period"
 import { initProvider } from "./components/context"
-import { useState } from "@pages/hooks"
+import { useState } from "@hooks"
 
 const _default = defineComponent(() => {
     const [filter, setFilter] = useState<FilterOption>({

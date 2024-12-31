@@ -1,7 +1,7 @@
-import { useEcharts } from "@pages/hooks/useEcharts"
-import { useShadow } from "@pages/hooks/useShadow"
+import { useEcharts } from "@hooks/useEcharts"
 import { PopupResult } from "@popup/common"
-import { defineComponent, PropType } from "vue"
+import { usePopupContext } from "@popup/context"
+import { defineComponent, PropType, toRef, watch } from "vue"
 import Wrapper from "./Wrapper"
 import { handleClick } from "./handler"
 
@@ -13,14 +13,16 @@ const Pie = defineComponent({
         restore: () => true,
     },
     setup: (props, ctx) => {
-        const [myValue] = useShadow(() => props.value)
-        const { elRef } = useEcharts(Wrapper, myValue, {
+        const myValue = toRef(props, 'value')
+        const { darkMode } = usePopupContext()
+        const { elRef, refresh } = useEcharts(Wrapper, myValue, {
             watch: true,
             afterInit(ew) {
                 ew.instance.on('click', params => handleClick(params, myValue.value))
                 ew.instance.on('restore', () => ctx.emit('restore'))
-            }
+            },
         })
+        watch(darkMode, refresh)
 
         return () => <div id="chart-container" ref={elRef} />
     }

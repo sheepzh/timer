@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
-import { useRequest, useShadow } from "@pages/hooks"
+import { useRequest, useShadow } from "@hooks"
 import siteService from "@service/site-service"
 import { isRemainHost } from "@util/constant/remain-host"
 import { isValidHost, judgeVirtualFast } from "@util/pattern"

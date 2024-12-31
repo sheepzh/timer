@@ -7,7 +7,7 @@
 import { ElOption, ElSelect, ElTimePicker } from "element-plus"
 import { defineComponent, watch, computed, type PropType } from "vue"
 import { t } from "@app/locale"
-import { useShadow } from "@pages/hooks"
+import { useShadow } from "@hooks"
 
 const ALL_MODES: timer.option.DarkMode[] = ["default", "on", "off", "timed"]
 

@@ -3,7 +3,7 @@ import { useReason, provideRule } from "./context"
 import Alert from "./components/Alert"
 import Reason from "./components/Reason"
 import Footer from "./components/Footer"
-import { useRequest, useWindowVisible } from "@pages/hooks"
+import { useRequest, useWindowVisible } from "@hooks"
 import "./style"
 import limitService from "@service/limit-service"
 

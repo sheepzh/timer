@@ -10,7 +10,7 @@ import { ElTag } from "element-plus"
 import { computed, defineComponent } from "vue"
 import WhiteInput from "./WhiteInput"
 import { judgeVirtualFast } from "@util/pattern"
-import { useShadow, useSwitch } from "@pages/hooks"
+import { useShadow, useSwitch } from "@hooks"
 
 const _default = defineComponent({
     props: {

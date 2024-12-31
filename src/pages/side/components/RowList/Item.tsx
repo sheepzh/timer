@@ -1,5 +1,5 @@
 import { createTab } from "@api/chrome/tab"
-import { useShadow } from "@pages/hooks"
+import { useShadow } from "@hooks"
 import { isRemainHost } from "@util/constant/remain-host"
 import { classNames } from "@util/style"
 import { formatPeriodCommon } from "@util/time"

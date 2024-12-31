@@ -8,9 +8,9 @@
 import HostAlert from "@app/components/common/HostAlert"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
-import { useShadow, useState } from "@pages/hooks"
+import { useState } from "@hooks"
 import { ElTable, ElTableColumn, type Sort } from "element-plus"
-import { computed, defineComponent, type PropType, type VNode } from "vue"
+import { computed, defineComponent, toRef, type PropType, type VNode } from "vue"
 
 type SortInfo = Sort & {
     prop: keyof timer.imported.Row
@@ -89,7 +89,7 @@ const _default = defineComponent({
         },
     },
     setup(props) {
-        const [data] = useShadow(() => props.data)
+        const data = toRef(props, 'data')
         const [sort, setSort] = useState<SortInfo>({ order: 'ascending', prop: 'date' })
         const list = computed(() => computeList(sort.value, data.value?.rows))
         return () => (
@@ -118,11 +118,7 @@ const _default = defineComponent({
                     sortable
                     minWidth={300}
                     align="center"
-                    formatter={({ host }: timer.imported.Row) => (
-                        <p>
-                            <HostAlert host={host} />
-                        </p>
-                    )}
+                    formatter={({ host }: timer.imported.Row) => <HostAlert host={host} />}
                 />
                 {renderFocus(data.value, props.comparedColName)}
                 {renderTime(data.value, props.comparedColName)}

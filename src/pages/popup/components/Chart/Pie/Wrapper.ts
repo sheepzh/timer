@@ -1,6 +1,6 @@
 import { createTab } from "@api/chrome/tab"
 import { OPTION_ROUTE } from "@app/router/constants"
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { PopupResult, PopupRow } from "@popup/common"
 import { t } from "@popup/locale"
 import { IS_SAFARI } from "@util/constant/environment"

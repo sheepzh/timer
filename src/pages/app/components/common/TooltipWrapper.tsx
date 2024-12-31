@@ -1,6 +1,5 @@
-import { useShadow } from "@pages/hooks"
 import { ElTooltip, type Placement, type PopperEffect, type PopperTrigger } from "element-plus"
-import { defineComponent, h, PropType } from "vue"
+import { defineComponent, h, PropType, toRef } from "vue"
 
 const _default = defineComponent({
     props: {
@@ -11,8 +10,7 @@ const _default = defineComponent({
         offset: Number,
     },
     setup(props, ctx) {
-
-        const [show] = useShadow(() => props.showPopover)
+        const show = toRef(props, 'showPopover')
 
         return () => {
             if (!show.value) return h(ctx.slots?.default)

@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
-import { useShadow } from "@pages/hooks"
+import { useShadow } from "@hooks"
 import { LOCAL_HOST_PATTERN } from "@util/constant/remain-host"
 import { tryParseInteger } from "@util/number"
 import { isValidHost } from "@util/pattern"

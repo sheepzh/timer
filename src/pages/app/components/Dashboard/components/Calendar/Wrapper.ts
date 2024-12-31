@@ -16,7 +16,7 @@ import type {
 import { t } from "@app/locale"
 import { getStepColors } from "@app/util/echarts"
 import { cvt2LocaleTime } from "@app/util/time"
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"
 import { getPrimaryTextColor } from "@util/style"

@@ -8,7 +8,7 @@
 import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
 import { Loading, RefreshRight } from "@element-plus/icons-vue"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import metaService from "@service/meta-service"
 import processor from "@service/backup/processor"
 import { ElTableRowScope } from "@pages/element-ui/table"

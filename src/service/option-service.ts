@@ -90,6 +90,17 @@ async function isDarkMode(targetVal?: timer.option.AppearanceOption): Promise<bo
     return false
 }
 
+async function setDarkMode(mode: timer.option.DarkMode, period?: [number, number]): Promise<void> {
+    const exist = await getAllOption()
+    exist.darkMode = mode
+    if (mode === 'timed') {
+        const [start, end] = period || []
+        exist.darkModeTimeStart = start
+        exist.darkModeTimeEnd = end
+    }
+    await db.setOption(exist)
+}
+
 class OptionService {
     getAllOption = getAllOption
     setPopupOption = setOption
@@ -113,6 +124,10 @@ class OptionService {
      * @since 1.1.0
      */
     isDarkMode = isDarkMode
+    /**
+     * @since 2.6.0
+     */
+    setDarkMode = setDarkMode
 }
 
 export default new OptionService()

@@ -6,7 +6,7 @@
  */
 import { isAllowedFileSchemeAccess } from "@api/chrome/runtime"
 import { t } from "@app/locale"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"
 import { rotate } from "@util/array"

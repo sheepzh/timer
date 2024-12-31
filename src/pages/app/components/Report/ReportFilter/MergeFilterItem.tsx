@@ -1,6 +1,6 @@
 import Flex from "@src/pages/components/Flex"
 import { t } from "@app/locale"
-import { useCached } from "@pages/hooks/index"
+import { useCached } from "@hooks/index"
 import { ElCheckboxButton, ElCheckboxGroup, ElText } from "element-plus"
 import { defineComponent, PropType, watch } from "vue"
 import { MergeMethod } from "../common"

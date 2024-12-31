@@ -1,4 +1,4 @@
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { ComposeOption, LegendComponentOption, PieSeriesOption, TitleComponentOption } from "echarts"
 import { getPieBorderColor, getSeriesPalette } from "@app/util/echarts"
 import { groupBy, sum } from "@util/array"

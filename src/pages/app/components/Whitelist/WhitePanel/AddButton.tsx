@@ -8,7 +8,7 @@ import { t } from "@app/locale"
 import { ElButton } from "element-plus"
 import { defineComponent } from "vue"
 import WhiteInput from './WhiteInput'
-import { useSwitch, useState } from "@pages/hooks"
+import { useSwitch, useState } from "@hooks"
 
 export type AddButtonInstance = {
     closeEdit(): void

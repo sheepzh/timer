@@ -7,7 +7,7 @@
 
 import I18nNode from "@app/components/common/I18nNode"
 import { t } from "@app/locale"
-import { useShadow } from "@pages/hooks"
+import { useShadow } from "@hooks"
 import { locale } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"
 import { ElInputNumber, ElSwitch } from "element-plus"

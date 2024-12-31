@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { useState, useSwitch } from "@pages/hooks"
+import { useState, useSwitch } from "@hooks"
 import limitService from "@service/limit-service"
 import { AlertProps, ElAlert, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
 import { computed, defineComponent } from "vue"

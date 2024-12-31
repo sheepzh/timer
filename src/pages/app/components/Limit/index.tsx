@@ -15,7 +15,7 @@ import limitService from "@service/limit-service"
 import { useRoute, useRouter } from "vue-router"
 import { t } from "@app/locale"
 import { ElMessage } from "element-plus"
-import { useRequest, useState, useWindowVisible } from "@pages/hooks"
+import { useRequest, useState, useWindowVisible } from "@hooks"
 import { deepCopy } from "@util/lang"
 
 const initialUrl = () => {

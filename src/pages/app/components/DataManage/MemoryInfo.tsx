@@ -10,7 +10,7 @@ import { computed, defineComponent } from "vue"
 import { t } from "@app/locale"
 import { alertProps } from "./common"
 import { getUsedStorage } from "@db/memory-detector"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 
 export type MemoryInfoInstance = {
     refresh(): void

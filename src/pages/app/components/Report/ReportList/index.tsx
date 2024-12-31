@@ -1,5 +1,5 @@
 import { t } from "@app/locale"
-import { useScrollRequest } from "@pages/hooks/useScrollRequest"
+import { useScrollRequest } from "@hooks/useScrollRequest"
 import statService from "@service/stat-service"
 import { ElCard } from "element-plus"
 import { computed, defineComponent, ref } from "vue"

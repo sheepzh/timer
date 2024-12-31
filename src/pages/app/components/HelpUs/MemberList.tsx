@@ -7,7 +7,7 @@
 
 import { getMembers } from "@api/crowdin"
 import { t } from "@app/locale"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import { ElDivider } from "element-plus"
 import { defineComponent } from "vue"
 

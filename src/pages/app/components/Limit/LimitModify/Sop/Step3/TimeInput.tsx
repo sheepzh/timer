@@ -1,4 +1,4 @@
-import { useShadow, useState } from "@pages/hooks"
+import { useShadow, useState } from "@hooks"
 import { ElInput } from "element-plus"
 import { computed, defineComponent, watch } from "vue"
 

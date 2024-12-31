@@ -6,7 +6,7 @@
  */
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"
 import { getRegularTextColor, getSecondaryTextColor } from "@util/style"

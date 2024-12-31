@@ -1,7 +1,7 @@
 import type { ComposeOption, GridComponentOption, LineSeriesOption, TooltipComponentOption } from "echarts"
 
 import { getLineSeriesPalette } from "@app/util/echarts"
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { formatXAxisTime, generateGridOption } from "../common"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { formatTime } from "@util/time"

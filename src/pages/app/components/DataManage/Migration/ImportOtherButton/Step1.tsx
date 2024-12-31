@@ -10,7 +10,7 @@ import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "ele
 import { defineComponent, ref } from "vue"
 import { Document, Close, Right } from "@element-plus/icons-vue"
 import { OtherExtension, parseFile } from "./processor"
-import { useState, useSwitch } from "@pages/hooks"
+import { useState, useSwitch } from "@hooks"
 
 const OTHER_NAMES: { [ext in OtherExtension]: string } = {
     webtime_tracker: "Webtime Tracker",

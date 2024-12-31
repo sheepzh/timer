@@ -6,8 +6,8 @@
  */
 
 import { t } from "@app/locale"
-import { useMediaSize, useRequest } from "@pages/hooks"
-import { MediaSize } from "@pages/hooks/useMediaSize"
+import { useMediaSize, useRequest } from "@hooks"
+import { MediaSize } from "@hooks/useMediaSize"
 import { isTranslatingLocale, locale } from "@i18n"
 import metaService from "@service/meta-service"
 import { REVIEW_PAGE } from "@util/constant/url"

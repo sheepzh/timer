@@ -7,7 +7,7 @@
 import ColumnHeader from "@app/components/common/ColumnHeader"
 import Flex from "@src/pages/components/Flex"
 import { t } from "@app/locale"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import weekHelper from "@service/components/week-helper"
 import { ElTableRowScope } from "@pages/element-ui/table"
 import { period2Str } from "@util/limit"

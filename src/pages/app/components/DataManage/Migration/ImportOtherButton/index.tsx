@@ -11,7 +11,7 @@ import { ElButton, ElDialog } from "element-plus"
 import { defineComponent } from "vue"
 import Sop from "./Sop"
 import "./style"
-import { useSwitch } from "@pages/hooks"
+import { useSwitch } from "@hooks"
 
 const _default = defineComponent({
     emits: {

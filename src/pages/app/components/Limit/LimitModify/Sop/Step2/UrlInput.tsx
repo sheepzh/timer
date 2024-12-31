@@ -1,6 +1,6 @@
 import { t } from "@app/locale"
 import { Check, Close, Cpu } from "@element-plus/icons-vue"
-import { useState, useSwitch } from "@pages/hooks"
+import { useState, useSwitch } from "@hooks"
 import { ElButton, ElInput, ElLink, ElMessage, ElOption, ElSelect, ElSwitch, ElTag, ElTooltip } from "element-plus"
 import { defineComponent, VNode } from "vue"
 import { parseUrl, Protocol, UrlPart } from "../common"

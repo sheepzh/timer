@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { useRequest, useState } from "@pages/hooks"
+import { useRequest, useState } from "@hooks"
 import statService, { StatQueryParam } from "@service/stat-service"
 import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"

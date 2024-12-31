@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { useState, useSwitch } from "@pages/hooks"
+import { useState, useSwitch } from "@hooks"
 import { ElButton } from "element-plus"
 import { defineComponent } from "vue"
 import ItemInput from './ItemInput'

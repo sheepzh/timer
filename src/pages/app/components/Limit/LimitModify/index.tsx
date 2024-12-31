@@ -10,7 +10,7 @@ import { computed, defineComponent, nextTick, ref, toRaw } from "vue"
 import Sop, { SopInstance } from "./Sop"
 import limitService from "@service/limit-service"
 import { t } from "@app/locale"
-import { useSwitch } from "@pages/hooks"
+import { useSwitch } from "@hooks"
 
 export type ModifyInstance = {
     create(): void

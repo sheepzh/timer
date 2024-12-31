@@ -1,4 +1,4 @@
-import { useCached } from "@pages/hooks"
+import { useCached } from "@hooks"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, PropType, watch } from "vue"
 import { useRoute } from "vue-router"

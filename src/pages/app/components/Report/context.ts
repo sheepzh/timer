@@ -1,4 +1,4 @@
-import { useProvide, useProvider } from "@pages/hooks"
+import { useProvide, useProvider } from "@hooks"
 import { Ref } from "vue"
 import { MergeMethod } from "./common"
 

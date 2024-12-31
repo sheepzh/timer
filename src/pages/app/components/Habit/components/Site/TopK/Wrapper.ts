@@ -10,7 +10,7 @@ import type { BarSeriesOption, ComposeOption, GridComponentOption, TitleComponen
 import { t } from "@app/locale"
 import { getStepColors } from "@app/util/echarts"
 import { periodFormatter } from "@app/util/time"
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { generateSiteLabel, identifySiteKey } from "@util/site"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { SeriesDataItem, generateTitleOption } from "../common"

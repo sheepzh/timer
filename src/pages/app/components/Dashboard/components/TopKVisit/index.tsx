@@ -7,7 +7,7 @@
 import type { StatQueryParam } from "@service/stat-service"
 
 import { t } from "@app/locale"
-import { useEcharts } from "@pages/hooks/useEcharts"
+import { useEcharts } from "@hooks/useEcharts"
 import statService from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"

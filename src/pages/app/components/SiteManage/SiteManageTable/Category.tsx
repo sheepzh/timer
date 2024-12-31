@@ -1,7 +1,7 @@
 import Flex from "@src/pages/components/Flex"
 import { useCategories } from "@app/context"
 import { Edit } from "@element-plus/icons-vue"
-import { useSwitch } from "@pages/hooks"
+import { useSwitch } from "@hooks"
 import siteService from "@service/site-service"
 import { ElIcon, ElTag } from "element-plus"
 import { computed, defineComponent, nextTick, PropType, ref } from "vue"

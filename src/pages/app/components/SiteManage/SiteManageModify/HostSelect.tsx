@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { useManualRequest } from "@pages/hooks"
+import { useManualRequest } from "@hooks"
 import siteService from "@service/site-service"
 import statService, { HostSet } from "@service/stat-service"
 import { MERGED_HOST, ALL_HOSTS as REMAIN_HOSTS } from "@util/constant/remain-host"

@@ -4,9 +4,9 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { listenMediaSizeChange } from "@hooks/useMediaSize"
 import { initLocale } from "@i18n"
 import { initElementLocale } from "@i18n/element"
-import { listenMediaSizeChange } from "@pages/hooks/useMediaSize"
 import optionService from "@service/option-service"
 import { init as initTheme, toggle } from "@util/dark-mode"
 import 'element-plus/theme-chalk/index.css'

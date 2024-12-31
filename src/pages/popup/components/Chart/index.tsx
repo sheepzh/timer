@@ -1,4 +1,4 @@
-import { useRequest } from "@pages/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 import { t } from "@popup/locale"
 import { doQuery } from "@popup/query"
 import { sum } from "@util/array"

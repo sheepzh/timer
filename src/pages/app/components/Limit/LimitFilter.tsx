@@ -12,7 +12,7 @@ import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
 import { t } from "@app/locale"
 import { OPTION_ROUTE } from "@app/router/constants"
 import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
-import { useState } from "@pages/hooks"
+import { useState } from "@hooks"
 import { getAppPageUrl } from "@util/constant/url"
 import { defineComponent, watch, type PropType } from "vue"
 

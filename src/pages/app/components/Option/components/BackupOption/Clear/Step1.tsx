@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { Close, Right } from "@element-plus/icons-vue"
-import { useManualRequest } from "@pages/hooks"
+import { useManualRequest } from "@hooks"
 import processor from "@service/backup/processor"
 import { BIRTHDAY, parseTime } from "@util/time"
 import { ElButton, ElMessage } from "element-plus"

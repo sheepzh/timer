@@ -1,5 +1,5 @@
 
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import type {
     ComposeOption,
     GridComponentOption,

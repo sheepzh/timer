@@ -1,7 +1,7 @@
 import { createTab } from "@api/chrome/tab"
 import { getLatestVersion } from "@api/version"
 import { Download } from "@element-plus/icons-vue"
-import { useRequest } from "@pages/hooks/useRequest"
+import { useRequest } from "@hooks/useRequest"
 import { t } from "@popup/locale"
 import metaService from "@service/meta-service"
 import packageInfo from "@src/package"

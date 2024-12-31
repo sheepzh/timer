@@ -16,7 +16,7 @@ import type {
 
 import { ValueFormatter } from "@app/components/Analysis/util"
 import { getRegularTextColor } from "@util/style"
-import { EchartsWrapper } from "@pages/hooks/useEcharts"
+import { EchartsWrapper } from "@hooks/useEcharts"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
 import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 

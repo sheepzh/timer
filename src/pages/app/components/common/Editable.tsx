@@ -6,10 +6,10 @@
  */
 
 import { Check, Close, Edit } from "@element-plus/icons-vue"
-import { useShadow, useSwitch } from "@pages/hooks"
+import { useShadow, useSwitch } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { ElButton, ElIcon, ElInput, InputInstance } from "element-plus"
-import { defineComponent, nextTick, ref } from "vue"
-import Flex from "../../../components/Flex"
+import { defineComponent, nextTick, ref, toRef } from "vue"
 
 /**
  * @since 0.7.1
@@ -23,7 +23,7 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const [editing, openEditing, closeEditing] = useSwitch(false)
-        const [originVal] = useShadow(() => props.modelValue)
+        const originVal = toRef(props, 'modelValue')
         const [inputVal, _, refreshInputVal] = useShadow(originVal)
         const input = ref<InputInstance>()
         const handleEnter = (ev: KeyboardEvent) => {

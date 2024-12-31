@@ -2,7 +2,7 @@ import { defineComponent } from "vue"
 import { useReason, useRule } from "../context"
 import { t } from "@cs/locale"
 import { ElDescriptions, ElDescriptionsItem } from "element-plus"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import { formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
 import { period2Str } from "@util/limit"
 

@@ -1,72 +1,78 @@
+import { useManualRequest, useRequest } from "@hooks/useRequest"
 import { ALL_LOCALES, localeSameAsBrowser, t } from "@i18n"
 import optionMessages from "@i18n/message/app/option"
 import localeMessages from "@i18n/message/common/locale"
-import { useShadow, useState } from "@pages/hooks"
-import { groupBy } from "@util/array"
-import { classNames } from "@util/style"
+import Flex from "@pages/components/Flex"
+import { usePopupContext } from "@popup/context"
+import optionService from "@service/option-service"
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon, ElText } from "element-plus"
-import { defineComponent, nextTick, PropType } from "vue"
+import { defineComponent, StyleValue } from "vue"
 
 // Keep the locale same as this browser first position
 const SORTED_LOCALES: timer.Locale[] = ALL_LOCALES.sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
 
-const LangSelect = defineComponent({
-    props: {
-        modelValue: String as PropType<timer.option.LocaleOption>,
-    },
-    emits: {
-        change: (_val: timer.option.LocaleOption) => true,
-    },
-    setup(props, ctx) {
-        const [lang, setLang] = useShadow(() => props.modelValue)
-        const { default: input } = ctx.slots || {}
+const SELECTED_STYLES: StyleValue = {
+    color: 'var(--el-color-primary)',
+    fontWeight: 'bold'
+}
 
-        const allLocaleOptions: timer.option.LocaleOption[] = ["default", ...SORTED_LOCALES]
-        const optionCols = groupBy(allLocaleOptions, (_, idx) => idx % 2, l => l)
+const LangSelect = defineComponent(() => {
+    const { data: current } = useRequest(async () => {
+        const option = await optionService.getAllOption()
+        return option?.locale
+    })
 
-        const [visible, setVisible] = useState(false)
-        const handleLanChange = (opt: timer.option.LocaleOption) => {
-            console.log('change', opt)
-            setVisible(false)
-            nextTick(() => {
-                ctx.emit('change', opt)
-                setLang(opt)
-            })
-        }
+    const { reload: reloadPopup } = usePopupContext()
 
-        return () => (
-            <ElDropdown
-                size="small"
-                v-slots={{
-                    default: () => (
-                        <ElIcon>
-                            <svg
-                                viewBox="0 0 24 24"
-                                width="1.2em" height="1.2em"
-                            >
+    const { refresh: saveLocale } = useManualRequest(
+        opt => optionService.setLocale(opt),
+        { onSuccess: reloadPopup },
+    )
+
+    return () => (
+        <ElDropdown
+            size="small"
+            trigger="click"
+            style={{ cursor: 'pointer' }}
+            v-slots={{
+                default: () => (
+                    <Flex align="center" gap={2}>
+                        <ElIcon size="large" color="var(--el-text-color-primary)">
+                            <svg viewBox="0 0 1024 1024">
                                 <path
-                                    fill="currentColor"
-                                    d="m18.5 10l4.4 11h-2.155l-1.201-3h-4.09l-1.199 3h-2.154L16.5 10h2zM10 2v2h6v2h-1.968a18.222 18.222 0 0 1-3.62 6.301a14.864 14.864 0 0 0 2.336 1.707l-.751 1.878A17.015 17.015 0 0 1 9 13.725a16.676 16.676 0 0 1-6.201 3.548l-.536-1.929a14.7 14.7 0 0 0 5.327-3.042A18.078 18.078 0 0 1 4.767 8h2.24A16.032 16.032 0 0 0 9 10.877a16.165 16.165 0 0 0 2.91-4.876L2 6V4h6V2h2zm7.5 10.885L16.253 16h2.492L17.5 12.885z"
+                                    d="M696 716c-26.834 0-46-19.166-46-46v-92c0-26.834-19.166-46-46-46H374c-26.834 0-46-19.166-46-46s19.166-46 46-46h46c26.834 0 46-19.166 46-46v-34.5c0-30.666 26.834-57.5 57.5-57.5H558c49.834 0 92-42.166 92-92v-19.166C784.166 244.5 880 378.666 880 532c0 95.834-38.334 184-95.834 249.166C768.834 742.834 738.166 716 696 716z m-230 180.166C285.834 873.166 144 716 144 532c0-26.834 3.834-53.666 7.666-84.334L362.5 658.5c3.834 3.834 7.666 11.5 7.666 19.166v34.5c3.834 49.834 26.834 80.5 69 88.168 11.5 3.832 23 15.332 23 26.832 3.834 7.668 3.834 69 3.834 69zM52 532c0 253 207 460 460 460s460-207 460-460S765 72 512 72 52 279 52 532z"
                                 />
                             </svg>
                         </ElIcon>
-                    ),
-                    dropdown: () => (
-                        <ElDropdownMenu>
-                            {SORTED_LOCALES.map(locale => (
-                                <ElDropdownItem class={classNames(locale === 'en' && 'is-selected')}>
-                                    {localeMessages?.[locale]?.name ?? locale}
-                                </ElDropdownItem>
-                            ))}
-                            <ElDropdownItem divided>
-                                {t(optionMessages, { key: m => m.appearance.locale.default })}
+                        {!!current.value && (
+                            <ElText size="small">
+                                {current.value === 'default' ? 'SYS' : current.value.substring(0, 2).toUpperCase()}
+                            </ElText>
+                        )}
+                    </Flex>
+                ),
+                dropdown: () => (
+                    <ElDropdownMenu>
+                        {SORTED_LOCALES.map(locale => (
+                            <ElDropdownItem
+                                onClick={() => saveLocale(locale)}
+                                style={locale === current.value ? SELECTED_STYLES : null}
+                            >
+                                {localeMessages?.[locale]?.name ?? locale}
                             </ElDropdownItem>
-                        </ElDropdownMenu>
-                    )
-                }}
-            />
-        )
-    }
+                        ))}
+                        <ElDropdownItem
+                            onClick={() => saveLocale('default')}
+                            style={current.value === 'default' ? SELECTED_STYLES : null}
+                            divided
+                        >
+                            {t(optionMessages, { key: m => m.appearance.locale.default })}
+                        </ElDropdownItem>
+                    </ElDropdownMenu>
+                )
+            }}
+        />
+    )
 })
 
 export default LangSelect

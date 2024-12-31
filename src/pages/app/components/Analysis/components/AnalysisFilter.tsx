@@ -7,7 +7,7 @@
 
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
 import { t } from "@app/locale"
-import { useManualRequest, useState } from "@pages/hooks"
+import { useManualRequest, useState } from "@hooks"
 import siteService from "@service/site-service"
 import statService, { HostSet } from "@service/stat-service"
 import { ElOption, ElSelect, ElTag } from "element-plus"

@@ -16,6 +16,7 @@ export const useWindowVisible = (props?: Props) => {
         visible.value && !current && onHidden?.()
         visible.value = current
     }
+
     onMounted(() => document.addEventListener('visibilitychange', handler))
     onUnmounted(() => document.removeEventListener('visibilitychange', handler))
 

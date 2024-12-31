@@ -7,7 +7,7 @@
 
 import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
 import { t } from "@app/locale"
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import localeMessages from "@i18n/message/common/locale"
 import { ElProgress, ProgressProps } from "element-plus"
 import { defineComponent } from "vue"

@@ -1,6 +1,6 @@
 import { defineComponent } from "vue"
 import ChartTitle from "../../ChartTitle"
-import { useEcharts } from "@pages/hooks/useEcharts"
+import { useEcharts } from "@hooks/useEcharts"
 import Wrapper from "./Wrapper"
 import { groupBy, sum } from "@util/array"
 import DateIterator from "@util/date-iterator"

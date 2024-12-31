@@ -6,7 +6,7 @@
  */
 import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
-import { useSwitch } from "@pages/hooks"
+import { useSwitch } from "@hooks"
 import siteService from "@service/site-service"
 import { supportCategory } from "@util/site"
 import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormInstance } from "element-plus"

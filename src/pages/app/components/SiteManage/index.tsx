@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { Check, Close, WarnTriangleFilled } from "@element-plus/icons-vue"
-import { useRequest, useState, useSwitch } from "@pages/hooks"
+import { useRequest, useState, useSwitch } from "@hooks"
 import siteService, { SiteQueryParam } from "@service/site-service"
 import { supportCategory } from "@util/site"
 import { ElButton, ElDialog, ElForm, ElFormItem, ElMessage, ElMessageBox } from "element-plus"

@@ -9,7 +9,7 @@ import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/ut
 import { KanbanCard } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
-import { useState } from "@pages/hooks"
+import { useState } from "@hooks"
 import { groupBy } from "@util/array"
 import { MILL_PER_DAY, daysAgo, getAllDatesBetween, getDayLength } from "@util/time"
 import { computed, defineComponent, onMounted, ref, watch, type Ref } from "vue"

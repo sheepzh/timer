@@ -47,7 +47,7 @@ const _default = defineComponent({
                     {props.host}
                 </ElLink>
             ) : (
-                <Flex align="center" gap={3}>
+                <Flex justify="center" align="center" gap={3} >
                     <ElLink href={href.value} target={target.value} underline={clickable.value} style={{ cursor: cursor.value }}>
                         {props.host}
                     </ElLink>

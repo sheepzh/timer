@@ -1,4 +1,4 @@
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 import statService, { StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
 import { ElText } from "element-plus"

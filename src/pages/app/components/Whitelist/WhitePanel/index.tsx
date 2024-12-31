@@ -10,7 +10,7 @@ import { defineComponent, ref } from "vue"
 import whitelistService from "@service/whitelist-service"
 import WhiteItem from './WhiteItem'
 import AddButton, { AddButtonInstance } from './AddButton'
-import { useRequest } from "@pages/hooks"
+import { useRequest } from "@hooks"
 
 const _default = defineComponent(() => {
     const { data: whitelist } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })

@@ -1,4 +1,4 @@
-import { useShadow } from "@pages/hooks"
+import { useShadow } from "@hooks"
 import { sum } from "@util/array"
 import { ElEmpty, ElScrollbar, ScrollbarInstance } from "element-plus"
 import { computed, defineComponent, PropType, ref, StyleValue, watch } from "vue"
