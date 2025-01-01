@@ -5,27 +5,26 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ElementDatePickerShortcut } from "@pages/element-ui/date"
-
 import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import InputFilterItem from '@app/components/common/InputFilterItem'
+import MultiSelectFilterItem, { type MultiSelectFilterItemInstance } from "@app/components/common/MultiSelectFilterItem"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import { useCategories } from "@app/context"
 import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import statService from "@service/stat-service"
 import { containsAny } from "@util/array"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { computed, defineComponent, ref, watch, type PropType } from "vue"
-import { cvtOption2Param, MergeMethod } from "../common"
+import { cvtOption2Param } from "../common"
 import { ReportFilterOption } from "../context"
 import { exportCsv, exportJson } from "../file-export"
 import DownloadFile from "./DownloadFile"
 import MergeFilterItem from "./MergeFilterItem"
 import RemoteClient from "./RemoteClient"
-import { useCategories } from "@app/context"
-import MultiSelectFilterItem, { MultiSelectFilterItemInstance } from "@app/components/common/MultiSelectFilterItem"
 
 function datePickerShortcut(text: string, agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     const value = daysAgo(agoOfStart || 0, agoOfEnd || 0)
@@ -55,7 +54,7 @@ const _default = defineComponent({
         const initial: ReportFilterOption = props.initial
         const [host, setHost] = useState(initial?.host)
         const [dateRange, setDateRange] = useState<[Date, Date]>(initial?.dateRange)
-        const [mergeMethod, setMergeMethod] = useState<MergeMethod[]>([])
+        const [mergeMethod, setMergeMethod] = useState<timer.stat.MergeMethod[]>([])
         const [cateIds, setCateIds] = useState(initial.cateIds)
         const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
         // Whether to read remote backup data

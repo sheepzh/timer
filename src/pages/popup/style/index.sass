@@ -5,28 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 @use "sass:meta"
-@import url("element-plus/theme-chalk/base.css")
-@import url("element-plus/theme-chalk/el-select.css")
-@import url("element-plus/theme-chalk/el-input.css")
-@import url("element-plus/theme-chalk/el-switch.css")
-@import url("element-plus/theme-chalk/el-link.css")
-@import url("element-plus/theme-chalk/el-popper.css")
-@import url("element-plus/theme-chalk/el-option.css")
-@import url("element-plus/theme-chalk/el-icon.css")
-@import url("element-plus/theme-chalk/el-text.css")
-@import url("element-plus/theme-chalk/el-cascader.css")
-@import url("element-plus/theme-chalk/el-cascader-panel.css")
-@import url("element-plus/theme-chalk/el-scrollbar.css")
-@import url("element-plus/theme-chalk/el-dropdown.css")
+@use "../../element-ui/dark-theme"
 
 @include meta.load-css("dark-theme")
 @include meta.load-css("common")
 
 body
-    padding: 8px
-    box-sizing: content-box
-    height: 580px
-    width: 750px
+    padding: 10px
+    box-sizing: border-box
+    height: 596px
+    width: 766px
     overflow: hidden
 
 #app
@@ -38,23 +26,6 @@ body
     width: 100%
     height: 0
     flex: 1
-
-.option-container
-    display: flex
-    justify-content: space-between
-
-    padding-bottom: 5px
-    width: 95%
-    margin: auto
-    height: 30px
-    .el-select
-        width: 120px
-    .right
-        display: flex
-        gap: 10px
-        .el-link
-            .el-icon
-                padding-right: 4px
 
 #total-info
     color: var(--el-text-color-secondary)

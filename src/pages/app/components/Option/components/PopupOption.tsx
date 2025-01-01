@@ -6,7 +6,7 @@
  */
 import { t } from "@app/locale"
 import { I18nKey, t as t_ } from "@i18n"
-import DurationSelect, { rangeLabel } from "@popup/components/Chart/DurationSelect"
+import DurationSelect, { rangeLabel } from "@popup/components/Footer/DurationSelect"
 import optionService from "@service/option-service"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_DIMENSIONS } from "@util/stat"

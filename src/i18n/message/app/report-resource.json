@@ -1,11 +1,5 @@
 {
     "zh_CN": {
-        "mergeBy": "数据合并",
-        "mergeMethod": {
-            "date": "按日期",
-            "domain": "按域名",
-            "cate": "按类目"
-        },
         "exportFileName": "我的上网时间",
         "batchDelete": {
             "noSelectedMsg": "请先在表格中勾选需要删除的行",
@@ -46,12 +40,6 @@
         "noMore": "沒有更多了"
     },
     "en": {
-        "mergeBy": "Merge by",
-        "mergeMethod": {
-            "date": "Date",
-            "domain": "URL",
-            "cate": "Category"
-        },
         "exportFileName": "My_Browsing_Time",
         "batchDelete": {
             "noSelectedMsg": "Please select the row you want to delete in the table first",

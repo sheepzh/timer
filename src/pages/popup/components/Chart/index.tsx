@@ -1,14 +1,13 @@
-import { useRequest } from "@hooks/useRequest"
+import { useManualRequest } from "@hooks/useRequest"
 import { t } from "@popup/locale"
 import { doQuery } from "@popup/query"
 import { sum } from "@util/array"
 import { formatPeriodCommon } from "@util/time"
 import { computed, defineComponent } from "vue"
-import Bar from "./Bar"
 import Pie from "./Pie"
 
 const Chart = defineComponent(() => {
-    const { data: result, refresh, param, refreshAgain } = useRequest(doQuery, { manual: true })
+    const { data: result, param, refreshAgain } = useManualRequest(doQuery)
 
     const total = computed(() => {
         const { type } = param.value?.[0] || {}
@@ -26,7 +25,6 @@ const Chart = defineComponent(() => {
 
     return () => <>
         <Pie value={result.value} onRestore={refreshAgain} />
-        <Bar total={total.value} onQueryChange={refresh} />
     </>
 })
 

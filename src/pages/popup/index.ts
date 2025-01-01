@@ -9,10 +9,11 @@ import { initLocale } from "@i18n"
 import metaService from "@service/meta-service"
 import optionService from "@service/option-service"
 import { toggle } from "@util/dark-mode"
+import "element-plus/theme-chalk/index.css"
 import { createApp } from "vue"
-import "../../common/timer"
 import Main from "./Main"
 import { FrameRequest, FrameResponse } from "./message"
+import initRouter from "./router"
 import "./style"
 
 function send2ParentWindow(data: any): Promise<void> {
@@ -28,7 +29,8 @@ function send2ParentWindow(data: any): Promise<void> {
 
             setTimeout(resolve, 1000)
         } catch (e) {
-            reject(e)
+            console.error("Failed to connect the parent Window", e)
+            resolve()
         }
     })
 }
@@ -45,6 +47,7 @@ async function main() {
     document.body.append(el)
 
     const app = createApp(Main)
+    initRouter(app)
     app.mount(el)
 
     metaService.increasePopup()

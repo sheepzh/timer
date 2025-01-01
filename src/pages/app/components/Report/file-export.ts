@@ -7,13 +7,13 @@
 
 import { I18nKey, t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
+import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import {
     exportCsv as exportCsv_,
     exportJson as exportJson_,
 } from "@util/file"
 import { formatTimeYMD } from "@util/time"
 import { ReportFilterOption } from "./context"
-import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 
 type ExportInfo = {
     date?: string
@@ -36,8 +36,8 @@ function computeFileName(filterParam: ReportFilterOption): string {
         baseName += '_' + formatTimeYMD(start)
         baseName += '_' + formatTimeYMD(end)
     }
-    mergeDate && (baseName += '_' + t(msg => msg.report.mergeMethod.date))
-    siteMerge && (baseName += '_' + t(msg => msg.report.mergeMethod[siteMerge]))
+    mergeDate && (baseName += '_' + t(msg => msg.merge.mergeMethod.date))
+    siteMerge && (baseName += '_' + t(msg => msg.merge.mergeMethod[siteMerge]))
     timeFormat && (baseName += '_' + t(msg => msg.timeFormat[timeFormat]))
     return baseName
 }

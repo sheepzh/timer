@@ -1,26 +1,24 @@
-import { createTab } from "@api/chrome/tab"
-import { View } from "@element-plus/icons-vue"
 import { useRequest } from "@hooks/useRequest"
 import { useState } from "@hooks/useState"
+import Flex from "@pages/components/Flex"
 import { PopupQuery } from "@popup/common"
-import DurationSelect from "@popup/components/Chart/DurationSelect"
+import DurationSelect from "@popup/components/Footer/DurationSelect"
 import { t } from "@popup/locale"
 import optionService from "@service/option-service"
-import packageInfo from "@src/package"
-import { getAppPageUrl } from "@util/constant/url"
 import { ALL_DIMENSIONS } from "@util/stat"
-import { ElLink, ElOption, ElPopover, ElSelect, ElSwitch, ElText } from "element-plus"
+import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, watch } from "vue"
-import Extra from "./Extra"
+import Menu from "./Menu"
+import MergeSelect from "./MergeSelect"
 
-const Bar = defineComponent({
+const Footer = defineComponent({
     props: {
         total: String,
     },
     emits: {
         queryChange: (_query: PopupQuery) => true,
     },
-    setup(props, ctx) {
+    setup(_, ctx) {
         const [query, setQuery] = useState<PopupQuery>()
         watch(query, () => ctx.emit('queryChange', query.value))
 
@@ -45,33 +43,17 @@ const Bar = defineComponent({
             setQuery(newQuery)
         }
 
-        const handleAllFuncClick = () => createTab(getAppPageUrl(false, '/'))
-
         return () => (
-            <div class="option-container">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <ElText type="info" size="small">
-                        {[`v${packageInfo.version}`, props.total].filter(v => !!v).join(' | ')}
-                    </ElText>
-                </div>
-                <div class="right">
-                    <Extra />
-                    <ElLink onClick={handleAllFuncClick} icon={<View />}>
-                        {t(msg => msg.base.allFunction)}
-                    </ElLink>
-                    <ElPopover
-                        effect="dark"
-                        content={t(msg => msg.chart.mergeHostLabel)}
-                        width="auto"
-                        v-slots={{
-                            reference: () => (
-                                <ElSwitch
-                                    modelValue={query.value?.mergeHost}
-                                    onChange={(v: boolean) => updateQuery('mergeHost', !!v)}
-                                />
-                            )
-                        }}
-                    />
+            <Flex
+                justify="space-between"
+                width="100%"
+                style={{ padding: '0 5px', boxSizing: 'border-box' }}
+            >
+                <Flex flex={1}>
+                    <Menu />
+                </Flex>
+                <Flex gap={10}>
+                    <MergeSelect />
                     <DurationSelect
                         reverse
                         modelValue={[query.value?.duration, query.value?.durationNum]}
@@ -88,13 +70,14 @@ const Bar = defineComponent({
                         modelValue={query?.value?.type}
                         onChange={(v: timer.core.Dimension) => updateQuery('type', v)}
                         popperOptions={{ placement: 'top' }}
+                        style={{ width: '120px' }}
                     >
                         {ALL_DIMENSIONS.map(item => <ElOption value={item} label={t(msg => msg.item[item])} />)}
                     </ElSelect>
-                </div>
-            </div>
+                </Flex>
+            </Flex >
         )
     }
 })
 
-export default Bar
+export default Footer

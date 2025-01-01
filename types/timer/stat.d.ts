@@ -72,4 +72,8 @@ declare namespace timer.stat {
         [item in core.Dimension]: RemoteCompositionVal[]
     }
 
+    /**
+     * @since 2.6.0
+     */
+    type MergeMethod = 'cate' | 'date' | 'domain'
 }

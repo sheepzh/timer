@@ -4,6 +4,7 @@ import optionService from "@service/option-service"
 import { isDarkMode, toggle } from "@util/dark-mode"
 import { defineComponent, ref } from "vue"
 import Chart from "./components/Chart"
+import Footer from "./components/Footer"
 import Header from "./components/Header"
 import { initProvider } from "./context"
 
@@ -32,6 +33,7 @@ const Main = defineComponent(() => {
         >
             <Header />
             <Chart />
+            <Footer />
         </Flex>
     )
 })

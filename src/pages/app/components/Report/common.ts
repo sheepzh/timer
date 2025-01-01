@@ -1,10 +1,9 @@
 import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
 import StatDatabase from "@db/stat-database"
-import type { ReportMessage } from "@i18n/message/app/report"
-import type { StatQueryParam } from "@service/stat-service"
+import { type StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
-import type { ReportFilterOption } from "./context"
+import { type ReportFilterOption } from "./context"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
@@ -75,5 +74,3 @@ export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilt
     // Delete by range
     await statDatabase.deleteByUrlBetween(host, start, end)
 }
-
-export type MergeMethod = keyof ReportMessage['mergeMethod']

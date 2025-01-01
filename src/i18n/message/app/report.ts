@@ -8,12 +8,6 @@
 import resource from './report-resource.json'
 
 export type ReportMessage = {
-    mergeBy: string
-    mergeMethod: {
-        date: string
-        domain: string
-        cate: string
-    }
     exportFileName: string
     batchDelete: {
         noSelectedMsg: string
