@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
+import Flex from "@pages/components/Flex"
 import { IS_SAFARI } from "@util/constant/environment"
 import { isRemainHost } from "@util/constant/remain-host"
 import { ElLink } from "element-plus"
-import { computed, defineComponent } from "vue"
-import Flex from "../../../components/Flex"
+import { computed, defineComponent, type PropType } from "vue"
 
 const _default = defineComponent({
     props: {
-        host: {
-            type: String,
+        value: {
+            type: Object as PropType<timer.site.SiteKey>,
             required: true
         },
         iconUrl: {
@@ -32,8 +32,12 @@ const _default = defineComponent({
         }
     },
     setup(props) {
-        const clickable = computed(() => props.clickable && !isRemainHost(props.host))
-        const href = computed(() => clickable.value ? `http://${props.host}` : '')
+        const clickable = computed(() => {
+            if (!props.clickable) return false
+            const { host, type } = props.value || {}
+            return type === 'normal' && !isRemainHost(host)
+        })
+        const href = computed(() => clickable.value ? `http://${props.value.host}` : '')
         const target = computed(() => clickable.value ? '_blank' : '')
         const cursor = computed(() => clickable.value ? "cursor" : "default")
         return () => <div style={{ wordBreak: "break-all" }}>
@@ -44,12 +48,12 @@ const _default = defineComponent({
                     underline={clickable.value}
                     style={{ cursor: cursor.value }}
                 >
-                    {props.host}
+                    {props.value?.host}
                 </ElLink>
             ) : (
                 <Flex justify="center" align="center" gap={3} >
                     <ElLink href={href.value} target={target.value} underline={clickable.value} style={{ cursor: cursor.value }}>
-                        {props.host}
+                        {props.value?.host}
                     </ElLink>
                     {props.iconUrl &&
                         <Flex align="center">

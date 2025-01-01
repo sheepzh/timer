@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import Flex from "@src/pages/components/Flex"
 import HostAlert from "@app/components/common/HostAlert"
 import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
-import { ElTableRowScope } from "@pages/element-ui/table"
+import Flex from "@pages/components/Flex"
+import { type ElTableRowScope } from "@pages/element-ui/table"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { useReportFilter } from "../../context"
@@ -30,7 +30,7 @@ const _default = defineComponent(() => {
                         placement="left"
                         v-slots={{
                             content: () => <TooltipSiteList modelValue={mergedRows} />,
-                            default: () => siteKey?.host ? <HostAlert host={siteKey?.host} iconUrl={iconUrl} /> : '',
+                            default: () => siteKey?.host ? <HostAlert value={siteKey} iconUrl={iconUrl} /> : '',
                         }}
                     />
                 </Flex>

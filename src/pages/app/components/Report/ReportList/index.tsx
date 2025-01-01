@@ -4,7 +4,7 @@ import statService from "@service/stat-service"
 import { ElCard } from "element-plus"
 import { computed, defineComponent, ref } from "vue"
 import { cvtOption2Param } from "../common"
-import { DisplayComponent, useReportFilter } from "../context"
+import { type DisplayComponent, useReportFilter } from "../context"
 import Item from "./Item"
 import "./style"
 

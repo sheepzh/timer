@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
-import Flex from "@src/pages/components/Flex"
+import Flex from "@pages/components/Flex"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import weekHelper from "@service/components/week-helper"

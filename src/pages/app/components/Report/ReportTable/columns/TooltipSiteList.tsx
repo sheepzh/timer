@@ -1,8 +1,8 @@
-import Flex from "@src/pages/components/Flex"
 import HostAlert from "@app/components/common/HostAlert"
+import Flex from "@pages/components/Flex"
 import { SiteMap } from "@util/site"
 import { ElScrollbar } from "element-plus"
-import { defineComponent, PropType } from "vue"
+import { defineComponent, type PropType } from "vue"
 
 const TooltipSiteList = defineComponent({
     props: {
@@ -19,7 +19,7 @@ const TooltipSiteList = defineComponent({
                     <Flex gap={8} direction="column">
                         {siteMap?.map((siteKey, iconUrl) => (
                             <HostAlert
-                                host={siteKey?.host}
+                                value={siteKey}
                                 iconUrl={iconUrl}
                                 clickable={!props.clickDisabled}
                             />

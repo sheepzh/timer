@@ -1,9 +1,9 @@
 import { t } from "@app/locale"
 import { useCached } from "@hooks/index"
-import Flex from "@src/pages/components/Flex"
+import Flex from "@pages/components/Flex"
 import { ALL_MERGE_METHODS, processNewMethod } from "@util/merge"
 import { ElCheckboxButton, ElCheckboxGroup, ElText } from "element-plus"
-import { defineComponent, PropType, watch } from "vue"
+import { defineComponent, type PropType, watch } from "vue"
 
 const MergeFilterItem = defineComponent({
     props: {

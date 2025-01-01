@@ -4,16 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { PropType } from "vue"
-
-import Flex from "@src/pages/components/Flex"
 import HostAlert from "@app/components/common/HostAlert"
 import { t } from "@app/locale"
+import { type ElTableRowScope } from "@pages/element-ui/table"
 import siteService from "@service/site-service"
-import { ElTableRowScope } from "@pages/element-ui/table"
+import Flex from "@pages/components/Flex"
 import { supportCategory } from "@util/site"
 import { ElTable, ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, type PropType } from "vue"
 import Category from "./Category"
 import AliasColumn from "./column/AliasColumn"
 import OperationColumn from "./column/OperationColumn"
@@ -49,7 +47,7 @@ const _default = defineComponent({
                 align="center"
                 v-slots={({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
                     <div style={{ margin: 'auto', width: 'fit-content' }}>
-                        <HostAlert host={row.host} clickable={false} />
+                        <HostAlert value={row} />
                     </div>
                 )}
             />

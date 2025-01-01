@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { computed, defineComponent, PropType } from "vue"
+import { computed, defineComponent, type PropType } from "vue"
 import { ElTable, ElTableColumn } from "element-plus"
 import { sum } from "@util/array"
 import { t } from "@app/locale"

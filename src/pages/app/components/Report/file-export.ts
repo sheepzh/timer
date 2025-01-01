@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey, t } from "@app/locale"
+import { type I18nKey, t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
 import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import {

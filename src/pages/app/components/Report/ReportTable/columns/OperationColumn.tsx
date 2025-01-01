@@ -4,15 +4,15 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { AnalysisQuery } from "@app/components/Analysis/common"
+import { type AnalysisQuery } from "@app/components/Analysis/common"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import { useRequest } from "@hooks"
 import { locale } from "@i18n"
+import { type ElTableRowScope } from "@pages/element-ui/table"
 import whitelistService from "@service/whitelist-service"
-import { ElTableRowScope } from "@pages/element-ui/table"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { useRouter } from "vue-router"

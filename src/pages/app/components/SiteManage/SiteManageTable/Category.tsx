@@ -1,11 +1,11 @@
-import Flex from "@src/pages/components/Flex"
+import Flex from "@pages/components/Flex"
 import { useCategories } from "@app/context"
 import { Edit } from "@element-plus/icons-vue"
 import { useSwitch } from "@hooks"
 import siteService from "@service/site-service"
 import { ElIcon, ElTag } from "element-plus"
-import { computed, defineComponent, nextTick, PropType, ref } from "vue"
-import CategorySelect, { CategorySelectInstance } from "../CategorySelect"
+import { computed, defineComponent, nextTick, type PropType, ref } from "vue"
+import CategorySelect, { type CategorySelectInstance } from "../CategorySelect"
 
 const _default = defineComponent({
     props: {

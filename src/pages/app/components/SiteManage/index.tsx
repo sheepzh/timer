@@ -8,16 +8,16 @@
 import { t } from "@app/locale"
 import { Check, Close, WarnTriangleFilled } from "@element-plus/icons-vue"
 import { useRequest, useState, useSwitch } from "@hooks"
-import siteService, { SiteQueryParam } from "@service/site-service"
+import Flex from "@pages/components/Flex"
+import siteService, { type SiteQueryParam } from "@service/site-service"
 import { supportCategory } from "@util/site"
 import { ElButton, ElDialog, ElForm, ElFormItem, ElMessage, ElMessageBox } from "element-plus"
 import { computed, defineComponent, markRaw, ref } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import Flex from "../../../components/Flex"
 import Pagination from "../common/Pagination"
 import CategorySelect from "./CategorySelect"
-import SiteManageFilter, { FilterOption } from "./SiteManageFilter"
-import Modify, { ModifyInstance } from './SiteManageModify'
+import SiteManageFilter, { type FilterOption } from "./SiteManageFilter"
+import Modify, { type ModifyInstance } from './SiteManageModify'
 import SiteManageTable from "./SiteManageTable"
 
 export default defineComponent(() => {

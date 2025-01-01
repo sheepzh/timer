@@ -118,7 +118,7 @@ const _default = defineComponent({
                     sortable
                     minWidth={300}
                     align="center"
-                    formatter={({ host }: timer.imported.Row) => <HostAlert host={host} />}
+                    formatter={({ host }: timer.imported.Row) => <HostAlert value={{ host, type: 'normal' }} clickable={false} />}
                 />
                 {renderFocus(data.value, props.comparedColName)}
                 {renderTime(data.value, props.comparedColName)}

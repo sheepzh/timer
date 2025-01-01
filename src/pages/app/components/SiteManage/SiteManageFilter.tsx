@@ -10,10 +10,10 @@ import { useCategories } from "@app/context"
 import { t } from "@app/locale"
 import { ArrowDown, Connection, Delete, Grid, Plus } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElLink } from "element-plus"
-import { computed, defineComponent, PropType, ref, watch } from "vue"
-import Flex from "../../../components/Flex"
-import MultiSelectFilterItem, { MultiSelectFilterItemInstance } from "../common/MultiSelectFilterItem"
+import { computed, defineComponent, type PropType, ref, watch } from "vue"
+import MultiSelectFilterItem, { type MultiSelectFilterItemInstance } from "../common/MultiSelectFilterItem"
 import { ALL_TYPES } from "./common"
 
 export type FilterOption = {
