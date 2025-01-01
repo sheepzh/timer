@@ -36,7 +36,6 @@ const _default = defineComponent({
 
         return () => <ElTable
             data={props.data}
-            size="small"
             style={{ width: "100%" }}
             highlightCurrentRow
             border

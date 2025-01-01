@@ -46,7 +46,7 @@ const _default = defineComponent({
         defaultSort: Object as PropType<SortInfo>,
     },
     setup(props, ctx) {
-        const [page, setPage] = useState<timer.common.PageQuery>({ size: 20, num: 1 })
+        const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
         const [sort, setSort] = useState(props.defaultSort)
         const filterOption = useReportFilter()
         const queryParam = computed(() => computeTimerQueryParam(filterOption.value, sort.value))
@@ -76,7 +76,6 @@ const _default = defineComponent({
                     ref={tableRef}
                     data={data.value?.list}
                     border
-                    size="small"
                     defaultSort={props.defaultSort}
                     style={{ width: "100%" }}
                     fit

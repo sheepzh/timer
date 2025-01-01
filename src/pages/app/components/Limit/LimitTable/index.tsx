@@ -133,7 +133,7 @@ const _default = defineComponent({
             return name || 'NaN'
         })
         return () => (
-            <ElTable border size="small" style={{ width: "100%" }} highlightCurrentRow fit data={props.data}>
+            <ElTable border style={{ width: "100%" }} highlightCurrentRow fit data={props.data}>
                 <ElTableColumn
                     label={t(msg => msg.limit.item.name)}
                     minWidth={140}
