@@ -1,4 +1,7 @@
-import { deleteDir, judgeDirExist, makeDir, readFile, WebDAVAuth, WebDAVContext, writeFile } from "@api/web-dav"
+import {
+    deleteDir, judgeDirExist, makeDir, readFile, writeFile,
+    type WebDAVAuth, type WebDAVContext,
+} from "@api/web-dav"
 import DateIterator from "@util/date-iterator"
 import { processDir } from "../common"
 import { CLIENT_FILE_NAME, convertClients2Markdown, divideByDate, parseData } from "../markdown"

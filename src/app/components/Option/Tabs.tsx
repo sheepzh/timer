@@ -5,7 +5,7 @@ import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
 import { defineComponent, h, ref } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import { changeQuery, OptionCategory, parseQuery } from "./common"
+import { changeQuery, type OptionCategory, parseQuery } from "./common"
 
 const resetButtonName = "reset"
 

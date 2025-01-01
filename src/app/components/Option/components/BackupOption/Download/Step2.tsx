@@ -12,7 +12,7 @@ import { Back, Check } from "@element-plus/icons-vue"
 import { useManualRequest } from "@hooks"
 import { processImportedData } from "@service/components/import-processor"
 import { ElAlert, ElButton, ElMessage } from "element-plus"
-import { PropType, Ref, defineComponent, ref } from "vue"
+import { type PropType, type Ref, defineComponent, ref } from "vue"
 
 const _default = defineComponent({
     props: {

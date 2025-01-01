@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { log } from "../../common/logger"
+import { judgeVirtualFast } from "@util/pattern"
+import { createZeroResult, isNotZeroResult, mergeResult } from "@util/stat"
 import { formatTimeYMD } from "@util/time"
+import { log } from "../../common/logger"
 import BaseDatabase from "../common/base-database"
 import { REMAIN_WORD_PREFIX } from "../common/constant"
-import { createZeroResult, mergeResult, isNotZeroResult } from "@util/stat"
-import { judgeVirtualFast } from "@util/pattern"
 import { filter } from "./filter"
 
 export type StatCondition = {

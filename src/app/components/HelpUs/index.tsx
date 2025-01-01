@@ -1,13 +1,13 @@
+import { createTabAfterCurrent } from "@api/chrome/tab"
+import { t } from "@app/locale"
+import { Pointer } from "@element-plus/icons-vue"
+import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 import { ElAlert, ElButton, ElCard } from "element-plus"
 import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import ProgressList from "./ProgressList"
 import MemberList from "./MemberList"
-import { t } from "@app/locale"
+import ProgressList from "./ProgressList"
 import "./style"
-import { Pointer } from "@element-plus/icons-vue"
-import { createTabAfterCurrent } from "@api/chrome/tab"
-import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 
 const _default = defineComponent(() => {
     return () => <ContentContainer>

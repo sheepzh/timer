@@ -5,10 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { TitleComponentOption } from "echarts/components"
-
 import { getRegularTextColor } from "@util/style"
 import { formatTimeYMD, getDayLength, isSameDay } from "@util/time"
+import { type TitleComponentOption } from "echarts/components"
 
 export const generateTitleOption = (text: string): TitleComponentOption => {
     const secondaryTextColor = getRegularTextColor()

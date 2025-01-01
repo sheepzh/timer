@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElRow, ElCol } from "element-plus"
+import { ElCol, ElRow } from "element-plus"
 import { defineComponent, ref } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import Migration from "./Migration"
-import MemoryInfo, { MemoryInfoInstance } from "./MemoryInfo"
 import ClearPanel from "./ClearPanel"
+import MemoryInfo, { type MemoryInfoInstance } from "./MemoryInfo"
+import Migration from "./Migration"
 import './style.sass'
 
 export default defineComponent(() => {

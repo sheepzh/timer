@@ -1,4 +1,4 @@
-import StatDatabase, { StatCondition } from "@db/stat-database"
+import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
 import virtualSiteHolder from "./components/virtual-site-holder"
 import whitelistHolder from "./components/whitelist-holder"

@@ -6,15 +6,15 @@
  */
 
 import { t } from "@app/locale"
+import { useState } from "@hooks"
+import { range } from "@util/array"
 import { ElStep, ElSteps } from "element-plus"
-import { Ref, computed, defineComponent, reactive, ref, toRaw } from "vue"
+import { type Ref, computed, defineComponent, reactive, ref, toRaw } from "vue"
 import { StepFromInstance } from "./common"
+import Footer from "./Footer"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 import Step3 from "./Step3"
-import { useState } from "@hooks"
-import Footer from "./Footer"
-import { range } from "@util/array"
 
 type Step = 0 | 1 | 2
 

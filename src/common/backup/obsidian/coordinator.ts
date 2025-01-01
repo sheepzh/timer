@@ -5,7 +5,7 @@ import {
     INVALID_AUTH_CODE,
     listAllFiles,
     NOT_FOUND_CODE,
-    ObsidianRequestContext,
+    type ObsidianRequestContext,
     updateFile
 } from "@api/obsidian"
 import DateIterator from "@util/date-iterator"

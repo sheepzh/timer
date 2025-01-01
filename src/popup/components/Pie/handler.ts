@@ -1,8 +1,8 @@
 import { createTab } from "@api/chrome/tab"
 import { REPORT_ROUTE } from "@app/router/constants"
-import { PopupResult, PopupRow } from "@popup/common"
+import { type PopupResult, type PopupRow } from "@popup/common"
 import { getAppPageUrl } from "@util/constant/url"
-import { CallbackDataParams } from "echarts/types/dist/shared"
+import { type CallbackDataParams } from "echarts/types/dist/shared"
 
 function generateUrl(data: PopupRow, queryResult: PopupResult): string {
     const { host, isOther } = data

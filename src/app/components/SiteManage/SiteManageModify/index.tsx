@@ -4,13 +4,13 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElButton, ElDialog, ElForm, FormInstance, ElMessage, ElFormItem, ElInput } from "element-plus"
-import { defineComponent, reactive, ref } from "vue"
 import { t } from "@app/locale"
 import { Check } from "@element-plus/icons-vue"
-import siteService from "@service/site-service"
-import HostSelect from "./HostSelect"
 import { useSwitch } from "@hooks"
+import siteService from "@service/site-service"
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, type FormInstance } from "element-plus"
+import { defineComponent, reactive, ref } from "vue"
+import HostSelect from "./HostSelect"
 
 export type ModifyInstance = {
     add(): void

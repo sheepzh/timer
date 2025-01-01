@@ -1,7 +1,7 @@
 import { t } from "@i18n"
 import calendarMessages from "@i18n/message/common/calendar"
-import { CascaderNode, CascaderOption, ElCascader, ExpandTrigger } from "element-plus"
-import { computed, defineComponent, PropType } from "vue"
+import { type CascaderNode, type CascaderOption, ElCascader, ExpandTrigger } from "element-plus"
+import { computed, defineComponent, type PropType } from "vue"
 import "./style.sass"
 
 export const rangeLabel = (duration: timer.option.PopupDuration, n?: string | number): string => {

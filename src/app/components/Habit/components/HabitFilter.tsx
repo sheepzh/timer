@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, watch, type PropType } from "vue"
-import { daysAgo } from "@util/time"
-import { t } from "@app/locale"
-import { ElementDatePickerShortcut } from "@src/element-ui/date"
 import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import { t } from "@app/locale"
 import { useState } from "@hooks"
+import { type ElementDatePickerShortcut } from "@src/element-ui/date"
+import { daysAgo } from "@util/time"
+import { defineComponent, watch, type PropType } from "vue"
 
 export type FilterOption = {
     timeFormat: timer.app.TimeFormat

@@ -4,19 +4,18 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElIcon, ElTable, ElTableColumn, ElTag, ElTooltip } from "element-plus"
-import { defineComponent, PropType } from "vue"
+import ColumnHeader from "@app/components/common/ColumnHeader"
 import { t } from "@app/locale"
-import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
-import { ElTableRowScope } from "@src/element-ui/table"
+import { useRequest } from "@hooks"
+import weekHelper from "@service/components/week-helper"
+import { type ElTableRowScope } from "@src/element-ui/table"
 import { period2Str } from "@util/limit"
+import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
+import { ElTable, ElTableColumn, ElTag } from "element-plus"
+import { defineComponent, type PropType } from "vue"
 import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"
-import { InfoFilled } from "@element-plus/icons-vue"
-import ColumnHeader from "@app/components/common/ColumnHeader"
-import weekHelper from "@service/components/week-helper"
-import { useRequest } from "@hooks"
 
 const ALL_WEEKDAYS = t(msg => msg.calendar.weekDays)?.split('|')
 

@@ -1,4 +1,4 @@
-import { getWeekDay, MILL_PER_MINUTE, MILL_PER_SECOND } from "./time"
+import { getWeekDay, MILL_PER_MINUTE } from "./time"
 
 export const DELAY_MILL = 5 * MILL_PER_MINUTE
 

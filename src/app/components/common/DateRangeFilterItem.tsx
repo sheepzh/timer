@@ -7,10 +7,10 @@
 
 import { t } from "@app/locale"
 import { EL_DATE_FORMAT } from "@i18n/element"
-import { ElementDatePickerShortcut } from "@src/element-ui/date"
+import { type ElementDatePickerShortcut } from "@src/element-ui/date"
 import { getDatePickerIconSlots } from "@src/element-ui/rtl"
 import { ElDatePicker } from "element-plus"
-import { defineComponent, PropType, ref, Ref } from "vue"
+import { defineComponent, type PropType, ref, type Ref } from "vue"
 
 const clearShortcut = (): ElementDatePickerShortcut => ({
     text: t(msg => msg.button.clear),

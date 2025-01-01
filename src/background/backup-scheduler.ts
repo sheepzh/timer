@@ -6,9 +6,9 @@
  */
 
 import optionService from "@service/option-service"
-import alarmManager from "./alarm-manager"
 import processor from "@src/common/backup/processor"
 import { MILL_PER_MINUTE } from "@util/time"
+import alarmManager from "./alarm-manager"
 
 const ALARM_NAME = 'auto-backup-data'
 

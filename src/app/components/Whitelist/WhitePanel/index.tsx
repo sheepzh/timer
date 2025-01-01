@@ -4,13 +4,13 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElMessage, ElMessageBox } from "element-plus"
 import { t } from "@app/locale"
-import { defineComponent, ref } from "vue"
-import whitelistService from "@service/whitelist-service"
-import WhiteItem from './WhiteItem'
-import AddButton, { AddButtonInstance } from './AddButton'
 import { useRequest } from "@hooks"
+import whitelistService from "@service/whitelist-service"
+import { ElMessage, ElMessageBox } from "element-plus"
+import { defineComponent, ref } from "vue"
+import AddButton, { type AddButtonInstance } from './AddButton'
+import WhiteItem from './WhiteItem'
 
 const _default = defineComponent(() => {
     const { data: whitelist } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })

@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import PeriodDatabase from "@db/period-database"
-import statService from "@service/stat-service"
-import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
-import { computed, defineComponent, type PropType, type VNode } from "vue"
-import NumberGrow from "@app/components/common/NumberGrow"
-import "./style"
-import { I18nKey } from "@app/locale"
-import { calcMostPeriodOf2Hours } from "@util/period"
 import I18nNode from "@app/components/common/I18nNode"
-import { ElIcon } from "element-plus"
+import NumberGrow from "@app/components/common/NumberGrow"
+import { type I18nKey } from "@app/locale"
+import PeriodDatabase from "@db/period-database"
 import { Sunrise } from "@element-plus/icons-vue"
 import { useRequest, useShadow } from "@hooks"
+import statService from "@service/stat-service"
+import { calcMostPeriodOf2Hours } from "@util/period"
+import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
+import { ElIcon } from "element-plus"
+import { computed, defineComponent, type PropType, type VNode } from "vue"
+import "./style"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
 

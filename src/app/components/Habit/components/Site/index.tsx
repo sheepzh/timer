@@ -5,19 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { computed, defineComponent } from "vue"
-import { t } from "@app/locale"
 import { KanbanCard } from "@app/components/common/kanban"
+import { t } from "@app/locale"
+import statService from "@service/stat-service"
+import { getDayLength } from "@util/time"
+import { computedAsync } from "@vueuse/core"
+import { computed, defineComponent } from "vue"
+import { useHabitFilter } from "../context"
+import { initProvider } from "./context"
+import DailyTrend from "./DailyTrend"
+import Distribution from "./Distribution"
+import "./style.sass"
 import Summary from "./Summary"
 import TopK from "./TopK"
-import Distribution from "./Distribution"
-import DailyTrend from "./DailyTrend"
-import "./style.sass"
-import { useHabitFilter } from "../context"
-import statService from "@service/stat-service"
-import { initProvider } from "./context"
-import { computedAsync } from "@vueuse/core"
-import { getDayLength } from "@util/time"
 
 const DISTRIBUTION_MIN_DAY_LENGTH = 15
 

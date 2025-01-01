@@ -1,4 +1,4 @@
-import { Ref, ref } from "vue"
+import { type Ref, ref } from "vue"
 
 export const useState = <T,>(defaultValue?: T): [state: Ref<T>, setter: (val?: T) => void, reset: () => void] => {
     const result = ref<T>(defaultValue) as Ref<T>

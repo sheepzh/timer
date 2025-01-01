@@ -1,13 +1,13 @@
 import {
     createGist,
-    FileForm,
+    type FileForm,
     findTarget,
     getJsonFileContent,
-    Gist,
-    GistForm,
+    type Gist,
+    type GistForm,
     updateGist
 } from "@api/gist"
-import { EChartsType, init } from "echarts"
+import { type EChartsType, init } from "echarts"
 import { writeFileSync } from "fs"
 import { exit } from "process"
 import { filenameOf, getExistGist, validateTokenFromEnv } from "./common"

@@ -4,17 +4,17 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { useRequest, useState } from "@hooks"
+import statService, { type StatQueryParam } from "@service/stat-service"
+import { judgeVirtualFast } from "@util/pattern"
 import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import Trend from "./components/Trend"
 import Filter from "./components/AnalysisFilter"
 import Summary from "./components/Summary"
-import statService, { StatQueryParam } from "@service/stat-service"
-import './style.sass'
-import { judgeVirtualFast } from "@util/pattern"
+import Trend from "./components/Trend"
 import { initProvider } from "./context"
-import { useRequest, useState } from "@hooks"
+import './style.sass'
 
 type _Queries = {
     host: string

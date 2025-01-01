@@ -1,5 +1,5 @@
 import whitelistService from "@service/whitelist-service"
-import { Migrator } from "./common"
+import { type Migrator } from "./common"
 
 export default class WhitelistInitializer implements Migrator {
     onInstall(): void {

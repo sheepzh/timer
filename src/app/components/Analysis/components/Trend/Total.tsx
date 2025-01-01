@@ -5,13 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { RingValue } from "@app/components/Analysis/util"
-import type { PropType } from "vue"
-
+import { type RingValue } from "@app/components/Analysis/util"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
-import { defineComponent } from "vue"
+import { defineComponent, type PropType } from "vue"
 import { useAnalysisTimeFormat } from "../../context"
 import { useAnalysisTrendRangeLength } from "./context"
 

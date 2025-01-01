@@ -1,7 +1,7 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
-import { LimitReason, ModalContext, Processor } from "../common"
 import { date2Idx } from "@util/limit"
 import { MILL_PER_SECOND } from "@util/time"
+import { type LimitReason, type ModalContext, type Processor } from "../common"
 
 function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalContext): NodeJS.Timeout[] {
     const { cond, periods, id } = rule

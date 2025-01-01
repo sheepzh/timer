@@ -1,4 +1,4 @@
-import { onMounted, ref, Ref, watch, WatchSource } from "vue"
+import { onMounted, ref, type Ref, watch, type WatchSource } from "vue"
 
 type Option<T> = {
     manual?: boolean

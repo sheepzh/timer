@@ -7,11 +7,11 @@
 
 import { t } from "@app/locale"
 import { Upload } from "@element-plus/icons-vue"
+import { useSwitch } from "@hooks"
 import { ElButton, ElDialog } from "element-plus"
 import { defineComponent } from "vue"
 import Sop from "./Sop"
 import "./style"
-import { useSwitch } from "@hooks"
 
 const _default = defineComponent({
     emits: {

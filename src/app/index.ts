@@ -5,20 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { App } from "vue"
-
-import { createApp } from "vue"
-import Main from "./Layout"
-import 'element-plus/theme-chalk/index.css'
-import './styles' // global css
-import installRouter from "./router"
-import '../common/timer'
-import { initLocale } from "@i18n"
-import { toggle, init as initTheme } from "@util/dark-mode"
-import optionService from "@service/option-service"
-import { initElementLocale } from "@i18n/element"
-import { initEcharts } from "./echarts"
 import { listenMediaSizeChange } from "@hooks/useMediaSize"
+import { initLocale } from "@i18n"
+import { initElementLocale } from "@i18n/element"
+import optionService from "@service/option-service"
+import { init as initTheme, toggle } from "@util/dark-mode"
+import 'element-plus/theme-chalk/index.css'
+import { createApp, type App } from "vue"
+import '../common/timer'
+import { initEcharts } from "./echarts"
+import Main from "./Layout"
+import installRouter from "./router"
+import './styles'; // global css
 
 async function main() {
     // Init theme with cache first

@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
+import { periodFormatter } from "@app/util/time"
+import { type ElTableRowScope } from "@src/element-ui/table"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
-import { periodFormatter } from "@app/util/time"
 import CompositionTable from '../../CompositionTable'
-import { ElTableRowScope } from "@src/element-ui/table"
 import { useReportFilter } from "../../context"
-import TooltipWrapper from "@app/components/common/TooltipWrapper"
 
 const _default = defineComponent(() => {
     const filter = useReportFilter()

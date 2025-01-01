@@ -6,11 +6,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey } from "@app/locale"
+import { type I18nKey } from "@app/locale"
 import { ANALYSIS_ROUTE, MERGE_ROUTE } from "@app/router/constants"
 import { Aim, Connection, HelpFilled, Histogram, Memo, MoreFilled, Rank, SetUp, Stopwatch, Timer, View } from "@element-plus/icons-vue"
 import { getGuidePageUrl } from "@util/constant/url"
-import { IconProps } from "element-plus"
+import { type IconProps } from "element-plus"
 import About from "../icons/About"
 import Database from "../icons/Database"
 import Table from "../icons/Table"

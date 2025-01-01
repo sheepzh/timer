@@ -4,10 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { useCached } from "@hooks"
 import { ElSwitch } from "element-plus"
 import { defineComponent, watch } from "vue"
 import { useRoute } from "vue-router"
-import { useCached } from "@hooks"
 
 const _default = defineComponent({
     emits: {

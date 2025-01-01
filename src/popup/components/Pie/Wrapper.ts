@@ -1,19 +1,25 @@
 import { createTab } from "@api/chrome/tab"
 import { OPTION_ROUTE } from "@app/router/constants"
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { PopupResult, PopupRow } from "@popup/common"
+import { type PopupResult, type PopupRow } from "@popup/common"
 import { t } from "@popup/locale"
 import { IS_SAFARI } from "@util/constant/environment"
 import { getAppPageUrl } from "@util/constant/url"
 import { generateSiteLabel } from "@util/site"
 import { getInfoColor, getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
-import { PieChart, PieSeriesOption } from "echarts/charts"
+import { PieChart, type PieSeriesOption } from "echarts/charts"
 import {
-    LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent,
-    LegendComponentOption, TitleComponentOption, ToolboxComponentOption, TooltipComponentOption,
+    LegendComponent,
+    type LegendComponentOption,
+    TitleComponent,
+    type TitleComponentOption,
+    ToolboxComponent,
+    type ToolboxComponentOption,
+    TooltipComponent,
+    type TooltipComponentOption,
 } from "echarts/components"
-import { ComposeOption, use } from "echarts/core"
+import { type ComposeOption, use } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
 import { optionIcon } from "./toolbox-icon"
 

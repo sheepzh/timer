@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { UNINSTALL_QUESTIONNAIRE } from "@util/constant/url"
-import { locale } from "@i18n"
 import { setUninstallURL } from "@api/chrome/runtime"
+import { locale } from "@i18n"
+import { UNINSTALL_QUESTIONNAIRE } from "@util/constant/url"
 
 async function listen() {
     try {

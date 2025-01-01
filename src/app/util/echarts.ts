@@ -1,7 +1,7 @@
 import { range } from "@util/array"
 import { getCssVariable } from "@util/style"
 import { addVector, multiTuple, subVector } from "@util/tuple"
-import { LinearGradientObject } from "echarts"
+import { type LinearGradientObject } from "echarts"
 
 const splitVectors = (vectorRange: Tuple<Vector<number>, 2>, count: number, gradientFactor?: number): Vector<number>[] => {
     gradientFactor = gradientFactor ?? 1.3

@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { CLZ_HIDDEN_XS_ONLY } from "@src/element-ui/style"
+import { classNames } from "@util/style"
 import { ElCard } from "element-plus"
 import { defineComponent, h } from "vue"
-import { classNames } from "@util/style"
-import { CLZ_HIDDEN_XS_ONLY } from "@src/element-ui/style"
 import "./card.sass"
 
 const _default = defineComponent({

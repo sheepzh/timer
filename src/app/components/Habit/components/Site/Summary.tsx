@@ -4,7 +4,7 @@ import { periodFormatter } from "@app/util/time"
 import { sum } from "@util/array"
 import { computed, defineComponent } from "vue"
 import { useHabitFilter } from "../context"
-import { FilterOption } from "../HabitFilter"
+import { type FilterOption } from "../HabitFilter"
 import { computeAverageLen } from "./common"
 import { useRows } from "./context"
 

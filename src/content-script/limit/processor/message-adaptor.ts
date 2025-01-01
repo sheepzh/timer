@@ -1,6 +1,6 @@
-import { hasDailyLimited, hasWeeklyLimited, matches } from "@util/limit"
-import { LimitReason, ModalContext, Processor } from "../common"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
+import { hasDailyLimited, hasWeeklyLimited, matches } from "@util/limit"
+import { type LimitReason, type ModalContext, type Processor } from "../common"
 
 const cvtItem2AddReason = (item: timer.limit.Item): LimitReason[] => {
     const { cond, allowDelay, id, delayCount, weeklyDelayCount } = item

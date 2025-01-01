@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElAlert, ElCard, ElProgress } from "element-plus"
-import { computed, defineComponent } from "vue"
 import { t } from "@app/locale"
-import { alertProps } from "./common"
 import { getUsedStorage } from "@db/memory-detector"
 import { useRequest } from "@hooks"
+import { ElAlert, ElCard, ElProgress } from "element-plus"
+import { computed, defineComponent } from "vue"
+import { alertProps } from "./common"
 
 export type MemoryInfoInstance = {
     refresh(): void

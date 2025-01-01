@@ -1,4 +1,4 @@
-import { PropType, defineComponent } from "vue"
+import { type PropType, defineComponent } from "vue"
 import "./installation-link.sass"
 
 type _Source = 'chrome' | 'firefox' | 'edge' | 'kiwi'

@@ -1,6 +1,5 @@
 import { handleError } from "./common"
 
-
 export function listAllWindows(): Promise<chrome.windows.Window[]> {
     return new Promise(resolve => chrome.windows.getAll(windows => {
         handleError("listAllWindows")

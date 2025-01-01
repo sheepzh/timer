@@ -1,8 +1,8 @@
-import { defineComponent } from "vue"
-import { t } from "@cs/locale"
 import { getUrl } from "@api/chrome/runtime"
+import { t } from "@cs/locale"
 import { useRequest } from "@hooks"
 import optionService from "@service/option-service"
+import { defineComponent } from "vue"
 
 const ICON_URL = getUrl('static/images/icon.png')
 

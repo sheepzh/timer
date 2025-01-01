@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-
 import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
 import InputFilterItem from '@app/components/common/InputFilterItem'
 import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
@@ -15,11 +13,12 @@ import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 import statService from "@service/stat-service"
+import { type ElementDatePickerShortcut } from "@src/element-ui/date"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
 import { computed, defineComponent, watch, type PropType } from "vue"
 import { cvtOption2Param } from "../common"
-import { ReportFilterOption } from "../context"
+import { type ReportFilterOption } from "../context"
 import { exportCsv, exportJson } from "../file-export"
 import DownloadFile from "./DownloadFile"
 import RemoteClient from "./RemoteClient"

@@ -1,11 +1,11 @@
 import { useRequest } from "@hooks/useRequest"
+import { sum } from "@util/array"
+import { formatPeriodCommon } from "@util/time"
 import { computed, defineComponent } from "vue"
 import Footer from "./components/Bar"
 import Chart from "./components/Pie"
-import { doQuery } from "./query"
-import { sum } from "@util/array"
-import { formatPeriodCommon } from "@util/time"
 import { t } from "./locale"
+import { doQuery } from "./query"
 
 const Main = defineComponent(() => {
     const { data: result, refresh, param, refreshAgain } = useRequest(doQuery, { manual: true })

@@ -1,6 +1,6 @@
-import calendarMessages, { CalendarMessage } from "../common/calendar"
-import { merge, MessageRoot } from "../merge"
-import listMessages, { ListMessage } from "./list"
+import calendarMessages, { type CalendarMessage } from "../common/calendar"
+import { merge, type MessageRoot } from "../merge"
+import listMessages, { type ListMessage } from "./list"
 
 export type SideMessage = {
     list: ListMessage

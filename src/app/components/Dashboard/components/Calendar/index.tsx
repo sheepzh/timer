@@ -17,7 +17,7 @@ import { getAppPageUrl } from "@util/constant/url"
 import { formatTimeYMD, MILL_PER_DAY, MILL_PER_HOUR } from "@util/time"
 import { computed, defineComponent } from "vue"
 import ChartTitle from "../../ChartTitle"
-import Wrapper, { BizOption, ChartValue } from "./Wrapper"
+import Wrapper, { type BizOption, type ChartValue } from "./Wrapper"
 
 const titleText = (option: Result) => {
     const { value, yearAgo } = option || {}

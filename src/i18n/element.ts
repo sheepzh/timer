@@ -1,6 +1,6 @@
-import type { Language } from "element-plus/lib/locale"
-import type { App } from "vue"
 import ElementPlus from 'element-plus'
+import { type Language } from "element-plus/lib/locale"
+import { type App } from "vue"
 import { locale, t } from "."
 import calendarMessages from "./message/common/calendar"
 

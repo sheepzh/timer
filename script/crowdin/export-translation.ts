@@ -3,8 +3,14 @@ import { existsSync, readdirSync, readFileSync, rm, writeFile } from "fs"
 import { join } from "path"
 import { getClientFromEnv } from "./client"
 import {
-    ALL_DIRS, ALL_TRANS_LOCALES, RSC_FILE_SUFFIX,
-    checkMainBranch, crowdinLangOf, Dir, ItemSet, mergeMessage, transMsg
+    ALL_DIRS, ALL_TRANS_LOCALES,
+    checkMainBranch,
+    crowdinLangOf,
+    type Dir,
+    type ItemSet,
+    mergeMessage,
+    RSC_FILE_SUFFIX,
+    transMsg
 } from "./common"
 
 const TEMP_FILE_NAME = join(process.cwd(), ".crowdin-temp.zip")

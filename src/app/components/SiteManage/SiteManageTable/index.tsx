@@ -4,18 +4,16 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { PropType } from "vue"
-
-import { ElTable, ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
-import AliasColumn from "./column/AliasColumn"
-import TypeColumn from "./column/TypeColumn"
-import SourceColumn from "./column/SourceColumn"
-import OperationColumn from "./column/OperationColumn"
-import { t } from "@app/locale"
 import HostAlert from "@app/components/common/HostAlert"
-import { ElTableRowScope } from "@src/element-ui/table"
+import { t } from "@app/locale"
 import siteService from "@service/site-service"
+import { type ElTableRowScope } from "@src/element-ui/table"
+import { ElTable, ElTableColumn } from "element-plus"
+import { defineComponent, type PropType } from "vue"
+import AliasColumn from "./column/AliasColumn"
+import OperationColumn from "./column/OperationColumn"
+import SourceColumn from "./column/SourceColumn"
+import TypeColumn from "./column/TypeColumn"
 
 const _default = defineComponent({
     props: {

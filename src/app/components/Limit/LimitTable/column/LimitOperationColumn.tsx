@@ -9,7 +9,7 @@ import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import optionService from "@service/option-service"
-import { ElTableRowScope } from "@src/element-ui/table"
+import { type ElTableRowScope } from "@src/element-ui/table"
 import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 

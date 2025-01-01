@@ -12,7 +12,7 @@ const statDatabase = new StatDatabase(chrome.storage.local)
 
 /**
  * Process imported data from other extensions of remote
- * 
+ *
  * @since 1.9.2
  */
 export async function processImportedData(data: timer.imported.Data, resolution: timer.imported.ConflictResolution): Promise<void> {

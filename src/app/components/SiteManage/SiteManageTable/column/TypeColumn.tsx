@@ -1,9 +1,9 @@
-import { t } from "@app/locale"
-import { ElTableColumn, ElTag, TagProps } from "element-plus"
-import { defineComponent } from "vue"
-import { SiteManageMessage } from "@i18n/message/app/site-manage"
-import { ElTableRowScope } from "@src/element-ui/table"
 import ColumnHeader from "@app/components/common/ColumnHeader"
+import { t } from "@app/locale"
+import { type SiteManageMessage } from "@i18n/message/app/site-manage"
+import { type ElTableRowScope } from "@src/element-ui/table"
+import { ElTableColumn, ElTag, type TagProps } from "element-plus"
+import { defineComponent } from "vue"
 
 type Type = keyof SiteManageMessage['type']
 const ALL_TYPES: Type[] = ['normal', 'merged', 'virtual']

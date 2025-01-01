@@ -4,14 +4,18 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { ComposeOption, GridComponentOption, TooltipComponentOption, BarSeriesOption } from "echarts"
-
-import { formatTime } from "@util/time"
-import { getPrimaryTextColor } from "@util/style"
-import { EchartsWrapper } from "@hooks/useEcharts"
 import { getSeriesPalette } from "@app/util/echarts"
-import { formatXAxisTime, generateGridOption } from "../common"
 import { periodFormatter } from "@app/util/time"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import { getPrimaryTextColor } from "@util/style"
+import { formatTime } from "@util/time"
+import {
+    type BarSeriesOption,
+    type ComposeOption,
+    type GridComponentOption,
+    type TooltipComponentOption,
+} from "echarts"
+import { formatXAxisTime, generateGridOption } from "../common"
 
 type EcOption = ComposeOption<
     | BarSeriesOption

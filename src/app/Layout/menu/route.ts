@@ -1,8 +1,8 @@
 import { createTabAfterCurrent } from "@api/chrome/tab"
-import { t, I18nKey } from "@app/locale"
-import { Router } from "vue-router"
-import { MenuItem, MENUS } from "./item"
-import { Ref } from "vue"
+import { type I18nKey, t } from "@app/locale"
+import { type Ref } from "vue"
+import { type Router } from "vue-router"
+import { type MenuItem, MENUS } from "./item"
 
 function openMenu(route: string, title: I18nKey, router: Router) {
     const currentPath = router.currentRoute.value?.path

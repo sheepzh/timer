@@ -8,7 +8,7 @@
 import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
 import { ElButton, ElDialog } from "element-plus"
-import { defineComponent, Ref, ref } from "vue"
+import { defineComponent, type Ref, ref } from "vue"
 import Sop from "./Sop"
 
 const _default = defineComponent({

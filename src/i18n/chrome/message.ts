@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import baseMessages, { BaseMessage } from "../message/common/base"
-import contextMenusMessages, { ContextMenusMessage } from "../message/common/context-menus"
-import initialMessages, { InitialMessage } from "../message/common/initial"
-import metaMessages, { MetaMessage } from "../message/common/meta"
-import { merge, MessageRoot } from "../message/merge"
+import baseMessages, { type BaseMessage } from "../message/common/base"
+import contextMenusMessages, { type ContextMenusMessage } from "../message/common/context-menus"
+import initialMessages, { type InitialMessage } from "../message/common/initial"
+import metaMessages, { type MetaMessage } from "../message/common/meta"
+import { merge, type MessageRoot } from "../message/merge"
 
 export type ChromeMessage = {
     meta: MetaMessage

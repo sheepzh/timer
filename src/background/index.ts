@@ -17,9 +17,9 @@ import initCsHandler from "./content-script-handler"
 import handleInstall from "./install-handler"
 import initLimitProcessor from "./limit-processor"
 import MessageDispatcher from "./message-dispatcher"
+import VersionMigrator from "./migrator"
 import initSidePanel from "./side-panel"
 import initTrackServer from "./timer/server"
-import VersionMigrator from "./migrator"
 import WhitelistMenuManager from "./whitelist-menu-manager"
 
 // Open the log of console

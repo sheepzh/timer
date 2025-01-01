@@ -12,7 +12,7 @@ import { toggle } from "@util/dark-mode"
 import { createApp } from "vue"
 import "../common/timer"
 import Main from "./Main"
-import { FrameRequest, FrameResponse } from "./message"
+import { type FrameRequest, type FrameResponse } from "./message"
 import "./style"
 
 function send2ParentWindow(data: any): Promise<void> {

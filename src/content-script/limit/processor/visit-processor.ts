@@ -2,7 +2,7 @@ import { sendMsg2Runtime } from "@api/chrome/runtime"
 import TrackerClient from "@src/background/timer/client"
 import { DELAY_MILL } from "@util/limit"
 import { MILL_PER_SECOND } from "@util/time"
-import { ModalContext, Processor } from "../common"
+import { type ModalContext, type Processor } from "../common"
 
 class VisitProcessor implements Processor {
 

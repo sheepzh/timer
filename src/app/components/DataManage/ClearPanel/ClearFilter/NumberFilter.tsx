@@ -6,7 +6,7 @@
  */
 
 import I18nNode from "@app/components/common/I18nNode"
-import { DataManageMessage } from "@i18n/message/app/data-manage"
+import { type DataManageMessage } from "@i18n/message/app/data-manage"
 import { ElInput } from "element-plus"
 import { defineComponent, type PropType, type Ref, ref, watch } from "vue"
 

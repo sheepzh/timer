@@ -1,14 +1,14 @@
+import { sendMsg2Runtime } from "@api/chrome/runtime"
+import Trend from "@app/Layout/icons/Trend"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
+import { type LimitType } from "@cs/limit/common"
+import { TAG_NAME } from "@cs/limit/element"
+import { t } from "@cs/locale"
+import { Plus, Timer } from "@element-plus/icons-vue"
+import optionService from "@service/option-service"
+import { ElButton } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { useDelayHandler, useReason, useRule } from "../context"
-import { LimitType } from "@cs/limit/common"
-import { ElButton } from "element-plus"
-import { t } from "@cs/locale"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
-import optionService from "@service/option-service"
-import Trend from "@app/Layout/icons/Trend"
-import { Plus, Timer } from "@element-plus/icons-vue"
-import { sendMsg2Runtime } from "@api/chrome/runtime"
-import { TAG_NAME } from "@cs/limit/element"
 
 const DELAY_ENABLED: LimitType[] = ['DAILY', 'VISIT', 'WEEKLY']
 

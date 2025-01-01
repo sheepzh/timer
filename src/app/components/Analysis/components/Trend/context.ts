@@ -6,7 +6,7 @@
  */
 
 import { useProvide, useProvider } from "@hooks"
-import { Ref } from "vue"
+import { type Ref } from "vue"
 
 type Context = {
     dateRange: Ref<[Date, Date]>

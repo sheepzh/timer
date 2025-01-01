@@ -6,8 +6,8 @@
  */
 import { useEcharts } from "@hooks/useEcharts"
 import { computed, defineComponent } from "vue"
-import { useAnalysisRows, useAnalysisTimeFormat } from "../../../context"
-import Wrapper, { BizOption } from "./Wrapper"
+import { useAnalysisRows, useAnalysisTimeFormat } from "@app/components/Analysis/context"
+import Wrapper, { type BizOption } from "./Wrapper"
 
 const _default = defineComponent(() => {
     const rows = useAnalysisRows()

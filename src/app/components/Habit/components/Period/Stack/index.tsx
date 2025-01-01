@@ -5,12 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { StyleValue } from "vue"
-import Wrapper, { BizOption } from "./Wrapper"
-import { computed, defineComponent } from "vue"
-import { usePeriodValue } from "../context"
 import { useEcharts } from "@hooks/useEcharts"
+import { computed, defineComponent, type StyleValue } from "vue"
 import { useHabitFilter } from "../../context"
+import { usePeriodValue } from "../context"
+import Wrapper, { type BizOption } from "./Wrapper"
 
 const CONTAINER_STYLE: StyleValue = {
     width: "100%",

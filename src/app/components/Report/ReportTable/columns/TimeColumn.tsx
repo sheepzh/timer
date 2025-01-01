@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent } from "vue"
-import { Effect, ElTableColumn } from "element-plus"
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
+import { ElTableRowScope } from "@src/element-ui/table"
+import { Effect, ElTableColumn } from "element-plus"
+import { defineComponent } from "vue"
 import CompositionTable from "../../CompositionTable"
 import { useReportFilter } from "../../context"
-import { ElTableRowScope } from "@src/element-ui/table"
-import TooltipWrapper from "@app/components/common/TooltipWrapper"
 
 const columnLabel = t(msg => msg.item.time)
 

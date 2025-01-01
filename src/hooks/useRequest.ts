@@ -1,5 +1,5 @@
 import { ElLoadingService } from "element-plus"
-import { Ref, WatchSource, onMounted, ref, watch } from "vue"
+import { onMounted, ref, watch, type Ref, type WatchSource } from "vue"
 
 type Option<T, P extends any[]> = {
     manual?: boolean

@@ -5,11 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
 import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
-import { ElTableRowScope } from "@src/element-ui/table"
+import { type ElTableRowScope } from "@src/element-ui/table"
+import { ElTableColumn } from "element-plus"
+import { defineComponent } from "vue"
 
 const columnLabel = t(msg => msg.item.date)
 

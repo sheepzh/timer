@@ -1,11 +1,11 @@
-import { LimitReason, LimitType, MaskModal } from '../common'
 import { getUrl, sendMsg2Runtime } from '@api/chrome/runtime'
+import optionService from '@service/option-service'
+import { init as initTheme, toggle } from '@util/dark-mode'
+import { createApp, Ref, type App } from 'vue'
+import { type LimitReason, type LimitType, type MaskModal } from '../common'
 import { TAG_NAME, type RootElement } from '../element'
-import { App, createApp, Ref } from 'vue'
 import Main from './Main'
 import { provideDelayHandler, provideReason } from './context'
-import { init as initTheme, toggle } from '@util/dark-mode'
-import optionService from '@service/option-service'
 
 async function exitFullscreen(): Promise<void> {
     if (!document?.fullscreenElement) return

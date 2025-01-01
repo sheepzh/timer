@@ -1,6 +1,6 @@
 import optionService from "@service/option-service"
 import { defaultBackup } from "@util/constant/option"
-import { computed, Ref, ref, watch } from "vue"
+import { computed, type Ref, ref, watch } from "vue"
 
 type Result = {
     reset: () => void

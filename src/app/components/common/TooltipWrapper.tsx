@@ -1,6 +1,6 @@
 import { useShadow } from "@hooks"
 import { ElTooltip, type Placement, type PopperEffect, type PopperTrigger } from "element-plus"
-import { defineComponent, h, PropType } from "vue"
+import { defineComponent, h, type PropType } from "vue"
 
 const _default = defineComponent({
     props: {

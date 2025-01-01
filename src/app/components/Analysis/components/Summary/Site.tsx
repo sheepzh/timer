@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent } from "vue"
-import { computedAsync } from "@vueuse/core"
-import { labelOfHostInfo } from "../../util"
 import { t } from "@app/locale"
-import { useAnalysisSite } from "../../context"
 import siteService from "@service/site-service"
+import { computedAsync } from "@vueuse/core"
+import { defineComponent } from "vue"
+import { useAnalysisSite } from "../../context"
+import { labelOfHostInfo } from "../../util"
 
 function renderChildren(site: timer.site.SiteInfo) {
     if (!site) return <h1 class="alias">{t(msg => msg.analysis.common.emptyDesc)}</h1>

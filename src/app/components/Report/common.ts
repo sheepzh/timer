@@ -1,9 +1,9 @@
 import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
 import StatDatabase from "@db/stat-database"
+import { type StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
-import { ReportFilterOption } from "./context"
-import { StatQueryParam } from "@service/stat-service"
+import { type ReportFilterOption } from "./context"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 

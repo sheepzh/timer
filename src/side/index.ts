@@ -10,7 +10,7 @@ import optionService from "@service/option-service"
 import { init as initTheme, toggle } from "@util/dark-mode"
 import { ElLoadingDirective } from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
-import { App, createApp } from "vue"
+import { type App, createApp } from "vue"
 import '../common/timer'
 import Main from "./Layout"
 import "./style.sass"

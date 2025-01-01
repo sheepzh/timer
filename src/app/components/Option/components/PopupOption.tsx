@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 import { t } from "@app/locale"
-import { I18nKey, t as t_ } from "@i18n"
+import { type I18nKey, t as t_ } from "@i18n"
 import DurationSelect, { rangeLabel } from "@popup/components/DurationSelect"
 import optionService from "@service/option-service"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { defineComponent, onMounted, reactive, unref, watch } from "vue"
-import { OptionInstance } from "../common"
+import { type OptionInstance } from "../common"
 import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
 

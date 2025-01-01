@@ -5,15 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { PropType, Ref } from "vue"
-
 import { t } from "@app/locale"
 import { Operation, UploadFilled } from "@element-plus/icons-vue"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
 import { formatTime } from "@util/time"
 import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
-import { defineComponent, ref, watch } from "vue"
+import { defineComponent, type PropType, type Ref, ref, watch } from "vue"
 import Clear from "./Clear"
 import Download from "./Download"
 

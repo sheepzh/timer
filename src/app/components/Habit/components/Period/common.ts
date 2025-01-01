@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { formatTime } from "@util/time"
-import type { GridComponentOption } from "echarts/components"
+import { type GridComponentOption } from "echarts/components"
 
 export const generateGridOption = (): GridComponentOption => {
     return {

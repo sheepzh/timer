@@ -6,11 +6,11 @@
  */
 
 import { t } from "@app/locale"
-import { ElAlert, ElButton, ElMessage } from "element-plus"
-import { PropType, Ref, defineComponent, ref } from "vue"
 import { Back, Check } from "@element-plus/icons-vue"
-import { StatResult } from "./Step1"
 import processor from "@src/common/backup/processor"
+import { ElAlert, ElButton, ElMessage } from "element-plus"
+import { type PropType, type Ref, defineComponent, ref } from "vue"
+import { type StatResult } from "./Step1"
 
 const processClear = async (client: timer.backup.Client): Promise<void> => {
     const result = await processor.clear(client.id)

@@ -1,11 +1,10 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
-import packageInfo from "@src/package"
 import BaseDatabase from "@db/common/base-database"
 import StoragePromise from "@db/common/storage-promise"
 import LimitDatabase from "@db/limit-database"
@@ -13,6 +12,7 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import PeriodDatabase from "@db/period-database"
 import StatDatabase from "@db/stat-database"
 import WhitelistDatabase from "@db/whitelist-database"
+import packageInfo from "@src/package"
 
 type MetaInfo = {
     version: string
@@ -37,7 +37,7 @@ function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
 
 /**
  * Data is citizens
- * 
+ *
  * @since 0.2.5
  */
 class Immigration {

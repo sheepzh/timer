@@ -1,14 +1,12 @@
- /**
- * Copyright (c) 2022-present Hengyang Zhang
- *
- * This software is released under the MIT License.
- * https://opensource.org/licenses/MIT
- */
-
-import type { AxiosResponse } from "axios"
+/**
+* Copyright (c) 2022-present Hengyang Zhang
+*
+* This software is released under the MIT License.
+* https://opensource.org/licenses/MIT
+*/
 
 import { CROWDIN_PROJECT_ID } from "@util/constant/url"
-import axios from "axios"
+import axios, { type AxiosResponse } from "axios"
 
 /**
  * Used to obtain translation status

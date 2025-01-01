@@ -1,11 +1,11 @@
-import { defineComponent, ref } from "vue"
-import Search from "./components/Search"
 import { useRequest } from "@hooks"
-import RowList from "./components/RowList"
-import statService, { StatQueryParam } from "@service/stat-service"
-import { ElText } from "element-plus"
-import { t } from "./locale"
+import statService, { type StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
+import { ElText } from "element-plus"
+import { defineComponent, ref } from "vue"
+import RowList from "./components/RowList"
+import Search from "./components/Search"
+import { t } from "./locale"
 
 const _default = defineComponent(() => {
     const date = ref(new Date())

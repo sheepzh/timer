@@ -1,4 +1,4 @@
-import { findTarget, Gist } from "@api/gist"
+import { findTarget, type Gist } from "@api/gist"
 import { exitWith } from "../util/process"
 
 /**

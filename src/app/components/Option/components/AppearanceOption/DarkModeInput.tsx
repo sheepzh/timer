@@ -4,10 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { ElOption, ElSelect, ElTimePicker } from "element-plus"
-import { defineComponent, watch, computed, type PropType } from "vue"
 import { t } from "@app/locale"
 import { useShadow } from "@hooks"
+import { ElOption, ElSelect, ElTimePicker } from "element-plus"
+import { computed, defineComponent, watch, type PropType } from "vue"
 
 const ALL_MODES: timer.option.DarkMode[] = ["default", "on", "off", "timed"]
 

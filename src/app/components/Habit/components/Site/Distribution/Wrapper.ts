@@ -1,12 +1,20 @@
-import { EchartsWrapper } from "@src/hooks/useEcharts"
-import { ComposeOption, LegendComponentOption, PieSeriesOption, TitleComponentOption } from "echarts"
-import { getPieBorderColor, getSeriesPalette } from "@app/util/echarts"
-import { groupBy, sum } from "@util/array"
-import { MILL_PER_MINUTE, MILL_PER_SECOND, MILL_PER_HOUR } from "@util/time"
-import { computeAverageLen, generateTitleOption } from "../common"
-import { GridOption, TooltipOption } from "echarts/types/dist/shared"
 import { t } from "@app/locale"
+import { getPieBorderColor, getSeriesPalette } from "@app/util/echarts"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import { groupBy, sum } from "@util/array"
 import { getPrimaryTextColor, getRegularTextColor } from "@util/style"
+import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
+import {
+    type ComposeOption,
+    type LegendComponentOption,
+    type PieSeriesOption,
+    type TitleComponentOption
+} from "echarts"
+import {
+    type GridOption,
+    type TooltipOption
+} from "echarts/types/dist/shared"
+import { computeAverageLen, generateTitleOption } from "../common"
 
 export type BizOption = {
     rows: timer.stat.Row[]

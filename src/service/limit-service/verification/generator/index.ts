@@ -1,11 +1,10 @@
 /**
  * Copyright (c) 2023 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { VerificationGenerator } from "../common"
-
+import { type VerificationGenerator } from "../common"
 import ConfessionGenerator from "./confession"
 import PiGenerator from "./pi"
 import UglyGenerator from "./ugly"

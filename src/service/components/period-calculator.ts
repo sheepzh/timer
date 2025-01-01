@@ -1,16 +1,16 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 import { sum } from "@util/array"
-import { keyOf, startOfKey, lastKeyOfLastDate, indexOf, after, compare, rowOf } from "@util/period"
+import { after, compare, indexOf, keyOf, lastKeyOfLastDate, rowOf, startOfKey } from "@util/period"
 
 /**
  * @param timestamp current ts
- * @param milliseconds milliseconds 
+ * @param milliseconds milliseconds
  * @returns results, can't be empty if milliseconds is positive
  */
 export function calculate(timestamp: number, milliseconds: number): timer.period.Result[] {
@@ -39,7 +39,7 @@ export function calculate(timestamp: number, milliseconds: number): timer.period
 
 /**
  * Found the max divisible period
- * 
+ *
  * @param period key
  * @param periodWindowSize divisor
  */

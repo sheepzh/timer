@@ -6,11 +6,11 @@
  */
 
 import { Edit } from "@element-plus/icons-vue"
+import { useShadow, useSwitch } from "@hooks"
+import { judgeVirtualFast } from "@util/pattern"
 import { ElTag } from "element-plus"
 import { computed, defineComponent } from "vue"
 import WhiteInput from "./WhiteInput"
-import { judgeVirtualFast } from "@util/pattern"
-import { useShadow, useSwitch } from "@hooks"
 
 const _default = defineComponent({
     props: {

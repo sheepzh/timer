@@ -6,7 +6,7 @@
  */
 
 import MergeRuleDatabase from "@db/merge-rule-database"
-import { Migrator } from "./common"
+import { type Migrator } from "./common"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 

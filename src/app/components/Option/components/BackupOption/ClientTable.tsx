@@ -11,7 +11,7 @@ import { Loading, RefreshRight } from "@element-plus/icons-vue"
 import { useRequest } from "@hooks"
 import metaService from "@service/meta-service"
 import processor from "@src/common/backup/processor"
-import { ElTableRowScope } from "@src/element-ui/table"
+import { type ElTableRowScope } from "@src/element-ui/table"
 import { ElLink, ElMessage, ElRadio, ElTable, ElTableColumn, ElTag } from "element-plus"
 import { defineComponent, ref } from "vue"
 

@@ -6,13 +6,13 @@
  */
 
 import { t } from "@app/locale"
-import { formatTimeYMD } from "@util/time"
 import { periodFormatter } from "@app/util/time"
 import {
     exportCsv as exportCsv_,
     exportJson as exportJson_,
 } from "@util/file"
-import { ReportFilterOption } from "./context"
+import { formatTimeYMD } from "@util/time"
+import { type ReportFilterOption } from "./context"
 
 type _ExportInfo = {
     host: string

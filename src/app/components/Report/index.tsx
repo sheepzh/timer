@@ -5,9 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { RouteLocation, Router } from "vue-router"
-
-import { I18nKey, t } from "@app/locale"
+import { type I18nKey, t } from "@app/locale"
 import StatDatabase from "@db/stat-database"
 import { useMediaSize, useState } from "@hooks"
 import { MediaSize } from "@hooks/useMediaSize"
@@ -16,9 +14,9 @@ import { groupBy, sum } from "@util/array"
 import { formatTime } from "@util/time"
 import { ElMessage, ElMessageBox } from "element-plus"
 import { computed, defineComponent, ref } from "vue"
-import { useRoute, useRouter } from "vue-router"
+import { type RouteLocation, type Router, useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import { DisplayComponent, initProvider, ReportFilterOption } from "./context"
+import { type DisplayComponent, initProvider, type ReportFilterOption } from "./context"
 import ReportFilter from "./ReportFilter"
 import ReportList from "./ReportList"
 import ReportTable from "./ReportTable"

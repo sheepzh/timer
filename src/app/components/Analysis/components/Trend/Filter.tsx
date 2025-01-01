@@ -5,10 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { ElementDatePickerShortcut } from "@src/element-ui/date"
-
 import { t } from "@app/locale"
 import { EL_DATE_FORMAT } from "@i18n/element"
+import { type ElementDatePickerShortcut } from "@src/element-ui/date"
 import { getDatePickerIconSlots } from "@src/element-ui/rtl"
 import { daysAgo } from "@util/time"
 import { ElDatePicker } from "element-plus"

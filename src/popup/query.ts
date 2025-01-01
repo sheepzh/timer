@@ -1,8 +1,8 @@
 import weekHelper from "@service/components/week-helper"
 import optionService from "@service/option-service"
-import statService, { StatQueryParam } from "@service/stat-service"
+import statService, { type StatQueryParam } from "@service/stat-service"
 import { getDayLength, getMonthTime, MILL_PER_DAY } from "@util/time"
-import { PopupQuery, PopupResult, PopupRow } from "./common"
+import { type PopupQuery, type PopupResult, type PopupRow } from "./common"
 import { t } from "./locale"
 
 type DateRangeCalculator = (now: Date, num?: number) => Promise<Date | [Date, Date]> | Date | [Date, Date]

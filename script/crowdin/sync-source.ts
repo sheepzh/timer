@@ -1,6 +1,6 @@
-import { SourceFilesModel, SourceStringsModel } from "@crowdin/crowdin-api-client"
+import { type SourceFilesModel, type SourceStringsModel } from "@crowdin/crowdin-api-client"
 import { groupBy } from "@util/array"
-import { CrowdinClient, getClientFromEnv, NameKey } from "./client"
+import { type CrowdinClient, getClientFromEnv, type NameKey } from "./client"
 import {
     ALL_DIRS,
     Dir,

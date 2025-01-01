@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getUrl } from "@api/chrome/runtime"
+import { t } from "@app/locale"
 import { CloseBold, Link, Menu } from "@element-plus/icons-vue"
+import { useSwitch } from "@hooks"
+import { classNames } from "@util/style"
 import { ElBreadcrumb, ElBreadcrumbItem, ElIcon, ElMenu, ElMenuItem } from "element-plus"
 import { defineComponent, h, onMounted, ref, watch } from "vue"
 import { useRouter } from "vue-router"
-import { handleClick, initTitle } from "./route"
 import { NAV_MENUS } from "./item"
-import { t } from "@app/locale"
-import { classNames } from "@util/style"
-import { getUrl } from "@api/chrome/runtime"
-import { useSwitch } from "@hooks"
+import { handleClick, initTitle } from "./route"
 
 const findTitle = (routePath: string): string => {
     const title = NAV_MENUS.find(v => routePath === v.route)?.title

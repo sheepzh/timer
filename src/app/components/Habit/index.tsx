@@ -4,14 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { defineComponent } from "vue"
-import { daysAgo } from "@util/time"
 import ContentContainer from "@app/components/common/ContentContainer"
-import HabitFilter, { FilterOption } from "./components/HabitFilter"
-import Site from "./components/Site"
-import Period from "./components/Period"
-import { initProvider } from "./components/context"
 import { useState } from "@hooks"
+import { daysAgo } from "@util/time"
+import { defineComponent } from "vue"
+import HabitFilter, { type FilterOption } from "./components/HabitFilter"
+import Period from "./components/Period"
+import Site from "./components/Site"
+import { initProvider } from "./components/context"
 
 const _default = defineComponent(() => {
     const [filter, setFilter] = useState<FilterOption>({

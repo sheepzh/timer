@@ -11,7 +11,7 @@ import { useManualRequest } from "@hooks"
 import processor from "@src/common/backup/processor"
 import { BIRTHDAY, parseTime } from "@util/time"
 import { ElButton, ElMessage } from "element-plus"
-import { defineComponent, Ref, ref } from "vue"
+import { defineComponent, type Ref, ref } from "vue"
 import ClientTable from "../ClientTable"
 
 export type StatResult = {

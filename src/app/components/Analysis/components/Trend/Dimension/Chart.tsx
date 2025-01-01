@@ -5,12 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { PropType } from "vue"
-import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/util"
-
-import { defineComponent, watch } from "vue"
-import Wrapper from "./Wrapper"
+import { type DimensionEntry, type ValueFormatter } from "@app/components/Analysis/util"
 import { useEcharts } from "@hooks/useEcharts"
+import { defineComponent, watch, type PropType } from "vue"
+import Wrapper from "./Wrapper"
 
 const _default = defineComponent({
     props: {

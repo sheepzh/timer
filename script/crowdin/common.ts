@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { exitWith } from '../util/process'
-import { CrowdinClient } from './client'
+import { type CrowdinClient } from './client'
 
 export const ALL_DIRS = ['app', 'common', 'popup', 'side', 'cs'] as const
 

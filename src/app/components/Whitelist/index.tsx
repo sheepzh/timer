@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import '../common/editable-tag'
+import { ElCard } from "element-plus"
 import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
+import '../common/editable-tag'
 import AlertInfo from "./AlertInfo"
 import WhitePanel from "./WhitePanel"
-import { ElCard } from "element-plus"
 
 const _default = defineComponent({
     render: () => (

@@ -1,11 +1,11 @@
-import { defineComponent, watch } from "vue"
-import { useReason, provideRule } from "./context"
-import Alert from "./components/Alert"
-import Reason from "./components/Reason"
-import Footer from "./components/Footer"
 import { useRequest, useWindowVisible } from "@hooks"
-import "./style"
 import limitService from "@service/limit-service"
+import { defineComponent, watch } from "vue"
+import Alert from "./components/Alert"
+import Footer from "./components/Footer"
+import Reason from "./components/Reason"
+import { provideRule, useReason } from "./context"
+import "./style"
 
 const _default = defineComponent(() => {
     const reason = useReason()

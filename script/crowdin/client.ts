@@ -1,14 +1,14 @@
 import Crowdin, {
-    Credentials,
-    Pagination,
-    PatchRequest,
-    ResponseList,
-    SourceFilesModel,
-    SourceStringsModel,
-    StringTranslationsModel,
-    UploadStorageModel,
+    type Credentials,
+    type Pagination,
+    type PatchRequest,
+    type ResponseList,
+    type SourceFilesModel,
+    type SourceStringsModel,
+    type StringTranslationsModel,
+    type UploadStorageModel,
 } from '@crowdin/crowdin-api-client'
-import { ALL_CROWDIN_LANGUAGES, CrowdinLanguage, Dir, ItemSet } from './common'
+import { ALL_CROWDIN_LANGUAGES, type CrowdinLanguage, type Dir, type ItemSet } from './common'
 
 const PROJECT_ID = 516822
 

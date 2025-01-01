@@ -7,8 +7,8 @@
 import { useMediaSize } from "@hooks"
 import { MediaSize } from "@hooks/useMediaSize"
 import { defineComponent, ref, type Ref } from "vue"
-import { JSX } from "vue/jsx-runtime"
-import { OptionCategory, OptionInstance } from "./common"
+import { type JSX } from "vue/jsx-runtime"
+import { type OptionCategory, type OptionInstance } from "./common"
 import AccessibilityOption from "./components/AccessibilityOption"
 import AppearanceOption from "./components/AppearanceOption"
 import BackupOption from './components/BackupOption'

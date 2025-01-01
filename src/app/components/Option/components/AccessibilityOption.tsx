@@ -3,7 +3,7 @@ import optionService from "@service/option-service"
 import { defaultAccessibility } from "@util/constant/option"
 import { ElSwitch } from "element-plus"
 import { defineComponent, reactive, unref, watch } from "vue"
-import { OptionInstance } from "../common"
+import { type OptionInstance } from "../common"
 import OptionItem from "./OptionItem"
 
 function copy(target: timer.option.AccessibilityOption, source: timer.option.AccessibilityOption) {

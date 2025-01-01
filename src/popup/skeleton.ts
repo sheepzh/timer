@@ -1,5 +1,5 @@
 import { init as initTheme } from "@util/dark-mode"
-import { FrameRequest, FrameResponse } from "./message"
+import { type FrameRequest, type FrameResponse } from "./message"
 import './style/skeleton.sass'
 
 function injectFrame() {

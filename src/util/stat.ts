@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { judgeVirtualFast } from "./pattern"
-
 export function isNotZeroResult(target: timer.stat.Result): boolean {
     return !!target.focus || !!target.time
 }

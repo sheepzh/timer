@@ -4,15 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { computed, defineComponent } from "vue"
-import Site from "./Site"
-import { KanbanIndicatorCell, KanbanCard, KanbanIndicatorRow } from "@app/components/common/kanban"
-import "./summary.sass"
-import { ElCol, ElRow } from "element-plus"
+import { KanbanCard, KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
+import { computed, defineComponent } from "vue"
 import { useAnalysisRows, useAnalysisSite, useAnalysisTimeFormat } from "../../context"
 import Calendar from "./Calendar"
+import Site from "./Site"
+import "./summary.sass"
 
 type Summary = {
     focus: number

@@ -9,8 +9,8 @@ import InputFilterItem from "@app/components/common/InputFilterItem"
 import SwitchFilterItem from "@app/components/common/SwitchFilterItem"
 import { t } from "@app/locale"
 import { Plus } from "@element-plus/icons-vue"
-import { useState } from "@src/hooks"
-import { defineComponent, PropType, watch } from "vue"
+import { useState } from "@hooks"
+import { defineComponent, type PropType, watch } from "vue"
 
 export type FilterOption = {
     host?: string,

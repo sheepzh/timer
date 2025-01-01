@@ -6,13 +6,13 @@
  */
 
 import { t } from "@app/locale"
-import { ElForm, ElFormItem, ElMessage } from "element-plus"
-import { PropType, defineComponent, watch } from "vue"
-import TimeInput from "./TimeInput"
-import PeriodInput from "./PeriodInput"
 import { useShadow } from "@hooks"
-import { StepFromInstance } from "../common"
+import { ElForm, ElFormItem, ElMessage } from "element-plus"
+import { type PropType, defineComponent, watch } from "vue"
+import { type StepFromInstance } from "../common"
+import PeriodInput from "./PeriodInput"
 import "./style.sass"
+import TimeInput from "./TimeInput"
 
 type Value = Pick<timer.limit.Item, 'time' | 'visitTime' | 'weekly' | 'periods'>
 

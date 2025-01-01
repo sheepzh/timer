@@ -1,5 +1,5 @@
-import { App, inject, provide, Ref, ref } from "vue"
-import { LimitReason } from "../common"
+import { type App, inject, provide, type Ref, ref } from "vue"
+import { type LimitReason } from "../common"
 
 const REASON_KEY = "display_reason"
 const RULE_KEY = "display_rule"
