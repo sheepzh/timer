@@ -6,7 +6,7 @@
  */
 import { useManualRequest } from "@hooks"
 import siteService from "@service/site-service"
-import statService, { HostSet } from "@service/stat-service"
+import statService, { type HostSet } from "@service/stat-service"
 import { MERGED_HOST, ALL_HOSTS as REMAIN_HOSTS } from "@util/constant/remain-host"
 import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
 import { ElOption, ElSelect, ElTag } from "element-plus"

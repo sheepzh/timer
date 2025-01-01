@@ -8,8 +8,8 @@
 import accessibilityHelper from "@service/components/accessibility-helper"
 import { processAria, processRtl } from "@util/echarts"
 import { useWindowSize } from "@vueuse/core"
-import type { AriaComponentOption, ComposeOption } from "echarts"
-import { ECharts, init } from "echarts/core"
+import { type AriaComponentOption, type ComposeOption } from "echarts"
+import { type ECharts, init } from "echarts/core"
 import { ElLoading } from "element-plus"
 import { type Ref, isRef, onMounted, ref, watch } from "vue"
 

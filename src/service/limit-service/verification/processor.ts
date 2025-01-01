@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2023 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
-import { VerificationContext, VerificationGenerator, VerificationPair } from "./common"
+import { type VerificationContext, type VerificationGenerator, type VerificationPair } from "./common"
 import { ALL_GENERATORS } from "./generator"
 
 class VerificationProcessor {

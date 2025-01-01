@@ -9,9 +9,9 @@ import { t } from "@app/locale"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import { useManualRequest, useRequest } from "@hooks"
 import { ElMessage, ElMessageBox } from "element-plus"
-import { defineComponent, Ref, ref } from "vue"
-import AddButton, { AddButtonInstance } from './components/AddButton'
-import Item, { ItemInstance } from './components/Item'
+import { defineComponent, type Ref, ref } from "vue"
+import AddButton, { type AddButtonInstance } from './components/AddButton'
+import Item, { type ItemInstance } from './components/Item'
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 

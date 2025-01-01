@@ -1,5 +1,5 @@
 import { ElTooltip, type Placement, type PopperEffect, type PopperTrigger } from "element-plus"
-import { defineComponent, h, PropType, toRef } from "vue"
+import { defineComponent, h, toRef, type PropType } from "vue"
 
 const _default = defineComponent({
     props: {

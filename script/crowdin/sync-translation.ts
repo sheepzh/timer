@@ -1,11 +1,11 @@
 
-import { SourceFilesModel } from "@crowdin/crowdin-api-client"
+import { type SourceFilesModel } from "@crowdin/crowdin-api-client"
 import { groupBy } from "@util/array"
 import { exitWith } from "../util/process"
-import { CrowdinClient, getClientFromEnv } from "./client"
+import { type CrowdinClient, getClientFromEnv } from "./client"
 import {
     ALL_DIRS, ALL_TRANS_LOCALES,
-    CrowdinLanguage, Dir, ItemSet,
+    type CrowdinLanguage, type Dir, type ItemSet,
     checkMainBranch, crowdinLangOf, isIgnored, readAllMessages, transMsg,
 } from "./common"
 

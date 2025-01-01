@@ -1,7 +1,7 @@
 import { useEcharts } from "@hooks/useEcharts"
-import { PopupResult } from "@popup/common"
+import { type PopupResult } from "@popup/common"
 import { usePopupContext } from "@popup/context"
-import { defineComponent, PropType, toRef, watch } from "vue"
+import { defineComponent, type PropType, toRef, watch } from "vue"
 import Wrapper from "./Wrapper"
 import { handleClick } from "./handler"
 

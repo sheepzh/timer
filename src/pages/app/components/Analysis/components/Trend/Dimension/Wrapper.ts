@@ -5,20 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { DimensionEntry } from "../../../util"
-import type { ComposeOption } from "echarts/core"
-import type { LineSeriesOption } from "echarts/charts"
-import type {
-    TitleComponentOption,
-    TooltipComponentOption,
-    GridComponentOption,
-} from "echarts/components"
-
-import { ValueFormatter } from "@app/components/Analysis/util"
-import { getRegularTextColor } from "@util/style"
-import { EchartsWrapper } from "@hooks/useEcharts"
+import { type ValueFormatter } from "@app/components/Analysis/util"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
-import { TopLevelFormatterParams } from "echarts/types/dist/shared"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import { getRegularTextColor } from "@util/style"
+import { type LineSeriesOption } from "echarts/charts"
+import {
+    type GridComponentOption,
+    type TitleComponentOption,
+    type TooltipComponentOption,
+} from "echarts/components"
+import { type ComposeOption } from "echarts/core"
+import { type TopLevelFormatterParams } from "echarts/types/dist/shared"
+import { type DimensionEntry } from "../../../util"
 
 type EcOption = ComposeOption<
     | LineSeriesOption

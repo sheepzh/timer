@@ -11,9 +11,9 @@
  * @author zhy
  * @since 0.4.0
  */
-import { defineComponent } from "vue"
-import { ElAlert } from "element-plus"
 import { t } from "@app/locale"
+import { ElAlert } from "element-plus"
+import { defineComponent } from "vue"
 
 const _default = defineComponent(() => {
     return () => (

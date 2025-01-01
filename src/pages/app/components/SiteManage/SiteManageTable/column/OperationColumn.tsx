@@ -7,8 +7,8 @@
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
+import { type ElTableRowScope } from "@pages/element-ui/table"
 import siteService from "@service/site-service"
-import { ElTableRowScope } from "@pages/element-ui/table"
 import { ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 

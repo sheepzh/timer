@@ -7,11 +7,11 @@
 
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import LimitDatabase from "@db/limit-database"
+import weekHelper from "@service/components/week-helper"
+import { sum } from "@util/array"
 import { hasLimited, matches, skipToday } from "@util/limit"
 import { formatTimeYMD } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
-import { sum } from "@util/array"
-import weekHelper from "@service/components/week-helper"
 
 const storage = chrome.storage.local
 const db: LimitDatabase = new LimitDatabase(storage)

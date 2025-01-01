@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { onMounted, ref, Ref, watch } from "vue"
+import { onMounted, ref, type Ref, watch } from "vue"
 
 type Result<T> = {
     data: Ref<T>

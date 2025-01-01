@@ -1,7 +1,7 @@
 import { t } from "@app/locale"
 import { ElStep, ElSteps } from "element-plus"
 import { Ref, defineComponent, nextTick, ref } from "vue"
-import Step1, { StatResult } from "./Step1"
+import Step1, { type StatResult } from "./Step1"
 import Step2 from "./Step2"
 
 const _default = defineComponent({

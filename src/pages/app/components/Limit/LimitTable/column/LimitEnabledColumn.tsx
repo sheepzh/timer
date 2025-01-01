@@ -5,12 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { t } from "@app/locale"
+import { judgeVerificationRequired, processVerification } from "@app/util/limit"
+import { type ElTableRowScope } from "@pages/element-ui/table"
+import optionService from "@service/option-service"
 import { ElSwitch, ElTableColumn } from "element-plus"
 import { defineComponent, toRaw } from "vue"
-import { t } from "@app/locale"
-import optionService from "@service/option-service"
-import { ElTableRowScope } from "@pages/element-ui/table"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 
 async function handleChange(row: timer.limit.Item, newVal: boolean): Promise<void> {
     if (!newVal && await judgeVerificationRequired(row)) {

@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import optionService from "@service/option-service"
-import alarmManager from "./alarm-manager"
 import processor from "@service/backup/processor"
+import optionService from "@service/option-service"
 import { MILL_PER_MINUTE } from "@util/time"
+import alarmManager from "./alarm-manager"
 
 const ALARM_NAME = 'auto-backup-data'
 

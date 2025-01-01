@@ -5,15 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent } from "vue"
-
-import { ElAlert, ElButton, ElCard, ElMain } from "element-plus"
 import { t } from "@app/locale"
-import { alertProps } from "../common"
+import { Download } from "@element-plus/icons-vue"
+import Immigration from "@service/components/immigration"
 import { exportJson } from "@util/file"
 import { formatTime } from "@util/time"
-import Immigration from "@service/components/immigration"
-import { Download } from "@element-plus/icons-vue"
+import { ElAlert, ElButton, ElCard, ElMain } from "element-plus"
+import { defineComponent } from "vue"
+import { alertProps } from "../common"
 import ImportButton from "./ImportButton"
 import ImportOtherButton from "./ImportOtherButton"
 

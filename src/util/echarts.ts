@@ -1,7 +1,14 @@
-import type {
-    ComposeOption,
-    AriaComponentOption, GridComponentOption, LegendComponentOption, ToolboxComponentOption, VisualMapComponentOption,
-    BarSeriesOption, LineSeriesOption, PieSeriesOption, ScatterSeriesOption,
+import {
+    type AriaComponentOption,
+    type BarSeriesOption,
+    type ComposeOption,
+    type GridComponentOption,
+    type LegendComponentOption,
+    type LineSeriesOption,
+    type PieSeriesOption,
+    type ScatterSeriesOption,
+    type ToolboxComponentOption,
+    type VisualMapComponentOption,
 } from "echarts"
 import { isRtl } from "./document"
 

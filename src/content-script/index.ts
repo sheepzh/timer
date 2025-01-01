@@ -9,8 +9,8 @@ import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { initLocale } from "@i18n"
 import TrackerClient from "@src/background/timer/client"
 import processLimit from "./limit"
-import printInfo from "./printer"
 import { injectPolyfill } from "./polyfill/inject"
+import printInfo from "./printer"
 
 const host = document?.location?.host
 const url = document?.location?.href

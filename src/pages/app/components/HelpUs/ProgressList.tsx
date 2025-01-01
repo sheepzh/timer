@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getTranslationStatus, TranslationStatusInfo } from "@api/crowdin"
+import { getTranslationStatus, type TranslationStatusInfo } from "@api/crowdin"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import localeMessages from "@i18n/message/common/locale"

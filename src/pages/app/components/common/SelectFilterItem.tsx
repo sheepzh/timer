@@ -5,13 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { PropType } from "vue"
-
-import { watch } from "vue"
-import { ElOption, ElSelect } from "element-plus"
-import { defineComponent } from "vue"
-import { useRoute } from "vue-router"
 import { useCached } from "@hooks"
+import { ElOption, ElSelect } from "element-plus"
+import { defineComponent, watch, type PropType } from "vue"
+import { useRoute } from "vue-router"
 
 const _default = defineComponent({
     props: {

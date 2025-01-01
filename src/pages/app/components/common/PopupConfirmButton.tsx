@@ -6,9 +6,9 @@
  */
 
 import { t } from "@app/locale"
-import { ButtonType, ElButton, ElPopconfirm } from "element-plus"
-import { defineComponent, PropType } from "vue"
-import { JSX } from "vue/jsx-runtime"
+import { type ButtonType, ElButton, ElPopconfirm } from "element-plus"
+import { defineComponent, type PropType } from "vue"
+import { type JSX } from "vue/jsx-runtime"
 
 const _default = defineComponent({
     props: {

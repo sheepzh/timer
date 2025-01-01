@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Ref } from "vue"
 import { useProvide, useProvider } from "@hooks"
-import { FilterOption } from "./HabitFilter"
+import { type Ref } from "vue"
+import { type FilterOption } from "./HabitFilter"
 
 type Context = {
     filter: Ref<FilterOption>

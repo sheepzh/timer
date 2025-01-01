@@ -5,15 +5,15 @@
  * https://opensource.org/licenses/MIT
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
-import Flex from "@pages/components/Flex"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
+import Flex from "@pages/components/Flex"
+import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
-import { ElTableRowScope } from "@pages/element-ui/table"
 import { period2Str } from "@util/limit"
 import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
 import { ElTable, ElTableColumn, ElTag } from "element-plus"
-import { defineComponent, PropType } from "vue"
+import { defineComponent, type PropType } from "vue"
 import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"

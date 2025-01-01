@@ -12,12 +12,12 @@ import { groupBy, rotate } from "@util/array"
 import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
 import { formatTime, getAllDatesBetween, MILL_PER_WEEK, parseTime } from "@util/time"
 import {
-    ComposeOption,
-    EffectScatterSeriesOption,
-    GridComponentOption,
-    TitleComponentOption,
-    TooltipComponentOption,
-    VisualMapComponentOption
+    type ComposeOption,
+    type EffectScatterSeriesOption,
+    type GridComponentOption,
+    type TitleComponentOption,
+    type TooltipComponentOption,
+    type VisualMapComponentOption
 } from "echarts"
 
 type EcOption = ComposeOption<

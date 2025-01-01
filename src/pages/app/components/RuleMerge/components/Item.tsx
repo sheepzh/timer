@@ -8,7 +8,7 @@ import { t } from "@app/locale"
 import { Edit } from "@element-plus/icons-vue"
 import { useShadow, useSwitch } from "@hooks"
 import { LOCAL_HOST_PATTERN } from "@util/constant/remain-host"
-import { ElTag, TagProps } from "element-plus"
+import { ElTag, type TagProps } from "element-plus"
 import { computed, defineComponent } from "vue"
 import ItemInput from "./ItemInput"
 

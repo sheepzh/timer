@@ -7,7 +7,7 @@
 
 import { t } from "@app/locale"
 import { ElStep, ElSteps } from "element-plus"
-import { Ref, defineComponent, nextTick, ref } from "vue"
+import { type Ref, defineComponent, nextTick, ref } from "vue"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 

@@ -6,8 +6,8 @@
  */
 
 import { type I18nResultItem, type I18nKey as _I18nKey, t as _t, tN as _tN } from "@i18n"
-import messages, { AppMessage } from "@i18n/message/app"
-import type { VNode } from "vue"
+import messages, { type AppMessage } from "@i18n/message/app"
+import { type VNode } from "vue"
 
 export type I18nKey = _I18nKey<AppMessage>
 

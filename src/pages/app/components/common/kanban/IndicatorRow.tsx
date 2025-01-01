@@ -6,7 +6,7 @@
  */
 
 import { ElRow } from "element-plus"
-import { PropType, StyleValue, defineComponent, h } from "vue"
+import { type PropType, type StyleValue, defineComponent } from "vue"
 import "./indicator-row.sass"
 
 const _default = defineComponent({

@@ -5,16 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import menuMessages, { MenuMessage } from "../app/menu"
-import baseMessages, { BaseMessage } from "../common/base"
-import calendarMessages, { CalendarMessage } from "../common/calendar"
-import itemMessages, { ItemMessage } from "../common/item"
-import mergeMessages, { MergeMessage } from "../common/merge"
-import metaMessages, { MetaMessage } from "../common/meta"
-import { merge, MessageRoot } from "../merge"
-import chartMessages, { ChartMessage } from "./chart"
-import footerMessages, { FooterMessage } from "./footer"
-import headerMessages, { HeaderMessage } from "./header"
+import menuMessages, { type MenuMessage } from "../app/menu"
+import baseMessages, { type BaseMessage } from "../common/base"
+import calendarMessages, { type CalendarMessage } from "../common/calendar"
+import itemMessages, { type ItemMessage } from "../common/item"
+import mergeMessages, { type MergeMessage } from "../common/merge"
+import metaMessages, { type MetaMessage } from "../common/meta"
+import { merge, type MessageRoot } from "../merge"
+import chartMessages, { type ChartMessage } from "./chart"
+import footerMessages, { type FooterMessage } from "./footer"
+import headerMessages, { type HeaderMessage } from "./header"
 
 export type PopupMessage = {
     chart: ChartMessage

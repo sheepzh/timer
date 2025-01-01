@@ -9,7 +9,7 @@ import { useEcharts } from "@hooks/useEcharts"
 import { computed, defineComponent } from "vue"
 import { useHabitFilter } from "../../context"
 import { useRows } from "../context"
-import Wrapper, { BizOption } from "./Wrapper"
+import Wrapper, { type BizOption } from "./Wrapper"
 
 const _default = defineComponent(() => {
     const rows = useRows()

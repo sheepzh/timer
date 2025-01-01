@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import SiteDatabase, { SiteCondition } from "@db/site-database"
+import SiteDatabase, { type SiteCondition } from "@db/site-database"
 import { supportCategory } from "@util/site"
 import { slicePageResult } from "./components/page-info"
 

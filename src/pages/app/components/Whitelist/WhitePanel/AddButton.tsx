@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 import { t } from "@app/locale"
+import { useState, useSwitch } from "@hooks"
 import { ElButton } from "element-plus"
 import { defineComponent } from "vue"
 import WhiteInput from './WhiteInput'
-import { useSwitch, useState } from "@hooks"
 
 export type AddButtonInstance = {
     closeEdit(): void

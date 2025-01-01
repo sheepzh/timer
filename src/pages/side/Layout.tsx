@@ -1,5 +1,5 @@
 import { useRequest } from "@hooks"
-import statService, { StatQueryParam } from "@service/stat-service"
+import statService, { type StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
 import { ElText } from "element-plus"
 import { defineComponent, ref } from "vue"

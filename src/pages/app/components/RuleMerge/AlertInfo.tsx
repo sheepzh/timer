@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElAlert } from "element-plus"
 import { t, tN } from "@app/locale"
-import { StyleValue, defineComponent } from "vue"
 import { PSL_HOMEPAGE } from "@util/constant/url"
+import { ElAlert } from "element-plus"
+import { type StyleValue, defineComponent } from "vue"
 
 const pslStyle: StyleValue = {
     fontSize: "var(--el-alert-description-font-size)",

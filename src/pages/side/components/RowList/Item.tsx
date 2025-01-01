@@ -4,7 +4,7 @@ import { isRemainHost } from "@util/constant/remain-host"
 import { classNames } from "@util/style"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
-import { computed, defineComponent, PropType } from "vue"
+import { computed, defineComponent, type PropType } from "vue"
 import "./item.sass"
 
 const renderTitle = (siteName: string, host: string, handleJump: () => void) => {

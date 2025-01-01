@@ -5,17 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { I18nKey } from "@app/locale"
-import type { PropType, VNode } from "vue"
-
-import { tN } from "@app/locale"
-import { defineComponent } from "vue"
-import "./indicator-cell.sass"
-import { ElIcon, ElTooltip } from "element-plus"
-import { BottomRight, InfoFilled, TopRight } from "@element-plus/icons-vue"
 import { computeRingText, RingValue, ValueFormatter } from "@app/components/Analysis/util"
-import { classNames } from "@util/style"
+import { tN, type I18nKey } from "@app/locale"
+import { BottomRight, InfoFilled, TopRight } from "@element-plus/icons-vue"
 import { range } from "@util/array"
+import { classNames } from "@util/style"
+import { ElIcon, ElTooltip } from "element-plus"
+import { defineComponent, type PropType, type VNode } from "vue"
+import "./indicator-cell.sass"
 
 export type SubProps = {
     subTips?: I18nKey

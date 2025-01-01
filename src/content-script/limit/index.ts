@@ -1,10 +1,10 @@
-import { MaskModal, ModalContext, Processor } from "./common"
-import ModalInstance from "./modal"
-import MessageAdaptor from "./processor/message-adaptor"
-import VisitProcessor from "./processor/visit-processor"
-import PeriodProcessor from "./processor/period-processor"
 import { onRuntimeMessage } from "@api/chrome/runtime"
 import { allMatch } from "@util/array"
+import { type MaskModal, type ModalContext, type Processor } from "./common"
+import ModalInstance from "./modal"
+import MessageAdaptor from "./processor/message-adaptor"
+import PeriodProcessor from "./processor/period-processor"
+import VisitProcessor from "./processor/visit-processor"
 
 export default async function processLimit(url: string) {
     const modal: MaskModal = new ModalInstance(url)

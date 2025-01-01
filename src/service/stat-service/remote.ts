@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { StatCondition } from "@db/stat-database"
+import { type StatCondition } from "@db/stat-database"
 import processor from "@service/backup/processor"
 import { identifyStatKey } from "@util/stat"
 import { getBirthday } from "@util/time"

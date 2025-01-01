@@ -12,13 +12,13 @@ import optionService from "@service/option-service"
 import { rotate } from "@util/array"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { defaultStatistics } from "@util/constant/option"
+import { MILL_PER_SECOND } from "@util/time"
 import { ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
 import { computed, defineComponent, onMounted, reactive, unref, watch } from "vue"
-import { OptionInstance } from "../common"
+import { type OptionInstance } from "../common"
 import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
 import OptionTooltip from "./OptionTooltip"
-import { MILL_PER_SECOND } from "@util/time"
 
 const weekStartOptionPairs: [[timer.option.WeekStartOption, string]] = [
     ['default', t(msg => msg.option.statistics.weekStartAsNormal)]

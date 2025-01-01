@@ -6,7 +6,7 @@
  */
 
 import { getTab, onTabActivated } from "@api/chrome/tab"
-import { extractHostname, HostInfo } from "@util/pattern"
+import { extractHostname, type HostInfo } from "@util/pattern"
 
 type _Param = {
     url: string

@@ -1,9 +1,9 @@
-import { merge } from "../merge"
-import limitMessages, { LimitMessage } from "../app/limit"
-import metaMessages, { MetaMessage } from "../common/meta"
-import consoleMessages, { ConsoleMessage } from "./console"
-import modalMessages, { ModalMessage } from "./modal"
-import menuMessages, { MenuMessage } from "../app/menu"
+import limitMessages, { type LimitMessage } from "../app/limit"
+import menuMessages, { type MenuMessage } from "../app/menu"
+import metaMessages, { type MetaMessage } from "../common/meta"
+import { merge, type MessageRoot } from "../merge"
+import consoleMessages, { type ConsoleMessage } from "./console"
+import modalMessages, { type ModalMessage } from "./modal"
 
 export type CsMessage = {
     console: ConsoleMessage
@@ -13,7 +13,7 @@ export type CsMessage = {
     menu: MenuMessage
 }
 
-const CHILD_MESSAGES: { [key in keyof CsMessage]: Messages<CsMessage[key]> } = {
+const CHILD_MESSAGES: MessageRoot<CsMessage> = {
     console: consoleMessages,
     modal: modalMessages,
     meta: metaMessages,

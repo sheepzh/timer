@@ -7,11 +7,11 @@
 
 import { t } from "@app/locale"
 import { Check, Close, Plus } from "@element-plus/icons-vue"
-import { ElButton, ElTag, ElTimePicker } from "element-plus"
-import { PropType, defineComponent, watch } from "vue"
+import { useShadow, useState, useSwitch } from "@hooks"
 import { checkImpact, dateMinute2Idx, mergePeriod, period2Str } from "@util/limit"
-import { useShadow, useSwitch, useState } from "@hooks"
 import { MILL_PER_HOUR } from "@util/time"
+import { ElButton, ElTag, ElTimePicker } from "element-plus"
+import { type PropType, defineComponent, watch } from "vue"
 
 const range2Period = (range: [Date, Date]): [number, number] => {
     const [start, end] = range || []

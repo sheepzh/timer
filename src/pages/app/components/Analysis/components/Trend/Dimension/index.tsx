@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 import { formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@app/components/Analysis/util"
-import { defineComponent, type PropType } from "vue"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
-import Chart from "./Chart"
 import { cvt2LocaleTime } from "@app/util/time"
+import { defineComponent, type PropType } from "vue"
+import Chart from "./Chart"
 
 export type DimensionData = {
     thisPeriod: DimensionEntry[]

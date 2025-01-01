@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import { useRequest, useState } from "@hooks"
-import statService, { StatQueryParam } from "@service/stat-service"
+import statService, { type StatQueryParam } from "@service/stat-service"
 import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"

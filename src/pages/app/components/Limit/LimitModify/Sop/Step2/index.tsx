@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ElDivider, ElLink, ElMessage, ElScrollbar, ElText, ScrollbarInstance } from "element-plus"
-import { PropType, defineComponent, ref, watch } from "vue"
-import { StepFromInstance } from "../common"
+import { t } from "@app/locale"
+import { Delete } from "@element-plus/icons-vue"
 import { useShadow } from "@hooks"
+import { ElDivider, ElLink, ElMessage, ElScrollbar, ElText, type ScrollbarInstance } from "element-plus"
+import { type PropType, defineComponent, ref, watch } from "vue"
+import { type StepFromInstance } from "../common"
 import UrlInput from "./UrlInput"
 import "./style.sass"
-import { Delete } from "@element-plus/icons-vue"
-import { t } from "@app/locale"
 
 const _default = defineComponent({
     props: {

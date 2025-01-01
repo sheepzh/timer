@@ -8,10 +8,10 @@
 import SelectFilterItem from '@app/components/common/SelectFilterItem'
 import { t } from '@app/locale'
 import { useCached } from '@hooks'
-import { HabitMessage } from '@i18n/message/app/habit'
+import { type HabitMessage } from '@i18n/message/app/habit'
 import { ElRadioButton, ElRadioGroup } from 'element-plus'
-import { PropType, defineComponent, ref, watch } from 'vue'
-import { ChartType, FilterOption } from './common'
+import { type PropType, defineComponent, ref, watch } from 'vue'
+import { type ChartType, type FilterOption } from './common'
 
 // [value, label]
 type _SizeOption = [number, keyof HabitMessage['period']['sizes']]

@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey } from "@i18n"
-import { LimitMessage } from "@i18n/message/app/limit"
+import { type I18nKey } from "@i18n"
+import { type LimitMessage } from "@i18n/message/app/limit"
 
 type LimitVerificationMessage = LimitMessage['verification']
 

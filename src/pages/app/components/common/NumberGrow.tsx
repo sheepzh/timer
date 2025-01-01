@@ -5,11 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Ref, StyleValue } from "vue"
-
-import { defineComponent, onMounted, ref, watch } from "vue"
-import { CountUp } from "countup.js"
 import { getNumberSeparator } from "@i18n"
+import { CountUp } from "countup.js"
+import { defineComponent, onMounted, ref, watch, type Ref, type StyleValue } from "vue"
 
 const _default = defineComponent({
     props: {

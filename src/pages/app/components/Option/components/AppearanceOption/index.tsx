@@ -5,8 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { UnwrapRef } from "vue"
-
 import { t, tWith } from "@app/locale"
 import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"
@@ -14,8 +12,8 @@ import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
 import { toggle } from "@util/dark-mode"
 import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, reactive, unref, watch } from "vue"
-import { OptionInstance } from "../../common"
+import { defineComponent, reactive, unref, watch, type UnwrapRef } from "vue"
+import { type OptionInstance } from "../../common"
 import OptionItem from "../OptionItem"
 import OptionTag from "../OptionTag"
 import DarkModeInput from "./DarkModeInput"

@@ -5,15 +5,20 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { BarSeriesOption, ComposeOption, GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts"
-
 import { t } from "@app/locale"
 import { getStepColors } from "@app/util/echarts"
 import { periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { generateSiteLabel, identifySiteKey } from "@util/site"
-import { TopLevelFormatterParams } from "echarts/types/dist/shared"
-import { SeriesDataItem, generateTitleOption } from "../common"
+import {
+    type BarSeriesOption,
+    type ComposeOption,
+    type GridComponentOption,
+    type TitleComponentOption,
+    type TooltipComponentOption,
+} from "echarts"
+import { type TopLevelFormatterParams } from "echarts/types/dist/shared"
+import { type SeriesDataItem, generateTitleOption } from "../common"
 
 type EcOption = ComposeOption<
     | BarSeriesOption

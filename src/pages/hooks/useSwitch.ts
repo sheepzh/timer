@@ -1,4 +1,4 @@
-import { Ref, ref } from "vue"
+import { type Ref, ref } from "vue"
 
 type Result = [
     ref: Ref<boolean>,

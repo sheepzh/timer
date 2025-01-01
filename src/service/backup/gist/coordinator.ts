@@ -5,13 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { Gist, GistForm, File, FileForm } from "@api/gist"
-
-import { getJsonFileContent, findTarget, getGist, createGist, updateGist, testToken } from "@api/gist"
+import {
+    createGist, findTarget, getGist, getJsonFileContent, testToken, updateGist,
+    type File, type FileForm, type Gist, type GistForm
+} from "@api/gist"
 import { SOURCE_CODE_PAGE } from "@util/constant/url"
-import { calcAllBuckets, divide2Buckets, GistData, gistData2Rows } from "./compressor"
 import MonthIterator from "@util/month-iterator"
 import { formatTimeYMD } from "@util/time"
+import { calcAllBuckets, divide2Buckets, gistData2Rows, type GistData } from "./compressor"
 
 const TIMER_META_GIST_DESC = "Used for timer to save meta info. Don't change this description :)"
 const TIMER_DATA_GIST_DESC = "Used for timer to save stat data. Don't change this description :)"

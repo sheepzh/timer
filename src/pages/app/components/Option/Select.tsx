@@ -3,7 +3,7 @@ import { ElCard, ElSelect } from "element-plus"
 import { defineComponent, h, ref, useSlots, watch } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import { changeQuery, OptionCategory, parseQuery } from "./common"
+import { changeQuery, type OptionCategory, parseQuery } from "./common"
 
 const _default = defineComponent(() => {
     const tab = ref<OptionCategory>(parseQuery() || 'appearance')

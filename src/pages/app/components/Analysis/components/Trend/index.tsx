@@ -4,8 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import type { DimensionEntry, ValueFormatter } from "@app/components/Analysis/util"
-
+import { type DimensionEntry, type ValueFormatter } from "@app/components/Analysis/util"
 import { KanbanCard } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"

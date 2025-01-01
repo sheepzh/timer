@@ -1,22 +1,21 @@
 
-import { EchartsWrapper } from "@hooks/useEcharts"
-import type {
-    ComposeOption,
-    GridComponentOption,
-    TitleComponentOption,
-    TooltipComponentOption,
-    LegendComponentOption,
-    LineSeriesOption,
-    LinearGradientObject,
-} from "echarts"
-
-import { getAllDatesBetween } from "@util/time"
-import { groupBy, sum } from "@util/array"
 import { t } from "@app/locale"
-import { TopLevelFormatterParams, YAXisOption } from "echarts/types/dist/shared"
-import { generateTitleOption } from "../common"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@app/util/echarts"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
+import { EchartsWrapper } from "@hooks/useEcharts"
+import { groupBy, sum } from "@util/array"
+import { getAllDatesBetween } from "@util/time"
+import {
+    type ComposeOption,
+    type GridComponentOption,
+    type LegendComponentOption,
+    type LineSeriesOption,
+    type LinearGradientObject,
+    type TitleComponentOption,
+    type TooltipComponentOption,
+} from "echarts"
+import { type TopLevelFormatterParams, type YAXisOption } from "echarts/types/dist/shared"
+import { generateTitleOption } from "../common"
 
 type EcOption = ComposeOption<
     | GridComponentOption

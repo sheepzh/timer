@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
+import Card from "./Card"
 import IndicatorCell from "./IndicatorCell"
 import IndicatorRow from "./IndicatorRow"
-import Card from "./Card"
 
 export const KanbanIndicatorCell = IndicatorCell
 export const KanbanCard = Card

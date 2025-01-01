@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "./locale"
-import { formatPeriod } from "@util/time"
 import { sendMsg2Runtime } from "@api/chrome/runtime"
+import { formatPeriod } from "@util/time"
+import { t } from "./locale"
 
 /**
  * Print info of today

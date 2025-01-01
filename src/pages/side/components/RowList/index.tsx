@@ -1,7 +1,7 @@
 import { useShadow } from "@hooks"
 import { sum } from "@util/array"
-import { ElEmpty, ElScrollbar, ScrollbarInstance } from "element-plus"
-import { computed, defineComponent, PropType, ref, StyleValue, watch } from "vue"
+import { ElEmpty, ElScrollbar, type ScrollbarInstance } from "element-plus"
+import { computed, defineComponent, type PropType, ref, type StyleValue, watch } from "vue"
 import Item from "./Item"
 import "./row-list.sass"
 

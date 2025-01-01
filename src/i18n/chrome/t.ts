@@ -6,8 +6,8 @@
  */
 
 import { getMessage } from "@api/chrome/i18n"
-import messages, { router, ChromeMessage } from "./message"
 import { t } from ".."
+import messages, { router, type ChromeMessage } from "./message"
 
 export const keyPathOf = (key: (root: ChromeMessage) => string) => key(router)
 

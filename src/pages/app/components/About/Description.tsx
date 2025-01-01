@@ -16,7 +16,7 @@ import {
     REVIEW_PAGE,
     SOURCE_CODE_PAGE,
 } from "@util/constant/url"
-import { ComponentSize, ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText } from "element-plus"
+import { type ComponentSize, ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText } from "element-plus"
 import { computed, defineComponent } from "vue"
 import DescLink from "./DescLink"
 import "./description.sass"

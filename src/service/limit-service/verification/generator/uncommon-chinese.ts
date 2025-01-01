@@ -6,7 +6,7 @@
  */
 
 import { randomIntBetween } from "@util/number"
-import { VerificationContext, VerificationGenerator, VerificationPair } from "../common"
+import { type VerificationContext, type VerificationGenerator, type VerificationPair } from "../common"
 
 const UNCOMMON_WORDS = '龘靐齉齾爩鱻麤龗灪吁龖厵滟爨癵籱饢驫鲡鹂鸾麣纞虋讟钃骊郁鸜麷鞻韽韾响顟顠饙饙騳騱饐'
 const LENGTH = UNCOMMON_WORDS.length

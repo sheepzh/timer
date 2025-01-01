@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { Router, useRoute } from "vue-router"
+import { type Router, useRoute } from "vue-router"
 
 export const ALL_CATEGORIES = ["appearance", "statistics", "popup", 'dailyLimit', 'accessibility', 'backup'] as const
 export type OptionCategory = typeof ALL_CATEGORIES[number]

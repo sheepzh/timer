@@ -7,13 +7,13 @@
 
 import { createTabAfterCurrent, getRightOf, listTabs, resetTabUrl, sendMsg2Tab } from "@api/chrome/tab"
 import { LIMIT_ROUTE } from "@app/router/constants"
-import { getAppPageUrl } from "@util/constant/url"
-import MessageDispatcher from "./message-dispatcher"
-import { matches } from "@util/limit"
 import limitService from "@service/limit-service"
+import { getAppPageUrl } from "@util/constant/url"
+import { matches } from "@util/limit"
 import { isBrowserUrl } from "@util/pattern"
-import alarmManager from "./alarm-manager"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
+import alarmManager from "./alarm-manager"
+import MessageDispatcher from "./message-dispatcher"
 
 function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
     const { url } = tab

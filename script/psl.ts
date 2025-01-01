@@ -2,7 +2,7 @@
  * Build psl tree
  */
 
-import { PslTree } from '@util/psl'
+import { type PslTree } from '@util/psl'
 import axios from 'axios'
 import { writeFileSync } from 'fs'
 import path from 'path'

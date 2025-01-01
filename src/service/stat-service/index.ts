@@ -7,7 +7,7 @@
 
 import MergeRuleDatabase from "@db/merge-rule-database"
 import SiteDatabase from "@db/site-database"
-import StatDatabase, { StatCondition } from "@db/stat-database"
+import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { judgeVirtualFast } from "@util/pattern"
 import { distinctSites, SiteMap } from "@util/site"
 import { log } from "../../common/logger"

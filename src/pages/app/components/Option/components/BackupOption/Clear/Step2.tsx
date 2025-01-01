@@ -6,11 +6,11 @@
  */
 
 import { t } from "@app/locale"
-import { ElAlert, ElButton, ElMessage } from "element-plus"
-import { PropType, Ref, defineComponent, ref } from "vue"
 import { Back, Check } from "@element-plus/icons-vue"
-import { StatResult } from "./Step1"
 import processor from "@service/backup/processor"
+import { defineComponent, ref, type PropType } from "vue"
+import { type StatResult } from "./Step1"
+import { ElAlert, ElButton, ElMessage } from "element-plus"
 
 const processClear = async (client: timer.backup.Client): Promise<void> => {
     const result = await processor.clear(client.id)
@@ -28,7 +28,7 @@ const _default = defineComponent({
         clear: () => true,
     },
     setup(props, ctx) {
-        const deleting: Ref<boolean> = ref(false)
+        const deleting = ref(false)
 
         const handleClear = () => {
             deleting.value = true

@@ -5,8 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { I18nKey as _I18nKey, t as _t } from "@i18n"
-import messages, { PopupMessage } from "@i18n/message/popup"
+import { type I18nKey as _I18nKey, t as _t } from "@i18n"
+import messages, { type PopupMessage } from "@i18n/message/popup"
 
 export type I18nKey = _I18nKey<PopupMessage>
 

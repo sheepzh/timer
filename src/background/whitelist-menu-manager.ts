@@ -5,14 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-import WhitelistDatabase from "@db/whitelist-database"
-import optionService from "@service/option-service"
-import { t2Chrome } from "@i18n/chrome/t"
-import { ContextMenusMessage } from "@i18n/message/common/context-menus"
-import { extractHostname, isBrowserUrl } from "@util/pattern"
-import { getTab, onTabActivated, onTabUpdated } from "@api/chrome/tab"
 import { createContextMenu, updateContextMenu } from "@api/chrome/context-menu"
 import { getRuntimeId } from "@api/chrome/runtime"
+import { getTab, onTabActivated, onTabUpdated } from "@api/chrome/tab"
+import WhitelistDatabase from "@db/whitelist-database"
+import { t2Chrome } from "@i18n/chrome/t"
+import { type ContextMenusMessage } from "@i18n/message/common/context-menus"
+import optionService from "@service/option-service"
+import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const db = new WhitelistDatabase(chrome.storage.local)
 

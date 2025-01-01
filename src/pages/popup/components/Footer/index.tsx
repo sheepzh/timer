@@ -1,7 +1,7 @@
 import { useRequest } from "@hooks/useRequest"
 import { useState } from "@hooks/useState"
 import Flex from "@pages/components/Flex"
-import { PopupQuery } from "@popup/common"
+import { type PopupQuery } from "@popup/common"
 import DurationSelect from "@popup/components/Footer/DurationSelect"
 import { t } from "@popup/locale"
 import optionService from "@service/option-service"

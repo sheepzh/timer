@@ -1,4 +1,4 @@
-import { Ref, WatchSource, ref, watch } from "vue"
+import { type Ref, type WatchSource, ref, watch } from "vue"
 
 export const useShadow = <T,>(source: WatchSource<T>, defaultValue?: T): [Ref<T>, setter: (val?: T) => void, refresh: () => void] => {
     const getVal = () => typeof source === "function" ? source() : source?.value

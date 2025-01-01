@@ -6,8 +6,8 @@
  */
 
 import { randomIntBetween } from "@util/number"
-import { VerificationContext, VerificationGenerator, VerificationPair } from "../common"
 import { rangeArr } from "element-plus"
+import { type VerificationContext, type VerificationGenerator, type VerificationPair } from "../common"
 
 const BASE = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\`-=[]/.,:\"<>?!@#$%^&*()_+;'"
 const BASE_LEN = BASE.length

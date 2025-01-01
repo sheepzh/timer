@@ -7,11 +7,9 @@
 
 import { t } from "@app/locale"
 import { ElIcon, ElMenu, ElMenuItem, ElMenuItemGroup } from "element-plus"
-import type { Ref, StyleValue } from "vue"
-import { defineComponent, h, onMounted, ref, watch } from "vue"
-import type { Router } from "vue-router"
-import { useRouter } from "vue-router"
-import { MenuItem, MENUS } from "./item"
+import { defineComponent, h, onMounted, ref, watch, type Ref, type StyleValue } from "vue"
+import { useRouter, type Router } from "vue-router"
+import { MENUS, type MenuItem } from "./item"
 import { handleClick, initTitle } from "./route"
 
 const iconStyle: StyleValue = {

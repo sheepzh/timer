@@ -1,6 +1,6 @@
 import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD } from "@util/time"
-import StatDatabase, { StatCondition } from "."
+import StatDatabase, { type StatCondition } from "."
 
 type _StatCondition = StatCondition & {
     // Use exact date condition

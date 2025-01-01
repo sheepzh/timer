@@ -7,9 +7,9 @@
 
 import ColumnHeader from "@app/components/common/ColumnHeader"
 import Editable from "@app/components/common/Editable"
-import Flex from "@pages/components/Flex"
 import { t } from "@app/locale"
 import { MagicStick } from "@element-plus/icons-vue"
+import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
 import { ElIcon, ElTableColumn, ElText, ElTooltip } from "element-plus"
 import { defineComponent } from "vue"

@@ -1,5 +1,5 @@
 import { ElLink } from "element-plus"
-import { defineComponent, h, PropType } from "vue"
+import { defineComponent, h, type PropType } from "vue"
 import "./desc-link.sass"
 
 export type Icon = "github" | "element-plus" | "echarts" | "vue"

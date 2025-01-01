@@ -6,9 +6,9 @@
  */
 import HostAlert from "@app/components/common/HostAlert"
 import { t } from "@app/locale"
+import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import siteService from "@service/site-service"
-import Flex from "@pages/components/Flex"
 import { supportCategory } from "@util/site"
 import { ElTable, ElTableColumn } from "element-plus"
 import { defineComponent, type PropType } from "vue"

@@ -6,11 +6,11 @@
  */
 
 import { t } from "@app/locale"
+import { Close, Document, Right } from "@element-plus/icons-vue"
+import { useState, useSwitch } from "@hooks"
 import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "element-plus"
 import { defineComponent, ref } from "vue"
-import { Document, Close, Right } from "@element-plus/icons-vue"
-import { OtherExtension, parseFile } from "./processor"
-import { useState, useSwitch } from "@hooks"
+import { type OtherExtension, parseFile } from "./processor"
 
 const OTHER_NAMES: { [ext in OtherExtension]: string } = {
     webtime_tracker: "Webtime Tracker",

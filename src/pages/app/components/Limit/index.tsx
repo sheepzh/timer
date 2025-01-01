@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { t } from "@app/locale"
+import { useRequest, useState, useWindowVisible } from "@hooks"
+import limitService from "@service/limit-service"
+import { deepCopy } from "@util/lang"
+import { ElMessage } from "element-plus"
 import { defineComponent, ref, toRaw } from "vue"
+import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import LimitFilter, { type FilterOption } from "./LimitFilter"
+import LimitModify, { type ModifyInstance } from "./LimitModify"
 import LimitTable from "./LimitTable"
-import LimitModify, { ModifyInstance } from "./LimitModify"
-import LimitTest, { TestInstance } from "./LimitTest"
-import limitService from "@service/limit-service"
-import { useRoute, useRouter } from "vue-router"
-import { t } from "@app/locale"
-import { ElMessage } from "element-plus"
-import { useRequest, useState, useWindowVisible } from "@hooks"
-import { deepCopy } from "@util/lang"
+import LimitTest, { type TestInstance } from "./LimitTest"
 
 const initialUrl = () => {
     // Init with url parameter

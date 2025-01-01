@@ -1,8 +1,8 @@
 import { t } from "@app/locale"
 import { useShadow } from "@hooks"
 import { ElCol, ElForm, ElFormItem, ElInput, ElMessage, ElOption, ElRow, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, PropType, watch } from "vue"
-import { StepFromInstance } from "./common"
+import { defineComponent, type PropType, watch } from "vue"
+import { type StepFromInstance } from "./common"
 
 const _default = defineComponent({
     props: {

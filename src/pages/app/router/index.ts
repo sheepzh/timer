@@ -5,12 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import type { App } from "vue"
-import type { RouteRecordRaw } from "vue-router"
-
-import { createRouter, createWebHashHistory } from "vue-router"
-import { OPTION_ROUTE, ANALYSIS_ROUTE, LIMIT_ROUTE, REPORT_ROUTE, MERGE_ROUTE } from "./constants"
 import metaService from "@service/meta-service"
+import { type App } from "vue"
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router"
+import { ANALYSIS_ROUTE, LIMIT_ROUTE, MERGE_ROUTE, OPTION_ROUTE, REPORT_ROUTE } from "./constants"
 
 const dataRoutes: RouteRecordRaw[] = [
     {

@@ -9,7 +9,7 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import { JSON_HOST, LOCAL_HOST_PATTERN, MERGED_HOST, PDF_HOST, PIC_HOST, TXT_HOST } from "@util/constant/remain-host"
 import { t2Chrome } from "@i18n/chrome/t"
 import siteService from "@service/site-service"
-import { Migrator } from "./common"
+import { type Migrator } from "./common"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 

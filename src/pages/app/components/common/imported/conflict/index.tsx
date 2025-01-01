@@ -7,8 +7,8 @@
 
 import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
-import { ElRadio, ElForm, ElFormItem, ElTooltip, ElIcon, ElRadioGroup } from "element-plus"
-import { VNode, Ref } from "vue"
+import { ElForm, ElFormItem, ElIcon, ElRadio, ElRadioGroup, ElTooltip } from "element-plus"
+import { type Ref, type VNode } from "vue"
 import "./style.sass"
 
 export const ALL_RESOLUTIONS: timer.imported.ConflictResolution[] = ['overwrite', 'accumulate']

@@ -1,11 +1,11 @@
-import { computed, defineComponent } from "vue"
-import { usePeriodFilter, usePeriodValue } from "./context"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
-import { periodFormatter } from "@app/util/time"
 import { t } from "@app/locale"
+import { periodFormatter } from "@app/util/time"
 import { averageByDay } from "@util/period"
 import { formatTime } from "@util/time"
+import { computed, defineComponent } from "vue"
 import { useHabitFilter } from "../context"
+import { usePeriodFilter, usePeriodValue } from "./context"
 
 type Result = {
     favorite: {

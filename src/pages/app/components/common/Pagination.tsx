@@ -7,7 +7,7 @@
 
 import { getPaginationIconProps } from "@pages/element-ui/rtl"
 import { ElPagination } from "element-plus"
-import { PropType, defineComponent } from "vue"
+import { type PropType, defineComponent } from "vue"
 
 const _default = defineComponent({
     props: {

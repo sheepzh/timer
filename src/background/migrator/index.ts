@@ -6,9 +6,9 @@
  */
 
 import { getVersion, onInstalled } from "@api/chrome/runtime"
+import { type Migrator } from "./common"
 import HostMergeInitializer from "./host-merge-initializer"
 import LocalFileInitializer from "./local-file-initializer"
-import { Migrator } from "./common"
 import WhitelistInitializer from "./whitelist-initializer"
 
 /**
