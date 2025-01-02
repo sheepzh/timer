@@ -1,9 +1,9 @@
+import { type PopupQuery, type PopupResult } from "@popup/common"
+import { t } from "@popup/locale"
 import weekHelper from "@service/components/week-helper"
 import optionService from "@service/option-service"
 import statService, { type StatQueryParam } from "@service/stat-service"
 import { getDayLength, getMonthTime, MILL_PER_DAY } from "@util/time"
-import { type PopupQuery, type PopupResult, type PopupRow } from "./common"
-import { t } from "./locale"
 
 type DateRangeCalculator = (now: Date, num?: number) => Promise<Date | [Date, Date]> | Date | [Date, Date]
 
@@ -19,30 +19,11 @@ const DATE_RANGE_CALCULATORS: { [duration in timer.option.PopupDuration]: DateRa
     allTime: () => null,
 }
 
-export const doQuery = async (param: PopupQuery) => {
+export const doQuery = async (query: PopupQuery): Promise<PopupResult> => {
     const option = await optionService.getAllOption()
     const itemCount = option.popupMax
-    const statQuery = await cvt2StatQuery(param)
+    const statQuery = await cvt2StatQuery(query)
     const rows = await statService.select(statQuery, true)
-    const popupRows: PopupRow[] = []
-    const other = otherPopupRow()
-    let otherCount = 0
-    for (let i = 0; i < rows.length; i++) {
-        const row = rows[i]
-        if (i < itemCount) {
-            popupRows.push(row)
-        } else {
-            other.focus += row.focus
-            otherCount++
-        }
-    }
-    other.siteKey = {
-        host: t(msg => msg.chart.otherLabel, { count: otherCount }),
-        type: 'normal',
-    }
-    popupRows.push(other)
-    const type = statQuery.sort as timer.core.Dimension
-    const data = popupRows.filter(item => item[type])
     const date = statQuery.date
     let mixDate: string, maxDate: string
     rows.flatMap(r => r.mergedDates || []).map(d => {
@@ -51,21 +32,21 @@ export const doQuery = async (param: PopupQuery) => {
     })
 
     return {
-        query: param,
-        date,
-        displaySiteName: option.displaySiteName,
-        data,
-        dataDate: [mixDate, maxDate],
+        query, rows,
+        date, dataDate: [mixDate, maxDate],
         dateLength: date instanceof Array ? getDayLength(date[0], date[1]) : 1,
-        chartTitle: t(msg => msg.chart.title[param.duration], { n: param.durationNum }),
+        displaySiteName: option.displaySiteName,
+        chartTitle: t(msg => msg.chart.title[query?.duration], { n: query?.durationNum }),
+        itemCount,
     } satisfies PopupResult
 }
 
 const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> => {
-    const { duration, durationNum, mergeHost, type } = param
+    const { duration, durationNum, mergeMethod, type } = param
     const stat: StatQueryParam = {
         date: await DATE_RANGE_CALCULATORS[duration]?.(new Date(), durationNum),
-        mergeHost,
+        mergeHost: mergeMethod === 'domain',
+        mergeCate: mergeMethod === 'cate',
         sort: type,
         sortOrder: 'DESC',
         mergeDate: true,
@@ -73,16 +54,3 @@ const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> => {
     }
     return stat
 }
-
-const otherPopupRow = (): PopupRow => ({
-    siteKey: {
-        host: t(msg => msg.chart.otherLabel, { count: 0 }),
-        type: 'normal',
-    },
-    focus: 0,
-    date: '0000-00-00',
-    time: 0,
-    isOther: true,
-    iconUrl: undefined,
-    alias: undefined,
-})

@@ -1,15 +1,16 @@
 import { createTab } from "@api/chrome/tab"
 import { View } from "@element-plus/icons-vue"
+import Flex from "@pages/components/Flex"
 import LangSelect from "@popup/components/Header/LangSelect"
 import { t } from "@popup/locale"
-import Flex from "@pages/components/Flex"
 import { getAppPageUrl } from "@util/constant/url"
 import { ElLink } from "element-plus"
 import { defineComponent } from "vue"
 import DarkSwitch from "./DarkSwitch"
+import Extra from "./Extra"
 import Github from "./Github"
 import Logo from "./Logo"
-import Extra from "./Extra"
+import Option from "./Option"
 
 const Header = defineComponent(() => {
 
@@ -33,6 +34,7 @@ const Header = defineComponent(() => {
                 <Flex align="center" gap={8} style={{ fontSize: '30px' }}>
                     <LangSelect />
                     <DarkSwitch />
+                    <Option />
                     <Github />
                 </Flex>
             </Flex>

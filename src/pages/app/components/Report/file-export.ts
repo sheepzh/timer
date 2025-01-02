@@ -36,8 +36,8 @@ function computeFileName(filterParam: ReportFilterOption): string {
         baseName += '_' + formatTimeYMD(start)
         baseName += '_' + formatTimeYMD(end)
     }
-    mergeDate && (baseName += '_' + t(msg => msg.merge.mergeMethod.date))
-    siteMerge && (baseName += '_' + t(msg => msg.merge.mergeMethod[siteMerge]))
+    mergeDate && (baseName += '_' + t(msg => msg.shared.merge.mergeMethod.date))
+    siteMerge && (baseName += '_' + t(msg => msg.shared.merge.mergeMethod[siteMerge]))
     timeFormat && (baseName += '_' + t(msg => msg.timeFormat[timeFormat]))
     return baseName
 }
@@ -55,7 +55,7 @@ const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string
     const cateId = row?.cateId || row?.cateKey
     let cate: string
     if (cateId === CATE_MERGE_PLACEHOLDER_ID) {
-        cate = t(msg => msg.siteManage.cate.notSet)
+        cate = t(msg => msg.shared.cate.notSet)
     } else if (cateId) {
         const current = categories?.find(c => c.id === cateId)
         cate = current?.name

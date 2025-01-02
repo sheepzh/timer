@@ -52,7 +52,7 @@ const defaultDurationLabel = rangeLabel(defaultPopOptions.defaultDuration, defau
 const displayDefaultLabel = `${defaultDurationLabel}/${defaultTypeLabel}`
 
 function copy(target: timer.option.PopupOption, source: timer.option.PopupOption) {
-    target.defaultMergeDomain = source.defaultMergeDomain
+    target.defaultMergeMethod = source.defaultMergeMethod
     target.defaultDuration = source.defaultDuration
     target.defaultDurationNum = source.defaultDurationNum
     target.defaultType = source.defaultType
@@ -75,14 +75,21 @@ const _default = defineComponent((_props, ctx) => {
 
     return () => <>
         <OptionItem
-            label={msg => msg.option.popup.defaultMergeDomain}
-            defaultValue={t(msg => msg.option.no)}
+            label={msg => msg.option.popup.defaultMergeMethod}
+            defaultValue={t(msg => msg.shared.merge.mergeMethod.notMerge)}
             hideDivider
         >
-            <ElSwitch
-                modelValue={option.defaultMergeDomain}
-                onChange={(val: boolean) => option.defaultMergeDomain = val}
-            />
+            <ElSelect
+                size="small"
+                modelValue={option.defaultMergeMethod}
+                placeholder={t(msg => msg.shared.merge.mergeMethod.notMerge)}
+                onChange={(val: timer.stat.MergeMethod) => option.defaultMergeMethod = val}
+            >
+                <ElOption value={null} label={t(msg => msg.shared.merge.mergeMethod.notMerge)} />
+                {(['domain', 'cate'] satisfies timer.stat.MergeMethod[]).map(m => (
+                    <ElOption value={m} label={t(msg => msg.shared.merge.mergeMethod[m])} />
+                ))}
+            </ElSelect>
         </OptionItem>
         <OptionItem
             label={msg => msg.option.popup.defaultDisplay}

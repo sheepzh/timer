@@ -25,7 +25,7 @@ const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: tim
     merged?.forEach(({ siteKey, iconUrl }) => siteMap.put(siteKey, iconUrl))
 
     if (cateId === CATE_MERGE_PLACEHOLDER_ID) {
-        cateName = t(msg => msg.siteManage.cate.notSet)
+        cateName = t(msg => msg.shared.cate.notSet)
         isNotSet = true
     } else {
         const current = categories?.find(c => c.id === cateId)

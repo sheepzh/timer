@@ -1,9 +1,12 @@
 import { useRequest } from "@hooks/useRequest"
+import { useState } from "@hooks/useState"
 import Flex from "@pages/components/Flex"
 import optionService from "@service/option-service"
 import { isDarkMode, toggle } from "@util/dark-mode"
-import { defineComponent, ref } from "vue"
-import Chart from "./components/Chart"
+import { ElCard } from "element-plus"
+import { defineComponent, onBeforeMount, ref } from "vue"
+import { RouterView } from "vue-router"
+import { type PopupQuery } from "./common"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import { initProvider } from "./context"
@@ -14,6 +17,19 @@ const Main = defineComponent(() => {
 
     const { data: darkMode, refresh: refreshDarkMode } = useRequest(() => optionService.isDarkMode(), { defaultValue: isDarkMode() })
 
+    const [query, setQuery] = useState<PopupQuery>()
+
+    onBeforeMount(async () => {
+        const option = await optionService.getAllOption()
+        const { defaultDuration, defaultType, defaultDurationNum, defaultMergeMethod } = option || {}
+        setQuery({
+            mergeMethod: defaultMergeMethod,
+            type: defaultType,
+            duration: defaultDuration,
+            durationNum: defaultDurationNum,
+        })
+    })
+
     const setDarkMode = async (val: boolean) => {
         const option: timer.option.DarkMode = val ? 'on' : 'off'
         await optionService.setDarkMode(option)
@@ -21,7 +37,7 @@ const Main = defineComponent(() => {
         refreshDarkMode()
     }
 
-    initProvider({ reload, darkMode, setDarkMode })
+    initProvider({ reload, darkMode, setDarkMode, query, setQuery })
 
     return () => (
         <Flex
@@ -32,7 +48,15 @@ const Main = defineComponent(() => {
             gap={10}
         >
             <Header />
-            <Chart />
+            <Flex flex={1}>
+                <ElCard
+                    shadow="never"
+                    style={{ width: '100%', height: '100%' }}
+                    bodyStyle={{ height: '100%', boxSizing: 'border-box', padding: 0 }}
+                >
+                    <RouterView />
+                </ElCard>
+            </Flex>
             <Footer />
         </Flex>
     )

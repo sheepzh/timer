@@ -15,10 +15,10 @@ const routes: RouteRecordRaw[] = [
         redirect: '/' + ROUTE_PERCENTAGE,
     }, {
         path: '/' + ROUTE_PERCENTAGE,
-        component: () => import('./components/Chart'),
+        component: () => import('./components/Percentage'),
     }, {
         path: '/' + ROUTE_RANKING,
-        component: () => import('./components/Chart'),
+        component: () => import('./components/Percentage'),
     }
 ]
 

@@ -1,8 +1,5 @@
-
-export type PopupRow = timer.stat.Row & { isOther?: boolean }
-
 export type PopupQuery = {
-    mergeHost: boolean
+    mergeMethod: timer.stat.MergeMethod
     duration: timer.option.PopupDuration
     durationNum?: number
     type: timer.core.Dimension
@@ -10,12 +7,12 @@ export type PopupQuery = {
 
 export type PopupResult = {
     query: PopupQuery
+    rows: timer.stat.Row[]
     // Actually date range according to duration
     date: Date | [Date, Date?]
     displaySiteName: boolean
-    data: PopupRow[]
     dataDate: [string, string]
-    // Filter items
     chartTitle: string
+    itemCount: number
     dateLength: number
 }

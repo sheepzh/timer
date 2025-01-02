@@ -1,14 +1,11 @@
-import { createTab } from "@api/chrome/tab"
-import { OPTION_ROUTE } from "@app/router/constants"
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { type PopupResult, type PopupRow } from "@popup/common"
+import { type PopupResult } from "@popup/common"
 import { t } from "@popup/locale"
 import { IS_SAFARI } from "@util/constant/environment"
-import { getAppPageUrl } from "@util/constant/url"
 import { generateSiteLabel } from "@util/site"
-import { getInfoColor, getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
-import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
-import { PieChart, type PieSeriesOption } from "echarts/charts"
+import { getInfoColor, getPrimaryTextColor } from "@util/style"
+import { formatPeriodCommon, formatTime } from "@util/time"
+import { PieChart, type PieSeriesOption, TreemapChart, type TreemapSeriesOption } from "echarts/charts"
 import {
     LegendComponent,
     type LegendComponentOption,
@@ -21,27 +18,29 @@ import {
 } from "echarts/components"
 import { type ComposeOption, use } from "echarts/core"
 import { SVGRenderer } from "echarts/renderers"
-import { optionIcon } from "./toolbox-icon"
+import { generateTextOption } from "../common"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
+    | TreemapSeriesOption
     | TitleComponentOption
     | ToolboxComponentOption
     | TooltipComponentOption
     | LegendComponentOption
 >
 
-use([SVGRenderer, PieChart, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
+use([SVGRenderer, PieChart, TreemapChart, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
 
 // The declarations of labels
 type PieLabelRichOption = PieSeriesOption['label']['rich']
 type PieLabelRichValueOption = PieLabelRichOption[string]
 // The declaration of data item
-type PieSeriesItemOption = PieSeriesOption['data'][0] & {
-    host: string,
-    iconUrl?: string,
-    isOther?: boolean
-}
+type PieSeriesItemOption = PieSeriesOption['data'][0]
+    & Pick<timer.stat.StatKey, 'siteKey' | 'cateKey'>
+    & {
+        iconUrl?: string,
+        isOther?: boolean
+    }
 
 const today = formatTime(new Date(), '{y}_{m}_{d}')
 
@@ -54,6 +53,7 @@ const BASE_LABEL_RICH_VALUE: PieLabelRichValueOption = {
 }
 
 const legend2LabelStyle = (legend: string) => {
+    if (!legend) return ''
     const code = []
     for (let i = 0; i < legend.length; i++) {
         code.push(legend.charCodeAt(i).toString(36).padStart(3, '0'))
@@ -73,7 +73,7 @@ function calculateAverageText(type: timer.core.Dimension, averageValue: number):
 function toolTipFormatter({ query, dateLength }: PopupResult, params: any): string {
     const format = params instanceof Array ? params[0] : params
     const { name, value, percent } = format
-    const data = format.data as PopupRow
+    const data = format.data as ChartRow
     const host = data.siteKey?.host
     const siteLabel = generateSiteLabel(host, name)
     let result = siteLabel
@@ -96,7 +96,7 @@ function labelFormatter(result: PopupResult, params: any): string {
     const data = format.data as PieSeriesItemOption
     const { isOther, iconUrl } = data
     // Un-supported to get favicon url in Safari
-    return result?.query?.mergeHost || isOther || !iconUrl || IS_SAFARI
+    return result?.query?.mergeMethod || isOther || !iconUrl || IS_SAFARI
         ? name
         : `{${legend2LabelStyle(name)}|} {a|${name}}`
 }
@@ -122,73 +122,72 @@ function calcPositionOfTooltip(container: HTMLElement, point: (number | string)[
     return [...point]
 }
 
-function calculateSubTitleText(date: Date | [Date, Date?], dataDate: [string, string]): string {
-    const format = t(msg => msg.calendar.dateFormat)
+type ChartRow = timer.stat.Row & { isOther?: boolean }
 
-    if (!date) {
-        date = dataDate?.map(parseTime) as [Date, Date]
-    } else if (!(date instanceof Array)) {
-        // Single day
-        return formatTime(date, format)
+function cvt2ChartRows(result: PopupResult): ChartRow[] {
+    const { rows, query, itemCount } = result || {}
+    const { type } = query || {}
+    const popupRows: ChartRow[] = []
+    const other = otherChartRow()
+    let otherCount = 0
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i]
+        if (i < itemCount) {
+            popupRows.push(row)
+        } else {
+            other.focus += row.focus
+            otherCount++
+        }
     }
-
-    const [start, end] = date
-    if (!start && !end) return ''
-    if (!start) return formatTime(end, format)
-    if (!end) return formatTime(start, format)
-
-    return combineDate(start, end, format)
+    other.siteKey.host = t(msg => msg.chart.otherLabel, { count: otherCount })
+    popupRows.push(other)
+    const data = popupRows.filter(item => !!item[type])
+    return data
 }
 
-function combineDate(start: Date, end: Date, format: string): string {
-    const startStr = formatTime(start, format)
-    const endStr = formatTime(end, format)
-    if (startStr === endStr) {
-        return startStr
+const otherChartRow = (): ChartRow => ({
+    siteKey: {
+        host: t(msg => msg.chart.otherLabel, { count: 0 }),
+        type: 'normal',
+    },
+    focus: 0,
+    date: '0000-00-00',
+    time: 0,
+    isOther: true,
+    iconUrl: undefined,
+    alias: undefined,
+})
+
+export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
+    init(container: HTMLDivElement): void {
+        super.init(container)
+        // this.instance.on('click', console.log)
+        this.instance.on('selectchanged', console.log)
     }
-    const normalStr = `${startStr}-${endStr}`
 
-    const sy = start.getFullYear()
-    const ey = end.getFullYear()
-    if (sy !== ey) {
-        // Different years
-        return normalStr
-    }
-
-    // The same years
-    const execRes = /({d}|{m})[^{}]*({d}|{m})/.exec(format)
-    let monthDatePart = execRes?.[0]
-
-    if (!monthDatePart) return normalStr
-
-    const newPart = `${monthDatePart}-${monthDatePart.replace('{m}', '{em}').replace('{d}', '{ed}')}`
-    const newFormat = format.replace(monthDatePart, newPart)
-    const em = end.getMonth() + 1
-    const ed = end.getDate()
-    return formatTime(start, newFormat)
-        .replace('{em}', em.toString().padStart(2, '0'))
-        .replace('{ed}', ed.toString().padStart(2, '0'))
-}
-
-export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
     protected generateOption(result: PopupResult): EcOption | Promise<EcOption> {
         if (!result) return {}
 
-        const { query, date, displaySiteName, data, dataDate, chartTitle, } = result
-        const titleText = chartTitle
-        const dateText = calculateSubTitleText(date, dataDate)
-        const subTitleText = `${dateText} @ ${t(msg => msg.meta.name)}`
+        const { query, displaySiteName } = result
+        const { type } = query || {}
         const textColor = getPrimaryTextColor()
-        const secondaryColor = getSecondaryTextColor()
         const inactiveColor = getInfoColor()
+
+        const iconRich: PieLabelRichOption = {}
+        const chartRows = cvt2ChartRows(result)
+        const series = chartRows.map(d => {
+            const { siteKey, cateKey, alias, isOther, iconUrl } = d
+            const host = siteKey?.host
+            const legend = displaySiteName ? (alias || host) : host
+            const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
+            iconUrl && (richValue.backgroundColor = { image: iconUrl })
+            iconRich[legend2LabelStyle(legend)] = richValue
+
+            return { name: legend, value: d[type] || 0, siteKey, cateKey, isOther, iconUrl } satisfies PieSeriesItemOption
+        })
+
         const options: EcOption = {
-            title: {
-                text: titleText,
-                subtext: subTitleText,
-                left: 'center',
-                textStyle: { color: textColor },
-                subtextStyle: { color: secondaryColor },
-            },
+            title: generateTextOption(result),
             tooltip: {
                 trigger: 'item',
                 formatter: (params: any) => toolTipFormatter(result, params),
@@ -199,7 +198,7 @@ export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
                 orient: 'vertical',
                 left: 15,
                 top: 20,
-                bottom: 20,
+                bottom: 50,
                 textStyle: { color: textColor },
                 pageTextStyle: { color: textColor },
                 inactiveColor,
@@ -208,9 +207,10 @@ export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
                 name: "NO_DATA",
                 type: "pie",
                 radius: "55%",
-                center: ["64%", "52%"],
+                selectedMode: false,
+                center: ["60%", "52%"],
                 startAngle: 300,
-                data: [],
+                data: series,
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
@@ -220,16 +220,20 @@ export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
                 },
                 label: {
                     formatter: params => labelFormatter(result, params),
-                    color: textColor
+                    color: textColor,
+                    rich: {
+                        a: { fontSize: LABEL_FONT_SIZE },
+                        ...iconRich,
+                    },
                 },
+                avoidLabelOverlap: true,
+                minShowLabelAngle: 3,
             }],
             toolbox: {
                 show: true,
+                top: 5,
+                right: 5,
                 feature: {
-                    restore: {
-                        show: true,
-                        title: t(msg => msg.chart.restoreTitle)
-                    },
                     saveAsImage: {
                         show: true,
                         title: t(msg => msg.chart.saveAsImageTitle),
@@ -241,31 +245,8 @@ export default class Wrapper extends EchartsWrapper<PopupResult, EcOption> {
                         excludeComponents: ['toolbox'],
                         pixelRatio: 1
                     },
-                    // Customized tool's name must start with 'my'
-                    myOptions: {
-                        show: true,
-                        title: t(msg => msg.base.option),
-                        icon: optionIcon,
-                        onclick: () => createTab(getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }))
-                    }
                 }
             }
-        }
-        const series: PieSeriesItemOption[] = []
-        const iconRich: PieLabelRichOption = {}
-        data.forEach(d => {
-            const { siteKey, alias, isOther, iconUrl } = d
-            const host = siteKey?.host
-            const legend = displaySiteName ? (alias || host) : host
-            series.push({ name: legend, value: d[query?.type] || 0, host, isOther, iconUrl })
-            const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
-            iconUrl && (richValue.backgroundColor = { image: iconUrl })
-            iconRich[legend2LabelStyle(legend)] = richValue
-        })
-        options.series[0].data = series
-        options.series[0].label.rich = {
-            a: { fontSize: LABEL_FONT_SIZE },
-            ...iconRich
         }
         return options
     }

@@ -1,15 +1,12 @@
-import { useRequest } from "@hooks/useRequest"
-import { useState } from "@hooks/useState"
 import Flex from "@pages/components/Flex"
 import { type PopupQuery } from "@popup/common"
 import DurationSelect from "@popup/components/Footer/DurationSelect"
+import { usePopupContext } from "@popup/context"
 import { t } from "@popup/locale"
-import optionService from "@service/option-service"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, watch } from "vue"
 import Menu from "./Menu"
-import MergeSelect from "./MergeSelect"
 
 const Footer = defineComponent({
     props: {
@@ -19,22 +16,13 @@ const Footer = defineComponent({
         queryChange: (_query: PopupQuery) => true,
     },
     setup(_, ctx) {
-        const [query, setQuery] = useState<PopupQuery>()
+        const { query, setQuery } = usePopupContext()
         watch(query, () => ctx.emit('queryChange', query.value))
-
-        useRequest(() => optionService.getAllOption(), {
-            onSuccess: option => setQuery({
-                mergeHost: option?.defaultMergeDomain,
-                type: option?.defaultType,
-                duration: option?.defaultDuration,
-                durationNum: option?.defaultDurationNum,
-            })
-        })
 
         const updateQuery = <K extends keyof PopupQuery>(k: K, v: PopupQuery[K]) => {
             const newQuery = {
                 ...query.value || ({
-                    mergeHost: undefined,
+                    mergeMethod: undefined,
                     duration: undefined,
                     type: undefined,
                 } satisfies PopupQuery),
@@ -47,19 +35,29 @@ const Footer = defineComponent({
             <Flex
                 justify="space-between"
                 width="100%"
-                style={{ padding: '0 5px', boxSizing: 'border-box' }}
             >
-                <Flex flex={1}>
+                <Flex>
                     <Menu />
                 </Flex>
                 <Flex gap={10}>
-                    <MergeSelect />
+                    <ElSelect
+                        modelValue={query.value?.mergeMethod}
+                        onChange={(val: timer.stat.MergeMethod) => updateQuery('mergeMethod', val || undefined)}
+                        placeholder={t(msg => msg.shared.merge.mergeMethod.notMerge)}
+                        popperOptions={{ placement: 'top' }}
+                        style={{ width: '130px' }}
+                    >
+                        <ElOption value='' label={t(msg => msg.shared.merge.mergeMethod.notMerge)} />
+                        {(['domain', 'cate'] satisfies timer.stat.MergeMethod[]).map(method => (
+                            <ElOption value={method} label={t(msg => msg.shared.merge.mergeMethod[method])} />
+                        ))}
+                    </ElSelect>
                     <DurationSelect
                         reverse
                         modelValue={[query.value?.duration, query.value?.durationNum]}
                         onChange={([duration, durationNum]) => setQuery({
                             ...query.value || ({
-                                mergeHost: undefined,
+                                mergeMethod: undefined,
                                 duration: undefined,
                                 type: undefined,
                             } satisfies PopupQuery),

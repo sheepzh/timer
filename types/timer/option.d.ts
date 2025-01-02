@@ -39,11 +39,11 @@ declare namespace timer.option {
          */
         displaySiteName: boolean
         /**
-         * Whether to merge domain by default
+         * Merge method
          *
-         * @since 1.3.2
+         * @since 2.6.0
          */
-        defaultMergeDomain: boolean
+        defaultMergeMethod?: timer.stat.MergeMethod
     }
 
     /**

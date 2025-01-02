@@ -24,11 +24,11 @@ const MergeFilterItem = defineComponent({
 
         return () => (
             <Flex gap={9} class="merge-filter-item-wrapper">
-                <ElText>{t(msg => msg.merge.mergeBy)}</ElText>
+                <ElText>{t(msg => msg.shared.merge.mergeBy)}</ElText>
                 <ElCheckboxGroup modelValue={data.value} onChange={handleChange}>
                     {ALL_MERGE_METHODS.filter(m => m !== 'cate' || !props.hideCate).map(method => (
                         <ElCheckboxButton value={method}>
-                            {t(msg => msg.merge.mergeMethod[method])}
+                            {t(msg => msg.shared.merge.mergeMethod[method])}
                         </ElCheckboxButton>
                     ))}
                 </ElCheckboxGroup>

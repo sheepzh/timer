@@ -6,7 +6,7 @@ import Flex from "@pages/components/Flex"
 import { usePopupContext } from "@popup/context"
 import optionService from "@service/option-service"
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon, ElText } from "element-plus"
-import { defineComponent, StyleValue } from "vue"
+import { defineComponent, type StyleValue } from "vue"
 
 // Keep the locale same as this browser first position
 const SORTED_LOCALES: timer.Locale[] = ALL_LOCALES.sort((a, _b) => a === localeSameAsBrowser ? -1 : 0)
