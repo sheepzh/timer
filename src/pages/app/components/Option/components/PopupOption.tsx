@@ -83,9 +83,9 @@ const _default = defineComponent((_props, ctx) => {
                 size="small"
                 modelValue={option.defaultMergeMethod}
                 placeholder={t(msg => msg.shared.merge.mergeMethod.notMerge)}
-                onChange={(val: timer.stat.MergeMethod) => option.defaultMergeMethod = val}
+                onChange={(val: timer.stat.MergeMethod) => option.defaultMergeMethod = val || undefined}
             >
-                <ElOption value={null} label={t(msg => msg.shared.merge.mergeMethod.notMerge)} />
+                <ElOption value={''} label={t(msg => msg.shared.merge.mergeMethod.notMerge)} />
                 {(['domain', 'cate'] satisfies timer.stat.MergeMethod[]).map(m => (
                     <ElOption value={m} label={t(msg => msg.shared.merge.mergeMethod[m])} />
                 ))}

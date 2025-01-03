@@ -96,7 +96,7 @@ export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
             textStyle: { color: textColor },
             pageTextStyle: { color: textColor },
             inactiveColor,
-            data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey], cateKey })),
+            data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey] ?? `${cateKey}`, cateKey })),
         }
 
         const series: PieSeriesOption[] = [{
