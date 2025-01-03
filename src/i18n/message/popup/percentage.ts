@@ -5,20 +5,16 @@
  * https://opensource.org/licenses/MIT
  */
 
-import resource from './chart-resource.json'
+import resource from './percentage-resource.json'
 
-export type ChartMessage = {
+export type PercentageMessage = {
     title: { [key in timer.option.PopupDuration]: string }
-    fileName: string
     saveAsImageTitle: string
-    restoreTitle: string
-    totalTime: string
-    totalCount: string
     averageTime: string
     averageCount: string
     otherLabel: string
 }
 
-const _default = resource as Messages<ChartMessage>
+const percentageMessages = resource as Messages<PercentageMessage>
 
-export default _default
+export default percentageMessages

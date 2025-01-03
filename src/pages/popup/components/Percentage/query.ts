@@ -36,7 +36,7 @@ export const doQuery = async (query: PopupQuery): Promise<PopupResult> => {
         date, dataDate: [mixDate, maxDate],
         dateLength: date instanceof Array ? getDayLength(date[0], date[1]) : 1,
         displaySiteName: option.displaySiteName,
-        chartTitle: t(msg => msg.chart.title[query?.duration], { n: query?.durationNum }),
+        chartTitle: t(msg => msg.percentage.title[query?.duration], { n: query?.durationNum }),
         itemCount,
     } satisfies PopupResult
 }

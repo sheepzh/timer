@@ -32,10 +32,14 @@ const saveCache = <T>(key: string, val: T) => {
     }
 }
 
-export const useCached = <T>(key: string, defaultValue?: T): Result<T> => {
+export const useCached = <T>(key: string, defaultValue?: T, defaultFirst?: boolean): Result<T> => {
     const data: Ref<T> = ref<T>()
     const setter = (val: T) => data.value = val
-    onMounted(() => setter(getInitialValue(key, defaultValue)))
+    onMounted(() => {
+        let cachedValue = getInitialValue(key, defaultValue)
+        let initial = defaultFirst ? defaultValue || cachedValue : cachedValue
+        setter(initial)
+    })
     watch(data, () => saveCache(key, data.value))
     return { data, setter }
 }

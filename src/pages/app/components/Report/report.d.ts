@@ -17,6 +17,10 @@ declare type ReportQueryParam = {
      */
     mh?: string
     /**
+     * Merge date
+     */
+    md?: string
+    /**
      * Date start
      */
     ds?: string

@@ -5,20 +5,10 @@ import cateService from "@service/cate-service"
 import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import { groupBy } from "@util/array"
 import { getInfoColor, getPrimaryTextColor } from "@util/style"
-import { PieChart, type PieSeriesOption } from "echarts/charts"
-import {
-    LegendComponent,
-    type LegendComponentOption,
-    TitleComponent,
-    type TitleComponentOption,
-    ToolboxComponent,
-    type ToolboxComponentOption,
-    TooltipComponent,
-    type TooltipComponentOption,
-} from "echarts/components"
-import { type ComposeOption, use } from "echarts/core"
-import { SVGRenderer } from "echarts/renderers"
-import { generateTextOption } from "../common"
+import { type PieSeriesOption } from "echarts/charts"
+import { type LegendComponentOption, type TitleComponentOption, type ToolboxComponentOption, type TooltipComponentOption } from "echarts/components"
+import { type ComposeOption, type ECElementEvent } from "echarts/core"
+import { generateSiteSeriesOption, generateTextOption, handleClick, tooltipFormatter, type PieSeriesItemOption } from "../chart"
 
 type EcOption = ComposeOption<
     | PieSeriesOption
@@ -27,12 +17,6 @@ type EcOption = ComposeOption<
     | TooltipComponentOption
     | LegendComponentOption
 >
-
-use([SVGRenderer, PieChart, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
-
-type CateSeriesItemOption = PieSeriesOption['data'][0] & {
-    cateKey: number
-}
 
 type SelectChangeEvent = {
     type: 'selectchanged'
@@ -45,7 +29,7 @@ type SelectChangeEvent = {
 
 export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
     private resultCache: PopupResult
-    private selectedCache: number = -1
+    private selectedCache: number
 
     init(container: HTMLDivElement): void {
         super.init(container)
@@ -61,9 +45,19 @@ export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
             }
 
             const option = this.instance.getOption() as EcOption
-            const selectedItem = (option.series?.[0] as PieSeriesOption)?.data?.[dataIndexInside] as CateSeriesItemOption
+            const selectedItem = (option.series?.[0] as PieSeriesOption)?.data?.[dataIndexInside] as PieSeriesItemOption
             const selectedId = selectedItem?.cateKey
             selectedId && this.handleSelect(selectedId)
+        })
+
+        this.instance.on('click', (ev: ECElementEvent) => {
+            const { type: evType, componentType, seriesIndex, data } = ev || {}
+            if (evType !== 'click' || componentType !== 'series' || seriesIndex !== 1) {
+                return
+            }
+
+            const { query: { type } = {}, date } = this.resultCache || {}
+            handleClick(data as PieSeriesItemOption, date, type)
         })
     }
 
@@ -84,7 +78,7 @@ export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
 
         const { rows, query } = result
         const { type } = query || {}
-        const selected = rows?.filter(r => r?.cateKey === this.selectedCache)?.[0]
+        const selected = this.selectedCache && rows?.filter(r => r?.cateKey === this.selectedCache)?.[0]
 
         const textColor = getPrimaryTextColor()
         const inactiveColor = getInfoColor()
@@ -93,9 +87,21 @@ export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
         const cateNameMap = groupBy(cates, c => c.id, l => l?.[0]?.name)
         cateNameMap[CATE_MERGE_PLACEHOLDER_ID] = t(msg => msg.shared.cate.notSet)
 
+        let legend: LegendComponentOption = {
+            type: 'scroll',
+            orient: 'vertical',
+            left: '5%',
+            top: 50,
+            bottom: 50,
+            textStyle: { color: textColor },
+            pageTextStyle: { color: textColor },
+            inactiveColor,
+            data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey], cateKey })),
+        }
+
         const series: PieSeriesOption[] = [{
             type: "pie",
-            center: selected ? ['15%', '28%'] : ['50%', '52%'],
+            center: selected ? ['15%', '28%'] : ['60%', '52%'],
             radius: selected ? '30%' : '55%',
             selectedMode: 'single',
             startAngle: 180,
@@ -104,7 +110,7 @@ export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
                 cateKey: row.cateKey,
                 selected: row.cateKey === selected?.cateKey,
                 name: cateNameMap[row.cateKey],
-            } satisfies CateSeriesItemOption)),
+            } satisfies PieSeriesItemOption)),
             emphasis: {
                 itemStyle: {
                     shadowBlur: 10,
@@ -112,56 +118,43 @@ export default class SiteWrapper extends EchartsWrapper<PopupResult, EcOption> {
                     shadowColor: "rgba(0, 0, 0, 0.5)",
                 },
             },
-            minShowLabelAngle: selected ? 10 : 0,
+            minShowLabelAngle: selected ? 35 : 0,
             label: {
                 color: textColor,
                 position: selected ? 'inner' : 'outer',
+                fontSize: selected ? 10 : undefined,
             },
-            labelLine: {
-                show: !selected,
-            }
         }]
         if (selected) {
             const mergedRows = (selected?.mergedRows || []).sort((a, b) => (b[type] ?? 0) - (a[type] ?? 0))
-            series.push({
-                type: "pie",
+
+            const siteSeries = generateSiteSeriesOption(mergedRows, result, {
                 center: ['63%', '55%'],
                 radius: '55%',
-                startAngle: 180,
-                data: mergedRows.map(row => ({
-                    value: row[type],
-                    cateId: row.cateKey,
-                    siteKey: row.siteKey,
-                    name: row.alias ?? row.siteKey?.host,
-                })),
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: "rgba(0, 0, 0, 0.5)",
-                    },
-                },
-                minShowLabelAngle: 10,
-                label: {
-                    color: textColor,
-                    position: 'outer',
-                },
+                minShowLabelAngle: 3,
+                selectedMode: false,
             })
-        }
 
-        const option: EcOption = {
-            title: generateTextOption(result),
-            legend: {
-                show: !selected,
+            legend = {
                 type: 'scroll',
                 orient: 'vertical',
-                left: 15,
-                top: 50,
+                left: '5%',
+                top: '48%',
                 bottom: 50,
                 textStyle: { color: textColor },
                 pageTextStyle: { color: textColor },
                 inactiveColor,
-                data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey], cateKey })),
+                data: siteSeries.data?.map(({ name }: { name: string }) => ({ name })),
+            }
+            series.push(siteSeries)
+        }
+
+        const option: EcOption = {
+            title: generateTextOption(result),
+            legend,
+            tooltip: {
+                show: true,
+                formatter: (params: any) => tooltipFormatter(result, params),
             },
             series,
         }

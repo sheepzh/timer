@@ -39,6 +39,14 @@ const dateShortcuts: ElementDatePickerShortcut[] = [
     datePickerShortcut(t(msg => msg.calendar.range.lastDays, { n: 60 }), 60),
 ]
 
+const initMergeMethod = (filter: ReportFilterOption): timer.stat.MergeMethod[] => {
+    const { mergeDate, siteMerge } = filter || {}
+    const res: timer.stat.MergeMethod[] = []
+    mergeDate && (res.push('date'))
+    siteMerge && (res.push(siteMerge))
+    return res.length ? res : undefined
+}
+
 const _default = defineComponent({
     props: {
         initial: Object as PropType<ReportFilterOption>,
@@ -53,8 +61,8 @@ const _default = defineComponent({
 
         const initial: ReportFilterOption = props.initial
         const [host, setHost] = useState(initial?.host)
-        const [dateRange, setDateRange] = useState<[Date, Date]>(initial?.dateRange)
-        const [mergeMethod, setMergeMethod] = useState<timer.stat.MergeMethod[]>([])
+        const [dateRange, setDateRange] = useState(initial?.dateRange)
+        const [mergeMethod, setMergeMethod] = useState(initMergeMethod(props.initial))
         const [cateIds, setCateIds] = useState(initial.cateIds)
         const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
         // Whether to read remote backup data

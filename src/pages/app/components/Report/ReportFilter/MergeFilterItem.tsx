@@ -14,7 +14,7 @@ const MergeFilterItem = defineComponent({
         change: (_val: timer.stat.MergeMethod[]) => true,
     },
     setup(props, ctx) {
-        const { data, setter } = useCached('__filter_item_report_merge_method', props.defaultValue)
+        const { data, setter } = useCached('__filter_item_report_merge_method', props.defaultValue, true)
         watch(data, () => ctx.emit('change', data.value || []))
 
         const handleChange = (newVal: timer.stat.MergeMethod[]) => {

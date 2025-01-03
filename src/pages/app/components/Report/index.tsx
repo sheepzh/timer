@@ -122,7 +122,7 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
  */
 function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOption, SortInfo] {
     const routeQuery: ReportQueryParam = route.query as unknown as ReportQueryParam
-    const { mh, ds, de, sc } = routeQuery
+    const { mh, md, ds, de, sc } = routeQuery
     const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
     const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
     // Remove queries
@@ -135,7 +135,7 @@ function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOpti
     const filterOption: ReportFilterOption = {
         host: '',
         dateRange: [dateStart || now, dateEnd || now],
-        mergeDate: false,
+        mergeDate: md === "true" || md === "1",
         siteMerge,
         timeFormat: "default"
     }
