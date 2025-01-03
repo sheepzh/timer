@@ -6,11 +6,10 @@
  */
 
 import { type StatCondition } from "@db/stat-database"
-import processor from "@src/common/backup/processor"
-import { judgeVirtualFast } from "@util/pattern"
+import processor from "@service/backup/processor"
+import { identifyStatKey } from "@util/stat"
 import { getBirthday } from "@util/time"
-
-const keyOf = (row: timer.stat.RowKey) => `${row.date}${row.host}`
+import { cvt2StatRow } from "./common"
 
 export async function processRemote(param: StatCondition, origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
     if (!await canReadRemote()) {
@@ -18,7 +17,7 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
     }
     // Map to merge
     const originMap: Record<string, timer.stat.Row> = {}
-    origin.forEach(row => originMap[keyOf(row)] = {
+    origin.forEach(row => originMap[identifyStatKey(row)] = {
         ...row,
         composition: {
             focus: [row.focus],
@@ -27,7 +26,7 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
     })
     // Predicate with host
     const { host, fullHost } = param
-    const predicate: (row: timer.stat.RowBase) => boolean = host
+    const predicate: (row: timer.core.Row) => boolean = host
         // With host condition
         ? fullHost
             // Full match
@@ -62,21 +61,20 @@ export async function canReadRemote(): Promise<boolean> {
     return !errorMsg
 }
 
-function processRemoteRow(rowMap: Record<string, timer.stat.Row>, row: timer.stat.Row) {
-    const key = keyOf(row)
+function processRemoteRow(rowMap: Record<string, timer.stat.Row>, remoteBase: timer.core.Row) {
+    const row = cvt2StatRow(remoteBase)
+    const key = identifyStatKey(row)
     let exist = rowMap[key]
     !exist && (exist = rowMap[key] = {
         date: row.date,
-        host: row.host,
+        siteKey: row.siteKey,
         time: 0,
         focus: 0,
         composition: {
             focus: [],
             time: [],
         },
-        mergedHosts: [],
-        virtual: judgeVirtualFast(row.host)
-    })
+    } satisfies timer.stat.Row)
 
     const focus = row.focus || 0
     const time = row.time || 0

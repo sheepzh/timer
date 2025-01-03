@@ -1,0 +1,93 @@
+/**
+ * Copyright (c) 2022 Hengyang Zhang
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
+@import "element-plus/theme-chalk/display.css"
+
+// Compatible element-plus 2.x.x for element-ui
+
+.filter-item.el-button
+    min-height: 40px
+
+.el-dialog
+    .sop-dialog-container
+        margin-top: 25px
+
+// SOP
+.sop-dialog
+    .el-dialog__header.show-close
+        padding-right: 0 !important
+        margin-bottom: 20px
+.sop-footer
+    text-align: center
+    display: block
+    width: 100%
+    margin: auto
+    margin-top: 40px
+    .el-button
+        width: initial !important
+        height: initial !important
+    .el-button:not(:last-child)
+        margin-right: 10px
+.step-container
+    width: fit-content
+    margin: auto
+    .el-step
+        width: 200px
+        .el-step__head
+            text-align: center
+            .el-step__line
+                margin-right: -50% !important
+                left: 50% !important
+        .el-step__title
+            text-align: center
+
+html[data-locale='uk']:root, html[data-locale='pt_PT']:root, html[data-locale='es']:root
+    .el-date-range-picker
+        width: 781px
+        .el-picker-panel__sidebar
+            width: 135px
+        .el-picker-panel__body
+            margin-left: 135px
+html[data-locale='de']:root
+    .el-date-range-picker
+        width: 761px
+        .el-picker-panel__sidebar
+            width: 115px
+        .el-picker-panel__body
+            margin-left: 115px
+
+html[data-locale='fr']:root, html[data-locale='ru']:root
+    .el-date-range-picker
+        width: 821px
+        .el-picker-panel__sidebar
+            width: 175px
+        .el-picker-panel__body
+            margin-left: 175px
+
+// Fix header icon not align
+.el-table__header
+    tr
+        .cell
+            height: 23px
+            line-height: unset
+            display: flex
+            align-items: center
+            justify-content: center
+
+.el-table__cell .cell
+    .el-input
+        height: 28px
+    .el-input-group__append
+        padding: 0 4px
+    .el-input-group--append
+        .el-input__wrapper
+            height: 28px
+        .el-input__inner
+            padding-left: 5px
+            padding-right: 5px
+    .el-button [class*="el-icon-"] + span
+        margin-left: 5px !important

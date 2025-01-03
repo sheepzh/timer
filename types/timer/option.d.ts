@@ -19,7 +19,7 @@ declare namespace timer.option {
         /**
          * The default type to display
          */
-        defaultType: stat.Dimension
+        defaultType: core.Dimension
         /**
          * The default duration to search
          * @since 0.6.0
@@ -39,11 +39,11 @@ declare namespace timer.option {
          */
         displaySiteName: boolean
         /**
-         * Whether to merge domain by default
+         * Merge method
          *
-         * @since 1.3.2
+         * @since 2.6.0
          */
-        defaultMergeDomain: boolean
+        defaultMergeMethod?: timer.stat.MergeMethod
     }
 
     /**

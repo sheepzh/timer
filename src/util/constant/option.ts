@@ -11,11 +11,12 @@ export function defaultPopup(): timer.option.PopupOption {
         popupMax: 10,
         defaultType: 'focus',
         defaultDuration: "today",
+        defaultDurationNum: 7,
         /**
          * Change the default value to 'true' since v0.5.4
          */
         displaySiteName: true,
-        defaultMergeDomain: false,
+        defaultMergeMethod: undefined,
     }
 }
 

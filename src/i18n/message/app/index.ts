@@ -8,8 +8,8 @@
 import buttonMessages, { type ButtonMessage } from "@i18n/message/common/button"
 import calendarMessages, { type CalendarMessage } from "@i18n/message/common/calendar"
 import itemMessages, { type ItemMessage } from "@i18n/message/common/item"
-import mergeCommonMessages, { type MergeCommonMessage } from "@i18n/message/common/merge"
 import metaMessages, { type MetaMessage } from "@i18n/message/common/meta"
+import sharedMessages, { type SharedMessage } from "@i18n/message/common/shared"
 import baseMessages, { type BaseMessage } from "../common/base"
 import limitModalMessages, { type ModalMessage } from "../cs/modal"
 import { merge, type MessageRoot } from "../merge"
@@ -33,7 +33,7 @@ export type AppMessage = {
     about: AboutMessage
     dataManage: DataManageMessage
     item: ItemMessage
-    mergeCommon: MergeCommonMessage
+    shared: SharedMessage
     report: ReportMessage
     whitelist: WhitelistMessage
     mergeRule: MergeRuleMessage
@@ -58,7 +58,7 @@ const MESSAGE_ROOT: MessageRoot<AppMessage> = {
     about: aboutMessages,
     dataManage: dataManageMessages,
     item: itemMessages,
-    mergeCommon: mergeCommonMessages,
+    shared: sharedMessages,
     report: reportMessages,
     whitelist: whitelistMessages,
     mergeRule: mergeRuleMessages,

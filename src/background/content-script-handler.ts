@@ -65,7 +65,7 @@ export default function init(dispatcher: MessageDispatcher) {
             return !!option.printInConsole
         })
         // Get today info
-        .register<string, timer.stat.Result>('cs.getTodayInfo', host => itemService.getResult(host, new Date()))
+        .register<string, timer.core.Result>('cs.getTodayInfo', host => itemService.getResult(host, new Date()))
         // cs.getLimitedRules
         .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))

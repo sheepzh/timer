@@ -30,22 +30,22 @@ export default class LocalFileInitializer implements Migrator {
         }).then(() => console.log('Local file merge rules initialized'))
         // Add site name
         siteService.saveAlias(
-            { host: PDF_HOST },
+            { host: PDF_HOST, type: 'normal' },
             t2Chrome(msg => msg.initial.localFile.pdf),
             'DETECTED'
         )
         siteService.saveAlias(
-            { host: JSON_HOST },
+            { host: JSON_HOST, type: 'normal' },
             t2Chrome(msg => msg.initial.localFile.json),
             'DETECTED'
         )
         siteService.saveAlias(
-            { host: PIC_HOST },
+            { host: PIC_HOST, type: 'normal' },
             t2Chrome(msg => msg.initial.localFile.pic),
             'DETECTED'
         )
         siteService.saveAlias(
-            { host: TXT_HOST },
+            { host: TXT_HOST, type: 'normal' },
             t2Chrome(msg => msg.initial.localFile.txt),
             'DETECTED'
         )

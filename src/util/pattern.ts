@@ -178,3 +178,8 @@ export function isHomepage(url: string) {
     const indexOfSlash = hostStr.indexOf("/")
     return indexOfSlash < 0 || indexOfSlash === hostStr.length - 1
 }
+
+export function escapeRegExp(s: string): string {
+    if (!s) return ''
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+}

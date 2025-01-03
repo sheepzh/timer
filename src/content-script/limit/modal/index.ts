@@ -2,7 +2,7 @@ import { getUrl, sendMsg2Runtime } from '@api/chrome/runtime'
 import optionService from '@service/option-service'
 import { init as initTheme, toggle } from '@util/dark-mode'
 import { createApp, Ref, type App } from 'vue'
-import { type LimitReason, type LimitType, type MaskModal } from '../common'
+import { isSameReason, type LimitReason, type LimitType, type MaskModal } from '../common'
 import { TAG_NAME, type RootElement } from '../element'
 import Main from './Main'
 import { provideDelayHandler, provideReason } from './context'
@@ -35,16 +35,6 @@ function pauseAllAudio(): void {
             audio?.pause?.()
         } catch { }
     })
-}
-
-function isSameReason(a: LimitReason, b: LimitReason): boolean {
-    let same = a?.id === b?.id && a?.type === b?.type
-    if (!same) return false
-    if (a?.type === 'DAILY' || a?.type === 'VISIT') {
-        // Need judge allow delay
-        same = same && a?.allowDelay === b?.allowDelay
-    }
-    return same
 }
 
 const TYPE_SORT: { [reason in LimitType]: number } = {

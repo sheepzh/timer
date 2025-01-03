@@ -29,7 +29,7 @@ class VirtualSiteHolder {
 
     constructor() {
         siteDatabase.select().then(sitesInfos => sitesInfos
-            .filter(s => s.virtual)
+            .filter(s => s.type === 'virtual')
             .forEach(site => this.updateRegularExp(site))
         )
         siteDatabase.addChangeListener((oldAndNew) => oldAndNew.forEach(([oldVal, newVal]) => {

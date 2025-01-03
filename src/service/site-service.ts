@@ -6,6 +6,7 @@
  */
 
 import SiteDatabase, { type SiteCondition } from "@db/site-database"
+import { supportCategory } from "@util/site"
 import { slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
@@ -61,6 +62,7 @@ class SiteService {
         if (await siteDatabase.exist(siteInfo)) {
             return
         }
+        if (!supportCategory(siteInfo)) siteInfo.cate = undefined
         await siteDatabase.save(siteInfo)
     }
 
@@ -82,10 +84,28 @@ class SiteService {
         await siteDatabase.remove(host)
     }
 
+    async batchRemove(keys: timer.site.SiteKey[]): Promise<void> {
+        await siteDatabase.removeBatch(keys)
+    }
+
     saveAlias = saveAlias
     removeAlias = removeAlias
     saveIconUrl = saveIconUrl
     removeIconUrl = removeIconUrl
+
+    async saveCate(key: timer.site.SiteKey, cateId: number): Promise<void> {
+        const exist = await siteDatabase.get(key)
+        if (!exist || !supportCategory(exist)) return
+
+        await siteDatabase.save({ ...exist, cate: cateId })
+    }
+
+    async batchSaveCate(cateId: number, keys: timer.site.SiteKey[]): Promise<void> {
+        const allSites = await siteDatabase.getBatch(keys)
+        if (!allSites?.length) return
+        const toSave = allSites.filter(supportCategory).map(s => ({ ...s, cate: cateId }))
+        await siteDatabase.saveBatch(toSave)
+    }
 
     exist(host: timer.site.SiteKey): Promise<boolean> {
         return siteDatabase.exist(host)

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021-present Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -21,8 +21,12 @@ export type MergeRuleMessage = {
     infoAlert3: string
     infoAlert4: string
     infoAlert5: string
+    tagResult: {
+        blank: string
+        level: string
+    }
 }
 
-const _default: Messages<MergeRuleMessage> = resource
+const mergeRuleMessages: Messages<MergeRuleMessage> = resource
 
-export default _default
+export default mergeRuleMessages

@@ -43,7 +43,7 @@ class TrackContext {
 }
 
 export type TrackerClientOption = {
-    onReport: (ev: timer.stat.Event) => Promise<void>
+    onReport: (ev: timer.core.Event) => Promise<void>
     onResume?: (reason: StateChangeReason) => void
     onPause?: (reason: StateChangeReason) => void
 }
@@ -85,7 +85,7 @@ export default class TrackerClient {
             return
         }
 
-        const data: timer.stat.Event = {
+        const data: timer.core.Event = {
             start: lastTime,
             end: now,
             url: location?.href,
