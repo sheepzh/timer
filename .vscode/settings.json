@@ -12,6 +12,7 @@
     "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
     "files.eol": "\n",
     "cSpell.words": [
+        "Arrayable",
         "Auths",
         "Cascader",
         "countup",

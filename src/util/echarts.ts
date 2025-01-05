@@ -107,7 +107,7 @@ const processGridRtl = (option: GridComponentOption) => {
 
 const processLegendRtl = (option: LegendComponentOption) => {
     swapPosition(option)
-    swapAlign(option, 'align')
+    swapAlign(option, 'align', 'left')
 }
 
 const processToolboxRtl = (option: ToolboxComponentOption) => {
