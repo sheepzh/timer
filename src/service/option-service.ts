@@ -33,6 +33,7 @@ async function setLocale(locale: timer.option.LocaleOption): Promise<void> {
     const exist: Partial<timer.option.AllOption> = await db.getOption() || {}
     exist.locale = locale
     await setOption(exist)
+    console.log('locale set')
 }
 
 async function setBackupOption(option: Partial<timer.option.BackupOption>): Promise<void> {

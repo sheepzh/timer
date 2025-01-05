@@ -2,6 +2,7 @@ import { useRequest } from "@hooks/useRequest"
 import { useState } from "@hooks/useState"
 import Flex from "@pages/components/Flex"
 import optionService from "@service/option-service"
+import { IS_FIREFOX } from "@util/constant/environment"
 import { isDarkMode, toggle } from "@util/dark-mode"
 import { defineComponent, onBeforeMount, ref } from "vue"
 import { RouterView } from "vue-router"
@@ -12,7 +13,14 @@ import { initProvider } from "./context"
 
 const Main = defineComponent(() => {
     const appKey = ref(Date.now())
-    const reload = () => appKey.value = Date.now()
+    const reload = () => {
+        if (IS_FIREFOX) {
+            // Option change event triggered very late in Firefox, so reload the page directly
+            location.reload()
+        } else {
+            appKey.value = Date.now()
+        }
+    }
 
     const { data: darkMode, refresh: refreshDarkMode } = useRequest(() => optionService.isDarkMode(), { defaultValue: isDarkMode() })
 
