@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [3.0.0] - 2025-01-05
+
+-   Fixed some style errors
+-   Supported set category of sites
+
 ## [2.5.8] - 2024-12-27
 
 -   Optimized the speed to open popup page
@@ -12,7 +17,7 @@ It is worth mentioning that the release time of each change refers to the time w
 ## [2.5.7] - 2024-12-09
 
 -   Fixed some bugs
--   Supported parttern for whitelist
+-   Supported pattern for whitelist
 
 ## [2.5.6] - 2024-12-02
 
