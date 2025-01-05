@@ -1,7 +1,7 @@
 import { t } from "@i18n"
 import calendarMessages from "@i18n/message/common/calendar"
 import { type CascaderNode, type CascaderOption, ElCascader, ExpandTrigger } from "element-plus"
-import { computed, defineComponent, type PropType } from "vue"
+import { computed, type CSSProperties, defineComponent, type PropType } from "vue"
 import "./style.sass"
 
 export const rangeLabel = (duration: timer.option.PopupDuration, n?: string | number): string => {
@@ -42,6 +42,7 @@ const DurationSelect = defineComponent({
         size: String as PropType<"" | "small" | "default" | "large">,
         expandTrigger: String as PropType<ExpandTrigger>,
         reverse: Boolean,
+        style: Object as PropType<CSSProperties>,
     },
     emits: {
         change: (_val: DurationValue) => true,
@@ -59,7 +60,7 @@ const DurationSelect = defineComponent({
                 options={options(props.reverse)}
                 props={{ expandTrigger: props.expandTrigger }}
                 show-all-levels={false}
-                style={{ width: '130px' }}
+                style={{ width: '130px', ...props.style || {} }}
                 popperClass="duration-select-popover"
                 size={props.size}
             >

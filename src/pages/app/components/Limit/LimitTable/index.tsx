@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import Flex from "@pages/components/Flex"
@@ -80,41 +81,30 @@ const renderDetail = (row: timer.limit.Item) => {
     )
 }
 
-const renderToday = (row: timer.limit.Item) => {
-    const { waste, delayCount, allowDelay } = row
-    return (
-        <Flex direction="column" gap={4}>
-            <div>
-                {formatPeriodCommon(waste)}
-            </div>
-            {(!!allowDelay || !!delayCount) && (
-                <div>
-                    <ElTag size="small" type={delayCount ? 'danger' : 'info'}>
-                        {t(msg => msg.limit.item.delayCount)}: {delayCount ?? 0}
-                    </ElTag>
-                </div>
-            )}
-        </Flex >
-    )
-}
-
-const renderWeekly = (row: timer.limit.Item) => {
-    const { weeklyWaste, weeklyDelayCount, allowDelay } = row
-    return (
-        <Flex direction="column" gap={4}>
-            <div>
-                {formatPeriodCommon(weeklyWaste)}
-            </div>
-            {(!!allowDelay || !!weeklyDelayCount) && (
-                <div>
-                    <ElTag size="small" type={weeklyDelayCount ? 'danger' : 'info'}>
-                        {t(msg => msg.limit.item.delayCount)}: {weeklyDelayCount ?? 0}
-                    </ElTag>
-                </div>
-            )}
-        </Flex>
-    )
-}
+const Waste = defineComponent({
+    props: {
+        value: Number,
+        delayCount: Number,
+        showPopover: Boolean,
+    },
+    setup(props) {
+        return () => (
+            <TooltipWrapper
+                trigger="hover"
+                showPopover={props.showPopover}
+                placement="top"
+                v-slots={{
+                    content: () => `${t(msg => msg.limit.item.delayCount)}: ${props.delayCount ?? 0}`,
+                    default: () => (
+                        <ElTag size="small" type={props.value ? 'warning' : 'info'}>
+                            {formatPeriodCommon(props.value)}
+                        </ElTag>
+                    ),
+                }}
+            />
+        )
+    },
+})
 
 const _default = defineComponent({
     props: {
@@ -166,7 +156,13 @@ const _default = defineComponent({
                     minWidth={110}
                     align="center"
                 >
-                    {({ row }: ElTableRowScope<timer.limit.Item>) => renderToday(row)}
+                    {({ row: { waste, delayCount, allowDelay } }: ElTableRowScope<timer.limit.Item>) => (
+                        <Waste
+                            value={waste}
+                            showPopover={!!allowDelay || !!delayCount}
+                            delayCount={delayCount}
+                        />
+                    )}
                 </ElTableColumn>
                 <ElTableColumn
                     minWidth={110}
@@ -178,7 +174,13 @@ const _default = defineComponent({
                                 tooltipContent={t(msg => msg.limit.item.weekStartInfo, { weekStart: weekStartName.value })}
                             />
                         ),
-                        default: ({ row }: ElTableRowScope<timer.limit.Item>) => renderWeekly(row),
+                        default: ({ row: { weeklyWaste, weeklyDelayCount, allowDelay } }: ElTableRowScope<timer.limit.Item>) => (
+                            <Waste
+                                value={weeklyWaste}
+                                showPopover={!!allowDelay || !!weeklyDelayCount}
+                                delayCount={weeklyDelayCount}
+                            />
+                        ),
                     }}
                 />
                 <LimitDelayColumn onRowChange={row => ctx.emit("delayChange", row)} />

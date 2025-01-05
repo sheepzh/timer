@@ -17,31 +17,27 @@ import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
 
 type LocaleStyle = {
-    durationSelectWidth: number
-    typeSelectWidth: number
+    /**
+     * Width of duration select
+     */
+    duration: number
+    /**
+     * Width and type select
+     */
+    type: number
 }
 
 const STYLES: Messages<LocaleStyle> = {
-    zh_CN: {
-        typeSelectWidth: 85,
-        durationSelectWidth: 80,
-    },
-    en: {
-        typeSelectWidth: 115,
-        durationSelectWidth: 110
-    },
-    ja: {
-        typeSelectWidth: 85,
-        durationSelectWidth: 105,
-    },
-    pt_PT: {
-        typeSelectWidth: 155,
-        durationSelectWidth: 120,
-    },
-    zh_TW: {
-        typeSelectWidth: 85,
-        durationSelectWidth: 80,
-    },
+    zh_CN: { type: 85, duration: 100 },
+    en: { type: 115, duration: 110 },
+    ja: { type: 85, duration: 110 },
+    pt_PT: { type: 155, duration: 120 },
+    zh_TW: { type: 85, duration: 100 },
+    uk: { type: 145, duration: 120 },
+    es: { type: 160, duration: 125 },
+    de: { duration: 120 },
+    fr: { type: 150, duration: 130 },
+    ru: { type: 170, duration: 150 },
 }
 
 const tStyle = (key: I18nKey<LocaleStyle>) => t_(STYLES, { key })
@@ -104,13 +100,14 @@ const _default = defineComponent((_props, ctx) => {
                             option.defaultDuration = duration
                             option.defaultDurationNum = num
                         }}
+                        style={{ width: `${tStyle(m => m.duration)}px` }}
                     />
                 ),
                 type: () => (
                     <ElSelect
                         modelValue={option.defaultType}
                         size="small"
-                        style={{ width: `${tStyle(m => m.typeSelectWidth)}px` }}
+                        style={{ width: `${tStyle(m => m.type)}px` }}
                         onChange={(val: timer.core.Dimension) => option.defaultType = val}
                     >
                         {ALL_DIMENSIONS.map(item => <ElOption value={item} label={t(msg => msg.item[item])} />)}
