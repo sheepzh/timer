@@ -1,0 +1,30 @@
+{
+    "en": {
+        "merge": {
+            "mergeBy": "Merge by",
+            "mergeMethod": {
+                "date": "Date",
+                "domain": "URL",
+                "cate": "Category",
+                "notMerge": "Not Merge"
+            }
+        },
+        "cate": {
+            "notSet": "Not Set"
+        }
+    },
+    "zh_CN": {
+        "merge": {
+            "mergeBy": "数据合并",
+            "mergeMethod": {
+                "date": "按日期",
+                "domain": "按域名",
+                "cate": "按类目",
+                "notMerge": "不合并"
+            }
+        },
+        "cate": {
+            "notSet": "未分类"
+        }
+    }
+}

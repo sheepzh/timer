@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -10,7 +10,7 @@ import { openLog, closeLog } from "./logger"
 
 /**
  * Show the memory info
- * 
+ *
  * @since 0.0.9
  */
 export function showMemory() {
@@ -43,7 +43,7 @@ declare global {
 
 /**
  * Manually open and close the log
- * 
+ *
  * @since 0.0.8
  */
 window.timer = timer

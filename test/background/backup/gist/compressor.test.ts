@@ -1,21 +1,17 @@
-import { divide2Buckets, GistData, gistData2Rows } from "@src/common/backup/gist/compressor"
+import { divide2Buckets, GistData, gistData2Rows } from "@service/backup/gist/compressor"
 
 test('divide 1', () => {
-    const rows: timer.stat.Row[] = [{
+    const rows: timer.core.Row[] = [{
         host: 'www.baidu.com',
         date: '20220801',
         focus: 0,
         time: 10,
-        mergedHosts: [],
-        virtual: false,
     }, {
         host: 'www.baidu.com',
         // Invalid date, count be compress
         date: '',
         focus: 0,
         time: 10,
-        mergedHosts: [],
-        virtual: false,
     }]
     const divided = divide2Buckets(rows)
     expect(divided.length).toEqual(1)

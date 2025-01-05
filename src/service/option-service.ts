@@ -29,6 +29,12 @@ async function getAllOption(): Promise<timer.option.AllOption> {
     return migrateOld(result)
 }
 
+async function setLocale(locale: timer.option.LocaleOption): Promise<void> {
+    const exist: Partial<timer.option.AllOption> = await db.getOption() || {}
+    exist.locale = locale
+    await setOption(exist)
+}
+
 async function setBackupOption(option: Partial<timer.option.BackupOption>): Promise<void> {
     // Rewrite auths
     const existOption = await getAllOption()
@@ -84,6 +90,17 @@ async function isDarkMode(targetVal?: timer.option.AppearanceOption): Promise<bo
     return false
 }
 
+async function setDarkMode(mode: timer.option.DarkMode, period?: [number, number]): Promise<void> {
+    const exist = await getAllOption()
+    exist.darkMode = mode
+    if (mode === 'timed') {
+        const [start, end] = period || []
+        exist.darkModeTimeStart = start
+        exist.darkModeTimeEnd = end
+    }
+    await db.setOption(exist)
+}
+
 class OptionService {
     getAllOption = getAllOption
     setPopupOption = setOption
@@ -98,11 +115,19 @@ class OptionService {
      * @since 1.2.0
      */
     setBackupOption = setBackupOption
+    /**
+     * @since 3.0.0
+     */
+    setLocale = setLocale
     addOptionChangeListener = db.addOptionChangeListener
     /**
      * @since 1.1.0
      */
     isDarkMode = isDarkMode
+    /**
+     * @since 3.0.0
+     */
+    setDarkMode = setDarkMode
 }
 
 export default new OptionService()

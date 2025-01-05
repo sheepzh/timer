@@ -23,13 +23,22 @@
                 "src/content-script/*"
             ],
             "@app/*": [
-                "src/app/*"
+                "src/pages/app/*"
             ],
             "@popup/*": [
-                "src/popup/*"
+                "src/pages/popup/*"
             ],
             "@side/*": [
-                "src/side/*"
+                "src/pages/side/*"
+            ],
+            "@hooks/*": [
+                "src/pages/hooks/*"
+            ],
+            "@hooks": [
+                "src/pages/hooks/index"
+            ],
+            "@pages/*": [
+                "src/pages/*"
             ],
             "@db/*": [
                 "src/database/*"
@@ -45,12 +54,6 @@
             ],
             "@i18n": [
                 "src/i18n/index"
-            ],
-            "@hooks/*": [
-                "src/hooks/*"
-            ],
-            "@hooks": [
-                "src/hooks/index"
             ],
             "@src/*": [
                 "src/*"

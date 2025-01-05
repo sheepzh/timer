@@ -14,7 +14,7 @@ import {
     CHANGE_LOG_PAGE, GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE,
     getAppPageUrl, getGuidePageUrl,
 } from "@util/constant/url"
-import { OPTION_ROUTE } from "../app/router/constants"
+import { OPTION_ROUTE } from "../pages/app/router/constants"
 
 const APP_PAGE_URL = getAppPageUrl(true)
 

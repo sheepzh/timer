@@ -10,6 +10,7 @@ import StoragePromise from "@db/common/storage-promise"
 import LimitDatabase from "@db/limit-database"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import PeriodDatabase from "@db/period-database"
+import SiteCateDatabase from "@db/site-cate-database"
 import StatDatabase from "@db/stat-database"
 import WhitelistDatabase from "@db/whitelist-database"
 import packageInfo from "@src/package"
@@ -30,6 +31,7 @@ function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
         new LimitDatabase(storage),
         new MergeRuleDatabase(storage),
         new WhitelistDatabase(storage),
+        new SiteCateDatabase(storage),
     ]
 
     return result

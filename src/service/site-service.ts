@@ -6,7 +6,9 @@
  */
 
 import SiteDatabase, { type SiteCondition } from "@db/site-database"
+import { identifySiteKey, supportCategory } from "@util/site"
 import { slicePageResult } from "./components/page-info"
+import { groupBy } from "@util/array"
 
 const storage = chrome.storage.local
 const siteDatabase = new SiteDatabase(storage)
@@ -61,6 +63,7 @@ class SiteService {
         if (await siteDatabase.exist(siteInfo)) {
             return
         }
+        if (!supportCategory(siteInfo)) siteInfo.cate = undefined
         await siteDatabase.save(siteInfo)
     }
 
@@ -82,10 +85,35 @@ class SiteService {
         await siteDatabase.remove(host)
     }
 
+    async batchRemove(keys: timer.site.SiteKey[]): Promise<void> {
+        await siteDatabase.removeBatch(keys)
+    }
+
     saveAlias = saveAlias
     removeAlias = removeAlias
     saveIconUrl = saveIconUrl
     removeIconUrl = removeIconUrl
+
+    async saveCate(key: timer.site.SiteKey, cateId: number): Promise<void> {
+        if (!supportCategory(key)) return
+
+        const exist = await siteDatabase.get(key)
+        await siteDatabase.save({ ...exist || key, cate: cateId })
+    }
+
+    async batchSaveCate(cateId: number, keys: timer.site.SiteKey[]): Promise<void> {
+        keys = keys?.filter(supportCategory)
+        if (!keys?.length) return
+
+        const allSites = await siteDatabase.getBatch(keys)
+        const siteMap = groupBy(allSites, identifySiteKey, l => l?.[0])
+
+        const toSave = keys.map(k => {
+            const s = siteMap[identifySiteKey(k)]
+            return ({ ...s || k, cate: cateId })
+        })
+        await siteDatabase.saveBatch(toSave)
+    }
 
     exist(host: timer.site.SiteKey): Promise<boolean> {
         return siteDatabase.exist(host)

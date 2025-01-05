@@ -7,6 +7,15 @@ export type LimitReason =
         getVisitTime?: () => number
     }
 
+export function isSameReason(a: LimitReason, b: LimitReason): boolean {
+    if (a?.id !== b?.id || a?.type !== b?.type) return false
+    if (a?.type === 'DAILY' || a?.type === 'VISIT') {
+        // Need judge allow delay
+        if (a?.allowDelay !== b?.allowDelay) return false
+    }
+    return true
+}
+
 export type LimitType =
     | "DAILY"
     | "WEEKLY"

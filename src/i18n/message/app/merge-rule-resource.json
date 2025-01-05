@@ -12,7 +12,11 @@
         "infoAlert2": "合并后域名可填具体的域名，或者填数字，或者不填",
         "infoAlert3": "如果填数字，则表示合并后域名的级数。比如存在规则【 *.*.edu.cn >>> 3 】，那么 www.hust.edu.cn 将被合并至 hust.edu.cn",
         "infoAlert4": "如果不填，则表示原域名不会被合并",
-        "infoAlert5": "如果没有命中任何规则，则默认会合并至 {psl} 的前一级"
+        "infoAlert5": "如果没有命中任何规则，则默认会合并至 {psl} 的前一级",
+        "tagResult": {
+            "blank": "不合并",
+            "level": "{level} 级域名"
+        }
     },
     "zh_TW": {
         "removeConfirmMsg": "自定義合並規則 {origin} 將被移除",
@@ -27,7 +31,11 @@
         "infoAlert2": "合並後網域可填具體的網域，或者填數字，或者不填",
         "infoAlert3": "如果填數字，則表示合並後網域的級數。比如存在規則【 *.*.edu.cn >>> 3 】，那麼 www.hust.edu.cn 將被合並至 hust.edu.cn",
         "infoAlert4": "如果不填，則表示原網域不會被合並",
-        "infoAlert5": "如果沒有匹配任何規則，則默認會合並至 {psl} 的前一級"
+        "infoAlert5": "如果沒有匹配任何規則，則默認會合並至 {psl} 的前一級",
+        "tagResult": {
+            "blank": "不合並",
+            "level": "{level} 級網域"
+        }
     },
     "en": {
         "removeConfirmMsg": "{origin} will be removed from customized merge rules.",
@@ -42,7 +50,11 @@
         "infoAlert2": "The merged site can be filled with a specific site, a number or blank",
         "infoAlert3": "A number means the level of merged site. For example, there is a rule '*.*.edu.cn >>> 3', then 'www.hust.edu.cn' will be merged to 'hust.edu.cn'",
         "infoAlert4": "Blank means the original site will not be merged",
-        "infoAlert5": "If no rule is matched, it will default to the level before {psl}"
+        "infoAlert5": "If no rule is matched, it will default to the level before {psl}",
+        "tagResult": {
+            "blank": "Not Merge",
+            "level": "Keep Level {level}"
+        }
     },
     "ja": {
         "removeConfirmMsg": "カスタム マージ ルール {origin} は削除されます",
@@ -57,7 +69,11 @@
         "infoAlert2": "統合されたドメイン名の後、特定のドメイン名を入力するか、番号を入力するか、空白のままにすることができます",
         "infoAlert3": "数字を記入する場合は、ドメイン名のレベルが予約されていることを意味します。 たとえば、ルール [*.*.edu.cn >>> 3 ] がある場合、www.hust.edu.cn は hust.edu.cn にマージされます。",
         "infoAlert4": "記入しない場合は、元のドメイン名が統合されないことを意味します",
-        "infoAlert5": "一致するルールがない場合、デフォルトで {psl} より前のレベルになります"
+        "infoAlert5": "一致するルールがない場合、デフォルトで {psl} より前のレベルになります",
+        "tagResult": {
+            "blank": "不合并",
+            "level": "{level} 次ドメイン"
+        }
     },
     "pt_PT": {
         "removeConfirmMsg": "{origin} será removido das regras personalizadas de mesclagem.",
@@ -72,7 +88,11 @@
         "infoAlert2": "O site mesclado pode ser preenchido com um site específico, um número ou em branco",
         "infoAlert3": "Um número significa o nível de um site unificado. Por exemplo, há uma regra '*.*.edu.cn >>> 3', em seguida, 'www.hust.edu.cn' será fundida com 'hust.edu.cn'",
         "infoAlert4": "Em branco significa que o site original não será mesclado",
-        "infoAlert5": "Se nenhuma regra for correspondida, o padrão será o nível antes de {psl}"
+        "infoAlert5": "Se nenhuma regra for correspondida, o padrão será o nível antes de {psl}",
+        "tagResult": {
+            "blank": "Não Mesclar",
+            "level": "Mantenha o Nível {level}"
+        }
     },
     "uk": {
         "removeConfirmMsg": "{origin} буде вилучено з налаштованих правил об'єднання.",
@@ -87,7 +107,11 @@
         "infoAlert2": "Об'єднуваний сайт можна ввести як URL-адресу, число, або залишити пустим",
         "infoAlert3": "Число означає рівень об'єднуваного сайту. Наприклад, для правила '*.*.edu.cn >>> 3' об'єднуваний сайт 'www.hust.edu.cn' буде об'єднано з 'hust.edu.cn'",
         "infoAlert4": "Пусте поле означає, що сайт не буде об'єднано",
-        "infoAlert5": "Якщо жодне правило не збігається, його буде встановлено до типового рівня {psl}"
+        "infoAlert5": "Якщо жодне правило не збігається, його буде встановлено до типового рівня {psl}",
+        "tagResult": {
+            "blank": "Не об'єднувати",
+            "level": "Зберегти рівень {level}"
+        }
     },
     "es": {
         "removeConfirmMsg": "{origin} será eliminado de las reglas de fusión personalizadas.",
@@ -102,7 +126,11 @@
         "infoAlert2": "El sitio fusionado puede ser llenado con un sitio específico, un número o en dejarse en blanco",
         "infoAlert3": "Un número significa el nivel del sitio fusionado. Por ejemplo, hay una regla '*.*.edu.cn >>> 3', entonces 'www.hust.edu.cn' se fusionará con 'hust.edu.cn'",
         "infoAlert4": "Dejar en blanco significa que el sitio original no se fusionará",
-        "infoAlert5": "Si no se sigue ninguna regla, se establecerá por defecto al nivel antes de {psl}"
+        "infoAlert5": "Si no se sigue ninguna regla, se establecerá por defecto al nivel antes de {psl}",
+        "tagResult": {
+            "blank": "No fusionar",
+            "level": "Mantener en nivel {level}"
+        }
     },
     "de": {
         "removeConfirmMsg": "{origin} wird aus den benutzerdefinierten Zusammenführen Regeln entfernt.",
@@ -117,7 +145,11 @@
         "infoAlert2": "Die zusammengeführte Website kann mit einer bestimmten Site, einer Zahl oder einem Leerzeichen gefüllt werden",
         "infoAlert3": "Eine Zahl gibt die Ebene der zusammengeführten Website an. Gibt es beispielsweise eine Regel „*.*.edu.cn >>> 3“, dann wird „www.hust.edu.cn“ als „hust.edu.cn“ zusammengeführt",
         "infoAlert4": "Leer bedeutet, dass die ursprüngliche Website nicht zusammengeführt wird",
-        "infoAlert5": "Wenn keine Regel zutrifft, wird standardmäßig die Ebene vor {psl} verwendet"
+        "infoAlert5": "Wenn keine Regel zutrifft, wird standardmäßig die Ebene vor {psl} verwendet",
+        "tagResult": {
+            "blank": "Nicht zusammenführen",
+            "level": "Level behalten {level}"
+        }
     },
     "fr": {
         "removeConfirmMsg": "{origin} sera supprimé des règles de fusion personnalisées.",
@@ -132,7 +164,11 @@
         "infoAlert2": "Le site fusionné peut être rempli avec un site spécifique, un numéro ou vide",
         "infoAlert3": "Un nombre signifie le niveau du site fusionné. Par exemple, il existe une règle '*.*.edu.cn >>> 3', alors 'www.hust.edu.cn' sera fusionné avec 'hust.edu.cn'",
         "infoAlert4": "Vide signifie que le site d'origine ne sera pas fusionné",
-        "infoAlert5": "Si aucune règle ne correspond, le niveau par défaut sera celui d'avant {psl}."
+        "infoAlert5": "Si aucune règle ne correspond, le niveau par défaut sera celui d'avant {psl}.",
+        "tagResult": {
+            "blank": "Non Fusionner",
+            "level": "Garder le niveau {level}"
+        }
     },
     "ru": {
         "removeConfirmMsg": "{origin} будет удален из настроенных правил слияния.",
@@ -147,7 +183,11 @@
         "infoAlert2": "Объединенный сайт может быть заполнен определенным сайтом, номером или пустым местом",
         "infoAlert3": "Число означает уровень слияния сайта. Например, правило '*.*.edu.cn >>> 3', то 'www.hust.edu.cn' будет объединено с 'hust.edu.cn'",
         "infoAlert4": "Пустое значение означает, что оригинальный сайт не будет объединён",
-        "infoAlert5": "Если правило не совпадает, оно будет по умолчанию на уровне до {psl}"
+        "infoAlert5": "Если правило не совпадает, оно будет по умолчанию на уровне до {psl}",
+        "tagResult": {
+            "blank": "Не объединять",
+            "level": "Сохранять уровень {level}"
+        }
     },
     "ar": {
         "removeConfirmMsg": "سيتم إزالة {origin} من قواعد الدمج المخصصة.",
@@ -162,6 +202,10 @@
         "infoAlert2": "يمكن ملء الموقع المدمج بموقع محدد أو رَقَم أو مساحة فارغة",
         "infoAlert3": "يشير الرقم إلى مستوى الموقع المدمج. على سبيل المثال، هناك قاعدة '*.*.edu.cn >>> 3'، ثم سيتم دمج 'www.hust.edu.cn' في 'hust.edu.cn'",
         "infoAlert4": "الفراغ يعني أن الموقع الأصلي لن يتم دمجه",
-        "infoAlert5": "إذا لم يتم مطابقة أي قاعدة، فسيتم تعيينها افتراضيًا على المستوى قبل {psl}"
+        "infoAlert5": "إذا لم يتم مطابقة أي قاعدة، فسيتم تعيينها افتراضيًا على المستوى قبل {psl}",
+        "tagResult": {
+            "blank": "لا دمج",
+            "level": "الحفاظ على المستوى {level}"
+        }
     }
 }

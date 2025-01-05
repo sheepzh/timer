@@ -1,0 +1,68 @@
+{
+    "en": {
+        "updateVersion": "Updatable",
+        "updateVersionInfo": "Latest: {version}",
+        "updateVersionInfo4Firefox": "Upgrade to {version} on the management page, about:addons, pls",
+        "rate": "Rate It"
+    },
+    "zh_CN": {
+        "updateVersion": "版本升级",
+        "updateVersionInfo": "最新版本：{version}",
+        "updateVersionInfo4Firefox": "新版本 {version} 已发布\n\n您可以前往插件管理页进行更新",
+        "rate": "打个分吧"
+    },
+    "zh_TW": {
+        "updateVersion": "版本升級",
+        "updateVersionInfo": "最新版本：{version}",
+        "updateVersionInfo4Firefox": "新版本 {version} 已髮佈\n\n您可以前往插件管理頁進行更新",
+        "rate": "打個分吧！"
+    },
+    "ja": {
+        "updateVersion": "更新",
+        "updateVersionInfo": "最新バージョン：{version}",
+        "updateVersionInfo4Firefox": "管理ページで {version} にアップグレードしてください",
+        "rate": "それを評価"
+    },
+    "pt_PT": {
+        "updateVersion": "Atualizável",
+        "updateVersionInfo": "Último: {version}",
+        "updateVersionInfo4Firefox": "Atualize para {version} na página de gestão, about:addons, por favor",
+        "rate": "Avalie"
+    },
+    "uk": {
+        "updateVersion": "Доступне оновлення",
+        "updateVersionInfo": "Найновіша: {version}",
+        "updateVersionInfo4Firefox": "Оновіть до версії {version} на сторінці about:addons",
+        "rate": "Оцінити"
+    },
+    "es": {
+        "updateVersion": "Actualizable",
+        "updateVersionInfo": "Última versión: {version}",
+        "updateVersionInfo4Firefox": "Actualiza a la versión {version} en la página de administración de complementos, about:addons, por favor",
+        "rate": "Puntúalo"
+    },
+    "de": {
+        "updateVersion": "Aktualisierbar",
+        "updateVersionInfo": "Neueste: {version}",
+        "updateVersionInfo4Firefox": "Bitte aktualisieren Sie auf der Verwaltungsseite about:addons auf {version}",
+        "rate": "Bewerte es"
+    },
+    "fr": {
+        "updateVersion": "Actualisable",
+        "updateVersionInfo": "Dernière version : {version}",
+        "updateVersionInfo4Firefox": "Mettez à niveau vers là {version} dans la page de gestion, about:addons, s'il vous plaît",
+        "rate": "Donnez votre avis"
+    },
+    "ru": {
+        "updateVersion": "Обновляемый",
+        "updateVersionInfo": "Последняя: {version}",
+        "updateVersionInfo4Firefox": "Обновите до {version} на странице управления, about:addons, пожалуйста",
+        "rate": "Оценить"
+    },
+    "ar": {
+        "updateVersion": "قابل للتحديث",
+        "updateVersionInfo": "آخر: {version}",
+        "updateVersionInfo4Firefox": "الترقية إلى {version} على صفحة الإدارة، عن: addons, pls",
+        "rate": "قيمه"
+    }
+}

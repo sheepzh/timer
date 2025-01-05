@@ -46,7 +46,7 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
     let favIconUrl = tab.favIconUrl
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
-    const siteKey: timer.site.SiteKey = { host }
+    const siteKey: timer.site.SiteKey = { host, type: 'normal' }
     favIconUrl && await siteService.saveIconUrl(siteKey, favIconUrl)
     collectAliasEnabled
         && !isBrowserUrl(url)

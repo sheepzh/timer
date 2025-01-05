@@ -26,7 +26,7 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
     return focusTime
 }
 
-async function handleEvent(event: timer.stat.Event, sender: ChromeMessageSender): Promise<void> {
+async function handleEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
     const { url, start, end, ignoreTabCheck } = event
     const windowId = sender?.tab?.windowId
     const tabId = sender?.tab?.id
@@ -59,5 +59,5 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
 }
 
 export default function initTrackServer(messageDispatcher: MessageDispatcher) {
-    messageDispatcher.register<timer.stat.Event, void>('cs.trackTime', handleEvent)
+    messageDispatcher.register<timer.core.Event, void>('cs.trackTime', handleEvent)
 }
