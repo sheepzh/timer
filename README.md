@@ -5,6 +5,7 @@
 [![](https://www.travis-ci.com/sheepzh/timer.svg?branch=main)](https://www.travis-ci.com/sheepzh/timer.svg?branch=main)
 [![](https://img.shields.io/badge/license-Anti%20996-blue)](https://github.com/996icu/996.ICU)
 [![](https://img.shields.io/github/v/release/sheepzh/timer)](https://github.com/sheepzh/timer/releases)
+[![Crowdin](https://badges.crowdin.net/timer-chrome-edge-firefox/localized.svg)](https://crowdin.com/project/timer-chrome-edge-firefox)
 
 \[ English | [简体中文](./README-zh.md) \]
 
