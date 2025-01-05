@@ -33,18 +33,12 @@
     "accountants": 1,
     "aco": 1,
     "actor": 1,
-    "ad": {
-        "c": {
-            "nom": 1
-        },
-        "l": 1
-    },
+    "ad": 1,
     "ads": 1,
     "adult": 1,
     "ae": {
         "c": {
             "ac": 1,
-            "blogspot": 1,
             "co": 1,
             "gov": 1,
             "mil": 1,
@@ -191,7 +185,6 @@
     "akdn": 1,
     "al": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -210,7 +203,6 @@
     "alstom": 1,
     "am": {
         "c": {
-            "blogspot": 1,
             "co": 1,
             "com": 1,
             "commune": 1,
@@ -250,12 +242,14 @@
     "app": {
         "c": {
             "adaptable": 1,
+            "aiven": 1,
             "beget": {
                 "c": {
                     "*": 1
                 }
             },
             "bookonline": 1,
+            "botdash": 1,
             "clerk": 1,
             "clerkstage": 1,
             "csb": {
@@ -306,8 +300,8 @@
                 }
             },
             "nyat": 1,
+            "on-fleek": 1,
             "ondigitalocean": 1,
-            "platform0": 1,
             "replit": {
                 "c": {
                     "id": 1
@@ -352,12 +346,7 @@
     "ar": {
         "c": {
             "bet": 1,
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "coop": 1,
             "edu": 1,
             "gob": 1,
@@ -420,12 +409,7 @@
                 "l": 1
             },
             "biz": 1,
-            "co": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "co": 1,
             "funkfeuer": {
                 "c": {
                     "wien": 1
@@ -479,7 +463,6 @@
             "asn": 1,
             "com": {
                 "c": {
-                    "blogspot": 1,
                     "cloudlets": {
                         "c": {
                             "mel": 1
@@ -520,7 +503,6 @@
                 "l": 1
             },
             "id": 1,
-            "info": 1,
             "net": 1,
             "nsw": 1,
             "nt": 1,
@@ -780,6 +762,7 @@
     "az": {
         "c": {
             "biz": 1,
+            "co": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -797,7 +780,6 @@
     "azure": 1,
     "ba": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -858,7 +840,6 @@
         "c": {
             "123website": 1,
             "ac": 1,
-            "blogspot": 1,
             "cloudns": 1,
             "interhostsolutions": {
                 "c": {
@@ -909,7 +890,6 @@
             "a": 1,
             "b": 1,
             "barsy": 1,
-            "blogspot": 1,
             "c": 1,
             "d": 1,
             "e": 1,
@@ -992,7 +972,6 @@
             "architectes": 1,
             "assur": 1,
             "avocats": 1,
-            "blogspot": 1,
             "co": 1,
             "com": 1,
             "eco": 1,
@@ -1135,7 +1114,6 @@
             "cnt": 1,
             "com": {
                 "c": {
-                    "blogspot": 1,
                     "simplesite": 1
                 },
                 "l": 1
@@ -1371,19 +1349,17 @@
     "bv": 1,
     "bw": {
         "c": {
+            "ac": 1,
             "co": 1,
+            "gov": 1,
+            "net": 1,
             "org": 1
         },
         "l": 1
     },
     "by": {
         "c": {
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "gov": 1,
             "mediatech": 1,
             "mil": 1,
@@ -1393,6 +1369,7 @@
     },
     "bz": {
         "c": {
+            "co": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -1415,7 +1392,6 @@
             },
             "barsy": 1,
             "bc": 1,
-            "blogspot": 1,
             "box": 1,
             "co": 1,
             "gc": 1,
@@ -1511,12 +1487,7 @@
     "center": 1,
     "ceo": 1,
     "cern": 1,
-    "cf": {
-        "c": {
-            "blogspot": 1
-        },
-        "l": 1
-    },
+    "cf": 1,
     "cfa": 1,
     "cfd": 1,
     "cg": 1,
@@ -1526,7 +1497,6 @@
             "12hp": 1,
             "2ix": 1,
             "4lima": 1,
-            "blogspot": 1,
             "cloudns": 1,
             "cloudscale": {
                 "c": {
@@ -1616,7 +1586,6 @@
     },
     "cl": {
         "c": {
-            "blogspot": 1,
             "cloudns": 1,
             "co": 1,
             "gob": 1,
@@ -1983,14 +1952,8 @@
     },
     "co": {
         "c": {
-            "arts": 1,
             "carrd": 1,
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "crd": 1,
             "edu": 1,
             "firewalledreplit": {
@@ -1999,15 +1962,11 @@
                 },
                 "l": 1
             },
-            "firm": 1,
             "gov": 1,
-            "info": 1,
-            "int": 1,
             "leadpages": 1,
             "lpages": 1,
             "mil": 1,
             "mypi": 1,
-            "n4t": 1,
             "net": 1,
             "nom": 1,
             "org": 1,
@@ -2016,7 +1975,6 @@
                     "*": 1
                 }
             },
-            "rec": 1,
             "repl": {
                 "c": {
                     "id": 1
@@ -2024,7 +1982,6 @@
                 "l": 1
             },
             "supabase": 1,
-            "web": 1,
             "xmit": {
                 "c": {
                     "*": 1
@@ -2049,7 +2006,6 @@
     "cologne": 1,
     "com": {
         "c": {
-            "001www": 1,
             "0emm": {
                 "c": {
                     "*": 1
@@ -3362,7 +3318,6 @@
             "balena-devices": 1,
             "barsycenter": 1,
             "barsyonline": 1,
-            "betainabox": 1,
             "blogdns": 1,
             "blogspot": 1,
             "blogsyte": 1,
@@ -3612,7 +3567,6 @@
             "hatenadiary": 1,
             "health-carereform": 1,
             "herokuapp": 1,
-            "herokussl": 1,
             "hk": 1,
             "hobby-site": 1,
             "homelinux": 1,
@@ -3798,7 +3752,12 @@
             "nfshost": 1,
             "nospamproxy": {
                 "c": {
-                    "cloud": 1
+                    "cloud": {
+                        "c": {
+                            "o365": 1
+                        },
+                        "l": 1
+                    }
                 }
             },
             "observableusercontent": {
@@ -3834,7 +3793,6 @@
             },
             "pgfog": 1,
             "pixolino": 1,
-            "platter-app": 1,
             "playstation-cloud": 1,
             "pleskns": 1,
             "point2this": 1,
@@ -4085,12 +4043,14 @@
     "cuisinella": 1,
     "cv": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
+            "id": 1,
             "int": 1,
+            "net": 1,
             "nome": 1,
-            "org": 1
+            "org": 1,
+            "publ": 1
         },
         "l": 1
     },
@@ -4125,7 +4085,6 @@
             "biz": 1,
             "com": {
                 "c": {
-                    "blogspot": 1,
                     "scaleforce": {
                         "c": {
                             "j": 1
@@ -4150,7 +4109,6 @@
     "cyou": 1,
     "cz": {
         "c": {
-            "blogspot": 1,
             "co": 1,
             "contentproxy9": {
                 "c": {
@@ -4198,7 +4156,6 @@
             "2ix": 1,
             "4lima": 1,
             "barsy": 1,
-            "blogspot": 1,
             "bplaced": 1,
             "com": 1,
             "community-pro": 1,
@@ -4245,7 +4202,8 @@
                 "c": {
                     "it": {
                         "c": {
-                            "pages": 1
+                            "pages": 1,
+                            "pages-research": 1
                         }
                     }
                 }
@@ -4274,6 +4232,17 @@
             "my-wan": 1,
             "myhome-server": 1,
             "myspreadshop": 1,
+            "rub": 1,
+            "ruhr-uni-bochum": {
+                "c": {
+                    "noc": {
+                        "c": {
+                            "io": 1
+                        }
+                    }
+                },
+                "l": 1
+            },
             "schulplattform": 1,
             "schulserver": 1,
             "spdns": 1,
@@ -4326,6 +4295,7 @@
         "c": {
             "12chars": 1,
             "barsy": 1,
+            "botdash": 1,
             "crm": {
                 "c": {
                     "d": {
@@ -4370,7 +4340,6 @@
                     }
                 }
             },
-            "curv": 1,
             "deno": 1,
             "deno-staging": 1,
             "deta": 1,
@@ -4416,6 +4385,7 @@
             "loginline": 1,
             "mediatech": 1,
             "modx": 1,
+            "myaddr": 1,
             "ngrok": 1,
             "ngrok-free": 1,
             "pages": 1,
@@ -4505,7 +4475,6 @@
         "c": {
             "123hjemmeside": 1,
             "biz": 1,
-            "blogspot": 1,
             "co": 1,
             "firm": 1,
             "myspreadshop": 1,
@@ -4516,6 +4485,7 @@
     },
     "dm": {
         "c": {
+            "co": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -4611,12 +4581,7 @@
     "ee": {
         "c": {
             "aip": 1,
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "edu": 1,
             "fie": 1,
             "gov": 1,
@@ -4630,20 +4595,20 @@
     },
     "eg": {
         "c": {
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "ac": 1,
+            "com": 1,
             "edu": 1,
             "eun": 1,
             "gov": 1,
+            "info": 1,
+            "me": 1,
             "mil": 1,
             "name": 1,
             "net": 1,
             "org": 1,
-            "sci": 1
+            "sci": 1,
+            "sport": 1,
+            "tv": 1
         },
         "l": 1
     },
@@ -4684,12 +4649,7 @@
     "es": {
         "c": {
             "123miweb": 1,
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "edu": 1,
             "gob": 1,
             "myspreadshop": 1,
@@ -4789,7 +4749,6 @@
         "c": {
             "123kotisivu": 1,
             "aland": 1,
-            "blogspot": 1,
             "cloudplatform": {
                 "c": {
                     "fi": 1
@@ -4885,7 +4844,6 @@
             "asso": 1,
             "avocat": 1,
             "avoues": 1,
-            "blogspot": 1,
             "cci": 1,
             "chambagri": 1,
             "chirurgiens-dentistes": 1,
@@ -4969,10 +4927,10 @@
             "com": 1,
             "edu": 1,
             "gov": 1,
-            "mil": 1,
             "net": 1,
             "org": 1,
-            "pvt": 1
+            "pvt": 1,
+            "school": 1
         },
         "l": 1
     },
@@ -4983,6 +4941,7 @@
     "gf": 1,
     "gg": {
         "c": {
+            "botdash": 1,
             "co": 1,
             "kaas": 1,
             "net": 1,
@@ -5091,7 +5050,6 @@
     "gr": {
         "c": {
             "barsy": 1,
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -5180,7 +5138,6 @@
     "hiv": 1,
     "hk": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -5189,7 +5146,6 @@
             "ltd": 1,
             "net": 1,
             "org": 1,
-            "secaas": 1,
             "xn--55qx5d": 1,
             "xn--ciqpn": 1,
             "xn--gmq050i": 1,
@@ -5260,7 +5216,6 @@
     "how": 1,
     "hr": {
         "c": {
-            "blogspot": 1,
             "brendly": {
                 "c": {
                     "shop": 1
@@ -5302,7 +5257,6 @@
         "c": {
             "2000": 1,
             "agrar": 1,
-            "blogspot": 1,
             "bolt": 1,
             "casino": 1,
             "city": 1,
@@ -5346,21 +5300,11 @@
         "c": {
             "ac": 1,
             "biz": 1,
-            "co": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "co": 1,
             "desa": 1,
             "go": 1,
             "mil": 1,
-            "my": {
-                "c": {
-                    "rss": 1
-                },
-                "l": 1
-            },
+            "my": 1,
             "net": 1,
             "or": 1,
             "ponpes": 1,
@@ -5371,7 +5315,6 @@
     },
     "ie": {
         "c": {
-            "blogspot": 1,
             "gov": 1,
             "myspreadshop": 1
         },
@@ -5385,7 +5328,6 @@
             "ac": 1,
             "co": {
                 "c": {
-                    "blogspot": 1,
                     "mytabit": 1,
                     "ravpage": 1,
                     "tabitorder": 1
@@ -5433,7 +5375,6 @@
             "barsy": 1,
             "bihar": 1,
             "biz": 1,
-            "blogspot": 1,
             "business": 1,
             "ca": 1,
             "cloudns": 1,
@@ -5572,7 +5513,6 @@
             "darklang": 1,
             "dedyn": 1,
             "definima": 1,
-            "drud": 1,
             "editorx": 1,
             "edu": 1,
             "edugit": 1,
@@ -5605,6 +5545,7 @@
                 }
             },
             "musician": 1,
+            "myaddr": 1,
             "myrdbx": 1,
             "net": 1,
             "ngrok": {
@@ -5678,9 +5619,7 @@
                     "client": 1
                 }
             },
-            "shiftedit": 1,
             "shw": 1,
-            "spacekit": 1,
             "stolos": {
                 "c": {
                     "*": 1
@@ -5715,7 +5654,6 @@
                 }
             },
             "tickets": 1,
-            "upli": 1,
             "utwente": 1,
             "vaporcloud": 1,
             "virtualserver": 1,
@@ -5754,18 +5692,7 @@
         "l": 1
     },
     "irish": 1,
-    "is": {
-        "c": {
-            "blogspot": 1,
-            "com": 1,
-            "edu": 1,
-            "gov": 1,
-            "int": 1,
-            "net": 1,
-            "org": 1
-        },
-        "l": 1
-    },
+    "is": 1,
     "ismaili": 1,
     "ist": 1,
     "istanbul": 1,
@@ -5822,7 +5749,6 @@
             "bi": 1,
             "biella": 1,
             "bl": 1,
-            "blogspot": 1,
             "bn": 1,
             "bo": 1,
             "bologna": 1,
@@ -6223,14 +6149,20 @@
     "jnj": 1,
     "jo": {
         "c": {
+            "agri": 1,
+            "ai": 1,
             "com": 1,
             "edu": 1,
+            "eng": 1,
+            "fm": 1,
             "gov": 1,
             "mil": 1,
-            "name": 1,
             "net": 1,
             "org": 1,
-            "sch": 1
+            "per": 1,
+            "phd": 1,
+            "sch": 1,
+            "tv": 1
         },
         "l": 1
     },
@@ -6370,7 +6302,6 @@
             "backdrop": 1,
             "bambina": 1,
             "bitter": 1,
-            "blogspot": 1,
             "blush": 1,
             "bona": 1,
             "boo": 1,
@@ -8443,12 +8374,7 @@
     "ke": {
         "c": {
             "ac": 1,
-            "co": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "co": 1,
             "go": 1,
             "info": 1,
             "me": 1,
@@ -8548,7 +8474,6 @@
     "kr": {
         "c": {
             "ac": 1,
-            "blogspot": 1,
             "busan": 1,
             "chungbuk": 1,
             "chungnam": 1,
@@ -8682,7 +8607,6 @@
     "lgbt": 1,
     "li": {
         "c": {
-            "blogspot": 1,
             "caa": 1
         },
         "l": 1
@@ -8793,7 +8717,6 @@
     },
     "lt": {
         "c": {
-            "blogspot": 1,
             "gov": 1
         },
         "l": 1
@@ -8802,8 +8725,7 @@
     "ltda": 1,
     "lu": {
         "c": {
-            "123website": 1,
-            "blogspot": 1
+            "123website": 1
         },
         "l": 1
     },
@@ -8879,7 +8801,6 @@
     "mckinsey": 1,
     "md": {
         "c": {
-            "blogspot": 1,
             "ir": 1
         },
         "l": 1
@@ -8908,7 +8829,6 @@
             "loginto": 1,
             "lohmus": 1,
             "mcdir": 1,
-            "mcpe": 1,
             "myds": 1,
             "net": 1,
             "nohost": 1,
@@ -8924,8 +8844,7 @@
                 }
             },
             "vp4": 1,
-            "webhop": 1,
-            "yombo": 1
+            "webhop": 1
         },
         "l": 1
     },
@@ -8959,8 +8878,7 @@
             "mil": 1,
             "nom": 1,
             "org": 1,
-            "prd": 1,
-            "tm": 1
+            "prd": 1
         },
         "l": 1
     },
@@ -8974,7 +8892,6 @@
     "mitsubishi": 1,
     "mk": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -9069,7 +8986,6 @@
             "com": 1,
             "edu": 1,
             "gov": 1,
-            "lab": 1,
             "minisite": 1,
             "net": 1,
             "org": 1
@@ -9079,12 +8995,7 @@
     "msd": 1,
     "mt": {
         "c": {
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "edu": 1,
             "net": 1,
             "org": 1
@@ -9143,7 +9054,6 @@
     },
     "mx": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gob": 1,
@@ -9155,7 +9065,6 @@
     "my": {
         "c": {
             "biz": 1,
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -9273,6 +9182,7 @@
             "blackbaudcdn": 1,
             "blogdns": 1,
             "boomla": 1,
+            "botdash": 1,
             "bounceme": 1,
             "bplaced": 1,
             "broke-it": 1,
@@ -9635,12 +9545,7 @@
                 "l": 1
             },
             "col": 1,
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "edu": 1,
             "firm": 1,
             "gen": 1,
@@ -9688,7 +9593,6 @@
     "nl": {
         "c": {
             "123website": 1,
-            "blogspot": 1,
             "cistron": 1,
             "co": 1,
             "demon": 1,
@@ -9785,7 +9689,6 @@
             "bjarkoy": 1,
             "bjerkreim": 1,
             "bjugn": 1,
-            "blogspot": 1,
             "bodo": 1,
             "bokn": 1,
             "bomlo": 1,
@@ -10633,12 +10536,7 @@
         "c": {
             "ac": 1,
             "cloudns": 1,
-            "co": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "co": 1,
             "cri": 1,
             "geek": 1,
             "gen": 1,
@@ -10684,12 +10582,6 @@
                 "c": {
                     "*": 1
                 }
-            },
-            "onred": {
-                "c": {
-                    "staging": 1
-                },
-                "l": 1
             },
             "service": 1
         },
@@ -10970,6 +10862,7 @@
         "c": {
             "aem": 1,
             "codeberg": 1,
+            "heyflow": 1,
             "hlx": 1,
             "hlx3": 1,
             "pdns": 1,
@@ -10990,7 +10883,6 @@
     "pccw": 1,
     "pe": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gob": 1,
@@ -11073,7 +10965,6 @@
             "gob": 1,
             "gog": 1,
             "gok": 1,
-            "gon": 1,
             "gop": 1,
             "gos": 1,
             "gov": 1,
@@ -11215,6 +11106,7 @@
             "legnica": 1,
             "lezajsk": 1,
             "limanowa": 1,
+            "lodz": 1,
             "lomza": 1,
             "lowicz": 1,
             "lubartow": 1,
@@ -11251,9 +11143,11 @@
             "ostroleka": 1,
             "ostrowiec": 1,
             "ostrowwlkp": 1,
+            "pabianice": 1,
             "pc": 1,
             "pila": 1,
             "pisz": 1,
+            "plock": 1,
             "podhale": 1,
             "podlasie": 1,
             "polkowice": 1,
@@ -11279,7 +11173,9 @@
             "sex": 1,
             "shop": 1,
             "shoparena": 1,
+            "sieradz": 1,
             "simplesite": 1,
+            "skierniewice": 1,
             "sklep": 1,
             "skoczow": 1,
             "slask": 1,
@@ -11327,6 +11223,7 @@
             "zagan": 1,
             "zakopane": 1,
             "zarow": 1,
+            "zgierz": 1,
             "zgora": 1,
             "zgorzelec": 1
         },
@@ -11398,11 +11295,6 @@
             "barsy": 1,
             "cloudns": 1,
             "cpa": 1,
-            "dnstrace": {
-                "c": {
-                    "bci": 1
-                }
-            },
             "eng": 1,
             "jur": 1,
             "law": 1,
@@ -11437,7 +11329,6 @@
     "pt": {
         "c": {
             "123paginaweb": 1,
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -11467,12 +11358,8 @@
     },
     "pw": {
         "c": {
-            "belau": 1,
             "cloudns": 1,
-            "co": 1,
-            "ed": 1,
-            "go": 1,
-            "or": 1,
+            "gov": 1,
             "x443": 1
         },
         "l": 1
@@ -11492,7 +11379,6 @@
     },
     "qa": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -11512,10 +11398,9 @@
     "re": {
         "c": {
             "asso": 1,
-            "blogspot": 1,
             "can": 1,
             "com": 1,
-            "nom": 1
+            "netlib": 1
         },
         "l": 1
     },
@@ -11558,7 +11443,6 @@
         "c": {
             "arts": 1,
             "barsy": 1,
-            "blogspot": 1,
             "co": 1,
             "com": 1,
             "firm": 1,
@@ -11590,7 +11474,6 @@
         "c": {
             "ac": 1,
             "barsy": 1,
-            "blogspot": 1,
             "brendly": {
                 "c": {
                     "shop": 1
@@ -11613,7 +11496,6 @@
             "adygeya": 1,
             "bashkiria": 1,
             "bir": 1,
-            "blogspot": 1,
             "cbg": 1,
             "cldmail": {
                 "c": {
@@ -11677,7 +11559,6 @@
             "pyatigorsk": 1,
             "ras": 1,
             "spb": 1,
-            "test": 1,
             "vladikavkaz": 1,
             "vladimir": 1
         },
@@ -11827,7 +11708,6 @@
             "ac": 1,
             "b": 1,
             "bd": 1,
-            "blogspot": 1,
             "brand": 1,
             "c": 1,
             "com": 1,
@@ -11891,19 +11771,18 @@
     "sfr": 1,
     "sg": {
         "c": {
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "enscaled": 1,
             "gov": 1,
             "net": 1,
-            "org": 1,
-            "per": 1
+            "org": 1
         },
         "l": 1
     },
     "sh": {
         "c": {
+            "botda": 1,
             "com": 1,
             "gov": 1,
             "hashbang": 1,
@@ -11942,7 +11821,6 @@
     "show": 1,
     "si": {
         "c": {
-            "blogspot": 1,
             "f5": 1,
             "gitapp": 1,
             "gitpage": 1
@@ -11973,11 +11851,9 @@
             "convex": 1,
             "cyon": 1,
             "fastvps": 1,
-            "fnwk": 1,
-            "folionetwork": 1,
+            "heyflow": 1,
             "jele": 1,
             "jouwweb": 1,
-            "lelux": 1,
             "loginline": 1,
             "madethis": 1,
             "notion": 1,
@@ -12000,12 +11876,7 @@
         "l": 1
     },
     "sj": 1,
-    "sk": {
-        "c": {
-            "blogspot": 1
-        },
-        "l": 1
-    },
+    "sk": 1,
     "ski": 1,
     "skin": 1,
     "sky": 1,
@@ -12027,7 +11898,6 @@
     "sn": {
         "c": {
             "art": 1,
-            "blogspot": 1,
             "com": 1,
             "edu": 1,
             "gouv": 1,
@@ -12056,12 +11926,7 @@
     "software": 1,
     "sohu": 1,
     "solar": 1,
-    "solutions": {
-        "c": {
-            "diher": 1
-        },
-        "l": 1
-    },
+    "solutions": 1,
     "song": 1,
     "sony": 1,
     "soy": 1,
@@ -12267,12 +12132,7 @@
     "taxi": 1,
     "tc": 1,
     "tci": 1,
-    "td": {
-        "c": {
-            "blogspot": 1
-        },
-        "l": 1
-    },
+    "td": 1,
     "tdk": 1,
     "team": {
         "c": {
@@ -12417,10 +12277,19 @@
         "l": 1
     },
     "tokyo": 1,
-    "tools": 1,
+    "tools": {
+        "c": {
+            "addr": {
+                "c": {
+                    "dyn": 1
+                }
+            },
+            "myaddr": 1
+        },
+        "l": 1
+    },
     "top": {
         "c": {
-            "now-dns": 1,
             "ntdll": 1,
             "wadl": {
                 "c": {
@@ -12443,12 +12312,7 @@
             "bbs": 1,
             "bel": 1,
             "biz": 1,
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "dr": 1,
             "edu": 1,
             "gen": 1,
@@ -12484,23 +12348,17 @@
     "trv": 1,
     "tt": {
         "c": {
-            "aero": 1,
             "biz": 1,
             "co": 1,
             "com": 1,
-            "coop": 1,
             "edu": 1,
             "gov": 1,
             "info": 1,
-            "int": 1,
-            "jobs": 1,
-            "mobi": 1,
-            "museum": 1,
+            "mil": 1,
             "name": 1,
             "net": 1,
             "org": 1,
-            "pro": 1,
-            "travel": 1
+            "pro": 1
         },
         "l": 1
     },
@@ -12522,7 +12380,6 @@
     "tvs": 1,
     "tw": {
         "c": {
-            "blogspot": 1,
             "club": 1,
             "com": {
                 "c": {
@@ -12539,10 +12396,7 @@
             "mydns": 1,
             "net": 1,
             "org": 1,
-            "url": 1,
-            "xn--czrw28b": 1,
-            "xn--uc0atv": 1,
-            "xn--zf0ao64a": 1
+            "url": 1
         },
         "l": 1
     },
@@ -12661,7 +12515,6 @@
     "ug": {
         "c": {
             "ac": 1,
-            "blogspot": 1,
             "co": 1,
             "com": 1,
             "go": 1,
@@ -12681,7 +12534,6 @@
                     "adimo": 1,
                     "barsy": 1,
                     "barsyonline": 1,
-                    "blogspot": 1,
                     "bytemark": {
                         "c": {
                             "dh": 1,
@@ -12842,13 +12694,11 @@
                 "l": 1
             },
             "dni": 1,
-            "drud": 1,
             "enscaled": {
                 "c": {
                     "phx": 1
                 }
             },
-            "fed": 1,
             "fl": {
                 "c": {
                     "cc": 1,
@@ -12917,7 +12767,6 @@
             },
             "is-by": 1,
             "isa": 1,
-            "kids": 1,
             "ks": {
                 "c": {
                     "cc": 1,
@@ -13245,12 +13094,7 @@
     },
     "uy": {
         "c": {
-            "com": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "com": 1,
             "edu": 1,
             "gub": 1,
             "mil": 1,
@@ -13274,7 +13118,11 @@
     "vanguard": 1,
     "vc": {
         "c": {
-            "0e": 1,
+            "0e": {
+                "c": {
+                    "*": 1
+                }
+            },
             "com": 1,
             "edu": 1,
             "gov": 1,
@@ -13361,7 +13209,6 @@
             "binhphuoc": 1,
             "binhthuan": 1,
             "biz": 1,
-            "blogspot": 1,
             "camau": 1,
             "cantho": 1,
             "caobang": 1,
@@ -13429,12 +13276,7 @@
         },
         "l": 1
     },
-    "vodka": {
-        "c": {
-            "aaa": 1
-        },
-        "l": 1
-    },
+    "vodka": 1,
     "volvo": 1,
     "vote": 1,
     "voting": 1,
@@ -13493,12 +13335,7 @@
     "wme": 1,
     "wolterskluwer": 1,
     "woodside": 1,
-    "work": {
-        "c": {
-            "corpnet": 1
-        },
-        "l": 1
-    },
+    "work": 1,
     "works": 1,
     "world": 1,
     "wow": 1,
@@ -13741,6 +13578,7 @@
     "xxx": 1,
     "xyz": {
         "c": {
+            "botdash": 1,
             "telebit": {
                 "c": {
                     "*": 1
@@ -13781,12 +13619,7 @@
             "ac": 1,
             "agric": 1,
             "alt": 1,
-            "co": {
-                "c": {
-                    "blogspot": 1
-                },
-                "l": 1
-            },
+            "co": 1,
             "edu": 1,
             "gov": 1,
             "grondar": 1,
