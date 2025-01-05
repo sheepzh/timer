@@ -133,7 +133,8 @@
         "no": "否",
         "popup": {
             "title": "彈窗頁",
-            "max": "隻顯示前 {input} 條數據，剩下的條目合並顯示",
+            "max": "隻顯示前 {input} 個資料項，其餘條目合併",
+            "defaultMergeMethod": "預設資料合併方法 {input}",
             "defaultDisplay": "開啟時顯示 {duration} {type}",
             "displaySiteName": "{input}  顯示時是否使用 {siteName} 來代替域名"
         },
@@ -169,6 +170,8 @@
         },
         "statistics": {
             "title": "統計",
+            "autoPauseTrack": "{input} 如果在 {maxTime} 內未偵測到活動 {info}，則暫停追蹤",
+            "noActivityInfo": "滑鼠和鍵盤處於非活動狀態且未處於全螢幕模式",
             "countLocalFiles": "{input}  是否統計使用瀏覽器 {localFileTime} {info}",
             "localFileTime": " 閱讀本地文件的時間 ",
             "localFilesInfo": "支持 PDF、圖片、txt 以及 json 等格式",
@@ -388,6 +391,7 @@
         "popup": {
             "title": "ポップアップページ",
             "max": "最初の {input} 個のデータのみを表示し、残りのエントリは結合されます",
+            "defaultMergeMethod": "デフォルトのデータマージ方法 {input}",
             "defaultDisplay": "開くと {duration} {type} が表示されます",
             "displaySiteName": "{input}  ホストの代わりに {siteName} を表示するかどうか"
         },
@@ -423,6 +427,8 @@
         },
         "statistics": {
             "title": "統計",
+            "autoPauseTrack": "{input} アクティビティが検出されなかった場合、{info} {maxTime} の追跡を一時停止します",
+            "noActivityInfo": "マウスとキーボードが非アクティブで、全画面モードになっていません",
             "countLocalFiles": "{input}  ブラウザで {localFileTime} {info} に費やされた時間をカウントするかどうか",
             "localFileTime": "ローカルファイルの読み取り",
             "localFilesInfo": "PDF、画像、txt、jsonを含む",
@@ -513,6 +519,7 @@
         "popup": {
             "title": "Página de Pop-up",
             "max": "Mostrar os primeiros {input} itens de dados",
+            "defaultMergeMethod": "Método padrão de fusão de dados {input}",
             "defaultDisplay": "Mostrar {type} de {duration} em aberto",
             "displaySiteName": "{input}  Se deve exibir {siteName} em vez de URL"
         },
@@ -548,6 +555,8 @@
         },
         "statistics": {
             "title": "Estatísticas",
+            "autoPauseTrack": "{input} Pausar o rastreio se não for detetada qualquer atividade {info} por {maxTime}",
+            "noActivityInfo": "O rato e o teclado estão inativos e não estão no modo de ecrã inteiro",
             "countLocalFiles": "{input}  Se quer contar o tempo até {localFileTime} {info} no navegador",
             "localFileTime": "ler um arquivo local",
             "localFilesInfo": "Suporta arquivos de tipos como PDF, imagem, TXT e JSON",
@@ -638,6 +647,7 @@
         "popup": {
             "title": "Вікно розширення",
             "max": "Кількість записів для показу: {input}",
+            "defaultMergeMethod": "Метод злиття даних за замовчуванням {input}",
             "defaultDisplay": "Дані для показу: {duration} {type}",
             "displaySiteName": "{input}  Показувати {siteName} замість URL-адреси"
         },
@@ -673,6 +683,8 @@
         },
         "statistics": {
             "title": "Статистика",
+            "autoPauseTrack": "{input} Призупинити відстеження, якщо не виявлено активності {info} протягом {maxTime}",
+            "noActivityInfo": "Миша та клавіатура неактивні та не в повноекранному режимі",
             "countLocalFiles": "{input}  Враховувати час {localFileTime} {info} в браузері",
             "localFileTime": "перегляду локального файлу",
             "localFilesInfo": "Підтримуються файли PDF, зображення, текстові та формат json",
@@ -749,6 +761,10 @@
                 "interval": "і виконувати кожні {input} хвилин"
             }
         },
+        "accessibility": {
+            "title": "Доступність",
+            "chartDecal": "{input} Чи відображати наклейку діаграми"
+        },
         "resetButton": "Скинути",
         "resetSuccess": "Скидання виконано успішно!",
         "defaultValue": "Типово: {default}"
@@ -759,6 +775,7 @@
         "popup": {
             "title": "Página emergente",
             "max": "Mostrar los primeros {input} elementos de datos",
+            "defaultMergeMethod": "Método de fusión de datos predeterminado {input}",
             "defaultDisplay": "Mostrar {duration} {type} al abrir",
             "displaySiteName": "{input}  Mostrar {siteName} en lugar de la URL"
         },
@@ -794,6 +811,8 @@
         },
         "statistics": {
             "title": "Estadísticas",
+            "autoPauseTrack": "{input} Pausar el seguimiento si no se detecta actividad {info} durante {maxTime}",
+            "noActivityInfo": "El mousse y el teclado están inactivos y no en modo de pantalla completa",
             "countLocalFiles": "{input}  Contar el tiempo para {localFileTime} {info} en el navegador",
             "localFileTime": "leer un archivo local",
             "localFilesInfo": "Soporta archivos de tipos como PDF, imagen, TXT y JSON",
@@ -821,7 +840,8 @@
                 },
                 "strict": "No permitir desbloquear de ningún modo",
                 "strictTitle": "Confirmación de operación",
-                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
+                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!",
+                "passwordContent": "Por favor, configure su contraseña de desbloqueo"
             }
         },
         "backup": {
@@ -841,7 +861,9 @@
             },
             "label": {
                 "endpoint": "Dirección de punto final {info} {input}",
-                "path": "La ruta del directorio {input}"
+                "path": "La ruta del directorio {input}",
+                "account": "Nombre de usuario {input}",
+                "password": "Contraseña {input}"
             },
             "alert": "Esta es una característica experimental, si tienes alguna pregunta, por favor ponte en contacto con el autor a través de {email}~",
             "operation": "Copia de seguridad",
@@ -867,6 +889,10 @@
                 "interval": "y ejecutar cada {input} minutos"
             }
         },
+        "accessibility": {
+            "title": "Accesibilidad",
+            "chartDecal": "{input} Si se debe mostrar la calcomanía del gráfico"
+        },
         "resetButton": "Restablecer",
         "resetSuccess": "¡Restablecer predeterminado con éxito!",
         "defaultValue": "Predeterminado: {default}"
@@ -877,6 +903,7 @@
         "popup": {
             "title": "Popup-Seite",
             "max": "Zeige die ersten {input} Datenelemente",
+            "defaultMergeMethod": "Standardmethode zum Zusammenführen von Daten {input}",
             "defaultDisplay": "{duration} {type} beim Öffnen anzeigen",
             "displaySiteName": "{input} {siteName} statt URL anzeigen"
         },
@@ -912,6 +939,8 @@
         },
         "statistics": {
             "title": "Statistik",
+            "autoPauseTrack": "{input} Tracking pausieren, wenn {maxTime} keine Aktivität erkannt wird {info}",
+            "noActivityInfo": "Die Maus und die Tastatur sind inaktiv und nicht im Vollbildmodus",
             "countLocalFiles": "{input} Zeit an {localFileTime} {info} im Browser zählen",
             "localFileTime": "eine lokale Datei lesen",
             "localFilesInfo": "Unterstützt Dateitypen, wie PDF, Bilder, .txt und .json",
@@ -939,7 +968,8 @@
                 },
                 "strict": "Entsperren trotzdem nicht zulassen",
                 "strictTitle": "Operation bestätigen",
-                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
+                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!",
+                "passwordContent": "Bitte Passwort zum Entsperren festlegen"
             }
         },
         "backup": {
@@ -959,7 +989,9 @@
             },
             "label": {
                 "endpoint": "Endpunkt Adresse {info} {input}",
-                "path": "Der Pfad des Verzeichnisses {input}"
+                "path": "Der Pfad des Verzeichnisses {input}",
+                "account": "Benutzername {input}",
+                "password": "Passwort {input}"
             },
             "alert": "Dies ist eine experimentelle Funktion. Wenn Sie Fragen haben, wenden Sie sich bitte über {email} an den Autor~",
             "operation": "Backup",
@@ -985,6 +1017,10 @@
                 "interval": "und alle {input} Minuten ausführen"
             }
         },
+        "accessibility": {
+            "title": "Barrierefreiheit",
+            "chartDecal": "{input} Ob das Diagramm-Aufkleber angezeigt werden soll"
+        },
         "resetButton": "Zurücksetzen",
         "resetSuccess": "Auf Standardwerte zurückgesetzt!",
         "defaultValue": "Standard: {default}"
@@ -995,6 +1031,7 @@
         "popup": {
             "title": "Page pop-up",
             "max": "Afficher les {input} premiers éléments de données",
+            "defaultMergeMethod": "Méthode de fusion des données par défaut {input}",
             "defaultDisplay": "Afficher {duration} {type} à l'ouverture",
             "displaySiteName": "{input} S'il faut afficher {siteName} au lieu de l'URL"
         },
@@ -1030,6 +1067,8 @@
         },
         "statistics": {
             "title": "Statistiques",
+            "autoPauseTrack": "{input} Pause de suivi si aucune activité n'a détecté {info} pour {maxTime}",
+            "noActivityInfo": "La souris et le clavier sont inactifs et non en mode plein écran",
             "countLocalFiles": "{input} S'il faut compter le temps jusqu'à {localFileTime} {info} dans le navigateur",
             "localFileTime": "lire un fichier local",
             "localFilesInfo": "Prend en charge les fichiers de types tels que PDF, image, txt et json.",
@@ -1057,7 +1096,8 @@
                 },
                 "strict": "Ne pas autoriser le déblocage quand même",
                 "strictTitle": "Confirmation de l'opération",
-                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !"
+                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !",
+                "passwordContent": "Veuillez définir votre mot de passe de déverrouillage"
             }
         },
         "backup": {
@@ -1077,7 +1117,9 @@
             },
             "label": {
                 "endpoint": "Adresse de fin {info} {input}",
-                "path": "Le chemin du répertoire {input}"
+                "path": "Le chemin du répertoire {input}",
+                "account": "Nom d'utilisateur {input}",
+                "password": "Mot de passe {input}"
             },
             "alert": "Ceci est une fonctionnalité expérimentale, si vous avez des questions, veuillez contacter l'auteur via {email}~",
             "operation": "Sauvegarder",
@@ -1102,6 +1144,10 @@
                 "label": "Activer la sauvegarde automatique",
                 "interval": "et exécuter toutes les {input} minutes"
             }
+        },
+        "accessibility": {
+            "title": "Accessibilité",
+            "chartDecal": "{input} S'il faut afficher l'autocollant de la carte"
         },
         "resetButton": "Réinitialiser",
         "resetSuccess": "Remise à zéro avec succès !",

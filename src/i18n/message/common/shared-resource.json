@@ -26,5 +26,131 @@
         "cate": {
             "notSet": "未分类"
         }
+    },
+    "ja": {
+        "merge": {
+            "mergeBy": "マージ方法",
+            "mergeMethod": {
+                "date": "日期",
+                "domain": "URL",
+                "cate": "カテゴリー",
+                "notMerge": "不合并"
+            }
+        },
+        "cate": {
+            "notSet": "未設定"
+        }
+    },
+    "zh_TW": {
+        "merge": {
+            "mergeBy": "數據合併",
+            "mergeMethod": {
+                "date": "按日期",
+                "domain": "按網址",
+                "cate": "按類別",
+                "notMerge": "不合並"
+            }
+        },
+        "cate": {
+            "notSet": "未設定"
+        }
+    },
+    "pt_PT": {
+        "merge": {
+            "mergeBy": "Mesclar por",
+            "mergeMethod": {
+                "date": "Data",
+                "domain": "URL",
+                "cate": "Categoria",
+                "notMerge": "Não Mesclar"
+            }
+        },
+        "cate": {
+            "notSet": "Não Definido"
+        }
+    },
+    "uk": {
+        "merge": {
+            "mergeBy": "Об'єднати за",
+            "mergeMethod": {
+                "date": "Дата",
+                "domain": "URL",
+                "cate": "Категорія",
+                "notMerge": "Не об'єднувати"
+            }
+        },
+        "cate": {
+            "notSet": "Не встановлено"
+        }
+    },
+    "es": {
+        "merge": {
+            "mergeBy": "Fusionar por",
+            "mergeMethod": {
+                "date": "Fecha",
+                "domain": "URL",
+                "cate": "Categoría",
+                "notMerge": "No fusionar"
+            }
+        },
+        "cate": {
+            "notSet": "No establecido"
+        }
+    },
+    "de": {
+        "merge": {
+            "mergeBy": "Zusammenführen nach",
+            "mergeMethod": {
+                "date": "Datum",
+                "domain": "URL",
+                "cate": "Kategorie",
+                "notMerge": "Nicht zusammenführen"
+            }
+        },
+        "cate": {
+            "notSet": "Nicht festgelegt"
+        }
+    },
+    "fr": {
+        "merge": {
+            "mergeBy": "Fusionner par",
+            "mergeMethod": {
+                "date": "Date",
+                "domain": "URL",
+                "cate": "Catégorie",
+                "notMerge": "Non Fusionner"
+            }
+        },
+        "cate": {
+            "notSet": "Non Défini"
+        }
+    },
+    "ru": {
+        "merge": {
+            "mergeBy": "Объединить по",
+            "mergeMethod": {
+                "date": "Дата",
+                "domain": "URL",
+                "cate": "Категория",
+                "notMerge": "Не объединять"
+            }
+        },
+        "cate": {
+            "notSet": "Не задано"
+        }
+    },
+    "ar": {
+        "merge": {
+            "mergeBy": "دمج بواسطة",
+            "mergeMethod": {
+                "date": "تاريخ",
+                "domain": "القيمة",
+                "cate": "الفئة",
+                "notMerge": "لا دمج"
+            }
+        },
+        "cate": {
+            "notSet": "غير مضبوط"
+        }
     }
 }

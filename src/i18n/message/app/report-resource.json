@@ -136,7 +136,8 @@
                 "value": "Valor",
                 "percentage": "Porcentaje"
             }
-        }
+        },
+        "noMore": "No más"
     },
     "de": {
         "exportFileName": "Timer_Daten",
@@ -174,7 +175,8 @@
                 "value": "Valeur",
                 "percentage": "Pourcentage"
             }
-        }
+        },
+        "noMore": "Pas plus"
     },
     "ru": {
         "exportFileName": "Мое_время_просмотра",

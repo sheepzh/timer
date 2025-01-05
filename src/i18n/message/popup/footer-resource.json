@@ -10,5 +10,53 @@
             "percentage": "占比分布",
             "ranking": "数据排行"
         }
+    },
+    "ja": {
+        "route": {
+            "percentage": "データの割合",
+            "ranking": "ランキング"
+        }
+    },
+    "zh_TW": {
+        "route": {
+            "percentage": "佔比分佈",
+            "ranking": "數據排名"
+        }
+    },
+    "pt_PT": {
+        "route": {
+            "percentage": "Percentagem",
+            "ranking": "Classificação"
+        }
+    },
+    "uk": {
+        "route": {
+            "percentage": "Відсоток",
+            "ranking": "Рейтинг"
+        }
+    },
+    "es": {
+        "route": {
+            "percentage": "Porcentaje",
+            "ranking": "Listas"
+        }
+    },
+    "de": {
+        "route": {
+            "percentage": "Prozentsatz",
+            "ranking": "Rangliste"
+        }
+    },
+    "fr": {
+        "route": {
+            "percentage": "Pourcentage",
+            "ranking": "Classement"
+        }
+    },
+    "ar": {
+        "route": {
+            "percentage": "نسبة مئوية",
+            "ranking": "الترتيب"
+        }
     }
 }

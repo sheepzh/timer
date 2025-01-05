@@ -36,7 +36,7 @@
     "zh_TW": {
         "create": "新增",
         "delete": "刪除",
-        "batchDelete": "批量刪除",
+        "batchDelete": "大量刪除",
         "modify": "修改",
         "save": "保存",
         "test": "測試",
@@ -47,7 +47,8 @@
         "next": "繼續",
         "okey": "好的",
         "dont": "不用了",
-        "operation": "操作"
+        "operation": "操作",
+        "clear": "清除"
     },
     "ja": {
         "create": "追加",
@@ -63,7 +64,8 @@
         "next": "次へ",
         "okey": "OK",
         "dont": "いいえ！",
-        "operation": "操作"
+        "operation": "操作",
+        "clear": "クリア"
     },
     "pt_PT": {
         "create": "Criar",
@@ -79,7 +81,8 @@
         "next": "Continuar",
         "okey": "OK",
         "dont": "NÃO!",
-        "operation": "Operações"
+        "operation": "Operações",
+        "clear": "Limpar"
     },
     "uk": {
         "create": "Новий",
@@ -95,7 +98,8 @@
         "next": "Далі",
         "okey": "Гаразд",
         "dont": "НІ",
-        "operation": "Операції"
+        "operation": "Операції",
+        "clear": "Ясно"
     },
     "es": {
         "create": "Nuevo",
@@ -111,7 +115,8 @@
         "next": "Siguiente",
         "okey": "OK",
         "dont": "¡NO!",
-        "operation": "Operaciones"
+        "operation": "Operaciones",
+        "clear": "Borrar"
     },
     "de": {
         "create": "Erstellen",
@@ -127,7 +132,8 @@
         "next": "Nächste",
         "okey": "OK",
         "dont": "NEIN!",
-        "operation": "Aktionsknopf"
+        "operation": "Aktionsknopf",
+        "clear": "Löschen"
     },
     "fr": {
         "create": "Nouveau",
@@ -143,7 +149,8 @@
         "next": "Suivant",
         "okey": "OK",
         "dont": "NON!",
-        "operation": "Opérations"
+        "operation": "Opérations",
+        "clear": "Effacer"
     },
     "ru": {
         "create": "Новые",
@@ -159,7 +166,8 @@
         "next": "Далее",
         "okey": "ОК",
         "dont": "НЕТ!",
-        "operation": "Операции"
+        "operation": "Операции",
+        "clear": "Очистить"
     },
     "ar": {
         "create": "جديد",
@@ -175,6 +183,7 @@
         "next": "التالي",
         "okey": "حسناً",
         "dont": "لا!",
-        "operation": "العملية"
+        "operation": "العملية",
+        "clear": "واضح"
     }
 }

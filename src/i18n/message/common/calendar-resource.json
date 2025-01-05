@@ -39,7 +39,8 @@
             "thisMonth": "本月",
             "lastDays": "最近 {n} 天",
             "tillYesterday": "直到昨天",
-            "tillDaysAgo": "直到 {n} 天前"
+            "tillDaysAgo": "直到 {n} 天前",
+            "allTime": "所有時間"
         }
     },
     "en": {
@@ -82,7 +83,8 @@
             "thisMonth": "今月",
             "lastDays": "過去 {n} 日間",
             "tillYesterday": "昨日まで",
-            "tillDaysAgo": "{n} 日前まで"
+            "tillDaysAgo": "{n} 日前まで",
+            "allTime": "全期間"
         }
     },
     "pt_PT": {
@@ -103,7 +105,8 @@
             "thisMonth": "Este mês",
             "lastDays": "Últimos {n} dias",
             "tillYesterday": "Até ontem",
-            "tillDaysAgo": "Até {n} dias atrás"
+            "tillDaysAgo": "Até {n} dias atrás",
+            "allTime": "Tempo todo"
         }
     },
     "uk": {
@@ -124,7 +127,8 @@
             "thisMonth": "Цей місяць",
             "lastDays": "Минулі {n} днів",
             "tillYesterday": "До вчора",
-            "tillDaysAgo": "До {n} днів тому"
+            "tillDaysAgo": "До {n} днів тому",
+            "allTime": "Весь час"
         }
     },
     "es": {
@@ -145,7 +149,8 @@
             "thisMonth": "Este mes",
             "lastDays": "Últimos {n} días",
             "tillYesterday": "Hasta ayer",
-            "tillDaysAgo": "Hasta hace {n} días"
+            "tillDaysAgo": "Hasta hace {n} días",
+            "allTime": "Todo el tiempo"
         }
     },
     "de": {
@@ -166,7 +171,8 @@
             "thisMonth": "Diesen monat",
             "lastDays": "Letzte {n} Tage",
             "tillYesterday": "Bis gestern",
-            "tillDaysAgo": "Bis vor {n} Tagen"
+            "tillDaysAgo": "Bis vor {n} Tagen",
+            "allTime": "Alle Zeit"
         }
     },
     "fr": {
@@ -187,7 +193,8 @@
             "thisMonth": "Ce mois-ci",
             "lastDays": "{n} derniers jours",
             "tillYesterday": "Jusqu'hier",
-            "tillDaysAgo": "Jusqu'à {n} jours"
+            "tillDaysAgo": "Jusqu'à {n} jours",
+            "allTime": "Tout le temps"
         }
     },
     "ru": {
@@ -208,7 +215,8 @@
             "thisMonth": "В этом месяце",
             "lastDays": "Последние {n} дней",
             "tillYesterday": "До вчерашнего дня",
-            "tillDaysAgo": "До {n} дней назад"
+            "tillDaysAgo": "До {n} дней назад",
+            "allTime": "Всего времени"
         }
     },
     "ar": {
@@ -229,7 +237,8 @@
             "thisMonth": "هذا الشهر",
             "lastDays": "آخر {n} أيام",
             "tillYesterday": "حتى أمسِ",
-            "tillDaysAgo": "حتى {n} يوم مضت"
+            "tillDaysAgo": "حتى {n} يوم مضت",
+            "allTime": "كل الوقت"
         }
     }
 }

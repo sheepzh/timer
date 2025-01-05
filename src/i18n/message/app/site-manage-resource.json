@@ -53,6 +53,7 @@
             "type": "網站類型",
             "alias": "網站名稱",
             "aliasInfo": "網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域",
+            "cate": "網站類別",
             "icon": "網站圖標"
         },
         "type": {
@@ -69,14 +70,25 @@
                 "info": "統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點"
             }
         },
-        "detected": "自動抓取",
+        "detected": "自動偵測",
+        "cate": {
+            "name": "類別名稱",
+            "relatedMsg": "此類別已與 {siteCount} 個網站關聯，無法刪除",
+            "removeConfirm": "確認刪除類別：{category}？",
+            "batchChange": "更改類別",
+            "batchDisassociate": "取消關聯類別"
+        },
         "form": {
             "emptyAlias": "請輸入網站名稱",
             "emptyHost": "請輸入網站域名"
         },
         "msg": {
             "hostExistWarn": "{host} 已經存在",
-            "existedTag": "已存在"
+            "existedTag": "已存在",
+            "noSelected": "未選擇站點",
+            "noSupported": "所選站點無法設定類別",
+            "disassociatedMsg": "您要清除所有選定網站的類別嗎？",
+            "batchDeleteMsg": "您想刪除所有選定的網站嗎？"
         }
     },
     "en": {
@@ -133,6 +145,7 @@
             "type": "サイト種別",
             "alias": "サイト名",
             "aliasInfo": "サイト名はレコードページとポップアップページに表示されます",
+            "cate": "サイトカテゴリー",
             "icon": "Icon"
         },
         "type": {
@@ -150,13 +163,24 @@
             }
         },
         "detected": "システム検出",
+        "cate": {
+            "name": "カテゴリ名",
+            "relatedMsg": "このカテゴリは {siteCount} 個のサイトに関連付けられているため、削除できません",
+            "removeConfirm": "カテゴリ「{category}」を削除しますか?",
+            "batchChange": "カテゴリを変更する",
+            "batchDisassociate": "カテゴリの関連付けを解除する"
+        },
         "form": {
             "emptyAlias": "サイト名を入力してください",
             "emptyHost": "ドメイン名を入力してください"
         },
         "msg": {
             "hostExistWarn": "{host} が存在します",
-            "existedTag": "既存"
+            "existedTag": "既存",
+            "noSelected": "サイトが選択されていません",
+            "noSupported": "選択されたサイトはカテゴリーを設定できない",
+            "disassociatedMsg": "選択したすべてのサイトのカテゴリーを消去しますか？",
+            "batchDeleteMsg": "選択したサイトをすべて削除しますか？"
         }
     },
     "pt_PT": {
@@ -167,6 +191,7 @@
             "type": "Categoria de Sítio Web",
             "alias": "Nome do Site",
             "aliasInfo": "O nome do site será mostrado na página de registro e na página pop-up",
+            "cate": "Categoria do site",
             "icon": "Ícone"
         },
         "type": {
@@ -184,13 +209,24 @@
             }
         },
         "detected": "detetado",
+        "cate": {
+            "name": "Nome",
+            "relatedMsg": "Esta categoria foi associada aos sites {siteCount} e não pode ser eliminada",
+            "removeConfirm": "Confirmar para eliminar categoria: {category}?",
+            "batchChange": "Alterar categorias",
+            "batchDisassociate": "Desassociar categorias"
+        },
         "form": {
             "emptyAlias": "Por favor, insira um nome de site",
             "emptyHost": "Por favor, insira um URL de site"
         },
         "msg": {
             "hostExistWarn": "{host} existe",
-            "existedTag": "EXISTADO"
+            "existedTag": "EXISTADO",
+            "noSelected": "Nenhum site selecionado",
+            "noSupported": "Os sites selecionados não podem definir as categorias",
+            "disassociatedMsg": "Quer limpar as categorias de todos os sites selecionados?",
+            "batchDeleteMsg": "Deseja eliminar todos os sites selecionados?"
         }
     },
     "uk": {
@@ -201,6 +237,7 @@
             "type": "Тип сайту",
             "alias": "Назва сайту",
             "aliasInfo": "Назву сайту буде показано на сторінці записів і в спливному вікні",
+            "cate": "Категорія сайту",
             "icon": "Піктограма"
         },
         "type": {
@@ -218,13 +255,24 @@
             }
         },
         "detected": "auto-detected",
+        "cate": {
+            "name": "Назва",
+            "relatedMsg": "Ця категорія була пов’язана з {siteCount} сайтами й не може бути видалена",
+            "removeConfirm": "Підтвердити видалення категорії: {category}?",
+            "batchChange": "Змінити категорії",
+            "batchDisassociate": "Роз’єднайте категорії"
+        },
         "form": {
             "emptyAlias": "Введіть назву сайту",
             "emptyHost": "Введіть URL-адресу сайту"
         },
         "msg": {
             "hostExistWarn": "{host} вже існує",
-            "existedTag": "ВЖЕ ІСНУЄ"
+            "existedTag": "ВЖЕ ІСНУЄ",
+            "noSelected": "Сайт не вибрано",
+            "noSupported": "Вибрані сайти не можуть встановити категорії",
+            "disassociatedMsg": "Бажаєте очистити категорії всіх вибраних сайтів?",
+            "batchDeleteMsg": "Ви бажаєте видалити всі вибрані сайти?"
         }
     },
     "es": {
@@ -235,6 +283,7 @@
             "type": "Tipo de sitio",
             "alias": "Nombre del sitio",
             "aliasInfo": "El nombre del sitio se mostrará en la página de registro y en la página emergente",
+            "cate": "Categoría del sitio",
             "icon": "Icono"
         },
         "type": {
@@ -252,13 +301,24 @@
             }
         },
         "detected": "auto-detectado",
+        "cate": {
+            "name": "Nombre",
+            "relatedMsg": "Esta categoría se ha asociado con {siteCount} sitios y no se puede eliminar",
+            "removeConfirm": "¿Confirmar para eliminar la categoría: {category}?",
+            "batchChange": "Cambiar categorías",
+            "batchDisassociate": "Disociar categorías"
+        },
         "form": {
             "emptyAlias": "Por favor, ingresa el nombre de sitio",
             "emptyHost": "Por favor, ingresa la URL del sitio"
         },
         "msg": {
             "hostExistWarn": "{host} existe",
-            "existedTag": "EXISTIÓ"
+            "existedTag": "EXISTIÓ",
+            "noSelected": "Ningún sitio seleccionado",
+            "noSupported": "Los sitios seleccionados no pueden establecer categorías",
+            "disassociatedMsg": "¿Quieres borrar las categorías de todos los sitios seleccionados?",
+            "batchDeleteMsg": "¿Quieres eliminar todos los sitios seleccionados?"
         }
     },
     "de": {
@@ -269,6 +329,7 @@
             "type": "Website-Typ",
             "alias": "Site-Name",
             "aliasInfo": "Der Name der Website wird auf der Datensatzseite und der Popup-Seite angezeigt",
+            "cate": "Seitenkategorie",
             "icon": "Symbol"
         },
         "type": {
@@ -286,13 +347,24 @@
             }
         },
         "detected": "automatisch erkannt",
+        "cate": {
+            "name": "Namen",
+            "relatedMsg": "Diese Kategorie wurde mit {siteCount} Seiten verknüpft und kann nicht gelöscht werden",
+            "removeConfirm": "Löschen der Kategorie: {category}?",
+            "batchChange": "Kategorien ändern",
+            "batchDisassociate": "Kategorien trennen"
+        },
         "form": {
             "emptyAlias": "Bitte gib einen Website-Namen ein",
             "emptyHost": "Bitte geben Sie die URL ein"
         },
         "msg": {
             "hostExistWarn": "{host} existiert",
-            "existedTag": "EXISTIERT"
+            "existedTag": "EXISTIERT",
+            "noSelected": "Kein Standort ausgewählt",
+            "noSupported": "Die ausgewählten Sites können keine Kategorien festlegen",
+            "disassociatedMsg": "Möchten Sie die Kategorien aller ausgewählten Sites löschen?",
+            "batchDeleteMsg": "Möchten Sie alle ausgewählten Sites löschen?"
         }
     },
     "fr": {
@@ -303,6 +375,7 @@
             "type": "Type de Site",
             "alias": "Nom du site",
             "aliasInfo": "Le nom du site sera affiché sur la page d'enregistrement et la page contextuelle",
+            "cate": "Catégorie du site",
             "icon": "Icône"
         },
         "type": {
@@ -320,13 +393,24 @@
             }
         },
         "detected": "détecté",
+        "cate": {
+            "name": "Nom",
+            "relatedMsg": "Cette catégorie a été associée à {siteCount} sites et ne peut pas être supprimée",
+            "removeConfirm": "Confirmer la suppression de la catégorie : {category}?",
+            "batchChange": "Changer de catégorie",
+            "batchDisassociate": "Dissocier les catégories"
+        },
         "form": {
             "emptyAlias": "Veuillez entrer le nom du site",
             "emptyHost": "Veuillez saisir l'URL du site"
         },
         "msg": {
             "hostExistWarn": "{host} existe",
-            "existedTag": "EXISÉ"
+            "existedTag": "EXISÉ",
+            "noSelected": "Aucun site sélectionné",
+            "noSupported": "Les sites sélectionnés ne peuvent pas définir de catégories",
+            "disassociatedMsg": "Voulez-vous effacer les catégories de tous les sites sélectionnés ?",
+            "batchDeleteMsg": "Voulez-vous supprimer tous les sites sélectionnés ?"
         }
     },
     "ru": {
@@ -371,6 +455,7 @@
             "type": "نوع الموقع",
             "alias": "اسم الموقع",
             "aliasInfo": "سيتم عرض اسم الموقع على صفحة السجل وصفحة النافذة المنبثقة",
+            "cate": "فئة الموقع",
             "icon": "رمز"
         },
         "type": {
@@ -388,13 +473,24 @@
             }
         },
         "detected": "تم الكشف عنه تلقائيًا",
+        "cate": {
+            "name": "الاسم",
+            "relatedMsg": "تم ربط هذه الفئة بمواقع {siteCount} ولا يمكن حذفها",
+            "removeConfirm": "تأكيد حذف الفئة: {category}؟",
+            "batchChange": "تغيير التصنيفات",
+            "batchDisassociate": "فصل الفئات"
+        },
         "form": {
             "emptyAlias": "الرجاء إدخال اسم الموقع",
             "emptyHost": "الرجاء إدخال عنوان الموقع"
         },
         "msg": {
             "hostExistWarn": "{host} موجود فعلًا",
-            "existedTag": "موجودة"
+            "existedTag": "موجودة",
+            "noSelected": "لم يتم تحديد الموقع",
+            "noSupported": "المواقع المحددة لا يمكن تعيين الفئات",
+            "disassociatedMsg": "هل تريد مسح الفئات من جميع المواقع المحددة؟",
+            "batchDeleteMsg": "هل تريد حذف جميع المواقع المحددة؟"
         }
     }
 }
