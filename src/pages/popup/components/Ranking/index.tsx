@@ -1,10 +1,10 @@
 import { useRequest } from "@hooks/useRequest"
+import { jump2Report } from "@popup/common"
 import { usePopupContext } from "@popup/context"
 import { ElCol, ElRow, ElScrollbar } from "element-plus"
 import { defineComponent } from "vue"
 import Item from "./Item"
 import { doQuery } from "./query"
-import { jump2Report } from "@popup/common"
 
 const Ranking = defineComponent(() => {
     const { query } = usePopupContext()
@@ -18,7 +18,7 @@ const Ranking = defineComponent(() => {
     }
 
     return () => (
-        <ElScrollbar noresize>
+        <ElScrollbar noresize style={{ width: '100%' }}>
             <ElRow gutter={10} style={{ rowGap: '10px' }}>
                 {result.value?.rows?.map(row => (
                     <ElCol span={24 / 3}>

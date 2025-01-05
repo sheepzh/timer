@@ -39,10 +39,12 @@ async function initItem(item: InitialCate) {
 
 export default class CateInitializer implements Migrator {
     async onInstall(): Promise<void> {
-        DEMO_ITEMS.forEach(initItem)
+        for (const item of DEMO_ITEMS) {
+            await initItem(item)
+        }
     }
 
     onUpdate(version: string): void {
-        version === '3.0.0' && this.onInstall()
+        version === '3.0.1' && this.onInstall()
     }
 }
