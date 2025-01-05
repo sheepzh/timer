@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+
+## [3.0.1] - 2025-01-05 [For Firefox]
+
+-   Fixed some style errors for Firefox
+
 ## [3.0.0] - 2025-01-05
 
 -   Fixed some style errors
