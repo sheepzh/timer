@@ -1,6 +1,6 @@
 import StatDatabase, { StatCondition } from "@db/stat-database"
-import { formatTimeYMD, MILL_PER_DAY } from "@util/time"
 import { resultOf } from "@util/stat"
+import { formatTimeYMD, MILL_PER_DAY } from "@util/time"
 import storage from "../__mock__/storage"
 
 const db = new StatDatabase(storage.local)
@@ -15,17 +15,17 @@ describe('stat-database', () => {
     beforeEach(async () => storage.local.clear())
 
     test('1', async () => {
-        await db.accumulate(baidu, now, resultOf(100, 0))
-        const data: timer.stat.Result = await db.get(baidu, now)
+        await db.accumulate(baidu, nowStr, resultOf(100, 0))
+        const data: timer.core.Result = await db.get(baidu, now)
         expect(data).toEqual(resultOf(100, 0))
     })
 
     test('2', async () => {
-        await db.accumulate(baidu, now, resultOf(200, 0))
-        await db.accumulate(baidu, now, resultOf(200, 0))
+        await db.accumulate(baidu, nowStr, resultOf(200, 0))
+        await db.accumulate(baidu, nowStr, resultOf(200, 0))
         let data = await db.get(baidu, now)
         expect(data).toEqual(resultOf(400, 0))
-        await db.accumulate(baidu, now, resultOf(0, 1))
+        await db.accumulate(baidu, nowStr, resultOf(0, 1))
         data = await db.get(baidu, now)
         expect(data).toEqual(resultOf(400, 1))
     })
@@ -71,9 +71,9 @@ describe('stat-database', () => {
         // By date range
         cond = {}
         cond.date = [now, now]
-        const expectedResult: timer.stat.Row[] = [
-            { date: nowStr, focus: 11, host: google, mergedHosts: [], time: 0, virtual: false },
-            { date: nowStr, focus: 1, host: baidu, mergedHosts: [], time: 0, virtual: false }
+        const expectedResult: timer.core.Row[] = [
+            { date: nowStr, focus: 11, host: google, time: 0 },
+            { date: nowStr, focus: 1, host: baidu, time: 0 },
         ]
         expect(await db.select(cond)).toEqual(expectedResult)
         // Only use start
@@ -101,8 +101,8 @@ describe('stat-database', () => {
     })
 
     test('5', async () => {
-        await db.accumulate(baidu, now, resultOf(10, 0))
-        await db.accumulate(baidu, yesterday, resultOf(12, 0))
+        await db.accumulate(baidu, nowStr, resultOf(10, 0))
+        await db.accumulate(baidu, formatTimeYMD(yesterday), resultOf(12, 0))
         expect((await db.select()).length).toEqual(2)
         // Delete yesterday's data
         await db.deleteByUrlAndDate(baidu, yesterday)
@@ -111,8 +111,8 @@ describe('stat-database', () => {
         await db.deleteByUrlAndDate(baidu, yesterday)
         expect((await db.get(baidu, now)).focus).toEqual(10)
         // Add one again, and another
-        await db.accumulate(baidu, beforeYesterday, resultOf(1, 1))
-        await db.accumulate(google, now, resultOf(0, 0))
+        await db.accumulate(baidu, formatTimeYMD(beforeYesterday), resultOf(1, 1))
+        await db.accumulate(google, nowStr, resultOf(0, 0))
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
@@ -124,7 +124,7 @@ describe('stat-database', () => {
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again
-        await db.accumulate(baidu, now, resultOf(1, 1))
+        await db.accumulate(baidu, nowStr, resultOf(1, 1))
         // But delete google
         await db.delete(list)
         // Then only one item of baidu
@@ -141,9 +141,9 @@ describe('stat-database', () => {
 
     test('7', async () => {
         const foo = resultOf(1, 1)
-        await db.accumulate(baidu, now, foo)
-        await db.accumulate(baidu, yesterday, foo)
-        await db.accumulate(baidu, beforeYesterday, foo)
+        await db.accumulate(baidu, nowStr, foo)
+        await db.accumulate(baidu, formatTimeYMD(yesterday), foo)
+        await db.accumulate(baidu, formatTimeYMD(beforeYesterday), foo)
         await db.deleteByUrlBetween(baidu, now, now)
         expect((await db.select()).length).toEqual(2)
 
@@ -153,7 +153,7 @@ describe('stat-database', () => {
 
     test("importData", async () => {
         const foo = resultOf(1, 1)
-        await db.accumulate(baidu, now, foo)
+        await db.accumulate(baidu, nowStr, foo)
         const data2Import = await db.storage.get()
         storage.local.clear()
 
@@ -162,7 +162,7 @@ describe('stat-database', () => {
         const data = await db.select({})
         expect(data.length).toEqual(1)
         const item = data[0]
-        expect(item.date).toEqual(formatTimeYMD(now))
+        expect(item.date).toEqual(nowStr)
         expect(item.host).toEqual(baidu)
         expect(item.focus).toEqual(1)
         expect(item.time).toEqual(1)
@@ -200,10 +200,10 @@ describe('stat-database', () => {
     })
 
     test("count", async () => {
-        await db.accumulate(baidu, now, resultOf(1, 1))
-        await db.accumulate(baidu, yesterday, resultOf(2, 1))
-        await db.accumulate(google, now, resultOf(3, 1))
-        await db.accumulate(google, yesterday, resultOf(4, 1))
+        await db.accumulate(baidu, nowStr, resultOf(1, 1))
+        await db.accumulate(baidu, formatTimeYMD(yesterday), resultOf(2, 1))
+        await db.accumulate(google, nowStr, resultOf(3, 1))
+        await db.accumulate(google, formatTimeYMD(yesterday), resultOf(4, 1))
         // Count by host
         expect(await db.count({
             host: baidu,

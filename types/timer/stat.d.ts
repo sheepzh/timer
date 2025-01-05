@@ -1,77 +1,21 @@
 declare namespace timer.stat {
-    type Event = {
-        start: number
-        end: number
-        url: string
-        ignoreTabCheck: boolean
-    }
-
-    /**
-     * The dimension to statistics
-     */
-    type Dimension =
-        // Focus time
-        | 'focus'
-        // Visit count
-        | 'time'
-
-    /**
-     * The stat result of host
-     *
-     * @since 0.0.1
-     */
-    type Result = {
-        [item in Dimension]: number
-    }
-
     /**
      * A set of results
      *
      * @since 0.3.3
      */
-    type ResultSet = { [host: string]: Result }
+    type ResultSet = { [host: string]: core.Result }
 
-    /**
-     * The unique key of each data row
-     */
-    type RowKey = {
-        host: string
+    type StatKey = {
+        siteKey?: timer.site.SiteKey
+        cateKey?: number
         // Absent if date merged
         date?: string
     }
 
-    type RowBase = RowKey & Result
-
-    /**
-     * Row of each statistics result
-     */
-    type Row = RowBase & {
-        /**
-         * The merged domains
-         * Can't be empty if merged
-         *
-         * @since 0.1.5
-         */
-        mergedHosts: Row[]
-        /**
-         * The merged dates
-         *
-         * @since 2.4.7
-         */
-        mergedDates?: string[]
-        /**
-         * Whether virtual host
-         *
-         * @since 1.6.0
-         */
-        virtual: boolean
-        /**
-         * The composition of data when querying remote
-         */
-        composition?: RemoteComposition
+    type SiteExtend = {
         /**
          * Icon url
-         * Must be undefined if merged
          */
         iconUrl?: string
         /**
@@ -79,13 +23,32 @@ declare namespace timer.stat {
          */
         alias?: string
         /**
-         * The id of client where the remote data is stored
+         * @since 3.0.0
          */
-        cid?: string
+        cateId?: number
+    }
+
+    /**
+     * Row of each statistics result
+     */
+    type Row = StatKey & core.Result & backup.RowExtend & SiteExtend & {
         /**
-         * The name of client where the remote data is stored
+         * The merged domains
+         * Can't be empty if merged
+         *
+         * @since 0.1.5
          */
-        cname?: string
+        mergedRows?: Row[]
+        /**
+         * The merged dates
+         *
+         * @since 2.4.7
+         */
+        mergedDates?: string[]
+        /**
+         * The composition of data when querying remote
+         */
+        composition?: RemoteComposition
     }
 
     type RemoteCompositionVal =
@@ -106,7 +69,11 @@ declare namespace timer.stat {
      * @since 1.4.7
      */
     type RemoteComposition = {
-        [item in Dimension]: RemoteCompositionVal[]
+        [item in core.Dimension]: RemoteCompositionVal[]
     }
 
+    /**
+     * @since 3.0.0
+     */
+    type MergeMethod = 'cate' | 'date' | 'domain'
 }

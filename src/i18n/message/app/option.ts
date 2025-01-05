@@ -12,7 +12,7 @@ export type OptionMessage = {
     popup: {
         title: string
         max: string
-        defaultMergeDomain: string
+        defaultMergeMethod: string
         defaultDisplay: string
         displaySiteName: string
     }

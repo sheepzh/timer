@@ -23,9 +23,9 @@ export async function processImportedData(data: timer.imported.Data, resolution:
     }
 }
 
-function processOverwrite(data: timer.imported.Data): Promise<any> {
+async function processOverwrite(data: timer.imported.Data): Promise<void> {
     const { rows, focus, time } = data
-    return Promise.all(rows.map(async row => {
+    await Promise.all(rows.map(async row => {
         const { host, date } = row
         const exist = await statDatabase.get(host, date)
         focus && (exist.focus = row.focus || 0)
@@ -34,9 +34,9 @@ function processOverwrite(data: timer.imported.Data): Promise<any> {
     }))
 }
 
-function processAcc(data: timer.imported.Data): Promise<any> {
+async function processAcc(data: timer.imported.Data): Promise<void> {
     const { rows } = data
-    return Promise.all(rows.map(async row => {
+    await Promise.all(rows.map(async row => {
         const { host, date, focus = 0, time = 0 } = row
         await statDatabase.accumulate(host, date, { focus, time })
     }))

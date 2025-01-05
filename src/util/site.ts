@@ -48,3 +48,73 @@ export function generateSiteLabel(host: string, name?: string): string {
         return host
     }
 }
+
+/**
+ * Whether to support category
+ *
+ * @since 3.0.0
+ */
+export function supportCategory(siteKey: timer.site.SiteKey): boolean {
+    const { type } = siteKey || {}
+    return type === 'normal'
+}
+
+export function siteEqual(a: timer.site.SiteKey, b: timer.site.SiteKey) {
+    if (!a && !b) return true
+    if (a === b) return true
+    return a?.host === b?.host && a?.type === b?.type
+}
+
+const TYPE_PREFIX_MAP: { [type in timer.site.Type]: string } = {
+    normal: "n",
+    merged: "m",
+    virtual: "v",
+}
+
+export function identifySiteKey(site: timer.site.SiteKey): string {
+    if (!site) return ''
+    const { host, type } = site || {}
+    return (TYPE_PREFIX_MAP[type] ?? ' ') + (host || '')
+}
+
+function cloneSiteKey(origin: timer.site.SiteKey): timer.site.SiteKey {
+    if (!origin) return null
+    return { host: origin.host, type: origin.type }
+}
+
+export function distinctSites(list: timer.site.SiteKey[]): timer.site.SiteKey[] {
+    const map: Record<string, timer.site.SiteKey> = {}
+    list?.forEach(ele => {
+        const key = identifySiteKey(ele)
+        if (map[key]) return
+        map[key] = cloneSiteKey(ele)
+    })
+    return Object.values(map)
+}
+
+
+export class SiteMap<T> {
+    private innerMap: Record<string, [timer.site.SiteKey, T]>
+
+    constructor() {
+        this.innerMap = {}
+    }
+
+    public put(site: timer.site.SiteKey, t: T): void {
+        const key = identifySiteKey(site)
+        this.innerMap[key] = [site, t]
+    }
+
+    public get(site: timer.site.SiteKey): T {
+        const key = identifySiteKey(site)
+        return this.innerMap[key]?.[1]
+    }
+
+    public map<R>(mapper: (key: timer.site.SiteKey, value: T) => R): R[] {
+        return Object.values(this.innerMap).map(([site, val]) => mapper?.(site, val))
+    }
+
+    public count(): number {
+        return Object.keys(this.innerMap).length
+    }
+}

@@ -6,6 +6,7 @@
  */
 
 import { getVersion, onInstalled } from "@api/chrome/runtime"
+import CateInitializer from "./cate-initializer"
 import { type Migrator } from "./common"
 import HostMergeInitializer from "./host-merge-initializer"
 import LocalFileInitializer from "./local-file-initializer"
@@ -24,6 +25,7 @@ class VersionManager {
             new HostMergeInitializer(),
             new LocalFileInitializer(),
             new WhitelistInitializer(),
+            new CateInitializer(),
         )
     }
 

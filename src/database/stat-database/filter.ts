@@ -19,7 +19,7 @@ type _StatCondition = StatCondition & {
 type _FilterResult = {
     host: string
     date: string
-    value: timer.stat.Result
+    value: timer.core.Result
 }
 
 function filterHost(host: string, condition: _StatCondition): boolean {
@@ -126,7 +126,7 @@ export async function filter(this: StatDatabase, condition?: StatCondition): Pro
         ([key, value]) => {
             const date = key.substring(0, 8)
             const host = key.substring(8)
-            return { date, host, value: value as timer.stat.Result }
+            return { date, host, value: value as timer.core.Result }
         }
     ).filter(item => filterByCond(item, cond))
 }

@@ -63,16 +63,16 @@ const entryConfigs: EntryConfig[] = [{
     path: './src/content-script/polyfill',
 }, {
     name: POPUP,
-    path: './src/popup',
+    path: './src/pages/popup',
 }, {
     name: 'popup_skeleton',
-    path: './src/popup/skeleton',
+    path: './src/pages/popup/skeleton',
 }, {
     name: 'app',
-    path: './src/app',
+    path: './src/pages/app',
 }, {
     name: 'side',
-    path: './src/side'
+    path: './src/pages/side'
 }]
 
 const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
@@ -143,16 +143,6 @@ const staticOptions: webpack.Configuration = {
             assert: false,
             // fallbacks of axios's dependencies end
         }
-    },
-    optimization: {
-        splitChunks: {
-            chunks: chunkFilter,
-            cacheGroups: {
-                defaultVendors: {
-                    filename: 'vendor/[name].js'
-                }
-            }
-        },
     },
 }
 

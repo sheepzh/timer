@@ -9,10 +9,12 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import SiteDatabase from "@db/site-database"
 import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { judgeVirtualFast } from "@util/pattern"
+import { distinctSites, SiteMap } from "@util/site"
 import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import { slicePageResult } from "../components/page-info"
-import { mergeDate, mergeHost } from "./merge"
+import { cvt2StatRow } from "./common"
+import { mergeCate, mergeDate, mergeHost } from "./merge"
 import { canReadRemote, processRemote } from "./remote"
 
 const storage = chrome.storage.local
@@ -37,13 +39,23 @@ export type StatQueryParam = StatCondition & {
      */
     mergeHost?: boolean
     /**
+     * Group by the category
+     */
+    mergeCate?: boolean
+    /**
      * Merge items of the same host from different days
      */
     mergeDate?: boolean
     /**
+     * Categories
+     *
+     * @since 3.0.0
+     */
+    cateIds?: number[]
+    /**
      * The name of sorted column
      */
-    sort?: keyof timer.stat.Row
+    sort?: keyof timer.core.Row
     /**
      * 1 asc, -1 desc
      */
@@ -54,6 +66,35 @@ export type HostSet = {
     origin: Set<string>
     merged: Set<string>
     virtual: Set<string>
+}
+
+function cvtStatRow2BaseKey(statRow: timer.stat.Row): timer.core.RowKey {
+    const { siteKey, date } = statRow || {}
+    if (!date) return undefined
+    const { type, host } = siteKey || {}
+    if (!host || type !== 'normal') return undefined
+    return { date, host }
+}
+
+function extractAllSiteKeys(rows: timer.stat.Row[], container: timer.site.SiteKey[]) {
+    rows?.forEach(row => {
+        const { siteKey, mergedRows } = row || {}
+        siteKey && container.push(siteKey)
+        mergedRows?.length && extractAllSiteKeys(mergedRows, container)
+    })
+}
+
+function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.SiteInfo>): void {
+    if (!row) return
+    const { siteKey, mergedRows } = row
+    mergedRows?.map(m => fillRowWithSiteInfo(m, siteMap))
+    const siteInfo = siteMap.get(siteKey)
+    if (siteInfo) {
+        const { cate, iconUrl, alias } = siteInfo
+        row.cateId = cate
+        row.alias = alias
+        row.iconUrl = iconUrl
+    }
 }
 
 /**
@@ -76,22 +117,26 @@ class StatService {
 
         const origin: Set<string> = new Set()
         const merged: Set<string> = new Set()
+        const virtual: Set<string> = new Set()
 
         const allHostArr = Array.from(allHosts)
 
         allHostArr.forEach(host => {
-            if (judgeVirtualFast(host)) return
+            if (judgeVirtualFast(host)) {
+                host.includes(fuzzyQuery) && virtual.add(host)
+                return
+            }
             host.includes(fuzzyQuery) && origin.add(host)
             const mergedHost = mergeRuler.merge(host)
             mergedHost?.includes(fuzzyQuery) && merged.add(mergedHost)
         })
 
-        const virtualSites = await siteDatabase.select({ virtual: true })
-        const virtual: Set<string> = new Set(
-            virtualSites
-                .map(site => site.host)
-                .filter(host => host?.includes(fuzzyQuery))
-        )
+        const virtualSites = await siteDatabase.select({ types: 'virtual' })
+        virtualSites
+            .map(site => site.host)
+            .filter(host => host?.includes(fuzzyQuery))
+            .forEach(host => virtual.add(host))
+
         return { origin, merged, virtual }
     }
 
@@ -121,29 +166,25 @@ class StatService {
         })
     }
 
-    private async fillSiteInfo(items: timer.stat.Row[], mergeHost: boolean) {
-        const keys: timer.site.SiteKey[] = items.map(({ host }) => ({ host, merged: mergeHost, virtual: judgeVirtualFast(host) }))
-        const siteInfos = await siteDatabase.getBatch(keys)
-        const siteInfoMap: Record<string, timer.site.SiteInfo> = {}
-        siteInfos.forEach(siteInfo => {
-            const { host, merged, virtual } = siteInfo
-            const key = `${merged ? 1 : 0}${virtual ? 1 : 0}${host}`
-            siteInfoMap[key] = siteInfo
-        })
-        items.forEach(item => {
-            const { host } = item
-            const key = `${mergeHost ? 1 : 0}${judgeVirtualFast(host) ? 1 : 0}${host}`
-            const siteInfo = siteInfoMap[key]
-            if (siteInfo) {
-                item.iconUrl = siteInfo.iconUrl
-                item.alias = siteInfo.alias
-            }
-        })
-    }
-
     async select(param?: StatQueryParam, fillSiteInfo?: boolean): Promise<timer.stat.Row[]> {
         log("service: select:{param}", param)
+        let rows = await this.filterRows(param)
+        const { mergeCate: needMergeCate, cateIds } = param || {}
 
+        if (fillSiteInfo || needMergeCate || cateIds?.length) {
+            await this.fillSite(rows)
+        }
+        if (cateIds?.length) {
+            rows = rows.filter(row => cateIds?.includes(row?.cateId))
+        }
+        if (needMergeCate) {
+            rows = await mergeCate(rows)
+        }
+        this.processSort(rows, param)
+        return rows
+    }
+
+    private async filterRows(param?: StatQueryParam): Promise<timer.stat.Row[]> {
         // Need match full host after merged
         let fullHost = undefined
         // If merged and full host
@@ -152,49 +193,75 @@ class StatService {
         param?.mergeHost && param?.fullHost && !(param.fullHost = false) && (fullHost = param?.host) && (param.host = undefined)
 
         param = param || {}
-        let origin = await statDatabase.select(param as StatCondition)
+        let origin = await this.selectBase(param)
+
+        let statRows = origin?.map(cvt2StatRow) ?? []
         if (param.inclusiveRemote) {
-            origin = await processRemote(param, origin)
+            statRows = await processRemote(param, statRows)
         }
+
         // Process after select
         // 1st merge
         if (param.mergeHost) {
             // Merge with rules
-            origin = await mergeHost(origin)
+            statRows = await mergeHost(statRows)
             // filter again, cause of the exchange of the host, if the param.mergeHost is true
-            origin = this.filter(origin, param)
+            statRows = this.filter(statRows, param)
         }
-        param.mergeDate && (origin = mergeDate(origin))
-        // 2nd sort
-        this.processSort(origin, param)
-        // 3rd get icon url and alias if need
-        fillSiteInfo && await this.fillSiteInfo(origin, param.mergeHost)
+        param.mergeDate && (statRows = mergeDate(statRows))
         // Filter merged host if full host
-        fullHost && (origin = origin.filter(dataItem => dataItem.host === fullHost))
-        return origin
+        fullHost && (statRows = statRows.filter(dataItem => dataItem.siteKey?.host === fullHost))
+        return statRows
+    }
+
+    private async fillSite(rows: timer.stat.Row[]): Promise<true> {
+        let keys: timer.site.SiteKey[] = []
+        extractAllSiteKeys(rows, keys)
+        keys = distinctSites(keys)
+
+        const siteInfos = await siteDatabase.getBatch(keys)
+        const siteInfoMap = new SiteMap<timer.site.SiteInfo>()
+        siteInfos.forEach(siteInfo => siteInfoMap.put(siteInfo, siteInfo))
+
+        rows.forEach(item => fillRowWithSiteInfo(item, siteInfoMap))
+        return true
+    }
+
+    async selectBase(cond: StatCondition): Promise<timer.core.Row[]> {
+        return statDatabase.select(cond)
     }
 
     async selectByPage(
         param?: StatQueryParam,
         page?: timer.common.PageQuery,
-        fillSiteInfo?: boolean
     ): Promise<timer.common.PageResult<timer.stat.Row>> {
         log("selectByPage:{param},{page}", param, page)
         // Not fill at first
-        const origin: timer.stat.Row[] = await this.select(param, fillSiteInfo)
-        const result: timer.common.PageResult<timer.stat.Row> = slicePageResult(origin, page)
-        const list = result.list
-        // Filter after page sliced
-        if (fillSiteInfo && param?.mergeHost) {
-            for (const beforeMerge of list) await this.fillSiteInfo(beforeMerge.mergedHosts, false)
+        let origin = await this.filterRows(param)
+        const { mergeCate: needMergeCate, cateIds } = param || {}
+        let siteFilled = false
+        if (cateIds?.length) {
+            siteFilled = await this.fillSite(origin)
+            origin = origin.filter(row => cateIds?.includes(row?.cateId))
         }
+        if (needMergeCate) {
+            // If merge cate, fill firstly
+            siteFilled = siteFilled || await this.fillSite(origin)
+            origin = await mergeCate(origin)
+        }
+
+        this.processSort(origin, param)
+        let result = slicePageResult(origin, page)
+
+        if (!siteFilled) await this.fillSite(result?.list)
+
         log("result of selectByPage:{param}, {page}, {result}", param, page, result)
         return result
     }
 
     private filter(origin: timer.stat.Row[], param: StatCondition) {
         const paramHost = (param.host || '').trim()
-        return paramHost ? origin.filter(o => o.host.includes(paramHost)) : origin
+        return paramHost ? origin.filter(o => o.siteKey?.host?.includes?.(paramHost)) : origin
     }
 
     /**
@@ -206,7 +273,13 @@ class StatService {
     canReadRemote = canReadRemote
 
     async batchDelete(rows: timer.stat.Row[]) {
-        await statDatabase.delete(rows)
+        if (!rows?.length) return
+        const baseKeys = rows.map(cvtStatRow2BaseKey)
+        await this.batchDeleteBase(baseKeys)
+    }
+
+    async batchDeleteBase(keys: timer.core.RowKey[]): Promise<void> {
+        await statDatabase.delete(keys)
     }
 }
 

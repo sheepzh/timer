@@ -7,16 +7,7 @@ declare namespace timer.site {
         | 'DETECTED'    // Auto-detected
     type SiteKey = {
         host: string
-        /**
-         * @since 1.2.1
-         */
-        merged?: boolean
-        /**
-         * Whether virtual site
-         *
-         * @since 1.6.0
-         */
-        virtual?: boolean
+        type: timer.site.Type
     }
     type SiteInfo = SiteKey & {
         alias?: string
@@ -25,5 +16,21 @@ declare namespace timer.site {
          */
         source?: AliasSource
         iconUrl?: string
+        /**
+         * Category ID
+         *
+         * @since 3.0.0
+         */
+        cate?: number
+    }
+    type Type = 'normal' | 'merged' | 'virtual'
+    /**
+     * Site tag
+     *
+     * @since 3.0.0
+     */
+    type Cate = {
+        id: number
+        name: string
     }
 }

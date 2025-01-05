@@ -10,28 +10,34 @@ import baseMessages, { type BaseMessage } from "../common/base"
 import calendarMessages, { type CalendarMessage } from "../common/calendar"
 import itemMessages, { type ItemMessage } from "../common/item"
 import metaMessages, { type MetaMessage } from "../common/meta"
+import sharedMessages, { type SharedMessage } from "../common/shared"
 import { merge, type MessageRoot } from "../merge"
-import chartMessages, { type ChartMessage } from "./chart"
+import contentMessages, { type ContentMessage } from "./content"
 import footerMessages, { type FooterMessage } from "./footer"
+import headerMessages, { type HeaderMessage } from "./header"
 
 export type PopupMessage = {
-    chart: ChartMessage
+    content: ContentMessage
     item: ItemMessage
     meta: MetaMessage
     base: BaseMessage
+    header: HeaderMessage
     footer: FooterMessage
     menu: MenuMessage
     calendar: CalendarMessage
+    shared: SharedMessage
 }
 
 const MESSAGE_ROOT: MessageRoot<PopupMessage> = {
-    chart: chartMessages,
+    content: contentMessages,
     item: itemMessages,
     meta: metaMessages,
     base: baseMessages,
+    header: headerMessages,
     footer: footerMessages,
     menu: menuMessages,
     calendar: calendarMessages,
+    shared: sharedMessages,
 }
 
 const _default = merge<PopupMessage>(MESSAGE_ROOT)

@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { judgeVirtualFast } from "@util/pattern"
+import { escapeRegExp } from "@util/pattern"
 import { createZeroResult, isNotZeroResult, mergeResult } from "@util/stat"
 import { formatTimeYMD } from "@util/time"
 import { log } from "../../common/logger"
@@ -49,7 +49,7 @@ export type StatCondition = {
     exclusiveVirtual?: boolean
 }
 
-function mergeMigration(exist: timer.stat.Result | undefined, another: any) {
+function mergeMigration(exist: timer.core.Result | undefined, another: any) {
     exist = exist || createZeroResult()
     return mergeResult(exist, { focus: another.focus || 0, time: another.time || 0 })
 }
@@ -65,7 +65,7 @@ function generateKey(host: string, date: Date | string) {
     return str + host
 }
 
-function migrate(exists: { [key: string]: timer.stat.Result }, data: any): { [key: string]: timer.stat.Result } {
+function migrate(exists: { [key: string]: timer.core.Result }, data: any): { [key: string]: timer.core.Result } {
     const result = {}
     Object.entries(data)
         .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
@@ -80,7 +80,7 @@ function migrate(exists: { [key: string]: timer.stat.Result }, data: any): { [ke
 
 class StatDatabase extends BaseDatabase {
 
-    async refresh(): Promise<{}> {
+    async refresh(): Promise<{ [key: string]: unknown }> {
         const result = await this.storage.get()
         const items = {}
         Object.entries(result)
@@ -93,9 +93,9 @@ class StatDatabase extends BaseDatabase {
      * @param host host
      * @since 0.1.3
      */
-    async accumulate(host: string, date: Date | string, item: timer.stat.Result): Promise<timer.stat.Result> {
+    async accumulate(host: string, date: Date | string, item: timer.core.Result): Promise<timer.core.Result> {
         const key = generateKey(host, date)
-        let exist = await this.storage.getOne<timer.stat.Result>(key)
+        let exist = await this.storage.getOne<timer.core.Result>(key)
         exist = mergeResult(exist || createZeroResult(), item)
         await this.setByKey(key, exist)
         return exist
@@ -121,7 +121,7 @@ class StatDatabase extends BaseDatabase {
         const afterUpdated: timer.stat.ResultSet = {}
         Object.entries(keys).forEach(([host, key]) => {
             const item = data[host]
-            const exist: timer.stat.Result = mergeResult(items[key] as timer.stat.Result || createZeroResult(), item)
+            const exist: timer.core.Result = mergeResult(items[key] as timer.core.Result || createZeroResult(), item)
             toUpdate[key] = afterUpdated[host] = exist
         })
         await this.storage.set(toUpdate)
@@ -135,12 +135,12 @@ class StatDatabase extends BaseDatabase {
      *
      * @param condition     condition
      */
-    async select(condition?: StatCondition): Promise<timer.stat.Row[]> {
+    async select(condition?: StatCondition): Promise<timer.core.Row[]> {
         log("select:{condition}", condition)
         const filterResults = await this.filter(condition)
         return filterResults.map(({ date, host, value }) => {
             const { focus, time } = value
-            return { date, host, focus, time, mergedHosts: [], virtual: judgeVirtualFast(host) }
+            return { date, host, focus, time }
         })
     }
 
@@ -162,9 +162,9 @@ class StatDatabase extends BaseDatabase {
      *
      * @since 0.0.5
      */
-    async get(host: string, date: Date | string): Promise<timer.stat.Result> {
+    async get(host: string, date: Date | string): Promise<timer.core.Result> {
         const key = generateKey(host, date)
-        const exist = await this.storage.getOne<timer.stat.Result>(key)
+        const exist = await this.storage.getOne<timer.core.Result>(key)
         return exist || createZeroResult()
     }
 
@@ -186,7 +186,7 @@ class StatDatabase extends BaseDatabase {
      * @param rows     site rows, the host and date mustn't be null
      * @since 0.0.9
      */
-    async delete(rows: timer.stat.Row[]): Promise<void> {
+    async delete(rows: timer.core.RowKey[]): Promise<void> {
         const keys: string[] = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => generateKey(host, date))
         return this.storage.remove(keys)
     }
@@ -196,9 +196,9 @@ class StatDatabase extends BaseDatabase {
      *
      * @since 1.4.3
      */
-    forceUpdate(row: timer.stat.RowBase): Promise<void> {
+    forceUpdate(row: timer.core.Row): Promise<void> {
         const key = generateKey(row.host, row.date)
-        const result: timer.stat.Result = { time: row.time, focus: row.focus }
+        const result: timer.core.Result = { time: row.time, focus: row.focus }
         return this.storage.put(key, result)
     }
 
@@ -215,7 +215,7 @@ class StatDatabase extends BaseDatabase {
         const items = await this.refresh()
 
         // Key format: 20201112www.google.com
-        const keyReg = RegExp('\\d{8}' + host)
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(host))
         const keys: string[] = Object.keys(items)
             .filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
 
@@ -229,8 +229,15 @@ class StatDatabase extends BaseDatabase {
      * @param host host
      * @since 0.0.5
      */
-    deleteByUrl(host: string): Promise<string[]> {
-        return this.deleteByUrlBetween(host)
+    async deleteByUrl(host: string): Promise<string[]> {
+        const items = await this.refresh()
+
+        // Key format: 20201112www.google.com
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(host))
+        const keys: string[] = Object.keys(items).filter(key => keyReg.test(key))
+        await this.storage.remove(keys)
+
+        return keys.map(k => k.substring(0, 8))
     }
 
     async importData(data: any): Promise<void> {

@@ -46,12 +46,12 @@ declare namespace timer.backup {
          *
          * @param targetCid The client id, default value is the local one in context
          */
-        download(context: timer.backup.CoordinatorContext<Cache>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.stat.RowBase[]>
+        download(context: timer.backup.CoordinatorContext<Cache>, dateStart: Date, dateEnd: Date, targetCid?: string): Promise<timer.core.Row[]>
         /**
          * Upload fragmented data to cloud
          * @param rows
          */
-        upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.stat.RowBase[]): Promise<void>
+        upload(context: timer.backup.CoordinatorContext<Cache>, rows: timer.core.Row[]): Promise<void>
         /**
          * Test auth
          *
@@ -110,4 +110,17 @@ declare namespace timer.backup {
     }>
 
     type MetaCache = Partial<Record<Type, unknown>>
+
+    type RowExtend = {
+        /**
+         * The id of client where the remote data is stored
+         */
+        cid?: string
+        /**
+         * The name of client where the remote data is stored
+         */
+        cname?: string
+    }
+
+    type Row = core.Row & RowExtend
 }
