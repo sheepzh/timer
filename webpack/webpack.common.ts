@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import path from "path"
 import postcssRTLCSS from 'postcss-rtlcss'
-import webpack, { DefinePlugin, type RuleSetRule } from "webpack"
+import webpack, { type Chunk, DefinePlugin, type RuleSetRule } from "webpack"
 import { POLYFILL_SCRIPT_NAME } from "../src/content-script/polyfill/inject"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
@@ -84,6 +84,10 @@ const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
     },
 }
 
+const chunkFilter = ({ name }: Chunk) => {
+    return ![BACKGROUND, CONTENT_SCRIPT, POLYFILL_SCRIPT_NAME].includes(name)
+}
+
 const staticOptions: webpack.Configuration = {
     entry() {
         const entry = {}
@@ -139,6 +143,16 @@ const staticOptions: webpack.Configuration = {
             assert: false,
             // fallbacks of axios's dependencies end
         }
+    },
+    optimization: {
+        splitChunks: {
+            chunks: chunkFilter,
+            cacheGroups: {
+                defaultVendors: {
+                    filename: 'vendor/[name].js'
+                }
+            }
+        },
     },
 }
 
