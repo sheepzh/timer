@@ -2,7 +2,7 @@ import { t } from "@app/locale"
 import StatDatabase from "@db/stat-database"
 import { type StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
-import { type ReportFilterOption } from "./context"
+import type { ReportFilterOption } from "./types"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 

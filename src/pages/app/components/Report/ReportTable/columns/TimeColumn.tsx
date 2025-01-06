@@ -12,13 +12,20 @@ import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import CompositionTable from "../../CompositionTable"
 import { useReportFilter } from "../../context"
+import type { ReportSort } from "../../types"
 
 const columnLabel = t(msg => msg.item.time)
 
 const _default = defineComponent(() => {
     const filter = useReportFilter()
     return () => (
-        <ElTableColumn prop="time" label={columnLabel} minWidth={130} align="center" sortable="custom">
+        <ElTableColumn
+            prop={'time' satisfies ReportSort['prop']}
+            label={columnLabel}
+            minWidth={130}
+            align="center"
+            sortable="custom"
+        >
             {({ row }: ElTableRowScope<timer.stat.Row>) => (
                 <TooltipWrapper
                     showPopover={filter.value?.readRemote}

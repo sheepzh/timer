@@ -6,6 +6,7 @@
  */
 
 import { createTabAfterCurrent } from "@api/chrome/tab"
+import type { ReportQueryParam } from "@app/components/Report/types"
 import { t } from "@app/locale"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { useRequest } from "@hooks"

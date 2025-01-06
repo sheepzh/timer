@@ -16,11 +16,12 @@ import { ElMessage, ElMessageBox } from "element-plus"
 import { computed, defineComponent, ref } from "vue"
 import { type RouteLocation, type Router, useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import { type DisplayComponent, initProvider, type ReportFilterOption } from "./context"
+import { initProvider } from "./context"
 import ReportFilter from "./ReportFilter"
 import ReportList from "./ReportList"
 import ReportTable from "./ReportTable"
 import './style'
+import type { DisplayComponent, ReportFilterOption, ReportQueryParam, ReportSort } from "./types"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
@@ -120,7 +121,7 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
 /**
  * Init the query parameters
  */
-function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOption, SortInfo] {
+function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOption, ReportSort] {
     const routeQuery: ReportQueryParam = route.query as unknown as ReportQueryParam
     const { mh, md, ds, de, sc } = routeQuery
     const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
@@ -139,7 +140,7 @@ function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOpti
         siteMerge,
         timeFormat: "default"
     }
-    const sortInfo: SortInfo = {
+    const sortInfo: ReportSort = {
         prop: sc || 'focus',
         order: 'descending'
     }

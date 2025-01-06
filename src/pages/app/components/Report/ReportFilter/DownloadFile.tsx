@@ -8,6 +8,7 @@
 import { Download } from "@element-plus/icons-vue"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { defineComponent } from "vue"
+import type { FileFormat } from "../types"
 
 const ALL_FILE_FORMATS: FileFormat[] = ["json", "csv"]
 

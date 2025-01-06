@@ -14,13 +14,14 @@ import { identifySiteKey } from "@util/site"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { useReportFilter } from "../../context"
+import type { ReportSort } from "../../types"
 import TooltipSiteList from "./TooltipSiteList"
 
 const _default = defineComponent(() => {
     const filter = useReportFilter()
     return () => (
         <ElTableColumn
-            prop="host"
+            prop={'host' satisfies ReportSort['prop']}
             label={t(msg => msg.item.host)}
             minWidth={210}
             sortable="custom"
