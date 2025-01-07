@@ -20,11 +20,15 @@ const HeartIcon = (
     </svg>
 )
 
+const computeUpdateText = (version: string) => {
+    return IS_FIREFOX
+        ? t(msg => msg.header.updateVersionInfo4Firefox, { version })
+        : t(msg => msg.header.updateVersionInfo, { version })
+}
+
 const Extra = defineComponent(() => {
     const { data: latestVersion } = useRequest(getLatestVersion)
-
     const upgradeVisible = computed(() => latestVersion.value && packageInfo.version !== latestVersion.value && IS_FROM_STORE)
-
     const { data: rateVisible } = useRequest(() => metaService.recommendRate())
 
     const handleRateClick = async () => {
@@ -37,16 +41,11 @@ const Extra = defineComponent(() => {
         createTab(UPDATE_PAGE)
     }
 
-    const version = packageInfo.version
-    const popInfo = IS_FIREFOX
-        ? t(msg => msg.header.updateVersionInfo4Firefox, { version })
-        : t(msg => msg.header.updateVersionInfo, { version })
-
     return () => {
         if (upgradeVisible.value) {
             return (
                 <ElPopover
-                    content={popInfo}
+                    content={computeUpdateText(latestVersion.value)}
                     effect="dark"
                     width="auto"
                     v-slots={{
