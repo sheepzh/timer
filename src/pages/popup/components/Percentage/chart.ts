@@ -1,6 +1,8 @@
 import { jump2Report } from "@popup/common"
 import { t } from "@popup/locale"
+import { sum } from "@util/array"
 import { IS_SAFARI } from "@util/constant/environment"
+import { isRtl } from "@util/document"
 import { generateSiteLabel } from "@util/site"
 import { getPrimaryTextColor, getSecondaryTextColor } from "@util/style"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
@@ -39,7 +41,7 @@ function combineDate(start: Date, end: Date, format: string): string {
         .replace('{ed}', ed.toString().padStart(2, '0'))
 }
 
-function calculateSubTitleText(date: Date | [Date, Date?], dataDate: [string, string]): string {
+function formatDateStr(date: Date | [Date, Date?], dataDate: [string, string]): string {
     const format = t(msg => msg.calendar.dateFormat)
 
     if (!date) {
@@ -57,11 +59,32 @@ function calculateSubTitleText(date: Date | [Date, Date?], dataDate: [string, st
     return combineDate(start, end, format)
 }
 
+function formatTotalStr(rows: timer.stat.Row[], type: timer.core.Dimension): string {
+    if (type === 'focus') {
+        const total = sum(rows.map(r => r?.focus ?? 0))
+        const totalTime = formatPeriodCommon(total)
+        return t(msg => msg.content.percentage.totalTime, { totalTime })
+    } else if (type === 'time') {
+        const totalCount = sum(rows.map(r => r.time ?? 0))
+        return t(msg => msg.content.percentage.totalCount, { totalCount })
+    } else {
+        return ''
+    }
+}
+
+function calculateSubTitleText(result: PercentageResult): string {
+    let { date, dataDate, rows, query: { type } = {} } = result
+    const dateStr = formatDateStr(date, dataDate)
+    const totalStr = formatTotalStr(rows, type)
+    let parts = [totalStr, dateStr].filter(str => !!str)
+    isRtl() && (parts = parts.reverse())
+    return parts.join(' @ ')
+}
+
 export function generateTitleOption(result: PercentageResult): TitleComponentOption {
-    const { chartTitle, date, dataDate } = result || {}
     return {
-        text: chartTitle,
-        subtext: calculateSubTitleText(date, dataDate),
+        text: result?.chartTitle,
+        subtext: calculateSubTitleText(result),
         left: 'center',
         textStyle: { color: getPrimaryTextColor() },
         subtextStyle: { color: getSecondaryTextColor() },

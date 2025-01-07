@@ -12,6 +12,8 @@
             "saveAsImageTitle": "保存",
             "averageTime": "平均每天 {value}",
             "averageCount": "平均每天 {value} 次",
+            "totalTime": "共 {totalTime}",
+            "totalCount": "共 {totalCount} 次",
             "otherLabel": "其他{count}个网站"
         },
         "ranking": {
@@ -31,6 +33,8 @@
             "saveAsImageTitle": "保存",
             "averageCount": "平均每天 {value} 次",
             "averageTime": "平均每天 {value}",
+            "totalTime": "共 {totalTime}",
+            "totalCount": "共 {totalCount} 次",
             "otherLabel": "其他 {count} 個站點"
         },
         "ranking": {
@@ -50,6 +54,8 @@
             "saveAsImageTitle": "Snapshot",
             "averageCount": "{value} times per day on average",
             "averageTime": "{value} per day on average",
+            "totalTime": "Total {totalTime}",
+            "totalCount": "Total {totalCount} times",
             "otherLabel": "Other {count} sites"
         },
         "ranking": {
@@ -69,6 +75,8 @@
             "saveAsImageTitle": "ダウンロード",
             "averageCount": "1日平均 {value} 回",
             "averageTime": "1日平均 {value}",
+            "totalTime": "合計 {totalTime}",
+            "totalCount": "合計 {totalCount} 回",
             "otherLabel": "他 {count} サイト"
         },
         "ranking": {
@@ -88,6 +96,8 @@
             "saveAsImageTitle": "Capturas",
             "averageCount": "{value} vezes por dia em média",
             "averageTime": "{value} por dia em média",
+            "totalTime": "Total {totalTime}",
+            "totalCount": "Total {totalCount} vezes",
             "otherLabel": "Outros sites do {count}"
         },
         "ranking": {
@@ -107,6 +117,8 @@
             "saveAsImageTitle": "Знімок",
             "averageCount": "{value} разів на день у середньому",
             "averageTime": "{value} на день у середньому",
+            "totalTime": "Всього {totalTime}",
+            "totalCount": "Всього {totalCount} разів",
             "otherLabel": "Інші {count} сайтів"
         },
         "ranking": {
@@ -126,6 +138,8 @@
             "saveAsImageTitle": "Captura de pantalla",
             "averageCount": "{value} veces al día en promedio",
             "averageTime": "{value} al día en promedio",
+            "totalTime": "Total {totalTime}",
+            "totalCount": "Total {totalCount} veces",
             "otherLabel": "Otros {count} sitios"
         },
         "ranking": {
@@ -145,6 +159,8 @@
             "saveAsImageTitle": "Bildschirmfoto",
             "averageCount": "{value} mal pro Tag",
             "averageTime": "{value} pro Tag im Durchschnitt",
+            "totalTime": "Gesamt {totalTime}",
+            "totalCount": "Gesamt {totalCount} mal",
             "otherLabel": "{count} andere Websites"
         },
         "ranking": {
@@ -164,6 +180,8 @@
             "saveAsImageTitle": "Capture d'écran",
             "averageCount": "{value} fois par jour en moyenne",
             "averageTime": "{value} fois par jour en moyenne",
+            "totalTime": "{totalTime} au total",
+            "totalCount": "{totalCount} fois au total",
             "otherLabel": "{count} autres sites"
         },
         "ranking": {
@@ -183,6 +201,8 @@
             "saveAsImageTitle": "Снимок",
             "averageCount": "{value} раз в день в среднем",
             "averageTime": "{value} в день в среднем",
+            "totalTime": "Всего {totalTime}",
+            "totalCount": "Всего {totalCount} раз",
             "otherLabel": "Другие {count} сайты"
         },
         "ranking": {
@@ -202,6 +222,8 @@
             "saveAsImageTitle": "تحميل",
             "averageCount": "متوسط {value} زيارة يومياً",
             "averageTime": "متوسط {value} يومياً",
+            "totalTime": "الإجمالي {totalTime}",
+            "totalCount": "الإجمالي {totalCount} زيارة",
             "otherLabel": "{count} مواقع أخرى"
         },
         "ranking": {

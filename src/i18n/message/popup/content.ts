@@ -13,6 +13,8 @@ export type ContentMessage = {
         saveAsImageTitle: string
         averageTime: string
         averageCount: string
+        totalTime: string
+        totalCount: string
         otherLabel: string
     }
     ranking: {

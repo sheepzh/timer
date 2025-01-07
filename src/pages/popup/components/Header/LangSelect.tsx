@@ -1,10 +1,13 @@
+import { createTab } from "@api/chrome/tab"
 import { useManualRequest, useRequest } from "@hooks/useRequest"
 import { ALL_LOCALES, localeSameAsBrowser, t } from "@i18n"
 import optionMessages from "@i18n/message/app/option"
 import localeMessages from "@i18n/message/common/locale"
 import Flex from "@pages/components/Flex"
 import { usePopupContext } from "@popup/context"
+import { t as tPopup } from "@popup/locale"
 import optionService from "@service/option-service"
+import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon, ElText } from "element-plus"
 import { defineComponent, type StyleValue } from "vue"
 
@@ -64,9 +67,14 @@ const LangSelect = defineComponent(() => {
                         <ElDropdownItem
                             onClick={() => saveLocale('default')}
                             style={current.value === 'default' ? SELECTED_STYLES : null}
-                            divided
                         >
                             {t(optionMessages, { key: m => m.appearance.locale.default })}
+                        </ElDropdownItem>
+                        <ElDropdownItem
+                            onClick={() => createTab(CROWDIN_HOMEPAGE)}
+                            divided
+                        >
+                            {tPopup(msg => msg.menu.helpUs)}
                         </ElDropdownItem>
                     </ElDropdownMenu>
                 )
