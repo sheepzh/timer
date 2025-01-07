@@ -175,7 +175,11 @@ const _default = defineComponent((_, ctx) => {
             >
                 {ALL_DIFF.map(item => <ElOption value={item} label={t(msg => msg.option.dailyLimit.level.verificationDifficulty[item])} />)}
             </ElSelect>
-            <ElButton size="small" onClick={() => processVerification(option)}>
+            <ElButton
+                size="small"
+                style={{ height: '28px', marginLeft: '5px' }}
+                onClick={() => processVerification(option)}
+            >
                 {t(msg => msg.button.test)}
             </ElButton>
         </OptionItem>
