@@ -5,131 +5,84 @@
  * https://opensource.org/licenses/MIT
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
-import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
-import { useRequest } from "@hooks"
-import Flex from "@pages/components/Flex"
+import { useManualRequest, useRequest, useWindowVisible } from "@hooks"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
-import { period2Str } from "@util/limit"
-import { formatPeriod, formatPeriodCommon, MILL_PER_SECOND } from "@util/time"
-import { ElTable, ElTableColumn, ElTag } from "element-plus"
-import { defineComponent, type PropType } from "vue"
+import limitService from "@service/limit-service"
+import { ElMessage, ElTable, ElTableColumn } from "element-plus"
+import { defineComponent } from "vue"
+import { useLimitFilter } from "../context"
 import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"
+import RuleContent from "./RuleContent"
+import Waste from "./Waste"
+import Weekday from "./Weekday"
 
-const ALL_WEEKDAYS = t(msg => msg.calendar.weekDays)?.split('|')
+export type LimitSortProp = keyof Pick<timer.limit.Item, 'name' | 'weekdays' | 'waste' | 'weeklyWaste'>
 
-const renderWeekdays = (weekdays: number[]) => {
-    const len = weekdays?.length
-    if (!len || len === 7) {
-        return (
-            <ElTag size="small" type="success">
-                {t(msg => msg.calendar.range.everyday)}
-            </ElTag>
-        )
-    }
+const DEFAULT_SORT_COL = 'waste'
 
-    return (
-        <Flex justify="center" wrap="wrap" gap={5} style={{ margin: "0 10px" }}>
-            {weekdays.map(w => <ElTag size="small">{ALL_WEEKDAYS[w]}</ElTag>)}
-        </Flex>
-    )
+export type LimitTableInstance = {
+    refresh: () => void
 }
 
-const timeMsg = {
-    hourMsg: '{hour}h{minute}m{second}s',
-    minuteMsg: '{minute}m{second}s',
-    secondMsg: '{second}s',
+const sortMethodByNumVal = (key: keyof timer.limit.Item & 'waste' | 'weeklyWaste'): (a: timer.limit.Item, b: timer.limit.Item) => number => {
+    return ({ [key]: a }: timer.limit.Item, { [key]: b }: timer.limit.Item) => (a ?? 0) - (b ?? 0)
 }
 
-const renderDetail = (row: timer.limit.Item) => {
-    const { time, weekly, visitTime, periods } = row
-    return (
-        <Flex direction="column" gap={4}>
-            {!!time && (
-                <div>
-                    <ElTag size="small">
-                        {t(msg => msg.limit.item.time)}: {formatPeriod(time * MILL_PER_SECOND, timeMsg)}
-                    </ElTag>
-                </div>
-            )}
-            {!!weekly && (
-                <div>
-                    <ElTag size="small">
-                        {t(msg => msg.limit.item.weekly)}: {formatPeriod(weekly * MILL_PER_SECOND, timeMsg)}
-                    </ElTag>
-                </div>
-            )}
-            {!!visitTime && (
-                <div>
-                    <ElTag size="small">
-                        {t(msg => msg.limit.item.visitTime)}: {formatPeriod(visitTime * MILL_PER_SECOND, timeMsg)}
-                    </ElTag>
-                </div>
-            )}
-            {!!periods?.length && <>
-                <div>
-                    <ElTag size="small" type="info">{t(msg => msg.limit.item.period)}</ElTag>
-                </div>
-                <Flex justify="center" gap={4} wrap="wrap">
-                    {periods.map(p => <ElTag size="small" type="info">{period2Str(p)}</ElTag>)}
-                </Flex>
-            </>}
-        </Flex>
-    )
-}
-
-const Waste = defineComponent({
-    props: {
-        value: Number,
-        delayCount: Number,
-        showPopover: Boolean,
-    },
-    setup(props) {
-        return () => (
-            <TooltipWrapper
-                trigger="hover"
-                showPopover={props.showPopover}
-                placement="top"
-                v-slots={{
-                    content: () => `${t(msg => msg.limit.item.delayCount)}: ${props.delayCount ?? 0}`,
-                    default: () => (
-                        <ElTag size="small" type={props.value ? 'warning' : 'info'}>
-                            {formatPeriodCommon(props.value)}
-                        </ElTag>
-                    ),
-                }}
-            />
-        )
-    },
-})
+const sortByEffectiveDays = ({ weekdays: a }: timer.limit.Item, { weekdays: b }: timer.limit.Item) => (a?.length ?? 0) - (b?.length ?? 0)
 
 const _default = defineComponent({
-    props: {
-        data: Array as PropType<timer.limit.Item[]>
-    },
     emits: {
         delayChange: (_row: timer.limit.Item) => true,
         enabledChange: (_row: timer.limit.Item) => true,
-        delete: (_row: timer.limit.Item) => true,
         modify: (_row: timer.limit.Item) => true,
     },
-    setup(props, ctx) {
+    setup(_, ctx) {
         const { data: weekStartName } = useRequest(async () => {
             const offset = await weekHelper.getRealWeekStart()
             const name = t(msg => msg.calendar.weekDays)?.split('|')?.[offset]
             return name || 'NaN'
         })
+
+        const filter = useLimitFilter()
+
+        const { data, refresh } = useRequest(
+            () => limitService.select({ filterDisabled: filter.value?.onlyEnabled, url: filter.value?.url || '' }),
+            { defaultValue: [], deps: filter },
+        )
+
+        // Query data if the window become visible
+        useWindowVisible({ onVisible: refresh })
+
+        const { refresh: deleteRow } = useManualRequest((row: timer.limit.Item) => limitService.remove(row), {
+            onSuccess() {
+                ElMessage.success(t(msg => msg.operation.successMsg))
+                refresh()
+            }
+        })
+
+        ctx.expose({ refresh } satisfies LimitTableInstance)
+
         return () => (
-            <ElTable border style={{ width: "100%" }} highlightCurrentRow fit data={props.data}>
+            <ElTable
+                border
+                fit
+                highlightCurrentRow
+                style={{ width: "100%" }}
+                data={data.value}
+                defaultSort={{ prop: DEFAULT_SORT_COL, order: 'descending' }}
+            >
                 <ElTableColumn
                     label={t(msg => msg.limit.item.name)}
                     minWidth={140}
                     align="center"
                     formatter={({ name }: timer.limit.Item) => name || '-'}
                     fixed
+                    sortable
+                    sortBy={(row: timer.limit.Item) => row.name}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.condition)}
@@ -141,17 +94,22 @@ const _default = defineComponent({
                     label={t(msg => msg.limit.item.effectiveDay)}
                     minWidth={180}
                     align="center"
+                    sortable
+                    sortMethod={sortByEffectiveDays}
                 >
-                    {({ row: { weekdays } }: ElTableRowScope<timer.limit.Item>) => renderWeekdays(weekdays)}
+                    {({ row: { weekdays } }: ElTableRowScope<timer.limit.Item>) => <Weekday value={weekdays} />}
                 </ElTableColumn>
                 <ElTableColumn
                     label={t(msg => msg.limit.item.detail)}
                     minWidth={240}
                     align="center"
                 >
-                    {({ row }: ElTableRowScope<timer.limit.Item>) => renderDetail(row)}
+                    {({ row }: ElTableRowScope<timer.limit.Item>) => <RuleContent value={row} />}
                 </ElTableColumn>
                 <ElTableColumn
+                    prop={DEFAULT_SORT_COL}
+                    sortable
+                    sortMethod={sortMethodByNumVal('waste')}
                     label={t(msg => msg.limit.item.waste)}
                     minWidth={110}
                     align="center"
@@ -167,6 +125,8 @@ const _default = defineComponent({
                 <ElTableColumn
                     minWidth={110}
                     align="center"
+                    sortable
+                    sortMethod={sortMethodByNumVal('weeklyWaste')}
                     v-slots={{
                         header: () => (
                             <ColumnHeader
@@ -186,7 +146,7 @@ const _default = defineComponent({
                 <LimitDelayColumn onRowChange={row => ctx.emit("delayChange", row)} />
                 <LimitEnabledColumn onRowChange={row => ctx.emit("enabledChange", row)} />
                 <LimitOperationColumn
-                    onRowDelete={row => ctx.emit("delete", row)}
+                    onRowDelete={deleteRow}
                     onRowModify={row => ctx.emit("modify", row)}
                 />
             </ElTable>

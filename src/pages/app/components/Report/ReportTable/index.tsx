@@ -15,7 +15,8 @@ import { siteEqual } from "@util/site"
 import { ElTable, ElTableColumn, type TableInstance } from "element-plus"
 import { computed, defineComponent, type PropType, ref, watch } from "vue"
 import { cvtOption2Param } from "../common"
-import { type DisplayComponent, type ReportFilterOption, useReportFilter } from "../context"
+import { useReportFilter } from "../context"
+import type { DisplayComponent, ReportFilterOption, ReportSort } from "../types"
 import CateColumn from "./columns/CateColumn"
 import DateColumn from "./columns/DateColumn"
 import FocusColumn from "./columns/FocusColumn"
@@ -23,7 +24,7 @@ import HostColumn from "./columns/HostColumn"
 import OperationColumn from "./columns/OperationColumn"
 import TimeColumn from "./columns/TimeColumn"
 
-function computeTimerQueryParam(filterOption: ReportFilterOption, sort: SortInfo): StatQueryParam {
+function computeTimerQueryParam(filterOption: ReportFilterOption, sort: ReportSort): StatQueryParam {
     const param = cvtOption2Param(filterOption) || {}
     param.sort = sort.prop
     param.sortOrder = sort.order === 'ascending' ? 'ASC' : 'DESC'
@@ -43,7 +44,7 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data
 
 const _default = defineComponent({
     props: {
-        defaultSort: Object as PropType<SortInfo>,
+        defaultSort: Object as PropType<ReportSort>,
     },
     setup(props, ctx) {
         const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
@@ -87,7 +88,7 @@ const _default = defineComponent({
                     fit
                     highlightCurrentRow
                     onSelection-change={setSelection}
-                    onSort-change={(newSortInfo: SortInfo) => setSort(newSortInfo)}
+                    onSort-change={(newSortInfo: ReportSort) => setSort(newSortInfo)}
                 >
                     {!filterOption.value?.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
                     {!filterOption.value?.mergeDate && <DateColumn />}

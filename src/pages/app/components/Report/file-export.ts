@@ -13,7 +13,7 @@ import {
     exportJson as exportJson_,
 } from "@util/file"
 import { formatTimeYMD } from "@util/time"
-import { ReportFilterOption } from "./context"
+import type { ReportFilterOption } from "./types"
 
 type ExportInfo = {
     date?: string

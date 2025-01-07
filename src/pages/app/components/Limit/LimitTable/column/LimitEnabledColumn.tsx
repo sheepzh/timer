@@ -20,6 +20,10 @@ async function handleChange(row: timer.limit.Item, newVal: boolean): Promise<voi
     }
 }
 
+const sortMethod = ({ enabled: a }: timer.limit.Item, { enabled: b }: timer.limit.Item): number => {
+    return (a ? 1 : 0) - (b ? 1 : 0)
+}
+
 const _default = defineComponent({
     emits: {
         rowChange: (_row: timer.limit.Item, _val: boolean) => true
@@ -31,6 +35,8 @@ const _default = defineComponent({
                 minWidth={100}
                 align="center"
                 fixed="right"
+                sortable
+                sortMethod={sortMethod}
             >
                 {({ row }: ElTableRowScope<timer.limit.Item>) => <ElSwitch
                     modelValue={row.enabled}

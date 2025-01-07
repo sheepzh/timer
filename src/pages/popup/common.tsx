@@ -1,4 +1,5 @@
 import { createTab } from "@api/chrome/tab"
+import type { ReportQueryParam } from "@app/components/Report/types"
 import { REPORT_ROUTE } from "@app/router/constants"
 import weekHelper from "@service/components/week-helper"
 import { type StatQueryParam } from "@service/stat-service"

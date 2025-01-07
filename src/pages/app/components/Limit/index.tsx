@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { t } from "@app/locale"
-import { useRequest, useState, useWindowVisible } from "@hooks"
+import { useState } from "@hooks"
 import limitService from "@service/limit-service"
 import { deepCopy } from "@util/lang"
-import { ElMessage } from "element-plus"
 import { defineComponent, ref, toRaw } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import LimitFilter, { type FilterOption } from "./LimitFilter"
+import { initProvider } from "./context"
+import LimitFilter from "./LimitFilter"
 import LimitModify, { type ModifyInstance } from "./LimitModify"
-import LimitTable from "./LimitTable"
+import LimitTable, { type LimitTableInstance } from "./LimitTable"
 import LimitTest, { type TestInstance } from "./LimitTest"
+import type { LimitFilterOption } from "./types"
 
 const initialUrl = () => {
     // Init with url parameter
@@ -26,43 +26,32 @@ const initialUrl = () => {
 }
 
 const _default = defineComponent(() => {
-    const [filterOption, setFilterOption] = useState<FilterOption>({ url: initialUrl(), onlyEnabled: false })
-    const { data, refresh } = useRequest(
-        () => limitService.select({ filterDisabled: filterOption.value?.onlyEnabled, url: filterOption.value?.url || '' }),
-        { defaultValue: [], deps: filterOption },
-    )
-    // Query data if the window become visible
-    useWindowVisible({ onVisible: refresh })
-
-    const handleDelete = async (row: timer.limit.Item) => {
-        await limitService.remove(row)
-        ElMessage.success(t(msg => msg.operation.successMsg))
-        refresh()
-    }
+    const [filter, setFilter] = useState<LimitFilterOption>({ url: initialUrl(), onlyEnabled: false })
+    initProvider(filter)
 
     const modify = ref<ModifyInstance>()
     const test = ref<TestInstance>()
+    const table = ref<LimitTableInstance>()
 
     return () => (
         <ContentContainer
             v-slots={{
                 filter: () => (
                     <LimitFilter
-                        defaultValue={filterOption.value}
-                        onChange={setFilterOption}
+                        defaultValue={filter.value}
+                        onChange={setFilter}
                         onCreate={() => modify.value?.create?.()}
                         onTest={() => test.value?.show?.()}
                     />
                 ),
                 content: () => <>
                     <LimitTable
-                        data={data.value}
+                        ref={table}
                         onDelayChange={row => limitService.updateDelay(row)}
                         onEnabledChange={row => limitService.updateEnabled(row)}
-                        onDelete={handleDelete}
                         onModify={row => modify.value?.modify?.(deepCopy(toRaw(row)))}
                     />
-                    <LimitModify ref={modify} onSave={refresh} />
+                    <LimitModify ref={modify} onSave={() => table.value?.refresh?.()} />
                     <LimitTest ref={test} />
                 </>
             }}

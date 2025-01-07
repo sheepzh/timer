@@ -15,21 +15,17 @@ import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 import { getAppPageUrl } from "@util/constant/url"
 import { defineComponent, watch, type PropType } from "vue"
-
-export type FilterOption = {
-    url: string
-    onlyEnabled: boolean
-}
+import type { LimitFilterOption } from "./types"
 
 const optionPageUrl = getAppPageUrl(false, OPTION_ROUTE, { i: 'dailyLimit' })
 
 const _default = defineComponent({
     props: {
-        defaultValue: Object as PropType<FilterOption>
+        defaultValue: Object as PropType<LimitFilterOption>
     },
     emits: {
         create: () => true,
-        change: (_option: FilterOption) => true,
+        change: (_option: LimitFilterOption) => true,
         test: () => true,
     },
     setup(props, ctx) {

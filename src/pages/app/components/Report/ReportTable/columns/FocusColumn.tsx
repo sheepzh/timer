@@ -13,13 +13,14 @@ import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import CompositionTable from '../../CompositionTable'
 import { useReportFilter } from "../../context"
+import type { ReportSort } from "../../types"
 
 const _default = defineComponent(() => {
     const filter = useReportFilter()
     const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
     return () => (
         <ElTableColumn
-            prop="focus"
+            prop={'focus' satisfies ReportSort['prop']}
             label={t(msg => msg.item.focus)}
             minWidth={130}
             align="center"
