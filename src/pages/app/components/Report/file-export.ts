@@ -132,8 +132,8 @@ function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportCsv(filterParam: ReportFilterOption, rows: timer.stat.Row[], cateService: timer.site.Cate[]): void {
+export function exportCsv(filterParam: ReportFilterOption, rows: timer.stat.Row[], categories: timer.site.Cate[]): void {
     const fileName = computeFileName(filterParam)
-    const csvData = generateCsvData(rows, filterParam, cateService)
+    const csvData = generateCsvData(rows, filterParam, categories)
     exportCsv_(csvData, fileName)
 }

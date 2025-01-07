@@ -95,7 +95,6 @@ export function isTranslatingLocale(): boolean {
 export let locale: timer.Locale = localeSameAsBrowser
 
 function handleLocaleOption(option: timer.option.AllOption) {
-    console.log('localeChanged', option)
     const localOption: timer.option.LocaleOption = option.locale
     if (!localOption || localOption === "default") {
         locale = chromeLocale2ExtensionLocale(getUILanguage())

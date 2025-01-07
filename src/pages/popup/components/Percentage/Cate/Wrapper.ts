@@ -109,7 +109,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
         const series: PieSeriesOption[] = [{
             type: "pie",
-            center: selected ? ['15%', '28%'] : ['60%', '52%'],
+            center: selected ? ['15%', '28%'] : ['58%', '56%'],
             radius: selected ? '30%' : '55%',
             selectedMode: 'single',
             startAngle: 180,
@@ -137,7 +137,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             const mergedRows = (selected?.mergedRows || []).sort((a, b) => (b[type] ?? 0) - (a[type] ?? 0))
 
             const siteSeries = generateSiteSeriesOption(mergedRows, result, {
-                center: ['63%', '55%'],
+                center: ['60%', '58%'],
                 radius: '55%',
                 minShowLabelAngle: 3,
                 selectedMode: false,

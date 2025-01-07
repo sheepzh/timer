@@ -1,4 +1,5 @@
-import { jump2Report } from "@popup/common"
+import { createTab } from "@api/chrome/tab"
+import { calJumpUrl } from "@popup/common"
 import { t } from "@popup/locale"
 import { sum } from "@util/array"
 import { IS_SAFARI } from "@util/constant/environment"
@@ -275,6 +276,6 @@ export function formatTooltip({ query, dateLength }: PercentageResult, params: C
 export function handleClick(data: PieSeriesItemOption, date: PercentageResult['date'], type: timer.core.Dimension): void {
     const { siteKey, isOther } = data || {}
     if (!siteKey || isOther) return
-
-    jump2Report(siteKey, date, type)
+    const url = calJumpUrl(siteKey, date, type)
+    url && createTab(url)
 }

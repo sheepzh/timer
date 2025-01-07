@@ -1,8 +1,8 @@
-import Flex from "@pages/components/Flex"
 import { useCategories } from "@app/context"
 import { t } from "@app/locale"
 import { Check, Close, Delete, Edit } from "@element-plus/icons-vue"
 import { useManualRequest, useRequest, useState, useSwitch } from "@hooks"
+import Flex from "@pages/components/Flex"
 import cateService from "@service/cate-service"
 import siteService from "@service/site-service"
 import { ElButton, ElInput, ElMessage, ElMessageBox } from "element-plus"
@@ -12,7 +12,7 @@ const OptionItem = defineComponent({
     props: {
         value: Object as PropType<timer.site.Cate>,
     },
-    setup(props, ctx) {
+    setup(props) {
         const { refreshCategories } = useCategories()
 
         const [editing, openEditing, closeEditing] = useSwitch(false)

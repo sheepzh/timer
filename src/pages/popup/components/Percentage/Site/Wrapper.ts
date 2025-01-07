@@ -65,7 +65,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
         const series = generateSiteSeriesOption(rows, result, {
             radius: '50%',
-            center: ['60%', '52%'],
+            center: ['60%', '56%'],
             selectedMode: false,
             minShowLabelAngle: 3,
         })

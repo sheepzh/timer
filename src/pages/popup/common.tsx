@@ -65,17 +65,15 @@ function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?],
     return query
 }
 
-export function jump2Report(siteKey: timer.site.SiteKey, date: Date | [Date, Date?], type: timer.core.Dimension) {
+export function calJumpUrl(siteKey: timer.site.SiteKey, date: Date | [Date, Date?], type: timer.core.Dimension): string {
     const { host, type: siteType } = siteKey || {}
 
     if (!host) return
 
     if (siteType === 'normal' && !isRemainHost(host)) {
-        createTab(`http://${host}`)
-        return
+        return `http://${host}`
     }
 
     const query = buildReportQuery(siteType, date, type)
-    const reportUrl = getAppPageUrl(false, REPORT_ROUTE, query)
-    createTab(reportUrl)
+    return getAppPageUrl(false, REPORT_ROUTE, query)
 }

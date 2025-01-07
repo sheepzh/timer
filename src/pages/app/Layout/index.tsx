@@ -5,10 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { initProvider } from "@app/context"
-import { useRequest } from "@hooks"
+import { initAppContext } from "@app/context"
 import { CLZ_HIDDEN_MD_AND_UP, CLZ_HIDDEN_SM_AND_DOWN } from "@pages/element-ui/style"
-import cateService from "@service/cate-service"
 import { classNames } from "@util/style"
 import { ElAside, ElContainer, ElHeader, ElScrollbar } from "element-plus"
 import { defineComponent } from "vue"
@@ -19,8 +17,7 @@ import "./style"
 import VersionTag from "./VersionTag"
 
 const _default = defineComponent(() => {
-    const { data: categories, refresh: refreshCategories } = useRequest(() => cateService.listAll())
-    initProvider({ categories, refreshCategories })
+    initAppContext()
 
     return () => (
         <ElContainer class="app-layout">

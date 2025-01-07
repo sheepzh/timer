@@ -1,44 +1,65 @@
+import { createTab } from "@api/chrome/tab"
+import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { Mouse, Timer } from "@element-plus/icons-vue"
-import { useRequest } from "@hooks/useRequest"
 import Flex from "@pages/components/Flex"
+import { calJumpUrl } from "@popup/common"
+import { useCateNameMap } from "@popup/context"
 import { t } from "@popup/locale"
-import cateService from "@service/cate-service"
-import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
-import { groupBy } from "@util/array"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
-import { computed, defineComponent, type PropType } from "vue"
+import { computed, defineComponent, StyleValue, type PropType } from "vue"
 
-const renderTitle = (row: timer.stat.Row, cateNameMap: Record<number, string>, handleJump: () => void) => {
-    const { siteKey, cateKey, alias, mergedRows } = row || {}
-    if (cateKey) {
-        return (
-            <ElTooltip
-                placement="top"
-                offset={4}
-                content={t(msg => msg.content.ranking.cateSiteCount, { siteCount: mergedRows.length ?? 0 })}
-            >
-                <ElLink href="#" onClick={handleJump}>
-                    {cateNameMap?.[cateKey] ?? 'NaN'}
-                </ElLink>
-            </ElTooltip>
-        )
-    }
-
-    const { host } = siteKey || {}
-
-    const text = alias || host || 'NaN'
-    const tooltip = alias ? host : null
-    const textNode = <ElLink onClick={handleJump}>{text}</ElLink>
-
-    if (!tooltip) return textNode
-    return (
-        <ElTooltip content={tooltip} placement="top" offset={4}>
-            {textNode}
-        </ElTooltip >
-    )
+const TITLE_STYLE: StyleValue = {
+    whiteSpace: 'nowrap',
+    maxWidth: '100%',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    justifyContent: 'flex-start',
+    fontSize: 'var(--el-font-size-small)',
 }
+
+const Title = defineComponent({
+    props: {
+        value: Object as PropType<timer.stat.Row>,
+        type: String as PropType<timer.core.Dimension>,
+        date: [Date, Array] as PropType<Date | [Date, Date?]>,
+    },
+    setup(props) {
+        const cateNameMap = useCateNameMap()
+        const siteName = computed(() => {
+            const { alias, siteKey: { host } = {} } = props.value || {}
+            return alias ?? host
+        })
+        const url = computed(() => calJumpUrl(props.value?.siteKey, props.date, props.type))
+
+        return () => props.value?.cateKey
+            ? (
+                <ElTooltip
+                    placement="top"
+                    offset={4}
+                    content={t(msg => msg.content.ranking.cateSiteCount, { siteCount: props.value?.mergedRows.length ?? 0 })}
+                >
+                    <ElLink style={TITLE_STYLE} onClick={() => { }}>
+                        {cateNameMap?.value?.[props.value?.cateKey] ?? 'NaN'}
+                    </ElLink>
+                </ElTooltip>
+            ) : (
+                <TooltipWrapper
+                    showPopover={!!props.value?.alias}
+                    v-slots={{ content: () => props.value?.siteKey?.host ?? '' }}
+                >
+                    <ElLink
+                        onClick={() => url.value && createTab(url.value)}
+                        style={TITLE_STYLE}
+                        href={url.value ?? '#'}
+                    >
+                        {siteName.value}
+                    </ElLink>
+                </TooltipWrapper>
+            )
+    }
+})
 
 const renderAvatarText = (row: timer.stat.Row, cateNameMap: Record<number, string>) => {
     const { siteKey, alias, cateKey } = row || {}
@@ -56,20 +77,13 @@ const Item = defineComponent({
         max: Number,
         total: Number,
         type: String as PropType<timer.core.Dimension>,
-    },
-    emits: {
-        jump: () => true
+        date: [Date, Array] as PropType<Date | [Date, Date?]>,
     },
     setup(props, ctx) {
         const rate = computed(() => props.max ? (props.value?.[props.type] ?? 0) / props.max * 100 : 0)
         const percentage = computed(() => props.total ? (props.value?.[props.type] ?? 0) / props.total * 100 : 0)
 
-        const { data: cateNameMap } = useRequest(async () => {
-            const categories = await cateService.listAll()
-            const nameMap = groupBy(categories, c => c.id, l => l?.[0]?.name)
-            nameMap[CATE_MERGE_PLACEHOLDER_ID] = t(msg => msg.shared.cate.notSet)
-            return nameMap
-        })
+        const cateNameMap = useCateNameMap()
 
         const clickable = computed(() => {
             const { host, type } = props.value?.siteKey || {}
@@ -81,6 +95,7 @@ const Item = defineComponent({
 
         return () => (
             <ElCard
+                bodyClass="ranking-item"
                 shadow="hover"
                 style={{ padding: 0, height: '80px' }}
                 bodyStyle={{ padding: '5px 10px', height: '100%', boxSizing: 'border-box' }}
@@ -108,8 +123,10 @@ const Item = defineComponent({
                         </ElAvatar>
                     </Flex>
                     <Flex direction="column" flex={1}>
-                        <Flex align="center" justify="space-between" height={24} gap={3}>
-                            {renderTitle(props.value, cateNameMap.value, emitJump)}
+                        <Flex align="center" justify="space-between" height={24} gap={4}>
+                            <Flex width={0} flex={1} justify="start">
+                                <Title value={props.value} type={props.type} date={props.date} />
+                            </Flex>
                             <ElTag
                                 size="small"
                                 style={{ fontSize: '10px', padding: '1px 3px', height: '16px' }}
@@ -119,13 +136,13 @@ const Item = defineComponent({
                         </Flex>
                         <Flex direction="column" justify="space-around" flex={1}>
                             <Flex justify="space-between" width="100%" cursor="unset">
-                                <ElText type={props.type === 'time' ? 'primary' : 'info'}>
+                                <ElText type={props.type === 'time' ? 'primary' : 'info'} size="small">
                                     <ElIcon>
                                         <Mouse />
                                     </ElIcon>
                                     {props.value?.time ?? 0}
                                 </ElText>
-                                <ElText type={props.type === 'focus' ? 'primary' : 'info'}>
+                                <ElText type={props.type === 'focus' ? 'primary' : 'info'} size="small">
                                     <ElIcon>
                                         <Timer />
                                     </ElIcon>
