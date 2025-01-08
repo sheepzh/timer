@@ -22,7 +22,7 @@ const MultiSelectFilterItem = defineComponent({
         change: (_val: (string | number)[]) => true,
     },
     setup(props, ctx) {
-        const cacheKey = `__filter_item_multi_select_${useRoute().path}_${props.historyName}`
+        const cacheKey = props.historyName ? `__filter_item_multi_select_${useRoute().path}_${props.historyName}` : null
         const { data, setter } = useCached(cacheKey, props.defaultValue)
         watch(data, () => ctx.emit('change', data.value))
 

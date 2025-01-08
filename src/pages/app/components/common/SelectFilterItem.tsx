@@ -23,7 +23,7 @@ const _default = defineComponent({
         select: (_val: string) => true
     },
     setup(props, ctx) {
-        const cacheKey = `__filter_item_select_${useRoute().path}_${props.historyName}`
+        const cacheKey = props.historyName ? `__filter_item_select_${useRoute().path}_${props.historyName}` : null
         const { data, setter } = useCached(cacheKey, props.defaultValue)
         watch(data, () => ctx.emit('select', data.value))
         return () => <ElSelect class="filter-item" modelValue={data.value} onChange={setter}>

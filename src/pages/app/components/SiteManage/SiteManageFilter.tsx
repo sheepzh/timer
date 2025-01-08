@@ -75,14 +75,12 @@ const _default = defineComponent({
                 onSearch={setAlias}
             />
             <MultiSelectFilterItem
-                historyName="type"
                 placeholder={t(msg => msg.siteManage.column.type)}
                 options={ALL_TYPES.map(type => ({ value: type, label: t(msg => msg.siteManage.type[type].name) }))}
                 defaultValue={types.value}
                 onChange={setTypes}
             />
             <MultiSelectFilterItem
-                historyName="cate"
                 disabled={cateDisabled.value}
                 ref={cateSelect}
                 placeholder={t(msg => msg.siteManage.column.cate)}

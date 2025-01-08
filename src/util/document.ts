@@ -29,3 +29,8 @@ export const isRtl = (): boolean => {
     const htmlEl = document.getElementsByTagName("html")?.[0]
     return htmlEl?.getAttribute('dir') === 'rtl'
 }
+
+export function stopPropagationAfter<T extends Event>(ev: T, handle: (ev: T) => void) {
+    handle?.(ev)
+    ev?.stopPropagation?.()
+}

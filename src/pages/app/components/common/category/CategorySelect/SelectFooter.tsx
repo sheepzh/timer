@@ -5,8 +5,9 @@ import { useState, useSwitch } from "@hooks"
 import { useManualRequest } from "@hooks/useRequest"
 import Flex from "@pages/components/Flex"
 import cateService from "@service/cate-service"
+import { stopPropagationAfter } from "@util/document"
 import { ElButton, ElForm, ElFormItem, ElInput, ElMessage } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, nextTick, ref } from "vue"
 
 const SelectFooter = defineComponent(() => {
     const { refreshCategories } = useCategories()
@@ -33,6 +34,13 @@ const SelectFooter = defineComponent(() => {
         saveCate(nameVal)
     }
 
+    const inputRef = ref<HTMLInputElement>()
+
+    const onNewClick = () => {
+        openEditing()
+        nextTick(() => inputRef.value?.focus?.())
+    }
+
     return () => (
         <Flex direction="column">
             {editing.value ? <>
@@ -44,9 +52,18 @@ const SelectFooter = defineComponent(() => {
                 >
                     <ElFormItem label={t(msg => msg.siteManage.cate.name)} required>
                         <ElInput
+                            ref={inputRef}
                             size="small"
                             modelValue={name.value}
                             onInput={setName}
+                            onKeydown={(ev: KeyboardEvent) => {
+                                const { key } = ev
+                                if (key === 'Escape') {
+                                    stopPropagationAfter(ev, closeEditing)
+                                } else if (key === 'Enter') {
+                                    stopPropagationAfter(ev, onConfirm)
+                                }
+                            }}
                         />
                     </ElFormItem>
                 </ElForm>
@@ -71,7 +88,7 @@ const SelectFooter = defineComponent(() => {
                 </Flex>
             </> : (
                 <Flex width="100%" justify="end">
-                    <ElButton size="small" icon={<Plus />} type="success" onClick={openEditing}>
+                    <ElButton size="small" icon={<Plus />} type="success" onClick={onNewClick}>
                         {t(msg => msg.button.create)}
                     </ElButton>
                 </Flex>

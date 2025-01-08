@@ -5,6 +5,7 @@ import { useManualRequest, useRequest, useState, useSwitch } from "@hooks"
 import Flex from "@pages/components/Flex"
 import cateService from "@service/cate-service"
 import siteService from "@service/site-service"
+import { stopPropagationAfter } from "@util/document"
 import { ElButton, ElInput, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, nextTick, PropType, ref } from "vue"
 
@@ -64,8 +65,15 @@ const OptionItem = defineComponent({
             }).then(removeCate).catch(() => { })
         }
 
+        const onEditClick = () => {
+            setEditingName(props.value.name)
+            openEditing()
+            nextTick(() => inputRef.value?.focus?.())
+        }
+
         return () => (
             <Flex
+                key={`${editing.value}`}
                 justify="space-between" align="center" gap={5}
                 width='100%' height='100%'
                 onClick={ev => editing.value && ev.stopPropagation()}
@@ -78,6 +86,14 @@ const OptionItem = defineComponent({
                             modelValue={editingName.value}
                             onInput={setEditingName}
                             style={{ maxWidth: '120px' }}
+                            onKeydown={(ev: KeyboardEvent) => {
+                                const { key } = ev
+                                if (key === 'Enter') {
+                                    onSaveClick()
+                                } else if (key === 'Escape') {
+                                    stopPropagationAfter(ev, closeEditing)
+                                }
+                            }}
                         />
                     </Flex>
                     <Flex>
@@ -86,10 +102,7 @@ const OptionItem = defineComponent({
                             link
                             icon={<Close />}
                             type="info"
-                            onClick={ev => {
-                                closeEditing()
-                                ev.stopPropagation()
-                            }}
+                            onClick={ev => stopPropagationAfter(ev, closeEditing)}
                         />
                         <ElButton
                             size="small"
@@ -107,12 +120,7 @@ const OptionItem = defineComponent({
                             link
                             icon={<Edit />}
                             type="primary"
-                            onClick={e => {
-                                setEditingName(props.value.name)
-                                openEditing()
-                                nextTick(() => inputRef.value?.focus?.())
-                                e.stopPropagation()
-                            }}
+                            onClick={e => stopPropagationAfter(e, onEditClick)}
                         />
                         <ElButton
                             size="small"

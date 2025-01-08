@@ -6,6 +6,7 @@
  */
 
 import { onBeforeMount, ref, type Ref, watch } from "vue"
+import { useState } from "."
 
 type Result<T> = {
     data: Ref<T>
@@ -33,6 +34,10 @@ const saveCache = <T>(key: string, val: T) => {
 }
 
 export const useCached = <T>(key: string, defaultValue?: T, defaultFirst?: boolean): Result<T> => {
+    if (!key) {
+        const [data, setter] = useState(defaultValue)
+        return { data, setter }
+    }
     const data: Ref<T> = ref<T>()
     const setter = (val: T) => data.value = val
     onBeforeMount(() => {
