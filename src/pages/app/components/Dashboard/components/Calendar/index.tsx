@@ -65,7 +65,7 @@ function handleClick(value: ChartValue): void {
     const currentTs = (new Date(currentYear, currentMonth, currentDay).getTime() + 1000).toString()
     const query: ReportQueryParam = { ds: currentTs, de: currentTs }
 
-    const url = getAppPageUrl(false, REPORT_ROUTE, query)
+    const url = getAppPageUrl(REPORT_ROUTE, query)
     createTabAfterCurrent(url)
 }
 

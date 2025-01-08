@@ -14,7 +14,7 @@ import Option from "./Option"
 
 const Header = defineComponent(() => {
 
-    const handleAllFuncClick = () => createTab(getAppPageUrl(false, '/'))
+    const handleAllFuncClick = () => createTab(getAppPageUrl())
 
     return () => (
         <Flex justify="space-between" style={{ padding: '0 10px', color: 'var(--el-text-color-primary)' }}>

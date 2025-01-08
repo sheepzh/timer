@@ -20,6 +20,7 @@ const Ranking = defineComponent(() => {
                             max={result.value?.max}
                             total={result.value?.total}
                             date={result.value?.date}
+                            displaySiteName={result.value?.displaySiteName}
                         />
                     </ElCol>
                 ))}

@@ -29,8 +29,8 @@ function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
 async function processOpenPage(limitedUrl: string, sender: ChromeMessageSender) {
     const originTab = sender?.tab
     if (!originTab) return
-    const realUrl = getAppPageUrl(true, LIMIT_ROUTE, { url: encodeURI(limitedUrl) })
-    const baseUrl = getAppPageUrl(true, LIMIT_ROUTE)
+    const realUrl = getAppPageUrl(LIMIT_ROUTE, { url: encodeURI(limitedUrl) })
+    const baseUrl = getAppPageUrl(LIMIT_ROUTE)
     const rightTab = await getRightOf(originTab)
     const rightUrl = rightTab?.url
     if (rightUrl && isBrowserUrl(rightUrl) && rightUrl.includes(baseUrl)) {

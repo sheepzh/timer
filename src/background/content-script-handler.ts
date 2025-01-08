@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getUrl } from "@api/chrome/runtime"
 import { createTab } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
 import whitelistHolder from "@service/components/whitelist-holder"
@@ -22,8 +21,8 @@ const handleOpenAnalysisPage = (sender: ChromeMessageSender) => {
     const { tab, url } = sender || {}
     if (!url) return
     const host = extractFileHost(url) || extractHostname(url)?.host
-    const appUrl = getAppPageUrl(true, ANALYSIS_ROUTE) + "?host=" + host
-    const newTabUrl = getUrl(appUrl)
+    const newTabUrl = getAppPageUrl(ANALYSIS_ROUTE, { host })
+
     const tabIndex = tab?.index
     const newTabIndex = tabIndex ? tabIndex + 1 : null
     createTab({ url: newTabUrl, index: newTabIndex })
@@ -32,8 +31,7 @@ const handleOpenAnalysisPage = (sender: ChromeMessageSender) => {
 const handleOpenLimitPage = (sender: ChromeMessageSender) => {
     const { tab, url } = sender || {}
     if (!url) return
-    const limitUrl = getAppPageUrl(true, LIMIT_ROUTE) + "?url=" + url
-    const newTabUrl = getUrl(limitUrl)
+    const newTabUrl = getAppPageUrl(LIMIT_ROUTE, { url })
     const tabIndex = tab?.index
     const newTabIndex = tabIndex ? tabIndex + 1 : null
     createTab({ url: newTabUrl, index: newTabIndex })

@@ -1,4 +1,3 @@
-import { createTab } from "@api/chrome/tab"
 import type { ReportQueryParam } from "@app/components/Report/types"
 import { REPORT_ROUTE } from "@app/router/constants"
 import weekHelper from "@service/components/week-helper"
@@ -75,5 +74,5 @@ export function calJumpUrl(siteKey: timer.site.SiteKey, date: Date | [Date, Date
     }
 
     const query = buildReportQuery(siteType, date, type)
-    return getAppPageUrl(false, REPORT_ROUTE, query)
+    return getAppPageUrl(REPORT_ROUTE, query)
 }

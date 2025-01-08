@@ -6,7 +6,7 @@ import { ElIcon } from "element-plus"
 import { defineComponent } from "vue"
 
 const Option = defineComponent(() => {
-    const handleClick = () => createTab(getAppPageUrl(false, OPTION_ROUTE, { i: 'popup' }))
+    const handleClick = () => createTab(getAppPageUrl(OPTION_ROUTE, { i: 'popup' }))
 
     return () => (
         <Flex onClick={handleClick}>

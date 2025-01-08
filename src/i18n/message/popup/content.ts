@@ -18,7 +18,7 @@ export type ContentMessage = {
         otherLabel: string
     }
     ranking: {
-        cateSiteCount: string
+        includingCount: string
     }
 }
 

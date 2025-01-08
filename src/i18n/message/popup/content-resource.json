@@ -17,7 +17,7 @@
             "otherLabel": "其他{count}个网站"
         },
         "ranking": {
-            "cateSiteCount": "含 {siteCount} 个网站"
+            "includingCount": "含 {siteCount} 个网站"
         }
     },
     "zh_TW": {
@@ -38,7 +38,7 @@
             "otherLabel": "其他 {count} 個站點"
         },
         "ranking": {
-            "cateSiteCount": "包括 {siteCount} 個網站"
+            "includingCount": "包括 {siteCount} 個網站"
         }
     },
     "en": {
@@ -59,7 +59,7 @@
             "otherLabel": "Other {count} sites"
         },
         "ranking": {
-            "cateSiteCount": "Including {siteCount} sites"
+            "includingCount": "Including {siteCount} sites"
         }
     },
     "ja": {
@@ -80,7 +80,7 @@
             "otherLabel": "他 {count} サイト"
         },
         "ranking": {
-            "cateSiteCount": "{siteCount} サイトを含む"
+            "includingCount": "{siteCount} サイトを含む"
         }
     },
     "pt_PT": {
@@ -101,7 +101,7 @@
             "otherLabel": "Outros sites do {count}"
         },
         "ranking": {
-            "cateSiteCount": "Incluindo sites {siteCount}"
+            "includingCount": "Incluindo sites {siteCount}"
         }
     },
     "uk": {
@@ -122,7 +122,7 @@
             "otherLabel": "Інші {count} сайтів"
         },
         "ranking": {
-            "cateSiteCount": "Включаючи {siteCount} сайтів"
+            "includingCount": "Включаючи {siteCount} сайтів"
         }
     },
     "es": {
@@ -143,7 +143,7 @@
             "otherLabel": "Otros {count} sitios"
         },
         "ranking": {
-            "cateSiteCount": "Incluidos {siteCount} sitios"
+            "includingCount": "Incluidos {siteCount} sitios"
         }
     },
     "de": {
@@ -164,7 +164,7 @@
             "otherLabel": "{count} andere Websites"
         },
         "ranking": {
-            "cateSiteCount": "Einschließlich {siteCount} Sites"
+            "includingCount": "Einschließlich {siteCount} Sites"
         }
     },
     "fr": {
@@ -185,7 +185,7 @@
             "otherLabel": "{count} autres sites"
         },
         "ranking": {
-            "cateSiteCount": "Y compris {siteCount} sites"
+            "includingCount": "Y compris {siteCount} sites"
         }
     },
     "ru": {
@@ -206,7 +206,7 @@
             "otherLabel": "Другие {count} сайты"
         },
         "ranking": {
-            "cateSiteCount": "Включая {siteCount} сайты"
+            "includingCount": "Включая {siteCount} сайты"
         }
     },
     "ar": {
@@ -227,7 +227,7 @@
             "otherLabel": "{count} مواقع أخرى"
         },
         "ranking": {
-            "cateSiteCount": "بما في ذلك المواقع {siteCount}"
+            "includingCount": "بما في ذلك المواقع {siteCount}"
         }
     }
 }

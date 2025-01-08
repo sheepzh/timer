@@ -7,7 +7,7 @@ import { useCateNameMap } from "@popup/context"
 import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
-import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
+import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText } from "element-plus"
 import { computed, defineComponent, StyleValue, type PropType } from "vue"
 
 const TITLE_STYLE: StyleValue = {
@@ -24,40 +24,47 @@ const Title = defineComponent({
         value: Object as PropType<timer.stat.Row>,
         type: String as PropType<timer.core.Dimension>,
         date: [Date, Array] as PropType<Date | [Date, Date?]>,
+        displaySiteName: Boolean,
     },
     setup(props) {
         const cateNameMap = useCateNameMap()
-        const siteName = computed(() => {
-            const { alias, siteKey: { host } = {} } = props.value || {}
-            return alias ?? host
+        const name = computed(() => {
+            const { alias, siteKey: { host } = {}, cateKey } = props.value || {}
+            if (!!cateKey) return cateNameMap.value?.[cateKey] ?? 'NaN'
+
+            return props.displaySiteName ? alias ?? host : host
         })
+        const tooltipContent = computed(() => {
+            const {
+                alias, mergedRows,
+                siteKey: { host, type: siteType } = {},
+                cateKey,
+            } = props.value || {}
+            if (!!cateKey || siteType === 'merged') {
+                return t(msg => msg.content.ranking.includingCount, { siteCount: mergedRows.length ?? 0 })
+            }
+            if (!props.displaySiteName) {
+                return ''
+            }
+            return alias ? host : ''
+        })
+
         const url = computed(() => calJumpUrl(props.value?.siteKey, props.date, props.type))
 
-        return () => props.value?.cateKey
-            ? (
-                <ElTooltip
-                    placement="top"
-                    offset={4}
-                    content={t(msg => msg.content.ranking.cateSiteCount, { siteCount: props.value?.mergedRows.length ?? 0 })}
-                >
-                    <ElLink style={TITLE_STYLE} onClick={() => { }}>
-                        {cateNameMap?.value?.[props.value?.cateKey] ?? 'NaN'}
-                    </ElLink>
-                </ElTooltip>
-            ) : (
-                <TooltipWrapper
-                    showPopover={!!props.value?.alias}
-                    v-slots={{ content: () => props.value?.siteKey?.host ?? '' }}
-                >
-                    <ElLink
-                        onClick={() => url.value && createTab(url.value)}
-                        style={TITLE_STYLE}
-                        href={url.value ?? '#'}
-                    >
-                        {siteName.value}
-                    </ElLink>
-                </TooltipWrapper>
-            )
+        return () => (
+            <TooltipWrapper
+                showPopover={!!tooltipContent.value}
+                offset={4}
+                placement="top"
+                v-slots={{
+                    content: () => tooltipContent.value
+                }}
+            >
+                <ElLink style={TITLE_STYLE} onClick={() => url.value && createTab(url.value)}>
+                    {name.value}
+                </ElLink>
+            </TooltipWrapper>
+        )
     }
 })
 
@@ -78,6 +85,7 @@ const Item = defineComponent({
         total: Number,
         type: String as PropType<timer.core.Dimension>,
         date: [Date, Array] as PropType<Date | [Date, Date?]>,
+        displaySiteName: Boolean,
     },
     setup(props, ctx) {
         const rate = computed(() => props.max ? (props.value?.[props.type] ?? 0) / props.max * 100 : 0)
@@ -125,7 +133,12 @@ const Item = defineComponent({
                     <Flex direction="column" flex={1}>
                         <Flex align="center" justify="space-between" height={24} gap={4}>
                             <Flex width={0} flex={1} justify="start">
-                                <Title value={props.value} type={props.type} date={props.date} />
+                                <Title
+                                    value={props.value}
+                                    type={props.type}
+                                    date={props.date}
+                                    displaySiteName={props.displaySiteName}
+                                />
                             </Flex>
                             <ElTag
                                 size="small"

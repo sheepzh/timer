@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getRuntimeId } from "@api/chrome/runtime"
+import { getRuntimeId, getUrl } from "@api/chrome/runtime"
 import { locale } from "@i18n"
 import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "./environment"
 
@@ -104,11 +104,10 @@ if (IS_CHROME) {
 export const UPDATE_PAGE = updatePage
 
 /**
- * @param isInBackground invoke in background environment
  * @since 0.2.2
  */
-export function getAppPageUrl(isInBackground: boolean, route?: string, query?: any): string {
-    let url = IS_FIREFOX && !isInBackground ? 'app.html' : 'static/app.html'
+export function getAppPageUrl(route?: string, query?: any): string {
+    let url = getUrl('static/app.html')
     route && (url += '#' + route)
     const queries = query ? Object.entries(query).map(([k, v]) => `${k}=${v}`).join('&') : ''
     queries && (url += '?' + queries)

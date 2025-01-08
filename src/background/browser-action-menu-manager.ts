@@ -16,7 +16,7 @@ import {
 } from "@util/constant/url"
 import { OPTION_ROUTE } from "../pages/app/router/constants"
 
-const APP_PAGE_URL = getAppPageUrl(true)
+const APP_PAGE_URL = getAppPageUrl()
 
 const baseProps: Partial<ChromeContextMenuCreateProps> = {
     // Cast unknown to fix the error with manifestV2

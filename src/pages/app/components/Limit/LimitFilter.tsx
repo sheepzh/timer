@@ -17,7 +17,7 @@ import { getAppPageUrl } from "@util/constant/url"
 import { defineComponent, watch, type PropType } from "vue"
 import type { LimitFilterOption } from "./types"
 
-const optionPageUrl = getAppPageUrl(false, OPTION_ROUTE, { i: 'dailyLimit' })
+const optionPageUrl = getAppPageUrl(OPTION_ROUTE, { i: 'dailyLimit' })
 
 const _default = defineComponent({
     props: {
