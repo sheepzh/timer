@@ -1,6 +1,6 @@
 import optionService from "@service/option-service"
 import { defaultBackup } from "@util/constant/option"
-import { computed, type Ref, ref, watch } from "vue"
+import { computed, type Ref, ref, toRaw, watch } from "vue"
 
 type Result = {
     reset: () => void
@@ -34,10 +34,10 @@ export const useOptionState = (): Result => {
         backupType: backupType.value,
         autoBackUp: autoBackUp.value,
         autoBackUpInterval: autoBackUpInterval.value,
-        backupExts: backupExts.value,
-        backupAuths: backupAuths.value,
+        backupExts: toRaw(backupExts.value),
+        backupAuths: toRaw(backupAuths.value),
         clientName: clientName.value,
-        backupLogin: login.value,
+        backupLogin: toRaw(login.value),
     }))
 
     optionService.getAllOption().then(val => {
