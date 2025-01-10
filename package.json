@@ -60,7 +60,7 @@
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
         "tslib": "^2.8.1",
-        "typescript": "5.7.2",
+        "typescript": "5.7.3",
         "url-loader": "^4.1.1",
         "webpack": "^5.97.1",
         "webpack-bundle-analyzer": "^4.10.2",
