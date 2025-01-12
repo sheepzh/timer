@@ -21,7 +21,7 @@ const _default = defineComponent({
         return () => (
             <Flex flex={1} style={props.style}>
                 <ElScrollbar v-loading={props.loading} height="100%" ref={scrollbar} style={{ width: '100%' }}>
-                    <Flex direction="column" gap={8}>
+                    <Flex column gap={8}>
                         {!data.value?.length && !props.loading && <ElEmpty class="row-list-empty" />}
                         {data.value?.map(item =>
                             <Item

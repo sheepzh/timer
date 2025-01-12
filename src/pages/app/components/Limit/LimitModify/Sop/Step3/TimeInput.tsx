@@ -1,4 +1,5 @@
-import { useShadow, useState } from "@hooks"
+import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { ElInput } from "element-plus"
 import { computed, defineComponent, watch } from "vue"
 
@@ -18,32 +19,29 @@ const UnitInput = defineComponent({
         change: (_val: number) => true
     },
     setup(props, ctx) {
-        const [time, setTime] = useShadow(() => props.modelValue)
-        watch(time, () => ctx.emit("change", time.value))
+        const handleChange = (val?: number) => ctx.emit('change', val)
 
         const handleInput = (input: string) => {
             input = input?.trim?.()
-            if (!input) return setTime(undefined)
+            if (!input) return handleChange()
             let num = Number.parseInt(input)
             if (isNaN(num)) return
             num = Math.min(Math.max(0, num), props.max)
-            setTime(num)
+            handleChange(num)
         }
 
-        return () => <ElInput
-            modelValue={time.value}
-            clearable
-            onInput={handleInput}
-            onClear={() => setTime(undefined)}
-            placeholder="0"
-            class="limit-modify-time-limit-input"
-            v-slots={{
-                append: () => props.unit,
-            }}
-        />
+        return () => (
+            <ElInput
+                modelValue={props.modelValue}
+                clearable
+                onInput={handleInput}
+                onClear={() => handleChange()}
+                placeholder="0"
+                v-slots={{ append: () => props.unit }}
+            />
+        )
     }
 })
-
 
 function computeSecond2LimitInfo(time: number): [number, number, number] {
     time = time || 0
@@ -85,11 +83,11 @@ const _default = defineComponent({
         watch(limitTime, () => ctx.emit('change', limitTime.value))
 
         return () => (
-            <div class="limit-time-input">
+            <Flex width="100%" gap={15} justify="space-between">
                 <UnitInput modelValue={hour.value} onChange={setHour} unit="H" max={props.hourMax ?? 23} />
                 <UnitInput modelValue={minute.value} onChange={setMinute} unit="M" max={59} />
                 <UnitInput modelValue={second.value} onChange={setSecond} unit="S" max={59} />
-            </div>
+            </Flex>
         )
     }
 })

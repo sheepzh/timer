@@ -68,6 +68,12 @@ declare namespace timer.limit {
          */
         allowDelay?: boolean
         periods?: Period[]
+        /**
+         * Visit count per day
+         *
+         * @since 3.0.4
+         */
+        count?: number
     }
     /**
      * @since 1.9.0

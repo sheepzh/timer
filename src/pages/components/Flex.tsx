@@ -1,10 +1,10 @@
 import { type CSSProperties, defineComponent, h, type PropType } from "vue"
+import { cvtPxScale } from "./common"
 
-const cvtPxScale = (val: number | string): string => typeof val === 'number' ? `${val}px` : val
-
-const _default = defineComponent({
+const Flex = defineComponent({
     props: {
         direction: String as PropType<CSSProperties['flexDirection']>,
+        column: Boolean,
         flex: Number,
         align: String as PropType<CSSProperties['alignItems']>,
         justify: String as PropType<CSSProperties['justifyContent']>,
@@ -14,6 +14,8 @@ const _default = defineComponent({
         height: [String, Number] as PropType<CSSProperties['height']>,
         boxSizing: String as PropType<CSSProperties['boxSizing']>,
         cursor: String as PropType<CSSProperties['cursor']>,
+        maxWidth: [String, Number] as PropType<CSSProperties['maxWidth']>,
+        padding: [String, Number] as PropType<CSSProperties['padding']>,
         style: Object as PropType<CSSProperties>,
         id: String,
         class: [String, Array] as PropType<string | string[]>,
@@ -32,7 +34,7 @@ const _default = defineComponent({
                 style={{
                     display: 'flex',
                     flex: props.flex,
-                    flexDirection: props.direction,
+                    flexDirection: props?.column ? 'column' : props.direction,
                     alignItems: props.align,
                     justifyContent: props.justify,
                     flexWrap: props.wrap,
@@ -41,6 +43,8 @@ const _default = defineComponent({
                     height: cvtPxScale(props.height),
                     boxSizing: props.boxSizing,
                     cursor: props.cursor,
+                    maxWidth: cvtPxScale(props.maxWidth),
+                    padding: cvtPxScale(props.padding),
                     ...props.style || {},
                 }}
             >
@@ -50,4 +54,4 @@ const _default = defineComponent({
     }
 })
 
-export default _default
+export default Flex

@@ -20,7 +20,7 @@ const RuleContent = defineComponent({
         const row = toRef(props, 'value')
 
         return () => (
-            <Flex direction="column" gap={4}>
+            <Flex column gap={4}>
                 {!!row.value?.time && (
                     <div>
                         <ElTag size="small">

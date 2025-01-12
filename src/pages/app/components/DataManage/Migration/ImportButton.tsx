@@ -44,6 +44,7 @@ const _default = defineComponent({
                 type="primary"
                 icon={<Upload />}
                 onClick={() => fileInput.value?.click()}
+                style={{ margin: 0, flex: 1 }}
             >
                 {t(msg => msg.item.operation.importWholeData)}
                 <input

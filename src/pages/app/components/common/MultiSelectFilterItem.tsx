@@ -1,6 +1,6 @@
 import { useCached } from "@hooks"
 import { ElOption, ElSelect } from "element-plus"
-import { defineComponent, PropType, watch } from "vue"
+import { defineComponent, type PropType, watch } from "vue"
 import { useRoute } from "vue-router"
 
 export type MultiSelectFilterItemInstance = {

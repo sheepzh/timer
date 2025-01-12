@@ -12,9 +12,9 @@ const Main = defineComponent(() => {
     return () => (
         <Flex
             key={appKey.value}
+            column
             width='100%'
             height='100%'
-            direction="column"
             gap={10}
         >
             <Header />

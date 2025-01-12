@@ -11,7 +11,6 @@ import { ElForm, ElFormItem, ElMessage } from "element-plus"
 import { type PropType, defineComponent, watch } from "vue"
 import { type StepFromInstance } from "../common"
 import PeriodInput from "./PeriodInput"
-import "./style.sass"
 import TimeInput from "./TimeInput"
 
 type Value = Pick<timer.limit.Item, 'time' | 'visitTime' | 'weekly' | 'periods'>
@@ -53,7 +52,7 @@ const _default = defineComponent({
         }
         ctx.expose({ validate } satisfies StepFromInstance)
 
-        return () => <div class="limit-step3">
+        return () => (
             <ElForm labelWidth={180} labelPosition="left">
                 <ElFormItem label={t(msg => msg.limit.item.time)}>
                     <TimeInput modelValue={time.value} onChange={setTime} />
@@ -72,7 +71,7 @@ const _default = defineComponent({
                     <PeriodInput modelValue={periods.value} onChange={setPeriods} />
                 </ElFormItem>
             </ElForm>
-        </div>
+        )
     }
 })
 
