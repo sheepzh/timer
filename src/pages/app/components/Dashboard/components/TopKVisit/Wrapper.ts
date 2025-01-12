@@ -7,7 +7,7 @@
 import { getSeriesPalette, getStepColors } from "@app/util/echarts"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { generateSiteLabel } from "@util/site"
-import { getPrimaryTextColor } from "@util/style"
+import { getPrimaryTextColor } from "@pages/util/style"
 import { type BarSeriesOption, type PieSeriesOption } from "echarts/charts"
 import { type GridComponentOption, type TooltipComponentOption } from "echarts/components"
 import { type ComposeOption } from "echarts/core"

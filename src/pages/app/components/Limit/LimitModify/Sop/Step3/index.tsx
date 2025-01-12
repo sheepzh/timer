@@ -11,7 +11,7 @@ import { ElForm, ElFormItem, ElMessage } from "element-plus"
 import { type PropType, defineComponent, watch } from "vue"
 import { type StepFromInstance } from "../common"
 import PeriodInput from "./PeriodInput"
-import TimeInput from "./TimeInput"
+import TimeInput, { TimeInput2 } from "./TimeInput"
 
 type Value = Pick<timer.limit.Item, 'time' | 'visitTime' | 'weekly' | 'periods'>
 
@@ -55,7 +55,7 @@ const _default = defineComponent({
         return () => (
             <ElForm labelWidth={180} labelPosition="left">
                 <ElFormItem label={t(msg => msg.limit.item.time)}>
-                    <TimeInput modelValue={time.value} onChange={setTime} />
+                    <TimeInput2 modelValue={time.value} onChange={setTime} />
                 </ElFormItem>
                 <ElFormItem label={t(msg => msg.limit.item.weekly)}>
                     <TimeInput

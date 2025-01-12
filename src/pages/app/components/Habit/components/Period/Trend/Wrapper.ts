@@ -7,7 +7,7 @@
 import { getSeriesPalette } from "@app/util/echarts"
 import { periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { getPrimaryTextColor } from "@util/style"
+import { getPrimaryTextColor } from "@pages/util/style"
 import { formatTime } from "@util/time"
 import {
     type BarSeriesOption,

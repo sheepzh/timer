@@ -5,7 +5,7 @@ import { locale } from "@i18n"
 import { type VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
 import { dateMinute2Idx, hasLimited, skipToday } from "@util/limit"
-import { getCssVariable } from "@util/style"
+import { getCssVariable } from "@pages/util/style"
 import { ElMessage, ElMessageBox, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, type VNode } from "vue"
 

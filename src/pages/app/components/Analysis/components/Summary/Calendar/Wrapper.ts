@@ -9,7 +9,7 @@ import { periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"
-import { getRegularTextColor, getSecondaryTextColor } from "@util/style"
+import { getRegularTextColor, getSecondaryTextColor } from "@pages/util/style"
 import { formatTime, getAllDatesBetween, MILL_PER_WEEK, parseTime } from "@util/time"
 import {
     type ComposeOption,
