@@ -1,5 +1,5 @@
 import { ElLoadingService } from "element-plus"
-import { onBeforeMount, ref, watch, type Ref, type WatchSource } from "vue"
+import { onBeforeMount, onMounted, ref, watch, type Ref, type WatchSource } from "vue"
 
 type Option<T, P extends any[]> = {
     manual?: boolean
@@ -50,7 +50,11 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
         }
     }
     const refresh = (...p: P) => { refreshAsync(...p) }
-    if (!manual) onBeforeMount(() => refresh(...defaultParam))
+    if (!manual) {
+        // If loading target specified, do first query after mounted
+        const hook = loadingTarget ? onMounted : onBeforeMount
+        hook(() => refresh(...defaultParam))
+    }
     if (deps && (!Array.isArray(deps) || deps?.length)) {
         watch(deps, () => refresh(...defaultParam))
     }
