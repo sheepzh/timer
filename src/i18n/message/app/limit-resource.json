@@ -5,10 +5,10 @@
             "name": "规则名称",
             "condition": "限制网址",
             "time": "每日最长浏览时间",
-            "waste": "今日浏览时长",
+            "waste": "今日数据",
             "weekly": "每周最长浏览时间",
             "weekStartInfo": "每周的第一天是【{weekStart}】，你可以在统计选项中修改该值",
-            "wasteWeekly": "本周浏览时长",
+            "wasteWeekly": "本周数据",
             "delayCount": "延时次数",
             "detail": "规则详情",
             "visitTime": "单次访问最长浏览时间",
@@ -16,7 +16,9 @@
             "enabled": "是否有效",
             "effectiveDay": "生效日期",
             "delayAllowed": "再看 5 分钟",
-            "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。"
+            "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。",
+            "maxVisit": "每日最多访问次数",
+            "weeklyMaxVisit": "每周最多访问次数"
         },
         "step": {
             "base": "规则信息",
@@ -106,19 +108,21 @@
         "item": {
             "name": "Rule name",
             "condition": "Restricted URL",
-            "time": "Daily limit",
-            "waste": "Browsed today",
-            "weekly": "Weekly limit",
+            "time": "Time limit per day",
+            "waste": "Today",
+            "weekly": "Time limit per week",
             "weekStartInfo": "The first day of each week is {weekStart}, you can change this value in the statistics options",
-            "wasteWeekly": "Browsed this week",
+            "wasteWeekly": "This week",
             "delayCount": "Delay count",
             "detail": "Rule detail",
-            "visitTime": "Limit per visit",
+            "visitTime": "Time limit per visit",
             "period": "Blocked periods",
             "enabled": "Enabled",
             "effectiveDay": "Effective On",
             "delayAllowed": "More 5 minutes",
-            "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes"
+            "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes",
+            "maxVisit": "Visit limit per day",
+            "weeklyMaxVisit": "Visit limit per week"
         },
         "step": {
             "base": "Basic Information",

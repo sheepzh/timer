@@ -1,51 +1,10 @@
-import { Clock } from "@element-plus/icons-vue"
+import { CircleClose, Clock } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
-import Flex from "@pages/components/Flex"
 import { getStyle } from "@pages/util/style"
 import { range } from "@util/array"
 import { useDebounceFn } from "@vueuse/core"
-import { ElInput, ElPopover, ElScrollbar, ScrollbarInstance, useNamespace } from "element-plus"
-import { computed, defineComponent, ref, watch } from "vue"
-
-const UnitInput = defineComponent({
-    props: {
-        modelValue: Number,
-        unit: {
-            type: String,
-            required: true,
-        },
-        max: {
-            type: Number,
-            required: true,
-        },
-    },
-    emits: {
-        change: (_val: number) => true
-    },
-    setup(props, ctx) {
-        const handleChange = (val?: number) => ctx.emit('change', val)
-
-        const handleInput = (input: string) => {
-            input = input?.trim?.()
-            if (!input) return handleChange()
-            let num = Number.parseInt(input)
-            if (isNaN(num)) return
-            num = Math.min(Math.max(0, num), props.max)
-            handleChange(num)
-        }
-
-        return () => (
-            <ElInput
-                modelValue={props.modelValue}
-                clearable
-                onInput={handleInput}
-                onClear={() => handleChange()}
-                placeholder="0"
-                v-slots={{ append: () => props.unit }}
-            />
-        )
-    }
-})
+import { Effect, ElIcon, ElInput, ElPopover, ElScrollbar, ScrollbarInstance, useLocale, useNamespace } from "element-plus"
+import { computed, defineComponent, onMounted, ref, Transition, watch } from "vue"
 
 function computeSecond2LimitInfo(time: number): [number, number, number] {
     time = time || 0
@@ -55,48 +14,6 @@ function computeSecond2LimitInfo(time: number): [number, number, number] {
     const hour = (totalMinutes - minute) / 60
     return [hour, minute, second]
 }
-
-function computeLimitInfo2Second(hour: number, minute: number, second: number): number {
-    let time = 0
-    time += (hour ?? 0) * 3600
-    time += (minute ?? 0) * 60
-    time += (second ?? 0)
-    return time
-}
-
-const _default = defineComponent({
-    props: {
-        modelValue: Number,
-        hourMax: Number
-    },
-    emits: {
-        change: (_val: number) => true
-    },
-    setup(props, ctx) {
-        const [hourVal, minuteVal, secondVal] = computeSecond2LimitInfo(props.modelValue)
-        const [hour, setHour] = useState(hourVal)
-        const [minute, setMinute] = useState(minuteVal)
-        const [second, setSecond] = useState(secondVal)
-        watch(() => props.modelValue, newVal => {
-            const [hour, minute, second] = computeSecond2LimitInfo(newVal)
-            setHour(hour)
-            setMinute(minute)
-            setSecond(second)
-        })
-        const limitTime = computed(() => computeLimitInfo2Second(hour.value, minute.value, second.value))
-        watch(limitTime, () => ctx.emit('change', limitTime.value))
-
-        return () => (
-            <Flex width="100%" gap={15} justify="space-between">
-                <UnitInput modelValue={hour.value} onChange={setHour} unit="H" max={props.hourMax ?? 23} />
-                <UnitInput modelValue={minute.value} onChange={setMinute} unit="M" max={59} />
-                <UnitInput modelValue={second.value} onChange={setSecond} unit="S" max={59} />
-            </Flex>
-        )
-    }
-})
-
-export default _default
 
 const formatTimeVal = (val: number): string => {
     return val?.toString?.()?.padStart?.(2, '0') ?? 'NaN'
@@ -120,23 +37,19 @@ const TimeSpinner = defineComponent({
             ctx.emit('change', val)
         }, 200)
 
-        const bindScroll = (el: HTMLDivElement) => {
-            if (!el) return
-            el.addEventListener('scroll', () => {
-                scrolling.value = true
-                const value = Math.min(
-                    Math.round(
-                        (el.scrollTop - (scrollBarHeight() * 0.5 - 10) / typeItemHeight() + 3)
-                        /
-                        typeItemHeight()
-                    ),
-                    props.max - 1
-                )
-                debounceChangeValue(value)
-            })
+        const getScrollbarElement = () => {
+            const el = scrollbar.value?.$el
+            return el?.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement
         }
 
-        const scrollBarHeight = () => (scrollbar.value.$el as HTMLUListElement)!.offsetHeight
+        const adjustSpinner = (value: number) => {
+            let scrollbarEl = getScrollbarElement()
+            if (!scrollbarEl) return
+
+            scrollbarEl.scrollTop = Math.max(0, value * typeItemHeight())
+        }
+
+        watch(() => props.modelValue, adjustSpinner)
 
         const typeItemHeight = (): number => {
             const listItem = scrollbar.value?.$el.querySelector('li') as HTMLLinkElement
@@ -146,17 +59,30 @@ const TimeSpinner = defineComponent({
             return 0
         }
 
+        onMounted(() => {
+            // Bind scroll
+            let scrollbarEl = getScrollbarElement()
+            if (!scrollbarEl) return
+
+            scrollbarEl.addEventListener('scroll', () => {
+                scrolling.value = true
+                const scrollTop = getScrollbarElement()?.scrollTop ?? 0
+                const scrollbarH = (scrollbar.value.$el as HTMLUListElement)!.offsetHeight ?? 0
+                const itemH = typeItemHeight()
+                const estimatedIdx = Math.round((scrollTop - (scrollbarH * 0.5 - 10) / itemH + 3) / itemH)
+                const value = Math.min(estimatedIdx, props.max - 1)
+                debounceChangeValue(value)
+            })
+        })
+
         return () => (
             <ElScrollbar
                 ref={scrollbar}
                 class={ns.be('spinner', 'wrapper')}
                 viewClass={ns.be('spinner', 'list')}
                 noresize
+                wrapStyle={{ maxHeight: 'inherit' }}
                 tag="ul"
-                onVnodeMounted={v => {
-                    const el = v.el as HTMLDivElement
-                    bindScroll(el)
-                }}
             >
                 {range(props.max).map(idx => (
                     <li
@@ -174,12 +100,42 @@ const TimeSpinner = defineComponent({
     },
 })
 
+const useTimeInput = (source: () => number) => {
+    const [initialHour, initialMin, initialSec] = computeSecond2LimitInfo(source?.() ?? 0)
+    const [hour, setHour] = useState(initialHour)
+    const [minute, setMinute] = useState(initialMin)
+    const [second, setSecond] = useState(initialSec)
+
+    const reset = () => {
+        const [hour, min, sec] = computeSecond2LimitInfo(source?.() ?? 0)
+        setHour(hour)
+        setMinute(min)
+        setSecond(sec)
+    }
+
+    watch(source, reset)
+
+    const getTotalSecond = () => {
+        let time = 0
+        time += (hour.value ?? 0) * 3600
+        time += (minute.value ?? 0) * 60
+        time += (second.value ?? 0)
+        return time
+    }
+
+    return {
+        hour, minute, second,
+        setHour, setMinute, setSecond,
+        reset, getTotalSecond,
+    }
+}
+
 /**
  * Rewrite
  *
  * https://github.com/element-plus/element-plus/blob/dev/packages/components/time-picker/src/time-picker-com/panel-time-pick.vue
  */
-export const TimeInput2 = defineComponent({
+const TimeInput = defineComponent({
     props: {
         modelValue: Number,
         hourMax: Number,
@@ -188,39 +144,101 @@ export const TimeInput2 = defineComponent({
         change: (_val: number) => true,
     },
     setup(props, ctx) {
-        const [hourVal, minuteVal, secondVal] = computeSecond2LimitInfo(props.modelValue)
-        const [hour, setHour] = useState(hourVal)
-        const [minute, setMinute] = useState(minuteVal)
-        const [second, setSecond] = useState(secondVal)
+        const [popoverVisible, setPopoverVisible] = useState(false)
+        const {
+            hour, minute, second,
+            setHour, setMinute, setSecond,
+            reset, getTotalSecond,
+        } = useTimeInput(() => props.modelValue)
 
         const inputText = computed(() => `${formatTimeVal(hour.value)} h ${formatTimeVal(minute.value)} m ${formatTimeVal(second.value)} s`)
 
         const ns = useNamespace('time')
+        const nsDate = useNamespace('date')
+        const nsInput = useNamespace('input')
+
+        const { t: tEle } = useLocale()
+
+        const transitionName = computed(() => popoverVisible.value ? '' : `${ns.namespace.value}-zoom-in-top`)
+
+        const handleCancel = () => {
+            reset()
+            setPopoverVisible(false)
+        }
+
+        const handleConfirm = () => {
+            ctx.emit('change', getTotalSecond())
+            setPopoverVisible(false)
+        }
+
+        const handleVisibleChange = (newVal: boolean) => {
+            setPopoverVisible(newVal)
+            !newVal && handleCancel()
+        }
+
+        const handleClear = (ev: MouseEvent) => {
+            ctx.emit('change', 0)
+            ev.stopPropagation()
+        }
 
         return () => (
             <ElPopover
-                popperClass='el-picker__popper'
                 trigger='click'
+                effect={Effect.LIGHT}
+                visible={popoverVisible.value}
+                transition={`${nsDate.namespace.value}-zoom-in-top`}
+                popperClass={`${nsDate.namespace.value}-picker__popper`}
+                onUpdate:visible={handleVisibleChange}
                 v-slots={{
                     reference: () => (
                         <ElInput
-                            class="el-date-editor el-date-editor--time"
+                            class={[nsDate.b('editor'), nsDate.bm('editor', 'time')]}
                             prefixIcon={<Clock />}
                             modelValue={inputText.value}
-                            inputStyle={{ cursor: 'pointer' }}
+                            inputStyle={{ cursor: 'pointer', width: '120px' }}
+                            readonly
+                            v-slots={{
+                                suffix: () => (
+                                    <div onClick={handleClear}>
+                                        <ElIcon class={[nsInput.e('icon'), 'clear-icon']}>
+                                            <CircleClose />
+                                        </ElIcon>
+                                    </div>
+                                )
+                            }}
                         />
                     )
                 }}>
-                <Flex column class={ns.b('panel')}>
-                    <Flex class={[ns.be('panel', 'content'), 'has-seconds']}>
-                        <div class={[ns.b('spinner'), 'has-seconds']}>
-                            <TimeSpinner max={props.hourMax ?? 24} modelValue={hour.value} onChange={setHour} />
+                <Transition name={transitionName.value}>
+                    <div class={ns.b('panel')} style={{ width: '100%' }}>
+                        <div class={[ns.be('panel', 'content'), 'has-seconds']}>
+                            <div class={[ns.b('spinner'), 'has-seconds']}>
+                                <TimeSpinner max={props.hourMax ?? 24} modelValue={hour.value} onChange={setHour} />
+                                <TimeSpinner max={60} modelValue={minute.value} onChange={setMinute} />
+                                <TimeSpinner max={60} modelValue={second.value} onChange={setSecond} />
+                            </div>
                         </div>
-                    </Flex>
-                </Flex>
-
+                        <div class={[ns.be('panel', 'footer')]}>
+                            <button
+                                type="button"
+                                class={[ns.be('panel', 'btn'), 'cancel']}
+                                onClick={handleCancel}
+                            >
+                                {tEle('el.datepicker.cancel')}
+                            </button>
+                            <button
+                                type="button"
+                                class={[ns.be('panel', 'btn'), 'confirm']}
+                                onClick={handleConfirm}
+                            >
+                                {tEle('el.datepicker.confirm')}
+                            </button>
+                        </div>
+                    </div>
+                </Transition>
             </ElPopover>
         )
     },
 })
 
+export default TimeInput
