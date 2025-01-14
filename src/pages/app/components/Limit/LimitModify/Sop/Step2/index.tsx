@@ -25,7 +25,13 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const urls = reactive(props.defaultValue)
-        watch(urls, () => ctx.emit('change', toRaw(urls)))
+
+        watch(() => props.defaultValue, () => {
+            urls.splice(0, urls.length)
+            props.defaultValue?.forEach(v => urls.push(v))
+        })
+
+        const emitChange = () => ctx.emit('change', toRaw(urls))
         const scrollbar = ref<ScrollbarInstance>()
 
         const validate = () => {
@@ -40,6 +46,12 @@ const _default = defineComponent({
         const handleSave = (url: string) => {
             urls.unshift(url)
             scrollbar.value?.scrollTo(0)
+            emitChange()
+        }
+
+        const handleRemove = (idx: number) => {
+            urls.splice(idx, 1)
+            emitChange()
         }
 
         return () => (
@@ -60,7 +72,7 @@ const _default = defineComponent({
                                 <ElLink
                                     icon={<Delete />}
                                     type="danger"
-                                    onClick={() => urls.splice(idx, 1)}
+                                    onClick={() => handleRemove(idx)}
                                 />
                             </Flex>
                         ))}

@@ -4,7 +4,7 @@ import { getStyle } from "@pages/util/style"
 import { range } from "@util/array"
 import { useDebounceFn } from "@vueuse/core"
 import { Effect, ElIcon, ElInput, ElPopover, ElScrollbar, ScrollbarInstance, useLocale, useNamespace } from "element-plus"
-import { computed, defineComponent, onMounted, ref, Transition, watch } from "vue"
+import { computed, defineComponent, nextTick, onMounted, ref, Transition, watch } from "vue"
 
 function computeSecond2LimitInfo(time: number): [number, number, number] {
     time = time || 0
@@ -22,6 +22,7 @@ const formatTimeVal = (val: number): string => {
 const TimeSpinner = defineComponent({
     props: {
         max: Number,
+        visible: Boolean,
         modelValue: Number,
     },
     emits: {
@@ -49,7 +50,8 @@ const TimeSpinner = defineComponent({
             scrollbarEl.scrollTop = Math.max(0, value * typeItemHeight())
         }
 
-        watch(() => props.modelValue, adjustSpinner)
+        watch(() => props.modelValue, () => adjustSpinner(props.modelValue))
+        watch(() => props.visible, () => props.visible && nextTick(() => adjustSpinner(props.modelValue)))
 
         const typeItemHeight = (): number => {
             const listItem = scrollbar.value?.$el.querySelector('li') as HTMLLinkElement
@@ -59,8 +61,7 @@ const TimeSpinner = defineComponent({
             return 0
         }
 
-        onMounted(() => {
-            // Bind scroll
+        const bindScroll = () => {
             let scrollbarEl = getScrollbarElement()
             if (!scrollbarEl) return
 
@@ -73,6 +74,11 @@ const TimeSpinner = defineComponent({
                 const value = Math.min(estimatedIdx, props.max - 1)
                 debounceChangeValue(value)
             })
+        }
+
+        onMounted(() => {
+            bindScroll()
+            adjustSpinner(props.modelValue)
         })
 
         return () => (
@@ -195,7 +201,7 @@ const TimeInput = defineComponent({
                             class={[nsDate.b('editor'), nsDate.bm('editor', 'time')]}
                             prefixIcon={<Clock />}
                             modelValue={inputText.value}
-                            inputStyle={{ cursor: 'pointer', width: '120px' }}
+                            inputStyle={{ cursor: 'pointer', width: '100px' }}
                             readonly
                             v-slots={{
                                 suffix: () => (
@@ -213,9 +219,9 @@ const TimeInput = defineComponent({
                     <div class={ns.b('panel')} style={{ width: '100%' }}>
                         <div class={[ns.be('panel', 'content'), 'has-seconds']}>
                             <div class={[ns.b('spinner'), 'has-seconds']}>
-                                <TimeSpinner max={props.hourMax ?? 24} modelValue={hour.value} onChange={setHour} />
-                                <TimeSpinner max={60} modelValue={minute.value} onChange={setMinute} />
-                                <TimeSpinner max={60} modelValue={second.value} onChange={setSecond} />
+                                <TimeSpinner max={props.hourMax ?? 24} modelValue={hour.value} onChange={setHour} visible={popoverVisible.value} />
+                                <TimeSpinner max={60} modelValue={minute.value} onChange={setMinute} visible={popoverVisible.value} />
+                                <TimeSpinner max={60} modelValue={second.value} onChange={setSecond} visible={popoverVisible.value} />
                             </div>
                         </div>
                         <div class={[ns.be('panel', 'footer')]}>

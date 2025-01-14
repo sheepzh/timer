@@ -37,9 +37,9 @@ const DialogSop = defineComponent({
                 <div class="dialog-sop-step-container">
                     {h(ctx.slots.steps)}
                 </div>
-                <Flex justify="center" width="100%" boxSizing="border-box" style={{ padding: '0 20px' }}>
+                <div style={{ padding: '0 20px', boxSizing: 'border-box', width: '100%' }}>
                     {h(ctx.slots.content)}
-                </Flex>
+                </div>
                 <Flex>
                     <Flex>
                         {props.first ? (

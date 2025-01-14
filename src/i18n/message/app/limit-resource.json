@@ -11,7 +11,7 @@
             "wasteWeekly": "本周数据",
             "delayCount": "延时次数",
             "detail": "规则详情",
-            "visitTime": "单次访问最长浏览时间",
+            "visitTime": "单次访问最长时间",
             "period": "不可访问的时间段",
             "enabled": "是否有效",
             "effectiveDay": "生效日期",

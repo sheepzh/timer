@@ -72,6 +72,7 @@ const _default = defineComponent({
                 title={title.value}
                 modelValue={visible.value}
                 closeOnClickModal={false}
+                width={800}
                 onClose={close}
             >
                 <Sop ref={sop} onSave={handleSave} onCancel={close} />
