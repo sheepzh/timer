@@ -27,7 +27,7 @@
         "@babel/plugin-transform-modules-commonjs": "^7.26.3",
         "@babel/preset-env": "^7.26.0",
         "@crowdin/crowdin-api-client": "^1.41.0",
-        "@types/chrome": "0.0.293",
+        "@types/chrome": "0.0.294",
         "@types/decompress": "^4.2.7",
         "@types/echarts": "^4.9.22",
         "@types/generate-json-webpack-plugin": "^0.3.7",
