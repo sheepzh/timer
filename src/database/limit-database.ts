@@ -91,7 +91,7 @@ type ItemValue = {
 const cvtItem2Rec = (item: ItemValue): LimitRecord => {
     const { i, n, c, t, v, p, e, ad, wd, wt, r, ct, wct, } = item
     const records: DateRecords = {}
-    Object.entries(r).forEach?.(([date, { m, d }]) => records[date] = { mill: m, delay: d })
+    Object.entries(r || {}).forEach?.(([date, { m, d }]) => records[date] = { mill: m, delay: d })
     return {
         id: i,
         name: n,
