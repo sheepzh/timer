@@ -532,6 +532,55 @@
     },
     "aws": {
         "c": {
+            "on": {
+                "c": {
+                    "ap-northeast-1": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "ap-southeast-1": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "ap-southeast-2": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "eu-central-1": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "eu-north-1": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "eu-west-1": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "us-east-1": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "us-east-2": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    },
+                    "us-west-2": {
+                        "c": {
+                            "transfer-webapp": 1
+                        }
+                    }
+                }
+            },
             "repost": {
                 "c": {
                     "private": {
@@ -635,7 +684,8 @@
                     },
                     "eu-central-2": {
                         "c": {
-                            "notebook": 1
+                            "notebook": 1,
+                            "studio": 1
                         }
                     },
                     "eu-north-1": {
@@ -1560,7 +1610,6 @@
             "com": 1,
             "ed": 1,
             "edu": 1,
-            "fin": 1,
             "go": 1,
             "gouv": 1,
             "int": 1,
@@ -4355,7 +4404,28 @@
                 }
             },
             "githubpreview": 1,
-            "hrsn": 1,
+            "hrsn": {
+                "c": {
+                    "psl": {
+                        "c": {
+                            "sub": 1,
+                            "wc": {
+                                "c": {
+                                    "!ignored": 1,
+                                    "*": 1,
+                                    "sub": {
+                                        "c": {
+                                            "!ignored": 1,
+                                            "*": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "l": 1
+            },
             "is-a": 1,
             "is-a-fullstack": 1,
             "is-a-good": 1,
@@ -5222,7 +5292,6 @@
                 }
             },
             "com": 1,
-            "free": 1,
             "from": 1,
             "iz": 1,
             "name": 1
@@ -5503,6 +5572,7 @@
             },
             "browsersafetymark": 1,
             "cleverapps": 1,
+            "cloudbeesusercontent": 1,
             "co": 1,
             "com": 1,
             "dappnode": {
@@ -8605,12 +8675,7 @@
     "lego": 1,
     "lexus": 1,
     "lgbt": 1,
-    "li": {
-        "c": {
-            "caa": 1
-        },
-        "l": 1
-    },
+    "li": 1,
     "lidl": 1,
     "life": 1,
     "lifeinsurance": 1,
@@ -11484,8 +11549,7 @@
             "gov": 1,
             "in": 1,
             "org": 1,
-            "ox": 1,
-            "ua": 1
+            "ox": 1
         },
         "l": 1
     },
@@ -11584,6 +11648,12 @@
                 }
             },
             "development": 1,
+            "liara": {
+                "c": {
+                    "iran": 1
+                },
+                "l": 1
+            },
             "migration": {
                 "c": {
                     "*": 1
@@ -11711,7 +11781,6 @@
             "brand": 1,
             "c": 1,
             "com": 1,
-            "conf": 1,
             "d": 1,
             "e": 1,
             "f": 1,
@@ -13169,7 +13238,12 @@
     "verisign": 1,
     "versicherung": 1,
     "vet": 1,
-    "vg": 1,
+    "vg": {
+        "c": {
+            "edu": 1
+        },
+        "l": 1
+    },
     "vi": {
         "c": {
             "co": 1,
