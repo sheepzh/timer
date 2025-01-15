@@ -35,6 +35,7 @@ const createInitial = (): Required<Omit<timer.limit.Rule, 'id' | 'allowDelay'>> 
     enabled: true,
     weekdays: range(7),
     count: null,
+    weeklyCount: null,
 })
 
 const _default = defineComponent({
@@ -60,8 +61,7 @@ const _default = defineComponent({
             Object.entries(rule || createInitial()).forEach(([k, v]) => data[k] = v)
             // Compatible with old items
             if (!data.weekdays?.length) data.weekdays = range(7)
-            // setStep(rule ? 2 : 0)
-            setStep(2)
+            setStep(rule ? 2 : 0)
         }
 
         ctx.expose({ reset } satisfies SopInstance)

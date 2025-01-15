@@ -19,9 +19,9 @@ export type LimitMessage = {
     item: {
         name: string
         condition: string
-        time: string
-        waste: string
+        daily: string
         weekly: string
+        waste: string
         wasteWeekly: string
         weekStartInfo: string
         visitTime: string
@@ -34,6 +34,8 @@ export type LimitMessage = {
         detail: string
         maxVisit: string
         weeklyMaxVisit: string
+        timeUnit: string
+        or: string
     }
     button: {
         test: string

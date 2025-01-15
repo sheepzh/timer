@@ -9,7 +9,7 @@ import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import { ElDivider, ElLink, ElMessage, ElScrollbar, ElText, type ScrollbarInstance } from "element-plus"
-import { type PropType, defineComponent, reactive, ref, toRaw, watch } from "vue"
+import { type PropType, defineComponent, nextTick, reactive, ref, toRaw, watch } from "vue"
 import { type StepFromInstance } from "../common"
 import UrlInput from "./UrlInput"
 

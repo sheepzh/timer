@@ -204,7 +204,7 @@ const TimeInput = defineComponent({
                             inputStyle={{ cursor: 'pointer', width: '100px' }}
                             readonly
                             v-slots={{
-                                suffix: () => (
+                                suffix: () => !!props.modelValue && (
                                     <div onClick={handleClear}>
                                         <ElIcon class={[nsInput.e('icon'), 'clear-icon']}>
                                             <CircleClose />

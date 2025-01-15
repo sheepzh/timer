@@ -26,7 +26,7 @@ const _default = defineComponent(() => {
                 </ElDescriptionsItem>
                 {
                     reason.value?.type === 'DAILY' && <>
-                        <ElDescriptionsItem label={t(msg => msg.limit.item.time)} labelAlign="right">
+                        <ElDescriptionsItem label={t(msg => msg.limit.item.daily)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.time * MILL_PER_SECOND) || '-'}
                         </ElDescriptionsItem>
                         {(!!reason.value?.allowDelay || !!reason.value?.delayCount) && (
