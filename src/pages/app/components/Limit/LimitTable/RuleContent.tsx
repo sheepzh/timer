@@ -16,18 +16,19 @@ const TimeCountTag = defineComponent({
         time: Number,
         count: Number,
         label: String,
+        type: String as PropType<"success" | "warning" | "info" | "primary" | "danger">,
     },
     setup(props) {
-        const visible = computed(() => !!props.time && !!props.count)
+        const visible = computed(() => !!props.time || !!props.count)
         const content = computed(() => {
             const timeContent = props.time ? formatPeriod(props.time * MILL_PER_SECOND, TIME_FORMAT) : ''
-            const countContent = props.count ? `${props.count} ${t(msg => msg.limit.item.timeUnit)}` : ''
-            return [timeContent, countContent].filter(str => !!str).join(t(msg => msg.limit.item.or))
+            const countContent = props.count ? `${props.count} ${t(msg => msg.limit.item.times)}` : ''
+            return [timeContent, countContent].filter(str => !!str).join(` ${t(msg => msg.limit.item.or)} `)
         })
 
         return () => (
             <div v-show={visible.value}>
-                <ElTag size="small">
+                <ElTag size="small" type={props.type}>
                     {props.label}: {content.value}
                 </ElTag>
             </div>
@@ -45,18 +46,20 @@ const RuleContent = defineComponent({
         return () => (
             <Flex column gap={4}>
                 <TimeCountTag
+                    type="primary"
                     time={row.value?.time}
                     count={row.value?.count}
                     label={t(msg => msg.limit.item.daily)}
                 />
                 <TimeCountTag
+                    type="warning"
                     time={row.value?.weekly}
                     count={row.value?.weeklyCount}
                     label={t(msg => msg.limit.item.weekly)}
                 />
                 {!!row.value?.visitTime && (
                     <div>
-                        <ElTag size="small">
+                        <ElTag size="small" type="danger">
                             {t(msg => msg.limit.item.visitTime)}: {formatPeriod(row.value?.visitTime * MILL_PER_SECOND, TIME_FORMAT)}
                         </ElTag>
                     </div>
@@ -66,7 +69,7 @@ const RuleContent = defineComponent({
                         <ElTag size="small" type="info">{t(msg => msg.limit.item.period)}</ElTag>
                     </div>
                     <Flex justify="center" gap={4} wrap="wrap">
-                        {row.value?.periods.map(p => <ElTag size="small" type="info">{period2Str(p)}</ElTag>)}
+                        {row.value?.periods?.map(p => <ElTag size="small" type="info">{period2Str(p)}</ElTag>)}
                     </Flex>
                 </>}
             </Flex>

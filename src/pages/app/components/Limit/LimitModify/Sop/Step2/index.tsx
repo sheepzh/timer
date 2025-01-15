@@ -9,13 +9,13 @@ import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import { ElDivider, ElLink, ElMessage, ElScrollbar, ElText, type ScrollbarInstance } from "element-plus"
-import { type PropType, defineComponent, nextTick, reactive, ref, toRaw, watch } from "vue"
+import { type PropType, defineComponent, reactive, ref, toRaw, watch } from "vue"
 import { type StepFromInstance } from "../common"
 import UrlInput from "./UrlInput"
 
 const _default = defineComponent({
     props: {
-        defaultValue: {
+        modelValue: {
             type: Object as PropType<string[]>,
             required: true,
         },
@@ -24,11 +24,11 @@ const _default = defineComponent({
         change: (_urls: string[]) => true,
     },
     setup(props, ctx) {
-        const urls = reactive(props.defaultValue)
+        const urls = reactive(props.modelValue)
 
-        watch(() => props.defaultValue, () => {
+        watch(() => props.modelValue, () => {
             urls.splice(0, urls.length)
-            props.defaultValue?.forEach(v => urls.push(v))
+            props.modelValue?.forEach(v => urls.push(v))
         })
 
         const emitChange = () => ctx.emit('change', toRaw(urls))
@@ -62,6 +62,7 @@ const _default = defineComponent({
                     <Flex column width="100%" gap={10}>
                         {urls?.map((url, idx) => (
                             <Flex
+                                key={url}
                                 height={50}
                                 align="center"
                                 justify="space-between"

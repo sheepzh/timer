@@ -8,12 +8,12 @@
 import { t } from "@app/locale"
 import { Check, Close, Plus } from "@element-plus/icons-vue"
 import { useState, useSwitch } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { checkImpact, dateMinute2Idx, mergePeriod, period2Str } from "@util/limit"
 import { MILL_PER_HOUR } from "@util/time"
 import { ElButton, ElTag, ElTimePicker } from "element-plus"
-import { type PropType, type StyleValue, defineComponent, reactive, toRaw, watch } from "vue"
+import { type PropType, type StyleValue, defineComponent } from "vue"
 import './period-input.sass'
-import Flex from "@pages/components/Flex"
 
 const BUTTON_STYLE: StyleValue = {
     padding: '8px',
@@ -65,9 +65,6 @@ const _default = defineComponent({
         change: (_periods: timer.limit.Period[]) => true,
     },
     setup(props, ctx) {
-        const periods = reactive(props.modelValue || [])
-        watch(periods, () => ctx.emit("change", toRaw(periods)))
-
         const [editing, openEditing, closeEditing] = useSwitch(false)
         const [editingRange, setEditingRange] = useState<[Date, Date]>()
 
@@ -79,17 +76,25 @@ const _default = defineComponent({
 
         const handleSave = () => {
             const val = range2Period(editingRange.value)
-            insertPeriods(periods, val)
+            const oldPeriods = props.modelValue?.map(p => ([p?.[0], p?.[1]] satisfies Vector<number>)) || []
+            insertPeriods(oldPeriods, val)
+            ctx.emit('change', oldPeriods)
             closeEditing()
+        }
+
+        const handleDelete = (idx: number) => {
+            const newPeriods = props.modelValue?.filter((_, i) => i !== idx)
+                ?.map(p => ([p?.[0], p?.[1]] satisfies Vector<number>)) || []
+            ctx.emit('change', newPeriods)
         }
 
         return () => (
             <Flex gap={5}>
-                {periods?.map((p, idx) =>
+                {props.modelValue?.map((p, idx) =>
                     <ElTag
                         size="large"
                         closable
-                        onClose={() => periods.splice(idx, 1)}
+                        onClose={() => handleDelete(idx)}
                     >
                         {period2Str(p)}
                     </ElTag>

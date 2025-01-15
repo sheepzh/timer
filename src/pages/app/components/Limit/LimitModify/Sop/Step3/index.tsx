@@ -74,7 +74,7 @@ const _default = defineComponent({
                                 step={10}
                                 modelValue={count.value}
                                 onChange={setCount}
-                                v-slots={{ suffix: () => t(msg => msg.limit.item.timeUnit) }}
+                                v-slots={{ suffix: () => t(msg => msg.limit.item.times) }}
                             />
                         </Flex>
                     </ElFormItem>
@@ -87,7 +87,7 @@ const _default = defineComponent({
                                 step={10}
                                 modelValue={weeklyCount.value}
                                 onChange={setWeeklyCount}
-                                v-slots={{ suffix: () => t(msg => msg.limit.item.timeUnit) }}
+                                v-slots={{ suffix: () => t(msg => msg.limit.item.times) }}
                             />
                         </Flex>
                     </ElFormItem>

@@ -61,7 +61,7 @@ const _default = defineComponent({
             Object.entries(rule || createInitial()).forEach(([k, v]) => data[k] = v)
             // Compatible with old items
             if (!data.weekdays?.length) data.weekdays = range(7)
-            setStep(rule ? 2 : 0)
+            setStep(0)
         }
 
         ctx.expose({ reset } satisfies SopInstance)
@@ -70,6 +70,16 @@ const _default = defineComponent({
             const stepInst = stepInstances[step.value]?.value
             if (!stepInst?.validate?.()) return
             last.value ? ctx.emit("save", toRaw(data)) : step.value++
+        }
+
+        const handleUrlsChange = (urls: string[]) => {
+            let cond = data.cond
+            if (cond) {
+                cond.splice(0, data.cond?.length)
+            } else {
+                cond = data.cond = []
+            }
+            urls.forEach(v => data.cond.push(v))
         }
 
         return () => (
@@ -104,8 +114,8 @@ const _default = defineComponent({
                         <Step2
                             v-show={step.value === 1}
                             ref={stepInstances[1]}
-                            defaultValue={data.cond}
-                            onChange={val => data.cond = val}
+                            modelValue={data.cond}
+                            onChange={handleUrlsChange}
                         />
                         <Step3
                             v-show={step.value === 2}
@@ -114,11 +124,13 @@ const _default = defineComponent({
                             weekly={data.weekly}
                             visitTime={data.visitTime}
                             periods={data.periods}
-                            onChange={({ time, visitTime, periods, weekly }) => {
+                            onChange={({ time, visitTime, periods, weekly, count, weeklyCount }) => {
                                 data.time = time
                                 data.visitTime = visitTime
                                 data.periods = periods
                                 data.weekly = weekly
+                                data.count = count
+                                data.weeklyCount = weeklyCount
                             }}
                         />
                     </>

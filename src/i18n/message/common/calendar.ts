@@ -30,6 +30,6 @@ export type CalendarMessage = {
     }
 }
 
-const _default: Messages<CalendarMessage> = resource
+const calendarMessages: Messages<CalendarMessage> = resource
 
-export default _default
+export default calendarMessages

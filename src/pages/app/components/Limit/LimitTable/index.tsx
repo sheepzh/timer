@@ -110,7 +110,7 @@ const _default = defineComponent({
                     prop={DEFAULT_SORT_COL}
                     sortable
                     sortMethod={sortMethodByNumVal('waste')}
-                    label={t(msg => msg.limit.item.waste)}
+                    label={t(msg => msg.calendar.range.today)}
                     minWidth={110}
                     align="center"
                 >
@@ -123,14 +123,14 @@ const _default = defineComponent({
                     )}
                 </ElTableColumn>
                 <ElTableColumn
-                    minWidth={110}
+                    minWidth={130}
                     align="center"
                     sortable
                     sortMethod={sortMethodByNumVal('weeklyWaste')}
                     v-slots={{
                         header: () => (
                             <ColumnHeader
-                                label={t(msg => msg.limit.item.wasteWeekly)}
+                                label={t(msg => msg.calendar.range.thisWeek)}
                                 tooltipContent={t(msg => msg.limit.item.weekStartInfo, { weekStart: weekStartName.value })}
                             />
                         ),
