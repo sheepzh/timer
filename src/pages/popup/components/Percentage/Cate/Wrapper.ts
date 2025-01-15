@@ -3,7 +3,7 @@ import { t } from "@popup/locale"
 import cateService from "@service/cate-service"
 import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import { groupBy } from "@util/array"
-import { getInfoColor, getPrimaryTextColor } from "@util/style"
+import { getInfoColor, getPrimaryTextColor } from "@pages/util/style"
 import { type PieSeriesOption } from "echarts/charts"
 import {
     type LegendComponentOption,

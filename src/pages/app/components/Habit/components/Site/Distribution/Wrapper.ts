@@ -2,7 +2,7 @@ import { t } from "@app/locale"
 import { getPieBorderColor, getSeriesPalette } from "@app/util/echarts"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { groupBy, sum } from "@util/array"
-import { getPrimaryTextColor, getRegularTextColor } from "@util/style"
+import { getPrimaryTextColor, getRegularTextColor } from "@pages/util/style"
 import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 import {
     type ComposeOption,

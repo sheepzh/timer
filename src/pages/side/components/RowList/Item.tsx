@@ -74,8 +74,7 @@ const _default = defineComponent({
                     </ElAvatar>
                 </Flex>
                 <Flex
-                    direction="column"
-                    flex={1}
+                    column flex={1}
                     style={{ marginLeft: '10px', paddingRight: '10px' }}
                 >
                     <Flex align="center" justify="space-between" height={24}>
@@ -87,7 +86,7 @@ const _default = defineComponent({
                             {percentage.value}
                         </ElTag>
                     </Flex>
-                    <Flex direction="column" justify="space-around" flex={1}>
+                    <Flex column justify="space-around" flex={1}>
                         <Flex justify="end" width="100%">
                             <ElText size="small">
                                 {formatPeriodCommon(props.value?.focus ?? 0)}

@@ -6,67 +6,23 @@
  */
 
 import { t } from "@app/locale"
-import { Back, Check } from "@element-plus/icons-vue"
-import processor from "@service/backup/processor"
-import { defineComponent, ref, type PropType } from "vue"
+import { ElAlert } from "element-plus"
+import { defineComponent, type PropType } from "vue"
 import { type StatResult } from "./Step1"
-import { ElAlert, ElButton, ElMessage } from "element-plus"
-
-const processClear = async (client: timer.backup.Client): Promise<void> => {
-    const result = await processor.clear(client.id)
-    if (!result.success) {
-        throw new Error(result.errorMsg)
-    }
-}
 
 const _default = defineComponent({
     props: {
         data: Object as PropType<StatResult>,
     },
-    emits: {
-        back: () => true,
-        clear: () => true,
-    },
-    setup(props, ctx) {
-        const deleting = ref(false)
-
-        const handleClear = () => {
-            deleting.value = true
-            processClear(props.data.client)
-                .then(() => {
-                    ElMessage.success(t(msg => msg.operation.successMsg))
-                    ctx.emit('clear')
-                })
-                .catch((e: Error) => ElMessage.warning(e.message || 'Unknown error'))
-                .finally(() => deleting.value = false)
-        }
-
-        return () => <>
+    setup(props) {
+        return () => (
             <ElAlert type="success" closable={false}>
                 {t(msg => msg.option.backup.clear.confirmTip, {
                     ...props.data,
                     clientName: props.data?.client?.name || ''
                 })}
             </ElAlert>
-            <div class="sop-footer">
-                <ElButton
-                    type="info"
-                    icon={<Back />}
-                    disabled={deleting.value}
-                    onClick={() => ctx.emit("back")}
-                >
-                    {t(msg => msg.button.previous)}
-                </ElButton>
-                <ElButton
-                    type="success"
-                    icon={<Check />}
-                    loading={deleting.value}
-                    onClick={handleClear}
-                >
-                    {t(msg => msg.button.confirm)}
-                </ElButton>
-            </div>
-        </>
+        )
     }
 })
 

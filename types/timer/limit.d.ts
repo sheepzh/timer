@@ -47,11 +47,23 @@ declare namespace timer.limit {
          */
         time: number
         /**
+         * Visit count per day
+         *
+         * @since 3.1.0
+         */
+        count?: number
+        /**
          * Time limit per week, seconds
          *
          * @since 2.4.1
          */
         weekly?: number
+        /**
+         * Visit count per week
+         *
+         * @since 3.1.0
+         */
+        weeklyCount?: number
         /**
          * Time limit per visit, seconds
          *

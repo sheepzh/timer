@@ -26,7 +26,7 @@ const _default = defineComponent(() => {
                 </ElDescriptionsItem>
                 {
                     reason.value?.type === 'DAILY' && <>
-                        <ElDescriptionsItem label={t(msg => msg.limit.item.time)} labelAlign="right">
+                        <ElDescriptionsItem label={t(msg => msg.limit.item.daily)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.time * MILL_PER_SECOND) || '-'}
                         </ElDescriptionsItem>
                         {(!!reason.value?.allowDelay || !!reason.value?.delayCount) && (
@@ -34,7 +34,7 @@ const _default = defineComponent(() => {
                                 {rule.value?.delayCount ?? 0}
                             </ElDescriptionsItem>
                         )}
-                        <ElDescriptionsItem label={t(msg => msg.limit.item.waste)} labelAlign="right">
+                        <ElDescriptionsItem label={t(msg => msg.calendar.range.today)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.waste) || '-'}
                         </ElDescriptionsItem>
                     </>
@@ -49,7 +49,7 @@ const _default = defineComponent(() => {
                                 {rule.value?.weeklyDelayCount ?? 0}
                             </ElDescriptionsItem>
                         )}
-                        <ElDescriptionsItem label={t(msg => msg.limit.item.wasteWeekly)} labelAlign="right">
+                        <ElDescriptionsItem label={t(msg => msg.calendar.range.thisWeek)} labelAlign="right">
                             {formatPeriodCommon(rule.value?.weeklyWaste) || '-'}
                         </ElDescriptionsItem>
                     </>

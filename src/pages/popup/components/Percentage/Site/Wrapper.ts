@@ -1,5 +1,5 @@
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { getInfoColor, getPrimaryTextColor } from "@util/style"
+import { getInfoColor, getPrimaryTextColor } from "@pages/util/style"
 import { type PieSeriesOption } from "echarts/charts"
 import {
     type LegendComponentOption,

@@ -7,16 +7,15 @@
 
 import { t } from "@app/locale"
 import { Delete } from "@element-plus/icons-vue"
-import { useShadow } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { ElDivider, ElLink, ElMessage, ElScrollbar, ElText, type ScrollbarInstance } from "element-plus"
-import { type PropType, defineComponent, ref, watch } from "vue"
+import { type PropType, defineComponent, reactive, ref, toRaw, watch } from "vue"
 import { type StepFromInstance } from "../common"
 import UrlInput from "./UrlInput"
-import "./style.sass"
 
 const _default = defineComponent({
     props: {
-        defaultValue: {
+        modelValue: {
             type: Object as PropType<string[]>,
             required: true,
         },
@@ -25,12 +24,18 @@ const _default = defineComponent({
         change: (_urls: string[]) => true,
     },
     setup(props, ctx) {
-        const [urls, setUrls] = useShadow(() => props.defaultValue)
-        watch(urls, () => ctx.emit('change', urls.value))
+        const urls = reactive(props.modelValue)
+
+        watch(() => props.modelValue, () => {
+            urls.splice(0, urls.length)
+            props.modelValue?.forEach(v => urls.push(v))
+        })
+
+        const emitChange = () => ctx.emit('change', toRaw(urls))
         const scrollbar = ref<ScrollbarInstance>()
 
         const validate = () => {
-            if (!urls.value?.length) {
+            if (!urls?.length) {
                 ElMessage.error(t(msg => msg.limit.message.noUrl))
                 return false
             }
@@ -39,29 +44,48 @@ const _default = defineComponent({
         ctx.expose({ validate } satisfies StepFromInstance)
 
         const handleSave = (url: string) => {
-            setUrls([url, ...urls.value || []])
+            urls.unshift(url)
             scrollbar.value?.scrollTo(0)
+            emitChange()
         }
 
-        return () => <div class="limit-step2">
-            <UrlInput onSave={handleSave} />
-            <ElDivider />
-            <ElScrollbar maxHeight={320} ref={scrollbar}>
-                {urls.value?.map((url, idx, arr) => <div class="url-list-item">
-                    <ElText type="primary">{url}</ElText>
-                    <ElLink
-                        icon={<Delete />}
-                        type="danger"
-                        onClick={() => setUrls(arr.filter((_, i) => i !== idx))}
-                    />
-                </div>)}
-                <div class="url-empty-desc" v-show={!urls.value?.length}>
-                    <ElText>
-                        {t(msg => msg.limit.message.noUrl)}
-                    </ElText>
-                </div>
-            </ElScrollbar>
-        </div>
+        const handleRemove = (idx: number) => {
+            urls.splice(idx, 1)
+            emitChange()
+        }
+
+        return () => (
+            <Flex column width="100%">
+                <UrlInput onSave={handleSave} />
+                <ElDivider />
+                <ElScrollbar maxHeight={320} ref={scrollbar}>
+                    <Flex column width="100%" gap={10}>
+                        {urls?.map((url, idx) => (
+                            <Flex
+                                key={url}
+                                height={50}
+                                align="center"
+                                justify="space-between"
+                                padding='0 20px'
+                                style={{ backgroundColor: 'var(--el-fill-color)' }}
+                            >
+                                <ElText type="primary">{url}</ElText>
+                                <ElLink
+                                    icon={<Delete />}
+                                    type="danger"
+                                    onClick={() => handleRemove(idx)}
+                                />
+                            </Flex>
+                        ))}
+                    </Flex>
+                    <div v-show={!urls?.length} style={{ textAlign: 'center' }}>
+                        <ElText>
+                            {t(msg => msg.limit.message.noUrl)}
+                        </ElText>
+                    </div>
+                </ElScrollbar>
+            </Flex>
+        )
     }
 })
 

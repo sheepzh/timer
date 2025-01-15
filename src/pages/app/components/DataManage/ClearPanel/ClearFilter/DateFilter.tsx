@@ -43,8 +43,8 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         return () => (
-            <p key="foobar">
-                <a class="step-no">1.</a>
+            <p>
+                <a style={{ marginRight: '10px' }}>1.</a>
                 <I18nNode
                     path={msg => msg.dataManage.filterDate}
                     param={{
