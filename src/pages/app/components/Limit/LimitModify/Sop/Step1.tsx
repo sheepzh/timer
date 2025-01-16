@@ -39,7 +39,6 @@ const _default = defineComponent({
                     <ElCol span={12}>
                         <ElFormItem label={t(msg => msg.limit.item.name)} required>
                             <ElInput
-                                size="small"
                                 modelValue={name.value}
                                 onInput={setName}
                                 clearable
