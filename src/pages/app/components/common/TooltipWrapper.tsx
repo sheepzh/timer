@@ -1,30 +1,31 @@
+import { useState } from "@hooks/useState"
 import { ElTooltip, type Placement, type PopperEffect, type PopperTrigger } from "element-plus"
-import { defineComponent, h, toRef, type PropType } from "vue"
+import { defineComponent, toRef, type PropType } from "vue"
 
-const _default = defineComponent({
+const TooltipWrapper = defineComponent({
     props: {
-        showPopover: Boolean,
+        usePopover: Boolean,
         placement: String as PropType<Placement>,
         effect: String as PropType<PopperEffect>,
         trigger: String as PropType<PopperTrigger>,
         offset: Number,
     },
     setup(props, ctx) {
-        const show = toRef(props, 'showPopover')
+        const [visible, setVisible] = useState(false)
+        const usePopover = toRef(props, 'usePopover')
 
-        return () => {
-            if (!show.value) return h(ctx.slots?.default)
-            return (
-                <ElTooltip
-                    placement={props.placement}
-                    effect={props.effect}
-                    offset={props.offset}
-                    trigger={props.trigger}
-                    v-slots={ctx.slots}
-                />
-            )
-        }
+        return () => (
+            <ElTooltip
+                visible={!!usePopover.value && visible.value}
+                onUpdate:visible={setVisible}
+                placement={props.placement}
+                effect={props.effect}
+                offset={props.offset}
+                trigger={props.trigger}
+                v-slots={ctx.slots}
+            />
+        )
     }
 })
 
-export default _default
+export default TooltipWrapper

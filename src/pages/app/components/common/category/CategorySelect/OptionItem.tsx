@@ -7,7 +7,7 @@ import cateService from "@service/cate-service"
 import siteService from "@service/site-service"
 import { stopPropagationAfter } from "@util/document"
 import { ElButton, ElInput, ElMessage, ElMessageBox } from "element-plus"
-import { defineComponent, nextTick, PropType, ref } from "vue"
+import { defineComponent, nextTick, type PropType, ref } from "vue"
 
 const OptionItem = defineComponent({
     props: {

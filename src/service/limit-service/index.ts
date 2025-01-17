@@ -40,12 +40,15 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
                 .map(([, v]) => v)
             const weeklyWaste = sum(thisWeekRec.map(r => r.mill ?? 0))
             const weeklyDelayCount = sum(thisWeekRec.map(r => r.delay ?? 0))
+            const weeklyVisit = sum(thisWeekRec.map(r => r.visit ?? 0))
             return {
                 ...others,
                 waste: todayRec?.mill ?? 0,
+                visit: todayRec?.visit ?? 0,
                 delayCount: todayRec?.delay ?? 0,
                 weeklyWaste,
                 weeklyDelayCount,
+                weeklyVisit,
             } satisfies timer.limit.Item
         })
 }
@@ -99,9 +102,11 @@ async function getRelated(url: string): Promise<timer.limit.Item[]> {
  * @param focusTime time, milliseconds
  * @returns the rules is limit cause of this operation
  */
-async function addFocusTime(url: string, focusTime: number): Promise<timer.limit.Item[]> {
+async function addFocusTime(host: string, url: string, focusTime: number): Promise<timer.limit.Item[]> {
+    if (whitelistHolder.contains(host, url)) return []
+
     const allEnabled: timer.limit.Item[] = await select({ filterDisabled: true, url })
-    const toUpdate: { [cond: string]: number } = {}
+    const toUpdate: { [id: number]: number } = {}
     const result: timer.limit.Item[] = []
     allEnabled.forEach(item => {
         const limitBefore = hasLimited(item)
@@ -114,6 +119,26 @@ async function addFocusTime(url: string, focusTime: number): Promise<timer.limit
         }
     })
     await db.updateWaste(formatTimeYMD(new Date()), toUpdate)
+    return result
+}
+
+/**
+ * Increase visit count
+ * @returns the rules is limited
+ */
+async function incVisit(host: string, url: string): Promise<timer.limit.Item[]> {
+    if (whitelistHolder.contains(host, url)) return []
+
+    const allEnabled: timer.limit.Item[] = await select({ filterDisabled: true, url })
+    const result: timer.limit.Item[] = []
+    await db.increaseVisit(formatTimeYMD(new Date()), allEnabled.map(item => item.id))
+    allEnabled.forEach(item => {
+        // Fast increase
+        item.visit++
+        item.weeklyVisit++
+
+        hasLimited(item) && result.push(item)
+    })
     return result
 }
 
@@ -155,13 +180,8 @@ class LimitService {
     update = update
     create = create
     broadcastRules = noticeLimitChanged
-    /**
-     * @returns The rules limited cause of this operation
-     */
-    async addFocusTime(host: string, url: string, focusTime: number): Promise<timer.limit.Item[]> {
-        if (whitelistHolder.contains(host, url)) return []
-        return addFocusTime(url, focusTime)
-    }
+    addFocusTime = addFocusTime
+    incVisit = incVisit
 }
 
 export default new LimitService()

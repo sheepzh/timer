@@ -7,8 +7,8 @@
 import { t } from "@app/locale"
 import { getCompareColor, tooltipDot, tooltipFlexLine, tooltipSpaceLine } from "@app/util/echarts"
 import { EchartsWrapper } from "@hooks/useEcharts"
+import { getPrimaryTextColor } from "@pages/util/style"
 import { averageByDay, MINUTE_PER_PERIOD } from "@util/period"
-import { getPrimaryTextColor } from "@util/style"
 import { formatPeriodCommon, MILL_PER_MINUTE } from "@util/time"
 import {
     type BarSeriesOption,

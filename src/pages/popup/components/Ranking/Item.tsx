@@ -8,7 +8,7 @@ import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText } from "element-plus"
-import { computed, defineComponent, StyleValue, type PropType } from "vue"
+import { computed, defineComponent, type PropType, type StyleValue } from "vue"
 
 const TITLE_STYLE: StyleValue = {
     whiteSpace: 'nowrap',
@@ -53,7 +53,7 @@ const Title = defineComponent({
 
         return () => (
             <TooltipWrapper
-                showPopover={!!tooltipContent.value}
+                usePopover={!!tooltipContent.value}
                 offset={4}
                 placement="top"
                 v-slots={{
@@ -130,7 +130,7 @@ const Item = defineComponent({
                             {renderAvatarText(props.value, cateNameMap.value)}
                         </ElAvatar>
                     </Flex>
-                    <Flex direction="column" flex={1}>
+                    <Flex column flex={1}>
                         <Flex align="center" justify="space-between" height={24} gap={4}>
                             <Flex width={0} flex={1} justify="start">
                                 <Title
@@ -147,7 +147,7 @@ const Item = defineComponent({
                                 {percentage.value.toFixed(2)}%
                             </ElTag>
                         </Flex>
-                        <Flex direction="column" justify="space-around" flex={1}>
+                        <Flex column justify="space-around" flex={1}>
                             <Flex justify="space-between" width="100%" cursor="unset">
                                 <ElText type={props.type === 'time' ? 'primary' : 'info'} size="small">
                                     <ElIcon>

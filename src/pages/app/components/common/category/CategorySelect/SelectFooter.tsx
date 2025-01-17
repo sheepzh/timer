@@ -42,7 +42,7 @@ const SelectFooter = defineComponent(() => {
     }
 
     return () => (
-        <Flex direction="column">
+        <Flex column>
             {editing.value ? <>
                 <ElForm
                     size="small"

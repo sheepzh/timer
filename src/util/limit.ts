@@ -1,4 +1,4 @@
-import { getWeekDay, MILL_PER_MINUTE } from "./time"
+import { getWeekDay, MILL_PER_MINUTE, MILL_PER_SECOND } from "./time"
 
 export const DELAY_MILL = 5 * MILL_PER_MINUTE
 
@@ -8,20 +8,30 @@ export function matches(cond: timer.limit.Item['cond'], url: string): boolean {
     )
 }
 
+export const meetLimit = (limit: number, value: number) => !!limit && !!value && value >= limit
+
+export const meetTimeLimit = (limitSec: number, wastedMill: number, allowDelay: boolean, delayCount: number) => {
+    let realLimit = (limitSec ?? 0) * MILL_PER_SECOND
+    allowDelay && realLimit && (realLimit += DELAY_MILL * (delayCount ?? 0))
+    return meetLimit(realLimit, wastedMill)
+}
+
 export function hasLimited(item: timer.limit.Item): boolean {
     return hasDailyLimited(item) || hasWeeklyLimited(item)
 }
 
 export function hasDailyLimited(item: timer.limit.Item): boolean {
-    const { time, waste = 0, delayCount = 0 } = item || {}
-    if (!time) return false
-    return waste >= time * 1000 + delayCount * DELAY_MILL
+    const { time, count, waste = 0, visit = 0, delayCount = 0, allowDelay } = item || {}
+    const timeMeet = meetTimeLimit(time, waste, allowDelay, delayCount)
+    const countMeet = meetLimit(count, visit)
+    return timeMeet || countMeet
 }
 
 export function hasWeeklyLimited(item: timer.limit.Item): boolean {
-    const { weekly, weeklyWaste = 0, weeklyDelayCount = 0 } = item || {}
-    if (!weekly) return false
-    return weeklyWaste >= weekly * 1000 + weeklyDelayCount * DELAY_MILL
+    const { weekly, weeklyCount, weeklyWaste = 0, weeklyVisit = 0, weeklyDelayCount = 0, allowDelay } = item || {}
+    const timeMeet = meetTimeLimit(weekly, weeklyWaste, allowDelay, weeklyDelayCount)
+    const countMeet = meetLimit(weeklyCount, weeklyVisit)
+    return timeMeet || countMeet
 }
 
 export function skipToday(item: timer.limit.Item): boolean {

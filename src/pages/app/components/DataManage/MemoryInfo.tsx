@@ -8,8 +8,9 @@
 import { t } from "@app/locale"
 import { getUsedStorage } from "@db/memory-detector"
 import { useRequest } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { ElAlert, ElCard, ElProgress } from "element-plus"
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, type StyleValue } from "vue"
 import { alertProps } from "./common"
 
 export type MemoryInfoInstance = {
@@ -45,26 +46,33 @@ const _default = defineComponent({
         const color = computed(() => computeColor(percentage.value, data.value.total))
 
         return () => (
-            <ElCard>
-                <ElAlert
-                    {...alertProps}
-                    type={totalMb.value ? "info" : "warning"}
-                    title={totalTitle(totalMb.value)}
-                />
-                <div style={{ height: '260px', paddingTop: '50px' }}>
-                    <ElProgress
-                        strokeWidth={15}
-                        percentage={percentage.value}
-                        type="circle"
-                        color={color.value}
+            <ElCard
+                style={{ width: '100%' } satisfies StyleValue}
+                bodyStyle={{ height: '100%', boxSizing: 'border-box' }}
+            >
+                <Flex column height='100%' align="center">
+                    <ElAlert
+                        {...alertProps}
+                        type={totalMb.value ? "info" : "warning"}
+                        title={totalTitle(totalMb.value)}
                     />
-                </div>
-                <div style={{ userSelect: 'none' }}>
-                    <h3 style={{ color: color.value }}>
-                        {t(msg => msg.dataManage.usedMemoryAlert, { size: usedMb.value })}
-                    </h3>
-                </div>
-            </ElCard>
+                    <Flex flex={1} height={0}>
+                        <ElProgress
+                            width={260}
+                            strokeWidth={30}
+                            percentage={percentage.value}
+                            type="circle"
+                            color={color.value}
+                            style={{ display: 'flex', marginTop: '30px' } satisfies StyleValue}
+                        />
+                    </Flex>
+                    <div style={{ userSelect: 'none' }}>
+                        <h3 style={{ color: color.value }}>
+                            {t(msg => msg.dataManage.usedMemoryAlert, { size: usedMb.value })}
+                        </h3>
+                    </div>
+                </Flex>
+            </ElCard >
         )
     }
 })

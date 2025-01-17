@@ -16,7 +16,7 @@ const TooltipSiteList = defineComponent({
 
             return (
                 <ElScrollbar maxHeight="400px" height="fit-content" viewStyle={{ padding: '10px 0', marginRight: '11px' }}>
-                    <Flex gap={8} direction="column">
+                    <Flex gap={8} column>
                         {siteMap?.map((siteKey, iconUrl) => (
                             <HostAlert
                                 value={siteKey}

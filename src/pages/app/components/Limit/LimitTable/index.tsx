@@ -110,34 +110,44 @@ const _default = defineComponent({
                     prop={DEFAULT_SORT_COL}
                     sortable
                     sortMethod={sortMethodByNumVal('waste')}
-                    label={t(msg => msg.limit.item.waste)}
+                    label={t(msg => msg.calendar.range.today)}
                     minWidth={110}
                     align="center"
                 >
-                    {({ row: { waste, delayCount, allowDelay } }: ElTableRowScope<timer.limit.Item>) => (
+                    {({ row: { waste, time, count, visit, delayCount, allowDelay } }: ElTableRowScope<timer.limit.Item>) => (
                         <Waste
-                            value={waste}
-                            showPopover={!!allowDelay || !!delayCount}
+                            waste={waste}
+                            time={time}
+                            count={count}
+                            visit={visit}
+                            allowDelay={allowDelay}
                             delayCount={delayCount}
                         />
                     )}
                 </ElTableColumn>
                 <ElTableColumn
-                    minWidth={110}
+                    minWidth={130}
                     align="center"
                     sortable
                     sortMethod={sortMethodByNumVal('weeklyWaste')}
                     v-slots={{
                         header: () => (
                             <ColumnHeader
-                                label={t(msg => msg.limit.item.wasteWeekly)}
+                                label={t(msg => msg.calendar.range.thisWeek)}
                                 tooltipContent={t(msg => msg.limit.item.weekStartInfo, { weekStart: weekStartName.value })}
                             />
                         ),
-                        default: ({ row: { weeklyWaste, weeklyDelayCount, allowDelay } }: ElTableRowScope<timer.limit.Item>) => (
+                        default: ({ row: {
+                            weeklyWaste, weekly,
+                            weeklyVisit, weeklyCount,
+                            weeklyDelayCount, allowDelay,
+                        } }: ElTableRowScope<timer.limit.Item>) => (
                             <Waste
-                                value={weeklyWaste}
-                                showPopover={!!allowDelay || !!weeklyDelayCount}
+                                time={weekly}
+                                waste={weeklyWaste}
+                                count={weeklyCount}
+                                visit={weeklyVisit}
+                                allowDelay={allowDelay}
                                 delayCount={weeklyDelayCount}
                             />
                         ),

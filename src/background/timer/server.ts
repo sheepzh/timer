@@ -26,7 +26,7 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
     return focusTime
 }
 
-async function handleEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
+async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
     const { url, start, end, ignoreTabCheck } = event
     const windowId = sender?.tab?.windowId
     const tabId = sender?.tab?.id
@@ -58,6 +58,24 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
     )
 }
 
+async function handleVisit(host: string, url: string) {
+    await itemService.addOneTime(host, url)
+    const metLimits = await limitService.incVisit(host, url)
+    // If time limited after this operation, send messages
+    metLimits?.length && sendLimitedMessage(metLimits)
+}
+
+async function handleIncVisitEvent(param: { host: string, url: string }): Promise<void> {
+    const { host, url } = param || {}
+    const { protocol } = extractHostname(url) || {}
+    if (protocol === "file" && !option.countLocalFiles) return
+    await handleVisit(host, url)
+
+}
+
 export default function initTrackServer(messageDispatcher: MessageDispatcher) {
-    messageDispatcher.register<timer.core.Event, void>('cs.trackTime', handleEvent)
+    messageDispatcher
+        .register<timer.core.Event, void>('cs.trackTime', handleTrackTimeEvent)
+        .register<{ host: string, url: string }, void>('cs.incVisitCount', handleIncVisitEvent)
+        .register<string, timer.core.Result>('cs.getTodayInfo', host => itemService.getResult(host, new Date()))
 }

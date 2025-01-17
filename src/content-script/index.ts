@@ -54,13 +54,14 @@ async function main() {
     const isWhitelist = await sendMsg2Runtime('cs.isInWhitelist', { host, url })
     if (isWhitelist) return
 
-    sendMsg2Runtime('cs.incVisitCount', { host, url })
-
     await initLocale()
     const needPrintInfo = await sendMsg2Runtime('cs.printTodayInfo')
     !!needPrintInfo && printInfo(host)
     injectPolyfill()
-    processLimit(url)
+    await processLimit(url)
+
+    // Increase visit count at the end
+    await sendMsg2Runtime('cs.incVisitCount', { host, url })
 }
 
 main()

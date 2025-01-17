@@ -28,7 +28,7 @@ const _default = defineComponent(() => {
         >
             {({ row }: ElTableRowScope<timer.stat.Row>) => (
                 <TooltipWrapper
-                    showPopover={filter.value?.readRemote}
+                    usePopover={filter.value?.readRemote}
                     placement="top"
                     effect={Effect.LIGHT}
                     offset={10}

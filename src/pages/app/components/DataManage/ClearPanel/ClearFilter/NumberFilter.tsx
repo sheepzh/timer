@@ -8,17 +8,19 @@
 import I18nNode from "@app/components/common/I18nNode"
 import { type DataManageMessage } from "@i18n/message/app/data-manage"
 import { ElInput } from "element-plus"
-import { defineComponent, type PropType, type Ref, ref, watch } from "vue"
+import { defineComponent, type PropType, type Ref, ref, type StyleValue, watch } from "vue"
 
-const elInput = (ref: Ref<string>, placeholder: string) => <ElInput
-    class="filter-input"
-    placeholder={placeholder}
-    clearable
-    size="small"
-    modelValue={ref.value}
-    onInput={val => ref.value = val?.trim()}
-    onClear={() => ref.value = undefined}
-/>
+const elInput = (ref: Ref<string>, placeholder: string) => (
+    <ElInput
+        placeholder={placeholder}
+        clearable
+        size="small"
+        modelValue={ref.value}
+        onInput={val => ref.value = val?.trim()}
+        onClear={() => ref.value = undefined}
+        style={{ width: '60px' } satisfies StyleValue}
+    />
+)
 
 const _default = defineComponent({
     props: {
@@ -36,7 +38,7 @@ const _default = defineComponent({
 
         return () => (
             <p>
-                <a class="step-no">{props.lineNo}.</a>
+                <a style={{ marginRight: '10px' }}>{props.lineNo}.</a>
                 <I18nNode
                     path={msg => msg.dataManage[props.translateKey]}
                     param={{
