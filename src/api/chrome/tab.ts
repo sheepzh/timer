@@ -78,14 +78,14 @@ export function listTabs(query?: chrome.tabs.QueryInfo): Promise<ChromeTab[]> {
     }))
 }
 
-export function sendMsg2Tab<T = any, R = any>(tabId: number, code: timer.mq.ReqCode, data: T): Promise<R> {
+export function sendMsg2Tab<T = any, R = any>(tabId: number, code: timer.mq.ReqCode, data?: T): Promise<R> {
     const request: timer.mq.Request<T> = { code, data }
     return new Promise((resolve, reject) => {
         chrome.tabs.sendMessage<timer.mq.Request<T>, timer.mq.Response>(tabId, request, response => {
-            handleError('sendMsg2Tab')
+            const sendError = handleError('sendMsg2Tab')
             const resCode = response?.code
             resCode === 'success' && resolve(response.data)
-            resCode === "fail" && reject(new Error(response?.msg))
+            reject(new Error(response?.msg ?? sendError ?? 'Unknown error'))
         })
     })
 }

@@ -46,7 +46,7 @@ const _default = defineComponent({
                             effect={Effect.LIGHT}
                             offset={10}
                             trigger="click"
-                            showPopover={mergeHost.value}
+                            usePopover={mergeHost.value}
                             v-slots={{
                                 content: () => <TooltipSiteList modelValue={mergedRows} />,
                             }}

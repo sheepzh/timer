@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { classNames } from "@util/style"
+import { classNames } from "@pages/util/style"
 import { type ButtonType, ElButton } from "element-plus"
 import { defineComponent, type PropType } from "vue"
 import { type JSX } from "vue/jsx-runtime"

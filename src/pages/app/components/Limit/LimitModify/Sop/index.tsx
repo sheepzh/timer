@@ -5,13 +5,13 @@
  * https://opensource.org/licenses/MIT
  */
 
+import DialogSop from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
 import { useState } from "@hooks"
 import { range } from "@util/array"
 import { ElStep, ElSteps } from "element-plus"
 import { type Ref, computed, defineComponent, reactive, ref, toRaw } from "vue"
 import { StepFromInstance } from "./common"
-import Footer from "./Footer"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 import Step3 from "./Step3"
@@ -34,6 +34,8 @@ const createInitial = (): Required<Omit<timer.limit.Rule, 'id' | 'allowDelay'>> 
     periods: null,
     enabled: true,
     weekdays: range(7),
+    count: null,
+    weeklyCount: null,
 })
 
 const _default = defineComponent({
@@ -45,7 +47,7 @@ const _default = defineComponent({
         save: (_rule: timer.limit.Rule) => true,
     },
     setup(_, ctx) {
-        const [step, _setStep, resetStep] = useState<Step>(0)
+        const [step, setStep] = useState<Step>(0)
         const last = computed(() => step.value === 2)
         const first = computed(() => step.value === 0)
         const data = reactive(createInitial())
@@ -59,68 +61,83 @@ const _default = defineComponent({
             Object.entries(rule || createInitial()).forEach(([k, v]) => data[k] = v)
             // Compatible with old items
             if (!data.weekdays?.length) data.weekdays = range(7)
-            resetStep()
+            setStep(0)
         }
 
         ctx.expose({ reset } satisfies SopInstance)
 
-        const handleBack = () => first.value ? ctx.emit("cancel") : step.value--
         const handleNext = () => {
             const stepInst = stepInstances[step.value]?.value
             if (!stepInst?.validate?.()) return
             last.value ? ctx.emit("save", toRaw(data)) : step.value++
         }
 
+        const handleUrlsChange = (urls: string[]) => {
+            let cond = data.cond
+            if (cond) {
+                cond.splice(0, data.cond?.length)
+            } else {
+                cond = data.cond = []
+            }
+            urls.forEach(v => data.cond.push(v))
+        }
+
         return () => (
-            <div class="sop-dialog-container">
-                <div class="step-container">
-                    <ElSteps space={200} finishStatus="success" active={step.value}>
-                        <ElStep title={t(msg => msg.limit.step.base)} />
-                        <ElStep title={t(msg => msg.limit.step.url)} />
-                        <ElStep title={t(msg => msg.limit.step.rule)} />
-                    </ElSteps>
-                </div>
-                <div class="operation-container">
-                    <Step1
-                        v-show={step.value === 0}
-                        ref={stepInstances[0]}
-                        defaultName={data.name}
-                        defaultEnabled={data.enabled}
-                        defaultWeekdays={data.weekdays}
-                        onChange={(name, enabled, weekdays) => {
-                            data.name = name
-                            data.enabled = enabled
-                            data.weekdays = weekdays
-                        }}
-                    />
-                    <Step2
-                        v-show={step.value === 1}
-                        ref={stepInstances[1]}
-                        defaultValue={data.cond}
-                        onChange={val => data.cond = val}
-                    />
-                    <Step3
-                        v-show={step.value === 2}
-                        ref={stepInstances[2]}
-                        time={data.time}
-                        weekly={data.weekly}
-                        visitTime={data.visitTime}
-                        periods={data.periods}
-                        onChange={({ time, visitTime, periods, weekly }) => {
-                            data.time = time
-                            data.visitTime = visitTime
-                            data.periods = periods
-                            data.weekly = weekly
-                        }}
-                    />
-                </div>
-                <Footer
-                    last={last.value}
-                    first={first.value}
-                    onBack={handleBack}
-                    onNext={handleNext}
-                />
-            </div>
+            <DialogSop
+                last={last.value}
+                first={first.value}
+                onBack={() => step.value--}
+                onCancel={() => ctx.emit('cancel')}
+                onNext={handleNext}
+                onFinish={handleNext}
+                v-slots={{
+                    steps: () => (
+                        <ElSteps space={200} finishStatus="success" active={step.value} alignCenter>
+                            <ElStep title={t(msg => msg.limit.step.base)} />
+                            <ElStep title={t(msg => msg.limit.step.url)} />
+                            <ElStep title={t(msg => msg.limit.step.rule)} />
+                        </ElSteps>
+                    ),
+                    content: () => <>
+                        <Step1
+                            v-show={step.value === 0}
+                            ref={stepInstances[0]}
+                            defaultName={data.name}
+                            defaultEnabled={data.enabled}
+                            defaultWeekdays={data.weekdays}
+                            onChange={(name, enabled, weekdays) => {
+                                data.name = name
+                                data.enabled = enabled
+                                data.weekdays = weekdays
+                            }}
+                        />
+                        <Step2
+                            v-show={step.value === 1}
+                            ref={stepInstances[1]}
+                            modelValue={data.cond}
+                            onChange={handleUrlsChange}
+                        />
+                        <Step3
+                            v-show={step.value === 2}
+                            ref={stepInstances[2]}
+                            time={data.time}
+                            weekly={data.weekly}
+                            visitTime={data.visitTime}
+                            count={data.count}
+                            weeklyCount={data.weeklyCount}
+                            periods={data.periods}
+                            onChange={({ time, visitTime, periods, weekly, count, weeklyCount }) => {
+                                data.time = time
+                                data.visitTime = visitTime
+                                data.periods = periods
+                                data.weekly = weekly
+                                data.count = count
+                                data.weeklyCount = weeklyCount
+                            }}
+                        />
+                    </>
+                }}
+            />
         )
     }
 })

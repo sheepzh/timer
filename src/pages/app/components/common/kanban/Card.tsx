@@ -6,7 +6,7 @@
  */
 
 import { CLZ_HIDDEN_XS_ONLY } from "@pages/element-ui/style"
-import { classNames } from "@util/style"
+import { classNames } from "@pages/util/style"
 import { ElCard } from "element-plus"
 import { defineComponent, h } from "vue"
 import "./card.sass"

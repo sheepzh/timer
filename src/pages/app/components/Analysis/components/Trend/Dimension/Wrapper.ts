@@ -8,7 +8,7 @@
 import { type ValueFormatter } from "@app/components/Analysis/util"
 import { getLineSeriesPalette, tooltipDot, tooltipFlexLine } from "@app/util/echarts"
 import { EchartsWrapper } from "@hooks/useEcharts"
-import { getRegularTextColor } from "@util/style"
+import { getRegularTextColor } from "@pages/util/style"
 import { type LineSeriesOption } from "echarts/charts"
 import {
     type GridComponentOption,

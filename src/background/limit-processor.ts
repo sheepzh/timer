@@ -65,8 +65,12 @@ const processAskHitVisit = async (item: timer.limit.Item) => {
     tabs = tabs?.filter(({ url }) => matches(item?.cond, url))
     const { visitTime = 0 } = item || {}
     for (const { id } of tabs) {
-        const tabFocus = await sendMsg2Tab(id, "askVisitTime", undefined)
-        if (tabFocus && tabFocus > visitTime * MILL_PER_SECOND) return true
+        try {
+            const tabFocus = await sendMsg2Tab(id, "askVisitTime")
+            if (tabFocus && tabFocus > visitTime * MILL_PER_SECOND) return true
+        } catch {
+            // Ignored
+        }
     }
     return false
 }

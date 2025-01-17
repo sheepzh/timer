@@ -1,9 +1,8 @@
 export type LimitReason =
     & Required<Pick<timer.limit.Rule, 'id' | 'cond'>>
-    & Pick<timer.limit.Item, 'allowDelay'>
-    & Partial<Pick<timer.limit.Item, 'delayCount'>>
+    & Partial<Pick<timer.limit.Item, 'delayCount' | 'allowDelay'>>
     & {
-        type: LimitType
+        type: timer.limit.ReasonType
         getVisitTime?: () => number
     }
 
@@ -16,16 +15,10 @@ export function isSameReason(a: LimitReason, b: LimitReason): boolean {
     return true
 }
 
-export type LimitType =
-    | "DAILY"
-    | "WEEKLY"
-    | "VISIT"
-    | "PERIOD"
-
 export interface MaskModal {
     addReason(...reasons: LimitReason[]): void
     removeReason(...reasons: LimitReason[]): void
-    removeReasonsByType(...types: LimitType[]): void
+    removeReasonsByType(...types: timer.limit.ReasonType[]): void
     addDelayHandler(handler: () => void): void
 }
 

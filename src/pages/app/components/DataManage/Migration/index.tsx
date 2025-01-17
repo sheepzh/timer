@@ -7,11 +7,12 @@
 
 import { t } from "@app/locale"
 import { Download } from "@element-plus/icons-vue"
+import Flex from "@pages/components/Flex"
 import Immigration from "@service/components/immigration"
 import { exportJson } from "@util/file"
 import { formatTime } from "@util/time"
-import { ElAlert, ElButton, ElCard, ElMain } from "element-plus"
-import { defineComponent } from "vue"
+import { ElAlert, ElButton, ElCard } from "element-plus"
+import { defineComponent, type StyleValue } from "vue"
 import { alertProps } from "../common"
 import ImportButton from "./ImportButton"
 import ImportOtherButton from "./ImportOtherButton"
@@ -31,17 +32,34 @@ const _default = defineComponent({
     setup(_, ctx) {
         const handleImported = () => ctx.emit("import")
         return () => (
-            <ElCard class="migration-container">
-                <ElMain>
-                    <ElAlert {...alertProps} >
-                        {t(msg => msg.dataManage.migrationAlert)}
-                    </ElAlert>
-                    <ElButton size="large" type="success" icon={<Download />} onClick={handleExport}>
-                        {t(msg => msg.item.operation.exportWholeData)}
-                    </ElButton>
-                    <ImportButton onImport={handleImported} />
-                    <ImportOtherButton onImport={handleImported} />
-                </ElMain>
+            <ElCard
+                style={{ width: '100%' } satisfies StyleValue}
+                bodyStyle={{ height: '100%', boxSizing: 'border-box' } as StyleValue}
+            >
+                <Flex justify="center" height="100%" align="center">
+                    <Flex
+                        column
+                        gap={20}
+                        height="100%"
+                        maxWidth={190}
+                        flex={3}
+                    >
+                        <ElAlert style={{ flex: 1 }} {...alertProps} >
+                            {t(msg => msg.dataManage.migrationAlert)}
+                        </ElAlert>
+                        <ElButton
+                            size="large"
+                            type="success"
+                            icon={<Download />}
+                            onClick={handleExport}
+                            style={{ flex: 1 }}
+                        >
+                            {t(msg => msg.item.operation.exportWholeData)}
+                        </ElButton>
+                        <ImportButton onImport={handleImported} />
+                        <ImportOtherButton onImport={handleImported} />
+                    </Flex>
+                </Flex>
             </ElCard>
         )
     }

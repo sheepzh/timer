@@ -5,10 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { type SopStepInstance } from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
-import { Close, Document, Right } from "@element-plus/icons-vue"
-import { useState, useSwitch } from "@hooks"
-import { ElButton, ElForm, ElFormItem, ElMessage, ElOption, ElSelect } from "element-plus"
+import { Document } from "@element-plus/icons-vue"
+import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
+import { ElButton, ElForm, ElFormItem, ElOption, ElSelect } from "element-plus"
 import { defineComponent, ref } from "vue"
 import { type OtherExtension, parseFile } from "./processor"
 
@@ -26,39 +28,34 @@ const OTHER_FILE_FORMAT: { [ext in OtherExtension]: string } = {
 
 const ALL_TYPES: OtherExtension[] = Object.keys(OTHER_NAMES) as OtherExtension[]
 
-const _default = defineComponent({
-    emits: {
-        cancel: () => true,
-        next: (_rows: timer.imported.Data) => true,
-    },
-    setup(_, ctx) {
-        const [type, setType] = useState<OtherExtension>('webtime_tracker')
-        const [selectedFile, setSelectedFile] = useState<File>()
-        const fileInput = ref<HTMLInputElement>()
-        const [parsing, startParse, endParse] = useSwitch()
+const _default = defineComponent((_, ctx) => {
+    const [type, setType] = useState<OtherExtension>('webtime_tracker')
+    const [selectedFile, setSelectedFile] = useState<File>()
+    const fileInput = ref<HTMLInputElement>()
 
-        const handleNext = () => {
-            const file = selectedFile.value
-            if (!file) {
-                ElMessage.warning(t(msg => msg.dataManage.importOther.fileNotSelected))
-                return
-            }
-            startParse()
-            parseFile(type.value, selectedFile.value)
-                .then(data => data?.rows?.length ? ctx.emit('next', data) : ElMessage.error("No rows parsed"))
-                .catch((e: Error) => ElMessage.error(e.message))
-                .finally(endParse)
-        }
-        return () => <>
-            <ElForm labelWidth={100} class="import-other-form" labelPosition="left">
-                <ElFormItem label={t(msg => msg.dataManage.importOther.dataSource)} required>
-                    <ElSelect modelValue={type.value} onChange={setType}>
-                        {
-                            ALL_TYPES.map(type => <ElOption value={type} label={OTHER_NAMES[type]} />)
-                        }
-                    </ElSelect>
-                </ElFormItem>
-                <ElFormItem label={t(msg => msg.dataManage.importOther.file)} required>
+    const parseData = async () => {
+        const file = selectedFile.value
+        if (!file) throw new Error(t(msg => msg.dataManage.importOther.fileNotSelected))
+
+        const data = await parseFile(type.value, file)
+        if (!data?.rows?.length) throw new Error("No rows parsed")
+
+        return data
+    }
+
+    ctx.expose({ parseData } satisfies SopStepInstance<timer.imported.Data>)
+
+    return () => (
+        <ElForm labelWidth={100} labelPosition="left" style={{ width: '500px' }}>
+            <ElFormItem label={t(msg => msg.dataManage.importOther.dataSource)} required>
+                <ElSelect modelValue={type.value} onChange={setType}>
+                    {
+                        ALL_TYPES.map(type => <ElOption value={type} label={OTHER_NAMES[type]} />)
+                    }
+                </ElSelect>
+            </ElFormItem>
+            <ElFormItem label={t(msg => msg.dataManage.importOther.file)} required>
+                <Flex gap={10}>
                     <ElButton icon={<Document />} onClick={() => fileInput.value?.click?.()}>
                         {t(msg => msg.dataManage.importOther.selectFileBtn)}
                         <input
@@ -69,19 +66,11 @@ const _default = defineComponent({
                             onChange={() => setSelectedFile(fileInput.value?.files?.[0])}
                         />
                     </ElButton>
-                    {selectedFile.value?.name && <span class="select-import-file-name">{selectedFile.value?.name}</span>}
-                </ElFormItem>
-            </ElForm>
-            <div class="sop-footer">
-                <ElButton type="info" icon={<Close />} onClick={() => ctx.emit('cancel')}>
-                    {t(msg => msg.button.cancel)}
-                </ElButton>
-                <ElButton type="primary" icon={<Right />} loading={parsing.value} onClick={handleNext}>
-                    {t(msg => msg.button.next)}
-                </ElButton>
-            </div>
-        </>
-    }
+                    {selectedFile.value?.name && <span>{selectedFile.value?.name}</span>}
+                </Flex>
+            </ElFormItem>
+        </ElForm>
+    )
 })
 
 export default _default

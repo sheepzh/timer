@@ -5,13 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { type SopStepInstance } from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
-import { Close, Right } from "@element-plus/icons-vue"
-import { useManualRequest } from "@hooks"
+import { useState } from "@hooks"
 import processor from "@service/backup/processor"
 import { BIRTHDAY, parseTime } from "@util/time"
-import { ElButton, ElMessage } from "element-plus"
-import { defineComponent, type Ref, ref } from "vue"
+import { defineComponent } from "vue"
 import ClientTable from "../ClientTable"
 
 export type StatResult = {
@@ -39,49 +38,18 @@ async function fetchStatResult(client: timer.backup.Client): Promise<StatResult>
     }
 }
 
-const _default = defineComponent({
-    emits: {
-        cancel: () => true,
-        next: (_data: StatResult) => true
-    },
-    setup(_, ctx) {
-        const client: Ref<timer.backup.Client> = ref()
+const _default = defineComponent((_, ctx) => {
+    const [client, setClient] = useState<timer.backup.Client>()
 
-        const { loading, refresh: fetchClient } = useManualRequest(fetchStatResult, {
-            onSuccess: data => ctx.emit('next', data),
-            onError: (e: Error) => ElMessage.error(e.message || 'Unknown error...'),
-        })
-
-        const handleNext = () => {
-            const clientVal = client.value
-            if (!clientVal) {
-                ElMessage.warning(t(msg => msg.option.backup.clientTable.notSelected))
-                return
-            }
-            fetchClient(clientVal)
-        }
-
-        return () => <>
-            <ClientTable onSelect={val => client.value = val} />
-            <div class="sop-footer">
-                <ElButton
-                    type="info"
-                    icon={<Close />}
-                    onClick={() => ctx.emit("cancel")}
-                >
-                    {t(msg => msg.button.cancel)}
-                </ElButton>
-                <ElButton
-                    type="primary"
-                    icon={<Right />}
-                    loading={loading.value}
-                    onClick={handleNext}
-                >
-                    {t(msg => msg.button.next)}
-                </ElButton>
-            </div>
-        </>
+    const parseData = (): Promise<StatResult> => {
+        const clientVal = client.value
+        if (!clientVal) throw new Error(t(msg => msg.option.backup.clientTable.notSelected))
+        return fetchStatResult(clientVal)
     }
+
+    ctx.expose({ parseData } satisfies SopStepInstance<StatResult>)
+
+    return () => <ClientTable onSelect={setClient} />
 })
 
 export default _default

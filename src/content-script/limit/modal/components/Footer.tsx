@@ -1,16 +1,14 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import Trend from "@app/Layout/icons/Trend"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
-import { type LimitType } from "@cs/limit/common"
 import { TAG_NAME } from "@cs/limit/element"
 import { t } from "@cs/locale"
 import { Plus, Timer } from "@element-plus/icons-vue"
 import optionService from "@service/option-service"
+import { meetTimeLimit } from "@util/limit"
 import { ElButton } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { useDelayHandler, useReason, useRule } from "../context"
-
-const DELAY_ENABLED: LimitType[] = ['DAILY', 'VISIT', 'WEEKLY']
 
 async function handleMore5Minutes(rule: timer.limit.Item, callback: () => void) {
     let promise: Promise<void> = undefined
@@ -27,9 +25,25 @@ async function handleMore5Minutes(rule: timer.limit.Item, callback: () => void) 
 const _default = defineComponent(() => {
     const reason = useReason()
     const rule = useRule()
-    const allowDelay = computed(() => {
-        const { type, allowDelay } = reason.value || {}
-        return DELAY_ENABLED.includes(type) && allowDelay
+    const showDelay = computed(() => {
+        const { type, allowDelay, delayCount } = reason.value || {}
+        if (!allowDelay) return false
+
+        const { time, weekly, visit, waste, weeklyWaste } = rule.value || {}
+        let realLimit = 0, realWaste = 0
+        if (type === 'DAILY') {
+            realLimit = time
+            realWaste = waste
+        } else if (type === 'WEEKLY') {
+            realLimit = weekly
+            realWaste = weeklyWaste
+        } else if (type === 'VISIT') {
+            realLimit = visit
+            realWaste = reason.value?.getVisitTime?.()
+        } else {
+            return false
+        }
+        return meetTimeLimit(realLimit, realWaste, allowDelay, delayCount)
     })
 
     const delayHandler = useDelayHandler()
@@ -45,7 +59,7 @@ const _default = defineComponent(() => {
                 {t(msg => msg.menu.siteAnalysis)}
             </ElButton>
             <ElButton
-                v-show={allowDelay.value}
+                v-show={showDelay.value}
                 type="primary"
                 round
                 icon={<Plus />}

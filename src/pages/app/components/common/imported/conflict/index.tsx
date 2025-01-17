@@ -7,36 +7,52 @@
 
 import { t } from "@app/locale"
 import { InfoFilled } from "@element-plus/icons-vue"
+import Flex from "@pages/components/Flex"
 import { ElForm, ElFormItem, ElIcon, ElRadio, ElRadioGroup, ElTooltip } from "element-plus"
-import { type Ref, type VNode } from "vue"
-import "./style.sass"
+import { defineComponent, type PropType } from "vue"
 
 export const ALL_RESOLUTIONS: timer.imported.ConflictResolution[] = ['overwrite', 'accumulate']
 
-const renderResolutionRadio = (resolution: timer.imported.ConflictResolution): VNode => (
-    <ElRadio label={resolution}>
-        {t(msg => msg.dataManage.importOther[resolution])}
-    </ElRadio>
-)
+const ResolutionRadio = defineComponent({
+    props: {
+        modelValue: String as PropType<timer.imported.ConflictResolution>,
+    },
+    emits: {
+        change: (_val: timer.imported.ConflictResolution) => true,
+    },
+    setup(props, ctx) {
+        return () => (
+            <ElForm>
+                <ElFormItem
+                    required
+                    style={{ margin: 0, display: 'flex', gap: '28px' }}
+                    v-slots={{
+                        label: () => (
+                            <Flex align="center" gap={2}>
+                                {t(msg => msg.dataManage.importOther.conflictType)}
+                                <ElTooltip content={t(msg => msg.dataManage.importOther.conflictTip)}>
+                                    <ElIcon>
+                                        <InfoFilled />
+                                    </ElIcon>
+                                </ElTooltip>
+                            </Flex>
+                        )
+                    }}
+                >
+                    <ElRadioGroup
+                        modelValue={props.modelValue}
+                        onChange={(val: timer.imported.ConflictResolution) => ctx.emit('change', val)}
+                    >
+                        {ALL_RESOLUTIONS.map((resolution: timer.imported.ConflictResolution) => (
+                            <ElRadio value={resolution}>
+                                {t(msg => msg.dataManage.importOther[resolution])}
+                            </ElRadio>
+                        ))}
+                    </ElRadioGroup>
+                </ElFormItem>
+            </ElForm>
+        )
+    }
+})
 
-export const renderResolutionFormItem = (resolution: Ref<timer.imported.ConflictResolution>): VNode => (
-    <ElForm class="data-conflict-form">
-        <ElFormItem required v-slots={{
-            label: () => <>
-                {t(msg => msg.dataManage.importOther.conflictType)}
-                <ElTooltip content={t(msg => msg.dataManage.importOther.conflictTip)}>
-                    <ElIcon>
-                        <InfoFilled />
-                    </ElIcon>
-                </ElTooltip>
-            </>
-        }}>
-            <ElRadioGroup
-                modelValue={resolution.value}
-                onChange={(val: timer.imported.ConflictResolution) => resolution.value = val}
-            >
-                {ALL_RESOLUTIONS.map(renderResolutionRadio)}
-            </ElRadioGroup>
-        </ElFormItem>
-    </ElForm>
-)
+export default ResolutionRadio

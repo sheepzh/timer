@@ -7,45 +7,58 @@
 
 import { t } from "@app/locale"
 import { useShadow } from "@hooks"
-import { ElForm, ElFormItem, ElMessage } from "element-plus"
+import Flex from "@pages/components/Flex"
+import { ElForm, ElFormItem, ElInputNumber, ElMessage } from "element-plus"
 import { type PropType, defineComponent, watch } from "vue"
 import { type StepFromInstance } from "../common"
 import PeriodInput from "./PeriodInput"
-import "./style.sass"
 import TimeInput from "./TimeInput"
 
-type Value = Pick<timer.limit.Item, 'time' | 'visitTime' | 'weekly' | 'periods'>
+type Value = Pick<timer.limit.Item, 'time' | 'visitTime' | 'weekly' | 'periods' | 'count' | 'weeklyCount'>
 
-const MAX_HOUR_WEEKLY = 7 * 24 - 1
+const MAX_HOUR_WEEKLY = 7 * 24
 
 const _default = defineComponent({
     props: {
         time: Number,
         visitTime: Number,
         weekly: Number,
+        count: Number,
+        weeklyCount: Number,
         periods: Array as PropType<timer.limit.Period[]>,
     },
     emits: {
         change: (_val: Value) => true,
     },
     setup(props, ctx) {
+        // Time
         const [time, setTime] = useShadow(() => props.time)
         const [weekly, setWeekly] = useShadow(() => props.weekly)
         const [visitTime, setVisitTime] = useShadow(() => props.visitTime)
+        // Visit count
+        const [count, setCount] = useShadow(() => props.count ?? 0)
+        const [weeklyCount, setWeeklyCount] = useShadow(() => props.weeklyCount ?? 0)
+        // Periods
         const [periods, setPeriods] = useShadow(() => props.periods, [])
 
-        watch([time, visitTime, periods, weekly], () => {
+        watch([time, visitTime, periods, weekly, count, weeklyCount], () => {
             const val: Value = {
                 time: time.value,
                 visitTime: visitTime.value,
                 weekly: weekly.value,
+                count: count.value,
+                weeklyCount: weeklyCount.value,
                 periods: periods.value,
             }
             ctx.emit("change", val)
         })
 
         const validate = () => {
-            if (!time.value && !visitTime.value && !periods.value?.length && !weekly.value) {
+            if (true
+                && !time.value && !count.value
+                && !weekly.value && !weeklyCount.value
+                && !visitTime.value && !periods.value?.length
+            ) {
                 ElMessage.error(t(msg => msg.limit.message.noRule))
                 return false
             }
@@ -53,26 +66,44 @@ const _default = defineComponent({
         }
         ctx.expose({ validate } satisfies StepFromInstance)
 
-        return () => <div class="limit-step3">
-            <ElForm labelWidth={180} labelPosition="left">
-                <ElFormItem label={t(msg => msg.limit.item.time)}>
-                    <TimeInput modelValue={time.value} onChange={setTime} />
-                </ElFormItem>
-                <ElFormItem label={t(msg => msg.limit.item.weekly)}>
-                    <TimeInput
-                        modelValue={weekly.value}
-                        onChange={setWeekly}
-                        hourMax={MAX_HOUR_WEEKLY}
-                    />
-                </ElFormItem>
-                <ElFormItem label={t(msg => msg.limit.item.visitTime)}>
-                    <TimeInput modelValue={visitTime.value} onChange={setVisitTime} />
-                </ElFormItem>
-                <ElFormItem label={t(msg => msg.limit.item.period)}>
-                    <PeriodInput modelValue={periods.value} onChange={setPeriods} />
-                </ElFormItem>
-            </ElForm>
-        </div>
+        return () => (
+            <Flex justify="center">
+                <ElForm labelWidth={150} labelPosition="left">
+                    <ElFormItem label={t(msg => msg.limit.item.daily)}>
+                        <Flex gap={10}>
+                            <TimeInput modelValue={time.value} onChange={setTime} />
+                            {t(msg => msg.limit.item.or)}
+                            <ElInputNumber
+                                min={0}
+                                step={10}
+                                modelValue={count.value}
+                                onChange={setCount}
+                                v-slots={{ suffix: () => t(msg => msg.limit.item.visits) }}
+                            />
+                        </Flex>
+                    </ElFormItem>
+                    <ElFormItem label={t(msg => msg.limit.item.weekly)}>
+                        <Flex gap={10}>
+                            <TimeInput modelValue={weekly.value} onChange={setWeekly} hourMax={MAX_HOUR_WEEKLY} />
+                            {t(msg => msg.limit.item.or)}
+                            <ElInputNumber
+                                min={0}
+                                step={10}
+                                modelValue={weeklyCount.value}
+                                onChange={setWeeklyCount}
+                                v-slots={{ suffix: () => t(msg => msg.limit.item.visits) }}
+                            />
+                        </Flex>
+                    </ElFormItem>
+                    <ElFormItem label={t(msg => msg.limit.item.visitTime)}>
+                        <TimeInput modelValue={visitTime.value} onChange={setVisitTime} />
+                    </ElFormItem>
+                    <ElFormItem label={t(msg => msg.limit.item.period)}>
+                        <PeriodInput modelValue={periods.value} onChange={setPeriods} />
+                    </ElFormItem>
+                </ElForm>
+            </Flex>
+        )
     }
 })
 
