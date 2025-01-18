@@ -152,6 +152,7 @@
         "item": {
             "name": "規則名",
             "condition": "制限 URL",
+            "weekly": "週間の限度",
             "weekStartInfo": "各週の最初の日は「{weekStart}」, 統計オプションでこの値を変更することができます",
             "delayCount": "遅延回数",
             "detail": "規則明細",
@@ -198,6 +199,7 @@
         "item": {
             "name": "Nome da regra",
             "condition": "Restrito URL",
+            "weekly": "Limite semanal",
             "weekStartInfo": "O primeiro dia de cada semana é {weekStart}, pode alterar este valor nas opções de estatísticas",
             "delayCount": "Contagem de atraso",
             "detail": "Detalhe da regra",
@@ -244,6 +246,7 @@
         "item": {
             "name": "Назва правила",
             "condition": "Обмежена URL-адреса",
+            "weekly": "Тижневий ліміт",
             "weekStartInfo": "Перший день кожного тижня {weekStart}. Ви можете змінити це значення у налаштуваннях статистики",
             "delayCount": "Лічильник затримок",
             "detail": "Подробиці правила",
@@ -290,6 +293,7 @@
         "item": {
             "name": "Nombre de la regla",
             "condition": "URL restringida",
+            "weekly": "Límite semanal",
             "weekStartInfo": "El primer día de cada semana es {weekStart}, puedes cambiar este valor en las opciones de estadísticas",
             "delayCount": "Contagem de atraso",
             "detail": "Detalle de la regla",
@@ -336,6 +340,7 @@
         "item": {
             "name": "Regelname",
             "condition": "Eingeschränkte URL",
+            "weekly": "Wöchentliches Limit",
             "weekStartInfo": "Der erste Tag jeder Woche ist {weekStart}, Sie können diesen Wert in den Statistikoptionen ändern",
             "delayCount": "Anzahl der Verspätungen",
             "detail": "Regeldetail",
@@ -428,6 +433,7 @@
         "item": {
             "name": "Имя правила",
             "condition": "Ограниченный URL",
+            "weekly": "Недельный лимит",
             "weekStartInfo": "Первый день каждой недели {weekStart}, вы можете изменить это значение в настройках статистики",
             "delayCount": "Отложенный",
             "detail": "Детали правила",
@@ -477,7 +483,7 @@
             "weekStartInfo": "اليوم الأول من كل أسبوع هو: {weekStart}، يمكنك تغيير هذه القيمة في خيارات الإحصائيات",
             "delayCount": "عدد التأخير",
             "detail": "تفاصيل القاعدة",
-            "visitTime": "الحد الأقصى لكل زيارة",
+            "visitTime": "الحد الزمني لكل زيارة",
             "period": "فترات محظورة",
             "enabled": "مُمَكَّن",
             "effectiveDay": "ساري المفعول على",
