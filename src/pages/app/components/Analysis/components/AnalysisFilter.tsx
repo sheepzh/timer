@@ -5,9 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import { SELECT_WRAPPER_STYLE } from "@app/components/common/filter/common"
+import TimeFormatFilterItem from "@app/components/common/filter/TimeFormatFilterItem"
 import { t } from "@app/locale"
 import { useManualRequest, useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
 import statService, { type HostSet } from "@service/stat-service"
 import { ElOption, ElSelect, ElTag } from "element-plus"
@@ -73,7 +75,7 @@ const SiteOptionTag = defineComponent({
     }
 })
 
-const _default = defineComponent({
+const AnalysisFilter = defineComponent({
     props: {
         site: Object as PropType<timer.site.SiteKey>,
         timeFormat: String as PropType<timer.app.TimeFormat>
@@ -93,39 +95,41 @@ const _default = defineComponent({
         watch(domainKey, () => ctx.emit('siteChange', calcSite(domainKey.value)))
         watch(timeFormat, () => ctx.emit('timeFormatChange', timeFormat.value))
 
-        return () => <>
-            <ElSelect
-                placeholder={HOST_PLACEHOLDER}
-                class="filter-item"
-                modelValue={domainKey.value}
-                filterable
-                remote
-                loading={trendSearching.value}
-                clearable
-                remoteMethod={searchRemote}
-                onChange={setDomainKey}
-                onClear={() => setDomainKey()}
-            >
-                {(trendDomainOptions.value || [])?.map(
-                    site => (
-                        <ElOption
-                            value={calcKey(site)}
-                            label={labelOfHostInfo(site)}
-                        >
-                            <span>{site.host}</span>
-                            {site.alias && <ElTag size="small" type="info">{site.alias}</ElTag>}
-                            {site.type === 'merged' && <SiteOptionTag text={MERGED_TAG_TXT} />}
-                            {site.type === 'virtual' && <SiteOptionTag text={VIRTUAL_TAG_TXT} />}
-                        </ElOption>
-                    )
-                )}
-            </ElSelect>
-            <TimeFormatFilterItem
-                defaultValue={timeFormat.value}
-                onChange={setTimeFormat}
-            />
-        </>
+        return () => (
+            <Flex gap={10}>
+                <ElSelect
+                    placeholder={HOST_PLACEHOLDER}
+                    modelValue={domainKey.value}
+                    filterable
+                    remote
+                    loading={trendSearching.value}
+                    clearable
+                    remoteMethod={searchRemote}
+                    onChange={setDomainKey}
+                    onClear={() => setDomainKey()}
+                    style={SELECT_WRAPPER_STYLE}
+                >
+                    {(trendDomainOptions.value || [])?.map(
+                        site => (
+                            <ElOption
+                                value={calcKey(site)}
+                                label={labelOfHostInfo(site)}
+                            >
+                                <span>{site.host}</span>
+                                {site.alias && <ElTag size="small" type="info">{site.alias}</ElTag>}
+                                {site.type === 'merged' && <SiteOptionTag text={MERGED_TAG_TXT} />}
+                                {site.type === 'virtual' && <SiteOptionTag text={VIRTUAL_TAG_TXT} />}
+                            </ElOption>
+                        )
+                    )}
+                </ElSelect>
+                <TimeFormatFilterItem
+                    defaultValue={timeFormat.value}
+                    onChange={setTimeFormat}
+                />
+            </Flex>
+        )
     }
 })
 
-export default _default
+export default AnalysisFilter

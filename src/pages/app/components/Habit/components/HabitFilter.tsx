@@ -5,10 +5,11 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
-import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import DateRangeFilterItem from "@app/components/common/filter/DateRangeFilterItem"
+import TimeFormatFilterItem from "@app/components/common/filter/TimeFormatFilterItem"
 import { t } from "@app/locale"
 import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { daysAgo } from "@util/time"
 import { defineComponent, watch, type PropType } from "vue"
@@ -47,18 +48,20 @@ const _default = defineComponent({
             timeFormat: timeFormat.value,
         }))
 
-        return () => <>
-            <DateRangeFilterItem
-                clearable={false}
-                defaultRange={dateRange.value}
-                shortcuts={SHORTCUTS}
-                onChange={setDateRange}
-            />
-            <TimeFormatFilterItem
-                defaultValue={timeFormat.value}
-                onChange={setTimeFormat}
-            />
-        </>
+        return () => (
+            <Flex gap={10}>
+                <DateRangeFilterItem
+                    clearable={false}
+                    defaultRange={dateRange.value}
+                    shortcuts={SHORTCUTS}
+                    onChange={setDateRange}
+                />
+                <TimeFormatFilterItem
+                    defaultValue={timeFormat.value}
+                    onChange={setTimeFormat}
+                />
+            </Flex>
+        )
     }
 })
 

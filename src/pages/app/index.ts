@@ -16,7 +16,8 @@ import '../../common/timer'
 import { initEcharts } from "./echarts"
 import Main from "./Layout"
 import installRouter from "./router"
-import './styles'; // global css
+// global css
+import './styles'
 
 async function main() {
     // Init theme with cache first

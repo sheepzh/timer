@@ -71,6 +71,11 @@ const TYPE_PREFIX_MAP: { [type in timer.site.Type]: string } = {
     virtual: "v",
 }
 
+/**
+ * Marked the category ID of sites those don't set up category
+ */
+export const CATE_NOT_SET_ID = -1
+
 export function identifySiteKey(site: timer.site.SiteKey): string {
     if (!site) return ''
     const { host, type } = site || {}
@@ -91,7 +96,6 @@ export function distinctSites(list: timer.site.SiteKey[]): timer.site.SiteKey[] 
     })
     return Object.values(map)
 }
-
 
 export class SiteMap<T> {
     private innerMap: Record<string, [timer.site.SiteKey, T]>

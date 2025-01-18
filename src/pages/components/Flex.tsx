@@ -1,6 +1,12 @@
 import { type CSSProperties, defineComponent, h, type PropType } from "vue"
 import { cvtPxScale } from "./common"
 
+const cvtFlexWrap = (wrap: boolean | CSSProperties['flexWrap']): CSSProperties['flexWrap'] => {
+    if (typeof wrap === 'string') return wrap
+    if (wrap === true) return 'wrap'
+    return undefined
+}
+
 const Flex = defineComponent({
     props: {
         direction: String as PropType<CSSProperties['flexDirection']>,
@@ -9,7 +15,7 @@ const Flex = defineComponent({
         align: String as PropType<CSSProperties['alignItems']>,
         justify: String as PropType<CSSProperties['justifyContent']>,
         gap: [String, Number],
-        wrap: String as PropType<CSSProperties['flexWrap']>,
+        wrap: [String, Boolean] as PropType<CSSProperties['flexWrap'] | boolean>,
         width: [String, Number] as PropType<CSSProperties['width']>,
         height: [String, Number] as PropType<CSSProperties['height']>,
         boxSizing: String as PropType<CSSProperties['boxSizing']>,
@@ -37,7 +43,7 @@ const Flex = defineComponent({
                     flexDirection: props?.column ? 'column' : props.direction,
                     alignItems: props.align,
                     justifyContent: props.justify,
-                    flexWrap: props.wrap,
+                    flexWrap: cvtFlexWrap(props.wrap),
                     gap: typeof props.gap === 'number' ? `${props.gap}px` : props.gap,
                     width: cvtPxScale(props.width),
                     height: cvtPxScale(props.height),

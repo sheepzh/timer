@@ -9,6 +9,7 @@ import { Download } from "@element-plus/icons-vue"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { defineComponent } from "vue"
 import type { FileFormat } from "../types"
+import { ICON_BTN_STYLE } from "./common"
 
 const ALL_FILE_FORMATS: FileFormat[] = ["json", "csv"]
 
@@ -20,7 +21,6 @@ const _default = defineComponent({
         const handleClick = (format: FileFormat) => ctx.emit('download', format)
         return () => (
             <ElDropdown
-                class="export-dropdown"
                 showTimeout={100}
                 v-slots={{
                     dropdown: () => <ElDropdownMenu>
@@ -32,7 +32,7 @@ const _default = defineComponent({
                     </ElDropdownMenu>
                 }}
             >
-                <ElButton size="small" class="record-filter-icon-button">
+                <ElButton size="small" style={ICON_BTN_STYLE}>
                     <ElIcon size={17} style={{ padding: "0 1px" }}>
                         <Download />
                     </ElIcon>

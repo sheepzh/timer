@@ -3,8 +3,7 @@ import { useCategories } from "@app/context"
 import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
-import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
-import { SiteMap } from "@util/site"
+import { CATE_NOT_SET_ID, SiteMap } from "@util/site"
 import { identifyStatKey } from "@util/stat"
 import { Effect, ElTableColumn, ElText, ElTooltip } from "element-plus"
 import { defineComponent } from "vue"
@@ -16,7 +15,7 @@ const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: tim
     const siteMap = new SiteMap<string>()
     merged?.forEach(({ siteKey, iconUrl }) => siteMap.put(siteKey, iconUrl))
 
-    if (cateId === CATE_MERGE_PLACEHOLDER_ID) {
+    if (cateId === CATE_NOT_SET_ID) {
         cateName = t(msg => msg.shared.cate.notSet)
         isNotSet = true
     } else {

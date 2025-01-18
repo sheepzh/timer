@@ -6,9 +6,9 @@
  */
 
 import SiteDatabase, { type SiteCondition } from "@db/site-database"
+import { groupBy } from "@util/array"
 import { identifySiteKey, supportCategory } from "@util/site"
 import { slicePageResult } from "./components/page-info"
-import { groupBy } from "@util/array"
 
 const storage = chrome.storage.local
 const siteDatabase = new SiteDatabase(storage)

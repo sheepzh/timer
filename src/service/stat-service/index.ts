@@ -9,7 +9,7 @@ import MergeRuleDatabase from "@db/merge-rule-database"
 import SiteDatabase from "@db/site-database"
 import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { judgeVirtualFast } from "@util/pattern"
-import { distinctSites, SiteMap } from "@util/site"
+import { CATE_NOT_SET_ID, distinctSites, SiteMap } from "@util/site"
 import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import { slicePageResult } from "../components/page-info"
@@ -97,6 +97,14 @@ function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.Si
     }
 }
 
+function filterByCateIds(rows: timer.stat.Row[], cateIds: number[]): timer.stat.Row[] {
+    return rows?.filter(({ siteKey, cateId }) => {
+        const siteType = siteKey?.type
+        if (siteType && siteType !== 'normal') return false
+        return cateIds?.includes?.(cateId ?? CATE_NOT_SET_ID)
+    })
+}
+
 /**
  * Service of timer
  * @since 0.0.5
@@ -175,7 +183,7 @@ class StatService {
             await this.fillSite(rows)
         }
         if (cateIds?.length) {
-            rows = rows.filter(row => cateIds?.includes(row?.cateId))
+            rows = filterByCateIds(rows, cateIds)
         }
         if (needMergeCate) {
             rows = await mergeCate(rows)
@@ -242,7 +250,7 @@ class StatService {
         let siteFilled = false
         if (cateIds?.length) {
             siteFilled = await this.fillSite(origin)
-            origin = origin.filter(row => cateIds?.includes(row?.cateId))
+            origin = filterByCateIds(origin, cateIds)
         }
         if (needMergeCate) {
             // If merge cate, fill firstly

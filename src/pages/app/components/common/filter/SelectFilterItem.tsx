@@ -9,6 +9,7 @@ import { useCached } from "@hooks"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, watch, type PropType } from "vue"
 import { useRoute } from "vue-router"
+import { SELECT_WRAPPER_STYLE } from "./common"
 
 const _default = defineComponent({
     props: {
@@ -26,9 +27,15 @@ const _default = defineComponent({
         const cacheKey = props.historyName ? `__filter_item_select_${useRoute().path}_${props.historyName}` : null
         const { data, setter } = useCached(cacheKey, props.defaultValue)
         watch(data, () => ctx.emit('select', data.value))
-        return () => <ElSelect class="filter-item" modelValue={data.value} onChange={setter}>
-            {Object.entries(props.options || {}).map(([value, label]) => <ElOption label={label} value={value} />)}
-        </ElSelect>
+        return () => (
+            <ElSelect
+                modelValue={data.value}
+                onChange={setter}
+                style={SELECT_WRAPPER_STYLE}
+            >
+                {Object.entries(props.options || {}).map(([value, label]) => <ElOption label={label} value={value} />)}
+            </ElSelect>
+        )
     }
 })
 

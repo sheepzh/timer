@@ -39,13 +39,6 @@ a
     >.el-scrollbar
         width: 100%
 
-.content-container
-    margin-top: var(--timer-container-container-padding)
-    margin-bottom: var(--timer-container-container-padding)
-    height: calc(100% - var(--timer-container-container-padding))
-    padding: 0 var(--timer-container-container-padding)
-    overflow: hidden
-
 #app
     height: 100%
 
@@ -54,72 +47,19 @@ a
     overflow-y: auto
 
 .filter-container
-    margin-bottom: 15px
-    display: flex
-    align-items: center
-    user-select: none
     .el-card__body
-        width: 100%
-        padding-bottom: 18px
-        padding-top: 18px
-        box-sizing: border-box
-        display: flex
-        gap: 20px
-        flex-wrap: wrap
-        align-items: center
         .filter-item
-            display: inline-flex
-
-            .el-input__suffix
-                width: 20px
-
             .el-picker-panel__sidebar
                 width: 130px !important
-
             .el-picker-panel [slot="sidebar"] + .el-picker-panel__body,
             .el-picker-panel__sidebar + .el-picker-panel__body
                 margin-left: 130px !important
             .el-range-input
                 width: 120px
-        .el-input
-            min-width: 180px
-        .el-select
-            min-width: 180px
         .el-date-editor.el-input__wrapper
             width: 280px
         .el-button+.el-button
             margin-left: 0px
-        .filter-item-right+.filter-item-right
-            margin-left: 0px
-
-.filter-name
-    margin-right: 4px
-
-.filter-switch
-    display: inline-flex
-    align-items: center
-    justify-content: center
-    gap: 5px
-    .filter-name
-        color: var(--el-text-color-secondary)
-        font-weight: bold
-        font-size: 14px
-        pointer-events: none
-
-.filter-item-right,.filter-item-right-group
-    display: inline-flex
-    margin-left: auto
-.filter-item-right-group
-    gap: 4px
-
-.filter-item
-    &.el-input
-        width: 180px
-    &.el-select
-        display: inline-flex
-        width: 200px
-        .el-select__wrapper
-            width: 100%
 
 .pagination-container
     display: flex
@@ -167,6 +107,3 @@ html[data-theme='dark']:root
             .el-date-editor
                 .el-range-input
                     width: 39%
-        .filter-item-right,
-        .filter-item-right-group
-            margin-left: unset

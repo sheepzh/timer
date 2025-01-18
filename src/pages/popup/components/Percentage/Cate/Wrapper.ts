@@ -2,8 +2,8 @@ import { EchartsWrapper } from "@hooks/useEcharts"
 import { getInfoColor, getPrimaryTextColor } from "@pages/util/style"
 import { t } from "@popup/locale"
 import cateService from "@service/cate-service"
-import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import { groupBy } from "@util/array"
+import { CATE_NOT_SET_ID } from "@util/site"
 import { type PieSeriesOption } from "echarts/charts"
 import {
     type LegendComponentOption,
@@ -73,7 +73,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
         if (!result) return
 
         // Let not set to the end
-        const rows = result.rows?.sort((_, a) => a.cateKey === CATE_MERGE_PLACEHOLDER_ID ? -1 : 0)
+        const rows = result.rows?.sort((_, a) => a.cateKey === CATE_NOT_SET_ID ? -1 : 0)
         this.resultCache = { ...result, rows }
 
         return this.generateInner()
@@ -93,7 +93,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
         const cates = await cateService.listAll()
         const cateNameMap = groupBy(cates, c => c.id, l => l?.[0]?.name)
-        cateNameMap[CATE_MERGE_PLACEHOLDER_ID] = t(msg => msg.shared.cate.notSet)
+        cateNameMap[CATE_NOT_SET_ID] = t(msg => msg.shared.cate.notSet)
 
         let legend: LegendComponentOption = {
             type: 'scroll',

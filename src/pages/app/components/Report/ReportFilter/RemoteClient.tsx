@@ -11,6 +11,7 @@ import { useRequest } from "@hooks"
 import statService from "@service/stat-service"
 import { ElButton, ElIcon, ElTooltip } from "element-plus"
 import { computed, defineComponent, ref, watch } from "vue"
+import { ICON_BTN_STYLE } from "./common"
 
 const _default = defineComponent({
     emits: {
@@ -25,10 +26,10 @@ const _default = defineComponent({
         return () => (
             <ElTooltip trigger="hover" placement="bottom-start" effect="dark" content={content.value}>
                 <ElButton
+                    v-show={visible.value}
                     size="small"
-                    style={{ display: visible.value ? 'inline-flex' : 'none' }}
+                    style={ICON_BTN_STYLE}
                     type={readRemote.value ? 'primary' : null}
-                    class="record-filter-icon-button"
                     onClick={() => readRemote.value = !readRemote.value}
                 >
                     <ElIcon size={17} style={{ padding: "0 1px" }}>

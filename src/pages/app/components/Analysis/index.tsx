@@ -10,11 +10,10 @@ import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import { type AnalysisQuery } from "./common"
-import Filter from "./components/AnalysisFilter"
+import AnalysisFilter from "./components/AnalysisFilter"
 import Summary from "./components/Summary"
 import Trend from "./components/Trend"
 import { initProvider } from "./context"
-import './style.sass'
 
 function getSiteFromQuery(): timer.site.SiteKey {
     // Process the query param
@@ -48,7 +47,7 @@ const _default = defineComponent(() => {
     initProvider(site, timeFormat, rows)
     return () => <ContentContainer
         v-slots={{
-            filter: () => <Filter
+            filter: () => <AnalysisFilter
                 site={site.value}
                 timeFormat={timeFormat.value}
                 onSiteChange={setSite}

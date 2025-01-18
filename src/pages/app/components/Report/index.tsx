@@ -20,7 +20,6 @@ import { initProvider } from "./context"
 import ReportFilter from "./ReportFilter"
 import ReportList from "./ReportList"
 import ReportTable from "./ReportTable"
-import './style'
 import type { DisplayComponent, ReportFilterOption, ReportQueryParam, ReportSort } from "./types"
 
 const statDatabase = new StatDatabase(chrome.storage.local)

@@ -2,10 +2,7 @@ import { useCached } from "@hooks"
 import { ElOption, ElSelect } from "element-plus"
 import { defineComponent, type PropType, watch } from "vue"
 import { useRoute } from "vue-router"
-
-export type MultiSelectFilterItemInstance = {
-    updateValue: (val: number[]) => void
-}
+import { SELECT_WRAPPER_STYLE } from "./common"
 
 const MultiSelectFilterItem = defineComponent({
     props: {
@@ -26,11 +23,8 @@ const MultiSelectFilterItem = defineComponent({
         const { data, setter } = useCached(cacheKey, props.defaultValue)
         watch(data, () => ctx.emit('change', data.value))
 
-        ctx.expose({ updateValue: setter } satisfies MultiSelectFilterItemInstance)
-
         return () => (
             <ElSelect
-                class="filter-item"
                 modelValue={data.value}
                 onChange={setter}
                 multiple
@@ -39,6 +33,7 @@ const MultiSelectFilterItem = defineComponent({
                 disabled={props.disabled}
                 onClear={() => setter([])}
                 placeholder={props.placeholder}
+                style={SELECT_WRAPPER_STYLE}
             >
                 {props.options?.map(({ value, label }) => <ElOption value={value} label={label ?? value} />)}
             </ElSelect>

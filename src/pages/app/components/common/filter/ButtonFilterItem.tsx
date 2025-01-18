@@ -4,7 +4,6 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { classNames } from "@pages/util/style"
 import { type ButtonType, ElButton } from "element-plus"
 import { defineComponent, type PropType } from "vue"
 import { type JSX } from "vue/jsx-runtime"
@@ -23,14 +22,16 @@ const _default = defineComponent({
         click: () => true
     },
     setup(props, ctx) {
-        return () => <ElButton
-            class={classNames('filter-item', props.right && 'filter-item-right')}
-            type={props.type}
-            icon={props.icon}
-            onClick={() => ctx.emit("click")}
-        >
-            {props.text}
-        </ElButton>
+        return () => (
+            <ElButton
+                class='filter-item'
+                type={props.type}
+                icon={props.icon}
+                onClick={() => ctx.emit("click")}
+            >
+                {props.text}
+            </ElButton>
+        )
     }
 })
 

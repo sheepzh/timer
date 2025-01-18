@@ -3,10 +3,10 @@ import { useRequest } from "@hooks/useRequest"
 import { useState } from "@hooks/useState"
 import cateService from "@service/cate-service"
 import optionService from "@service/option-service"
-import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import { groupBy } from "@util/array"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { isDarkMode, toggle } from "@util/dark-mode"
+import { CATE_NOT_SET_ID } from "@util/site"
 import { onBeforeMount, ref, type Ref } from "vue"
 import { type PopupQuery } from "./common"
 import { t } from "./locale"
@@ -58,7 +58,7 @@ export const initPopupContext = (): Ref<number> => {
     const { data: cateNameMap } = useRequest(async () => {
         const categories = await cateService.listAll()
         const result = groupBy(categories || [], c => c?.id, l => l?.[0]?.name)
-        result[CATE_MERGE_PLACEHOLDER_ID] = t(msg => msg.shared.cate.notSet)
+        result[CATE_NOT_SET_ID] = t(msg => msg.shared.cate.notSet)
         return result
     })
     useProvide<PopupContextValue>(NAMESPACE, { reload, darkMode, setDarkMode, query, setQuery, cateNameMap })

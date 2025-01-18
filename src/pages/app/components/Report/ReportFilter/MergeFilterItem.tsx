@@ -1,9 +1,10 @@
 import { t } from "@app/locale"
-import { useCached } from "@hooks/index"
+import { useCached } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { ALL_MERGE_METHODS, processNewMethod } from "@util/merge"
 import { ElCheckboxButton, ElCheckboxGroup, ElText } from "element-plus"
 import { defineComponent, type PropType, watch } from "vue"
+import "./merge-filter-item.sass"
 
 const MergeFilterItem = defineComponent({
     props: {
@@ -23,8 +24,10 @@ const MergeFilterItem = defineComponent({
         }
 
         return () => (
-            <Flex gap={9} class="merge-filter-item-wrapper">
-                <ElText>{t(msg => msg.shared.merge.mergeBy)}</ElText>
+            <Flex gap={9} class="merge-filter-item">
+                <ElText tag="b" type="info">
+                    {t(msg => msg.shared.merge.mergeBy)}
+                </ElText>
                 <ElCheckboxGroup modelValue={data.value} onChange={handleChange}>
                     {ALL_MERGE_METHODS.filter(m => m !== 'cate' || !props.hideCate).map(method => (
                         <ElCheckboxButton value={method}>
