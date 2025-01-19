@@ -8,9 +8,10 @@ import { KanbanCard, KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { computed, defineComponent } from "vue"
-import { useAnalysisRows, useAnalysisSite, useAnalysisTimeFormat } from "../../context"
+import { useAnalysisRows, useAnalysisTarget, useAnalysisTimeFormat } from "../../context"
+import { AnalysisTarget } from "../../types"
 import Calendar from "./Calendar"
-import Site from "./Site"
+import TargetInfo from "./TargetInfo"
 import "./summary.sass"
 
 type Summary = {
@@ -20,8 +21,8 @@ type Summary = {
     firstDay?: string
 }
 
-function computeSummary(site: timer.site.SiteKey, rows: timer.stat.Row[]): Summary {
-    if (!site) return undefined
+function computeSummary(target: AnalysisTarget, rows: timer.stat.Row[]): Summary {
+    if (!target) return undefined
 
     const summary: Summary = { focus: 0, visit: 0, day: 0 }
     summary.firstDay = rows?.[0]?.date
@@ -38,16 +39,16 @@ const FOCUS_LABEL = t(msg => msg.analysis.common.focusTotal)
 const VISIT_LABEL = t(msg => msg.analysis.common.visitTotal)
 
 const _default = defineComponent(() => {
-    const site = useAnalysisSite()
+    const target = useAnalysisTarget()
     const timeFormat = useAnalysisTimeFormat()
     const rows = useAnalysisRows()
-    const summary = computed(() => computeSummary(site.value, rows.value))
+    const summary = computed(() => computeSummary(target.value, rows.value))
 
     return () => (
         <KanbanCard title={t(msg => msg.analysis.summary.title)}>
             <div class="analysis-summary-container">
                 <div class='indicator-area'>
-                    <Site />
+                    <TargetInfo />
                     <KanbanIndicatorCell
                         mainName={FOCUS_LABEL}
                         mainValue={periodFormatter(summary.value?.focus, { format: timeFormat.value })}
