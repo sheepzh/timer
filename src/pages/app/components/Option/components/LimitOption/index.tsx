@@ -6,16 +6,16 @@
  */
 
 import { t } from "@app/locale"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
+import { processVerification } from "@app/util/limit"
 import { Edit, Lock } from "@element-plus/icons-vue"
-import limitService from "@service/limit-service"
 import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
-import { ElButton, ElInput, ElMessage, ElMessageBox, ElOption, ElSelect } from "element-plus"
-import { defineComponent, reactive, ref, type Ref, unref, type UnwrapRef, watch } from "vue"
+import { ElButton, ElInput, ElInputNumber, ElMessage, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
+import { defineComponent, reactive, unref, type UnwrapRef, watch } from "vue"
 import { type OptionInstance } from "../../common"
 import OptionItem from "../OptionItem"
 import "./limit-option.sass"
+import { useVerify } from "./useVerify"
 
 const ALL_LEVEL: timer.limit.RestrictionLevel[] = [
     'nothing',
@@ -30,32 +30,21 @@ const ALL_DIFF: timer.limit.VerificationDifficulty[] = [
     'disgusting',
 ]
 
-const verifyTriggered = async (option: timer.option.DailyLimitOption, verified: Ref<boolean>): Promise<void> => {
-    if (verified.value) return
-    const items = await limitService.select({ filterDisabled: true, url: undefined })
-    const triggerResults = await Promise.all((items || []).map(judgeVerificationRequired))
-    const anyTrigger = triggerResults.some(t => !!t)
-    if (!anyTrigger) {
-        verified.value = true
-        return
-    }
-    const promise = processVerification(option)
-    return (promise || Promise.resolve()).then(() => { verified.value = true })
-}
-
-function copy(target: timer.option.DailyLimitOption, source: timer.option.DailyLimitOption) {
+function copy(target: timer.option.LimitOption, source: timer.option.LimitOption) {
     target.limitPrompt = source.limitPrompt
     target.limitLevel = source.limitLevel
     target.limitPassword = source.limitPassword
     target.limitVerifyDifficulty = source.limitVerifyDifficulty
 }
 
-function reset(target: timer.option.DailyLimitOption) {
+function reset(target: timer.option.LimitOption) {
     const defaultValue = defaultDailyLimit()
     // Not to reset limitPassword
     delete defaultValue.limitPassword
     // Not to reset difficulty
     delete defaultValue.limitVerifyDifficulty
+    // Not to reset notification duraion
+    delete defaultValue.limitNotifyDuration
     Object.entries(defaultValue).forEach(([key, val]) => target[key] = val)
 }
 
@@ -94,21 +83,21 @@ const modifyPsw = async (oldPsw?: string): Promise<string> => {
 }
 
 const _default = defineComponent((_, ctx) => {
-    const option: UnwrapRef<timer.option.DailyLimitOption> = reactive(defaultDailyLimit())
-    const verified = ref(false)
+    const option: UnwrapRef<timer.option.LimitOption> = reactive(defaultDailyLimit())
+
+    const { verified, verify } = useVerify(option)
+
     optionService.getAllOption().then(currentVal => {
         copy(option, currentVal)
-        watch(option, () => optionService.setDailyLimitOption(unref(option)))
+        watch(option, () => optionService.setLimitOption(unref(option)))
     })
     ctx.expose({
-        reset: () => verifyTriggered(option, verified)
-            .then(() => reset(option))
-            .catch(() => { })
+        reset: () => verify().then(() => reset(option)).catch(() => { })
     } satisfies OptionInstance)
 
     const handleLevelChange = async (val: timer.limit.RestrictionLevel) => {
         try {
-            await verifyTriggered(option, verified)
+            await verify()
             if (val === "strict") {
                 await confirm4Strict()
             } else if (val === "password") {
@@ -122,7 +111,7 @@ const _default = defineComponent((_, ctx) => {
 
     const handlePswEdit = async () => {
         try {
-            await verifyTriggered(option, verified)
+            await verify()
             option.limitPassword = await modifyPsw(option.limitPassword)
             ElMessage.success(t(msg => msg.operation.successMsg))
         } catch (e) {
@@ -132,9 +121,25 @@ const _default = defineComponent((_, ctx) => {
 
     return () => <>
         <OptionItem
+            hideDivider
+            label={msg => msg.option.dailyLimit.notify}
+            v-slots={{
+                default: () => (
+                    <ElSwitch modelValue={option.limitNotify} onChange={(val: boolean) => option.limitNotify = val} />
+                ),
+                minInput: () => (
+                    <ElInputNumber
+                        modelValue={option.limitNotifyDuration}
+                        onChange={(val: number) => option.limitNotifyDuration = val}
+                        min={1} max={20}
+                        size="small"
+                    />
+                ),
+            }}
+        />
+        <OptionItem
             label={msg => msg.option.dailyLimit.level.label}
             defaultValue={t(msg => msg.option.dailyLimit.level[defaultDailyLimit().limitLevel])}
-            hideDivider
         >
             <ElSelect
                 modelValue={option.limitLevel}
@@ -168,7 +173,7 @@ const _default = defineComponent((_, ctx) => {
             <ElSelect
                 modelValue={option.limitVerifyDifficulty}
                 size="small"
-                onChange={(val: timer.limit.VerificationDifficulty) => verifyTriggered(option, verified)
+                onChange={(val: timer.limit.VerificationDifficulty) => verify()
                     .then(() => option.limitVerifyDifficulty = val)
                     .catch(console.log)
                 }

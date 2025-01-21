@@ -111,7 +111,7 @@ class OptionService {
     /**
      * @since 1.9.0
      */
-    setDailyLimitOption = setOption
+    setLimitOption = setOption
     /**
      * @since 1.2.0
      */

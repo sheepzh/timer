@@ -32,6 +32,7 @@ export type LimitMessage = {
         detail: string
         visits: string
         or: string
+        notEffective: string
     }
     button: {
         test: string

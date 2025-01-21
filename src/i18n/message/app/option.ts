@@ -60,6 +60,7 @@ export type OptionMessage = {
     }
     dailyLimit: {
         prompt: string
+        notify: string
         level: {
             [level in timer.limit.RestrictionLevel]: string
         } & {

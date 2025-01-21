@@ -5,7 +5,7 @@ import { locale } from "@i18n"
 import { getCssVariable } from "@pages/util/style"
 import { type VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
-import { dateMinute2Idx, hasLimited, skipToday } from "@util/limit"
+import { dateMinute2Idx, hasLimited, isEffective } from "@util/limit"
 import { ElMessage, ElMessageBox, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, type VNode } from "vue"
 
@@ -15,8 +15,9 @@ import { defineComponent, onMounted, ref, type VNode } from "vue"
  * @returns T/F
  */
 export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
-    const { visitTime, periods, enabled } = item || {}
-    if (!enabled || skipToday(item)) return false
+    if (!isEffective(item)) return false
+
+    const { visitTime, periods } = item
     // Daily or weekly
     if (hasLimited(item)) return true
     // Period
@@ -90,7 +91,7 @@ const AnswerCanvas = defineComponent({
  * @returns null if verification not required,
  *          or promise with resolve invoked only if verification code or password correct
  */
-export function processVerification(option: timer.option.DailyLimitOption, context?: Pick<ElMessageBoxOptions, 'appendTo'>): Promise<void> {
+export function processVerification(option: timer.option.LimitOption, context?: Pick<ElMessageBoxOptions, 'appendTo'>): Promise<void> {
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
     const { appendTo } = context || {}
     if (limitLevel === "strict") {
@@ -146,7 +147,7 @@ export function processVerification(option: timer.option.DailyLimitOption, conte
             message: <div style={{ userSelect: 'none' }}>{messageNode}</div>,
             showInput: true,
             showCancelButton: true,
-            showClose: true,
+            showClose: false,
         }).then(data => {
             const { value } = data
             if (value === answerValue) return resolve()

@@ -33,7 +33,7 @@ async function handleDelete(row: timer.limit.Item, callback: () => void) {
 async function handleModify(row: timer.limit.Item, callback: () => void) {
     let promise: Promise<void> = undefined
     if (await judgeVerificationRequired(row)) {
-        const option = (await optionService.getAllOption()) as timer.option.DailyLimitOption
+        const option = (await optionService.getAllOption()) as timer.option.LimitOption
         promise = processVerification(option)
         promise ? promise.then(callback).catch(() => { }) : callback()
     } else {

@@ -11,12 +11,13 @@
             "detail": "规则详情",
             "visitTime": "单次访问最长时间",
             "period": "不可访问的时间段",
-            "enabled": "是否有效",
+            "enabled": "启用状态",
             "effectiveDay": "生效日期",
             "delayAllowed": "再看 5 分钟",
             "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。",
             "visits": "次访问",
-            "or": "或者"
+            "or": "或者",
+            "notEffective": "未生效"
         },
         "step": {
             "base": "基本信息",
@@ -61,7 +62,7 @@
             "detail": "規則詳情",
             "visitTime": "每次訪問限制時長",
             "period": "受限時段",
-            "enabled": "是否有效",
+            "enabled": "啟用狀態",
             "effectiveDay": "生效日期",
             "delayAllowed": "再看 5 分鐘",
             "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。"
@@ -114,7 +115,8 @@
             "delayAllowed": "More 5 minutes",
             "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes",
             "visits": "visits",
-            "or": "or"
+            "or": "or",
+            "notEffective": "Not effective"
         },
         "step": {
             "base": "Basic Information",

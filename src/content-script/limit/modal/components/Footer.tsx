@@ -14,7 +14,7 @@ async function handleMore5Minutes(rule: timer.limit.Item, callback: () => void) 
     let promise: Promise<void> = undefined
     const ele = document.querySelector(TAG_NAME).shadowRoot.querySelector('body')
     if (await judgeVerificationRequired(rule)) {
-        const option = (await optionService.getAllOption()) as timer.option.DailyLimitOption
+        const option = (await optionService.getAllOption()) as timer.option.LimitOption
         promise = processVerification(option, { appendTo: ele })
         promise ? promise.then(callback).catch(() => { }) : callback()
     } else {

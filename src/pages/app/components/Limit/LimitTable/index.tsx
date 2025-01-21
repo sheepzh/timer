@@ -10,7 +10,8 @@ import { useManualRequest, useRequest, useWindowVisible } from "@hooks"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
 import limitService from "@service/limit-service"
-import { ElMessage, ElTable, ElTableColumn } from "element-plus"
+import { isEffective } from "@util/limit"
+import { ElMessage, ElTable, ElTableColumn, ElTag } from "element-plus"
 import { defineComponent } from "vue"
 import { useLimitFilter } from "../context"
 import LimitDelayColumn from "./column/LimitDelayColumn"
@@ -91,6 +92,13 @@ const _default = defineComponent({
                     formatter={({ cond }: timer.limit.Item) => <>{cond?.map?.(c => <span style={{ display: "block" }}>{c}</span>) || ''}</>}
                 />
                 <ElTableColumn
+                    label={t(msg => msg.limit.item.detail)}
+                    minWidth={240}
+                    align="center"
+                >
+                    {({ row }: ElTableRowScope<timer.limit.Item>) => <RuleContent value={row} />}
+                </ElTableColumn>
+                <ElTableColumn
                     label={t(msg => msg.limit.item.effectiveDay)}
                     minWidth={180}
                     align="center"
@@ -100,13 +108,6 @@ const _default = defineComponent({
                     {({ row: { weekdays } }: ElTableRowScope<timer.limit.Item>) => <Weekday value={weekdays} />}
                 </ElTableColumn>
                 <ElTableColumn
-                    label={t(msg => msg.limit.item.detail)}
-                    minWidth={240}
-                    align="center"
-                >
-                    {({ row }: ElTableRowScope<timer.limit.Item>) => <RuleContent value={row} />}
-                </ElTableColumn>
-                <ElTableColumn
                     prop={DEFAULT_SORT_COL}
                     sortable
                     sortMethod={sortMethodByNumVal('waste')}
@@ -114,15 +115,19 @@ const _default = defineComponent({
                     minWidth={110}
                     align="center"
                 >
-                    {({ row: { waste, time, count, visit, delayCount, allowDelay } }: ElTableRowScope<timer.limit.Item>) => (
+                    {({ row }: ElTableRowScope<timer.limit.Item>) => isEffective(row) ? (
                         <Waste
-                            waste={waste}
-                            time={time}
-                            count={count}
-                            visit={visit}
-                            allowDelay={allowDelay}
-                            delayCount={delayCount}
+                            waste={row.waste}
+                            time={row.time}
+                            count={row.count}
+                            visit={row.visit}
+                            allowDelay={row.allowDelay}
+                            delayCount={row.delayCount}
                         />
+                    ) : (
+                        <ElTag type="info" size="small">
+                            {t(msg => msg.limit.item.notEffective)}
+                        </ElTag>
                     )}
                 </ElTableColumn>
                 <ElTableColumn
