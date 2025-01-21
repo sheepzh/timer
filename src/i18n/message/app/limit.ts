@@ -32,6 +32,7 @@ export type LimitMessage = {
         delayAllowedInfo: string
         delayCount: string
         detail: string
+        notEffective: string
     }
     button: {
         test: string

@@ -24,14 +24,16 @@ export function hasWeeklyLimited(item: timer.limit.Item): boolean {
     return weeklyWaste >= weekly * 1000 + weeklyDelayCount * DELAY_MILL
 }
 
-export function skipToday(item: timer.limit.Item): boolean {
-    const weekdays = item?.weekdays
+export function isEffective(item: timer.limit.Item): boolean {
+    const { enabled, weekdays } = item || {}
+    if (!enabled) return false
+
     const weekdayLen = weekdays?.length
-    if (weekdayLen && weekdayLen !== 7) {
-        const weekday = getWeekDay(new Date())
-        if (!weekdays.includes(weekday)) return true
+    if (!weekdayLen || weekdayLen <= 0 || weekdayLen >= 7) {
+        return true
     }
-    return false
+    const weekday = getWeekDay(new Date())
+    return weekdays.includes(weekday)
 }
 
 export const checkImpact = (p1: timer.limit.Period, p2: timer.limit.Period): boolean => {

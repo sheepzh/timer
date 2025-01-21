@@ -9,7 +9,7 @@ import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import LimitDatabase from "@db/limit-database"
 import weekHelper from "@service/components/week-helper"
 import { sum } from "@util/array"
-import { hasLimited, matches, skipToday } from "@util/limit"
+import { hasLimited, isEffective, matches } from "@util/limit"
 import { formatTimeYMD } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
 
@@ -50,14 +50,18 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
         })
 }
 
+async function selectEffective() {
+    const enabledItems: timer.limit.Item[] = await select({ filterDisabled: true })
+    return enabledItems?.filter(isEffective) || []
+}
+
 /**
  * Fired if the item is removed or disabled
  *
  * @param item
  */
 async function noticeLimitChanged() {
-    const allItems: timer.limit.Item[] = await select({ filterDisabled: false, url: undefined })
-    const effectiveItems = allItems.filter(item => item.enabled && !skipToday(item))
+    const effectiveItems = await selectEffective()
     const tabs = await listTabs()
     tabs.forEach(tab => {
         const limitedItems = effectiveItems.filter(item => matches(item?.cond, tab.url))
@@ -87,9 +91,8 @@ async function getLimited(url: string): Promise<timer.limit.Item[]> {
 }
 
 async function getRelated(url: string): Promise<timer.limit.Item[]> {
-    return (await select())
-        .filter(item => item.enabled && !skipToday(item))
-        .filter(item => matches(item?.cond, url))
+    const effectiveItems = await selectEffective()
+    return effectiveItems.filter(item => matches(item?.cond, url))
 }
 
 /**
@@ -100,10 +103,11 @@ async function getRelated(url: string): Promise<timer.limit.Item[]> {
  * @returns the rules is limit cause of this operation
  */
 async function addFocusTime(url: string, focusTime: number): Promise<timer.limit.Item[]> {
-    const allEnabled: timer.limit.Item[] = await select({ filterDisabled: true, url })
+    const allEnabled = await select({ filterDisabled: true, url })
+    const allEffective = allEnabled?.filter?.(isEffective) || []
     const toUpdate: { [cond: string]: number } = {}
     const result: timer.limit.Item[] = []
-    allEnabled.forEach(item => {
+    allEffective.forEach(item => {
         const limitBefore = hasLimited(item)
         toUpdate[item.id] = item.waste += focusTime
         // Fast increase
