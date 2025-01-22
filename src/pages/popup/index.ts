@@ -17,7 +17,7 @@ import initRouter from "./router"
 import "./style"
 
 function send2ParentWindow(data: any): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         try {
             const stamp = Date.now()
             window.onmessage = (ev: MessageEvent) => {

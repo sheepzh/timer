@@ -1,7 +1,7 @@
 import { useRequest } from "@hooks/useRequest"
 import { usePopupContext } from "@popup/context"
 import { PieChart } from "echarts/charts"
-import { LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from "echarts/components"
+import { AriaComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from "echarts/components"
 import { use } from "echarts/core"
 import { CanvasRenderer } from "echarts/renderers"
 import { ElCard } from "element-plus"
@@ -10,7 +10,7 @@ import Cate from "./Cate"
 import { doQuery } from "./query"
 import Site from "./Site"
 
-use([CanvasRenderer, PieChart, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
+use([CanvasRenderer, PieChart, AriaComponent, LegendComponent, TitleComponent, TooltipComponent, ToolboxComponent])
 
 const Percentage = defineComponent(() => {
     const { query } = usePopupContext()
