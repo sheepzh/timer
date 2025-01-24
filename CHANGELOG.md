@@ -4,6 +4,14 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [3.1.0] - 2025-01-25
+
+-   Supported daily and weekly visit limit
+-   Supported filtering records and sites for categories-unset
+-   Supported analysis of category
+-   Supported reminder before limit time up
+-   Fixed some bugs
+
 ## [3.0.6] - 2025-01-21
 
 -   Fixed a bug of limit effective days
