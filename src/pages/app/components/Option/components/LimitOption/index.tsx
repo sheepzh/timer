@@ -4,15 +4,14 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-
 import { t } from "@app/locale"
 import { processVerification } from "@app/util/limit"
 import { Edit, Lock } from "@element-plus/icons-vue"
-import optionService from "@service/option-service"
 import { defaultDailyLimit } from "@util/constant/option"
 import { ElButton, ElInput, ElInputNumber, ElMessage, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, reactive, unref, type UnwrapRef, watch } from "vue"
+import { defineComponent } from "vue"
 import { type OptionInstance } from "../../common"
+import { useOption } from "../../useOption"
 import OptionItem from "../OptionItem"
 import "./limit-option.sass"
 import { useVerify } from "./useVerify"
@@ -35,6 +34,8 @@ function copy(target: timer.option.LimitOption, source: timer.option.LimitOption
     target.limitLevel = source.limitLevel
     target.limitPassword = source.limitPassword
     target.limitVerifyDifficulty = source.limitVerifyDifficulty
+    target.limitReminder = source.limitReminder
+    target.limitReminderDuration = source.limitReminderDuration
 }
 
 function reset(target: timer.option.LimitOption) {
@@ -43,8 +44,8 @@ function reset(target: timer.option.LimitOption) {
     delete defaultValue.limitPassword
     // Not to reset difficulty
     delete defaultValue.limitVerifyDifficulty
-    // Not to reset notification duraion
-    delete defaultValue.limitNotifyDuration
+    // Not to reset notification duration
+    delete defaultValue.limitReminderDuration
     Object.entries(defaultValue).forEach(([key, val]) => target[key] = val)
 }
 
@@ -83,14 +84,10 @@ const modifyPsw = async (oldPsw?: string): Promise<string> => {
 }
 
 const _default = defineComponent((_, ctx) => {
-    const option: UnwrapRef<timer.option.LimitOption> = reactive(defaultDailyLimit())
+    const { option } = useOption({ defaultValue: defaultDailyLimit, copy })
 
     const { verified, verify } = useVerify(option)
 
-    optionService.getAllOption().then(currentVal => {
-        copy(option, currentVal)
-        watch(option, () => optionService.setLimitOption(unref(option)))
-    })
     ctx.expose({
         reset: () => verify().then(() => reset(option)).catch(() => { })
     } satisfies OptionInstance)
@@ -122,15 +119,20 @@ const _default = defineComponent((_, ctx) => {
     return () => <>
         <OptionItem
             hideDivider
-            label={msg => msg.option.dailyLimit.notify}
+            label={msg => msg.option.dailyLimit.reminder}
+            defaultValue={t(msg => msg.option.no)}
             v-slots={{
                 default: () => (
-                    <ElSwitch modelValue={option.limitNotify} onChange={(val: boolean) => option.limitNotify = val} />
+                    <ElSwitch
+                        modelValue={option.limitReminder}
+                        onChange={(val: boolean) => option.limitReminder = val}
+                    />
                 ),
                 minInput: () => (
                     <ElInputNumber
-                        modelValue={option.limitNotifyDuration}
-                        onChange={(val: number) => option.limitNotifyDuration = val}
+                        disabled={!option.limitReminder}
+                        modelValue={option.limitReminderDuration}
+                        onChange={(val: number) => option.limitReminderDuration = val}
                         min={1} max={20}
                         size="small"
                     />

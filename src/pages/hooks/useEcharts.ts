@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import accessibilityHelper from "@service/components/accessibility-helper"
+import optionHolder from "@service/components/option-holder"
 import { processAria, processRtl } from "@util/echarts"
 import { useWindowSize } from "@vueuse/core"
 import { type AriaComponentOption, type ComposeOption } from "echarts"
@@ -38,7 +38,7 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
         const option = await this.generateOption(biz) as (EchartsOption & BaseEchartsOption)
         if (!option) return
 
-        const { chartDecal } = await accessibilityHelper.getOption() || {}
+        const { chartDecal } = await optionHolder.get() || {}
         processAria(option, chartDecal)
         processRtl(option)
 

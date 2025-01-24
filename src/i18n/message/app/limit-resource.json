@@ -50,7 +50,8 @@
             "incorrectAnswer": "回答错误",
             "pi": "圆周率 π 的小数部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位数字",
             "confession": "一寸光阴一寸金，寸金难买寸光阴"
-        }
+        },
+        "reminder": "距离时间限制不到 {min} 分钟！"
     },
     "zh_TW": {
         "filterDisabled": "過濾無效規則",
@@ -147,7 +148,8 @@
             "incorrectAnswer": "Incorrect answer",
             "pi": "{digitCount} digits from {startIndex} to {endIndex} of the decimal part of π",
             "confession": "Time is fleeting"
-        }
+        },
+        "reminder": "Less than {min} minutes until the time limit!"
     },
     "ja": {
         "filterDisabled": "有效",

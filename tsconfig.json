@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "baseUrl": "./",
-        "module": "commonjs",
-        "target": "ES2022",
+        "module": "CommonJS",
+        "target": "ESNext",
         "lib": [
             "ES2023"
         ],

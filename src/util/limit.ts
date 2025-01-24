@@ -16,6 +16,40 @@ export const meetTimeLimit = (limitSec: number, wastedMill: number, allowDelay: 
     return meetLimit(realLimit, wastedMill)
 }
 
+type TimeLimitState = 'NORMAL' | 'REMINDER' | 'LIMITED'
+
+type LimitStateResult = {
+    daily: TimeLimitState
+    weekly: TimeLimitState
+}
+
+export function calcTimeState(item: timer.limit.Item, reminderMills: number): LimitStateResult {
+    let res: LimitStateResult = {
+        daily: "NORMAL",
+        weekly: "NORMAL",
+    }
+    const {
+        time, waste = 0, delayCount = 0,
+        weekly, weeklyWaste = 0, weeklyDelayCount = 0,
+        allowDelay,
+    } = item || {}
+    // 1. daily states
+    if (meetTimeLimit(time, waste, allowDelay, delayCount)) {
+        res.daily = 'LIMITED'
+    } else if (reminderMills && meetTimeLimit(time, waste + reminderMills, allowDelay, delayCount)) {
+        res.daily = 'REMINDER'
+    }
+
+    // 2. weekly states
+    if (meetTimeLimit(weekly, weeklyWaste, allowDelay, weeklyDelayCount)) {
+        res.weekly = 'LIMITED'
+    } else if (reminderMills && meetTimeLimit(weekly, weeklyWaste + reminderMills, allowDelay, weeklyDelayCount)) {
+        res.weekly = 'REMINDER'
+    }
+
+    return res
+}
+
 export function hasLimited(item: timer.limit.Item): boolean {
     return hasDailyLimited(item) || hasWeeklyLimited(item)
 }
@@ -34,9 +68,13 @@ export function hasWeeklyLimited(item: timer.limit.Item): boolean {
     return timeMeet || countMeet
 }
 
-export function isEffective(item: timer.limit.Item): boolean {
-    const { enabled, weekdays } = item || {}
-    if (!enabled) return false
+export function isEnabledAndEffective(rule: timer.limit.Rule): boolean {
+    return rule?.enabled && isEffective(rule)
+}
+
+export function isEffective(rule: timer.limit.Rule): boolean {
+    if (!rule) return false
+    const { weekdays } = rule
 
     const weekdayLen = weekdays?.length
     if (!weekdayLen || weekdayLen <= 0 || weekdayLen >= 7) {
@@ -44,25 +82,6 @@ export function isEffective(item: timer.limit.Item): boolean {
     }
     const weekday = getWeekDay(new Date())
     return weekdays.includes(weekday)
-}
-
-export const checkImpact = (p1: timer.limit.Period, p2: timer.limit.Period): boolean => {
-    if (!p1 || !p2) return false
-    const [s1, e1] = p1
-    const [s2, e2] = p2
-    return (s1 >= s2 && s1 <= e2) || (s2 >= s1 && s2 <= e1)
-}
-
-export const mergePeriod = (target: timer.limit.Period, toMerge: timer.limit.Period) => {
-    if (!target || !toMerge) return
-    target[0] = Math.min(target[0], toMerge[0])
-    target[1] = Math.max(target[1], toMerge[1])
-}
-
-export const sortPeriod = (p1: timer.limit.Period, p2: timer.limit.Period): number => {
-    const [s1 = 0, e1 = 0] = p1 || []
-    const [s2 = 0, e2 = 0] = p2 || []
-    return s1 === s2 ? e1 - e2 : s1 - s2
 }
 
 const idx2Str = (time: number): string => {

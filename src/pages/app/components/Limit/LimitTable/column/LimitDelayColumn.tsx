@@ -9,14 +9,14 @@ import ColumnHeader from "@app/components/common/ColumnHeader"
 import { t } from "@app/locale"
 import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { type ElTableRowScope } from "@pages/element-ui/table"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import { ElSwitch, ElTableColumn } from "element-plus"
 import { defineComponent, toRaw } from "vue"
 
 async function handleChange(row: timer.limit.Item, newVal: boolean): Promise<void> {
     if (newVal && await judgeVerificationRequired(row)) {
         // Open delay for limited rules, so verification is required
-        const option = await optionService.getAllOption()
+        const option = await optionHolder.get()
         await processVerification(option)
     }
 }

@@ -9,7 +9,7 @@ import { t } from "@app/locale"
 import { Check, Close, Plus } from "@element-plus/icons-vue"
 import { useState, useSwitch } from "@hooks"
 import Flex from "@pages/components/Flex"
-import { checkImpact, dateMinute2Idx, mergePeriod, period2Str } from "@util/limit"
+import { dateMinute2Idx, period2Str } from "@util/limit"
 import { MILL_PER_HOUR } from "@util/time"
 import { ElButton, ElTag, ElTimePicker } from "element-plus"
 import { type PropType, type StyleValue, defineComponent } from "vue"
@@ -55,6 +55,19 @@ const insertPeriods = (periods: timer.limit.Period[], toInsert: timer.limit.Peri
     // Append
     periods.push(toInsert)
     periods.sort((a, b) => a[0] - b[0])
+}
+
+const mergePeriod = (target: timer.limit.Period, toMerge: timer.limit.Period) => {
+    if (!target || !toMerge) return
+    target[0] = Math.min(target[0], toMerge[0])
+    target[1] = Math.max(target[1], toMerge[1])
+}
+
+const checkImpact = (p1: timer.limit.Period, p2: timer.limit.Period): boolean => {
+    if (!p1 || !p2) return false
+    const [s1, e1] = p1
+    const [s2, e2] = p2
+    return (s1 >= s2 && s1 <= e2) || (s2 >= s1 && s2 <= e1)
 }
 
 const _default = defineComponent({

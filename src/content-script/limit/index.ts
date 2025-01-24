@@ -5,6 +5,7 @@ import ModalInstance from "./modal"
 import MessageAdaptor from "./processor/message-adaptor"
 import PeriodProcessor from "./processor/period-processor"
 import VisitProcessor from "./processor/visit-processor"
+import Reminder from "./reminder"
 
 export default async function processLimit(url: string) {
     const modal: MaskModal = new ModalInstance(url)
@@ -14,6 +15,7 @@ export default async function processLimit(url: string) {
         new MessageAdaptor(context),
         new PeriodProcessor(context),
         new VisitProcessor(context),
+        new Reminder(),
     ]
 
     await Promise.all(processors.map(p => p.init()))

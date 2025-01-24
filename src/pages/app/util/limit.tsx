@@ -5,7 +5,7 @@ import { locale } from "@i18n"
 import { getCssVariable } from "@pages/util/style"
 import { type VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
-import { dateMinute2Idx, hasLimited, isEffective } from "@util/limit"
+import { dateMinute2Idx, hasLimited, isEnabledAndEffective } from "@util/limit"
 import { ElMessage, ElMessageBox, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, type VNode } from "vue"
 
@@ -15,7 +15,7 @@ import { defineComponent, onMounted, ref, type VNode } from "vue"
  * @returns T/F
  */
 export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
-    if (!isEffective(item)) return false
+    if (!isEnabledAndEffective(item)) return false
 
     const { visitTime, periods } = item
     // Daily or weekly

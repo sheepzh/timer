@@ -7,12 +7,12 @@
 import { t } from "@app/locale"
 import { type I18nKey, t as t_ } from "@i18n"
 import DurationSelect, { rangeLabel } from "@popup/components/Footer/DurationSelect"
-import optionService from "@service/option-service"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, onBeforeMount, reactive, unref, watch } from "vue"
+import { defineComponent } from "vue"
 import { type OptionInstance } from "../common"
+import { useOption } from "../useOption"
 import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
 
@@ -57,13 +57,7 @@ function copy(target: timer.option.PopupOption, source: timer.option.PopupOption
 }
 
 const _default = defineComponent((_props, ctx) => {
-    const option = reactive(defaultPopup())
-
-    onBeforeMount(async () => {
-        const currentVal = await optionService.getAllOption()
-        copy(option, currentVal)
-        watch(option, () => optionService.setPopupOption(unref(option)))
-    })
+    const { option } = useOption({ defaultValue: defaultPopup, copy })
 
     ctx.expose({
         reset: () => copy(option, defaultPopup())

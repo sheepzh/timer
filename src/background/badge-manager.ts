@@ -9,8 +9,8 @@ import { setBadgeBgColor, setBadgeText } from "@api/chrome/action"
 import { listTabs } from "@api/chrome/tab"
 import { getFocusedNormalWindow } from "@api/chrome/window"
 import StatDatabase from "@db/stat-database"
+import optionHolder from "@service/components/option-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
-import optionService from "@service/option-service"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 import MessageDispatcher from "./message-dispatcher"
@@ -70,9 +70,9 @@ class BadgeManager {
     state: BadgeState
 
     async init(messageDispatcher: MessageDispatcher) {
-        const option: timer.option.AllOption = await optionService.getAllOption()
+        const option = await optionHolder.get()
         this.processOption(option)
-        optionService.addOptionChangeListener(opt => this.processOption(opt))
+        optionHolder.addChangeListener(opt => this.processOption(opt))
         whitelistHolder.addPostHandler(() => this.render())
         messageDispatcher
             .register('cs.idleChange', (isIdle, sender) => {

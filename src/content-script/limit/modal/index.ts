@@ -2,20 +2,10 @@ import { getUrl, sendMsg2Runtime } from '@api/chrome/runtime'
 import optionService from '@service/option-service'
 import { init as initTheme, toggle } from '@util/dark-mode'
 import { createApp, Ref, type App } from 'vue'
-import { isSameReason, type LimitReason, type MaskModal } from '../common'
+import { exitFullscreen, isSameReason, type LimitReason, type MaskModal } from '../common'
 import { TAG_NAME, type RootElement } from '../element'
 import Main from './Main'
 import { provideDelayHandler, provideReason } from './context'
-
-async function exitFullscreen(): Promise<void> {
-    if (!document?.fullscreenElement) return
-    if (!document?.exitFullscreen) return
-    try {
-        await document.exitFullscreen()
-    } catch (e) {
-        console.warn('Failed to exit fullscreen', e)
-    }
-}
 
 function pauseAllVideo(): void {
     const elements = document?.getElementsByTagName('video')

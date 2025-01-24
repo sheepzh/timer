@@ -9,14 +9,14 @@ import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import { type ElTableRowScope } from "@pages/element-ui/table"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 
 async function handleDelete(row: timer.limit.Item, callback: () => void) {
     let promise = undefined
     if (await judgeVerificationRequired(row)) {
-        const option = await optionService.getAllOption()
+        const option = await optionHolder.get()
         promise = processVerification(option)
     }
     if (!promise) {
@@ -33,7 +33,7 @@ async function handleDelete(row: timer.limit.Item, callback: () => void) {
 async function handleModify(row: timer.limit.Item, callback: () => void) {
     let promise: Promise<void> = undefined
     if (await judgeVerificationRequired(row)) {
-        const option = (await optionService.getAllOption()) as timer.option.LimitOption
+        const option = await optionHolder.get()
         promise = processVerification(option)
         promise ? promise.then(callback).catch(() => { }) : callback()
     } else {

@@ -6,7 +6,7 @@
  */
 
 import processor from "@service/backup/processor"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import { MILL_PER_MINUTE } from "@util/time"
 import alarmManager from "./alarm-manager"
 
@@ -20,8 +20,8 @@ class BackupScheduler {
     interval: number = 0
 
     init() {
-        optionService.getAllOption().then(opt => this.handleOption(opt))
-        optionService.addOptionChangeListener(opt => this.handleOption(opt))
+        optionHolder.get().then(opt => this.handleOption(opt))
+        optionHolder.addChangeListener(opt => this.handleOption(opt))
     }
 
     private handleOption(option: timer.option.BackupOption) {

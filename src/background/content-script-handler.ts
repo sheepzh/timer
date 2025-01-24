@@ -7,9 +7,9 @@
 
 import { createTab } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
+import optionHolder from "@service/components/option-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
 import limitService from "@service/limit-service"
-import optionService from "@service/option-service"
 import { getAppPageUrl } from "@util/constant/url"
 import { extractFileHost, extractHostname } from "@util/pattern"
 import badgeManager from "./badge-manager"
@@ -47,7 +47,7 @@ export default function init(dispatcher: MessageDispatcher) {
         .register<{ host?: string, url?: string }, boolean>('cs.isInWhitelist', ({ host, url } = {}) => whitelistHolder.contains(host, url))
         // Need to print the information of today
         .register<void, boolean>('cs.printTodayInfo', async () => {
-            const option = await optionService.getAllOption()
+            const option = await optionHolder.get()
             return !!option.printInConsole
         })
         // cs.getLimitedRules
