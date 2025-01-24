@@ -58,15 +58,19 @@
         "item": {
             "name": "規則名稱",
             "condition": "限製網址",
+            "daily": "每日上限",
+            "weekly": "每週上限",
             "weekStartInfo": "每週的第一天是「{weekStart}」，您可以在統計選項中變更此值",
             "delayCount": "延遲次數",
             "detail": "規則詳情",
             "visitTime": "每次訪問限制時長",
             "period": "受限時段",
-            "enabled": "啟用狀態",
+            "enabled": "是否有效",
             "effectiveDay": "生效日期",
             "delayAllowed": "再看 5 分鐘",
-            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。"
+            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
+            "visits": "次訪問",
+            "or": "或"
         },
         "step": {
             "base": "基本信息",
@@ -156,6 +160,7 @@
         "item": {
             "name": "規則名",
             "condition": "制限 URL",
+            "daily": "1日の限度",
             "weekly": "週間の限度",
             "weekStartInfo": "各週の最初の日は「{weekStart}」, 統計オプションでこの値を変更することができます",
             "delayCount": "遅延回数",
@@ -165,7 +170,10 @@
             "enabled": "有效",
             "effectiveDay": "発効日",
             "delayAllowed": "さらに5分間閲覧する",
-            "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます"
+            "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます",
+            "visits": "訪問数",
+            "or": "や",
+            "notEffective": "効果がない"
         },
         "step": {
             "base": "基本情報",
@@ -196,13 +204,15 @@
             "incorrectAnswer": "間違った回答",
             "pi": "πの小数部の{digitCount} から {startIndex} までの {endIndex} 桁の数",
             "confession": "人生とは今日一日のことである"
-        }
+        },
+        "reminder": "制限時間まで {min} 分未満！"
     },
     "pt_PT": {
         "filterDisabled": "Apenas Habilitadas",
         "item": {
             "name": "Nome da regra",
             "condition": "Restrito URL",
+            "daily": "Limite diário",
             "weekly": "Limite semanal",
             "weekStartInfo": "O primeiro dia de cada semana é {weekStart}, pode alterar este valor nas opções de estatísticas",
             "delayCount": "Contagem de atraso",
@@ -212,7 +222,10 @@
             "enabled": "Ativado",
             "effectiveDay": "Efetivo ativado",
             "delayAllowed": "Mais 5 minutos",
-            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos"
+            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
+            "visits": "visitas",
+            "or": "ou",
+            "notEffective": "Não é eficaz"
         },
         "step": {
             "base": "Informação básica",
@@ -243,13 +256,15 @@
             "incorrectAnswer": "Resposta incorreta",
             "pi": "{digitCount} dígitos de {startIndex} a {endIndex} da parte decimal de π",
             "confession": "Tempo é dinheiro"
-        }
+        },
+        "reminder": "Faltam menos de {min} minutos para o tempo limite!"
     },
     "uk": {
         "filterDisabled": "Лише увімкнені",
         "item": {
             "name": "Назва правила",
             "condition": "Обмежена URL-адреса",
+            "daily": "Денний ліміт",
             "weekly": "Тижневий ліміт",
             "weekStartInfo": "Перший день кожного тижня {weekStart}. Ви можете змінити це значення у налаштуваннях статистики",
             "delayCount": "Лічильник затримок",
@@ -259,7 +274,9 @@
             "enabled": "Увімкнено",
             "effectiveDay": "Діє",
             "delayAllowed": "Ще 5 хвилин",
-            "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин"
+            "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин",
+            "visits": "візитів",
+            "or": "або"
         },
         "step": {
             "base": "Загальна інформація",

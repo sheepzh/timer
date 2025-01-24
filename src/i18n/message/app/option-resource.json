@@ -186,6 +186,7 @@
         },
         "dailyLimit": {
             "prompt": "受限時顯示的提示文字 {input}",
+            "reminder": "{input} 時間結束前 {minInput} 分鐘提醒",
             "level": {
                 "label": "受限時如何解鎖 {input}",
                 "nothing": "允許在管理頁面直接解鎖",
@@ -444,6 +445,7 @@
         },
         "dailyLimit": {
             "prompt": "制限時に表示されるプロンプト {input}",
+            "reminder": "{input} 時間切れの {minInput} 分前にリマインダーを送信します",
             "level": {
                 "label": "制限中のロック解除方法 {input}",
                 "nothing": "管理者ページでの直接のロック解除を許可する",
@@ -572,6 +574,7 @@
         },
         "dailyLimit": {
             "prompt": "Prompt exibido quando restrito {input}",
+            "reminder": "{input} Lembrete {minInput} minutos antes do tempo terminar",
             "level": {
                 "label": "Como desbloquear enquanto restrito {input}",
                 "nothing": "Permitir o desbloqueio direto na página de administração",

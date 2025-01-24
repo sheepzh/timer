@@ -31,6 +31,10 @@
         }
     },
     "zh_TW": {
+        "target": {
+            "site": "網站",
+            "cate": "類別"
+        },
         "common": {
             "focusTotal": "總計瀏覽時長",
             "visitTotal": "總計訪問次數",
@@ -89,6 +93,10 @@
         }
     },
     "ja": {
+        "target": {
+            "site": "Web サイト",
+            "cate": "カテゴリー"
+        },
         "common": {
             "focusTotal": "総閲覧時間",
             "visitTotal": "総訪問数",
@@ -116,6 +124,10 @@
         }
     },
     "pt_PT": {
+        "target": {
+            "site": "Site",
+            "cate": "Categoria"
+        },
         "common": {
             "focusTotal": "Tempo total de navegação",
             "visitTotal": "Total de visitas",
@@ -143,6 +155,10 @@
         }
     },
     "uk": {
+        "target": {
+            "site": "Сайт",
+            "cate": "Категорія"
+        },
         "common": {
             "focusTotal": "Загальний час перегляду",
             "visitTotal": "Всього відвідувань",
