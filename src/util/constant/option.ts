@@ -52,9 +52,8 @@ export function defaultDailyLimit(): timer.option.LimitOption {
         limitLevel: 'nothing',
         limitPassword: '',
         limitVerifyDifficulty: 'easy',
-        limitNotify: false,
-        limitNotifyDuration: 5,
-        limitCountdown: false,
+        limitReminder: false,
+        limitReminderDuration: 5,
     }
 }
 

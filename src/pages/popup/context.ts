@@ -2,6 +2,7 @@ import { useProvide, useProvider } from "@hooks/useProvider"
 import { useRequest } from "@hooks/useRequest"
 import { useState } from "@hooks/useState"
 import cateService from "@service/cate-service"
+import optionHolder from "@service/components/option-holder"
 import optionService from "@service/option-service"
 import { groupBy } from "@util/array"
 import { IS_FIREFOX } from "@util/constant/environment"
@@ -38,7 +39,7 @@ export const initPopupContext = (): Ref<number> => {
     const [query, setQuery] = useState<PopupQuery>()
 
     onBeforeMount(async () => {
-        const option = await optionService.getAllOption()
+        const option = await optionHolder.get()
         const { defaultDuration, defaultType, defaultDurationNum, defaultMergeMethod } = option || {}
         setQuery({
             mergeMethod: defaultMergeMethod,

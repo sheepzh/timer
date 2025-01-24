@@ -121,4 +121,13 @@ declare namespace timer.limit {
         | "WEEKLY"
         | "VISIT"
         | "PERIOD"
+
+    /**
+     * @since 3.1.0
+     */
+    type ReminderInfo = {
+        items: timer.limit.Item[]
+        // Minutes
+        duration: number
+    }
 }

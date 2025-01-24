@@ -6,6 +6,7 @@ import localeMessages from "@i18n/message/common/locale"
 import Flex from "@pages/components/Flex"
 import { usePopupContext } from "@popup/context"
 import { t as tPopup } from "@popup/locale"
+import optionHolder from "@service/components/option-holder"
 import optionService from "@service/option-service"
 import { CROWDIN_HOMEPAGE } from "@util/constant/url"
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon, ElText } from "element-plus"
@@ -21,7 +22,7 @@ const SELECTED_STYLES: StyleValue = {
 
 const LangSelect = defineComponent(() => {
     const { data: current } = useRequest(async () => {
-        const option = await optionService.getAllOption()
+        const option = await optionHolder.get()
         return option?.locale
     })
 

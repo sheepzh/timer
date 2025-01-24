@@ -158,23 +158,17 @@ declare namespace timer.option {
          */
         limitVerifyDifficulty: limit.VerificationDifficulty
         /**
-         *  Whether to notify before time will meet
+         *  Whether to reminder before time will meet
          *
          * @since 3.1.0
          */
-        limitNotify: boolean
+        limitReminder: boolean
         /**
-         * Seconds
+         * Minutes
          *
          * @since 3.1.0
          */
-        limitNotifyDuration: number
-        /**
-         * Whether to show count down for limit page
-         *
-         * @since 3.1.0
-         */
-        limitCountdown: boolean
+        limitReminderDuration: number
     }
 
     /**

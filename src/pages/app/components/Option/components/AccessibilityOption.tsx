@@ -1,9 +1,9 @@
 import { t } from "@app/locale"
-import optionService from "@service/option-service"
 import { defaultAccessibility } from "@util/constant/option"
 import { ElSwitch } from "element-plus"
-import { defineComponent, reactive, unref, watch } from "vue"
+import { defineComponent } from "vue"
 import { type OptionInstance } from "../common"
+import { useOption } from "../useOption"
 import OptionItem from "./OptionItem"
 
 function copy(target: timer.option.AccessibilityOption, source: timer.option.AccessibilityOption) {
@@ -11,12 +11,7 @@ function copy(target: timer.option.AccessibilityOption, source: timer.option.Acc
 }
 
 const _default = defineComponent((_, ctx) => {
-    const option = reactive(defaultAccessibility())
-    optionService.getAllOption()
-        .then(currentVal => {
-            copy(option, currentVal)
-            watch(option, () => optionService.setAccessibilityOption(unref(option)))
-        })
+    const { option } = useOption({ defaultValue: defaultAccessibility, copy })
     ctx.expose({
         reset: () => copy(option, defaultAccessibility())
     } satisfies OptionInstance)

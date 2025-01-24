@@ -4,7 +4,7 @@ import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { TAG_NAME } from "@cs/limit/element"
 import { t } from "@cs/locale"
 import { Plus, Timer } from "@element-plus/icons-vue"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import { meetTimeLimit } from "@util/limit"
 import { ElButton } from "element-plus"
 import { computed, defineComponent } from "vue"
@@ -14,7 +14,7 @@ async function handleMore5Minutes(rule: timer.limit.Item, callback: () => void) 
     let promise: Promise<void> = undefined
     const ele = document.querySelector(TAG_NAME).shadowRoot.querySelector('body')
     if (await judgeVerificationRequired(rule)) {
-        const option = (await optionService.getAllOption()) as timer.option.LimitOption
+        const option = await optionHolder.get()
         promise = processVerification(option, { appendTo: ele })
         promise ? promise.then(callback).catch(() => { }) : callback()
     } else {

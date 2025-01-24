@@ -1,7 +1,7 @@
 import { getUrl } from "@api/chrome/runtime"
 import { t } from "@cs/locale"
 import { useRequest } from "@hooks"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import { defineComponent } from "vue"
 
 const ICON_URL = getUrl('static/images/icon.png')
@@ -9,7 +9,7 @@ const ICON_URL = getUrl('static/images/icon.png')
 const _default = defineComponent(() => {
     const defaultPrompt = t(msg => msg.modal.defaultPrompt)
     const { data: prompt } = useRequest(async () => {
-        const option = await optionService.getAllOption()
+        const option = await optionHolder.get()
         return option?.limitPrompt || defaultPrompt
     }, { defaultValue: defaultPrompt })
     return () => (

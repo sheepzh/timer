@@ -28,6 +28,16 @@ export type ModalContext = {
 }
 
 export interface Processor {
-    handleMsg(code: timer.mq.ReqCode, data: any): timer.mq.Response | Promise<timer.mq.Response>
+    handleMsg(code: timer.mq.ReqCode, data: unknown): timer.mq.Response | Promise<timer.mq.Response>
     init(): void | Promise<void>
+}
+
+export async function exitFullscreen(): Promise<void> {
+    if (!document?.fullscreenElement) return
+    if (!document?.exitFullscreen) return
+    try {
+        await document.exitFullscreen()
+    } catch (e) {
+        console.warn('Failed to exit fullscreen', e)
+    }
 }

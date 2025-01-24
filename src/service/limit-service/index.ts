@@ -7,10 +7,11 @@
 
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import LimitDatabase from "@db/limit-database"
+import optionHolder from "@service/components/option-holder"
 import weekHelper from "@service/components/week-helper"
 import { sum } from "@util/array"
-import { hasLimited, isEffective, matches } from "@util/limit"
-import { formatTimeYMD } from "@util/time"
+import { calcTimeState, hasLimited, isEnabledAndEffective, matches } from "@util/limit"
+import { formatTimeYMD, MILL_PER_MINUTE } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
 
 const storage = chrome.storage.local
@@ -53,9 +54,9 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
         })
 }
 
-async function selectEffective() {
-    const enabledItems: timer.limit.Item[] = await select({ filterDisabled: true })
-    return enabledItems?.filter(isEffective) || []
+async function selectEffective(url?: string) {
+    const enabledItems: timer.limit.Item[] = await select({ filterDisabled: true, url })
+    return enabledItems?.filter(isEnabledAndEffective) || []
 }
 
 /**
@@ -98,6 +99,11 @@ async function getRelated(url: string): Promise<timer.limit.Item[]> {
     return effectiveItems.filter(item => matches(item?.cond, url))
 }
 
+type IncreaseResult = {
+    limited?: timer.limit.Item[]
+    reminder?: timer.limit.ReminderInfo
+}
+
 /**
  * Add time
  *
@@ -105,25 +111,47 @@ async function getRelated(url: string): Promise<timer.limit.Item[]> {
  * @param focusTime time, milliseconds
  * @returns the rules is limit cause of this operation
  */
-async function addFocusTime(host: string, url: string, focusTime: number): Promise<timer.limit.Item[]> {
-    if (whitelistHolder.contains(host, url)) return []
+async function addFocusTime(host: string, url: string, focusTime: number): Promise<IncreaseResult> {
+    if (whitelistHolder.contains(host, url)) return {}
 
-    const allEnabled = await select({ filterDisabled: true, url })
-    const allEffective = allEnabled?.filter?.(isEffective) || []
+    const allEffective = await selectEffective(url)
+
     const toUpdate: { [cond: string]: number } = {}
-    const result: timer.limit.Item[] = []
+    const limited: timer.limit.Item[] = []
+    const needReminder: timer.limit.Item[] = []
+
+    const { limitReminder, limitReminderDuration } = await optionHolder.get()
+    console.log(limitReminder, limitReminderDuration)
+    const durationMill = limitReminder ? (limitReminderDuration ?? 0) * MILL_PER_MINUTE : 0
     allEffective.forEach(item => {
-        const limitBefore = hasLimited(item)
-        toUpdate[item.id] = item.waste += focusTime
-        // Fast increase
-        item.weeklyWaste += focusTime
-        const limitAfter = hasLimited(item)
-        if (!limitBefore && limitAfter) {
-            result.push(item)
-        }
+        const [met, reminder] = addFocusForEach(item, focusTime, durationMill)
+        met && limited.push(item)
+        reminder && needReminder.push(item)
+        toUpdate[item.id] = item.waste
     })
+    const result: IncreaseResult = { limited }
+    if (needReminder?.length) {
+        result.reminder = {
+            items: needReminder,
+            duration: limitReminderDuration,
+        }
+    }
+    console.log(result)
     await db.updateWaste(formatTimeYMD(new Date()), toUpdate)
     return result
+}
+
+function addFocusForEach(item: timer.limit.Item, focusTime: number, durationMill: number): [met: boolean, reminder: boolean] {
+    const before = calcTimeState(item, durationMill)
+    console.log(before)
+    item.waste += focusTime
+    // Fast increase
+    item.weeklyWaste += focusTime
+    const after = calcTimeState(item, durationMill)
+    console.log(after)
+    const met = (before.daily !== 'LIMITED' && after.daily === 'LIMITED') || (before.weekly !== 'LIMITED' && after.weekly === 'LIMITED')
+    const reminder = (before.daily === 'NORMAL' && after.daily === 'REMINDER') || (before.weekly === 'NORMAL' && after.weekly === 'REMINDER')
+    return [met, reminder]
 }
 
 /**

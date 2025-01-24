@@ -57,6 +57,7 @@ export type LimitMessage = {
         pi: string
         confession: string
     }
+    reminder: string
 }
 
 export const verificationMessages: Messages<LimitMessage["verification"]> = {
