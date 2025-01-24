@@ -33,17 +33,12 @@ const _default = defineComponent({
         }
 
         ctx.expose({ validate } satisfies StepFromInstance)
-        return () => <div class="sop-footer">
+        return () => (
             <ElForm labelWidth={130} labelPosition="left">
                 <ElRow gutter={30}>
                     <ElCol span={12}>
                         <ElFormItem label={t(msg => msg.limit.item.name)} required>
-                            <ElInput
-                                modelValue={name.value}
-                                onInput={setName}
-                                clearable
-                                onClear={() => setName()}
-                            />
+                            <ElInput modelValue={name.value} onInput={setName} clearable onClear={() => setName()} />
                         </ElFormItem>
                     </ElCol>
                     <ElCol span={12}>
@@ -67,7 +62,7 @@ const _default = defineComponent({
                     </ElCol>
                 </ElRow>
             </ElForm>
-        </div>
+        )
     }
 })
 

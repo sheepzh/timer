@@ -1,6 +1,6 @@
 import { cvt2StatQuery, type PopupQuery } from "@popup/common"
 import { t } from "@popup/locale"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import statService from "@service/stat-service"
 import { getDayLength } from "@util/time"
 
@@ -43,7 +43,7 @@ const findDateRange = (rows: timer.stat.Row[]): [string, string] => {
 }
 
 export const doQuery = async (query: PopupQuery): Promise<PercentageResult> => {
-    const option = await optionService.getAllOption()
+    const option = await optionHolder.get()
     const itemCount = option.popupMax
     const statQuery = await cvt2StatQuery(query)
     const rows = await statService.select(statQuery, true)

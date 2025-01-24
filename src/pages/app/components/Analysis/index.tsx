@@ -10,54 +10,69 @@ import { defineComponent } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import { type AnalysisQuery } from "./common"
-import Filter from "./components/AnalysisFilter"
+import AnalysisFilter from "./components/AnalysisFilter"
 import Summary from "./components/Summary"
 import Trend from "./components/Trend"
 import { initProvider } from "./context"
-import './style.sass'
+import type { AnalysisTarget } from "./types"
+import { watch } from "fs"
 
-function getSiteFromQuery(): timer.site.SiteKey {
+function getTargetFromQuery(): AnalysisTarget {
     // Process the query param
     const query: AnalysisQuery = useRoute().query as unknown as AnalysisQuery
     useRouter().replace({ query: {} })
-    const { host, type } = query
-    // Init with queries
-    if (!host) return undefined
-    return { host, type }
+    const { host, type: siteType, cateId } = query
+    if (cateId) return { type: 'cate', key: parseInt(cateId) }
+    if (host && siteType) return { type: 'site', key: { host, type: siteType } }
+    return undefined
 }
 
-async function query(site: timer.site.SiteKey): Promise<timer.stat.Row[]> {
-    if (!site?.host) return []
+async function query(target: AnalysisTarget): Promise<timer.stat.Row[]> {
+    if (!target?.key) return []
 
-    const param: StatQueryParam = {
-        host: site.host,
-        mergeHost: site?.type === 'merged',
-        fullHost: true,
+    let param: StatQueryParam = {
         sort: 'date',
-        sortOrder: 'ASC'
+        sortOrder: 'ASC',
     }
+    if (target?.type === 'cate') {
+        param.cateIds = [target.key]
+        param.mergeCate = true
+    } else if (target?.type === 'site') {
+        const { host, type: siteType } = target.key || {}
+        param.host = host
+        param.mergeHost = siteType === 'merged'
+        param.fullHost = true
+    } else {
+        return []
+    }
+
     return await statService.select(param)
 }
 
 const _default = defineComponent(() => {
-    const [site, setSite] = useState(getSiteFromQuery())
+    const [target, setTarget] = useState(getTargetFromQuery())
     const [timeFormat, setTimeFormat] = useState<timer.app.TimeFormat>('default')
 
-    const { data: rows, loading } = useRequest(() => query(site.value), { deps: site })
+    const { data: rows, loading } = useRequest(() => query(target.value), { deps: target })
 
-    initProvider(site, timeFormat, rows)
+    initProvider(target, timeFormat, rows)
+
     return () => <ContentContainer
         v-slots={{
-            filter: () => <Filter
-                site={site.value}
-                timeFormat={timeFormat.value}
-                onSiteChange={setSite}
-                onTimeFormatChange={setTimeFormat}
-            />,
-            default: () => <div v-loading={loading.value}>
-                <Summary />
-                <Trend />
-            </div>
+            filter: () => (
+                <AnalysisFilter
+                    target={target.value}
+                    timeFormat={timeFormat.value}
+                    onTargetChange={setTarget}
+                    onTimeFormatChange={setTimeFormat}
+                />
+            ),
+            default: () => (
+                <div v-loading={loading.value}>
+                    <Summary />
+                    <Trend />
+                </div>
+            )
         }}
     />
 })

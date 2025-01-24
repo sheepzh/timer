@@ -10,22 +10,28 @@ export function sendMsg2Runtime<T = any, R = any>(code: timer.mq.ReqCode, data?:
         data = JSON.parse(JSON.stringify(data))
     }
     const request: timer.mq.Request<T> = { code, data }
-    return new Promise((resolve, reject) => chrome.runtime.sendMessage(request,
-        (response: timer.mq.Response<R>) => {
-            handleError('sendMsg2Runtime')
-            const resCode = response?.code
-            resCode === 'success'
-                ? resolve(response.data)
-                : reject(new Error(response?.msg))
-        })
-    )
+    return new Promise((resolve, reject) => {
+        try {
+            chrome.runtime.sendMessage(request, (response: timer.mq.Response<R>) => {
+                handleError('sendMsg2Runtime')
+                const resCode = response?.code
+                resCode === 'fail' && reject(new Error(response?.msg || 'Unknown error'))
+                resCode === 'success' && resolve(response.data)
+            })
+        } catch (e) {
+            reject('Failed to send message: ' + (e as Error)?.message || 'Unknown error')
+        }
+    })
 }
 
 export function onRuntimeMessage<T = any, R = any>(handler: ChromeMessageHandler<T, R>): void {
     // Be careful!!!
     // Can't use await/async in callback parameter
     chrome.runtime.onMessage.addListener((message: timer.mq.Request<T>, sender: chrome.runtime.MessageSender, sendResponse: timer.mq.Callback<R>) => {
-        handler(message, sender).then((response: timer.mq.Response<R>) => sendResponse(response))
+        handler(message, sender).then((response: timer.mq.Response<R>) => {
+            if (response.code === 'ignore') return
+            sendResponse(response)
+        })
         // 'return true' will force chrome to wait for the response processed in the above promise.
         // @see https://github.com/mozilla/webextension-polyfill/issues/130
         return true

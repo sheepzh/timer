@@ -12,8 +12,9 @@ import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
 import { toggle } from "@util/dark-mode"
 import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent, reactive, unref, watch, type UnwrapRef } from "vue"
+import { defineComponent } from "vue"
 import { type OptionInstance } from "../../common"
+import { useOption } from "../../useOption"
 import OptionItem from "../OptionItem"
 import OptionTag from "../OptionTag"
 import DarkModeInput from "./DarkModeInput"
@@ -35,14 +36,11 @@ function copy(target: timer.option.AppearanceOption, source: timer.option.Appear
 }
 
 const _default = defineComponent((_props, ctx) => {
-    const option: UnwrapRef<timer.option.AppearanceOption> = reactive(defaultAppearance())
-    optionService.getAllOption().then(currentVal => {
-        copy(option, currentVal)
-        watch(option, async () => {
-            await optionService.setAppearanceOption(unref(option))
-            toggle(await optionService.isDarkMode(option))
-        })
+    const { option } = useOption({
+        defaultValue: defaultAppearance, copy,
+        onChange: async val => optionService.isDarkMode(val).then(toggle)
     })
+
     ctx.expose({
         reset: () => copy(option, defaultAppearance())
     } satisfies OptionInstance)

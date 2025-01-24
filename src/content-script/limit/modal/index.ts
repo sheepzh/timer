@@ -2,20 +2,10 @@ import { getUrl, sendMsg2Runtime } from '@api/chrome/runtime'
 import optionService from '@service/option-service'
 import { init as initTheme, toggle } from '@util/dark-mode'
 import { createApp, Ref, type App } from 'vue'
-import { isSameReason, type LimitReason, type LimitType, type MaskModal } from '../common'
+import { exitFullscreen, isSameReason, type LimitReason, type MaskModal } from '../common'
 import { TAG_NAME, type RootElement } from '../element'
 import Main from './Main'
 import { provideDelayHandler, provideReason } from './context'
-
-async function exitFullscreen(): Promise<void> {
-    if (!document?.fullscreenElement) return
-    if (!document?.exitFullscreen) return
-    try {
-        await document.exitFullscreen()
-    } catch (e) {
-        console.warn('Failed to exit fullscreen', e)
-    }
-}
 
 function pauseAllVideo(): void {
     const elements = document?.getElementsByTagName('video')
@@ -37,7 +27,7 @@ function pauseAllAudio(): void {
     })
 }
 
-const TYPE_SORT: { [reason in LimitType]: number } = {
+const TYPE_SORT: { [reason in timer.limit.ReasonType]: number } = {
     PERIOD: 0,
     VISIT: 1,
     DAILY: 2,
@@ -55,6 +45,26 @@ const createHeader = () => {
     return header
 }
 
+class ScreenLocker {
+    private doLock() {
+        if (document?.documentElement) {
+            document.documentElement.style.setProperty('overflow', 'hidden', 'important')
+        }
+    }
+
+    lock() {
+        this.doLock()
+        // Re-lock after 200ms to avoid being unlocked by the original website
+        setTimeout(() => this.doLock(), 200)
+    }
+
+    unlock() {
+        if (document?.documentElement) {
+            document.documentElement.style.overflow = ''
+        }
+    }
+}
+
 class ModalInstance implements MaskModal {
     url: string
     rootElement: RootElement
@@ -65,6 +75,7 @@ class ModalInstance implements MaskModal {
     reasons: LimitReason[] = []
     reason: Ref<LimitReason>
     app: App<Element>
+    screenLocker = new ScreenLocker()
 
     constructor(url: string) {
         this.url = url
@@ -91,7 +102,7 @@ class ModalInstance implements MaskModal {
         this.refresh()
     }
 
-    removeReasonsByType(...types: LimitType[]): void {
+    removeReasonsByType(...types: timer.limit.ReasonType[]): void {
         if (!types?.length) return
         this.reasons = this.reasons?.filter(r => !types?.includes(r.type))
         this.refresh()
@@ -168,14 +179,12 @@ class ModalInstance implements MaskModal {
         pauseAllAudio()
 
         this.reason.value = reason
-        if (document?.documentElement) {
-            document.documentElement.style.setProperty('overflow', 'hidden', 'important')
-        }
+        this.screenLocker.lock()
         this.body.style.display = 'block'
     }
 
     private hide() {
-        document?.documentElement && (document.documentElement.style.overflow = '')
+        this.screenLocker.unlock()
         this.body && (this.body.style.display = 'none')
         this.reason && (this.reason.value = null)
     }

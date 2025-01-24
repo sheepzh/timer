@@ -14,6 +14,7 @@ const KEY = REMAIN_WORD_PREFIX + 'LIMIT'
 type DateRecords = {
     [date: string]: {
         mill: number
+        visit: number
         delay?: number
     }
 }
@@ -40,9 +41,17 @@ type ItemValue = {
      */
     t: number
     /**
+     * Limited count
+     */
+    ct?: number
+    /**
      * Limited time weekly, second
      */
     wt?: number
+    /**
+     * Limited count weekly
+     */
+    wct?: number
     /**
      * Limited time per visit, second
      */
@@ -56,18 +65,6 @@ type ItemValue = {
      */
     e: boolean
     /**
-     * Latest date
-     *
-     * @deprecated use @see ItemValue.r
-     */
-    d?: string
-    /**
-     * Wasted time, milliseconds
-     *
-     * @deprecated use @see ItemValue.r
-     */
-    w?: number
-    /**
      * Allow to delay
      */
     ad: boolean
@@ -75,18 +72,6 @@ type ItemValue = {
      * Effective days
      */
     wd?: number[]
-    /**
-     * Delay date
-     *
-     * @deprecated use @see ItemValue.r
-     */
-    dd?: string
-    /**
-     * Delay count
-     *
-     * @deprecated use @see ItemValue.r
-     */
-    dc?: number
     /**
      * Date records
      */
@@ -97,6 +82,10 @@ type ItemValue = {
             */
             m: number
             /**
+             * Visit count
+             */
+            c: number
+            /**
              * Delay count
              */
             d?: number
@@ -104,37 +93,18 @@ type ItemValue = {
     }
 }
 
-/**
- * @deprecated v2.4.1
- */
-const migrateOldRecords = (item: ItemValue, records: DateRecords): void => {
-    const { d, w, dd, dc } = item
-    if (d) {
-        const val = records[d] || { mill: 0 }
-        val.mill = w ?? 0
-        records[d] = val
-    }
-    if (dd) {
-        const val = records[dd] || { mill: 0 }
-        val.delay = dc ?? 0
-        records[dd] = val
-    }
-}
-
 const cvtItem2Rec = (item: ItemValue): LimitRecord => {
-    const { i, n, c, t, v, p, e, ad, wd, wt, r } = item
+    const { i, n, c, t, v, p, e, ad, wd, wt, r, ct, wct, } = item
     const records: DateRecords = {}
-    if (r) {
-        Object.entries(r).forEach?.(([date, { m, d }]) => records[date] = { mill: m, delay: d })
-    } else {
-        migrateOldRecords(item, records)
-    }
+    Object.entries(r || {}).forEach?.(([date, { m, d, c }]) => records[date] = { mill: m, delay: d, visit: c })
     return {
         id: i,
         name: n,
         cond: c,
         time: t,
+        count: ct,
         weekly: wt,
+        weeklyCount: wct,
         visitTime: v,
         periods: p?.map(i => [i?.[0], i?.[1]]),
         enabled: e,
@@ -151,26 +121,12 @@ function migrate(exist: Items, toMigrate: any) {
     Object.values(toMigrate).forEach((value, idx) => {
         const id = idBase + idx
         const itemValue: ItemValue = value as ItemValue
-        const { c, n, t, e, ad, d, w, v, p } = itemValue
+        const { c, n, t, e, ad, v, p } = itemValue
         exist[id] = {
             i: id, c, n, t, e: !!e, ad: !!ad, v, p,
-            r: d ? { [d]: { m: w } } : {},
+            r: {},
         }
     })
-}
-
-/**
- * @deprecated Compatible for old items without ID
- */
-const compatibleOldItems = (items: Items): Items => {
-    const newItems: Items = {}
-    Object.entries(items).forEach(([c, v], idx) => {
-        const oldVal = v as Omit<ItemValue, 'i' | 'c' | 'n'>
-        const id = idx + 1
-        const newVal = { i: id, c: [c], n: 'Unnamed', ...oldVal } satisfies ItemValue
-        newItems[id] = newVal
-    })
-    return newItems
 }
 
 /**
@@ -181,11 +137,6 @@ const compatibleOldItems = (items: Items): Items => {
 class LimitDatabase extends BaseDatabase {
     private async getItems(): Promise<Items> {
         let items = await this.storage.getOne<Items>(KEY) || {}
-        const isNew = Object.values(items).some(iv => !!iv.i)
-        if (!isNew) {
-            items = compatibleOldItems(items)
-            this.storage.put(KEY, items)
-        }
         return items
     }
 
@@ -194,10 +145,6 @@ class LimitDatabase extends BaseDatabase {
         const days10AgoStr = formatTimeYMD(days10Ago)
         // Clear early date
         Object.values(items).forEach(item => {
-            delete item.w
-            delete item.d
-            delete item.dc
-            delete item.dd
             const records = item.r
             if (!records) return
             const keys2Del = Object.keys(records).filter(k => k <= days10AgoStr)
@@ -213,7 +160,14 @@ class LimitDatabase extends BaseDatabase {
 
     async save(data: timer.limit.Rule, rewrite?: boolean): Promise<number> {
         const items = await this.getItems()
-        let { id, name, cond, time, weekly, enabled, allowDelay, visitTime, periods, weekdays } = data
+        let {
+            id, name, weekdays,
+            enabled, allowDelay,
+            cond,
+            time, count,
+            weekly, weeklyCount,
+            visitTime, periods,
+        } = data
         if (!id) {
             const lastId = Object.values(items)
                 .map(e => e.i)
@@ -225,11 +179,12 @@ class LimitDatabase extends BaseDatabase {
         if (existItem && !rewrite) return id
         items[id] = {
             // Can be overridden by existing
-            d: '', w: 0,
             ...(existItem || {}),
             i: id, n: name, c: cond, wd: weekdays,
             e: enabled, ad: allowDelay,
-            t: time, wt: weekly, v: visitTime, p: periods,
+            t: time, ct: count,
+            wt: weekly, wct: weeklyCount,
+            v: visitTime, p: periods,
         }
         await this.update(items)
         return id
@@ -248,8 +203,20 @@ class LimitDatabase extends BaseDatabase {
             const entry = items[id]
             if (!entry) return
             const records = entry.r = entry.r || {}
-            const record = records[date] = records[date] || { m: 0 }
+            const record = records[date] = records[date] || { m: 0, c: 0 }
             record.m = waste
+        })
+        await this.update(items)
+    }
+
+    async increaseVisit(date: string, ids: number[]) {
+        const items = await this.getItems()
+        ids?.forEach(id => {
+            const entry = items[id]
+            if (!entry) return
+            const records = entry.r = entry.r || {}
+            const record = records[date] = records[date] || { m: 0, c: 0 }
+            record.c++
         })
         await this.update(items)
     }
@@ -260,7 +227,7 @@ class LimitDatabase extends BaseDatabase {
             const entry = items[id]
             if (!entry) return
             const records = entry.r = entry.r || {}
-            const record = records[date] = records[date] || { m: 0 }
+            const record = records[date] = records[date] || { m: 0, c: 0 }
             record.d = delayCount
         })
         await this.update(items)
@@ -284,8 +251,6 @@ class LimitDatabase extends BaseDatabase {
         let toImport = data[KEY] as Items
         // Not import
         if (typeof toImport !== 'object') return
-        const isNew = Object.values(toImport).some(e => !!e.i)
-        !isNew && (toImport = compatibleOldItems(toImport))
         const exists: Items = await this.getItems()
         migrate(exists, toImport)
         this.setByKey(KEY, exists)

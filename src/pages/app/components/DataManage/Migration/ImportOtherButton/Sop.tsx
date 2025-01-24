@@ -5,9 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
+import DialogSop, { type SopStepInstance } from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
-import { ElStep, ElSteps } from "element-plus"
-import { defineComponent, nextTick, ref } from "vue"
+import { useManualRequest } from "@hooks"
+import { processImportedData } from "@service/components/import-processor"
+import { ElMessage, ElStep, ElSteps } from "element-plus"
+import { defineComponent, ref } from "vue"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 
@@ -18,35 +21,49 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         const step = ref<0 | 1>(0)
-        const data = ref<timer.imported.Data>()
+        const step1 = ref<SopStepInstance<timer.imported.Data>>()
+        const step2 = ref<SopStepInstance<timer.imported.ConflictResolution>>()
+
+        const { data, refresh: handleNext, loading: parsing } = useManualRequest(() => step1.value?.parseData?.(), {
+            onSuccess: () => step.value = 1,
+            onError: (e: Error) => ElMessage.error(e?.message ?? 'Unknown Error')
+        })
+
+        const { loading: importing, refresh: doImport } = useManualRequest(
+            async () => {
+                const resolution = await step2.value?.parseData?.()
+                if (!resolution) throw new Error(t(msg => msg.dataManage.importOther.conflictNotSelected))
+                await processImportedData(data.value, resolution)
+            },
+            {
+                onSuccess: () => {
+                    ElMessage.success(t(msg => msg.operation.successMsg))
+                    ctx.emit('import')
+                },
+                onError: (e) => ElMessage.warning(e),
+            }
+        )
+
         return () => (
-            <div class="sop-dialog-container">
-                <div class="step-container">
-                    <ElSteps space={200} finishStatus="success" active={step.value}>
-                        <ElStep title={t(msg => msg.dataManage.importOther.step1)} />
-                        <ElStep title={t(msg => msg.dataManage.importOther.step2)} />
-                    </ElSteps>
-                </div>
-                <div class="operation-container">
-                    {step.value === 0
-                        ? <Step1
-                            onCancel={() => ctx.emit("cancel")}
-                            onNext={newData => {
-                                data.value = newData
-                                step.value = 1
-                            }}
-                        />
-                        : <Step2
-                            data={data.value}
-                            onBack={() => step.value = 0}
-                            onImport={() => {
-                                step.value = 0
-                                nextTick(() => ctx.emit("import"))
-                            }}
-                        />
-                    }
-                </div>
-            </div>
+            <DialogSop
+                first={step.value === 0}
+                last={step.value === 1}
+                onCancel={() => ctx.emit('cancel')}
+                onBack={() => step.value = 0}
+                onNext={handleNext}
+                onFinish={doImport}
+                nextLoading={parsing.value}
+                finishLoading={importing.value}
+                v-slots={{
+                    steps: () => (
+                        <ElSteps space={200} finishStatus="success" active={step.value} alignCenter>
+                            <ElStep title={t(msg => msg.dataManage.importOther.step1)} />
+                            <ElStep title={t(msg => msg.dataManage.importOther.step2)} />
+                        </ElSteps>
+                    ),
+                    content: () => step.value === 0 ? <Step1 ref={step1} /> : <Step2 ref={step2} data={data.value} />,
+                }}
+            />
         )
     }
 })

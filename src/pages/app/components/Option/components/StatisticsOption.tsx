@@ -8,14 +8,14 @@ import { isAllowedFileSchemeAccess } from "@api/chrome/runtime"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import { locale } from "@i18n"
-import optionService from "@service/option-service"
 import { rotate } from "@util/array"
 import { IS_FIREFOX } from "@util/constant/environment"
 import { defaultStatistics } from "@util/constant/option"
 import { MILL_PER_SECOND } from "@util/time"
 import { ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
-import { computed, defineComponent, onBeforeMount, reactive, unref, watch } from "vue"
+import { computed, defineComponent } from "vue"
 import { type OptionInstance } from "../common"
+import { useOption } from "../useOption"
 import OptionItem from "./OptionItem"
 import OptionTag from "./OptionTag"
 import OptionTooltip from "./OptionTooltip"
@@ -38,13 +38,8 @@ function copy(target: timer.option.StatisticsOption, source: timer.option.Statis
 }
 
 const _default = defineComponent((_props, ctx) => {
-    const option = reactive(defaultStatistics())
+    const { option } = useOption({ defaultValue: defaultStatistics, copy })
     const { data: fileAccess } = useRequest(isAllowedFileSchemeAccess)
-    onBeforeMount(async () => {
-        const currentVal = await optionService.getAllOption()
-        copy(option, currentVal)
-        watch(option, () => optionService.setStatisticsOption(unref(option)))
-    })
     ctx.expose({
         reset: () => {
             const oldInterval = option.autoPauseInterval

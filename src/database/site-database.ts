@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { CATE_NOT_SET_ID } from "@util/site"
 import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
@@ -116,11 +117,11 @@ function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => b
     let cateFilter = typeof cateIds === 'number' ? [cateIds] : (cateIds?.length ? cateIds : undefined)
     let typeFilter = typeof types === 'string' ? [types] : (types?.length ? types : undefined)
     return site => {
-        const { host: siteHost, alias: siteAlias, cate } = site || {}
+        const { host: siteHost, alias: siteAlias, cate, type } = site || {}
         if (host && !siteHost.includes(host)) return false
         if (alias && !siteAlias?.includes(alias)) return false
         if (fuzzyQuery && !(siteHost?.includes(fuzzyQuery) || siteAlias?.includes(fuzzyQuery))) return false
-        if (cateFilter && !cateFilter.includes(cate)) return false
+        if (cateFilter && (!cateFilter.includes(cate ?? CATE_NOT_SET_ID) || type !== 'normal')) return false
         if (typeFilter && !matchType(typeFilter, site)) return false
         return true
     }

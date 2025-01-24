@@ -47,11 +47,13 @@ export function defaultStatistics(): timer.option.StatisticsOption {
     }
 }
 
-export function defaultDailyLimit(): timer.option.DailyLimitOption {
+export function defaultDailyLimit(): timer.option.LimitOption {
     return {
         limitLevel: 'nothing',
         limitPassword: '',
         limitVerifyDifficulty: 'easy',
+        limitReminder: false,
+        limitReminderDuration: 5,
     }
 }
 

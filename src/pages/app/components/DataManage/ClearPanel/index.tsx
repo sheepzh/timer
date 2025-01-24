@@ -10,7 +10,7 @@ import { type StatCondition } from "@db/stat-database"
 import statService from "@service/stat-service"
 import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import { ElAlert, ElCard, ElMessage, ElMessageBox } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, type StyleValue } from "vue"
 import { alertProps } from "../common"
 import ClearFilter from "./ClearFilter"
 
@@ -104,7 +104,7 @@ const _default = defineComponent({
         }
 
         return () => (
-            <ElCard class="clear-container">
+            <ElCard style={{ width: '100%' } satisfies StyleValue}>
                 <ElAlert {...alertProps} title={t(msg => msg.dataManage.operationAlert)} />
                 <ClearFilter onDelete={(date, focus, time) => handleClick({ date, focus, time })} />
             </ElCard>

@@ -65,16 +65,37 @@ export function siteEqual(a: timer.site.SiteKey, b: timer.site.SiteKey) {
     return a?.host === b?.host && a?.type === b?.type
 }
 
-const TYPE_PREFIX_MAP: { [type in timer.site.Type]: string } = {
+/**
+ * Marked the category ID of sites those don't set up category
+ */
+export const CATE_NOT_SET_ID = -1
+
+type SiteIdentityPrefix = 'n' | 'm' | 'v'
+
+const TYPE_PREFIX_MAP: { [type in timer.site.Type]: SiteIdentityPrefix } = {
     normal: "n",
     merged: "m",
     virtual: "v",
+}
+
+const PREFIX_TYPE_MAP: { [prefix in SiteIdentityPrefix]: timer.site.Type } = {
+    n: 'normal',
+    m: 'merged',
+    v: 'virtual',
 }
 
 export function identifySiteKey(site: timer.site.SiteKey): string {
     if (!site) return ''
     const { host, type } = site || {}
     return (TYPE_PREFIX_MAP[type] ?? ' ') + (host || '')
+}
+
+export function parseSiteKeyFromIdentity(keyIdentity: string): timer.site.SiteKey {
+    const type = PREFIX_TYPE_MAP[keyIdentity?.charAt?.(0)]
+    if (!type) return null
+    const host = keyIdentity?.substring(1)?.trim?.()
+    if (!host) return null
+    return { type, host }
 }
 
 function cloneSiteKey(origin: timer.site.SiteKey): timer.site.SiteKey {
@@ -91,7 +112,6 @@ export function distinctSites(list: timer.site.SiteKey[]): timer.site.SiteKey[] 
     })
     return Object.values(map)
 }
-
 
 export class SiteMap<T> {
     private innerMap: Record<string, [timer.site.SiteKey, T]>

@@ -1,5 +1,6 @@
 import I18nNode from "@app/components/common/I18nNode"
 import { type I18nKey } from "@app/locale"
+import Flex from "@pages/components/Flex"
 import { ElDivider, ElTag } from "element-plus"
 import { defineComponent, h, type PropType, type VNode } from "vue"
 

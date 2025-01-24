@@ -1,9 +1,8 @@
 export type LimitReason =
     & Required<Pick<timer.limit.Rule, 'id' | 'cond'>>
-    & Pick<timer.limit.Item, 'allowDelay'>
-    & Partial<Pick<timer.limit.Item, 'delayCount'>>
+    & Partial<Pick<timer.limit.Item, 'delayCount' | 'allowDelay'>>
     & {
-        type: LimitType
+        type: timer.limit.ReasonType
         getVisitTime?: () => number
     }
 
@@ -16,16 +15,10 @@ export function isSameReason(a: LimitReason, b: LimitReason): boolean {
     return true
 }
 
-export type LimitType =
-    | "DAILY"
-    | "WEEKLY"
-    | "VISIT"
-    | "PERIOD"
-
 export interface MaskModal {
     addReason(...reasons: LimitReason[]): void
     removeReason(...reasons: LimitReason[]): void
-    removeReasonsByType(...types: LimitType[]): void
+    removeReasonsByType(...types: timer.limit.ReasonType[]): void
     addDelayHandler(handler: () => void): void
 }
 
@@ -35,6 +28,16 @@ export type ModalContext = {
 }
 
 export interface Processor {
-    handleMsg(code: timer.mq.ReqCode, data: any): timer.mq.Response | Promise<timer.mq.Response>
+    handleMsg(code: timer.mq.ReqCode, data: unknown): timer.mq.Response | Promise<timer.mq.Response>
     init(): void | Promise<void>
+}
+
+export async function exitFullscreen(): Promise<void> {
+    if (!document?.fullscreenElement) return
+    if (!document?.exitFullscreen) return
+    try {
+        await document.exitFullscreen()
+    } catch (e) {
+        console.warn('Failed to exit fullscreen', e)
+    }
 }

@@ -140,7 +140,7 @@ declare namespace timer.option {
         weekStart?: WeekStartOption
     }
 
-    type DailyLimitOption = {
+    type LimitOption = {
         /**
          * Motto displayed when restricted
          */
@@ -157,6 +157,18 @@ declare namespace timer.option {
          * The difficulty of verification
          */
         limitVerifyDifficulty: limit.VerificationDifficulty
+        /**
+         *  Whether to reminder before time will meet
+         *
+         * @since 3.1.0
+         */
+        limitReminder: boolean
+        /**
+         * Minutes
+         *
+         * @since 3.1.0
+         */
+        limitReminderDuration: number
     }
 
     /**
@@ -207,7 +219,7 @@ declare namespace timer.option {
     type AllOption = PopupOption
         & AppearanceOption
         & StatisticsOption
-        & DailyLimitOption
+        & LimitOption
         & AccessibilityOption
         & BackupOption
     /**

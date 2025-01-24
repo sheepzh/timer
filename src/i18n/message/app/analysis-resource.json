@@ -1,5 +1,9 @@
 {
     "zh_CN": {
+        "target": {
+            "site": "网站",
+            "cate": "类别"
+        },
         "common": {
             "focusTotal": "总计浏览时长",
             "visitTotal": "总计访问次数",
@@ -54,6 +58,10 @@
         }
     },
     "en": {
+        "target": {
+            "site": "Website",
+            "cate": "Category"
+        },
         "common": {
             "focusTotal": "Total browsing time",
             "visitTotal": "Total visits",

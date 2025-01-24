@@ -6,9 +6,9 @@
  */
 
 import BackupDatabase from "@db/backup-database"
+import optionHolder from "@service/components/option-holder"
 import itemService from "@service/item-service"
 import metaService from "@service/meta-service"
-import optionService from "@service/option-service"
 import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
@@ -199,7 +199,7 @@ class Processor {
     }
 
     async checkAuth(): Promise<AuthCheckResult> {
-        const option = (await optionService.getAllOption()) as timer.option.BackupOption
+        const option = await optionHolder.get()
         const type = option?.backupType || 'none'
         const ext = option?.backupExts?.[type]
         const auth = prepareAuth(option)

@@ -48,7 +48,7 @@ const _default: chrome.runtime.ManifestFirefox = {
         'tabs',
         'contextMenus',
         'alarms',
-        "<all_urls>",
+        '<all_urls>',
     ],
     browser_action: {
         default_popup: "static/popup_skeleton.html",

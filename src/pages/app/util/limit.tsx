@@ -2,10 +2,10 @@ import { sendMsg2Runtime } from "@api/chrome/runtime"
 import I18nNode from "@app/components/common/I18nNode"
 import { t } from "@app/locale"
 import { locale } from "@i18n"
+import { getCssVariable } from "@pages/util/style"
 import { type VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
-import { dateMinute2Idx, hasLimited, isEffective } from "@util/limit"
-import { getCssVariable } from "@util/style"
+import { dateMinute2Idx, hasLimited, isEnabledAndEffective } from "@util/limit"
 import { ElMessage, ElMessageBox, type ElMessageBoxOptions } from "element-plus"
 import { defineComponent, onMounted, ref, type VNode } from "vue"
 
@@ -15,7 +15,7 @@ import { defineComponent, onMounted, ref, type VNode } from "vue"
  * @returns T/F
  */
 export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
-    if (!isEffective(item)) return false
+    if (!isEnabledAndEffective(item)) return false
 
     const { visitTime, periods } = item
     // Daily or weekly
@@ -91,7 +91,7 @@ const AnswerCanvas = defineComponent({
  * @returns null if verification not required,
  *          or promise with resolve invoked only if verification code or password correct
  */
-export function processVerification(option: timer.option.DailyLimitOption, context?: Pick<ElMessageBoxOptions, 'appendTo'>): Promise<void> {
+export function processVerification(option: timer.option.LimitOption, context?: Pick<ElMessageBoxOptions, 'appendTo'>): Promise<void> {
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
     const { appendTo } = context || {}
     if (limitLevel === "strict") {

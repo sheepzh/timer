@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import Flex from "@pages/components/Flex"
 import { ElCard } from "element-plus"
 import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
@@ -16,8 +17,10 @@ const _default = defineComponent(() => {
     return () => (
         <ContentContainer>
             <ElCard>
-                <AlertInfo />
-                <ItemList />
+                <Flex column gap={20}>
+                    <AlertInfo />
+                    <ItemList />
+                </Flex>
             </ElCard>
         </ContentContainer>
     )

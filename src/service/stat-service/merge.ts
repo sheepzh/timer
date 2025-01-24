@@ -7,8 +7,7 @@
 
 import MergeRuleDatabase from "@db/merge-rule-database"
 import CustomizedHostMergeRuler from "@service/components/host-merge-ruler"
-import { identifySiteKey } from "@util/site"
-import { CATE_MERGE_PLACEHOLDER_ID } from "./common"
+import { CATE_NOT_SET_ID, identifySiteKey } from "@util/site"
 
 const storage = chrome.storage.local
 
@@ -114,7 +113,7 @@ export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Ro
         let { siteKey, date, cateId } = ele || {}
         if (siteKey?.type !== 'normal') return
 
-        cateId = cateId ?? CATE_MERGE_PLACEHOLDER_ID
+        cateId = cateId ?? CATE_NOT_SET_ID
         const key = (date ?? '') + cateId.toString()
         let exist = rowMap[key]
         if (!exist) {

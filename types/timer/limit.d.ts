@@ -17,6 +17,12 @@ declare namespace timer.limit {
          */
         waste: number
         /**
+         * Visit count today
+         *
+         * @since 3.1.0
+         */
+        visit: number
+        /**
          * Number of delays today
          */
         delayCount: number
@@ -24,6 +30,12 @@ declare namespace timer.limit {
          * Waste this week, milliseconds
          */
         weeklyWaste: number
+        /**
+         * Visit count this week
+         *
+         * @since 3.1.0
+         */
+        weeklyVisit: number
         /**
          * Delay count of this week
          */
@@ -47,11 +59,23 @@ declare namespace timer.limit {
          */
         time: number
         /**
+         * Visit count per day
+         *
+         * @since 3.1.0
+         */
+        count?: number
+        /**
          * Time limit per week, seconds
          *
          * @since 2.4.1
          */
         weekly?: number
+        /**
+         * Visit count per week
+         *
+         * @since 3.1.0
+         */
+        weeklyCount?: number
         /**
          * Time limit per visit, seconds
          *
@@ -91,4 +115,19 @@ declare namespace timer.limit {
         | 'hard'
         // Disgusting
         | 'disgusting'
+
+    type ReasonType =
+        | "DAILY"
+        | "WEEKLY"
+        | "VISIT"
+        | "PERIOD"
+
+    /**
+     * @since 3.1.0
+     */
+    type ReminderInfo = {
+        items: timer.limit.Item[]
+        // Minutes
+        duration: number
+    }
 }

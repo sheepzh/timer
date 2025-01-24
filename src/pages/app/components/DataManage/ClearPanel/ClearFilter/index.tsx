@@ -22,7 +22,7 @@ const _default = defineComponent({
         const [time, setTime] = useState<[string, string]>(['0', null])
 
         return () => (
-            <div class="clear-panel">
+            <div style={{ paddingInlineStart: '30px', paddingTop: '40px' }}>
                 <h3>{t(msg => msg.dataManage.filterItems)}</h3>
                 <DateFilter dateRange={date.value} onChange={setDate} />
                 <NumberFilter
@@ -37,7 +37,7 @@ const _default = defineComponent({
                     lineNo={3}
                     onChange={setTime}
                 />
-                <div class="footer-container filter-container">
+                <div style={{ paddingTop: '40px' }}>
                     <ElButton
                         icon={<Delete />}
                         type="danger"

@@ -1,4 +1,4 @@
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 
 export default class IdleDetector {
     fullScreen: boolean = false
@@ -29,12 +29,12 @@ export default class IdleDetector {
     }
 
     private async init() {
-        const option = await optionService.getAllOption()
+        const option = await optionHolder.get()
 
         this.processOption(option)
         this.resetTimeout()
 
-        optionService.addOptionChangeListener(opt => {
+        optionHolder.addChangeListener(opt => {
             this.processOption(opt)
             this.resetTimeout()
         })

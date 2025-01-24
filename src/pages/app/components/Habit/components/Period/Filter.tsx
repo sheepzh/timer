@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import SelectFilterItem from '@app/components/common/SelectFilterItem'
+import SelectFilterItem from '@app/components/common/filter/SelectFilterItem'
 import { t } from '@app/locale'
 import { useCached } from '@hooks'
 import { type HabitMessage } from '@i18n/message/app/habit'

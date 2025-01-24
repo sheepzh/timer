@@ -5,20 +5,21 @@
  * https://opensource.org/licenses/MIT
  */
 
-import DateRangeFilterItem from "@app/components/common/DateRangeFilterItem"
-import InputFilterItem from '@app/components/common/InputFilterItem'
-import MultiSelectFilterItem, { type MultiSelectFilterItemInstance } from "@app/components/common/MultiSelectFilterItem"
-import TimeFormatFilterItem from "@app/components/common/TimeFormatFilterItem"
+import CategoryFilter from "@app/components/common/filter/CategoryFilter"
+import DateRangeFilterItem from "@app/components/common/filter/DateRangeFilterItem"
+import InputFilterItem from '@app/components/common/filter/InputFilterItem'
+import TimeFormatFilterItem from "@app/components/common/filter/TimeFormatFilterItem"
 import { useCategories } from "@app/context"
 import { t } from "@app/locale"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import statService from "@service/stat-service"
 import { containsAny } from "@util/array"
 import { daysAgo } from "@util/time"
 import { ElButton } from "element-plus"
-import { computed, defineComponent, ref, watch, type PropType } from "vue"
+import { computed, defineComponent, watch, type PropType } from "vue"
 import { cvtOption2Param } from "../common"
 import { exportCsv, exportJson } from "../file-export"
 import type { FileFormat, ReportFilterOption } from "../types"
@@ -67,7 +68,6 @@ const _default = defineComponent({
         const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
         // Whether to read remote backup data
         const [readRemote, setReadRemote] = useState(initial?.readRemote)
-        const cateSelect = ref<MultiSelectFilterItemInstance>()
 
         const option = computed(() => ({
             host: host.value,
@@ -83,7 +83,7 @@ const _default = defineComponent({
 
         watch(option, () => ctx.emit("change", option.value))
 
-        watch(mergeMethod, () => mergeMethod.value?.includes('domain') && cateSelect.value?.updateValue?.([]))
+        watch(mergeMethod, () => mergeMethod.value?.includes('domain') && setCateIds([]))
 
         const handleDownload = async (format: FileFormat) => {
             const optionVal = option.value
@@ -94,43 +94,42 @@ const _default = defineComponent({
             format === 'csv' && exportCsv(optionVal, rows, categoriesVal)
         }
 
-        return () => <>
-            <InputFilterItem placeholder="URL + ↵" onSearch={setHost} />
-            <DateRangeFilterItem
-                startPlaceholder={t(msg => msg.calendar.label.startDate)}
-                endPlaceholder={t(msg => msg.calendar.label.endDate)}
-                disabledDate={(date: Date | number) => new Date(date) > new Date()}
-                shortcuts={dateShortcuts}
-                defaultRange={dateRange.value}
-                onChange={setDateRange}
-            />
-            <MultiSelectFilterItem
-                ref={cateSelect}
-                historyName="cate"
-                disabled={mergeMethod.value?.includes('domain')}
-                placeholder={t(msg => msg.siteManage.column.cate)}
-                options={categories.value?.map(cate => ({ value: cate.id, label: cate.name }))}
-                defaultValue={cateIds.value}
-                onChange={setCateIds}
-            />
-            <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={setTimeFormat} />
-            <MergeFilterItem defaultValue={mergeMethod.value} hideCate={props.hideCateFilter} onChange={setMergeMethod} />
-            <div class="filter-item-right-group">
-                <ElButton
-                    style={{ display: readRemote.value ? 'none' : 'inline-flex' }}
-                    class="batch-delete-button"
-                    disabled={containsAny(mergeMethod.value, ['cate', 'domain'])}
-                    type="primary"
-                    link
-                    icon={<DeleteFilled />}
-                    onClick={() => ctx.emit("batchDelete", option.value)}
-                >
-                    {t(msg => msg.button.batchDelete)}
-                </ElButton>
-                <RemoteClient onChange={setReadRemote} />
-                <DownloadFile onDownload={handleDownload} />
-            </div>
-        </>
+        return () => (
+            <Flex justify="space-between" width="100%" gap={10} wrap>
+                <Flex gap={10} wrap>
+                    <InputFilterItem placeholder="URL + ↵" onSearch={setHost} />
+                    <DateRangeFilterItem
+                        startPlaceholder={t(msg => msg.calendar.label.startDate)}
+                        endPlaceholder={t(msg => msg.calendar.label.endDate)}
+                        disabledDate={(date: Date | number) => new Date(date) > new Date()}
+                        shortcuts={dateShortcuts}
+                        defaultRange={dateRange.value}
+                        onChange={setDateRange}
+                    />
+                    <CategoryFilter
+                        disabled={mergeMethod.value?.includes('domain')}
+                        modelValue={cateIds.value}
+                        onChange={setCateIds}
+                    />
+                    <TimeFormatFilterItem defaultValue={timeFormat.value} onChange={setTimeFormat} />
+                    <MergeFilterItem defaultValue={mergeMethod.value} hideCate={props.hideCateFilter} onChange={setMergeMethod} />
+                </Flex>
+                <Flex gap={4}>
+                    <ElButton
+                        v-show={!readRemote.value}
+                        disabled={containsAny(mergeMethod.value, ['cate', 'domain'])}
+                        type="primary"
+                        link
+                        icon={<DeleteFilled />}
+                        onClick={() => ctx.emit("batchDelete", option.value)}
+                    >
+                        {t(msg => msg.button.batchDelete)}
+                    </ElButton>
+                    <RemoteClient onChange={setReadRemote} />
+                    <DownloadFile onDownload={handleDownload} />
+                </Flex>
+            </Flex>
+        )
     }
 })
 

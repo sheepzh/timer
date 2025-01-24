@@ -1,5 +1,6 @@
 import { BarChart, EffectScatterChart, HeatmapChart, LineChart, PieChart, ScatterChart } from "echarts/charts"
 import {
+    AriaComponent,
     GridComponent,
     LegendComponent,
     TitleComponent,
@@ -12,7 +13,7 @@ import { CanvasRenderer } from "echarts/renderers"
 export const initEcharts = () => {
     use([
         CanvasRenderer,
-        GridComponent, TooltipComponent, TitleComponent, VisualMapComponent, LegendComponent,
+        AriaComponent, GridComponent, TooltipComponent, TitleComponent, VisualMapComponent, LegendComponent,
         BarChart, PieChart, LineChart, HeatmapChart, ScatterChart, EffectScatterChart,
     ])
 }

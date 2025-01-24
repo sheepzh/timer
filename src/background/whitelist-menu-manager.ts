@@ -11,7 +11,7 @@ import { getTab, onTabActivated, onTabUpdated } from "@api/chrome/tab"
 import WhitelistDatabase from "@db/whitelist-database"
 import { t2Chrome } from "@i18n/chrome/t"
 import { type ContextMenusMessage } from "@i18n/message/common/context-menus"
-import optionService from "@service/option-service"
+import optionHolder from "@service/components/option-holder"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const db = new WhitelistDatabase(chrome.storage.local)
@@ -20,8 +20,6 @@ const menuId = '_timer_menu_item_' + getRuntimeId()
 let currentActiveId: number
 
 let whitelist: string[] = []
-
-let visible = true
 
 const removeOrAdd = (removeOrAddFlag: boolean, white: string) => removeOrAddFlag ? db.remove(white) : db.add(white)
 
@@ -47,6 +45,7 @@ async function updateContextMenuInner(param: ChromeTab | number) {
             changeProp.visible = false
         } else {
             // Else change the title
+            const visible = (await optionHolder.get())?.displayWhitelistMenu
             const existsInWhitelist = whitelist.includes(targetHost)
             changeProp.visible = true && visible
             const titleMsgField: keyof ContextMenusMessage = existsInWhitelist ? 'removeFromWhitelist' : 'add2Whitelist'
@@ -76,8 +75,6 @@ async function init() {
     onTabUpdated(handleTabUpdated)
     onTabActivated((_tabId, activeInfo) => handleTabActivated(activeInfo))
     db.addChangeListener(handleListChange)
-    visible = (await optionService.getAllOption()).displayWhitelistMenu
-    optionService.addOptionChangeListener(option => visible = option.displayWhitelistMenu)
 }
 
 export default init

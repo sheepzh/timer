@@ -7,11 +7,11 @@
 
 import { type I18nKey, t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
-import { CATE_MERGE_PLACEHOLDER_ID } from "@service/stat-service/common"
 import {
     exportCsv as exportCsv_,
     exportJson as exportJson_,
 } from "@util/file"
+import { CATE_NOT_SET_ID } from "@util/site"
 import { formatTimeYMD } from "@util/time"
 import type { ReportFilterOption } from "./types"
 
@@ -54,7 +54,7 @@ const generateJsonData = (rows: timer.stat.Row[], categories: timer.site.Cate[])
 const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string => {
     const cateId = row?.cateId || row?.cateKey
     let cate: string
-    if (cateId === CATE_MERGE_PLACEHOLDER_ID) {
+    if (cateId === CATE_NOT_SET_ID) {
         cate = t(msg => msg.shared.cate.notSet)
     } else if (cateId) {
         const current = categories?.find(c => c.id === cateId)

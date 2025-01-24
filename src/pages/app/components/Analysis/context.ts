@@ -6,10 +6,11 @@
  */
 
 import { useProvide, useProvider } from "@hooks"
-import { type Ref } from "vue"
+import { watch, type Ref } from "vue"
+import { AnalysisTarget } from "./types"
 
 type Context = {
-    site: Ref<timer.site.SiteKey>
+    target: Ref<AnalysisTarget>
     timeFormat: Ref<timer.app.TimeFormat>
     rows: Ref<timer.stat.Row[]>
 }
@@ -17,14 +18,14 @@ type Context = {
 const NAMESPACE = 'siteAnalysis'
 
 export const initProvider = (
-    site: Ref<timer.site.SiteKey>,
+    target: Ref<AnalysisTarget>,
     timeFormat: Ref<timer.app.TimeFormat>,
     rows: Ref<timer.stat.Row[]>,
 ) => useProvide<Context>(NAMESPACE, {
-    site, timeFormat, rows
+    target, timeFormat, rows
 })
 
-export const useAnalysisSite = (): Ref<timer.site.SiteKey> => useProvider<Context>(NAMESPACE, "site").site
+export const useAnalysisTarget = (): Ref<AnalysisTarget> => useProvider<Context>(NAMESPACE, "target").target
 
 export const useAnalysisTimeFormat = (): Ref<timer.app.TimeFormat> => useProvider<Context>(NAMESPACE, "timeFormat").timeFormat
 

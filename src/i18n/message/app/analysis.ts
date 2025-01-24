@@ -8,6 +8,10 @@
 import resource from './analysis-resource.json'
 
 export type AnalysisMessage = {
+    target: {
+        site: string
+        cate: string
+    }
     common: {
         focusTotal: string
         visitTotal: string

@@ -1,6 +1,7 @@
+import optionHolder from "@service/components/option-holder"
 import optionService from "@service/option-service"
 import { defaultBackup } from "@util/constant/option"
-import { computed, type Ref, ref, toRaw, watch } from "vue"
+import { computed, onBeforeMount, type Ref, ref, toRaw, watch } from "vue"
 
 type Result = {
     reset: () => void
@@ -40,7 +41,8 @@ export const useOptionState = (): Result => {
         backupLogin: toRaw(login.value),
     }))
 
-    optionService.getAllOption().then(val => {
+    onBeforeMount(async () => {
+        const val = await optionHolder.get()
         backupType.value = val?.backupType
         autoBackUp.value = val?.autoBackUp
         autoBackUpInterval.value = val?.autoBackUpInterval

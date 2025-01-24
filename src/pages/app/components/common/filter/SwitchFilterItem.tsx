@@ -4,8 +4,10 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+
 import { useCached } from "@hooks"
-import { ElSwitch } from "element-plus"
+import Flex from "@pages/components/Flex"
+import { ElSwitch, ElText } from "element-plus"
 import { defineComponent, watch } from "vue"
 import { useRoute } from "vue-router"
 
@@ -24,10 +26,10 @@ const _default = defineComponent({
         watch(data, () => ctx.emit("change", data.value))
 
         return () => (
-            <span class='filter-item filter-switch'>
-                <a class='filter-name'>{props.label}</a>
+            <Flex gap={5} align="center">
+                <ElText tag="b" type="info">{props.label}</ElText>
                 <ElSwitch modelValue={data.value} onChange={setter} />
-            </span>
+            </Flex>
         )
     }
 })

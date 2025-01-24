@@ -37,12 +37,24 @@ function getOrSetFlag(): boolean {
     return !!pre
 }
 
+/**
+ * Wrap for hooks, after the extension reloaded or upgraded, the context of current content script will be invalid
+ * And sending messages to the runtime will be failed
+ */
+async function trySendMsg2Runtime<Req, Res>(code: timer.mq.ReqCode, data?: Req): Promise<Res> {
+    try {
+        return await sendMsg2Runtime(code, data)
+    } catch {
+        // ignored
+    }
+}
+
 async function main() {
     // Execute in every injections
     const tracker = new TrackerClient({
-        onReport: data => sendMsg2Runtime('cs.trackTime', data),
-        onResume: reason => reason === 'idle' && sendMsg2Runtime('cs.idleChange', false),
-        onPause: reason => reason === 'idle' && sendMsg2Runtime('cs.idleChange', true),
+        onReport: data => trySendMsg2Runtime('cs.trackTime', data),
+        onResume: reason => reason === 'idle' && trySendMsg2Runtime('cs.idleChange', false),
+        onPause: reason => reason === 'idle' && trySendMsg2Runtime('cs.idleChange', true),
     })
     tracker.init()
     sendMsg2Runtime('cs.onInjected')
@@ -54,13 +66,14 @@ async function main() {
     const isWhitelist = await sendMsg2Runtime('cs.isInWhitelist', { host, url })
     if (isWhitelist) return
 
-    sendMsg2Runtime('cs.incVisitCount', { host, url })
-
     await initLocale()
     const needPrintInfo = await sendMsg2Runtime('cs.printTodayInfo')
     !!needPrintInfo && printInfo(host)
     injectPolyfill()
-    processLimit(url)
+    await processLimit(url)
+
+    // Increase visit count at the end
+    await sendMsg2Runtime('cs.incVisitCount', { host, url })
 }
 
 main()
