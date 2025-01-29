@@ -38,11 +38,15 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
         const option = await this.generateOption(biz) as (EchartsOption & BaseEchartsOption)
         if (!option) return
 
+        await this.postChartOption(option)
+
+        this.instance.setOption(option, { notMerge: false })
+    }
+
+    protected async postChartOption(option: EchartsOption & BaseEchartsOption) {
         const { chartDecal } = await optionHolder.get() || {}
         processAria(option, chartDecal)
         processRtl(option)
-
-        this.instance.setOption(option, { notMerge: false })
     }
 
     async resize() {

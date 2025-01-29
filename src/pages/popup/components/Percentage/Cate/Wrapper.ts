@@ -173,6 +173,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
     private async handleSelect(selectedId: number) {
         this.selectedCache = selectedId
         const option = await this.generateInner()
+        await this.postChartOption(option)
         this.instance.setOption(option, true, true)
     }
 }
