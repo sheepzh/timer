@@ -17,6 +17,7 @@
         "Cascader",
         "countup",
         "daterange",
+        "domcontentloaded",
         "dont",
         "echarts",
         "emsp",
@@ -39,6 +40,7 @@
         "webcomponents",
         "webstore",
         "webtime",
+        "wfhg",
         "zrender"
     ],
     "cSpell.ignorePaths": [

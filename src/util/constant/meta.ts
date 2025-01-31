@@ -5,9 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getRuntimeId } from "@api/chrome/runtime"
-import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "./environment"
-
 /**
  * @since 0.9.6
  */
@@ -23,11 +20,7 @@ export const FIREFOX_ID = "{a8cf72f7-09b7-4cd4-9aaa-7a023bf09916}"
  */
 export const EDGE_ID = "fepjgblalcnepokjblgbgmapmlkgfahc"
 
-const id = getRuntimeId()
-
 /**
- * @since 0.9.6
+ * Mock extension id for end-to-end tests
  */
-export const IS_FROM_STORE = (IS_CHROME && id === CHROME_ID)
-    || (IS_EDGE && id === EDGE_ID)
-    || (IS_FIREFOX && id === FIREFOX_ID)
+export const E2E_NAME = 'IS E2E'
