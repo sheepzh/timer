@@ -13,10 +13,10 @@ import { t } from "@app/locale"
 import { OPTION_ROUTE } from "@app/router/constants"
 import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { getAppPageUrl } from "@util/constant/url"
 import { defineComponent, watch, type PropType } from "vue"
 import type { LimitFilterOption } from "./types"
-import Flex from "@pages/components/Flex"
 
 const optionPageUrl = getAppPageUrl(OPTION_ROUTE, { i: 'dailyLimit' })
 

@@ -11,7 +11,8 @@ import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
 import limitService from "@service/limit-service"
 import { isEffective } from "@util/limit"
-import { ElMessage, ElTable, ElTableColumn, ElTag } from "element-plus"
+import { useLocalStorage } from "@vueuse/core"
+import { ElMessage, ElTable, ElTableColumn, ElTag, type Sort } from "element-plus"
 import { defineComponent } from "vue"
 import { useLimitFilter } from "../context"
 import LimitDelayColumn from "./column/LimitDelayColumn"
@@ -67,6 +68,8 @@ const _default = defineComponent({
 
         ctx.expose({ refresh } satisfies LimitTableInstance)
 
+        const historySort = useLocalStorage<Sort>('__limit_sort_default__', { prop: DEFAULT_SORT_COL, order: 'descending' })
+
         return () => (
             <ElTable
                 border
@@ -74,9 +77,11 @@ const _default = defineComponent({
                 highlightCurrentRow
                 style={{ width: "100%" }}
                 data={data.value}
-                defaultSort={{ prop: DEFAULT_SORT_COL, order: 'descending' }}
+                defaultSort={historySort.value}
+                onSort-change={(val: Sort) => historySort.value = { prop: val?.prop, order: val?.order }}
             >
                 <ElTableColumn
+                    prop='name'
                     label={t(msg => msg.limit.item.name)}
                     minWidth={140}
                     align="center"
@@ -99,6 +104,7 @@ const _default = defineComponent({
                     {({ row }: ElTableRowScope<timer.limit.Item>) => <RuleContent value={row} />}
                 </ElTableColumn>
                 <ElTableColumn
+                    prop='effectiveDays'
                     label={t(msg => msg.limit.item.effectiveDay)}
                     minWidth={180}
                     align="center"
@@ -131,6 +137,7 @@ const _default = defineComponent({
                     )}
                 </ElTableColumn>
                 <ElTableColumn
+                    prop='weeklyWaste'
                     minWidth={130}
                     align="center"
                     sortable
