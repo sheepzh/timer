@@ -29,7 +29,7 @@
         "@crowdin/crowdin-api-client": "^1.41.1",
         "@swc/core": "^1.10.12",
         "@swc/jest": "^0.2.37",
-        "@types/chrome": "0.0.300",
+        "@types/chrome": "0.0.301",
         "@types/decompress": "^4.2.7",
         "@types/echarts": "^5.0.0",
         "@types/generate-json-webpack-plugin": "^0.3.7",
