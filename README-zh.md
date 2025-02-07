@@ -62,7 +62,7 @@
 
 如果你知道如何开发浏览器扩展，并且熟悉该项目的技术栈 ( TypeScript + vue3 + ElementPlus )，也可以贡献代码
 
-参见[开发指南](./doc/dev-guide.md)。
+参见[开发指南](./doc/dev-guide-zh.md)。
 
 > 当然也欢迎新手同学使用该项目作为学习项目自己练手
 

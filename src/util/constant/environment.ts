@@ -5,6 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { getRuntimeId, getRuntimeName } from "@api/chrome/runtime"
+import { CHROME_ID, E2E_NAME, EDGE_ID, FIREFOX_ID } from "./meta"
+
 const { userAgent, platform } = navigator
 let isFirefox = false
 let isChrome = false
@@ -80,3 +83,14 @@ export const IS_WINDOWS = isWindows
  * @since 1.4.4
  */
 export const IS_MV3 = chrome.runtime.getManifest().manifest_version === 3
+
+const id = getRuntimeId()
+
+/**
+ * @since 0.9.6
+ */
+export const IS_FROM_STORE = (IS_CHROME && id === CHROME_ID)
+    || (IS_EDGE && id === EDGE_ID)
+    || (IS_FIREFOX && id === FIREFOX_ID)
+
+export const IS_E2E = getRuntimeName() === E2E_NAME

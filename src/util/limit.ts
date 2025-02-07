@@ -8,7 +8,7 @@ export function matches(cond: timer.limit.Item['cond'], url: string): boolean {
     )
 }
 
-export const meetLimit = (limit: number, value: number) => !!limit && !!value && value >= limit
+export const meetLimit = (limit: number, value: number) => !!limit && !!value && value > limit
 
 export const meetTimeLimit = (limitSec: number, wastedMill: number, allowDelay: boolean, delayCount: number) => {
     let realLimit = (limitSec ?? 0) * MILL_PER_SECOND

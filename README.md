@@ -62,7 +62,9 @@ You can [submit one issue](https://github.com/sheepzh/timer/issues) to us if you
 
 #### 2. Participate in development
 
-If you know how to develop browser extensions and are familiar with the project's technology stack ( TypeScript + vue3 + ElementPlus ), you can commit your code lines.
+If you know how to develop browser extensions and are familiar with the project's technology stack (TypeScript + Vue3 + Element Plus + Echarts), you can also contribute code
+
+See the [Development Guide](./doc/dev-guide.md)
 
 #### 3. Perfect translation
 
