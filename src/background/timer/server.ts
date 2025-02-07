@@ -50,11 +50,15 @@ async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessa
 }
 
 async function sendLimitedMessage(items: timer.limit.Item[]) {
-    const tabs = await listTabs({ status: 'complete' })
-    tabs.forEach(tab => sendMsg2Tab(tab.id, 'limitTimeMeet', items)
-        .then(() => console.log(`Processed limit rules: rule=${JSON.stringify(items)}`))
-        .catch(() => {/*Ignored*/ })
-    )
+    const tabs = await listTabs()
+    if (!tabs?.length) return
+    for (const tab of tabs) {
+        try {
+            await sendMsg2Tab(tab.id, 'limitTimeMeet', items)
+        } catch {
+            /* Ignored */
+        }
+    }
 }
 
 async function handleVisit(host: string, url: string) {

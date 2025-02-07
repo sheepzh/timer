@@ -17,17 +17,17 @@ describe('util/limit', () => {
         expect(meetLimit(0, 100)).toBe(false)
         expect(meetLimit(undefined, 100)).toBe(false)
 
-        expect(meetLimit(10, 100)).toBe(true)
-        expect(meetLimit(100, 100)).toBe(true)
+        expect(meetLimit(100, 101)).toBe(true)
+        expect(meetLimit(100, 100)).toBe(false)
     })
 
     test('meetTimeLimit', () => {
         expect(meetTimeLimit(undefined, undefined, undefined, undefined)).toBe(false)
 
-        expect(meetTimeLimit(1, 1000, undefined, undefined)).toBe(true)
-        expect(meetTimeLimit(1, 1000, true, undefined)).toBe(true)
-        expect(meetTimeLimit(1, 1000, true, 1)).toBe(false)
-        expect(meetTimeLimit(1, (1 + 60 * 5) * 1000, true, 1)).toBe(true)
+        expect(meetTimeLimit(1, 1001, undefined, undefined)).toBe(true)
+        expect(meetTimeLimit(1, 1001, true, undefined)).toBe(true)
+        expect(meetTimeLimit(1, 1001, true, 1)).toBe(false)
+        expect(meetTimeLimit(1, (1 + 60 * 5) * 1000 + 1, true, 1)).toBe(true)
     })
 
     test('period2Str', () => {
@@ -93,7 +93,7 @@ describe('util/limit', () => {
         item.weekly = 299
         expect(hasWeeklyLimited(item)).toBe(false)
 
-        item.weeklyWaste = 299 * 1000
+        item.weeklyWaste = 299 * 1000 + 1
         expect(hasWeeklyLimited(item)).toBe(true)
 
         item.weeklyDelayCount = 1
@@ -125,23 +125,23 @@ describe('util/limit', () => {
             expect(res?.weekly).toBe(weekly)
         }
 
-        item.waste = 8999
+        item.waste = 9000
         assert('NORMAL', 'NORMAL')
 
-        item.waste = 9000
+        item.waste = 9001
         assert('REMINDER', 'NORMAL')
 
-        item.waste = 10000
+        item.waste = 10001
         assert('LIMITED', 'NORMAL')
 
         item.allowDelay = true
         item.delayCount = 1
 
-        item.weeklyWaste = 8999
-        assert('NORMAL', 'NORMAL')
         item.weeklyWaste = 9000
+        assert('NORMAL', 'NORMAL')
+        item.weeklyWaste = 9001
         assert('NORMAL', 'REMINDER')
-        item.weeklyWaste = 10000
+        item.weeklyWaste = 10001
         assert('NORMAL', 'LIMITED')
     })
 
@@ -162,10 +162,10 @@ describe('util/limit', () => {
             expect(hasLimited(item)).toBe(limited)
         }
 
-        assert(item => item.waste = 999, false)
-        assert(item => item.waste = 1000, true)
+        assert(item => item.waste = 1000, false)
+        assert(item => item.waste = 1001, true)
 
-        assert(item => item.weeklyWaste = 999, false)
-        assert(item => item.weeklyWaste = 1000, true)
+        assert(item => item.weeklyWaste = 1000, false)
+        assert(item => item.weeklyWaste = 1001, true)
     })
 })

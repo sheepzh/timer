@@ -28,13 +28,14 @@ console.log(moduleNameMapper)
 const config: Config.InitialOptions = {
     moduleNameMapper,
     roots: [
-        "<rootDir>/test"
+        "<rootDir>/test",
+        "<rootDir>/test-e2e",
     ],
-    testRegex: 'test/(.+)\\.test\\.(jsx?|tsx?)$',
+    testRegex: '(.+)\\.test\\.(jsx?|tsx?)$',
     transform: {
         "^.+\\.tsx?$": "@swc/jest"
     },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 }
 
 export default config

@@ -88,7 +88,6 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
             return message
         } catch (e) {
             const message = e.message?.toLowerCase?.()
-            console.log(message?.toLowerCase())
             if (message?.includes("failed to fetch")) {
                 return "Unable to fetch this endpoint, please make sure it is accessible"
             } else if (message?.includes("failed to parse url from")) {

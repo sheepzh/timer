@@ -1,155 +1,186 @@
-# 开发指南
+# Development Guide
 
-## 1. 相关技术和工具
+## 1. Technology Stack
 
-使用到的技术栈有：
+The technology stack used is:
 
 -   [webpack](https://github.com/webpack/webpack) + [TypeScript](https://github.com/microsoft/TypeScript)
--   [Vue3 (Composition API)](<https://vuejs.org/api/#:~:text=defineCustomElement()-,Composition%20API,-setup()>)
+-   [Vue3 (Composition API + JSX)](<https://vuejs.org/api/#:~:text=defineCustomElement()-,Composition%20API,-setup()>)
 -   [sass](https://github.com/sass/sass)
 -   [Element Plus](https://element-plus.gitee.io/)
--   [echarts](https://github.com/apache/echarts)
+-   [Echarts](https://github.com/apache/echarts)
 
-以及 [Chrome Extension 开发文档](https://developer.chrome.com/docs/webstore/)，目前 manifest 的版本 Chrome 和 Edge 使用的使 v3, Firefox 使用的是 v2。请注意接口兼容。
+And [Chrome Extension Development Documentation](https://developer.chrome.com/docs/webstore/), the current manifest version used by Chrome and Edge is v3, and Firefox uses v2. Please pay attention to interface compatibility.
 
-还集成了一些免费的开源工具：
+Some free open source tools are also integrated:
 
--   单元测试工具 [jest](https://jestjs.io/docs/getting-started)
--   单元测试覆盖率 [Codecov](https://app.codecov.io/gh/sheepzh/timer)
--   代码质量检测 [CODEBEAT](https://codebeat.co/projects/github-com-sheepzh-timer-main)
--   多语言翻译管理 [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)
+-   Testing tool [jest](https://jestjs.io/docs/getting-started)
+-   Unit test coverage [Codecov](https://app.codecov.io/gh/sheepzh/timer)
+-   End-to-end integration testing [puppeteer](https://developer.chrome.com/docs/extensions/how-to/test/puppeteer)
+-   Code quality detection [CODEBEAT](https://codebeat.co/projects/github-com-sheepzh-timer-main)
+-   i18n tool [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)
 
-## 2. 开发步骤
+## 2. Steps
 
-1. fork 自己的仓库
-2. 安装依赖
+1. Fork your repository
+2. Install dependencies
 
 ```shell
 npm install
 ```
 
-3. 创建对应的需求分支
-4. code
-5. run 开发环境
-   首先执行命令
+3. Create your own branch
+4. Code
+5. Run and test
+
+First execute the command
 
 ```shell
 npm run dev
-# 在 Firefox 中测试
+# or if you want to run in Firefox
 npm run dev:firefox
 ```
 
-项目根目录下会输出两个文件夹，dist_dev 和 firefox_dev。
+Two folders will be output in the project root directory, `dist_dev` and `dist_dev_firefox`
 
-然后根据测试浏览器的不同导入不同的文件夹到浏览器中：
+Then import different targets according to the test browser:
 
--   Chrome 和 Edge 导入 dist_dev 文件夹
--   Firefox 导入 firefox_dev 文件夹下的 manifest.json 文件。
+-   Import `dist_dev` into Chrome and Edge
+-   Import the `manifest.json` file in `dist_dev_firefox` for Firefox
 
-6. 运行单元测试
+6. Run unit tests
 
 ```shell
 npm run test
 ```
 
-7. 提交代码，并 PR 主仓库的 main 分支
+7. Run end-to-end tests
 
-## 3. 应用架构设计
+First, you need to compile twice: integration compilation and production compilation
+
+```shell
+npm run dev:e2e
+npm run build
+```
+
+Then execute the test
+
+```shell
+npm run test-e2e
+```
+
+If you need to start puppeteer in headless mode, you can set the following environment variables
+
+```bash
+export USE_HEADLESS_PUPPETEER=true
+```
+
+7. Submit a PR
+
+Please PR to the milestone branch of the main repository, which is usually the next minor version number (x.x.0). If it is not there, please contact the author to create it
+
+## 3. Application architecture design
 
 > todo
 
-## 4. 目录结构
+## 4. Directory Structure
 
 ```plain
 project
 │
-└───doc                                    # 文档目录
+└───doc                                    # Documents
 │
-└───public                                 # 静态资源目录
-|   |   app.html                           # 后台页主界面
-|   |   popup.html                         # 弹窗页主界面
-|   |   side.html                          # 侧边栏主页面
-|   |
-|   └───images                             # 图片资源
-|       |   icon.png                       # 扩展图标
+└───public                                 # Assets
 |
-└───src                                    # 代码
-|   |   manifest.ts                        # Chrome 和 Edge 的声明文件
-|   |   manifest-firefox.ts                # Firefox 的声明文件
-|   |   package.ts                         # ../package.json 的声明文件
-|   └───api                                # HTTP API 以及扩展 API 的兼容处理
+└───src
+|   |   manifest.ts                        # manifest.json for Chrome and Edge
+|   |   manifest-firefox.ts                # manifest.json for Firefox
 |   |
-|   └───app                                # 后台页应用，vue 单页应用
+|   └───api                                # API
 |   |
-|   └───popup                              # 扩展图标弹窗页应用，vue 单页应用
+|   └───pages                              # UI
+|   |   |
+|   |   └───app                            # Background page
+|   |   |
+|   |   └───popup                          # Popup page
+|   |   |   |
+|   |   |   └───skeleton.ts                # Skeleton of the popup page
+|   |   |   |
+|   |   |   └───index.ts                   # Popup page entrance
+|   |   |
+|   |   └───side                           # Side page
+|   |   |
+|   |   └───[Other dirs]                   # Shared code
 |   |
-|   └───side                               # 侧边栏页面，vue 单页应用
+|   └───background                         # Backend service, responsible for coordinating data interaction, Service Worker
 |   |
-|   └───background                         # 后台服务，负责协调数据交互，Service Worker
+|   └───content-script                     # Script injected into user pages
 |   |
-|   └───content-script                     # 注入到用户页面里的脚本
+|   └───service                            # Service Layer
 |   |
-|   └───service                            # 服务层
+|   └───database                           # Data Access Layer
 |   |
-|   └───database                           # 数据访问层
+|   └───i18n                               # Translations
 |   |
-|   └───util                               # 工具包
+|   └───util                               # Utils
 |   |
-|   └───common                             # 公共功能
+|   └───common                             # Shared
 |
-└───test                                   # 单测，主要测试业务逻辑
+└───test                                   # Unit tests
 |   └───__mock__
 |       |
 |       └───storage.ts                     # mock chrome.storage
 |
-└───types                                  # 补充声明
+└───test-e2e                               # End-to-end tests
 |
-└───webpack                                # webpack 打包配置
+└───types                                  # Declarations
+|
+└───webpack                                # webpack config
 
 ```
 
-## 5. 代码格式
+## 5. Code format
 
-请使用 VSCode 自带的代码格式工具，请<u>**禁用 Prettier Eslint**</u> 等格式化工具
+Please use the code formatting tools that come with VSCode. Please <u>**disable Prettier Eslint**</u> and other formatting tools
 
--   尽量使用单引号
--   在符合语法正确情况下，尽量保持代码简洁
--   行尾无分号
--   换行符使用 LF (\n)，Windows 下需要执行以下指令关闭警告
+-   Use single quotes whenever possible
+-   Keep the code as concise as possible while being grammatically correct.
+-   No semicolon at the end of the line
+-   Please use LF (\n). In Windows, you need to execute the following command to turn off the warning:
 
 ```
 git config core.autocrlf false
 ```
 
-## 6. 多语言处理
+## 6. How to use i18n
 
-用户界面的文本除了特定的专业名词可以使用英语之外，其余请使用多语言框架注入文本。见代码目录 `src/i18n`
+Except for certain professional terms, the text of the user interface can be in English. For the rest, please use i18n to inject text. See the code directory `src/i18n`
 
-### 如何新增多语言条目
+### How to add entries
 
-1. 在定义文件 `xxx.ts` 中新增一个字段。
-2. 然后在对应资源文件 `xxx-resource.json` 中 <u>新增该字段的英语 (en) 和简体中文 (zh_CN) 的对应文本</u> 即可。是否添加其他语种根据开发者的语言能力决定。
-3. 在代码中调用 t(文本路径) 获取文本内容。
+1. Add new fields in the definition file `xxx.ts`
+2. Then <u>add the corresponding text of this field in English (en) and Simplified Chinese (zh_CN)</u> in the corresponding resource file `xxx-resource.json`
+3. Call `t(msg=>msg...)` in the code to get the text content
 
-### 如何与 Crowdin 集成
+### How to integrate with Crowdin
 
-Crowdin 是一个协作翻译平台，可以让 native 用户帮助翻译多语言内容。该项目与 Crowdin 的集成主要分为两步。
+Crowdin is a collaborative translation platform that allows native speakers to help translate multilingual content. The project's integration with Crowdin is divided into two steps
 
-1. 上传英语文本和代码中的其他语种文本
+1. Upload English text and other language text in code
 
 ```
-# 上传英语原始文本（英语）
+# Upload original English text
 ts-node ./script/crowdin/sync-source.ts
-# 上传本地代码中其他语种的文本（不包括简体中文）
+# Upload texts in other languages ​​in local code (excluding Simplified Chinese)
 ts-node ./script/crowdin/sync-translation.ts
 ```
 
-因为上述两个脚本，依赖在环境变量中的 Crowdin access secret。所以我将它们集成到了 Github 的 [Action](https://github.com/sheepzh/timer/actions/workflows/crowdin-sync.yml) 中，直接点击执行即可。
+Because the above two scripts rely on the Crowdin access secret in the environment variable, I integrated them into Github's [Action](https://github.com/sheepzh/timer/actions/workflows/crowdin-sync.yml)
 
-2. 导出 Crowdin 中翻译完成的内容
+2. Export translations from Crowdin
 
 ```
 ts-node ./script/crowdin/export-translation.ts
 ```
 
-同样也可以直接执行 [Action](https://github.com/sheepzh/timer/actions/workflows/crowdin-export.yml)。
+You can also directly execute [Action](https://github.com/sheepzh/timer/actions/workflows/crowdin-export.yml).

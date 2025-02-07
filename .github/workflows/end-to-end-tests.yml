@@ -1,0 +1,39 @@
+name: End-to-end tests CI
+on: [pull_request]
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Test using Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "v20.11.0"
+            - run: npm install
+            - name: Build e2e outputs
+              run: npm run dev:e2e
+            - name: Build production outputs
+              run: npm run build
+
+            - name: Run tests
+              env:
+                  USE_HEADLESS_PUPPETEER: true
+              run: npm run test-e2e
+            - name: Tests ✅
+              if: ${{ success() }}
+              run: |
+                  curl --request POST           --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'           --header 'content-type: application/json'           --data '{
+                    "context": "tests",
+                    "state": "success",
+                    "description": "Tests passed",
+                    "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }'
+            - name: Tests 🚨
+              if: ${{ failure() }}
+              run: |
+                  curl --request POST           --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'           --header 'content-type: application/json'           --data '{
+                    "context": "tests",
+                    "state": "failure",
+                    "description": "Tests failed",
+                    "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }

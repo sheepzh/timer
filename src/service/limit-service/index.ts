@@ -121,7 +121,6 @@ async function addFocusTime(host: string, url: string, focusTime: number): Promi
     const needReminder: timer.limit.Item[] = []
 
     const { limitReminder, limitReminderDuration } = await optionHolder.get()
-    console.log(limitReminder, limitReminderDuration)
     const durationMill = limitReminder ? (limitReminderDuration ?? 0) * MILL_PER_MINUTE : 0
     allEffective.forEach(item => {
         const [met, reminder] = addFocusForEach(item, focusTime, durationMill)
@@ -136,19 +135,16 @@ async function addFocusTime(host: string, url: string, focusTime: number): Promi
             duration: limitReminderDuration,
         }
     }
-    console.log(result)
     await db.updateWaste(formatTimeYMD(new Date()), toUpdate)
     return result
 }
 
 function addFocusForEach(item: timer.limit.Item, focusTime: number, durationMill: number): [met: boolean, reminder: boolean] {
     const before = calcTimeState(item, durationMill)
-    console.log(before)
     item.waste += focusTime
     // Fast increase
     item.weeklyWaste += focusTime
     const after = calcTimeState(item, durationMill)
-    console.log(after)
     const met = (before.daily !== 'LIMITED' && after.daily === 'LIMITED') || (before.weekly !== 'LIMITED' && after.weekly === 'LIMITED')
     const reminder = (before.daily === 'NORMAL' && after.daily === 'REMINDER') || (before.weekly === 'NORMAL' && after.weekly === 'REMINDER')
     return [met, reminder]
