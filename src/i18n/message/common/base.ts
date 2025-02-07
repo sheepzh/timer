@@ -8,6 +8,7 @@
 import resource from './base-resource.json'
 
 export type BaseMessage = {
+    sidebar: string
     allFunction: string
     guidePage: string
     changeLog: string

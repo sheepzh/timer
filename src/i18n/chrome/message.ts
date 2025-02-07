@@ -36,6 +36,7 @@ const placeholder: ChromeMessage = {
         marketName: '',
     },
     base: {
+        sidebar: '',
         allFunction: '',
         guidePage: '',
         changeLog: '',

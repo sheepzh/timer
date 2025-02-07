@@ -19,7 +19,12 @@ declare type ChromeMessageHandler<T = any, R = any> = (req: timer.mq.Request<T>,
 
 declare namespace chrome {
     namespace runtime {
-        type ManifestFirefox = Omit<ManifestV2, "author"> & {
+        type ManifestFirefox = Pick<
+            ManifestV2,
+            | 'name' | 'description' | 'version' | 'manifest_version'
+            | 'icons' | 'background' | 'content_scripts' | 'permissions' | 'browser_action'
+            | 'default_locale' | 'homepage_url' | 'key'
+        > & {
             // "author" must be string for Firefox
             author?: string
             browser_specific_settings?: {
@@ -27,6 +32,20 @@ declare namespace chrome {
                     id?: string
                 }
             }
+            // see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/sidebar_action
+            sidebar_action?: Pick<ManifestV2['page_action'], 'default_icon' | 'default_title'> & {
+                default_panel?: string
+                open_at_install?: boolean
+            }
         }
+    }
+}
+
+/**
+ * Firefox-specific APIs
+ */
+declare namespace browser {
+    namespace sidebarAction {
+        export function open(): Promise<void>
     }
 }

@@ -1,7 +1,8 @@
 import { Search } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
-import { t } from "@side/locale"
+import Flex from "@pages/components/Flex"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
+import { t } from "@side/locale"
 import { ElDatePicker, ElInput } from "element-plus"
 import { type PropType, defineComponent, watch } from "vue"
 import "./search.sass"
@@ -22,8 +23,9 @@ const _default = defineComponent({
         const handleSearch = () => ctx.emit("search", query.value?.trim?.(), date.value)
 
         watch(date, handleSearch)
+
         return () => (
-            <div style={{ display: "flex" }}>
+            <Flex>
                 <ElInput
                     class="search"
                     placeholder={t(msg => msg.list.searchPlaceholder)}
@@ -45,7 +47,7 @@ const _default = defineComponent({
                     class="search-calendar"
                     v-slots={getDatePickerIconSlots()}
                 />
-            </div>
+            </Flex>
         )
     }
 })

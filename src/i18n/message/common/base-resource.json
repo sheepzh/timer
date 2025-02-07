@@ -1,5 +1,6 @@
 {
     "en": {
+        "sidebar": "Sidebar",
         "allFunction": "All Functions",
         "guidePage": "User Manual",
         "option": "Options",
@@ -7,6 +8,7 @@
         "changeLog": "Change Log"
     },
     "zh_CN": {
+        "sidebar": "侧边栏",
         "allFunction": "所有功能",
         "guidePage": "用户手册",
         "changeLog": "更新日志",
@@ -14,6 +16,7 @@
         "option": "选项"
     },
     "zh_TW": {
+        "sidebar": "側邊欄",
         "allFunction": "所有功能",
         "guidePage": "使用者手冊",
         "option": "選項",
@@ -21,6 +24,7 @@
         "changeLog": "更新紀錄"
     },
     "ja": {
+        "sidebar": "サイドバー",
         "allFunction": "すべての機能",
         "guidePage": "ユーザーマニュアル",
         "option": "拡張設定",
@@ -28,6 +32,7 @@
         "changeLog": "変更履歴"
     },
     "pt_PT": {
+        "sidebar": "Barra Lateral",
         "allFunction": "Todas as Funções",
         "guidePage": "Manual do Utilizador",
         "option": "Opções",
@@ -35,6 +40,7 @@
         "changeLog": "Registo de Alterações"
     },
     "uk": {
+        "sidebar": "Бічна панель",
         "allFunction": "Усі функції",
         "guidePage": "Посібник",
         "option": "Налаштування",
@@ -42,6 +48,7 @@
         "changeLog": "Журнал змін"
     },
     "es": {
+        "sidebar": "Barra Lateral",
         "allFunction": "Todas las funciones",
         "guidePage": "Manual del usuario",
         "option": "Opciones",
@@ -49,6 +56,7 @@
         "changeLog": "Registro de cambios"
     },
     "de": {
+        "sidebar": "Seitenleiste",
         "allFunction": "Alle Funktionen",
         "guidePage": "Benutzerhandbuch",
         "option": "Optionen",
@@ -56,6 +64,7 @@
         "changeLog": "Änderungsprotokoll"
     },
     "fr": {
+        "sidebar": "Barre Latérale",
         "allFunction": "Toutes les fonctions",
         "guidePage": "Manuel d'utilisateur",
         "option": "Options",
@@ -63,6 +72,7 @@
         "changeLog": "Historique des changements"
     },
     "ru": {
+        "sidebar": "Боковая панель",
         "allFunction": "Все функции",
         "guidePage": "Как использовать",
         "option": "Опции",
@@ -70,6 +80,7 @@
         "changeLog": "История изменений"
     },
     "ar": {
+        "sidebar": "الشريط الجانبي",
         "allFunction": "جميع الوظائف",
         "guidePage": "دليل المستخدم",
         "option": "خيارات",

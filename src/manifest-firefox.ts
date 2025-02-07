@@ -54,6 +54,11 @@ const _default: chrome.runtime.ManifestFirefox = {
         default_popup: "static/popup_skeleton.html",
         default_icon: "static/images/icon.png",
     },
+    sidebar_action: {
+        default_icon: "static/images/icon.png",
+        default_panel: "static/side.html",
+        open_at_install: false,
+    },
 }
 
 export default _default
