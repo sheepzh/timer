@@ -13,7 +13,7 @@ declare type ChromeContextMenuUpdateProps = chrome.contextMenus.UpdateProperties
 // chrome.alarms
 declare type ChromeAlarm = chrome.alarms.Alarm
 // chrome.runtime
-declare type ChromeOnInstalledReason = chrome.runtime.OnInstalledReason
+declare type ChromeOnInstalledReason = `${chrome.runtime.OnInstalledReason}`
 declare type ChromeMessageSender = chrome.runtime.MessageSender
 declare type ChromeMessageHandler<T = any, R = any> = (req: timer.mq.Request<T>, sender: ChromeMessageSender) => Promise<timer.mq.Response<R>>
 

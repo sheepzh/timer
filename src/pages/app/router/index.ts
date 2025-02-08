@@ -8,16 +8,16 @@
 import metaService from "@service/meta-service"
 import { type App } from "vue"
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router"
-import { ANALYSIS_ROUTE, LIMIT_ROUTE, MERGE_ROUTE, OPTION_ROUTE, REPORT_ROUTE } from "./constants"
+import { ANALYSIS_ROUTE, DASHBOARD_ROUTE, LIMIT_ROUTE, MERGE_ROUTE, OPTION_ROUTE, REPORT_ROUTE } from "./constants"
 
 const dataRoutes: RouteRecordRaw[] = [
     {
         path: '/data',
-        redirect: '/data/dashboard',
+        redirect: DASHBOARD_ROUTE,
     },
     // Needn't nested router
     {
-        path: '/data/dashboard',
+        path: DASHBOARD_ROUTE,
         component: () => import('../components/Dashboard')
     },
     {
@@ -78,11 +78,12 @@ const otherRoutes: RouteRecordRaw[] = [
 ]
 
 const routes: RouteRecordRaw[] = [
-    { path: '/', redirect: '/data' },
+    { path: '/', redirect: DASHBOARD_ROUTE },
     ...dataRoutes,
     ...behaviorRoutes,
     ...additionalRoutes,
     ...otherRoutes,
+    { path: '/:W+', redirect: DASHBOARD_ROUTE },
 ]
 
 const router = createRouter({

@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+export const DASHBOARD_ROUTE = '/data/dashboard'
+
 export const ANALYSIS_ROUTE = '/data/analysis'
 
 export const OPTION_ROUTE = '/additional/option'
