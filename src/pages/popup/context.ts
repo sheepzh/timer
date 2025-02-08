@@ -5,7 +5,6 @@ import cateService from "@service/cate-service"
 import optionHolder from "@service/components/option-holder"
 import optionService from "@service/option-service"
 import { groupBy } from "@util/array"
-import { IS_FIREFOX } from "@util/constant/environment"
 import { isDarkMode, toggle } from "@util/dark-mode"
 import { CATE_NOT_SET_ID } from "@util/site"
 import { onBeforeMount, ref, type Ref } from "vue"
@@ -25,14 +24,7 @@ const NAMESPACE = '_'
 
 export const initPopupContext = (): Ref<number> => {
     const appKey = ref(Date.now())
-    const reload = () => {
-        if (IS_FIREFOX) {
-            // Option change event triggered very late in Firefox, so reload the page directly
-            location.reload()
-        } else {
-            appKey.value = Date.now()
-        }
-    }
+    const reload = () => appKey.value = Date.now()
 
     const { data: darkMode, refresh: refreshDarkMode } = useRequest(() => optionService.isDarkMode(), { defaultValue: isDarkMode() })
 

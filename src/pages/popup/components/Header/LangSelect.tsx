@@ -1,6 +1,6 @@
 import { createTab } from "@api/chrome/tab"
 import { useManualRequest, useRequest } from "@hooks/useRequest"
-import { ALL_LOCALES, localeSameAsBrowser, t } from "@i18n"
+import { ALL_LOCALES, handleLocaleOption, localeSameAsBrowser, t } from "@i18n"
 import optionMessages from "@i18n/message/app/option"
 import localeMessages from "@i18n/message/common/locale"
 import Flex from "@pages/components/Flex"
@@ -29,7 +29,10 @@ const LangSelect = defineComponent(() => {
     const { reload: reloadPopup } = usePopupContext()
 
     const { refresh: saveLocale } = useManualRequest(
-        opt => optionService.setLocale(opt),
+        async opt => {
+            await optionService.setLocale(opt)
+            handleLocaleOption(opt)
+        },
         { onSuccess: reloadPopup },
     )
 

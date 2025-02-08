@@ -94,13 +94,15 @@ export function isTranslatingLocale(): boolean {
  */
 export let locale: timer.Locale = localeSameAsBrowser
 
-function handleLocaleOption(option: timer.option.AllOption) {
-    const localOption: timer.option.LocaleOption = option.locale
-    if (!localOption || localOption === "default") {
-        locale = chromeLocale2ExtensionLocale(getUILanguage())
-    } else {
-        locale = localOption as timer.Locale
+function cvtOption2Locale(option: timer.option.LocaleOption): timer.Locale {
+    if (!option || option === 'default') {
+        return chromeLocale2ExtensionLocale(getUILanguage())
     }
+    return option
+}
+
+export function handleLocaleOption(option: timer.option.LocaleOption) {
+    locale = cvtOption2Locale(option)
 
     setLocale(locale)
     setDir(locale === 'ar' ? 'rtl' : 'ltr')
@@ -112,10 +114,8 @@ function handleLocaleOption(option: timer.option.AllOption) {
  */
 export async function initLocale() {
     const option = await optionHolder.get()
-    handleLocaleOption(option)
+    handleLocaleOption(option?.locale)
 }
-
-optionHolder.addChangeListener(handleLocaleOption)
 
 function tryGetOriginalI18nVal<MessageType>(
     messages: Messages<MessageType>,
