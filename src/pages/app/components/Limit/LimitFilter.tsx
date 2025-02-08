@@ -11,20 +11,26 @@ import InputFilterItem from "@app/components/common/filter/InputFilterItem"
 import SwitchFilterItem from "@app/components/common/filter/SwitchFilterItem"
 import { t } from "@app/locale"
 import { OPTION_ROUTE } from "@app/router/constants"
-import { Operation, Plus, SetUp } from "@element-plus/icons-vue"
+import { Delete, Open, Operation, Plus, SetUp, TurnOff } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { getAppPageUrl } from "@util/constant/url"
 import { defineComponent, watch, type PropType } from "vue"
+import DropdownButton, { type DropdownButtonItem } from "../common/DropdownButton"
 import type { LimitFilterOption } from "./types"
 
 const optionPageUrl = getAppPageUrl(OPTION_ROUTE, { i: 'dailyLimit' })
+
+type BatchOpt = 'delete' | 'enable' | 'disable'
 
 const _default = defineComponent({
     props: {
         defaultValue: Object as PropType<LimitFilterOption>
     },
     emits: {
+        batchDelete: () => true,
+        batchEnable: () => true,
+        batchDisable: () => true,
         create: () => true,
         change: (_option: LimitFilterOption) => true,
         test: () => true,
@@ -33,6 +39,33 @@ const _default = defineComponent({
         const [url, setUrl] = useState(props.defaultValue?.url)
         const [onlyEnabled, setOnlyEnabled] = useState(props.defaultValue?.onlyEnabled)
         watch([url, onlyEnabled], () => ctx.emit("change", { url: url.value, onlyEnabled: onlyEnabled.value }))
+
+        const batchItems: DropdownButtonItem<BatchOpt>[] = [
+            {
+                key: 'delete',
+                label: t(msg => msg.button.batchDelete),
+                icon: Delete,
+            }, {
+                key: 'enable',
+                label: t(msg => msg.button.batchEnable),
+                icon: Open,
+            }, {
+                key: 'disable',
+                label: t(msg => msg.button.batchDisable),
+                icon: TurnOff,
+            },
+        ]
+
+        const handleBatchClick = (key: BatchOpt) => {
+            if (key === 'delete') {
+                ctx.emit('batchDelete')
+            } else if (key === 'enable') {
+                ctx.emit('batchEnable')
+            } else if (key === 'disable') {
+                ctx.emit('batchDisable')
+            }
+        }
+
         return () => (
             <Flex justify="space-between" gap={10}>
                 <Flex gap={10}>
@@ -49,6 +82,7 @@ const _default = defineComponent({
                     />
                 </Flex>
                 <Flex gap={10}>
+                    <DropdownButton items={batchItems} onClick={handleBatchClick} />
                     <ButtonFilterItem
                         text={t(msg => msg.limit.button.test)}
                         type="primary"

@@ -8,11 +8,11 @@ import ButtonFilterItem from "@app/components/common/filter/ButtonFilterItem"
 import InputFilterItem from "@app/components/common/filter/InputFilterItem"
 import { useCategories } from "@app/context"
 import { t } from "@app/locale"
-import { ArrowDown, Connection, Delete, Grid, Plus } from "@element-plus/icons-vue"
+import { Connection, Delete, Grid, Plus } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 import Flex from "@pages/components/Flex"
-import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElLink } from "element-plus"
 import { computed, defineComponent, type PropType, watch } from "vue"
+import DropdownButton, { type DropdownButtonItem } from "../common/DropdownButton"
 import CategoryFilter from "../common/filter/CategoryFilter"
 import MultiSelectFilterItem from "../common/filter/MultiSelectFilterItem"
 import { ALL_TYPES } from "./common"
@@ -23,6 +23,8 @@ export type FilterOption = {
     types?: timer.site.Type[],
     cateIds?: number[],
 }
+
+type BatchOpt = 'change' | 'disassociate' | 'delete'
 
 const _default = defineComponent({
     props: {
@@ -62,6 +64,30 @@ const _default = defineComponent({
             cateIds: cateIds.value,
         }))
 
+        const items: DropdownButtonItem<BatchOpt>[] = [{
+            key: 'change',
+            label: t(msg => msg.siteManage.cate.batchChange),
+            icon: Grid,
+        }, {
+            key: 'disassociate',
+            label: t(msg => msg.siteManage.cate.batchDisassociate),
+            icon: Connection,
+        }, {
+            key: 'delete',
+            label: t(msg => msg.button.batchDelete),
+            icon: Delete,
+        }]
+
+        const handleBatchClick = (key: BatchOpt) => {
+            if (key === 'change') {
+                ctx.emit('batchChangeCate')
+            } else if (key === 'disassociate') {
+                ctx.emit('batchDisassociate')
+            } else if (key === 'delete') {
+                ctx.emit('batchDelete')
+            }
+        }
+
         return () => (
             <Flex gap={10} justify="space-between">
                 <Flex gap={10}>
@@ -86,35 +112,7 @@ const _default = defineComponent({
                     />
                 </Flex>
                 <Flex gap={10}>
-                    <Flex align="center" gap={3}>
-                        <ElButton
-                            link
-                            type="primary"
-                            icon={<Grid />}
-                            onClick={() => ctx.emit('batchChangeCate')}
-                        >
-                            {t(msg => msg.siteManage.cate.batchChange)}
-                        </ElButton>
-                        <ElDropdown v-slots={{
-                            default: () => <ElLink type="primary" underline={false} icon={ArrowDown} />,
-                            dropdown: () => (
-                                <ElDropdownMenu>
-                                    <ElDropdownItem
-                                        icon={<Connection />}
-                                        onClick={() => ctx.emit('batchDisassociate')}
-                                    >
-                                        {t(msg => msg.siteManage.cate.batchDisassociate)}
-                                    </ElDropdownItem>
-                                    <ElDropdownItem
-                                        icon={<Delete />}
-                                        onClick={() => ctx.emit('batchDelete')}
-                                    >
-                                        {t(msg => msg.button.batchDelete)}
-                                    </ElDropdownItem>
-                                </ElDropdownMenu>
-                            )
-                        }} />
-                    </Flex>
+                    <DropdownButton items={items} onClick={handleBatchClick} />
                     <ButtonFilterItem
                         text={t(msg => msg.button.create)}
                         icon={<Plus />}
