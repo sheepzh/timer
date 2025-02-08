@@ -74,18 +74,27 @@ async function noticeLimitChanged() {
     })
 }
 
-async function updateEnabled(item: timer.limit.Item): Promise<void> {
-    await db.updateEnabled(item.id, item.enabled)
+async function updateEnabled(...items: timer.limit.Item[]): Promise<void> {
+    if (!items?.length) return
+    for (const item of items) {
+        await db.updateEnabled(item.id, item.enabled)
+    }
     await noticeLimitChanged()
 }
 
-async function updateDelay(item: timer.limit.Item) {
-    await db.updateDelay(item.id, item.allowDelay)
+async function updateDelay(...items: timer.limit.Item[]) {
+    if (!items?.length) return
+    for (const item of items) {
+        await db.updateDelay(item.id, item.allowDelay)
+    }
     await noticeLimitChanged()
 }
 
-async function remove(item: timer.limit.Item): Promise<void> {
-    await db.remove(item.id)
+async function remove(...items: timer.limit.Item[]): Promise<void> {
+    if (!items?.length) return
+    for (const item of items) {
+        await db.remove(item.id)
+    }
     await noticeLimitChanged()
 }
 
