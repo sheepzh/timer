@@ -62,12 +62,6 @@ export type StatQueryParam = StatCondition & {
     sortOrder?: SortDirect
 }
 
-export type HostSet = {
-    origin: Set<string>
-    merged: Set<string>
-    virtual: Set<string>
-}
-
 function cvtStatRow2BaseKey(statRow: timer.stat.Row): timer.core.RowKey {
     const { siteKey, date } = statRow || {}
     if (!date) return undefined
@@ -116,36 +110,39 @@ class StatService {
      * @param fuzzyQuery the part of host
      * @since 0.0.8
      */
-    async listHosts(fuzzyQuery: string): Promise<HostSet> {
+    async listHosts(fuzzyQuery?: string): Promise<Record<timer.site.Type, string[]>> {
         const rows = await statDatabase.select()
         const allHosts: Set<string> = new Set(rows.map(row => row.host))
         // Generate ruler
         const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
         const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
-        const origin: Set<string> = new Set()
-        const merged: Set<string> = new Set()
-        const virtual: Set<string> = new Set()
+        const normalSet: Set<string> = new Set()
+        const mergedSet: Set<string> = new Set()
+        const virtualSet: Set<string> = new Set()
 
         const allHostArr = Array.from(allHosts)
 
         allHostArr.forEach(host => {
             if (judgeVirtualFast(host)) {
-                host.includes(fuzzyQuery) && virtual.add(host)
+                virtualSet.add(host)
                 return
             }
-            host.includes(fuzzyQuery) && origin.add(host)
+            normalSet.add(host)
             const mergedHost = mergeRuler.merge(host)
-            mergedHost?.includes(fuzzyQuery) && merged.add(mergedHost)
+            mergedSet.add(mergedHost)
         })
 
-        const virtualSites = await siteDatabase.select({ types: 'virtual' })
-        virtualSites
-            .map(site => site.host)
-            .filter(host => host?.includes(fuzzyQuery))
-            .forEach(host => virtual.add(host))
+        let normal = Array.from(normalSet)
+        let merged = Array.from(mergedSet)
+        let virtual = Array.from(virtualSet)
+        if (fuzzyQuery) {
+            normal = normal.filter(host => host?.includes(fuzzyQuery))
+            merged = merged.filter(host => host?.includes(fuzzyQuery))
+            virtual = virtual.filter(host => host?.includes(fuzzyQuery))
+        }
 
-        return { origin, merged, virtual }
+        return { normal, merged, virtual }
     }
 
     /**

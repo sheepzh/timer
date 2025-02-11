@@ -6,7 +6,7 @@
  */
 import { useManualRequest } from "@hooks"
 import siteService from "@service/site-service"
-import statService, { type HostSet } from "@service/stat-service"
+import statService from "@service/stat-service"
 import { MERGED_HOST, ALL_HOSTS as REMAIN_HOSTS } from "@util/constant/remain-host"
 import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
 import { ElOption, ElSelect, ElTag } from "element-plus"
@@ -32,10 +32,10 @@ function cleanQuery(query: string) {
 async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
     query = cleanQuery(query)
     if (!query) return []
-    const hostSet: HostSet = (await statService.listHosts(query))
+    const { normal, merged } = (await statService.listHosts(query)) || {}
     const allAlias: timer.site.SiteKey[] = [
-        ...Array.from(hostSet.origin || []).map(host => ({ host, type: 'normal' } satisfies timer.site.SiteKey)),
-        ...Array.from(hostSet.merged || []).map(host => ({ host, type: 'merged' } satisfies timer.site.SiteKey)),
+        ...normal?.map(host => ({ host, type: 'normal' } satisfies timer.site.SiteKey)) ?? [],
+        ...merged?.map(host => ({ host, type: 'merged' } satisfies timer.site.SiteKey)) ?? [],
     ]
     // Add local files
     REMAIN_HOSTS.forEach(remain => allAlias.push({ host: remain, type: 'normal' }))
