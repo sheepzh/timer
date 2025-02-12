@@ -35,16 +35,19 @@ const _default = defineComponent({
                         label={t(msg => msg.limit.item.delayAllowed)}
                         tooltipContent={t(msg => msg.limit.item.delayAllowedInfo)}
                     />,
-                    default: ({ row }: ElTableRowScope<timer.limit.Item>) => <ElSwitch
-                        modelValue={row.allowDelay}
-                        onChange={(val: boolean) => handleChange(row, val)
-                            .then(() => {
-                                row.allowDelay = val
-                                ctx.emit("rowChange", toRaw(row), val)
-                            })
-                            .catch(console.log)
-                        }
-                    />,
+                    default: ({ row }: ElTableRowScope<timer.limit.Item>) => (
+                        <ElSwitch
+                            size="small"
+                            modelValue={row.allowDelay}
+                            onChange={(val: boolean) => handleChange(row, val)
+                                .then(() => {
+                                    row.allowDelay = val
+                                    ctx.emit("rowChange", toRaw(row), val)
+                                })
+                                .catch(console.log)
+                            }
+                        />
+                    ),
                 }}
             />
         )

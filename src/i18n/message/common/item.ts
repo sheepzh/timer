@@ -11,6 +11,7 @@ export type ItemMessage = {
     date: string
     host: string
     focus: string
+    run: string
     time: string
     operation: {
         add2Whitelist: string

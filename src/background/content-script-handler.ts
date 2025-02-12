@@ -8,6 +8,7 @@
 import { createTab } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
 import optionHolder from "@service/components/option-holder"
+import virtualSiteHolder from "@service/components/virtual-site-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
 import limitService from "@service/limit-service"
 import { getAppPageUrl } from "@util/constant/url"
@@ -50,7 +51,6 @@ export default function init(dispatcher: MessageDispatcher) {
             const option = await optionHolder.get()
             return !!option.printInConsole
         })
-        // cs.getLimitedRules
         .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
         .register<void, void>('cs.openAnalysis', (_, sender) => handleOpenAnalysisPage(sender))
@@ -58,5 +58,16 @@ export default function init(dispatcher: MessageDispatcher) {
         .register<void, void>('cs.onInjected', (_, sender) => {
             collectIconAndAlias(sender)
             badgeManager.updateFocus()
+        })
+        // Get sites (normal and virtual)
+        .register<string, timer.site.SiteKey[]>('cs.getRelatedSites', url => {
+            const { protocol, host } = extractHostname(url) || {}
+            if (!host) return []
+
+            const res: timer.site.SiteKey[] = [{ host, type: 'normal' }]
+            if (protocol === 'file') return res
+
+            virtualSiteHolder.findMatched(url)?.forEach(host => res.push({ host, type: 'virtual' }))
+            return res
         })
 }

@@ -22,6 +22,12 @@ declare namespace timer.site {
          * @since 3.0.0
          */
         cate?: number
+        /**
+         * Whether to count the running time
+         *
+         * @since 3.2.0
+         */
+        run?: boolean
     }
     type Type = 'normal' | 'merged' | 'virtual'
     /**

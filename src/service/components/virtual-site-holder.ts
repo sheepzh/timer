@@ -32,7 +32,7 @@ class VirtualSiteHolder {
             .filter(s => s.type === 'virtual')
             .forEach(site => this.updateRegularExp(site))
         )
-        siteDatabase.addChangeListener((oldAndNew) => oldAndNew.forEach(([oldVal, newVal]) => {
+        siteDatabase.addChangeListener(oldAndNew => oldAndNew.forEach(([oldVal, newVal]) => {
             if (!newVal) {
                 // deleted
                 delete this.hostSiteRegMap[oldVal.host]

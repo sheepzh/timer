@@ -8,9 +8,11 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { initLocale } from "@i18n"
 import TrackerClient from "@src/background/timer/client"
+import { trySendMsg2Runtime } from "./common"
 import processLimit from "./limit"
 import { injectPolyfill } from "./polyfill/inject"
 import printInfo from "./printer"
+import RunTracker from "./tracker/run"
 
 const host = document?.location?.host
 const url = document?.location?.href
@@ -37,18 +39,6 @@ function getOrSetFlag(): boolean {
     return !!pre
 }
 
-/**
- * Wrap for hooks, after the extension reloaded or upgraded, the context of current content script will be invalid
- * And sending messages to the runtime will be failed
- */
-async function trySendMsg2Runtime<Req, Res>(code: timer.mq.ReqCode, data?: Req): Promise<Res> {
-    try {
-        return await sendMsg2Runtime(code, data)
-    } catch {
-        // ignored
-    }
-}
-
 async function main() {
     // Execute in every injections
     const tracker = new TrackerClient({
@@ -57,6 +47,8 @@ async function main() {
         onPause: reason => reason === 'idle' && trySendMsg2Runtime('cs.idleChange', true),
     })
     tracker.init()
+    const runTracker = new RunTracker(url)
+    runTracker.init()
     sendMsg2Runtime('cs.onInjected')
 
     // Execute only one time for each dom

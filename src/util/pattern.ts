@@ -110,7 +110,7 @@ export type HostInfo = {
      * Including port
      */
     host: string
-    protocol: string
+    protocol: string | 'file'
 }
 
 export function extractHostname(url: string): HostInfo {
