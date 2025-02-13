@@ -6,8 +6,8 @@ import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import { extractHostname } from "@util/pattern"
 import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
-import badgeManager from "../badge-manager"
-import MessageDispatcher from "../message-dispatcher"
+import badgeManager from "./badge-manager"
+import MessageDispatcher from "./message-dispatcher"
 
 async function handleTime(host: string, url: string, dateRange: [number, number], tabId: number): Promise<number> {
     const [start, end] = dateRange

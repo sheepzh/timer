@@ -7,11 +7,11 @@
 
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { initLocale } from "@i18n"
-import TrackerClient from "@src/background/timer/client"
 import processLimit from "./limit"
 import { injectPolyfill } from "./polyfill/inject"
 import printInfo from "./printer"
-import RunTracker from "./tracker/run"
+import NormalTracker from "./tracker/normal"
+import RunTimeTracker from "./tracker/run-time"
 
 const host = document?.location?.host
 const url = document?.location?.href
@@ -52,14 +52,14 @@ export async function trySendMsg2Runtime<Req, Res>(code: timer.mq.ReqCode, data?
 
 async function main() {
     // Execute in every injections
-    const tracker = new TrackerClient({
+    const normalTracker = new NormalTracker({
         onReport: data => trySendMsg2Runtime('cs.trackTime', data),
         onResume: reason => reason === 'idle' && trySendMsg2Runtime('cs.idleChange', false),
         onPause: reason => reason === 'idle' && trySendMsg2Runtime('cs.idleChange', true),
     })
-    tracker.init()
-    const runTracker = new RunTracker(url)
-    runTracker.init()
+    normalTracker.init()
+    const runTimeTracker = new RunTimeTracker(url)
+    runTimeTracker.init()
     sendMsg2Runtime('cs.onInjected')
 
     // Execute only one time for each dom

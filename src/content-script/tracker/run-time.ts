@@ -1,6 +1,6 @@
 import { onRuntimeMessage, sendMsg2Runtime } from "@api/chrome/runtime"
 
-class RunTracker {
+class RunTimeTracker {
     private start: number
     private url: string
     // Real host, including builtin hosts
@@ -50,4 +50,4 @@ class RunTracker {
     }
 }
 
-export default RunTracker
+export default RunTimeTracker
