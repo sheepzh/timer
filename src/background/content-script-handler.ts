@@ -8,9 +8,9 @@
 import { createTab } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
 import optionHolder from "@service/components/option-holder"
-import virtualSiteHolder from "@service/components/virtual-site-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
 import limitService from "@service/limit-service"
+import siteService from "@service/site-service"
 import { getAppPageUrl } from "@util/constant/url"
 import { extractFileHost, extractHostname } from "@util/pattern"
 import badgeManager from "./badge-manager"
@@ -59,15 +59,12 @@ export default function init(dispatcher: MessageDispatcher) {
             collectIconAndAlias(sender)
             badgeManager.updateFocus()
         })
-        // Get sites (normal and virtual)
-        .register<string, timer.site.SiteKey[]>('cs.getRelatedSites', url => {
-            const { protocol, host } = extractHostname(url) || {}
-            if (!host) return []
-
-            const res: timer.site.SiteKey[] = [{ host, type: 'normal' }]
-            if (protocol === 'file') return res
-
-            virtualSiteHolder.findMatched(url)?.forEach(host => res.push({ host, type: 'virtual' }))
-            return res
+        // Get sites which need to count run time
+        .register<string, timer.site.SiteKey>('cs.getRunSites', async url => {
+            const { host } = extractHostname(url) || {}
+            if (!host) return null
+            const site: timer.site.SiteKey = { host, type: 'normal' }
+            const exist = await siteService.get(site)
+            return exist?.run ? site : null
         })
 }

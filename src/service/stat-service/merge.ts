@@ -18,14 +18,18 @@ type _RemoteCompositionMap = Record<'_' | string, timer.stat.RemoteCompositionVa
 function mergeComposition(c1: timer.stat.RemoteComposition, c2: timer.stat.RemoteComposition): timer.stat.RemoteComposition {
     const focusMap: _RemoteCompositionMap = {}
     const timeMap: _RemoteCompositionMap = {}
+    const runMap: _RemoteCompositionMap = {}
     c1?.focus?.forEach(e => accCompositionValue(focusMap, e))
     c2?.focus?.forEach(e => accCompositionValue(focusMap, e))
     c1?.time?.forEach(e => accCompositionValue(timeMap, e))
     c2?.time?.forEach(e => accCompositionValue(timeMap, e))
+    c1?.run?.forEach(e => accCompositionValue(runMap, e))
+    c2?.run?.forEach(e => accCompositionValue(runMap, e))
 
     const result = {
         focus: Object.values(focusMap),
         time: Object.values(timeMap),
+        run: Object.values(runMap),
     }
     return result
 }
@@ -64,7 +68,7 @@ export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
                 time: 0,
                 mergedRows: [],
                 mergedDates: [],
-                composition: { focus: [], time: [] },
+                composition: { focus: [], time: [], run: [] },
             }
         }
         mergeResult(exist, ele)
@@ -98,7 +102,7 @@ export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Ro
                 focus: 0,
                 time: 0,
                 mergedRows: [],
-                composition: { focus: [], time: [] },
+                composition: { focus: [], time: [], run: [] },
             } satisfies timer.stat.Row
         }
         mergeResult(exist, ele)
@@ -122,7 +126,7 @@ export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Ro
                 focus: 0,
                 time: 0,
                 mergedRows: [],
-                composition: { focus: [], time: [] },
+                composition: { focus: [], time: [], run: [] },
             } satisfies timer.stat.Row
         }
         mergeResult(exist, ele)

@@ -1,21 +1,18 @@
 import { onRuntimeMessage, sendMsg2Runtime } from "@api/chrome/runtime"
 
-const INTERVAL = 2000
-
 class RunTracker {
+    private start: number
     private url: string
-    private sites: timer.site.SiteKey[]
+    // Real host, including builtin hosts
+    private host: string
 
     constructor(url: string) {
         this.url = url
     }
 
     init(): void {
+        this.start = Date.now()
         this.fetchSite()
-        setInterval(() => {
-            if (!this.sites?.length) return
-            this.collect()
-        }, INTERVAL)
 
         onRuntimeMessage<void, void>(async req => {
             if (req.code === 'siteRunChange') {
@@ -24,19 +21,32 @@ class RunTracker {
             }
             return { code: 'ignore' }
         })
+
+        setInterval(() => this.collect(), 2000)
     }
 
     private fetchSite() {
         sendMsg2Runtime('cs.getRunSites', this.url)
-            .then(sites => this.sites = sites ?? [])
-            .catch(() => {
-                // Extension reloaded, so terminate
-                this.sites = []
-            })
+            .then((site: timer.site.SiteKey) => this.host = site?.host)
+            // Extension reloaded, so terminate
+            .catch(() => this.host = null)
     }
 
     private collect() {
+        const now = Date.now()
+        const lastTime = this.start
 
+        const event: timer.core.Event = {
+            start: lastTime,
+            end: now,
+            url: this.url,
+            ignoreTabCheck: false,
+            host: this.host,
+        }
+
+        sendMsg2Runtime('cs.trackRunTime', event)
+            .then(() => this.start = now)
+            .catch(() => { })
     }
 }
 

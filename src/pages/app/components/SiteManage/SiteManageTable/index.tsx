@@ -90,7 +90,7 @@ const _default = defineComponent({
                 width={100}
                 align="center"
             >
-                {({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
+                {({ row }: ElTableRowScope<timer.site.SiteInfo>) => row.type === 'normal' && (
                     <ElSwitch
                         size="small"
                         modelValue={row.run}

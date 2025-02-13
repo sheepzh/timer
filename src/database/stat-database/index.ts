@@ -51,7 +51,7 @@ export type StatCondition = {
 
 function mergeMigration(exist: timer.core.Result | undefined, another: any) {
     exist = exist || createZeroResult()
-    return mergeResult(exist, { focus: another.focus || 0, time: another.time || 0 })
+    return mergeResult(exist, { focus: another.focus ?? 0, time: another.time ?? 0, run: another.run ?? 0 })
 }
 
 /**
@@ -108,10 +108,10 @@ class StatDatabase extends BaseDatabase {
      * @param date date
      * @since 0.1.8
      */
-    async accumulateBatch(data: timer.stat.ResultSet, date: Date): Promise<timer.stat.ResultSet> {
+    async accumulateBatch(data: timer.stat.ResultSet, date: Date | string): Promise<timer.stat.ResultSet> {
         const hosts = Object.keys(data)
         if (!hosts.length) return
-        const dateStr = formatTimeYMD(date)
+        const dateStr = typeof date === 'string' ? date : formatTimeYMD(date)
         const keys: { [host: string]: string } = {}
         hosts.forEach(host => keys[host] = generateKey(host, dateStr))
 
@@ -139,8 +139,8 @@ class StatDatabase extends BaseDatabase {
         log("select:{condition}", condition)
         const filterResults = await this.filter(condition)
         return filterResults.map(({ date, host, value }) => {
-            const { focus, time } = value
-            return { date, host, focus, time }
+            const { focus, time, run } = value
+            return { date, host, focus, time, run }
         })
     }
 
@@ -196,9 +196,10 @@ class StatDatabase extends BaseDatabase {
      *
      * @since 1.4.3
      */
-    forceUpdate(row: timer.core.Row): Promise<void> {
-        const key = generateKey(row.host, row.date)
-        const result: timer.core.Result = { time: row.time, focus: row.focus }
+    forceUpdate({ host, date, time, focus, run }: timer.core.Row): Promise<void> {
+        const key = generateKey(host, date)
+        const result: timer.core.Result = { time, focus }
+        run && (result.run = run)
         return this.storage.put(key, result)
     }
 

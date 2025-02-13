@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import SiteDatabase, { type SiteCondition } from "@db/site-database"
 import { groupBy } from "@util/array"
 import { identifySiteKey, supportCategory } from "@util/site"
@@ -63,6 +64,13 @@ async function saveRun(key: timer.site.SiteKey, run: boolean) {
     if (!exist) return
     exist.run = run
     await siteDatabase.save(exist)
+    // send msg to tabs
+    const tabs = await listTabs()
+    for (const tab of tabs) {
+        try {
+            await sendMsg2Tab(tab.id, 'siteRunChange')
+        } catch { }
+    }
 }
 
 class SiteService {
