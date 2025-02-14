@@ -1,5 +1,5 @@
 import { type Browser, launch, type Page } from "puppeteer"
-import { E2E_OUTPUT_PATH } from "../webpack/constant"
+import { E2E_OUTPUT_PATH } from "../../webpack/constant"
 
 const USE_HEADLESS_PUPPETEER = !!process.env['USE_HEADLESS_PUPPETEER']
 
