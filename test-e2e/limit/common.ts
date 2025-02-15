@@ -2,7 +2,7 @@ import { ElementHandle, type Page } from "puppeteer"
 import { sleep } from "../common/base"
 
 export async function createLimitRule(rule: timer.limit.Rule, page: Page) {
-    const createButton = await page.$('.el-card:first-child .el-button:nth-child(3)')
+    const createButton = await page.$('.el-card:first-child .el-button:last-child')
     await createButton.click()
     // 1 Fill the name
     await page.waitForSelector('.el-dialog .el-input input')

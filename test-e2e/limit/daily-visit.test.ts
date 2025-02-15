@@ -32,7 +32,7 @@ describe('Daily time limit', () => {
         await limitPage.bringToFront()
         // Wait refreshing the table
         await sleep(.1)
-        const infoTag = await limitPage.$$('.el-table .el-table__body-wrapper table tbody tr td:nth-child(5) .el-tag.el-tag--info')
+        const infoTag = await limitPage.$$('.el-table .el-table__body-wrapper table tbody tr td:nth-child(6) .el-tag.el-tag--info')
         expect(infoTag.length).toEqual(2)
 
         // 3. Reload page

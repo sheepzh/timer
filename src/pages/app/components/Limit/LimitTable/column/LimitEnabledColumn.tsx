@@ -6,29 +6,28 @@
  */
 
 import { t } from "@app/locale"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { type ElTableRowScope } from "@pages/element-ui/table"
-import optionHolder from "@service/components/option-holder"
 import { ElSwitch, ElTableColumn } from "element-plus"
 import { defineComponent, toRaw } from "vue"
+import { verifyCanModify } from "../../common"
 
-async function handleChange(row: timer.limit.Item, newVal: boolean): Promise<void> {
-    if (!newVal && await judgeVerificationRequired(row)) {
-        // Disable limited rules, so verification is required
-        const option = await optionHolder.get()
-        await processVerification(option)
-    }
-}
-
-const sortMethod = ({ enabled: a }: timer.limit.Item, { enabled: b }: timer.limit.Item): number => {
-    return (a ? 1 : 0) - (b ? 1 : 0)
-}
+const sortByEnabled: CompareFn<timer.limit.Item> = (a, b): number => (a.enabled ? 1 : 0) - (b.enabled ? 1 : 0)
 
 const _default = defineComponent({
     emits: {
         rowChange: (_row: timer.limit.Item, _val: boolean) => true
     },
     setup(_, ctx) {
+        const handleChange = async (row: timer.limit.Item, newVal: boolean) => {
+            try {
+                newVal && await verifyCanModify(row)
+                row.enabled = newVal
+                ctx.emit("rowChange", toRaw(row), newVal)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
         return () => (
             <ElTableColumn
                 label={t(msg => msg.limit.item.enabled)}
@@ -36,7 +35,7 @@ const _default = defineComponent({
                 align="center"
                 fixed="right"
                 sortable
-                sortMethod={sortMethod}
+                sortMethod={sortByEnabled}
             >
                 {({ row }: ElTableRowScope<timer.limit.Item>) => (
                     <ElSwitch
