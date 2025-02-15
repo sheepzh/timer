@@ -37,10 +37,19 @@ const _default = defineComponent({
                 sortable
                 sortMethod={sortByEnabled}
             >
-                {({ row }: ElTableRowScope<timer.limit.Item>) => <ElSwitch
-                    modelValue={row.enabled}
-                    onChange={(val: boolean) => handleChange(row, val)}
-                />}
+                {({ row }: ElTableRowScope<timer.limit.Item>) => (
+                    <ElSwitch
+                        size="small"
+                        modelValue={row.enabled}
+                        onChange={(val: boolean) => handleChange(row, val)
+                            .then(() => {
+                                row.enabled = val
+                                ctx.emit("rowChange", toRaw(row), val)
+                            })
+                            .catch(console.log)
+                        }
+                    />
+                )}
             </ElTableColumn>
         )
     }

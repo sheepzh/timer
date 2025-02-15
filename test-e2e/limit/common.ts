@@ -1,5 +1,5 @@
 import { ElementHandle, type Page } from "puppeteer"
-import { sleep } from "../common"
+import { sleep } from "../common/base"
 
 export async function createLimitRule(rule: timer.limit.Rule, page: Page) {
     const createButton = await page.$('.el-card:first-child .el-button:last-child')

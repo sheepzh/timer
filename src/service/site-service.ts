@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import SiteDatabase, { type SiteCondition } from "@db/site-database"
 import { groupBy } from "@util/array"
 import { identifySiteKey, supportCategory } from "@util/site"
@@ -15,7 +16,7 @@ const siteDatabase = new SiteDatabase(storage)
 
 export type SiteQueryParam = SiteCondition
 
-async function removeAlias(this: SiteService, key: timer.site.SiteKey) {
+async function removeAlias(key: timer.site.SiteKey) {
     const exist = await siteDatabase.get(key)
     if (!exist) return
     delete exist.alias
@@ -23,7 +24,7 @@ async function removeAlias(this: SiteService, key: timer.site.SiteKey) {
     await siteDatabase.save(exist)
 }
 
-async function saveAlias(this: SiteService, key: timer.site.SiteKey, alias: string, source: timer.site.AliasSource) {
+async function saveAlias(key: timer.site.SiteKey, alias: string, source: timer.site.AliasSource) {
     const exist = await siteDatabase.get(key)
     let toUpdate: timer.site.SiteInfo
     if (exist) {
@@ -39,14 +40,14 @@ async function saveAlias(this: SiteService, key: timer.site.SiteKey, alias: stri
     await siteDatabase.save(toUpdate)
 }
 
-async function removeIconUrl(this: SiteService, key: timer.site.SiteKey) {
+async function removeIconUrl(key: timer.site.SiteKey) {
     const exist = await siteDatabase.get(key)
     if (!exist) return
     delete exist.iconUrl
     await siteDatabase.save(exist)
 }
 
-async function saveIconUrl(this: SiteService, key: timer.site.SiteKey, iconUrl: string) {
+async function saveIconUrl(key: timer.site.SiteKey, iconUrl: string) {
     const exist = await siteDatabase.get(key)
     let toUpdate: timer.site.SiteInfo
     if (exist) {
@@ -56,6 +57,20 @@ async function saveIconUrl(this: SiteService, key: timer.site.SiteKey, iconUrl: 
         toUpdate = { ...key, iconUrl }
     }
     await siteDatabase.save(toUpdate)
+}
+
+async function saveRun(key: timer.site.SiteKey, run: boolean) {
+    const exist = await siteDatabase.get(key)
+    if (!exist) return
+    exist.run = run
+    await siteDatabase.save(exist)
+    // send msg to tabs
+    const tabs = await listTabs()
+    for (const tab of tabs) {
+        try {
+            await sendMsg2Tab(tab.id, 'siteRunChange')
+        } catch { }
+    }
 }
 
 class SiteService {
@@ -81,18 +96,15 @@ class SiteService {
         return siteDatabase.getBatch(keys)
     }
 
-    async remove(host: timer.site.SiteKey): Promise<void> {
-        await siteDatabase.remove(host)
-    }
-
-    async batchRemove(keys: timer.site.SiteKey[]): Promise<void> {
-        await siteDatabase.removeBatch(keys)
+    async remove(...sites: timer.site.SiteKey[]): Promise<void> {
+        await siteDatabase.remove(...sites)
     }
 
     saveAlias = saveAlias
     removeAlias = removeAlias
     saveIconUrl = saveIconUrl
     removeIconUrl = removeIconUrl
+    saveRun = saveRun
 
     async saveCate(key: timer.site.SiteKey, cateId: number): Promise<void> {
         if (!supportCategory(key)) return
@@ -112,7 +124,7 @@ class SiteService {
             const s = siteMap[identifySiteKey(k)]
             return ({ ...s || k, cate: cateId })
         })
-        await siteDatabase.saveBatch(toSave)
+        await siteDatabase.save(...toSave)
     }
 
     exist(host: timer.site.SiteKey): Promise<boolean> {

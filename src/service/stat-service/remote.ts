@@ -22,6 +22,7 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
         composition: {
             focus: [row.focus],
             time: [row.time],
+            run: [row.run].filter(v => !!v),
         }
     })
     // Predicate with host
@@ -73,14 +74,16 @@ function processRemoteRow(rowMap: Record<string, timer.stat.Row>, remoteBase: ti
         composition: {
             focus: [],
             time: [],
+            run: [],
         },
     } satisfies timer.stat.Row)
 
-    const focus = row.focus || 0
-    const time = row.time || 0
+    const { focus = 0, time = 0, run = 0 } = row
 
     exist.focus += focus
     exist.time += time
+    run && (exist.run = run)
     focus && exist.composition.focus.push({ cid: row.cid, cname: row.cname, value: focus })
     time && exist.composition.time.push({ cid: row.cid, cname: row.cname, value: time })
+    run && exist.composition.run.push({ cid: row.cid, cname: row.cname, value: run })
 }
