@@ -14,6 +14,8 @@ declare namespace timer.mq {
         // @since 2.0.0
         | 'askVisitTime'
         | 'askHitVisit'
+        // @since 3.2.0
+        | 'siteRunChange'
         // Request by content script
         // @since 1.3.0
         | "cs.isInWhitelist"
@@ -24,11 +26,14 @@ declare namespace timer.mq {
         | "cs.getLimitedRules"
         | "cs.getRelatedRules"
         | "cs.trackTime"
+        | "cs.trackRunTime"
         | "cs.onInjected"
         | "cs.openAnalysis"
         | "cs.openLimit"
         // @since 2.5.5
         | "cs.idleChange"
+        // @since 3.2.0
+        | "cs.getRunSites"
 
     type ResCode = "success" | "fail" | "ignore"
 

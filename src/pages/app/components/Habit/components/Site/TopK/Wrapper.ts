@@ -65,7 +65,7 @@ function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
                 time: 0,
                 mergedRows: [],
                 mergedDates: [],
-                composition: { focus: [], time: [] },
+                composition: { focus: [], time: [], run: [] },
             }
         }
         exist.focus += focus ?? 0

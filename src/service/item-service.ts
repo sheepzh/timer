@@ -15,7 +15,15 @@ async function addFocusTime(host: string, url: string, focusTime: number): Promi
     await db.accumulateBatch(resultSet, new Date())
 }
 
-async function addOneTime(host: string, url: string) {
+async function addRunTime(host: string, url: string, dateTime: Record<string, number>) {
+    if (whitelistHolder.contains(host, url)) return
+
+    for (const [date, run] of Object.entries(dateTime)) {
+        await db.accumulate(host, date, { focus: 0, time: 0, run })
+    }
+}
+
+async function increaseVisit(host: string, url: string) {
     if (whitelistHolder.contains(host, url)) return
 
     const resultSet: timer.stat.ResultSet = { [host]: resultOf(0, 1) }
@@ -29,7 +37,8 @@ const selectItems = (cond: StatCondition) => db.select(cond)
 
 export default {
     addFocusTime,
-    addOneTime,
+    addRunTime,
+    increaseVisit,
     getResult,
     selectItems,
 }

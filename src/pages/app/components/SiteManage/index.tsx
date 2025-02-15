@@ -89,7 +89,7 @@ export default defineComponent(() => {
                 icon: markRaw(WarnTriangleFilled),
             }
         ).then(async () => {
-            await siteService.batchRemove(selected.value)
+            await siteService.remove(...(selected.value ?? []))
             ElMessage.success(t(msg => msg.operation.successMsg))
             refresh()
         }).catch(() => { })

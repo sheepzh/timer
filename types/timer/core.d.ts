@@ -4,6 +4,10 @@ declare namespace timer.core {
         end: number
         url: string
         ignoreTabCheck: boolean
+        /**
+         * Used for run time tracking
+         */
+        host?: string
     }
 
     /**
@@ -14,15 +18,15 @@ declare namespace timer.core {
         | 'focus'
         // Visit count
         | 'time'
+        // Run time
+        | 'run'
 
     /**
      * The stat result of host
      *
      * @since 0.0.1
      */
-    type Result = {
-        [item in Dimension]: number
-    }
+    type Result = MakeOptional<{ [item in Dimension]: number }, 'run'>
 
     /**
      * The unique key of each data row

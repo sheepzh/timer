@@ -8,6 +8,11 @@ declare type EmbeddedPartial<T> = {
 }
 
 /**
+ * Make one field optional
+ */
+type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [P in K]?: T[P] }
+
+/**
  * Tuple with length
  *
  * @param E element

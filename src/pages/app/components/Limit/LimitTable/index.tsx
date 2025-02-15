@@ -6,14 +6,14 @@
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
 import { t } from "@app/locale"
-import { useManualRequest, useRequest, useWindowVisible } from "@hooks"
+import { useManualRequest, useRequest } from "@hooks"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
 import limitService from "@service/limit-service"
 import { isEffective } from "@util/limit"
-import { useLocalStorage } from "@vueuse/core"
+import { useDocumentVisibility, useLocalStorage } from "@vueuse/core"
 import { ElMessage, ElTable, ElTableColumn, ElTag, type Sort, type TableInstance } from "element-plus"
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, watch } from "vue"
 import { useLimitFilter } from "../context"
 import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
@@ -58,7 +58,8 @@ const _default = defineComponent({
         )
 
         // Query data if the window become visible
-        useWindowVisible({ onVisible: refresh })
+        const docVisible = useDocumentVisibility()
+        watch(docVisible, () => docVisible.value && refresh())
 
         const { refresh: deleteRow } = useManualRequest((row: timer.limit.Item) => limitService.remove(row), {
             onSuccess() {

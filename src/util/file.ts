@@ -1,15 +1,15 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 /**
  * Export csv file
- * 
+ *
  * @param  titleAndData all rows
- * @param  fileName     file name 
+ * @param  fileName     file name
  * @since 0.0.7
  */
 export function exportCsv(titleAndData: any[][], fileName: string) {
@@ -47,9 +47,9 @@ function exportBlob(blob: Blob, fileName: string) {
 }
 
 /**
- * Check json string and 
- * 
- * @param jsonStr json 
+ * Check json string and
+ *
+ * @param jsonStr json
  * @since 0.0.5
  */
 export function deserialize(jsonStr: string): any | undefined {

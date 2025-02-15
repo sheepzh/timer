@@ -10,8 +10,6 @@ import resource from './item-resource.json'
 export type ItemMessage = {
     date: string
     host: string
-    focus: string
-    time: string
     operation: {
         add2Whitelist: string
         removeFromWhitelist: string
@@ -23,6 +21,8 @@ export type ItemMessage = {
         importWholeData: string
         importOtherData: string
     }
+} & {
+    [dimension in timer.core.Dimension]: string
 }
 
 const _default: Messages<ItemMessage> = resource

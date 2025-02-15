@@ -3,6 +3,7 @@
         "date": "日期",
         "host": "域名",
         "focus": "浏览时长",
+        "run": "运行时长",
         "time": "打开次数",
         "operation": {
             "add2Whitelist": "白名单",
@@ -37,6 +38,7 @@
         "date": "Date",
         "host": "Site URL",
         "focus": "Browsing Time",
+        "run": "Run Time",
         "time": "Site Visits",
         "operation": {
             "add2Whitelist": "Whitelist",

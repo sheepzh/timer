@@ -1,5 +1,5 @@
 import { type Browser } from "puppeteer"
-import { launchBrowser, openAppPage, sleep } from "../common"
+import { launchBrowser, openAppPage, sleep } from "../common/base"
 import { createLimitRule, fillTimeLimit } from "./common"
 
 let browser: Browser, extensionId: string
