@@ -1,7 +1,7 @@
 import { SELECT_WRAPPER_STYLE } from "@app/components/common/filter/common"
 import { useCategories } from "@app/context"
 import { t } from "@app/locale"
-import { useManualRequest } from "@hooks"
+import { useManualRequest, useState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
 import statService from "@service/stat-service"
@@ -44,32 +44,29 @@ type TargetItem = AnalysisTarget & {
     label: string
 }
 
-function collectHosts(hosts: Set<string>, siteType: timer.site.Type, collector: SiteMap<timer.site.SiteInfo>) {
-    hosts?.forEach(host => {
-        const site: timer.site.SiteInfo = { host, type: siteType }
-        collector?.put(site, site)
+function collectHosts(hosts: Record<timer.site.Type, string[]>, collector: SiteMap<timer.site.SiteInfo>) {
+    Object.entries(hosts).forEach(([key, arr]) => {
+        const type = key as timer.site.Type
+        arr.forEach(host => {
+            const site: timer.site.SiteInfo = { host, type }
+            collector?.put(site, site)
+        })
     })
 }
 
-const fetchItems = async (query: string, categories: timer.site.Cate[]): Promise<[siteItems: TargetItem[], cateItems: TargetItem[]]> => {
-    query = query?.trim?.()
+const fetchItems = async (categories: timer.site.Cate[]): Promise<[siteItems: TargetItem[], cateItems: TargetItem[]]> => {
     // 1. query categories
-    const cateItems = categories
-        ?.filter(({ name }) => !query || name?.includes(query))
-        ?.map(({ id, name }) => ({ type: 'cate', key: id, label: name } satisfies TargetItem))
+    const cateItems = categories?.map(({ id, name }) => ({ type: 'cate', key: id, label: name } satisfies TargetItem))
 
     // 2. query sites
     const siteSet = new SiteMap<timer.site.SiteInfo>()
 
     // 2.1 sites from hosts
-    const hosts = await statService.listHosts(query)
-    const { origin, merged, virtual } = hosts || {}
-    collectHosts(origin, 'normal', siteSet)
-    collectHosts(merged, 'merged', siteSet)
-    collectHosts(virtual, 'virtual', siteSet)
+    const hosts = await statService.listHosts()
+    collectHosts(hosts, siteSet)
 
     // 2.2 query sites from sites
-    const sites = await siteService.selectAll({ fuzzyQuery: query })
+    const sites = await siteService.selectAll()
     sites?.forEach(site => siteSet.put(site, site))
 
     const siteItems = siteSet?.map((_, site) => ({ type: 'site', key: site, label: labelOfHostInfo(site) }) satisfies TargetItem)
@@ -129,19 +126,31 @@ const TargetSelect = defineComponent({
             ctx.emit('change', target)
         }
 
-        const { data: items, refresh, refreshAgain } = useManualRequest(
-            (query: string) => fetchItems(query, categories.value),
+        const { data: allItems } = useManualRequest(
+            () => fetchItems(categories.value),
             { deps: categories },
         )
 
-        const searchRemote = useDebounceFn(query => {
-            if (!query && !!selectKey.value) {
-                // Use last query
-                refreshAgain()
-            } else {
-                refresh(query)
-            }
-        }, 200)
+        const [query, setQuery] = useState<string>()
+
+        const items = computed(() => {
+            const q = query.value?.trim?.()
+            if (!q) return allItems.value
+
+            return allItems.value?.map(itemArr => {
+                const newItems = itemArr.filter(item => {
+                    if (item.type === 'cate') {
+                        return item.label?.includes?.(q)
+                    } else {
+                        const { host, alias } = item.key || {}
+                        return host?.includes?.(q) || alias?.includes?.(q)
+                    }
+                })
+                return newItems
+            }) ?? []
+        })
+
+        const searchRemote = useDebounceFn(setQuery, 50)
 
         return () => (
             <ElSelect

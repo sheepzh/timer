@@ -5,7 +5,7 @@
 
 import path from 'path'
 import generateOption from "./webpack.common"
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import { RsdoctorWebpackPlugin } from '@rsdoctor/webpack-plugin'
 import manifest from '../src/manifest'
 
 const option = generateOption({
@@ -16,6 +16,6 @@ const option = generateOption({
 
 option.optimization.minimize = true
 option.optimization.usedExports = true
-option.plugins.push(new BundleAnalyzerPlugin())
+option.plugins.push(new RsdoctorWebpackPlugin())
 
 export default option
