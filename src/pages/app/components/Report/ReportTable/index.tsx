@@ -8,10 +8,11 @@ import ContentCard from "@app/components/common/ContentCard"
 import Editable from "@app/components/common/Editable"
 import Pagination from "@app/components/common/Pagination"
 import { t } from "@app/locale"
-import { useRequest, useState, useWindowVisible } from "@hooks"
+import { useRequest, useState } from "@hooks"
 import siteService from "@service/site-service"
 import statService, { type StatQueryParam } from "@service/stat-service"
 import { siteEqual } from "@util/site"
+import { useDocumentVisibility } from "@vueuse/core"
 import { ElTable, ElTableColumn, type TableInstance } from "element-plus"
 import { computed, defineComponent, type PropType, ref, watch } from "vue"
 import { cvtOption2Param } from "../common"
@@ -19,10 +20,10 @@ import { useReportFilter } from "../context"
 import type { DisplayComponent, ReportFilterOption, ReportSort } from "../types"
 import CateColumn from "./columns/CateColumn"
 import DateColumn from "./columns/DateColumn"
-import FocusColumn from "./columns/FocusColumn"
 import HostColumn from "./columns/HostColumn"
 import OperationColumn from "./columns/OperationColumn"
 import TimeColumn from "./columns/TimeColumn"
+import VisitColumn from "./columns/VisitColumn"
 
 function computeTimerQueryParam(filterOption: ReportFilterOption, sort: ReportSort): StatQueryParam {
     const param = cvtOption2Param(filterOption) || {}
@@ -55,8 +56,10 @@ const _default = defineComponent({
             () => statService.selectByPage(queryParam.value, page.value),
             { loadingTarget: "#report-table-content", deps: [queryParam, page] },
         )
-        // Query data if window become visible
-        useWindowVisible({ onVisible: refresh })
+        const runColVisible = computed(() => !!data.value?.list?.find(r => r.run))
+        // Query data if document become visible
+        const docVisible = useDocumentVisibility()
+        watch(docVisible, () => docVisible.value && refresh())
 
         const [selection, setSelection] = useState<timer.stat.Row[]>([])
         ctx.expose({
@@ -107,8 +110,9 @@ const _default = defineComponent({
                         />
                     </>}
                     {filterOption.value?.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
-                    <FocusColumn />
-                    <TimeColumn />
+                    <TimeColumn dimension="focus" />
+                    {runColVisible.value && <TimeColumn dimension="run" />}
+                    <VisitColumn />
                     {filterOption.value?.siteMerge !== 'cate' && <OperationColumn onDelete={refresh} />}
                 </ElTable>
                 <Pagination

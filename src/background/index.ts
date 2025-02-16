@@ -19,7 +19,7 @@ import initLimitProcessor from "./limit-processor"
 import MessageDispatcher from "./message-dispatcher"
 import VersionMigrator from "./migrator"
 import initSidePanel from "./side-panel"
-import initTrackServer from "./timer/server"
+import initTrackServer from "./track-server"
 import WhitelistMenuManager from "./whitelist-menu-manager"
 
 // Open the log of console

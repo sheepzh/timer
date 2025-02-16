@@ -9,8 +9,8 @@ import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import siteService from "@service/site-service"
-import { ElTable, ElTableColumn } from "element-plus"
-import { defineComponent, type PropType } from "vue"
+import { ElSwitch, ElTable, ElTableColumn } from "element-plus"
+import { defineComponent, toRaw, type PropType } from "vue"
 import Category from "../../common/category/CategoryEditable"
 import AliasColumn from "./column/AliasColumn"
 import OperationColumn from "./column/OperationColumn"
@@ -29,6 +29,13 @@ const _default = defineComponent({
         const handleIconError = async (row: timer.site.SiteInfo) => {
             await siteService.removeIconUrl(row)
             row.iconUrl = null
+        }
+
+        const handleRunChange = async (val: boolean, row: timer.site.SiteInfo) => {
+            // Save
+            await siteService.saveRun(row, val)
+            row.run = val
+            ctx.emit('rowModify', toRaw(row))
         }
 
         return () => <ElTable
@@ -78,6 +85,19 @@ const _default = defineComponent({
                     />
                 )}
             />
+            <ElTableColumn
+                label={t(msg => msg.item.run)}
+                width={100}
+                align="center"
+            >
+                {({ row }: ElTableRowScope<timer.site.SiteInfo>) => row.type === 'normal' && (
+                    <ElSwitch
+                        size="small"
+                        modelValue={row.run}
+                        onChange={(val: boolean) => handleRunChange(val, row)}
+                    />
+                )}
+            </ElTableColumn>
             <OperationColumn onDelete={row => ctx.emit("rowDelete", row)} />
         </ElTable>
     }

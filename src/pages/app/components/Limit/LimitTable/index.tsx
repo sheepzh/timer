@@ -6,14 +6,14 @@
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
 import { t } from "@app/locale"
-import { useManualRequest, useRequest, useWindowVisible } from "@hooks"
+import { useManualRequest, useRequest } from "@hooks"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
 import limitService from "@service/limit-service"
 import { isEffective } from "@util/limit"
-import { useLocalStorage } from "@vueuse/core"
-import { ElMessage, ElTable, ElTableColumn, ElTag, type Sort } from "element-plus"
-import { defineComponent } from "vue"
+import { useDocumentVisibility, useLocalStorage } from "@vueuse/core"
+import { ElMessage, ElTable, ElTableColumn, ElTag, type Sort, type TableInstance } from "element-plus"
+import { defineComponent, ref, watch } from "vue"
 import { useLimitFilter } from "../context"
 import LimitDelayColumn from "./column/LimitDelayColumn"
 import LimitEnabledColumn from "./column/LimitEnabledColumn"
@@ -28,6 +28,7 @@ const DEFAULT_SORT_COL = 'waste'
 
 export type LimitTableInstance = {
     refresh: () => void
+    getSelected: () => timer.limit.Item[]
 }
 
 const sortMethodByNumVal = (key: keyof timer.limit.Item & 'waste' | 'weeklyWaste'): (a: timer.limit.Item, b: timer.limit.Item) => number => {
@@ -57,7 +58,8 @@ const _default = defineComponent({
         )
 
         // Query data if the window become visible
-        useWindowVisible({ onVisible: refresh })
+        const docVisible = useDocumentVisibility()
+        watch(docVisible, () => docVisible.value && refresh())
 
         const { refresh: deleteRow } = useManualRequest((row: timer.limit.Item) => limitService.remove(row), {
             onSuccess() {
@@ -66,12 +68,17 @@ const _default = defineComponent({
             }
         })
 
-        ctx.expose({ refresh } satisfies LimitTableInstance)
+        const tableInstance = ref<TableInstance>()
+        ctx.expose({
+            refresh,
+            getSelected: () => tableInstance.value?.getSelectionRows(),
+        } satisfies LimitTableInstance)
 
         const historySort = useLocalStorage<Sort>('__limit_sort_default__', { prop: DEFAULT_SORT_COL, order: 'descending' })
 
         return () => (
             <ElTable
+                ref={tableInstance}
                 border
                 fit
                 highlightCurrentRow
@@ -80,6 +87,7 @@ const _default = defineComponent({
                 defaultSort={historySort.value}
                 onSort-change={(val: Sort) => historySort.value = { prop: val?.prop, order: val?.order }}
             >
+                <ElTableColumn type="selection" align="center" fixed="left" />
                 <ElTableColumn
                     prop='name'
                     label={t(msg => msg.limit.item.name)}

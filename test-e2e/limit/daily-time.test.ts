@@ -1,5 +1,5 @@
 import { type Browser } from "puppeteer"
-import { launchBrowser, openAppPage, sleep } from "../common"
+import { launchBrowser, openAppPage, sleep } from "../common/base"
 import { createLimitRule, fillTimeLimit } from "./common"
 
 let browser: Browser, extensionId: string
@@ -36,7 +36,7 @@ describe('Daily time limit', () => {
         // Wait refreshing the table
         await sleep(.1)
         let wastedTime = await limitPage.evaluate(() => {
-            const timeTag = document.querySelector('.el-table .el-table__body-wrapper table tbody tr td:nth-child(5) .el-tag:first-child')
+            const timeTag = document.querySelector('.el-table .el-table__body-wrapper table tbody tr td:nth-child(6) .el-tag:first-child')
             const timeStr = timeTag.textContent
             return parseInt(timeStr.replace('s', '').trim())
         })
@@ -62,7 +62,7 @@ describe('Daily time limit', () => {
         await limitPage.bringToFront()
         await sleep(.1)
         wastedTime = await limitPage.evaluate(() => {
-            const timeTag = document.querySelector('.el-table .el-table__body-wrapper table tbody tr td:nth-child(5) .el-tag--danger')
+            const timeTag = document.querySelector('.el-table .el-table__body-wrapper table tbody tr td:nth-child(6) .el-tag--danger')
             const timeStr = timeTag.textContent
             return parseInt(timeStr.replace('s', '').trim())
         })

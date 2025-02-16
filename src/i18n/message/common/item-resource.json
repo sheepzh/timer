@@ -3,6 +3,7 @@
         "date": "日期",
         "host": "域名",
         "focus": "浏览时长",
+        "run": "运行时长",
         "time": "打开次数",
         "operation": {
             "add2Whitelist": "白名单",
@@ -20,6 +21,7 @@
         "date": "日期",
         "host": "域名",
         "focus": "瀏覽時長",
+        "run": "運行時長",
         "time": "訪問次數",
         "operation": {
             "add2Whitelist": "白名單",
@@ -37,6 +39,7 @@
         "date": "Date",
         "host": "Site URL",
         "focus": "Browsing Time",
+        "run": "Run Time",
         "time": "Site Visits",
         "operation": {
             "add2Whitelist": "Whitelist",
@@ -54,6 +57,7 @@
         "date": "日期",
         "host": "URL",
         "focus": "閲覧時間",
+        "run": "実行時間",
         "time": "拜訪回数",
         "operation": {
             "add2Whitelist": "ホワイトリスト",
@@ -71,6 +75,7 @@
         "date": "Data",
         "host": "URL do Site",
         "focus": "Tempo de Navegação",
+        "run": "Tempo de execução",
         "time": "Visitas do Site",
         "operation": {
             "add2Whitelist": "Ignorar",

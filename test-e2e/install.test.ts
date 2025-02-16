@@ -1,5 +1,5 @@
 import { join } from "path"
-import { launchBrowser, type LaunchResult } from "./common"
+import { launchBrowser, type LaunchResult } from "./common/base"
 
 let launchRes: LaunchResult
 

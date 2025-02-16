@@ -72,7 +72,8 @@
                 "strict": "不允许手动解锁",
                 "strictTitle": "危险操作",
                 "strictContent": "当您选择这个选项之后，如果某个站点触发了每日限制，除了等到第二天自动解锁以外，不允许您手动解锁。如果规则设置不当，很有可能会阻碍您的日常工作！",
-                "passwordContent": "请设置您的解锁密码"
+                "pswFormLabel": "解锁密码",
+                "pswFormAgain": "再次输入"
             }
         },
         "backup": {
@@ -202,7 +203,8 @@
                 "strict": "不允許手動解鎖",
                 "strictTitle": "危險操作",
                 "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！",
-                "passwordContent": "請設定您的解鎖密碼"
+                "pswFormLabel": "解鎖密碼",
+                "pswFormAgain": "再次輸入"
             }
         },
         "backup": {
@@ -331,7 +333,8 @@
                 "strict": "Not allow unlocking anyway",
                 "strictTitle": "Operation confirm",
                 "strictContent": "When you select this option, if a site triggers daily limit, you will not be allowed to manually unblock it other than waiting until the next day. If rules are not set up properly, they can very well hinder your routines!",
-                "passwordContent": "Please set your unlock password"
+                "pswFormLabel": "Password",
+                "pswFormAgain": "Re-enter"
             }
         },
         "backup": {
@@ -461,7 +464,8 @@
                 "strict": "とにかくロック解除を許可しない",
                 "strictTitle": "操作確認",
                 "strictContent": "このオプションを選択した場合、サイトが毎日の制限をトリガーする場合 手動でブロックを解除することは翌日まで待つ以外はできません ルールが適切に設定されていない場合、彼らはあなたのルーチンを非常によく妨げることができます!",
-                "passwordContent": "ロック解除パスワードを設定してください"
+                "pswFormLabel": "パスワード",
+                "pswFormAgain": "再入力"
             }
         },
         "backup": {
@@ -590,7 +594,8 @@
                 "strict": "Não permitir desbloqueio mesmo assim",
                 "strictTitle": "Confirmação de operação",
                 "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!",
-                "passwordContent": "Por favor, defina a sua palavra-passe de desbloqueio"
+                "pswFormLabel": "Palavra-passe",
+                "pswFormAgain": "Reinsira"
             }
         },
         "backup": {
@@ -703,6 +708,7 @@
         },
         "dailyLimit": {
             "prompt": "Запит, який відображається під час обмеження {input}",
+            "reminder": "{input} Нагадування за {minInput} хвилин до закінчення часу",
             "level": {
                 "label": "Спосіб розблокування під час обмеження {input}",
                 "nothing": "Розблокування на сторінці адміністрування",
@@ -718,7 +724,8 @@
                 "strict": "Не дозволяти розблокування",
                 "strictTitle": "Підтвердження операції",
                 "strictContent": "Коли ви вибираєте цю опцію, якщо сайт активує щоденний ліміт, ви не зможете розблокувати його вручну до наступного дня. Якщо не налаштувати правила належним чином, вони можуть дуже заважати вашій роботі!",
-                "passwordContent": "Встановіть пароль розблокування"
+                "pswFormLabel": "Пароль",
+                "pswFormAgain": "Змінити"
             }
         },
         "backup": {
@@ -831,6 +838,7 @@
         },
         "dailyLimit": {
             "prompt": "Punto mostrado cuando está restringido {input}",
+            "reminder": "{input} Recordatorio {minInput} minutos antes de que se acabe el tiempo",
             "level": {
                 "label": "Cómo desbloquear cuando está restringido {input}",
                 "nothing": "Permitir desbloqueo directo en la página de administrador",
@@ -846,7 +854,8 @@
                 "strict": "No permitir desbloquear de ningún modo",
                 "strictTitle": "Confirmación de operación",
                 "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!",
-                "passwordContent": "Por favor, configure su contraseña de desbloqueo"
+                "pswFormLabel": "Contraseña",
+                "pswFormAgain": "Reingresar"
             }
         },
         "backup": {
@@ -973,8 +982,7 @@
                 },
                 "strict": "Entsperren trotzdem nicht zulassen",
                 "strictTitle": "Operation bestätigen",
-                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!",
-                "passwordContent": "Bitte Passwort zum Entsperren festlegen"
+                "strictContent": "Wenn Sie diese Option wählen, wenn eine Site Tageslimit auslöst, Sie dürfen die Blockierung nur bis zum nächsten Tag manuell entsperren. Wenn Regeln nicht richtig eingerichtet sind, können sie sehr gut Ihre Routinen behindern!"
             }
         },
         "backup": {
@@ -1101,8 +1109,7 @@
                 },
                 "strict": "Ne pas autoriser le déblocage quand même",
                 "strictTitle": "Confirmation de l'opération",
-                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !",
-                "passwordContent": "Veuillez définir votre mot de passe de déverrouillage"
+                "strictContent": "Lorsque vous sélectionnez cette option, si un site déclenche une limite quotidienne, vous ne serez pas autorisé à le débloquer manuellement sauf en attendant le lendemain. Si les règles ne sont pas correctement configurées, elles peuvent très bien gêner vos routines !"
             }
         },
         "backup": {

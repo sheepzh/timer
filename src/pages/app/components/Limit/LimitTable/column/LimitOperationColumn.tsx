@@ -5,41 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 import { t } from "@app/locale"
-import { judgeVerificationRequired, processVerification } from "@app/util/limit"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import { type ElTableRowScope } from "@pages/element-ui/table"
-import optionHolder from "@service/components/option-holder"
 import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
-
-async function handleDelete(row: timer.limit.Item, callback: () => void) {
-    let promise = undefined
-    if (await judgeVerificationRequired(row)) {
-        const option = await optionHolder.get()
-        promise = processVerification(option)
-    }
-    if (!promise) {
-        const message = t(msg => msg.limit.message.deleteConfirm, {
-            cond: row.cond,
-        })
-        promise = ElMessageBox.confirm(message, { type: "warning" })
-    }
-    promise.then(callback).catch(() => {
-        /** Do nothing */
-    })
-}
-
-async function handleModify(row: timer.limit.Item, callback: () => void) {
-    let promise: Promise<void> = undefined
-    if (await judgeVerificationRequired(row)) {
-        const option = await optionHolder.get()
-        promise = processVerification(option)
-        promise ? promise.then(callback).catch(() => { }) : callback()
-    } else {
-        callback()
-    }
-}
+import { verifyCanModify } from "../../common"
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 220,
@@ -61,6 +32,18 @@ const _default = defineComponent({
         rowModify: (_row: timer.limit.Item) => true,
     },
     setup(_props, ctx) {
+        const handleDelete = (row: timer.limit.Item) => verifyCanModify(row)
+            .then(() => {
+                const message = t(msg => msg.limit.message.deleteConfirm, { cond: row?.cond })
+                return ElMessageBox.confirm(message, { type: "warning" })
+            })
+            .then(() => ctx.emit('rowDelete', row))
+            .catch(() => {/** Do nothing */ })
+
+        const handleModify = (row: timer.limit.Item) => verifyCanModify(row)
+            .then(() => ctx.emit("rowModify", row))
+            .catch(() => {/** Do nothing */ })
+
         return () => <ElTableColumn
             prop="operations"
             label={t(msg => msg.button.operation)}
@@ -72,7 +55,7 @@ const _default = defineComponent({
                     type="danger"
                     size="small"
                     icon={<Delete />}
-                    onClick={() => handleDelete(row, () => ctx.emit("rowDelete", row))}
+                    onClick={() => handleDelete(row)}
                 >
                     {t(msg => msg.button.delete)}
                 </ElButton>
@@ -80,7 +63,7 @@ const _default = defineComponent({
                     type="primary"
                     size="small"
                     icon={<Edit />}
-                    onClick={() => handleModify(row, () => ctx.emit("rowModify", row))}
+                    onClick={() => handleModify(row)}
                 >
                     {t(msg => msg.button.modify)}
                 </ElButton>

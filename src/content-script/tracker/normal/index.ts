@@ -42,21 +42,21 @@ class TrackContext {
     }
 }
 
-export type TrackerClientOption = {
+export type NormalTrackerOption = {
     onReport: (ev: timer.core.Event) => Promise<void>
     onResume?: (reason: StateChangeReason) => void
     onPause?: (reason: StateChangeReason) => void
 }
 
 /**
- * Tracker client, used in the content-script
+ * Normal tracker
  */
-export default class TrackerClient {
+export default class NormalTracker {
     context: TrackContext
     start: number = Date.now()
-    option: TrackerClientOption
+    option: NormalTrackerOption
 
-    constructor(option: TrackerClientOption) {
+    constructor(option: NormalTrackerOption) {
         this.option = option
     }
 

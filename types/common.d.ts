@@ -8,6 +8,11 @@ declare type EmbeddedPartial<T> = {
 }
 
 /**
+ * Make one field optional
+ */
+type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [P in K]?: T[P] }
+
+/**
  * Tuple with length
  *
  * @param E element
@@ -26,3 +31,5 @@ declare type Tuple<E, L extends number, Arr = [E, ...Array<E>]> =
  * @param D dimension of vector
  */
 declare type Vector<D extends number> = Tuple<number, D>
+
+declare type CompareFn<T> = (a: T, b: T) => number

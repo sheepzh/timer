@@ -1,5 +1,5 @@
 import { type Browser, launch, type Page } from "puppeteer"
-import { E2E_OUTPUT_PATH } from "../webpack/constant"
+import { E2E_OUTPUT_PATH } from "../../webpack/constant"
 
 const USE_HEADLESS_PUPPETEER = !!process.env['USE_HEADLESS_PUPPETEER']
 
@@ -38,5 +38,11 @@ export function sleep(seconds: number): Promise<void> {
 export async function openAppPage(browser: Browser, extId: string, route: string): Promise<Page> {
     const page = await browser.newPage()
     await page.goto(`chrome-extension://${extId}/static/app.html#${route}`)
+    return page
+}
+
+export async function newPage(browser: Browser, url: string): Promise<Page> {
+    const page = await browser.newPage()
+    await page.goto(url, { waitUntil: 'load' })
     return page
 }

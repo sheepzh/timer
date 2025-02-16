@@ -5,8 +5,9 @@ import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import { extractHostname } from "@util/pattern"
-import badgeManager from "../badge-manager"
-import MessageDispatcher from "../message-dispatcher"
+import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
+import badgeManager from "./badge-manager"
+import MessageDispatcher from "./message-dispatcher"
 
 async function handleTime(host: string, url: string, dateRange: [number, number], tabId: number): Promise<number> {
     const [start, end] = dateRange
@@ -62,7 +63,7 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
 }
 
 async function handleVisit(host: string, url: string) {
-    await itemService.addOneTime(host, url)
+    await itemService.increaseVisit(host, url)
     const metLimits = await limitService.incVisit(host, url)
     // If time limited after this operation, send messages
     metLimits?.length && sendLimitedMessage(metLimits)
@@ -76,9 +77,34 @@ async function handleIncVisitEvent(param: { host: string, url: string }): Promis
     await handleVisit(host, url)
 }
 
+function splitRunTime(start: number, end: number): Record<string, number> {
+    const res: Record<string, number> = {}
+    while (start < end) {
+        const startOfNextDay = getStartOfDay(new Date(start)).getTime() + MILL_PER_DAY
+        const newStart = Math.min(end, startOfNextDay)
+        const runTime = newStart - start
+        runTime && (res[formatTimeYMD(start)] = runTime)
+        start = newStart
+    }
+    return res
+}
+
+const RUN_TIME_END_CACHE: { [host: string]: number } = {}
+
+async function handleTrackRunTimeEvent(event: timer.core.Event): Promise<void> {
+    const { start, end, url, host } = event || {}
+    if (!host || !start || !end) return
+    const realStart = Math.max(RUN_TIME_END_CACHE[host] ?? 0, start)
+    const byDate = splitRunTime(realStart, end)
+    if (!Object.keys(byDate).length) return
+    await itemService.addRunTime(host, url, byDate)
+    RUN_TIME_END_CACHE[host] = Math.max(end, realStart)
+}
+
 export default function initTrackServer(messageDispatcher: MessageDispatcher) {
     messageDispatcher
         .register<timer.core.Event, void>('cs.trackTime', handleTrackTimeEvent)
+        .register<timer.core.Event, void>('cs.trackRunTime', handleTrackRunTimeEvent)
         .register<{ host: string, url: string }, void>('cs.incVisitCount', handleIncVisitEvent)
         .register<string, timer.core.Result>('cs.getTodayInfo', host => itemService.getResult(host, new Date()))
 }

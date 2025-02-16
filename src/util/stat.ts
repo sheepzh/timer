@@ -15,10 +15,13 @@ export function createZeroResult(): timer.core.Result {
 }
 
 export function mergeResult(a: timer.core.Result, b: timer.core.Result): timer.core.Result {
-    return {
+    const res: timer.core.Result = {
         focus: (a?.focus ?? 0) + (b?.focus ?? 0),
         time: (a?.time ?? 0) + (b?.time ?? 0),
     }
+    const run = (a?.run ?? 0) + (b?.run ?? 0)
+    run && (res.run = run)
+    return res
 }
 
 export function resultOf(focus: number, time: number): timer.core.Result {
