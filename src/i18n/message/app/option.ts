@@ -72,7 +72,8 @@ export type OptionMessage = {
             }
             strictTitle: string
             strictContent: string
-            passwordContent: string
+            pswFormLabel: string
+            pswFormAgain: string
         }
     }
     backup: {

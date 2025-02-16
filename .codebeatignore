@@ -1,2 +1,5 @@
 src/**/*.tsx
 src/**/*Wrapper.ts
+test/**
+test-e2e/**
+webpack/**

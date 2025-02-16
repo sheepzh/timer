@@ -20,7 +20,7 @@ const _default = defineComponent({
     setup(_, ctx) {
         const handleChange = async (row: timer.limit.Item, newVal: boolean) => {
             try {
-                newVal && await verifyCanModify(row)
+                !newVal && await verifyCanModify(row)
                 row.enabled = newVal
                 ctx.emit("rowChange", toRaw(row), newVal)
             } catch (e) {

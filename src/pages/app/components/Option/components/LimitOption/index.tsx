@@ -6,7 +6,7 @@
  */
 import { t } from "@app/locale"
 import { processVerification } from "@app/util/limit"
-import { Edit, Lock } from "@element-plus/icons-vue"
+import { Edit } from "@element-plus/icons-vue"
 import { defaultDailyLimit } from "@util/constant/option"
 import { ElButton, ElInput, ElInputNumber, ElMessage, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
 import { defineComponent } from "vue"
@@ -14,6 +14,7 @@ import { type OptionInstance } from "../../common"
 import { useOption } from "../../useOption"
 import OptionItem from "../OptionItem"
 import "./limit-option.sass"
+import { usePswEdit } from "./usePswEdit"
 import { useVerify } from "./useVerify"
 
 const ALL_LEVEL: timer.limit.RestrictionLevel[] = [
@@ -59,34 +60,10 @@ const confirm4Strict = async (): Promise<void> => {
     })
 }
 
-const modifyPsw = async (oldPsw?: string): Promise<string> => {
-    const content = t(msg => msg.option.dailyLimit.level.passwordContent)
-    const data = await ElMessageBox({
-        message: content,
-        type: 'success',
-        icon: <Lock />,
-        confirmButtonText: t(msg => msg.button.save),
-        showCancelButton: true,
-        cancelButtonText: t(msg => msg.button.cancel),
-        showInput: true,
-        inputValue: oldPsw,
-        closeOnClickModal: false,
-    })
-    const { action, value } = data || {}
-    if (action !== 'confirm') {
-        ElMessage.warning("Unknown action: " + action)
-        throw "Ignore this message"
-    } else if (!value) {
-        ElMessage.error("No password filled in")
-        throw "No password filled in"
-    }
-    return value
-}
-
 const _default = defineComponent((_, ctx) => {
     const { option } = useOption({ defaultValue: defaultDailyLimit, copy })
-
     const { verified, verify } = useVerify(option)
+    const { modifyPsw } = usePswEdit({ reset: () => option.limitPassword })
 
     ctx.expose({
         reset: () => verify().then(() => reset(option)).catch(() => { })
@@ -109,7 +86,7 @@ const _default = defineComponent((_, ctx) => {
     const handlePswEdit = async () => {
         try {
             await verify()
-            option.limitPassword = await modifyPsw(option.limitPassword)
+            option.limitPassword = await modifyPsw()
             ElMessage.success(t(msg => msg.operation.successMsg))
         } catch (e) {
             console.log("Failed to verify", e)
