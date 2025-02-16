@@ -202,7 +202,9 @@
                 },
                 "strict": "不允許手動解鎖",
                 "strictTitle": "危險操作",
-                "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！"
+                "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！",
+                "pswFormLabel": "解鎖密碼",
+                "pswFormAgain": "再次輸入"
             }
         },
         "backup": {
@@ -461,7 +463,9 @@
                 },
                 "strict": "とにかくロック解除を許可しない",
                 "strictTitle": "操作確認",
-                "strictContent": "このオプションを選択した場合、サイトが毎日の制限をトリガーする場合 手動でブロックを解除することは翌日まで待つ以外はできません ルールが適切に設定されていない場合、彼らはあなたのルーチンを非常によく妨げることができます!"
+                "strictContent": "このオプションを選択した場合、サイトが毎日の制限をトリガーする場合 手動でブロックを解除することは翌日まで待つ以外はできません ルールが適切に設定されていない場合、彼らはあなたのルーチンを非常によく妨げることができます!",
+                "pswFormLabel": "パスワード",
+                "pswFormAgain": "再入力"
             }
         },
         "backup": {
@@ -589,7 +593,9 @@
                 },
                 "strict": "Não permitir desbloqueio mesmo assim",
                 "strictTitle": "Confirmação de operação",
-                "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!"
+                "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!",
+                "pswFormLabel": "Palavra-passe",
+                "pswFormAgain": "Reinsira"
             }
         },
         "backup": {
@@ -702,6 +708,7 @@
         },
         "dailyLimit": {
             "prompt": "Запит, який відображається під час обмеження {input}",
+            "reminder": "{input} Нагадування за {minInput} хвилин до закінчення часу",
             "level": {
                 "label": "Спосіб розблокування під час обмеження {input}",
                 "nothing": "Розблокування на сторінці адміністрування",
@@ -716,7 +723,9 @@
                 },
                 "strict": "Не дозволяти розблокування",
                 "strictTitle": "Підтвердження операції",
-                "strictContent": "Коли ви вибираєте цю опцію, якщо сайт активує щоденний ліміт, ви не зможете розблокувати його вручну до наступного дня. Якщо не налаштувати правила належним чином, вони можуть дуже заважати вашій роботі!"
+                "strictContent": "Коли ви вибираєте цю опцію, якщо сайт активує щоденний ліміт, ви не зможете розблокувати його вручну до наступного дня. Якщо не налаштувати правила належним чином, вони можуть дуже заважати вашій роботі!",
+                "pswFormLabel": "Пароль",
+                "pswFormAgain": "Змінити"
             }
         },
         "backup": {
@@ -829,6 +838,7 @@
         },
         "dailyLimit": {
             "prompt": "Punto mostrado cuando está restringido {input}",
+            "reminder": "{input} Recordatorio {minInput} minutos antes de que se acabe el tiempo",
             "level": {
                 "label": "Cómo desbloquear cuando está restringido {input}",
                 "nothing": "Permitir desbloqueo directo en la página de administrador",
@@ -843,7 +853,9 @@
                 },
                 "strict": "No permitir desbloquear de ningún modo",
                 "strictTitle": "Confirmación de operación",
-                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!"
+                "strictContent": "Al seleccionar esta opción, si un sitio activa el límite diario, no se te permitirá desbloquearlo manualmente, más que esperar hasta el día siguiente. ¡Si las reglas no se establecen correctamente, pueden entorpecer tus rutinas!",
+                "pswFormLabel": "Contraseña",
+                "pswFormAgain": "Reingresar"
             }
         },
         "backup": {

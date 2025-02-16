@@ -52,7 +52,9 @@
         "okey": "好的",
         "dont": "不用了",
         "operation": "操作",
-        "clear": "清除"
+        "clear": "清除",
+        "batchEnable": "批量啟用",
+        "batchDisable": "批量禁用"
     },
     "ja": {
         "create": "追加",
@@ -69,7 +71,9 @@
         "okey": "OK",
         "dont": "いいえ！",
         "operation": "操作",
-        "clear": "クリア"
+        "clear": "クリア",
+        "batchEnable": "バッチ有効化",
+        "batchDisable": "一括無効化"
     },
     "pt_PT": {
         "create": "Criar",
@@ -86,7 +90,9 @@
         "okey": "OK",
         "dont": "NÃO!",
         "operation": "Operações",
-        "clear": "Limpar"
+        "clear": "Limpar",
+        "batchEnable": "Ativar lote",
+        "batchDisable": "Desativar lote"
     },
     "uk": {
         "create": "Новий",

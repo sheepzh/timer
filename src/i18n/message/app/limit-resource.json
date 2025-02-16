@@ -70,7 +70,8 @@
             "delayAllowed": "再看 5 分鐘",
             "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
             "visits": "次訪問",
-            "or": "或"
+            "or": "或",
+            "notEffective": "未生效"
         },
         "step": {
             "base": "基本信息",
@@ -101,7 +102,8 @@
             "incorrectAnswer": "答案不正確",
             "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
             "confession": "一寸光陰一寸金，寸金難買寸光陰"
-        }
+        },
+        "reminder": "距離時間限制只剩不到 {min} 分鐘！"
     },
     "en": {
         "filterDisabled": "Only enabled",
