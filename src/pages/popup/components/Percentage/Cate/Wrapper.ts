@@ -126,8 +126,9 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
                     shadowColor: "rgba(0, 0, 0, 0.5)",
                 },
             },
-            minShowLabelAngle: selected ? 35 : 0,
+            minShowLabelAngle: 0,
             label: {
+                show: !selected,
                 color: textColor,
                 position: selected ? 'inner' : 'outer',
                 fontSize: selected ? 10 : undefined,
@@ -157,8 +158,9 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             series.push(siteSeries)
         }
 
+        const titleSuffix = this.selectedCache !== CATE_NOT_SET_ID ? cateNameMap[this.selectedCache] : undefined
         const option: EcOption = {
-            title: generateTitleOption(result),
+            title: generateTitleOption(result, titleSuffix),
             legend,
             tooltip: {
                 show: true,
