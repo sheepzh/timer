@@ -95,15 +95,13 @@ export function processVerification(option: timer.option.LimitOption, context?: 
     const { limitLevel, limitPassword, limitVerifyDifficulty } = option
     const { appendTo } = context || {}
     if (limitLevel === "strict") {
-        return new Promise(
-            (_, reject) => ElMessageBox({
-                appendTo,
-                boxType: 'alert',
-                type: 'warning',
-                title: '',
-                message: <div>{t(msg => msg.limit.verification.strictTip)}</div>,
-            }).then(reject).catch(reject)
-        )
+        return new Promise(() => ElMessageBox({
+            appendTo,
+            boxType: 'alert',
+            type: 'warning',
+            title: '',
+            message: <div>{t(msg => msg.limit.verification.strictTip)}</div>,
+        }).catch(() => { }))
     }
     let answerValue: string
     let messageNode: VNode | string | Element
