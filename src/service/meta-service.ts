@@ -87,7 +87,7 @@ async function getFlag(flag: timer.ExtensionMetaFlag) {
     return !!meta?.flag?.[flag]
 }
 
-const INSTALL_DAY_MIN_LIMIT = 30
+const INSTALL_DAY_MIN_LIMIT = 14
 
 class MetaService {
     getInstallTime = getInstallTime
