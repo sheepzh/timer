@@ -43,7 +43,7 @@ function mill2Str(milliseconds: number) {
 
 function setBadgeTextOfMills(milliseconds: number | undefined, tabId: number | undefined) {
     const text = milliseconds === undefined ? '' : mill2Str(milliseconds)
-    setBadgeText(text)
+    setBadgeText(text, tabId)
 }
 
 async function findActiveTab(): Promise<BadgeLocation> {
@@ -59,6 +59,14 @@ async function findActiveTab(): Promise<BadgeLocation> {
         return undefined
     }
     return { tabId: tab.id, url: tab.url }
+}
+
+async function clearAllBadge(): Promise<void> {
+    const tabs = await listTabs()
+    if (!tabs?.length) return
+    for (const tab of tabs) {
+        await setBadgeText('', tab?.id)
+    }
 }
 
 type BadgeState = 'HIDDEN' | 'NOT_SUPPORTED' | 'PAUSED' | 'TIME' | 'WHITELIST'
@@ -106,8 +114,9 @@ class BadgeManager {
 
     private processOption(option: timer.option.AppearanceOption) {
         const { displayBadgeText, badgeBgColor } = option || {}
+        const before = this.visible
         this.visible = !!displayBadgeText
-        this.render()
+        !this.visible && before && clearAllBadge()
         setBadgeBgColor(badgeBgColor)
     }
 
@@ -118,20 +127,20 @@ class BadgeManager {
     private async processState(): Promise<BadgeState> {
         const { url, tabId, focus } = this.current || {}
         if (!this.visible || !url) {
-            this.state !== 'HIDDEN' && setBadgeText('')
+            this.state !== 'HIDDEN' && setBadgeText('', tabId)
             return 'HIDDEN'
         }
         if (isBrowserUrl(url)) {
-            this.state !== 'NOT_SUPPORTED' && setBadgeText('∅')
+            this.state !== 'NOT_SUPPORTED' && setBadgeText('∅', tabId)
             return 'NOT_SUPPORTED'
         }
         const host = extractHostname(url)?.host
         if (whitelistHolder.contains(host, url)) {
-            this.state !== 'WHITELIST' && setBadgeText('W')
+            this.state !== 'WHITELIST' && setBadgeText('W', tabId)
             return 'WHITELIST'
         }
         if (this.pausedTabId === tabId) {
-            this.state !== 'PAUSED' && setBadgeText('P')
+            this.state !== 'PAUSED' && setBadgeText('P', tabId)
             return 'PAUSED'
         }
         const milliseconds = focus || (host ? (await statDatabase.get(host, new Date())).focus : undefined)
