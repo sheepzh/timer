@@ -82,6 +82,19 @@ export const processRtl = (toProcess: unknown) => {
     processArrayLike(visualMap, processVisualMapRtl)
 }
 
+export const processAnimation = (toProcess: unknown, duration: number) => {
+    const option = toProcess as GlobalEcOption
+    const { series } = option || {}
+    processArrayLike(series, s => {
+        if (duration > 0) {
+            s.animation = true
+            s.animationDuration = duration
+        } else {
+            s.animation = false
+        }
+    })
+}
+
 const processArrayLike = <T,>(arr: T | T[], processor: (t: T) => void) => {
     if (!arr) return
     if (Array.isArray(arr)) {

@@ -42,6 +42,7 @@ export type OptionMessage = {
             label: string
             options: Record<timer.option.DarkMode, string>
         }
+        animationDuration: string
     }
     statistics: {
         title: string

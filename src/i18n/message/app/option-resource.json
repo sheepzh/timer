@@ -37,7 +37,8 @@
                     "off": "始终关闭",
                     "timed": "定时开启"
                 }
-            }
+            },
+            "animationDuration": "图表初始动画的时长 {input}"
         },
         "statistics": {
             "title": "统计",
@@ -298,7 +299,8 @@
                     "off": "Always off",
                     "timed": "Timed on"
                 }
-            }
+            },
+            "animationDuration": "The duration of the chart's initial animation {input}"
         },
         "statistics": {
             "title": "Statistics",

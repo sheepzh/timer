@@ -11,8 +11,8 @@ import localeMessages from "@i18n/message/common/locale"
 import optionService from "@service/option-service"
 import { defaultAppearance } from "@util/constant/option"
 import { toggle } from "@util/dark-mode"
-import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent } from "vue"
+import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSlider, ElSwitch, ElTag } from "element-plus"
+import { computed, defineComponent, type StyleValue } from "vue"
 import { type OptionInstance } from "../../common"
 import { useOption } from "../../useOption"
 import OptionItem from "../OptionItem"
@@ -33,7 +33,10 @@ function copy(target: timer.option.AppearanceOption, source: timer.option.Appear
     target.darkMode = source.darkMode
     target.darkModeTimeStart = source.darkModeTimeStart
     target.darkModeTimeEnd = source.darkModeTimeEnd
+    target.chartAnimationDuration = source.chartAnimationDuration
 }
+
+const DEFAULT_ANIMA_DURATION = defaultAppearance().chartAnimationDuration
 
 const _default = defineComponent((_props, ctx) => {
     const { option } = useOption({
@@ -60,6 +63,12 @@ const _default = defineComponent((_props, ctx) => {
             closeOnClickModal: false
         }).then(() => { location.reload?.() }).catch(() => {/* do nothing */ })
     }
+    const animaDurationTagType = computed<'info' | 'primary' | 'warning'>(() => {
+        const val = option.chartAnimationDuration
+        if (!val) return 'info'
+        if (val > DEFAULT_ANIMA_DURATION) return 'warning'
+        return 'primary'
+    })
 
     return () => (
         <div>
@@ -144,6 +153,28 @@ const _default = defineComponent((_props, ctx) => {
                     modelValue={option.printInConsole}
                     onChange={(val: boolean) => option.printInConsole = val}
                 />
+            </OptionItem>
+            <OptionItem
+                label={msg => msg.option.appearance.animationDuration}
+                defaultValue={`${DEFAULT_ANIMA_DURATION}ms`}
+            >
+                <ElSlider
+                    modelValue={option.chartAnimationDuration}
+                    showStops step={100}
+                    min={0} max={1500}
+                    size="small"
+                    persistent={false}
+                    style={{ width: '250px', display: 'inline-flex', marginInlineStart: '10px' } satisfies StyleValue}
+                    formatTooltip={val => `${val}ms`}
+                    onUpdate:modelValue={val => option.chartAnimationDuration = Array.isArray(val) ? val[0] : val}
+                />
+                <ElTag
+                    size="small"
+                    type={animaDurationTagType.value}
+                    style={{ marginInlineStart: '12px' } satisfies StyleValue}
+                >
+                    {option.chartAnimationDuration}ms
+                </ElTag>
             </OptionItem>
         </div>
     )

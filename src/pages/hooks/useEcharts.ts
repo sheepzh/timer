@@ -6,7 +6,7 @@
  * https://opensource.org/licenses/MIT
  */
 import optionHolder from "@service/components/option-holder"
-import { processAria, processRtl } from "@util/echarts"
+import { processAnimation, processAria, processRtl } from "@util/echarts"
 import { useWindowSize } from "@vueuse/core"
 import { type AriaComponentOption, type ComposeOption } from "echarts"
 import { type ECharts, init } from "echarts/core"
@@ -44,7 +44,8 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
     }
 
     protected async postChartOption(option: EchartsOption & BaseEchartsOption) {
-        const { chartDecal } = await optionHolder.get() || {}
+        const { chartDecal, chartAnimationDuration } = await optionHolder.get() || {}
+        processAnimation(option, chartAnimationDuration)
         processAria(option, chartDecal)
         processRtl(option)
     }

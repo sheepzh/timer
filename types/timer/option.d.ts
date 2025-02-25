@@ -107,6 +107,12 @@ declare namespace timer.option {
          */
         darkModeTimeStart?: number
         darkModeTimeEnd?: number
+        /**
+        * The animation of charts
+        *
+        * @since 3.2.2
+        */
+        chartAnimationDuration?: number
     }
 
     type StatisticsOption = {
