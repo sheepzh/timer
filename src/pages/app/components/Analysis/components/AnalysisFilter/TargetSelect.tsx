@@ -6,7 +6,7 @@ import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
 import statService from "@service/stat-service"
 import { identifySiteKey, parseSiteKeyFromIdentity, SiteMap } from "@util/site"
-import { useDebounceFn } from "@vueuse/core"
+import { useDebounce } from "@vueuse/core"
 import { ElOption, ElOptionGroup, ElSelect, ElTag } from "element-plus"
 import { computed, defineComponent, type PropType } from "vue"
 import type { AnalysisTarget } from "../../types"
@@ -132,9 +132,10 @@ const TargetSelect = defineComponent({
         )
 
         const [query, setQuery] = useState<string>()
+        const debouncedQuery = useDebounce<string>(query, 50)
 
         const items = computed(() => {
-            const q = query.value?.trim?.()
+            const q = debouncedQuery.value?.trim?.()
             if (!q) return allItems.value
 
             return allItems.value?.map(itemArr => {
@@ -150,8 +151,6 @@ const TargetSelect = defineComponent({
             }) ?? []
         })
 
-        const searchRemote = useDebounceFn(setQuery, 50)
-
         return () => (
             <ElSelect
                 placeholder={t(msg => msg.analysis.common.hostPlaceholder)}
@@ -159,7 +158,7 @@ const TargetSelect = defineComponent({
                 filterable
                 remote
                 clearable
-                remoteMethod={searchRemote}
+                remoteMethod={setQuery}
                 onChange={emitChange}
                 onClear={() => emitChange()}
                 style={SELECT_WRAPPER_STYLE}
