@@ -7,7 +7,7 @@
 
 import { KanbanCard } from "@app/components/common/kanban"
 import { t } from "@app/locale"
-import statService from "@service/stat-service"
+import statService, { type StatQueryParam } from "@service/stat-service"
 import { getDayLength } from "@util/time"
 import { computedAsync } from "@vueuse/core"
 import { computed, defineComponent } from "vue"
@@ -23,7 +23,14 @@ const DISTRIBUTION_MIN_DAY_LENGTH = 15
 
 const _default = defineComponent(() => {
     const filter = useHabitFilter()
-    const rows = computedAsync(() => statService.select({ exclusiveVirtual: true, date: filter.value?.dateRange }, true))
+    const rows = computedAsync(() => {
+        const param: StatQueryParam = {
+            exclusiveVirtual: true,
+            date: filter.value?.dateRange,
+            mergeDate: true,
+        }
+        return statService.select(param, true)
+    })
     initProvider(rows)
     const dateRangeLength = computed(() => getDayLength(filter.value?.dateRange?.[0], filter?.value?.dateRange?.[1]))
 
