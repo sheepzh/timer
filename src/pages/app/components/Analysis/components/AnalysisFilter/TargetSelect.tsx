@@ -1,7 +1,7 @@
 import { SELECT_WRAPPER_STYLE } from "@app/components/common/filter/common"
 import { useCategories } from "@app/context"
 import { t } from "@app/locale"
-import { useManualRequest, useState } from "@hooks"
+import { useRequest, useState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
 import statService from "@service/stat-service"
@@ -126,7 +126,7 @@ const TargetSelect = defineComponent({
             ctx.emit('change', target)
         }
 
-        const { data: allItems } = useManualRequest(
+        const { data: allItems } = useRequest(
             () => fetchItems(categories.value),
             { deps: categories },
         )
