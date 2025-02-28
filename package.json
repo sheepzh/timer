@@ -42,7 +42,7 @@
         "@types/punycode": "^2.1.4",
         "@types/webpack": "^5.28.5",
         "@vue/babel-plugin-jsx": "^1.2.5",
-        "babel-loader": "^9.2.1",
+        "babel-loader": "^10.0.0",
         "copy-webpack-plugin": "^12.0.2",
         "css-loader": "^7.1.2",
         "decompress": "^4.2.1",
