@@ -43,7 +43,7 @@
         "@types/webpack": "^5.28.5",
         "@vue/babel-plugin-jsx": "^1.2.5",
         "babel-loader": "^9.2.1",
-        "copy-webpack-plugin": "^12.0.2",
+        "copy-webpack-plugin": "^13.0.0",
         "css-loader": "^7.1.2",
         "decompress": "^4.2.1",
         "eslint": "^9.21.0",
