@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { type I18nKey } from "@app/locale"
 import { type Router, useRoute } from "vue-router"
 
 export const ALL_CATEGORIES = ["appearance", "statistics", "popup", 'dailyLimit', 'accessibility', 'backup'] as const
@@ -28,4 +29,13 @@ export function changeQuery(cate: OptionCategory, router: Router) {
     const query = {}
     query[PARAM] = cate
     router.replace({ query })
+}
+
+export const CATE_LABELS: Record<OptionCategory, I18nKey> = {
+    appearance: msg => msg.option.appearance.title,
+    statistics: msg => msg.option.statistics.title,
+    popup: msg => msg.option.popup.title,
+    dailyLimit: msg => msg.menu.limit,
+    accessibility: msg => msg.option.accessibility.title,
+    backup: msg => msg.option.backup.title,
 }

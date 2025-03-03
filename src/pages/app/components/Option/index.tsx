@@ -4,8 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { useMediaSize } from "@hooks"
-import { MediaSize } from "@hooks/useMediaSize"
+import { MediaSize, useMediaSize } from "@hooks/useMediaSize"
 import { defineComponent, ref, type Ref } from "vue"
 import { type JSX } from "vue/jsx-runtime"
 import { type OptionCategory, type OptionInstance } from "./common"
@@ -20,7 +19,7 @@ import './style.sass'
 import Tabs from "./Tabs"
 
 const _default = defineComponent(() => {
-    const paneRefMap: { [key in OptionCategory]: Ref<OptionInstance> } = {
+    const paneRefMap: Record<OptionCategory, Ref<OptionInstance>> = {
         appearance: ref(),
         statistics: ref(),
         popup: ref(),
@@ -31,7 +30,7 @@ const _default = defineComponent(() => {
 
     const mediaSize = useMediaSize()
 
-    const slots: { [key in OptionCategory]: () => JSX.Element } = {
+    const slots: Record<OptionCategory, () => JSX.Element> = {
         appearance: () => <AppearanceOption ref={paneRefMap.appearance} />,
         statistics: () => <StatisticsOption ref={paneRefMap.statistics} />,
         popup: () => <PopupOption ref={paneRefMap.popup} />,
@@ -49,7 +48,6 @@ const _default = defineComponent(() => {
         ? <Select v-slots={slots} />
         : (
             <Tabs
-                limitDisabled={mediaSize.value <= MediaSize.sm}
                 onReset={handleReset}
                 v-slots={slots}
             />

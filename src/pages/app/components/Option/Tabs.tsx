@@ -1,25 +1,20 @@
 import { t } from "@app/locale"
 import { Refresh } from "@element-plus/icons-vue"
-import { useShadow } from "@hooks"
 import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
-import { defineComponent, h, ref } from "vue"
+import { defineComponent, h, ref, useSlots } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
-import { changeQuery, type OptionCategory, parseQuery } from "./common"
+import { CATE_LABELS, changeQuery, type OptionCategory, parseQuery } from "./common"
 
 const resetButtonName = "reset"
 
 const _default = defineComponent({
-    props: {
-        limitDisabled: Boolean,
-    },
     emits: {
         reset: (_cate: OptionCategory, _callback: () => void) => Promise.resolve(true),
     },
-    setup: (props, ctx) => {
+    setup: (_, ctx) => {
         const tab = ref(parseQuery() || 'appearance')
         const router = useRouter()
-        const [limitDisabled] = useShadow(() => props.limitDisabled)
 
         const handleBeforeLeave = async (activeName: string, oldActiveName: string): Promise<boolean> => {
             if (activeName === resetButtonName) {
@@ -40,44 +35,11 @@ const _default = defineComponent({
                     beforeLeave={handleBeforeLeave}
                     class="option-tab"
                 >
-                    <ElTabPane
-                        name={"appearance" satisfies OptionCategory}
-                        label={t(msg => msg.option.appearance.title)}
-                    >
-                        {h(ctx.slots.appearance)}
-                    </ElTabPane>
-                    <ElTabPane
-                        name={"statistics" satisfies OptionCategory}
-                        label={t(msg => msg.option.statistics.title)}
-                    >
-                        {h(ctx.slots.statistics)}
-                    </ElTabPane>
-                    <ElTabPane
-                        name={"popup" satisfies OptionCategory}
-                        label={t(msg => msg.option.popup.title)}
-                    >
-                        {h(ctx.slots.popup)}
-                    </ElTabPane>
-                    {!limitDisabled.value && (
-                        <ElTabPane
-                            name={"dailyLimit" satisfies OptionCategory}
-                            label={t(msg => msg.menu.limit)}
-                        >
-                            {h(ctx.slots.dailyLimit)}
+                    {Object.entries(useSlots()).filter(([key]) => key !== 'default').map(([key, slot]) => (
+                        <ElTabPane name={key} label={t(CATE_LABELS[key])}>
+                            {h(slot)}
                         </ElTabPane>
-                    )}
-                    <ElTabPane
-                        name={"accessibility" satisfies OptionCategory}
-                        label={t(msg => msg.option.accessibility.title)}
-                    >
-                        {h(ctx.slots.accessibility)}
-                    </ElTabPane>
-                    <ElTabPane
-                        name={"backup" satisfies OptionCategory}
-                        label={t(msg => msg.option.backup.title)}
-                    >
-                        {h(ctx.slots.backup)}
-                    </ElTabPane>
+                    ))}
                     <ElTabPane
                         name={resetButtonName}
                         v-slots={{
