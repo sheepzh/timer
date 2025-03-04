@@ -4,17 +4,18 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
+import { onIconClick } from "@api/chrome/action"
 import { createContextMenu } from "@api/chrome/context-menu"
 import { getRuntimeId } from "@api/chrome/runtime"
 import { createTab } from "@api/chrome/tab"
 import { locale } from "@i18n"
 import { t2Chrome } from "@i18n/chrome/t"
-import { IS_FIREFOX, IS_MV3, IS_SAFARI } from "@util/constant/environment"
+import { IS_ANDROID, IS_FIREFOX, IS_MV3, IS_SAFARI } from "@util/constant/environment"
 import {
     CHANGE_LOG_PAGE, GITHUB_ISSUE_ADD, SOURCE_CODE_PAGE, TU_CAO_PAGE,
     getAppPageUrl, getGuidePageUrl,
 } from "@util/constant/url"
-import { OPTION_ROUTE } from "../pages/app/router/constants"
+import { OPTION_ROUTE, REPORT_ROUTE } from "../pages/app/router/constants"
 
 const APP_PAGE_URL = getAppPageUrl()
 
@@ -84,7 +85,7 @@ const changeLogProps: ChromeContextMenuCreateProps = {
     ...baseProps
 }
 
-function init() {
+function initBrowserAction() {
     // Create sidebar item for Firefox
     createContextMenu(IS_FIREFOX ? sidebarProps : allFunctionProps)
     createContextMenu(allFunctionProps)
@@ -93,6 +94,11 @@ function init() {
     createContextMenu(feedbackPageProps)
     createContextMenu(guidePageProps)
     createContextMenu(changeLogProps)
+
+    if (IS_ANDROID) {
+        // Forbidden popup page
+        onIconClick(() => createTab({ url: getAppPageUrl(REPORT_ROUTE) }))
+    }
 }
 
-export default init
+export default initBrowserAction

@@ -30,7 +30,7 @@ const _default: chrome.runtime.ManifestFirefox = {
     },
     background: {
         scripts: ['background.js'],
-        persistent: true,
+        persistent: false,
     },
     content_scripts: [
         {
