@@ -12,6 +12,7 @@ import WhitelistDatabase from "@db/whitelist-database"
 import { t2Chrome } from "@i18n/chrome/t"
 import { type ContextMenusMessage } from "@i18n/message/common/context-menus"
 import optionHolder from "@service/components/option-holder"
+import { IS_ANDROID } from "@util/constant/environment"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 
 const db = new WhitelistDatabase(chrome.storage.local)
@@ -71,6 +72,10 @@ const handleTabUpdated = (tabId: number, changeInfo: ChromeTabChangeInfo, tab: n
 const handleTabActivated = (activeInfo: ChromeTabActiveInfo) => updateContextMenuInner(currentActiveId = activeInfo.tabId)
 
 async function init() {
+    if (IS_ANDROID) {
+        // context menu not supported for Android
+        return
+    }
     createContextMenu(menuInitialOptions)
     onTabUpdated(handleTabUpdated)
     onTabActivated((_tabId, activeInfo) => handleTabActivated(activeInfo))

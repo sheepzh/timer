@@ -11,6 +11,7 @@ import { getFocusedNormalWindow } from "@api/chrome/window"
 import StatDatabase from "@db/stat-database"
 import optionHolder from "@service/components/option-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
+import { IS_ANDROID } from "@util/constant/environment"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
 import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 import MessageDispatcher from "./message-dispatcher"
@@ -71,7 +72,12 @@ async function clearAllBadge(): Promise<void> {
 
 type BadgeState = 'HIDDEN' | 'NOT_SUPPORTED' | 'PAUSED' | 'TIME' | 'WHITELIST'
 
-class BadgeManager {
+interface BadgeManager {
+    init(dispatcher: MessageDispatcher): void
+    updateFocus(location?: BadgeLocation): void
+}
+
+class DefaultBadgeManager {
     pausedTabId: number
     current: BadgeLocation
     visible: boolean
@@ -149,4 +155,16 @@ class BadgeManager {
     }
 }
 
-export default new BadgeManager()
+class SilentBadgeManager implements BadgeManager {
+    init(_dispatcher: MessageDispatcher): void {
+        // do nothing
+    }
+    updateFocus(_location?: BadgeLocation): void {
+        // do nothing
+    }
+}
+
+// Don't display badge on Android
+const badgeManager: BadgeManager = IS_ANDROID ? new SilentBadgeManager() : new DefaultBadgeManager()
+
+export default badgeManager

@@ -47,6 +47,16 @@ export const IS_EDGE: boolean = isEdge
 export const IS_CHROME: boolean = isChrome
 
 /**
+ * @since 3.3.0
+ */
+export const IS_ANDROID: boolean = !!userAgent?.toLowerCase()?.includes("android")
+
+/**
+ * @since 3.3.0
+ */
+export const IS_FIREFOX_ANDROID = IS_FIREFOX && IS_ANDROID
+
+/**
  * @since 0.8.0
  */
 export const IS_OPERA: boolean = isOpera

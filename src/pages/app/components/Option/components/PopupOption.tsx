@@ -7,6 +7,7 @@
 import { t } from "@app/locale"
 import { type I18nKey, t as t_ } from "@i18n"
 import DurationSelect, { rangeLabel } from "@popup/components/Footer/DurationSelect"
+import { IS_ANDROID } from "@util/constant/environment"
 import { defaultPopup } from "@util/constant/option"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElInputNumber, ElOption, ElSelect, ElSwitch } from "element-plus"
@@ -121,18 +122,20 @@ const _default = defineComponent((_props, ctx) => {
                 onChange={val => option.popupMax = val}
             />
         </OptionItem>
-        <OptionItem
-            label={msg => msg.option.popup.displaySiteName}
-            defaultValue={t(msg => msg.option.yes)}
-            v-slots={{
-                siteName: () => <OptionTag>{t(msg => msg.option.statistics.siteName)}</OptionTag>
-            }}
-        >
-            <ElSwitch
-                modelValue={option.displaySiteName}
-                onChange={(val: boolean) => option.displaySiteName = val}
-            />
-        </OptionItem>
+        {!IS_ANDROID && (
+            <OptionItem
+                label={msg => msg.option.popup.displaySiteName}
+                defaultValue={t(msg => msg.option.yes)}
+                v-slots={{
+                    siteName: () => <OptionTag>{t(msg => msg.option.statistics.siteName)}</OptionTag>
+                }}
+            >
+                <ElSwitch
+                    modelValue={option.displaySiteName}
+                    onChange={(val: boolean) => option.displaySiteName = val}
+                />
+            </OptionItem>
+        )}
     </>
 })
 
