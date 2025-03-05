@@ -71,7 +71,7 @@ const handleTabUpdated = (tabId: number, changeInfo: ChromeTabChangeInfo, tab: n
 
 const handleTabActivated = (activeInfo: ChromeTabActiveInfo) => updateContextMenuInner(currentActiveId = activeInfo.tabId)
 
-async function init() {
+async function initWhitelistMenuManager() {
     if (IS_ANDROID) {
         // context menu not supported for Android
         return
@@ -82,4 +82,4 @@ async function init() {
     db.addChangeListener(handleListChange)
 }
 
-export default init
+export default initWhitelistMenuManager

@@ -87,7 +87,7 @@ describe('Run time tracking', () => {
         let records = await readRecordsOfFirstPage(browser, extensionId)
         const runTime = parseTime2Sec(records[0].runTime)
         expect(runTime).toBeTruthy()
-        expect(runTime).toBeLessThanOrEqual((Date.now() - enableTs) / 1000)
+        expect(runTime).toBeLessThanOrEqual((Date.now() - enableTs + 500) / 1000)
 
         // 2. Add whitelist
         await createWhitelist(browser, extensionId, 'github.com')

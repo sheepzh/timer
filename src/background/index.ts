@@ -20,7 +20,7 @@ import MessageDispatcher from "./message-dispatcher"
 import VersionMigrator from "./migrator"
 import initSidePanel from "./side-panel"
 import initTrackServer from "./track-server"
-import WhitelistMenuManager from "./whitelist-menu-manager"
+import initWhitelistMenuManager from "./whitelist-menu-manager"
 
 // Open the log of console
 openLog()
@@ -49,7 +49,7 @@ new VersionMigrator().init()
 new BackupScheduler().init()
 
 // Manage the context menus
-WhitelistMenuManager()
+initWhitelistMenuManager()
 
 // Badge manager
 badgeTextManager.init(messageDispatcher)
