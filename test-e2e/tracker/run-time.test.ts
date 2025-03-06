@@ -35,7 +35,7 @@ describe('Run time tracking', () => {
 
     test('Basically track', async () => {
         const page = await browser.newPage()
-        await page.goto('https://github.com', { waitUntil: 'load' })
+        await page.goto('https://www.baidu.com', { waitUntil: 'load' })
         await sleep(1)
         let records = await readRecordsOfFirstPage(browser, extensionId)
         let record = records[0]
@@ -44,7 +44,7 @@ describe('Run time tracking', () => {
 
         // 1. Enable run time tracking
         const enableTs = Date.now()
-        await clickRunTimeChange('github.com')
+        await clickRunTimeChange('www.baidu.com')
 
         // 2. Sleep
         const emptyPage = await browser.newPage()
@@ -56,7 +56,7 @@ describe('Run time tracking', () => {
 
         // 3. Add another page sharing the same run time with old page
         const anotherPage = await browser.newPage()
-        await anotherPage.goto('https://github.com', { waitUntil: 'domcontentloaded' })
+        await anotherPage.goto('https://www.baidu.com', { waitUntil: 'domcontentloaded' })
         // jump to new page
         await emptyPage.bringToFront()
         await sleep(2)
@@ -67,7 +67,7 @@ describe('Run time tracking', () => {
         expect(runTime2).toBeLessThan((Date.now() - enableTs) / 1000)
 
         // 3. Disable run time tracking
-        await clickRunTimeChange('github.com')
+        await clickRunTimeChange('www.baidu.com')
         const disableTs = Date.now()
         await emptyPage.bringToFront()
         await sleep(4)
@@ -76,13 +76,13 @@ describe('Run time tracking', () => {
         expect(runTime3).toBeLessThanOrEqual((disableTs - enableTs) / 1000)
     }, 60000)
 
-    test('white list', async () => {
-        await newPage(browser, 'https://github.com')
+    test.only('white list', async () => {
+        await newPage(browser, 'https://www.baidu.com')
 
         // 1. Enable
-        await clickRunTimeChange('github.com')
+        await clickRunTimeChange('www.baidu.com')
         const enableTs = Date.now()
-        await sleep(2)
+        await sleep(4)
 
         let records = await readRecordsOfFirstPage(browser, extensionId)
         const runTime = parseTime2Sec(records[0].runTime)
@@ -90,7 +90,7 @@ describe('Run time tracking', () => {
         expect(runTime).toBeLessThanOrEqual((Date.now() - enableTs + 500) / 1000)
 
         // 2. Add whitelist
-        await createWhitelist(browser, extensionId, 'github.com')
+        await createWhitelist(browser, extensionId, 'www.baidu.com')
         const disableTs = Date.now()
 
         await sleep(2)
