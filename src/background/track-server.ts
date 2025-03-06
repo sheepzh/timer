@@ -4,6 +4,7 @@ import optionHolder from "@service/components/option-holder"
 import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
+import { IS_FIREFOX_ANDROID } from "@util/constant/environment"
 import { extractHostname } from "@util/pattern"
 import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
 import badgeManager from "./badge-manager"
@@ -27,14 +28,10 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
 
 async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
     const { url, start, end, ignoreTabCheck } = event
-    const windowId = sender?.tab?.windowId
-    const tabId = sender?.tab?.id
+    const { id: tabId, windowId } = sender?.tab || {}
     if (!ignoreTabCheck) {
-        if (!windowId || !tabId) return
-        const window = await getWindow(windowId)
-        if (!window?.focused) return
-        const tab = await getTab(tabId)
-        if (!tab?.active) return
+        if (await windowNotFocused(windowId)) return
+        if (await tabNotActive(tabId)) return
     }
     const { protocol, host } = extractHostname(url) || {}
     const option = await optionHolder.get()
@@ -48,6 +45,19 @@ async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessa
         // @see #246
         firstActiveTab?.id === tabId && badgeManager.updateFocus({ tabId, url })
     }
+}
+
+async function windowNotFocused(winId: number): Promise<boolean> {
+    if (IS_FIREFOX_ANDROID) return false
+    if (!winId) return true
+    const window = await getWindow(winId)
+    return !window?.focused
+}
+
+async function tabNotActive(tabId: number): Promise<boolean> {
+    if (!tabId) return true
+    const tab = await getTab(tabId)
+    return !tab?.active
 }
 
 async function sendLimitedMessage(items: timer.limit.Item[]) {

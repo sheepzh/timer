@@ -24,3 +24,9 @@ export function setBadgeBgColor(color: string | chrome.action.ColorArray): Promi
         resolve()
     }))
 }
+
+export function onIconClick(handler: () => void) {
+    // Forbidden popup page first by setting popup empty string
+    action.setPopup({ popup: '' }, () => handleError('setPopup'))
+    action.onClicked.addListener(() => handler?.())
+}

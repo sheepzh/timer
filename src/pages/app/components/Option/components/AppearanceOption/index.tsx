@@ -9,6 +9,7 @@ import { t, tWith } from "@app/locale"
 import { ALL_LOCALES, localeSameAsBrowser } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"
 import optionService from "@service/option-service"
+import { IS_ANDROID } from "@util/constant/environment"
 import { defaultAppearance } from "@util/constant/option"
 import { toggle } from "@util/dark-mode"
 import { ElColorPicker, ElMessageBox, ElOption, ElSelect, ElSlider, ElSwitch, ElTag } from "element-plus"
@@ -105,55 +106,57 @@ const _default = defineComponent((_props, ctx) => {
                     />)}
                 </ElSelect>
             </OptionItem>
-            <OptionItem
-                label={msg => msg.option.appearance.displayWhitelist}
-                defaultValue={t(msg => msg.option.yes)}
-                v-slots={{
-                    whitelist: () => <OptionTag>{t(msg => msg.option.appearance.whitelistItem)}</OptionTag>,
-                    contextMenu: () => <OptionTag>{t(msg => msg.option.appearance.contextMenu)}</OptionTag>,
-                }}
-            >
-                <ElSwitch
-                    modelValue={option.displayWhitelistMenu}
-                    onChange={(val: boolean) => option.displayWhitelistMenu = val}
-                />
-            </OptionItem>
-            <OptionItem
-                label={msg => msg.option.appearance.displayBadgeText}
-                defaultValue={t(msg => msg.option.yes)}
-                v-slots={{
-                    timeInfo: () => <OptionTag>{t(msg => msg.option.appearance.badgeTextContent)}</OptionTag>,
-                    icon: () => <OptionTag>{t(msg => msg.option.appearance.icon)}</OptionTag>,
-                }}
-            >
-                <ElSwitch
-                    modelValue={option.displayBadgeText}
-                    onChange={(val: boolean) => option.displayBadgeText = val}
-                />
-            </OptionItem>
-            <OptionItem
-                v-show={option.displayBadgeText}
-                label={msg => msg.option.appearance.badgeBgColor}
-            >
-                <ElColorPicker
-                    size="small"
-                    modelValue={option.badgeBgColor}
-                    onChange={val => option.badgeBgColor = val}
-                />
-            </OptionItem>
-            <OptionItem
-                label={msg => msg.option.appearance.printInConsole.label}
-                defaultValue={t(msg => msg.option.yes)}
-                v-slots={{
-                    console: () => <OptionTag>{t(msg => msg.option.appearance.printInConsole.console)}</OptionTag>,
-                    info: () => <OptionTag>{t(msg => msg.option.appearance.printInConsole.info)}</OptionTag>,
-                }}
-            >
-                <ElSwitch
-                    modelValue={option.printInConsole}
-                    onChange={(val: boolean) => option.printInConsole = val}
-                />
-            </OptionItem>
+            {!IS_ANDROID && <>
+                <OptionItem
+                    label={msg => msg.option.appearance.displayWhitelist}
+                    defaultValue={t(msg => msg.option.yes)}
+                    v-slots={{
+                        whitelist: () => <OptionTag>{t(msg => msg.option.appearance.whitelistItem)}</OptionTag>,
+                        contextMenu: () => <OptionTag>{t(msg => msg.option.appearance.contextMenu)}</OptionTag>,
+                    }}
+                >
+                    <ElSwitch
+                        modelValue={option.displayWhitelistMenu}
+                        onChange={(val: boolean) => option.displayWhitelistMenu = val}
+                    />
+                </OptionItem>
+                <OptionItem
+                    label={msg => msg.option.appearance.displayBadgeText}
+                    defaultValue={t(msg => msg.option.yes)}
+                    v-slots={{
+                        timeInfo: () => <OptionTag>{t(msg => msg.option.appearance.badgeTextContent)}</OptionTag>,
+                        icon: () => <OptionTag>{t(msg => msg.option.appearance.icon)}</OptionTag>,
+                    }}
+                >
+                    <ElSwitch
+                        modelValue={option.displayBadgeText}
+                        onChange={(val: boolean) => option.displayBadgeText = val}
+                    />
+                </OptionItem>
+                <OptionItem
+                    v-show={option.displayBadgeText}
+                    label={msg => msg.option.appearance.badgeBgColor}
+                >
+                    <ElColorPicker
+                        size="small"
+                        modelValue={option.badgeBgColor}
+                        onChange={val => option.badgeBgColor = val}
+                    />
+                </OptionItem>
+                <OptionItem
+                    label={msg => msg.option.appearance.printInConsole.label}
+                    defaultValue={t(msg => msg.option.yes)}
+                    v-slots={{
+                        console: () => <OptionTag>{t(msg => msg.option.appearance.printInConsole.console)}</OptionTag>,
+                        info: () => <OptionTag>{t(msg => msg.option.appearance.printInConsole.info)}</OptionTag>,
+                    }}
+                >
+                    <ElSwitch
+                        modelValue={option.printInConsole}
+                        onChange={(val: boolean) => option.printInConsole = val}
+                    />
+                </OptionItem>
+            </>}
             <OptionItem
                 label={msg => msg.option.appearance.animationDuration}
                 defaultValue={`${DEFAULT_ANIMA_DURATION}ms`}
