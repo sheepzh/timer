@@ -3,6 +3,7 @@ import { View } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import LangSelect from "@popup/components/Header/LangSelect"
 import { t } from "@popup/locale"
+import { IS_ANDROID } from "@util/constant/environment"
 import { getAppPageUrl } from "@util/constant/url"
 import { ElLink } from "element-plus"
 import { defineComponent } from "vue"
@@ -14,7 +15,14 @@ import Option from "./Option"
 
 const Header = defineComponent(() => {
 
-    const handleAllFuncClick = () => createTab(getAppPageUrl())
+    const handleAllFuncClick = () => {
+        const appPageUrl = getAppPageUrl()
+        if (IS_ANDROID) {
+            location.replace(appPageUrl)
+        } else {
+            createTab(appPageUrl)
+        }
+    }
 
     return () => (
         <Flex justify="space-between" style={{ padding: '0 10px', color: 'var(--el-text-color-primary)' }}>
