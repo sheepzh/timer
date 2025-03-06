@@ -5,17 +5,17 @@
  * https://opensource.org/licenses/MIT
  */
 import { useRequest, useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import statService, { type StatQueryParam } from "@service/stat-service"
-import { defineComponent } from "vue"
+import { defineComponent, onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import { type AnalysisQuery } from "./common"
-import AnalysisFilter from "./components/AnalysisFilter"
+import AnalysisFilter, { type AnalysisFilterInstance } from "./components/AnalysisFilter"
 import Summary from "./components/Summary"
 import Trend from "./components/Trend"
 import { initProvider } from "./context"
 import type { AnalysisTarget } from "./types"
-import { watch } from "fs"
 
 function getTargetFromQuery(): AnalysisTarget {
     // Process the query param
@@ -57,10 +57,15 @@ const _default = defineComponent(() => {
 
     initProvider(target, timeFormat, rows)
 
+    const filter = ref<AnalysisFilterInstance>()
+
+    onMounted(() => !target.value && filter.value?.openTargetSelect?.())
+
     return () => <ContentContainer
         v-slots={{
             filter: () => (
                 <AnalysisFilter
+                    ref={filter}
                     target={target.value}
                     timeFormat={timeFormat.value}
                     onTargetChange={setTarget}
@@ -68,10 +73,10 @@ const _default = defineComponent(() => {
                 />
             ),
             default: () => (
-                <div v-loading={loading.value}>
+                <Flex v-loading={loading.value} direction="column" gap={15}>
                     <Summary />
                     <Trend />
-                </div>
+                </Flex>
             )
         }}
     />

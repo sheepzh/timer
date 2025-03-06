@@ -113,7 +113,7 @@ const _default = defineComponent({
                     <TimeColumn dimension="focus" />
                     {runColVisible.value && <TimeColumn dimension="run" />}
                     <VisitColumn />
-                    {filterOption.value?.siteMerge !== 'cate' && <OperationColumn onDelete={refresh} />}
+                    <OperationColumn onDelete={refresh} />
                 </ElTable>
                 <Pagination
                     defaultValue={page.value}
