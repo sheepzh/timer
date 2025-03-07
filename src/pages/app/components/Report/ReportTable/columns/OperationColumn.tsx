@@ -13,6 +13,7 @@ import { useRequest } from "@hooks"
 import { locale } from "@i18n"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import whitelistService from "@service/whitelist-service"
+import { CATE_NOT_SET_ID } from "@util/site"
 import { ElButton, ElMessage, ElTableColumn } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { useRouter } from "vue-router"
@@ -51,8 +52,8 @@ const _default = defineComponent({
             let query: AnalysisQuery
             const siteMerge = filter.value?.siteMerge
             if (siteMerge === 'cate') {
-                query = { cateId: row?.cateId?.toString?.() }
-            } else if (siteMerge === 'domain') {
+                query = { cateId: row?.cateKey?.toString?.() }
+            } else {
                 query = { ...row.siteKey }
             }
             router.push({ path: ANALYSIS_ROUTE, query })
@@ -66,14 +67,16 @@ const _default = defineComponent({
             >
                 {({ row }: ElTableRowScope<timer.stat.Row>) => <>
                     {/* Analysis */}
-                    <ElButton
-                        icon={<Stopwatch />}
-                        size="small"
-                        type="primary"
-                        onClick={() => jump2Analysis(row)}
-                    >
-                        {t(msg => msg.item.operation.analysis)}
-                    </ElButton>
+                    {row.cateKey !== CATE_NOT_SET_ID && (
+                        <ElButton
+                            icon={<Stopwatch />}
+                            size="small"
+                            type="primary"
+                            onClick={() => jump2Analysis(row)}
+                        >
+                            {t(msg => msg.item.operation.analysis)}
+                        </ElButton>
+                    )}
                     {/* Delete button */}
                     <PopupConfirmButton
                         buttonIcon={<Delete />}
