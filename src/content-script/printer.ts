@@ -6,7 +6,7 @@
  */
 
 import { sendMsg2Runtime } from "@api/chrome/runtime"
-import { formatPeriod } from "@util/time"
+import { formatPeriodCommon } from "@util/time"
 import { t } from "./locale"
 
 /**
@@ -14,15 +14,10 @@ import { t } from "./locale"
  */
 export default async function printInfo(host: string) {
     const waste: timer.core.Result = await sendMsg2Runtime('cs.getTodayInfo', host)
-    const hourMsg = t(msg => msg.console.timeWithHour)
-    const minuteMsg = t(msg => msg.console.timeWithMinute)
-    const secondMsg = t(msg => msg.console.timeWithSecond)
-
-    const msg = { hourMsg, minuteMsg, secondMsg }
 
     const param = {
         time: waste.time ? '' + waste.time : '-',
-        focus: formatPeriod(waste.focus, msg),
+        focus: formatPeriodCommon(waste.focus),
         host,
     }
     const info0 = t(msg => msg.console.consoleLog, param)
