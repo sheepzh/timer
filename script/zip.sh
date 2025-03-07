@@ -6,7 +6,7 @@ FOLDER=$(
 )
 TARGET_PATH="${FOLDER}/aaa"
 
-tar -zcvf ${TARGET_PATH} \
+COPYFILE_DISABLE=1 tar -zcvf ${TARGET_PATH} \
     --exclude=dist*/ \
     --exclude=.git/ \
     --exclude=package-lock.json \

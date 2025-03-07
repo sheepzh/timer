@@ -9,7 +9,7 @@ import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import { locale } from "@i18n"
 import { rotate } from "@util/array"
-import { IS_FIREFOX } from "@util/constant/environment"
+import { IS_ANDROID, IS_FIREFOX } from "@util/constant/environment"
 import { defaultStatistics } from "@util/constant/option"
 import { MILL_PER_SECOND } from "@util/time"
 import { ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
@@ -72,57 +72,63 @@ const _default = defineComponent((_props, ctx) => {
     })
 
     return () => <>
-        <OptionItem
-            label={msg => msg.option.statistics.autoPauseTrack}
-            defaultValue={t(msg => msg.option.no)}
-            hideDivider
-            v-slots={{
-                info: () => <OptionTooltip>{t(msg => msg.option.statistics.noActivityInfo)}</OptionTooltip>,
-                maxTime: () => <ElTimePicker
-                    size="small"
-                    clearable={false}
-                    disabled={!option.autoPauseTracking}
-                    format={intervalFormat.value}
-                    modelValue={interval.value}
-                    onUpdate:modelValue={val => interval.value = val}
-                    style={{ width: '150px' }}
-                />,
-                default: () => <ElSwitch
-                    modelValue={option.autoPauseTracking}
-                    onChange={(val: boolean) => option.autoPauseTracking = val}
-                />
-            }}
-        />
-        <OptionItem
-            label={msg => msg.option.statistics.collectSiteName}
-            defaultValue={t(msg => msg.option.yes)}
-            v-slots={{
-                siteName: () => <OptionTag>{t(msg => msg.option.statistics.siteName)}</OptionTag>,
-                siteNameUsage: () => <OptionTooltip>{t(msg => msg.option.statistics.siteNameUsage)}</OptionTooltip>,
-                default: () => <ElSwitch
-                    modelValue={option.collectSiteName}
-                    onChange={(val: boolean) => option.collectSiteName = val}
-                />
-            }}
-        />
-        <OptionItem
-            label={msg => msg.option.statistics.countLocalFiles}
-            defaultValue={fileAccess.value ? t(msg => msg.option.yes) : null}
-            v-slots={{
-                info: () => <OptionTooltip>{t(msg => msg.option.statistics.localFilesInfo)}</OptionTooltip>,
-                localFileTime: () => <OptionTag>{t(msg => msg.option.statistics.localFileTime)}</OptionTag>,
-                default: () => fileAccess.value
-                    ? <ElSwitch modelValue={option.countLocalFiles} onChange={(val: boolean) => option.countLocalFiles = val} />
-                    : <ElTooltip
-                        placement="top"
-                        v-slots={{
-                            content: () => IS_FIREFOX ? t(msg => msg.option.statistics.fileAccessFirefox) : t(msg => msg.option.statistics.fileAccessDisabled),
-                            default: () => <ElSwitch modelValue={false} disabled />,
-                        }}
+        {!IS_ANDROID && <>
+            <OptionItem
+                label={msg => msg.option.statistics.autoPauseTrack}
+                defaultValue={t(msg => msg.option.no)}
+                hideDivider
+                v-slots={{
+                    info: () => <OptionTooltip>{t(msg => msg.option.statistics.noActivityInfo)}</OptionTooltip>,
+                    maxTime: () => <ElTimePicker
+                        size="small"
+                        clearable={false}
+                        disabled={!option.autoPauseTracking}
+                        format={intervalFormat.value}
+                        modelValue={interval.value}
+                        onUpdate:modelValue={val => interval.value = val}
+                        style={{ width: '150px' }}
                     />,
-            }}
-        />
-        <OptionItem label={msg => msg.option.statistics.weekStart} defaultValue={t(msg => msg.option.statistics.weekStartAsNormal)}>
+                    default: () => <ElSwitch
+                        modelValue={option.autoPauseTracking}
+                        onChange={(val: boolean) => option.autoPauseTracking = val}
+                    />
+                }}
+            />
+            <OptionItem
+                label={msg => msg.option.statistics.collectSiteName}
+                defaultValue={t(msg => msg.option.yes)}
+                v-slots={{
+                    siteName: () => <OptionTag>{t(msg => msg.option.statistics.siteName)}</OptionTag>,
+                    siteNameUsage: () => <OptionTooltip>{t(msg => msg.option.statistics.siteNameUsage)}</OptionTooltip>,
+                    default: () => <ElSwitch
+                        modelValue={option.collectSiteName}
+                        onChange={(val: boolean) => option.collectSiteName = val}
+                    />
+                }}
+            />
+            <OptionItem
+                label={msg => msg.option.statistics.countLocalFiles}
+                defaultValue={fileAccess.value ? t(msg => msg.option.yes) : null}
+                v-slots={{
+                    info: () => <OptionTooltip>{t(msg => msg.option.statistics.localFilesInfo)}</OptionTooltip>,
+                    localFileTime: () => <OptionTag>{t(msg => msg.option.statistics.localFileTime)}</OptionTag>,
+                    default: () => fileAccess.value
+                        ? <ElSwitch modelValue={option.countLocalFiles} onChange={(val: boolean) => option.countLocalFiles = val} />
+                        : <ElTooltip
+                            placement="top"
+                            v-slots={{
+                                content: () => IS_FIREFOX ? t(msg => msg.option.statistics.fileAccessFirefox) : t(msg => msg.option.statistics.fileAccessDisabled),
+                                default: () => <ElSwitch modelValue={false} disabled />,
+                            }}
+                        />,
+                }}
+            />
+        </>}
+        <OptionItem
+            hideDivider={IS_ANDROID}
+            label={msg => msg.option.statistics.weekStart}
+            defaultValue={t(msg => msg.option.statistics.weekStartAsNormal)}
+        >
             <ElSelect
                 modelValue={option.weekStart}
                 size="small"
