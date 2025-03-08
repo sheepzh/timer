@@ -6,7 +6,7 @@
  */
 
 import { escapeRegExp } from "@util/pattern"
-import { createZeroResult, isNotZeroResult, mergeResult } from "@util/stat"
+import { isNotZeroResult } from "@util/stat"
 import { formatTimeYMD } from "@util/time"
 import { log } from "../../common/logger"
 import BaseDatabase from "../common/base-database"
@@ -49,9 +49,23 @@ export type StatCondition = {
     exclusiveVirtual?: boolean
 }
 
+function increase(a: timer.core.Result, b: timer.core.Result) {
+    const res: timer.core.Result = {
+        focus: (a?.focus ?? 0) + (b?.focus ?? 0),
+        time: (a?.time ?? 0) + (b?.time ?? 0),
+    }
+    const run = (a?.run ?? 0) + (b?.run ?? 0)
+    run && (res.run = run)
+    return res
+}
+
+function createZeroResult(): timer.core.Result {
+    return { focus: 0, time: 0 }
+}
+
 function mergeMigration(exist: timer.core.Result | undefined, another: any) {
     exist = exist || createZeroResult()
-    return mergeResult(exist, { focus: another.focus ?? 0, time: another.time ?? 0, run: another.run ?? 0 })
+    return increase(exist, { focus: another.focus ?? 0, time: another.time ?? 0, run: another.run ?? 0 })
 }
 
 /**
@@ -96,7 +110,7 @@ class StatDatabase extends BaseDatabase {
     async accumulate(host: string, date: Date | string, item: timer.core.Result): Promise<timer.core.Result> {
         const key = generateKey(host, date)
         let exist = await this.storage.getOne<timer.core.Result>(key)
-        exist = mergeResult(exist || createZeroResult(), item)
+        exist = increase(exist || createZeroResult(), item)
         await this.setByKey(key, exist)
         return exist
     }
@@ -121,7 +135,7 @@ class StatDatabase extends BaseDatabase {
         const afterUpdated: timer.stat.ResultSet = {}
         Object.entries(keys).forEach(([host, key]) => {
             const item = data[host]
-            const exist: timer.core.Result = mergeResult(items[key] as timer.core.Result || createZeroResult(), item)
+            const exist: timer.core.Result = increase(items[key] as timer.core.Result || createZeroResult(), item)
             toUpdate[key] = afterUpdated[host] = exist
         })
         await this.storage.set(toUpdate)

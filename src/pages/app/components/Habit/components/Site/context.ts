@@ -6,14 +6,21 @@
  */
 
 import { useProvide, useProvider } from "@hooks"
-import { type Ref } from "vue"
+import { mergeDate } from "@service/stat-service/merge/date"
+import { computed, type Ref } from "vue"
 
 type Context = {
     rows: Ref<timer.stat.Row[]>
+    dateMergedRows: Ref<timer.stat.Row[]>
 }
 
 const NAMESPACE = 'habitSite'
 
-export const initProvider = (rows: Ref<timer.stat.Row[]>) => useProvide<Context>(NAMESPACE, { rows })
+export const initProvider = (rows: Ref<timer.stat.Row[]>) => {
+    const dateMergedRows = computed(() => mergeDate(rows.value ?? []))
+    useProvide<Context>(NAMESPACE, { rows, dateMergedRows })
+}
 
 export const useRows = (): Ref<timer.stat.Row[]> => useProvider<Context>(NAMESPACE, "rows").rows
+
+export const useDateMergedRows = (): Ref<timer.stat.Row[]> => useProvider<Context>(NAMESPACE, 'dateMergedRows').dateMergedRows

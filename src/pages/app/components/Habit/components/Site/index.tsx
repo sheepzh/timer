@@ -27,7 +27,6 @@ const _default = defineComponent(() => {
         const param: StatQueryParam = {
             exclusiveVirtual: true,
             date: filter.value?.dateRange,
-            mergeDate: true,
         }
         return statService.select(param, true)
     })

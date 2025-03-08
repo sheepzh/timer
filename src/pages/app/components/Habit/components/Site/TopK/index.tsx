@@ -8,11 +8,11 @@
 import { useEcharts } from "@hooks/useEcharts"
 import { computed, defineComponent } from "vue"
 import { useHabitFilter } from "../../context"
-import { useRows } from "../context"
+import { useDateMergedRows } from "../context"
 import Wrapper from "./Wrapper"
 
 const _default = defineComponent(() => {
-    const rows = useRows()
+    const rows = useDateMergedRows()
     const filter = useHabitFilter()
     const bizOption = computed(() => ({ rows: rows.value, timeFormat: filter.value?.timeFormat }))
     const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
