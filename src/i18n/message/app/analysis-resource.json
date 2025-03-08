@@ -9,8 +9,8 @@
             "visitTotal": "总计访问次数",
             "merged": "合并",
             "virtual": "自定义",
-            "hostPlaceholder": "搜索你想分析的站点",
-            "emptyDesc": "未选择站点"
+            "hostPlaceholder": "选择要分析的站点或类别",
+            "emptyDesc": "未选择站点或类别"
         },
         "summary": {
             "title": "数据总览",
@@ -40,8 +40,8 @@
             "visitTotal": "總計訪問次數",
             "merged": "合並",
             "virtual": "自定義",
-            "hostPlaceholder": "蒐索你想分析的站點",
-            "emptyDesc": "未選擇站點"
+            "hostPlaceholder": "選擇要分析的站點或類別",
+            "emptyDesc": "未選擇站點或類別"
         },
         "summary": {
             "title": "數據總覽",
@@ -71,8 +71,8 @@
             "visitTotal": "Total visits",
             "merged": "Merged",
             "virtual": "Virtual",
-            "hostPlaceholder": "Search for a site to analyze",
-            "emptyDesc": "No site selected"
+            "hostPlaceholder": "Select the site or category",
+            "emptyDesc": "No item selected"
         },
         "summary": {
             "title": "Summary",
