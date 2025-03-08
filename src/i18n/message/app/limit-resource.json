@@ -278,7 +278,8 @@
             "delayAllowed": "Ще 5 хвилин",
             "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин",
             "visits": "візитів",
-            "or": "або"
+            "or": "або",
+            "notEffective": "Неефективний"
         },
         "step": {
             "base": "Загальна інформація",
@@ -309,7 +310,8 @@
             "incorrectAnswer": "Неправильна відповідь",
             "pi": "{digitCount} цифр від {startIndex} до {endIndex} десяткової частини числа π",
             "confession": "Час спливає"
-        }
+        },
+        "reminder": "Менше ніж {min} хвилин до ліміту часу!"
     },
     "es": {
         "filterDisabled": "Solo habilitados",
