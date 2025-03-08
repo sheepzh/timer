@@ -1,4 +1,3 @@
-import { SELECT_WRAPPER_STYLE } from "@app/components/common/filter/common"
 import { useCategories } from "@app/context"
 import { t } from "@app/locale"
 import { useRequest, useState } from "@hooks"
@@ -7,8 +6,8 @@ import siteService from "@service/site-service"
 import statService from "@service/stat-service"
 import { identifySiteKey, parseSiteKeyFromIdentity, SiteMap } from "@util/site"
 import { useDebounce } from "@vueuse/core"
-import { ElOption, ElOptionGroup, ElSelect, ElTag } from "element-plus"
-import { computed, defineComponent, type PropType } from "vue"
+import { ElSelectV2, ElTag } from "element-plus"
+import { computed, defineComponent, type PropType, type StyleValue } from "vue"
 import type { AnalysisTarget } from "../../types"
 import { labelOfHostInfo } from "../../util"
 
@@ -134,55 +133,51 @@ const TargetSelect = defineComponent({
         const [query, setQuery] = useState<string>()
         const debouncedQuery = useDebounce<string>(query, 50)
 
-        const items = computed(() => {
+        const options = computed(() => {
             const q = debouncedQuery.value?.trim?.()
-            if (!q) return allItems.value
-
-            return allItems.value?.map(itemArr => {
-                const newItems = itemArr.filter(item => {
-                    if (item.type === 'cate') {
-                        return item.label?.includes?.(q)
-                    } else {
-                        const { host, alias } = item.key || {}
-                        return host?.includes?.(q) || alias?.includes?.(q)
-                    }
+            let [cateItems, siteItems] = allItems.value || []
+            if (q) {
+                siteItems = siteItems?.filter(item => {
+                    const { host, alias } = (item.key as timer.site.SiteInfo) || {}
+                    return host?.includes?.(q) || alias?.includes?.(q)
                 })
-                return newItems
-            }) ?? []
+                cateItems = cateItems?.filter(item => item.label?.includes?.(q))
+            }
+
+            let res = []
+            cateItems?.length && res.push({
+                value: 'cate',
+                label: t(msg => msg.analysis.target.cate),
+                options: cateItems.map(item => ({ value: cvtTarget2Key(item), label: item.label, data: item })),
+            })
+            siteItems?.length && res.push({
+                value: 'site',
+                label: t(msg => msg.analysis.target.site),
+                options: siteItems.map(item => ({ value: cvtTarget2Key(item), label: item.label, data: item })),
+            })
+            if (res.length === 1) {
+                // Single content, not use group
+                res = res[0].options
+            }
+            return res
         })
 
         return () => (
-            <ElSelect
+            <ElSelectV2
                 placeholder={t(msg => msg.analysis.common.hostPlaceholder)}
                 modelValue={selectKey.value}
                 filterable
-                remote
-                clearable
-                remoteMethod={setQuery}
+                filterMethod={setQuery}
                 onChange={emitChange}
-                onClear={() => emitChange()}
-                style={SELECT_WRAPPER_STYLE}
-            >
-                {!!items.value?.[0]?.length && (
-                    <ElOptionGroup label={t(msg => msg.analysis.target.cate)}>
-                        {items.value?.[0]?.map(cateItem => (
-                            <ElOption value={cvtTarget2Key(cateItem)} label={cateItem.label} />
-                        ))}
-                    </ElOptionGroup>
-                )}
-                {!!items.value?.[1]?.length && (
-                    <ElOptionGroup label={t(msg => msg.analysis.target.site)}>
-                        {items.value?.[1]?.map(siteItem => (
-                            <ElOption
-                                value={cvtTarget2Key(siteItem)}
-                                label={siteItem.label}
-                            >
-                                <SiteOption value={siteItem.key as timer.site.SiteInfo} />
-                            </ElOption>
-                        ))}
-                    </ElOptionGroup>
-                )}
-            </ElSelect>
+                style={{ width: '240px' } as StyleValue}
+                defaultFirstOption
+                options={options.value ?? []}
+                fitInputWidth={false}
+                v-slots={({ item }) => {
+                    const target = item.data as TargetItem
+                    return target?.type === 'site' ? <SiteOption value={target?.key} /> : target?.label
+                }}
+            />
         )
     },
 })
