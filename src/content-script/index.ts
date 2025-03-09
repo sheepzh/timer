@@ -6,10 +6,8 @@
  */
 
 import { sendMsg2Runtime } from "@api/chrome/runtime"
-import { initLocale } from "@i18n"
 import processLimit from "./limit"
 import { injectPolyfill } from "./polyfill/inject"
-import printInfo from "./printer"
 import NormalTracker from "./tracker/normal"
 import RunTimeTracker from "./tracker/run-time"
 
@@ -66,12 +64,13 @@ async function main() {
     if (getOrSetFlag()) return
     if (!host) return
 
-    const isWhitelist = await sendMsg2Runtime('cs.isInWhitelist', { host, url })
-    if (isWhitelist) return
+    const meta = await sendMsg2Runtime<{ host: string, url: string }, timer.mq.CsMeta>('cs.init', { host, url })
+    const { white, consoleInfo } = meta || {}
 
-    await initLocale()
-    const needPrintInfo = await sendMsg2Runtime('cs.printTodayInfo')
-    !!needPrintInfo && printInfo(host)
+    if (white) return
+
+    consoleInfo?.forEach?.(info => console.log(info))
+
     injectPolyfill()
     await processLimit(url)
 

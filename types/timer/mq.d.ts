@@ -17,11 +17,9 @@ declare namespace timer.mq {
         // @since 3.2.0
         | 'siteRunChange'
         // Request by content script
-        // @since 1.3.0
-        | "cs.isInWhitelist"
+        // @since 3.3.0
+        | "cs.init"
         | "cs.incVisitCount"
-        | "cs.printTodayInfo"
-        | "cs.getTodayInfo"
         | "cs.moreMinutes"
         | "cs.getLimitedRules"
         | "cs.getRelatedRules"
@@ -60,4 +58,9 @@ declare namespace timer.mq {
      * @since 0.8.4
      */
     type Callback<T = any> = (result?: Response<T>) => void
+
+    type CsMeta = {
+        white: boolean
+        consoleInfo?: string[]
+    }
 }
