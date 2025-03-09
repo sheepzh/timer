@@ -6,6 +6,7 @@
  */
 import ContentContainer from "@app/components/common/ContentContainer"
 import { useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { daysAgo } from "@util/time"
 import { defineComponent } from "vue"
 import HabitFilter, { type FilterOption } from "./components/HabitFilter"
@@ -22,11 +23,19 @@ const _default = defineComponent(() => {
 
     return () => (
         <ContentContainer v-slots={{
-            filter: () => <HabitFilter defaultValue={filter.value} onChange={val => val && setFilter(val)} />
-        }}>
-            <Site />
-            <Period />
-        </ContentContainer>
+            filter: () => (
+                <HabitFilter
+                    defaultValue={filter.value}
+                    onChange={val => val && setFilter(val)}
+                />
+            ),
+            default: () => (
+                <Flex direction="column" gap={15}>
+                    <Site />
+                    <Period />
+                </Flex>
+            )
+        }} />
     )
 
 })
