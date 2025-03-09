@@ -12,7 +12,7 @@ import { openLog } from "../common/logger"
 import ActiveTabListener from "./active-tab-listener"
 import BackupScheduler from "./backup-scheduler"
 import badgeTextManager from "./badge-manager"
-import BrowserActionMenuManager from "./browser-action-menu-manager"
+import initBrowserAction from "./browser-action-manager"
 import initCsHandler from "./content-script-handler"
 import handleInstall from "./install-handler"
 import initLimitProcessor from "./limit-processor"
@@ -20,13 +20,16 @@ import MessageDispatcher from "./message-dispatcher"
 import VersionMigrator from "./migrator"
 import initSidePanel from "./side-panel"
 import initTrackServer from "./track-server"
-import WhitelistMenuManager from "./whitelist-menu-manager"
+import initWhitelistMenuManager from "./whitelist-menu-manager"
 
 // Open the log of console
 openLog()
 
 // Init side panel
 initSidePanel()
+
+// Init browser action
+initBrowserAction()
 
 const messageDispatcher = new MessageDispatcher()
 
@@ -46,10 +49,7 @@ new VersionMigrator().init()
 new BackupScheduler().init()
 
 // Manage the context menus
-WhitelistMenuManager()
-
-// Browser action menu
-BrowserActionMenuManager()
+initWhitelistMenuManager()
 
 // Badge manager
 badgeTextManager.init(messageDispatcher)
