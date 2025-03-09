@@ -7,12 +7,17 @@
 
 import { createTab } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
+import { t } from "@i18n"
+import { t2Chrome } from "@i18n/chrome/t"
+import csMessages from "@i18n/message/cs"
 import optionHolder from "@service/components/option-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
+import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
 import siteService from "@service/site-service"
 import { getAppPageUrl } from "@util/constant/url"
 import { extractFileHost, extractHostname } from "@util/pattern"
+import { formatPeriodCommon } from "@util/time"
 import badgeManager from "./badge-manager"
 import { collectIconAndAlias } from "./icon-and-alias-collector"
 import MessageDispatcher from "./message-dispatcher"
@@ -37,6 +42,32 @@ const handleOpenLimitPage = (sender: ChromeMessageSender) => {
     createTab({ url: newTabUrl, index: newTabIndex })
 }
 
+async function getConsoleInfo(host: string) {
+    const today = await itemService.getResult(host, new Date())
+    const { time, focus } = today || {}
+    const param = {
+        time: `${time ?? '-'}`,
+        focus: formatPeriodCommon(focus),
+        host,
+    }
+    const appName = t2Chrome(msg => msg.meta.name)
+    const info0 = t(csMessages, { key: msg => msg.console.consoleLog, param })
+    const info1 = t(csMessages, { key: msg => msg.console.closeAlert, param: { appName } })
+    return [info0, info1]
+}
+
+async function initContentScript(host: string, url: string): Promise<timer.mq.CsMeta> {
+    const white = whitelistHolder.contains(host, url)
+    if (white) {
+        // In the whitelist, do nothing else
+        return { white }
+    }
+    const option = await optionHolder.get()
+    const { printInConsole } = option || {}
+    const consoleInfo = printInConsole ? await getConsoleInfo(host) : undefined
+    return { white, consoleInfo }
+}
+
 /**
  * Handle request from content script
  *
@@ -44,13 +75,8 @@ const handleOpenLimitPage = (sender: ChromeMessageSender) => {
  */
 export default function init(dispatcher: MessageDispatcher) {
     dispatcher
-        // Judge is in whitelist
-        .register<{ host?: string, url?: string }, boolean>('cs.isInWhitelist', ({ host, url } = {}) => whitelistHolder.contains(host, url))
-        // Need to print the information of today
-        .register<void, boolean>('cs.printTodayInfo', async () => {
-            const option = await optionHolder.get()
-            return !!option.printInConsole
-        })
+        // Initialization info
+        .register<{ host?: string, url?: string }, timer.mq.CsMeta>('cs.init', ({ host, url }) => initContentScript(host, url))
         .register<string, timer.limit.Item[]>('cs.getLimitedRules', url => limitService.getLimited(url))
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
         .register<void, void>('cs.openAnalysis', (_, sender) => handleOpenAnalysisPage(sender))
