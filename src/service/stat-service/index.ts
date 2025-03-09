@@ -14,7 +14,9 @@ import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import { slicePageResult } from "../components/page-info"
 import { cvt2StatRow } from "./common"
-import { mergeCate, mergeDate, mergeHost } from "./merge"
+import { mergeCate } from "./merge/cate"
+import { mergeDate } from "./merge/date"
+import { mergeHost } from "./merge/host"
 import { canReadRemote, processRemote } from "./remote"
 
 const storage = chrome.storage.local

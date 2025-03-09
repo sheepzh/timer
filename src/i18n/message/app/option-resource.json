@@ -169,7 +169,8 @@
                     "off": "始終關閉",
                     "timed": "定時開啟"
                 }
-            }
+            },
+            "animationDuration": "圖表初始動畫的持續時間 {input}"
         },
         "statistics": {
             "title": "統計",
@@ -691,7 +692,8 @@
                     "off": "Вимкнено",
                     "timed": "За розкладом"
                 }
-            }
+            },
+            "animationDuration": "Тривалість початкової анімації діаграми {input}"
         },
         "statistics": {
             "title": "Статистика",

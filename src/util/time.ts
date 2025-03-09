@@ -64,18 +64,29 @@ export function formatTimeYMD(time: Date | string | number) {
 /**
  * Format milliseconds for display
  */
-export function formatPeriod(milliseconds: number, message: { hourMsg: string, minuteMsg: string, secondMsg: string }): string {
+export function formatPeriod(milliseconds: number, message: Record<'dayMsg' | 'hourMsg' | 'minuteMsg' | 'secondMsg', string>): string {
     const prefix = milliseconds < 0 ? '-' : ''
     milliseconds = Math.abs(milliseconds)
-    const { hourMsg, minuteMsg, secondMsg } = message
+    const { dayMsg, hourMsg, minuteMsg, secondMsg } = message
     const seconds = Math.floor(milliseconds / 1000)
-    const hour = Math.floor(seconds / 3600)
-    const minute = Math.floor(seconds / 60 - hour * 60)
-    const second = seconds - hour * 3600 - minute * 60
+    const day = Math.floor(seconds / 86400)
+    const hour = Math.floor(seconds / 3600 - day * 24)
+    const minute = Math.floor(seconds / 60 - (day * 24 + hour) * 60)
+    const second = seconds - day * 86400 - hour * 3600 - minute * 60
 
-    let msg = hourMsg
-    hour === 0 && (msg = minuteMsg) && minute === 0 && (msg = secondMsg)
-    const result = msg.replace('{hour}', hour.toString())
+    let msg = dayMsg
+    if (!day) {
+        msg = hourMsg
+        if (!hour) {
+            msg = minuteMsg
+            if (!minute) {
+                msg = secondMsg
+            }
+        }
+    }
+    const result = msg
+        .replace('{day}', day.toString())
+        .replace('{hour}', hour.toString())
         .replace('{minute}', minute.toString())
         .replace('{second}', second.toString())
     return prefix + result
@@ -94,10 +105,12 @@ export function formatPeriod(milliseconds: number, message: { hourMsg: string, m
  */
 export function formatPeriodCommon(milliseconds: number): string {
     const defaultMessage = isRtl() ? {
+        dayMsg: 's {second} m {minute} h {hour} d',
         hourMsg: 's {second} m {minute} h {hour}',
         minuteMsg: 's {second} m {minute}',
         secondMsg: 's {second}',
     } : {
+        dayMsg: '{day} d {hour} h {minute} m {second} s',
         hourMsg: '{hour} h {minute} m {second} s',
         minuteMsg: '{minute} m {second} s',
         secondMsg: '{second} s',

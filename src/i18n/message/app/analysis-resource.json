@@ -240,6 +240,10 @@
         }
     },
     "fr": {
+        "target": {
+            "site": "Site Web",
+            "cate": "Catégorie"
+        },
         "common": {
             "focusTotal": "Temps total de navigation",
             "visitTotal": "Nombre total de visites",

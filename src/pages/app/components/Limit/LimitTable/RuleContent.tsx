@@ -6,6 +6,7 @@ import { ElTag } from "element-plus"
 import { computed, defineComponent, toRef, type PropType } from "vue"
 
 const TIME_FORMAT = {
+    dayMsg: '{day}d{hour}h{minute}m{second}s',
     hourMsg: '{hour}h{minute}m{second}s',
     minuteMsg: '{minute}m{second}s',
     secondMsg: '{second}s',

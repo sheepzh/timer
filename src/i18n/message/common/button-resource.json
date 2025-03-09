@@ -109,7 +109,9 @@
         "okey": "Гаразд",
         "dont": "НІ",
         "operation": "Операції",
-        "clear": "Ясно"
+        "clear": "Ясно",
+        "batchEnable": "Пакетне включення",
+        "batchDisable": "Пакетне відключення"
     },
     "es": {
         "create": "Nuevo",
