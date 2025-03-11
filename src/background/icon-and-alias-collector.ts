@@ -57,10 +57,8 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
 /**
  * Collect the favicon of host
  */
-export const collectIconAndAlias = async (sender: chrome.runtime.MessageSender) => {
+export const collectIconAndAlias = async (tabId: number) => {
     if (IS_SAFARI || IS_ANDROID) return
-    const tabId = sender?.tab?.id
-    if (!tabId) return
     const tab = await getTab(tabId)
     tab && processTabInfo(tab)
 }
