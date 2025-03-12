@@ -1,5 +1,5 @@
 import { type Browser } from "puppeteer"
-import { launchBrowser, newPage, sleep } from "../common/base"
+import { launchBrowser, newPage, newPageAndWaitCsInjected, sleep } from "../common/base"
 import { parseTime2Sec, readRecordsOfFirstPage } from "../common/record"
 import { createWhitelist } from "../common/whitelist"
 
@@ -55,8 +55,7 @@ describe('Run time tracking', () => {
         expect(runTime1).toBeGreaterThanOrEqual(2)
 
         // 3. Add another page sharing the same run time with old page
-        const anotherPage = await browser.newPage()
-        await anotherPage.goto('https://www.baidu.com', { waitUntil: 'domcontentloaded' })
+        await newPageAndWaitCsInjected(browser, extensionId, 'https://www.baidu.com')
         // jump to new page
         await emptyPage.bringToFront()
         await sleep(2)

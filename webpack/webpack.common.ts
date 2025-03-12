@@ -5,7 +5,6 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import path from "path"
 import postcssRTLCSS from 'postcss-rtlcss'
 import webpack, { type Chunk, DefinePlugin, type RuleSetRule } from "webpack"
-import { POLYFILL_SCRIPT_NAME } from "../src/content-script/polyfill/inject"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
 
@@ -50,6 +49,7 @@ type EntryConfig = {
 
 const BACKGROUND = 'background'
 const CONTENT_SCRIPT = 'content_scripts'
+const CONTENT_SCRIPT_SKELETON = 'content_scripts_skeleton'
 const POPUP = 'popup'
 
 const entryConfigs: EntryConfig[] = [{
@@ -59,8 +59,8 @@ const entryConfigs: EntryConfig[] = [{
     name: CONTENT_SCRIPT,
     path: './src/content-script',
 }, {
-    name: POLYFILL_SCRIPT_NAME,
-    path: './src/content-script/polyfill',
+    name: CONTENT_SCRIPT_SKELETON,
+    path: './src/content-script/skeleton',
 }, {
     name: POPUP,
     path: './src/pages/popup',
@@ -85,7 +85,7 @@ const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
 }
 
 const chunkFilter = ({ name }: Chunk) => {
-    return ![BACKGROUND, CONTENT_SCRIPT, POLYFILL_SCRIPT_NAME].includes(name)
+    return ![BACKGROUND, CONTENT_SCRIPT, CONTENT_SCRIPT_SKELETON].includes(name)
 }
 
 const staticOptions: webpack.Configuration = {

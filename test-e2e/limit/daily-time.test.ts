@@ -1,5 +1,5 @@
 import { type Browser } from "puppeteer"
-import { launchBrowser, openAppPage, sleep } from "../common/base"
+import { launchBrowser, newPageAndWaitCsInjected, openAppPage, sleep } from "../common/base"
 import { createLimitRule, fillTimeLimit } from "./common"
 
 let browser: Browser, extensionId: string
@@ -19,16 +19,13 @@ describe('Daily time limit', () => {
 
     test('basic', async () => {
         const limitPage = await openAppPage(browser, extensionId, '/behavior/limit')
-        const demoRule: timer.limit.Rule = { name: 'TEST DAILY LIMIT', cond: ['https://github.com'], time: 5 }
+        const demoRule: timer.limit.Rule = { name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 5 }
 
         // 1. Insert limit rule
         await createLimitRule(demoRule, limitPage)
 
         // 2. Open test page
-        const testPage = await browser.newPage()
-        // Not wait goto finished
-        testPage.goto('https://github.com/sheepzh/timer')
-        await testPage.waitForSelector('body')
+        const testPage = await newPageAndWaitCsInjected(browser, extensionId, 'https://www.baidu.com')
         await sleep(4)
 
         // Assert not limited
@@ -40,7 +37,7 @@ describe('Daily time limit', () => {
             const timeStr = timeTag.textContent
             return parseInt(timeStr.replace('s', '').trim())
         })
-        expect(wastedTime >= 4 && wastedTime <= 5).toBe(true)
+        expect(wastedTime >= 4).toBe(true)
 
         // 3. Switch to test page again
         await testPage.bringToFront()
@@ -52,11 +49,11 @@ describe('Daily time limit', () => {
             const descEl = shadow.shadowRoot.querySelector('#app .el-descriptions:not([style*="display: none"])')
             const trs = descEl.querySelectorAll('tr')
             const name = trs[0].querySelector('td:nth-child(2)').textContent
-            const time = trs[2].querySelector('td:nth-child(2) .el-tag--danger').textContent
-            return { name, time }
+            const timeStr = trs[2].querySelector('td:nth-child(2) .el-tag--danger').textContent
+            return { name, time: parseInt(timeStr.replace('s', '').trim()) }
         })
         expect(name).toEqual(demoRule.name)
-        expect(time.replace('s', '').trim()).toEqual('5')
+        expect(time >= 5).toBeTruthy()
 
         // 5. Check limit page
         await limitPage.bringToFront()

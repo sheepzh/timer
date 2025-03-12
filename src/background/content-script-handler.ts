@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { executeScript } from "@api/chrome/script"
 import { createTab } from "@api/chrome/tab"
 import { ANALYSIS_ROUTE, LIMIT_ROUTE } from "@app/router/constants"
 import optionHolder from "@service/components/option-holder"
@@ -37,6 +38,14 @@ const handleOpenLimitPage = (sender: ChromeMessageSender) => {
     createTab({ url: newTabUrl, index: newTabIndex })
 }
 
+const handleInjected = async (sender: ChromeMessageSender) => {
+    const tabId = sender?.tab?.id
+    if (!tabId) return
+    collectIconAndAlias(tabId)
+    badgeManager.updateFocus()
+    executeScript(tabId, ['content_scripts.js'])
+}
+
 /**
  * Handle request from content script
  *
@@ -55,10 +64,7 @@ export default function init(dispatcher: MessageDispatcher) {
         .register<string, timer.limit.Item[]>('cs.getRelatedRules', url => limitService.getRelated(url))
         .register<void, void>('cs.openAnalysis', (_, sender) => handleOpenAnalysisPage(sender))
         .register<void, void>('cs.openLimit', (_, sender) => handleOpenLimitPage(sender))
-        .register<void, void>('cs.onInjected', (_, sender) => {
-            collectIconAndAlias(sender)
-            badgeManager.updateFocus()
-        })
+        .register<void, void>('cs.onInjected', async (_, sender) => handleInjected(sender))
         // Get sites which need to count run time
         .register<string, timer.site.SiteKey>('cs.getRunSites', async url => {
             const { host } = extractHostname(url) || {}

@@ -14,7 +14,6 @@
 // Not use path alias in manifest.json
 import packageInfo from "./package"
 import { OPTION_ROUTE } from "./pages/app/router/constants"
-import { POLYFILL_SCRIPT_NAME } from "./content-script/polyfill/inject"
 const { version, author: { email }, homepage } = packageInfo
 
 const _default: chrome.runtime.ManifestV3 = {
@@ -39,7 +38,7 @@ const _default: chrome.runtime.ManifestV3 = {
                 "<all_urls>"
             ],
             js: [
-                "content_scripts.js"
+                "content_scripts_skeleton.js",
             ],
             run_at: "document_start"
         }
@@ -57,7 +56,7 @@ const _default: chrome.runtime.ManifestV3 = {
     ],
     web_accessible_resources: [{
         resources: [
-            `${POLYFILL_SCRIPT_NAME}.js`,
+            'content_scripts.js',
             'content_scripts.css',
             'static/images/*',
             'static/popup.html',

@@ -8,7 +8,6 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
 import { initLocale } from "@i18n"
 import processLimit from "./limit"
-import { injectPolyfill } from "./polyfill/inject"
 import printInfo from "./printer"
 import NormalTracker from "./tracker/normal"
 import RunTimeTracker from "./tracker/run-time"
@@ -60,7 +59,6 @@ async function main() {
     normalTracker.init()
     const runTimeTracker = new RunTimeTracker(url)
     runTimeTracker.init()
-    sendMsg2Runtime('cs.onInjected')
 
     // Execute only one time for each dom
     if (getOrSetFlag()) return
@@ -72,7 +70,6 @@ async function main() {
     await initLocale()
     const needPrintInfo = await sendMsg2Runtime('cs.printTodayInfo')
     !!needPrintInfo && printInfo(host)
-    injectPolyfill()
     await processLimit(url)
 
     // Increase visit count at the end

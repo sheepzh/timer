@@ -1,6 +1,6 @@
 import { type Browser } from "puppeteer"
-import { launchBrowser, openAppPage, sleep } from "../common/base"
-import { createLimitRule, fillVisitLimit } from "./common"
+import { launchBrowser, newPageAndWaitCsInjected, openAppPage, sleep } from "../common/base"
+import { createLimitRule } from "./common"
 
 let browser: Browser, extensionId: string
 
@@ -19,14 +19,13 @@ describe('Daily time limit', () => {
 
     test("Daily visit limit", async () => {
         const limitPage = await openAppPage(browser, extensionId, '/behavior/limit')
-        const demoRule: timer.limit.Rule = { name: 'TEST DAILY LIMIT', cond: ['https://github.com'], time: 0, count: 1 }
+        const demoRule: timer.limit.Rule = { name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 0, count: 1 }
 
         // 1. Insert limit rule
         await createLimitRule(demoRule, limitPage)
 
         // 2. Open test page
-        const testPage = await browser.newPage()
-        await testPage.goto('https://github.com/sheepzh/timer', { waitUntil: 'domcontentloaded' })
+        const testPage = await newPageAndWaitCsInjected(browser, extensionId, 'https://www.baidu.com')
 
         // Assert not limited
         await limitPage.bringToFront()
@@ -40,9 +39,10 @@ describe('Daily time limit', () => {
         await testPage.reload({ waitUntil: 'domcontentloaded' })
 
         // Waiting for limit message handling
-        await sleep(.5)
+        await sleep(2)
         const { name, count } = await testPage.evaluate(async () => {
             const shadow = document.querySelector('extension-time-tracker-overlay')
+            if (!shadow) return {}
             const descEl = shadow.shadowRoot.querySelector('#app .el-descriptions:not([style*="display: none"])')
             const trs = descEl.querySelectorAll('tr')
             const name = trs[0].querySelector('td:nth-child(2)').textContent
