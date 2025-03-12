@@ -46,3 +46,10 @@ export async function newPage(browser: Browser, url: string): Promise<Page> {
     await page.goto(url, { waitUntil: 'load' })
     return page
 }
+
+export async function newPageAndWaitCsInjected(browser: Browser, extensionId: string, url: string) {
+    const page = await browser.newPage()
+    await page.goto(url)
+    await page.waitForSelector(`#__TIMER_INJECTION_FLAG__${extensionId}`)
+    return page
+}
