@@ -8,7 +8,7 @@
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import SiteDatabase, { type SiteCondition } from "@db/site-database"
 import { groupBy } from "@util/array"
-import { identifySiteKey, supportCategory } from "@util/site"
+import { identifySiteKey, SiteMap, supportCategory } from "@util/site"
 import { slicePageResult } from "./components/page-info"
 
 const storage = chrome.storage.local
@@ -20,24 +20,36 @@ async function removeAlias(key: timer.site.SiteKey) {
     const exist = await siteDatabase.get(key)
     if (!exist) return
     delete exist.alias
-    delete exist.source
     await siteDatabase.save(exist)
 }
 
-async function saveAlias(key: timer.site.SiteKey, alias: string, source: timer.site.AliasSource) {
+async function saveAlias(key: timer.site.SiteKey, alias: string) {
     const exist = await siteDatabase.get(key)
     let toUpdate: timer.site.SiteInfo
     if (exist) {
-        // Can't overwrite existed by user
-        const canSave = source === 'USER' || exist.source !== 'USER'
-        if (!canSave) return
+        // Can't overwrite if alias is already existed
+        if (exist.alias) return
         toUpdate = exist
         toUpdate.alias = alias
-        toUpdate.source = source
     } else {
-        toUpdate = { ...key, alias, source }
+        toUpdate = { ...key, alias }
     }
     await siteDatabase.save(toUpdate)
+}
+
+async function batchSaveAlias(siteMap: SiteMap<string>): Promise<void> {
+    if (!siteMap?.count?.()) return
+    const allSites = await siteDatabase.getBatch(siteMap.keys())
+    const existMap = new SiteMap<timer.site.SiteInfo>()
+    allSites.forEach(exist => existMap.put(exist, exist))
+
+    const toSave: timer.site.SiteInfo[] = []
+    siteMap.forEach((k, alias) => {
+        const exist = existMap.get(k)
+        if (exist.alias || !alias) return
+        toSave.push({ ...exist || k, alias })
+    })
+    await siteDatabase.save(...toSave)
 }
 
 async function removeIconUrl(key: timer.site.SiteKey) {
@@ -101,6 +113,7 @@ class SiteService {
     }
 
     saveAlias = saveAlias
+    batchSaveAlias = batchSaveAlias
     removeAlias = removeAlias
     saveIconUrl = saveIconUrl
     removeIconUrl = removeIconUrl

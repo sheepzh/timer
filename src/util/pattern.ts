@@ -47,6 +47,10 @@ export function isIpAndPort(host: string) {
     return reg.test(host)
 }
 
+export function isLocalhost(host: string) {
+    return host?.startsWith?.('localhost')
+}
+
 /**
  * Test whether the host is a valid host
  *

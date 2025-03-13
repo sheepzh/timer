@@ -29,7 +29,7 @@ async function collectAlias(key: timer.site.SiteKey, tabTitle: string) {
     if (!tabTitle) return
     if (isUrl(tabTitle)) return
     const siteName = extractSiteName(tabTitle, key.host)
-    siteName && await siteService.saveAlias(key, siteName, 'DETECTED')
+    siteName && await siteService.saveAlias(key, siteName)
 }
 
 /**

@@ -10,8 +10,6 @@ import BaseDatabase from "./common/base-database"
 import { REMAIN_WORD_PREFIX } from "./common/constant"
 
 export type SiteCondition = {
-    host?: string
-    alias?: string
     /**
      * Fuzzy query of host or alias
      */
@@ -75,12 +73,11 @@ function cvt2SiteKey(key: string): timer.site.SiteKey {
     }
 }
 
-function cvt2Entry({ alias, source, iconUrl, cate, run }: timer.site.SiteInfo): _Entry {
+function cvt2Entry({ alias, iconUrl, cate, run }: timer.site.SiteInfo): _Entry {
     const entry: _Entry = { i: iconUrl }
     alias && (entry.a = alias)
     cate && (entry.c = cate)
     run && (entry.r = true)
-    source === 'DETECTED' && (entry.d = true)
     entry.i = iconUrl
     return entry
 }
@@ -93,8 +90,6 @@ function cvt2SiteInfo(key: timer.site.SiteKey, entry: _Entry): timer.site.SiteIn
     siteInfo.cate = c
     siteInfo.iconUrl = i
     siteInfo.run = !!r
-    // Only exist if alias is not empty
-    a && (siteInfo.source = d ? 'DETECTED' : 'USER')
     return siteInfo
 }
 
@@ -119,13 +114,11 @@ async function select(this: SiteDatabase, condition?: SiteCondition): Promise<ti
 }
 
 function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => boolean {
-    const { host, alias, fuzzyQuery, cateIds, types } = condition || {}
+    const { fuzzyQuery, cateIds, types } = condition || {}
     let cateFilter = typeof cateIds === 'number' ? [cateIds] : (cateIds?.length ? cateIds : undefined)
     let typeFilter = typeof types === 'string' ? [types] : (types?.length ? types : undefined)
     return site => {
         const { host: siteHost, alias: siteAlias, cate, type } = site || {}
-        if (host && !siteHost.includes(host)) return false
-        if (alias && !siteAlias?.includes(alias)) return false
         if (fuzzyQuery && !(siteHost?.includes(fuzzyQuery) || siteAlias?.includes(fuzzyQuery))) return false
         if (cateFilter && (!cateFilter.includes(cate ?? CATE_NOT_SET_ID) || type !== 'normal')) return false
         if (typeFilter && !matchType(typeFilter, site)) return false

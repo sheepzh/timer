@@ -137,4 +137,13 @@ export class SiteMap<T> {
     public count(): number {
         return Object.keys(this.innerMap).length
     }
+
+    public keys(): timer.site.SiteKey[] {
+        return Object.values(this.innerMap).map(v => v[0])
+    }
+
+    public forEach(func: (k: timer.site.SiteKey, v: T, idx: number) => void) {
+        if (!func) return
+        Object.values(this.innerMap).forEach(([k, v], idx) => func(k, v, idx))
+    }
 }

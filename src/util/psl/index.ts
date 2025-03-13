@@ -1,4 +1,4 @@
-import { toASCII } from "punycode/"
+import { toASCII } from "punycode"
 import rules from "./rules.json"
 
 export type PslNode = {
@@ -13,6 +13,18 @@ export type PslTree = Record<string, PslNode | number>
 const TREE: PslTree = rules
 
 type Chain = string | [string, boolean]
+
+export const getSuffix = (origin: string): string | null => {
+    if (!origin) return origin
+    const ascii = toASCII(origin)
+    const parts = ascii.split(".")
+    const chains: Chain[] = []
+    get0(TREE, parts, parts.length - 1, chains)
+    let idx = -1
+    chains.forEach((c, i) => (typeof c === "string" || c[1]) && (idx = i))
+    const partLen = idx + 1
+    return parts.splice(parts.length - partLen, partLen).join('.')
+}
 
 export const get = (origin: string): string | null => {
     if (!origin) return origin

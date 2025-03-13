@@ -71,7 +71,7 @@ const _default = defineComponent({
                 <Flex gap={10}>
                     <InputFilterItem
                         defaultValue={url.value}
-                        placeholder="URL + ↵"
+                        placeholder={t(msg => msg.limit.item.condition)}
                         onSearch={setUrl}
                     />
                     <SwitchFilterItem

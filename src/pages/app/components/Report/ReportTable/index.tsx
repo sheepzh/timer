@@ -37,7 +37,7 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data
     if (!newAlias) {
         await siteService.removeAlias(key)
     } else {
-        await siteService.saveAlias(key, newAlias, 'USER')
+        await siteService.saveAlias(key, newAlias)
     }
     data?.filter(item => siteEqual(item?.siteKey, key))
         ?.forEach(item => item.alias = newAlias)

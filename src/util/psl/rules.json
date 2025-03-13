@@ -161,6 +161,7 @@
             "com": 1,
             "net": 1,
             "nom": 1,
+            "obj": 1,
             "org": 1
         },
         "l": 1
@@ -250,6 +251,16 @@
             },
             "bookonline": 1,
             "botdash": 1,
+            "brave": {
+                "c": {
+                    "s": {
+                        "c": {
+                            "*": 1
+                        }
+                    }
+                },
+                "l": 1
+            },
             "clerk": 1,
             "clerkstage": 1,
             "csb": {
@@ -287,6 +298,7 @@
                 }
             },
             "loginline": 1,
+            "lovable": 1,
             "medusajs": 1,
             "messerli": 1,
             "netfy": 1,
@@ -336,7 +348,12 @@
             "wdh": 1,
             "web": 1,
             "wnext": 1,
-            "zeabur": 1
+            "zeabur": 1,
+            "zerops": {
+                "c": {
+                    "*": 1
+                }
+            }
         },
         "l": 1
     },
@@ -1691,6 +1708,7 @@
                 "l": 1
             },
             "kuleuven": 1,
+            "laravel": 1,
             "linkyard": 1,
             "magentosite": {
                 "c": {
@@ -2080,6 +2098,7 @@
             "airkitapps-au": 1,
             "aivencloud": 1,
             "aliases121": 1,
+            "alibabacloudcs": 1,
             "alpha-myqnapcloud": 1,
             "amazonaws": {
                 "c": {
@@ -3448,6 +3467,7 @@
             "ddnsgeek": 1,
             "ddnsking": 1,
             "de": 1,
+            "deus-canvas": 1,
             "dev-myqnapcloud": 1,
             "digitaloceanspaces": {
                 "c": {
@@ -3744,8 +3764,10 @@
                 }
             },
             "live-website": 1,
+            "localtonet": 1,
             "logoip": 1,
             "loseyourip": 1,
+            "lovableproject": 1,
             "lpusercontent": 1,
             "massivegrid": {
                 "c": {
@@ -3950,6 +3972,7 @@
             "streakusercontent": 1,
             "streamlitapp": 1,
             "stufftoread": 1,
+            "subsc-pay": 1,
             "taveusercontent": 1,
             "tb-hosting": {
                 "c": {
@@ -5378,7 +5401,8 @@
             "or": 1,
             "ponpes": 1,
             "sch": 1,
-            "web": 1
+            "web": 1,
+            "zone": 1
         },
         "l": 1
     },
@@ -5568,9 +5592,16 @@
                             "*": 1
                         }
                     }
-                }
+                },
+                "l": 1
             },
             "browsersafetymark": 1,
+            "bubble": {
+                "c": {
+                    "cdn": 1
+                }
+            },
+            "bubbleapps": 1,
             "cleverapps": 1,
             "cloudbeesusercontent": 1,
             "co": 1,
@@ -8456,7 +8487,6 @@
         "l": 1
     },
     "kerryhotels": 1,
-    "kerrylogistics": 1,
     "kerryproperties": 1,
     "kfh": 1,
     "kg": {
@@ -8544,6 +8574,7 @@
     "kr": {
         "c": {
             "ac": 1,
+            "ai": 1,
             "busan": 1,
             "chungbuk": 1,
             "chungnam": 1,
@@ -8559,10 +8590,13 @@
             "gyeongnam": 1,
             "hs": 1,
             "incheon": 1,
+            "io": 1,
+            "it": 1,
             "jeju": 1,
             "jeonbuk": 1,
             "jeonnam": 1,
             "kg": 1,
+            "me": 1,
             "mil": 1,
             "ms": 1,
             "ne": 1,
@@ -8704,7 +8738,6 @@
         },
         "l": 1
     },
-    "lipsy": 1,
     "live": {
         "c": {
             "aem": 1,
@@ -8969,12 +9002,18 @@
     },
     "ml": {
         "c": {
+            "ac": 1,
+            "art": 1,
+            "asso": 1,
             "com": 1,
             "edu": 1,
             "gouv": 1,
             "gov": 1,
+            "info": 1,
+            "inst": 1,
             "net": 1,
             "org": 1,
+            "pr": 1,
             "presse": 1
         },
         "l": 1
@@ -9312,6 +9351,7 @@
             "ddns-ip": 1,
             "debian": 1,
             "definima": 1,
+            "deno": 1,
             "dns-cloud": 1,
             "dns-dynamic": 1,
             "dnsalias": 1,
@@ -9400,6 +9440,11 @@
             "live-on": 1,
             "localcert": 1,
             "localhostcert": 1,
+            "localto": {
+                "c": {
+                    "*": 1
+                }
+            },
             "mafelo": 1,
             "massivegrid": {
                 "c": {
@@ -9438,6 +9483,7 @@
             "now-dns": 1,
             "office-on-the": 1,
             "onavstack": 1,
+            "oninferno": 1,
             "ovh": {
                 "c": {
                     "hosting": {
@@ -9495,6 +9541,7 @@
                 }
             },
             "static-access": 1,
+            "subsc-pay": 1,
             "supabase": 1,
             "sytes": 1,
             "thruhere": 1,
@@ -11918,6 +11965,7 @@
                 }
             },
             "convex": 1,
+            "cpanel": 1,
             "cyon": 1,
             "fastvps": 1,
             "heyflow": 1,
@@ -11934,6 +11982,7 @@
                     "*": 1
                 }
             },
+            "square": 1,
             "srht": 1,
             "tst": {
                 "c": {
@@ -12586,11 +12635,15 @@
             "ac": 1,
             "co": 1,
             "com": 1,
+            "edu": 1,
             "go": 1,
+            "gov": 1,
+            "mil": 1,
             "ne": 1,
             "or": 1,
             "org": 1,
-            "sc": 1
+            "sc": 1,
+            "us": 1
         },
         "l": 1
     },
@@ -13216,6 +13269,7 @@
             "com": 1,
             "e12": 1,
             "edu": 1,
+            "emprende": 1,
             "firm": 1,
             "gob": 1,
             "gov": 1,
