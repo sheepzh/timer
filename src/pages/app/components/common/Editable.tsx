@@ -16,7 +16,8 @@ import { defineComponent, nextTick, ref, toRef } from "vue"
  */
 const _default = defineComponent({
     props: {
-        modelValue: String
+        modelValue: String,
+        initialValue: String,
     },
     emits: {
         change: (_newVal: string) => true
@@ -24,7 +25,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         const [editing, openEditing, closeEditing] = useSwitch(false)
         const originVal = toRef(props, 'modelValue')
-        const [inputVal, _, refreshInputVal] = useShadow(originVal)
+        const [inputVal, setInputVal, refreshInputVal] = useShadow(originVal)
         const input = ref<InputInstance>()
         const handleEnter = (ev: KeyboardEvent) => {
             if (ev.key !== 'Enter') return
@@ -41,6 +42,8 @@ const _default = defineComponent({
         }
         const handleEdit = () => {
             openEditing()
+            const initial = props.initialValue
+            !input.value && initial && setInputVal(initial)
             nextTick(() => input.value?.focus?.())
         }
         const labelSlot = ctx.slots?.label

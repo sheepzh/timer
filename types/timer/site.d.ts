@@ -1,20 +1,10 @@
 declare namespace timer.site {
-    /**
-     * @since 0.5.0
-     */
-    type AliasSource =
-        | 'USER'        // By user
-        | 'DETECTED'    // Auto-detected
     type SiteKey = {
         host: string
         type: timer.site.Type
     }
     type SiteInfo = SiteKey & {
         alias?: string
-        /**
-         * The source of name
-         */
-        source?: AliasSource
         iconUrl?: string
         /**
          * Category ID

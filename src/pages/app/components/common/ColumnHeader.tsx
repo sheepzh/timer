@@ -26,8 +26,8 @@ const ColumnHeader = defineComponent({
                                 </ElIcon>
                             </Flex>
                         ),
-                    }}>
-                </ElTooltip>
+                    }}
+                />
             </Flex>
         )
     }

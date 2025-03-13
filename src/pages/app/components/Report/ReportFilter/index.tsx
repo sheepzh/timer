@@ -97,7 +97,7 @@ const _default = defineComponent({
         return () => (
             <Flex justify="space-between" width="100%" gap={10} wrap>
                 <Flex gap={10} wrap>
-                    <InputFilterItem placeholder="URL + ↵" onSearch={setHost} />
+                    <InputFilterItem placeholder={t(msg => msg.item.host)} onSearch={setHost} />
                     <DateRangeFilterItem
                         startPlaceholder={t(msg => msg.calendar.label.startDate)}
                         endPlaceholder={t(msg => msg.calendar.label.endDate)}

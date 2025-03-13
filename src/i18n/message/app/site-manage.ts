@@ -8,18 +8,15 @@
 import resource from './site-manage-resource.json'
 
 export type SiteManageMessage = {
-    hostPlaceholder: string
-    aliasPlaceholder: string
     deleteConfirmMsg: string
+    genAliasConfirmMsg: string
     column: {
         type: string
         alias: string
-        aliasInfo: string
         cate: string
         icon: string
     }
     type: Record<timer.site.Type, Record<'name' | 'info', string>>
-    detected: string
     cate: {
         name: string
         relatedMsg: string

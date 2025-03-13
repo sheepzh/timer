@@ -30,7 +30,7 @@ const _default: chrome.runtime.ManifestFirefox = {
     },
     background: {
         scripts: ['background.js'],
-        persistent: true,
+        persistent: false,
     },
     content_scripts: [
         {
@@ -38,7 +38,7 @@ const _default: chrome.runtime.ManifestFirefox = {
                 "<all_urls>"
             ],
             js: [
-                "content_scripts.js"
+                "content_scripts_skeleton.js",
             ],
             run_at: "document_start"
         }

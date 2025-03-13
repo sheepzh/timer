@@ -12,7 +12,7 @@ import { toggle } from "@util/dark-mode"
 import "element-plus/theme-chalk/index.css"
 import { createApp } from "vue"
 import Main from "./Main"
-import { FrameRequest, FrameResponse } from "./message"
+import { type FrameRequest, type FrameResponse } from "./message"
 import initRouter from "./router"
 import "./style"
 

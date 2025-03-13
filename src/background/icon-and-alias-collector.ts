@@ -8,7 +8,7 @@
 import { getTab } from "@api/chrome/tab"
 import OptionDatabase from "@db/option-database"
 import siteService from "@service/site-service"
-import { IS_CHROME, IS_SAFARI } from "@util/constant/environment"
+import { IS_ANDROID, IS_CHROME, IS_SAFARI } from "@util/constant/environment"
 import { defaultStatistics } from "@util/constant/option"
 import { extractHostname, isBrowserUrl, isHomepage } from "@util/pattern"
 import { extractSiteName } from "@util/site"
@@ -26,10 +26,10 @@ function isUrl(title: string) {
 }
 
 async function collectAlias(key: timer.site.SiteKey, tabTitle: string) {
-    if (isUrl(tabTitle)) return
     if (!tabTitle) return
+    if (isUrl(tabTitle)) return
     const siteName = extractSiteName(tabTitle, key.host)
-    siteName && await siteService.saveAlias(key, siteName, 'DETECTED')
+    siteName && await siteService.saveAlias(key, siteName)
 }
 
 /**
@@ -57,10 +57,8 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
 /**
  * Collect the favicon of host
  */
-export const collectIconAndAlias = async (sender: chrome.runtime.MessageSender) => {
-    if (IS_SAFARI) return
-    const tabId = sender?.tab?.id
-    if (!tabId) return
+export const collectIconAndAlias = async (tabId: number) => {
+    if (IS_SAFARI || IS_ANDROID) return
     const tab = await getTab(tabId)
     tab && processTabInfo(tab)
 }
