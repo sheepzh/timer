@@ -25,8 +25,8 @@ export default defineComponent(() => {
     const modify = ref<ModifyInstance>()
     const [page, setPage] = useState<timer.common.PageQuery>({ num: 1, size: 10 })
     const { data: pagination, refresh } = useRequest(() => {
-        const { host, alias, cateIds, types } = filterOption.value || {}
-        const param: SiteQueryParam = { host, alias, cateIds, types }
+        const { query: fuzzyQuery, cateIds, types } = filterOption.value || {}
+        const param: SiteQueryParam = { fuzzyQuery, cateIds, types }
         return siteService.selectByPage(param, page.value)
     }, { loadingTarget: '#site-manage-table-wrapper', deps: [filterOption, page] })
 
@@ -113,6 +113,7 @@ export default defineComponent(() => {
                     onSelectionChange={setSelected}
                     onRowDelete={refresh}
                     onRowModify={refresh}
+                    onAliasGenerated={refresh}
                 />
             </div>
             <Pagination

@@ -1,12 +1,10 @@
 {
     "zh_CN": {
-        "hostPlaceholder": "请输入域名，然后回车",
-        "aliasPlaceholder": "请输入网站名，然后回车",
         "deleteConfirmMsg": "{host} 的名称设置将会被删除",
+        "genAliasConfirmMsg": "是否自动批量补全站点名称？",
         "column": {
             "type": "网站类型",
             "alias": "网站名称",
-            "aliasInfo": "网站名称会在报表以及今日数据（需要在扩展选项里设置）里展示，方便您快速识别域名",
             "cate": "网站类目",
             "icon": "网站图标"
         },
@@ -24,7 +22,6 @@
                 "info": "统计 Ant Pattern 格式的任意 URL，可以在右上角新增自定义站点"
             }
         },
-        "detected": "自动抓取",
         "cate": {
             "name": "类目名称",
             "relatedMsg": "该类目已有 {siteCount} 个站点，无法删除",
@@ -46,13 +43,10 @@
         }
     },
     "zh_TW": {
-        "hostPlaceholder": "請輸入網域，然後回車",
-        "aliasPlaceholder": "請輸入網站名，然後回車",
         "deleteConfirmMsg": "{host} 的將會被刪除",
         "column": {
             "type": "網站類型",
             "alias": "網站名稱",
-            "aliasInfo": "網站名稱會在報表以及今日數據（需要在擴充選項裡設置）裡展示，方便您快速識別網域",
             "cate": "網站類別",
             "icon": "網站圖標"
         },
@@ -70,7 +64,6 @@
                 "info": "統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點"
             }
         },
-        "detected": "自動偵測",
         "cate": {
             "name": "類別名稱",
             "relatedMsg": "此類別已與 {siteCount} 個網站關聯，無法刪除",
@@ -92,13 +85,11 @@
         }
     },
     "en": {
-        "hostPlaceholder": "Partial URL, then enter",
-        "aliasPlaceholder": "Partial name, then enter",
         "deleteConfirmMsg": "{host} will be deleted",
+        "genAliasConfirmMsg": "Whether to automatically complete site names in batches?",
         "column": {
             "type": "Site Type",
             "alias": "Site Name",
-            "aliasInfo": "The site name will be shown on the record page and the popup page",
             "cate": "Site Category",
             "icon": "Icon"
         },
@@ -116,7 +107,6 @@
                 "info": "count any URL in Ant Pattern format, you can add a custom site in the upper right corner"
             }
         },
-        "detected": "Automatically detected",
         "cate": {
             "name": "Name",
             "relatedMsg": "This category has been associated with {siteCount} sites and cannot be deleted",
@@ -138,13 +128,10 @@
         }
     },
     "ja": {
-        "hostPlaceholder": "ドメイン名で検索",
-        "aliasPlaceholder": "サイト名で検索",
         "deleteConfirmMsg": "{host} は削除されます",
         "column": {
             "type": "サイト種別",
             "alias": "サイト名",
-            "aliasInfo": "サイト名はレコードページとポップアップページに表示されます",
             "cate": "サイトカテゴリー",
             "icon": "Icon"
         },
@@ -162,7 +149,6 @@
                 "info": "Ant Pattern 形式の任意の URL をカウントします。右上隅にカスタムサイトを追加できます"
             }
         },
-        "detected": "システム検出",
         "cate": {
             "name": "カテゴリ名",
             "relatedMsg": "このカテゴリは {siteCount} 個のサイトに関連付けられているため、削除できません",
@@ -184,13 +170,10 @@
         }
     },
     "pt_PT": {
-        "hostPlaceholder": "URL parcial, e depois digite",
-        "aliasPlaceholder": "Nome parcial, e depois digite",
         "deleteConfirmMsg": "{host} será excluído",
         "column": {
             "type": "Categoria de Sítio Web",
             "alias": "Nome do Site",
-            "aliasInfo": "O nome do site será mostrado na página de registro e na página pop-up",
             "cate": "Categoria do site",
             "icon": "Ícone"
         },
@@ -208,7 +191,6 @@
                 "info": "conta qualquer URL no formato Ant Pattern, pode adicionar um site personalizado no canto superior direito"
             }
         },
-        "detected": "detetado",
         "cate": {
             "name": "Nome",
             "relatedMsg": "Esta categoria foi associada aos sites {siteCount} e não pode ser eliminada",
@@ -230,13 +212,10 @@
         }
     },
     "uk": {
-        "hostPlaceholder": "Почніть вводити URL і натисніть Enter",
-        "aliasPlaceholder": "Почніть вводити назву і натисніть Enter",
         "deleteConfirmMsg": "{host} буде видалено",
         "column": {
             "type": "Тип сайту",
             "alias": "Назва сайту",
-            "aliasInfo": "Назву сайту буде показано на сторінці записів і в спливному вікні",
             "cate": "Категорія сайту",
             "icon": "Піктограма"
         },
@@ -254,7 +233,6 @@
                 "info": "враховувати будь-яку URL-адресу в форматі параметрів Ant, ви можете додати свій сайт у верхньому правому куті"
             }
         },
-        "detected": "auto-detected",
         "cate": {
             "name": "Назва",
             "relatedMsg": "Ця категорія була пов’язана з {siteCount} сайтами й не може бути видалена",
@@ -276,13 +254,10 @@
         }
     },
     "es": {
-        "hostPlaceholder": "URL parcial, luego ingresa",
-        "aliasPlaceholder": "Nombre parcial, luego ingresa",
         "deleteConfirmMsg": "Se eliminará {host}",
         "column": {
             "type": "Tipo de sitio",
             "alias": "Nombre del sitio",
-            "aliasInfo": "El nombre del sitio se mostrará en la página de registro y en la página emergente",
             "cate": "Categoría del sitio",
             "icon": "Icono"
         },
@@ -300,7 +275,6 @@
                 "info": "contar cualquier URL en formato Ant Pattern, puedes agregar un sitio personalizado en la esquina superior derecha"
             }
         },
-        "detected": "auto-detectado",
         "cate": {
             "name": "Nombre",
             "relatedMsg": "Esta categoría se ha asociado con {siteCount} sitios y no se puede eliminar",
@@ -322,13 +296,10 @@
         }
     },
     "de": {
-        "hostPlaceholder": "Suche nach URL",
-        "aliasPlaceholder": "Suche mit Name",
         "deleteConfirmMsg": "{host} wird gelöscht",
         "column": {
             "type": "Website-Typ",
             "alias": "Site-Name",
-            "aliasInfo": "Der Name der Website wird auf der Datensatzseite und der Popup-Seite angezeigt",
             "cate": "Seitenkategorie",
             "icon": "Symbol"
         },
@@ -346,7 +317,6 @@
                 "info": "Wenn Sie eine beliebige URL im Ant-Pattern-Format zählen, können Sie in der oberen rechten Ecke eine benutzerdefinierte Site hinzufügen"
             }
         },
-        "detected": "automatisch erkannt",
         "cate": {
             "name": "Namen",
             "relatedMsg": "Diese Kategorie wurde mit {siteCount} Seiten verknüpft und kann nicht gelöscht werden",
@@ -368,13 +338,10 @@
         }
     },
     "fr": {
-        "hostPlaceholder": "URL partielle, appuyez sur Entrée",
-        "aliasPlaceholder": "Nom partiel, appuyez sur Entrée",
         "deleteConfirmMsg": "{host} sera supprimé",
         "column": {
             "type": "Type de Site",
             "alias": "Nom du site",
-            "aliasInfo": "Le nom du site sera affiché sur la page d'enregistrement et la page contextuelle",
             "cate": "Catégorie du site",
             "icon": "Icône"
         },
@@ -392,7 +359,6 @@
                 "info": "comptez n'importe quelle URL au format Ant Pattern, vous pouvez ajouter un site personnalisé dans le coin supérieur droit"
             }
         },
-        "detected": "détecté",
         "cate": {
             "name": "Nom",
             "relatedMsg": "Cette catégorie a été associée à {siteCount} sites et ne peut pas être supprimée",
@@ -414,13 +380,10 @@
         }
     },
     "ru": {
-        "hostPlaceholder": "Частичный URL, затем введите",
-        "aliasPlaceholder": "Частичное имя, затем введите",
         "deleteConfirmMsg": "{host} будет удален",
         "column": {
             "type": "Тип сайта",
             "alias": "Название сайта",
-            "aliasInfo": "Название сайта будет показано на странице записи и всплывающей странице",
             "icon": "Иконки"
         },
         "type": {
@@ -437,7 +400,6 @@
                 "info": "подсчитайте любой URL в формате Ant Pattern, вы можете добавить пользовательский сайт в правом верхнем углу"
             }
         },
-        "detected": "выявленный",
         "form": {
             "emptyAlias": "Введите название сайта",
             "emptyHost": "Введите URL-адрес сайта"
@@ -448,13 +410,10 @@
         }
     },
     "ar": {
-        "hostPlaceholder": "عنوان URL جزئي، ثم أدخل",
-        "aliasPlaceholder": "الاسم الجزئي، ثم أدخل",
         "deleteConfirmMsg": "سيتم حذف {host}",
         "column": {
             "type": "نوع الموقع",
             "alias": "اسم الموقع",
-            "aliasInfo": "سيتم عرض اسم الموقع على صفحة السجل وصفحة النافذة المنبثقة",
             "cate": "فئة الموقع",
             "icon": "رمز"
         },
@@ -472,7 +431,6 @@
                 "info": "احسب أي عنوان URL بتنسيق Ant Pattern، ويمكنك إضافة موقع مخصص في الزاوية اليمنى العليا"
             }
         },
-        "detected": "تم الكشف عنه تلقائيًا",
         "cate": {
             "name": "الاسم",
             "relatedMsg": "تم ربط هذه الفئة بمواقع {siteCount} ولا يمكن حذفها",

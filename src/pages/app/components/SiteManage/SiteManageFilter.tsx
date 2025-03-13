@@ -18,10 +18,9 @@ import MultiSelectFilterItem from "../common/filter/MultiSelectFilterItem"
 import { ALL_TYPES } from "./common"
 
 export type FilterOption = {
-    host?: string,
-    alias?: string,
-    types?: timer.site.Type[],
-    cateIds?: number[],
+    query?: string
+    types?: timer.site.Type[]
+    cateIds?: number[]
 }
 
 type BatchOpt = 'change' | 'disassociate' | 'delete'
@@ -36,13 +35,13 @@ const _default = defineComponent({
         batchDelete: () => true,
         batchChangeCate: () => true,
         batchDisassociate: () => true,
+        genNames: () => true,
     },
     setup(props, ctx) {
         const { categories } = useCategories()
 
         const defaultOption = props.defaultValue
-        const [host, setHost] = useState(defaultOption?.host)
-        const [alias, setAlias] = useState(defaultOption?.alias)
+        const [query, setQuery] = useState(defaultOption?.query)
         const [types, setTypes] = useState(defaultOption?.types)
 
         const cateDisabled = computed(() => !!types.value?.length && !types.value?.includes?.('normal'))
@@ -57,9 +56,8 @@ const _default = defineComponent({
             newVal?.length !== cateIds.value?.length && setCateIds(newVal)
         })
 
-        watch([host, alias, types, cateIds], () => ctx.emit("change", {
-            host: host.value,
-            alias: alias.value,
+        watch([query, types, cateIds], () => ctx.emit("change", {
+            query: query.value,
             types: types.value,
             cateIds: cateIds.value,
         }))
@@ -92,12 +90,9 @@ const _default = defineComponent({
             <Flex gap={10} justify="space-between">
                 <Flex gap={10}>
                     <InputFilterItem
-                        placeholder={t(msg => msg.siteManage.hostPlaceholder)}
-                        onSearch={setHost}
-                    />
-                    <InputFilterItem
-                        placeholder={t(msg => msg.siteManage.aliasPlaceholder)}
-                        onSearch={setAlias}
+                        placeholder={`${t(msg => msg.item.host)} / ${t(msg => msg.siteManage.column.alias)}`}
+                        onSearch={setQuery}
+                        width={200}
                     />
                     <MultiSelectFilterItem
                         placeholder={t(msg => msg.siteManage.column.type)}
