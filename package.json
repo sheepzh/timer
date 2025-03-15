@@ -14,7 +14,7 @@
         "build:safari": "webpack --config=webpack/webpack.prod.safari.ts",
         "analyze": "webpack --config=webpack/webpack.analyze.ts",
         "test": "jest --env=jsdom test/",
-        "test-c": "jest --coverage --env=jsdom test/",
+        "test-c": "jest --coverage --reporters=jest-junit --env=jsdom test/",
         "test-e2e": "jest test-e2e/ --runInBand"
     },
     "author": {
@@ -52,6 +52,7 @@
         "html-webpack-plugin": "^5.6.3",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
+        "jest-junit": "^16.0.0",
         "mini-css-extract-plugin": "^2.9.2",
         "postcss": "^8.5.3",
         "postcss-loader": "^8.1.1",

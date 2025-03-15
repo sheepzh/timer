@@ -2,6 +2,8 @@ node_modules
 .idea
 dist*
 
+junit.xml
+
 Timer_Safari_DEV
 
 firefox_dev
