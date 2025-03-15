@@ -40,8 +40,8 @@
             "visitTotal": "總計訪問次數",
             "merged": "合並",
             "virtual": "自定義",
-            "hostPlaceholder": "選擇要分析的站點或類別",
-            "emptyDesc": "未選擇站點或類別"
+            "hostPlaceholder": "蒐索你想分析的站點",
+            "emptyDesc": "未選擇站點"
         },
         "summary": {
             "title": "數據總覽",

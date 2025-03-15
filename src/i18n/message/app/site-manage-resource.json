@@ -44,6 +44,7 @@
     },
     "zh_TW": {
         "deleteConfirmMsg": "{host} 的將會被刪除",
+        "genAliasConfirmMsg": "是否可以自動批次完成網站名稱？",
         "column": {
             "type": "網站類型",
             "alias": "網站名稱",
@@ -129,6 +130,7 @@
     },
     "ja": {
         "deleteConfirmMsg": "{host} は削除されます",
+        "genAliasConfirmMsg": "サイトを自動的に完了してからバッチをシンするかどうか？",
         "column": {
             "type": "サイト種別",
             "alias": "サイト名",

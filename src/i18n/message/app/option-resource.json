@@ -432,7 +432,8 @@
                     "off": "常にオフ",
                     "timed": "時限スタート"
                 }
-            }
+            },
+            "animationDuration": "チャートの初期アニメーションの持続時間 {input}"
         },
         "statistics": {
             "title": "統計",
