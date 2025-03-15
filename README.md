@@ -34,7 +34,7 @@ Time Tracker is a browser extension to track the time you spent on all websites.
 
 <div align="center">
     <img src="./doc/screenshot/popup.png" width="100%">
-    <p>Pie Chart on the Popup Page</p>
+    <p>Daily percentage</p>
 </div>
 
 <div align="center">
@@ -50,6 +50,11 @@ Time Tracker is a browser extension to track the time you spent on all websites.
 <div align="center">
     <img src="./doc/screenshot/habit.png" width="100%">
     <p>Habit Report</p>
+</div>
+
+<div align="center">
+    <img src="./doc/screenshot/block.png" width="100%">
+    <p>Page Blocking</p>
 </div>
 
 ## Contribution
