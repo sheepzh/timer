@@ -1,8 +1,8 @@
-import { IS_FIREFOX_ANDROID } from "@util/constant/environment"
+import { IS_ANDROID } from "@util/constant/environment"
 import { handleError } from "./common"
 
 export function listAllWindows(): Promise<chrome.windows.Window[]> {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         // windows API not supported on Firefox for Android
         return Promise.resolve([])
     }
@@ -13,14 +13,14 @@ export function listAllWindows(): Promise<chrome.windows.Window[]> {
 }
 
 export function isNoneWindowId(windowId: number) {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return false
     }
     return !windowId || windowId === chrome.windows.WINDOW_ID_NONE
 }
 
 export function getFocusedNormalWindow(): Promise<chrome.windows.Window> {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return Promise.resolve(null)
     }
     return new Promise(resolve => chrome.windows.getLastFocused(
@@ -38,7 +38,7 @@ export function getFocusedNormalWindow(): Promise<chrome.windows.Window> {
 }
 
 export function getWindow(id: number): Promise<chrome.windows.Window> {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return Promise.resolve(null)
     }
     return new Promise(resolve => chrome.windows.get(id, win => resolve(win)))
@@ -47,7 +47,7 @@ export function getWindow(id: number): Promise<chrome.windows.Window> {
 type _Handler = (windowId: number) => void
 
 export function onNormalWindowFocusChanged(handler: _Handler) {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return
     }
     chrome.windows.onFocusChanged.addListener(windowId => {

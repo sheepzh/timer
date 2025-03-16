@@ -1,15 +1,15 @@
-import { IS_FIREFOX_ANDROID } from "@util/constant/environment"
+import { IS_ANDROID } from "@util/constant/environment"
 import { handleError } from "./common"
 
 function onClick(id: string, handler: Function) {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return
     }
     chrome.contextMenus?.onClicked?.addListener(({ menuItemId }) => menuItemId === id && handler?.())
 }
 
 export function createContextMenu(props: ChromeContextMenuCreateProps): Promise<void> {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return
     }
     // Add listener by param
@@ -25,7 +25,7 @@ export function createContextMenu(props: ChromeContextMenuCreateProps): Promise<
 }
 
 export function updateContextMenu(menuId: string, props: ChromeContextMenuUpdateProps): Promise<void> {
-    if (IS_FIREFOX_ANDROID) {
+    if (IS_ANDROID) {
         return
     }
     return new Promise(resolve => chrome.contextMenus?.update?.(menuId, props, () => {

@@ -4,7 +4,7 @@ import optionHolder from "@service/components/option-holder"
 import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
-import { IS_FIREFOX_ANDROID } from "@util/constant/environment"
+import { IS_ANDROID } from "@util/constant/environment"
 import { extractHostname } from "@util/pattern"
 import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
 import badgeManager from "./badge-manager"
@@ -48,7 +48,7 @@ async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessa
 }
 
 async function windowNotFocused(winId: number): Promise<boolean> {
-    if (IS_FIREFOX_ANDROID) return false
+    if (IS_ANDROID) return false
     if (!winId) return true
     const window = await getWindow(winId)
     return !window?.focused
