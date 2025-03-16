@@ -1,6 +1,6 @@
 {
     "name": "timer",
-    "version": "3.3.0",
+    "version": "3.3.1",
     "description": "Time tracker",
     "homepage": "https://www.wfhg.cc",
     "scripts": {
@@ -31,7 +31,7 @@
         "@babel/preset-env": "^7.26.9",
         "@crowdin/crowdin-api-client": "^1.41.2",
         "@rsdoctor/webpack-plugin": "^0.4.13",
-        "@swc/core": "^1.11.8",
+        "@swc/core": "^1.11.9",
         "@swc/jest": "^0.2.37",
         "@types/chrome": "0.0.309",
         "@types/decompress": "^4.2.7",
