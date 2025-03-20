@@ -17,7 +17,7 @@ import { type ChartType, type FilterOption } from './common'
 type _SizeOption = [number, keyof HabitMessage['period']['sizes']]
 
 function allOptions(): Record<number, string> {
-    const allOptions = {}
+    const allOptions: Record<number, string> = {}
     const allSizes: _SizeOption[] = [
         [1, 'fifteen'],
         [2, 'halfHour'],
@@ -38,14 +38,17 @@ const CHART_CONFIG: { [type in ChartType]: string } = {
 
 const _default = defineComponent({
     props: {
-        defaultValue: Object as PropType<FilterOption>,
+        defaultValue: {
+            type: Object as PropType<FilterOption>,
+            required: true,
+        },
     },
     emits: {
         change: (_newVal: FilterOption) => true,
     },
     setup(prop, ctx) {
-        const periodSize = ref(prop.defaultValue?.periodSize || 1)
-        const { data: chartType, setter: setChartType } = useCached<ChartType>('habit-period-chart-type', prop.defaultValue?.chartType)
+        const periodSize = ref(prop.defaultValue.periodSize)
+        const { data: chartType, setter: setChartType } = useCached<ChartType>('habit-period-chart-type', prop.defaultValue.chartType)
         watch([periodSize, chartType], () =>
             ctx.emit('change', {
                 periodSize: periodSize.value,
@@ -58,7 +61,8 @@ const _default = defineComponent({
                     historyName='periodSize'
                     defaultValue={periodSize.value?.toString?.()}
                     options={allOptions()}
-                    onSelect={(val: string) => {
+                    onSelect={val => {
+                        if (!val) return
                         const newPeriodSize = parseInt(val)
                         if (isNaN(newPeriodSize)) return
                         periodSize.value = newPeriodSize

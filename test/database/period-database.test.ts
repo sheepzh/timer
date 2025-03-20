@@ -104,7 +104,7 @@ describe('period-database', () => {
         })
         const imported: timer.period.Result[] = await db.getAll()
         expect(imported.length).toEqual(3)
-        const orderMillMap = {}
+        const orderMillMap: Record<string, number> = {}
         imported.forEach(({ milliseconds, order }) => orderMillMap[order] = milliseconds)
         expect(orderMillMap).toEqual({ 0: MILL_PER_PERIOD, 1: 100, 2: 100 })
     })

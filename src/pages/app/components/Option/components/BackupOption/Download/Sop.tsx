@@ -7,20 +7,19 @@
 
 import DialogSop, { type SopInstance, type SopStepInstance } from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
-import { useManualRequest } from "@hooks/index"
-import { useState } from "@hooks/useState"
+import { useManualRequest, useState } from "@hooks"
 import processor from "@service/backup/processor"
 import { fillExist, processImportedData } from "@service/components/import-processor"
-import { BIRTHDAY, parseTime } from "@util/time"
+import { getBirthday, parseTime } from "@util/time"
 import { ElMessage, ElStep, ElSteps } from "element-plus"
 import { defineComponent, ref } from "vue"
 import ClientTable from "../ClientTable"
 import Step2 from "./Step2"
 
 async function fetchData(client: timer.backup.Client): Promise<timer.imported.Data> {
-    const { id: specCid, maxDate, minDate = BIRTHDAY } = client
-    const start = parseTime(minDate)
-    const end = maxDate ? parseTime(maxDate) : new Date()
+    const { id: specCid, maxDate, minDate } = client
+    const start = parseTime(minDate) ?? getBirthday()
+    const end = parseTime(maxDate) ?? new Date()
     const remoteRows = await processor.query({ specCid, start, end })
     const rows: timer.imported.Row[] = (remoteRows || []).map(rr => ({
         date: rr.date,
@@ -50,14 +49,15 @@ const _default = defineComponent({
         ctx.expose({ init } satisfies SopInstance)
 
         const { data, refresh: handleNext, loading: dataFetching } = useManualRequest(() => {
-            if (step.value !== 0) return
+            if (step.value !== 0) throw new Error("Data already loaded")
 
             const clientVal = client.value
             if (!clientVal) throw new Error(t(msg => msg.option.backup.clientTable.notSelected))
             return fetchData(clientVal)
         }, {
+            defaultValue: { rows: [] },
             onSuccess: () => step.value = 1,
-            onError: (e: Error) => ElMessage.error(e.message || 'Unknown error...'),
+            onError: e => ElMessage.error((e as Error)?.message || 'Unknown error...'),
         })
 
         const { refresh: handleDownload, loading: downloading } = useManualRequest(async () => {
@@ -70,7 +70,7 @@ const _default = defineComponent({
                 ElMessage.success(t(msg => msg.operation.successMsg))
                 ctx.emit('download')
             },
-            onError: (e: Error) => ElMessage.error(e.message || 'Unknown error...'),
+            onError: e => ElMessage.error((e as Error)?.message || 'Unknown error...'),
         })
 
         return () => (
@@ -96,7 +96,7 @@ const _default = defineComponent({
                             : <Step2
                                 ref={step2}
                                 data={data.value}
-                                clientName={client.value?.name}
+                                clientName={client.value?.name ?? ''}
                             />
                 }}
             />

@@ -1,17 +1,17 @@
 import { onRuntimeMessage, sendMsg2Runtime } from "@api/chrome/runtime"
 
 class RunTimeTracker {
-    private start: number
+    private start: number = Date.now()
     private url: string
     // Real host, including builtin hosts
-    private host: string
+    private host: string | undefined
 
     constructor(url: string) {
         this.url = url
+        this.start = Date.now()
     }
 
     init(): void {
-        this.start = Date.now()
         this.fetchSite()
 
         onRuntimeMessage<void, void>(async req => {
@@ -29,7 +29,7 @@ class RunTimeTracker {
         sendMsg2Runtime('cs.getRunSites', this.url)
             .then((site: timer.site.SiteKey) => this.host = site?.host)
             // Extension reloaded, so terminate
-            .catch(() => this.host = null)
+            .catch(() => this.host = undefined)
     }
 
     private collect() {

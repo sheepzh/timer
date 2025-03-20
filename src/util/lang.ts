@@ -1,11 +1,11 @@
 /**
  * @since 2.1.7
  */
-export const deepCopy = <T = any>(obj: T): T => {
-    if (obj === null) return null
+export const deepCopy = <T = any | null | undefined>(obj: T): T => {
+    if (!obj) return obj
     if (typeof obj !== 'object') return obj
 
-    let deep = {}
+    let deep: Record<string, any> = {}
     Object.entries(obj).forEach(([k, v]) => {
         if (typeof v !== "object" || v === null) {
             deep[k] = v

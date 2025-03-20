@@ -1,24 +1,27 @@
 import { ArrowDown } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElLink } from "element-plus"
-import { computed, defineComponent, type PropType } from "vue"
+import { type Component, computed, defineComponent, type PropType, VNode } from "vue"
 
 export type DropdownButtonItem<T> = {
     key: T
-    icon: unknown
+    icon: Component | VNode
     label: string
 }
 
 const DropdownButton = defineComponent({
     props: {
-        items: Array as PropType<DropdownButtonItem<unknown>[]>,
+        items: {
+            type: Array as PropType<DropdownButtonItem<unknown>[]>,
+            required: true,
+        },
     },
     emits: {
         click: (_key: unknown) => true,
     },
     setup(props, ctx) {
         const trigger = computed(() => props.items?.[0])
-        const list = computed(() => props.items?.slice(1))
+        const list = computed(() => props.items.slice(1))
 
         return () => !!trigger.value && (
             <Flex align="center" gap={3}>

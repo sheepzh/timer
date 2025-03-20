@@ -34,7 +34,7 @@ export type StatCondition = {
      *
      * @since 0.0.9
      */
-    timeRange?: Vector<2>
+    timeRange?: [number, number?]
     /**
      * Whether to enable full host search, default is false
      *
@@ -79,8 +79,8 @@ function generateKey(host: string, date: Date | string) {
     return str + host
 }
 
-function migrate(exists: { [key: string]: timer.core.Result }, data: any): { [key: string]: timer.core.Result } {
-    const result = {}
+function migrate(exists: { [key: string]: timer.core.Result }, data: any): timer.stat.ResultSet {
+    const result: timer.stat.ResultSet = {}
     Object.entries(data)
         .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
         .forEach(([key, value]) => {
@@ -96,7 +96,7 @@ class StatDatabase extends BaseDatabase {
 
     async refresh(): Promise<{ [key: string]: unknown }> {
         const result = await this.storage.get()
-        const items = {}
+        const items: timer.stat.ResultSet = {}
         Object.entries(result)
             .filter(([key]) => !key.startsWith(REMAIN_WORD_PREFIX))
             .forEach(([key, value]) => items[key] = value)
@@ -124,14 +124,14 @@ class StatDatabase extends BaseDatabase {
      */
     async accumulateBatch(data: timer.stat.ResultSet, date: Date | string): Promise<timer.stat.ResultSet> {
         const hosts = Object.keys(data)
-        if (!hosts.length) return
+        if (!hosts.length) return {}
         const dateStr = typeof date === 'string' ? date : formatTimeYMD(date)
         const keys: { [host: string]: string } = {}
         hosts.forEach(host => keys[host] = generateKey(host, dateStr))
 
         const items = await this.storage.get(Object.values(keys))
 
-        const toUpdate = {}
+        const toUpdate: timer.stat.ResultSet = {}
         const afterUpdated: timer.stat.ResultSet = {}
         Object.entries(keys).forEach(([host, key]) => {
             const item = data[host]

@@ -12,6 +12,7 @@ import { classNames } from "@pages/util/style"
 import { range } from "@util/array"
 import { ElIcon, ElTooltip } from "element-plus"
 import { defineComponent, type PropType, type VNode } from "vue"
+import type { JSX } from "vue/jsx-runtime"
 import "./indicator-cell.sass"
 
 export type SubProps = {
@@ -26,7 +27,7 @@ function renderSubVal(valText: string) {
     return <span class="kanban-indicator-cell-sub-val">{valText}</span>
 }
 
-function renderComparisonIcons(ring: RingValue): VNode {
+function renderComparisonIcons(ring: RingValue): VNode | null {
     const [current = 0, last = 0] = ring
     if (current === last) return null
     const clz = classNames(
@@ -49,13 +50,13 @@ function renderComparisonIcons(ring: RingValue): VNode {
     return <div class={clz}>{icons}</div>
 }
 
-function renderSub(props: SubProps): VNode {
+function renderSub(props: SubProps): VNode | null {
     const { subTips, subValue, subInfo, subRing, valueFormatter } = props
     if (!subTips && !subValue && !subRing) {
         return null
     }
 
-    const subTipsLine = []
+    const subTipsLine: (JSX.Element | string)[] = []
     if (subRing) {
         const ringText = computeRingText(subRing, valueFormatter)
         if (ringText) {

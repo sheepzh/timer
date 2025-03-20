@@ -8,8 +8,8 @@ class VisitProcessor implements Processor {
 
     private context: ModalContext
     private focusTime: number = 0
-    private rules: timer.limit.Rule[]
-    private tracker: NormalTracker
+    private rules: timer.limit.Rule[] = []
+    private tracker: NormalTracker | undefined
     private delayCount: number = 0
 
     constructor(context: ModalContext) {
@@ -50,7 +50,7 @@ class VisitProcessor implements Processor {
     }
 
     async initRules() {
-        this.rules = await sendMsg2Runtime("cs.getRelatedRules", this.context.url)
+        this.rules = await sendMsg2Runtime("cs.getRelatedRules", this.context.url) ?? []
         this.context.modal.removeReasonsByType("VISIT")
     }
 

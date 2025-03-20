@@ -36,8 +36,8 @@ const _default = defineComponent({
         const [weekly, setWeekly] = useShadow(() => props.weekly)
         const [visitTime, setVisitTime] = useShadow(() => props.visitTime)
         // Visit count
-        const [count, setCount] = useShadow(() => props.count ?? 0)
-        const [weeklyCount, setWeeklyCount] = useShadow(() => props.weeklyCount ?? 0)
+        const [count, setCount] = useShadow(() => props.count)
+        const [weeklyCount, setWeeklyCount] = useShadow(() => props.weeklyCount)
         // Periods
         const [periods, setPeriods] = useShadow(() => props.periods, [])
 
@@ -71,7 +71,7 @@ const _default = defineComponent({
                 <ElForm labelWidth={150} labelPosition="left">
                     <ElFormItem label={t(msg => msg.limit.item.daily)}>
                         <Flex gap={10}>
-                            <TimeInput modelValue={time.value} onChange={setTime} />
+                            <TimeInput modelValue={time.value ?? 0} onChange={setTime} />
                             {t(msg => msg.limit.item.or)}
                             <ElInputNumber
                                 min={0}
@@ -84,7 +84,7 @@ const _default = defineComponent({
                     </ElFormItem>
                     <ElFormItem label={t(msg => msg.limit.item.weekly)}>
                         <Flex gap={10}>
-                            <TimeInput modelValue={weekly.value} onChange={setWeekly} hourMax={MAX_HOUR_WEEKLY} />
+                            <TimeInput modelValue={weekly.value ?? 0} onChange={setWeekly} hourMax={MAX_HOUR_WEEKLY} />
                             {t(msg => msg.limit.item.or)}
                             <ElInputNumber
                                 min={0}
@@ -96,7 +96,7 @@ const _default = defineComponent({
                         </Flex>
                     </ElFormItem>
                     <ElFormItem label={t(msg => msg.limit.item.visitTime)}>
-                        <TimeInput modelValue={visitTime.value} onChange={setVisitTime} />
+                        <TimeInput modelValue={visitTime.value ?? 0} onChange={setVisitTime} />
                     </ElFormItem>
                     <ElFormItem label={t(msg => msg.limit.item.period)}>
                         <PeriodInput modelValue={periods.value} onChange={setPeriods} />

@@ -15,4 +15,4 @@ export const initProvider = (defaultFilter: LimitFilterOption) => {
     return { filter, setFilter }
 }
 
-export const useLimitFilter = (): Ref<LimitFilterOption> => useProvider<Context>(NAMESPACE, "filter").filter
+export const useLimitFilter = (): Ref<LimitFilterOption> => useProvider<Context, 'filter'>(NAMESPACE, "filter").filter

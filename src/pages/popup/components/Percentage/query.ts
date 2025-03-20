@@ -8,9 +8,9 @@ export type PercentageResult = {
     query: PopupQuery
     rows: timer.stat.Row[]
     // Actually date range according to duration
-    date: Date | [Date, Date?]
+    date: Date | [Date, Date?] | undefined
     displaySiteName: boolean
-    dataDate: [string, string]
+    dataDate: [string, string] | undefined
     chartTitle: string
     itemCount: number
     dateLength: number
@@ -28,18 +28,19 @@ const findAllDates = (row: timer.stat.Row): Set<string> => {
     return set
 }
 
-const findDateRange = (rows: timer.stat.Row[]): [string, string] => {
+const findDateRange = (rows: timer.stat.Row[]): [string, string] | undefined => {
     const set = new Set<string>()
     rows?.forEach(row => {
         const dates = findAllDates(row)
         dates.forEach(d => set.add(d))
     })
-    let minDate: string, maxDate: string
+    let minDate: string | undefined = undefined
+    let maxDate: string | undefined = undefined
     set.forEach(d => {
         if (!minDate || d < minDate) minDate = d
         if (!maxDate || d > maxDate) maxDate = d
     })
-    return [minDate, maxDate]
+    return minDate && maxDate ? [minDate, maxDate] : undefined
 }
 
 export const doQuery = async (query: PopupQuery): Promise<PercentageResult> => {
@@ -52,7 +53,7 @@ export const doQuery = async (query: PopupQuery): Promise<PercentageResult> => {
     return {
         query, rows,
         date, dataDate: findDateRange(rows),
-        dateLength: date instanceof Array ? getDayLength(date[0], date[1]) : 1,
+        dateLength: date instanceof Array ? getDayLength(date[0], date[1] ?? new Date()) : 1,
         displaySiteName: option.displaySiteName,
         chartTitle: t(msg => msg.content.percentage.title[query?.duration], { n: query?.durationNum }),
         itemCount,

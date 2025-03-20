@@ -2,7 +2,7 @@ import { range } from "./array"
 
 const isTuple = (arg: unknown): arg is Tuple<any, never> => {
     if (Array.isArray(arg)) return true
-    if (!arg.hasOwnProperty?.("get")) return false
+    if (!(arg as Object).hasOwnProperty?.("get")) return false
     const predicate = arg as Tuple<any, never>
     const len = predicate?.length
     return typeof len === 'number' && !isNaN(len) && isFinite(len) && len >= 0 && Number.isInteger(len)

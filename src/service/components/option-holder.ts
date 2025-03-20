@@ -1,10 +1,9 @@
 import OptionDatabase from "@db/option-database"
-import { defaultOption } from "@util/constant/option"
+import { type DefaultOption, defaultOption } from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
 
-function migrateOld(result: timer.option.AllOption): timer.option.AllOption {
-    if (!result) return result
+function migrateOld<T extends timer.option.AllOption>(result: T): T {
     const newRes = { ...result }
     const duration = newRes['defaultDuration']
     if (duration as string === 'last30Days') {
@@ -18,36 +17,34 @@ function migrateOld(result: timer.option.AllOption): timer.option.AllOption {
 type ChangeListener = (option: timer.option.AllOption) => void
 
 class OptionHolder {
-    private option: timer.option.AllOption
+    private option: DefaultOption | undefined
     private listeners: ChangeListener[] = []
 
     constructor() {
         db.addOptionChangeListener(async () => {
-            await this.reset()
-            this.listeners.forEach(listener => listener?.(this.option))
+            const option = await this.reset()
+            this.listeners.forEach(listener => listener?.(option))
         })
     }
 
-    private async reset(): Promise<void> {
+    private async reset(): Promise<DefaultOption> {
         const exist: Partial<timer.option.AllOption> = await db.getOption()
-        const result: timer.option.AllOption = defaultOption()
-        Object.entries(exist).forEach(([key, val]) => result[key] = val)
+        const result = defaultOption()
+        Object.entries(exist).forEach(([key, val]) => (result as any)[key] = val)
         const newVal = migrateOld(result)
         this.option = newVal
+        return newVal
     }
 
-    async get(): Promise<timer.option.AllOption> {
-        if (!this.option) {
-            await this.reset()
-        }
-        return this.option
+    async get(): Promise<DefaultOption> {
+        return this.option ?? await this.reset()
     }
 
     async set(option: Partial<timer.option.AllOption>): Promise<void> {
         const exist: Partial<timer.option.AllOption> = await db.getOption()
         const toSet = defaultOption()
-        Object.entries(exist).forEach(([key, val]) => toSet[key] = val)
-        Object.entries(option).forEach(([key, val]) => toSet[key] = val)
+        Object.entries(exist).forEach(([key, val]) => (toSet as any)[key] = val)
+        Object.entries(option).forEach(([key, val]) => (toSet as any)[key] = val)
         await db.setOption(toSet)
     }
 

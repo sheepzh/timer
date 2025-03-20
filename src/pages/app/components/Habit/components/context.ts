@@ -17,4 +17,4 @@ const NAMESPACE = 'habit'
 
 export const initProvider = (filter: Ref<FilterOption>) => useProvide<Context>(NAMESPACE, { filter })
 
-export const useHabitFilter = (): Ref<FilterOption> => useProvider<Context>(NAMESPACE, "filter").filter
+export const useHabitFilter = () => useProvider<Context, 'filter'>(NAMESPACE, "filter").filter

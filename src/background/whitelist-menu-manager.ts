@@ -32,11 +32,11 @@ const menuInitialOptions: ChromeContextMenuCreateProps = {
     visible: false
 }
 
-async function updateContextMenuInner(param: ChromeTab | number) {
+async function updateContextMenuInner(param: ChromeTab | number | undefined): Promise<void> {
     if (typeof param === 'number') {
         // If number, get the tabInfo first
         const tab: ChromeTab = await getTab(currentActiveId)
-        tab && updateContextMenuInner(tab)
+        tab && await updateContextMenuInner(tab)
     } else {
         const { url } = param || {}
         const targetHost = url && !isBrowserUrl(url) ? extractHostname(url).host : ''
@@ -53,7 +53,7 @@ async function updateContextMenuInner(param: ChromeTab | number) {
             changeProp.title = t2Chrome(root => root.contextMenus[titleMsgField]).replace('{host}', targetHost)
             changeProp.onclick = () => removeOrAdd(existsInWhitelist, targetHost)
         }
-        updateContextMenu(menuId, changeProp)
+        await updateContextMenu(menuId, changeProp)
     }
 }
 
@@ -62,7 +62,7 @@ const handleListChange = (newWhitelist: string[]) => {
     updateContextMenuInner(currentActiveId)
 }
 
-const handleTabUpdated = (tabId: number, changeInfo: ChromeTabChangeInfo, tab: number | ChromeTab) => {
+const handleTabUpdated = (tabId: number, changeInfo: ChromeTabChangeInfo, tab?: ChromeTab) => {
     // Current active tab updated
     tabId === currentActiveId
         && changeInfo.status === 'loading'

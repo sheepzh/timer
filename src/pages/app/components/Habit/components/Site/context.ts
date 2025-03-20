@@ -21,6 +21,6 @@ export const initProvider = (rows: Ref<timer.stat.Row[]>) => {
     useProvide<Context>(NAMESPACE, { rows, dateMergedRows })
 }
 
-export const useRows = (): Ref<timer.stat.Row[]> => useProvider<Context>(NAMESPACE, "rows").rows
+export const useRows = (): Ref<timer.stat.Row[]> => useProvider<Context, 'rows'>(NAMESPACE, "rows").rows
 
-export const useDateMergedRows = (): Ref<timer.stat.Row[]> => useProvider<Context>(NAMESPACE, 'dateMergedRows').dateMergedRows
+export const useDateMergedRows = (): Ref<timer.stat.Row[]> => useProvider<Context, 'dateMergedRows'>(NAMESPACE, 'dateMergedRows').dateMergedRows

@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import path from "path"
 import postcssRTLCSS from 'postcss-rtlcss'
-import webpack, { type Chunk, DefinePlugin, type RuleSetRule } from "webpack"
+import { type Chunk, type Configuration, DefinePlugin, type RuleSetRule, type WebpackPluginInstance } from "webpack"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
 
@@ -12,11 +12,11 @@ export const MANIFEST_JSON_NAME = "manifest.json"
 
 const tsPathAlias = tsConfig.compilerOptions.paths
 
-const generateJsonPlugins = []
+const generateJsonPlugins: WebpackPluginInstance[] = []
 
 const localeJsonFiles = Object.entries(i18nChrome)
     .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
-    .map(plugin => plugin as unknown as webpack.WebpackPluginInstance)
+    .map(plugin => plugin as unknown as WebpackPluginInstance)
 generateJsonPlugins.push(...localeJsonFiles)
 
 // Process the alias of typescript modules
@@ -24,19 +24,25 @@ const resolveAlias: { [index: string]: string | false | string[] } = {}
 const aliasPattern = /^(@.*)\/\*$/
 const sourcePattern = /^(src(\/.*)?)\/\*$/
 Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
-    // Only process the alias starts with '@'
-    if (!aliasPattern.test(alias)) {
-        return
-    }
     if (!sourceArr.length) {
         return
     }
-    const index = alias.match(aliasPattern)[1]
-    const webpackSourceArr = sourceArr
-        .filter(source => sourcePattern.test(source))
-        // Only set alias which is in /src folder
-        .map(source => source.match(sourcePattern)[1])
-        .map(folder => path.resolve(__dirname, '..', folder))
+    const aliasMatchRes = alias.match(aliasPattern)
+    if (!aliasMatchRes) {
+        // Only process the alias starts with '@'
+        return
+    }
+    const [, index] = aliasMatchRes
+    const webpackSourceArr: string[] = []
+    sourceArr.forEach(source => {
+        const matchRes = source.match(sourcePattern)
+        if (!matchRes) {
+            // Only set alias which is in /src folder
+            return
+        }
+        const [, folder] = matchRes
+        webpackSourceArr.push(path.resolve(__dirname, '..', folder))
+    })
     resolveAlias[index] = webpackSourceArr
 })
 console.log("Alias of typescript: ")
@@ -85,12 +91,12 @@ const POSTCSS_LOADER_CONF: RuleSetRule['use'] = {
 }
 
 const chunkFilter = ({ name }: Chunk) => {
-    return ![BACKGROUND, CONTENT_SCRIPT, CONTENT_SCRIPT_SKELETON].includes(name)
+    return !name || ![BACKGROUND, CONTENT_SCRIPT, CONTENT_SCRIPT_SKELETON].includes(name)
 }
 
-const staticOptions: webpack.Configuration = {
+const staticOptions: Configuration = {
     entry() {
-        const entry = {}
+        const entry: Record<string, string> = {}
         entryConfigs.forEach(({ name, path }) => entry[name] = path)
         return entry
     },
@@ -159,13 +165,13 @@ const staticOptions: webpack.Configuration = {
 type Option = {
     outputPath: string
     manifest: chrome.runtime.ManifestV3 | chrome.runtime.ManifestFirefox
-    mode: webpack.Configuration["mode"]
+    mode: Configuration["mode"]
 }
 
 const generateOption = ({ outputPath, manifest, mode }: Option) => {
     const plugins = [
         ...generateJsonPlugins,
-        new GenerateJsonPlugin(MANIFEST_JSON_NAME, manifest) as unknown as webpack.WebpackPluginInstance,
+        new GenerateJsonPlugin(MANIFEST_JSON_NAME, manifest) as unknown as WebpackPluginInstance,
         // copy static resources
         new CopyWebpackPlugin({
             patterns: [
@@ -207,7 +213,7 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
             __VUE_PROD_DEVTOOLS__: false,
         }),
     ]
-    const config: webpack.Configuration = {
+    const config: Configuration = {
         ...staticOptions,
         output: {
             path: outputPath,

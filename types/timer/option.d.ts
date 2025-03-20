@@ -112,7 +112,7 @@ declare namespace timer.option {
         *
         * @since 3.2.2
         */
-        chartAnimationDuration?: number
+        chartAnimationDuration: number
     }
 
     type StatisticsOption = {
@@ -158,11 +158,11 @@ declare namespace timer.option {
         /**
          * The password to unlock
          */
-        limitPassword: string
+        limitPassword?: string
         /**
          * The difficulty of verification
          */
-        limitVerifyDifficulty: limit.VerificationDifficulty
+        limitVerifyDifficulty?: limit.VerificationDifficulty
         /**
          *  Whether to reminder before time will meet
          *
@@ -174,7 +174,7 @@ declare namespace timer.option {
          *
          * @since 3.1.0
          */
-        limitReminderDuration: number
+        limitReminderDuration?: number
     }
 
     /**

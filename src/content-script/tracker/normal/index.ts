@@ -14,10 +14,6 @@ class TrackContext {
         this.onPause = onPause
         this.onResume = onResume
 
-        this.init()
-    }
-
-    private init() {
         this.detectDocVisible()
         document?.addEventListener('visibilitychange', () => this.detectDocVisible())
 
@@ -52,7 +48,7 @@ export type NormalTrackerOption = {
  * Normal tracker
  */
 export default class NormalTracker {
-    context: TrackContext
+    context: TrackContext | undefined
     start: number = Date.now()
     option: NormalTrackerOption
 
@@ -89,7 +85,7 @@ export default class NormalTracker {
             start: lastTime,
             end: now,
             url: location?.href,
-            ignoreTabCheck
+            ignoreTabCheck: !!ignoreTabCheck
         }
         try {
             await this.option?.onReport?.(data)

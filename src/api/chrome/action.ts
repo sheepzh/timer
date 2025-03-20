@@ -3,23 +3,19 @@ import { handleError } from "./common"
 
 const action = IS_MV3 ? chrome.action : chrome.browserAction
 
-export function setBadgeText(text: string, tabId: number): Promise<void> {
+export function setBadgeText(text: string, tabId: number | undefined): Promise<void> {
     return new Promise(resolve => action?.setBadgeText({ text, tabId }, () => {
         handleError('setBadgeText')
         resolve()
     }))
 }
 
-export function setBadgeBgColor(color: string | chrome.action.ColorArray): Promise<void> {
-    if (!color) {
-        if (IS_FIREFOX) {
-            // Use null to clear bg color for Firefox
-            color = null
-        } else {
-            color = [0, 0, 0, 0]
-        }
-    }
-    return new Promise(resolve => action?.setBadgeBackgroundColor({ color }, () => {
+export function setBadgeBgColor(color: string | chrome.action.ColorArray | undefined): Promise<void> {
+    let realColor: string | chrome.action.ColorArray = color ?? (
+        // Use null to clear bg color for Firefox
+        IS_FIREFOX ? null as unknown as string : [0, 0, 0, 0]
+    )
+    return new Promise(resolve => action?.setBadgeBackgroundColor({ color: realColor }, () => {
         handleError('setBadgeColor')
         resolve()
     }))

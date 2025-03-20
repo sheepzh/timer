@@ -14,7 +14,7 @@ const NONE_FLAG = '_'
 /**
  * site key => option value
  */
-export function cvt2OptionValue(siteKey: timer.site.SiteKey): string {
+export function cvt2OptionValue(siteKey: timer.site.SiteKey | undefined): string {
     if (!siteKey) return ''
     const { type } = siteKey
     let flag = NONE_FLAG
@@ -55,7 +55,7 @@ export const VIRTUAL_MSG = t(msg => msg.siteManage.type.virtual?.name)?.toLocale
  */
 export function labelOf(siteKey: timer.site.SiteKey, exists?: boolean): string {
     let { host: label, type } = siteKey || {}
-    const suffix = []
+    const suffix: string[] = []
     type === 'merged' && suffix.push(MERGED_MSG)
     type === 'virtual' && suffix.push(VIRTUAL_MSG)
     exists && suffix.push(EXIST_MSG)

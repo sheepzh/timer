@@ -24,16 +24,22 @@ function computeMergeTxt(mergedVal: number | string,): string {
     return mergedVal
 }
 
-function computeMergeType(mergedVal: number | string): TagProps["type"] {
+function computeMergeType(mergedVal: number | string): TagProps["type"] | undefined {
     if (typeof mergedVal === 'number') return 'success'
     if (!mergedVal) return 'info'
-    return null
+    return undefined
 }
 
 const _default = defineComponent({
     props: {
-        origin: String,
-        merged: [String, Number],
+        origin: {
+            type: String,
+            required: true,
+        },
+        merged: {
+            type: [String, Number],
+            required: true,
+        },
     },
     emits: {
         change: (_origin: string, _merged: string | number) => true,

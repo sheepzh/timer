@@ -21,12 +21,12 @@ class OptionDatabase extends BaseDatabase {
         const newVal = data[DB_KEY]
         const exist = await this.getOption()
         if (exist) {
-            Object.entries(exist).forEach(([key, value]) => exist[key] = value)
+            Object.entries(exist).forEach(([key, value]) => (exist as any)[key] = value)
         }
         await this.setOption(newVal)
     }
 
-    async getOption(): Promise<Partial<timer.option.AllOption>> {
+    async getOption(): Promise<timer.option.AllOption> {
         const option = await this.storage.getOne<timer.option.AllOption>(DB_KEY)
         return option || defaultOption()
     }
@@ -41,7 +41,7 @@ class OptionDatabase extends BaseDatabase {
     addOptionChangeListener(listener: (newVal: timer.option.AllOption) => void) {
         const storageListener = (
             changes: { [key: string]: chrome.storage.StorageChange },
-            _areaName: "sync" | "local" | "managed"
+            _areaName: chrome.storage.AreaName,
         ) => {
             const optionInfo = changes[DB_KEY]
             optionInfo && listener(optionInfo.newValue || {} as timer.option.AllOption)

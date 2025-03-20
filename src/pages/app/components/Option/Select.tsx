@@ -15,31 +15,25 @@ const _default = defineComponent(() => {
     const slots = useSlots()
 
     return () => (
-        <ContentContainer
-            v-slots={{
-                filter: () => (
-                    <ElSelect
-                        modelValue={tab.value}
-                        onChange={val => tab.value = val}
-                    >
-                        {Object.keys(slots)
-                            .filter(key => !IGNORED_CATE.includes(key as OptionCategory) && key !== 'default')
-                            .map((cate: OptionCategory) => (
-                                <ElSelect.Option
-                                    label={t(CATE_LABELS[cate])}
-                                    value={cate}
-                                />
-                            ))
-                        }
-                    </ElSelect>
-                ),
-                default: () => (
-                    <ElCard class="option-select-card">
-                        {h(slots[tab.value])}
-                    </ElCard>
-                )
-            }}
-        />
+        <ContentContainer v-slots={{
+            filter: () => (
+                <ElSelect
+                    modelValue={tab.value}
+                    onChange={val => tab.value = val}
+                >
+                    {Object.keys(slots)
+                        .filter(key => !IGNORED_CATE.includes(key as OptionCategory) && key !== 'default')
+                        .map(cate => (
+                            <ElSelect.Option value={cate} label={t(CATE_LABELS[cate as OptionCategory])} />
+                        ))
+                    }
+                </ElSelect>
+            ),
+            default: () => {
+                const slot = slots[tab.value]
+                return !!slot && <ElCard class="option-select-card">{h(slot)}</ElCard>
+            }
+        }} />
     )
 })
 

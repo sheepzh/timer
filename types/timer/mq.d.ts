@@ -42,7 +42,7 @@ declare namespace timer.mq {
      */
     type Request<T = any> = {
         code: ReqCode
-        data: T
+        data?: T
     }
     /**
      * @since 0.8.4
@@ -55,7 +55,7 @@ declare namespace timer.mq {
     /**
      * @since 1.3.0
      */
-    type Handler<Req, Res> = (data: Req, sender?: chrome.runtime.MessageSender) => Promise<Res> | Res
+    type Handler<Req, Res> = (data: Req, sender: chrome.runtime.MessageSender) => Promise<Res> | Res
     /**
      * @since 0.8.4
      */

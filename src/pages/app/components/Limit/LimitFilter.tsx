@@ -25,7 +25,10 @@ type BatchOpt = 'delete' | 'enable' | 'disable'
 
 const _default = defineComponent({
     props: {
-        defaultValue: Object as PropType<LimitFilterOption>
+        defaultValue: {
+            type: Object as PropType<LimitFilterOption>,
+            required: true,
+        }
     },
     emits: {
         batchDelete: () => true,
@@ -36,7 +39,7 @@ const _default = defineComponent({
         test: () => true,
     },
     setup(props, ctx) {
-        const [url, setUrl] = useState(props.defaultValue?.url)
+        const [url, setUrl] = useState(props.defaultValue.url)
         const [onlyEnabled, setOnlyEnabled] = useState(props.defaultValue?.onlyEnabled)
         watch([url, onlyEnabled], () => ctx.emit("change", { url: url.value, onlyEnabled: onlyEnabled.value }))
 
@@ -82,7 +85,7 @@ const _default = defineComponent({
                     />
                 </Flex>
                 <Flex gap={10}>
-                    <DropdownButton items={batchItems} onClick={handleBatchClick} />
+                    <DropdownButton items={batchItems} onClick={key => handleBatchClick(key as BatchOpt)} />
                     <ButtonFilterItem
                         text={t(msg => msg.limit.button.test)}
                         type="primary"

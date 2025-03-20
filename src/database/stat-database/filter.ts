@@ -49,7 +49,7 @@ function filterDate(
     return true
 }
 
-function filterNumberRange(val: number, [start, end]: [start: number, end: number]): boolean {
+function filterNumberRange(val: number, [start, end]: [start?: number, end?: number]): boolean {
     if (start !== null && start !== undefined && start > val) return false
     if (end !== null && end !== undefined && end < val) return false
     return true
@@ -76,15 +76,15 @@ function filterByCond(result: _FilterResult, condition: _StatCondition): boolean
 }
 
 
-function processDateCondition(cond: _StatCondition, paramDate: Date | [Date, Date?]) {
+function processDateCondition(cond: _StatCondition, paramDate?: Date | [Date, Date?]) {
     if (!paramDate) return
 
     if (paramDate instanceof Date) {
         cond.useExactDate = true
         cond.exactDateStr = formatTimeYMD(paramDate as Date)
     } else {
-        let startDate: Date = undefined
-        let endDate: Date = undefined
+        let startDate: Date | undefined = undefined
+        let endDate: Date | undefined = undefined
         const dateArr = paramDate as [Date, Date]
         dateArr && dateArr.length >= 2 && (endDate = dateArr[1])
         dateArr && dateArr.length >= 1 && (startDate = dateArr[0])
@@ -94,13 +94,13 @@ function processDateCondition(cond: _StatCondition, paramDate: Date | [Date, Dat
     }
 }
 
-function processParamTimeCondition(cond: _StatCondition, paramTime: Vector<2>) {
+function processParamTimeCondition(cond: _StatCondition, paramTime?: [number, number?]) {
     if (!paramTime) return
     paramTime.length >= 2 && (cond.timeEnd = paramTime[1])
     paramTime.length >= 1 && (cond.timeStart = paramTime[0])
 }
 
-function processParamFocusCondition(cond: _StatCondition, paramFocus: Vector<2>) {
+function processParamFocusCondition(cond: _StatCondition, paramFocus?: Vector<2>) {
     if (!paramFocus) return
     paramFocus.length >= 2 && (cond.focusEnd = paramFocus[1])
     paramFocus.length >= 1 && (cond.focusStart = paramFocus[0])

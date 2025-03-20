@@ -10,7 +10,7 @@ import { t } from "@app/locale"
 /**
  * Transfer host info to label
  */
-export function labelOfHostInfo(site: timer.site.SiteKey): string {
+export function labelOfHostInfo(site: timer.site.SiteKey | undefined): string {
     if (!site) return ''
     const { host, type } = site
     if (!host) return ''
@@ -21,8 +21,8 @@ export function labelOfHostInfo(site: timer.site.SiteKey): string {
 }
 
 export type RingValue = [
-    current: number,
-    last: number,
+    current?: number,
+    last?: number,
 ]
 
 /**
@@ -47,9 +47,9 @@ export function computeRingText(ring: RingValue, formatter?: ValueFormatter): st
     return result
 }
 
-export type ValueFormatter = (val: number) => string
+export type ValueFormatter = (val: number | undefined) => string
 
-export const formatValue = (val: number, formatter?: ValueFormatter) => formatter ? formatter(val) : val?.toString() || '-'
+export const formatValue = (val: number | undefined, formatter?: ValueFormatter) => formatter ? formatter(val) : val?.toString() || '-'
 
 export type DimensionEntry = {
     date: string

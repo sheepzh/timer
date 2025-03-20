@@ -22,8 +22,7 @@ const BUTTON_STYLE: StyleValue = {
 }
 
 const range2Period = (range: [Date, Date]): [number, number] => {
-    const [start, end] = range || []
-    if (start === undefined || end === undefined) return undefined
+    const [start, end] = range
     const startIdx = dateMinute2Idx(start)
     const endIdx = dateMinute2Idx(end)
     return [Math.min(startIdx, endIdx), Math.max(startIdx, endIdx)]
@@ -70,6 +69,11 @@ const checkImpact = (p1: timer.limit.Period, p2: timer.limit.Period): boolean =>
     return (s1 >= s2 && s1 <= e2) || (s2 >= s1 && s2 <= e1)
 }
 
+const rangeInitial = (): [Date, Date] => {
+    const now = new Date()
+    return [now, new Date(now.getTime() + MILL_PER_HOUR)]
+}
+
 const _default = defineComponent({
     props: {
         modelValue: Array as PropType<timer.limit.Period[]>
@@ -79,12 +83,11 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const [editing, openEditing, closeEditing] = useSwitch(false)
-        const [editingRange, setEditingRange] = useState<[Date, Date]>()
+        const [editingRange, setEditingRange] = useState(rangeInitial())
 
         const handleEdit = () => {
             openEditing()
-            const now = new Date()
-            setEditingRange([now, new Date(now.getTime() + MILL_PER_HOUR)])
+            setEditingRange(rangeInitial())
         }
 
         const handleSave = () => {

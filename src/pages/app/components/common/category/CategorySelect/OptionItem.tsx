@@ -11,7 +11,10 @@ import { defineComponent, nextTick, type PropType, ref } from "vue"
 
 const OptionItem = defineComponent({
     props: {
-        value: Object as PropType<timer.site.Cate>,
+        value: {
+            type: Object as PropType<timer.site.Cate>,
+            required: true,
+        },
     },
     setup(props) {
         const { refreshCategories } = useCategories()
@@ -86,8 +89,8 @@ const OptionItem = defineComponent({
                             modelValue={editingName.value}
                             onInput={setEditingName}
                             style={{ maxWidth: '120px' }}
-                            onKeydown={(ev: KeyboardEvent) => {
-                                const { key } = ev
+                            onKeydown={ev => {
+                                const { key } = ev as KeyboardEvent
                                 if (key === 'Enter') {
                                     onSaveClick()
                                 } else if (key === 'Escape') {

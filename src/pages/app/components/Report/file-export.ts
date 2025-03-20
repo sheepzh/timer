@@ -43,7 +43,7 @@ function computeFileName(filterParam: ReportFilterOption): string {
 }
 
 const generateJsonData = (rows: timer.stat.Row[], categories: timer.site.Cate[]) => rows.map(row => ({
-    host: row.siteKey?.host,
+    host: row.siteKey?.host ?? '',
     date: row.date,
     alias: row.alias,
     cate: getCateName(row, categories),
@@ -53,14 +53,14 @@ const generateJsonData = (rows: timer.stat.Row[], categories: timer.site.Cate[])
 
 const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string => {
     const cateId = row?.cateId || row?.cateKey
-    let cate: string
+    let cate: string = ''
     if (cateId === CATE_NOT_SET_ID) {
         cate = t(msg => msg.shared.cate.notSet)
     } else if (cateId) {
         const current = categories?.find(c => c.id === cateId)
-        cate = current?.name
+        cate = current?.name ?? ''
     }
-    return cate ?? ''
+    return cate
 }
 
 /**
@@ -87,7 +87,7 @@ const CSV_COLUMN_CONFIGS: Record<CsvColumn, CsvColumnConfig> = {
     date: {
         visible: mergeDate => !mergeDate,
         i18n: msg => msg.item.date,
-        formatter: row => row.date,
+        formatter: row => row.date ?? '',
     },
     host: {
         visible: (_, siteMerge) => siteMerge !== 'cate',

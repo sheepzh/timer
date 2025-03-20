@@ -20,8 +20,8 @@ import './style.sass'
 import Total from "./Total"
 
 type DailyIndicator = {
-    value: number
-    date: string
+    value: number | undefined
+    date: string | undefined
 }
 
 type GlobalIndicator = number
@@ -31,21 +31,21 @@ type DimensionType = 'focus' | 'visit'
 type IndicatorSet = Record<DimensionType, {
     max: DailyIndicator
     total: GlobalIndicator
-    average: GlobalIndicator
+    average: GlobalIndicator | undefined
 }> & {
     activeDay: number
 }
 
 type SourceParam = {
     dateRange: [Date, Date]
-    rows?: timer.stat.Row[]
+    rows: timer.stat.Row[]
 }
 
 type EffectParam = {
-    indicators: Ref<IndicatorSet>
-    previousIndicators: Ref<IndicatorSet>
-    focusData: Ref<DimensionData>
-    visitData: Ref<DimensionData>
+    indicators: Ref<IndicatorSet | undefined>
+    previousIndicators: Ref<IndicatorSet | undefined>
+    focusData: Ref<DimensionData | undefined>
+    visitData: Ref<DimensionData | undefined>
 }
 
 const VISIT_MAX = t(msg => msg.analysis.trend.maxVisit)
@@ -55,7 +55,10 @@ const FOCUS_MAX = t(msg => msg.analysis.trend.maxFocus)
 const FOCUS_AVE = t(msg => msg.analysis.trend.averageFocus)
 const FOCUS_CHART_TITLE = t(msg => msg.analysis.trend.focusTitle)
 
-function computeIndicatorSet(rows: timer.stat.Row[], dateRange: [Date, Date]): [IndicatorSet, Record<string, timer.stat.Row>] {
+function computeIndicatorSet(
+    rows: timer.stat.Row[],
+    dateRange: [Date, Date] | undefined,
+): [IndicatorSet | undefined, Record<string, timer.stat.Row | undefined>] {
     const [start, end] = dateRange || []
     const allDates = start && end ? getAllDatesBetween(start, end) : []
     if (!rows) {
@@ -64,7 +67,7 @@ function computeIndicatorSet(rows: timer.stat.Row[], dateRange: [Date, Date]): [
     }
 
     const days = allDates.length
-    const periodRows = rows.filter(({ date }) => allDates.includes(date))
+    const periodRows = rows.filter(({ date }) => allDates.includes(date ?? ''))
     const periodRowMap = groupBy(periodRows, r => r.date, a => a[0])
     let focusMax: DailyIndicator
     let visitMax: DailyIndicator
@@ -92,7 +95,7 @@ function computeIndicatorSet(rows: timer.stat.Row[], dateRange: [Date, Date]): [
     return [indicators, fullPeriodRow]
 }
 
-function lastRange(dateRange: [Date, Date]): [Date, Date] {
+function lastRange(dateRange: [Date, Date]): [Date, Date] | undefined {
     const [start, end] = dateRange || []
     if (!start || !end) return undefined
     const dayLength = getDayLength(start, end)
@@ -101,7 +104,7 @@ function lastRange(dateRange: [Date, Date]): [Date, Date] {
     return [newStart, newEnd]
 }
 
-const visitFormatter: ValueFormatter = (val: number) => Number.isInteger(val) ? val.toString() : val?.toFixed(1) || '-'
+const visitFormatter: ValueFormatter = (val: number | undefined) => (Number.isInteger(val) ? val?.toString() : val?.toFixed(1)) ?? '-'
 
 function handleDataChange(source: SourceParam, effect: EffectParam) {
     const { dateRange, rows } = source

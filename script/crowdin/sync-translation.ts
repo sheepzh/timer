@@ -43,7 +43,7 @@ async function processDir(client: CrowdinClient, dir: Dir, branch: SourceFilesMo
     if (!directory) {
         exitWith("Directory not found: " + dir)
     }
-    const files = await client.listFilesByDirectory(directory.id)
+    const files = await client.listFilesByDirectory(directory!.id)
     console.log(`find ${files.length} files of ${dir}`)
     const fileMap = groupBy(files, f => f.name, l => l[0])
     for (const [fileName, message] of Object.entries(messages)) {

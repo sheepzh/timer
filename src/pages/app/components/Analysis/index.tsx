@@ -17,7 +17,7 @@ import Trend from "./components/Trend"
 import { initProvider } from "./context"
 import type { AnalysisTarget } from "./types"
 
-function getTargetFromQuery(): AnalysisTarget {
+function getTargetFromQuery(): AnalysisTarget | undefined {
     // Process the query param
     const query: AnalysisQuery = useRoute().query as unknown as AnalysisQuery
     useRouter().replace({ query: {} })
@@ -27,7 +27,7 @@ function getTargetFromQuery(): AnalysisTarget {
     return undefined
 }
 
-async function query(target: AnalysisTarget): Promise<timer.stat.Row[]> {
+async function query(target: AnalysisTarget | undefined): Promise<timer.stat.Row[]> {
     if (!target?.key) return []
 
     let param: StatQueryParam = {
@@ -53,7 +53,7 @@ const _default = defineComponent(() => {
     const [target, setTarget] = useState(getTargetFromQuery())
     const [timeFormat, setTimeFormat] = useState<timer.app.TimeFormat>('default')
 
-    const { data: rows, loading } = useRequest(() => query(target.value), { deps: target })
+    const { data: rows, loading } = useRequest(() => query(target.value), { deps: target, defaultValue: [] })
 
     initProvider(target, timeFormat, rows)
 

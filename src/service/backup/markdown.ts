@@ -19,10 +19,10 @@ const CLIENT_FIELDS: MarkdownTableField<timer.backup.Client>[] = [
         formatter: r => r.name,
     }, {
         name: "Earliest Date",
-        formatter: r => r.minDate,
+        formatter: r => r.minDate ?? '',
     }, {
         name: "Latest Date",
-        formatter: r => r.maxDate,
+        formatter: r => r.maxDate ?? '',
     }
 ]
 
@@ -102,12 +102,13 @@ export function divideByDate(rows: timer.core.Row[]): { [date: string]: string }
     return groupBy(rows, row => row.date, list => genMarkdownTable(list, ROW_FIELDS))
 }
 
-export function parseData<T>(markdown: string): T {
+export function parseData<T>(markdown: string | undefined | null): T | undefined {
+    if (!markdown) return undefined
     let line2 = markdown?.split('\n')?.[1]
     if (!line2) {
-        return null
+        return
     }
     line2 = line2?.replace("<!-- ", "").replace("-->", "").trim()
-    if (!line2) return null
+    if (!line2) return
     return JSON.parse(line2)
 }

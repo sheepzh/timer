@@ -41,13 +41,7 @@ const _default = defineComponent({
                     <ElSwitch
                         size="small"
                         modelValue={row.enabled}
-                        onChange={(val: boolean) => handleChange(row, val)
-                            .then(() => {
-                                row.enabled = val
-                                ctx.emit("rowChange", toRaw(row), val)
-                            })
-                            .catch(console.log)
-                        }
+                        onChange={val => handleChange(row, val as boolean)}
                     />
                 )}
             </ElTableColumn>

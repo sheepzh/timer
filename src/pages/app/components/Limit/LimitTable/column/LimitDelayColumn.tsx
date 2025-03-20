@@ -40,13 +40,7 @@ const _default = defineComponent({
                         <ElSwitch
                             size="small"
                             modelValue={row.allowDelay}
-                            onChange={(val: boolean) => handleChange(row, val)
-                                .then(() => {
-                                    row.allowDelay = val
-                                    ctx.emit("rowChange", toRaw(row), val)
-                                })
-                                .catch(console.log)
-                            }
+                            onChange={val => handleChange(row, val as boolean)}
                         />
                     ),
                 }}

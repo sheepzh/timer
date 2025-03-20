@@ -45,12 +45,15 @@ const initMergeMethod = (filter: ReportFilterOption): timer.stat.MergeMethod[] =
     const res: timer.stat.MergeMethod[] = []
     mergeDate && (res.push('date'))
     siteMerge && (res.push(siteMerge))
-    return res.length ? res : undefined
+    return res
 }
 
 const _default = defineComponent({
     props: {
-        initial: Object as PropType<ReportFilterOption>,
+        initial: {
+            type: Object as PropType<ReportFilterOption>,
+            required: true,
+        },
         hideCateFilter: Boolean,
     },
     emits: {
@@ -59,20 +62,20 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const { categories } = useCategories()
+        const { initial } = props
 
-        const initial: ReportFilterOption = props.initial
-        const [host, setHost] = useState(initial?.host)
-        const [dateRange, setDateRange] = useState(initial?.dateRange)
-        const [mergeMethod, setMergeMethod] = useState(initMergeMethod(props.initial))
+        const [host, setHost] = useState(initial.host)
+        const [dateRange, setDateRange] = useState(initial.dateRange)
+        const [mergeMethod, setMergeMethod] = useState(initMergeMethod(initial))
         const [cateIds, setCateIds] = useState(initial.cateIds)
-        const [timeFormat, setTimeFormat] = useState(initial?.timeFormat)
+        const [timeFormat, setTimeFormat] = useState(initial.timeFormat)
         // Whether to read remote backup data
-        const [readRemote, setReadRemote] = useState(initial?.readRemote)
+        const [readRemote, setReadRemote] = useState(initial.readRemote)
 
         const option = computed(() => ({
             host: host.value,
             dateRange: dateRange.value,
-            mergeDate: mergeMethod.value?.includes?.('date'),
+            mergeDate: mergeMethod.value.includes('date'),
             siteMerge: (['domain', 'cate'] satisfies ReportFilterOption['siteMerge'][])
                 .filter(t => mergeMethod.value?.includes?.(t))
                 ?.[0],

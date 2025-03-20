@@ -30,7 +30,7 @@ const _default = defineComponent({
             historyName="timeFormat"
             defaultValue={data.value}
             options={TIME_FORMAT_LABELS}
-            onSelect={(val: timer.app.TimeFormat) => ctx.emit("change", data.value = val)}
+            onSelect={val => ctx.emit("change", data.value = val as timer.app.TimeFormat)}
         />
     }
 })

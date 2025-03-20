@@ -36,7 +36,7 @@ class PaginationIterator<T> {
         this.cursor = 0
     }
 
-    async findFirst(predicate: (ele: T) => boolean): Promise<T> {
+    async findFirst(predicate: (ele: T) => boolean): Promise<T | undefined> {
         while (true) {
             const data = await this.next()
             if (!data) {
@@ -50,7 +50,7 @@ class PaginationIterator<T> {
     }
 
     async findAll(predicate?: ((ele: T) => boolean)): Promise<T[]> {
-        const result = []
+        const result: T[] = []
         while (true) {
             const data = await this.next()
             if (!data) {
@@ -63,7 +63,7 @@ class PaginationIterator<T> {
         return result
     }
 
-    async next(): Promise<T> {
+    async next(): Promise<T | undefined> {
         if (this.isEnd) {
             return undefined
         }
@@ -90,54 +90,6 @@ class PaginationIterator<T> {
     }
 }
 
-async function createStorage(fileName: string, content: any): Promise<UploadStorageModel.Storage> {
-    const response = await this.crowdin.uploadStorageApi.addStorage(fileName, content)
-    return response.data
-}
-
-async function createFile(this: CrowdinClient,
-    directoryId: number,
-    storage: UploadStorageModel.Storage,
-    fileName: string
-): Promise<SourceFilesModel.File> {
-    const request: SourceFilesModel.CreateFileRequest = {
-        name: fileName,
-        storageId: storage.id,
-        directoryId,
-        type: 'json',
-    }
-    const response = await this.crowdin.sourceFilesApi.createFile(PROJECT_ID, request)
-    return response.data
-}
-
-async function restoreFile(this: CrowdinClient, storage: UploadStorageModel.Storage, existFile: SourceFilesModel.File): Promise<SourceFilesModel.File> {
-    const response = await this.crowdin.sourceFilesApi.updateOrRestoreFile(PROJECT_ID, existFile.id, { storageId: storage.id })
-    return response.data
-}
-
-async function getMainBranch(this: CrowdinClient): Promise<SourceFilesModel.Branch> {
-    return new PaginationIterator(
-        pagination => this.crowdin.sourceFilesApi.listProjectBranches(PROJECT_ID, { ...pagination })
-    ).findFirst(e => e.name === MAIN_BRANCH_NAME)
-}
-
-async function createMainBranch(): Promise<SourceFilesModel.Branch> {
-    const request: SourceFilesModel.CreateBranchRequest = {
-        name: MAIN_BRANCH_NAME
-    }
-    const res = await this.crowdin.sourceFilesApi.createBranch(PROJECT_ID, request)
-    return res.data
-}
-
-async function getOrCreateMainBranch(this: CrowdinClient): Promise<SourceFilesModel.Branch> {
-    let branch = await this.getMainBranch()
-    if (!branch) {
-        branch = await this.createMainBranch()
-    }
-    console.info("getOrCreateMainBranch: " + JSON.stringify(branch))
-    return branch
-}
-
 /**
  * Key of crowdin file/directory
  */
@@ -146,122 +98,9 @@ export type NameKey = {
     branchId: number
 }
 
-function getFileByName(this: CrowdinClient, param: NameKey): Promise<SourceFilesModel.File> {
-    return new PaginationIterator(
-        p => this.crowdin.sourceFilesApi.listProjectFiles(PROJECT_ID, { ...p, branchId: param.branchId })
-    ).findFirst(t => t.name === param.name)
-}
-
-function getDirByName(this: CrowdinClient, param: NameKey): Promise<SourceFilesModel.Directory> {
-    return new PaginationIterator(
-        p => this.crowdin.sourceFilesApi.listProjectDirectories(PROJECT_ID, { ...p, branchId: param.branchId })
-    ).findFirst(d => d.name === param.name)
-}
-
-async function createDirectory(this: CrowdinClient, param: NameKey): Promise<SourceFilesModel.Directory> {
-    const res = await this.crowdin.sourceFilesApi.createDirectory(PROJECT_ID, {
-        name: param.name,
-        branchId: param.branchId,
-    })
-    return res.data
-}
-
-function listFilesByDirectory(this: CrowdinClient, directoryId: number) {
-    return new PaginationIterator(
-        p => this.crowdin.sourceFilesApi.listProjectFiles(PROJECT_ID, { ...p, directoryId: directoryId })
-    ).findAll()
-}
-
-function listStringsByFile(this: CrowdinClient, fileId: number): Promise<SourceStringsModel.String[]> {
-    return new PaginationIterator(
-        p => this.crowdin.sourceStringsApi.listProjectStrings(PROJECT_ID, { ...p, fileId: fileId })
-    ).findAll()
-}
-
-async function batchCreateString(
-    this: CrowdinClient,
-    fileId: number,
-    content: ItemSet,
-): Promise<void> {
-    for (const [path, value] of Object.entries(content)) {
-        const request: SourceStringsModel.CreateStringRequest = {
-            fileId,
-            text: value,
-            identifier: path,
-        }
-        console.log(`Try to create new string: ${JSON.stringify(request)}`)
-        await this.crowdin.sourceStringsApi.addString(PROJECT_ID, request)
-    }
-}
-
-async function batchUpdateIfNecessary(this: CrowdinClient,
-    content: ItemSet,
-    existStringsKeyMap: { [path: string]: SourceStringsModel.String }
-): Promise<void> {
-    console.log("=========start to update strings========")
-    console.log("Content length: " + Object.keys(content).length)
-    for (const [path, value] of Object.entries(content)) {
-        const string = existStringsKeyMap[path]
-        const patch: PatchRequest[] = []
-        string?.text !== value && patch.push({
-            op: 'replace',
-            path: '/text',
-            value: value
-        })
-        if (!patch.length) {
-            continue
-        }
-        console.log('Try to edit string: ' + string.identifier)
-        await this.crowdin.sourceStringsApi.editString(PROJECT_ID, string.id, patch)
-    }
-    console.log("=========end to update strings========")
-}
-
-async function batchDeleteString(this: CrowdinClient, stringIds: number[]): Promise<void> {
-    console.log("=========start to delete strings========")
-    for (const stringId of stringIds) {
-        await this.crowdin.sourceStringsApi.deleteString(PROJECT_ID, stringId)
-        console.log("Delete string: id=" + stringId)
-    }
-    console.log("=========end to delete strings========")
-}
-
 export type TranslationKey = {
     stringId: number
     lang: CrowdinLanguage
-}
-
-async function existTranslationByStringAndLang(this: CrowdinClient, transKey: TranslationKey): Promise<boolean> {
-    const { stringId, lang } = transKey
-    const trans = await new PaginationIterator(
-        p => this.crowdin.stringTranslationsApi.listStringTranslations(PROJECT_ID, stringId, lang, { ...p })
-    ).findFirst(_ => true)
-    return !!trans
-}
-
-async function createTranslation(this: CrowdinClient, transKey: TranslationKey, text: string) {
-    const { stringId, lang } = transKey
-    const request: StringTranslationsModel.AddStringTranslationRequest = {
-        stringId,
-        languageId: lang,
-        text
-    }
-    await this.crowdin.stringTranslationsApi.addTranslation(PROJECT_ID, request)
-}
-
-async function buildProjectTranslation(this: CrowdinClient, branchId: number) {
-    const buildRes = await this.crowdin.translationsApi.buildProject(PROJECT_ID, {
-        branchId,
-        targetLanguageIds: [...ALL_CROWDIN_LANGUAGES],
-        skipUntranslatedStrings: true,
-    })
-    const buildId = buildRes?.data?.id
-    while (true) {
-        // Wait finished
-        const res = await this.crowdin.translationsApi.downloadTranslations(PROJECT_ID, buildId)
-        const url = res?.data?.url
-        if (url) return url
-    }
 }
 
 /**
@@ -277,46 +116,175 @@ export class CrowdinClient {
         this.crowdin = new Crowdin(credentials)
         console.info("Initialized client successfully")
     }
-    createStorage = createStorage
+
+    async createStorage(fileName: string, content: any): Promise<UploadStorageModel.Storage> {
+        const response = await this.crowdin.uploadStorageApi.addStorage(fileName, content)
+        return response.data
+    }
+
     /**
      * Get the main branch
      *
      * @returns main branch or undefined
      */
-    getMainBranch = getMainBranch
+
+    async getMainBranch(): Promise<SourceFilesModel.Branch | undefined> {
+        return new PaginationIterator(
+            pagination => this.crowdin.sourceFilesApi.listProjectBranches(PROJECT_ID, { ...pagination })
+        ).findFirst(e => e.name === MAIN_BRANCH_NAME)
+    }
 
     /**
      * Create the main branch
      */
-    createMainBranch = createMainBranch
+    async createMainBranch(): Promise<SourceFilesModel.Branch> {
+        const request: SourceFilesModel.CreateBranchRequest = {
+            name: MAIN_BRANCH_NAME
+        }
+        const res = await this.crowdin.sourceFilesApi.createBranch(PROJECT_ID, request)
+        return res.data
+    }
 
-    getOrCreateMainBranch = getOrCreateMainBranch
+    async getOrCreateMainBranch(): Promise<SourceFilesModel.Branch> {
+        let branch = await this.getMainBranch()
+        if (!branch) {
+            branch = await this.createMainBranch()
+        }
+        console.info("getOrCreateMainBranch: " + JSON.stringify(branch))
+        return branch
+    }
 
-    createFile = createFile
+    async createFile(
+        directoryId: number,
+        storage: UploadStorageModel.Storage,
+        fileName: string
+    ): Promise<SourceFilesModel.File> {
+        const request: SourceFilesModel.CreateFileRequest = {
+            name: fileName,
+            storageId: storage.id,
+            directoryId,
+            type: 'json',
+        }
+        const response = await this.crowdin.sourceFilesApi.createFile(PROJECT_ID, request)
+        return response.data
+    }
 
-    restoreFile = restoreFile
+    async restoreFile(storage: UploadStorageModel.Storage, existFile: SourceFilesModel.File): Promise<SourceFilesModel.File> {
+        const response = await this.crowdin.sourceFilesApi.updateOrRestoreFile(PROJECT_ID, existFile.id, { storageId: storage.id })
+        return response.data
+    }
 
-    getFileByName = getFileByName
+    getFileByName(param: NameKey): Promise<SourceFilesModel.File | undefined> {
+        return new PaginationIterator(
+            p => this.crowdin.sourceFilesApi.listProjectFiles(PROJECT_ID, { ...p, branchId: param.branchId })
+        ).findFirst(t => t.name === param.name)
+    }
 
-    getDirByName = getDirByName
+    getDirByName(param: NameKey): Promise<SourceFilesModel.Directory | undefined> {
+        return new PaginationIterator(
+            p => this.crowdin.sourceFilesApi.listProjectDirectories(PROJECT_ID, { ...p, branchId: param.branchId })
+        ).findFirst(d => d.name === param.name)
+    }
 
-    createDirectory = createDirectory
+    async createDirectory(param: NameKey): Promise<SourceFilesModel.Directory> {
+        const res = await this.crowdin.sourceFilesApi.createDirectory(PROJECT_ID, {
+            name: param.name,
+            branchId: param.branchId,
+        })
+        return res.data
+    }
 
-    listFilesByDirectory = listFilesByDirectory
+    listFilesByDirectory(directoryId: number) {
+        return new PaginationIterator(
+            p => this.crowdin.sourceFilesApi.listProjectFiles(PROJECT_ID, { ...p, directoryId: directoryId })
+        ).findAll()
+    }
 
-    listStringsByFile = listStringsByFile
+    listStringsByFile(fileId: number): Promise<SourceStringsModel.String[]> {
+        return new PaginationIterator(
+            p => this.crowdin.sourceStringsApi.listProjectStrings(PROJECT_ID, { ...p, fileId: fileId })
+        ).findAll()
+    }
 
-    batchCreateString = batchCreateString
+    async batchCreateString(
+        fileId: number,
+        content: ItemSet,
+    ): Promise<void> {
+        for (const [path, value] of Object.entries(content)) {
+            const request: SourceStringsModel.CreateStringRequest = {
+                fileId,
+                text: value,
+                identifier: path,
+            }
+            console.log(`Try to create new string: ${JSON.stringify(request)}`)
+            await this.crowdin.sourceStringsApi.addString(PROJECT_ID, request)
+        }
+    }
 
-    batchUpdateIfNecessary = batchUpdateIfNecessary
+    async batchUpdateIfNecessary(
+        content: ItemSet,
+        existStringsKeyMap: { [path: string]: SourceStringsModel.String }
+    ): Promise<void> {
+        console.log("=========start to update strings========")
+        console.log("Content length: " + Object.keys(content).length)
+        for (const [path, value] of Object.entries(content)) {
+            const string = existStringsKeyMap[path]
+            const patch: PatchRequest[] = []
+            string?.text !== value && patch.push({
+                op: 'replace',
+                path: '/text',
+                value: value
+            })
+            if (!patch.length) {
+                continue
+            }
+            console.log('Try to edit string: ' + string.identifier)
+            await this.crowdin.sourceStringsApi.editString(PROJECT_ID, string.id, patch)
+        }
+        console.log("=========end to update strings========")
+    }
 
-    batchDeleteString = batchDeleteString
+    async batchDeleteString(stringIds: number[]): Promise<void> {
+        console.log("=========start to delete strings========")
+        for (const stringId of stringIds) {
+            await this.crowdin.sourceStringsApi.deleteString(PROJECT_ID, stringId)
+            console.log("Delete string: id=" + stringId)
+        }
+        console.log("=========end to delete strings========")
+    }
 
-    existTranslationByStringAndLang = existTranslationByStringAndLang
+    async existTranslationByStringAndLang(transKey: TranslationKey): Promise<boolean> {
+        const { stringId, lang } = transKey
+        const trans = await new PaginationIterator(
+            p => this.crowdin.stringTranslationsApi.listStringTranslations(PROJECT_ID, stringId, lang, { ...p })
+        ).findFirst(_ => true)
+        return !!trans
+    }
 
-    createTranslation = createTranslation
+    async createTranslation(transKey: TranslationKey, text: string) {
+        const { stringId, lang } = transKey
+        const request: StringTranslationsModel.AddStringTranslationRequest = {
+            stringId,
+            languageId: lang,
+            text
+        }
+        await this.crowdin.stringTranslationsApi.addTranslation(PROJECT_ID, request)
+    }
 
-    buildProjectTranslation = buildProjectTranslation
+    async buildProjectTranslation(branchId: number) {
+        const buildRes = await this.crowdin.translationsApi.buildProject(PROJECT_ID, {
+            branchId,
+            targetLanguageIds: [...ALL_CROWDIN_LANGUAGES],
+            skipUntranslatedStrings: true,
+        })
+        const buildId = buildRes?.data?.id
+        while (true) {
+            // Wait finished
+            const res = await this.crowdin.translationsApi.downloadTranslations(PROJECT_ID, buildId)
+            const url = res?.data?.url
+            if (url) return url
+        }
+    }
 }
 
 /**

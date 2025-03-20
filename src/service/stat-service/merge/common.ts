@@ -7,7 +7,7 @@
 
 type _RemoteCompositionMap = Record<'_' | string, timer.stat.RemoteCompositionVal>
 
-function mergeComposition(c1: timer.stat.RemoteComposition, c2: timer.stat.RemoteComposition): timer.stat.RemoteComposition {
+function mergeComposition(c1: timer.stat.RemoteComposition | undefined, c2: timer.stat.RemoteComposition | undefined): timer.stat.RemoteComposition {
     const focusMap: _RemoteCompositionMap = {}
     const timeMap: _RemoteCompositionMap = {}
     const runMap: _RemoteCompositionMap = {}

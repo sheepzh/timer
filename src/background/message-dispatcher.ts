@@ -33,7 +33,8 @@ class MessageDispatcher {
             const result = await handler(message.data, sender)
             return { code: 'success', data: result }
         } catch (error) {
-            return { code: 'fail', msg: error }
+            const msg = (error as Error)?.message ?? error?.toString?.()
+            return { code: 'fail', msg }
         }
     }
 

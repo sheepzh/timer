@@ -29,7 +29,7 @@ const _default = defineComponent({
                     v-show={visible.value}
                     size="small"
                     style={ICON_BTN_STYLE}
-                    type={readRemote.value ? 'primary' : null}
+                    type={readRemote.value ? 'primary' : undefined}
                     onClick={() => readRemote.value = !readRemote.value}
                 >
                     <ElIcon size={17} style={{ padding: "0 1px" }}>

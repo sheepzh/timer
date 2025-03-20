@@ -16,7 +16,6 @@ const Ranking = defineComponent(() => {
                     <ElCol span={24 / 3}>
                         <Item
                             value={row}
-                            type={result.value?.query?.type}
                             max={result.value?.max}
                             total={result.value?.total}
                             date={result.value?.date}

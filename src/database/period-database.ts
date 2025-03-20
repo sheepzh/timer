@@ -102,7 +102,7 @@ class PeriodDatabase extends BaseDatabase {
         if (typeof data !== "object") return
         const items = await this.storage.get()
         const keyReg = new RegExp(`^${KEY_PREFIX}20\\d{2}[01]\\d[0-3]\\d$`)
-        const toSave = {}
+        const toSave: Record<string, _Value> = {}
         Object.entries(data)
             .filter(([key]) => keyReg.test(key))
             .forEach(([key, value]) => toSave[key] = migrate(items[key], value as _Value))

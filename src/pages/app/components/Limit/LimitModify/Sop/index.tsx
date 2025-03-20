@@ -25,17 +25,18 @@ export type SopInstance = {
     reset: (rule?: timer.limit.Rule) => void
 }
 
-const createInitial = (): Required<Omit<timer.limit.Rule, 'id' | 'allowDelay'>> => ({
-    name: null,
+const createInitial = (): Required<Omit<timer.limit.Rule, 'id'>> => ({
+    name: '',
     time: 3600,
-    weekly: null,
+    weekly: 0,
     cond: [],
-    visitTime: null,
-    periods: null,
+    visitTime: 0,
+    periods: [],
     enabled: true,
     weekdays: range(7),
-    count: null,
-    weeklyCount: null,
+    count: 0,
+    weeklyCount: 0,
+    allowDelay: false,
 })
 
 const _default = defineComponent({
@@ -44,21 +45,21 @@ const _default = defineComponent({
     },
     emits: {
         cancel: () => true,
-        save: (_rule: timer.limit.Rule) => true,
+        save: (_rule: MakeOptional<timer.limit.Rule, 'id'>) => true,
     },
     setup(_, ctx) {
         const [step, setStep] = useState<Step>(0)
         const last = computed(() => step.value === 2)
         const first = computed(() => step.value === 0)
         const data = reactive(createInitial())
-        const stepInstances: { [step in Step]: Ref<StepFromInstance> } = {
+        const stepInstances: { [step in Step]: Ref<StepFromInstance | undefined> } = {
             0: ref(),
             1: ref(),
             2: ref(),
         }
 
         const reset = (rule?: timer.limit.Rule) => {
-            Object.entries(rule || createInitial()).forEach(([k, v]) => data[k] = v)
+            Object.entries(rule || createInitial()).forEach(([k, v]) => (data as any)[k] = v)
             // Compatible with old items
             if (!data.weekdays?.length) data.weekdays = range(7)
             setStep(0)
@@ -127,12 +128,12 @@ const _default = defineComponent({
                             weeklyCount={data.weeklyCount}
                             periods={data.periods}
                             onChange={({ time, visitTime, periods, weekly, count, weeklyCount }) => {
-                                data.time = time
-                                data.visitTime = visitTime
-                                data.periods = periods
-                                data.weekly = weekly
-                                data.count = count
-                                data.weeklyCount = weeklyCount
+                                data.time = time ?? 0
+                                data.visitTime = visitTime ?? 0
+                                data.periods = periods ?? []
+                                data.weekly = weekly ?? 0
+                                data.count = count ?? 0
+                                data.weeklyCount = weeklyCount ?? 0
                             }}
                         />
                     </>

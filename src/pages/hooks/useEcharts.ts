@@ -16,12 +16,12 @@ import { type Ref, isRef, onMounted, ref, watch } from "vue"
 type BaseEchartsOption = ComposeOption<AriaComponentOption>
 
 export abstract class EchartsWrapper<BizOption, EchartsOption> {
-    public instance: ECharts
+    public instance: ECharts | undefined
     /**
      * true if need to re-generate option while size changing, or false
      */
     protected isSizeSensitize: boolean = false
-    private lastBizOption: BizOption
+    private lastBizOption: BizOption | undefined
 
     init(container: HTMLDivElement) {
         this.instance = init(container)
@@ -35,12 +35,12 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
 
     private async innerRender() {
         const biz = this.lastBizOption
-        const option = await this.generateOption(biz) as (EchartsOption & BaseEchartsOption)
+        const option = biz && await this.generateOption(biz) as (EchartsOption & BaseEchartsOption)
         if (!option) return
 
         await this.postChartOption(option)
 
-        this.instance.setOption(option, { notMerge: false })
+        this.instance?.setOption(option, { notMerge: false })
     }
 
     protected async postChartOption(option: EchartsOption & BaseEchartsOption) {
@@ -57,7 +57,7 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
     }
 
     protected getDom(): HTMLElement {
-        return this.instance?.getDom?.()
+        return this.instance!.getDom()
     }
 
     protected abstract generateOption(biz: BizOption): Promise<EchartsOption> | EchartsOption
@@ -70,7 +70,7 @@ export abstract class EchartsWrapper<BizOption, EchartsOption> {
 
 type WrapperResult<BizOption, EchartsOption, EW extends EchartsWrapper<BizOption, EchartsOption>> = {
     refresh: () => Promise<void>
-    elRef: Ref<HTMLDivElement>
+    elRef: Ref<HTMLDivElement | undefined>
     wrapper: EW
 }
 
@@ -83,7 +83,7 @@ export const useEcharts = <BizOption, EchartsOption, EW extends EchartsWrapper<B
         watch?: boolean
         afterInit?: (ew: EW) => void
     }): WrapperResult<BizOption, EchartsOption, EW> => {
-    const elRef: Ref<HTMLDivElement> = ref()
+    const elRef = ref<HTMLDivElement>()
     const wrapperInstance = new Wrapper()
     const {
         hideLoading = false,
@@ -103,7 +103,7 @@ export const useEcharts = <BizOption, EchartsOption, EW extends EchartsWrapper<B
     }
     onMounted(() => {
         const target = elRef.value
-        wrapperInstance.init(target)
+        target && wrapperInstance.init(target)
         afterInit?.(wrapperInstance)
         !manual && refresh()
         watchRef && isRef(fetch) && watch(fetch, refresh)

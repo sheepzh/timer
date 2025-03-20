@@ -24,7 +24,7 @@ import type { DisplayComponent, ReportFilterOption, ReportQueryParam, ReportSort
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
-async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]): Promise<string> {
+async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date] | undefined): Promise<string> {
     // host => total focus
     const hostFocus: { [host: string]: number } = groupBy(selected,
         a => a.siteKey?.host,
@@ -40,7 +40,7 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
         ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ host, fullHost: true, date: dateRange }))))
         // The count of row
         : selected?.length || 0
-    const i18nParam = {
+    const i18nParam: Record<string, string | number | undefined> = {
         // count
         count: count2Delete,
         // example for hosts
@@ -53,7 +53,7 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
         date: undefined,
     }
 
-    let key: I18nKey = undefined
+    let key: I18nKey | undefined = undefined
     const hasDateRange = dateRange?.length === 2 && (dateRange[0] || dateRange[1])
     if (!hasDateRange) {
         // Delete all
@@ -84,7 +84,7 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
         ElMessage.info(t(msg => msg.report.batchDelete.noSelectedMsg))
         return
     }
-    const { dateRange, mergeDate } = filterOption || {}
+    const { dateRange, mergeDate } = filterOption
     ElMessageBox({
         message: await computeBatchDeleteMsg(selected, mergeDate, dateRange),
         type: "warning",
@@ -105,12 +105,13 @@ async function handleBatchDelete(displayComp: DisplayComponent, filterOption: Re
     })
 }
 
-async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date]) {
+async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date] | undefined) {
     if (mergeDate) {
         // Delete according to the date range
         const start = dateRange?.[0]
         const end = dateRange?.[1]
-        await Promise.all(selected.map(d => statDatabase.deleteByUrlBetween(d.siteKey.host, start, end)))
+        const hosts = selected.map(d => d.siteKey?.host)
+        await Promise.all(hosts.map(async h => h && await statDatabase.deleteByUrlBetween(h, start, end)))
     } else {
         // If not merge date, batch delete
         await statService.batchDelete(selected)
@@ -124,7 +125,7 @@ function initQueryParam(route: RouteLocation, router: Router): [ReportFilterOpti
     const routeQuery: ReportQueryParam = route.query as unknown as ReportQueryParam
     const { mh, md, ds, de, sc } = routeQuery
     const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
-    const dateEnd = ds ? new Date(Number.parseInt(de)) : undefined
+    const dateEnd = de ? new Date(Number.parseInt(de)) : undefined
     // Remove queries
     router.replace({ query: {} })
 
@@ -163,7 +164,7 @@ const _default = defineComponent(() => {
             <ReportFilter
                 initial={filterOption.value}
                 onChange={setFilterOption}
-                onBatchDelete={filterOption => handleBatchDelete(displayComp.value, filterOption)}
+                onBatchDelete={filterOption => displayComp.value && handleBatchDelete(displayComp.value, filterOption)}
                 hideCateFilter={isXs.value}
             />
         ),

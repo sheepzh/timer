@@ -10,10 +10,10 @@ import { defineComponent } from "vue"
 import TooltipSiteList from "./TooltipSiteList"
 
 const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: timer.stat.Row[]) => {
-    let cateName = undefined
+    let cateName: string
     let isNotSet = false
     const siteMap = new SiteMap<string>()
-    merged?.forEach(({ siteKey, iconUrl }) => siteMap.put(siteKey, iconUrl))
+    merged?.forEach(({ siteKey, iconUrl }) => siteKey && siteMap.put(siteKey, iconUrl))
 
     if (cateId === CATE_NOT_SET_ID) {
         cateName = t(msg => msg.shared.cate.notSet)
@@ -43,7 +43,7 @@ const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: tim
 
 const CateColumn = defineComponent({
     emits: {
-        change: (_siteKey: timer.site.SiteKey, _newCate: number) => true,
+        change: (_siteKey: timer.site.SiteKey, _newCate: number | undefined) => true,
     },
     setup(_, ctx) {
         const { categories } = useCategories()
@@ -55,11 +55,11 @@ const CateColumn = defineComponent({
                     return (
                         <Flex key={`${identifyStatKey(row)}_${cateId}`} justify="center">
                             {cateKey
-                                ? renderMerged(cateKey, categories.value, mergedRows)
+                                ? renderMerged(cateKey, categories.value, mergedRows ?? [])
                                 : <CategoryEditable
-                                    siteKey={siteKey}
+                                    siteKey={siteKey!}
                                     cateId={cateId}
-                                    onChange={newCateId => ctx.emit('change', siteKey, newCateId)}
+                                    onChange={newCateId => ctx.emit('change', siteKey!, newCateId)}
                                 />
                             }
                         </Flex>

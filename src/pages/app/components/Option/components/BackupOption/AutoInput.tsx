@@ -19,14 +19,14 @@ const _default = defineComponent({
         interval: Number
     },
     emits: {
-        change: (_autoBackUp: boolean, _interval: number) => true
+        change: (_autoBackUp: boolean, _interval: number | undefined) => true
     },
     setup(props, ctx) {
         const [autoBackUp, setAutoBackUp] = useShadow(() => props.autoBackup)
         const [interval, setInterval] = useShadow(() => props.interval)
-        watch([autoBackUp, interval], () => ctx.emit('change', autoBackUp.value, interval.value))
+        watch([autoBackUp, interval], () => ctx.emit('change', !!autoBackUp.value, interval.value))
         return () => <>
-            <ElSwitch modelValue={autoBackUp.value} onChange={setAutoBackUp} />
+            <ElSwitch modelValue={autoBackUp.value} onChange={val => setAutoBackUp(!!val)} />
             {' ' + t(msg => msg.option.backup.auto.label)}
             {!!autoBackUp.value && <>
                 {localeMessages[locale].comma || ' '}

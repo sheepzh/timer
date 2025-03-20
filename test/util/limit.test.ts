@@ -32,7 +32,7 @@ describe('util/limit', () => {
 
     test('period2Str', () => {
         expect(period2Str(undefined)).toBe('00:00-00:00')
-        expect(period2Str([, 100])).toBe('00:00-01:40')
+        expect(period2Str([0, 100])).toBe('00:00-01:40')
         expect(period2Str([100, 900])).toBe('01:40-15:00')
     })
 
@@ -44,7 +44,7 @@ describe('util/limit', () => {
     })
 
     test('isEffective', () => {
-        const rule = (weekdays?: number[]): timer.limit.Rule => ({ cond: [], time: 0, weekdays })
+        const rule = (weekdays?: number[]): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays })
         expect(isEffective(undefined)).toBe(false)
         expect(isEffective(rule())).toBe(true)
 
@@ -69,7 +69,7 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({ cond: [], time: 0, weekdays, enabled })
+        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays, enabled })
 
         expect(isEnabledAndEffective(rule([0, 1, 2], true))).toBe(true)
         expect(isEnabledAndEffective(rule([0, 1, 2], false))).toBe(false)
@@ -78,6 +78,8 @@ describe('util/limit', () => {
 
     test('hasWeeklyLimited', () => {
         const item: timer.limit.Item = {
+            id: 1,
+            name: 'foobar',
             cond: [],
             time: 0,
             waste: 0,
@@ -105,6 +107,8 @@ describe('util/limit', () => {
 
     test('calcTimeState', () => {
         const item: timer.limit.Item = {
+            id: 1,
+            name: 'foobar',
             cond: [],
             time: 10,
             weekly: 10,
@@ -148,6 +152,8 @@ describe('util/limit', () => {
     test('hasLimit', () => {
         const assert = (setup: (item: timer.limit.Item) => void, limited: boolean) => {
             const item: timer.limit.Item = {
+                id: 1,
+                name: 'foobar',
                 cond: [],
                 time: 1,
                 weekly: 1,

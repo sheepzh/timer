@@ -18,11 +18,9 @@ const LOCALES: { [locale in timer.Locale]: () => Promise<{ default: Language }> 
     ar: () => import('element-plus/lib/locale/lang/ar'),
 }
 
-let EL_LOCALE: Language = null
-
 export const initElementLocale = async (app: App) => {
     const module = await LOCALES[locale]?.()
-    EL_LOCALE = module?.default
+    const EL_LOCALE = module?.default
     app.use(ElementPlus, { locale: EL_LOCALE })
 }
 

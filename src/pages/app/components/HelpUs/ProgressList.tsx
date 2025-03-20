@@ -90,7 +90,7 @@ const _default = defineComponent(() => {
             {list.value?.map?.(({ locale, progress }) => (
                 <ElProgress percentage={progress} strokeWidth={22} status={computeType(progress)}>
                     <span class="progress-text">{`${progress}%`}</span>
-                    <span class="language-name">{localeMessages[locale]?.name || locale}</span>
+                    <span class="language-name">{localeMessages[locale as timer.Locale]?.name || locale}</span>
                 </ElProgress>
             ))}
         </div>

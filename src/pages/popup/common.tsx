@@ -7,13 +7,13 @@ import { getAppPageUrl } from "@util/constant/url"
 import { getMonthTime, MILL_PER_DAY } from "@util/time"
 
 export type PopupQuery = {
-    mergeMethod: timer.stat.MergeMethod
+    mergeMethod: timer.stat.MergeMethod | undefined
     duration: timer.option.PopupDuration
     durationNum?: number
     type: timer.core.Dimension
 }
 
-type DateRangeCalculator = (now: Date, num?: number) => Promise<Date | [Date, Date]> | Date | [Date, Date]
+type DateRangeCalculator = (now: Date, num?: number) => Awaitable<Date | [Date, Date] | undefined>
 
 const DATE_RANGE_CALCULATORS: { [duration in timer.option.PopupDuration]: DateRangeCalculator } = {
     today: now => now,
@@ -23,8 +23,8 @@ const DATE_RANGE_CALCULATORS: { [duration in timer.option.PopupDuration]: DateRa
         return [start, now]
     },
     thisMonth: now => [getMonthTime(now)[0], now],
-    lastDays: (now, num) => [new Date(now.getTime() - MILL_PER_DAY * (num - 1)), now],
-    allTime: () => null,
+    lastDays: (now, num) => [new Date(now.getTime() - MILL_PER_DAY * (num ?? 1 - 1)), now],
+    allTime: () => undefined,
 }
 
 export const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> => {
@@ -41,7 +41,7 @@ export const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> 
     return stat
 }
 
-function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?], type: timer.core.Dimension): ReportQueryParam {
+function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): ReportQueryParam {
     const query: ReportQueryParam = {}
     // Merge host
     siteType === 'merged' && (query.mh = "1")
@@ -64,10 +64,9 @@ function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?],
     return query
 }
 
-export function calJumpUrl(siteKey: timer.site.SiteKey, date: Date | [Date, Date?], type: timer.core.Dimension): string {
-    const { host, type: siteType } = siteKey || {}
-
-    if (!host) return
+export function calJumpUrl(siteKey: timer.site.SiteKey | undefined, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): string | undefined {
+    if (!siteKey) return
+    const { host, type: siteType } = siteKey
 
     if (siteType === 'normal' && !isRemainHost(host)) {
         return `http://${host}`

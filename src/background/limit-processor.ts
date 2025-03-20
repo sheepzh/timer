@@ -15,13 +15,14 @@ import { getStartOfDay, MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import alarmManager from "./alarm-manager"
 import MessageDispatcher from "./message-dispatcher"
 
-function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab) {
-    const { url } = tab
+function processLimitWaking(rules: timer.limit.Item[], tab: ChromeTab): void {
+    const { url, id: tabId } = tab
+    if (!url || !tabId) return
     const anyMatch = rules.map(rule => matches(rule?.cond, url)).reduce((a, b) => a || b, false)
     if (!anyMatch) {
         return
     }
-    sendMsg2Tab(tab.id, 'limitWaking', rules)
+    sendMsg2Tab(tabId, 'limitWaking', rules)
         .then(() => console.log(`Waked tab[id=${tab.id}]`))
         .catch(err => console.error(`Failed to wake with limit rule: rules=${JSON.stringify(rules)}, msg=${err.msg}`))
 }
@@ -32,10 +33,10 @@ async function processOpenPage(limitedUrl: string, sender: ChromeMessageSender) 
     const realUrl = getAppPageUrl(LIMIT_ROUTE, { url: encodeURI(limitedUrl) })
     const baseUrl = getAppPageUrl(LIMIT_ROUTE)
     const rightTab = await getRightOf(originTab)
-    const rightUrl = rightTab?.url
-    if (rightUrl && isBrowserUrl(rightUrl) && rightUrl.includes(baseUrl)) {
+    const { id: rightId, url: rightUrl } = rightTab || {}
+    if (rightId && rightUrl && isBrowserUrl(rightUrl) && rightUrl.includes(baseUrl)) {
         // Reset url
-        await resetTabUrl(rightTab.id, realUrl)
+        await resetTabUrl(rightId, realUrl)
     } else {
         await createTabAfterCurrent(realUrl, sender?.tab)
     }
@@ -62,10 +63,11 @@ const processMoreMinutes = async (url: string) => {
 
 const processAskHitVisit = async (item: timer.limit.Item) => {
     let tabs = await listTabs()
-    tabs = tabs?.filter(({ url }) => matches(item?.cond, url))
-    const { visitTime = 0 } = item || {}
-    for (const { id } of tabs) {
+    const { visitTime = 0, cond } = item || {}
+    for (const { id, url } of tabs) {
         try {
+            if (!url || !matches(cond, url) || !id) continue
+
             const tabFocus = await sendMsg2Tab(id, "askVisitTime")
             if (tabFocus && tabFocus > visitTime * MILL_PER_SECOND) return true
         } catch {

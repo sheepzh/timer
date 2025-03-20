@@ -56,7 +56,7 @@ const DurationSelect = defineComponent({
         return () => (
             <ElCascader
                 modelValue={casVal.value}
-                onChange={(val: [timer.option.PopupDuration, number?]) => ctx.emit('change', val)}
+                onChange={val => ctx.emit('change', val as [timer.option.PopupDuration, number?])}
                 options={options(props.reverse)}
                 props={{ expandTrigger: props.expandTrigger }}
                 show-all-levels={false}

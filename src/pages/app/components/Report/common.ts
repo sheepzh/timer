@@ -8,7 +8,7 @@ const statDatabase = new StatDatabase(chrome.storage.local)
 
 export const cvtOption2Param = ({ host, dateRange, mergeDate, siteMerge, cateIds, readRemote }: ReportFilterOption): StatQueryParam => ({
     host: host,
-    date: [dateRange?.[0], dateRange?.[1]],
+    date: dateRange,
     mergeDate,
     mergeHost: siteMerge === 'domain',
     mergeCate: siteMerge === 'cate',
@@ -26,7 +26,7 @@ function computeSingleConfirmText(url: string, date: string): string {
     return t(msg => msg.item.operation.deleteConfirmMsg, { url, date })
 }
 
-function computeRangeConfirmText(url: string, dateRange: [Date, Date]): string {
+function computeRangeConfirmText(url: string, dateRange: [Date, Date] | undefined): string {
     const hasDateRange = dateRange?.length === 2 && (dateRange[0] || dateRange[1])
     if (!hasDateRange) {
         // Delete all
@@ -45,11 +45,11 @@ function computeRangeConfirmText(url: string, dateRange: [Date, Date]): string {
 
 export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: ReportFilterOption): string {
     const { siteKey, date } = row || {}
-    const { host } = siteKey || {}
+    const host = siteKey?.host ?? 'Unknown Host'
     const { mergeDate, dateRange } = filterOption || {}
     return mergeDate
         ? computeRangeConfirmText(host, dateRange)
-        : computeSingleConfirmText(host, date)
+        : computeSingleConfirmText(host, date ?? '')
 }
 
 export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilterOption) {
@@ -58,17 +58,17 @@ export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilt
     const { mergeDate, dateRange } = filterOption || {}
     if (!mergeDate) {
         // Delete one day
-        await statDatabase.deleteByUrlAndDate(host, date)
+        host && date && await statDatabase.deleteByUrlAndDate(host, date)
         return
     }
     const start = dateRange?.[0]
     const end = dateRange?.[1]
     if (!start && !end) {
         // Delete all
-        await statDatabase.deleteByUrl(host)
+        host && await statDatabase.deleteByUrl(host)
         return
     }
 
     // Delete by range
-    await statDatabase.deleteByUrlBetween(host, start, end)
+    host && await statDatabase.deleteByUrlBetween(host, start, end)
 }

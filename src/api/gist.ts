@@ -26,7 +26,7 @@ export type File = BaseFile & {
 type BaseGist<FileInfo> = {
     public: boolean
     description: string
-    files: { [filename: string]: FileInfo }
+    files: { [filename: string]: FileInfo | null }
 }
 
 export type Gist = BaseGist<File> & {
@@ -88,7 +88,7 @@ export function getGist(token: string, id: string): Promise<Gist> {
  * @param predicate predicate
  * @returns
  */
-export async function findTarget(token: string, predicate: (gist: Gist) => boolean): Promise<Gist> {
+export async function findTarget(token: string, predicate: (gist: Gist) => boolean): Promise<Gist | null> {
     let pageNum = 1
     while (true) {
         const uri = `?per_page=100&page=${pageNum}`
@@ -102,7 +102,7 @@ export async function findTarget(token: string, predicate: (gist: Gist) => boole
         }
         pageNum += 1
     }
-    return undefined
+    return null
 }
 
 /**
@@ -130,7 +130,7 @@ export async function updateGist(token: string, id: string, gist: GistForm): Pro
 /**
  * Get content of file
  */
-export async function getJsonFileContent<T>(file: File): Promise<T> {
+export async function getJsonFileContent<T>(file: File): Promise<T | null> {
     const content = file.content
     if (content) {
         try {
@@ -142,7 +142,7 @@ export async function getJsonFileContent<T>(file: File): Promise<T> {
     }
     const rawUrl = file.raw_url
     if (!rawUrl) {
-        return undefined
+        return null
     }
     const response = await fetchGet(rawUrl)
     return await response.json()
@@ -153,7 +153,7 @@ export async function getJsonFileContent<T>(file: File): Promise<T> {
  *
  * @returns errorMsg or null/undefined
  */
-export async function testToken(token: string): Promise<string> {
+export async function testToken(token: string): Promise<string | undefined> {
     const response = await fetchGet(BASE_URL + '?per_page=1&page=1', {
         headers: {
             "Accept": "application/vnd.github+json",
@@ -161,5 +161,5 @@ export async function testToken(token: string): Promise<string> {
         }
     })
     const { status, statusText } = response || {}
-    return status === 200 ? null : statusText || ("ERROR " + status)
+    return status === 200 ? undefined : statusText || ("ERROR " + status)
 }

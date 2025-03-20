@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight, DArrowLeft, DArrowRight } from "@element-plus/icons-vue"
 import { isRtl } from "@util/document"
 import { ElIcon } from "element-plus"
+import { VNode } from "vue"
 
 export const getDatePickerIconSlots = () => {
     const rtl = isRtl()
@@ -14,8 +15,8 @@ export const getDatePickerIconSlots = () => {
 }
 
 export const getPaginationIconProps = (): {
-    prevIcon?: unknown
-    nextIcon?: unknown
+    prevIcon?: VNode
+    nextIcon?: VNode
 } => {
     if (!isRtl()) return {}
     return {

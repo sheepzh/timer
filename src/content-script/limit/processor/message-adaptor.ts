@@ -55,7 +55,7 @@ class MessageAdaptor implements Processor {
 
     async initRules(): Promise<void> {
         this.context.modal?.removeReasonsByType?.('DAILY', 'WEEKLY')
-        const limitedRules: timer.limit.Item[] = await sendMsg2Runtime('cs.getLimitedRules', this.context.url)
+        const limitedRules = await sendMsg2Runtime<string, timer.limit.Item[]>('cs.getLimitedRules', this.context.url)
 
         limitedRules
             ?.flatMap?.(cvtItem2AddReason)
