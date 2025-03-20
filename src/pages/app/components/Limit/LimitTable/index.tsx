@@ -12,11 +12,11 @@ import weekHelper from "@service/components/week-helper"
 import limitService from "@service/limit-service"
 import { isEffective } from "@util/limit"
 import { useDocumentVisibility, useLocalStorage } from "@vueuse/core"
-import { ElMessage, ElTable, ElTableColumn, ElTag, type Sort, type TableInstance } from "element-plus"
-import { defineComponent, ref, watch } from "vue"
+import { ElMessage, ElSwitch, ElTable, ElTableColumn, ElTag, type Sort, type TableInstance } from "element-plus"
+import { defineComponent, ref, toRaw, watch } from "vue"
+import { verifyCanModify } from "../common"
 import { useLimitFilter } from "../context"
 import LimitDelayColumn from "./column/LimitDelayColumn"
-import LimitEnabledColumn from "./column/LimitEnabledColumn"
 import LimitOperationColumn from "./column/LimitOperationColumn"
 import RuleContent from "./RuleContent"
 import Waste from "./Waste"
@@ -36,6 +36,8 @@ const sortMethodByNumVal = (key: keyof timer.limit.Item & 'waste' | 'weeklyWaste
 }
 
 const sortByEffectiveDays = ({ weekdays: a }: timer.limit.Item, { weekdays: b }: timer.limit.Item) => (a?.length ?? 0) - (b?.length ?? 0)
+
+const sortByEnabled: CompareFn<timer.limit.Item> = (a, b): number => (a.enabled ? 1 : 0) - (b.enabled ? 1 : 0)
 
 const _default = defineComponent({
     emits: {
@@ -76,12 +78,21 @@ const _default = defineComponent({
 
         const historySort = useLocalStorage<Sort>('__limit_sort_default__', { prop: DEFAULT_SORT_COL, order: 'descending' })
 
+        const onEnabledChange = async (row: timer.limit.Item, newVal: boolean | string | number) => {
+            const enabled = !!newVal
+            try {
+                !enabled && await verifyCanModify(row)
+                row.enabled = enabled
+                ctx.emit("enabledChange", toRaw(row))
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
         return () => (
             <ElTable
                 ref={tableInstance}
-                border
-                fit
-                highlightCurrentRow
+                border fit highlightCurrentRow
                 style={{ width: "100%" }}
                 data={data.value}
                 defaultSort={historySort.value}
@@ -174,7 +185,18 @@ const _default = defineComponent({
                     }}
                 />
                 <LimitDelayColumn onRowChange={row => ctx.emit("delayChange", row)} />
-                <LimitEnabledColumn onRowChange={row => ctx.emit("enabledChange", row)} />
+                <ElTableColumn
+                    label={t(msg => msg.limit.item.enabled)}
+                    minWidth={100}
+                    align="center"
+                    fixed="right"
+                    sortable
+                    sortMethod={sortByEnabled}
+                >
+                    {({ row }: ElTableRowScope<timer.limit.Item>) => (
+                        <ElSwitch size="small" modelValue={row.enabled} onChange={v => onEnabledChange(row, v)} />
+                    )}
+                </ElTableColumn>
                 <LimitOperationColumn
                     onRowDelete={deleteRow}
                     onRowModify={row => ctx.emit("modify", row)}

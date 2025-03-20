@@ -178,12 +178,14 @@ class ModalInstance implements MaskModal {
         pauseAllVideo()
         pauseAllAudio()
 
+        this.rootElement && (this.rootElement.style.visibility = 'visible')
         this.reason.value = reason
         this.screenLocker.lock()
         this.body.style.display = 'block'
     }
 
     private hide() {
+        this.rootElement && (this.rootElement.style.visibility = 'hidden')
         this.screenLocker.unlock()
         this.body && (this.body.style.display = 'none')
         this.reason && (this.reason.value = null)
