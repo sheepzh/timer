@@ -13,28 +13,6 @@ export const FIREFOX_HOMEPAGE = 'https://addons.mozilla.org/firefox/addon/bestti
 export const CHROME_HOMEPAGE = 'https://chromewebstore.google.com/detail/time-tracker/dkdhhcbjijekmneelocdllcldcpmekmm'
 export const EDGE_HOMEPAGE = 'https://microsoftedge.microsoft.com/addons/detail/timer-the-web-time-is-e/fepjgblalcnepokjblgbgmapmlkgfahc'
 
-let webstorePage = undefined
-let reviewPage = undefined
-if (IS_FIREFOX) {
-    webstorePage = FIREFOX_HOMEPAGE
-    reviewPage = FIREFOX_HOMEPAGE + "/reviews"
-} else if (IS_CHROME) {
-    webstorePage = CHROME_HOMEPAGE
-    reviewPage = CHROME_HOMEPAGE + "/reviews"
-} else if (IS_EDGE) {
-    webstorePage = reviewPage = EDGE_HOMEPAGE
-}
-
-/**
- * @since 0.0.5
- */
-export const WEBSTORE_PAGE = webstorePage
-
-/**
- * @since 2.2.4
- */
-export const REVIEW_PAGE = reviewPage
-
 /**
  * @since 0.4.0
  */
@@ -147,3 +125,28 @@ export const CROWDIN_PROJECT_ID = 516822
  * @since 1.4.0
  */
 export const CROWDIN_HOMEPAGE = 'https://crowdin.com/project/timer-chrome-edge-firefox'
+
+let webstorePage: string
+let reviewPage: string
+if (IS_FIREFOX) {
+    webstorePage = FIREFOX_HOMEPAGE
+    reviewPage = FIREFOX_HOMEPAGE + "/reviews"
+} else if (IS_CHROME) {
+    webstorePage = CHROME_HOMEPAGE
+    reviewPage = CHROME_HOMEPAGE + "/reviews"
+} else if (IS_EDGE) {
+    webstorePage = reviewPage = EDGE_HOMEPAGE
+} else {
+    webstorePage = HOMEPAGE
+    reviewPage = CHROME_HOMEPAGE + "/reviews"
+}
+
+/**
+ * @since 0.0.5
+ */
+export const WEBSTORE_PAGE = webstorePage
+
+/**
+ * @since 2.2.4
+ */
+export const REVIEW_PAGE = reviewPage

@@ -19,7 +19,7 @@ import './style.sass'
 import Tabs from "./Tabs"
 
 const _default = defineComponent(() => {
-    const paneRefMap: Record<OptionCategory, Ref<OptionInstance>> = {
+    const paneRefMap: Record<OptionCategory, Ref<OptionInstance | undefined>> = {
         appearance: ref(),
         statistics: ref(),
         popup: ref(),

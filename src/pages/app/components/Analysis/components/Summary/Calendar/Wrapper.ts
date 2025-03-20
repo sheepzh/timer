@@ -19,6 +19,7 @@ import {
     type TooltipComponentOption,
     type VisualMapComponentOption
 } from "echarts"
+import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 
 type EcOption = ComposeOption<
     | EffectScatterSeriesOption
@@ -47,7 +48,7 @@ const getWeekNum = (domWidth: number): number => {
     return Math.floor(Math.min(weekNum, MAX_WEEK_NUM))
 }
 
-type EffectScatterItem = EffectScatterSeriesOption["data"][number]
+type EffectScatterItem = MakeRequired<EffectScatterSeriesOption, 'data'>["data"][number]
 const cvtHeatmapItem = (d: _Value): EffectScatterItem => {
     let item: EffectScatterItem = { value: d, itemStyle: undefined, label: undefined, emphasis: undefined }
     const minutes = d[2]
@@ -60,10 +61,10 @@ const cvtHeatmapItem = (d: _Value): EffectScatterItem => {
 
 function getXAxisLabelMap(data: _Value[]): { [x: string]: string } {
     const allMonthLabel = t(msg => msg.calendar.months).split('|')
-    const result = {}
+    const result: Record<string, string> = {}
     // {[ x:string ]: Set<string> }
     const xAndMonthMap = groupBy(data, e => e[0], grouped => new Set(grouped.map(a => a[3].substring(4, 6))))
-    let lastMonth = undefined
+    let lastMonth: string | undefined = undefined
     Object.entries(xAndMonthMap).forEach(([x, monthSet]) => {
         if (monthSet.size != 1) {
             return
@@ -97,13 +98,14 @@ function optionOf(data: _Value[], weekDays: string[], format: timer.app.TimeForm
         },
         tooltip: {
             borderWidth: 0,
-            formatter: (params: any) => {
-                const { data } = params
-                const { value } = data
+            formatter: (params: TopLevelFormatterParams) => {
+                const parma = Array.isArray(params) ? params[0] : params
+                const { data } = parma
+                const { value } = data as any
                 const [_1, _2, mills, date] = value as _Value
-                if (!mills) return undefined
+                if (!mills) return ''
                 const time = parseTime(date)
-                return `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br /><b>${periodFormatter(mills, { format })}</b>`
+                return time ? `${formatTime(time, t(msg => msg.calendar.dateFormat))}<br /><b>${periodFormatter(mills, { format })}</b>` : ''
             },
         },
         grid: { height: '68%', left: gridLeft, right: 0, top: '18%' },

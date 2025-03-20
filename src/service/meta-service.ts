@@ -45,7 +45,7 @@ function increasePopup(): void {
     })
 }
 
-async function getCid(): Promise<string> {
+async function getCid(): Promise<string | undefined> {
     const meta: timer.ExtensionMeta = await db.getMeta()
     return meta?.cid
 }
@@ -68,7 +68,7 @@ async function updateBackUpTime(type: timer.backup.Type, time: number) {
     await db.update(meta)
 }
 
-async function getLastBackUp(type: timer.backup.Type): Promise<{ ts: number, msg?: string }> {
+async function getLastBackUp(type: timer.backup.Type): Promise<{ ts: number, msg?: string } | undefined> {
     const meta = await db.getMeta()
     return meta?.backup?.[type]
 }

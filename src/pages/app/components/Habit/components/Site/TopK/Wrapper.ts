@@ -53,10 +53,10 @@ const formatFocusTooltip = (params: TopLevelFormatterParams, format: timer.app.T
 }
 
 function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
-    const map: Record<string, timer.stat.Row> = {}
+    const map: Record<string, MakeRequired<timer.stat.Row, 'mergedDates' | 'mergedRows'>> = {}
     origin.forEach(ele => {
-        const { date, siteKey, cateKey, focus, time } = ele || {}
-        const key = [date ?? '', identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
+        const { date = '', siteKey, cateKey, focus, time } = ele || {}
+        const key = [date, identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
         let exist = map[key]
         if (!exist) {
             exist = map[key] = {
@@ -80,7 +80,7 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
     const merged = mergeDate(rows)
     const topList = merged.sort((a, b) => b.focus - a.focus).splice(0, TOP_NUM).reverse()
     const max = topList[topList.length - 1]?.focus ?? 0
-    const hosts = topList.map(r => r?.alias || r.siteKey?.host)
+    const hosts = topList.map(r => r?.alias ?? r.siteKey?.host ?? '').filter(s => !!s)
 
     const domW = dom.getBoundingClientRect().width
     const chartW = domW * (100 - MARGIN_LEFT_P - MARGIN_RIGHT_P) / 100
@@ -146,10 +146,11 @@ async function generateOption(rows: timer.stat.Row[] = [], timeFormat: timer.app
                 ellipsis: '...',
                 minMargin: 5,
                 padding: [0, 4, 0, 0],
-                formatter: (param: any) => {
-                    const { row } = (param?.data || {}) as SeriesDataItem
+                formatter: (params: TopLevelFormatterParams) => {
+                    const param = Array.isArray(params) ? params[0] : params
+                    const { row } = (param.data || {}) as SeriesDataItem
                     const { siteKey, alias } = row
-                    return alias || siteKey?.host
+                    return alias ?? siteKey?.host ?? ''
                 },
             },
             colorBy: 'data',

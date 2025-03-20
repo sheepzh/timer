@@ -2,14 +2,14 @@ import { useRequest } from "@hooks"
 import statService, { type StatQueryParam } from "@service/stat-service"
 import { formatTime } from "@util/time"
 import { ElText } from "element-plus"
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, type StyleValue } from "vue"
 import RowList from "./components/RowList"
 import Search from "./components/Search"
 import { t } from "./locale"
 
 const _default = defineComponent(() => {
     const date = ref(new Date())
-    const query = ref<string>()
+    const query = ref('')
 
     const { data, refresh, loading } = useRequest(() => {
         const statParam: StatQueryParam = {
@@ -24,6 +24,7 @@ const _default = defineComponent(() => {
 
     return () => <div class="main">
         <Search
+            defaultQuery={query.value}
             defaultDate={date.value}
             onSearch={(newQuery, newDate) => {
                 query.value = newQuery
@@ -41,7 +42,11 @@ const _default = defineComponent(() => {
                 @{formatTime(date.value, t(msg => msg.calendar.dateFormat))}
             </ElText>
         </div>
-        <RowList loading={loading.value} data={data.value} style={{ flex: 1, overflow: "auto" }} />
+        <RowList
+            loading={loading.value}
+            data={data.value ?? []}
+            style={{ flex: 1, overflow: "auto" } satisfies StyleValue}
+        />
     </div>
 })
 

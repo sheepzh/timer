@@ -6,7 +6,7 @@ function judgeAdded(target: Method, newVal: Method[], oldVal: Method[]): boolean
     return newVal?.includes?.(target) && !oldVal?.includes?.(target)
 }
 
-export function processNewMethod(oldVal: Method[], newVal: Method[]): Method[] {
+export function processNewMethod(oldVal: Method[] | undefined, newVal: Method[]): Method[] {
     oldVal = oldVal || []
     if (judgeAdded('cate', newVal, oldVal)) {
         // Add cate, so remove domain

@@ -20,9 +20,9 @@ import { computed, defineComponent } from "vue"
 import ChartTitle from "../../ChartTitle"
 import Wrapper, { type BizOption, type ChartValue } from "./Wrapper"
 
-const titleText = (option: Result) => {
+const titleText = (option: Result | undefined) => {
     const { value, yearAgo } = option || {}
-    const start = formatTimeYMD(yearAgo)
+    const start = yearAgo ? formatTimeYMD(yearAgo) : '-'
     const statValues = Object.entries(value || {}).filter(([date]) => date.localeCompare(start) >= 0).map(([, v]) => v)
     const totalMills = sum(statValues)
     const totalHours = Math.floor(totalMills / MILL_PER_HOUR)
@@ -75,7 +75,7 @@ const _default = defineComponent(() => {
     const { elRef } = useEcharts(Wrapper, biz, {
         afterInit(ew) {
             const supportClick = !window.matchMedia("(any-pointer:coarse)").matches
-            supportClick && ew.instance.on("click", (params: any) => handleClick(params.value as ChartValue))
+            supportClick && ew.instance?.on("click", (params: any) => handleClick(params.value as ChartValue))
         }
     })
 

@@ -42,18 +42,17 @@ describe("util/array", () => {
     })
 
     test("sum", () => {
-        let arr: number[] = [1, undefined, 2, 3, 4, null, NaN]
+        let arr: number[] = [1, 2, 3, 4]
         expect(10).toEqual(sum(arr))
 
-        arr = undefined
+        arr = []
         expect(0).toEqual(sum(arr))
     })
 
     test("average", () => {
         expect(average([10, 1])).toEqual(11 / 2)
-        expect(average(null)).toBeNull()
         expect(average([])).toBeNull()
-        expect(average([null])).toEqual(0)
+        expect(average([0])).toEqual(0)
     })
 
     test("allMatch", () => {

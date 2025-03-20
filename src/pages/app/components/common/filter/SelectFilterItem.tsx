@@ -21,10 +21,10 @@ const _default = defineComponent({
         options: Object as PropType<Record<string | number, string>>
     },
     emits: {
-        select: (_val: string) => true
+        select: (_val: string | undefined) => true
     },
     setup(props, ctx) {
-        const cacheKey = props.historyName ? `__filter_item_select_${useRoute().path}_${props.historyName}` : null
+        const cacheKey = props.historyName && `__filter_item_select_${useRoute().path}_${props.historyName}`
         const { data, setter } = useCached(cacheKey, props.defaultValue)
         watch(data, () => ctx.emit('select', data.value))
         return () => (

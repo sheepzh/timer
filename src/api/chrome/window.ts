@@ -19,16 +19,17 @@ export function isNoneWindowId(windowId: number) {
     return !windowId || windowId === chrome.windows.WINDOW_ID_NONE
 }
 
-export function getFocusedNormalWindow(): Promise<chrome.windows.Window> {
+export async function getFocusedNormalWindow(): Promise<chrome.windows.Window | undefined> {
     if (IS_ANDROID) {
-        return Promise.resolve(null)
+        return
     }
     return new Promise(resolve => chrome.windows.getLastFocused(
         // Only find normal window
         { windowTypes: ['normal'] },
         window => {
+            const { focused, id } = window
             handleError('getFocusedNormalWindow')
-            if (!window?.focused || isNoneWindowId(window?.id)) {
+            if (!focused || !id || isNoneWindowId(id)) {
                 resolve(undefined)
             } else {
                 resolve(window)
@@ -37,9 +38,9 @@ export function getFocusedNormalWindow(): Promise<chrome.windows.Window> {
     ))
 }
 
-export function getWindow(id: number): Promise<chrome.windows.Window> {
+export async function getWindow(id: number): Promise<chrome.windows.Window | undefined> {
     if (IS_ANDROID) {
-        return Promise.resolve(null)
+        return
     }
     return new Promise(resolve => chrome.windows.get(id, win => resolve(win)))
 }

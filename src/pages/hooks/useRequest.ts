@@ -1,7 +1,7 @@
 import { ElLoadingService } from "element-plus"
 import { onBeforeMount, onMounted, ref, watch, type Ref, type WatchSource } from "vue"
 
-type Option<T, P extends any[]> = {
+export type RequestOption<T, P extends any[]> = {
     manual?: boolean
     defaultValue?: T
     loadingTarget?: string | Ref<HTMLElement>
@@ -12,19 +12,19 @@ type Option<T, P extends any[]> = {
     onError?: (e: unknown) => void
 }
 
-type Result<T, P extends any[]> = {
+export type RequestResult<T, P extends any[]> = {
     data: Ref<T>
     refresh: (...p: P) => void
     refreshAsync: (...p: P) => Promise<void>
     refreshAgain: () => void
     loading: Ref<boolean>
-    param: Ref<P>
+    param: Ref<P | undefined>
 }
 
-export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Option<T, P>): Result<T, P> => {
+export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: RequestOption<T, P>): RequestResult<T, P> => {
     const {
         manual = false,
-        defaultValue, defaultParam = ([] as P),
+        defaultValue, defaultParam = ([] as any[] as P),
         loadingTarget, loadingText,
         deps,
         onSuccess, onError,
@@ -62,6 +62,6 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
     return { data, refresh, refreshAsync, refreshAgain, loading, param }
 }
 
-export const useManualRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Omit<Option<T, P>, 'manual'>): Result<T, P> => {
+export const useManualRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Omit<RequestOption<T, P>, 'manual'>): RequestResult<T, P> => {
     return useRequest(getter, { ...option || {}, manual: true })
 }

@@ -28,7 +28,7 @@ export type GistRow = {
     ]
 }
 
-function calcGroupKey(row: timer.core.Row): string {
+function calcGroupKey(row: timer.core.Row): string | undefined {
     const date = row.date
     if (!date) {
         return undefined
@@ -67,11 +67,11 @@ export function divide2Buckets(rows: timer.core.Row[]): [string, GistData][] {
 /**
  * Calculate all the buckets between {@param startDate} and {@param endDate}
  */
-export function calcAllBuckets(startDate: string, endDate: string) {
+export function calcAllBuckets(startDate: string | undefined, endDate: string | undefined) {
     endDate = endDate || formatTimeYMD(new Date())
-    const result = []
-    const start = startDate ? parseTime(startDate) : getBirthday()
-    const end = parseTime(endDate)
+    const result: string[] = []
+    const start = parseTime(startDate) ?? getBirthday()
+    const end = parseTime(endDate) ?? new Date()
     while (start < end) {
         result.push(formatTimeYMD(start))
         start.setMonth(start.getMonth() + 1)
@@ -89,7 +89,7 @@ export function calcAllBuckets(startDate: string, endDate: string) {
  * @returns rows
  */
 export function gistData2Rows(yearMonth: string, gistData: GistData): timer.core.Row[] {
-    const result = []
+    const result: timer.core.Row[] = []
     Object.entries(gistData).forEach(([dateOfMonth, gistRow]) => {
         const date = yearMonth + dateOfMonth
         Object.entries(gistRow).forEach(([host, val]) => {

@@ -41,9 +41,6 @@ function cleanUrl(url: string): string {
 }
 
 export function parseUrl(url: string): UrlInfo {
-    if (!url) {
-        return { protocol: null, parts: null }
-    }
     let protocol: Protocol = '*://'
 
     url = decodeURI(url)?.trim()

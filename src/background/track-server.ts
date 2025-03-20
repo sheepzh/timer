@@ -10,7 +10,7 @@ import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
 import badgeManager from "./badge-manager"
 import MessageDispatcher from "./message-dispatcher"
 
-async function handleTime(host: string, url: string, dateRange: [number, number], tabId: number): Promise<number> {
+async function handleTime(host: string, url: string, dateRange: [number, number], tabId: number | undefined): Promise<number> {
     const [start, end] = dateRange
     const focusTime = end - start
     // 1. Save async
@@ -20,7 +20,7 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
     // If time limited after this operation, send messages
     limited?.length && sendLimitedMessage(limited)
     // If need to reminder, send messages
-    reminder?.items?.length && sendMsg2Tab(tabId, 'limitReminder', reminder)
+    reminder?.items?.length && tabId && sendMsg2Tab(tabId, 'limitReminder', reminder)
     // 3. Add period time
     await periodService.add(start, focusTime)
     return focusTime
@@ -47,14 +47,14 @@ async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessa
     }
 }
 
-async function windowNotFocused(winId: number): Promise<boolean> {
+async function windowNotFocused(winId: number | undefined): Promise<boolean> {
     if (IS_ANDROID) return false
     if (!winId) return true
     const window = await getWindow(winId)
     return !window?.focused
 }
 
-async function tabNotActive(tabId: number): Promise<boolean> {
+async function tabNotActive(tabId: number | undefined): Promise<boolean> {
     if (!tabId) return true
     const tab = await getTab(tabId)
     return !tab?.active
@@ -65,7 +65,8 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
     if (!tabs?.length) return
     for (const tab of tabs) {
         try {
-            await sendMsg2Tab(tab.id, 'limitTimeMeet', items)
+            const { id } = tab
+            id && await sendMsg2Tab(id, 'limitTimeMeet', items)
         } catch {
             /* Ignored */
         }

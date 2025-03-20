@@ -19,7 +19,7 @@ async function reloadContentScript() {
     }
     const tabs = await listTabs()
     tabs.filter(({ url }) => url && !isBrowserUrl(url))
-        .forEach(tab => executeScript(tab.id, files))
+        .forEach(({ id: tabId }) => tabId && executeScript(tabId, files))
 }
 
 export default function handleInstall() {

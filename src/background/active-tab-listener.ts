@@ -20,6 +20,7 @@ export default class ActiveTabListener {
     listener: _Handler[] = []
 
     private async processWithTabInfo({ url, id }: ChromeTab) {
+        if (!url || !id) return
         const hostInfo: HostInfo = extractHostname(url)
         const host: string = hostInfo.host
         const param: _Param = { url, tabId: id, host }

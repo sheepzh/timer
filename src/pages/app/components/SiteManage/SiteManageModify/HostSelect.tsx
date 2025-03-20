@@ -88,7 +88,7 @@ const _default = defineComponent({
         modelValue: Object as PropType<timer.site.SiteKey>
     },
     emits: {
-        change: (_siteKey: timer.site.SiteKey) => true
+        change: (_siteKey: timer.site.SiteKey | undefined) => true
     },
     setup(props, ctx) {
         const { data: options, loading: searching, refresh: searchOption } = useManualRequest(handleRemoteSearch)

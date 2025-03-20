@@ -20,12 +20,10 @@ export type WebDAVContext = {
 
 const authHeaders = (auth: WebDAVAuth): Headers => {
     const type = auth?.type
-    let headerVal = null
-    if (type === 'password') {
-        headerVal = `Basic ${encode(`${auth?.username}:${auth?.password}`)}`
-    }
     const headers = new Headers()
-    headers.set('Authorization', headerVal)
+    if (type === 'password') {
+        headers.set('Authorization', `Basic ${encode(`${auth?.username}:${auth?.password}`)}`)
+    }
     return headers
 }
 
@@ -92,7 +90,7 @@ function handleWriteResponse(response: Response) {
     }
 }
 
-export async function readFile(context: WebDAVContext, filePath: string): Promise<string> {
+export async function readFile(context: WebDAVContext, filePath: string): Promise<string | null> {
     const { auth, endpoint } = context || {}
     const headers = authHeaders(auth)
     const url = `${endpoint}/${filePath}`

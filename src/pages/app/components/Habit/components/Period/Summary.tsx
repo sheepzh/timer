@@ -28,17 +28,18 @@ const computeSummary = (rows: timer.period.Row[], periodSize: number): Result =>
         favoritePeriod = `${formatTime(start, "{h}:{i}")}-${formatTime(end, "{h}:{i}")}`
     }
 
-    let maxIdle: [timer.period.Row, timer.period.Row, number] = [, , 0]
+    let maxIdle: [timer.period.Row | undefined, timer.period.Row | undefined, number] = [, , 0]
 
-    let idleStart: timer.period.Row = null, idleEnd: timer.period.Row = null
+    let idleStart: timer.period.Row | undefined
+    let idleEnd: timer.period.Row | undefined
     rows.forEach(r => {
         if (r.milliseconds) {
-            if (!idleStart) return
+            if (!idleStart || !idleEnd) return
             const newEmptyTs = idleEnd.endTime.getTime() - idleStart.endTime.getTime()
             if (newEmptyTs > maxIdle[2]) {
                 maxIdle = [idleStart, idleEnd, newEmptyTs]
             }
-            idleStart = idleEnd = null
+            idleStart = idleEnd = undefined
         } else {
             idleEnd = r
             !idleStart && (idleStart = idleEnd)
@@ -48,7 +49,7 @@ const computeSummary = (rows: timer.period.Row[], periodSize: number): Result =>
     const [start, end] = maxIdle
 
     let idleLength = '-'
-    let idlePeriod = null
+    let idlePeriod = ''
     if (start && end) {
         idleLength = periodFormatter(end.endTime.getTime() - start.startTime.getTime(), { format: 'hour' })
         const format = t(msg => msg.calendar.simpleTimeFormat)

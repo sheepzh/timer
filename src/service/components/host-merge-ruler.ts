@@ -15,7 +15,7 @@ import { get } from "@util/psl"
 const getTheSuffix = (origin: string, dotCount: number) => {
     if (isIpAndPort(origin)) return origin
 
-    let result = []
+    let result: string[] = []
     while (true) {
         if (dotCount-- < 0) {
             break

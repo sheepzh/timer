@@ -90,7 +90,7 @@ const _default = defineComponent((_props, ctx) => {
                     />,
                     default: () => <ElSwitch
                         modelValue={option.autoPauseTracking}
-                        onChange={(val: boolean) => option.autoPauseTracking = val}
+                        onChange={val => option.autoPauseTracking = val as boolean}
                     />
                 }}
             />
@@ -102,18 +102,18 @@ const _default = defineComponent((_props, ctx) => {
                     siteNameUsage: () => <OptionTooltip>{t(msg => msg.option.statistics.siteNameUsage)}</OptionTooltip>,
                     default: () => <ElSwitch
                         modelValue={option.collectSiteName}
-                        onChange={(val: boolean) => option.collectSiteName = val}
+                        onChange={val => option.collectSiteName = val as boolean}
                     />
                 }}
             />
             <OptionItem
                 label={msg => msg.option.statistics.countLocalFiles}
-                defaultValue={fileAccess.value ? t(msg => msg.option.yes) : null}
+                defaultValue={fileAccess.value ? t(msg => msg.option.yes) : undefined}
                 v-slots={{
                     info: () => <OptionTooltip>{t(msg => msg.option.statistics.localFilesInfo)}</OptionTooltip>,
                     localFileTime: () => <OptionTag>{t(msg => msg.option.statistics.localFileTime)}</OptionTag>,
                     default: () => fileAccess.value
-                        ? <ElSwitch modelValue={option.countLocalFiles} onChange={(val: boolean) => option.countLocalFiles = val} />
+                        ? <ElSwitch modelValue={option.countLocalFiles} onChange={val => option.countLocalFiles = val as boolean} />
                         : <ElTooltip
                             placement="top"
                             v-slots={{

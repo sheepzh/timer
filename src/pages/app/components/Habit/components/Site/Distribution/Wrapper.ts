@@ -12,7 +12,8 @@ import {
 } from "echarts"
 import {
     type GridOption,
-    type TooltipOption
+    type TooltipOption,
+    type TopLevelFormatterParams
 } from "echarts/types/dist/shared"
 import { computeAverageLen, generateTitleOption } from "../common"
 
@@ -38,7 +39,7 @@ type FocusBound = [val: number, unit: FocusUnit]
 
 const focusBoundMill = ([val, unit]: FocusBound) => (val ?? 0) * (UNIT_CHANGE[unit] ?? 0)
 
-const FOCUS_COUNT_CATEGORIES: Tuple<FocusBound, 2>[] = [
+const FOCUS_COUNT_CATEGORIES: Tuple<FocusBound | undefined, 2>[] = [
     [, [5, 's']],
     [[5, 's'], [20, 's']],
     [[20, 's'], [60, 's']],
@@ -46,10 +47,10 @@ const FOCUS_COUNT_CATEGORIES: Tuple<FocusBound, 2>[] = [
     [[10, 'm'], [30, 'm']],
     [[30, 'm'], [60, 'm']],
     [[1, 'h'], [2, 'h']],
-    [[2, 'h'], null]
+    [[2, 'h'], undefined],
 ]
 
-const VISIT_COUNT_CATEGORIES: Vector<2>[] = [
+const VISIT_COUNT_CATEGORIES: Tuple<number | undefined, 2>[] = [
     [, 1],
     [1, 3],
     [3, 10],
@@ -57,27 +58,27 @@ const VISIT_COUNT_CATEGORIES: Vector<2>[] = [
     [20, 50],
     [50, 100],
     [100, 200],
-    [200, null]
+    [200, undefined]
 ]
 
 const PALETTE_COLOR = getSeriesPalette()
 
-const formatFocusLegend = (range: Tuple<FocusBound, 2>) => {
+const formatFocusLegend = (range: Tuple<FocusBound | undefined, 2>): string => {
     const [start, end] = range || []
-    if (!start && !end) {
-        return 'NaN'
-    } else if (start && !end) {
+    if (start && !end) {
         return `>=${start[0]}${start[1]}`
     } else if (!start && end) {
         return `<${end[0]}${end[1]}`
-    } else {
+    } else if (start && end) {
         return start[1] === end[1]
             ? `${start[0]}-${end[0]}${start[1]}`
             : `${start[0]}${start[1]}-${end[0]}${end[1]}`
+    } else {
+        return 'NaN'
     }
 }
 
-const formatVisitLegend = (range: Vector<2>) => {
+const formatVisitLegend = (range: Tuple<number | undefined, 2>) => {
     const [start, end] = range || []
     if (!start && !end) {
         return 'NaN'
@@ -113,8 +114,9 @@ const pieOptionOf = (centerX: string, data: PieSeriesOption['data']): PieSeriesO
             },
         },
         tooltip: {
-            formatter(params: any): string {
-                const data: PieSeriesOption['data'][number] = params?.data || {}
+            formatter: (params: TopLevelFormatterParams) => {
+                const param = Array.isArray(params) ? params[0] : params
+                const data = param?.data || {} satisfies Exclude<PieSeriesOption['data'], undefined>[number]
                 const { value } = data as { value: number }
                 return `${t(msg => msg.habit.site.distribution.tooltip, { value })}`
             }
@@ -140,8 +142,8 @@ function generateOption(bizOption: BizOption): EcOption {
         rows = rows.filter(r => r.date !== exclusiveDate)
     }
 
-    const focusAve = groupBy(rows, r => r.siteKey.host, l => sum(l.map(e => e.focus ?? 0)) / averageLen)
-    const visitAve = groupBy(rows, r => r.siteKey.host, l => sum(l.map(e => e.time ?? 0)) / averageLen)
+    const focusAve = groupBy(rows, r => r.siteKey?.host, l => sum(l.map(e => e.focus ?? 0)) / averageLen)
+    const visitAve = groupBy(rows, r => r.siteKey?.host, l => sum(l.map(e => e.time ?? 0)) / averageLen)
 
     const focusGroup = groupBy(
         Object.entries(focusAve),

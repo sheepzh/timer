@@ -25,6 +25,8 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
     }
 })
 
-options.plugins.push(filemanagerWebpackPlugin as webpack.WebpackPluginInstance)
+const { plugins = [] } = options
+plugins.push(filemanagerWebpackPlugin as webpack.WebpackPluginInstance)
+options.plugins = plugins
 
 export default options

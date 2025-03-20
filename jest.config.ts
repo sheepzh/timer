@@ -9,15 +9,20 @@ const sourcePattern = /^(.*)\/\*$/
 const moduleNameMapper: { [key: string]: string } = {}
 
 Object.entries(paths).forEach(([alias, sourceArr]) => {
-    if (!aliasPattern.test(alias)) {
+    const aliasMatch = alias.match(aliasPattern)
+    if (!aliasMatch) {
         return
     }
-    if (sourceArr.length !== 1 || !sourcePattern.test(sourceArr[0])) {
+    if (sourceArr.length !== 1) {
         return
     }
-    const prefix = alias.match(aliasPattern)[1]
+    const sourceMath = sourceArr[0]?.match(sourcePattern)
+    if (!sourceMath) {
+        return
+    }
+    const prefix = aliasMatch[1]
     const pattern = `^${prefix}/(.*)$`
-    const source = sourceArr[0].match(sourcePattern)[1]
+    const source = sourceMath[1]
     const sourcePath = `<rootDir>/${source}/$1`
     moduleNameMapper[pattern] = sourcePath
 })

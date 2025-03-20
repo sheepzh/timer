@@ -13,11 +13,12 @@ import { t } from "./locale"
  * Print info of today
  */
 export default async function printInfo(host: string) {
-    const waste: timer.core.Result = await sendMsg2Runtime('cs.getTodayInfo', host)
+    const waste = await sendMsg2Runtime<string, timer.core.Result>('cs.getTodayInfo', host)
+    const { time, focus } = waste || {}
 
     const param = {
-        time: waste.time ? '' + waste.time : '-',
-        focus: formatPeriodCommon(waste.focus),
+        time: `${time ?? '-'}`,
+        focus: formatPeriodCommon(focus ?? 0),
         host,
     }
     const info0 = t(msg => msg.console.consoleLog, param)

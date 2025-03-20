@@ -15,7 +15,7 @@ class VerificationProcessor {
         this.generators = ALL_GENERATORS
     }
 
-    generate(difficulty: timer.limit.VerificationDifficulty, locale: timer.Locale): VerificationPair {
+    generate(difficulty: timer.limit.VerificationDifficulty, locale: timer.Locale): VerificationPair | null {
         const context: VerificationContext = { difficulty, locale }
         const supported = this.generators.filter(g => g.supports(context))
         const len = supported?.length

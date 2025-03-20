@@ -98,7 +98,7 @@ const _default = defineComponent({
                         placeholder={t(msg => msg.siteManage.column.type)}
                         options={ALL_TYPES.map(type => ({ value: type, label: t(msg => msg.siteManage.type[type].name) }))}
                         defaultValue={types.value}
-                        onChange={setTypes}
+                        onChange={val => setTypes(val as timer.site.Type[])}
                     />
                     <CategoryFilter
                         disabled={cateDisabled.value}
@@ -107,7 +107,7 @@ const _default = defineComponent({
                     />
                 </Flex>
                 <Flex gap={10}>
-                    <DropdownButton items={items} onClick={handleBatchClick} />
+                    <DropdownButton items={items} onClick={key => handleBatchClick(key as BatchOpt)} />
                     <ButtonFilterItem
                         text={t(msg => msg.button.create)}
                         icon={<Plus />}

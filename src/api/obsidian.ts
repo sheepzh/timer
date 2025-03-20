@@ -23,7 +23,7 @@ export type ObsidianRequestContext = {
     auth: string
 }
 
-const authHeaders = (auth: string) => ({
+const authHeaders = (auth: string): Record<string, string> => ({
     "Authorization": `Bearer ${auth}`
 })
 
@@ -42,7 +42,7 @@ export async function updateFile(context: ObsidianRequestContext, filePath: stri
     await fetchPutText(url, content, { headers })
 }
 
-export async function getFileContent(context: ObsidianRequestContext, filePath: string): Promise<string> {
+export async function getFileContent(context: ObsidianRequestContext, filePath: string): Promise<string | null> {
     const { endpoint, auth, vault } = context || {}
     const url = `${endpoint || DEFAULT_ENDPOINT}/${vault || DEFAULT_VAULT}/${filePath}`
     const headers = authHeaders(auth)

@@ -9,7 +9,7 @@ import { t } from "@app/locale"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import { useManualRequest, useRequest } from "@hooks"
 import { ElMessage, ElMessageBox } from "element-plus"
-import { defineComponent, type Ref, ref } from "vue"
+import { defineComponent, ref } from "vue"
 import AddButton, { type AddButtonInstance } from './components/AddButton'
 import Item, { type ItemInstance } from './components/Item'
 
@@ -48,7 +48,7 @@ const _default = defineComponent(() => {
         update(origin, merged)
     }
 
-    const addButton: Ref<AddButtonInstance> = ref()
+    const addButton = ref<AddButtonInstance>()
 
     const { refresh: add } = useManualRequest(
         (rule: timer.merge.Rule) => mergeRuleDatabase.add(rule),
@@ -61,7 +61,7 @@ const _default = defineComponent(() => {
     )
 
     const handleAdd = (origin: string, merged: string | number) => {
-        const alreadyExist = items.value?.filter(item => item.origin === origin).length > 0
+        const alreadyExist = !!items.value?.find(item => item.origin === origin)
         if (alreadyExist) {
             ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
             return
@@ -69,8 +69,7 @@ const _default = defineComponent(() => {
 
         const title = t(msg => msg.operation.confirmTitle)
         const content = t(msg => msg.mergeRule.addConfirmMsg, { origin })
-        ElMessageBox.confirm(content, title, { dangerouslyUseHTMLString: true })
-            .then(() => add({ origin, merged }))
+        ElMessageBox.confirm(content, title, { dangerouslyUseHTMLString: true }).then(() => add({ origin, merged }))
     }
 
     return () => (

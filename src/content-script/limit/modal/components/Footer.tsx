@@ -11,11 +11,11 @@ import { computed, defineComponent } from "vue"
 import { useDelayHandler, useReason, useRule } from "../context"
 
 async function handleMore5Minutes(rule: timer.limit.Item, callback: () => void) {
-    let promise: Promise<void> = undefined
-    const ele = document.querySelector(TAG_NAME).shadowRoot.querySelector('body')
+    let promise: Promise<void> | undefined = undefined
+    const ele = document.querySelector(TAG_NAME)?.shadowRoot?.querySelector('body')
     if (await judgeVerificationRequired(rule)) {
         const option = await optionHolder.get()
-        promise = processVerification(option, { appendTo: ele })
+        promise = processVerification(option, { appendTo: ele ?? undefined })
         promise ? promise.then(callback).catch(() => { }) : callback()
     } else {
         callback()
@@ -26,20 +26,20 @@ const _default = defineComponent(() => {
     const reason = useReason()
     const rule = useRule()
     const showDelay = computed(() => {
-        const { type, allowDelay, delayCount } = reason.value || {}
+        const { type, allowDelay, delayCount = 0 } = reason.value || {}
         if (!allowDelay) return false
 
         const { time, weekly, visit, waste, weeklyWaste } = rule.value || {}
         let realLimit = 0, realWaste = 0
         if (type === 'DAILY') {
-            realLimit = time
+            realLimit = time ?? 0
             realWaste = waste
         } else if (type === 'WEEKLY') {
-            realLimit = weekly
+            realLimit = weekly ?? 0
             realWaste = weeklyWaste
         } else if (type === 'VISIT') {
             realLimit = visit
-            realWaste = reason.value?.getVisitTime?.()
+            realWaste = reason.value?.getVisitTime?.() ?? 0
         } else {
             return false
         }

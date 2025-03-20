@@ -1,6 +1,6 @@
 import { t } from "@app/locale"
 import { Refresh } from "@element-plus/icons-vue"
-import { ElIcon, ElMessage, ElTabPane, ElTabs } from "element-plus"
+import { ElIcon, ElMessage, ElTabPane, ElTabs, TabPaneName } from "element-plus"
 import { defineComponent, h, ref, useSlots } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
@@ -16,7 +16,7 @@ const _default = defineComponent({
         const tab = ref(parseQuery() || 'appearance')
         const router = useRouter()
 
-        const handleBeforeLeave = async (activeName: string, oldActiveName: string): Promise<boolean> => {
+        const handleBeforeLeave = async (activeName: TabPaneName, oldActiveName: TabPaneName): Promise<boolean> => {
             if (activeName === resetButtonName) {
                 const cate: OptionCategory = oldActiveName as OptionCategory
                 await new Promise<void>(res => ctx.emit('reset', cate, res))
@@ -36,8 +36,8 @@ const _default = defineComponent({
                     class="option-tab"
                 >
                     {Object.entries(useSlots()).filter(([key]) => key !== 'default').map(([key, slot]) => (
-                        <ElTabPane name={key} label={t(CATE_LABELS[key])}>
-                            {h(slot)}
+                        <ElTabPane name={key} label={t(CATE_LABELS[key as OptionCategory])}>
+                            {!!slot && h(slot)}
                         </ElTabPane>
                     ))}
                     <ElTabPane

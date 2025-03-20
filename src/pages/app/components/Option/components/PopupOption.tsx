@@ -58,7 +58,7 @@ function copy(target: timer.option.PopupOption, source: timer.option.PopupOption
 }
 
 const _default = defineComponent((_props, ctx) => {
-    const { option } = useOption({ defaultValue: defaultPopup, copy })
+    const { option } = useOption<timer.option.PopupOption>({ defaultValue: defaultPopup, copy })
 
     ctx.expose({
         reset: () => copy(option, defaultPopup())
@@ -119,7 +119,7 @@ const _default = defineComponent((_props, ctx) => {
                 size="small"
                 min={5}
                 max={100}
-                onChange={val => option.popupMax = val}
+                onChange={val => option.popupMax = val!}
             />
         </OptionItem>
         {!IS_ANDROID && (
@@ -132,7 +132,7 @@ const _default = defineComponent((_props, ctx) => {
             >
                 <ElSwitch
                     modelValue={option.displaySiteName}
-                    onChange={(val: boolean) => option.displaySiteName = val}
+                    onChange={val => option.displaySiteName = val as boolean}
                 />
             </OptionItem>
         )}

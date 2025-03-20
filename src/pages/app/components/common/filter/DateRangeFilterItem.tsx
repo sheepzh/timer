@@ -19,7 +19,10 @@ const clearShortcut = (): ElementDatePickerShortcut => ({
 
 const _default = defineComponent({
     props: {
-        defaultRange: Object as PropType<[Date, Date]>,
+        defaultRange: {
+            type: Object as PropType<[Date, Date] | undefined>,
+            required: true,
+        },
         disabledDate: Function,
         startPlaceholder: String,
         endPlaceholder: String,
@@ -30,13 +33,13 @@ const _default = defineComponent({
         }
     },
     emits: {
-        change: (_value: [Date, Date]) => true
+        change: (_value: [Date, Date] | undefined) => true
     },
     setup(props, ctx) {
-        const handleChange = (newVal: [Date, Date]) => {
+        const handleChange = (newVal: [Date, Date] | undefined) => {
             const [start, end] = newVal || []
             const isClearChosen = start?.getTime?.() === 0 && end?.getTime?.() === 0
-            if (isClearChosen) newVal = null
+            if (isClearChosen) newVal = undefined
             ctx.emit("change", dateRange.value = newVal)
         }
         const shortcuts = () => {
@@ -45,7 +48,8 @@ const _default = defineComponent({
             return [...value, clearShortcut()]
         }
 
-        const dateRange: Ref<[Date, Date]> = ref(props.defaultRange || [undefined, undefined])
+        const dateRange = ref(props.defaultRange)
+
         return () => <span class="filter-item">
             <ElDatePicker
                 modelValue={dateRange.value}

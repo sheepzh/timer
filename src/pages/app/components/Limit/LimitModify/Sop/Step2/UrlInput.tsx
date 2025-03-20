@@ -44,7 +44,7 @@ const Part = defineComponent({
                             <ElSwitch
                                 size="small"
                                 modelValue={ignored.value}
-                                onChange={(val: boolean) => ctx.emit('ignoredChange', val)}
+                                onChange={val => ctx.emit('ignoredChange', val as boolean)}
                             />
                         </ElTooltip>
                         <span>{ignored.value ? '*' : origin.value}</span>
@@ -97,7 +97,7 @@ const _default = defineComponent({
                     onInput={setInputVal}
                     clearable
                     onClear={resetInputVal}
-                    onKeydown={(e: KeyboardEvent) => e.code === "Enter" && handleParse()}
+                    onKeydown={ev => (ev as KeyboardEvent)?.code === "Enter" && handleParse()}
                     v-slots={{
                         append: () => (
                             <ElButton icon={<Cpu />} onClick={handleParse}>

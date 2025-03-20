@@ -18,7 +18,7 @@ const ResolutionRadio = defineComponent({
         modelValue: String as PropType<timer.imported.ConflictResolution>,
     },
     emits: {
-        change: (_val: timer.imported.ConflictResolution) => true,
+        change: (_val: timer.imported.ConflictResolution | undefined) => true,
     },
     setup(props, ctx) {
         return () => (
@@ -41,7 +41,7 @@ const ResolutionRadio = defineComponent({
                 >
                     <ElRadioGroup
                         modelValue={props.modelValue}
-                        onChange={(val: timer.imported.ConflictResolution) => ctx.emit('change', val)}
+                        onChange={val => ctx.emit('change', val as timer.imported.ConflictResolution | undefined)}
                     >
                         {ALL_RESOLUTIONS.map((resolution: timer.imported.ConflictResolution) => (
                             <ElRadio value={resolution}>

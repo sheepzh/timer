@@ -13,7 +13,7 @@ import { formatPeriodCommon, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time
  *
  * @param date  {yyyy}{mm}{dd}
  */
-export function cvt2LocaleTime(date: string) {
+export function cvt2LocaleTime(date: string | undefined): string {
     if (!date) return '-'
     const y = date.substring(0, 4)
     const m = date.substring(4, 6)
@@ -40,13 +40,13 @@ const UNIT_MAP: { [unit in Exclude<timer.app.TimeFormat, 'default'>]: string } =
  * @param timeFormat
  * @param hideUnit
  */
-export function periodFormatter(milliseconds: number, option?: PeriodFormatOption): string {
+export function periodFormatter(milliseconds: number | undefined | null, option?: PeriodFormatOption): string {
     let { format = "default", hideUnit } = option || {}
     if (milliseconds === undefined || Number.isNaN(milliseconds) || milliseconds === null) {
         return "-"
     }
     if (format === "default") return formatPeriodCommon(milliseconds)
-    let val: string = null
+    let val: string
     if (format === "second") {
         val = Math.floor(milliseconds / MILL_PER_SECOND).toFixed(0)
     } else if (format === "minute") {

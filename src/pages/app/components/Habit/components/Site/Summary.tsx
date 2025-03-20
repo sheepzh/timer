@@ -60,14 +60,14 @@ const _default = defineComponent(() => {
                 mainValue={periodFormatter(summary.value?.focus?.total, { format: filter.value?.timeFormat })}
                 subTips={msg => msg.habit.common.focusAverage}
                 subValue={periodFormatter(summary.value?.focus?.average, { format: filter.value?.timeFormat })}
-                subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
+                subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : undefined}
             />
             <KanbanIndicatorCell
                 mainName={t(msg => msg.habit.site.countTotal)}
                 mainValue={computeCountText(summary.value?.count)}
                 subTips={msg => msg.habit.site.siteAverage}
                 subValue={summary.value?.count?.siteAverage?.toFixed(0) || '-'}
-                subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : null}
+                subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : undefined}
             />
         </div>
     )

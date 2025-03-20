@@ -15,6 +15,7 @@ import {
     type GridComponentOption,
     type TooltipComponentOption,
 } from "echarts"
+import type { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { formatXAxisTime, generateGridOption } from "../common"
 
 type EcOption = ComposeOption<
@@ -29,12 +30,12 @@ export type BizOption = {
 }
 
 
-function formatTimeOfEcharts(params: any, timeFormat: timer.app.TimeFormat): string {
+function formatTimeOfEcharts(params: TopLevelFormatterParams, timeFormat: timer.app.TimeFormat): string {
     const format = Array.isArray(params) ? params[0] : params
-    const { value } = format
-    const milliseconds = value[1] ?? 0
-    const start = formatTime(value[2], '{m}-{d} {h}:{i}')
-    const end = formatTime(value[3], '{h}:{i}')
+    const value = format.value as number[]
+    const milliseconds = value?.[1] ?? 0
+    const start = formatTime(value?.[2], '{m}-{d} {h}:{i}')
+    const end = formatTime(value?.[3], '{h}:{i}')
     return `
         <div>${start}-${end}</div>
         <div>
@@ -45,7 +46,7 @@ function formatTimeOfEcharts(params: any, timeFormat: timer.app.TimeFormat): str
     `
 }
 
-type BarItem = BarSeriesOption["data"][number]
+type BarItem = Exclude<BarSeriesOption["data"], undefined>[number]
 
 const cvt2Item = (row: timer.period.Row): BarItem => {
     const startTime = row.startTime.getTime()
@@ -63,8 +64,8 @@ function generateOption({ data, timeFormat }: BizOption): EcOption {
 
     return {
         tooltip: {
-            formatter: (params: any) => formatTimeOfEcharts(params, timeFormat),
-            borderColor: null,
+            formatter: (params: TopLevelFormatterParams) => formatTimeOfEcharts(params, timeFormat),
+            borderColor: undefined,
         },
         grid: generateGridOption(),
         xAxis: {
@@ -72,8 +73,8 @@ function generateOption({ data, timeFormat }: BizOption): EcOption {
             axisLabel: { formatter: formatXAxisTime, color: textColor },
             axisLine: { show: false },
             axisTick: { show: false },
-            min: seriesData[0]?.[0],
-            max: seriesData[seriesData.length - 1]?.[0],
+            min: (seriesData[0] as Exclude<BarItem, number | string | Date | any>)?.[0],
+            max: (seriesData[seriesData.length - 1] as Exclude<BarItem, number | string | Date | any>)?.[0],
         },
         yAxis: {
             type: 'value',

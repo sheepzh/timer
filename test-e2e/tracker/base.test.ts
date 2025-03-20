@@ -1,27 +1,18 @@
-import { type Browser } from "puppeteer"
-import { launchBrowser, newPageAndWaitCsInjected, sleep } from "../common/base"
+import { launchBrowser, type LaunchContext, sleep } from "../common/base"
 import { readRecordsOfFirstPage } from "../common/record"
 import { createWhitelist } from "../common/whitelist"
 
-let browser: Browser, extensionId: string
+let context: LaunchContext
 
 describe('Tracking', () => {
-    beforeEach(async () => {
-        const launchRes = await launchBrowser()
-        browser = launchRes.browser
-        extensionId = launchRes.extensionId
-    })
+    beforeEach(async () => context = await launchBrowser())
 
-    afterEach(async () => {
-        await browser.close()
-        browser = undefined
-        extensionId = undefined
-    })
+    afterEach(() => context.close())
 
     test('basic tracking', async () => {
-        const page = await newPageAndWaitCsInjected(browser, extensionId, 'https://www.google.com')
+        const page = await context.newPageAndWaitCsInjected('https://www.google.com')
         await sleep(2)
-        let records = await readRecordsOfFirstPage(browser, extensionId)
+        let records = await readRecordsOfFirstPage(context)
 
         expect(records.length).toEqual(1)
         const { visit: visitStr, time: timeStr } = records[0]
@@ -35,16 +26,16 @@ describe('Tracking', () => {
         await page.bringToFront()
         await page.goto('https://www.baidu.com')
 
-        records = await readRecordsOfFirstPage(browser, extensionId)
+        records = await readRecordsOfFirstPage(context)
         expect(records.length).toEqual(2)
         const urls = records.map(r => r.url)
         expect(urls.includes('baidu.com') || urls.includes('www.baidu.com'))
     }, 60000)
 
     test('white list', async () => {
-        const page = await newPageAndWaitCsInjected(browser, extensionId, 'https://www.google.com')
+        const page = await context.newPageAndWaitCsInjected('https://www.google.com')
         await sleep(2)
-        let records = await readRecordsOfFirstPage(browser, extensionId)
+        let records = await readRecordsOfFirstPage(context)
 
         expect(records.length).toEqual(1)
         const { visit: visitStr, time: timeStr } = records[0]
@@ -54,11 +45,11 @@ describe('Tracking', () => {
         const time = parseInt(timeStr.replace('s', '').trim())
         expect(time >= 2)
 
-        await createWhitelist(browser, extensionId, 'www.google.com')
+        await createWhitelist(context, 'www.google.com')
         await page.bringToFront()
         await page.reload()
         await sleep(2)
-        records = await readRecordsOfFirstPage(browser, extensionId)
+        records = await readRecordsOfFirstPage(context)
         expect(records.length).toEqual(1)
         expect(records[0].time).toEqual(timeStr)
         expect(records[0].visit).toEqual("1")

@@ -33,8 +33,8 @@ export const initProvider = (
     periodRange: Ref<PeriodRange>,
 ) => useProvide<Context>(NAMESPACE, { value, filter, periodRange })
 
-export const usePeriodValue = (): Ref<Value> => useProvider<Context>(NAMESPACE, "value").value
+export const usePeriodValue = () => useProvider<Context, 'value'>(NAMESPACE, "value").value
 
-export const usePeriodFilter = (): Ref<FilterOption> => useProvider<Context>(NAMESPACE, "filter").filter
+export const usePeriodFilter = () => useProvider<Context, 'filter'>(NAMESPACE, "filter").filter
 
-export const usePeriodRange = (): Ref<PeriodRange> => useProvider<Context>(NAMESPACE, "periodRange").periodRange
+export const usePeriodRange = () => useProvider<Context, 'periodRange'>(NAMESPACE, "periodRange").periodRange

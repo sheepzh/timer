@@ -17,7 +17,7 @@ const _default = defineComponent({
         const [name, setName] = useShadow(() => props.defaultName)
         const [enabled, setEnabled] = useShadow(() => props.defaultEnabled)
         const [weekdays, setWeekdays] = useShadow(() => props.defaultWeekdays)
-        watch([enabled, name, weekdays], () => ctx.emit("change", name.value, enabled.value, weekdays.value))
+        watch([enabled, name, weekdays], () => ctx.emit("change", name.value ?? '', !!enabled.value, weekdays.value ?? []))
 
         const validate = () => {
             const nameVal = name.value?.trim?.()
@@ -38,12 +38,15 @@ const _default = defineComponent({
                 <ElRow gutter={30}>
                     <ElCol span={12}>
                         <ElFormItem label={t(msg => msg.limit.item.name)} required>
-                            <ElInput modelValue={name.value} onInput={setName} clearable onClear={() => setName()} />
+                            <ElInput
+                                modelValue={name.value} onInput={setName}
+                                clearable onClear={() => setName(undefined)}
+                            />
                         </ElFormItem>
                     </ElCol>
                     <ElCol span={12}>
                         <ElFormItem label={t(msg => msg.limit.item.enabled)} required>
-                            <ElSwitch modelValue={enabled.value} onChange={setEnabled} />
+                            <ElSwitch modelValue={enabled.value} onChange={v => setEnabled(v as boolean)} />
                         </ElFormItem>
                     </ElCol>
                 </ElRow>

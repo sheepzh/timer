@@ -33,7 +33,7 @@ type BizOption = {
     valueFormatter: ValueFormatter
 }
 
-type ValueItem = LineSeriesOption["data"][0] & {
+type ValueItem = Exclude<LineSeriesOption["data"], undefined>[0] & {
     _data: DimensionEntry
 }
 

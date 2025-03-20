@@ -95,9 +95,10 @@ const _default = defineComponent({
                         buttonType="warning"
                         buttonText={t(msg => msg.item.operation.add2Whitelist)}
                         confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.siteKey?.host })}
-                        visible={canOperate.value && !whitelist.value?.includes(row.siteKey?.host)}
+                        visible={canOperate.value && !!row.siteKey?.host && !whitelist.value?.includes(row.siteKey?.host)}
                         onConfirm={async () => {
-                            await whitelistService.add(row.siteKey?.host)
+                            const host = row.siteKey?.host
+                            host && await whitelistService.add(host)
                             refreshWhitelist()
                             ElMessage.success(t(msg => msg.operation.successMsg))
                         }}
@@ -108,9 +109,10 @@ const _default = defineComponent({
                         buttonType="primary"
                         buttonText={t(msg => msg.item.operation.removeFromWhitelist)}
                         confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.siteKey?.host })}
-                        visible={canOperate.value && whitelist.value?.includes(row.siteKey?.host)}
+                        visible={canOperate.value && !!row.siteKey?.host && whitelist.value?.includes(row.siteKey?.host)}
                         onConfirm={async () => {
-                            await whitelistService.remove(row.siteKey?.host)
+                            const host = row.siteKey?.host
+                            host && await whitelistService.remove(host)
                             refreshWhitelist()
                             ElMessage.success(t(msg => msg.operation.successMsg))
                         }}

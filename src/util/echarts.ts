@@ -95,7 +95,7 @@ export const processAnimation = (toProcess: unknown, duration: number) => {
     })
 }
 
-const processArrayLike = <T,>(arr: T | T[], processor: (t: T) => void) => {
+const processArrayLike = <T,>(arr: T | T[] | undefined, processor: (t: T) => void) => {
     if (!arr) return
     if (Array.isArray(arr)) {
         arr.filter(e => !!e).forEach(processor)
@@ -166,7 +166,7 @@ const processLineSeriesOption = (global: GlobalEcOption) => {
 }
 
 const processBarSeriesOption = (option: BarSeriesOption, global: GlobalEcOption) => {
-    const isHorizontal = someArrayLike(global.xAxis, x => x.type === 'value')
+    const isHorizontal = someArrayLike(global.xAxis, x => x?.type === 'value')
     if (isHorizontal) {
         // Let yAxis stay right
         processArrayLike(global.yAxis, yOpt => swapAlign(yOpt, 'position', 'left'))

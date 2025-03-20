@@ -49,7 +49,7 @@ class SiteCateDatabase extends BaseDatabase {
 
     async listAll(): Promise<timer.site.Cate[]> {
         const items = await this.getItems()
-        return Object.entries(items).map(([id, { n } = {}]) => {
+        return Object.entries(items).map(([id, { n = '' } = {}]) => {
             return {
                 id: parseInt(id),
                 name: n,
@@ -58,8 +58,6 @@ class SiteCateDatabase extends BaseDatabase {
     }
 
     async add(name: string): Promise<timer.site.Cate> {
-        if (!name) return
-
         const items = await this.getItems()
         const existId = Object.entries(items).find(([_, v]) => v.n === name)?.[0]
         if (existId) {
@@ -68,7 +66,7 @@ class SiteCateDatabase extends BaseDatabase {
         }
 
         const id = (Object.keys(items || {}).map(k => parseInt(k)).sort().reverse()?.[0] ?? 0) + 1
-        items[id] = { n: name }
+        items[id] = { n: name || items[id]?.n }
 
         await this.saveItems(items)
         return { name, id }

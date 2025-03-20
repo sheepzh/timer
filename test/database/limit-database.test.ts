@@ -8,6 +8,8 @@ describe('limit-database', () => {
     beforeEach(async () => storage.local.clear())
     test('test1', async () => {
         const toAdd: timer.limit.Rule = {
+            id: 1,
+            name: "foobar",
             cond: ['123'],
             time: 20,
             enabled: true,
@@ -48,12 +50,14 @@ describe('limit-database', () => {
     test("update waste", async () => {
         const date = formatTimeYMD(new Date())
         const id1 = await db.save({
+            name: "foobar",
             cond: ["a.*.com"],
             time: 21,
             enabled: true,
             allowDelay: false,
         })
         await db.save({
+            name: "foobar",
             cond: ["*.b.com"],
             time: 20,
             enabled: true,
@@ -71,13 +75,15 @@ describe('limit-database', () => {
     })
 
     test("import data", async () => {
-        const cond1: timer.limit.Rule = {
+        const cond1: MakeOptional<timer.limit.Rule, 'id'> = {
+            name: 'foobar1',
             cond: ["cond1"],
             time: 20,
             allowDelay: false,
             enabled: true
         }
-        const cond2: timer.limit.Rule = {
+        const cond2: MakeOptional<timer.limit.Rule, 'id'> = {
+            name: 'foobar2',
             cond: ["cond2"],
             time: 20,
             allowDelay: false,
@@ -95,13 +101,13 @@ describe('limit-database', () => {
         const imported = await db.all()
 
         const cond2After = imported.find(a => a.cond?.includes("cond2"))
-        expect(Object.values(cond2After?.records)).toBeTruthy()
+        expect(Object.values(cond2After?.records || {})).toBeTruthy()
         expect(cond2After?.allowDelay).toEqual(cond2.allowDelay)
         expect(cond2After?.enabled).toEqual(cond2.enabled)
     })
 
     test("import data2", async () => {
-        const importData = {}
+        const importData: Record<string, any> = {}
         // Invalid data, no error throws
         await db.importData(importData)
         // Valid data
@@ -111,7 +117,8 @@ describe('limit-database', () => {
     })
 
     test("update delay", async () => {
-        const data: timer.limit.Rule = {
+        const data: MakeOptional<timer.limit.Rule, 'id'> = {
+            name: 'foobar',
             cond: ["cond1"],
             time: 20,
             allowDelay: false,

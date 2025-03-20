@@ -17,8 +17,10 @@ const splitVectors = (vectorRange: Tuple<Vector<number>, 2>, count: number, grad
 }
 
 export const getStepColors = (count: number, gradientFactor?: number): string[] => {
-    const p1 = getCssVariable('--echarts-step-color-1')
-    const p2 = getCssVariable('--echarts-step-color-2')
+    const p1 = getCssVariable('--echarts-step-color-1') ?? ''
+    const p2 = getCssVariable('--echarts-step-color-2') ?? ''
+    if (!p1 || !p2) return [p1, p2].filter(s => !!s)
+
     if (count <= 0) return []
     if (count === 1) return [p1]
     if (count === 2) return [p1, p2]
@@ -41,6 +43,7 @@ export const getSeriesPalette = (): string[] => {
     return range(4)
         .map(idx => `--echarts-series-color-${idx + 1}`)
         .map(val => getCssVariable(val))
+        .filter(s => !!s) as string[]
 }
 
 const linearGradientColor = (color1: string, color2: string): LinearGradientObject => ({
@@ -61,14 +64,14 @@ export const getLineSeriesPalette = (): Tuple<LinearGradientObject, 3> => {
     ]
 }
 
-export const getCompareColor = (): [string, string] => {
+export const getCompareColor = (): [string?, string?] => {
     return [
         getCssVariable('--echarts-compare-color-1'),
         getCssVariable('--echarts-compare-color-2'),
     ]
 }
 
-export const getDiffColor = (): [incColor: string, decColor: string] => {
+export const getDiffColor = (): [incColor?: string, decColor?: string] => {
     return [
         getCssVariable('--echarts-increase-color'),
         getCssVariable('--echarts-decrease-color'),
@@ -98,6 +101,6 @@ export const tooltipSpaceLine = (height?: number): string => {
     return `<div style="width: 100%; height: ${height}px; background-color: transparent"></div>`
 }
 
-export const getPieBorderColor = (): string => {
+export const getPieBorderColor = (): string | undefined => {
     return getCssVariable('--echarts-pie-border-color')
 }

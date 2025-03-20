@@ -32,9 +32,9 @@ export type SeriesDataItem = {
  * @param dateRange date range of filter
  * @returns [averageLen, exclusiveToday4Average, exclusiveDate]
  */
-export const computeAverageLen = (dateRange: [Date, Date] = [null, null]): [number, boolean, string] => {
+export const computeAverageLen = (dateRange: [Date, Date] | undefined): [number, boolean, string | null] => {
+    if (!dateRange) return [0, false, null]
     const [start, end] = dateRange
-    if (!end) return [0, false, null]
     if (isSameDay(start, end)) return [1, false, null]
     const dateDiff = getDayLength(start, end)
     const endIsTody = isSameDay(end, new Date())

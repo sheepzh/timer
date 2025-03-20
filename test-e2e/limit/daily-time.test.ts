@@ -1,31 +1,22 @@
-import { type Browser } from "puppeteer"
-import { launchBrowser, newPageAndWaitCsInjected, openAppPage, sleep } from "../common/base"
+import { launchBrowser, type LaunchContext, sleep } from "../common/base"
 import { createLimitRule, fillTimeLimit } from "./common"
 
-let browser: Browser, extensionId: string
+let context: LaunchContext
 
 describe('Daily time limit', () => {
-    beforeEach(async () => {
-        const launchRes = await launchBrowser()
-        browser = launchRes.browser
-        extensionId = launchRes.extensionId
-    })
+    beforeEach(async () => context = await launchBrowser())
 
-    afterEach(async () => {
-        await browser.close()
-        browser = undefined
-        extensionId = undefined
-    })
+    afterEach(() => context.close())
 
     test('basic', async () => {
-        const limitPage = await openAppPage(browser, extensionId, '/behavior/limit')
-        const demoRule: timer.limit.Rule = { name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 5 }
+        const limitPage = await context.openAppPage('/behavior/limit')
+        const demoRule: timer.limit.Rule = { id: 1, name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 5 }
 
         // 1. Insert limit rule
         await createLimitRule(demoRule, limitPage)
 
         // 2. Open test page
-        const testPage = await newPageAndWaitCsInjected(browser, extensionId, 'https://www.baidu.com')
+        const testPage = await context.newPageAndWaitCsInjected('https://www.baidu.com')
         await sleep(4)
 
         // Assert not limited
@@ -34,8 +25,8 @@ describe('Daily time limit', () => {
         await sleep(.1)
         let wastedTime = await limitPage.evaluate(() => {
             const timeTag = document.querySelector('.el-table .el-table__body-wrapper table tbody tr td:nth-child(6) .el-tag:first-child')
-            const timeStr = timeTag.textContent
-            return parseInt(timeStr.replace('s', '').trim())
+            const timeStr = timeTag?.textContent
+            return parseInt(timeStr?.replace('s', '')?.trim() ?? '0')
         })
         expect(wastedTime >= 4).toBe(true)
 
@@ -46,11 +37,11 @@ describe('Daily time limit', () => {
         // 4. Limited
         const { name, time } = await testPage.evaluate(async () => {
             const shadow = document.querySelector('extension-time-tracker-overlay')
-            const descEl = shadow.shadowRoot.querySelector('#app .el-descriptions:not([style*="display: none"])')
-            const trs = descEl.querySelectorAll('tr')
-            const name = trs[0].querySelector('td:nth-child(2)').textContent
-            const timeStr = trs[2].querySelector('td:nth-child(2) .el-tag--danger').textContent
-            return { name, time: parseInt(timeStr.replace('s', '').trim()) }
+            const descEl = shadow?.shadowRoot?.querySelector('#app .el-descriptions:not([style*="display: none"])')
+            const trs = descEl?.querySelectorAll('tr')
+            const name = trs?.[0]?.querySelector('td:nth-child(2)')?.textContent
+            const timeStr = trs?.[2]?.querySelector('td:nth-child(2) .el-tag--danger')?.textContent
+            return { name, time: parseInt(timeStr?.replace('s', '').trim() ?? '0') }
         })
         expect(name).toEqual(demoRule.name)
         expect(time >= 5).toBeTruthy()
@@ -60,8 +51,8 @@ describe('Daily time limit', () => {
         await sleep(.1)
         wastedTime = await limitPage.evaluate(() => {
             const timeTag = document.querySelector('.el-table .el-table__body-wrapper table tbody tr td:nth-child(6) .el-tag--danger')
-            const timeStr = timeTag.textContent
-            return parseInt(timeStr.replace('s', '').trim())
+            const timeStr = timeTag?.textContent
+            return parseInt(timeStr?.replace('s', '').trim() ?? '')
         })
         expect(wastedTime).toEqual(5)
 
@@ -76,7 +67,7 @@ describe('Daily time limit', () => {
 
         await sleep(.1)
         const timeInput = await limitPage.$('.el-dialog .el-date-editor:first-child input')
-        await fillTimeLimit(10, timeInput, limitPage)
+        await fillTimeLimit(10, timeInput!, limitPage)
         await limitPage.click('.el-dialog .el-button.el-button--success')
 
         // 7. Modal disappear
@@ -85,7 +76,7 @@ describe('Daily time limit', () => {
         const modalExist = await testPage.evaluate(() => {
             const shadow = document.querySelector('extension-time-tracker-overlay')
             if (!shadow) return false
-            return !!shadow.shadowRoot.querySelector('body:not([style*="display: none"])')
+            return !!shadow.shadowRoot!.querySelector('body:not([style*="display: none"])')
         })
         expect(modalExist).toBeFalsy()
     }, 60000)

@@ -47,7 +47,7 @@ function setBadgeTextOfMills(milliseconds: number | undefined, tabId: number | u
     setBadgeText(text, tabId)
 }
 
-async function findActiveTab(): Promise<BadgeLocation> {
+async function findActiveTab(): Promise<BadgeLocation | undefined> {
     const window = await getFocusedNormalWindow()
     if (!window) {
         return undefined
@@ -55,11 +55,11 @@ async function findActiveTab(): Promise<BadgeLocation> {
     const tabs = await listTabs({ active: true, windowId: window.id })
     // Fix #131
     // Edge will return two active tabs, including the new tab with url 'edge://newtab/', GG
-    const tab = tabs.filter(tab => !isBrowserUrl(tab?.url))[0]
-    if (!tab) {
-        return undefined
+    for (const { id: tabId, url } of tabs) {
+        if (!tabId || !url || isBrowserUrl(url)) continue
+        return { tabId, url }
     }
-    return { tabId: tab.id, url: tab.url }
+    return undefined
 }
 
 async function clearAllBadge(): Promise<void> {
@@ -78,10 +78,10 @@ interface BadgeManager {
 }
 
 class DefaultBadgeManager {
-    pausedTabId: number
-    current: BadgeLocation
-    visible: boolean
-    state: BadgeState
+    pausedTabId: number | undefined
+    current: BadgeLocation | undefined
+    visible: boolean | undefined
+    state: BadgeState | undefined
 
     async init(messageDispatcher: MessageDispatcher) {
         const option = await optionHolder.get()
@@ -107,7 +107,7 @@ class DefaultBadgeManager {
     /**
      * Show the badge text
      */
-    private resume(tabId: number) {
+    private resume(tabId?: number) {
         if (!this.pausedTabId || this.pausedTabId !== tabId) return
         this.pausedTabId = undefined
         this.render()

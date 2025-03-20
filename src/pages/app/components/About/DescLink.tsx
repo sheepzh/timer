@@ -1,5 +1,5 @@
 import { ElLink } from "element-plus"
-import { defineComponent, h, type PropType } from "vue"
+import { defineComponent, h, useSlots, type PropType } from "vue"
 import "./desc-link.sass"
 
 export type Icon = "github" | "element-plus" | "echarts" | "vue"
@@ -9,12 +9,13 @@ const _default = defineComponent({
         href: String,
         icon: String as PropType<Icon>
     },
-    setup(props, ctx) {
+    setup(props) {
         const { icon, href } = props
+        const { default: default_ } = useSlots()
         return () => (
             <ElLink href={href} target="_blank">
                 {icon ? <div class={`i-about-icon i-about-icons-${icon}`} /> : null}
-                {h(ctx.slots.default)}
+                {!!default_ && h(default_)}
             </ElLink>
         )
     }

@@ -15,16 +15,16 @@ import { alertProps } from "../common"
 import ClearFilter from "./ClearFilter"
 
 type FilterOption = {
-    date: [Date, Date]
-    focus: [string, string]
-    time: [string, string]
+    date: [Date, Date] | undefined
+    focus: [string?, string?]
+    time: [string?, string?]
 }
 
-function generateParamAndSelect(option: FilterOption): Promise<timer.core.Row[]> | undefined {
+async function generateParamAndSelect(option: FilterOption): Promise<timer.core.Row[]> {
     const param = checkParam(option)
     if (!param) {
         ElMessage.warning(t(msg => msg.dataManage.paramError))
-        return
+        return []
     }
 
     const { date } = option
@@ -33,8 +33,8 @@ function generateParamAndSelect(option: FilterOption): Promise<timer.core.Row[]>
         // default end time is the yesterday
         dateEnd = new Date(new Date().getTime() - MILL_PER_DAY)
     }
-    param.date = [dateStart, dateEnd]
-    return statService.selectBase(param)
+    param.date = dateStart ? [dateStart, dateEnd] : undefined
+    return await statService.selectBase(param)
 }
 
 /**
@@ -44,7 +44,7 @@ function generateParamAndSelect(option: FilterOption): Promise<timer.core.Row[]>
  * @param mustInteger must be integer?
  * @returns true when has error, or false
  */
-function assertQueryParam(range: Vector<2>, mustInteger?: boolean): boolean {
+function assertQueryParam(range: [number, number?], mustInteger?: boolean): boolean {
     const reg = mustInteger ? /^[0-9]+$/ : /^[0-9]+.?[0-9]*$/
     const [start, end] = range || []
     const noStart = start !== undefined && start !== null
@@ -54,13 +54,13 @@ function assertQueryParam(range: Vector<2>, mustInteger?: boolean): boolean {
         || (noStart && noEnd && start > end)
 }
 
-const str2Num = (str: string, defaultVal?: number) => (str && str !== '') ? parseInt(str) : defaultVal
+const str2Num = (str: string | undefined) => str ? parseInt(str) : undefined
 const seconds2Milliseconds = (a: number) => a * MILL_PER_SECOND
 
 function checkParam(option: FilterOption): StatCondition | undefined {
-    const { focus = [null, null], time = [null, null] } = option || {}
+    const { focus, time } = option
     let hasError = false
-    const focusRange = str2Range(focus, seconds2Milliseconds)
+    const focusRange = str2Range(focus, seconds2Milliseconds) as [number, number]
     hasError = hasError || assertQueryParam(focusRange)
     const timeRange = str2Range(time)
     hasError = hasError || assertQueryParam(timeRange, true)
@@ -73,10 +73,10 @@ function checkParam(option: FilterOption): StatCondition | undefined {
     return condition
 }
 
-function str2Range(startAndEnd: [string, string], numAmplifier?: (origin: number) => number): Vector<2> {
+function str2Range(startAndEnd: [string?, string?], numAmplifier?: (origin: number) => number): [number, number | undefined] {
     const startStr = startAndEnd[0]
     const endStr = startAndEnd[1]
-    let start = str2Num(startStr, 0)
+    let start = str2Num(startStr) ?? 0
     numAmplifier && (start = numAmplifier(start))
     let end = str2Num(endStr)
     end && numAmplifier && (end = numAmplifier(end))
@@ -89,7 +89,7 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         async function handleClick(option: FilterOption) {
-            const result: timer.core.Row[] = await generateParamAndSelect(option)
+            const result = await generateParamAndSelect(option)
 
             const count = result.length
             const confirmMsg = t(msg => msg.dataManage.deleteConfirm, { count })

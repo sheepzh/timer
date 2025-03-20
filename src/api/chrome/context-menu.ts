@@ -8,23 +8,22 @@ function onClick(id: string, handler: Function) {
     chrome.contextMenus?.onClicked?.addListener(({ menuItemId }) => menuItemId === id && handler?.())
 }
 
-export function createContextMenu(props: ChromeContextMenuCreateProps): Promise<void> {
-    if (IS_ANDROID) {
+export async function createContextMenu(props: ChromeContextMenuCreateProps): Promise<void> {
+    const { id, onclick: clickHandler } = props
+    if (IS_ANDROID || !id) {
         return
     }
     // Add listener by param
-    let clickHandler: Function = undefined
-    clickHandler = props.onclick
     delete props.onclick
 
     return new Promise(resolve => chrome.contextMenus?.create?.(props, () => {
         handleError('createContextMenu')
-        clickHandler && onClick(props.id, clickHandler)
+        clickHandler && onClick(id, clickHandler)
         resolve()
     }))
 }
 
-export function updateContextMenu(menuId: string, props: ChromeContextMenuUpdateProps): Promise<void> {
+export async function updateContextMenu(menuId: string, props: ChromeContextMenuUpdateProps): Promise<void> {
     if (IS_ANDROID) {
         return
     }

@@ -15,8 +15,8 @@ const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
  * The singleton implementation of whitelist holder
  */
 class WhitelistHolder {
-    private host: string[]
-    private virtual: RegExp[]
+    private host: string[] = []
+    private virtual: RegExp[] = []
     private postHandlers: (() => void)[]
 
     constructor() {

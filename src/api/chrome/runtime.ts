@@ -8,7 +8,7 @@ export function getRuntimeName(): string {
     return chrome.runtime.getManifest().name
 }
 
-export function sendMsg2Runtime<T = any, R = any>(code: timer.mq.ReqCode, data?: T): Promise<R> {
+export function sendMsg2Runtime<T = any, R = any>(code: timer.mq.ReqCode, data?: T): Promise<R | undefined> {
     // Fix proxy data failed to serialized in Firefox
     if (data !== undefined) {
         data = JSON.parse(JSON.stringify(data))

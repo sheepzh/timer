@@ -29,25 +29,35 @@ const _default = defineComponent({
         const mode = ref<Mode>()
         const title = computed(() => mode.value === "create" ? t(msg => msg.button.create) : t(msg => msg.button.modify))
         // Cache
-        let modifyingItem: timer.limit.Rule = undefined
+        let modifyingItem: timer.limit.Rule | undefined = undefined
 
-        const handleSave = async (rule: timer.limit.Rule) => {
+        const handleSave = async (rule: MakeOptional<timer.limit.Rule, "id">) => {
+            if (!rule) return
             const { cond, enabled, name, time, weekly, visitTime, periods, weekdays, count, weeklyCount } = rule
-            const toSave: timer.limit.Rule = {
-                ...modifyingItem || {},
-                cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount,
-                // Object to array
-                periods: periods?.map(i => ([i?.[0], i?.[1]] satisfies Vector<number>)),
-            }
+            let saved: timer.limit.Rule
             if (mode.value === 'modify') {
-                await limitService.update(toSave)
+                if (!modifyingItem) return
+                saved = {
+                    ...modifyingItem,
+                    cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount,
+                    // Object to array
+                    periods: periods?.map(i => ([i?.[0], i?.[1]] satisfies Vector<number>)),
+                } satisfies timer.limit.Rule
+                await limitService.update(saved)
             } else {
-                await limitService.create(toSave)
+                const toCreate = {
+                    ...modifyingItem || {},
+                    cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount,
+                    // Object to array
+                    periods: periods?.map(i => ([i?.[0], i?.[1]] satisfies Vector<number>)),
+                }
+                const id = await limitService.create(toCreate)
+                saved = { ...toCreate, id }
             }
             close()
             ElMessage.success(t(msg => msg.operation.successMsg))
             sop.value?.reset?.()
-            ctx.emit("save", toSave)
+            ctx.emit("save", saved)
         }
 
         const instance: ModifyInstance = {

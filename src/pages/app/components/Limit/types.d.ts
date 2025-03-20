@@ -1,4 +1,4 @@
 export type LimitFilterOption = {
-    url: string
+    url: string | undefined
     onlyEnabled: boolean
 }

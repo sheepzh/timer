@@ -7,27 +7,14 @@
 
 import { t } from "@app/locale"
 import { Operation, UploadFilled } from "@element-plus/icons-vue"
-import metaService from "@service/meta-service"
+import { useRequest, useState } from "@hooks"
 import processor from "@service/backup/processor"
+import metaService from "@service/meta-service"
 import { formatTime } from "@util/time"
 import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
-import { defineComponent, type PropType, type Ref, ref, watch } from "vue"
+import { defineComponent, type PropType, toRef } from "vue"
 import Clear from "./Clear"
 import Download from "./Download"
-
-async function handleBackup(lastTime: Ref<number>) {
-    const loading = ElLoading.service({
-        text: "Doing backup...."
-    })
-    const result = await processor.syncData()
-    loading.close()
-    if (result.success) {
-        ElMessage.success('Successfully!')
-        lastTime.value = result.data || Date.now()
-    } else {
-        ElMessage.error(result.errorMsg || 'Unknown error')
-    }
-}
 
 async function handleTest() {
     const loading = ElLoading.service({ text: "Please wait...." })
@@ -53,15 +40,28 @@ const _default = defineComponent({
         }
     },
     setup(props) {
-        const lastTime: Ref<number> = ref(undefined)
+        const type = toRef(props, 'type')
 
-        const queryLastTime = async () => {
-            const backInfo = await metaService.getLastBackUp(props.type)
-            lastTime.value = backInfo?.ts
+        const [lastTime, setLastTime] = useState<number>()
+
+        useRequest(async () => {
+            const typeVal = type.value
+            return typeVal && (await metaService.getLastBackUp(typeVal))?.ts
+        }, { deps: type, onSuccess: setLastTime })
+
+        async function handleBackup() {
+            const loading = ElLoading.service({
+                text: "Doing backup...."
+            })
+            const result = await processor.syncData()
+            loading.close()
+            if (result.success) {
+                ElMessage.success('Successfully!')
+                setLastTime(result.data ?? Date.now())
+            } else {
+                ElMessage.error(result.errorMsg || 'Unknown error')
+            }
         }
-
-        queryLastTime()
-        watch(() => props.type, queryLastTime)
 
         return () => <div>
             <ElDivider />
@@ -71,15 +71,14 @@ const _default = defineComponent({
                 </ElButton>
                 <Clear />
                 <Download />
-                <ElButton
-                    type="primary"
-                    icon={<UploadFilled />}
-                    onClick={() => handleBackup(lastTime)}
-                >
+                <ElButton type="primary" icon={<UploadFilled />} onClick={handleBackup}>
                     {t(msg => msg.option.backup.operation)}
                 </ElButton>
                 <ElText v-show={!!lastTime.value} style={{ marginLeft: "8px" }}>
-                    {t(msg => msg.option.backup.lastTimeTip, { lastTime: formatTime(lastTime.value, TIME_FORMAT) })}
+                    {t(
+                        msg => msg.option.backup.lastTimeTip,
+                        { lastTime: (lastTime.value && formatTime(lastTime.value, TIME_FORMAT)) ?? '' }
+                    )}
                 </ElText>
             </div>
         </div>
