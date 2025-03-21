@@ -46,11 +46,12 @@ const _default = defineComponent({
                 return ElMessage.info("No data")
             }
             const toSave = new SiteMap<string>()
-            data.forEach(site => {
+            const items = await siteService.batchSelect(data)
+            items.filter(i => !i.alias).forEach(site => {
                 const newAlias = genInitialAlias(site)
                 newAlias && toSave.put(site, newAlias)
             })
-            await siteService.batchSaveAlias(toSave)
+            await siteService.batchSaveAliasNoRewrite(toSave)
             ctx.emit('aliasGenerated')
             ElMessage.success(t(msg => msg.operation.successMsg))
         }
