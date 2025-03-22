@@ -10,6 +10,7 @@ const outputPath = path.resolve(__dirname, '..', 'dist_prod_firefox')
 const marketPkgPath = path.resolve(__dirname, '..', 'market_packages')
 
 const normalZipFilePath = path.resolve(marketPkgPath, `${name}-${version}.firefox.zip`)
+const targetZipFilePath = path.resolve(marketPkgPath, 'target.firefox.zip')
 const sourceCodePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.zip`)
 const readmeForFirefox = path.join(__dirname, '..', 'doc', 'for-fire-fox.md')
 // Temporary directory for source code to archive on Firefox
@@ -28,6 +29,9 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
                 archive: [{
                     source: outputPath,
                     destination: normalZipFilePath,
+                }, {
+                    source: outputPath,
+                    destination: targetZipFilePath,
                 }]
             },
             // Archive source code for FireFox

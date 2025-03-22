@@ -10,6 +10,7 @@ const outputPath = path.resolve(__dirname, '..', 'dist_prod')
 const marketPkgPath = path.resolve(__dirname, '..', 'market_packages')
 
 const normalZipFilePath = path.resolve(marketPkgPath, `${name}-${version}.mv3.zip`)
+const targetZipFilePath = path.resolve(marketPkgPath, `target.zip`)
 
 const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
     events: {
@@ -22,6 +23,9 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
                 archive: [{
                     source: outputPath,
                     destination: normalZipFilePath,
+                }, {
+                    source: outputPath,
+                    destination: targetZipFilePath,
                 }]
             },
         ]
