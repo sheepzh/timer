@@ -1,0 +1,43 @@
+name: Publish to extension/addon store
+on:
+    push:
+        branches:
+            - "release"
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "v20.11.0"
+            - run: npm install
+            - name: Build for MV3
+              run: npm run build
+            - name: Build for Firefox
+              run: npm run build:firefox
+            - name: Upload to chrome webstore
+              uses: mnao305/chrome-extension-upload@v5.0.0
+              with:
+                  file-path: market_packages/target.zip
+                  extension-id: dkdhhcbjijekmneelocdllcldcpmekmm
+                  client-id: ${{ secrets.CHROME_CLIENT_ID }}
+                  client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+                  refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+                  # publish: false # Not to publish
+            - name: Upload to Edge addon store
+              uses: wdzeng/edge-addon@v2
+              with:
+                  zip-path: market_packages/target.zip
+                  product-id: 2a99ae83-5ec8-4ad2-aa63-9a276fc708ce
+                  client-id: ${{ secrets.EDGE_CLIENT_ID }}
+                  api-key: ${{ secrets.EDGE_API_KEY}}
+                  upload-only: true # Not to publish
+            - name: Upload to Firefox addon store
+              uses: cardinalby/webext-buildtools-firefox-addons-action@v1
+              with:
+                  extensionId: '{7b312f5e-9680-436b-acc1-9b09f60e8aaa}'
+                  zipFilePath: market_packages/target.firefox.zip
+                  jwtIssuer: ${{ secrets.FIREFOX_API_KEY }}
+                  jwtSecret: ${{ secrets.FIREFOX_API_SECRET }}
