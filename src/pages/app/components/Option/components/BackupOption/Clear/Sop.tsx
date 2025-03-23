@@ -18,18 +18,20 @@ const _default = defineComponent({
 
         const { data, refresh: handleNext, loading: readingClient } = useManualRequest(() => step1.value?.parseData?.(), {
             onSuccess: () => setStep(1),
-            onError: (e: Error) => ElMessage.warning(e.message || 'Unknown error'),
+            onError: e => ElMessage.warning((e as Error)?.message || 'Unknown error'),
         })
 
         const { refresh: handleClear, loading: deleting } = useManualRequest(async () => {
-            const result = await processor.clear(data.value?.client?.id)
+            const cid = data.value?.client?.id
+            if (!cid) throw new Error('Client not selected')
+            const result = await processor.clear(cid)
             if (!result.success) throw new Error(result.errorMsg)
         }, {
             onSuccess: () => {
                 ElMessage.success(t(msg => msg.operation.successMsg))
                 ctx.emit('clear')
             },
-            onError: (e: Error) => ElMessage.warning(e.message || 'Unknown error'),
+            onError: e => ElMessage.warning((e as Error)?.message || 'Unknown error'),
         })
 
         ctx.expose({ init: () => setStep(0) } satisfies SopInstance)

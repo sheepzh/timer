@@ -47,13 +47,13 @@ export async function parseFile(ext: OtherExtension, file: File): Promise<timer.
 async function parseWebActivityTimeTracker(file: File): Promise<timer.imported.Row[]> {
     const text = await file.text()
     const lines = text.split('\n').map(line => line.trim()).filter(line => !!line).splice(1)
-    const rows: timer.imported.Row[] = lines.map(line => {
+    const rows = lines.map(line => {
         const [host, date, seconds] = line.split(',').map(cell => cell.trim())
         !host || !date || (!seconds && seconds !== '0') && throwError()
         const [year, month, day] = date.split('/')
         !year || !month || !day && throwError()
         const realDate = `${year}${month.length == 2 ? month : '0' + month}${day.length == 2 ? day : '0' + day}`
-        return { host, date: realDate, focus: parseInt(seconds) * MILL_PER_SECOND }
+        return { host, date: realDate, focus: parseInt(seconds) * MILL_PER_SECOND, time: 0 } satisfies timer.imported.Row
     })
     return rows
 }
@@ -73,7 +73,7 @@ type WebtimeTrackerBackup = {
 }
 
 const WEBTIME_TRACKER_DATE_REG = /(\d{2})-(\d{2})-\d{2}/
-const cvtWebtimeTrackerDate = (date: string): string => WEBTIME_TRACKER_DATE_REG.test(date) ? date.split('-').join('') : undefined
+const cvtWebtimeTrackerDate = (date: string): string | undefined => WEBTIME_TRACKER_DATE_REG.test(date) ? date.split('-').join('') : undefined
 
 async function parseWebtimeTracker(file: File): Promise<timer.imported.Row[]> {
     const text = await file.text()
@@ -104,7 +104,7 @@ async function parseWebtimeTracker(file: File): Promise<timer.imported.Row[]> {
             for (let i = 1; i < colHeaders?.length; i++) {
                 const seconds = Number.parseInt(cells[i])
                 const date = cvtWebtimeTrackerDate(colHeaders[i])
-                seconds && date && rows.push({ host, date, focus: seconds * MILL_PER_SECOND })
+                seconds && date && rows.push({ host, date, focus: seconds * MILL_PER_SECOND, time: 0 })
             }
         })
         return rows
@@ -150,7 +150,7 @@ async function parseHistoryTrendsUnlimited(file: File): Promise<timer.imported.R
         return Object.entries(dailyVisits).map(([dateAndHost, time]) => {
             const date = dateAndHost.substring(0, 8)
             const host = dateAndHost.substring(8)
-            return { date, host, time }
+            return { date, host, time, focus: 0 } satisfies timer.imported.Row
         })
     }
     throw new Error("Invalid file format")

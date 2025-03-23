@@ -68,6 +68,9 @@ messageDispatcher.start()
 onNormalWindowFocusChanged(async windowId => {
     if (isNoneWindowId(windowId)) return
     const tabs = await listTabs({ windowId, active: true })
-    tabs.filter(tab => !isBrowserUrl(tab?.url))
-        .forEach(({ url, id }) => badgeTextManager.updateFocus({ url, tabId: id }))
+    tabs.forEach(tab => {
+        const { url, id: tabId } = tab
+        if (!url || isBrowserUrl(url) || !tabId) return
+        badgeTextManager.updateFocus({ url, tabId })
+    })
 })

@@ -3,7 +3,7 @@ import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { Mouse, Timer } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import { calJumpUrl } from "@popup/common"
-import { useCateNameMap } from "@popup/context"
+import { useCateNameMap, useDimension } from "@popup/context"
 import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
@@ -21,12 +21,15 @@ const TITLE_STYLE: StyleValue = {
 
 const Title = defineComponent({
     props: {
-        value: Object as PropType<timer.stat.Row>,
-        type: String as PropType<timer.core.Dimension>,
+        value: {
+            type: Object as PropType<timer.stat.Row>,
+            required: true,
+        },
         date: [Date, Array] as PropType<Date | [Date, Date?]>,
         displaySiteName: Boolean,
     },
     setup(props) {
+        const type = useDimension()
         const cateNameMap = useCateNameMap()
         const name = computed(() => {
             const { alias, siteKey: { host } = {}, cateKey } = props.value || {}
@@ -41,7 +44,7 @@ const Title = defineComponent({
                 cateKey,
             } = props.value || {}
             if (!!cateKey || siteType === 'merged') {
-                return t(msg => msg.content.ranking.includingCount, { siteCount: mergedRows.length ?? 0 })
+                return t(msg => msg.content.ranking.includingCount, { siteCount: mergedRows?.length ?? 0 })
             }
             if (!props.displaySiteName) {
                 return ''
@@ -49,7 +52,7 @@ const Title = defineComponent({
             return alias ? host : ''
         })
 
-        const url = computed(() => calJumpUrl(props.value?.siteKey, props.date, props.type))
+        const url = computed(() => props.value.siteKey && calJumpUrl(props.value.siteKey, props.date, type.value))
 
         return () => (
             <TooltipWrapper
@@ -70,7 +73,7 @@ const Title = defineComponent({
 
 const renderAvatarText = (row: timer.stat.Row, cateNameMap: Record<number, string>) => {
     const { siteKey, alias, cateKey } = row || {}
-    const cateName = cateNameMap?.[cateKey]
+    const cateName = cateKey !== undefined ? cateNameMap?.[cateKey] : undefined
     return [cateName, alias, siteKey?.host]
         .find(a => !!a)
         ?.substring?.(0, 1)
@@ -80,16 +83,19 @@ const renderAvatarText = (row: timer.stat.Row, cateNameMap: Record<number, strin
 
 const Item = defineComponent({
     props: {
-        value: Object as PropType<timer.stat.Row>,
+        value: {
+            type: Object as PropType<timer.stat.Row>,
+            required: true,
+        },
         max: Number,
         total: Number,
-        type: String as PropType<timer.core.Dimension>,
         date: [Date, Array] as PropType<Date | [Date, Date?]>,
         displaySiteName: Boolean,
     },
     setup(props, ctx) {
-        const rate = computed(() => props.max ? (props.value?.[props.type] ?? 0) / props.max * 100 : 0)
-        const percentage = computed(() => props.total ? (props.value?.[props.type] ?? 0) / props.total * 100 : 0)
+        const type = useDimension()
+        const rate = computed(() => props.max ? (props.value?.[type.value] ?? 0) / props.max * 100 : 0)
+        const percentage = computed(() => props.total ? (props.value?.[type.value] ?? 0) / props.total * 100 : 0)
 
         const cateNameMap = useCateNameMap()
 
@@ -135,7 +141,6 @@ const Item = defineComponent({
                             <Flex width={0} flex={1} justify="start">
                                 <Title
                                     value={props.value}
-                                    type={props.type}
                                     date={props.date}
                                     displaySiteName={props.displaySiteName}
                                 />
@@ -149,13 +154,13 @@ const Item = defineComponent({
                         </Flex>
                         <Flex column justify="space-around" flex={1}>
                             <Flex justify="space-between" width="100%" cursor="unset">
-                                <ElText type={props.type === 'time' ? 'primary' : 'info'} size="small">
+                                <ElText type={type.value === 'time' ? 'primary' : 'info'} size="small">
                                     <ElIcon>
                                         <Mouse />
                                     </ElIcon>
                                     {props.value?.time ?? 0}
                                 </ElText>
-                                <ElText type={props.type === 'focus' ? 'primary' : 'info'} size="small">
+                                <ElText type={type.value === 'focus' ? 'primary' : 'info'} size="small">
                                     <ElIcon>
                                         <Timer />
                                     </ElIcon>

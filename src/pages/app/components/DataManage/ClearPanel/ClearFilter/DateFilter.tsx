@@ -10,7 +10,7 @@ import { EL_DATE_FORMAT } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { formatTime, getBirthday, MILL_PER_DAY } from "@util/time"
-import { type DateModelType, ElDatePicker } from "element-plus"
+import { ElDatePicker } from "element-plus"
 import { defineComponent, type PropType } from "vue"
 
 const yesterday = new Date().getTime() - MILL_PER_DAY
@@ -36,10 +36,10 @@ const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
 
 const _default = defineComponent({
     emits: {
-        change: (_date: [DateModelType, DateModelType]) => true
+        change: (_date: [Date, Date]) => true
     },
     props: {
-        dateRange: Object as PropType<[DateModelType, DateModelType]>
+        dateRange: Object as PropType<[Date, Date]>
     },
     setup(props, ctx) {
         return () => (

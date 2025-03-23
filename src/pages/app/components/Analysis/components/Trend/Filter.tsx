@@ -16,7 +16,7 @@ import { defineComponent, ref, type PropType } from "vue"
 function datePickerShortcut(agoOfStart?: number, agoOfEnd?: number): ElementDatePickerShortcut {
     return {
         text: t(msg => msg.calendar.range.lastDays, { n: agoOfStart }),
-        value: daysAgo(agoOfStart - 1 || 0, agoOfEnd || 0),
+        value: daysAgo((agoOfStart ?? 0) - 1 || 0, agoOfEnd || 0),
     }
 }
 
@@ -35,7 +35,7 @@ const _default = defineComponent({
         dateRangeChange: (_val: [Date, Date]) => true
     },
     setup(props, ctx) {
-        const dateRange = ref<[Date, Date]>(props.dateRange)
+        const dateRange = ref<[Date, Date] | undefined>(props.dateRange)
         return () => (
             <div>
                 <ElDatePicker

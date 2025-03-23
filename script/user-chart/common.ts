@@ -9,7 +9,7 @@ export function validateTokenFromEnv(): string {
     if (!token) {
         exitWith("Can't find token from env variable [TIMER_USER_COUNT_GIST_TOKEN]")
     }
-    return token
+    return token!
 }
 
 /**
@@ -26,6 +26,6 @@ export function filenameOf(browser: Browser): string {
     return descriptionOf(browser) + '.json'
 }
 
-export async function getExistGist(token: string, browser: Browser): Promise<Gist> {
+export async function getExistGist(token: string, browser: Browser): Promise<Gist | null> {
     return await findTarget(token, gist => gist.description === descriptionOf(browser))
 }

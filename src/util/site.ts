@@ -9,7 +9,7 @@ const SEPARATORS = /[-\|–_:：，]/
 
 const INVALID_SITE_NAME = /(登录)|(我的)|(个人)|(主页)|(首页)|(Welcome)/
 
-const SPECIAL_MAP = {
+const SPECIAL_MAP: Record<string, string> = {
     // 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili
     'www.bilibili.com': 'bilibili'
 }
@@ -21,8 +21,8 @@ const SPECIAL_MAP = {
  * @returns siteName, undefined if disable to detect
  * @since 0.5.1
  */
-export function extractSiteName(title: string, host?: string) {
-    title = title?.trim?.()
+export function extractSiteName(title: string, host?: string): string | undefined {
+    title = title.trim()
     if (!title) {
         return undefined
     }
@@ -54,12 +54,12 @@ export function generateSiteLabel(host: string, name?: string): string {
  *
  * @since 3.0.0
  */
-export function supportCategory(siteKey: timer.site.SiteKey): boolean {
+export function supportCategory(siteKey: timer.site.SiteKey | undefined): boolean {
     const { type } = siteKey || {}
     return type === 'normal'
 }
 
-export function siteEqual(a: timer.site.SiteKey, b: timer.site.SiteKey) {
+export function siteEqual(a: timer.site.SiteKey | undefined, b: timer.site.SiteKey | undefined) {
     if (!a && !b) return true
     if (a === b) return true
     return a?.host === b?.host && a?.type === b?.type
@@ -84,22 +84,22 @@ const PREFIX_TYPE_MAP: { [prefix in SiteIdentityPrefix]: timer.site.Type } = {
     v: 'virtual',
 }
 
-export function identifySiteKey(site: timer.site.SiteKey): string {
+export function identifySiteKey(site: timer.site.SiteKey | undefined): string {
     if (!site) return ''
     const { host, type } = site || {}
     return (TYPE_PREFIX_MAP[type] ?? ' ') + (host || '')
 }
 
-export function parseSiteKeyFromIdentity(keyIdentity: string): timer.site.SiteKey {
-    const type = PREFIX_TYPE_MAP[keyIdentity?.charAt?.(0)]
-    if (!type) return null
+export function parseSiteKeyFromIdentity(keyIdentity: string): timer.site.SiteKey | undefined {
+    const type = PREFIX_TYPE_MAP[keyIdentity?.charAt?.(0) as SiteIdentityPrefix]
+    if (!type) return
     const host = keyIdentity?.substring(1)?.trim?.()
-    if (!host) return null
+    if (!host) return
     return { type, host }
 }
 
-function cloneSiteKey(origin: timer.site.SiteKey): timer.site.SiteKey {
-    if (!origin) return null
+function cloneSiteKey(origin: timer.site.SiteKey | undefined): timer.site.SiteKey | undefined {
+    if (!origin) return
     return { host: origin.host, type: origin.type }
 }
 
@@ -108,29 +108,30 @@ export function distinctSites(list: timer.site.SiteKey[]): timer.site.SiteKey[] 
     list?.forEach(ele => {
         const key = identifySiteKey(ele)
         if (map[key]) return
-        map[key] = cloneSiteKey(ele)
+        const cloned = cloneSiteKey(ele)
+        cloned && (map[key] = cloned)
     })
     return Object.values(map)
 }
 
 export class SiteMap<T> {
-    private innerMap: Record<string, [timer.site.SiteKey, T]>
+    private innerMap: Record<string, [timer.site.SiteKey, T | undefined]>
 
     constructor() {
         this.innerMap = {}
     }
 
-    public put(site: timer.site.SiteKey, t: T): void {
+    public put(site: timer.site.SiteKey, t: T | undefined): void {
         const key = identifySiteKey(site)
         this.innerMap[key] = [site, t]
     }
 
-    public get(site: timer.site.SiteKey): T {
+    public get(site: timer.site.SiteKey): T | undefined {
         const key = identifySiteKey(site)
         return this.innerMap[key]?.[1]
     }
 
-    public map<R>(mapper: (key: timer.site.SiteKey, value: T) => R): R[] {
+    public map<R>(mapper: (key: timer.site.SiteKey, value: T | undefined) => R): R[] {
         return Object.values(this.innerMap).map(([site, val]) => mapper?.(site, val))
     }
 
@@ -142,7 +143,7 @@ export class SiteMap<T> {
         return Object.values(this.innerMap).map(v => v[0])
     }
 
-    public forEach(func: (k: timer.site.SiteKey, v: T, idx: number) => void) {
+    public forEach(func: (k: timer.site.SiteKey, v: T | undefined, idx: number) => void) {
         if (!func) return
         Object.values(this.innerMap).forEach(([k, v], idx) => func(k, v, idx))
     }

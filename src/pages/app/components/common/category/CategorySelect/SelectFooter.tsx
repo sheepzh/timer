@@ -56,8 +56,8 @@ const SelectFooter = defineComponent(() => {
                             size="small"
                             modelValue={name.value}
                             onInput={setName}
-                            onKeydown={(ev: KeyboardEvent) => {
-                                const { key } = ev
+                            onKeydown={ev => {
+                                const { key } = ev as KeyboardEvent
                                 if (key === 'Escape') {
                                     stopPropagationAfter(ev, closeEditing)
                                 } else if (key === 'Enter') {

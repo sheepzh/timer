@@ -132,7 +132,7 @@ function generateOrderMap(data: timer.period.Row[], periodSize: number): Map<num
 }
 
 function cvt2AverageResult(map: Map<number, number>, periodSize: number, dateNum: number): timer.period.Row[] {
-    const result = []
+    const result: timer.period.Row[] = []
     let period = keyOf(new Date(), 0)
     for (let i = 0; i < PERIOD_PER_DATE / periodSize; i++) {
         const key = period.order / periodSize

@@ -67,14 +67,14 @@ class ScreenLocker {
 
 class ModalInstance implements MaskModal {
     url: string
-    rootElement: RootElement
-    body: HTMLBodyElement
+    rootElement: RootElement | undefined
+    body: HTMLBodyElement | undefined
     delayHandlers: (() => void)[] = [
         () => sendMsg2Runtime('cs.moreMinutes', this.url),
     ]
     reasons: LimitReason[] = []
-    reason: Ref<LimitReason>
-    app: App<Element>
+    reason: Ref<LimitReason | undefined> | undefined
+    app: App<Element> | undefined
     screenLocker = new ScreenLocker()
 
     constructor(url: string) {
@@ -123,7 +123,7 @@ class ModalInstance implements MaskModal {
         // 1. Create mask element
         const root = await this.prepareRoot()
         const html = document.createElement('html')
-        root.append(html)
+        root?.append(html)
 
         // header
         const header = createHeader()
@@ -145,11 +145,11 @@ class ModalInstance implements MaskModal {
         this.app = createApp(Main)
         this.reason = provideReason(this.app)
         provideDelayHandler(this.app, () => this.delayHandlers?.forEach(h => h?.()))
-        this.app.mount(this.body)
+        this.body && this.app.mount(this.body)
     }
 
-    private async prepareRoot(): Promise<ShadowRoot> {
-        const inner = () => {
+    private async prepareRoot(): Promise<ShadowRoot | null> {
+        const inner = (): ShadowRoot | null => {
             const exist = this.rootElement || document.querySelector(TAG_NAME) as RootElement
             if (exist) {
                 this.rootElement = exist
@@ -179,16 +179,16 @@ class ModalInstance implements MaskModal {
         pauseAllAudio()
 
         this.rootElement && (this.rootElement.style.visibility = 'visible')
-        this.reason.value = reason
+        this.reason && (this.reason.value = reason)
         this.screenLocker.lock()
-        this.body.style.display = 'block'
+        this.body && (this.body.style.display = 'block')
     }
 
     private hide() {
         this.rootElement && (this.rootElement.style.visibility = 'hidden')
         this.screenLocker.unlock()
         this.body && (this.body.style.display = 'none')
-        this.reason && (this.reason.value = null)
+        this.reason && (this.reason.value = undefined)
     }
 }
 

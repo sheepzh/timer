@@ -44,7 +44,7 @@ class WhitelistDatabase extends BaseDatabase {
     addChangeListener(listener: (whitelist: string[]) => void) {
         const storageListener = (
             changes: { [key: string]: chrome.storage.StorageChange },
-            _areaName: "sync" | "local" | "managed"
+            _areaName: chrome.storage.AreaName,
         ) => {
             const changeInfo = changes[WHITELIST_KEY]
             changeInfo && listener(changeInfo.newValue || [])

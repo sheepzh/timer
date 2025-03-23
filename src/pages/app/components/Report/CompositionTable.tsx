@@ -43,7 +43,10 @@ const formatValue = (value: number, valueFormatter?: ValueFormatter) => {
 
 const _default = defineComponent({
     props: {
-        data: Array as PropType<timer.stat.RemoteCompositionVal[]>,
+        data: {
+            type: Array as PropType<timer.stat.RemoteCompositionVal[]>,
+            required: true,
+        },
         valueFormatter: Function as PropType<ValueFormatter>,
     },
     setup(props) {
@@ -66,7 +69,7 @@ const _default = defineComponent({
                     <ElTableColumn
                         label={PERCENTAGE}
                         align="center"
-                        formatter={(r: Row) => r.percent}
+                        formatter={(r: Row) => r.percent ?? ''}
                         width={100}
                     />
                 </ElTable>

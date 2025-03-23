@@ -8,11 +8,11 @@ type Result = {
     backupType: Ref<timer.backup.Type>
     clientName: Ref<string>
     autoBackUp: Ref<boolean>
-    autoBackUpInterval: Ref<number>
-    auth: Ref<string>
-    account: Ref<string>
-    password: Ref<string>
-    ext: Ref<timer.backup.TypeExt>
+    autoBackUpInterval: Ref<number | undefined>
+    auth: Ref<string | undefined>
+    account: Ref<string | undefined>
+    password: Ref<string | undefined>
+    ext: Ref<timer.backup.TypeExt | undefined>
     setExtField: (field: keyof timer.backup.TypeExt, val: string) => void
 }
 
@@ -71,7 +71,7 @@ export const useOptionState = (): Result => {
         }
     })
 
-    const ext = computed<timer.backup.TypeExt>({
+    const ext = computed<timer.backup.TypeExt | undefined>({
         get: () => backupExts.value?.[backupType.value],
         set: val => {
             const typeVal = backupType.value
@@ -99,14 +99,14 @@ export const useOptionState = (): Result => {
         login.value = newLogin
     }
 
-    const account = computed<string>({
+    const account = computed<string | undefined>({
         get: () => login.value?.[backupType?.value]?.acc,
-        set: (val: string) => setLoginField('acc', val)
+        set: (val: string | undefined) => setLoginField('acc', val ?? '')
     })
 
-    const password = computed<string>({
+    const password = computed<string | undefined>({
         get: () => login.value?.[backupType?.value]?.psw,
-        set: (val: string) => setLoginField('psw', val)
+        set: (val: string | undefined) => setLoginField('psw', val ?? '')
     })
 
     return {

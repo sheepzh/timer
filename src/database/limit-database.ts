@@ -39,7 +39,7 @@ type ItemValue = {
     /**
      * Limited time, second
      */
-    t: number
+    t?: number
     /**
      * Limited count
      */
@@ -158,7 +158,7 @@ class LimitDatabase extends BaseDatabase {
         return Object.values(items).map(cvtItem2Rec)
     }
 
-    async save(data: timer.limit.Rule, rewrite?: boolean): Promise<number> {
+    async save(data: MakeOptional<timer.limit.Rule, 'id'>, rewrite?: boolean): Promise<number> {
         const items = await this.getItems()
         let {
             id, name, weekdays,
@@ -181,7 +181,7 @@ class LimitDatabase extends BaseDatabase {
             // Can be overridden by existing
             ...(existItem || {}),
             i: id, n: name, c: cond, wd: weekdays,
-            e: enabled, ad: allowDelay,
+            e: !!enabled, ad: !!allowDelay,
             t: time, ct: count,
             wt: weekly, wct: weeklyCount,
             v: visitTime, p: periods,

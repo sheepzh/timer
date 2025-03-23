@@ -28,7 +28,7 @@ export default class MonthIterator {
         }
     }
 
-    next(): string {
+    next(): string | undefined {
         if (this.hasNext()) {
             const [year, month] = this.cursor
             const result = year.toString().padStart(4, '0') + (month + 1).toString().padStart(2, '0')
@@ -42,13 +42,14 @@ export default class MonthIterator {
     }
 
     forEach(callback: (yearMonth: string) => void) {
-        while (this.hasNext()) {
-            callback(this.next())
+        let next: string | undefined = undefined
+        while (next = this.next()) {
+            callback(next)
         }
     }
 
     toArray(): string[] {
-        const result = []
+        const result: string[] = []
         this.forEach(yearMonth => result.push(yearMonth))
         return result
     }

@@ -8,9 +8,14 @@ export function matches(cond: timer.limit.Item['cond'], url: string): boolean {
     )
 }
 
-export const meetLimit = (limit: number, value: number) => !!limit && !!value && value > limit
+export const meetLimit = (limit: number | undefined, value: number | undefined): boolean => {
+    return !!limit && !!value && value > limit
+}
 
-export const meetTimeLimit = (limitSec: number, wastedMill: number, allowDelay: boolean, delayCount: number) => {
+export const meetTimeLimit = (
+    limitSec: number | undefined, wastedMill: number | undefined,
+    allowDelay: boolean | undefined, delayCount: number | undefined
+): boolean => {
     let realLimit = (limitSec ?? 0) * MILL_PER_SECOND
     allowDelay && realLimit && (realLimit += DELAY_MILL * (delayCount ?? 0))
     return meetLimit(realLimit, wastedMill)
@@ -29,8 +34,8 @@ export function calcTimeState(item: timer.limit.Item, reminderMills: number): Li
         weekly: "NORMAL",
     }
     const {
-        time, waste = 0, delayCount = 0,
-        weekly, weeklyWaste = 0, weeklyDelayCount = 0,
+        time, waste, delayCount,
+        weekly, weeklyWaste, weeklyDelayCount,
         allowDelay,
     } = item || {}
     // 1. daily states
@@ -55,24 +60,24 @@ export function hasLimited(item: timer.limit.Item): boolean {
 }
 
 export function hasDailyLimited(item: timer.limit.Item): boolean {
-    const { time, count, waste = 0, visit = 0, delayCount = 0, allowDelay } = item || {}
+    const { time, count = 0, waste = 0, visit = 0, delayCount = 0, allowDelay = false } = item || {}
     const timeMeet = meetTimeLimit(time, waste, allowDelay, delayCount)
     const countMeet = meetLimit(count, visit)
     return timeMeet || countMeet
 }
 
 export function hasWeeklyLimited(item: timer.limit.Item): boolean {
-    const { weekly, weeklyCount, weeklyWaste = 0, weeklyVisit = 0, weeklyDelayCount = 0, allowDelay } = item || {}
+    const { weekly = 0, weeklyCount = 0, weeklyWaste = 0, weeklyVisit = 0, weeklyDelayCount = 0, allowDelay = false } = item || {}
     const timeMeet = meetTimeLimit(weekly, weeklyWaste, allowDelay, weeklyDelayCount)
     const countMeet = meetLimit(weeklyCount, weeklyVisit)
     return timeMeet || countMeet
 }
 
 export function isEnabledAndEffective(rule: timer.limit.Rule): boolean {
-    return rule?.enabled && isEffective(rule)
+    return !!rule?.enabled && isEffective(rule)
 }
 
-export function isEffective(rule: timer.limit.Rule): boolean {
+export function isEffective(rule: timer.limit.Rule | undefined): boolean {
     if (!rule) return false
     const { weekdays } = rule
 
@@ -84,7 +89,7 @@ export function isEffective(rule: timer.limit.Rule): boolean {
     return weekdays.includes(weekday)
 }
 
-const idx2Str = (time: number): string => {
+const idx2Str = (time: number | undefined): string => {
     time = time ?? 0
     const hour = Math.floor(time / 60)
     const min = time - hour * 60
@@ -101,8 +106,7 @@ export const dateMinute2Idx = (date: Date): number => {
     return hour * 60 + min
 }
 
-export const period2Str = (p: timer.limit.Period): string => {
-    const start = p?.[0]
-    const end = p?.[1]
+export const period2Str = (p: timer.limit.Period | undefined): string => {
+    const [start, end] = p || []
     return `${idx2Str(start)}-${idx2Str(end)}`
 }

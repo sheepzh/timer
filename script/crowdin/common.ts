@@ -1,3 +1,4 @@
+import { type SourceFilesModel } from '@crowdin/crowdin-api-client'
 import fs from 'fs'
 import path from 'path'
 import { exitWith } from '../util/process'
@@ -29,7 +30,7 @@ export type CrowdinLanguage = typeof ALL_CROWDIN_LANGUAGES[number]
 export const SOURCE_LOCALE: timer.SourceLocale = 'en'
 
 // Not include en and zh_CN
-export const ALL_TRANS_LOCALES: timer.Locale[] = [
+export const ALL_TRANS_LOCALES: timer.OptionalLocale[] = [
     'ja',
     'zh_TW',
     'pt_PT',
@@ -41,7 +42,7 @@ export const ALL_TRANS_LOCALES: timer.Locale[] = [
     'ar',
 ]
 
-const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.Locale> = {
+const CROWDIN_I18N_MAP: Record<CrowdinLanguage, timer.OptionalLocale> = {
     ja: 'ja',
     'zh-TW': 'zh_TW',
     'pt-PT': 'pt_PT',
@@ -65,7 +66,7 @@ const I18N_CROWDIN_MAP: Record<timer.OptionalLocale, CrowdinLanguage> = {
     ar: 'ar',
 }
 
-export const crowdinLangOf = (locale: timer.Locale) => I18N_CROWDIN_MAP[locale]
+export const crowdinLangOf = (locale: timer.OptionalLocale): CrowdinLanguage => I18N_CROWDIN_MAP[locale]
 
 export const localeOf = (crowdinLang: CrowdinLanguage) => CROWDIN_I18N_MAP[crowdinLang]
 
@@ -95,7 +96,7 @@ export async function readAllMessages(dir: Dir): Promise<Record<string, Messages
     const dirPath = path.join(MSG_BASE, dir)
 
     const files = fs.readdirSync(dirPath)
-    const result = {}
+    const result: Record<string, any> = {}
     await Promise.all(files.map(async file => {
         if (!file.endsWith(RSC_FILE_SUFFIX)) {
             return
@@ -146,7 +147,7 @@ export async function mergeMessage(
                 const pathSeg = path.split('.')
                 fillItem(pathSeg, 0, newMessage, text)
             })
-        Object.entries(newMessage).length && (existMessages[locale] = newMessage)
+        Object.entries(newMessage).length && (existMessages[locale as timer.Locale] = newMessage)
     })
 
     const newFileContent = JSON.stringify(existMessages, null, 4)
@@ -173,7 +174,7 @@ function checkPlaceholder(translated: string, source: string) {
     return true
 }
 
-function fillItem(fields: string[], index: number, obj: Object, text: string) {
+function fillItem(fields: string[], index: number, obj: Record<string, any>, text: string) {
     const field = fields[index]
     if (index === fields.length - 1) {
         obj[field] = text
@@ -192,7 +193,7 @@ function fillItem(fields: string[], index: number, obj: Object, text: string) {
  * Trans msg object to k-v map
  */
 export function transMsg(message: any, prefix?: string): ItemSet {
-    const result = {}
+    const result: Record<string, any> = {}
     const pathPrefix = prefix ? prefix + '.' : ''
     Object.entries(message).forEach(([key, value]) => {
         const path = pathPrefix + key
@@ -210,10 +211,10 @@ export function transMsg(message: any, prefix?: string): ItemSet {
     return result
 }
 
-export async function checkMainBranch(client: CrowdinClient) {
+export async function checkMainBranch(client: CrowdinClient): Promise<SourceFilesModel.Branch> {
     const branch = await client.getMainBranch()
     if (!branch) {
         exitWith("Main branch is null")
     }
-    return branch
+    return branch!
 }

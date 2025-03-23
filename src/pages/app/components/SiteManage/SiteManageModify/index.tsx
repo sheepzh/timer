@@ -22,9 +22,9 @@ type _FormData = {
     /**
      * Value of alias key
      */
-    key: timer.site.SiteKey
-    alias: string
-    category: number
+    key: timer.site.SiteKey | undefined
+    alias: string | undefined
+    category: number | undefined
 }
 
 const formRule = {
@@ -44,7 +44,7 @@ const formRule = {
     ]
 }
 
-function validateForm(form: FormInstance): Promise<boolean> {
+function validateForm(form: FormInstance | undefined): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
         const validate = form?.validate
         validate
@@ -78,7 +78,7 @@ function initData(): _FormData {
 
 const _default = defineComponent({
     emits: {
-        save: (_siteKey: timer.site.SiteKey, _name: string) => true
+        save: (_siteKey: timer.site.SiteKey, _name: string | undefined) => true
     },
     setup: (_, ctx) => {
         const [visible, open, close] = useSwitch()
@@ -100,8 +100,10 @@ const _default = defineComponent({
             const valid: boolean = await validateForm(form.value)
             if (!valid) return false
 
-            const siteKey = formData.key
-            const alias = formData.alias?.trim()
+            let { key: siteKey, alias } = formData
+            if (!siteKey) return false
+
+            alias = alias?.trim()
             const siteInfo: timer.site.SiteInfo = { ...siteKey, alias, cate: formData.category }
             const saved = await handleAdd(siteInfo)
             if (saved) {
@@ -136,7 +138,7 @@ const _default = defineComponent({
                     <ElInput
                         modelValue={formData.alias}
                         onInput={val => formData.alias = val}
-                        onKeydown={(ev: KeyboardEvent) => ev.key === "Enter" && handleSave()}
+                        onKeydown={ev => (ev as KeyboardEvent).key === "Enter" && handleSave()}
                     />
                 </ElFormItem>
                 {showCate.value && (

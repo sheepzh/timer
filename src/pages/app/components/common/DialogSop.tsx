@@ -27,6 +27,8 @@ const DialogSop = defineComponent({
         finish: () => true,
     },
     setup(props, ctx) {
+        const { steps, content } = ctx.slots
+
         return () => (
             <Flex
                 column
@@ -35,10 +37,10 @@ const DialogSop = defineComponent({
                 style={{ marginTop: '25px' }}
             >
                 <div class="dialog-sop-step-container">
-                    {h(ctx.slots.steps)}
+                    {!!steps && h(steps)}
                 </div>
                 <div style={{ padding: '0 20px', boxSizing: 'border-box', width: '100%' }}>
-                    {h(ctx.slots.content)}
+                    {!!content && h(content)}
                 </div>
                 <Flex>
                     <Flex>

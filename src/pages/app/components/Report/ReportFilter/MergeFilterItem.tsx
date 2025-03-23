@@ -2,7 +2,7 @@ import { t } from "@app/locale"
 import { useCached } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { ALL_MERGE_METHODS, processNewMethod } from "@util/merge"
-import { ElCheckboxButton, ElCheckboxGroup, ElText } from "element-plus"
+import { type CheckboxValueType, ElCheckboxButton, ElCheckboxGroup, ElText } from "element-plus"
 import { defineComponent, type PropType, watch } from "vue"
 import "./merge-filter-item.sass"
 
@@ -18,9 +18,9 @@ const MergeFilterItem = defineComponent({
         const { data, setter } = useCached('__filter_item_report_merge_method', props.defaultValue, true)
         watch(data, () => ctx.emit('change', data.value || []))
 
-        const handleChange = (newVal: timer.stat.MergeMethod[]) => {
-            newVal = processNewMethod(data.value, newVal)
-            setter?.(newVal)
+        const handleChange = (val: CheckboxValueType[]) => {
+            const methods = processNewMethod(data.value, val as timer.stat.MergeMethod[])
+            setter?.(methods)
         }
 
         return () => (

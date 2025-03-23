@@ -23,7 +23,7 @@ const _default = defineComponent((_, ctx) => {
             v-slots={{
                 default: () => <ElSwitch
                     modelValue={option.chartDecal}
-                    onChange={(val: boolean) => option.chartDecal = val}
+                    onChange={val => option.chartDecal = val as boolean}
                 />
             }}
         />

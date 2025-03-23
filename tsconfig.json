@@ -12,6 +12,7 @@
         "jsxFragmentFactory": "Fragment",
         "esModuleInterop": true,
         "sourceMap": true,
+        "strict": true,
         "resolveJsonModule": true,
         "importHelpers": true,
         "moduleResolution": "node",
@@ -70,7 +71,6 @@
         "node_modules",
         "dist"
     ],
-    "strict": true,
     "ts-node": {
         "files": true,
         "require": [

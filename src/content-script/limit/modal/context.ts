@@ -8,13 +8,13 @@ const REASON_KEY = "display_reason"
 const RULE_KEY = "display_rule"
 const DELAY_HANDLER_KEY = 'delay_handler'
 
-export const provideReason = (app: App<Element>) => {
+export const provideReason = (app: App<Element>): Ref<LimitReason | undefined> => {
     const reason = ref<LimitReason>()
     app?.provide(REASON_KEY, reason)
     return reason
 }
 
-export const useReason = (): Ref<LimitReason> => inject(REASON_KEY)
+export const useReason = () => inject(REASON_KEY) as Ref<LimitReason>
 
 export const provideRule = () => {
     const reason = useReason()
@@ -33,10 +33,10 @@ export const provideRule = () => {
     provide(RULE_KEY, rule)
 }
 
-export const useRule = (): Ref<timer.limit.Item> => inject(RULE_KEY)
+export const useRule = () => inject(RULE_KEY) as Ref<timer.limit.Item>
 
 export const provideDelayHandler = (app: App<Element>, handlers: () => void) => {
     app?.provide(DELAY_HANDLER_KEY, handlers)
 }
 
-export const useDelayHandler = (): () => void => inject(DELAY_HANDLER_KEY)
+export const useDelayHandler = () => inject(DELAY_HANDLER_KEY) as () => void

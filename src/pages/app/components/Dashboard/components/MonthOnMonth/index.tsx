@@ -1,12 +1,12 @@
-import { defineComponent } from "vue"
-import ChartTitle from "../../ChartTitle"
+import { t } from "@app/locale"
 import { useEcharts } from "@hooks/useEcharts"
-import Wrapper from "./Wrapper"
+import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
 import DateIterator from "@util/date-iterator"
 import { MILL_PER_DAY } from "@util/time"
-import statService from "@service/stat-service"
-import { t } from "@app/locale"
+import { defineComponent } from "vue"
+import ChartTitle from "../../ChartTitle"
+import Wrapper from "./Wrapper"
 
 const PERIOD_WIDTH = 30
 const TOP_NUM = 15
@@ -36,9 +36,9 @@ const fetchData = async (): Promise<[thisMonth: Row[], lastMonth: Row[]]> => {
 
     // Query with alias
     // @since 1.1.8
-    const lastPeriodItems: timer.stat.Row[] = await statService.select({ date: [lastPeriodStart, lastPeriodEnd] })
+    const lastPeriodItems = await statService.select({ date: [lastPeriodStart, lastPeriodEnd] })
     const lastRows = cvtRow(lastPeriodItems, lastPeriodStart, lastPeriodEnd)
-    const thisPeriodItems: timer.stat.Row[] = await statService.select({ date: [thisPeriodStart, thisPeriodEnd] })
+    const thisPeriodItems = await statService.select({ date: [thisPeriodStart, thisPeriodEnd] })
     const thisRows = cvtRow(thisPeriodItems, thisPeriodStart, thisPeriodEnd)
     return [lastRows, thisRows]
 }

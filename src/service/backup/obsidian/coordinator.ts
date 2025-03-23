@@ -14,9 +14,13 @@ import { CLIENT_FILE_NAME, convertClients2Markdown, divideByDate, parseData } fr
 
 function prepareContext(context: timer.backup.CoordinatorContext<never>) {
     const { auth, ext, cid } = context
+    const { token } = auth || {}
+    if (!token) {
+        throw new Error("Token must not be empty. This can't happen, please contact the developer")
+    }
     let { endpoint, dirPath, bucket } = ext || {}
     dirPath = processDir(dirPath)
-    const ctx: ObsidianRequestContext = { auth: auth?.token, endpoint, vault: bucket }
+    const ctx: ObsidianRequestContext = { auth: token, endpoint, vault: bucket }
     return { ctx, dirPath, cid }
 }
 
@@ -49,7 +53,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         await Promise.all(dateIterator.toArray().map(async date => {
             const filePath = `${dirPath}${targetCid || cid}/${date}.md`
             const fileContent = await getFileContent(ctx, filePath)
-            const rows: timer.core.Row[] = parseData(fileContent)
+            const rows = parseData<timer.core.Row[]>(fileContent)
             rows?.forEach?.(row => result.push(row))
         }))
         return result
@@ -67,7 +71,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         )
     }
 
-    async testAuth(authInfo: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string> {
+    async testAuth(authInfo: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string | undefined> {
         let { endpoint, dirPath, bucket } = ext || {}
         let { token: auth } = authInfo || {}
         dirPath = processDir(dirPath)
@@ -87,13 +91,14 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
             }
             return message
         } catch (e) {
-            const message = e.message?.toLowerCase?.()
-            if (message?.includes("failed to fetch")) {
+            const { message: errMsg } = e as Error
+            const lowerErrMsg = errMsg?.toLocaleLowerCase?.()
+            if (lowerErrMsg?.includes("failed to fetch")) {
                 return "Unable to fetch this endpoint, please make sure it is accessible"
-            } else if (message?.includes("failed to parse url from")) {
+            } else if (lowerErrMsg?.includes("failed to parse url from")) {
                 return "The endpoint is invalid, please check it"
             }
-            return e.message
+            return errMsg ?? e?.toString?.() ?? 'Unknown error'
         }
     }
 
@@ -101,7 +106,7 @@ export default class ObsidianCoordinator implements timer.backup.Coordinator<nev
         const cid = client.id
         const { ctx, dirPath } = prepareContext(context)
         const clientDirPath = `${dirPath}${cid}/`
-        let files = []
+        let files: string[] = []
         try {
             const result = await listAllFiles(ctx, clientDirPath)
             files = result.files || []

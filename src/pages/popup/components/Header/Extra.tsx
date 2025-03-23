@@ -8,7 +8,7 @@ import packageInfo from "@src/package"
 import { IS_FIREFOX, IS_FROM_STORE } from "@util/constant/environment"
 import { REVIEW_PAGE, UPDATE_PAGE } from "@util/constant/url"
 import { ElLink, ElPopover } from "element-plus"
-import { computed, defineComponent } from "vue"
+import { defineComponent } from "vue"
 
 const HeartIcon = (
     <svg viewBox="0 0 1024 1024">
@@ -27,7 +27,6 @@ const computeUpdateText = (version: string) => {
 
 const Extra = defineComponent(() => {
     const { data: latestVersion } = useRequest(getLatestVersion)
-    const upgradeVisible = computed(() => latestVersion.value && packageInfo.version !== latestVersion.value && IS_FROM_STORE)
     const { data: rateVisible } = useRequest(() => metaService.recommendRate())
 
     const handleRateClick = async () => {
@@ -41,7 +40,7 @@ const Extra = defineComponent(() => {
     }
 
     return () => {
-        if (upgradeVisible.value) {
+        if (latestVersion.value && packageInfo.version !== latestVersion.value && IS_FROM_STORE) {
             return (
                 <ElPopover
                     content={computeUpdateText(latestVersion.value)}

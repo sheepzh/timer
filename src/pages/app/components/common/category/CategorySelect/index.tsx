@@ -17,7 +17,7 @@ const CategorySelect = defineComponent({
     },
     emits: {
         visibleChange: (_visible: boolean) => true,
-        change: (_newVal: number) => true,
+        change: (_newVal: number | undefined) => true,
     },
     setup(props, ctx) {
         const { categories } = useCategories()

@@ -33,7 +33,7 @@ declare namespace chrome {
                 }
             }
             // see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/sidebar_action
-            sidebar_action?: Pick<ManifestV2['page_action'], 'default_icon' | 'default_title'> & {
+            sidebar_action?: Pick<ManifestAction, 'default_icon' | 'default_title'> & {
                 default_panel?: string
                 open_at_install?: boolean
             }

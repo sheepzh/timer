@@ -57,7 +57,7 @@ declare namespace timer.backup {
          *
          * @returns errorMsg or null/undefined
          */
-        testAuth(auth: Auth, ext: timer.backup.TypeExt): Promise<string>
+        testAuth(auth: Auth, ext: timer.backup.TypeExt): Promise<string | undefined>
         /**
          * Clear data
          */

@@ -1,7 +1,7 @@
-export function processDir(dirPath: string) {
+export function processDir(dirPath: string | undefined): string {
     dirPath = dirPath?.trim?.()
     if (!dirPath) {
-        return null
+        return ''
     }
     while (dirPath.startsWith("/")) {
         dirPath = dirPath.substring(1)

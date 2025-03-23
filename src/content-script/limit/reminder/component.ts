@@ -56,7 +56,7 @@ const closeBtnStyle = (dark: boolean): Partial<CSSStyleDeclaration> => ({
 
 function mountStyle(el: HTMLElement, style: Partial<CSSStyleDeclaration>) {
     if (!el || !style) return
-    Object.entries(style).forEach(([key, val]) => el.style[key] = val)
+    Object.entries(style).forEach(([key, val]) => typeof val === 'string' && el.style.setProperty(key, val))
 }
 
 function createIcon(): HTMLImageElement {

@@ -42,7 +42,8 @@ async function query(): Promise<_Value> {
     let visits = 0
     let browsingTime = 0
     allData.forEach(({ siteKey, focus, time }) => {
-        hostSet.add(siteKey?.host)
+        const { host } = siteKey || {}
+        host && hostSet.add(host)
         visits += time
         browsingTime += focus
     })
@@ -55,21 +56,20 @@ async function query(): Promise<_Value> {
         browsingTime,
         most2Hour
     }
-    let installTime = undefined
+
     // 2. if not exist, calculate from all data items
     const firstDate = allData.map(a => a.date).filter(d => d?.length === 8).sort()[0]
     if (firstDate) {
         const year = parseInt(firstDate.substring(0, 4))
         const month = parseInt(firstDate.substring(4, 6)) - 1
         const date = parseInt(firstDate.substring(6, 8))
-        installTime = new Date(year, month, date)
+        const installTime = new Date(year, month, date)
+        result.installedDays = calculateInstallDays(installTime, new Date())
     }
-
-    installTime && (result.installedDays = calculateInstallDays(installTime, new Date()))
     return result
 }
 
-const computeI18nParam = (valueParam: Record<string, number>, duration: number): Record<string, VNode> => {
+const computeI18nParam = (valueParam: Record<string, number>, duration?: number): Record<string, VNode> => {
     return Object.fromEntries(
         Object.entries(valueParam || {}).map(([key, val]) => [key, <NumberGrow value={val} duration={duration} />])
     )
@@ -100,7 +100,7 @@ const IndicatorLabel = defineComponent({
     }
 })
 
-const computeMost2HourParam = (value: _Value): { start: number, end: number } => {
+const computeMost2HourParam = (value: _Value | undefined): { start: number, end: number } => {
     const most2HourIndex = value?.most2Hour
     const [start, end] = most2HourIndex === undefined || isNaN(most2HourIndex)
         ? [0, 0]

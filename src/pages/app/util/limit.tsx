@@ -3,7 +3,6 @@ import I18nNode from "@app/components/common/I18nNode"
 import { t } from "@app/locale"
 import { locale } from "@i18n"
 import { getCssVariable } from "@pages/util/style"
-import { type VerificationPair } from "@service/limit-service/verification/common"
 import verificationProcessor from "@service/limit-service/verification/processor"
 import { dateMinute2Idx, hasLimited, isEnabledAndEffective } from "@util/limit"
 import { ElMessage, ElMessageBox, type ElMessageBoxOptions } from "element-plus"
@@ -30,7 +29,7 @@ export async function judgeVerificationRequired(item: timer.limit.Item): Promise
     if (visitTime) {
         let hitVisit = false
         try {
-            hitVisit = await sendMsg2Runtime("askHitVisit", item)
+            hitVisit = !!await sendMsg2Runtime("askHitVisit", item)
         } catch (e) {
             // If error occurs, regarded as not hitting
             // ignored
@@ -45,7 +44,10 @@ const ANSWER_CANVAS_FONT_SIZE = 24
 
 const AnswerCanvas = defineComponent({
     props: {
-        text: String
+        text: {
+            type: String,
+            required: true,
+        }
     },
     setup: (props => {
         const dom = ref<HTMLCanvasElement>()
@@ -54,10 +56,13 @@ const AnswerCanvas = defineComponent({
 
         onMounted(() => {
             const ele = dom.value
+            if (!ele) return
             const ctx = ele.getContext("2d")
             const height = Math.floor(ANSWER_CANVAS_FONT_SIZE * 1.3)
             ele.height = height
-            const font = getComputedStyle(wrapper.value).font
+            const wrapperEl = wrapper.value
+            if (!wrapperEl || !ctx) return
+            const font = getComputedStyle(wrapperEl).font
             // Set font to measure width
             ctx.font = font
             const { width } = ctx.measureText(text)
@@ -65,7 +70,7 @@ const AnswerCanvas = defineComponent({
             // Need set font again after width changed
             ctx.font = font
             const color = getCssVariable("--el-text-color-primary")
-            ctx.fillStyle = color
+            color && (ctx.fillStyle = color)
             ctx.fillText(text, 0, ANSWER_CANVAS_FONT_SIZE)
         })
 
@@ -103,15 +108,15 @@ export function processVerification(option: timer.option.LimitOption, context?: 
             message: <div>{t(msg => msg.limit.verification.strictTip)}</div>,
         }).catch(() => { }))
     }
-    let answerValue: string
-    let messageNode: VNode | string | Element
+    let answerValue: string | undefined
+    let messageNode: VNode | string | Element | undefined
     let incorrectMessage: string
     if (limitLevel === 'password' && limitPassword) {
         answerValue = limitPassword
         messageNode = t(msg => msg.limit.verification.pswInputTip)
         incorrectMessage = t(msg => msg.limit.verification.incorrectPsw)
     } else if (limitLevel === 'verification') {
-        const pair: VerificationPair = verificationProcessor.generate(limitVerifyDifficulty, locale)
+        const pair = verificationProcessor.generate(limitVerifyDifficulty ?? 'easy', locale)
         const { prompt, promptParam, answer } = pair || {}
         answerValue = typeof answer === 'function' ? t(msg => answer(msg.limit.verification)) : answer
         incorrectMessage = t(msg => msg.limit.verification.incorrectAnswer)
@@ -125,7 +130,7 @@ export function processVerification(option: timer.option.LimitOption, context?: 
                     param={{ prompt: <b>{promptTxt}</b> }}
                 />
             )
-        } else {
+        } else if (answerValue) {
             messageNode = (
                 <I18nNode
                     path={msg => msg.limit.verification.inputTip2}
@@ -134,7 +139,7 @@ export function processVerification(option: timer.option.LimitOption, context?: 
             )
         }
     }
-    if (!messageNode || !answerValue) return null
+    if (!messageNode || !answerValue) return Promise.resolve()
 
     return new Promise(resolve => {
         ElMessageBox({

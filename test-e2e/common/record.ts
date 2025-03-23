@@ -1,4 +1,5 @@
 import type { Browser } from "puppeteer"
+import { LaunchContext } from "./base"
 
 type RecordRow = {
     date: string
@@ -14,24 +15,24 @@ function readRecords(): RecordRow[] {
     const rows = document.querySelectorAll('.el-table .el-table__body-wrapper table tbody tr')
     return Array.from(rows).map(row => {
         const cells = row.querySelectorAll('td')
-        const date = cells[1].textContent
-        const url = cells[2].textContent
-        const name = cells[3].textContent
-        const category = cells[4].textContent
-        const time = cells[5].textContent
-        let runTime = undefined, visit = undefined
+        const date = cells[1].textContent ?? ''
+        const url = cells[2].textContent ?? ''
+        const name = cells[3].textContent ?? ''
+        const category = cells[4].textContent ?? ''
+        const time = cells[5].textContent ?? ''
+        let runTime: string | undefined = undefined, visit = ''
         if (cells?.length === 9) {
             // Including run time
-            runTime = cells[6].textContent
-            visit = cells[7].textContent
+            runTime = cells[6].textContent ?? undefined
+            visit = cells[7].textContent ?? ''
         } else {
-            visit = cells[6].textContent
+            visit = cells[6].textContent ?? ''
         }
         return { date, url, name, category, time, runTime, visit }
     })
 }
 
-export function parseTime2Sec(timeStr: string): number {
+export function parseTime2Sec(timeStr: string | undefined): number | undefined {
     if (!timeStr || timeStr === '-') return undefined
     const regRes = /^(\s*(?<hour>\d+)\s*h)?(\s*(?<min>\d+)\s*m)?(\s*(?<sec>\d+)\s*s)$/.exec(timeStr)
     if (!regRes) return NaN
@@ -42,9 +43,8 @@ export function parseTime2Sec(timeStr: string): number {
     return res
 }
 
-export async function readRecordsOfFirstPage(browser: Browser, extensionId: string) {
-    const recordPage = await browser.newPage()
-    await recordPage.goto(`chrome-extension://${extensionId}/static/app.html#/data/report`)
+export async function readRecordsOfFirstPage(context: LaunchContext) {
+    const recordPage = await context.openAppPage('/data/report')
     // At least one record
     await recordPage.waitForSelector('.el-table .el-table__body-wrapper table tbody tr td')
     let records = await recordPage.evaluate(readRecords)

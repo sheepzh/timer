@@ -5,7 +5,7 @@ import { mergeResult } from "./common"
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const map: Record<string, timer.stat.Row> = {}
+    const map: Record<string, MakeRequired<timer.stat.Row, 'mergedRows'>> = {}
 
     // Generate ruler
     const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
@@ -14,7 +14,7 @@ export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Ro
     origin.forEach(ele => {
         const { siteKey, date } = ele || {}
         const { host, type } = siteKey || {}
-        if (type !== 'normal') return
+        if (type !== 'normal' || !host) return
         let mergedHost = mergeRuler.merge(host)
         const key = (date ?? '') + mergedHost
         let exist = map[key]

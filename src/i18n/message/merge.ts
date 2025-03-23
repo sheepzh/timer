@@ -17,7 +17,7 @@ export const ALL_LOCALES: timer.Locale[] = Object.keys(ALL_LOCALE_VALIDATOR) as 
 export type MessageRoot<T = any> = { [key in keyof T]: Messages<T[key]> }
 
 export function merge<T>(messageRoot: MessageRoot<T>): Required<Messages<T>> {
-    const result = {}
+    const result: Partial<Record<timer.Locale, T & EmbeddedPartial<T>>> = {}
     ALL_LOCALES.forEach(locale => {
         const message = messageOfRoot(locale, messageRoot)
         result[locale] = message as T & EmbeddedPartial<T>
@@ -26,7 +26,7 @@ export function merge<T>(messageRoot: MessageRoot<T>): Required<Messages<T>> {
 }
 
 function messageOfRoot<T>(locale: timer.Locale, messageRoot: MessageRoot<T>): T {
-    const entries: [string, any][] = Object.entries(messageRoot).map(([key, val]) => ([key, val[locale]]))
+    const entries: [string, any][] = Object.entries(messageRoot).map(([key, val]) => ([key, (val as Record<timer.Locale, T & EmbeddedPartial<T>>)[locale]]))
     const result = Object.fromEntries(entries) as T
     return result
 }

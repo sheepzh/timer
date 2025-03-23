@@ -23,7 +23,7 @@ function computeList(sort: SortInfo, originRows: timer.imported.Row[]): timer.im
         return originRows
     }
     const comparator = (a: timer.imported.Row, b: timer.imported.Row): number => {
-        const av = a[prop], bv = b[prop]
+        const av = a[prop] ?? 0, bv = b[prop] ?? 0
         if (av == bv) return 0
         if (order === 'descending') {
             return av > bv ? -1 : 1
@@ -82,7 +82,10 @@ const renderTime = (data: timer.imported.Data, comparedColName: string): VNode |
 
 const _default = defineComponent({
     props: {
-        data: Object as PropType<timer.imported.Data>,
+        data: {
+            type: Object as PropType<timer.imported.Data>,
+            required: true,
+        },
         comparedColName: {
             type: String,
             required: true,

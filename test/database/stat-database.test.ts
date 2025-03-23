@@ -1,4 +1,4 @@
-import StatDatabase, { StatCondition } from "@db/stat-database"
+import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
 import { formatTimeYMD, MILL_PER_DAY } from "@util/time"
 import storage from "../__mock__/storage"
@@ -96,7 +96,7 @@ describe('stat-database', () => {
 
         // time [2, 3]
         cond.timeRange = [2, 3]
-        cond.focusRange = [, null]
+        cond.focusRange = undefined
         expect((await db.select(cond)).length).toEqual(2)
     })
 
@@ -209,8 +209,6 @@ describe('stat-database', () => {
             host: baidu,
             fullHost: true
         })).toEqual(2)
-        // Count all
-        expect(await db.count(undefined)).toEqual(4)
         // Count by fuzzy
         expect(await db.count({ host: "www", fullHost: false })).toEqual(4)
         // Count by date

@@ -12,7 +12,7 @@ const TooltipSiteList = defineComponent({
     setup(props) {
         return () => {
             const siteMap = new SiteMap<string>()
-            props.modelValue?.forEach(({ siteKey, iconUrl }) => siteMap.put(siteKey, iconUrl))
+            props.modelValue?.forEach(({ siteKey, iconUrl }) => siteKey && siteMap.put(siteKey, iconUrl))
 
             return (
                 <ElScrollbar maxHeight="400px" height="fit-content" viewStyle={{ padding: '10px 0', marginRight: '11px' }}>

@@ -17,16 +17,16 @@ export type OptionInstance = {
 
 const PARAM = "i"
 
-export function parseQuery(): OptionCategory {
-    const initialQuery: string | string[] | undefined = useRoute().query?.[PARAM]
-    const queryVal: string | undefined = Array.isArray(initialQuery) ? initialQuery[0] : initialQuery
-    if (!queryVal) return null
+export function parseQuery(): OptionCategory | undefined {
+    const initialQuery = useRoute().query?.[PARAM]
+    const queryVal: string | null | undefined = Array.isArray(initialQuery) ? initialQuery[0] : initialQuery
+    if (!queryVal) return undefined
     const cate = queryVal as OptionCategory
-    return ALL_CATEGORIES.includes(cate) ? cate : null
+    return ALL_CATEGORIES.includes(cate) ? cate : undefined
 }
 
 export function changeQuery(cate: OptionCategory, router: Router) {
-    const query = {}
+    const query: Record<string, string> = {}
     query[PARAM] = cate
     router.replace({ query })
 }

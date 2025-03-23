@@ -20,6 +20,7 @@ import {
     type TooltipComponentOption,
     type VisualMapComponentOption,
 } from "echarts"
+import { TopLevelFormatterParams } from "echarts/types/dist/shared"
 
 export type ChartValue = [
     x: number,
@@ -49,10 +50,10 @@ function formatTooltip(mills: number, date: string): string {
 
 function getXAxisLabelMap(data: ChartValue[]): { [x: string]: string } {
     const allMonthLabel = t(msg => msg.calendar.months).split('|')
-    const result = {}
+    const result: Record<string, string> = {}
     // {[ x:string ]: Set<string> }
     const xAndMonthMap = groupBy(data, e => e[0], grouped => new Set(grouped.map(a => a[3].substring(4, 6))))
-    let lastMonth = undefined
+    let lastMonth: string
     Object.entries(xAndMonthMap).forEach(([x, monthSet]) => {
         if (monthSet.size != 1) {
             return
@@ -69,7 +70,7 @@ function getXAxisLabelMap(data: ChartValue[]): { [x: string]: string } {
     return result
 }
 
-type HeatmapItem = HeatmapSeriesOption["data"][number]
+type HeatmapItem = Exclude<HeatmapSeriesOption["data"], undefined>[number]
 
 const cvtHeatmapItem = (d: ChartValue): HeatmapItem => {
     let item: HeatmapItem = { value: d, itemStyle: undefined, label: undefined, emphasis: undefined }
@@ -124,11 +125,12 @@ function optionOf(data: ChartValue[], weekDays: string[], dom: HTMLElement): EcO
     return {
         tooltip: {
             borderWidth: 0,
-            formatter: (params: any) => {
-                const { data } = params
-                const { value } = data
+            formatter: (params: TopLevelFormatterParams) => {
+                const param = Array.isArray(params) ? params[0] : params
+                const { data } = param
+                const { value } = data as any
                 const [_1, _2, mills, date] = value
-                return mills ? formatTooltip(mills as number, date) : undefined
+                return mills ? formatTooltip(mills as number, date) : ''
             },
         },
         grid: { height: '70%', left: '7%', width: `${gridWidth * 100}%`, top: '18%', },

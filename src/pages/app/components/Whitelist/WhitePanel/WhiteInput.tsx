@@ -42,6 +42,7 @@ const _default = defineComponent({
 
         const handleSubmit = () => {
             const val = white.value
+            if (!val) return
             if (isRemainHost(val) || isValidHost(val) || judgeVirtualFast(val)) {
                 ctx.emit("save", val)
             } else {
@@ -56,7 +57,7 @@ const _default = defineComponent({
                 onChange={setWhite}
                 placeholder={t(msg => msg.item.host)}
                 clearable
-                onClear={() => setWhite()}
+                onClear={() => setWhite(undefined)}
                 filterable
                 remote
                 loading={searching.value}

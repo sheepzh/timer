@@ -9,7 +9,10 @@ import { computed, defineComponent } from "vue"
 const Waste = defineComponent({
     props: {
         time: Number,
-        waste: Number,
+        waste: {
+            type: Number,
+            required: true,
+        },
         count: Number,
         visit: Number,
         delayCount: Number,

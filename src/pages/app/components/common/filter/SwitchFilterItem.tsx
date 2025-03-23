@@ -21,14 +21,14 @@ const _default = defineComponent({
         historyName: String,
     },
     setup(props, ctx) {
-        const cacheKey = props.historyName ? `__filter_item_switch_${useRoute().path}_${props.historyName}` : null
+        const cacheKey = props.historyName ? `__filter_item_switch_${useRoute().path}_${props.historyName}` : undefined
         const { data, setter } = useCached(cacheKey, props.defaultValue)
-        watch(data, () => ctx.emit("change", data.value))
+        watch(data, () => ctx.emit("change", !!data.value))
 
         return () => (
             <Flex gap={5} align="center">
                 <ElText tag="b" type="info">{props.label}</ElText>
-                <ElSwitch modelValue={data.value} onChange={setter} />
+                <ElSwitch modelValue={data.value} onChange={val => setter(val as boolean)} />
             </Flex>
         )
     }

@@ -45,11 +45,11 @@ declare namespace timer.limit {
         /**
          * Id
          */
-        id?: number
+        id: number
         /**
          * Name
          */
-        name?: string
+        name: string
         /**
          * Condition, can be regular expression with star signs
          */
@@ -57,7 +57,7 @@ declare namespace timer.limit {
         /**
          * Time limit per day, seconds
          */
-        time: number
+        time?: number
         /**
          * Visit count per day
          *

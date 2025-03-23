@@ -15,9 +15,9 @@
  */
 export function groupBy<T, R>(
     arr: T[],
-    keyFunc: (e: T, idx: number) => string | number,
+    keyFunc: (e: T, idx: number) => string | number | undefined | null,
     downstream: (grouped: T[], key: string) => R
-): { [key: string]: R } {
+): Record<string, R> {
     const groupedMap: { [key: string]: T[] } = {}
     arr.forEach((e, i) => {
         const key = keyFunc(e, i)
@@ -28,7 +28,7 @@ export function groupBy<T, R>(
         existArr.push(e)
         groupedMap[key] = existArr
     })
-    const result = {}
+    const result: Record<string, R> = {}
     Object.entries(groupedMap)
         .forEach(([key, grouped]) => result[key] = downstream(grouped, key))
     return result
@@ -48,9 +48,15 @@ export function rotate<T>(arr: T[], count?: number, rightOrLeft?: boolean): void
     }
     const operation = !!rightOrLeft
         // Right
-        ? (a: T[]) => a.unshift(a.pop())
+        ? (a: T[]) => {
+            const first = a.pop()
+            first && a.unshift(first)
+        }
         // Left
-        : (a: T[]) => a.push(a.shift())
+        : (a: T[]) => {
+            const last = a.shift()
+            last && a.push(last)
+        }
     for (; realTime > 0; realTime--) {
         operation(arr)
     }
@@ -62,14 +68,14 @@ export function rotate<T>(arr: T[], count?: number, rightOrLeft?: boolean): void
  * @param arr target arr
  */
 export function sum(arr: number[]): number {
-    return arr?.reduce?.((a, b) => (a || 0) + (b || 0), 0) ?? 0
+    return arr?.reduce?.((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 0
 }
 
 /**
  * @since 2.1.0
  * @returns null if arr is empty or null
  */
-export function average(arr: number[]): number {
+export function average(arr: number[]): number | null {
     if (!arr?.length) return null
     return sum(arr) / arr.length
 }
@@ -83,7 +89,7 @@ export function anyMatch<T>(arr: T[], predicate: (t: T) => boolean): boolean {
 }
 
 export function range(len: number): number[] {
-    const arr = []
+    const arr: number[] = []
     for (let i = 0; i < len; i++) {
         arr.push(i)
     }
