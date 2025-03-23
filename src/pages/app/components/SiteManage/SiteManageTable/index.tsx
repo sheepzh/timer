@@ -30,7 +30,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         const handleIconError = async (row: timer.site.SiteInfo) => {
             await siteService.removeIconUrl(row)
-            row.iconUrl = null
+            row.iconUrl = undefined
         }
 
         const handleRunChange = async (val: boolean, row: timer.site.SiteInfo) => {
@@ -116,7 +116,7 @@ const _default = defineComponent({
                         <ElSwitch
                             size="small"
                             modelValue={row.run}
-                            onChange={(val: boolean) => handleRunChange(val, row)}
+                            onChange={val => handleRunChange(val as boolean, row)}
                         />
                     )}
                 </ElTableColumn>

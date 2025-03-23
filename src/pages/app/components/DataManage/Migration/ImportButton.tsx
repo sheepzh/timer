@@ -14,9 +14,9 @@ import { defineComponent, ref } from "vue"
 
 const immigration: Immigration = new Immigration()
 
-async function handleFileSelected(fileInput: HTMLInputElement, callback: () => void) {
-    const files: FileList | null = fileInput?.files
-    if (!files || !files.length) {
+async function handleFileSelected(fileInput: HTMLInputElement | undefined, callback: () => void) {
+    const files = fileInput?.files
+    if (!files?.length) {
         return
     }
     const loading = ElLoading.service({ fullscreen: true })

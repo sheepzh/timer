@@ -16,7 +16,10 @@ import { type PropType, defineComponent } from "vue"
 
 const _default = defineComponent({
     props: {
-        data: Object as PropType<timer.imported.Data>,
+        data: {
+            type: Object as PropType<timer.imported.Data>,
+            required: true,
+        },
         clientName: {
             type: String,
             required: true,
@@ -25,7 +28,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         const [resolution, setResolution] = useState<timer.imported.ConflictResolution>()
 
-        ctx.expose({ parseData: () => resolution.value } satisfies SopStepInstance<timer.imported.ConflictResolution>)
+        ctx.expose({ parseData: () => resolution.value } satisfies SopStepInstance<timer.imported.ConflictResolution | undefined>)
 
         return () => (
             <Flex column width='100%' gap={20} style={{ margin: '40px 20px 0 20px' }}>

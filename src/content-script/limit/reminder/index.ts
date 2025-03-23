@@ -5,8 +5,8 @@ import { createComponent } from "./component"
 
 class Reminder implements Processor {
     private id = 0
-    private el: HTMLElement
-    private darkMode: boolean
+    private el: HTMLElement | undefined
+    private darkMode: boolean = false
 
     handleMsg(code: timer.mq.ReqCode, data: unknown): timer.mq.Response | Promise<timer.mq.Response> {
         if (code !== 'limitReminder') {
@@ -34,7 +34,7 @@ class Reminder implements Processor {
     private close() {
         if (!this.el) return
         this.el.remove()
-        this.el = null
+        this.el = undefined
     }
 
     async init(): Promise<void> {

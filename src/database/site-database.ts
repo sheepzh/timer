@@ -27,10 +27,6 @@ type _Entry = {
      */
     a?: string
     /**
-     * Auto-detected
-     */
-    d?: boolean
-    /**
      * Icon url
      */
     i?: string
@@ -60,16 +56,19 @@ function cvt2Key({ host, type }: timer.site.SiteKey): string {
 }
 
 function cvt2SiteKey(key: string): timer.site.SiteKey {
-    if (key?.startsWith(VIRTUAL_KEY_PREFIX)) {
+    if (key.startsWith(VIRTUAL_KEY_PREFIX)) {
         return {
             host: key.substring(VIRTUAL_KEY_PREFIX.length),
             type: 'virtual',
         }
-    } else if (key?.startsWith(HOST_KEY_PREFIX)) {
+    } else if (key.startsWith(HOST_KEY_PREFIX)) {
         return {
             host: key.substring(HOST_KEY_PREFIX.length + 1),
             type: key.charAt(HOST_KEY_PREFIX.length) === MERGED_FLAG ? 'merged' : 'normal',
         }
+    } else {
+        // Can't go there
+        return { host: key, type: 'normal' }
     }
 }
 
@@ -83,8 +82,7 @@ function cvt2Entry({ alias, iconUrl, cate, run }: timer.site.SiteInfo): _Entry {
 }
 
 function cvt2SiteInfo(key: timer.site.SiteKey, entry: _Entry): timer.site.SiteInfo {
-    if (!entry) return undefined
-    const { a, d, i, c, r } = entry
+    const { a, i, c, r } = entry
     const siteInfo: timer.site.SiteInfo = { ...key }
     siteInfo.alias = a
     siteInfo.cate = c
@@ -113,7 +111,7 @@ async function select(this: SiteDatabase, condition?: SiteCondition): Promise<ti
         .filter(filter)
 }
 
-function buildFilter(condition: SiteCondition): (site: timer.site.SiteInfo) => boolean {
+function buildFilter(condition?: SiteCondition): (site: timer.site.SiteInfo) => boolean {
     const { fuzzyQuery, cateIds, types } = condition || {}
     let cateFilter = typeof cateIds === 'number' ? [cateIds] : (cateIds?.length ? cateIds : undefined)
     let typeFilter = typeof types === 'string' ? [types] : (types?.length ? types : undefined)
@@ -142,12 +140,9 @@ function matchType(types: timer.site.Type[], site: timer.site.SiteInfo): boolean
  *
  * @returns site info, or undefined
  */
-async function get(this: SiteDatabase, key: timer.site.SiteKey): Promise<timer.site.SiteInfo> {
-    const entry: _Entry = await this.storage.getOne(cvt2Key(key))
-    if (!entry) {
-        return undefined
-    }
-    return cvt2SiteInfo(key, entry)
+async function get(this: SiteDatabase, key: timer.site.SiteKey): Promise<timer.site.SiteInfo | null> {
+    const entry = await this.storage.getOne<_Entry>(cvt2Key(key))
+    return entry ? cvt2SiteInfo(key, entry) : null
 }
 
 async function getBatch(this: SiteDatabase, keys: timer.site.SiteKey[]): Promise<timer.site.SiteInfo[]> {
@@ -161,7 +156,7 @@ async function getBatch(this: SiteDatabase, keys: timer.site.SiteKey[]): Promise
  */
 async function save(this: SiteDatabase, ...sites: timer.site.SiteInfo[]): Promise<void> {
     if (!sites?.length) return
-    const toSet = {}
+    const toSet: Record<string, _Entry> = {}
     sites?.forEach(s => toSet[cvt2Key(s)] = cvt2Entry(s))
     await this.storage.set(toSet)
 }
@@ -174,7 +169,7 @@ async function remove(this: SiteDatabase, ...siteKeys: timer.site.SiteKey[]): Pr
 
 async function exist(this: SiteDatabase, siteKey: timer.site.SiteKey): Promise<boolean> {
     const key = cvt2Key(siteKey)
-    const entry: _Entry = await this.storage.getOne(key)
+    const entry = await this.storage.getOne<_Entry>(key)
     return !!entry
 }
 
@@ -212,7 +207,7 @@ class SiteDatabase extends BaseDatabase {
     addChangeListener(listener: (oldAndNew: [timer.site.SiteInfo, timer.site.SiteInfo][]) => void) {
         const storageListener = (
             changes: { [key: string]: chrome.storage.StorageChange },
-            _areaName: "sync" | "local" | "managed"
+            _areaName: chrome.storage.AreaName,
         ) => {
             const changedSites: [timer.site.SiteInfo, timer.site.SiteInfo][] = Object.entries(changes)
                 .filter(([k]) => k.startsWith(DB_KEY_PREFIX))

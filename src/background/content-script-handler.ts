@@ -25,7 +25,7 @@ const handleOpenAnalysisPage = (sender: ChromeMessageSender) => {
     const newTabUrl = getAppPageUrl(ANALYSIS_ROUTE, { host })
 
     const tabIndex = tab?.index
-    const newTabIndex = tabIndex ? tabIndex + 1 : null
+    const newTabIndex = tabIndex ? tabIndex + 1 : undefined
     createTab({ url: newTabUrl, index: newTabIndex })
 }
 
@@ -34,7 +34,7 @@ const handleOpenLimitPage = (sender: ChromeMessageSender) => {
     if (!url) return
     const newTabUrl = getAppPageUrl(LIMIT_ROUTE, { url })
     const tabIndex = tab?.index
-    const newTabIndex = tabIndex ? tabIndex + 1 : null
+    const newTabIndex = tabIndex ? tabIndex + 1 : undefined
     createTab({ url: newTabUrl, index: newTabIndex })
 }
 
@@ -54,7 +54,7 @@ const handleInjected = async (sender: ChromeMessageSender) => {
 export default function init(dispatcher: MessageDispatcher) {
     dispatcher
         // Judge is in whitelist
-        .register<{ host?: string, url?: string }, boolean>('cs.isInWhitelist', ({ host, url } = {}) => whitelistHolder.contains(host, url))
+        .register<{ host?: string, url?: string }, boolean>('cs.isInWhitelist', ({ host, url } = {}) => !!host && !!url && whitelistHolder.contains(host, url))
         // Need to print the information of today
         .register<void, boolean>('cs.printTodayInfo', async () => {
             const option = await optionHolder.get()
@@ -66,7 +66,7 @@ export default function init(dispatcher: MessageDispatcher) {
         .register<void, void>('cs.openLimit', (_, sender) => handleOpenLimitPage(sender))
         .register<void, void>('cs.onInjected', async (_, sender) => handleInjected(sender))
         // Get sites which need to count run time
-        .register<string, timer.site.SiteKey>('cs.getRunSites', async url => {
+        .register<string, timer.site.SiteKey | null>('cs.getRunSites', async url => {
             const { host } = extractHostname(url) || {}
             if (!host) return null
             const site: timer.site.SiteKey = { host, type: 'normal' }

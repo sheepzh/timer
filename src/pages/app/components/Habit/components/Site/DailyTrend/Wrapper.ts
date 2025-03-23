@@ -39,8 +39,8 @@ const TITLE = t(msg => msg.habit.site.trend.title)
 
 export type BizOption = {
     rows: timer.stat.Row[]
-    dateRange?: [Date, Date]
-    timeFormat?: timer.app.TimeFormat
+    dateRange: [Date, Date]
+    timeFormat: timer.app.TimeFormat
 }
 
 const valueYAxis = (): YAXisOption => ({
@@ -60,7 +60,7 @@ const formatTimeTooltip = (params: TopLevelFormatterParams, format: timer.app.Ti
         TITLE,
     )
     const valueLines = params?.reverse?.()?.map(param => {
-        const { value, seriesName } = param
+        const { value, seriesName = '' } = param
         const color = LEGEND_COLOR_MAP[seriesName]
         if (!color) return ''
         let valueStr: string | number = seriesName === FOCUS_LEGEND
@@ -89,14 +89,14 @@ const lineOptionOf = (
     }
 }
 
-const legendOptionOf = (color: LinearGradientObject, name: string): LegendComponentOption['data'][0] => {
+const legendOptionOf = (color: LinearGradientObject, name: string): Exclude<LegendComponentOption['data'], undefined>[number] => {
     return { name, itemStyle: { color } }
 }
 
 function generateOption(bizOption: BizOption): EcOption {
-    const { dateRange, rows, timeFormat } = bizOption || {}
+    const { dateRange, rows, timeFormat } = bizOption
 
-    const [start, end] = dateRange || []
+    const [start, end] = dateRange
     const allDates = getAllDatesBetween(start, end)
     const focusMap = groupBy(rows, r => r.date, l => sum(l.map(e => e.focus)))
     const visitMap = groupBy(rows, r => r.date, l => sum(l.map(e => e.time)))

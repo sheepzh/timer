@@ -71,7 +71,7 @@ export function merge(periods: timer.period.Result[], config: MergeConfig): time
     let { start, end, periodSize } = config
     const map: Map<number, number> = new Map()
     periods.forEach(p => map.set(indexOf(p), p.milliseconds))
-    let mills = []
+    let mills: number[] = []
     for (; compare(start, end) <= 0; start = after(start, 1)) {
         mills.push(map.get(indexOf(start)) ?? 0)
         const isEndOfWindow = (start.order % periodSize) === periodSize - 1

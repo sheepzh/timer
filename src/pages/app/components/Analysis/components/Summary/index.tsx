@@ -21,7 +21,7 @@ type Summary = {
     firstDay?: string
 }
 
-function computeSummary(target: AnalysisTarget, rows: timer.stat.Row[]): Summary {
+function computeSummary(target: AnalysisTarget | undefined, rows: timer.stat.Row[]): Summary | undefined {
     if (!target) return undefined
 
     const summary: Summary = { focus: 0, visit: 0, day: 0 }

@@ -23,8 +23,8 @@ const fetchData = async () => {
     }
     const top = (await statService.selectByPage(query, { num: 1, size: TOP_NUM })).list
     const data: BizOption[] = top.map(({ time, siteKey, alias }) => ({
-        name: alias || siteKey?.host,
-        host: siteKey?.host,
+        name: alias ?? siteKey?.host ?? '',
+        host: siteKey?.host ?? '',
         alias,
         value: time,
     }))

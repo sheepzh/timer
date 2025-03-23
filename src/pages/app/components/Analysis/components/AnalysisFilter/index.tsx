@@ -20,10 +20,13 @@ export type AnalysisFilterInstance = {
 const AnalysisFilter = defineComponent({
     props: {
         target: Object as PropType<AnalysisTarget>,
-        timeFormat: String as PropType<timer.app.TimeFormat>
+        timeFormat: {
+            type: String as PropType<timer.app.TimeFormat>,
+            required: true,
+        }
     },
     emits: {
-        targetChange: (_target: AnalysisTarget) => true,
+        targetChange: (_target: AnalysisTarget | undefined) => true,
         timeFormatChange: (_format: timer.app.TimeFormat) => true,
     },
     setup(props, ctx) {

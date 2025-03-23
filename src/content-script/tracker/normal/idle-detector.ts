@@ -9,7 +9,7 @@ export default class IdleDetector {
 
     lastActiveTime: number = Date.now()
     userActive: boolean = true
-    pauseTimeout: NodeJS.Timeout
+    pauseTimeout: NodeJS.Timeout | undefined
 
     onIdle: () => void
     onActive: () => void

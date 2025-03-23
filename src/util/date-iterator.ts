@@ -52,7 +52,7 @@ export default class DateIterator {
     }
 
     toArray(): string[] {
-        const result = []
+        const result: string[] = []
         this.forEach(yearMonth => result.push(yearMonth))
         return result
     }

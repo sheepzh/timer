@@ -24,7 +24,7 @@ const TimeColumn = defineComponent({
     },
     setup(props) {
         const filter = useReportFilter()
-        const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
+        const formatter = (focus: number | undefined): string => periodFormatter(focus, { format: filter.value?.timeFormat })
         return () => (
             <ElTableColumn
                 prop={props.dimension satisfies ReportSort['prop']}

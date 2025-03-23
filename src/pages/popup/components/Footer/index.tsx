@@ -5,30 +5,18 @@ import { usePopupContext } from "@popup/context"
 import { t } from "@popup/locale"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElOption, ElSelect, ElText } from "element-plus"
-import { defineComponent, watch } from "vue"
+import { defineComponent } from "vue"
 import Menu from "./Menu"
 
 const Footer = defineComponent({
     props: {
         total: String,
     },
-    emits: {
-        queryChange: (_query: PopupQuery) => true,
-    },
-    setup(_, ctx) {
+    setup() {
         const { query, setQuery } = usePopupContext()
-        watch(query, () => ctx.emit('queryChange', query.value))
 
         const updateQuery = <K extends keyof PopupQuery>(k: K, v: PopupQuery[K]) => {
-            const newQuery = {
-                ...query.value || ({
-                    mergeMethod: undefined,
-                    duration: undefined,
-                    type: undefined,
-                } satisfies PopupQuery),
-                [k]: v,
-            } satisfies PopupQuery
-            setQuery(newQuery)
+            setQuery({ ...query.value, [k]: v } satisfies PopupQuery)
         }
 
         return () => (
@@ -58,14 +46,7 @@ const Footer = defineComponent({
                     <DurationSelect
                         reverse
                         modelValue={[query.value?.duration, query.value?.durationNum]}
-                        onChange={([duration, durationNum]) => setQuery({
-                            ...query.value || ({
-                                mergeMethod: undefined,
-                                duration: undefined,
-                                type: undefined,
-                            } satisfies PopupQuery),
-                            duration, durationNum,
-                        })}
+                        onChange={([duration, durationNum]) => setQuery({ ...query.value, duration, durationNum })}
                     />
                     <ElSelect
                         modelValue={query?.value?.type}

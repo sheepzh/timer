@@ -10,7 +10,7 @@ import { type DataManageMessage } from "@i18n/message/app/data-manage"
 import { ElInput } from "element-plus"
 import { defineComponent, type PropType, type Ref, ref, type StyleValue, watch } from "vue"
 
-const elInput = (ref: Ref<string>, placeholder: string) => (
+const elInput = (ref: Ref<string | undefined>, placeholder: string) => (
     <ElInput
         placeholder={placeholder}
         clearable
@@ -24,16 +24,22 @@ const elInput = (ref: Ref<string>, placeholder: string) => (
 
 const _default = defineComponent({
     props: {
-        translateKey: String as PropType<keyof DataManageMessage>,
-        defaultValue: Object as PropType<[string, string]>,
+        translateKey: {
+            type: String as PropType<keyof DataManageMessage>,
+            required: true,
+        },
+        defaultValue: {
+            type: Object as PropType<[string?, string?]>,
+            required: true,
+        },
         lineNo: Number,
     },
     emits: {
-        change: (_val: [string, string]) => true,
+        change: (_val: [string?, string?]) => true,
     },
     setup(props, ctx) {
-        const start = ref(props.defaultValue?.[0])
-        const end = ref(props.defaultValue?.[1])
+        const start = ref(props.defaultValue[0])
+        const end = ref(props.defaultValue[1])
         watch([start, end], () => ctx.emit("change", [start.value, end.value]))
 
         return () => (

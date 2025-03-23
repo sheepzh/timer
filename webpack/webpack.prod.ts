@@ -1,8 +1,8 @@
-import optionGenerator from "./webpack.common"
-import path from "path"
 import FileManagerWebpackPlugin from "filemanager-webpack-plugin"
-import webpack from "webpack"
+import path from "path"
+import type { WebpackPluginInstance } from "webpack"
 import manifest from "../src/manifest"
+import optionGenerator from "./webpack.common"
 
 const { name, version } = require(path.join(__dirname, '..', 'package.json'))
 
@@ -34,6 +34,8 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
 
 const option = optionGenerator({ outputPath, manifest, mode: "production" })
 
-option.plugins.push(filemanagerWebpackPlugin as webpack.WebpackPluginInstance)
+const { plugins = [] } = option
+plugins.push(filemanagerWebpackPlugin as WebpackPluginInstance)
+option.plugins = plugins
 
 export default option

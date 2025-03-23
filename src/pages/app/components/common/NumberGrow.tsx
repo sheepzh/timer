@@ -11,20 +11,25 @@ import { defineComponent, onMounted, ref, watch, type Ref, type StyleValue } fro
 
 const _default = defineComponent({
     props: {
-        value: Number,
+        value: {
+            type: Number,
+            required: true,
+        },
         duration: Number,
         fontSize: Number,
     },
     setup(props) {
-        const el: Ref<HTMLElement> = ref()
-        const countUp: Ref<CountUp> = ref()
+        const el: Ref<HTMLElement | undefined> = ref()
+        const countUp: Ref<CountUp | undefined> = ref()
         const style: StyleValue = {
             textDecoration: 'underline'
         }
         props.fontSize && (style.fontSize = `${props.fontSize}px`)
 
         onMounted(() => {
-            countUp.value = new CountUp(el.value, props.value, {
+            const countEl = el.value
+            if (!countEl) return
+            countUp.value = new CountUp(countEl, props.value, {
                 startVal: 0,
                 duration: props.duration || 1.5,
                 separator: getNumberSeparator(),

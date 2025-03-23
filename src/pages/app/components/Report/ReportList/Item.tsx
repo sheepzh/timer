@@ -12,7 +12,10 @@ import TooltipSiteList from "../ReportTable/columns/TooltipSiteList"
 
 const _default = defineComponent({
     props: {
-        value: Object as PropType<timer.stat.Row>,
+        value: {
+            type: Object as PropType<timer.stat.Row>,
+            required: true,
+        },
     },
     emits: {
         selectedChange: (_val: boolean) => true,
@@ -22,7 +25,7 @@ const _default = defineComponent({
         const filter = useReportFilter()
         const mergeHost = computed(() => filter.value?.siteMerge === 'domain')
         const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
-        const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value || {}
+        const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value
         const selected = ref(false)
         watch(selected, val => ctx.emit('selectedChange', val))
 
@@ -41,22 +44,24 @@ const _default = defineComponent({
                             value={selected.value}
                             onChange={val => selected.value = !!val}
                         />
-                        <TooltipWrapper
-                            placement="bottom"
-                            effect={Effect.LIGHT}
-                            offset={10}
-                            trigger="click"
-                            usePopover={mergeHost.value}
-                            v-slots={{
-                                content: () => <TooltipSiteList modelValue={mergedRows} />,
-                            }}
-                        >
-                            <HostAlert
-                                value={siteKey}
-                                iconUrl={mergeHost.value ? null : iconUrl}
-                                clickable={false}
-                            />
-                        </TooltipWrapper>
+                        {!!siteKey && (
+                            <TooltipWrapper
+                                placement="bottom"
+                                effect={Effect.LIGHT}
+                                offset={10}
+                                trigger="click"
+                                usePopover={mergeHost.value}
+                                v-slots={{
+                                    content: () => <TooltipSiteList modelValue={mergedRows} />,
+                                }}
+                            >
+                                <HostAlert
+                                    value={siteKey}
+                                    iconUrl={mergeHost.value ? undefined : iconUrl}
+                                    clickable={false}
+                                />
+                            </TooltipWrapper>
+                        )}
                     </div>
                     <PopupConfirmButton
                         buttonIcon={<Delete />}

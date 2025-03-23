@@ -27,7 +27,7 @@ const _default = defineComponent({
                         {h(filter)}
                     </div>
                 )}
-                {h(default_, { class: 'kanban-card-body' })}
+                {!!default_ && h(default_, { class: 'kanban-card-body' })}
             </ElCard>
         )
     },

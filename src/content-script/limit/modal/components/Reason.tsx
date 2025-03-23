@@ -22,6 +22,9 @@ const TimeDescriptions = defineComponent({
         const rule = useRule()
         const reason = useReason()
 
+        const timeLimited = computed(() => meetTimeLimit(props.time ?? 0, props.waste ?? 0, !!reason.value?.allowDelay, reason.value?.delayCount ?? 0))
+        const visitLimited = computed(() => meetLimit(props.count ?? 0, props.visit ?? 0))
+
         return () => (
             <ElDescriptions border column={1} labelWidth={130}>
                 <ElDescriptionsItem label={t(msg => msg.limit.item.name)} labelAlign="right">
@@ -37,13 +40,13 @@ const TimeDescriptions = defineComponent({
                     <Flex gap={5} width={200}>
                         <ElTag
                             v-show={!!props.waste || !!props.time}
-                            type={meetTimeLimit(props.time, props.waste, reason.value?.allowDelay, reason.value?.delayCount) ? 'danger' : 'info'}
+                            type={timeLimited.value ? 'danger' : 'info'}
                         >
                             {formatPeriodCommon(props.waste ?? 0)}
                         </ElTag>
                         <ElTag
                             v-show={!!props.count || !!props.visit}
-                            type={meetLimit(props.count, props.visit) ? 'danger' : 'info'}
+                            type={visitLimited.value ? 'danger' : 'info'}
                         >
                             {`${props.visit ?? 0} ${t(msg => msg.limit.item.visits)}`}
                         </ElTag>
@@ -99,7 +102,7 @@ const _default = defineComponent(() => {
                     {rule.value?.name || '-'}
                 </ElDescriptionsItem>
                 <ElDescriptionsItem label={t(msg => msg.limit.item.visitTime)} labelAlign="right">
-                    {formatPeriodCommon(rule.value?.visitTime * MILL_PER_SECOND) || '-'}
+                    {formatPeriodCommon((rule.value?.visitTime ?? 0) * MILL_PER_SECOND) || '-'}
                 </ElDescriptionsItem>
                 <ElDescriptionsItem label={t(msg => msg.modal.browsingTime)} labelAlign="right">
                     {browsingTime.value ? formatPeriodCommon(browsingTime.value) : '-'}

@@ -15,14 +15,17 @@ import { defineComponent, type PropType } from "vue"
 
 const _default = defineComponent({
     props: {
-        data: Object as PropType<timer.imported.Data>,
+        data: {
+            type: Object as PropType<timer.imported.Data>,
+            required: true,
+        },
     },
     setup(props, ctx) {
         const [resolution, setResolution] = useState<timer.imported.ConflictResolution>()
 
         ctx.expose({
             parseData: () => resolution.value
-        } satisfies SopStepInstance<timer.imported.ConflictResolution>)
+        } satisfies SopStepInstance<timer.imported.ConflictResolution | undefined>)
 
         return () => (
             <Flex column width="100%" gap={20}>

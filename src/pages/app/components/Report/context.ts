@@ -14,4 +14,4 @@ export const initProvider = (
     filter
 })
 
-export const useReportFilter = (): Ref<ReportFilterOption> => useProvider<Context>(NAMESPACE, "filter").filter
+export const useReportFilter = (): Ref<ReportFilterOption> => useProvider<Context, 'filter'>(NAMESPACE, "filter").filter

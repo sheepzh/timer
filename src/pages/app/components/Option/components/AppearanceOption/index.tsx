@@ -40,7 +40,7 @@ function copy(target: timer.option.AppearanceOption, source: timer.option.Appear
 const DEFAULT_ANIMA_DURATION = defaultAppearance().chartAnimationDuration
 
 const _default = defineComponent((_props, ctx) => {
-    const { option } = useOption({
+    const { option } = useOption<timer.option.AppearanceOption>({
         defaultValue: defaultAppearance, copy,
         onChange: async val => optionService.isDarkMode(val).then(toggle)
     })
@@ -117,7 +117,7 @@ const _default = defineComponent((_props, ctx) => {
                 >
                     <ElSwitch
                         modelValue={option.displayWhitelistMenu}
-                        onChange={(val: boolean) => option.displayWhitelistMenu = val}
+                        onChange={val => option.displayWhitelistMenu = val as boolean}
                     />
                 </OptionItem>
                 <OptionItem
@@ -130,7 +130,7 @@ const _default = defineComponent((_props, ctx) => {
                 >
                     <ElSwitch
                         modelValue={option.displayBadgeText}
-                        onChange={(val: boolean) => option.displayBadgeText = val}
+                        onChange={val => option.displayBadgeText = val as boolean}
                     />
                 </OptionItem>
                 <OptionItem
@@ -140,7 +140,7 @@ const _default = defineComponent((_props, ctx) => {
                     <ElColorPicker
                         size="small"
                         modelValue={option.badgeBgColor}
-                        onChange={val => option.badgeBgColor = val}
+                        onChange={val => option.badgeBgColor = val ?? undefined}
                     />
                 </OptionItem>
                 <OptionItem
@@ -153,7 +153,7 @@ const _default = defineComponent((_props, ctx) => {
                 >
                     <ElSwitch
                         modelValue={option.printInConsole}
-                        onChange={(val: boolean) => option.printInConsole = val}
+                        onChange={val => option.printInConsole = val as boolean}
                     />
                 </OptionItem>
             </>}

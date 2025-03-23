@@ -33,8 +33,8 @@ export type ReportQueryParam = {
 }
 
 export type ReportFilterOption = {
-    host: string
-    dateRange: [Date, Date]
+    host: string | undefined
+    dateRange: [Date, Date] | undefined
     mergeDate: boolean
     siteMerge?: timer.stat.MergeMethod & ('cate' | 'domain')
     cateIds?: number[]

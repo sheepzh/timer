@@ -22,7 +22,7 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const [white, , resetWhite] = useShadow(() => props.white)
-        const isVirtual = computed(() => judgeVirtualFast(white.value))
+        const isVirtual = computed(() => !!white.value && judgeVirtualFast(white.value))
         const [editing, openEditing, closeEditing] = useSwitch()
 
         return () => <>
@@ -42,7 +42,7 @@ const _default = defineComponent({
                 v-show={!editing.value}
                 class="editable-item"
                 closable
-                onClose={() => ctx.emit("delete", white.value)}
+                onClose={() => white.value && ctx.emit("delete", white.value)}
                 type={isVirtual.value ? 'warning' : 'primary'}
             >
                 {white.value}

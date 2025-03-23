@@ -34,14 +34,17 @@ const SHORTCUTS: ElementDatePickerShortcut[] = shortcutProps.map(([text, agoOfSt
 
 const _default = defineComponent({
     props: {
-        defaultValue: Object as PropType<FilterOption>,
+        defaultValue: {
+            type: Object as PropType<FilterOption>,
+            required: true,
+        },
     },
     emits: {
         change: (_option: FilterOption) => true
     },
     setup(props, ctx) {
-        const [dateRange, setDateRange] = useState<[Date, Date]>(props.defaultValue?.dateRange || [null, null])
-        const [timeFormat, setTimeFormat] = useState(props.defaultValue?.timeFormat)
+        const [dateRange, setDateRange] = useState(props.defaultValue.dateRange)
+        const [timeFormat, setTimeFormat] = useState(props.defaultValue.timeFormat)
 
         watch([dateRange, timeFormat], () => ctx.emit("change", {
             dateRange: dateRange.value,
@@ -54,7 +57,7 @@ const _default = defineComponent({
                     clearable={false}
                     defaultRange={dateRange.value}
                     shortcuts={SHORTCUTS}
-                    onChange={setDateRange}
+                    onChange={val => val && setDateRange(val)}
                 />
                 <TimeFormatFilterItem
                     defaultValue={timeFormat.value}

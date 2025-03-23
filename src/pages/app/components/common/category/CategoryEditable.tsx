@@ -17,7 +17,7 @@ const CategoryEditable = defineComponent({
         cateId: Number,
     },
     emits: {
-        change: (_val: number) => true,
+        change: (_val: number | undefined) => true,
     },
     setup(props, ctx) {
         const { categories } = useCategories()
@@ -29,7 +29,7 @@ const CategoryEditable = defineComponent({
             return categories.value?.find(c => c.id == id)
         })
 
-        const { refresh: saveSiteCate } = useManualRequest(async (cateId: number | string) => {
+        const { refresh: saveSiteCate } = useManualRequest(async (cateId: number | string | undefined) => {
             const realCateId = typeof cateId === 'string' ? parseInt(cateId) : cateId
             await siteService.saveCate(props.siteKey, realCateId)
             return realCateId

@@ -1,6 +1,5 @@
 import I18nNode from "@app/components/common/I18nNode"
 import { type I18nKey } from "@app/locale"
-import Flex from "@pages/components/Flex"
 import { ElDivider, ElTag } from "element-plus"
 import { defineComponent, h, type PropType, type VNode } from "vue"
 
@@ -20,7 +19,7 @@ const _default = defineComponent({
     setup: (props, ctx) => {
         return () => {
             const param: Record<string, VNode> = {}
-            Object.entries(ctx.slots).forEach(([k, slot]) => param[k === "default" ? "input" : k] = h(slot))
+            Object.entries(ctx.slots).forEach(([k, slot]) => slot && (param[k === "default" ? "input" : k] = h(slot)))
             return (
                 <div>
                     <ElDivider v-show={!props.hideDivider} />

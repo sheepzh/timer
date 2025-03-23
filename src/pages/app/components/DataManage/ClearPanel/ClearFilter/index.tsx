@@ -14,12 +14,12 @@ import NumberFilter from "./NumberFilter"
 
 const _default = defineComponent({
     emits: {
-        delete: (_date: [Date, Date], _focus: [string, string], _time: [string, string]) => true
+        delete: (_date: [Date, Date] | undefined, _focus: [string?, string?], _time: [string?, string?]) => true
     },
     setup(_, ctx) {
-        const [date, setDate] = useState<[Date, Date]>([null, null])
-        const [focus, setFocus] = useState<[string, string]>(['0', '2'])
-        const [time, setTime] = useState<[string, string]>(['0', null])
+        const [date, setDate] = useState<[Date, Date]>()
+        const [focus, setFocus] = useState<[string?, string?]>(['0', '2'])
+        const [time, setTime] = useState<[string?, string?]>(['0',])
 
         return () => (
             <div style={{ paddingInlineStart: '30px', paddingTop: '40px' }}>

@@ -143,17 +143,17 @@ export function extractHostname(url: string): HostInfo {
 /**
  * @since 0.7.0
  */
-export function extractFileHost(url: string): string {
+export function extractFileHost(url: string): string | undefined {
     url = url?.trim?.()
     if (!url) {
-        return undefined
+        return
     }
     if (!url.startsWith("file://")) {
-        return undefined
+        return
     }
     const dotIdx = url.lastIndexOf(".")
     if (dotIdx < 0) {
-        return undefined
+        return
     }
     const suffix = url.substring(dotIdx + 1).toLowerCase()
     return suffix ? SUFFIX_HOST_MAP[suffix] : undefined

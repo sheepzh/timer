@@ -9,8 +9,14 @@ import "./search.sass"
 
 const _default = defineComponent({
     props: {
-        defaultDate: Object as PropType<Date>,
-        defaultQuery: String,
+        defaultDate: {
+            type: Object as PropType<Date>,
+            required: true,
+        },
+        defaultQuery: {
+            type: String,
+            required: true,
+        },
     },
     emits: {
         search: (_query: string, _date: Date) => true
@@ -19,8 +25,8 @@ const _default = defineComponent({
         const now = Date.now()
 
         const [query, setQuery] = useState(props.defaultQuery)
-        const [date, setDate] = useState<Date>(props.defaultDate)
-        const handleSearch = () => ctx.emit("search", query.value?.trim?.(), date.value)
+        const [date, setDate] = useState(props.defaultDate)
+        const handleSearch = () => ctx.emit("search", query.value.trim(), date.value)
 
         watch(date, handleSearch)
 
@@ -37,7 +43,7 @@ const _default = defineComponent({
                         setQuery('')
                         handleSearch()
                     }}
-                    onKeydown={(kv: KeyboardEvent) => kv.code === 'Enter' && handleSearch()}
+                    onKeydown={kv => (kv as KeyboardEvent).code === 'Enter' && handleSearch()}
                 />
                 <ElDatePicker
                     clearable={false}

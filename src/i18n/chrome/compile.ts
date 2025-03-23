@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2021 Hengyang Zhang
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
 
 // Generate the messages used by Chrome
 function compile(obj: any, parentKey = ''): any {
-    const result = {}
+    const result: any = {}
     if (typeof obj === 'object') {
         for (const key in obj) {
             const val = obj[key]

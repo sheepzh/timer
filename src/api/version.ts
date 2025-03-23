@@ -30,28 +30,28 @@ type EdgeDetail = {
     lastUpdateDate: string
 }
 
-async function getFirefoxVersion(): Promise<string | null> {
+async function getFirefoxVersion(): Promise<string | undefined> {
     const response = await fetchGet('https://addons.mozilla.org/api/v3/addons/addon/2690100')
     const detail: FirefoxDetail = await response.json()
     return detail?.current_version?.version
 }
 
-async function getEdgeVersion(): Promise<string | null> {
+async function getEdgeVersion(): Promise<string | undefined> {
     const response = await fetchGet('https://microsoftedge.microsoft.com/addons/getproductdetailsbycrxid/fepjgblalcnepokjblgbgmapmlkgfahc')
     const detail: EdgeDetail = await response.json()
     return detail?.version
 }
 
-async function getChromeVersion(): Promise<string> {
+async function getChromeVersion(): Promise<string | undefined> {
     // Get info from shields.io
     const response = await fetchGet('https://img.shields.io/chrome-web-store/v/dkdhhcbjijekmneelocdllcldcpmekmm?label=Google%20Chrome')
     const data = await response.text()
     const pattern = /:\sv(\d+\.\d+\.\d+)/
     const matchResult = pattern.exec(data)
-    return matchResult.length === 2 ? matchResult[1] : null
+    return matchResult?.length === 2 ? matchResult?.[1] : undefined
 }
 
-export function getLatestVersion(): Promise<string | null> {
+export function getLatestVersion(): Promise<string | undefined> {
     if (IS_FIREFOX) {
         return getFirefoxVersion()
     } else if (IS_CHROME) {
@@ -59,5 +59,5 @@ export function getLatestVersion(): Promise<string | null> {
     } else if (IS_EDGE) {
         return getEdgeVersion()
     }
-    return Promise.resolve(null)
+    return Promise.resolve(undefined)
 }

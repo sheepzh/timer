@@ -4,7 +4,7 @@
 declare namespace timer.imported {
     type ConflictResolution = 'overwrite' | 'accumulate'
 
-    type Row = Required<timer.core.RowKey> & Partial<timer.core.Result> & {
+    type Row = Required<timer.core.RowKey> & timer.core.Result & {
         exist?: timer.core.Result
     }
 

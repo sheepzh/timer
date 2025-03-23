@@ -32,7 +32,7 @@ export type BizOption = {
     periodSize: number
 }
 
-const [CURR_COLOR, PREV_COLOR] = getCompareColor()
+const [CURR_COLOR = '', PREV_COLOR = ''] = getCompareColor()
 
 const cvt2Item = (row: timer.period.Row): number => {
     const milliseconds = row.milliseconds

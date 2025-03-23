@@ -96,7 +96,7 @@ type Row = {
 class Wrapper extends EchartsWrapper<[Row[], Row[]], EcOption> {
     protected isSizeSensitize: boolean = true
 
-    generateOption = ([lastPeriodItems = [], thisPeriodItems = []] = []) => {
+    generateOption([lastPeriodItems, thisPeriodItems]: [Row[], Row[]]) {
         const domWidth = this.getDomWidth()
         if (!domWidth) return {}
         return optionOf(lastPeriodItems, thisPeriodItems, domWidth)

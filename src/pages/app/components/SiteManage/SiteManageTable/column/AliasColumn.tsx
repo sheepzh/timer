@@ -25,7 +25,7 @@ function cvt2Alias(part: string): string {
     return decoded.charAt(0).toUpperCase() + decoded.slice(1)
 }
 
-export function genInitialAlias(site: timer.site.SiteInfo): string {
+export function genInitialAlias(site: timer.site.SiteInfo): string | undefined {
     const { host, alias, type } = site || {}
     if (alias) return
     if (type !== 'normal') return
@@ -44,7 +44,7 @@ const _default = defineComponent({
         batchGenerate: () => true,
     },
     setup: (_, ctx) => {
-        const handleChange = async (newAlias: string, row: timer.site.SiteInfo) => {
+        const handleChange = async (newAlias: string | undefined, row: timer.site.SiteInfo) => {
             newAlias = newAlias?.trim?.()
             row.alias = newAlias
             if (newAlias) {
