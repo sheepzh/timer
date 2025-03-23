@@ -47,7 +47,7 @@ const _default = defineComponent({
             } else {
                 const toCreate = {
                     ...modifyingItem || {},
-                    cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount,
+                    cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount, locked: false,
                     // Object to array
                     periods: periods?.map(i => ([i?.[0], i?.[1]] satisfies Vector<number>)),
                 }

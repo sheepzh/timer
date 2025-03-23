@@ -111,6 +111,7 @@ const cvtItem2Rec = (item: ItemValue): LimitRecord => {
         allowDelay: !!ad,
         weekdays: wd,
         records: records,
+        locked: false,
     }
 }
 

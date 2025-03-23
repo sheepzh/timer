@@ -84,6 +84,12 @@ declare namespace timer.limit {
         visitTime?: number
         enabled?: boolean
         /**
+         * Locked
+         *
+         * @since 3.4.0
+         */
+        locked: boolean
+        /**
          * @since 2.3.4
          */
         weekdays?: number[]

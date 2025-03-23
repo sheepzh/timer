@@ -37,6 +37,7 @@ const createInitial = (): Required<Omit<timer.limit.Rule, 'id'>> => ({
     count: 0,
     weeklyCount: 0,
     allowDelay: false,
+    locked: false,
 })
 
 const _default = defineComponent({

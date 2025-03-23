@@ -10,7 +10,12 @@ describe('Daily time limit', () => {
 
     test('basic', async () => {
         const limitPage = await context.openAppPage('/behavior/limit')
-        const demoRule: timer.limit.Rule = { id: 1, name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 5 }
+        const demoRule: timer.limit.Rule = {
+            id: 1, name: 'TEST DAILY LIMIT',
+            cond: ['https://www.baidu.com'],
+            time: 5,
+            locked: false,
+        }
 
         // 1. Insert limit rule
         await createLimitRule(demoRule, limitPage)

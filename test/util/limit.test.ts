@@ -44,7 +44,12 @@ describe('util/limit', () => {
     })
 
     test('isEffective', () => {
-        const rule = (weekdays?: number[]): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays })
+        const rule = (weekdays?: number[]): timer.limit.Rule => ({
+            id: 1, name: 'foobar',
+            cond: [],
+            time: 0, weekdays,
+            locked: false,
+        })
         expect(isEffective(undefined)).toBe(false)
         expect(isEffective(rule())).toBe(true)
 
@@ -69,7 +74,12 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays, enabled })
+        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({
+            id: 1, name: 'foobar',
+            cond: [],
+            time: 0, weekdays,
+            enabled, locked: false,
+        })
 
         expect(isEnabledAndEffective(rule([0, 1, 2], true))).toBe(true)
         expect(isEnabledAndEffective(rule([0, 1, 2], false))).toBe(false)
@@ -87,7 +97,8 @@ describe('util/limit', () => {
             delayCount: 0,
             weeklyWaste: 0,
             weeklyVisit: 0,
-            weeklyDelayCount: 0
+            weeklyDelayCount: 0,
+            locked: false,
         }
 
         expect(hasWeeklyLimited(item)).toBe(false)
@@ -117,7 +128,8 @@ describe('util/limit', () => {
             delayCount: 0,
             weeklyWaste: 0,
             weeklyVisit: 0,
-            weeklyDelayCount: 0
+            weeklyDelayCount: 0,
+            locked: false,
         }
         const duration = 1000
 
@@ -162,7 +174,8 @@ describe('util/limit', () => {
                 delayCount: 0,
                 weeklyWaste: 0,
                 weeklyVisit: 0,
-                weeklyDelayCount: 0
+                weeklyDelayCount: 0,
+                locked: false,
             }
             setup(item)
             expect(hasLimited(item)).toBe(limited)
