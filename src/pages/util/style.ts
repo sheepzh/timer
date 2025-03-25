@@ -24,12 +24,13 @@ export const getStyle = (
     }
 }
 
-export function getCssVariable(varName: string, ele?: HTMLElement): string | undefined {
-    const realEle = ele || document.documentElement
+export function getCssVariable(varName: string, eleOrSelector?: HTMLElement | string): string | undefined {
+    const ele = typeof eleOrSelector === 'string' ? document.querySelector(eleOrSelector) : eleOrSelector
+    const realEle = ele ?? document.documentElement
     if (!realEle) {
         return undefined
     }
-    return getComputedStyle(ele || document.documentElement).getPropertyValue(varName)
+    return getComputedStyle(realEle).getPropertyValue(varName)
 }
 
 export function getPrimaryTextColor(): string | undefined {
