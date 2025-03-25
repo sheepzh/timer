@@ -37,3 +37,5 @@ declare type Vector<D extends number> = Tuple<number, D>
 declare type CompareFn<T> = (a: T, b: T) => number
 
 declare type Awaitable<T> = T | Promise<T>
+
+declare type NoArgCallback = () => void

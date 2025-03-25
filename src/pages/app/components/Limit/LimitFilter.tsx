@@ -15,7 +15,7 @@ import { Delete, Open, Operation, Plus, SetUp, TurnOff } from "@element-plus/ico
 import { useState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { getAppPageUrl } from "@util/constant/url"
-import { defineComponent, watch, type PropType } from "vue"
+import { defineComponent, watch } from "vue"
 import DropdownButton, { type DropdownButtonItem } from "../common/DropdownButton"
 import type { LimitFilterOption } from "./types"
 
@@ -23,22 +23,18 @@ const optionPageUrl = getAppPageUrl(OPTION_ROUTE, { i: 'dailyLimit' })
 
 type BatchOpt = 'delete' | 'enable' | 'disable'
 
-const _default = defineComponent({
-    props: {
-        defaultValue: {
-            type: Object as PropType<LimitFilterOption>,
-            required: true,
-        }
-    },
-    emits: {
-        batchDelete: () => true,
-        batchEnable: () => true,
-        batchDisable: () => true,
-        create: () => true,
-        change: (_option: LimitFilterOption) => true,
-        test: () => true,
-    },
-    setup(props, ctx) {
+type Props = {
+    defaultValue: LimitFilterOption
+    onChange: (opt: LimitFilterOption) => void
+    onBatchDelete?: NoArgCallback
+    onBatchEnable?: NoArgCallback
+    onBatchDisable?: NoArgCallback
+    onCreate?: NoArgCallback
+    onTest?: NoArgCallback
+}
+
+const _default = defineComponent(
+    (props: Props, ctx) => {
         const [url, setUrl] = useState(props.defaultValue.url)
         const [onlyEnabled, setOnlyEnabled] = useState(props.defaultValue?.onlyEnabled)
         watch([url, onlyEnabled], () => ctx.emit("change", { url: url.value, onlyEnabled: onlyEnabled.value }))
@@ -107,7 +103,14 @@ const _default = defineComponent({
                 </Flex>
             </Flex>
         )
+    },
+    {
+        props: [
+            'defaultValue', 'onChange',
+            'onBatchDelete', 'onBatchDisable', 'onBatchEnable',
+            'onCreate', 'onTest',
+        ]
     }
-})
+)
 
 export default _default

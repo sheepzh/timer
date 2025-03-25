@@ -48,7 +48,7 @@ describe('util/limit', () => {
             id: 1, name: 'foobar',
             cond: [],
             time: 0, weekdays,
-            locked: false,
+            enabled: true, allowDelay: false, locked: false,
         })
         expect(isEffective(undefined)).toBe(false)
         expect(isEffective(rule())).toBe(true)
@@ -78,7 +78,7 @@ describe('util/limit', () => {
             id: 1, name: 'foobar',
             cond: [],
             time: 0, weekdays,
-            enabled, locked: false,
+            enabled, allowDelay: false, locked: false,
         })
 
         expect(isEnabledAndEffective(rule([0, 1, 2], true))).toBe(true)
@@ -98,6 +98,8 @@ describe('util/limit', () => {
             weeklyWaste: 0,
             weeklyVisit: 0,
             weeklyDelayCount: 0,
+            enabled: true,
+            allowDelay: false,
             locked: false,
         }
 
@@ -129,6 +131,8 @@ describe('util/limit', () => {
             weeklyWaste: 0,
             weeklyVisit: 0,
             weeklyDelayCount: 0,
+            enabled: true,
+            allowDelay: false,
             locked: false,
         }
         const duration = 1000
@@ -175,6 +179,8 @@ describe('util/limit', () => {
                 weeklyWaste: 0,
                 weeklyVisit: 0,
                 weeklyDelayCount: 0,
+                enabled: true,
+                allowDelay: false,
                 locked: false,
             }
             setup(item)

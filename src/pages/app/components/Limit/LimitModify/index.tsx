@@ -46,11 +46,11 @@ const _default = defineComponent({
                 await limitService.update(saved)
             } else {
                 const toCreate = {
-                    ...modifyingItem || {},
-                    cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount, locked: false,
+                    cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount,
                     // Object to array
                     periods: periods?.map(i => ([i?.[0], i?.[1]] satisfies Vector<number>)),
-                }
+                    allowDelay: false, locked: false,
+                } satisfies MakeOptional<timer.limit.Rule, 'id'>
                 const id = await limitService.create(toCreate)
                 saved = { ...toCreate, id }
             }

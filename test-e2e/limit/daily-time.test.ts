@@ -14,7 +14,7 @@ describe('Daily time limit', () => {
             id: 1, name: 'TEST DAILY LIMIT',
             cond: ['https://www.baidu.com'],
             time: 5,
-            locked: false,
+            enabled: true, allowDelay: false, locked: false,
         }
 
         // 1. Insert limit rule

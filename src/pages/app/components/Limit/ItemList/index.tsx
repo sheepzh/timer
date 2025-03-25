@@ -52,13 +52,14 @@ const ItemList = defineComponent({
                     <Box
                         key={item.id}
                         minWidth={450}
-                        height={250}
+                        height={350}
                         marginInlineEnd={idx === arr?.length - 1 ? "auto" : undefined}
                     >
                         <Item
                             value={item}
                             selected={selected.includes(item.id)}
                             onSelectChange={val => handleSelectChange(item.id, val)}
+                            onDeleted={refresh}
                         />
                     </Box>
                 ))}

@@ -1,29 +1,23 @@
-import { CirclePlus, Delete, EditPen, Lock, Open, TurnOff, Unlock } from "@element-plus/icons-vue"
+import { Delete, EditPen, Lock, Open, Timer, TurnOff, Unlock } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import { ElButton, ElCheckbox, ElText } from "element-plus"
-import { Component, computed, defineComponent, type PropType, type StyleValue } from "vue"
-import { useItem } from "./useItem"
+import { Component, computed, defineComponent, type StyleValue } from "vue"
+import { type SwitchField, useItem } from "./useItem"
 
 const BTN_STYLE: StyleValue = {
     marginInlineStart: 0
 }
 
-type SwitchField = keyof timer.limit.Item & ('enabled' | 'allowDelay' | 'locked')
+type Props = {
+    field: SwitchField
+    onIcon: Component
+    offIcon?: Component
+    onChange?: (val: boolean) => void
+}
 
-const SwitchButton = defineComponent({
-    props: {
-        field: {
-            type: String as PropType<SwitchField>,
-            required: true,
-        },
-        onIcon: {
-            type: Object as PropType<Component>,
-            required: true,
-        },
-        offIcon: Object as PropType<Component>,
-    },
-    setup(props) {
-        const { field, onIcon, offIcon } = props
+const SwitchButton = defineComponent(
+    (props: Props) => {
+        const { field, onIcon, offIcon, onChange } = props
         const { data } = useItem()
         const target = computed(() => data[field])
 
@@ -32,18 +26,25 @@ const SwitchButton = defineComponent({
                 link
                 icon={target.value ? onIcon : offIcon ?? onIcon}
                 type={target.value ? 'primary' : undefined}
-                onClick={() => data[field] = !data[field]}
+                onClick={() => onChange?.(!data[field])}
                 style={BTN_STYLE}
             />
         )
     },
-})
-
+    {
+        props: ['field', 'offIcon', 'onIcon', 'onChange']
+    }
+)
 
 const Header = defineComponent(() => {
-    const { data, selected } = useItem()
+    const {
+        data, selected,
+        changeEnabled,
+        changeLocked,
+        changeAllowDelay,
+        doDelete,
+    } = useItem()
 
-    const handleDelete = () => { }
 
     const handleEdit = () => { }
 
@@ -59,10 +60,10 @@ const Header = defineComponent(() => {
             </Flex>
             <Flex gap={5}>
                 <ElButton link icon={EditPen} onClick={handleEdit} style={BTN_STYLE} />
-                <SwitchButton field="allowDelay" onIcon={CirclePlus} />
-                <SwitchButton field="locked" onIcon={<Lock />} offIcon={<Unlock />} />
-                <SwitchButton field="enabled" onIcon={<Open />} offIcon={<TurnOff />} />
-                <ElButton link icon={Delete} onClick={handleDelete} style={BTN_STYLE} />
+                <SwitchButton field="allowDelay" onIcon={Timer} onChange={changeAllowDelay} />
+                <SwitchButton field="locked" onIcon={<Lock />} offIcon={<Unlock />} onChange={changeLocked} />
+                <SwitchButton field="enabled" onIcon={<Open />} offIcon={<TurnOff />} onChange={changeEnabled} />
+                <ElButton link icon={Delete} onClick={doDelete} style={BTN_STYLE} />
             </Flex>
         </Flex>
     )
