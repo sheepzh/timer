@@ -1,5 +1,5 @@
 import { createTab } from "@api/chrome/tab"
-import { getPrimaryTextColor, getSecondaryTextColor } from "@pages/util/style"
+import { getCssVariable, getPrimaryTextColor, getSecondaryTextColor } from "@pages/util/style"
 import { calJumpUrl } from "@popup/common"
 import { t } from "@popup/locale"
 import { sum } from "@util/array"
@@ -103,7 +103,8 @@ export function generateToolboxOption(): ToolboxComponentOption {
                 // file name
                 name: 'Time_Tracker_Percentage',
                 excludeComponents: ['toolbox'],
-                pixelRatio: 1
+                pixelRatio: 7,
+                backgroundColor: getCssVariable('--el-card-bg-color', '.el-card'),
             },
         }
     }
