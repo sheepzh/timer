@@ -6,7 +6,7 @@ import DateIterator from "@util/date-iterator"
 import { processDir } from "../common"
 import { CLIENT_FILE_NAME, convertClients2Markdown, divideByDate, parseData } from "../markdown"
 
-function getEndpoint(ext: timer.backup.TypeExt): string {
+function getEndpoint(ext: timer.backup.TypeExt | undefined): string | undefined {
     let { endpoint } = ext || {}
     if (endpoint?.endsWith('/')) {
         endpoint = endpoint.substring(0, endpoint.length - 1)
@@ -17,11 +17,14 @@ function getEndpoint(ext: timer.backup.TypeExt): string {
 function prepareContext(context: timer.backup.CoordinatorContext<never>): WebDAVContext {
     const { auth, ext } = context
     const endpoint = getEndpoint(ext)
-    const webDavAuth: WebDAVAuth = {
-        type: "password",
-        username: auth?.login?.acc,
-        password: auth?.login?.psw,
+    if (!endpoint) {
+        throw new Error('Endpoint must be empty. This can\'t happen, please contact the developer')
     }
+    const { acc: username, psw: password } = auth?.login || {}
+    if (!username || !password) {
+        throw new Error('Neither username nor password must be empty. This can\'t happen, please contact the developer')
+    }
+    const webDavAuth: WebDAVAuth = { type: "password", username, password }
     return { auth: webDavAuth, endpoint }
 }
 
@@ -40,7 +43,7 @@ export default class WebDAVCoordinator implements timer.backup.Coordinator<never
         const davContext = prepareContext(context)
         try {
             const content = await readFile(davContext, clientFilePath)
-            return parseData(content) || []
+            return parseData(content) ?? []
         } catch (e) {
             console.warn("Failed to read WebDav file content", e)
             return []
@@ -57,7 +60,7 @@ export default class WebDAVCoordinator implements timer.backup.Coordinator<never
         await Promise.all(dateIterator.toArray().map(async date => {
             const filePath = `${dirPath}${targetCid}/${date}.md`
             const fileContent = await readFile(davContext, filePath)
-            const rows: timer.core.Row[] = parseData(fileContent)
+            const rows = parseData<timer.core.Row[]>(fileContent)
             rows?.forEach?.(row => result.push(row))
         }))
         return result
@@ -88,7 +91,7 @@ export default class WebDAVCoordinator implements timer.backup.Coordinator<never
         return clientDirPath
     }
 
-    async testAuth(auth: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string> {
+    async testAuth(auth: timer.backup.Auth, ext: timer.backup.TypeExt): Promise<string | undefined> {
         const endpoint = getEndpoint(ext)
         if (!endpoint) {
             return "The endpoint is blank"
@@ -113,7 +116,7 @@ export default class WebDAVCoordinator implements timer.backup.Coordinator<never
                 return "Directory not found"
             }
         } catch (e) {
-            return (e as Error)?.message || e
+            return (e as Error)?.message ?? e?.toString?.() ?? 'Unknown error'
         }
     }
 

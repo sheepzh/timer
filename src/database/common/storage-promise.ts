@@ -22,14 +22,14 @@ export default class StoragePromise {
 
     get<T = { [key: string]: any }>(
         keys?: NoInferX<keyof T> | Array<NoInferX<keyof T>> | Partial<NoInferX<T>> | null,
-    ): Promise<{ [key: string]: any }> {
-        return new Promise(resolve => this.storage.get(keys, resolve))
+    ): Promise<T> {
+        return new Promise(resolve => this.storage.get(keys ?? null, resolve))
     }
 
     /**
      * @since 0.5.0
      */
-    async getOne<T>(key: string): Promise<T> {
+    async getOne<T>(key: string): Promise<T | undefined> {
         return (await this.get(key))[key] as T
     }
 

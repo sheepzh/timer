@@ -11,10 +11,11 @@ import optionService from "@service/option-service"
 import { toggle } from "@util/dark-mode"
 import "element-plus/theme-chalk/index.css"
 import { createApp } from "vue"
-import Main from "./Main"
+import Main, { PROVIDE_KEY } from "./Main"
 import { type FrameRequest, type FrameResponse } from "./message"
 import initRouter from "./router"
 import "./style"
+import optionHolder from "@service/components/option-holder"
 
 function send2ParentWindow(data: any): Promise<void> {
     return new Promise(resolve => {
@@ -46,7 +47,9 @@ async function main() {
     el.id = 'app'
     document.body.append(el)
 
+    const option = await optionHolder.get()
     const app = createApp(Main)
+    app.provide(PROVIDE_KEY, option)
     initRouter(app)
     app.mount(el)
 

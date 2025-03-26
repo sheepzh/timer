@@ -67,17 +67,17 @@ async function selectEffective(url?: string) {
 async function noticeLimitChanged() {
     const effectiveItems = await selectEffective()
     const tabs = await listTabs()
-    tabs.forEach(tab => {
-        const limitedItems = effectiveItems.filter(item => matches(item?.cond, tab.url))
-        sendMsg2Tab(tab?.id, 'limitChanged', limitedItems)
-            .catch(err => console.log(err.message))
+    tabs.forEach(({ id, url }) => {
+        if (!id || !url) return
+        const limitedItems = effectiveItems.filter(item => matches(item?.cond, url))
+        sendMsg2Tab(id, 'limitChanged', limitedItems).catch(err => console.log(err.message))
     })
 }
 
 async function updateEnabled(...items: timer.limit.Item[]): Promise<void> {
     if (!items?.length) return
     for (const item of items) {
-        await db.updateEnabled(item.id, item.enabled)
+        await db.updateEnabled(item.id, !!item.enabled)
     }
     await noticeLimitChanged()
 }
@@ -85,7 +85,7 @@ async function updateEnabled(...items: timer.limit.Item[]): Promise<void> {
 async function updateDelay(...items: timer.limit.Item[]) {
     if (!items?.length) return
     for (const item of items) {
-        await db.updateDelay(item.id, item.allowDelay)
+        await db.updateDelay(item.id, !!item.allowDelay)
     }
     await noticeLimitChanged()
 }
@@ -129,8 +129,8 @@ async function addFocusTime(host: string, url: string, focusTime: number): Promi
     const limited: timer.limit.Item[] = []
     const needReminder: timer.limit.Item[] = []
 
-    const { limitReminder, limitReminderDuration } = await optionHolder.get()
-    const durationMill = limitReminder ? (limitReminderDuration ?? 0) * MILL_PER_MINUTE : 0
+    const { limitReminder, limitReminderDuration = 0 } = await optionHolder.get()
+    const durationMill = limitReminder ? limitReminderDuration * MILL_PER_MINUTE : 0
     allEffective.forEach(item => {
         const [met, reminder] = addFocusForEach(item, focusTime, durationMill)
         met && limited.push(item)
@@ -201,9 +201,10 @@ async function update(rule: timer.limit.Rule) {
     await noticeLimitChanged()
 }
 
-async function create(rule: timer.limit.Rule) {
-    await db.save(rule, false)
+async function create(rule: MakeOptional<timer.limit.Rule, 'id'>): Promise<number> {
+    const id = await db.save(rule, false)
     await noticeLimitChanged()
+    return id
 }
 
 class LimitService {

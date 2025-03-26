@@ -1,6 +1,6 @@
 {
     "name": "timer",
-    "version": "3.3.2",
+    "version": "3.3.4",
     "description": "Time tracker",
     "homepage": "https://www.wfhg.cc",
     "scripts": {
@@ -15,7 +15,8 @@
         "analyze": "webpack --config=webpack/webpack.analyze.ts",
         "test": "jest --env=jsdom test/",
         "test-c": "jest --coverage --reporters=jest-junit --env=jsdom test/",
-        "test-e2e": "jest test-e2e/ --runInBand"
+        "test-e2e": "jest test-e2e/ --runInBand",
+        "prepare": "husky"
     },
     "author": {
         "name": "zhy",
@@ -33,7 +34,7 @@
         "@rsdoctor/webpack-plugin": "^1.0.0",
         "@swc/core": "^1.11.11",
         "@swc/jest": "^0.2.37",
-        "@types/chrome": "0.0.310",
+        "@types/chrome": "0.0.312",
         "@types/decompress": "^4.2.7",
         "@types/echarts": "^5.0.0",
         "@types/generate-json-webpack-plugin": "^0.3.7",
@@ -43,6 +44,7 @@
         "@types/webpack": "^5.28.5",
         "@vue/babel-plugin-jsx": "^1.4.0",
         "babel-loader": "^10.0.0",
+        "commitlint": "^19.8.0",
         "copy-webpack-plugin": "^13.0.0",
         "css-loader": "^7.1.2",
         "decompress": "^4.2.1",
@@ -50,6 +52,7 @@
         "filemanager-webpack-plugin": "^8.0.0",
         "generate-json-webpack-plugin": "^2.0.0",
         "html-webpack-plugin": "^5.6.3",
+        "husky": "^9.1.7",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
         "jest-junit": "^16.0.0",
@@ -75,7 +78,7 @@
         "@vueuse/core": "^13.0.0",
         "countup.js": "^2.8.0",
         "echarts": "^5.6.0",
-        "element-plus": "2.9.6",
+        "element-plus": "2.9.7",
         "js-base64": "^3.7.7",
         "punycode": "^2.3.1",
         "stream-browserify": "^3.0.0",

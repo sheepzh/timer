@@ -3,10 +3,11 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import path from 'path'
-import generateOption from "./webpack.common"
 import { RsdoctorWebpackPlugin } from '@rsdoctor/webpack-plugin'
+import path from 'path'
+import { type Configuration } from 'webpack'
 import manifest from '../src/manifest'
+import generateOption from "./webpack.common"
 
 const option = generateOption({
     outputPath: path.join(__dirname, '..', 'dist_analyze'),
@@ -14,8 +15,9 @@ const option = generateOption({
     mode: "production",
 })
 
-option.optimization.minimize = true
-option.optimization.usedExports = true
-option.plugins.push(new RsdoctorWebpackPlugin())
+const { optimization = {}, plugins = [] } = option
+optimization.minimize = true
+optimization.usedExports = true
+plugins.push(new RsdoctorWebpackPlugin())
 
-export default option
+export default { ...option, optimization, plugins } satisfies Configuration

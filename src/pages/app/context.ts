@@ -10,9 +10,8 @@ type AppContextValue = {
 const NAMESPACE = '_'
 
 export const initAppContext = () => {
-    const { data: categories, refresh: refreshCategories } = useRequest(() => cateService.listAll())
+    const { data: categories, refresh: refreshCategories } = useRequest(() => cateService.listAll(), { defaultValue: [] })
     useProvide<AppContextValue>(NAMESPACE, { categories, refreshCategories })
 }
 
-export const useCategories = (): Pick<AppContextValue, "categories" | "refreshCategories"> =>
-    useProvider<AppContextValue>(NAMESPACE, "categories", "refreshCategories") as Pick<AppContextValue, "categories" | "refreshCategories">
+export const useCategories = () => useProvider<AppContextValue, "categories" | "refreshCategories">(NAMESPACE, "categories", "refreshCategories")

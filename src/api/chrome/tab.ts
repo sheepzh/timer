@@ -21,8 +21,8 @@ export function resetTabUrl(tabId: number, url: string): Promise<void> {
     }, () => resolve()))
 }
 
-export async function getRightOf(target: ChromeTab): Promise<ChromeTab> {
-    if (!target) return null
+export async function getRightOf(target: ChromeTab): Promise<ChromeTab | undefined> {
+    if (!target) return
     const { windowId, index } = target
     return new Promise(resolve => chrome.tabs.query({ windowId }, tabs => {
         const rightTab = tabs
@@ -33,7 +33,7 @@ export async function getRightOf(target: ChromeTab): Promise<ChromeTab> {
     }))
 }
 
-export function getCurrentTab(): Promise<ChromeTab> {
+export function getCurrentTab(): Promise<ChromeTab | undefined> {
     return new Promise(resolve => chrome.tabs.getCurrent(tab => {
         handleError("getCurrentTab")
         resolve(tab)

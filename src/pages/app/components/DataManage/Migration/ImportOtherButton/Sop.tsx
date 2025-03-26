@@ -24,9 +24,10 @@ const _default = defineComponent({
         const step1 = ref<SopStepInstance<timer.imported.Data>>()
         const step2 = ref<SopStepInstance<timer.imported.ConflictResolution>>()
 
-        const { data, refresh: handleNext, loading: parsing } = useManualRequest(() => step1.value?.parseData?.(), {
+        const { data, refresh: handleNext, loading: parsing } = useManualRequest(() => step1.value!.parseData(), {
+            defaultValue: { rows: [] },
             onSuccess: () => step.value = 1,
-            onError: (e: Error) => ElMessage.error(e?.message ?? 'Unknown Error')
+            onError: e => ElMessage.error((e as Error)?.message ?? 'Unknown Error')
         })
 
         const { loading: importing, refresh: doImport } = useManualRequest(
@@ -40,7 +41,7 @@ const _default = defineComponent({
                     ElMessage.success(t(msg => msg.operation.successMsg))
                     ctx.emit('import')
                 },
-                onError: (e) => ElMessage.warning(e),
+                onError: e => ElMessage.warning((e as Error)?.message ?? 'Unknown error'),
             }
         )
 

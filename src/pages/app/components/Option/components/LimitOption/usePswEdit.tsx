@@ -1,9 +1,9 @@
 import { t } from "@app/locale"
-import { useState } from "@hooks/useState"
+import { useState } from "@hooks"
 import { ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox } from "element-plus"
 
 type Options = {
-    reset: () => string
+    reset: () => string | undefined
 }
 
 export const usePswEdit = (options: Options) => {
@@ -12,7 +12,7 @@ export const usePswEdit = (options: Options) => {
     const [psw, setPsw] = useState(reset?.())
     const [confirmPsw, setConfirmPsw, resetConfirmPsw] = useState('')
 
-    const modifyPsw = async (): Promise<string> => {
+    const modifyPsw = async (): Promise<string | undefined> => {
         setPsw(reset?.())
         resetConfirmPsw()
 

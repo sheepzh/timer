@@ -3,7 +3,6 @@ import {
     type FileForm,
     findTarget,
     getJsonFileContent,
-    type Gist,
     type GistForm,
     updateGist
 } from "@api/gist"
@@ -109,7 +108,7 @@ class SmoothContext {
 
 function zoom<T>(data: T[], reduction: number): T[] {
     let i = 0
-    const newData = []
+    const newData: T[] = []
     while (i < data.length) {
         newData.push(data[i])
         i += reduction
@@ -174,9 +173,9 @@ async function getOriginData(token: string): Promise<OriginData> {
  * Get the data from gist
  */
 async function getDataFromGist(token: string, browser: Browser): Promise<UserCount> {
-    const gist: Gist = await getExistGist(token, browser)
+    const gist = await getExistGist(token, browser)
     const file = gist?.files[filenameOf(browser)]
-    return file ? getJsonFileContent<UserCount>(file) : {}
+    return (file && await getJsonFileContent<UserCount>(file)) ?? {}
 }
 
 /**

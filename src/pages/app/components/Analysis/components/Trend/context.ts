@@ -22,6 +22,6 @@ export const initProvider = (
     dateRange, rangeLength
 })
 
-export const useAnalysisTrendDateRange = (): Ref<[Date, Date]> => useProvider<Context>(NAMESPACE, "dateRange").dateRange
+export const useAnalysisTrendDateRange = () => useProvider<Context, 'dateRange'>(NAMESPACE, "dateRange").dateRange
 
-export const useAnalysisTrendRangeLength = (): Ref<number> => useProvider<Context>(NAMESPACE, "rangeLength").rangeLength
+export const useAnalysisTrendRangeLength = () => useProvider<Context, 'rangeLength'>(NAMESPACE, "rangeLength").rangeLength

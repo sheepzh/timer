@@ -9,7 +9,7 @@ import { type SopStepInstance } from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
 import { useState } from "@hooks"
 import processor from "@service/backup/processor"
-import { BIRTHDAY, parseTime } from "@util/time"
+import { BIRTHDAY, getBirthday, parseTime } from "@util/time"
 import { defineComponent } from "vue"
 import ClientTable from "../ClientTable"
 
@@ -21,8 +21,8 @@ export type StatResult = {
 
 async function fetchStatResult(client: timer.backup.Client): Promise<StatResult> {
     const { id: specCid, maxDate, minDate = BIRTHDAY } = client
-    const start = parseTime(minDate)
-    const end = maxDate ? parseTime(maxDate) : new Date()
+    const start = parseTime(minDate) ?? getBirthday()
+    const end = parseTime(maxDate) ?? new Date()
     const remoteRows: timer.core.Row[] = await processor.query({ specCid, start, end })
     const siteSet: Set<string> = new Set()
     remoteRows?.forEach(row => {

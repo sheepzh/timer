@@ -9,8 +9,6 @@ import { extractSiteName, generateSiteLabel } from "@util/site"
 
 test('extract site name', () => {
     expect(extractSiteName("")).toEqual(undefined)
-    expect(extractSiteName(undefined)).toEqual(undefined)
-    expect(extractSiteName(null)).toEqual(undefined)
     expect(extractSiteName("            ")).toEqual(undefined)
     expect(extractSiteName('Product Hunt – The best new products in tech.')).toEqual('Product Hunt')
     expect(extractSiteName('Product Hunt – The - best new products in tech.')).toEqual('The')

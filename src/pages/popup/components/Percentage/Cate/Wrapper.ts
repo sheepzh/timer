@@ -36,14 +36,14 @@ type SelectChangeEvent = {
 }
 
 export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOption> {
-    private resultCache: PercentageResult
-    private selectedCache: number
+    private resultCache: PercentageResult | undefined
+    private selectedCache: number | undefined
 
     init(container: HTMLDivElement): void {
         super.init(container)
 
-        this.instance.on('selectchanged', (ev: SelectChangeEvent) => {
-            const { type, fromAction, fromActionPayload } = ev || {}
+        this.instance?.on('selectchanged', ev => {
+            const { type, fromAction, fromActionPayload } = (ev as SelectChangeEvent) || {}
             const { seriesIndex, dataIndexInside } = fromActionPayload || {}
             if (type !== 'selectchanged' || seriesIndex !== 0) return
 
@@ -52,26 +52,24 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
                 return
             }
 
-            const option = this.instance.getOption() as EcOption
-            const selectedItem = (option.series?.[0] as PieSeriesOption)?.data?.[dataIndexInside] as PieSeriesItemOption
+            const option = this.instance?.getOption() as EcOption
+            const selectedItem = (option.series as PieSeriesOption[])?.[0]?.data?.[dataIndexInside] as PieSeriesItemOption
             const selectedId = selectedItem?.cateKey
             selectedId && this.handleSelect(selectedId)
         })
 
-        this.instance.on('click', (ev: ECElementEvent) => {
+        this.instance?.on('click', (ev: ECElementEvent) => {
             const { type: evType, componentType, seriesIndex, data } = ev || {}
             if (evType !== 'click' || componentType !== 'series' || seriesIndex !== 1) {
                 return
             }
 
             const { query: { type } = {}, date } = this.resultCache || {}
-            handleClick(data as PieSeriesItemOption, date, type)
+            type && handleClick(data as PieSeriesItemOption, date, type)
         })
     }
 
     protected async generateOption(result: PercentageResult): Promise<EcOption> {
-        if (!result) return
-
         // Let not set to the end
         const rows = result.rows?.sort((_, a) => a.cateKey === CATE_NOT_SET_ID ? -1 : 0)
         this.resultCache = { ...result, rows }
@@ -86,7 +84,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
         const { rows, query } = result
         const { type } = query || {}
-        const selected = this.selectedCache && rows?.filter(r => r?.cateKey === this.selectedCache)?.[0]
+        const selected: timer.stat.Row | undefined = this.selectedCache ? rows?.filter(r => r?.cateKey === this.selectedCache)?.[0] : undefined
 
         const textColor = getPrimaryTextColor()
         const inactiveColor = getInfoColor()
@@ -104,7 +102,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             textStyle: { color: textColor },
             pageTextStyle: { color: textColor },
             inactiveColor,
-            data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey] ?? `${cateKey}`, cateKey })),
+            data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey ?? ''] ?? `${cateKey}`, cateKey })),
         }
 
         const series: PieSeriesOption[] = [{
@@ -117,7 +115,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
                 value: row[type],
                 cateKey: row.cateKey,
                 selected: row.cateKey === selected?.cateKey,
-                name: cateNameMap[row.cateKey],
+                name: cateNameMap[row.cateKey ?? ''],
             } satisfies PieSeriesItemOption)),
             emphasis: {
                 itemStyle: {
@@ -153,12 +151,12 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
                 textStyle: { color: textColor },
                 pageTextStyle: { color: textColor },
                 inactiveColor,
-                data: siteSeries.data?.map(({ name }: { name: string }) => ({ name })),
+                data: siteSeries.data?.map(val => ({ name: (val as any).name })),
             }
             series.push(siteSeries)
         }
 
-        const titleSuffix = this.selectedCache !== CATE_NOT_SET_ID ? cateNameMap[this.selectedCache] : undefined
+        const titleSuffix = this.selectedCache && this.selectedCache !== CATE_NOT_SET_ID ? cateNameMap[this.selectedCache] : undefined
         const option: EcOption = {
             title: generateTitleOption(result, titleSuffix),
             legend,
@@ -172,10 +170,10 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
         return option
     }
 
-    private async handleSelect(selectedId: number) {
+    private async handleSelect(selectedId: number | undefined) {
         this.selectedCache = selectedId
         const option = await this.generateInner()
         await this.postChartOption(option)
-        this.instance.setOption(option, true, true)
+        this.instance?.setOption(option, true, true)
     }
 }

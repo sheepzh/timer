@@ -2,7 +2,7 @@ import OptionDatabase from "@db/option-database"
 import { locale } from "@i18n"
 import { formatTimeYMD, getWeekDay, MILL_PER_DAY } from "@util/time"
 
-function getRealWeekStart(weekStart: timer.option.WeekStartOption, locale: timer.Locale): number {
+function getRealWeekStart(weekStart: timer.option.WeekStartOption | undefined, locale: timer.Locale): number {
     weekStart = weekStart ?? 'default'
     if (weekStart === 'default') {
         return locale === 'zh_CN' ? 0 : 6
@@ -22,7 +22,7 @@ function getRealWeekStart(weekStart: timer.option.WeekStartOption, locale: timer
 function getWeekTime(now: Date, weekStart: number): [Date, Date] {
     // Returns 0 - 6 means Monday to Sunday
     const weekDayNow = getWeekDay(now)
-    let start: Date = undefined
+    let start: Date | undefined = undefined
     if (weekDayNow === weekStart) {
         start = now
     } else if (weekDayNow < weekStart) {
@@ -37,7 +37,7 @@ function getWeekTime(now: Date, weekStart: number): [Date, Date] {
 
 class WeekHelper {
     private optionDb = new OptionDatabase(chrome.storage.local)
-    private weekStart: timer.option.WeekStartOption
+    private weekStart: timer.option.WeekStartOption | undefined
     private initialized: boolean = false
 
     private async init(): Promise<void> {
@@ -57,7 +57,7 @@ class WeekHelper {
         return getWeekTime(typeof now === 'number' ? new Date(now) : now, weekStart)
     }
 
-    private async getWeekStartOpt(): Promise<timer.option.WeekStartOption> {
+    private async getWeekStartOpt(): Promise<timer.option.WeekStartOption | undefined> {
         if (!this.initialized) {
             await this.init()
         }

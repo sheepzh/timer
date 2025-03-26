@@ -43,7 +43,7 @@ const _default = defineComponent({
         const handleSave = () => {
             const originVal = origin.value
             const mergedVal = merged.value
-            if (isValidHost(originVal)) {
+            if (originVal && mergedVal && isValidHost(originVal)) {
                 ctx.emit("save", originVal, mergedVal)
             } else {
                 ElMessage.warning(t(msg => msg.mergeRule.errorOrigin))
@@ -63,7 +63,7 @@ const _default = defineComponent({
                     modelValue={origin.value}
                     placeholder={t(msg => msg.mergeRule.originPlaceholder)}
                     clearable
-                    onClear={() => setOrigin()}
+                    onClear={() => setOrigin(undefined)}
                     onInput={setOrigin}
                     disabled={origin.value === LOCAL_HOST_PATTERN}
                 />

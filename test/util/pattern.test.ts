@@ -29,7 +29,6 @@ test('ip and port', () => {
 
 test('merge host origin', () => {
     expect(isValidHost('')).toBeFalsy()
-    expect(isValidHost(undefined)).toBeFalsy()
 
     expect(isValidHost('wwdad.basd.com.111:12345')).toBeTruthy()
     expect(isValidHost('wwdad.basd.com.a111a:12345')).toBeTruthy()
@@ -75,10 +74,8 @@ test("extractFileHost", () => {
     expect(extractFileHost("   file://123.jpeg   ")).toEqual(PIC_HOST)
     expect(extractFileHost("file://123.pdf")).toEqual(PDF_HOST)
 
-    expect(extractFileHost(undefined)).toEqual(undefined)
     expect(extractFileHost("")).toEqual(undefined)
     expect(extractFileHost("         ")).toEqual(undefined)
-    expect(extractFileHost(null)).toEqual(undefined)
     expect(extractFileHost("file:/123.json")).toEqual(undefined)
     expect(extractFileHost("file://123.  jpeg")).toEqual(undefined)
     expect(extractFileHost("file://123json")).toEqual(undefined)
@@ -87,7 +84,6 @@ test("extractFileHost", () => {
 })
 
 test("valid virtual host", () => {
-    expect(isValidVirtualHost(undefined)).toBeFalsy()
     expect(isValidVirtualHost("github.com")).toBeFalsy()
     expect(isValidVirtualHost("http://github.com")).toBeFalsy()
     expect(isValidVirtualHost("github.com/")).toBeFalsy()

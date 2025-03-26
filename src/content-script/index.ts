@@ -41,7 +41,7 @@ function getOrSetFlag(): boolean {
  * Wrap for hooks, after the extension reloaded or upgraded, the context of current content script will be invalid
  * And sending messages to the runtime will be failed
  */
-async function trySendMsg2Runtime<Req, Res>(code: timer.mq.ReqCode, data?: Req): Promise<Res> {
+async function trySendMsg2Runtime<Req, Res>(code: timer.mq.ReqCode, data?: Req): Promise<Res | undefined> {
     try {
         return await sendMsg2Runtime(code, data)
     } catch {

@@ -1,31 +1,22 @@
-import { type Browser } from "puppeteer"
-import { launchBrowser, newPageAndWaitCsInjected, openAppPage, sleep } from "../common/base"
+import { launchBrowser, type LaunchContext, sleep } from "../common/base"
 import { createLimitRule } from "./common"
 
-let browser: Browser, extensionId: string
+let context: LaunchContext
 
 describe('Daily time limit', () => {
-    beforeEach(async () => {
-        const launchRes = await launchBrowser()
-        browser = launchRes.browser
-        extensionId = launchRes.extensionId
-    })
+    beforeEach(async () => context = await launchBrowser())
 
-    afterEach(async () => {
-        await browser.close()
-        browser = undefined
-        extensionId = undefined
-    })
+    afterEach(() => context.close())
 
     test("Daily visit limit", async () => {
-        const limitPage = await openAppPage(browser, extensionId, '/behavior/limit')
-        const demoRule: timer.limit.Rule = { name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 0, count: 1 }
+        const limitPage = await context.openAppPage('/behavior/limit')
+        const demoRule: timer.limit.Rule = { id: 1, name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 0, count: 1 }
 
         // 1. Insert limit rule
         await createLimitRule(demoRule, limitPage)
 
         // 2. Open test page
-        const testPage = await newPageAndWaitCsInjected(browser, extensionId, 'https://www.baidu.com')
+        const testPage = await context.newPageAndWaitCsInjected('https://www.baidu.com')
 
         // Assert not limited
         await limitPage.bringToFront()
@@ -43,15 +34,15 @@ describe('Daily time limit', () => {
         const { name, count } = await testPage.evaluate(async () => {
             const shadow = document.querySelector('extension-time-tracker-overlay')
             if (!shadow) return {}
-            const descEl = shadow.shadowRoot.querySelector('#app .el-descriptions:not([style*="display: none"])')
-            const trs = descEl.querySelectorAll('tr')
-            const name = trs[0].querySelector('td:nth-child(2)').textContent
-            const count = trs[2].querySelector('td:nth-child(2) .el-tag--danger').textContent
+            const descEl = shadow!.shadowRoot!.querySelector('#app .el-descriptions:not([style*="display: none"])')
+            const trs = descEl!.querySelectorAll('tr')
+            const name = trs[0].querySelector('td:nth-child(2)')!.textContent
+            const count = trs[2].querySelector('td:nth-child(2) .el-tag--danger')!.textContent
             return { name, count }
         })
 
         expect(name).toBe(demoRule.name)
-        expect(count.split?.(' ')[0]).toBe('2')
+        expect(count!.split?.(' ')[0]).toBe('2')
 
         // 4. Change visit limit
         await limitPage.bringToFront()
@@ -65,7 +56,7 @@ describe('Daily time limit', () => {
 
         await sleep(.1)
         const visitInput = await limitPage.$('.el-dialog .el-input-number input')
-        await visitInput.focus()
+        await visitInput!.focus()
         await limitPage.keyboard.type('2')
         await limitPage.click('.el-dialog .el-button.el-button--success')
 
@@ -75,7 +66,7 @@ describe('Daily time limit', () => {
         const modalExist = await testPage.evaluate(() => {
             const shadow = document.querySelector('extension-time-tracker-overlay')
             if (!shadow) return false
-            return !!shadow.shadowRoot.querySelector('body:not([style*="display: none"])')
+            return !!shadow!.shadowRoot!.querySelector('body:not([style*="display: none"])')
         })
         expect(modalExist).toBeFalsy()
     }, 60000)

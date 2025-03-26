@@ -29,21 +29,19 @@ async function collectAlias(key: timer.site.SiteKey, tabTitle: string) {
     if (!tabTitle) return
     if (isUrl(tabTitle)) return
     const siteName = extractSiteName(tabTitle, key.host)
-    siteName && await siteService.saveAlias(key, siteName)
+    siteName && await siteService.saveAlias(key, siteName, true)
 }
 
 /**
  * Process the tab
  */
 async function processTabInfo(tab: ChromeTab): Promise<void> {
-    if (!tab) return
-    const url = tab.url
-    if (!url) return
+    let { favIconUrl, url, title } = tab
+    if (!url || !title) return
     if (isBrowserUrl(url)) return
     const hostInfo = extractHostname(url)
     const host = hostInfo.host
     if (!host) return
-    let favIconUrl = tab.favIconUrl
     // localhost hosts with Chrome use cache, so keep the favIcon url undefined
     IS_CHROME && /^localhost(:.+)?/.test(host) && (favIconUrl = undefined)
     const siteKey: timer.site.SiteKey = { host, type: 'normal' }
@@ -51,7 +49,7 @@ async function processTabInfo(tab: ChromeTab): Promise<void> {
     collectAliasEnabled
         && !isBrowserUrl(url)
         && isHomepage(url)
-        && await collectAlias(siteKey, tab.title)
+        && await collectAlias(siteKey, title)
 }
 
 /**

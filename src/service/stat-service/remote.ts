@@ -16,13 +16,13 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
         return origin
     }
     // Map to merge
-    const originMap: Record<string, timer.stat.Row> = {}
+    const originMap: Record<string, MakeRequired<timer.stat.Row, 'composition'>> = {}
     origin.forEach(row => originMap[identifyStatKey(row)] = {
         ...row,
         composition: {
             focus: [row.focus],
             time: [row.time],
-            run: [row.run].filter(v => !!v),
+            run: row.run ? [row.run] : [],
         }
     })
     // Predicate with host
@@ -33,11 +33,11 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
             // Full match
             ? r => r.host === host
             // Fuzzy match
-            : r => r.host && r.host.includes(host)
+            : r => !!r.host && r.host.includes(host)
         // Without host condition
         : _r => true
     // 1. query remote
-    let start: Date = undefined, end: Date = undefined
+    let start: Date | undefined = undefined, end: Date | undefined = undefined
     if (param.date instanceof Array) {
         start = param.date?.[0]
         end = param.date?.[1]
@@ -62,7 +62,7 @@ export async function canReadRemote(): Promise<boolean> {
     return !errorMsg
 }
 
-function processRemoteRow(rowMap: Record<string, timer.stat.Row>, remoteBase: timer.core.Row) {
+function processRemoteRow(rowMap: Record<string, MakeRequired<timer.stat.Row, 'composition'>>, remoteBase: timer.core.Row) {
     const row = cvt2StatRow(remoteBase)
     const key = identifyStatKey(row)
     let exist = rowMap[key]
@@ -76,14 +76,14 @@ function processRemoteRow(rowMap: Record<string, timer.stat.Row>, remoteBase: ti
             time: [],
             run: [],
         },
-    } satisfies timer.stat.Row)
+    } satisfies MakeRequired<timer.stat.Row, 'composition'>)
 
-    const { focus = 0, time = 0, run = 0 } = row
+    const { focus = 0, time = 0, run = 0, cid = '', cname } = row
 
     exist.focus += focus
     exist.time += time
     run && (exist.run = run)
-    focus && exist.composition.focus.push({ cid: row.cid, cname: row.cname, value: focus })
-    time && exist.composition.time.push({ cid: row.cid, cname: row.cname, value: time })
-    run && exist.composition.run.push({ cid: row.cid, cname: row.cname, value: run })
+    focus && exist.composition.focus.push({ cid, cname, value: focus })
+    time && exist.composition.time.push({ cid, cname, value: time })
+    run && exist.composition.run.push({ cid, cname, value: run })
 }

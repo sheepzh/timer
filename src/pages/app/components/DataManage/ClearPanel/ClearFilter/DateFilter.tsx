@@ -10,38 +10,37 @@ import { EL_DATE_FORMAT } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { formatTime, getBirthday, MILL_PER_DAY } from "@util/time"
-import { type DateModelType, ElDatePicker } from "element-plus"
-import { defineComponent, type PropType } from "vue"
-
-const yesterday = new Date().getTime() - MILL_PER_DAY
-const daysBefore = (days: number) => new Date(new Date().getTime() - days * MILL_PER_DAY)
-
-const birthday = getBirthday()
-const pickerShortcuts: ElementDatePickerShortcut[] = [
-    {
-        text: t(msg => msg.calendar.range.tillYesterday),
-        value: [birthday, daysBefore(1)],
-    }, {
-        text: t(msg => msg.calendar.range.tillDaysAgo, { n: 7 }),
-        value: [birthday, daysBefore(7)],
-    }, {
-        text: t(msg => msg.calendar.range.tillDaysAgo, { n: 30 }),
-        value: [birthday, daysBefore(30)],
-    }
-]
-
-// The birthday of browser
-const startPlaceholder = t(msg => msg.calendar.dateFormat, { y: '1994', m: '12', d: '15' })
-const endPlaceholder = formatTime(yesterday, t(msg => msg.calendar.dateFormat))
+import { ElDatePicker } from "element-plus"
+import { defineComponent, type StyleValue, type PropType } from "vue"
 
 const _default = defineComponent({
     emits: {
-        change: (_date: [DateModelType, DateModelType]) => true
+        change: (_date: [Date, Date]) => true
     },
     props: {
-        dateRange: Object as PropType<[DateModelType, DateModelType]>
+        dateRange: Object as PropType<[Date, Date]>
     },
     setup(props, ctx) {
+        const yesterday = new Date().getTime() - MILL_PER_DAY
+        const daysBefore = (days: number) => new Date(new Date().getTime() - days * MILL_PER_DAY)
+
+        const birthday = getBirthday()
+        const pickerShortcuts: ElementDatePickerShortcut[] = [
+            {
+                text: t(msg => msg.calendar.range.tillYesterday),
+                value: [birthday, daysBefore(1)],
+            }, {
+                text: t(msg => msg.calendar.range.tillDaysAgo, { n: 7 }),
+                value: [birthday, daysBefore(7)],
+            }, {
+                text: t(msg => msg.calendar.range.tillDaysAgo, { n: 30 }),
+                value: [birthday, daysBefore(30)],
+            }
+        ]
+        const dateFormat = '{y}-{m}-{d}'
+        const startPlaceholder = formatTime(birthday, dateFormat)
+        const endPlaceholder = formatTime(yesterday, dateFormat)
+
         return () => (
             <p>
                 <a style={{ marginRight: '10px' }}>1.</a>
@@ -52,7 +51,7 @@ const _default = defineComponent({
                             modelValue={props.dateRange}
                             onUpdate:modelValue={date => ctx.emit("change", date)}
                             size="small"
-                            style={{ width: "250px" }}
+                            style={{ width: "250px" } satisfies StyleValue}
                             startPlaceholder={startPlaceholder}
                             endPlaceholder={endPlaceholder}
                             dateFormat={EL_DATE_FORMAT}

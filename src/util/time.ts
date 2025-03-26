@@ -39,7 +39,7 @@ export function formatTime(time: Date | string | number, cFormat?: string) {
         }
         date = new Date(time)
     }
-    const formatObj = {
+    const formatObj: Record<string, number> = {
         y: date.getFullYear(),
         m: date.getMonth() + 1,
         d: date.getDate(),
@@ -229,7 +229,7 @@ export function getDayLength(dateStart: Date, dateEnd: Date): number {
  */
 export function getAllDatesBetween(dateStart: Date, dateEnd: Date): string[] {
     let cursor = new Date(dateStart)
-    let dates = []
+    let dates: string[] = []
     do {
         dates.push(formatTimeYMD(cursor))
         cursor = new Date(cursor.getTime() + MILL_PER_DAY)
@@ -241,7 +241,7 @@ export function getAllDatesBetween(dateStart: Date, dateEnd: Date): string[] {
 /**
  * yyyyMMdd => Date
  */
-export function parseTime(dateStr: string): Date {
+export function parseTime(dateStr: string | undefined): Date | undefined {
     if (!dateStr) return undefined
     const year = parseInt(dateStr.substring(0, 4))
     const month = parseInt(dateStr.substring(4, 6))

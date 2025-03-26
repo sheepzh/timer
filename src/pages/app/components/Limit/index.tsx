@@ -35,7 +35,7 @@ const _default = defineComponent(() => {
 
     const selectedAndThen = (then: (list: timer.limit.Item[]) => void): void => {
         const list = table.value?.getSelected?.()
-        if (!list.length) {
+        if (!list?.length) {
             ElMessage.info('No limit rule selected')
             return
         }

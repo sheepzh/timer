@@ -64,7 +64,7 @@ export type StatQueryParam = StatCondition & {
     sortOrder?: SortDirect
 }
 
-function cvtStatRow2BaseKey(statRow: timer.stat.Row): timer.core.RowKey {
+function cvtStatRow2BaseKey(statRow: timer.stat.Row): timer.core.RowKey | undefined {
     const { siteKey, date } = statRow || {}
     if (!date) return undefined
     const { type, host } = siteKey || {}
@@ -81,8 +81,9 @@ function extractAllSiteKeys(rows: timer.stat.Row[], container: timer.site.SiteKe
 }
 
 function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.SiteInfo>): void {
-    if (!row) return
-    const { siteKey, mergedRows } = row
+    const { siteKey, mergedRows } = row || {}
+    if (!siteKey) return
+
     mergedRows?.map(m => fillRowWithSiteInfo(m, siteMap))
     const siteInfo = siteMap.get(siteKey)
     if (siteInfo) {
@@ -160,15 +161,20 @@ class StatService {
         return count
     }
 
-    private processSort(origin: timer.stat.Row[], param: StatQueryParam) {
-        const { sort, sortOrder } = param
+    private processSort(origin: timer.stat.Row[], param?: StatQueryParam) {
+        const { sort, sortOrder } = param || {}
         if (!sort) return
 
         const order = sortOrder || 'ASC'
+        const sortValue: (row: timer.stat.Row) => string | number | undefined = sort === 'host'
+            ? r => r.siteKey?.host ?? ''
+            : r => r[sort] ?? 0
         origin.sort((a, b) => {
-            const aa = a[sort]
-            const bb = b[sort]
+            const aa = sortValue(a)
+            const bb = sortValue(b)
             if (aa === bb) return 0
+            if (aa === undefined) return -1
+            if (bb === undefined) return 1
             return (order === 'ASC' ? 1 : -1) * (aa > bb ? 1 : -1)
         })
     }
@@ -193,7 +199,7 @@ class StatService {
 
     private async filterRows(param?: StatQueryParam): Promise<timer.stat.Row[]> {
         // Need match full host after merged
-        let fullHost = undefined
+        let fullHost: string | undefined = undefined
         // If merged and full host
         // Then set the host blank
         // And filter them after merge
@@ -281,7 +287,7 @@ class StatService {
 
     async batchDelete(rows: timer.stat.Row[]) {
         if (!rows?.length) return
-        const baseKeys = rows.map(cvtStatRow2BaseKey)
+        const baseKeys: timer.core.RowKey[] = rows.map(cvtStatRow2BaseKey).filter(k => !!k)
         await this.batchDeleteBase(baseKeys)
     }
 

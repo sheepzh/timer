@@ -46,7 +46,7 @@ const _default = defineComponent(() => {
                         v-slots={filter}
                     />
                 )}
-                {default_ && h(default_)}
+                {!!default_ && h(default_)}
                 {!default_ && content && <ContentCard v-slots={content} />}
             </div>
         </ElScrollbar>

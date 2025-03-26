@@ -24,27 +24,28 @@ export const getStyle = (
     }
 }
 
-export function getCssVariable(varName: string, ele?: HTMLElement): string {
-    const realEle = ele || document.documentElement
+export function getCssVariable(varName: string, eleOrSelector?: HTMLElement | string): string | undefined {
+    const ele = typeof eleOrSelector === 'string' ? document.querySelector(eleOrSelector) : eleOrSelector
+    const realEle = ele ?? document.documentElement
     if (!realEle) {
         return undefined
     }
-    return getComputedStyle(ele || document.documentElement).getPropertyValue(varName)
+    return getComputedStyle(realEle).getPropertyValue(varName)
 }
 
-export function getPrimaryTextColor(): string {
+export function getPrimaryTextColor(): string | undefined {
     return getCssVariable("--el-text-color-primary")
 }
 
-export function getRegularTextColor(): string {
+export function getRegularTextColor(): string | undefined {
     return getCssVariable("--el-text-color-regular")
 }
 
-export function getSecondaryTextColor(): string {
+export function getSecondaryTextColor(): string | undefined {
     return getCssVariable("--el-text-color-secondary")
 }
 
-export function getInfoColor(): string {
+export function getInfoColor(): string | undefined {
     return getCssVariable("--el-color-info")
 }
 

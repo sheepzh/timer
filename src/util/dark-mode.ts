@@ -32,7 +32,7 @@ export function init(el?: Element) {
 
 export function toggle(isDarkMode: boolean, el?: Element) {
     toggle0(isDarkMode, el)
-    localStorage.setItem(STORAGE_KEY, isDarkMode ? STORAGE_FLAG : undefined)
+    localStorage.setItem(STORAGE_KEY, isDarkMode ? STORAGE_FLAG : '')
 }
 
 export function isDarkMode() {

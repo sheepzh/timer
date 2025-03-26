@@ -13,7 +13,7 @@ import { META_KEY } from "./common/constant"
  */
 class MetaDatabase extends BaseDatabase {
     async getMeta(): Promise<timer.ExtensionMeta> {
-        const meta: timer.ExtensionMeta = await this.storage.getOne(META_KEY)
+        const meta = await this.storage.getOne<timer.ExtensionMeta>(META_KEY)
         return meta || {}
     }
 
@@ -22,21 +22,14 @@ class MetaDatabase extends BaseDatabase {
         if (!meta) return
 
         const existMeta = await this.getMeta()
-        if (!existMeta.popupCounter) {
-            existMeta.popupCounter = {}
-        }
-        existMeta.popupCounter._total = (existMeta.popupCounter._total || 0) + (meta.popupCounter._total || 0)
-        if (!existMeta.appCounter) {
-            existMeta.appCounter = {}
-        }
-        const existAppCounter = existMeta.appCounter
+        const { popupCounter = {}, appCounter = {} } = existMeta
+        popupCounter._total = (popupCounter._total ?? 0) + (popupCounter._total ?? 0)
         if (meta.appCounter) {
             Object.entries(meta.appCounter).forEach(([routePath, count]) => {
-                existAppCounter[routePath] = (existAppCounter[routePath] || 0) + count
+                appCounter[routePath] = (appCounter[routePath] ?? 0) + count
             })
         }
-        existMeta.appCounter = existAppCounter
-        await this.update(existMeta)
+        await this.update({ ...existMeta, popupCounter, appCounter })
     }
 
     async update(existMeta: timer.ExtensionMeta): Promise<void> {

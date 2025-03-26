@@ -17,7 +17,7 @@ export const LOCAL_HOST_PATTERN = "__local_*__"
 export const ALL_HOSTS = [PDF_HOST, JSON_HOST, TXT_HOST, PIC_HOST]
 export const MERGED_HOST = "__local_files__"
 
-export const SUFFIX_HOST_MAP = {
+export const SUFFIX_HOST_MAP: Record<string, string> = {
     txt: TXT_HOST,
     pdf: PDF_HOST,
     json: JSON_HOST,

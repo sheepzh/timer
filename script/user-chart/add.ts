@@ -1,13 +1,14 @@
 import {
     createGist as createGistApi,
+    type FileForm,
     getJsonFileContent,
     type Gist,
     type GistForm,
     updateGist as updateGistApi
 } from "@src/api/gist"
 import fs from "fs"
-import { descriptionOf, filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 import { exitWith } from "../util/process"
+import { descriptionOf, filenameOf, getExistGist, validateTokenFromEnv } from "./common"
 
 type AddArgv = {
     browser: Browser
@@ -44,7 +45,7 @@ async function createGist(token: string, browser: Browser, data: UserCount) {
     const sorted: UserCount = {}
     Object.keys(data).sort().forEach(key => sorted[key] = data[key])
     // 2. create
-    const files = {}
+    const files: Record<string, FileForm> = {}
     files[filename] = { filename: filename, content: JSON.stringify(sorted, null, 2) }
     const gistForm: GistForm = {
         public: true,
@@ -59,12 +60,12 @@ async function updateGist(token: string, browser: Browser, data: UserCount, gist
     const filename = filenameOf(browser)
     // 1. merge
     const file = gist.files[filename]
-    const existData = (await getJsonFileContent<UserCount>(file)) || {}
+    const existData = (await getJsonFileContent<UserCount>(file!)) || {}
     Object.entries(data).forEach(([key, val]) => existData[key] = val)
     // 2. sort by key
     const sorted: UserCount = {}
     Object.keys(existData).sort().forEach(key => sorted[key] = existData[key])
-    const files = {}
+    const files: Record<string, FileForm> = {}
     files[filename] = { filename: filename, content: JSON.stringify(sorted, null, 2) }
     const gistForm: GistForm = {
         public: true,
@@ -76,7 +77,7 @@ async function updateGist(token: string, browser: Browser, data: UserCount, gist
 
 function parseChrome(content: string): UserCount {
     const lines = content.split('\n')
-    const result = {}
+    const result: Record<string, number> = {}
     if (!(lines?.length > 2)) {
         return result
     }
@@ -95,7 +96,7 @@ function parseChrome(content: string): UserCount {
 
 function parseEdge(content: string): UserCount {
     const lines = content.split('\n')
-    const result = {}
+    const result: Record<string, number> = {}
     if (!(lines?.length > 1)) {
         return result
     }
@@ -116,7 +117,7 @@ function parseEdge(content: string): UserCount {
 
 function parseFirefox(content: string): UserCount {
     const lines = content.split('\n')
-    const result = {}
+    const result: Record<string, number> = {}
     if (!(lines?.length > 4)) {
         return result
     }

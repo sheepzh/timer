@@ -19,7 +19,7 @@ function processRule(rule: timer.limit.Rule, nowSeconds: number, context: ModalC
             timers.push(setTimeout(() => context.modal.removeReason(reason), (endSeconds - nowSeconds) * MILL_PER_SECOND))
         }
         return timers
-    })
+    }) ?? []
 }
 
 class PeriodProcessor implements Processor {

@@ -23,12 +23,12 @@ async function removeAlias(key: timer.site.SiteKey) {
     await siteDatabase.save(exist)
 }
 
-async function saveAlias(key: timer.site.SiteKey, alias: string) {
+async function saveAlias(key: timer.site.SiteKey, alias: string, noRewrite?: boolean) {
     const exist = await siteDatabase.get(key)
     let toUpdate: timer.site.SiteInfo
     if (exist) {
         // Can't overwrite if alias is already existed
-        if (exist.alias) return
+        if (exist.alias && noRewrite) return
         toUpdate = exist
         toUpdate.alias = alias
     } else {
@@ -37,7 +37,7 @@ async function saveAlias(key: timer.site.SiteKey, alias: string) {
     await siteDatabase.save(toUpdate)
 }
 
-async function batchSaveAlias(siteMap: SiteMap<string>): Promise<void> {
+async function batchSaveAliasNoRewrite(siteMap: SiteMap<string>): Promise<void> {
     if (!siteMap?.count?.()) return
     const allSites = await siteDatabase.getBatch(siteMap.keys())
     const existMap = new SiteMap<timer.site.SiteInfo>()
@@ -46,7 +46,7 @@ async function batchSaveAlias(siteMap: SiteMap<string>): Promise<void> {
     const toSave: timer.site.SiteInfo[] = []
     siteMap.forEach((k, alias) => {
         const exist = existMap.get(k)
-        if (exist.alias || !alias) return
+        if (exist?.alias || !alias) return
         toSave.push({ ...exist || k, alias })
     })
     await siteDatabase.save(...toSave)
@@ -78,9 +78,9 @@ async function saveRun(key: timer.site.SiteKey, run: boolean) {
     await siteDatabase.save(exist)
     // send msg to tabs
     const tabs = await listTabs()
-    for (const tab of tabs) {
+    for (const { id } of tabs) {
         try {
-            await sendMsg2Tab(tab.id, 'siteRunChange')
+            id && await sendMsg2Tab(id, 'siteRunChange')
         } catch { }
     }
 }
@@ -113,20 +113,20 @@ class SiteService {
     }
 
     saveAlias = saveAlias
-    batchSaveAlias = batchSaveAlias
+    batchSaveAliasNoRewrite = batchSaveAliasNoRewrite
     removeAlias = removeAlias
     saveIconUrl = saveIconUrl
     removeIconUrl = removeIconUrl
     saveRun = saveRun
 
-    async saveCate(key: timer.site.SiteKey, cateId: number): Promise<void> {
+    async saveCate(key: timer.site.SiteKey, cateId: number | undefined): Promise<void> {
         if (!supportCategory(key)) return
 
         const exist = await siteDatabase.get(key)
         await siteDatabase.save({ ...exist || key, cate: cateId })
     }
 
-    async batchSaveCate(cateId: number, keys: timer.site.SiteKey[]): Promise<void> {
+    async batchSaveCate(cateId: number | undefined, keys: timer.site.SiteKey[]): Promise<void> {
         keys = keys?.filter(supportCategory)
         if (!keys?.length) return
 

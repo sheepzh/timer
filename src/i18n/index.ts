@@ -123,7 +123,7 @@ function tryGetOriginalI18nVal<MessageType>(
     specLocale?: timer.Locale
 ) {
     try {
-        return keyPath(messages[specLocale || locale])
+        return keyPath(messages[specLocale || locale] as MessageType)
     } catch (ignore) {
         return undefined
     }
@@ -135,7 +135,7 @@ export function getI18nVal<MessageType>(
     specLocale?: timer.Locale
 ): string {
     const result = tryGetOriginalI18nVal(messages, keyPath, specLocale)
-        || keyPath(messages[FEEDBACK_LOCALE])
+        || keyPath(messages[FEEDBACK_LOCALE] as MessageType)
         || ''
     return typeof result === 'string' ? result : JSON.stringify(result)
 }
@@ -161,18 +161,18 @@ export function t<MessageType>(messages: Messages<MessageType>, props: Translate
     return param ? fillWithParam(result, param) : result
 }
 
-export type I18nKey<MessageType> = (messages: MessageType | EmbeddedPartial<MessageType>) => any
+export type I18nKey<MessageType> = (messages: MessageType) => any
 
 export type I18nResultItem<Node> = Node | string
 
 const findParamAndReplace = <Node,>(resultArr: I18nResultItem<Node>[], [key, value]: any) => {
     const paramPlacement = `{${key}}`
-    const temp = []
+    const temp: I18nResultItem<Node>[] = []
     resultArr.forEach((item) => {
         if (typeof item === 'string' && item.includes(paramPlacement)) {
             // 将 string 替换成具体的 VNode
             let splits: I18nResultItem<Node>[] = (item as string).split(paramPlacement)
-            splits = splits.reduce((left, right) => left.length ? left.concat(value, right) : left.concat(right), [])
+            splits = splits.reduce<I18nResultItem<Node>[]>((left, right) => left.length ? left.concat(value, right) : left.concat(right), [])
             temp.push(...splits)
         } else {
             temp.push(item)

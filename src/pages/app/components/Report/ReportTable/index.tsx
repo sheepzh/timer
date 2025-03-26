@@ -32,7 +32,7 @@ function computeTimerQueryParam(filterOption: ReportFilterOption, sort: ReportSo
     return param
 }
 
-async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data: timer.stat.Row[]) {
+async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | undefined, data: timer.stat.Row[]) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
         await siteService.removeAlias(key)
@@ -45,7 +45,10 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string, data
 
 const _default = defineComponent({
     props: {
-        defaultSort: Object as PropType<ReportSort>,
+        defaultSort: {
+            type: Object as PropType<ReportSort>,
+            required: true,
+        },
     },
     setup(props, ctx) {
         const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
@@ -74,7 +77,7 @@ const _default = defineComponent({
             () => filterOption.value?.siteMerge,
         ], () => tableRef.value?.doLayout?.())
 
-        const handleCateChange = (key: timer.site.SiteKey, newCateId: number) => {
+        const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
             data.value?.list
                 ?.filter(({ siteKey }) => siteEqual(siteKey, key))
                 ?.forEach(i => i.cateId = newCateId)
@@ -104,7 +107,7 @@ const _default = defineComponent({
                             v-slots={({ row }: { row: timer.stat.Row }) => (
                                 <Editable
                                     modelValue={row?.alias}
-                                    onChange={newAlias => handleAliasChange(row.siteKey, newAlias, data.value?.list)}
+                                    onChange={newAlias => row.siteKey && handleAliasChange(row.siteKey, newAlias, data.value?.list ?? [])}
                                 />
                             )}
                         />

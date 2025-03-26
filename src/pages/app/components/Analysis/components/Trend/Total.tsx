@@ -17,7 +17,7 @@ const DAY_LABEL = `${t(msg => msg.analysis.trend.activeDay)}/${t(msg => msg.anal
 const VISIT_LABEL = t(msg => msg.analysis.common.visitTotal)
 const FOCUS_LABEL = t(msg => msg.analysis.common.focusTotal)
 
-const computeDayValue = (activeDay: RingValue, rangeLength: number) => {
+const computeDayValue = (activeDay: RingValue | undefined, rangeLength: number) => {
     const thisActiveDay = activeDay?.[0]
     return `${thisActiveDay?.toString() || '-'}/${rangeLength?.toString() || '-'}`
 }

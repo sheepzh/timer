@@ -5,7 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-export function defaultPopup(): timer.option.PopupOption {
+type PopupRequired = MakeRequired<timer.option.PopupOption, 'defaultDurationNum'>
+
+export function defaultPopup(): PopupRequired {
     // Use template
     return {
         popupMax: 10,
@@ -20,7 +22,9 @@ export function defaultPopup(): timer.option.PopupOption {
     }
 }
 
-export function defaultAppearance(): timer.option.AppearanceOption {
+type AppearanceRequired = MakeRequired<timer.option.AppearanceOption, 'darkModeTimeStart' | 'darkModeTimeEnd'>
+
+export function defaultAppearance(): AppearanceRequired {
     return {
         displayWhitelistMenu: true,
         // Change false to true @since 0.8.4
@@ -38,7 +42,9 @@ export function defaultAppearance(): timer.option.AppearanceOption {
     }
 }
 
-export function defaultStatistics(): timer.option.StatisticsOption {
+type StatisticsRequired = MakeRequired<timer.option.StatisticsOption, 'weekStart'>
+
+export function defaultStatistics(): StatisticsRequired {
     return {
         autoPauseTracking: false,
         // 10 minutes
@@ -49,7 +55,9 @@ export function defaultStatistics(): timer.option.StatisticsOption {
     }
 }
 
-export function defaultDailyLimit(): timer.option.LimitOption {
+type DailyLimitRequired = MakeRequired<timer.option.LimitOption, 'limitPassword' | 'limitVerifyDifficulty' | 'limitReminderDuration'>
+
+export function defaultDailyLimit(): DailyLimitRequired {
     return {
         limitLevel: 'nothing',
         limitPassword: '',
@@ -77,7 +85,11 @@ export function defaultAccessibility(): timer.option.AccessibilityOption {
     }
 }
 
-export function defaultOption(): timer.option.AllOption {
+export type DefaultOption =
+    & PopupRequired & AppearanceRequired & StatisticsRequired & DailyLimitRequired
+    & timer.option.BackupOption & timer.option.AccessibilityOption
+
+export function defaultOption(): DefaultOption {
     return {
         ...defaultPopup(),
         ...defaultAppearance(),

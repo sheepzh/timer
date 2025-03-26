@@ -1,5 +1,5 @@
 import { createTab } from "@api/chrome/tab"
-import { getPrimaryTextColor, getSecondaryTextColor } from "@pages/util/style"
+import { getCssVariable, getPrimaryTextColor, getSecondaryTextColor } from "@pages/util/style"
 import { calJumpUrl } from "@popup/common"
 import { t } from "@popup/locale"
 import { sum } from "@util/array"
@@ -42,25 +42,23 @@ function combineDate(start: Date, end: Date, format: string): string {
         .replace('{ed}', ed.toString().padStart(2, '0'))
 }
 
-function formatDateStr(date: Date | [Date, Date?], dataDate: [string, string]): string {
+function formatDateStr(date: Date | [Date, Date?] | undefined, dataDate: [string, string]): string {
     const format = t(msg => msg.calendar.dateFormat)
 
     if (!date) {
         date = dataDate?.map(parseTime) as [Date, Date]
-    } else if (!(date instanceof Array)) {
+    }
+    if (!date) return ''
+    if (!(date instanceof Array)) {
         // Single day
         return formatTime(date, format)
     }
 
     const [start, end] = date
-    if (!start && !end) return ''
-    if (!start) return formatTime(end, format)
-    if (!end) return formatTime(start, format)
-
-    return combineDate(start, end, format)
+    return end ? combineDate(start, end, format) : formatTime(start, format)
 }
 
-function formatTotalStr(rows: timer.stat.Row[], type: timer.core.Dimension): string {
+function formatTotalStr(rows: timer.stat.Row[], type: timer.core.Dimension | undefined): string {
     if (type === 'focus') {
         const total = sum(rows.map(r => r?.focus ?? 0))
         const totalTime = formatPeriodCommon(total)
@@ -75,7 +73,7 @@ function formatTotalStr(rows: timer.stat.Row[], type: timer.core.Dimension): str
 
 function calculateSubTitleText(result: PercentageResult): string {
     let { date, dataDate, rows, query: { type } = {} } = result
-    const dateStr = formatDateStr(date, dataDate)
+    const dateStr = dataDate ? formatDateStr(date, dataDate) : ''
     const totalStr = formatTotalStr(rows, type)
     let parts = [totalStr, dateStr].filter(str => !!str)
     isRtl() && (parts = parts.reverse())
@@ -105,7 +103,8 @@ export function generateToolboxOption(): ToolboxComponentOption {
                 // file name
                 name: 'Time_Tracker_Percentage',
                 excludeComponents: ['toolbox'],
-                pixelRatio: 1
+                pixelRatio: 7,
+                backgroundColor: getCssVariable('--el-card-bg-color', '.el-card'),
             },
         }
     }
@@ -139,19 +138,20 @@ function cvt2ChartRows(rows: timer.stat.Row[], type: timer.core.Dimension, itemC
             otherCount++
         }
     }
-    other.siteKey.host = t(msg => msg.content.percentage.otherLabel, { count: otherCount })
+    const { siteKey } = other
+    siteKey && (siteKey.host = t(msg => msg.content.percentage.otherLabel, { count: otherCount }))
     popupRows.push(other)
     const data = popupRows.filter(item => !!item[type])
     return data
 }
 
 // The declaration of data item
-export type PieSeriesItemOption = PieSeriesOption['data'][0]
+export type PieSeriesItemOption = Exclude<PieSeriesOption['data'], undefined>[0]
     & Pick<ChartRow, 'siteKey' | 'cateKey' | 'iconUrl' | 'isOther'>
 
 // The declarations of labels
-type PieLabelRichOption = PieSeriesOption['label']['rich']
-type PieLabelRichValueOption = PieLabelRichOption[string]
+type PieLabelRichOption = Exclude<PieSeriesOption['label'], undefined>['rich']
+type PieLabelRichValueOption = Exclude<PieLabelRichOption, undefined>[string]
 
 const LABEL_FONT_SIZE = 13
 const LABEL_ICON_SIZE = 13
@@ -161,9 +161,9 @@ const BASE_LABEL_RICH_VALUE: PieLabelRichValueOption = {
     fontSize: LABEL_FONT_SIZE,
 }
 
-const legend2LabelStyle = (legend: string) => {
+const legend2LabelStyle = (legend: string): string => {
     if (!legend) return ''
-    const code = []
+    const code: string[] = []
     for (let i = 0; i < legend.length; i++) {
         code.push(legend.charCodeAt(i).toString(36).padStart(3, '0'))
     }
@@ -195,14 +195,14 @@ type CustomOption = Pick<
 >
 
 export function generateSiteSeriesOption(rows: timer.stat.Row[], result: PercentageResult, customOption: CustomOption): PieSeriesOption {
-    const { displaySiteName, query: { type } = {}, itemCount } = result || {}
+    const { displaySiteName, query: { type }, itemCount } = result || {}
 
     const chartRows = cvt2ChartRows(rows, type, itemCount)
     const iconRich: PieLabelRichOption = {}
     const data = chartRows.map(d => {
         const { siteKey, cateKey, alias, isOther, iconUrl } = d
         const host = siteKey?.host
-        const legend = displaySiteName ? (alias || host) : host
+        const legend = (displaySiteName ? (alias ?? host) : host) ?? ''
         const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
         iconUrl && (richValue.backgroundColor = { image: iconUrl })
         iconRich[legend2LabelStyle(legend)] = richValue

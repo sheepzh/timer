@@ -30,7 +30,7 @@ const _default = defineComponent({
     setup(props, ctx) {
         const handleIconError = async (row: timer.site.SiteInfo) => {
             await siteService.removeIconUrl(row)
-            row.iconUrl = null
+            row.iconUrl = undefined
         }
 
         const handleRunChange = async (val: boolean, row: timer.site.SiteInfo) => {
@@ -46,11 +46,12 @@ const _default = defineComponent({
                 return ElMessage.info("No data")
             }
             const toSave = new SiteMap<string>()
-            data.forEach(site => {
+            const items = await siteService.batchSelect(data)
+            items.filter(i => !i.alias).forEach(site => {
                 const newAlias = genInitialAlias(site)
                 newAlias && toSave.put(site, newAlias)
             })
-            await siteService.batchSaveAlias(toSave)
+            await siteService.batchSaveAliasNoRewrite(toSave)
             ctx.emit('aliasGenerated')
             ElMessage.success(t(msg => msg.operation.successMsg))
         }
@@ -115,7 +116,7 @@ const _default = defineComponent({
                         <ElSwitch
                             size="small"
                             modelValue={row.run}
-                            onChange={(val: boolean) => handleRunChange(val, row)}
+                            onChange={val => handleRunChange(val as boolean, row)}
                         />
                     )}
                 </ElTableColumn>

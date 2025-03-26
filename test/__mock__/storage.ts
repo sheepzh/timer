@@ -1,8 +1,8 @@
 import StoragePromise from "@db/common/storage-promise"
 
-let store = {}
+let store: Record<string, any> = {}
 
-function resolveOneKey(key: string, result: {}) {
+function resolveOneKey(key: string, result: Record<string, any>) {
     const val = store[key]
     val !== undefined && (result[key] = val)
 }
@@ -19,8 +19,8 @@ function resolveKey(key: string | Object | string[] | null) {
         key.forEach(curr => resolveOneKey(curr, result))
         return result
     } else if (typeof key === 'object') {
-        return Object.keys(key).reduce((acc, curr) => {
-            acc[curr] = store[curr] || key[curr]
+        return Object.keys(key).reduce<Record<string, any>>((acc, curr) => {
+            acc[curr] = store[curr] ?? (key as any)[curr]
             return acc
         }, {})
     }

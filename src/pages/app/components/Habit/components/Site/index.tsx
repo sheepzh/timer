@@ -29,7 +29,7 @@ const _default = defineComponent(() => {
             date: filter.value?.dateRange,
         }
         return statService.select(param, true)
-    })
+    }, [])
     initProvider(rows)
     const dateRangeLength = computed(() => getDayLength(filter.value?.dateRange?.[0], filter?.value?.dateRange?.[1]))
 

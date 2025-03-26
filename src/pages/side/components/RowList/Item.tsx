@@ -6,8 +6,8 @@ import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
 import { computed, defineComponent, type PropType } from "vue"
 
-const renderTitle = (siteName: string, host: string, handleJump: () => void) => {
-    const text = siteName || host
+const renderTitle = (siteName: string | undefined, host: string | undefined, handleJump: () => void) => {
+    const text = siteName ?? host ?? ''
     const tooltip = siteName ? host : null
     const textNode = <ElLink onClick={handleJump}>{text}</ElLink>
     if (!tooltip) return textNode
@@ -26,7 +26,10 @@ const renderAvatarText = (row: timer.stat.Row) => {
 
 const _default = defineComponent({
     props: {
-        value: Object as PropType<timer.stat.Row>,
+        value: {
+            type: Object as PropType<timer.stat.Row>,
+            required: true,
+        },
         max: Number,
         total: Number,
     },
@@ -34,7 +37,7 @@ const _default = defineComponent({
         const [iconUrl] = useShadow(() => props.value?.iconUrl)
         const [host] = useShadow(() => props.value?.siteKey?.host)
         const [siteName] = useShadow(() => props.value?.alias)
-        const clickable = computed(() => !isRemainHost(host.value))
+        const clickable = computed(() => host?.value && !isRemainHost(host.value))
         const [rate] = useShadow(() => {
             if (!props.max) return 0
             return (props.value?.focus ?? 0) / props.max * 100

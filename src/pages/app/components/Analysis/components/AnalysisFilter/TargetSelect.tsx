@@ -7,6 +7,7 @@ import statService from "@service/stat-service"
 import { identifySiteKey, parseSiteKeyFromIdentity, SiteMap } from "@util/site"
 import { useDebounce } from "@vueuse/core"
 import { ElSelectV2, ElTag } from "element-plus"
+import type { OptionType } from "element-plus/es/components/select-v2/src/select.types"
 import { computed, defineComponent, type PropType, type StyleValue } from "vue"
 import type { AnalysisTarget } from "../../types"
 import { labelOfHostInfo } from "../../util"
@@ -14,7 +15,7 @@ import { labelOfHostInfo } from "../../util"
 const SITE_PREFIX = 'S'
 const CATE_PREFIX = 'C'
 
-const cvtTarget2Key = (target: AnalysisTarget): string => {
+const cvtTarget2Key = (target: AnalysisTarget | undefined): string => {
     if (target?.type === 'site') {
         return `${SITE_PREFIX}${identifySiteKey(target.key)}`
     } else if (target?.type === 'cate') {
@@ -23,18 +24,19 @@ const cvtTarget2Key = (target: AnalysisTarget): string => {
     return ''
 }
 
-const cvtKey2Target = (key: string): AnalysisTarget => {
+const cvtKey2Target = (key: string | undefined): AnalysisTarget | undefined => {
     if (!key) return undefined
     const prefix = key?.charAt?.(0)
     const content = key?.substring(1)
     if (prefix === SITE_PREFIX) {
-        return { type: 'site', key: parseSiteKeyFromIdentity(content) }
+        const key = parseSiteKeyFromIdentity(content)
+        if (key) return { type: 'site', key }
     } else if (prefix === CATE_PREFIX) {
-        let cateId = undefined
+        let cateId: number | undefined
         try {
             cateId = parseInt(content)
         } catch { }
-        return { type: 'cate', key: cateId }
+        if (cateId) return { type: 'cate', key: cateId }
     }
     return undefined
 }
@@ -68,7 +70,9 @@ const fetchItems = async (categories: timer.site.Cate[]): Promise<[siteItems: Ta
     const sites = await siteService.selectAll()
     sites?.forEach(site => siteSet.put(site, site))
 
-    const siteItems = siteSet?.map((_, site) => ({ type: 'site', key: site, label: labelOfHostInfo(site) }) satisfies TargetItem)
+    const siteItems = siteSet?.map((_, site) => site)
+        .filter(site => !!site)
+        .map(site => ({ type: 'site', key: site, label: labelOfHostInfo(site) }) satisfies TargetItem)
 
     return [cateItems, siteItems]
 }
@@ -130,7 +134,7 @@ const TargetSelect = defineComponent({
             { deps: categories },
         )
 
-        const [query, setQuery] = useState<string>()
+        const [query, setQuery] = useState('')
         const debouncedQuery = useDebounce<string>(query, 50)
 
         const options = computed(() => {
@@ -144,7 +148,7 @@ const TargetSelect = defineComponent({
                 cateItems = cateItems?.filter(item => item.label?.includes?.(q))
             }
 
-            let res = []
+            let res: OptionType[] = []
             cateItems?.length && res.push({
                 value: 'cate',
                 label: t(msg => msg.analysis.target.cate),
@@ -173,8 +177,8 @@ const TargetSelect = defineComponent({
                 defaultFirstOption
                 options={options.value ?? []}
                 fitInputWidth={false}
-                v-slots={({ item }) => {
-                    const target = item.data as TargetItem
+                v-slots={({ item }: any) => {
+                    const target = (item as any).data as TargetItem
                     return target?.type === 'site' ? <SiteOption value={target?.key} /> : target?.label
                 }}
             />

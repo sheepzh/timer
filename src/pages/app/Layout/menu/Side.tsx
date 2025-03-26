@@ -19,7 +19,7 @@ const iconStyle: StyleValue = {
     lineHeight: '0.83em'
 }
 
-function renderMenuLeaf(menu: MenuItem, router: Router, currentActive: Ref<string>) {
+function renderMenuLeaf(menu: MenuItem, router: Router, currentActive: Ref<string | undefined>) {
     const { route, title, icon, index } = menu
     return (
         <ElMenuItem
@@ -38,7 +38,7 @@ function renderMenuLeaf(menu: MenuItem, router: Router, currentActive: Ref<strin
 
 const _default = defineComponent(() => {
     const router = useRouter()
-    const currentActive: Ref<string> = ref()
+    const currentActive = ref<string>()
     const syncRouter = () => {
         const route = router.currentRoute.value
         route && (currentActive.value = route.path)

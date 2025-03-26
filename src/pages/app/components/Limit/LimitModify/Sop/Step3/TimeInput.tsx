@@ -21,9 +21,15 @@ const formatTimeVal = (val: number): string => {
 
 const TimeSpinner = defineComponent({
     props: {
-        max: Number,
+        max: {
+            type: Number,
+            required: true,
+        },
         visible: Boolean,
-        modelValue: Number,
+        modelValue: {
+            type: Number,
+            required: true,
+        },
     },
     emits: {
         change: (_val: number) => true,
@@ -68,7 +74,7 @@ const TimeSpinner = defineComponent({
             scrollbarEl.addEventListener('scroll', () => {
                 scrolling.value = true
                 const scrollTop = getScrollbarElement()?.scrollTop ?? 0
-                const scrollbarH = (scrollbar.value.$el as HTMLUListElement)!.offsetHeight ?? 0
+                const scrollbarH = (scrollbar.value?.$el as HTMLUListElement)!.offsetHeight ?? 0
                 const itemH = typeItemHeight()
                 const estimatedIdx = Math.round((scrollTop - (scrollbarH * 0.5 - 10) / itemH + 3) / itemH)
                 const value = Math.min(estimatedIdx, props.max - 1)
@@ -143,7 +149,10 @@ const useTimeInput = (source: () => number) => {
  */
 const TimeInput = defineComponent({
     props: {
-        modelValue: Number,
+        modelValue: {
+            type: Number,
+            required: true,
+        },
         hourMax: Number,
     },
     emits: {

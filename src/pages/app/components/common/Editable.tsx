@@ -20,15 +20,15 @@ const _default = defineComponent({
         initialValue: String,
     },
     emits: {
-        change: (_newVal: string) => true
+        change: (_newVal: string | undefined) => true
     },
     setup(props, ctx) {
         const [editing, openEditing, closeEditing] = useSwitch(false)
         const originVal = toRef(props, 'modelValue')
         const [inputVal, setInputVal, refreshInputVal] = useShadow(originVal)
         const input = ref<InputInstance>()
-        const handleEnter = (ev: KeyboardEvent) => {
-            if (ev.key !== 'Enter') return
+        const handleEnter = (ev: KeyboardEvent | Event) => {
+            if ((ev as KeyboardEvent).key !== 'Enter') return
             closeEditing()
             ctx.emit("change", inputVal.value)
         }

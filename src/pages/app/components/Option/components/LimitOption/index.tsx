@@ -40,14 +40,14 @@ function copy(target: timer.option.LimitOption, source: timer.option.LimitOption
 }
 
 function reset(target: timer.option.LimitOption) {
-    const defaultValue = defaultDailyLimit()
+    const defaultValue: MakeOptional<timer.option.LimitOption, 'limitPassword' | 'limitVerifyDifficulty' | 'limitReminderDuration'> = defaultDailyLimit()
     // Not to reset limitPassword
     delete defaultValue.limitPassword
     // Not to reset difficulty
     delete defaultValue.limitVerifyDifficulty
     // Not to reset notification duration
     delete defaultValue.limitReminderDuration
-    Object.entries(defaultValue).forEach(([key, val]) => target[key] = val)
+    Object.entries(defaultValue).forEach(([key, val]) => (target as any)[key] = val)
 }
 
 const confirm4Strict = async (): Promise<void> => {
@@ -61,7 +61,7 @@ const confirm4Strict = async (): Promise<void> => {
 }
 
 const _default = defineComponent((_, ctx) => {
-    const { option } = useOption({ defaultValue: defaultDailyLimit, copy })
+    const { option } = useOption<timer.option.LimitOption>({ defaultValue: defaultDailyLimit, copy })
     const { verified, verify } = useVerify(option)
     const { modifyPsw } = usePswEdit({ reset: () => option.limitPassword })
 
@@ -102,14 +102,14 @@ const _default = defineComponent((_, ctx) => {
                 default: () => (
                     <ElSwitch
                         modelValue={option.limitReminder}
-                        onChange={(val: boolean) => option.limitReminder = val}
+                        onChange={val => option.limitReminder = val as boolean}
                     />
                 ),
                 minInput: () => (
                     <ElInputNumber
                         disabled={!option.limitReminder}
                         modelValue={option.limitReminderDuration}
-                        onChange={(val: number) => option.limitReminderDuration = val}
+                        onChange={val => val && (option.limitReminderDuration = val)}
                         min={1} max={20}
                         size="small"
                     />
@@ -147,7 +147,7 @@ const _default = defineComponent((_, ctx) => {
         <OptionItem
             v-show={option.limitLevel === "verification"}
             label={msg => msg.option.dailyLimit.level.verificationLabel}
-            defaultValue={t(msg => msg.option.dailyLimit.level[defaultDailyLimit().limitVerifyDifficulty])}
+            defaultValue={t(msg => (msg.option.dailyLimit.level as any)[defaultDailyLimit().limitVerifyDifficulty])}
         >
             <ElSelect
                 modelValue={option.limitVerifyDifficulty}

@@ -1,8 +1,8 @@
-import optionGenerator from "./webpack.common"
-import path from "path"
 import FileManagerWebpackPlugin from "filemanager-webpack-plugin"
-import webpack from "webpack"
+import path from "path"
+import type { WebpackPluginInstance } from "webpack"
 import manifestFirefox from "../src/manifest-firefox"
+import optionGenerator from "./webpack.common"
 
 const { name, version } = require(path.join(__dirname, '..', 'package.json'))
 
@@ -10,6 +10,7 @@ const outputPath = path.resolve(__dirname, '..', 'dist_prod_firefox')
 const marketPkgPath = path.resolve(__dirname, '..', 'market_packages')
 
 const normalZipFilePath = path.resolve(marketPkgPath, `${name}-${version}.firefox.zip`)
+const targetZipFilePath = path.resolve(marketPkgPath, 'target.firefox.zip')
 const sourceCodePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.zip`)
 const readmeForFirefox = path.join(__dirname, '..', 'doc', 'for-fire-fox.md')
 // Temporary directory for source code to archive on Firefox
@@ -28,6 +29,9 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
                 archive: [{
                     source: outputPath,
                     destination: normalZipFilePath,
+                }, {
+                    source: outputPath,
+                    destination: targetZipFilePath,
                 }]
             },
             // Archive source code for FireFox
@@ -47,6 +51,8 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
 })
 
 const option = optionGenerator({ outputPath, manifest: manifestFirefox, mode: "production" })
-option.plugins.push(filemanagerWebpackPlugin as webpack.WebpackPluginInstance)
+const { plugins = [] } = option
+plugins.push(filemanagerWebpackPlugin as WebpackPluginInstance)
+option.plugins = plugins
 
 export default option

@@ -15,7 +15,7 @@ export type TestInstance = {
     show(): void
 }
 
-function computeResultTitle(url: string, inputting: boolean, matched: timer.limit.Rule[]): string {
+function computeResultTitle(url: string | undefined, inputting: boolean, matched: timer.limit.Rule[]): string {
     if (!url) {
         return t(msg => msg.limit.message.inputTestUrl)
     }
@@ -29,7 +29,7 @@ function computeResultTitle(url: string, inputting: boolean, matched: timer.limi
     }
 }
 
-function computeResultDesc(url: string, inputting: boolean, matched: timer.limit.Rule[]): string[] {
+function computeResultDesc(url: string | undefined, inputting: boolean, matched: timer.limit.Rule[]): string[] {
     if (!url || inputting || !matched?.length) {
         return []
     }
@@ -38,7 +38,7 @@ function computeResultDesc(url: string, inputting: boolean, matched: timer.limit
 
 type _ResultType = AlertProps['type']
 
-function computeResultType(url: string, inputting: boolean, matched: timer.limit.Rule[]): _ResultType {
+function computeResultType(url: string | undefined, inputting: boolean, matched: timer.limit.Rule[]): _ResultType {
     if (!url || inputting) {
         return 'info'
     }

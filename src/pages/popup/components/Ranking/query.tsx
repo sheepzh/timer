@@ -7,9 +7,8 @@ export type RankingResult = {
     rows: timer.stat.Row[]
     max: number
     total: number
-    query: PopupQuery
     displaySiteName: boolean
-    date: Date | [Date, Date?]
+    date: Date | [Date, Date?] | undefined
 }
 
 export const doQuery = async (query: PopupQuery): Promise<RankingResult> => {
@@ -21,5 +20,5 @@ export const doQuery = async (query: PopupQuery): Promise<RankingResult> => {
     const total = sum(values)
     const date = statQuery.date
     const { displaySiteName } = await optionHolder.get() || {}
-    return { max, total, rows, query, date, displaySiteName }
+    return { max, total, rows, date, displaySiteName }
 }
