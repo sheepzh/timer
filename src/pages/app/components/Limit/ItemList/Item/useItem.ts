@@ -37,6 +37,7 @@ type ItemResult = Context
         doDelete: () => void
     }
 
+export const useItemData = () => useProvider<Context, 'data'>(NAME_SPACE, 'data').data
 
 export const useItem = (): ItemResult => {
 

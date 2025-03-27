@@ -1,10 +1,25 @@
 import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { joinAny } from "@util/array"
-import { ElDescriptions, ElDescriptionsItem, ElText } from "element-plus"
+import { ElCheckboxButton, ElCheckboxGroup, ElDescriptions, ElDescriptionsItem, ElTag, ElText } from "element-plus"
 import { defineComponent, type StyleValue } from "vue"
-import Weekday from "../../LimitTable/Weekday"
-import { useItem } from "./useItem"
+import { useItem, useItemData } from "./useItem"
+
+const ALL_WEEKDAYS = t(msg => msg.calendar.weekDays)?.split('|')
+
+const Weekday = defineComponent(() => {
+    const { weekdays } = useItemData()
+
+    return () => !weekdays?.length || weekdays?.length === 7 ? (
+        <ElTag size="small" type="success">
+            {t(msg => msg.calendar.range.everyday)}
+        </ElTag>
+    ) : (
+        <ElCheckboxGroup size="small" modelValue={weekdays}>
+            {ALL_WEEKDAYS.map((name, idx) => <ElCheckboxButton value={idx} label={name} />)}
+        </ElCheckboxGroup>
+    )
+})
 
 const Body = defineComponent(() => {
     const { data } = useItem()

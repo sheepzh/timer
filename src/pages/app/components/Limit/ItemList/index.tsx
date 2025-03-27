@@ -25,7 +25,6 @@ const ItemList = defineComponent({
                     selected.splice(idx, 1)
                 }
             }
-            console.log(val, JSON.stringify(selected))
         }
 
         const { data, refresh, loading } = useRequest(
@@ -48,12 +47,11 @@ const ItemList = defineComponent({
                         />
                     </Flex>
                 )}
-                {data.value?.map((item, idx, arr) => (
+                {data.value?.map(item => (
                     <Box
                         key={item.id}
-                        minWidth={450}
+                        width={450}
                         height={350}
-                        marginInlineEnd={idx === arr?.length - 1 ? "auto" : undefined}
                     >
                         <Item
                             value={item}
