@@ -25,4 +25,4 @@ jobs:
                   product-id: 2a99ae83-5ec8-4ad2-aa63-9a276fc708ce
                   client-id: ${{ secrets.EDGE_CLIENT_ID }}
                   api-key: ${{ secrets.EDGE_API_KEY}}
-                  upload-only: false
+                  upload-only: true # not publish
