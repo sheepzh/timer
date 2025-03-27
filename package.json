@@ -1,6 +1,6 @@
 {
     "name": "timer",
-    "version": "3.3.3",
+    "version": "3.3.4",
     "description": "Time tracker",
     "homepage": "https://www.wfhg.cc",
     "scripts": {
@@ -34,7 +34,7 @@
         "@rsdoctor/webpack-plugin": "^1.0.0",
         "@swc/core": "^1.11.11",
         "@swc/jest": "^0.2.37",
-        "@types/chrome": "0.0.310",
+        "@types/chrome": "0.0.312",
         "@types/decompress": "^4.2.7",
         "@types/echarts": "^5.0.0",
         "@types/generate-json-webpack-plugin": "^0.3.7",

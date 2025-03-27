@@ -1,0 +1,27 @@
+name: Publish to Firefox Addon Store
+on:
+    push:
+        branches:
+            - "release"
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Setup NodeJS
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "v20.11.0"
+            - name: Install dependencies
+              run: npm install
+            - name: Build
+              run: npm run build:firefox
+            - name: Upload to Firefox addon store
+              uses: wdzeng/firefox-addon@v1
+              with:
+                  addon-guid: "{a8cf72f7-09b7-4cd4-9aaa-7a023bf09916}"
+                  xpi-path: market_packages/target.firefox.zip
+                  jwt-issuer: ${{ secrets.FIREFOX_JWD_ISSUER }}
+                  jwt-secret: ${{ secrets.FIREFOX_JWD_SECRET }}
