@@ -10,10 +10,6 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-            - name: Add release branch
-              run: |
-                  git fetch -a
-                  git branch release origin/release
             - name: Setup NodeJS
               uses: actions/setup-node@v4
               with:
