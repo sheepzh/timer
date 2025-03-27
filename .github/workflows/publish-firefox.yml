@@ -21,7 +21,7 @@ jobs:
             - name: Upload to Firefox addon store
               uses: wdzeng/firefox-addon@v1
               with:
-                  addon-guid: "{7b312f5e-9680-436b-acc1-9b09f60e8aaa}"
+                  addon-guid: "{a8cf72f7-09b7-4cd4-9aaa-7a023bf09916}"
                   xpi-path: market_packages/target.firefox.zip
                   jwt-issuer: ${{ secrets.FIREFOX_JWD_ISSUER }}
                   jwt-secret: ${{ secrets.FIREFOX_JWD_SECRET }}
