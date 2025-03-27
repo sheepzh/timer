@@ -1,0 +1,33 @@
+name: Publish to Chrome Webstore
+on:
+    push:
+        branches:
+            - "release"
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Add release branch
+              run: |
+                  git fetch -a
+                  git branch release origin/release
+            - name: Setup NodeJS
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "v20.11.0"
+            - name: Install dependencies
+              run: npm install
+            - name: Build
+              run: npm run build
+            - name: Upload
+              uses: mnao305/chrome-extension-upload@v5.0.0
+              with:
+                  file-path: market_packages/target.zip
+                  extension-id: dkdhhcbjijekmneelocdllcldcpmekmm
+                  client-id: ${{ secrets.CHROME_CLIENT_ID }}
+                  client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+                  refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+                  publish: true
