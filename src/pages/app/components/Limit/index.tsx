@@ -13,7 +13,7 @@ import { useRoute, useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import { verifyCanModify } from "./common"
 import { initProvider } from "./context"
-import ItemList, { ItemListInstance } from "./ItemList"
+import ItemList, { type ItemListInstance } from "./ItemList"
 import LimitFilter from "./LimitFilter"
 import LimitModify, { type ModifyInstance } from "./LimitModify"
 import LimitTest, { type TestInstance } from "./LimitTest"
@@ -79,13 +79,7 @@ const _default = defineComponent(() => {
                     />
                 ),
                 default: () => <>
-                    {/* <LimitTable
-                        ref={table}
-                        onDelayChange={row => limitService.updateDelay(row)}
-                        onEnabledChange={row => limitService.updateEnabled(row)}
-                        onModify={row => modify.value?.modify?.(deepCopy(toRaw(row)))}
-                    /> */}
-                    <ItemList ref={list} />
+                    <ItemList ref={list} onModify={r => modify.value?.modify(r)} />
                     <LimitModify ref={modify} onSave={() => list.value?.refresh?.()} />
                     <LimitTest ref={test} />
                 </>

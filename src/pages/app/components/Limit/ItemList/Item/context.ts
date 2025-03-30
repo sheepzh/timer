@@ -2,14 +2,19 @@ import { t } from "@app/locale"
 import { useProvide, useProvider } from "@hooks/index"
 import limitService from "@service/limit-service"
 import { ElMessage, ElMessageBox } from "element-plus"
-import { Reactive, reactive, toRaw, type Ref } from "vue"
+import { Reactive, toRaw, type Ref } from "vue"
 import { verifyCanModify } from "../../common"
 
-type Context = {
+type Option = {
     data: Reactive<timer.limit.Item>
     selected: Ref<boolean>
     onDeleted: NoArgCallback
+    onModify: NoArgCallback
 }
+
+type ItemContext = Pick<Option, 'data' | 'selected'>
+    & Record<'changeEnabled' | 'changeLocked' | 'changeAllowDelay', ArgCallback<boolean>>
+    & Record<'doDelete' | 'doModify', NoArgCallback>
 
 const NAME_SPACE = 'limit_item'
 
@@ -17,32 +22,11 @@ const ALL_FIELDS = ['enabled', 'allowDelay', 'locked'] as const
 
 export type SwitchField = keyof timer.limit.Item & (typeof ALL_FIELDS[number])
 
-export const provideItem = (
-    value: timer.limit.Item,
-    selected: Ref<boolean>,
-    onDeleted: NoArgCallback
-): Reactive<timer.limit.Item> => {
-    const data = reactive(value)
-
-    useProvide(NAME_SPACE, { data, selected, onDeleted } satisfies Context)
-
-    return data
-}
-
-type BoolSetter = (val: boolean) => void
-
-type ItemResult = Context
-    & Record<'changeEnabled' | 'changeLocked' | 'changeAllowDelay', BoolSetter>
-    & {
-        doDelete: () => void
-    }
-
-export const useItemData = () => useProvider<Context, 'data'>(NAME_SPACE, 'data').data
-
-export const useItem = (): ItemResult => {
-
-    const ctx = useProvider<Context, 'data' | 'selected' | 'onDeleted'>(NAME_SPACE, 'data', 'selected', 'onDeleted')
-    const { data, onDeleted } = ctx
+export const provideItem = (option: Option): void => {
+    const {
+        data, selected,
+        onDeleted, onModify
+    } = option
 
     const changeEnabled = async (enabled: boolean) => {
         try {
@@ -73,7 +57,6 @@ export const useItem = (): ItemResult => {
 
     const doDelete = async () => {
         const raw = toRaw(data)
-
         try {
             await verifyCanModify(raw)
             const { cond } = raw
@@ -87,9 +70,33 @@ export const useItem = (): ItemResult => {
         }
     }
 
-    return {
-        ...ctx,
-        changeEnabled, changeLocked, changeAllowDelay,
-        doDelete,
+    const doModify = async () => {
+        const raw = toRaw(data)
+        try {
+            await verifyCanModify(raw)
+            onModify()
+        } catch {
+            /** Do nothing */
+        }
     }
+
+    const context: ItemContext = {
+        data, selected,
+        changeEnabled, changeLocked, changeAllowDelay,
+        doDelete: () => setTimeout(doDelete),
+        doModify: () => setTimeout(doModify),
+    }
+
+    useProvide(NAME_SPACE, context)
 }
+
+export const useItem = () => useProvider<ItemContext, 'data'>(NAME_SPACE, 'data').data
+
+const HEADER_KEYS: (keyof ItemContext)[] = [
+    'data', 'selected',
+    'changeEnabled', 'changeLocked', 'changeAllowDelay',
+    'doDelete', 'doModify',
+] as const
+type HeaderKey = typeof HEADER_KEYS[number]
+
+export const useHeader = () => useProvider<ItemContext, HeaderKey>(NAME_SPACE, ...HEADER_KEYS)

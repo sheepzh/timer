@@ -32,10 +32,7 @@ const _default = defineComponent({
                 minWidth={100}
                 align="center"
                 v-slots={{
-                    header: () => <ColumnHeader
-                        label={t(msg => msg.limit.item.delayAllowed)}
-                        tooltipContent={t(msg => msg.limit.item.delayAllowedInfo)}
-                    />,
+                    header: () => <ColumnHeader label={t(msg => msg.limit.item.delayAllowed)} />,
                     default: ({ row }: ElTableRowScope<timer.limit.Item>) => (
                         <ElSwitch
                             size="small"

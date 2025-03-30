@@ -6,15 +6,16 @@
             "condition": "限制网址",
             "daily": "每日上限",
             "weekly": "每周上限",
+            "maximum": "上限",
             "weekStartInfo": "每周的第一天是【{weekStart}】，你可以在统计选项中修改该值",
             "delayCount": "延时次数",
             "detail": "规则详情",
             "visitTime": "单次访问最长时间",
             "period": "不可访问的时间段",
-            "enabled": "启用状态",
+            "enabled": "是否启用",
+            "locked": "是否锁定",
             "effectiveDay": "生效日期",
-            "delayAllowed": "再看 5 分钟",
-            "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。",
+            "delayAllowed": "超过时限时是否可以短暂延时",
             "visits": "次访问",
             "or": "或者",
             "notEffective": "未生效"
@@ -67,8 +68,7 @@
             "period": "受限時段",
             "enabled": "是否有效",
             "effectiveDay": "生效日期",
-            "delayAllowed": "再看 5 分鐘",
-            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
+            "delayAllowed": "時間超過限制時是否可以短暫延遲",
             "visits": "次訪問",
             "or": "或",
             "notEffective": "未生效"
@@ -112,15 +112,16 @@
             "condition": "Restricted URL",
             "daily": "Daily limit",
             "weekly": "Weekly limit",
+            "maximum": "Maximum",
             "weekStartInfo": "The first day of each week is {weekStart}, you can change this value in the statistics options",
             "delayCount": "Delay count",
             "detail": "Rule detail",
             "visitTime": "Time limit per visit",
             "period": "Blocked periods",
             "enabled": "Enabled",
+            "locked": "Locked",
             "effectiveDay": "Effective On",
-            "delayAllowed": "More 5 minutes",
-            "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes",
+            "delayAllowed": "Short delay when limit reached",
             "visits": "visits",
             "or": "or",
             "notEffective": "Not effective"
@@ -171,8 +172,7 @@
             "period": "許可されない期間",
             "enabled": "有效",
             "effectiveDay": "発効日",
-            "delayAllowed": "さらに5分間閲覧する",
-            "delayAllowedInfo": "時間が経過した場合は、一時的に5分遅らせることができます",
+            "delayAllowed": "制限に達したときに短い遅延",
             "visits": "訪問数",
             "or": "や",
             "notEffective": "効果がない"
@@ -223,8 +223,7 @@
             "period": "Períodos não permitidos",
             "enabled": "Ativado",
             "effectiveDay": "Efetivo ativado",
-            "delayAllowed": "Mais 5 minutos",
-            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
+            "delayAllowed": "Pequeno atraso quando o limite é atingido",
             "visits": "visitas",
             "or": "ou",
             "notEffective": "Não é eficaz"
@@ -275,8 +274,7 @@
             "period": "Недозволені періоди",
             "enabled": "Увімкнено",
             "effectiveDay": "Діє",
-            "delayAllowed": "Ще 5 хвилин",
-            "delayAllowedInfo": "Якщо час вичерпано, дозволити тимчасову затримку 5 хвилин",
+            "delayAllowed": "Коротка затримка при досягненні ліміту",
             "visits": "візитів",
             "or": "або",
             "notEffective": "Неефективний"
@@ -326,8 +324,7 @@
             "period": "Periodos no permitidos",
             "enabled": "Habilitado",
             "effectiveDay": "En vigor él",
-            "delayAllowed": "Más de 5 minutos",
-            "delayAllowedInfo": "Si se pausa, permite un retraso temporal de 5 minutos"
+            "delayAllowed": "Breve retraso cuando se alcanza el límite"
         },
         "step": {
             "base": "Información básica",
@@ -373,8 +370,7 @@
             "period": "Unzulässiger Zeitraum",
             "enabled": "Ermöglicht",
             "effectiveDay": "Wirksam auf",
-            "delayAllowed": "Weitere 5 Minuten",
-            "delayAllowedInfo": "Wenn es zu einer Zeitüberschreitung kommt, erlauben Sie eine vorübergehende Verzögerung von 5 Minuten"
+            "delayAllowed": "Kurze Verzögerung bei Erreichen des Limits"
         },
         "step": {
             "base": "Basisdaten",
@@ -419,8 +415,7 @@
             "period": "Périodes bloquées",
             "enabled": "Activé",
             "effectiveDay": "Effectif le",
-            "delayAllowed": "Plus de 5 minutes",
-            "delayAllowedInfo": "Si le délai est écoulé, autorisez un délai temporaire de 5 minutes"
+            "delayAllowed": "Court délai lorsque la limite est atteinte"
         },
         "step": {
             "base": "Informations de base",
@@ -466,8 +461,7 @@
             "period": "Заблокированное время",
             "enabled": "Включено",
             "effectiveDay": "Эффективный",
-            "delayAllowed": "Еще 5 минут",
-            "delayAllowedInfo": "Если время истекло, разрешите временную задержку 5 минут"
+            "delayAllowed": "Короткая задержка при достижении лимита"
         },
         "step": {
             "base": "Основная информация",
@@ -512,8 +506,7 @@
             "period": "فترات محظورة",
             "enabled": "مُمَكَّن",
             "effectiveDay": "ساري المفعول على",
-            "delayAllowed": "5 دقائق إضافية",
-            "delayAllowedInfo": "إذا انتهت المهلة، اسمح بتأخير مؤقت لمدة 5 دقائق"
+            "delayAllowed": "تأخير قصير عند الوصول إلى الحد الأقصى"
         },
         "step": {
             "base": "معلومات أساسية",

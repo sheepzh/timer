@@ -14,6 +14,7 @@ export type RequestOption<T, P extends any[]> = {
 
 export type RequestResult<T, P extends any[]> = {
     data: Ref<T>
+    ts: Ref<number>
     refresh: (...p: P) => void
     refreshAsync: (...p: P) => Promise<void>
     refreshAgain: () => void
@@ -29,9 +30,10 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
         deps,
         onSuccess, onError,
     } = option || {}
-    const data: Ref<T> = ref(defaultValue) as Ref<T>
+    const data = ref(defaultValue) as Ref<T>
     const loading = ref(false)
     const param = ref<P>()
+    const ts = ref<number>(Date.now())
 
     const refreshAsync = async (...p: P) => {
         loading.value = true
@@ -41,6 +43,7 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
             param.value = p
             const value = await getter?.(...p)
             data.value = value
+            ts.value = Date.now()
             onSuccess?.(value)
         } catch (e) {
             onError?.(e)
@@ -59,7 +62,7 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
         watch(deps, () => refresh(...defaultParam))
     }
     const refreshAgain = () => param.value && refresh(...param.value)
-    return { data, refresh, refreshAsync, refreshAgain, loading, param }
+    return { data, ts, refresh, refreshAsync, refreshAgain, loading, param }
 }
 
 export const useManualRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: Omit<RequestOption<T, P>, 'manual'>): RequestResult<T, P> => {

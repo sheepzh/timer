@@ -34,7 +34,7 @@
         "@rsdoctor/webpack-plugin": "^1.0.1",
         "@swc/core": "^1.11.13",
         "@swc/jest": "^0.2.37",
-        "@types/chrome": "0.0.312",
+        "@types/chrome": "0.0.313",
         "@types/decompress": "^4.2.7",
         "@types/generate-json-webpack-plugin": "^0.3.7",
         "@types/jest": "^29.5.14",

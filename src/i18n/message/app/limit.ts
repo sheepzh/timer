@@ -19,6 +19,7 @@ export type LimitMessage = {
     item: {
         name: string
         condition: string
+        maximum: string
         daily: string
         weekly: string
         weekStartInfo: string
@@ -27,7 +28,7 @@ export type LimitMessage = {
         enabled: string
         effectiveDay: string
         delayAllowed: string
-        delayAllowedInfo: string
+        locked: string
         delayCount: string
         detail: string
         visits: string
