@@ -43,6 +43,7 @@ export type LimitMessage = {
         noUrl: string
         noRule: string
         deleteConfirm: string
+        lockConfirm: string
         inputTestUrl: string
         clickTestButton: string
         noRuleMatched: string

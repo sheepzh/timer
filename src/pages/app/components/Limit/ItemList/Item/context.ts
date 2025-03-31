@@ -30,7 +30,7 @@ export const provideItem = (option: Option): void => {
 
     const changeEnabled = async (enabled: boolean) => {
         try {
-            !enabled && await verifyCanModify(data)
+            (data.locked || !enabled) && await verifyCanModify(data)
             data.enabled = enabled
             limitService.updateEnabled(toRaw(data))
         } catch (e) {
@@ -38,16 +38,24 @@ export const provideItem = (option: Option): void => {
         }
     }
 
-    const changeLocked = (val: boolean) => {
-        if (!val) {
-
+    const changeLocked = async (locked: boolean) => {
+        try {
+            if (locked) {
+                const message = t(msg => msg.limit.message.lockConfirm)
+                await ElMessageBox.confirm(message, { type: "warning" })
+            } else {
+                await verifyCanModify(data)
+            }
+            data.locked = locked
+            limitService.updateLocked(toRaw(data))
+        } catch (e) {
+            console.log(e)
         }
-        data.locked = val
     }
 
     const changeAllowDelay = async (val: boolean) => {
         try {
-            val && await verifyCanModify(data)
+            (data.locked || val) && await verifyCanModify(data)
             data.allowDelay = val
             limitService.updateDelay(toRaw(data))
         } catch (e) {
@@ -65,8 +73,8 @@ export const provideItem = (option: Option): void => {
             await limitService.remove(raw)
             ElMessage.success(t(msg => msg.operation.successMsg))
             onDeleted()
-        } catch {
-            /** Do nothing */
+        } catch (e) {
+            console.error("Error occurred when deleting limit rule", e)
         }
     }
 

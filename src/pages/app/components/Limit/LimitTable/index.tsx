@@ -140,20 +140,21 @@ const _default = defineComponent({
                     minWidth={110}
                     align="center"
                 >
-                    {({ row }: ElTableRowScope<timer.limit.Item>) => isEffective(row) ? (
-                        <Waste
-                            waste={row.waste}
-                            time={row.time}
-                            count={row.count}
-                            visit={row.visit}
-                            allowDelay={row.allowDelay}
-                            delayCount={row.delayCount}
-                        />
-                    ) : (
-                        <ElTag type="info" size="small">
-                            {t(msg => msg.limit.item.notEffective)}
-                        </ElTag>
-                    )}
+                    {({ row: { waste, time, count, visit, allowDelay, delayCount, weekdays } }: ElTableRowScope<timer.limit.Item>) =>
+                        isEffective(weekdays) ? (
+                            <Waste
+                                waste={waste}
+                                time={time}
+                                count={count}
+                                visit={visit}
+                                allowDelay={allowDelay}
+                                delayCount={delayCount}
+                            />
+                        ) : (
+                            <ElTag type="info" size="small">
+                                {t(msg => msg.limit.item.notEffective)}
+                            </ElTag>
+                        )}
                 </ElTableColumn>
                 <ElTableColumn
                     prop='weeklyWaste'

@@ -51,7 +51,7 @@ describe('util/limit', () => {
             enabled: true, allowDelay: false, locked: false,
         })
         expect(isEffective(undefined)).toBe(false)
-        expect(isEffective(rule())).toBe(true)
+        expect(isEffective([])).toBe(true)
 
         Object.defineProperty(global, 'performance', { writable: true })
         jest.useFakeTimers()
@@ -61,8 +61,8 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        expect(isEffective(rule([1, 2]))).toBe(false)
-        expect(isEffective(rule([0, 1, 2]))).toBe(true)
+        expect(isEffective([1, 2])).toBe(false)
+        expect(isEffective([0, 1, 2])).toBe(true)
     })
 
     test('isEffectiveAndEnabled', () => {

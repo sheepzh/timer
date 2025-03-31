@@ -3,7 +3,7 @@ import Box from "@pages/components/Box"
 import Flex from "@pages/components/Flex"
 import limitService from "@service/limit-service"
 import { ElEmpty } from "element-plus"
-import { defineComponent, reactive, ref } from "vue"
+import { defineComponent, reactive } from "vue"
 import { useLimitFilter } from "../context"
 import Item from "./Item"
 
@@ -51,11 +51,7 @@ const ItemList = defineComponent(({ onModify }: Props, ctx) => {
                 </Flex>
             )}
             {data.value?.map(item => (
-                <Box
-                    key={`${item.id}-${ts.value}`}
-                    width={450}
-                    height={350}
-                >
+                <Box key={`${item.id}-${ts.value}`} width={450}>
                     <Item
                         value={item}
                         selected={selected.includes(item.id)}

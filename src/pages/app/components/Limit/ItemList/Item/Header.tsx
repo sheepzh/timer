@@ -1,13 +1,10 @@
 import { t } from "@app/locale"
 import { Calendar, Delete, EditPen, Lock, More, Open, Timer, TurnOff, Unlock } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
+import { isEffective } from "@util/limit"
 import { ElButton, ElCheckbox, ElDropdown, ElDropdownItem, ElDropdownMenu, ElFormItem, ElLink, ElPopover, ElTag, ElText } from "element-plus"
 import { computed, defineComponent, toRef, type Component, type StyleValue } from "vue"
 import { useHeader, useItem, type SwitchField } from "./context"
-
-const BTN_STYLE: StyleValue = {
-    marginInlineStart: 0
-}
 
 type Props = {
     field: SwitchField
@@ -44,7 +41,7 @@ const SwitchButton = defineComponent((props: Props) => {
                         icon={target.value ? onIcon : offIcon ?? onIcon}
                         type={target.value ? 'primary' : undefined}
                         onClick={() => onChange?.(!data[field])}
-                        style={BTN_STYLE}
+                        style={{ marginInlineStart: 0 } satisfies StyleValue}
                     />
                 )
             }}
@@ -55,6 +52,7 @@ const SwitchButton = defineComponent((props: Props) => {
 const Weekday = defineComponent((props: { value: timer.limit.Item['weekdays'] }) => {
     const weekdays = toRef(props, 'value')
     const full = computed(() => !weekdays.value?.length || weekdays.value?.length === 7)
+    const effectiveToday = computed(() => isEffective(weekdays.value))
     const ALL_WEEKDAYS = t(msg => msg.calendar.weekDays)?.split('|')
 
     return () => (
@@ -68,7 +66,7 @@ const Weekday = defineComponent((props: { value: timer.limit.Item['weekdays'] })
                     <ElLink
                         underline={false}
                         icon={Calendar}
-                        type={full.value ? 'primary' : undefined}
+                        type={effectiveToday.value ? 'primary' : undefined}
                         style={{ cursor: 'default' } satisfies StyleValue}
                     />
                 ),

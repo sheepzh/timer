@@ -46,6 +46,7 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
             ts.value = Date.now()
             onSuccess?.(value)
         } catch (e) {
+            console.warn("Errored when requesting", e)
             onError?.(e)
         } finally {
             loading.value = false

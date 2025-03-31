@@ -2,10 +2,11 @@ import { t } from "@app/locale"
 import { useState } from "@hooks"
 import Box from "@pages/components/Box"
 import Flex from "@pages/components/Flex"
-import { formatPeriodCommon } from "@util/time"
-import { ElProgress, ElSegmented, ElTag, ElText } from "element-plus"
-import { computed, defineComponent, StyleValue, toRefs } from "vue"
+import { ElSegmented } from "element-plus"
+import { defineComponent } from "vue"
 import { useItem } from "./context"
+import Maximum from "./Maximum"
+import Period from "./Period"
 
 type SegVal = "maximum" | 'periods'
 
@@ -22,84 +23,6 @@ const computeInitialSeg = (item: timer.limit.Item): SegVal => {
         return 'maximum'
     }
 }
-
-type DoubleProgressProps = {
-    visitMax?: number
-    visit?: number
-    timeMax?: number
-    time?: number
-    label: string
-}
-
-const computePercentage = (val: number | undefined, max: number | undefined): number => {
-    if (!max) return 0
-    return (val ?? 0) / max * 100
-}
-
-const DoubleProgress = defineComponent((props: DoubleProgressProps) => {
-    const { visit, visitMax, time, timeMax, label } = toRefs(props)
-
-    const visitPercentage = computed(() => computePercentage(visit?.value, visitMax?.value))
-    const timePercentage = computed(() => computePercentage(time?.value, timeMax?.value))
-    return () => (
-        <Flex direction="column" gap={5}>
-            <Flex justify="space-between">
-                <ElText>{visitMax?.value ?? 0} {t(msg => msg.limit.item.visits)}</ElText>
-                {label.value}
-                <ElText>{formatPeriodCommon((timeMax?.value ?? 0) * 1000)}</ElText>
-            </Flex>
-            <Flex gap={1} width='100%'>
-                <Flex flex={1}>
-                    <ElProgress
-                        strokeWidth={20}
-                        percentage={visitPercentage.value}
-                        format={v => v.toFixed(1)}
-                        style={{ width: '100%' } satisfies StyleValue}
-                    />
-                </Flex>
-                <Flex flex={1}>
-                    <ElProgress
-                        strokeWidth={20}
-                        percentage={timePercentage.value}
-                        format={v => `${v.toFixed(1)}%`}
-                        style={{ width: '100%' } satisfies StyleValue}
-                    />
-                </Flex>
-            </Flex>
-        </Flex>
-    )
-}, { props: ['visit', 'visitMax', 'time', 'timeMax', 'label'] })
-
-const Maximum = defineComponent(() => {
-    const data = useItem()
-
-    return () => (
-        <Flex
-            direction="column"
-            width="100%"
-            height="100%"
-            justify="space-between"
-        >
-            <Box textAlign="center">
-                <ElText>{t(msg => msg.limit.item.visitTime)}</ElText>
-                &emsp;
-                <ElTag type={data.visitTime ? 'primary' : 'info'} size="small">
-                    {formatPeriodCommon(data.visitTime ?? 0)}
-                </ElTag>
-            </Box>
-            <DoubleProgress
-                label={t(msg => msg.limit.item.daily)}
-                visitMax={data.visit} visit={data.count}
-                timeMax={data.time} time={data.waste / 1000}
-            />
-            <DoubleProgress
-                label={t(msg => msg.limit.item.weekly)}
-                visitMax={data.weeklyVisit} visit={data.weeklyCount}
-                timeMax={data.weekly} time={data.weeklyWaste / 1000}
-            />
-        </Flex>
-    )
-})
 
 const Body = defineComponent(() => {
     const data = useItem()
@@ -118,7 +41,7 @@ const Body = defineComponent(() => {
     return () => (
         <Flex
             flex={1}
-            gap={20}
+            gap={30}
             padding="0 20px 20px 20px"
             width="100%"
             boxSizing="border-box"
@@ -126,6 +49,7 @@ const Body = defineComponent(() => {
         >
             <Flex flex={1}>
                 {seg.value === 'maximum' && <Maximum />}
+                {seg.value === 'periods' && <Period />}
             </Flex>
             <Box textAlign="center" height="fit-content" width="100%">
                 <ElSegmented

@@ -14,6 +14,7 @@ import { defineComponent, onMounted, ref, type VNode } from "vue"
  * @returns T/F
  */
 export async function judgeVerificationRequired(item: timer.limit.Item): Promise<boolean> {
+    if (item.locked) return true
     if (!isEnabledAndEffective(item)) return false
 
     const { visitTime, periods } = item

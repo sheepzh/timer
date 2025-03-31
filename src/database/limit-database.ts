@@ -65,6 +65,10 @@ type ItemValue = {
      */
     e: boolean
     /**
+     * Locked flag
+     */
+    l: boolean
+    /**
      * Allow to delay
      */
     ad: boolean
@@ -94,7 +98,7 @@ type ItemValue = {
 }
 
 const cvtItem2Rec = (item: ItemValue): LimitRecord => {
-    const { i, n, c, t, v, p, e, ad, wd, wt, r, ct, wct, } = item
+    const { i, n, c, t, v, p, e, l, ad, wd, wt, r, ct, wct, } = item
     const records: DateRecords = {}
     Object.entries(r || {}).forEach?.(([date, { m, d, c }]) => records[date] = { mill: m, delay: d, visit: c })
     return {
@@ -111,7 +115,7 @@ const cvtItem2Rec = (item: ItemValue): LimitRecord => {
         allowDelay: !!ad,
         weekdays: wd,
         records: records,
-        locked: false,
+        locked: l,
     }
 }
 
@@ -122,9 +126,9 @@ function migrate(exist: Items, toMigrate: any) {
     Object.values(toMigrate).forEach((value, idx) => {
         const id = idBase + idx
         const itemValue: ItemValue = value as ItemValue
-        const { c, n, t, e, ad, v, p } = itemValue
+        const { c, n, t, e, l, ad, v, p } = itemValue
         exist[id] = {
-            i: id, c, n, t, e: !!e, ad: !!ad, v, p,
+            i: id, c, n, t, e: !!e, l: !!l, ad: !!ad, v, p,
             r: {},
         }
     })
@@ -163,7 +167,7 @@ class LimitDatabase extends BaseDatabase {
         const items = await this.getItems()
         let {
             id, name, weekdays,
-            enabled, allowDelay,
+            enabled, locked, allowDelay,
             cond,
             time, count,
             weekly, weeklyCount,
@@ -182,7 +186,7 @@ class LimitDatabase extends BaseDatabase {
             // Can be overridden by existing
             ...(existItem || {}),
             i: id, n: name, c: cond, wd: weekdays,
-            e: !!enabled, ad: !!allowDelay,
+            e: !!enabled, l: locked, ad: !!allowDelay,
             t: time, ct: count,
             wt: weekly, wct: weeklyCount,
             v: visitTime, p: periods,
@@ -245,6 +249,13 @@ class LimitDatabase extends BaseDatabase {
         const items = await this.getItems()
         if (!items[id]) return
         items[id].e = !!enabled
+        await this.update(items)
+    }
+
+    async updateLocked(id: number, locked: boolean) {
+        const items = await this.getItems()
+        if (!items[id]) return
+        items[id].l = !!locked
         await this.update(items)
     }
 

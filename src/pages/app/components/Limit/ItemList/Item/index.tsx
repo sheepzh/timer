@@ -33,8 +33,7 @@ const Item = defineComponent((props: Props) => {
     return () => (
         <ElCard
             shadow="always"
-            style={{ height: '100%' } satisfies StyleValue}
-            bodyStyle={{ height: '100%', boxSizing: 'border-box', padding: 0 }}
+            bodyStyle={{ height: '350px', boxSizing: 'border-box', padding: 0 }}
         >
             <Flex direction="column" height='100%'>
                 <Header />
@@ -43,6 +42,6 @@ const Item = defineComponent((props: Props) => {
             </Flex>
         </ElCard>
     )
-}, { props: ['value', 'selected', 'onSelectChange', 'onChanged', 'onModifyClick'] })
+}, { props: ['value', 'selected', 'onSelectChange', 'onChanged', 'onDeleted', 'onModifyClick'] })
 
 export default Item
