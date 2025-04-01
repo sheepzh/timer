@@ -10,6 +10,7 @@ import { useSwitch } from "@hooks"
 import limitService from "@service/limit-service"
 import { ElDialog, ElMessage } from "element-plus"
 import { computed, defineComponent, nextTick, ref, toRaw } from "vue"
+import { useLimitTable } from "../context"
 import Sop, { type SopInstance } from "./Sop"
 
 export type ModifyInstance = {
@@ -20,10 +21,8 @@ export type ModifyInstance = {
 type Mode = "create" | "modify"
 
 const _default = defineComponent({
-    emits: {
-        save: (_saved: timer.limit.Rule) => true
-    },
     setup: (_, ctx) => {
+        const { refresh } = useLimitTable()
         const [visible, open, close] = useSwitch()
         const sop = ref<SopInstance>()
         const mode = ref<Mode>()
@@ -46,18 +45,18 @@ const _default = defineComponent({
                 await limitService.update(saved)
             } else {
                 const toCreate = {
-                    ...modifyingItem || {},
                     cond, enabled, name, time, weekly, visitTime, weekdays, count, weeklyCount,
                     // Object to array
                     periods: periods?.map(i => ([i?.[0], i?.[1]] satisfies Vector<number>)),
-                }
+                    allowDelay: false, locked: false,
+                } satisfies MakeOptional<timer.limit.Rule, 'id'>
                 const id = await limitService.create(toCreate)
                 saved = { ...toCreate, id }
             }
             close()
             ElMessage.success(t(msg => msg.operation.successMsg))
             sop.value?.reset?.()
-            ctx.emit("save", saved)
+            refresh?.()
         }
 
         const instance: ModifyInstance = {

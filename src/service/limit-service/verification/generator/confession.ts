@@ -17,6 +17,7 @@ class ConfessionGenerator implements VerificationGenerator {
     generate(_: VerificationContext): VerificationPair {
         return {
             answer: msg => msg.confession,
+            second: 20,
         }
     }
 }

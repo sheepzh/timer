@@ -38,7 +38,7 @@ class LaunchContextWrapper implements LaunchContext {
     async newPage(url?: string): Promise<Page> {
         const page = await this.browser.newPage()
         if (url) {
-            await page.goto(url, { waitUntil: 'load' })
+            await page.goto(url, { waitUntil: 'domcontentloaded' })
         }
         return page
     }
