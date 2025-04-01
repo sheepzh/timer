@@ -30,7 +30,7 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     const [startDate, endDate] = await weekHelper.getWeekDateRange(now)
 
     return (await db.all())
-        .filter(item => filterDisabled ? item.enabled : true)
+        .filter(item => !filterDisabled || item.enabled)
         .filter(item => !id || id === item?.id)
         // If use url, then test it
         .filter(item => !url || matches(item?.cond, url))
@@ -80,6 +80,13 @@ async function updateEnabled(...items: timer.limit.Item[]): Promise<void> {
         await db.updateEnabled(item.id, !!item.enabled)
     }
     await noticeLimitChanged()
+}
+
+async function updateLocked(...items: timer.limit.Item[]): Promise<void> {
+    if (!items?.length) return
+    for (const item of items) {
+        await db.updateLocked(item.id, item.locked)
+    }
 }
 
 async function updateDelay(...items: timer.limit.Item[]) {
@@ -213,6 +220,7 @@ class LimitService {
     getRelated = getRelated
     updateEnabled = updateEnabled
     updateDelay = updateDelay
+    updateLocked = updateLocked
     select = select
     remove = remove
     update = update

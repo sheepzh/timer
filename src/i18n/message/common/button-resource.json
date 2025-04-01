@@ -13,7 +13,8 @@
         "next": "Next",
         "okey": "OK",
         "dont": "NO!",
-        "operation": "Operations",
+        "operation": "Operation",
+        "configuration": "Configuration",
         "clear": "Clear",
         "batchEnable": "Batch enable",
         "batchDisable": "Batch disable"
@@ -33,6 +34,7 @@
         "okey": "好的",
         "dont": "不用了",
         "operation": "操作",
+        "configuration": "设置",
         "clear": "清除",
         "batchEnable": "批量启用",
         "batchDisable": "批量禁用"

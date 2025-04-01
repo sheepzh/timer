@@ -44,9 +44,14 @@ describe('util/limit', () => {
     })
 
     test('isEffective', () => {
-        const rule = (weekdays?: number[]): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays })
-        expect(isEffective(undefined)).toBe(false)
-        expect(isEffective(rule())).toBe(true)
+        const rule = (weekdays?: number[]): timer.limit.Rule => ({
+            id: 1, name: 'foobar',
+            cond: [],
+            time: 0, weekdays,
+            enabled: true, allowDelay: false, locked: false,
+        })
+        expect(isEffective(undefined)).toBe(true)
+        expect(isEffective([])).toBe(true)
 
         Object.defineProperty(global, 'performance', { writable: true })
         jest.useFakeTimers()
@@ -56,8 +61,8 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        expect(isEffective(rule([1, 2]))).toBe(false)
-        expect(isEffective(rule([0, 1, 2]))).toBe(true)
+        expect(isEffective([1, 2])).toBe(false)
+        expect(isEffective([0, 1, 2])).toBe(true)
     })
 
     test('isEffectiveAndEnabled', () => {
@@ -69,7 +74,12 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays, enabled })
+        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({
+            id: 1, name: 'foobar',
+            cond: [],
+            time: 0, weekdays,
+            enabled, allowDelay: false, locked: false,
+        })
 
         expect(isEnabledAndEffective(rule([0, 1, 2], true))).toBe(true)
         expect(isEnabledAndEffective(rule([0, 1, 2], false))).toBe(false)
@@ -87,7 +97,10 @@ describe('util/limit', () => {
             delayCount: 0,
             weeklyWaste: 0,
             weeklyVisit: 0,
-            weeklyDelayCount: 0
+            weeklyDelayCount: 0,
+            enabled: true,
+            allowDelay: false,
+            locked: false,
         }
 
         expect(hasWeeklyLimited(item)).toBe(false)
@@ -117,7 +130,10 @@ describe('util/limit', () => {
             delayCount: 0,
             weeklyWaste: 0,
             weeklyVisit: 0,
-            weeklyDelayCount: 0
+            weeklyDelayCount: 0,
+            enabled: true,
+            allowDelay: false,
+            locked: false,
         }
         const duration = 1000
 
@@ -162,7 +178,10 @@ describe('util/limit', () => {
                 delayCount: 0,
                 weeklyWaste: 0,
                 weeklyVisit: 0,
-                weeklyDelayCount: 0
+                weeklyDelayCount: 0,
+                enabled: true,
+                allowDelay: false,
+                locked: false,
             }
             setup(item)
             expect(hasLimited(item)).toBe(limited)

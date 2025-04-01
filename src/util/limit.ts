@@ -74,13 +74,10 @@ export function hasWeeklyLimited(item: timer.limit.Item): boolean {
 }
 
 export function isEnabledAndEffective(rule: timer.limit.Rule): boolean {
-    return !!rule?.enabled && isEffective(rule)
+    return !!rule?.enabled && isEffective(rule.weekdays)
 }
 
-export function isEffective(rule: timer.limit.Rule | undefined): boolean {
-    if (!rule) return false
-    const { weekdays } = rule
-
+export function isEffective(weekdays: timer.limit.Rule['weekdays']): boolean {
     const weekdayLen = weekdays?.length
     if (!weekdayLen || weekdayLen <= 0 || weekdayLen >= 7) {
         return true
