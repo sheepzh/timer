@@ -23,6 +23,7 @@ export type ButtonMessage = {
     operation: string
     configuration: string
     clear: string
+    enable: string
     batchEnable: string
     batchDisable: string
 }

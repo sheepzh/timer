@@ -43,11 +43,11 @@
     },
     "zh_TW": {
         "merge": {
-            "mergeBy": "數據合併",
+            "mergeBy": "資料合併",
             "mergeMethod": {
-                "date": "按日期",
-                "domain": "按網址",
-                "cate": "按類別",
+                "date": "依日期",
+                "domain": "依網域",
+                "cate": "依類別",
                 "notMerge": "不合並"
             }
         },
@@ -99,7 +99,7 @@
     },
     "de": {
         "merge": {
-            "mergeBy": "Zusammenführen nach",
+            "mergeBy": "Merge nach",
             "mergeMethod": {
                 "date": "Datum",
                 "domain": "URL",

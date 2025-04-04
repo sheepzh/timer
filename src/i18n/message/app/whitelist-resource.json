@@ -9,13 +9,13 @@
         "errorInput": "域名格式错误"
     },
     "zh_TW": {
-        "addConfirmMsg": "{url} 加入白名單後，將不再統計該網站的數據",
-        "removeConfirmMsg": "{url} 將從白名單中移除",
-        "duplicateMsg": "已存在白名單中",
-        "infoAlertTitle": "你可以在這裡配置網站白名單",
-        "infoAlert0": "白名單內網站的上網時長和打開次數不會被統計",
-        "infoAlert1": "白名單內網站的上網時間也不會被限製",
-        "errorInput": "網域格式錯誤"
+        "addConfirmMsg": "將 {url} 加入白名單後，將停止統計此網站的瀏覽資料",
+        "removeConfirmMsg": "確定要將 {url} 從白名單移除嗎？",
+        "duplicateMsg": "此網址已存在於白名單中",
+        "infoAlertTitle": "網站白名單設定",
+        "infoAlert0": "白名單內的網站將不會記錄瀏覽時長與造訪次數",
+        "infoAlert1": "白名單內的網站不受時間限制功能影響",
+        "errorInput": "網域名稱格式錯誤"
     },
     "en": {
         "addConfirmMsg": "{url} won't be counted after added into the whitelist any more.",

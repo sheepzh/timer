@@ -1,46 +1,46 @@
 {
     "zh_CN": {
-        "searchPlaceholder": "输入域名，然后回车",
-        "title": "所有浏览数据"
+        "searchPlaceholder": "输入域名或网址",
+        "title": "浏览历史统计"
     },
     "en": {
-        "searchPlaceholder": "Search by URL",
-        "title": "All browsing data"
+        "searchPlaceholder": "Enter domain or URL",
+        "title": "Browsing Analytics"
     },
     "de": {
-        "searchPlaceholder": "Suche nach URL",
-        "title": "Alle Browserdaten"
+        "searchPlaceholder": "Domain oder URL eingeben",
+        "title": "Browser-Analyse"
     },
     "ja": {
-        "searchPlaceholder": "URLで検索",
-        "title": "すべての閲覧データ"
+        "searchPlaceholder": "ドメインまたはURLを入力",
+        "title": "閲覧履歴分析"
     },
     "zh_TW": {
-        "searchPlaceholder": "輸入網域，然後回車",
-        "title": "所有瀏覽數據"
+        "searchPlaceholder": "輸入網域或網址",
+        "title": "瀏覽紀錄統計"
     },
     "pt_PT": {
-        "searchPlaceholder": "Busca por URL",
-        "title": "Todos os dados de navegação"
+        "searchPlaceholder": "Inserir domínio ou URL",
+        "title": "Análise de Navegação"
     },
     "uk": {
-        "searchPlaceholder": "Пошук за URL",
-        "title": "Усі дані перегляду"
+        "searchPlaceholder": "Введіть домен або URL",
+        "title": "Аналіз перегляду"
     },
     "fr": {
-        "searchPlaceholder": "Rechercher par URL",
-        "title": "Toutes les données de navigation"
+        "searchPlaceholder": "Saisir un domaine ou URL",
+        "title": "Analytique de navigation"
     },
     "es": {
-        "searchPlaceholder": "Buscar por URL",
-        "title": "Todos los datos de navegación"
+        "searchPlaceholder": "Ingresar dominio o URL",
+        "title": "Análisis de Navegación"
     },
     "ru": {
-        "searchPlaceholder": "Поиск по URL",
-        "title": "Все данные браузера"
+        "searchPlaceholder": "Введите домен или URL",
+        "title": "Анализ браузера"
     },
     "ar": {
-        "searchPlaceholder": "ابحث بواسطة عنوان URL",
-        "title": "جميع بيانات التصفح"
+        "searchPlaceholder": "أدخل النطاق أو الرابط",
+        "title": "تحليل التصفح"
     }
 }

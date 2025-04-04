@@ -19,22 +19,22 @@
         }
     },
     "zh_TW": {
-        "removeConfirmMsg": "自定義合並規則 {origin} 將被移除",
-        "originPlaceholder": "原網域",
-        "mergedPlaceholder": "合並後網域",
-        "errorOrigin": "原網域格式錯誤",
-        "duplicateMsg": "合並規則已存在：{origin}",
-        "addConfirmMsg": "將爲 {origin} 設置自定義合並規則",
-        "infoAlertTitle": "該頁麵可以配置子網域的合並規則",
-        "infoAlert0": "點擊新增按鈕，會彈出原網域和合並後網域的輸入框，填冩並保存規則",
-        "infoAlert1": "原網域可填具體的網域或者正規表示式，比如 www.baidu.com，*.baidu.com，*.google.com.*。以此確定哪些網域在合並時會使用該條規則",
-        "infoAlert2": "合並後網域可填具體的網域，或者填數字，或者不填",
-        "infoAlert3": "如果填數字，則表示合並後網域的級數。比如存在規則【 *.*.edu.cn >>> 3 】，那麼 www.hust.edu.cn 將被合並至 hust.edu.cn",
-        "infoAlert4": "如果不填，則表示原網域不會被合並",
-        "infoAlert5": "如果沒有匹配任何規則，則默認會合並至 {psl} 的前一級",
+        "removeConfirmMsg": "自訂合併規則 {origin} 將被刪除",
+        "originPlaceholder": "原始網域",
+        "mergedPlaceholder": "合併後網域",
+        "errorOrigin": "原始網域格式錯誤",
+        "duplicateMsg": "合併規則已存在：{origin}",
+        "addConfirmMsg": "將為 {origin} 設定自訂合併規則",
+        "infoAlertTitle": "此頁面可設定子網域合併規則",
+        "infoAlert0": "點擊「新增」按鈕後，需填寫原始網域與合併後網域",
+        "infoAlert1": "原始網域可填寫具體網域或正規表示式，例如：www.baidu.com、*.baidu.com、*.google.com.*",
+        "infoAlert2": "合併後網域可填寫：具體網域／數字／留空",
+        "infoAlert3": "若填數字，代表合併後的網域層級數。例如規則【 *.*.edu.cn >>> 3 】會將 www.hust.edu.cn 合併為 hust.edu.cn",
+        "infoAlert4": "若留空，表示原始網域將保持不變",
+        "infoAlert5": "若未匹配任何規則，預設會合併至 {psl} 的上一層級",
         "tagResult": {
-            "blank": "不合並",
-            "level": "{level} 級網域"
+            "blank": "保持原網域",
+            "level": "{level} 層網域"
         }
     },
     "en": {

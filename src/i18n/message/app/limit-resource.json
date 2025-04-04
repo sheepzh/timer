@@ -60,53 +60,53 @@
         "filterDisabled": "過濾無效規則",
         "item": {
             "name": "規則名稱",
-            "condition": "限製網址",
+            "condition": "限制網址",
             "daily": "每日上限",
             "weekly": "每週上限",
-            "weekStartInfo": "每週的第一天是「{weekStart}」，您可以在統計選項中變更此值",
+            "weekStartInfo": "每週起始日為「{weekStart}」，您可於統計設定中調整",
             "delayCount": "延遲次數",
-            "detail": "規則詳情",
-            "visitTime": "每次訪問限制時長",
-            "period": "受限時段",
-            "enabled": "是否有效",
+            "detail": "規則詳細內容",
+            "visitTime": "單次造訪時長限制",
+            "period": "限制時段",
+            "enabled": "是否啟用",
             "effectiveDay": "生效日期",
-            "delayAllowed": "可延遲",
-            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
-            "visits": "次訪問",
+            "delayAllowed": "允許延遲",
+            "delayAllowedInfo": "當使用時間超過限制時，可點擊【再看5分鐘】暫時延長。若關閉此功能則無法延時。",
+            "visits": "次造訪",
             "or": "或",
             "notEffective": "未生效"
         },
         "step": {
-            "base": "基本信息",
-            "url": "設定 URL",
-            "rule": "設定規則"
+            "base": "基本設定",
+            "url": "網址設定",
+            "rule": "規則設定"
         },
         "button": {
-            "test": "網址測試",
-            "parseUrl": "解析 URL"
+            "test": "測試網址",
+            "parseUrl": "解析網址"
         },
-        "useWildcard": "是否使用通配符",
+        "useWildcard": "是否使用萬用字元",
         "message": {
-            "noUrl": "未填冩限製網址",
-            "noRule": "未填寫任何規則",
-            "deleteConfirm": "是否要刪除規則 [{name}]？",
-            "inputTestUrl": "請先輸入需要測試的網址鏈接",
+            "noUrl": "未填寫限制網址",
+            "noRule": "未設定任何規則",
+            "deleteConfirm": "確定要刪除規則「{name}」嗎？",
+            "inputTestUrl": "請輸入要測試的網址",
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
-            "noRuleMatched": "該網址未命中任何規則",
-            "rulesMatched": "該網址命中以下規則："
+            "noRuleMatched": "此網址未符合任何規則",
+            "rulesMatched": "此網址符合以下規則："
         },
-        "urlPlaceholder": "請輸入你想要限制的網址，然後點選解析按鈕",
+        "urlPlaceholder": "請輸入要限制的網址，然後點擊解析按鈕",
         "verification": {
-            "inputTip": "規則已觸發或鎖定，如要繼續操作，請在 {second} 秒內輸入以下問題的答案：{prompt}",
-            "inputTip2": "規則已被觸發或鎖定。若要繼續，請在 {second} 秒內輸入：{answer}",
-            "pswInputTip": "時限規則已觸發，如要繼續操作，所以請在下列輸入框中輸入您的解鎖密碼",
-            "strictTip": "時限規則已觸發，不允許手動解鎖！",
+            "inputTip": "規則已觸發或鎖定，請於 {second} 秒內回答：{prompt}",
+            "inputTip2": "規則已觸發或鎖定。請在 {second} 秒內輸入：{answer}",
+            "pswInputTip": "時間限制已觸發或鎖定，請輸入解鎖密碼繼續",
+            "strictTip": "時間限制已觸發，禁止手動解鎖！",
             "incorrectPsw": "密碼錯誤",
-            "incorrectAnswer": "答案不正確",
-            "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
+            "incorrectAnswer": "回答錯誤",
+            "pi": "圓周率 π 小數點後第 {startIndex} 至 {endIndex} 位共 {digitCount} 位數字",
             "confession": "一寸光陰一寸金，寸金難買寸光陰"
         },
-        "reminder": "距離時間限制只剩不到 {min} 分鐘！"
+        "reminder": "距離時間限制僅剩 {min} 分鐘！"
     },
     "en": {
         "filterDisabled": "Only enabled",

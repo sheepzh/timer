@@ -9,8 +9,7 @@ import {
     DEFAULT_ENDPOINT as DEFAULT_OBSIDIAN_ENDPOINT,
 } from "@api/obsidian"
 import { t } from "@app/locale"
-import { AUTHOR_EMAIL } from "@src/package"
-import { ElAlert, ElInput, ElOption, ElSelect } from "element-plus"
+import { ElInput, ElOption, ElSelect } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { type OptionInstance } from "../../common"
 import OptionItem from "../OptionItem"
@@ -47,8 +46,7 @@ const _default = defineComponent((_props, ctx) => {
     ctx.expose({ reset } satisfies OptionInstance)
 
     return () => <>
-        <ElAlert closable={false} type="warning" description={t(msg => msg.option.backup.alert, { email: AUTHOR_EMAIL })} />
-        <OptionItem label={msg => msg.option.backup.type} defaultValue={TYPE_NAMES['none']}>
+        <OptionItem label={msg => msg.option.backup.type} defaultValue={TYPE_NAMES['none']} hideDivider>
             <ElSelect
                 modelValue={backupType.value}
                 size="small"
