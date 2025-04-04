@@ -6,10 +6,10 @@
         "second": "按秒显示"
     },
     "zh_TW": {
-        "default": "默認時間格式",
-        "hour": "按小時顯示",
-        "minute": "按分鐘顯示",
-        "second": "按秒顯示"
+        "default": "預設時間格式",
+        "hour": "小時制",
+        "minute": "分鐘制",
+        "second": "秒數制"
     },
     "en": {
         "default": "Default time format",

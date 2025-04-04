@@ -17,8 +17,8 @@
         "about": "关于"
     },
     "zh_TW": {
-        "dashboard": "儀錶盤",
-        "data": "我的數據",
+        "dashboard": "数据总览",
+        "data": "我的資料",
         "dataReport": "報表明細",
         "siteAnalysis": "網站分析",
         "dataClear": "儲存狀況",
@@ -27,7 +27,7 @@
         "limit": "時間限制",
         "additional": "附加功能",
         "siteManage": "網站管理",
-        "whitelist": "白名單管理",
+        "whitelist": "白名單",
         "mergeRule": "網站合併規則",
         "other": "其他",
         "helpUs": "協助翻譯",

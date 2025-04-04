@@ -1,7 +1,7 @@
 {
     "zh_CN": {
-        "weekDays": "星期一|星期二|星期三|星期四|星期五|星期六|星期天",
-        "months": "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月",
+        "weekDays": "周一|周二|周三|周四|周五|周六|周日",
+        "months": "1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}",
         "simpleTimeFormat": "{m}/{d} {h}:{i}",
@@ -15,15 +15,15 @@
             "everyday": "每天",
             "thisWeek": "本周",
             "thisMonth": "本月",
-            "lastDays": "最近 {n} 天",
-            "tillYesterday": "直到昨天",
-            "tillDaysAgo": "直到 {n} 天前",
-            "allTime": "所有时间"
+            "lastDays": "最近{n}天",
+            "tillYesterday": "截至昨天",
+            "tillDaysAgo": "截至{n}天前",
+            "allTime": "全部时间"
         }
     },
     "zh_TW": {
-        "weekDays": "禮拜一|禮拜二|禮拜三|禮拜四|禮拜五|禮拜六|禮拜天",
-        "months": "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月",
+        "weekDays": "週一|週二|週三|週四|週五|週六|週日",
+        "months": "1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}",
         "simpleTimeFormat": "{m}/{d} {h}:{i}",
@@ -37,10 +37,10 @@
             "everyday": "每天",
             "thisWeek": "本週",
             "thisMonth": "本月",
-            "lastDays": "最近 {n} 天",
-            "tillYesterday": "直到昨天",
-            "tillDaysAgo": "直到 {n} 天前",
-            "allTime": "所有時間"
+            "lastDays": "最近{n}天",
+            "tillYesterday": "截至昨天",
+            "tillDaysAgo": "截至{n}天前",
+            "allTime": "全部時間"
         }
     },
     "en": {
@@ -60,14 +60,14 @@
             "thisWeek": "This week",
             "thisMonth": "This month",
             "lastDays": "Last {n} days",
-            "tillYesterday": "Until yesterday",
-            "tillDaysAgo": "Until {n} days ago",
+            "tillYesterday": "Through yesterday",
+            "tillDaysAgo": "Through {n} days ago",
             "allTime": "All time"
         }
     },
     "ja": {
         "weekDays": "月|火|水|木|金|土|日",
-        "months": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Set|Oct|Nov|Dec",
+        "months": "1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月",
         "dateFormat": "{y}/{m}/{d}",
         "timeFormat": "{y}/{m}/{d} {h}:{i}:{s}",
         "simpleTimeFormat": "{m}/{d} {h}:{i}",
@@ -81,21 +81,21 @@
             "everyday": "毎日",
             "thisWeek": "今週",
             "thisMonth": "今月",
-            "lastDays": "過去 {n} 日間",
+            "lastDays": "過去{n}日間",
             "tillYesterday": "昨日まで",
-            "tillDaysAgo": "{n} 日前まで",
+            "tillDaysAgo": "{n}日前まで",
             "allTime": "全期間"
         }
     },
     "pt_PT": {
-        "weekDays": "Seg|Ter|Qua|Qui|Sex|Sab|Dom",
-        "months": "Jan|Fev|Mar|Abr|Maio|Jun|Jul|Ago|Set|Out|Nov|Dez",
+        "weekDays": "Seg|Ter|Qua|Qui|Sex|Sáb|Dom",
+        "months": "Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez",
         "dateFormat": "{d}/{m}/{y}",
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}/{m} {h}:{i}",
         "label": {
-            "startDate": "Data de início",
-            "endDate": "Data de fim"
+            "startDate": "Data inicial",
+            "endDate": "Data final"
         },
         "range": {
             "today": "Hoje",
@@ -106,26 +106,26 @@
             "lastDays": "Últimos {n} dias",
             "tillYesterday": "Até ontem",
             "tillDaysAgo": "Até {n} dias atrás",
-            "allTime": "Tempo todo"
+            "allTime": "Todo o tempo"
         }
     },
     "uk": {
         "weekDays": "Пн|Вт|Ср|Чт|Пт|Сб|Нд",
-        "months": "Січ|Лют|Бер|Кві|Тра|Чер|Лип|Сер|Вер|Жов|Лис|Гру",
+        "months": "січ|лют|бер|кві|тра|чер|лип|сер|вер|жов|лис|гру",
         "dateFormat": "{d}.{m}.{y}",
-        "timeFormat": "{d}.{m}.{y}, {h}:{i}:{s}",
+        "timeFormat": "{d}.{m}.{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}.{m} {h}:{i}",
         "label": {
-            "startDate": "Дата початку",
-            "endDate": "Дата завершення"
+            "startDate": "Початкова дата",
+            "endDate": "Кінцева дата"
         },
         "range": {
             "today": "Сьогодні",
-            "yesterday": "Учора",
+            "yesterday": "Вчора",
             "everyday": "Щодня",
             "thisWeek": "Цього тижня",
-            "thisMonth": "Цей місяць",
-            "lastDays": "Минулі {n} днів",
+            "thisMonth": "Цього місяця",
+            "lastDays": "Останні {n} дні",
             "tillYesterday": "До вчора",
             "tillDaysAgo": "До {n} днів тому",
             "allTime": "Весь час"
@@ -134,17 +134,17 @@
     "es": {
         "weekDays": "Lun|Mar|Mié|Jue|Vie|Sáb|Dom",
         "months": "Ene|Feb|Mar|Abr|May|Jun|Jul|Ago|Sep|Oct|Nov|Dic",
-        "dateFormat": "{m}/{d}/{y}",
-        "timeFormat": "{m}/{d}/{y} {h}:{i}:{s}",
-        "simpleTimeFormat": "{m}/{d} {h}:{i}",
+        "dateFormat": "{d}/{m}/{y}",
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}",
         "label": {
-            "startDate": "Fecha inicial",
-            "endDate": "Fecha final"
+            "startDate": "Fecha de inicio",
+            "endDate": "Fecha de fin"
         },
         "range": {
             "today": "Hoy",
             "yesterday": "Ayer",
-            "everyday": "Cada día",
+            "everyday": "Diario",
             "thisWeek": "Esta semana",
             "thisMonth": "Este mes",
             "lastDays": "Últimos {n} días",
@@ -155,10 +155,10 @@
     },
     "de": {
         "weekDays": "Mo|Di|Mi|Do|Fr|Sa|So",
-        "months": "Jan|Feb|März|Apr|Mai|Juni|Juli|Aug|Sept|Okt|Nov|Dez",
-        "dateFormat": "{d}/{m}/{y}",
-        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
-        "simpleTimeFormat": "{d}/{m} {h}:{i}",
+        "months": "Jan|Feb|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Nov|Dez",
+        "dateFormat": "{d}.{m}.{y}",
+        "timeFormat": "{d}.{m}.{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}.{m}. {h}:{i}",
         "label": {
             "startDate": "Startdatum",
             "endDate": "Enddatum"
@@ -167,17 +167,17 @@
             "today": "Heute",
             "yesterday": "Gestern",
             "everyday": "Täglich",
-            "thisWeek": "Diese woche",
-            "thisMonth": "Diesen monat",
+            "thisWeek": "Diese Woche",
+            "thisMonth": "Diesen Monat",
             "lastDays": "Letzte {n} Tage",
             "tillYesterday": "Bis gestern",
             "tillDaysAgo": "Bis vor {n} Tagen",
-            "allTime": "Alle Zeit"
+            "allTime": "Gesamte Zeit"
         }
     },
     "fr": {
         "weekDays": "Lun|Mar|Mer|Jeu|Ven|Sam|Dim",
-        "months": "Jan|Fév|Mar|Avr|Mai|Juin|Jul|Août|Sep|Oct|Nov|Déc",
+        "months": "Janv|Févr|Mars|Avr|Mai|Juin|Juil|Août|Sept|Oct|Nov|Déc",
         "dateFormat": "{d}/{m}/{y}",
         "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}/{m} {h}:{i}",
@@ -188,24 +188,24 @@
         "range": {
             "today": "Aujourd'hui",
             "yesterday": "Hier",
-            "everyday": "Tous les jours",
+            "everyday": "Quotidien",
             "thisWeek": "Cette semaine",
             "thisMonth": "Ce mois-ci",
-            "lastDays": "{n} derniers jours",
-            "tillYesterday": "Jusqu'hier",
+            "lastDays": "{n} derniers jours",
+            "tillYesterday": "Jusqu'à hier",
             "tillDaysAgo": "Jusqu'à {n} jours",
-            "allTime": "Tout le temps"
+            "allTime": "Toute la période"
         }
     },
     "ru": {
         "weekDays": "Пн|Вт|Ср|Чт|Пт|Сб|Вс",
-        "months": "Янв|Фев|Мар|Апр|Май|Июн|Июль|Авг|Сен|Окт|Ноя|Дек",
+        "months": "Янв|Фев|Мар|Апр|Май|Июн|Июл|Авг|Сен|Окт|Ноя|Дек",
         "dateFormat": "{d}.{m}.{y}",
         "timeFormat": "{d}.{m}.{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}.{m} {h}:{i}",
         "label": {
             "startDate": "Дата начала",
-            "endDate": "Дате окончания"
+            "endDate": "Дата окончания"
         },
         "range": {
             "today": "Сегодня",
@@ -214,31 +214,31 @@
             "thisWeek": "На этой неделе",
             "thisMonth": "В этом месяце",
             "lastDays": "Последние {n} дней",
-            "tillYesterday": "До вчерашнего дня",
+            "tillYesterday": "До вчера",
             "tillDaysAgo": "До {n} дней назад",
-            "allTime": "Всего времени"
+            "allTime": "За весь период"
         }
     },
     "ar": {
         "weekDays": "الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت|الأحد",
         "months": "يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر",
         "dateFormat": "{d}/{m}/{y}",
-        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
-        "simpleTimeFormat": "{d}/{m} {h}:{i}",
+        "timeFormat": "{d} {m} {y}، {h}:{i}:{s}",
+        "simpleTimeFormat": "{d} {m}، {h}:{i}",
         "label": {
-            "startDate": "تاريخ البَدْء",
+            "startDate": "تاريخ البدء",
             "endDate": "تاريخ الانتهاء"
         },
         "range": {
             "today": "اليوم",
-            "yesterday": "يوم أمسِ",
-            "everyday": "كل يوم",
+            "yesterday": "أمس",
+            "everyday": "يوميًا",
             "thisWeek": "هذا الأسبوع",
             "thisMonth": "هذا الشهر",
-            "lastDays": "آخر {n} أيام",
-            "tillYesterday": "حتى أمسِ",
-            "tillDaysAgo": "حتى {n} يوم مضت",
-            "allTime": "كل الوقت"
+            "lastDays": "آخر {n} يوم",
+            "tillYesterday": "حتى أمس",
+            "tillDaysAgo": "حتى منذ {n} يوم",
+            "allTime": "كل الفترة"
         }
     }
 }

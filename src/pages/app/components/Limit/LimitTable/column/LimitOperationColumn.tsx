@@ -8,9 +8,10 @@ import { t } from "@app/locale"
 import { Delete, Edit } from "@element-plus/icons-vue"
 import { locale } from "@i18n"
 import { type ElTableRowScope } from "@pages/element-ui/table"
-import { ElButton, ElMessageBox, ElTableColumn } from "element-plus"
+import { ElButton, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { verifyCanModify } from "../../common"
+import { useLimitTable } from "../../context"
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 220,
@@ -28,17 +29,10 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
 
 const _default = defineComponent({
     emits: {
-        rowDelete: (_row: timer.limit.Item) => true,
         rowModify: (_row: timer.limit.Item) => true,
     },
     setup(_props, ctx) {
-        const handleDelete = (row: timer.limit.Item) => verifyCanModify(row)
-            .then(() => {
-                const message = t(msg => msg.limit.message.deleteConfirm, { cond: row?.cond })
-                return ElMessageBox.confirm(message, { type: "warning" })
-            })
-            .then(() => ctx.emit('rowDelete', row))
-            .catch(() => {/** Do nothing */ })
+        const { deleteRow } = useLimitTable()
 
         const handleModify = (row: timer.limit.Item) => verifyCanModify(row)
             .then(() => ctx.emit("rowModify", row))
@@ -51,12 +45,7 @@ const _default = defineComponent({
             align="center"
             fixed="right"
             v-slots={({ row }: ElTableRowScope<timer.limit.Item>) => <>
-                <ElButton
-                    type="danger"
-                    size="small"
-                    icon={<Delete />}
-                    onClick={() => handleDelete(row)}
-                >
+                <ElButton type="danger" size="small" icon={<Delete />} onClick={() => deleteRow(row)}>
                     {t(msg => msg.button.delete)}
                 </ElButton>
                 <ElButton

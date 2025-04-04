@@ -13,11 +13,11 @@ export const usePswEdit = (options: Options) => {
     const [confirmPsw, setConfirmPsw, resetConfirmPsw] = useState('')
 
     const modifyPsw = async (): Promise<string | undefined> => {
-        setPsw(reset?.())
+        setPsw('')
         resetConfirmPsw()
 
         const action = await ElMessageBox({
-            title: t(msg => msg.option.dailyLimit.level.password),
+            title: t(msg => msg.option.dailyLimit.level.passwordLabel, { input: '' }),
             message: (
                 <ElForm labelWidth={120} labelPosition="left">
                     <ElFormItem required label={t(msg => msg.option.dailyLimit.level.pswFormLabel)}>

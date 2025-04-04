@@ -96,8 +96,7 @@ export type OptionMessage = {
             path: string
             account: string
             password: string
-        },
-        alert: string
+        }
         operation: string
         clientTable: {
             selectTip: string

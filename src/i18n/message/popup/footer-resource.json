@@ -1,61 +1,61 @@
 {
     "en": {
         "route": {
-            "percentage": "Percentage",
+            "percentage": "Distribution",
             "ranking": "Ranking"
         }
     },
     "zh_CN": {
         "route": {
-            "percentage": "占比分布",
-            "ranking": "数据排行"
+            "percentage": "占比分析",
+            "ranking": "数据排名"
         }
     },
     "ja": {
         "route": {
-            "percentage": "データの割合",
+            "percentage": "割合分布",
             "ranking": "ランキング"
         }
     },
     "zh_TW": {
         "route": {
-            "percentage": "佔比分佈",
-            "ranking": "數據排名"
+            "percentage": "比例分布",
+            "ranking": "數據排行"
         }
     },
     "pt_PT": {
         "route": {
-            "percentage": "Percentagem",
+            "percentage": "Distribuição",
             "ranking": "Classificação"
         }
     },
     "uk": {
         "route": {
-            "percentage": "Відсоток",
+            "percentage": "Розподіл",
             "ranking": "Рейтинг"
         }
     },
     "es": {
         "route": {
-            "percentage": "Porcentaje",
-            "ranking": "Listas"
+            "percentage": "Distribución",
+            "ranking": "Ranking"
         }
     },
     "de": {
         "route": {
-            "percentage": "Prozentsatz",
+            "percentage": "Verteilung",
             "ranking": "Rangliste"
         }
     },
     "fr": {
         "route": {
-            "percentage": "Pourcentage",
+            "percentage": "Répartition",
             "ranking": "Classement"
         }
     },
     "ar": {
         "route": {
-            "percentage": "نسبة مئوية",
+            "percentage": "التوزيع",
             "ranking": "الترتيب"
         }
     }

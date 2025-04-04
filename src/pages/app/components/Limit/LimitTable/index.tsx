@@ -6,17 +6,14 @@
  */
 import ColumnHeader from "@app/components/common/ColumnHeader"
 import { t } from "@app/locale"
-import { useManualRequest, useRequest } from "@hooks"
+import { useRequest } from "@hooks"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import weekHelper from "@service/components/week-helper"
-import limitService from "@service/limit-service"
 import { isEffective } from "@util/limit"
-import { useDocumentVisibility, useLocalStorage } from "@vueuse/core"
-import { ElMessage, ElSwitch, ElTable, ElTableColumn, ElTag, type Sort, type TableInstance } from "element-plus"
-import { defineComponent, ref, toRaw, watch } from "vue"
-import { verifyCanModify } from "../common"
-import { useLimitFilter } from "../context"
-import LimitDelayColumn from "./column/LimitDelayColumn"
+import { useLocalStorage } from "@vueuse/core"
+import { ElSwitch, ElTable, ElTableColumn, ElTag, type Sort } from "element-plus"
+import { defineComponent } from "vue"
+import { useLimitTable } from "../context"
 import LimitOperationColumn from "./column/LimitOperationColumn"
 import RuleContent from "./RuleContent"
 import Waste from "./Waste"
@@ -26,23 +23,14 @@ export type LimitSortProp = keyof Pick<timer.limit.Item, 'name' | 'weekdays' | '
 
 const DEFAULT_SORT_COL = 'waste'
 
-export type LimitTableInstance = {
-    refresh: () => void
-    getSelected: () => timer.limit.Item[]
-}
-
 const sortMethodByNumVal = (key: keyof timer.limit.Item & 'waste' | 'weeklyWaste'): (a: timer.limit.Item, b: timer.limit.Item) => number => {
     return ({ [key]: a }: timer.limit.Item, { [key]: b }: timer.limit.Item) => (a ?? 0) - (b ?? 0)
 }
 
 const sortByEffectiveDays = ({ weekdays: a }: timer.limit.Item, { weekdays: b }: timer.limit.Item) => (a?.length ?? 0) - (b?.length ?? 0)
 
-const sortByEnabled: CompareFn<timer.limit.Item> = (a, b): number => (a.enabled ? 1 : 0) - (b.enabled ? 1 : 0)
-
 const _default = defineComponent({
     emits: {
-        delayChange: (_row: timer.limit.Item) => true,
-        enabledChange: (_row: timer.limit.Item) => true,
         modify: (_row: timer.limit.Item) => true,
     },
     setup(_, ctx) {
@@ -52,49 +40,19 @@ const _default = defineComponent({
             return name || 'NaN'
         })
 
-        const filter = useLimitFilter()
-
-        const { data, refresh } = useRequest(
-            () => limitService.select({ filterDisabled: filter.value?.onlyEnabled, url: filter.value?.url || '' }),
-            { defaultValue: [], deps: filter },
-        )
-
-        // Query data if the window become visible
-        const docVisible = useDocumentVisibility()
-        watch(docVisible, () => docVisible.value && refresh())
-
-        const { refresh: deleteRow } = useManualRequest((row: timer.limit.Item) => limitService.remove(row), {
-            onSuccess() {
-                ElMessage.success(t(msg => msg.operation.successMsg))
-                refresh()
-            }
-        })
-
-        const tableInstance = ref<TableInstance>()
-        ctx.expose({
-            refresh,
-            getSelected: () => tableInstance.value?.getSelectionRows(),
-        } satisfies LimitTableInstance)
+        const {
+            list, table,
+            changeEnabled, changeDelay, changeLocked
+        } = useLimitTable()
 
         const historySort = useLocalStorage<Sort>('__limit_sort_default__', { prop: DEFAULT_SORT_COL, order: 'descending' })
 
-        const onEnabledChange = async (row: timer.limit.Item, newVal: boolean | string | number) => {
-            const enabled = !!newVal
-            try {
-                !enabled && await verifyCanModify(row)
-                row.enabled = enabled
-                ctx.emit("enabledChange", toRaw(row))
-            } catch (e) {
-                console.log(e)
-            }
-        }
-
         return () => (
             <ElTable
-                ref={tableInstance}
+                ref={table}
                 border fit highlightCurrentRow
                 style={{ width: "100%" }}
-                data={data.value}
+                data={list.value}
                 defaultSort={historySort.value}
                 onSort-change={(val: Sort) => historySort.value = { prop: val?.prop, order: val?.order }}
             >
@@ -102,7 +60,7 @@ const _default = defineComponent({
                 <ElTableColumn
                     prop='name'
                     label={t(msg => msg.limit.item.name)}
-                    minWidth={140}
+                    minWidth={120}
                     align="center"
                     formatter={({ name }: timer.limit.Item) => name || '-'}
                     fixed
@@ -111,13 +69,13 @@ const _default = defineComponent({
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.condition)}
-                    minWidth={200}
+                    minWidth={180}
                     align="center"
                     formatter={({ cond }: timer.limit.Item) => <>{cond?.map?.(c => <span style={{ display: "block" }}>{c}</span>) || ''}</>}
                 />
                 <ElTableColumn
                     label={t(msg => msg.limit.item.detail)}
-                    minWidth={240}
+                    minWidth={200}
                     align="center"
                 >
                     {({ row }: ElTableRowScope<timer.limit.Item>) => <RuleContent value={row} />}
@@ -125,7 +83,7 @@ const _default = defineComponent({
                 <ElTableColumn
                     prop='effectiveDays'
                     label={t(msg => msg.limit.item.effectiveDay)}
-                    minWidth={180}
+                    minWidth={170}
                     align="center"
                     sortable
                     sortMethod={sortByEffectiveDays}
@@ -137,10 +95,10 @@ const _default = defineComponent({
                     sortable
                     sortMethod={sortMethodByNumVal('waste')}
                     label={t(msg => msg.calendar.range.today)}
-                    minWidth={110}
+                    minWidth={90}
                     align="center"
                 >
-                    {({ row }: ElTableRowScope<timer.limit.Item>) => isEffective(row) ? (
+                    {({ row }: ElTableRowScope<timer.limit.Item>) => isEffective(row.weekdays) ? (
                         <Waste
                             waste={row.waste}
                             time={row.time}
@@ -157,7 +115,7 @@ const _default = defineComponent({
                 </ElTableColumn>
                 <ElTableColumn
                     prop='weeklyWaste'
-                    minWidth={130}
+                    minWidth={110}
                     align="center"
                     sortable
                     sortMethod={sortMethodByNumVal('weeklyWaste')}
@@ -184,27 +142,42 @@ const _default = defineComponent({
                         ),
                     }}
                 />
-                <LimitDelayColumn onRowChange={row => ctx.emit("delayChange", row)} />
-                <ElTableColumn
-                    label={t(msg => msg.limit.item.enabled)}
-                    minWidth={100}
-                    align="center"
-                    fixed="right"
-                    sortable
-                    sortMethod={sortByEnabled}
-                >
-                    {({ row }: ElTableRowScope<timer.limit.Item>) => (
-                        <ElSwitch size="small" modelValue={row.enabled} onChange={v => onEnabledChange(row, v)} />
-                    )}
+                <ElTableColumn label={t(msg => msg.button.configuration)}>
+                    <ElTableColumn
+                        label={t(msg => msg.limit.item.enabled)}
+                        minWidth={80}
+                        align="center"
+                        fixed="right"
+                    >
+                        {({ row }: ElTableRowScope<timer.limit.Item>) => (
+                            <ElSwitch size="small" modelValue={row.enabled} onChange={v => changeEnabled(row, !!v)} />
+                        )}
+                    </ElTableColumn>
+                    <ElTableColumn
+                        label={t(msg => msg.limit.item.delayAllowed)}
+                        minWidth={80}
+                        align="center"
+                        fixed="right"
+                    >
+                        {({ row }: ElTableRowScope<timer.limit.Item>) => (
+                            <ElSwitch size="small" modelValue={row.allowDelay} onChange={v => changeDelay(row, !!v)} />
+                        )}
+                    </ElTableColumn>
+                    <ElTableColumn
+                        label={t(msg => msg.limit.item.locked)}
+                        minWidth={80}
+                        align="center"
+                        fixed="right"
+                    >
+                        {({ row }: ElTableRowScope<timer.limit.Item>) => (
+                            <ElSwitch size="small" modelValue={row.locked} onChange={v => changeLocked(row, !!v)} />
+                        )}
+                    </ElTableColumn>
                 </ElTableColumn>
-                <LimitOperationColumn
-                    onRowDelete={deleteRow}
-                    onRowModify={row => ctx.emit("modify", row)}
-                />
+                <LimitOperationColumn onRowModify={row => ctx.emit("modify", row)} />
             </ElTable>
         )
     }
 })
 
 export default _default
-

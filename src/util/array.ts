@@ -101,3 +101,16 @@ export function containsAny<T>(arr1: T[], arr2: T[]): boolean {
 
     return !!arr1.find(e => arr2.includes(e))
 }
+
+export function joinAny<T = any>(arr: T[], separator: T): T[] {
+    if (!arr.length) return [separator]
+
+    return arr.reduce<T[]>(
+        (arr, e) => {
+            arr.length && arr.push(separator)
+            arr.push(e)
+            return arr
+        },
+        [],
+    )
+}

@@ -32,7 +32,8 @@ class PiGenerator implements VerificationGenerator {
                 startIndex,
                 endIndex,
                 digitCount,
-            }
+            },
+            second: 20,
         }
     }
 

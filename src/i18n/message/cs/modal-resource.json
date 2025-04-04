@@ -1,25 +1,25 @@
 {
     "zh_CN": {
         "defaultPrompt": "古希腊时间与浏览器之神正在阻止您访问该页面",
-        "more5Minutes": "再看五分钟",
+        "more5Minutes": "延长5分钟",
         "browsingTime": "当前浏览时长",
         "ruleDetail": "规则详情"
     },
     "en": {
-        "defaultPrompt": "This page was blocked !",
-        "more5Minutes": "More 5 minutes",
+        "defaultPrompt": "This page was blocked!",
+        "more5Minutes": "5 more minutes",
         "browsingTime": "Browsing time",
-        "ruleDetail": "Rule detail"
+        "ruleDetail": "Rule details"
     },
     "ja": {
-        "defaultPrompt": "このページはブロックされました !",
-        "more5Minutes": "さらに5分間閲覧する",
+        "defaultPrompt": "このページはブロックされました!",
+        "more5Minutes": "5分延長",
         "browsingTime": "閲覧時間",
-        "ruleDetail": "規則明細"
+        "ruleDetail": "ルール詳細"
     },
     "zh_TW": {
-        "defaultPrompt": "古希臘時間與瀏覽器之神正在阻止您訪問該頁面",
-        "more5Minutes": "再看 5 分鐘",
+        "defaultPrompt": "古希臘時間與瀏覽器之神暫時封鎖此頁面",
+        "more5Minutes": "延長5分鐘",
         "browsingTime": "目前瀏覽時長",
         "ruleDetail": "規則詳情"
     },
@@ -27,41 +27,41 @@
         "defaultPrompt": "Esta página foi bloqueada!",
         "more5Minutes": "Mais 5 minutos",
         "browsingTime": "Tempo de navegação",
-        "ruleDetail": "Detalhe da regra"
+        "ruleDetail": "Detalhes da regra"
     },
     "uk": {
         "defaultPrompt": "Цю сторінку заблоковано!",
         "more5Minutes": "Ще 5 хвилин",
         "browsingTime": "Час перегляду",
-        "ruleDetail": "Подробиці правила"
+        "ruleDetail": "Деталі правила"
     },
     "fr": {
-        "defaultPrompt": "Cette page a été bloquée !",
-        "more5Minutes": "Plus de 5 minutes",
+        "defaultPrompt": "Cette page a été bloquée!",
+        "more5Minutes": "5 minutes supplémentaires",
         "browsingTime": "Temps de navigation",
-        "ruleDetail": "Détail des règles"
+        "ruleDetail": "Détails des règles"
     },
     "es": {
         "defaultPrompt": "¡Esta página fue bloqueada!",
-        "more5Minutes": "Más de 5 minutos",
+        "more5Minutes": "5 minutos más",
         "browsingTime": "Tiempo de navegación",
-        "ruleDetail": "Detalle de la regla"
+        "ruleDetail": "Detalles de la regla"
     },
     "de": {
         "defaultPrompt": "Diese Seite wurde gesperrt!",
-        "more5Minutes": "Weitere 5 Minuten",
+        "more5Minutes": "Noch 5 Minuten",
         "browsingTime": "Browsing-Zeit",
-        "ruleDetail": "Regeldetail"
+        "ruleDetail": "Regeldetails"
     },
     "ru": {
         "defaultPrompt": "Эта страница заблокирована!",
-        "more5Minutes": "Плюс 5 минут",
+        "more5Minutes": "Ещё 5 минут",
         "browsingTime": "Время просмотра",
-        "ruleDetail": "Детали правила"
+        "ruleDetail": "Подробности правила"
     },
     "ar": {
         "defaultPrompt": "تم حظر هذه الصفحة!",
-        "more5Minutes": "أكثر من 5 دقائق",
+        "more5Minutes": "5 دقائق إضافية",
         "browsingTime": "وقت التصفح",
         "ruleDetail": "تفاصيل القاعدة"
     }

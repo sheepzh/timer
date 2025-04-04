@@ -12,7 +12,6 @@ export type ItemMessage = {
     host: string
     operation: {
         add2Whitelist: string
-        removeFromWhitelist: string
         deleteConfirmMsgAll: string
         deleteConfirmMsgRange: string
         deleteConfirmMsg: string

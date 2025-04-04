@@ -20,24 +20,24 @@
         "noMore": "没有更多了"
     },
     "zh_TW": {
-        "exportFileName": "我的上網時間",
+        "exportFileName": "我的上網時間紀錄",
         "batchDelete": {
-            "noSelectedMsg": "請先在表格中勾選需要刪除的行",
-            "confirmMsg": "{example} 等網站在 {date} 的 {count} 條記錄將會被刪除！",
-            "confirmMsgAll": "{example} 等網站的 {count} 條記錄將會被刪除！",
-            "confirmMsgRange": "{example} 等網站在 {start} 至 {end} 之間的 {count} 條記錄將會被刪除！"
+            "noSelectedMsg": "請先勾選要刪除的資料列",
+            "confirmMsg": "將刪除 {example} 等網站於 {date} 的 {count} 筆紀錄！",
+            "confirmMsgAll": "將刪除 {example} 等網站的 {count} 筆紀錄！",
+            "confirmMsgRange": "將刪除 {example} 等網站從 {start} 至 {end} 的 {count} 筆紀錄！"
         },
         "remoteReading": {
-            "on": "正在查詢遠端備份數據",
-            "off": "單擊以開啟遠端備份數據查詢功能",
+            "on": "正在查詢遠端備份資料",
+            "off": "點擊啟用遠端備份資料查詢功能",
             "table": {
-                "client": "客户端",
-                "localData": "本地數據",
-                "value": "對應數值",
+                "client": "用戶端",
+                "localData": "本機資料",
+                "value": "數值",
                 "percentage": "百分比"
             }
         },
-        "noMore": "沒有更多了"
+        "noMore": "已無更多資料"
     },
     "en": {
         "exportFileName": "My_Browsing_Time",

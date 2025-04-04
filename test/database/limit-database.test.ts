@@ -13,7 +13,8 @@ describe('limit-database', () => {
             cond: ['123'],
             time: 20,
             enabled: true,
-            allowDelay: false
+            allowDelay: false,
+            locked: false,
         }
         const id = await db.save(toAdd)
         let all: timer.limit.Rule[] = await db.all()
@@ -30,7 +31,8 @@ describe('limit-database', () => {
             cond: ['123'],
             time: 21,
             enabled: true,
-            allowDelay: false
+            allowDelay: false,
+            locked: false,
         }
         // Not rewrite
         await db.save(toRewrite)
@@ -55,6 +57,7 @@ describe('limit-database', () => {
             time: 21,
             enabled: true,
             allowDelay: false,
+            locked: false,
         })
         await db.save({
             name: "foobar",
@@ -62,6 +65,7 @@ describe('limit-database', () => {
             time: 20,
             enabled: true,
             allowDelay: false,
+            locked: false,
         })
         await db.updateWaste(date, {
             [id1]: 10,
@@ -80,14 +84,16 @@ describe('limit-database', () => {
             cond: ["cond1"],
             time: 20,
             allowDelay: false,
-            enabled: true
+            enabled: true,
+            locked: false,
         }
         const cond2: MakeOptional<timer.limit.Rule, 'id'> = {
             name: 'foobar2',
             cond: ["cond2"],
             time: 20,
             allowDelay: false,
-            enabled: false
+            enabled: false,
+            locked: false,
         }
         await db.save(cond1)
         await db.save(cond2)
@@ -122,7 +128,8 @@ describe('limit-database', () => {
             cond: ["cond1"],
             time: 20,
             allowDelay: false,
-            enabled: true
+            enabled: true,
+            locked: false,
         }
         const id = await db.save(data)
         await db.updateDelay(id, true)
