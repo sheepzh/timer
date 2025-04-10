@@ -1,90 +1,90 @@
 {
     "en": {
         "sidebar": "Sidebar",
-        "allFunction": "All Functions",
-        "guidePage": "User Manual",
-        "option": "Options",
+        "allFunction": "All Features",
+        "guidePage": "User Guide",
+        "option": "Settings",
         "sourceCode": "Source Code",
-        "changeLog": "Change Log"
+        "changeLog": "Release Notes"
     },
     "zh_CN": {
         "sidebar": "侧边栏",
-        "allFunction": "所有功能",
-        "guidePage": "用户手册",
-        "changeLog": "更新日志",
+        "allFunction": "全部功能",
+        "guidePage": "使用指南",
+        "option": "设置",
         "sourceCode": "源代码",
-        "option": "选项"
+        "changeLog": "版本日志"
     },
     "zh_TW": {
         "sidebar": "側邊欄",
-        "allFunction": "所有功能",
-        "guidePage": "使用者手冊",
-        "option": "選項",
+        "allFunction": "完整功能",
+        "guidePage": "使用指南",
+        "option": "設定",
         "sourceCode": "原始碼",
-        "changeLog": "更新紀錄"
+        "changeLog": "版本紀錄"
     },
     "ja": {
         "sidebar": "サイドバー",
-        "allFunction": "すべての機能",
-        "guidePage": "ユーザーマニュアル",
-        "option": "拡張設定",
+        "allFunction": "全機能",
+        "guidePage": "使い方ガイド",
+        "option": "設定",
         "sourceCode": "ソースコード",
-        "changeLog": "変更履歴"
+        "changeLog": "リリースノート"
     },
     "pt_PT": {
         "sidebar": "Barra Lateral",
-        "allFunction": "Todas as Funções",
-        "guidePage": "Manual do Utilizador",
-        "option": "Opções",
+        "allFunction": "Todas Funções",
+        "guidePage": "Guia de Utilização",
+        "option": "Definições",
         "sourceCode": "Código Fonte",
-        "changeLog": "Registo de Alterações"
+        "changeLog": "Notas de Versão"
     },
     "uk": {
         "sidebar": "Бічна панель",
         "allFunction": "Усі функції",
-        "guidePage": "Посібник",
+        "guidePage": "Інструкція",
         "option": "Налаштування",
-        "sourceCode": "Програмний код",
-        "changeLog": "Журнал змін"
+        "sourceCode": "Вихідний код",
+        "changeLog": "Оновлення"
     },
     "es": {
         "sidebar": "Barra Lateral",
-        "allFunction": "Todas las funciones",
-        "guidePage": "Manual del usuario",
-        "option": "Opciones",
-        "sourceCode": "Código fuente",
-        "changeLog": "Registro de cambios"
+        "allFunction": "Todas Funciones",
+        "guidePage": "Guía de Usuario",
+        "option": "Ajustes",
+        "sourceCode": "Código Fuente",
+        "changeLog": "Notas de Versión"
     },
     "de": {
         "sidebar": "Seitenleiste",
         "allFunction": "Alle Funktionen",
-        "guidePage": "Benutzerhandbuch",
-        "option": "Optionen",
+        "guidePage": "Benutzeranleitung",
+        "option": "Einstellungen",
         "sourceCode": "Quellcode",
-        "changeLog": "Änderungsprotokoll"
+        "changeLog": "Versionshinweise"
     },
     "fr": {
         "sidebar": "Barre Latérale",
-        "allFunction": "Toutes les fonctions",
-        "guidePage": "Manuel d'utilisateur",
-        "option": "Options",
+        "allFunction": "Toutes Fonctions",
+        "guidePage": "Guide d'Utilisation",
+        "option": "Paramètres",
         "sourceCode": "Code Source",
-        "changeLog": "Historique des changements"
+        "changeLog": "Notes de Version"
     },
     "ru": {
         "sidebar": "Боковая панель",
         "allFunction": "Все функции",
-        "guidePage": "Как использовать",
-        "option": "Опции",
+        "guidePage": "Руководство",
+        "option": "Настройки",
         "sourceCode": "Исходный код",
-        "changeLog": "История изменений"
+        "changeLog": "Версионные изменения"
     },
     "ar": {
         "sidebar": "الشريط الجانبي",
-        "allFunction": "جميع الوظائف",
-        "guidePage": "دليل المستخدم",
-        "option": "خيارات",
-        "sourceCode": "كود المصدر",
-        "changeLog": "سجل التغيير"
+        "allFunction": "كل الوظائف",
+        "guidePage": "دليل الاستخدام",
+        "option": "الإعدادات",
+        "sourceCode": "الكود المصدري",
+        "changeLog": "ملاحظات الإصدار"
     }
 }

@@ -43,46 +43,46 @@
         }
     },
     "zh_TW": {
-        "deleteConfirmMsg": "{host} 的將會被刪除",
-        "genAliasConfirmMsg": "是否可以自動批次完成網站名稱？",
+        "deleteConfirmMsg": "即將刪除 {host} 的相關資料",
+        "genAliasConfirmMsg": "是否要自動批次產生網站名稱？",
         "column": {
             "type": "網站類型",
             "alias": "網站名稱",
-            "cate": "網站類別",
-            "icon": "網站圖標"
+            "cate": "網站分類",
+            "icon": "網站圖示"
         },
         "type": {
             "normal": {
-                "name": "普通站點",
-                "info": "按域名的維度統計"
+                "name": "一般網站",
+                "info": "依網域名稱統計"
             },
             "merged": {
-                "name": "合併站點",
-                "info": "將多個相關的域名合併統計，合併規則可以自定義"
+                "name": "合併網站",
+                "info": "將多個相關網域名稱合併統計，可自訂合併規則"
             },
             "virtual": {
-                "name": "自定義站點",
-                "info": "統計 Ant Pattern 格式的任意 URL，可以在右上角新增自定義站點"
+                "name": "自訂網站",
+                "info": "統計 Ant Pattern 格式的任意 URL，可於右上角新增自訂網站"
             }
         },
         "cate": {
-            "name": "類別名稱",
-            "relatedMsg": "此類別已與 {siteCount} 個網站關聯，無法刪除",
-            "removeConfirm": "確認刪除類別：{category}？",
-            "batchChange": "更改類別",
-            "batchDisassociate": "取消關聯類別"
+            "name": "分類名稱",
+            "relatedMsg": "此分類已與 {siteCount} 個網站建立關聯，無法刪除",
+            "removeConfirm": "確定要刪除「{category}」分類嗎？",
+            "batchChange": "變更分類",
+            "batchDisassociate": "解除分類關聯"
         },
         "form": {
             "emptyAlias": "請輸入網站名稱",
-            "emptyHost": "請輸入網站域名"
+            "emptyHost": "請輸入網域"
         },
         "msg": {
-            "hostExistWarn": "{host} 已經存在",
+            "hostExistWarn": "「{host}」已存在",
             "existedTag": "已存在",
-            "noSelected": "未選擇站點",
-            "noSupported": "所選站點無法設定類別",
-            "disassociatedMsg": "您要清除所有選定網站的類別嗎？",
-            "batchDeleteMsg": "您想刪除所有選定的網站嗎？"
+            "noSelected": "未選取網站",
+            "noSupported": "選取的網站不支援設定分類",
+            "disassociatedMsg": "確定要清除所有選取網站的分類嗎？",
+            "batchDeleteMsg": "確定要刪除所有選取的網站嗎？"
         }
     },
     "en": {

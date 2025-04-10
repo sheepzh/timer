@@ -19,6 +19,7 @@ import { computed, defineComponent } from "vue"
 import { useRouter } from "vue-router"
 import { computeDeleteConfirmMsg, handleDelete } from "../../common"
 import { useReportFilter } from "../../context"
+import Flex from "@pages/components/Flex"
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 330,
@@ -107,7 +108,7 @@ const _default = defineComponent({
                     <PopupConfirmButton
                         buttonIcon={<Open />}
                         buttonType="primary"
-                        buttonText={t(msg => msg.item.operation.removeFromWhitelist)}
+                        buttonText={t(msg => msg.button.enable)}
                         confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.siteKey?.host })}
                         visible={canOperate.value && !!row.siteKey?.host && whitelist.value?.includes(row.siteKey?.host)}
                         onConfirm={async () => {

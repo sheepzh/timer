@@ -1,4 +1,4 @@
-import { launchBrowser, type LaunchContext, sleep } from "../common/base"
+import { launchBrowser, type LaunchContext, MOCK_HOST, MOCK_URL, MOCK_URL_2, sleep } from "../common/base"
 import { readRecordsOfFirstPage } from "../common/record"
 import { createWhitelist } from "../common/whitelist"
 
@@ -10,7 +10,7 @@ describe('Tracking', () => {
     afterEach(() => context.close())
 
     test('basic tracking', async () => {
-        const page = await context.newPageAndWaitCsInjected('https://www.google.com')
+        const page = await context.newPageAndWaitCsInjected(MOCK_URL)
         await sleep(2)
         let records = await readRecordsOfFirstPage(context)
 
@@ -24,16 +24,16 @@ describe('Tracking', () => {
 
         // Another page
         await page.bringToFront()
-        await page.goto('https://www.baidu.com')
+        await page.goto(MOCK_URL_2)
 
         records = await readRecordsOfFirstPage(context)
         expect(records.length).toEqual(2)
         const urls = records.map(r => r.url)
-        expect(urls.includes('baidu.com') || urls.includes('www.baidu.com'))
+        expect(urls.includes(MOCK_HOST))
     }, 60000)
 
     test('white list', async () => {
-        const page = await context.newPageAndWaitCsInjected('https://www.google.com')
+        const page = await context.newPageAndWaitCsInjected(MOCK_URL)
         await sleep(2)
         let records = await readRecordsOfFirstPage(context)
 
@@ -45,7 +45,7 @@ describe('Tracking', () => {
         const time = parseInt(timeStr.replace('s', '').trim())
         expect(time >= 2)
 
-        await createWhitelist(context, 'www.google.com')
+        await createWhitelist(context, MOCK_HOST)
         await page.bringToFront()
         await page.reload()
         await sleep(2)

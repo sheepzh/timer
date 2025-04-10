@@ -40,6 +40,7 @@ export default {
                 "revert",
                 "style",
                 "test",
+                "i18n",
             ],
         ] satisfies [RuleConfigSeverity, RuleConfigCondition, string[]],
     },

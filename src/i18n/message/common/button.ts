@@ -21,7 +21,9 @@ export type ButtonMessage = {
     okey: string
     dont: string
     operation: string
+    configuration: string
     clear: string
+    enable: string
     batchEnable: string
     batchDisable: string
 }

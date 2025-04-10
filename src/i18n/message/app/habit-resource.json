@@ -39,39 +39,39 @@
     },
     "zh_TW": {
         "common": {
-            "focusAverage": "平均每天 {value}"
+            "focusAverage": "平均每日 {value}"
         },
         "period": {
-            "title": "不同時段的訪問習慣",
-            "busiest": "每天最繁忙時段",
-            "idle": "最長空閒時段",
+            "title": "不同時段的使用習慣",
+            "busiest": "每日最忙碌時段",
+            "idle": "最長閒置時段",
             "chartType": {
                 "average": "日平均",
-                "trend": "趨勢",
-                "stack": "累計"
+                "trend": "趨勢線",
+                "stack": "堆疊圖"
             },
             "sizes": {
-                "fifteen": "按十五分鐘統計",
-                "halfHour": "按半小時統計",
-                "hour": "按一小時統計",
-                "twoHour": "按兩小時統計"
+                "fifteen": "15分鐘區間",
+                "halfHour": "30分鐘區間",
+                "hour": "1小時區間",
+                "twoHour": "2小時區間"
             }
         },
         "site": {
-            "title": "網站造訪習慣",
-            "histogramTitle": "最長造訪 TOP {n}",
-            "exclusiveToday": "今天的數據不計入平均值",
-            "countTotal": "總計造訪次數/網站數",
-            "siteAverage": "平均每天造訪 {value} 個網站",
+            "title": "網站使用習慣",
+            "histogramTitle": "最常造訪 TOP {n}",
+            "exclusiveToday": "今日資料不列入平均計算",
+            "countTotal": "總造訪次數/網站數量",
+            "siteAverage": "平均每日造訪 {value} 個網站",
             "distribution": {
-                "title": "日均頻率分佈",
-                "aveTime": "日均瀏覽時間",
-                "aveVisit": "日均瀏覽次數",
-                "tooltip": "總共 {value} 個網站"
+                "title": "每日平均頻率分佈",
+                "aveTime": "平均瀏覽時間",
+                "aveVisit": "平均瀏覽次數",
+                "tooltip": "共 {value} 個網站"
             },
             "trend": {
-                "title": "每日趨勢",
-                "siteCount": "網站數"
+                "title": "每日變化趨勢",
+                "siteCount": "網站數量"
             }
         }
     },

@@ -19,20 +19,20 @@
     },
     "zh_TW": {
         "heatMap": {
-            "title0": "近一年瀏覽時間超過 {hour} 小時",
-            "title1": "近一年瀏覽時間不到 1 小時"
+            "title0": "近一年瀏覽時數超過 {hour} 小時",
+            "title1": "近一年瀏覽時數少於 1 小時"
         },
         "topK": {
-            "title": "近 {day} 天最常拜訪 TOP {k}"
+            "title": "近 {day} 天最常造訪 TOP {k}"
         },
         "indicator": {
             "installedDays": "已使用 {number} 天",
-            "visitCount": "拜訪過 {site} 個網站總計 {visit} 次",
-            "browsingTime": "瀏覽網頁超過 {minute} 分鐘",
-            "mostUse": "最喜歡在 {start} 點至 {end} 點之間上網"
+            "visitCount": "造訪過 {site} 個網站共 {visit} 次",
+            "browsingTime": "累積瀏覽超過 {minute} 分鐘",
+            "mostUse": "最常上網時段 {start} 點～{end} 點"
         },
         "monthOnMonth": {
-            "title": "瀏覽時間環比趨勢"
+            "title": "瀏覽時數月環比趨勢"
         }
     },
     "en": {

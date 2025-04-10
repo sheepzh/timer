@@ -5,26 +5,28 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { range } from "@util/array"
 import { randomIntBetween } from "@util/number"
-import { rangeArr } from "element-plus"
-import { type VerificationContext, type VerificationGenerator, type VerificationPair } from "../common"
+import type { VerificationContext, VerificationGenerator, VerificationPair } from "../common"
 
 const BASE = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\`-=[]/.,:\"<>?!@#$%^&*()_+;'"
 const BASE_LEN = BASE.length
 
 class UglyGenerator implements VerificationGenerator {
     supports(context: VerificationContext): boolean {
-        return context.difficulty === 'hard'
+        const { difficulty } = context
+        return difficulty === 'hard' || difficulty === 'disgusting'
     }
 
-    generate(_: VerificationContext): VerificationPair {
-        const len = randomIntBetween(16, 20)
-        const answer = rangeArr(len)
+    generate(context: VerificationContext): VerificationPair {
+        const { difficulty } = context
+        const len = difficulty === 'hard' ? randomIntBetween(8, 12) : randomIntBetween(16, 20)
+        const answer = range(len)
             .map(() => randomIntBetween(0, BASE_LEN))
             .map(decimal => BASE.charAt(decimal))
             .join('')
 
-        return { answer }
+        return { answer, second: 20 }
     }
 }
 

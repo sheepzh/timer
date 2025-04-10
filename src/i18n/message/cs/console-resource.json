@@ -1,42 +1,42 @@
 {
     "zh_CN": {
         "consoleLog": "今天您打开了 {time} 次 {host}，花费了 {focus} 来浏览它。",
-        "closeAlert": "你可以在【网费很贵】的选项中关闭以上提示！"
+        "closeAlert": "你可以在【{appName}】的选项中关闭以上提示！"
     },
     "zh_TW": {
-        "consoleLog": "今天您打開了 {time} 次 {host}，花費了 {focus} 來瀏覽它。",
-        "closeAlert": "你可以在【{appName}】的選項中關閉以上提示！"
+        "consoleLog": "今日您開啟了 {host} 共 {time} 次，總計瀏覽時間 {focus}。",
+        "closeAlert": "您可以在【{appName}】設定中關閉此提示！"
     },
     "en": {
-        "consoleLog": "You have open {host} for {time} time(s) and browsed it for {focus} today.",
-        "closeAlert": "You can turn off the above tips in the option of [{appName}]!"
+        "consoleLog": "Today you opened {host} {time} time(s), spending {focus} browsing it.",
+        "closeAlert": "You can disable these notifications in [{appName}] settings!"
     },
     "ja": {
-        "consoleLog": "{host} を {time} 回開いて、今日 {focus} をブラウズしました。",
-        "closeAlert": "{appName} のオプションで上記のヒントをオフにすることができます！"
+        "consoleLog": "本日{host}を{time}回開き、合計{focus}閲覧しました。",
+        "closeAlert": "[{appName}]の設定でこの通知を無効にできます"
     },
     "pt_PT": {
-        "consoleLog": "Abriu {host} por {time} vez(es) e navegou por {focus} hoje.",
-        "closeAlert": "Você pode desligar as dicas acima na opção do {appName}!"
+        "consoleLog": "Hoje abriu {host} {time} vez(es), gastando {focus} a navegar.",
+        "closeAlert": "Pode desativar estas notificações nas definições do [{appName}]!"
     },
     "uk": {
-        "consoleLog": "Сьогодні ви відкривали {host} {time} разів і перебували там {focus}.",
-        "closeAlert": "Ви можете вимкнути поради в налаштуваннях [{appName}]!"
+        "consoleLog": "Сьогодні ви відкривали {host} {time} разів, проводячи {focus} на перегляді.",
+        "closeAlert": "Ви можете вимкнути ці сповіщення в налаштуваннях [{appName}]!"
     },
     "es": {
-        "consoleLog": "Has abierto {host} por {time} vez(veces) y navegado por {focus} hoy.",
-        "closeAlert": "¡Puedes desactivar los consejos de arriba en la opción de [{appName}]!"
+        "consoleLog": "Hoy abriste {host} {time} vez(ces), pasando {focus} navegando.",
+        "closeAlert": "¡Puedes desactivar estas notificaciones en la configuración de [{appName}]!"
     },
     "de": {
-        "consoleLog": "Sie haben {host} für {time} Mal(e) geöffnet und heute {focus} durchsucht.",
-        "closeAlert": "Sie können die oben genannten Tipps in der Option [{appName}] deaktivieren!"
+        "consoleLog": "Sie haben heute {host} {time} Mal geöffnet und {focus} damit verbracht.",
+        "closeAlert": "Sie können diese Benachrichtigungen in den Einstellungen von [{appName}] deaktivieren!"
     },
     "fr": {
-        "consoleLog": "Vous avez ouvert {host} pendant {time} fois et vous l'avez parcouru pendant {focus} aujourd'hui.",
-        "closeAlert": "Vous pouvez désactiver les conseils ci-dessus dans l'option [{appName}] !"
+        "consoleLog": "Aujourd'hui vous avez ouvert {host} {time} fois, y passant {focus} à naviguer.",
+        "closeAlert": "Vous pouvez désactiver ces notifications dans les paramètres de [{appName}] !"
     },
     "ru": {
-        "consoleLog": "Вы открыли {host} для {time} раз(а) и просматривали его сегодня для {focus}.",
-        "closeAlert": "Вы можете выключить вышеперечисленные советы по адресу [{appName}]!"
+        "consoleLog": "Сегодня вы открывали {host} {time} раз(а), потратив {focus} на просмотр.",
+        "closeAlert": "Вы можете отключить эти уведомления в настройках [{appName}]!"
     }
 }

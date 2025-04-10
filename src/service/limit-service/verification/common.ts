@@ -19,6 +19,7 @@ export type VerificationPair = {
     prompt?: I18nKey<LimitVerificationMessage> | string
     promptParam?: any
     answer: I18nKey<LimitVerificationMessage> | string
+    second: number
 }
 
 /**
