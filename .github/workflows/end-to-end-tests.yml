@@ -9,11 +9,19 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: "v20.11.0"
-            - run: npm install
+            - name: Install dependencies
+              run: |
+                  npm install
+                  npm install -g http-server
             - name: Build e2e outputs
               run: npm run dev:e2e
             - name: Build production outputs
               run: npm run build
+
+            - name: Start up mock server
+              run: |
+                  nohup http-server ./test-e2e/example -p 12345 -s > test.log 2>&1 &
+                  nohup http-server ./test-e2e/example -p 12346 -s > test.log 2>&1 &
 
             - name: Run tests
               env:
