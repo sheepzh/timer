@@ -1,4 +1,4 @@
-import { launchBrowser, sleep, type LaunchContext } from "../common/base"
+import { launchBrowser, MOCK_HOST, MOCK_URL, sleep, type LaunchContext } from "../common/base"
 import { parseTime2Sec, readRecordsOfFirstPage } from "../common/record"
 import { createWhitelist } from "../common/whitelist"
 
@@ -24,9 +24,8 @@ describe('Run time tracking', () => {
     afterEach(() => context.close())
 
     test('Basically track', async () => {
-        const page = await context.newPage()
-        await page.goto('https://www.baidu.com', { waitUntil: 'load' })
-        await sleep(1)
+        await context.newPageAndWaitCsInjected(MOCK_URL)
+        await sleep(1.1)
         let records = await readRecordsOfFirstPage(context)
         let record = records[0]
         expect(parseTime2Sec(record.time)).toBeGreaterThanOrEqual(1)
@@ -34,29 +33,29 @@ describe('Run time tracking', () => {
 
         // 1. Enable run time tracking
         const enableTs = Date.now()
-        await clickRunTimeChange('www.baidu.com')
+        await clickRunTimeChange(MOCK_HOST)
 
         // 2. Sleep
         const emptyPage = await context.newPage()
-        await sleep(2)
+        await sleep(1.1)
 
         records = await readRecordsOfFirstPage(context)
         const runTime1 = parseTime2Sec(records[0]?.runTime) ?? 0
-        expect(runTime1).toBeGreaterThanOrEqual(2)
+        expect(runTime1).toBeGreaterThanOrEqual(1)
 
         // 3. Add another page sharing the same run time with old page
-        await context.newPageAndWaitCsInjected('https://www.baidu.com')
+        await context.newPageAndWaitCsInjected(MOCK_URL)
         // jump to new page
         await emptyPage.bringToFront()
-        await sleep(2)
+        await sleep(1)
 
         records = await readRecordsOfFirstPage(context)
         const runTime2 = parseTime2Sec(records[0].runTime)
-        expect(runTime2).toBeGreaterThanOrEqual(runTime1 + 2)
+        expect(runTime2).toBeGreaterThanOrEqual(runTime1 + 1)
         expect(runTime2).toBeLessThan((Date.now() - enableTs) / 1000)
 
         // 3. Disable run time tracking
-        await clickRunTimeChange('www.baidu.com')
+        await clickRunTimeChange(MOCK_HOST)
         const disableTs = Date.now()
         await emptyPage.bringToFront()
         await sleep(4)
@@ -66,10 +65,10 @@ describe('Run time tracking', () => {
     }, 60000)
 
     test('white list', async () => {
-        await context.newPage('https://www.baidu.com')
+        await context.newPage(MOCK_URL)
 
         // 1. Enable
-        await clickRunTimeChange('www.baidu.com')
+        await clickRunTimeChange(MOCK_HOST)
         const enableTs = Date.now()
         await sleep(4)
 
@@ -79,7 +78,7 @@ describe('Run time tracking', () => {
         expect(runTime).toBeLessThanOrEqual((Date.now() - enableTs + 500) / 1000)
 
         // 2. Add whitelist
-        await createWhitelist(context, 'www.baidu.com')
+        await createWhitelist(context, MOCK_HOST)
         const disableTs = Date.now()
 
         await sleep(2)
