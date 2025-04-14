@@ -23,15 +23,15 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const filter = useReportFilter()
-        const mergeHost = computed(() => filter.value?.siteMerge === 'domain')
-        const formatter = (focus: number): string => periodFormatter(focus, { format: filter.value?.timeFormat })
+        const mergeHost = computed(() => filter?.siteMerge === 'domain')
+        const formatter = (focus: number): string => periodFormatter(focus, { format: filter?.timeFormat })
         const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value
         const selected = ref(false)
         watch(selected, val => ctx.emit('selectedChange', val))
 
-        const canDelete = computed(() => !mergeHost.value && !filter.value.readRemote)
+        const canDelete = computed(() => !mergeHost.value && !filter.readRemote)
         const onDelete = async () => {
-            await handleDelete(props.value, filter.value)
+            await handleDelete(props.value, filter)
             ctx.emit('delete', props.value)
         }
         return () => (
@@ -66,7 +66,7 @@ const _default = defineComponent({
                     <PopupConfirmButton
                         buttonIcon={<Delete />}
                         buttonType="danger"
-                        confirmText={computeDeleteConfirmMsg(props.value, filter.value)}
+                        confirmText={computeDeleteConfirmMsg(props.value, filter)}
                         visible={canDelete.value}
                         onConfirm={onDelete}
                         text
@@ -74,7 +74,7 @@ const _default = defineComponent({
                 </div>
                 <ElDivider style={{ margin: "5px 0" }} />
                 <div class="report-item-content">
-                    <ElTag v-show={!filter.value?.mergeDate} type="info" size="small">
+                    <ElTag v-show={!filter?.mergeDate} type="info" size="small">
                         <ElIcon><Calendar /></ElIcon>
                         <span>{cvt2LocaleTime(date)}</span>
                     </ElTag>
@@ -89,7 +89,7 @@ const _default = defineComponent({
                     >
                         <ElTag type="primary" size="small">
                             <ElIcon><QuartzWatch /></ElIcon>
-                            <span>{periodFormatter(focus, { format: filter.value?.timeFormat })}</span>
+                            <span>{periodFormatter(focus, { format: filter?.timeFormat })}</span>
                         </ElTag>
                     </TooltipWrapper>
                     <TooltipWrapper

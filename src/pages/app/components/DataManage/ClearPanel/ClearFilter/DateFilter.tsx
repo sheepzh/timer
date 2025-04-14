@@ -6,7 +6,7 @@
  */
 import I18nNode from "@app/components/common/I18nNode"
 import { t } from "@app/locale"
-import { EL_DATE_FORMAT } from "@i18n/element"
+import { dateFormat as elDateFormat } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { formatTime, getBirthday, MILL_PER_DAY } from "@util/time"
@@ -54,7 +54,7 @@ const _default = defineComponent({
                             style={{ width: "250px" } satisfies StyleValue}
                             startPlaceholder={startPlaceholder}
                             endPlaceholder={endPlaceholder}
-                            dateFormat={EL_DATE_FORMAT}
+                            dateFormat={elDateFormat()}
                             type="daterange"
                             disabledDate={(date: Date) => date.getTime() > yesterday}
                             shortcuts={pickerShortcuts}
