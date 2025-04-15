@@ -350,7 +350,7 @@
                     "authInfo": "One token with at least gist permission is required"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages"
+                    "endpointInfo": "Only HTTP is available, as CORS cannot be configured for extension pages"
                 },
                 "web_dav": {}
             },

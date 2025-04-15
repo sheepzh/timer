@@ -26,7 +26,7 @@ const VisitColumn = defineComponent(() => {
         >
             {({ row }: ElTableRowScope<timer.stat.Row>) => (
                 <TooltipWrapper
-                    usePopover={filter.value?.readRemote}
+                    usePopover={filter.readRemote}
                     placement="top"
                     effect={Effect.LIGHT}
                     offset={10}

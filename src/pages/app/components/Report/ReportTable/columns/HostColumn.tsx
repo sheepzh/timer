@@ -30,7 +30,7 @@ const _default = defineComponent(() => {
             {({ row: { mergedRows, siteKey, iconUrl } }: ElTableRowScope<timer.stat.Row>) => (
                 <Flex key={identifySiteKey(siteKey)} justify="center">
                     <TooltipWrapper
-                        usePopover={filter.value?.siteMerge === 'domain'}
+                        usePopover={filter?.siteMerge === 'domain'}
                         effect={Effect.LIGHT}
                         offset={10}
                         placement="left"
@@ -40,8 +40,7 @@ const _default = defineComponent(() => {
                         }}
                     />
                 </Flex>
-            )
-            }
+            )}
         </ElTableColumn >
     )
 })

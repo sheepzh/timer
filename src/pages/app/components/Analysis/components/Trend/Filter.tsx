@@ -6,7 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { EL_DATE_FORMAT } from "@i18n/element"
+import { dateFormat } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { daysAgo } from "@util/time"
@@ -41,7 +41,7 @@ const _default = defineComponent({
                 <ElDatePicker
                     modelValue={dateRange.value}
                     disabledDate={(date: Date) => date.getTime() > new Date().getTime()}
-                    format={EL_DATE_FORMAT}
+                    format={dateFormat()}
                     type="daterange"
                     shortcuts={SHORTCUTS}
                     rangeSeparator="-"

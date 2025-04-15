@@ -14,9 +14,9 @@ import statService, { type StatQueryParam } from "@service/stat-service"
 import { siteEqual } from "@util/site"
 import { useDocumentVisibility } from "@vueuse/core"
 import { ElTable, ElTableColumn, type TableInstance } from "element-plus"
-import { computed, defineComponent, type PropType, ref, watch } from "vue"
+import { computed, defineComponent, ref, watch } from "vue"
 import { cvtOption2Param } from "../common"
-import { useReportFilter } from "../context"
+import { useReportFilter, useReportSort } from "../context"
 import type { DisplayComponent, ReportFilterOption, ReportSort } from "../types"
 import CateColumn from "./columns/CateColumn"
 import DateColumn from "./columns/DateColumn"
@@ -44,17 +44,11 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | und
 }
 
 const _default = defineComponent({
-    props: {
-        defaultSort: {
-            type: Object as PropType<ReportSort>,
-            required: true,
-        },
-    },
-    setup(props, ctx) {
+    setup(_, ctx) {
         const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
-        const [sort, setSort] = useState(props.defaultSort)
+        const sort = useReportSort()
         const filterOption = useReportFilter()
-        const queryParam = computed(() => computeTimerQueryParam(filterOption.value, sort.value))
+        const queryParam = computed(() => computeTimerQueryParam(filterOption, sort.value))
         const { data, refresh } = useRequest(
             () => statService.selectByPage(queryParam.value, page.value),
             { loadingTarget: "#report-table-content", deps: [queryParam, page] },
@@ -73,8 +67,8 @@ const _default = defineComponent({
         const tableRef = ref<TableInstance>()
         // Force to re-layout after merge change
         watch([
-            () => filterOption.value?.mergeDate,
-            () => filterOption.value?.siteMerge,
+            () => filterOption?.mergeDate,
+            () => filterOption?.siteMerge,
         ], () => tableRef.value?.doLayout?.())
 
         const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
@@ -88,17 +82,15 @@ const _default = defineComponent({
                 <ElTable
                     ref={tableRef}
                     data={data.value?.list}
-                    border
-                    defaultSort={props.defaultSort}
+                    border fit highlightCurrentRow
                     style={{ width: "100%" }}
-                    fit
-                    highlightCurrentRow
+                    defaultSort={sort.value}
                     onSelection-change={setSelection}
-                    onSort-change={(newSortInfo: ReportSort) => setSort(newSortInfo)}
+                    onSort-change={(val: ReportSort) => sort.value = val}
                 >
-                    {!filterOption.value?.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
-                    {!filterOption.value?.mergeDate && <DateColumn />}
-                    {filterOption.value?.siteMerge !== 'cate' && <>
+                    {!filterOption?.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
+                    {!filterOption?.mergeDate && <DateColumn />}
+                    {filterOption?.siteMerge !== 'cate' && <>
                         <HostColumn />
                         <ElTableColumn
                             label={t(msg => msg.siteManage.column.alias)}
@@ -112,7 +104,7 @@ const _default = defineComponent({
                             )}
                         />
                     </>}
-                    {filterOption.value?.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
+                    {filterOption?.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
                     <TimeColumn dimension="focus" />
                     {runColVisible.value && <TimeColumn dimension="run" />}
                     <VisitColumn />

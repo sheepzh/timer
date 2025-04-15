@@ -41,33 +41,31 @@ const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: tim
     )
 }
 
-const CateColumn = defineComponent({
-    emits: {
-        change: (_siteKey: timer.site.SiteKey, _newCate: number | undefined) => true,
-    },
-    setup(_, ctx) {
-        const { categories } = useCategories()
+type Props = {
+    onChange: (key: timer.site.SiteKey, newCate: number | undefined) => void,
+}
 
-        return () => (
-            <ElTableColumn label={t(msg => msg.siteManage.column.cate)} minWidth={140}>
-                {({ row }: ElTableRowScope<timer.stat.Row>) => {
-                    const { cateId, cateKey, mergedRows, siteKey } = row || {}
-                    return (
-                        <Flex key={`${identifyStatKey(row)}_${cateId}`} justify="center">
-                            {cateKey
-                                ? renderMerged(cateKey, categories.value, mergedRows ?? [])
-                                : <CategoryEditable
-                                    siteKey={siteKey!}
-                                    cateId={cateId}
-                                    onChange={newCateId => ctx.emit('change', siteKey!, newCateId)}
-                                />
-                            }
-                        </Flex>
-                    )
-                }}
-            </ElTableColumn>
-        )
-    }
-})
+const CateColumn = defineComponent<Props>(props => {
+    const { categories } = useCategories()
+    return () => (
+        <ElTableColumn label={t(msg => msg.siteManage.column.cate)} minWidth={140}>
+            {({ row }: ElTableRowScope<timer.stat.Row>) => {
+                const { cateId, cateKey, mergedRows, siteKey } = row || {}
+                return (
+                    <Flex key={`${identifyStatKey(row)}_${cateId}`} justify="center">
+                        {cateKey
+                            ? renderMerged(cateKey, categories.value, mergedRows ?? [])
+                            : <CategoryEditable
+                                siteKey={siteKey!}
+                                cateId={cateId}
+                                onChange={newCateId => props.onChange(siteKey!, newCateId)}
+                            />
+                        }
+                    </Flex>
+                )
+            }}
+        </ElTableColumn>
+    )
+}, { props: ['onChange'] })
 
 export default CateColumn

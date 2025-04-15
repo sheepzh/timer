@@ -24,4 +24,4 @@ export const initElementLocale = async (app: App) => {
     app.use(ElementPlus, { locale: EL_LOCALE })
 }
 
-export const EL_DATE_FORMAT = t(calendarMessages, { key: msg => msg.dateFormat, param: { y: 'YYYY', m: 'MM', d: 'DD' } })
+export const dateFormat = () => t(calendarMessages, { key: msg => msg.dateFormat, param: { y: 'YYYY', m: 'MM', d: 'DD' } })

@@ -19,7 +19,6 @@ import { computed, defineComponent } from "vue"
 import { useRouter } from "vue-router"
 import { computeDeleteConfirmMsg, handleDelete } from "../../common"
 import { useReportFilter } from "../../context"
-import Flex from "@pages/components/Flex"
 
 const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     en: 330,
@@ -41,7 +40,7 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         const filter = useReportFilter()
-        const canOperate = computed(() => !filter.value?.siteMerge)
+        const canOperate = computed(() => !filter?.siteMerge)
         const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
         const router = useRouter()
         const {
@@ -51,7 +50,7 @@ const _default = defineComponent({
 
         const jump2Analysis = (row: timer.stat.Row) => {
             let query: AnalysisQuery
-            const siteMerge = filter.value?.siteMerge
+            const siteMerge = filter?.siteMerge
             if (siteMerge === 'cate') {
                 query = { cateId: row?.cateKey?.toString?.() }
             } else {
@@ -83,10 +82,10 @@ const _default = defineComponent({
                         buttonIcon={<Delete />}
                         buttonType="danger"
                         buttonText={t(msg => msg.button.delete)}
-                        confirmText={computeDeleteConfirmMsg(row, filter.value)}
+                        confirmText={computeDeleteConfirmMsg(row, filter)}
                         visible={canOperate.value}
                         onConfirm={async () => {
-                            await handleDelete(row, filter.value)
+                            await handleDelete(row, filter)
                             ctx.emit("delete", row)
                         }}
                     />

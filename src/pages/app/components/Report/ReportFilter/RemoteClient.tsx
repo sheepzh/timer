@@ -10,35 +10,30 @@ import { UploadFilled } from "@element-plus/icons-vue"
 import { useRequest } from "@hooks"
 import statService from "@service/stat-service"
 import { ElButton, ElIcon, ElTooltip } from "element-plus"
-import { computed, defineComponent, ref, watch } from "vue"
+import { computed, defineComponent } from "vue"
+import { useReportFilter } from "../context"
 import { ICON_BTN_STYLE } from "./common"
 
-const _default = defineComponent({
-    emits: {
-        change: (_readRemote: boolean) => true
-    },
-    setup(_, ctx) {
-        const readRemote = ref(false)
-        watch(readRemote, () => ctx.emit("change", readRemote.value))
-        const content = computed(() => t(msg => msg.report.remoteReading[readRemote.value ? 'on' : 'off']))
-        const { data: visible } = useRequest(() => statService.canReadRemote(), { defaultValue: false })
+const _default = defineComponent(() => {
+    const filter = useReportFilter()
+    const content = computed(() => t(msg => msg.report.remoteReading[filter.readRemote ? 'on' : 'off']))
+    const { data: visible } = useRequest(() => statService.canReadRemote(), { defaultValue: false })
 
-        return () => (
-            <ElTooltip trigger="hover" placement="bottom-start" effect="dark" content={content.value}>
-                <ElButton
-                    v-show={visible.value}
-                    size="small"
-                    style={ICON_BTN_STYLE}
-                    type={readRemote.value ? 'primary' : undefined}
-                    onClick={() => readRemote.value = !readRemote.value}
-                >
-                    <ElIcon size={17} style={{ padding: "0 1px" }}>
-                        <UploadFilled />
-                    </ElIcon>
-                </ElButton>
-            </ElTooltip>
-        )
-    }
+    return () => (
+        <ElTooltip trigger="hover" placement="bottom-start" effect="dark" content={content.value}>
+            <ElButton
+                v-show={visible.value}
+                size="small"
+                style={ICON_BTN_STYLE}
+                type={filter.readRemote ? 'primary' : undefined}
+                onClick={() => filter.readRemote = !filter.readRemote}
+            >
+                <ElIcon size={17} style={{ padding: "0 1px" }}>
+                    <UploadFilled />
+                </ElIcon>
+            </ElButton>
+        </ElTooltip>
+    )
 })
 
 export default _default
