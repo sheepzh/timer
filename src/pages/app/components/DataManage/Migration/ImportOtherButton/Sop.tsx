@@ -8,6 +8,7 @@
 import DialogSop, { type SopStepInstance } from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
 import { useManualRequest } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { processImportedData } from "@service/components/import-processor"
 import { ElMessage, ElStep, ElSteps } from "element-plus"
 import { defineComponent, ref } from "vue"
@@ -62,7 +63,11 @@ const _default = defineComponent({
                             <ElStep title={t(msg => msg.dataManage.importOther.step2)} />
                         </ElSteps>
                     ),
-                    content: () => step.value === 0 ? <Step1 ref={step1} /> : <Step2 ref={step2} data={data.value} />,
+                    content: () => (
+                        <Flex width="100%" justify="center">
+                            {step.value === 0 ? <Step1 ref={step1} /> : <Step2 ref={step2} data={data.value} />}
+                        </Flex>
+                    ),
                 }}
             />
         )

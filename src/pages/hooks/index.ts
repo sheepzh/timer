@@ -34,6 +34,9 @@ export declare function useCached<T>(
     defaultFirst?: boolean,
 ): { data: Ref<T | undefined>, setter: (val: T | undefined) => void }
 
+export declare function useLocalStorage<T>(key: string, defaultValue: T): [T, (val: T | undefined) => void]
+export declare function useLocalStorage<T>(key: string): [T, (val: T | undefined) => void]
+
 export * from "./useCached"
 export * from "./useMediaSize"
 export * from "./useProvider"

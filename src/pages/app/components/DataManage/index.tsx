@@ -6,27 +6,27 @@
  */
 
 import Flex from "@pages/components/Flex"
-import { defineComponent, ref } from "vue"
+import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
 import ClearPanel from "./ClearPanel"
-import MemoryInfo, { type MemoryInfoInstance } from "./MemoryInfo"
+import MemoryInfo from "./MemoryInfo"
 import Migration from "./Migration"
+import { initDataManage } from "./context"
 
 export default defineComponent(() => {
-    const memoryInfo = ref<MemoryInfoInstance>()
-    const refreshMemory = () => memoryInfo.value?.refresh?.()
+    initDataManage()
 
     return () => (
         <ContentContainer>
             <Flex gap={22} height={490}>
                 <Flex height='100%' flex={8}>
-                    <MemoryInfo ref={memoryInfo} />
+                    <MemoryInfo />
                 </Flex>
                 <Flex height='100%' flex={11}>
-                    <ClearPanel onDataDelete={refreshMemory} />
+                    <ClearPanel />
                 </Flex>
                 <Flex height='100%' flex={5}>
-                    <Migration onImport={refreshMemory} />
+                    <Migration />
                 </Flex>
             </Flex>
         </ContentContainer >

@@ -6,42 +6,16 @@
  */
 
 import { ElCard, ElCol } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, useSlots } from "vue"
 
-const clzName = (noPadding: boolean) => {
-    const names = ['dashboard-card']
-    noPadding && names.push('no-padding')
-    return names.join(' ')
-}
+const _default = defineComponent<{ span: number }>(props => {
+    const slots = useSlots()
 
-const _default = defineComponent({
-    props: {
-        noPadding: Boolean,
-        span: {
-            type: Number,
-            required: true
-        },
-        height: Number,
-        xs: Number,
-        sm: Number,
-        md: Number,
-        lg: Number,
-        xl: Number,
-    },
-    setup(props, ctx) {
-        return () => (
-            <ElCol
-                span={props.span}
-                xs={props.xs}
-                sm={props.sm}
-                md={props.md}
-                lg={props.lg}
-                xl={props.xl}
-            >
-                <ElCard class={clzName(props.noPadding)} style={{ height: "100%" }} v-slots={ctx.slots} />
-            </ElCol>
-        )
-    }
-})
+    return () => (
+        <ElCol span={props.span}>
+            <ElCard style={{ height: "100%" }} v-slots={slots} />
+        </ElCol>
+    )
+}, { props: ['span'] })
 
 export default _default

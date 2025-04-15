@@ -12,6 +12,7 @@ import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import { ElAlert, ElCard, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, type StyleValue } from "vue"
 import { alertProps } from "../common"
+import { useDataMemory } from "../context"
 import ClearFilter from "./ClearFilter"
 
 type FilterOption = {
@@ -83,33 +84,29 @@ function str2Range(startAndEnd: [string?, string?], numAmplifier?: (origin: numb
     return [start, end]
 }
 
-const _default = defineComponent({
-    emits: {
-        dataDelete: () => true
-    },
-    setup(_, ctx) {
-        async function handleClick(option: FilterOption) {
-            const result = await generateParamAndSelect(option)
+const _default = defineComponent(() => {
+    const { refreshMemory } = useDataMemory()
+    async function handleClick(option: FilterOption) {
+        const result = await generateParamAndSelect(option)
 
-            const count = result.length
-            const confirmMsg = t(msg => msg.dataManage.deleteConfirm, { count })
-            ElMessageBox.confirm(confirmMsg, {
-                cancelButtonText: t(msg => msg.button.cancel),
-                confirmButtonText: t(msg => msg.button.confirm)
-            }).then(async () => {
-                await statService.batchDeleteBase(result)
-                ElMessage.success(t(msg => msg.operation.successMsg))
-                ctx.emit('dataDelete')
-            }).catch(() => { })
-        }
-
-        return () => (
-            <ElCard style={{ width: '100%' } satisfies StyleValue}>
-                <ElAlert {...alertProps} title={t(msg => msg.dataManage.operationAlert)} />
-                <ClearFilter onDelete={(date, focus, time) => handleClick({ date, focus, time })} />
-            </ElCard>
-        )
+        const count = result.length
+        const confirmMsg = t(msg => msg.dataManage.deleteConfirm, { count })
+        ElMessageBox.confirm(confirmMsg, {
+            cancelButtonText: t(msg => msg.button.cancel),
+            confirmButtonText: t(msg => msg.button.confirm)
+        }).then(async () => {
+            await statService.batchDeleteBase(result)
+            ElMessage.success(t(msg => msg.operation.successMsg))
+            refreshMemory?.()
+        }).catch(() => { })
     }
+
+    return () => (
+        <ElCard style={{ width: '100%' } satisfies StyleValue}>
+            <ElAlert {...alertProps} title={t(msg => msg.dataManage.operationAlert)} />
+            <ClearFilter onDelete={(date, focus, time) => handleClick({ date, focus, time })} />
+        </ElCard>
+    )
 })
 
 export default _default

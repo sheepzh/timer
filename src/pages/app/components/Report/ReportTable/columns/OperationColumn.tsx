@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { type AnalysisQuery } from "@app/components/Analysis/common"
+import type { AnalysisQuery } from "@app/components/Analysis/context"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
 import { ANALYSIS_ROUTE } from "@app/router/constants"

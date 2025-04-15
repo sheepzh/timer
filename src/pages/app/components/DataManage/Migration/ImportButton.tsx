@@ -11,6 +11,7 @@ import Immigration from "@service/components/immigration"
 import { deserialize } from "@util/file"
 import { ElButton, ElLoading, ElMessage } from "element-plus"
 import { defineComponent, ref } from "vue"
+import { useDataMemory } from "../context"
 
 const immigration: Immigration = new Immigration()
 
@@ -32,31 +33,28 @@ async function handleFileSelected(fileInput: HTMLInputElement | undefined, callb
     ElMessage.success(t(msg => msg.operation.successMsg))
 }
 
-const _default = defineComponent({
-    emits: {
-        import: () => true
-    },
-    setup(_, ctx) {
-        const fileInput = ref<HTMLInputElement>()
-        return () => (
-            <ElButton
-                size="large"
-                type="primary"
-                icon={<Upload />}
-                onClick={() => fileInput.value?.click()}
-                style={{ margin: 0, flex: 1 }}
-            >
-                {t(msg => msg.item.operation.importWholeData)}
-                <input
-                    ref={fileInput}
-                    type="file"
-                    accept=".json"
-                    style={{ display: "none" }}
-                    onChange={() => handleFileSelected(fileInput.value, () => ctx.emit('import'))}
-                />
-            </ElButton>
-        )
-    }
+const _default = defineComponent(() => {
+    const { refreshMemory } = useDataMemory()
+    const fileInput = ref<HTMLInputElement>()
+
+    return () => (
+        <ElButton
+            size="large"
+            type="primary"
+            icon={<Upload />}
+            onClick={() => fileInput.value?.click()}
+            style={{ margin: 0, flex: 1 }}
+        >
+            {t(msg => msg.item.operation.importWholeData)}
+            <input
+                ref={fileInput}
+                type="file"
+                accept=".json"
+                style={{ display: "none" }}
+                onChange={() => handleFileSelected(fileInput.value, refreshMemory)}
+            />
+        </ElButton>
+    )
 })
 
 export default _default
