@@ -10,7 +10,7 @@ import StoragePromise from "./common/storage-promise"
 /**
  * User memory of this extension
  */
-type MemoryInfo = {
+export type MemoryInfo = {
     /**
      * Used bytes
      */

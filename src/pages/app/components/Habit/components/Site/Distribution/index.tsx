@@ -14,7 +14,7 @@ import Wrapper, { type BizOption } from "./Wrapper"
 const _default = defineComponent(() => {
     const rows = useDateMergedRows()
     const filter = useHabitFilter()
-    const bizOption = computed(() => ({ rows: rows.value, dateRange: filter.value?.dateRange } as BizOption))
+    const bizOption = computed(() => ({ rows: rows.value, dateRange: filter.dateRange } as BizOption))
     const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
 
     return () => <div class="distribution" ref={elRef} />

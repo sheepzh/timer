@@ -63,7 +63,7 @@ const _default = defineComponent<Props>(props => {
                     onChange={val => filter.cateIds = val}
                 />
                 <TimeFormatFilterItem
-                    defaultValue={filter.timeFormat}
+                    modelValue={filter.timeFormat}
                     onChange={val => filter.timeFormat = val}
                 />
                 <MergeFilterItem hideCate={hideCateFilter} />
