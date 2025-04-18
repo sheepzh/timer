@@ -10,9 +10,9 @@ jobs:
               with:
                   node-version: "v20.11.0"
             - name: Install dependencies
-              run: |
-                  npm install
-                  npm install -g http-server
+              run: npm install
+            - name: Install http-server
+              run: npm install -g http-server
             - name: Build e2e outputs
               run: npm run dev:e2e
             - name: Build production outputs
