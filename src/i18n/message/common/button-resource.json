@@ -1,6 +1,7 @@
 {
     "en": {
         "create": "New",
+        "add": "Add",
         "delete": "Delete",
         "batchDelete": "Batch Delete",
         "modify": "Edit",
@@ -22,6 +23,7 @@
     },
     "zh_CN": {
         "create": "新建",
+        "add": "添加",
         "delete": "删除",
         "batchDelete": "批量删除",
         "modify": "编辑",

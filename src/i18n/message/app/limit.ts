@@ -9,8 +9,7 @@ import resource from './limit-resource.json'
 
 export type LimitMessage = {
     filterDisabled: string
-    useWildcard: string
-    urlPlaceholder: string
+    wildcardTip: string
     step: {
         base: string
         url: string
@@ -37,7 +36,6 @@ export type LimitMessage = {
     }
     button: {
         test: string
-        parseUrl: string
     }
     message: {
         noUrl: string
