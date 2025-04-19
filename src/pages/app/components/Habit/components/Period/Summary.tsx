@@ -74,7 +74,7 @@ const _default = defineComponent(() => {
     const data = usePeriodValue()
     const filter = usePeriodFilter()
     const globalFilter = useHabitFilter()
-    const summary = computed(() => computeSummary(data.value?.curr, filter.value?.periodSize))
+    const summary = computed(() => computeSummary(data.value?.curr, filter.periodSize))
 
     return () => (
         <div class="summary-container">
@@ -82,7 +82,7 @@ const _default = defineComponent(() => {
                 mainName={t(msg => msg.habit.period.busiest)}
                 mainValue={summary.value?.favorite?.period}
                 subTips={msg => msg.habit.common.focusAverage}
-                subValue={periodFormatter(summary.value?.favorite?.average, { format: globalFilter.value?.timeFormat })}
+                subValue={periodFormatter(summary.value?.favorite?.average, { format: globalFilter.timeFormat })}
             />
             <KanbanIndicatorCell
                 mainName={t(msg => msg.habit.period.idle)}

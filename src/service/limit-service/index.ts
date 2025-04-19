@@ -30,7 +30,7 @@ async function select(cond?: QueryParam): Promise<timer.limit.Item[]> {
     const [startDate, endDate] = await weekHelper.getWeekDateRange(now)
 
     return (await db.all())
-        .filter(item => filterDisabled ? item.enabled : true)
+        .filter(item => !filterDisabled || item.enabled)
         .filter(item => !id || id === item?.id)
         // If use url, then test it
         .filter(item => !url || matches(item?.cond, url))
@@ -74,7 +74,7 @@ async function noticeLimitChanged() {
     })
 }
 
-async function updateEnabled(...items: timer.limit.Item[]): Promise<void> {
+async function updateEnabled(...items: timer.limit.Rule[]): Promise<void> {
     if (!items?.length) return
     for (const item of items) {
         await db.updateEnabled(item.id, !!item.enabled)
@@ -82,7 +82,14 @@ async function updateEnabled(...items: timer.limit.Item[]): Promise<void> {
     await noticeLimitChanged()
 }
 
-async function updateDelay(...items: timer.limit.Item[]) {
+async function updateLocked(...items: timer.limit.Rule[]): Promise<void> {
+    if (!items?.length) return
+    for (const item of items) {
+        await db.updateLocked(item.id, item.locked)
+    }
+}
+
+async function updateDelay(...items: timer.limit.Rule[]) {
     if (!items?.length) return
     for (const item of items) {
         await db.updateDelay(item.id, !!item.allowDelay)
@@ -90,7 +97,7 @@ async function updateDelay(...items: timer.limit.Item[]) {
     await noticeLimitChanged()
 }
 
-async function remove(...items: timer.limit.Item[]): Promise<void> {
+async function remove(...items: timer.limit.Rule[]): Promise<void> {
     if (!items?.length) return
     for (const item of items) {
         await db.remove(item.id)
@@ -196,8 +203,11 @@ async function moreMinutes(url: string): Promise<timer.limit.Item[]> {
     return rules.filter(r => !hasLimited(r))
 }
 
-async function update(rule: timer.limit.Rule) {
-    await db.save(rule, true)
+async function update(...rules: timer.limit.Rule[]) {
+    if (!rules?.length) return
+    for (const rule of rules) {
+        await db.save(rule, true)
+    }
     await noticeLimitChanged()
 }
 
@@ -213,6 +223,7 @@ class LimitService {
     getRelated = getRelated
     updateEnabled = updateEnabled
     updateDelay = updateDelay
+    updateLocked = updateLocked
     select = select
     remove = remove
     update = update

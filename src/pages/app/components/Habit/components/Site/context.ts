@@ -5,9 +5,12 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { useProvide, useProvider } from "@hooks"
+import { useProvide, useProvider, useRequest } from "@hooks"
+import statService, { type StatQueryParam } from "@service/stat-service"
 import { mergeDate } from "@service/stat-service/merge/date"
+import { getDayLength } from "@util/time"
 import { computed, type Ref } from "vue"
+import { useHabitFilter } from "../context"
 
 type Context = {
     rows: Ref<timer.stat.Row[]>
@@ -16,9 +19,26 @@ type Context = {
 
 const NAMESPACE = 'habitSite'
 
-export const initProvider = (rows: Ref<timer.stat.Row[]>) => {
+export const initProvider = () => {
+    const filter = useHabitFilter()
+
+    const { data: rows } = useRequest(() => {
+        const param: StatQueryParam = {
+            exclusiveVirtual: true,
+            date: filter.dateRange,
+        }
+        return statService.select(param, true)
+    }, {
+        deps: [() => filter.dateRange],
+        defaultValue: [],
+    })
+
+    const dateRangeLength = computed(() => getDayLength(filter.dateRange?.[0], filter.dateRange?.[1]))
+
     const dateMergedRows = computed(() => mergeDate(rows.value ?? []))
     useProvide<Context>(NAMESPACE, { rows, dateMergedRows })
+
+    return dateRangeLength
 }
 
 export const useRows = (): Ref<timer.stat.Row[]> => useProvider<Context, 'rows'>(NAMESPACE, "rows").rows

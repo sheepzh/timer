@@ -4,7 +4,7 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { type AnalysisQuery } from "@app/components/Analysis/common"
+import type { AnalysisQuery } from "@app/components/Analysis/context"
 import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import { t } from "@app/locale"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
@@ -40,7 +40,7 @@ const _default = defineComponent({
     },
     setup(_, ctx) {
         const filter = useReportFilter()
-        const canOperate = computed(() => !filter.value?.siteMerge)
+        const canOperate = computed(() => !filter?.siteMerge)
         const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
         const router = useRouter()
         const {
@@ -50,7 +50,7 @@ const _default = defineComponent({
 
         const jump2Analysis = (row: timer.stat.Row) => {
             let query: AnalysisQuery
-            const siteMerge = filter.value?.siteMerge
+            const siteMerge = filter?.siteMerge
             if (siteMerge === 'cate') {
                 query = { cateId: row?.cateKey?.toString?.() }
             } else {
@@ -82,10 +82,10 @@ const _default = defineComponent({
                         buttonIcon={<Delete />}
                         buttonType="danger"
                         buttonText={t(msg => msg.button.delete)}
-                        confirmText={computeDeleteConfirmMsg(row, filter.value)}
+                        confirmText={computeDeleteConfirmMsg(row, filter)}
                         visible={canOperate.value}
                         onConfirm={async () => {
-                            await handleDelete(row, filter.value)
+                            await handleDelete(row, filter)
                             ctx.emit("delete", row)
                         }}
                     />
@@ -107,7 +107,7 @@ const _default = defineComponent({
                     <PopupConfirmButton
                         buttonIcon={<Open />}
                         buttonType="primary"
-                        buttonText={t(msg => msg.item.operation.removeFromWhitelist)}
+                        buttonText={t(msg => msg.button.enable)}
                         confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.siteKey?.host })}
                         visible={canOperate.value && !!row.siteKey?.host && whitelist.value?.includes(row.siteKey?.host)}
                         onConfirm={async () => {

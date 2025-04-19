@@ -11,6 +11,7 @@ import { type Migrator } from "./common"
 import HostMergeInitializer from "./host-merge-initializer"
 import LocalFileInitializer from "./local-file-initializer"
 import WhitelistInitializer from "./whitelist-initializer"
+import LimitRuleMigrator from "./limit-rule-migrator"
 
 /**
  * Version manager
@@ -26,6 +27,7 @@ class VersionManager {
             new LocalFileInitializer(),
             new WhitelistInitializer(),
             new CateInitializer(),
+            new LimitRuleMigrator(),
         )
     }
 

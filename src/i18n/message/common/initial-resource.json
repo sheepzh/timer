@@ -1,90 +1,90 @@
 {
     "zh_CN": {
         "localFile": {
-            "json": "JSON 文件",
-            "pdf": "PDF 文件",
-            "pic": "图片文件",
+            "json": "JSON文件",
+            "pdf": "PDF文件",
+            "pic": "图片",
             "txt": "文本文件"
         }
     },
     "zh_TW": {
         "localFile": {
-            "json": "JSON 文件",
-            "pdf": "PDF 文件",
-            "pic": "圖片文件",
-            "txt": "文本文件"
+            "json": "JSON檔案",
+            "pdf": "PDF檔案",
+            "pic": "圖片",
+            "txt": "文字檔"
         }
     },
     "en": {
         "localFile": {
-            "json": "JSON Files",
-            "pdf": "PDF Files",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Images",
-            "txt": "Text Files"
+            "txt": "Text"
         }
     },
     "ja": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
-            "pic": "写真",
-            "txt": "TXT"
+            "json": "JSONファイル",
+            "pdf": "PDFファイル",
+            "pic": "画像",
+            "txt": "テキスト"
         }
     },
     "pt_PT": {
         "localFile": {
-            "json": "Arquivos JSON",
-            "pdf": "Arquivos PDF",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Imagens",
-            "txt": "Arquivos de Texto"
+            "txt": "Texto"
         }
     },
     "uk": {
         "localFile": {
-            "json": "Файли JSON",
-            "pdf": "Файли PDF",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Зображення",
-            "txt": "Текстові файли"
+            "txt": "Текст"
         }
     },
     "es": {
         "localFile": {
-            "json": "Archivos JSON",
-            "pdf": "Archivos PDF",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Imágenes",
-            "txt": "Archivos de texto"
+            "txt": "Texto"
         }
     },
     "de": {
         "localFile": {
-            "json": "JSON-Dateien",
-            "pdf": "PDF-Dateien",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Bilder",
-            "txt": "Text-Dateien"
+            "txt": "Text"
         }
     },
     "fr": {
         "localFile": {
-            "json": "Fichiers JSON",
-            "pdf": "Fichiers PDF",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Images",
-            "txt": "Fichiers texte"
+            "txt": "Texte"
         }
     },
     "ru": {
         "localFile": {
-            "json": "JSON файлы",
-            "pdf": "PDF файлы",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "Изображения",
-            "txt": "Текстовые файлы"
+            "txt": "Текст"
         }
     },
     "ar": {
         "localFile": {
-            "json": "ملفات JSON",
-            "pdf": "ملفات PDF",
+            "json": "JSON",
+            "pdf": "PDF",
             "pic": "الصور",
-            "txt": "ملفات نصية"
+            "txt": "نص"
         }
     }
 }

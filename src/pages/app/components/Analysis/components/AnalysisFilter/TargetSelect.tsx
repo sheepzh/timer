@@ -6,9 +6,10 @@ import siteService from "@service/site-service"
 import statService from "@service/stat-service"
 import { identifySiteKey, parseSiteKeyFromIdentity, SiteMap } from "@util/site"
 import { useDebounce } from "@vueuse/core"
-import { ElSelectV2, ElTag } from "element-plus"
+import { ElSelectV2, ElTag, useNamespace } from "element-plus"
 import type { OptionType } from "element-plus/es/components/select-v2/src/select.types"
-import { computed, defineComponent, type PropType, type StyleValue } from "vue"
+import { computed, defineComponent, onMounted, ref, type PropType, type StyleValue } from "vue"
+import { useAnalysisTarget } from "../../context"
 import type { AnalysisTarget } from "../../types"
 import { labelOfHostInfo } from "../../util"
 
@@ -113,77 +114,82 @@ const SiteOption = defineComponent({
     },
 })
 
-const TargetSelect = defineComponent({
-    props: {
-        modelValue: Object as PropType<AnalysisTarget>,
-    },
-    emits: {
-        change: (_val?: AnalysisTarget) => true,
-    },
-    setup(props, ctx) {
-        const { categories } = useCategories()
-        const selectKey = computed(() => cvtTarget2Key(props.modelValue))
+const TargetSelect = defineComponent(() => {
+    const { categories } = useCategories()
 
-        const emitChange = (selectKey?: string) => {
-            const target = cvtKey2Target(selectKey)
-            ctx.emit('change', target)
+    const target = useAnalysisTarget()
+    const selectKey = computed({
+        get: () => cvtTarget2Key(target.value),
+        set: key => target.value = cvtKey2Target(key),
+    })
+
+    const { data: allItems } = useRequest(
+        () => fetchItems(categories.value),
+        { deps: categories },
+    )
+
+    const [query, setQuery] = useState('')
+    const debouncedQuery = useDebounce<string>(query, 50)
+
+    const options = computed(() => {
+        const q = debouncedQuery.value?.trim?.()
+        let [cateItems, siteItems] = allItems.value || []
+        if (q) {
+            siteItems = siteItems?.filter(item => {
+                const { host, alias } = (item.key as timer.site.SiteInfo) || {}
+                return host?.includes?.(q) || alias?.includes?.(q)
+            })
+            cateItems = cateItems?.filter(item => item.label?.includes?.(q))
         }
 
-        const { data: allItems } = useRequest(
-            () => fetchItems(categories.value),
-            { deps: categories },
-        )
-
-        const [query, setQuery] = useState('')
-        const debouncedQuery = useDebounce<string>(query, 50)
-
-        const options = computed(() => {
-            const q = debouncedQuery.value?.trim?.()
-            let [cateItems, siteItems] = allItems.value || []
-            if (q) {
-                siteItems = siteItems?.filter(item => {
-                    const { host, alias } = (item.key as timer.site.SiteInfo) || {}
-                    return host?.includes?.(q) || alias?.includes?.(q)
-                })
-                cateItems = cateItems?.filter(item => item.label?.includes?.(q))
-            }
-
-            let res: OptionType[] = []
-            cateItems?.length && res.push({
-                value: 'cate',
-                label: t(msg => msg.analysis.target.cate),
-                options: cateItems.map(item => ({ value: cvtTarget2Key(item), label: item.label, data: item })),
-            })
-            siteItems?.length && res.push({
-                value: 'site',
-                label: t(msg => msg.analysis.target.site),
-                options: siteItems.map(item => ({ value: cvtTarget2Key(item), label: item.label, data: item })),
-            })
-            if (res.length === 1) {
-                // Single content, not use group
-                res = res[0].options
-            }
-            return res
+        let res: OptionType[] = []
+        cateItems?.length && res.push({
+            value: 'cate',
+            label: t(msg => msg.analysis.target.cate),
+            options: cateItems.map(item => ({ value: cvtTarget2Key(item), label: item.label, data: item })),
         })
+        siteItems?.length && res.push({
+            value: 'site',
+            label: t(msg => msg.analysis.target.site),
+            options: siteItems.map(item => ({ value: cvtTarget2Key(item), label: item.label, data: item })),
+        })
+        if (res.length === 1) {
+            // Single content, not use group
+            res = res[0].options
+        }
+        return res
+    })
 
-        return () => (
-            <ElSelectV2
-                placeholder={t(msg => msg.analysis.common.hostPlaceholder)}
-                modelValue={selectKey.value}
-                filterable
-                filterMethod={setQuery}
-                onChange={emitChange}
-                style={{ width: '240px' } as StyleValue}
-                defaultFirstOption
-                options={options.value ?? []}
-                fitInputWidth={false}
-                v-slots={({ item }: any) => {
-                    const target = (item as any).data as TargetItem
-                    return target?.type === 'site' ? <SiteOption value={target?.key} /> : target?.label
-                }}
-            />
-        )
-    },
+    const ns = useNamespace('select')
+    const select = ref<InstanceType<typeof ElSelectV2>>()
+    onMounted(() => {
+        if (target.value) return
+        let el = select.value?.$el as HTMLElement | undefined
+        if (!el) return
+        el.click()
+        const input = el.querySelector(`.${ns.e('input')}`) as HTMLInputElement
+        (el.querySelector(`.${ns.e('wrapper')}`) as HTMLElement)?.classList?.add?.(ns.is('focused'))
+        input?.click?.()
+    })
+
+    return () => (
+        <ElSelectV2
+            ref={select}
+            placeholder={t(msg => msg.analysis.common.hostPlaceholder)}
+            modelValue={selectKey.value}
+            onChange={val => selectKey.value = val}
+            filterable
+            filterMethod={setQuery}
+            style={{ width: '240px' } as StyleValue}
+            defaultFirstOption
+            options={options.value ?? []}
+            fitInputWidth={false}
+            v-slots={({ item }: any) => {
+                const target = (item as any).data as TargetItem
+                return target?.type === 'site' ? <SiteOption value={target?.key} /> : target?.label
+            }}
+        />
+    )
 })
 
 export default TargetSelect

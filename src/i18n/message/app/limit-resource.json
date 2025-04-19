@@ -1,6 +1,7 @@
 {
     "zh_CN": {
         "filterDisabled": "过滤无效规则",
+        "wildcardTip": "您可以使用通配符来匹配子域名或子页面！",
         "item": {
             "name": "规则名称",
             "condition": "限制网址",
@@ -11,9 +12,10 @@
             "detail": "规则详情",
             "visitTime": "单次访问最长时间",
             "period": "不可访问的时间段",
-            "enabled": "启用状态",
+            "enabled": "启用",
+            "locked": "锁定",
             "effectiveDay": "生效日期",
-            "delayAllowed": "再看 5 分钟",
+            "delayAllowed": "可延时",
             "delayAllowedInfo": "上网时间超过限制时，点击【再看 5 分钟】短暂延时。如果关闭该功能则不能延时。",
             "visits": "次访问",
             "or": "或者",
@@ -26,25 +28,24 @@
         },
         "button": {
             "test": "网址测试",
-            "option": "全局设置",
-            "parseUrl": "解析 URL"
+            "option": "全局设置"
         },
-        "useWildcard": "是否使用通配符",
         "message": {
             "noUrl": "未配置限制网址",
             "noRule": "未填写任何规则",
-            "deleteConfirm": "是否删除限制：{cond}？",
+            "deleteConfirm": "是否要删除规则 [{name}]？",
+            "lockConfirm": "锁定后，即使未触发此规则，所有操作也需要验证",
             "noPermissionFirefox": "请先在插件管理页[about:addons]开启该插件的粘贴板权限",
             "inputTestUrl": "请先输入需要测试的网址链接",
             "clickTestButton": "输入完成后请点击【{buttonText}】按钮",
             "noRuleMatched": "该网址未命中任何规则",
-            "rulesMatched": "该网址命中以下规则："
+            "rulesMatched": "该网址命中以下规则：",
+            "timeout": "倒计时已结束 XD"
         },
-        "urlPlaceholder": "请输入你想要限制的网址，然后点击解析按钮",
         "verification": {
-            "inputTip": "时限规则已触发，如要继续操作，请输入以下问题的答案：{prompt}",
-            "inputTip2": "时限规则已触发，如要继续操作，请在下列输入框中原样输入：{answer}",
-            "pswInputTip": "时限规则已触发，如要继续操作，所以请在下列输入框中输入您的解锁密码",
+            "inputTip": "规则已触发或者被锁定，如要继续操作，请在 {second} 秒内输入以下问题的答案：{prompt}",
+            "inputTip2": "时限规则已触发或者被锁定，如要继续操作，请于 {second} 秒内在下列输入框中原样输入：{answer}",
+            "pswInputTip": "时限规则已触发或者被锁定，如要继续操作，所以请在下列输入框中输入您的解锁密码",
             "strictTip": "时限规则已触发，不允许手动解锁！",
             "incorrectPsw": "密码错误",
             "incorrectAnswer": "回答错误",
@@ -57,56 +58,54 @@
         "filterDisabled": "過濾無效規則",
         "item": {
             "name": "規則名稱",
-            "condition": "限製網址",
+            "condition": "限制網址",
             "daily": "每日上限",
             "weekly": "每週上限",
-            "weekStartInfo": "每週的第一天是「{weekStart}」，您可以在統計選項中變更此值",
+            "weekStartInfo": "每週起始日為「{weekStart}」，您可於統計設定中調整",
             "delayCount": "延遲次數",
-            "detail": "規則詳情",
-            "visitTime": "每次訪問限制時長",
-            "period": "受限時段",
-            "enabled": "是否有效",
+            "detail": "規則詳細內容",
+            "visitTime": "單次造訪時長限制",
+            "period": "限制時段",
+            "enabled": "是否啟用",
             "effectiveDay": "生效日期",
-            "delayAllowed": "再看 5 分鐘",
-            "delayAllowedInfo": "上網時間超過限製時，點擊【再看 5 分鐘】短暫延時。如果關閉該功能則不能延時。",
-            "visits": "次訪問",
+            "delayAllowed": "允許延遲",
+            "delayAllowedInfo": "當使用時間超過限制時，可點擊【再看5分鐘】暫時延長。若關閉此功能則無法延時。",
+            "visits": "次造訪",
             "or": "或",
             "notEffective": "未生效"
         },
         "step": {
-            "base": "基本信息",
-            "url": "設定 URL",
-            "rule": "設定規則"
+            "base": "基本設定",
+            "url": "網址設定",
+            "rule": "規則設定"
         },
         "button": {
-            "test": "網址測試",
-            "parseUrl": "解析 URL"
+            "test": "測試網址"
         },
-        "useWildcard": "是否使用通配符",
         "message": {
-            "noUrl": "未填冩限製網址",
-            "noRule": "未填寫任何規則",
-            "deleteConfirm": "是否刪除限製：{cond}？",
-            "inputTestUrl": "請先輸入需要測試的網址鏈接",
+            "noUrl": "未填寫限制網址",
+            "noRule": "未設定任何規則",
+            "deleteConfirm": "確定要刪除規則「{name}」嗎？",
+            "inputTestUrl": "請輸入要測試的網址",
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
-            "noRuleMatched": "該網址未命中任何規則",
-            "rulesMatched": "該網址命中以下規則："
+            "noRuleMatched": "此網址未符合任何規則",
+            "rulesMatched": "此網址符合以下規則："
         },
-        "urlPlaceholder": "請輸入你想要限制的網址，然後點選解析按鈕",
         "verification": {
-            "inputTip": "時限規則已觸發，如要繼續操作，請輸入以下問題的答案：{prompt}",
-            "inputTip2": "時限規則已觸發，如要繼續操作，請在下列輸入框中原樣輸入：{answer}",
-            "pswInputTip": "時限規則已觸發，如要繼續操作，所以請在下列輸入框中輸入您的解鎖密碼",
-            "strictTip": "時限規則已觸發，不允許手動解鎖！",
+            "inputTip": "規則已觸發或鎖定，請於 {second} 秒內回答：{prompt}",
+            "inputTip2": "規則已觸發或鎖定。請在 {second} 秒內輸入：{answer}",
+            "pswInputTip": "時間限制已觸發或鎖定，請輸入解鎖密碼繼續",
+            "strictTip": "時間限制已觸發，禁止手動解鎖！",
             "incorrectPsw": "密碼錯誤",
-            "incorrectAnswer": "答案不正確",
-            "pi": "圓周率 π 的小數部分第 {startIndex} 位到第 {endIndex} 位的共 {digitCount} 位數字",
+            "incorrectAnswer": "回答錯誤",
+            "pi": "圓周率 π 小數點後第 {startIndex} 至 {endIndex} 位共 {digitCount} 位數字",
             "confession": "一寸光陰一寸金，寸金難買寸光陰"
         },
-        "reminder": "距離時間限制只剩不到 {min} 分鐘！"
+        "reminder": "距離時間限制僅剩 {min} 分鐘！"
     },
     "en": {
         "filterDisabled": "Only enabled",
+        "wildcardTip": "You can use wildcards to match subdomains or subpages!",
         "item": {
             "name": "Rule name",
             "condition": "Restricted URL",
@@ -118,8 +117,9 @@
             "visitTime": "Time limit per visit",
             "period": "Blocked periods",
             "enabled": "Enabled",
+            "locked": "Locked",
             "effectiveDay": "Effective On",
-            "delayAllowed": "More 5 minutes",
+            "delayAllowed": "Delayable",
             "delayAllowedInfo": "If it times out, allow a temporary delay of 5 minutes",
             "visits": "visits",
             "or": "or",
@@ -131,25 +131,24 @@
             "rule": "Config rule"
         },
         "button": {
-            "test": "Test URL",
-            "parseUrl": "Parse URL"
+            "test": "Test URL"
         },
-        "useWildcard": "Whether to use wildcard",
         "message": {
             "noUrl": "No restriction URLs configured",
             "noRule": "No rules filled in",
-            "deleteConfirm": "Do you want to delete the rule of {cond}?",
+            "deleteConfirm": "Do you want to delete the rule [{name}]?",
+            "lockConfirm": "If locked, all operations will require verification even if the rule is not triggered.",
             "inputTestUrl": "Please enter the URL link to be tested first",
             "clickTestButton": "After inputting, please click the button ({buttonText})",
             "noRuleMatched": "The URL does not hit any rules",
-            "rulesMatched": "The URL hits the following rules:"
+            "rulesMatched": "The URL hits the following rules:",
+            "timeout": "Time is up! XD"
         },
-        "urlPlaceholder": "Please enter the URL you want to restrict and click the Parse button",
         "verification": {
-            "inputTip": "Limit rule has already been triggered. To continue, please enter the answer to the following prompt: {prompt}",
-            "inputTip2": "Limit rule has already been triggered. To continue, please enter it as it is: {answer}",
-            "pswInputTip": "Limit rule has already been triggered. To continue, please enter your unlock password",
-            "strictTip": "Limit rule has already been triggered and manual unlocking is not allowed!",
+            "inputTip": "The rule has been triggered or locked. To continue, please enter the answer to the following question within {second} seconds: {prompt}",
+            "inputTip2": "The rule has been triggered or locked. To continue, please enter it as it is within {second} seconds: {answer}",
+            "pswInputTip": "The rule has been triggered or locked. To continue, please enter your unlock password",
+            "strictTip": "Triggered, no operation is allowed before release!",
             "incorrectPsw": "Incorrect password",
             "incorrectAnswer": "Incorrect answer",
             "pi": "{digitCount} digits from {startIndex} to {endIndex} of the decimal part of π",
@@ -183,23 +182,20 @@
             "rule": "設定ルール"
         },
         "button": {
-            "test": "テストURL",
-            "parseUrl": "解析 URL"
+            "test": "テストURL"
         },
-        "useWildcard": "ワイルドカードを使用するかどうか",
         "message": {
             "noUrl": "埋められていない制限URL",
             "noRule": "ルールが記入されていません",
-            "deleteConfirm": "{cond} の制限を削除しますか？",
+            "deleteConfirm": "ルール [{name}] を削除しますか?",
             "inputTestUrl": "最初にテストする URL リンクを入力してください",
             "clickTestButton": "入力後、ボタン({buttonText})をクリックしてください",
             "noRuleMatched": "URL がどのルールとも一致しません",
             "rulesMatched": "URL は次のルールに一致します。"
         },
-        "urlPlaceholder": "制限したいURLを入力して解析ボタンをクリックしてください",
         "verification": {
-            "inputTip": "このルールはすでにトリガーされています。 続行するには、次のプロンプトに対する答えを入力してください {prompt}",
-            "inputTip2": "このルールはすでにトリガーされています。 続ける場合はそのまま入力してください: {answer}",
+            "inputTip": "ルールがトリガーされたかロックされました。続行するには、次の質問に対する回答を {second} 秒以内に入力してください: {prompt}",
+            "inputTip2": "ルールがトリガーされたかロックされました。続行するには、{second} 秒以内にそのまま入力してください: {answer}",
             "pswInputTip": "このルールはすでにトリガーされています。続行するには、ロック解除パスワードを入力してください",
             "strictTip": "制限ルールがすでにトリガーされており、手動によるロック解除は許可されていません。",
             "incorrectPsw": "間違ったパスワード",
@@ -235,23 +231,20 @@
             "rule": "Configurar regra"
         },
         "button": {
-            "test": "Testar URL",
-            "parseUrl": "Analisar"
+            "test": "Testar URL"
         },
-        "useWildcard": "Se deseja usar caractere curinga",
         "message": {
             "noUrl": "URL limitada não preenchida",
             "noRule": "Nenhuma regra preenchida",
-            "deleteConfirm": "Deseja excluir a regra de {cond}?",
+            "deleteConfirm": "Pretende eliminar a regra [{name}]?",
             "inputTestUrl": "Por favor insira o link de URL para testar primeiro",
             "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
             "noRuleMatched": "O URL não atinge nenhuma regra",
             "rulesMatched": "A URL atinge as seguintes regras:"
         },
-        "urlPlaceholder": "Insira o URL que deseja restringir e clique no botão Analisar",
         "verification": {
-            "inputTip": "Esta regra já foi acionada. Para continuar, digite a resposta ao seguinte prompt: {prompt}",
-            "inputTip2": "Esta regra já foi acionada. Para continuar, por favor insira-a como está: {answer}",
+            "inputTip": "A regra foi acionada ou bloqueada. Para continuar, introduza a resposta à seguinte questão em {second} segundos: {prompt}",
+            "inputTip2": "A regra foi acionada ou bloqueada. Para continuar, digite-o tal como está em {segundos} segundos: {resposta}",
             "pswInputTip": "Esta regra já foi acionada. Para continuar, digite a sua senha de desbloqueio",
             "strictTip": "A regra de limite já foi acionada e o desbloqueio manual não é permitido!",
             "incorrectPsw": "Palavra-passe incorreta",
@@ -287,23 +280,20 @@
             "rule": "Правило конфігурації"
         },
         "button": {
-            "test": "Тестова URL-адреса",
-            "parseUrl": "Обробити URL"
+            "test": "Тестова URL-адреса"
         },
-        "useWildcard": "Використовувати символ підставлення",
         "message": {
             "noUrl": "Не заповнена обмежена URL-адреса",
             "noRule": "Не заповнено жодного правила",
-            "deleteConfirm": "Ви дійсно хочете видалити правило {cond}?",
+            "deleteConfirm": "Ви бажаєте видалити правило [{name}]?",
             "inputTestUrl": "Спочатку введіть URL-адресу посилання для перевірки",
             "clickTestButton": "Після введення натисніть кнопку ({buttonText})",
             "noRuleMatched": "URL не відповідає жодному правилу",
             "rulesMatched": "URL-адреса отримує такі правила:"
         },
-        "urlPlaceholder": "Введіть URL-адресу, яку ви хочете обмежити, а потім натисніть кнопку Обробити",
         "verification": {
-            "inputTip": "Правило обмеження вже було запущено. Щоб продовжити, введіть відповідь на запит: {prompt}",
-            "inputTip2": "Правило обмеження вже було запущено. Щоб продовжити, введіть те, що ви бачите: {answer}",
+            "inputTip": "Правило було запущено або заблоковано. Щоб продовжити, введіть відповідь на таке запитання протягом {second} секунд: {prompt}",
+            "inputTip2": "Правило було запущено або заблоковано. Щоб продовжити, введіть його таким, яким він є, протягом {second} секунд: {answer}",
             "pswInputTip": "Правило обмеження вже було запущено. Щоб продовжити, введіть пароль",
             "strictTip": "Правило обмеження вже активовано і ручне розблокування не дозволено!",
             "incorrectPsw": "Неправильний пароль",
@@ -335,23 +325,20 @@
             "rule": "Configurar regla"
         },
         "button": {
-            "test": "Probar URL",
-            "parseUrl": "Analizar URL"
+            "test": "Probar URL"
         },
-        "useWildcard": "Cuando usar un comodín",
         "message": {
             "noUrl": "URL restringida sin completar",
             "noRule": "No hay reglas llenadas",
-            "deleteConfirm": "¿Deseas eliminar la regla de {cond}?",
+            "deleteConfirm": "¿Quieres eliminar la regla [{name}]?",
             "inputTestUrl": "Por favor, introduce primero el enlace URL a ser probado",
             "clickTestButton": "Después de ingresarla, haz clic en el botón ({buttonText})",
             "noRuleMatched": "La URL no sigue ninguna regla",
             "rulesMatched": "La URL sigue las siguientes reglas:"
         },
-        "urlPlaceholder": "Ingrese la URL que desea restringir y haga clic en el botón Analizar",
         "verification": {
-            "inputTip": "La regla de límite ya ha sido activada. Para continuar, por favor introduce la respuesta a la siguiente indicación: {prompt}",
-            "inputTip2": "La regla de límite ya ha sido activada. Para continuar, por favor introdúcela tal como está: {answer}",
+            "inputTip": "La regla se ha activado o bloqueado. Para continuar, responda la siguiente pregunta en menos de {second} segundos: {prompt}",
+            "inputTip2": "La regla se ha activado o bloqueado. Para continuar, introdúzcala en {second} segundos: {answer}",
             "pswInputTip": "La regla de límite ya ha sido activada. Para continuar, por favor introduce tu contraseña de desbloqueo",
             "strictTip": "¡La regla de límite ya ha sido activada y el desbloqueo manual no está permitido!",
             "incorrectPsw": "Contraseña incorrecta",
@@ -382,23 +369,20 @@
             "rule": "Konfiguration Regel"
         },
         "button": {
-            "test": "Test-URL",
-            "parseUrl": "URL analysieren"
+            "test": "Test-URL"
         },
-        "useWildcard": "Ob Platzhalter verwendet wird",
         "message": {
             "noUrl": "Nicht ausgefüllte eingeschränkte URL",
             "noRule": "Keine Regeln ausgefüllt",
-            "deleteConfirm": "Möchten Sie die Regel {cond} löschen?",
+            "deleteConfirm": "Möchten Sie die Regel [{name}] löschen?",
             "inputTestUrl": "Bitte geben Sie zunächst den zu testenden URL-Link ein",
             "clickTestButton": "Klicken Sie nach der Eingabe bitte auf die Schaltfläche ({buttonText}).",
             "noRuleMatched": "Die URL entspricht keinen Regeln",
             "rulesMatched": "Die URL erfüllt die folgenden Regeln:"
         },
-        "urlPlaceholder": "Geben Sie bitte die URL ein, die Sie einschränken möchten, und klicken Sie auf die Schaltfläche „URL analysieren“",
         "verification": {
-            "inputTip": "Die Limitregel wurde bereits ausgelöst. Um fortzufahren, geben Sie bitte die Antwort auf die folgende Eingabeaufforderung ein: {prompt}",
-            "inputTip2": "Die Limit regel wurde bereits ausgelöst. Um fortzufahren, geben Sie sie bitte unverändert ein: {answer}",
+            "inputTip": "Die Regel wurde ausgelöst oder gesperrt. Um fortzufahren, geben Sie bitte innerhalb von {second} Sekunden die Antwort auf die folgende Frage ein: {prompt}",
+            "inputTip2": "Die Regel wurde ausgelöst oder gesperrt. Um fortzufahren, geben Sie sie bitte innerhalb von {second} Sekunden unverändert ein: {answer}",
             "pswInputTip": "Die Limit regel wurde bereits ausgelöst. Um fortzufahren, geben Sie bitte Ihr Entsperrkennwort ein",
             "strictTip": "Die Limit-Regel wurde bereits ausgelöst und eine manuelle Entsperrung ist nicht zulässig!",
             "incorrectPsw": "Falsches Passwort",
@@ -428,23 +412,20 @@
             "rule": "Règle de configuration"
         },
         "button": {
-            "test": "Test URL",
-            "parseUrl": "Parse URL"
+            "test": "Test URL"
         },
-        "useWildcard": "Utiliser des caractères génériques",
         "message": {
             "noUrl": "Aucune URL de restriction configurée",
             "noRule": "Aucune règle remplie",
-            "deleteConfirm": "Voulez-vous supprimer la règle de {cond}?",
+            "deleteConfirm": "Voulez-vous supprimer la règle [{name}]?",
             "inputTestUrl": "Veuillez entrer le lien URL à tester en premier",
             "clickTestButton": "Après l'entrée, cliquez sur le bouton ({buttonText})",
             "noRuleMatched": "L'URL ne correspond à aucune règle",
             "rulesMatched": "L'URL atteint les règles suivantes :"
         },
-        "urlPlaceholder": "Veuillez entrer l'URL que vous voulez restreindre et cliquez sur le bouton Analyser",
         "verification": {
-            "inputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez entrer la réponse à l'invite suivante : {prompt}",
-            "inputTip2": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez la saisir telle quelle : {answer}",
+            "inputTip": "La règle a été déclenchée ou verrouillée. Pour continuer, veuillez répondre à la question suivante dans un délai de {second} secondes : {prompt}",
+            "inputTip2": "La règle a été déclenchée ou verrouillée. Pour continuer, veuillez la saisir telle quelle dans un délai de {second} secondes : {answer}",
             "pswInputTip": "La règle de limite a déjà été déclenchée. Pour continuer, veuillez saisir votre mot de passe de déverrouillage",
             "strictTip": "La règle de limite a déjà été déclenchée et le déverrouillage manuel n'est pas autorisé !",
             "incorrectPsw": "Mot de passe incorrect",
@@ -475,23 +456,20 @@
             "rule": "Установить правило"
         },
         "button": {
-            "test": "Тестовый URL",
-            "parseUrl": "Анализ URL"
+            "test": "Тестовый URL"
         },
-        "useWildcard": "Использовать ли подстановку",
         "message": {
             "noUrl": "Ограничение URL-адресов не настроено",
             "noRule": "Нет заполненных правил",
-            "deleteConfirm": "Вы хотите удалить правило {cond}?",
+            "deleteConfirm": "Вы хотите удалить правило [{name}]?",
             "inputTestUrl": "Пожалуйста, введите ссылку для тестирования",
             "clickTestButton": "После ввода информации, пожалуйста, нажмите кнопку ({buttonText})",
             "noRuleMatched": "URL не содержит правил",
             "rulesMatched": "URL попадает в следующие правила:"
         },
-        "urlPlaceholder": "Пожалуйста, введите URL, который вы хотите ограничить и нажмите на кнопку \"Анализ\"",
         "verification": {
-            "inputTip": "Лимит правило уже был сработан. Чтобы продолжить, введите ответ на следующую подсказку: {prompt}",
-            "inputTip2": "Лимит правило уже был сработан. Для продолжения, пожалуйста, введите его, как это: {answer}",
+            "inputTip": "Правило было активировано или заблокировано. Чтобы продолжить, введите ответ на следующий вопрос в течение {second} секунд: {prompt}",
+            "inputTip2": "Правило было запущено или заблокировано. Чтобы продолжить, введите его как есть в течение {second} секунд: {answer}",
             "pswInputTip": "Лимит правило уже срабатывается. Чтобы продолжить, введите пароль разблокировки",
             "strictTip": "Ограниченное правило уже было вызвано и разблокировка вручную запрещена!",
             "incorrectPsw": "Неправильный пароль",
@@ -521,23 +499,20 @@
             "rule": "قاعدة التكوين"
         },
         "button": {
-            "test": "اختبار عنوان URL",
-            "parseUrl": "تحليل عنوان URL"
+            "test": "اختبار عنوان URL"
         },
-        "useWildcard": "هل يجب استخدام الأحرف البدل",
         "message": {
             "noUrl": "لم يتم تكوين عناوين URL الخاصة بالقيود",
             "noRule": "لم يتم ملء أي قواعد",
-            "deleteConfirm": "هل تريد حذف قاعدة {cond}؟",
+            "deleteConfirm": "هل تريد حذف القاعدة [{name}]؟",
             "inputTestUrl": "الرجاء إدخال رابط URL ليتم اختباره أولاً",
             "clickTestButton": "بعد الإدخال، الرجاء الضغط على الزر ({buttonText})",
             "noRuleMatched": "عنوان URL لا يصطدم بأي قواعد",
             "rulesMatched": "يتوافق عنوان URL مع القواعد التالية:"
         },
-        "urlPlaceholder": "الرجاء إدخال عنوان URL الذي تريد تقييده ثم انقر فوق الزر \"تحليل\"",
         "verification": {
-            "inputTip": "لقد تم فعلًا تشغيل قاعدة الحد. للمتابعة، يرجى إدخال الإجابة على السؤال التالي: {prompt}",
-            "inputTip2": "لقد تم فعلًا تفعيل قاعدة الحد. للمتابعة، يرجى إدخالها كما هي: {answer}",
+            "inputTip": "تم تفعيل القاعدة أو قفلها. للمتابعة، يُرجى إدخال إجابة السؤال التالي خلال {second} ثانية: {prompt}",
+            "inputTip2": "تم تفعيل القاعدة أو قفلها. للمتابعة، يُرجى إدخالها كما هي خلال {second} ثانية: {answer}",
             "pswInputTip": "تم فعلًا تشغيل قاعدة الحد. للمتابعة، يرجى إدخال كلمة مرور إلغاء القُفْل الخاصة بك",
             "strictTip": "لقد تم فعلًا تشغيل قاعدة الحد الأقصى ولا يُسمح بإلغاء القُفْل يدويًا!",
             "incorrectPsw": "كلمة المرور غير صحيحة",

@@ -14,7 +14,7 @@ import Wrapper from "./Wrapper"
 const _default = defineComponent(() => {
     const rows = useDateMergedRows()
     const filter = useHabitFilter()
-    const bizOption = computed(() => ({ rows: rows.value, timeFormat: filter.value?.timeFormat }))
+    const bizOption = computed(() => ({ rows: rows.value, timeFormat: filter.timeFormat }))
     const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
 
     return () => <div class="top-k" ref={elRef} />

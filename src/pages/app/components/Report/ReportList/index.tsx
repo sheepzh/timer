@@ -12,7 +12,7 @@ import "./style"
 const _default = defineComponent({
     setup(_, ctx) {
         const filterOption = useReportFilter()
-        const param = computed(() => cvtOption2Param(filterOption.value))
+        const param = computed(() => cvtOption2Param(filterOption))
 
         const { data, loading, loadMoreAsync, end, reset } = useScrollRequest(async (num, size) => {
             const pagination = await statService.selectByPage(param.value, { num, size })

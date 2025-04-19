@@ -14,13 +14,11 @@ import TimelineWrapper, { type BizOption } from "./Wrapper"
 const _default = defineComponent(() => {
     const rows = useRows()
     const filter = useHabitFilter()
-    const bizOption = computed<BizOption>(() => {
-        return {
-            rows: rows.value,
-            timeFormat: filter.value?.timeFormat,
-            dateRange: filter.value?.dateRange,
-        }
-    })
+    const bizOption = computed<BizOption>(() => ({
+        rows: rows.value,
+        timeFormat: filter.timeFormat,
+        dateRange: filter.dateRange,
+    }))
     const { elRef } = useEcharts(TimelineWrapper, bizOption, { manual: true })
 
     return () => <div class="daily-trend" ref={elRef} />

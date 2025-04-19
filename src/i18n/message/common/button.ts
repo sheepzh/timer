@@ -9,6 +9,7 @@ import resource from './button-resource.json'
 
 export type ButtonMessage = {
     create: string
+    add: string
     delete: string
     batchDelete: string
     modify: string
@@ -21,7 +22,9 @@ export type ButtonMessage = {
     okey: string
     dont: string
     operation: string
+    configuration: string
     clear: string
+    enable: string
     batchEnable: string
     batchDisable: string
 }

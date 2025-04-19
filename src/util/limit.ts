@@ -2,9 +2,21 @@ import { getWeekDay, MILL_PER_MINUTE, MILL_PER_SECOND } from "./time"
 
 export const DELAY_MILL = 5 * MILL_PER_MINUTE
 
+export const cleanCond = (origin: string | undefined): string | undefined => {
+    if (!origin) return undefined
+
+    const startIdx = origin?.indexOf('//')
+    const endIdx = origin?.indexOf('?')
+    let res = origin.substring(startIdx === -1 ? 0 : startIdx + 2, endIdx === -1 ? undefined : endIdx)
+    while (res.endsWith('/')) {
+        res = res.substring(0, res.length - 1)
+    }
+    return res || undefined
+}
+
 export function matches(cond: timer.limit.Item['cond'], url: string): boolean {
     return cond?.some?.(
-        c => new RegExp(`^${(c || '').split('*').join('.*')}`).test(url)
+        c => new RegExp(`^.*//${(c || '').split('*').join('.*')}`).test(url)
     )
 }
 
@@ -74,13 +86,10 @@ export function hasWeeklyLimited(item: timer.limit.Item): boolean {
 }
 
 export function isEnabledAndEffective(rule: timer.limit.Rule): boolean {
-    return !!rule?.enabled && isEffective(rule)
+    return !!rule?.enabled && isEffective(rule.weekdays)
 }
 
-export function isEffective(rule: timer.limit.Rule | undefined): boolean {
-    if (!rule) return false
-    const { weekdays } = rule
-
+export function isEffective(weekdays: timer.limit.Rule['weekdays']): boolean {
     const weekdayLen = weekdays?.length
     if (!weekdayLen || weekdayLen <= 0 || weekdayLen >= 7) {
         return true

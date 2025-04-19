@@ -4,89 +4,84 @@
         "host": "域名",
         "focus": "浏览时长",
         "run": "运行时长",
-        "time": "打开次数",
+        "time": "访问次数",
         "operation": {
             "add2Whitelist": "白名单",
-            "removeFromWhitelist": "启用",
             "analysis": "分析",
-            "deleteConfirmMsgAll": "{url} 的所有访问记录将被删除",
-            "deleteConfirmMsgRange": "{url} 在 {start} 到 {end} 的访问记录将被删除",
-            "deleteConfirmMsg": "{url} 在 {date} 的访问记录将被删除",
+            "deleteConfirmMsgAll": "将删除 {url} 的所有访问记录",
+            "deleteConfirmMsgRange": "将删除 {url} 在 {start} 至 {end} 期间的访问记录",
+            "deleteConfirmMsg": "将删除 {url} 在 {date} 的访问记录",
             "exportWholeData": "导出数据",
             "importWholeData": "导入数据",
-            "importOtherData": "导入其他插件的数据"
+            "importOtherData": "导入其他插件数据"
         }
     },
     "zh_TW": {
         "date": "日期",
-        "host": "域名",
+        "host": "網域",
         "focus": "瀏覽時長",
-        "run": "運行時長",
-        "time": "訪問次數",
+        "run": "執行時間",
+        "time": "造訪次數",
         "operation": {
             "add2Whitelist": "白名單",
-            "removeFromWhitelist": "啟用",
             "analysis": "分析",
-            "deleteConfirmMsgAll": "{url} 的所有拜訪記錄將被刪除",
-            "deleteConfirmMsgRange": "{url} 在 {start} 到 {end} 的拜訪記錄將被刪除",
-            "deleteConfirmMsg": "{url} 在 {date} 的拜訪記錄將被刪除",
-            "exportWholeData": "導出數據",
-            "importWholeData": "導入數據",
-            "importOtherData": "從其他擴展導入"
+            "deleteConfirmMsgAll": "將刪除 {url} 的所有瀏覽紀錄",
+            "deleteConfirmMsgRange": "將刪除 {url} 在 {start} 至 {end} 期間的瀏覽紀錄",
+            "deleteConfirmMsg": "將刪除 {url} 在 {date} 的瀏覽紀錄",
+            "exportWholeData": "匯出資料",
+            "importWholeData": "匯入資料",
+            "importOtherData": "匯入其他擴充功能資料"
         }
     },
     "en": {
         "date": "Date",
-        "host": "Site URL",
-        "focus": "Browsing Time",
+        "host": "Domain",
+        "focus": "Duration",
         "run": "Run Time",
-        "time": "Site Visits",
+        "time": "Visits",
         "operation": {
             "add2Whitelist": "Whitelist",
-            "removeFromWhitelist": "Enable",
-            "analysis": "Analysis",
-            "deleteConfirmMsgAll": "All records of {url} will be deleted!",
-            "deleteConfirmMsgRange": "All records of {url} between {start} and {end} will be deleted!",
-            "deleteConfirmMsg": "The record of {url} on {date} will be deleted!",
-            "exportWholeData": "Export Data",
-            "importWholeData": "Import Data",
-            "importOtherData": "Import from Other Extensions"
+            "analysis": "Analyze",
+            "deleteConfirmMsgAll": "All visit records of {url} will be deleted",
+            "deleteConfirmMsgRange": "Visit records of {url} between {start} and {end} will be deleted",
+            "deleteConfirmMsg": "Visit record of {url} on {date} will be deleted",
+            "exportWholeData": "Export",
+            "importWholeData": "Import",
+            "importOtherData": "Import from Extensions"
         }
     },
     "ja": {
-        "date": "日期",
-        "host": "URL",
+        "date": "日付",
+        "host": "ドメイン",
         "focus": "閲覧時間",
         "run": "実行時間",
-        "time": "拜訪回数",
+        "time": "訪問回数",
         "operation": {
-            "add2Whitelist": "ホワイトリスト",
-            "removeFromWhitelist": "有効にする",
-            "analysis": "分析する",
-            "deleteConfirmMsgAll": "{url} のすべての拜訪記録が削除されます",
-            "deleteConfirmMsgRange": "{url} {start} から {end} までの拜訪記録は削除されます",
-            "deleteConfirmMsg": "{date} の {url} の拜訪記録は削除されます",
-            "exportWholeData": "インポート",
-            "importWholeData": "書き出す",
-            "importOtherData": "他の拡張機能からインポート"
+            "add2Whitelist": "ホワイトリストに追加",
+            "analysis": "分析",
+            "deleteConfirmMsgAll": "{url} の全ての訪問記録を削除します",
+            "deleteConfirmMsgRange": "{url} の {start} から {end} までの訪問記録を削除します",
+            "deleteConfirmMsg": "{url} の {date} の訪問記録を削除します",
+            "exportWholeData": "エクスポート",
+            "importWholeData": "インポート",
+            "importOtherData": "拡張機能からインポート"
         }
     },
     "pt_PT": {
         "date": "Data",
-        "host": "URL do Site",
-        "focus": "Tempo de Navegação",
+        "host": "Domínio",
+        "focus": "Duração",
         "run": "Tempo de execução",
-        "time": "Visitas do Site",
+        "time": "Visitas",
         "operation": {
-            "add2Whitelist": "Ignorar",
-            "removeFromWhitelist": "Habilitar",
-            "analysis": "Análise",
-            "deleteConfirmMsgAll": "Todos os registros de {url} serão apagados!",
-            "deleteConfirmMsgRange": "Todos os registros de {url} entre {start} e {end} serão apagados!",
-            "deleteConfirmMsg": "O registro de {url} em {date} será excluído!",
-            "exportWholeData": "Exportar Dados",
-            "importWholeData": "Importar Dados",
-            "importOtherData": "Importar de Outras Extensões"
+            "add2Whitelist": "Lista branca",
+            "analysis": "Analisar",
+            "deleteConfirmMsgAll": "Todos os registros de visita de {url} serão excluídos",
+            "deleteConfirmMsgRange": "Registros de visita de {url} entre {start} e {end} serão excluídos",
+            "deleteConfirmMsg": "Registro de visita de {url} em {date} será excluído",
+            "exportWholeData": "Exportar",
+            "importWholeData": "Importar",
+            "importOtherData": "Importar de extensões"
         }
     },
     "uk": {
@@ -97,99 +92,94 @@
         "time": "Відвідування сайту",
         "operation": {
             "add2Whitelist": "Білий список",
-            "removeFromWhitelist": "Увімкнути",
             "analysis": "Аналіз",
-            "deleteConfirmMsgAll": "Усі записи для {url} будуть видалені!",
-            "deleteConfirmMsgRange": "Усі записи для {url} між {start} і {end} будуть видалені!",
-            "deleteConfirmMsg": "Запис для {url} {date} буде видалено!",
-            "exportWholeData": "Експортувати дані",
-            "importWholeData": "Імпортувати дані",
+            "deleteConfirmMsgAll": "Усі записи відвідування {url} будуть видалені",
+            "deleteConfirmMsgRange": "Записи відвідування {url} з {start} по {end} будуть видалені",
+            "deleteConfirmMsg": "Запис відвідування {url} за {date} буде видалено",
+            "exportWholeData": "Експорт даних",
+            "importWholeData": "Імпорт даних",
             "importOtherData": "Імпорт з інших розширень"
         }
     },
     "es": {
         "date": "Fecha",
-        "host": "URL del sitio",
-        "focus": "Tiempo de navegación",
-        "time": "Visitas al sitio",
+        "host": "Dominio",
+        "focus": "Duración",
+        "time": "Visitas",
         "operation": {
             "add2Whitelist": "Lista blanca",
-            "removeFromWhitelist": "Habilitar",
-            "analysis": "Análisis",
-            "deleteConfirmMsgAll": "¡Todos los registros de {url} serán eliminados!",
-            "deleteConfirmMsgRange": "¡Todos los registros de {url} entre {start} y {end} serán eliminados!",
-            "deleteConfirmMsg": "¡El registro de {url} de {date} será eliminado!",
-            "exportWholeData": "Exportar datos",
-            "importWholeData": "Importar datos",
-            "importOtherData": "Importar desde otras extensiones"
+            "analysis": "Analizar",
+            "deleteConfirmMsgAll": "Se eliminarán todos los registros de {url}",
+            "deleteConfirmMsgRange": "Se eliminarán los registros de {url} entre {start} y {end}",
+            "deleteConfirmMsg": "Se eliminará el registro de {url} del {date}",
+            "exportWholeData": "Exportar",
+            "importWholeData": "Importar",
+            "importOtherData": "Importar de extensiones"
         }
     },
     "de": {
         "date": "Datum",
-        "host": "Webadresse",
-        "focus": "Browsing-Zeit",
+        "host": "Webseite",
+        "focus": "Dauer",
         "time": "Besuche",
         "operation": {
             "add2Whitelist": "Whitelist",
-            "removeFromWhitelist": "Aktivieren",
             "analysis": "Analyse",
-            "deleteConfirmMsgAll": "Alle Datensätze von {url} werden gelöscht!",
-            "deleteConfirmMsgRange": "Alle Einträge von {url} zwischen {start} und {end} werden gelöscht!",
-            "deleteConfirmMsg": "Der Eintrag von {url} auf {date} wird gelöscht!",
-            "exportWholeData": "Daten exportieren",
-            "importWholeData": "Daten importieren",
-            "importOtherData": "Aus anderen Erweiterungen importieren"
+            "deleteConfirmMsgAll": "Alle Datensätze von {url} werden gelöscht",
+            "deleteConfirmMsgRange": "Alle Einträge von {url} zwischen {start} und {end} werden gelöscht",
+            "deleteConfirmMsg": "Der Eintrag von {url} am {date} wird gelöscht",
+            "exportWholeData": "Exportieren",
+            "importWholeData": "Importieren",
+            "importOtherData": "Aus Erweiterungen importieren"
         }
     },
     "fr": {
         "date": "Date",
-        "host": "URL du site",
-        "focus": "Temps de navigation",
-        "time": "Visites sur site",
+        "host": "Site",
+        "focus": "Durée",
+        "time": "Visites",
         "operation": {
             "add2Whitelist": "Whitelist",
-            "removeFromWhitelist": "Activer",
-            "analysis": "Analyse",
-            "deleteConfirmMsgAll": "Tous les enregistrements de {url} seront supprimés !",
-            "deleteConfirmMsgRange": "Tous les enregistrements de {url} entre {start} et {end} seront supprimés !",
-            "deleteConfirmMsg": "L'enregistrement de {url} sur {date} sera supprimé !",
-            "exportWholeData": "Exporter les données",
-            "importWholeData": "Importer Données",
-            "importOtherData": "Importer depuis d'autres extensions"
+            "analysis": "Analyser",
+            "deleteConfirmMsgAll": "Tous les enregistrements de {url} seront supprimés",
+            "deleteConfirmMsgRange": "Les enregistrements de {url} entre {start} et {end} seront supprimés",
+            "deleteConfirmMsg": "L'enregistrement du {date} sera supprimé",
+            "exportWholeData": "Exporter",
+            "importWholeData": "Importer",
+            "importOtherData": "Depuis d'autres extensions"
         }
     },
     "ru": {
         "date": "Дата",
-        "host": "URL-адрес сайта",
-        "focus": "Время просмотра",
-        "time": "Количество посещений",
+        "host": "Сайт",
+        "focus": "Длительность",
+        "time": "Визиты",
         "operation": {
             "add2Whitelist": "Белый список",
-            "removeFromWhitelist": "Включить",
             "analysis": "Анализ",
-            "deleteConfirmMsgAll": "Все записи {url} будут удалены!",
-            "deleteConfirmMsgRange": "Все записи {url} между {start} и {end} будут удалены!",
-            "deleteConfirmMsg": "Запись {url} на {date} будет удалена!",
-            "exportWholeData": "Экспорт данных",
-            "importWholeData": "Импорт данных",
-            "importOtherData": "Импорт из других расширений"
+            "deleteConfirmMsgAll": "Все записи {url} будут удалены",
+            "deleteConfirmMsgRange": "Записи {url} с {start} по {end} будут удалены",
+            "deleteConfirmMsg": "Запись {url} за {date} будет удалена",
+            "exportWholeData": "Экспорт",
+            "importWholeData": "Импорт",
+            "importOtherData": "Импорт из дополнений"
         }
     },
     "ar": {
-        "date": "تاريخ",
-        "host": "عنوان URL",
-        "focus": "وقت التصفح",
-        "time": "زيارات الموقع",
+        "date": "التاريخ",
+        "host": "الموقع",
+        "focus": "المدة",
+        "time": "الزيارات",
         "operation": {
             "add2Whitelist": "القائمة البيضاء",
-            "removeFromWhitelist": "يُمكَِن",
+            "removeFromWhitelist": "إزالة من القائمة البيضاء",
             "analysis": "تحليل",
-            "deleteConfirmMsgAll": "سيتم حذف جميع سجلات {url}!",
-            "deleteConfirmMsgRange": "سيتم حذف جميع سجلات {url} بين {start} و {end}!",
-            "deleteConfirmMsg": "سيتم حذف سجل {url} في {date}!",
-            "exportWholeData": "تصدير البيانات",
-            "importWholeData": "استيراد البيانات",
-            "importOtherData": "الاستيراد من ملحقات أخرى"
+            "deleteConfirmMsgAll": "سيتم حذف جميع سجلات {url}",
+            "deleteConfirmMsgRange": "سيتم حذف سجلات {url} بين {start} و{end}",
+            "deleteConfirmMsg": "سيتم حذف سجل {url} بتاريخ {date}",
+            "exportWholeData": "تصدير",
+            "importWholeData": "استيراد",
+            "importOtherData": "استيراد من إضافات أخرى"
         }
     }
 }

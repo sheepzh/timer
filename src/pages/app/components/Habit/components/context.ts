@@ -6,15 +6,26 @@
  */
 
 import { useProvide, useProvider } from "@hooks"
-import { type Ref } from "vue"
-import { type FilterOption } from "./HabitFilter"
+import { daysAgo } from "@util/time"
+import { reactive, Reactive } from "vue"
+
+export type FilterOption = {
+    timeFormat: timer.app.TimeFormat
+    dateRange: [Date, Date]
+}
 
 type Context = {
-    filter: Ref<FilterOption>
+    filter: Reactive<FilterOption>
 }
 
 const NAMESPACE = 'habit'
 
-export const initProvider = (filter: Ref<FilterOption>) => useProvide<Context>(NAMESPACE, { filter })
+export const initHabit = () => {
+    const filter = reactive<FilterOption>({
+        dateRange: daysAgo(7, 0),
+        timeFormat: "default",
+    })
+    useProvide<Context>(NAMESPACE, { filter })
+}
 
 export const useHabitFilter = () => useProvider<Context, 'filter'>(NAMESPACE, "filter").filter

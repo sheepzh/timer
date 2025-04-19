@@ -7,16 +7,12 @@
 
 import DialogSop from "@app/components/common/DialogSop"
 import { t } from "@app/locale"
-import { useState } from "@hooks"
-import { range } from "@util/array"
 import { ElStep, ElSteps } from "element-plus"
-import { type Ref, computed, defineComponent, reactive, ref, toRaw } from "vue"
-import { StepFromInstance } from "./common"
+import { computed, defineComponent } from "vue"
+import { initSop } from "./context"
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 import Step3 from "./Step3"
-
-type Step = 0 | 1 | 2
 
 export type SopInstance = {
     /**
@@ -24,20 +20,6 @@ export type SopInstance = {
      */
     reset: (rule?: timer.limit.Rule) => void
 }
-
-const createInitial = (): Required<Omit<timer.limit.Rule, 'id'>> => ({
-    name: '',
-    time: 3600,
-    weekly: 0,
-    cond: [],
-    visitTime: 0,
-    periods: [],
-    enabled: true,
-    weekdays: range(7),
-    count: 0,
-    weeklyCount: 0,
-    allowDelay: false,
-})
 
 const _default = defineComponent({
     props: {
@@ -48,40 +30,10 @@ const _default = defineComponent({
         save: (_rule: MakeOptional<timer.limit.Rule, 'id'>) => true,
     },
     setup(_, ctx) {
-        const [step, setStep] = useState<Step>(0)
+        const { reset, step, handleNext } = initSop({ onSave: data => ctx.emit('save', data) })
         const last = computed(() => step.value === 2)
         const first = computed(() => step.value === 0)
-        const data = reactive(createInitial())
-        const stepInstances: { [step in Step]: Ref<StepFromInstance | undefined> } = {
-            0: ref(),
-            1: ref(),
-            2: ref(),
-        }
-
-        const reset = (rule?: timer.limit.Rule) => {
-            Object.entries(rule || createInitial()).forEach(([k, v]) => (data as any)[k] = v)
-            // Compatible with old items
-            if (!data.weekdays?.length) data.weekdays = range(7)
-            setStep(0)
-        }
-
         ctx.expose({ reset } satisfies SopInstance)
-
-        const handleNext = () => {
-            const stepInst = stepInstances[step.value]?.value
-            if (!stepInst?.validate?.()) return
-            last.value ? ctx.emit("save", toRaw(data)) : step.value++
-        }
-
-        const handleUrlsChange = (urls: string[]) => {
-            let cond = data.cond
-            if (cond) {
-                cond.splice(0, data.cond?.length)
-            } else {
-                cond = data.cond = []
-            }
-            urls.forEach(v => data.cond.push(v))
-        }
 
         return () => (
             <DialogSop
@@ -100,42 +52,9 @@ const _default = defineComponent({
                         </ElSteps>
                     ),
                     content: () => <>
-                        <Step1
-                            v-show={step.value === 0}
-                            ref={stepInstances[0]}
-                            defaultName={data.name}
-                            defaultEnabled={data.enabled}
-                            defaultWeekdays={data.weekdays}
-                            onChange={(name, enabled, weekdays) => {
-                                data.name = name
-                                data.enabled = enabled
-                                data.weekdays = weekdays
-                            }}
-                        />
-                        <Step2
-                            v-show={step.value === 1}
-                            ref={stepInstances[1]}
-                            modelValue={data.cond}
-                            onChange={handleUrlsChange}
-                        />
-                        <Step3
-                            v-show={step.value === 2}
-                            ref={stepInstances[2]}
-                            time={data.time}
-                            weekly={data.weekly}
-                            visitTime={data.visitTime}
-                            count={data.count}
-                            weeklyCount={data.weeklyCount}
-                            periods={data.periods}
-                            onChange={({ time, visitTime, periods, weekly, count, weeklyCount }) => {
-                                data.time = time ?? 0
-                                data.visitTime = visitTime ?? 0
-                                data.periods = periods ?? []
-                                data.weekly = weekly ?? 0
-                                data.count = count ?? 0
-                                data.weeklyCount = weeklyCount ?? 0
-                            }}
-                        />
+                        <Step1 v-show={step.value === 0} />
+                        <Step2 v-show={step.value === 1} />
+                        <Step3 v-show={step.value === 2} />
                     </>
                 }}
             />

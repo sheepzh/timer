@@ -82,7 +82,13 @@ declare namespace timer.limit {
          * @since 2.0.0
          */
         visitTime?: number
-        enabled?: boolean
+        enabled: boolean
+        /**
+         * Locked
+         *
+         * @since 3.4.0
+         */
+        locked: boolean
         /**
          * @since 2.3.4
          */
@@ -90,7 +96,7 @@ declare namespace timer.limit {
         /**
          * Allow to delay 5 minutes if time over
          */
-        allowDelay?: boolean
+        allowDelay: boolean
         periods?: Period[]
     }
     /**
