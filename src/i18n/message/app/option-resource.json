@@ -99,7 +99,6 @@
                 "account": "账号 {input}",
                 "password": "密码 {input}"
             },
-            "alert": "这是一项实验性功能，如果有任何问题请联系作者~ ({email})",
             "lastTimeTip": "上次备份时间: {lastTime}",
             "operation": "备份数据",
             "download": {
@@ -135,34 +134,34 @@
         "yes": "是",
         "no": "否",
         "popup": {
-            "title": "彈窗頁",
-            "max": "隻顯示前 {input} 個資料項，其餘條目合併",
-            "defaultMergeMethod": "預設資料合併方法 {input}",
+            "title": "彈出視窗",
+            "max": "僅顯示前 {input} 筆資料，其餘項目合併",
+            "defaultMergeMethod": "預設資料合併方式 {input}",
             "defaultDisplay": "開啟時顯示 {duration} {type}",
-            "displaySiteName": "{input}  顯示時是否使用 {siteName} 來代替域名"
+            "displaySiteName": "{input} 是否使用 {siteName} 取代網域"
         },
         "appearance": {
-            "title": "外觀",
-            "displayWhitelist": "{input}  是否在 {contextMenu} 裡，顯示 {whitelist} 相關功能",
+            "title": "外觀設定",
+            "displayWhitelist": "{input} 是否在 {contextMenu} 顯示 {whitelist} 功能",
             "whitelistItem": "白名單",
-            "contextMenu": "瀏覽器的右鍵菜單",
-            "displayBadgeText": "{input}  是否在 {icon} 上，顯示 {timeInfo}",
-            "badgeBgColor": "圖示上文字的背景色 {input}",
-            "icon": "擴充圖標",
-            "badgeTextContent": "當前網站的今日瀏覽時長",
+            "contextMenu": "右鍵選單",
+            "displayBadgeText": "{input} 是否在 {icon} 顯示 {timeInfo}",
+            "badgeBgColor": "圖示文字背景色 {input}",
+            "icon": "擴充功能圖示",
+            "badgeTextContent": "當前網站今日瀏覽時長",
             "locale": {
-                "label": "語言設置 {input}",
+                "label": "語言設定 {input}",
                 "default": "跟隨瀏覽器",
-                "changeConfirm": "語言設置成功，請刷新頁麵！",
-                "reloadButton": "刷新"
+                "changeConfirm": "語言設定已更新，請重新整理頁面！",
+                "reloadButton": "重新整理"
             },
             "printInConsole": {
-                "label": "{input}  是否在 {console} 裡打印當前網站的 {info}",
-                "console": "瀏覽器控制台",
-                "info": "今日拜訪信息"
+                "label": "{input} 是否在 {console} 顯示當前網站 {info}",
+                "console": "瀏覽器主控台",
+                "info": "今日造訪資訊"
             },
             "darkMode": {
-                "label": "黑暗模式 {input}",
+                "label": "深色模式 {input}",
                 "options": {
                     "default": "跟隨瀏覽器",
                     "on": "始終開啟",
@@ -170,96 +169,95 @@
                     "timed": "定時開啟"
                 }
             },
-            "animationDuration": "圖表初始動畫的持續時間 {input}"
+            "animationDuration": "圖表動畫持續時間 {input}"
         },
         "statistics": {
-            "title": "統計",
-            "autoPauseTrack": "{input} 如果在 {maxTime} 內未偵測到活動 {info}，則暫停追蹤",
-            "noActivityInfo": "滑鼠和鍵盤處於非活動狀態且未處於全螢幕模式",
-            "countLocalFiles": "{input}  是否統計使用瀏覽器 {localFileTime} {info}",
-            "localFileTime": " 閱讀本地文件的時間 ",
-            "localFilesInfo": "支持 PDF、圖片、txt 以及 json 等格式",
-            "collectSiteName": "{input}  拜訪網站主頁時，是否自動收集 {siteName} {siteNameUsage}",
-            "siteName": "網站的名稱",
-            "siteNameUsage": "數據隻存放在本地，將代替域名用於展示，增加辨識度。當然您可以自定義每個網站的名稱",
-            "fileAccessDisabled": "目前不允許存取文件 URL。請先在管理頁面啟用",
+            "title": "統計設定",
+            "autoPauseTrack": "{input} 若 {maxTime} 內無活動 {info} 則暫停追蹤",
+            "noActivityInfo": "滑鼠與鍵盤無動作且非全螢幕模式時",
+            "countLocalFiles": "{input} 是否統計瀏覽器 {localFileTime} {info}",
+            "localFileTime": "讀取本機檔案時間",
+            "localFilesInfo": "支援 PDF、圖片、txt 及 json 等格式",
+            "collectSiteName": "{input} 造訪網站首頁時自動收集 {siteName} {siteNameUsage}",
+            "siteName": "網站名稱",
+            "siteNameUsage": "資料僅儲存於本地，將取代網域名稱提升辨識度，您可自訂各網站名稱",
+            "fileAccessDisabled": "目前不允許存取檔案 URL，請至管理頁面啟用",
             "fileAccessFirefox": "抱歉，Firefox 不支援此功能",
-            "weekStart": "每週的第一天 {input}",
-            "weekStartAsNormal": "按照慣例"
+            "weekStart": "每週起始日 {input}",
+            "weekStartAsNormal": "依慣例"
         },
         "dailyLimit": {
-            "prompt": "受限時顯示的提示文字 {input}",
+            "prompt": "限制時顯示提示文字 {input}",
             "reminder": "{input} 時間結束前 {minInput} 分鐘提醒",
             "level": {
-                "label": "受限時如何解鎖 {input}",
-                "nothing": "允許在管理頁面直接解鎖",
-                "password": "必須輸入密碼解鎖",
-                "verification": "必須輸入驗證碼解鎖",
-                "passwordLabel": "解鎖密碼 {input}",
-                "verificationLabel": "驗證碼的難度 {input}",
+                "label": "限制解除方式 {input}",
+                "nothing": "允許在管理頁面直接解除",
+                "password": "需輸入密碼解除",
+                "verification": "需輸入驗證碼解除",
+                "passwordLabel": "解除密碼 {input}",
+                "verificationLabel": "驗證難度 {input}",
                 "verificationDifficulty": {
                     "easy": "簡單",
                     "hard": "困難",
-                    "disgusting": "噁心"
+                    "disgusting": "極難"
                 },
-                "strict": "不允許手動解鎖",
+                "strict": "不允許手動解除",
                 "strictTitle": "危險操作",
-                "strictContent": "當您選擇這個選項之後，如果某個網站觸發了每日限制，除了等到第二天自動解鎖以外，不允許您手動解鎖。 如果規則設定不當，很有可能會阻礙您的日常工作！",
-                "pswFormLabel": "解鎖密碼",
+                "strictContent": "選擇此選項後，若網站觸發每日限制，除等待次日自動解除外，將無法手動解除。若規則設定不當，可能影響日常工作！",
+                "pswFormLabel": "解除密碼",
                 "pswFormAgain": "再次輸入"
             }
         },
         "backup": {
-            "title": "數據備份",
-            "type": "雲端類型 {input}",
-            "client": "客戶端標識 {input}",
+            "title": "資料備份",
+            "type": "雲端服務類型 {input}",
+            "client": "用戶端識別碼 {input}",
             "meta": {
                 "none": {
                     "label": "關閉備份"
                 },
                 "gist": {
-                    "authInfo": "需要創建一個至少包含 gist 權限的 token"
+                    "authInfo": "需建立至少包含 gist 權限的 token"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointInfo": "僅 HTTP 可用，因為無法為擴展頁面配置 CORS"
+                    "endpointInfo": "僅支援 HTTP，因無法為擴充功能頁面設定 CORS"
                 }
             },
             "label": {
-                "endpoint": "服務地址 {info} {input}",
-                "path": "目錄的路徑 {input}",
+                "endpoint": "服務端點 {info} {input}",
+                "path": "目錄路徑 {input}",
                 "account": "使用者名稱 {input}",
                 "password": "密碼 {input}"
             },
-            "alert": "這是一項實驗性功能，如果有任何問題請聯繫作者 ({email}) ~",
-            "operation": "備份數據",
+            "operation": "備份資料",
             "download": {
                 "btn": "下載",
-                "step2": "確認數據",
-                "willDownload": "待下載數據",
-                "confirmTip": "將下載來自【{clientName}】的 {size} 條數據"
+                "step2": "確認資料",
+                "willDownload": "待下載資料",
+                "confirmTip": "將從【{clientName}】下載 {size} 筆資料"
             },
             "clear": {
-                "btn": "刪除数据",
-                "confirmTip": "將刪除【{clientName}】所追踪的 {hostCount} 個站點的 {rowCount} 條數據！"
+                "btn": "刪除資料",
+                "confirmTip": "將刪除【{clientName}】追蹤的 {hostCount} 個網站共 {rowCount} 筆資料！"
             },
             "clientTable": {
                 "selectTip": "選擇用戶端",
-                "dataRange": "數據范圍",
-                "notSelected": "用戶端未選擇",
-                "current": "當前"
+                "dataRange": "資料範圍",
+                "notSelected": "未選擇用戶端",
+                "current": "目前"
             },
             "lastTimeTip": "上次備份時間: {lastTime}",
             "auto": {
-                "label": "是否開啟自動備份",
+                "label": "是否啟用自動備份",
                 "interval": "每 {input} 分鐘備份一次"
             }
         },
         "accessibility": {
-            "title": "無障礙輔助",
-            "chartDecal": "{input} 是否顯示圖表貼花"
+            "title": "無障礙設定",
+            "chartDecal": "{input} 是否顯示圖表裝飾"
         },
-        "resetButton": "重置",
-        "resetSuccess": "恢復預設成功！",
+        "resetButton": "重設",
+        "resetSuccess": "已恢復預設值！",
         "defaultValue": "預設值：{default}"
     },
     "en": {
@@ -352,7 +350,7 @@
                     "authInfo": "One token with at least gist permission is required"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointInfo": "Only HTTP is available because it is not possible to configure CORS for extensions pages"
+                    "endpointInfo": "Only HTTP is available, as CORS cannot be configured for extension pages"
                 },
                 "web_dav": {}
             },
@@ -362,7 +360,6 @@
                 "account": "Username {input}",
                 "password": "Password {input}"
             },
-            "alert": "This is an experimental feature, if you have any questions please contact the author via {email}~",
             "operation": "Backup",
             "download": {
                 "btn": "Download",
@@ -493,7 +490,6 @@
                 "account": "ユーザー名 {input}",
                 "password": "パスワード {input}"
             },
-            "alert": "これは実験的な機能です。質問がある場合は、作成者に連絡してください ({email})",
             "operation": "バックアップ",
             "download": {
                 "btn": "ダウンロード",
@@ -623,7 +619,6 @@
                 "account": "Nome de utilizador {input}",
                 "password": "Senha {input}"
             },
-            "alert": "Este é um recurso experimental, se tiver alguma dúvida, entre em contacto com o autor via {email}~",
             "operation": "Backup",
             "download": {
                 "btn": "Transferir",
@@ -754,7 +749,6 @@
                 "account": "Ім'я користувача {input}",
                 "password": "Пароль {input}"
             },
-            "alert": "Це експериментальна функція. Якщо у вас виникли запитання, зв'яжіться з автором за адресою {email}~",
             "operation": "Зробити резервну копію",
             "download": {
                 "btn": "Завантажити",
@@ -884,7 +878,6 @@
                 "account": "Nombre de usuario {input}",
                 "password": "Contraseña {input}"
             },
-            "alert": "Esta es una característica experimental, si tienes alguna pregunta, por favor ponte en contacto con el autor a través de {email}~",
             "operation": "Copia de seguridad",
             "download": {
                 "btn": "Descargar",
@@ -1011,7 +1004,6 @@
                 "account": "Benutzername {input}",
                 "password": "Passwort {input}"
             },
-            "alert": "Dies ist eine experimentelle Funktion. Wenn Sie Fragen haben, wenden Sie sich bitte über {email} an den Autor~",
             "operation": "Backup",
             "download": {
                 "btn": "Herunterladen",
@@ -1138,7 +1130,6 @@
                 "account": "Nom d'utilisateur {input}",
                 "password": "Mot de passe {input}"
             },
-            "alert": "Ceci est une fonctionnalité expérimentale, si vous avez des questions, veuillez contacter l'auteur via {email}~",
             "operation": "Sauvegarder",
             "download": {
                 "btn": "Télécharger",

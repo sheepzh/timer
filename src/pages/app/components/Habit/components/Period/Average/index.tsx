@@ -22,7 +22,7 @@ const _default = defineComponent(() => {
     const bizOption = computed<BizOption>(() => {
         const { curr, prev } = value.value || {}
         const { curr: currRange, prev: prevRange } = periodRange.value || {}
-        const { periodSize } = filter.value || {}
+        const { periodSize } = filter
         return {
             curr, prev,
             currRange, prevRange,

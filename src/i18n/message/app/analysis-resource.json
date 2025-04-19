@@ -36,29 +36,29 @@
             "cate": "類別"
         },
         "common": {
-            "focusTotal": "總計瀏覽時長",
-            "visitTotal": "總計訪問次數",
-            "merged": "合並",
-            "virtual": "自定義",
-            "hostPlaceholder": "蒐索你想分析的站點",
-            "emptyDesc": "未選擇站點"
+            "focusTotal": "總瀏覽時數",
+            "visitTotal": "總造訪次數",
+            "merged": "合併",
+            "virtual": "自訂",
+            "hostPlaceholder": "搜尋想分析的網站",
+            "emptyDesc": "未選擇網站"
         },
         "summary": {
             "title": "數據總覽",
-            "day": "總計活躍天數",
-            "firstDay": "首次訪問 {value}",
-            "calendarTitle": "最近幾週的活動"
+            "day": "總活躍天數",
+            "firstDay": "首次造訪 {value}",
+            "calendarTitle": "近期活動週曆"
         },
         "trend": {
-            "title": "區間趨勢",
+            "title": "時段趨勢",
             "activeDay": "活躍天數",
-            "totalDay": "區間總天數",
-            "maxFocus": "單日最大瀏覽時長",
-            "averageFocus": "單日平均瀏覽時長",
-            "maxVisit": "單日最大訪問次數",
-            "averageVisit": "單日平均訪問次數",
-            "focusTitle": "瀏覽時長趨勢",
-            "visitTitle": "訪問次數趨勢"
+            "totalDay": "時段總天數",
+            "maxFocus": "單日最高瀏覽時數",
+            "averageFocus": "單日均瀏覽時數",
+            "maxVisit": "單日最高造訪次數",
+            "averageVisit": "單日均造訪次數",
+            "focusTitle": "瀏覽時數趨勢",
+            "visitTitle": "造訪次數趨勢"
         }
     },
     "en": {

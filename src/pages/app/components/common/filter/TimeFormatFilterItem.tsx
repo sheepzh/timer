@@ -6,8 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { useShadow } from "@hooks"
-import { type PropType, defineComponent } from "vue"
+import { defineComponent } from "vue"
 import SelectFilterItem from "./SelectFilterItem"
 
 const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {
@@ -17,22 +16,20 @@ const TIME_FORMAT_LABELS: { [key in timer.app.TimeFormat]: string } = {
     hour: t(msg => msg.timeFormat.hour)
 }
 
-const _default = defineComponent({
-    emits: {
-        change: (_: timer.app.TimeFormat) => true
-    },
-    props: {
-        defaultValue: String as PropType<timer.app.TimeFormat>
-    },
-    setup: (props, ctx) => {
-        const [data] = useShadow(() => props.defaultValue, "default")
-        return () => <SelectFilterItem
+type Props = {
+    modelValue: timer.app.TimeFormat
+    onChange: (val: timer.app.TimeFormat) => void
+}
+
+const _default = defineComponent<Props>(props => {
+    return () => (
+        <SelectFilterItem
             historyName="timeFormat"
-            defaultValue={data.value}
+            defaultValue={props.modelValue}
             options={TIME_FORMAT_LABELS}
-            onSelect={val => ctx.emit("change", data.value = val as timer.app.TimeFormat)}
+            onSelect={val => props.onChange(val as timer.app.TimeFormat)}
         />
-    }
-})
+    )
+}, { props: ['modelValue', 'onChange'] })
 
 export default _default

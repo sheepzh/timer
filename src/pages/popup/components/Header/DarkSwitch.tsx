@@ -24,7 +24,7 @@ const DarkSwitch = defineComponent(() => {
                 size="large"
                 style={{ cursor: 'pointer' }}
             >
-                {darkMode.value ? Sun : Moon}
+                {darkMode.value ? Moon : Sun}
             </ElIcon>
         </Flex>
     )

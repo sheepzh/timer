@@ -24,7 +24,7 @@ const TimeColumn = defineComponent({
     },
     setup(props) {
         const filter = useReportFilter()
-        const formatter = (focus: number | undefined): string => periodFormatter(focus, { format: filter.value?.timeFormat })
+        const formatter = (focus: number | undefined): string => periodFormatter(focus, { format: filter.timeFormat })
         return () => (
             <ElTableColumn
                 prop={props.dimension satisfies ReportSort['prop']}
@@ -35,7 +35,7 @@ const TimeColumn = defineComponent({
             >
                 {({ row }: ElTableRowScope<timer.stat.Row>) => (
                     <TooltipWrapper
-                        usePopover={filter.value?.readRemote}
+                        usePopover={filter.readRemote}
                         placement="top"
                         effect={Effect.LIGHT}
                         offset={10}

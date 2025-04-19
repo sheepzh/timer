@@ -7,11 +7,11 @@
 
 import SelectFilterItem from '@app/components/common/filter/SelectFilterItem'
 import { t } from '@app/locale'
-import { useCached } from '@hooks'
 import { type HabitMessage } from '@i18n/message/app/habit'
 import { ElRadioButton, ElRadioGroup } from 'element-plus'
-import { type PropType, defineComponent, ref, watch } from 'vue'
-import { type ChartType, type FilterOption } from './common'
+import { defineComponent } from 'vue'
+import { type ChartType } from './common'
+import { usePeriodFilter } from './context'
 
 // [value, label]
 type _SizeOption = [number, keyof HabitMessage['period']['sizes']]
@@ -36,51 +36,34 @@ const CHART_CONFIG: { [type in ChartType]: string } = {
     stack: t(msg => msg.habit.period.chartType.stack),
 }
 
-const _default = defineComponent({
-    props: {
-        defaultValue: {
-            type: Object as PropType<FilterOption>,
-            required: true,
-        },
-    },
-    emits: {
-        change: (_newVal: FilterOption) => true,
-    },
-    setup(prop, ctx) {
-        const periodSize = ref(prop.defaultValue.periodSize)
-        const { data: chartType, setter: setChartType } = useCached<ChartType>('habit-period-chart-type', prop.defaultValue.chartType)
-        watch([periodSize, chartType], () =>
-            ctx.emit('change', {
-                periodSize: periodSize.value,
-                chartType: chartType.value,
-            })
-        )
-        return () => (
-            <div class='habit-filter-container'>
-                <SelectFilterItem
-                    historyName='periodSize'
-                    defaultValue={periodSize.value?.toString?.()}
-                    options={allOptions()}
-                    onSelect={val => {
-                        if (!val) return
-                        const newPeriodSize = parseInt(val)
-                        if (isNaN(newPeriodSize)) return
-                        periodSize.value = newPeriodSize
-                    }}
-                />
-                <ElRadioGroup
-                    modelValue={chartType.value}
-                    onChange={val => val && setChartType(val as ChartType)}
-                >
-                    {Object.entries(CHART_CONFIG).map(([type, name]) => (
-                        <ElRadioButton value={type}>
-                            {name}
-                        </ElRadioButton>
-                    ))}
-                </ElRadioGroup>
-            </div>
-        )
-    },
+const _default = defineComponent(() => {
+    const filter = usePeriodFilter()
+
+    return () => (
+        <div class='habit-filter-container'>
+            <SelectFilterItem
+                historyName='periodSize'
+                defaultValue={filter.periodSize?.toString?.()}
+                options={allOptions()}
+                onSelect={val => {
+                    if (!val) return
+                    const newPeriodSize = parseInt(val)
+                    if (isNaN(newPeriodSize)) return
+                    filter.periodSize = newPeriodSize
+                }}
+            />
+            <ElRadioGroup
+                modelValue={filter.chartType}
+                onChange={val => val && (filter.chartType = val as ChartType)}
+            >
+                {Object.entries(CHART_CONFIG).map(([type, name]) => (
+                    <ElRadioButton value={type}>
+                        {name}
+                    </ElRadioButton>
+                ))}
+            </ElRadioGroup>
+        </div>
+    )
 })
 
 export default _default

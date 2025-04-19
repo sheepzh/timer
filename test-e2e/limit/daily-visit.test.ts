@@ -1,4 +1,4 @@
-import { launchBrowser, type LaunchContext, sleep } from "../common/base"
+import { launchBrowser, type LaunchContext, MOCK_URL, sleep } from "../common/base"
 import { createLimitRule } from "./common"
 
 let context: LaunchContext
@@ -10,13 +10,18 @@ describe('Daily time limit', () => {
 
     test("Daily visit limit", async () => {
         const limitPage = await context.openAppPage('/behavior/limit')
-        const demoRule: timer.limit.Rule = { id: 1, name: 'TEST DAILY LIMIT', cond: ['https://www.baidu.com'], time: 0, count: 1 }
+        const demoRule: timer.limit.Rule = {
+            id: 1, name: 'TEST DAILY LIMIT',
+            cond: [MOCK_URL],
+            time: 0, count: 1,
+            enabled: true, allowDelay: false, locked: false,
+        }
 
         // 1. Insert limit rule
         await createLimitRule(demoRule, limitPage)
 
         // 2. Open test page
-        const testPage = await context.newPageAndWaitCsInjected('https://www.baidu.com')
+        const testPage = await context.newPageAndWaitCsInjected(MOCK_URL)
 
         // Assert not limited
         await limitPage.bringToFront()

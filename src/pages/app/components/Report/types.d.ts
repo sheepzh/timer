@@ -1,7 +1,5 @@
 import type { Sort } from "element-plus"
 
-export type FileFormat = 'json' | 'csv'
-
 export type ReportSort = Omit<Sort, 'prop'> & {
     prop: timer.core.Dimension | 'host' | 'date'
 }

@@ -2,171 +2,171 @@
     "en": {
         "label": {
             "name": "Name",
-            "version": "Current Version",
-            "website": "Official Website",
-            "installation": "Installation Page",
-            "thanks": "Thanks To",
-            "privacy": "Privacy Statement",
-            "license": "Open-source License",
+            "version": "Version",
+            "website": "Website",
+            "installation": "Install",
+            "thanks": "Credits",
+            "privacy": "Privacy",
+            "license": "License",
             "support": "Support"
         },
         "text": {
-            "greet": "Do you love this extension?",
-            "rate": "Rate it 5 stars to help others know about it~~",
-            "feedback": "Also, welcome to submit your feedback and feature requests !!"
+            "greet": "Enjoying this extension?",
+            "rate": "Rate 5 stars to support us!",
+            "feedback": "Your ideas make us better!"
         }
     },
     "zh_CN": {
         "label": {
             "name": "扩展名称",
-            "version": "当前版本",
-            "website": "官网",
-            "installation": "安装地址",
-            "thanks": "致谢",
-            "privacy": "隐私声明",
-            "license": "开源许可证",
-            "support": "支持"
+            "version": "版本",
+            "website": "官方网站",
+            "installation": "安装指南",
+            "thanks": "特别鸣谢",
+            "privacy": "隐私政策",
+            "license": "开源协议",
+            "support": "技术支持"
         },
         "text": {
-            "greet": "你喜欢这个扩展吗？",
-            "rate": "请给它 5 星好评，让更多的人能够知道它~~",
-            "feedback": "当然, 也非常欢迎提交你的建议或者反馈 !!"
+            "greet": "喜欢这个扩展吗？",
+            "rate": "给它打个5星好评吧 ★★★★★",
+            "feedback": "欢迎随时提交建议和反馈！"
         }
     },
     "zh_TW": {
         "label": {
             "name": "擴充名稱",
-            "version": "目前版本",
-            "website": "官方網站",
-            "installation": "安裝頁面",
+            "version": "版本",
+            "website": "官網",
+            "installation": "安裝",
             "thanks": "致謝",
-            "privacy": "隱私權聲明",
-            "license": "開源許可證",
+            "privacy": "隱私權",
+            "license": "授權",
             "support": "支援"
         },
         "text": {
-            "greet": "你喜歡這個擴充功能嗎？",
-            "rate": "給5星吧，讓更多人了解它~~",
-            "feedback": "另外，請隨時提交您的回饋和功能請求！"
+            "greet": "喜歡這個擴充功能嗎？",
+            "rate": "給個5星好評支持我們！",
+            "feedback": "歡迎提供使用建議！"
         }
     },
     "uk": {
         "label": {
             "name": "Назва",
-            "version": "Поточна версія",
-            "website": "Офіційний вебсайт",
-            "installation": "Сторінка встановлення",
+            "version": "Версія",
+            "website": "Сайт",
+            "installation": "Встановити",
             "thanks": "Подяки",
-            "privacy": "Положення про приватність",
-            "license": "Ліцензія відкритого коду",
+            "privacy": "Приватність",
+            "license": "Ліцензія",
             "support": "Підтримка"
         },
         "text": {
             "greet": "Вам подобається це розширення?",
-            "rate": "Поставте оцінку 5 зірок, щоб допомогти іншим дізнатися про нього~~",
-            "feedback": "Також ми з радістю розглянемо ваші відгуки та запити щодо функцій!!"
+            "rate": "Оцініть на 5 зірок!",
+            "feedback": "Чекаємо на ваші відгуки!"
         }
     },
     "de": {
         "label": {
-            "name": "Namen",
-            "version": "Aktuelle Version",
-            "website": "Offizielle Website",
-            "installation": "Installationsseite",
-            "thanks": "Danksagung",
-            "privacy": "Datenschutzerklärung",
-            "license": "Quelloffene Lizenz",
-            "support": "Kundendienst"
+            "name": "Name",
+            "version": "Version",
+            "website": "Website",
+            "installation": "Installation",
+            "thanks": "Dank",
+            "privacy": "Datenschutz",
+            "license": "Lizenz",
+            "support": "Support"
         },
         "text": {
-            "greet": "Gefällt Ihnen diese Erweiterung?",
-            "rate": "Bewerte es 5 Sterne, um anderen zu helfen~~",
-            "feedback": "Bitte senden Sie uns auch Ihr Feedback und Feature-Anfragen an !!"
+            "greet": "Gefällt Ihnen die Erweiterung?",
+            "rate": "Mit 5 Sternen bewerten!",
+            "feedback": "Feedback willkommen!"
         }
     },
     "ja": {
         "label": {
-            "name": "名前",
-            "version": "現在のバージョン",
+            "name": "拡張機能名",
+            "version": "バージョン",
             "website": "公式サイト",
-            "installation": "インストールページ",
-            "thanks": "Thanks To",
-            "privacy": "プライバシーに関する声明",
-            "license": "オープンソースライセンス",
-            "support": "支援"
+            "installation": "インストール",
+            "thanks": "クレジット",
+            "privacy": "プライバシー",
+            "license": "ライセンス",
+            "support": "サポート"
         },
         "text": {
-            "greet": "この拡張機能を気に入っていただけましたか？",
-            "rate": "5つ星を評価して他の人に知ってもらおう~~",
-            "feedback": "また、フィードバックと機能のリクエストを送信することを歓迎!!"
+            "greet": "この拡張機能は気に入りましたか？",
+            "rate": "5つ星で評価をお願いします！",
+            "feedback": "フィードバックを受け付けています"
         }
     },
     "pt_PT": {
         "label": {
             "name": "Nome",
-            "version": "Versão Atual",
-            "website": "Website Oficial",
-            "installation": "Página de Instalação",
-            "thanks": "Graças a",
-            "privacy": "Declaração de Privacidade",
-            "license": "Licenças de código aberto",
-            "support": "Suporte"
+            "version": "Versão",
+            "website": "Site",
+            "installation": "Instalar",
+            "thanks": "Créditos",
+            "privacy": "Privacidade",
+            "license": "Licença",
+            "support": "Apoio"
         },
         "text": {
-            "greet": "Você gosta da extensão?",
-            "rate": "Classifique com 5 estrelas para ajudar os outros a saber~~",
-            "feedback": "Além disso, seja bem-vindo para enviar os seus comentários e solicitações de recursos!!"
+            "greet": "Gosta da extensão?",
+            "rate": "Avalie com 5 estrelas!",
+            "feedback": "Envie-nos o seu feedback!"
         }
     },
     "fr": {
         "label": {
             "name": "Nom",
-            "version": "Version actuelle",
-            "website": "Site Officiel",
-            "installation": "Page d'installation",
-            "thanks": "Merci à",
-            "privacy": "Déclaration de confidentialité",
+            "version": "Version",
+            "website": "Site web",
+            "installation": "Installation",
+            "thanks": "Crédits",
+            "privacy": "Confidentialité",
             "license": "Licence open source",
-            "support": "Soutien"
+            "support": "Support"
         },
         "text": {
-            "greet": "Aimez-vous cette extension ?",
-            "rate": "Donnez-lui 5 étoiles pour aider les autres à le savoir ~~",
-            "feedback": "Aussi, bienvenue pour soumettre vos commentaires et demandes de fonctionnalités !!"
+            "greet": "Vous aimez cette extension?",
+            "rate": "Notez-la 5 étoiles pour nous soutenir!",
+            "feedback": "Vos retours et suggestions sont les bienvenus!"
         }
     },
     "es": {
         "label": {
             "name": "Nombre",
-            "version": "Versión actual",
-            "website": "Sitio Web Oficial",
-            "installation": "Página de Instalación",
-            "thanks": "Gracias a",
-            "privacy": "Declaración de Privacidad",
-            "license": "Licencia de Código Abierto",
+            "version": "Versión",
+            "website": "Sitio web",
+            "installation": "Instalación",
+            "thanks": "Agradecimientos",
+            "privacy": "Privacidad",
+            "license": "Licencia",
             "support": "Soporte"
         },
         "text": {
-            "greet": "¿Te encanta esta extensión?",
-            "rate": "Califícalo con 5 estrellas para ayudar a otros a conocerlo ~~",
-            "feedback": "Además, ¡bienvenido a enviar sus comentarios y solicitudes de funciones!!"
+            "greet": "¿Te gusta esta extensión?",
+            "rate": "¡Dale 5 estrellas para apoyarnos!",
+            "feedback": "¡Tus comentarios y sugerencias son bienvenidos!"
         }
     },
     "ru": {
         "label": {
-            "name": "Имя",
-            "version": "Текущая версия",
-            "website": "Официальный сайт",
-            "installation": "Страница установки",
-            "thanks": "Благодаря",
-            "privacy": "Заявление о конфиденциальности",
-            "license": "Лицензия с открытым исходным кодом",
+            "name": "Название",
+            "version": "Версия",
+            "website": "Сайт",
+            "installation": "Установка",
+            "thanks": "Благодарности",
+            "privacy": "Конфиденциальность",
+            "license": "Лицензия",
             "support": "Поддержка"
         },
         "text": {
-            "greet": "Вам нравится это расширение?",
-            "rate": "Оцените 5 звезд, чтобы помочь другим узнать об этом ~~",
-            "feedback": "Также Добро пожаловать на ваш отзыв и запросы по функции!!"
+            "greet": "Нравится расширение?",
+            "rate": "Поставьте 5 звёзд, чтобы поддержать нас!",
+            "feedback": "Ваши отзывы и предложения приветствуются!"
         }
     },
     "ar": {

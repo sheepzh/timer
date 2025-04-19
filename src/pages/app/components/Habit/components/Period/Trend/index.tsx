@@ -21,7 +21,7 @@ const _default = defineComponent(() => {
     const globalFilter = useHabitFilter()
     const bizOption = computed<BizOption>(() => ({
         data: value.value?.curr,
-        timeFormat: globalFilter.value?.timeFormat,
+        timeFormat: globalFilter.timeFormat,
     }))
     const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
     return () => <div style={CONTAINER_STYLE} ref={elRef} />

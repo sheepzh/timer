@@ -3,8 +3,7 @@ import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
 import { sum } from "@util/array"
 import { computed, defineComponent } from "vue"
-import { useHabitFilter } from "../context"
-import { type FilterOption } from "../HabitFilter"
+import { FilterOption, useHabitFilter } from "../context"
 import { computeAverageLen } from "./common"
 import { useRows } from "./context"
 
@@ -51,15 +50,15 @@ const computeCountText = (count: Result['count']): string => {
 const _default = defineComponent(() => {
     const filter = useHabitFilter()
     const rows = useRows()
-    const summary = computed(() => computeSummary(rows.value, filter.value))
+    const summary = computed(() => computeSummary(rows.value, filter))
 
     return () => (
         <div class="summary-container">
             <KanbanIndicatorCell
                 mainName={t(msg => msg.analysis.common.focusTotal)}
-                mainValue={periodFormatter(summary.value?.focus?.total, { format: filter.value?.timeFormat })}
+                mainValue={periodFormatter(summary.value?.focus?.total, { format: filter.timeFormat })}
                 subTips={msg => msg.habit.common.focusAverage}
-                subValue={periodFormatter(summary.value?.focus?.average, { format: filter.value?.timeFormat })}
+                subValue={periodFormatter(summary.value?.focus?.average, { format: filter.timeFormat })}
                 subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : undefined}
             />
             <KanbanIndicatorCell

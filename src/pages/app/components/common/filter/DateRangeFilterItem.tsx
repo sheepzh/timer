@@ -6,11 +6,11 @@
  */
 
 import { t } from "@app/locale"
-import { EL_DATE_FORMAT } from "@i18n/element"
+import { dateFormat } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { ElDatePicker } from "element-plus"
-import { defineComponent, type PropType, ref, type Ref } from "vue"
+import { defineComponent, type PropType, ref, StyleValue } from "vue"
 
 const clearShortcut = (): ElementDatePickerShortcut => ({
     text: t(msg => msg.button.clear),
@@ -53,7 +53,7 @@ const _default = defineComponent({
         return () => <span class="filter-item">
             <ElDatePicker
                 modelValue={dateRange.value}
-                format={EL_DATE_FORMAT}
+                format={dateFormat()}
                 type="daterange"
                 rangeSeparator="-"
                 disabledDate={props.disabledDate}
@@ -62,6 +62,9 @@ const _default = defineComponent({
                 startPlaceholder={props.startPlaceholder}
                 endPlaceholder={props.endPlaceholder}
                 clearable={props.clearable}
+                style={{
+                    "--el-date-editor-width": "240px",
+                } satisfies StyleValue}
                 v-slots={getDatePickerIconSlots()}
             />
         </span>

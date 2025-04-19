@@ -8,16 +8,11 @@
 import DateRangeFilterItem from "@app/components/common/filter/DateRangeFilterItem"
 import TimeFormatFilterItem from "@app/components/common/filter/TimeFormatFilterItem"
 import { t } from "@app/locale"
-import { useState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { daysAgo } from "@util/time"
-import { defineComponent, watch, type PropType } from "vue"
-
-export type FilterOption = {
-    timeFormat: timer.app.TimeFormat
-    dateRange: [Date, Date]
-}
+import { defineComponent } from "vue"
+import { useHabitFilter } from "./context"
 
 type ShortCutProp = [label: string, dayAgo: number]
 
@@ -32,40 +27,23 @@ const shortcutProps: ShortCutProp[] = [
 
 const SHORTCUTS: ElementDatePickerShortcut[] = shortcutProps.map(([text, agoOfStart]) => ({ text, value: daysAgo(agoOfStart, 0) }))
 
-const _default = defineComponent({
-    props: {
-        defaultValue: {
-            type: Object as PropType<FilterOption>,
-            required: true,
-        },
-    },
-    emits: {
-        change: (_option: FilterOption) => true
-    },
-    setup(props, ctx) {
-        const [dateRange, setDateRange] = useState(props.defaultValue.dateRange)
-        const [timeFormat, setTimeFormat] = useState(props.defaultValue.timeFormat)
+const _default = defineComponent(() => {
+    const filter = useHabitFilter()
 
-        watch([dateRange, timeFormat], () => ctx.emit("change", {
-            dateRange: dateRange.value,
-            timeFormat: timeFormat.value,
-        }))
-
-        return () => (
-            <Flex gap={10}>
-                <DateRangeFilterItem
-                    clearable={false}
-                    defaultRange={dateRange.value}
-                    shortcuts={SHORTCUTS}
-                    onChange={val => val && setDateRange(val)}
-                />
-                <TimeFormatFilterItem
-                    defaultValue={timeFormat.value}
-                    onChange={setTimeFormat}
-                />
-            </Flex>
-        )
-    }
+    return () => (
+        <Flex gap={10}>
+            <DateRangeFilterItem
+                clearable={false}
+                defaultRange={filter.dateRange}
+                shortcuts={SHORTCUTS}
+                onChange={val => val && (filter.dateRange = val)}
+            />
+            <TimeFormatFilterItem
+                modelValue={filter.timeFormat}
+                onChange={v => filter.timeFormat = v}
+            />
+        </Flex>
+    )
 })
 
 export default _default

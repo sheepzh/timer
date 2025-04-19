@@ -46,12 +46,7 @@ const _default = defineComponent(() => {
 
     return () => mediaSize.value <= MediaSize.sm
         ? <Select v-slots={slots} />
-        : (
-            <Tabs
-                onReset={handleReset}
-                v-slots={slots}
-            />
-        )
+        : <Tabs onReset={handleReset} v-slots={slots} />
 })
 
 export default _default

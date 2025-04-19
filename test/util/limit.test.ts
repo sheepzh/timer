@@ -1,8 +1,16 @@
-import { calcTimeState, dateMinute2Idx, hasLimited, hasWeeklyLimited, isEffective, isEnabledAndEffective, matches, meetLimit, meetTimeLimit, period2Str } from "@util/limit"
+import { calcTimeState, cleanCond, dateMinute2Idx, hasLimited, hasWeeklyLimited, isEffective, isEnabledAndEffective, matches, meetLimit, meetTimeLimit, period2Str } from "@util/limit"
 
 describe('util/limit', () => {
+    test('cleanCond', () => {
+        expect(cleanCond('https://github.com?a=2')).toEqual('github.com')
+        expect(cleanCond('https://github.com/?a=2')).toEqual('github.com')
+        expect(cleanCond('*://github.com/?a=2')).toEqual('github.com')
+        expect(cleanCond('www.github.com/sheepzh/?a=2')).toEqual('www.github.com/sheepzh')
+        expect(cleanCond('https://')).toBeUndefined()
+    })
+
     test('matches', () => {
-        const cond = ['https://www.baidu.com', '*://*.google.com', '*://github.com/sheepzh']
+        const cond = ['www.baidu.com', '*.google.com', 'github.com/sheepzh']
 
         expect(matches(cond, 'https://www.baidu.com')).toBe(true)
         expect(matches(cond, 'http://hk.google.com')).toBe(true)
@@ -44,9 +52,14 @@ describe('util/limit', () => {
     })
 
     test('isEffective', () => {
-        const rule = (weekdays?: number[]): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays })
-        expect(isEffective(undefined)).toBe(false)
-        expect(isEffective(rule())).toBe(true)
+        const rule = (weekdays?: number[]): timer.limit.Rule => ({
+            id: 1, name: 'foobar',
+            cond: [],
+            time: 0, weekdays,
+            enabled: true, allowDelay: false, locked: false,
+        })
+        expect(isEffective(undefined)).toBe(true)
+        expect(isEffective([])).toBe(true)
 
         Object.defineProperty(global, 'performance', { writable: true })
         jest.useFakeTimers()
@@ -56,8 +69,8 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        expect(isEffective(rule([1, 2]))).toBe(false)
-        expect(isEffective(rule([0, 1, 2]))).toBe(true)
+        expect(isEffective([1, 2])).toBe(false)
+        expect(isEffective([0, 1, 2])).toBe(true)
     })
 
     test('isEffectiveAndEnabled', () => {
@@ -69,7 +82,12 @@ describe('util/limit', () => {
         monday.setDate(20)
         jest.setSystemTime(monday)
 
-        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({ id: 1, name: 'foobar', cond: [], time: 0, weekdays, enabled })
+        const rule = (weekdays: number[], enabled: boolean): timer.limit.Rule => ({
+            id: 1, name: 'foobar',
+            cond: [],
+            time: 0, weekdays,
+            enabled, allowDelay: false, locked: false,
+        })
 
         expect(isEnabledAndEffective(rule([0, 1, 2], true))).toBe(true)
         expect(isEnabledAndEffective(rule([0, 1, 2], false))).toBe(false)
@@ -87,7 +105,10 @@ describe('util/limit', () => {
             delayCount: 0,
             weeklyWaste: 0,
             weeklyVisit: 0,
-            weeklyDelayCount: 0
+            weeklyDelayCount: 0,
+            enabled: true,
+            allowDelay: false,
+            locked: false,
         }
 
         expect(hasWeeklyLimited(item)).toBe(false)
@@ -117,7 +138,10 @@ describe('util/limit', () => {
             delayCount: 0,
             weeklyWaste: 0,
             weeklyVisit: 0,
-            weeklyDelayCount: 0
+            weeklyDelayCount: 0,
+            enabled: true,
+            allowDelay: false,
+            locked: false,
         }
         const duration = 1000
 
@@ -162,7 +186,10 @@ describe('util/limit', () => {
                 delayCount: 0,
                 weeklyWaste: 0,
                 weeklyVisit: 0,
-                weeklyDelayCount: 0
+                weeklyDelayCount: 0,
+                enabled: true,
+                allowDelay: false,
+                locked: false,
             }
             setup(item)
             expect(hasLimited(item)).toBe(limited)

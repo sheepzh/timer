@@ -16,10 +16,8 @@ export async function createLimitRule(rule: timer.limit.Rule, page: Page) {
     for (const url of rule.cond || []) {
         await configInput!.focus()
         await page.keyboard.type(url)
-        await new Promise(resolve => setTimeout(resolve, 100))
+        await sleep(.1)
         await page.keyboard.press('Enter')
-        const saveBtn = await page.$('.el-dialog .el-link.el-link--primary')
-        await saveBtn!.click()
     }
     await sleep(.1)
     await page.click('.el-dialog .el-button.el-button--primary')
@@ -35,6 +33,7 @@ export async function createLimitRule(rule: timer.limit.Rule, page: Page) {
     await fillVisitLimit(weeklyCount!, visitInputs[1], page)
 
     // 4. Save
+    await sleep(.3)
     await page.click('.el-dialog .el-button.el-button--success')
 }
 

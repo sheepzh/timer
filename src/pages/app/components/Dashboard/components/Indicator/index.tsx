@@ -15,7 +15,7 @@ import statService from "@service/stat-service"
 import { calcMostPeriodOf2Hours } from "@util/period"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElIcon } from "element-plus"
-import { computed, defineComponent, toRef, type PropType, type VNode } from "vue"
+import { computed, defineComponent, toRef, type VNode } from "vue"
 import "./style"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
@@ -74,30 +74,23 @@ const computeI18nParam = (valueParam: Record<string, number>, duration?: number)
         Object.entries(valueParam || {}).map(([key, val]) => [key, <NumberGrow value={val} duration={duration} />])
     )
 }
+type Props = {
+    path: I18nKey
+    param: Record<string, number>
+    duration?: number
+}
 
-const IndicatorLabel = defineComponent({
-    props: {
-        path: {
-            type: Function as PropType<I18nKey>,
-            required: true,
-        },
-        param: {
-            type: Object as PropType<Record<string, number>>,
-            required: true,
-        },
-        duration: Number,
-    },
-    setup: props => {
-        const param = toRef(props, 'param')
-        const i18nParam = computed(() => computeI18nParam(param.value, props.duration))
-        return () => (
-            <div class="indicator-label" >
-                {
-                    param.value && <I18nNode path={props.path} param={i18nParam.value} />
-                }
-            </div>
-        )
-    }
+const IndicatorLabel = defineComponent<Props>(props => {
+    const param = toRef(props, 'param')
+    const i18nParam = computed(() => computeI18nParam(param.value, props.duration))
+
+    return () => (
+        <div class="indicator-label" >
+            {
+                param.value && <I18nNode path={props.path} param={i18nParam.value} />
+            }
+        </div>
+    )
 })
 
 const computeMost2HourParam = (value: _Value | undefined): { start: number, end: number } => {
