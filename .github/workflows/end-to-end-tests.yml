@@ -12,7 +12,7 @@ jobs:
             - name: Install dependencies
               run: npm install
             - name: Install http-server
-              run: npm install -g http-server
+              run: npm install -g http-server pm2
             - name: Build e2e outputs
               run: npm run dev:e2e
             - name: Build production outputs
@@ -20,8 +20,8 @@ jobs:
 
             - name: Start up mock server
               run: |
-                  nohup http-server ./test-e2e/example -p 12345 -s > test.log 2>&1 &
-                  nohup http-server ./test-e2e/example -p 12346 -s > test.log 2>&1 &
+                  pm2 start 'http-server ./test-e2e/example -p 12345'
+                  pm2 start 'http-server ./test-e2e/example -p 12346'
 
             - name: Run tests
               env:

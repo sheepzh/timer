@@ -81,8 +81,8 @@ function cvt2Entry({ alias, iconUrl, cate, run }: timer.site.SiteInfo): _Entry {
     return entry
 }
 
-function cvt2SiteInfo(key: timer.site.SiteKey, entry: _Entry): timer.site.SiteInfo {
-    const { a, i, c, r } = entry
+function cvt2SiteInfo(key: timer.site.SiteKey, entry: _Entry | undefined): timer.site.SiteInfo {
+    const { a, i, c, r } = entry || {}
     const siteInfo: timer.site.SiteInfo = { ...key }
     siteInfo.alias = a
     siteInfo.cate = c

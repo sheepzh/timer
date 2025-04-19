@@ -1,8 +1,16 @@
-import { calcTimeState, dateMinute2Idx, hasLimited, hasWeeklyLimited, isEffective, isEnabledAndEffective, matches, meetLimit, meetTimeLimit, period2Str } from "@util/limit"
+import { calcTimeState, cleanCond, dateMinute2Idx, hasLimited, hasWeeklyLimited, isEffective, isEnabledAndEffective, matches, meetLimit, meetTimeLimit, period2Str } from "@util/limit"
 
 describe('util/limit', () => {
+    test('cleanCond', () => {
+        expect(cleanCond('https://github.com?a=2')).toEqual('github.com')
+        expect(cleanCond('https://github.com/?a=2')).toEqual('github.com')
+        expect(cleanCond('*://github.com/?a=2')).toEqual('github.com')
+        expect(cleanCond('www.github.com/sheepzh/?a=2')).toEqual('www.github.com/sheepzh')
+        expect(cleanCond('https://')).toBeUndefined()
+    })
+
     test('matches', () => {
-        const cond = ['https://www.baidu.com', '*://*.google.com', '*://github.com/sheepzh']
+        const cond = ['www.baidu.com', '*.google.com', 'github.com/sheepzh']
 
         expect(matches(cond, 'https://www.baidu.com')).toBe(true)
         expect(matches(cond, 'http://hk.google.com')).toBe(true)

@@ -1,6 +1,7 @@
 {
     "zh_CN": {
         "filterDisabled": "过滤无效规则",
+        "wildcardTip": "您可以使用通配符来匹配子域名或子页面！",
         "item": {
             "name": "规则名称",
             "condition": "限制网址",
@@ -27,10 +28,8 @@
         },
         "button": {
             "test": "网址测试",
-            "option": "全局设置",
-            "parseUrl": "解析 URL"
+            "option": "全局设置"
         },
-        "useWildcard": "是否使用通配符",
         "message": {
             "noUrl": "未配置限制网址",
             "noRule": "未填写任何规则",
@@ -43,7 +42,6 @@
             "rulesMatched": "该网址命中以下规则：",
             "timeout": "倒计时已结束 XD"
         },
-        "urlPlaceholder": "请输入你想要限制的网址，然后点击解析按钮",
         "verification": {
             "inputTip": "规则已触发或者被锁定，如要继续操作，请在 {second} 秒内输入以下问题的答案：{prompt}",
             "inputTip2": "时限规则已触发或者被锁定，如要继续操作，请于 {second} 秒内在下列输入框中原样输入：{answer}",
@@ -82,10 +80,8 @@
             "rule": "規則設定"
         },
         "button": {
-            "test": "測試網址",
-            "parseUrl": "解析網址"
+            "test": "測試網址"
         },
-        "useWildcard": "是否使用萬用字元",
         "message": {
             "noUrl": "未填寫限制網址",
             "noRule": "未設定任何規則",
@@ -95,7 +91,6 @@
             "noRuleMatched": "此網址未符合任何規則",
             "rulesMatched": "此網址符合以下規則："
         },
-        "urlPlaceholder": "請輸入要限制的網址，然後點擊解析按鈕",
         "verification": {
             "inputTip": "規則已觸發或鎖定，請於 {second} 秒內回答：{prompt}",
             "inputTip2": "規則已觸發或鎖定。請在 {second} 秒內輸入：{answer}",
@@ -110,6 +105,7 @@
     },
     "en": {
         "filterDisabled": "Only enabled",
+        "wildcardTip": "You can use wildcards to match subdomains or subpages!",
         "item": {
             "name": "Rule name",
             "condition": "Restricted URL",
@@ -135,10 +131,8 @@
             "rule": "Config rule"
         },
         "button": {
-            "test": "Test URL",
-            "parseUrl": "Parse URL"
+            "test": "Test URL"
         },
-        "useWildcard": "Whether to use wildcard",
         "message": {
             "noUrl": "No restriction URLs configured",
             "noRule": "No rules filled in",
@@ -150,7 +144,6 @@
             "rulesMatched": "The URL hits the following rules:",
             "timeout": "Time is up! XD"
         },
-        "urlPlaceholder": "Please enter the URL you want to restrict and click the Parse button",
         "verification": {
             "inputTip": "The rule has been triggered or locked. To continue, please enter the answer to the following question within {second} seconds: {prompt}",
             "inputTip2": "The rule has been triggered or locked. To continue, please enter it as it is within {second} seconds: {answer}",
@@ -189,10 +182,8 @@
             "rule": "設定ルール"
         },
         "button": {
-            "test": "テストURL",
-            "parseUrl": "解析 URL"
+            "test": "テストURL"
         },
-        "useWildcard": "ワイルドカードを使用するかどうか",
         "message": {
             "noUrl": "埋められていない制限URL",
             "noRule": "ルールが記入されていません",
@@ -202,7 +193,6 @@
             "noRuleMatched": "URL がどのルールとも一致しません",
             "rulesMatched": "URL は次のルールに一致します。"
         },
-        "urlPlaceholder": "制限したいURLを入力して解析ボタンをクリックしてください",
         "verification": {
             "inputTip": "ルールがトリガーされたかロックされました。続行するには、次の質問に対する回答を {second} 秒以内に入力してください: {prompt}",
             "inputTip2": "ルールがトリガーされたかロックされました。続行するには、{second} 秒以内にそのまま入力してください: {answer}",
@@ -241,10 +231,8 @@
             "rule": "Configurar regra"
         },
         "button": {
-            "test": "Testar URL",
-            "parseUrl": "Analisar"
+            "test": "Testar URL"
         },
-        "useWildcard": "Se deseja usar caractere curinga",
         "message": {
             "noUrl": "URL limitada não preenchida",
             "noRule": "Nenhuma regra preenchida",
@@ -254,7 +242,6 @@
             "noRuleMatched": "O URL não atinge nenhuma regra",
             "rulesMatched": "A URL atinge as seguintes regras:"
         },
-        "urlPlaceholder": "Insira o URL que deseja restringir e clique no botão Analisar",
         "verification": {
             "inputTip": "A regra foi acionada ou bloqueada. Para continuar, introduza a resposta à seguinte questão em {second} segundos: {prompt}",
             "inputTip2": "A regra foi acionada ou bloqueada. Para continuar, digite-o tal como está em {segundos} segundos: {resposta}",
@@ -293,10 +280,8 @@
             "rule": "Правило конфігурації"
         },
         "button": {
-            "test": "Тестова URL-адреса",
-            "parseUrl": "Обробити URL"
+            "test": "Тестова URL-адреса"
         },
-        "useWildcard": "Використовувати символ підставлення",
         "message": {
             "noUrl": "Не заповнена обмежена URL-адреса",
             "noRule": "Не заповнено жодного правила",
@@ -306,7 +291,6 @@
             "noRuleMatched": "URL не відповідає жодному правилу",
             "rulesMatched": "URL-адреса отримує такі правила:"
         },
-        "urlPlaceholder": "Введіть URL-адресу, яку ви хочете обмежити, а потім натисніть кнопку Обробити",
         "verification": {
             "inputTip": "Правило було запущено або заблоковано. Щоб продовжити, введіть відповідь на таке запитання протягом {second} секунд: {prompt}",
             "inputTip2": "Правило було запущено або заблоковано. Щоб продовжити, введіть його таким, яким він є, протягом {second} секунд: {answer}",
@@ -341,10 +325,8 @@
             "rule": "Configurar regla"
         },
         "button": {
-            "test": "Probar URL",
-            "parseUrl": "Analizar URL"
+            "test": "Probar URL"
         },
-        "useWildcard": "Cuando usar un comodín",
         "message": {
             "noUrl": "URL restringida sin completar",
             "noRule": "No hay reglas llenadas",
@@ -354,7 +336,6 @@
             "noRuleMatched": "La URL no sigue ninguna regla",
             "rulesMatched": "La URL sigue las siguientes reglas:"
         },
-        "urlPlaceholder": "Ingrese la URL que desea restringir y haga clic en el botón Analizar",
         "verification": {
             "inputTip": "La regla se ha activado o bloqueado. Para continuar, responda la siguiente pregunta en menos de {second} segundos: {prompt}",
             "inputTip2": "La regla se ha activado o bloqueado. Para continuar, introdúzcala en {second} segundos: {answer}",
@@ -388,10 +369,8 @@
             "rule": "Konfiguration Regel"
         },
         "button": {
-            "test": "Test-URL",
-            "parseUrl": "URL analysieren"
+            "test": "Test-URL"
         },
-        "useWildcard": "Ob Platzhalter verwendet wird",
         "message": {
             "noUrl": "Nicht ausgefüllte eingeschränkte URL",
             "noRule": "Keine Regeln ausgefüllt",
@@ -401,7 +380,6 @@
             "noRuleMatched": "Die URL entspricht keinen Regeln",
             "rulesMatched": "Die URL erfüllt die folgenden Regeln:"
         },
-        "urlPlaceholder": "Geben Sie bitte die URL ein, die Sie einschränken möchten, und klicken Sie auf die Schaltfläche „URL analysieren“",
         "verification": {
             "inputTip": "Die Regel wurde ausgelöst oder gesperrt. Um fortzufahren, geben Sie bitte innerhalb von {second} Sekunden die Antwort auf die folgende Frage ein: {prompt}",
             "inputTip2": "Die Regel wurde ausgelöst oder gesperrt. Um fortzufahren, geben Sie sie bitte innerhalb von {second} Sekunden unverändert ein: {answer}",
@@ -434,10 +412,8 @@
             "rule": "Règle de configuration"
         },
         "button": {
-            "test": "Test URL",
-            "parseUrl": "Parse URL"
+            "test": "Test URL"
         },
-        "useWildcard": "Utiliser des caractères génériques",
         "message": {
             "noUrl": "Aucune URL de restriction configurée",
             "noRule": "Aucune règle remplie",
@@ -447,7 +423,6 @@
             "noRuleMatched": "L'URL ne correspond à aucune règle",
             "rulesMatched": "L'URL atteint les règles suivantes :"
         },
-        "urlPlaceholder": "Veuillez entrer l'URL que vous voulez restreindre et cliquez sur le bouton Analyser",
         "verification": {
             "inputTip": "La règle a été déclenchée ou verrouillée. Pour continuer, veuillez répondre à la question suivante dans un délai de {second} secondes : {prompt}",
             "inputTip2": "La règle a été déclenchée ou verrouillée. Pour continuer, veuillez la saisir telle quelle dans un délai de {second} secondes : {answer}",
@@ -481,10 +456,8 @@
             "rule": "Установить правило"
         },
         "button": {
-            "test": "Тестовый URL",
-            "parseUrl": "Анализ URL"
+            "test": "Тестовый URL"
         },
-        "useWildcard": "Использовать ли подстановку",
         "message": {
             "noUrl": "Ограничение URL-адресов не настроено",
             "noRule": "Нет заполненных правил",
@@ -494,7 +467,6 @@
             "noRuleMatched": "URL не содержит правил",
             "rulesMatched": "URL попадает в следующие правила:"
         },
-        "urlPlaceholder": "Пожалуйста, введите URL, который вы хотите ограничить и нажмите на кнопку \"Анализ\"",
         "verification": {
             "inputTip": "Правило было активировано или заблокировано. Чтобы продолжить, введите ответ на следующий вопрос в течение {second} секунд: {prompt}",
             "inputTip2": "Правило было запущено или заблокировано. Чтобы продолжить, введите его как есть в течение {second} секунд: {answer}",
@@ -527,10 +499,8 @@
             "rule": "قاعدة التكوين"
         },
         "button": {
-            "test": "اختبار عنوان URL",
-            "parseUrl": "تحليل عنوان URL"
+            "test": "اختبار عنوان URL"
         },
-        "useWildcard": "هل يجب استخدام الأحرف البدل",
         "message": {
             "noUrl": "لم يتم تكوين عناوين URL الخاصة بالقيود",
             "noRule": "لم يتم ملء أي قواعد",
@@ -540,7 +510,6 @@
             "noRuleMatched": "عنوان URL لا يصطدم بأي قواعد",
             "rulesMatched": "يتوافق عنوان URL مع القواعد التالية:"
         },
-        "urlPlaceholder": "الرجاء إدخال عنوان URL الذي تريد تقييده ثم انقر فوق الزر \"تحليل\"",
         "verification": {
             "inputTip": "تم تفعيل القاعدة أو قفلها. للمتابعة، يُرجى إدخال إجابة السؤال التالي خلال {second} ثانية: {prompt}",
             "inputTip2": "تم تفعيل القاعدة أو قفلها. للمتابعة، يُرجى إدخالها كما هي خلال {second} ثانية: {answer}",
