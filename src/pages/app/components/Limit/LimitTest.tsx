@@ -10,10 +10,7 @@ import { useState, useSwitch } from "@hooks"
 import limitService from "@service/limit-service"
 import { AlertProps, ElAlert, ElButton, ElDialog, ElFormItem, ElInput } from "element-plus"
 import { computed, defineComponent } from "vue"
-
-export type TestInstance = {
-    show(): void
-}
+import { type TestInstance } from "./context"
 
 function computeResultTitle(url: string | undefined, inputting: boolean, matched: timer.limit.Rule[]): string {
     if (!url) {

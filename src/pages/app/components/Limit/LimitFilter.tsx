@@ -16,19 +16,14 @@ import Flex from "@pages/components/Flex"
 import { getAppPageUrl } from "@util/constant/url"
 import { defineComponent } from "vue"
 import DropdownButton, { type DropdownButtonItem } from "../common/DropdownButton"
-import { useLimitBatch, useLimitFilter } from "./context"
+import { useLimitAction, useLimitBatch, useLimitFilter } from "./context"
 
 const optionPageUrl = getAppPageUrl(OPTION_ROUTE, { i: 'dailyLimit' })
 
 type BatchOpt = 'delete' | 'enable' | 'disable'
 
-type Props = {
-    onCreate?: NoArgCallback
-    onTest?: NoArgCallback
-}
-
-const _default = defineComponent((props: Props) => {
-    const { onTest, onCreate } = props
+const _default = defineComponent(() => {
+    const { create, test } = useLimitAction()
     const filter = useLimitFilter()
     const { batchDelete, batchDisable, batchEnable } = useLimitBatch()
 
@@ -79,7 +74,7 @@ const _default = defineComponent((props: Props) => {
                     text={t(msg => msg.limit.button.test)}
                     type="primary"
                     icon={<Operation />}
-                    onClick={onTest}
+                    onClick={test}
                 />
                 <ButtonFilterItem
                     text={t(msg => msg.base.option)}
@@ -91,11 +86,11 @@ const _default = defineComponent((props: Props) => {
                     text={t(msg => msg.button.create)}
                     type="success"
                     icon={<Plus />}
-                    onClick={onCreate}
+                    onClick={create}
                 />
             </Flex>
         </Flex>
     )
-}, { props: ['onCreate', 'onTest'] })
+})
 
 export default _default

@@ -8,17 +8,28 @@ import { useRoute, useRouter } from "vue-router"
 import { verifyCanModify } from "./common"
 import type { LimitFilterOption } from "./types"
 
+export type ModifyInstance = {
+    create(): void
+    modify(row: timer.limit.Item): void
+}
+
+export type TestInstance = {
+    show(): void
+}
+
 type Context = {
     filter: Reactive<LimitFilterOption>
     list: Ref<timer.limit.Item[]>, refresh: NoArgCallback,
     deleteRow: ArgCallback<timer.limit.Item>
-    table: Ref<TableInstance | undefined>
     batchDelete: NoArgCallback
     batchEnable: NoArgCallback
     batchDisable: NoArgCallback
     changeEnabled: (item: timer.limit.Item, val: boolean) => Promise<void>
     changeDelay: (item: timer.limit.Item, val: boolean) => Promise<void>
     changeLocked: (item: timer.limit.Item, val: boolean) => Promise<void>
+    modify: (item: timer.limit.Item) => void
+    create: () => void
+    test: () => void
 }
 
 const NAMESPACE = 'limit'
@@ -49,7 +60,7 @@ export const useLimitProvider = () => {
         await verifyCanModify(row)
         const message = t(msg => msg.limit.message.deleteConfirm, { name: row.name })
         await ElMessageBox.confirm(message, { type: "warning" })
-        limitService.remove(row)
+        await limitService.remove(row)
     }, {
         onSuccess() {
             ElMessage.success(t(msg => msg.operation.successMsg))
@@ -129,23 +140,35 @@ export const useLimitProvider = () => {
         }
     }
 
+
+    const modifyInst = ref<ModifyInstance>()
+    const testInst = ref<TestInstance>()
+    const modify = (row: timer.limit.Item) => modifyInst.value?.modify?.(toRaw(row))
+    const create = () => modifyInst.value?.create?.()
+    const test = () => testInst.value?.show?.()
+
     useProvide<Context>(NAMESPACE, {
         filter,
-        list, refresh, table,
+        list, refresh,
         deleteRow,
         batchDelete: () => selectedAndThen(handleBatchDelete),
         batchEnable: () => selectedAndThen(handleBatchEnable),
         batchDisable: () => selectedAndThen(handleBatchDisable),
         changeEnabled, changeDelay, changeLocked,
+        modify, create, test,
     })
+
+    return { modifyInst, testInst }
 }
 
 export const useLimitFilter = (): Reactive<LimitFilterOption> => useProvider<Context, 'filter'>(NAMESPACE, "filter").filter
 
-export const useLimitTable = () => useProvider<Context, 'list' | 'refresh' | 'deleteRow' | 'table' | 'changeEnabled' | 'changeDelay' | 'changeLocked'>(
-    NAMESPACE, 'list', 'refresh', 'deleteRow', 'table', 'changeEnabled', 'changeDelay', 'changeLocked'
+export const useLimitTable = () => useProvider<Context, 'list' | 'refresh' | 'deleteRow' | 'changeEnabled' | 'changeDelay' | 'changeLocked'>(
+    NAMESPACE, 'list', 'refresh', 'deleteRow', 'changeEnabled', 'changeDelay', 'changeLocked'
 )
 
 export const useLimitBatch = () => useProvider<Context, 'batchDelete' | 'batchEnable' | 'batchDisable'>(
     NAMESPACE, 'batchDelete', 'batchDisable', 'batchEnable'
 )
+
+export const useLimitAction = () => useProvider<Context, 'test' | 'modify' | 'create'>(NAMESPACE, 'modify', 'test', 'create')

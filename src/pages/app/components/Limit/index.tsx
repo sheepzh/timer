@@ -5,30 +5,24 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { defineComponent, ref, toRaw } from "vue"
+import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
 import { useLimitProvider } from "./context"
 import LimitFilter from "./LimitFilter"
-import LimitModify, { type ModifyInstance } from "./LimitModify"
+import LimitModify from "./LimitModify"
 import LimitTable from "./LimitTable"
-import LimitTest, { type TestInstance } from "./LimitTest"
+import LimitTest from "./LimitTest"
 
 const _default = defineComponent(() => {
-    useLimitProvider()
-
-    const modify = ref<ModifyInstance>()
-    const test = ref<TestInstance>()
-    const showModify = (row: timer.limit.Item) => modify.value?.modify?.(toRaw(row))
-    const showCreate = () => modify.value?.create?.()
-    const showTest = () => test.value?.show?.()
+    const { modifyInst, testInst } = useLimitProvider()
 
     return () => (
         <ContentContainer v-slots={{
-            filter: () => <LimitFilter onCreate={showCreate} onTest={showTest} />,
+            filter: () => <LimitFilter />,
             content: () => <>
-                <LimitTable onModify={showModify} />
-                <LimitModify ref={modify} />
-                <LimitTest ref={test} />
+                <LimitTable />
+                <LimitModify ref={modifyInst} />
+                <LimitTest ref={testInst} />
             </>
         }} />
     )
