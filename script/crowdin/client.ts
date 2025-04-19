@@ -253,12 +253,15 @@ export class CrowdinClient {
         console.log("=========end to delete strings========")
     }
 
-    async existTranslationByStringAndLang(transKey: TranslationKey): Promise<boolean> {
+    async listTranslationByStringAndLang(transKey: TranslationKey): Promise<StringTranslationsModel.StringTranslation[]> {
         const { stringId, lang } = transKey
-        const trans = await new PaginationIterator(
+        return await new PaginationIterator(
             p => this.crowdin.stringTranslationsApi.listStringTranslations(PROJECT_ID, stringId, lang, { ...p })
-        ).findFirst(_ => true)
-        return !!trans
+        ).findAll()
+    }
+
+    async deleteTranslation(translationId: number): Promise<void> {
+        await this.crowdin.stringTranslationsApi.deleteTranslation(PROJECT_ID, translationId)
     }
 
     async createTranslation(transKey: TranslationKey, text: string) {

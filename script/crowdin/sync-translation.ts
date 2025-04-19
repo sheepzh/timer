@@ -9,6 +9,8 @@ import {
     checkMainBranch, crowdinLangOf, isIgnored, readAllMessages, transMsg,
 } from "./common"
 
+const CROWDIN_USER_ID_OF_OWNER = 15266594
+
 async function processDirMessage(client: CrowdinClient, file: SourceFilesModel.File, message: ItemSet, lang: CrowdinLanguage): Promise<void> {
     console.log(`Start to process dir message: fileName=${file.name}, lang=${lang}`)
     const strings = await client.listStringsByFile(file.id)
@@ -24,13 +26,18 @@ async function processDirMessage(client: CrowdinClient, file: SourceFilesModel.F
             console.log(`Translation same as origin text of ${string.identifier} in ${file.path}`)
             continue
         }
-        const exist = await client.existTranslationByStringAndLang({ stringId: string.id, lang })
-        if (exist) {
-            // Already exist, not sync
-            continue
+        const existList = await client.listTranslationByStringAndLang({ stringId: string.id, lang })
+        // Deleted old translations different from current
+        const oldByOwner = existList?.filter(t => t?.user?.id === CROWDIN_USER_ID_OF_OWNER && t.text !== text)
+        for (const toDelete of oldByOwner || []) {
+            await client.deleteTranslation(toDelete.id)
+            console.log(`Deleted translation by owner: stringId=${string.id}, lang=${lang}, text=${toDelete.text}`)
         }
-        await client.createTranslation({ stringId: string.id, lang }, text)
-        console.log(`Created trans: stringId=${string.id}, lang=${lang}, text=${text}`)
+        if (!existList?.find(t => t.text === text)) {
+            // Create new translation
+            await client.createTranslation({ stringId: string.id, lang }, text)
+            console.log(`Created trans: stringId=${string.id}, lang=${lang}, text=${text}`)
+        }
     }
 }
 
