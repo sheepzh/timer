@@ -8,54 +8,49 @@
 import { getRuntimeId, getRuntimeName } from "@api/chrome/runtime"
 import { CHROME_ID, E2E_NAME, EDGE_ID, FIREFOX_ID } from "./meta"
 
+type BrowserEnv = 'unknown' | 'firefox' | 'edge' | 'opera' | 'safari' | 'chrome'
+
 const { userAgent, platform } = navigator
-let isFirefox = false
-let isChrome = false
-let isEdge = false
-let isOpera = false
-let isSafari = false
+let browser: BrowserEnv = 'unknown'
 let browserMajorVersionStr: string | undefined
 
 if (/Firefox[\/\s](\d+\.\d+)/.test(userAgent)) {
-    isFirefox = true
+    browser = 'firefox'
     browserMajorVersionStr = /Firefox\/([0-9]+)/.exec(userAgent)?.[1]
 } else if (userAgent.includes('Edg')) {
     // The Edge implements the chrome
-    isEdge = true
+    browser = 'edge'
     browserMajorVersionStr = /Edg\/([0-9]+)/.exec(userAgent)?.[1]
 } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
     // The Opera implements the chrome
-    isOpera = true
+    browser = 'opera'
     browserMajorVersionStr = /OPR\/([0-9]+)/.exec(userAgent)?.[1] || /Opera\/([0-9]+)/.exec(userAgent)?.[1]
 } else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
     // Chrome on macOs includes 'Safari'
-    isSafari = true
+    browser = 'safari'
     browserMajorVersionStr = /Safari\/([0-9]+)/.exec(userAgent)?.[1]
 } else if (userAgent.includes('Chrome')) {
-    isChrome = true
+    browser = 'chrome'
     browserMajorVersionStr = /Chrome\/([0-9]+)/.exec(userAgent)?.[1]
 }
 
-export const IS_FIREFOX: boolean = isFirefox
+/**
+ * @since 3.4.1
+ */
+export const BROWSER_NAME = browser
 
-export const IS_EDGE: boolean = isEdge
+export const IS_FIREFOX = BROWSER_NAME === 'firefox'
 
-export const IS_CHROME: boolean = isChrome
+export const IS_EDGE = BROWSER_NAME === 'edge'
+
+export const IS_CHROME = BROWSER_NAME === 'chrome'
+
+export const IS_SAFARI = BROWSER_NAME === 'safari'
 
 /**
  * @since 3.3.0
  */
 export const IS_ANDROID: boolean = !!userAgent?.toLowerCase()?.includes("android")
-
-/**
- * @since 0.8.0
- */
-export const IS_OPERA: boolean = isOpera
-
-/**
- * @since 1.3.0
- */
-export const IS_SAFARI: boolean = isSafari
 
 let browserMajorVersion: number | undefined = undefined
 try {

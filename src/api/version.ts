@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "@util/constant/environment"
+import { BROWSER_NAME } from "@util/constant/environment"
 import { fetchGet } from "./http"
 
 /**
@@ -52,11 +52,11 @@ async function getChromeVersion(): Promise<string | undefined> {
 }
 
 export function getLatestVersion(): Promise<string | undefined> {
-    if (IS_FIREFOX) {
+    if (BROWSER_NAME === 'firefox') {
         return getFirefoxVersion()
-    } else if (IS_CHROME) {
+    } else if (BROWSER_NAME === 'chrome') {
         return getChromeVersion()
-    } else if (IS_EDGE) {
+    } else if (BROWSER_NAME === 'edge') {
         return getEdgeVersion()
     }
     return Promise.resolve(undefined)

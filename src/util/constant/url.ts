@@ -5,9 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { getRuntimeId, getUrl } from "@api/chrome/runtime"
+import { getRuntimeId, getUrl, getVersion } from "@api/chrome/runtime"
 import { locale } from "@i18n"
-import { IS_CHROME, IS_EDGE, IS_FIREFOX } from "./environment"
+import { BROWSER_MAJOR_VERSION, BROWSER_NAME, IS_CHROME, IS_EDGE } from "./environment"
 
 export const FIREFOX_HOMEPAGE = 'https://addons.mozilla.org/firefox/addon/besttimetracker'
 export const CHROME_HOMEPAGE = 'https://chromewebstore.google.com/detail/time-tracker/dkdhhcbjijekmneelocdllcldcpmekmm'
@@ -40,7 +40,7 @@ export const ZH_FEEDBACK_PAGE = 'https://www.wjx.cn/vj/YFWwHUy.aspx'
  *
  * @since 0.8.5
  */
-export const TU_CAO_PAGE = 'https://support.qq.com/products/402895'
+export const TU_CAO_PAGE = `https://support.qq.com/products/402895?os=${BROWSER_NAME}&osVersion=${BROWSER_MAJOR_VERSION}&clientVersion=${getVersion()}`
 
 export const PRIVACY_PAGE = 'https://www.wfhg.cc/en/privacy.html'
 
@@ -49,7 +49,7 @@ export const LICENSE_PAGE = 'https://github.com/sheepzh/timer/blob/main/LICENSE'
 /**
  * @since 0.9.6
  */
-export const FEEDBACK_QUESTIONNAIRE: Partial<{ [locale in timer.Locale]: string }> = {
+export const FEEDBACK_QUESTIONNAIRE: Record<timer.RequiredLocale, string> & Partial<Record<timer.OptionalLocale, string>> = {
     zh_CN: TU_CAO_PAGE,
     zh_TW: 'https://docs.google.com/forms/d/e/1FAIpQLSdfvG6ExLj331YOLZIKO3x98k3kMxpkkLW1RgFuRGmUnZCGRQ/viewform?usp=sf_link',
     en: 'https://docs.google.com/forms/d/e/1FAIpQLSdNq4gnSY7uxYkyqOPqyYF3Bqlc3ZnWCLDi5DI5xGjPeVCNiw/viewform?usp=sf_link',
@@ -126,20 +126,13 @@ export const CROWDIN_PROJECT_ID = 516822
  */
 export const CROWDIN_HOMEPAGE = 'https://crowdin.com/project/timer-chrome-edge-firefox'
 
-let webstorePage: string
-let reviewPage: string
-if (IS_FIREFOX) {
-    webstorePage = FIREFOX_HOMEPAGE
-    reviewPage = FIREFOX_HOMEPAGE + "/reviews"
-} else if (IS_CHROME) {
-    webstorePage = CHROME_HOMEPAGE
-    reviewPage = CHROME_HOMEPAGE + "/reviews"
-} else if (IS_EDGE) {
-    webstorePage = reviewPage = EDGE_HOMEPAGE
-} else {
-    webstorePage = HOMEPAGE
-    reviewPage = CHROME_HOMEPAGE + "/reviews"
+const webstorePages: Partial<Record<typeof BROWSER_NAME, [storePage: string, reviewPage: string]>> = {
+    firefox: [FIREFOX_HOMEPAGE, FIREFOX_HOMEPAGE + "/reviews"],
+    chrome: [CHROME_HOMEPAGE, CHROME_HOMEPAGE + "/reviews"],
+    edge: [EDGE_HOMEPAGE, EDGE_HOMEPAGE],
 }
+
+const [webstorePage, reviewPage] = webstorePages[BROWSER_NAME] ?? [HOMEPAGE, CHROME_HOMEPAGE + "/reviews"]
 
 /**
  * @since 0.0.5

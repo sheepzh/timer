@@ -116,7 +116,9 @@ const _default = defineComponent(() => {
                 <div>
                     <ElText size="large">
                         🙋&ensp;
-                        <a href={feedbackUrl}>{t(msg => msg.about.text.feedback)}</a>
+                        <a href={feedbackUrl} target="_blank">
+                            {t(msg => msg.about.text.feedback)}
+                        </a>
                     </ElText>
                 </div>
             </div>
