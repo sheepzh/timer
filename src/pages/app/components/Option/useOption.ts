@@ -1,5 +1,5 @@
 import optionHolder from "@service/components/option-holder"
-import { onBeforeMount, reactive, toRaw, UnwrapRef, watch } from "vue"
+import { onBeforeMount, type Reactive, reactive, toRaw, watch } from "vue"
 
 type Options<T> = {
     defaultValue: () => T
@@ -7,9 +7,9 @@ type Options<T> = {
     onChange?: (newVal: T) => void
 }
 
-export const useOption = <T extends object = Partial<timer.option.AllOption>>(options: Options<T>) => {
+export const useOption = <T extends object = Partial<timer.option.AllOption>>(options: Options<T>): { option: Reactive<T> } => {
     const { defaultValue, copy, onChange } = options
-    const option: UnwrapRef<object> = reactive<T>(defaultValue?.())
+    const option = reactive<T>(defaultValue?.())
 
     onBeforeMount(async () => {
         const currentVal = await optionHolder.get() as T
@@ -21,5 +21,5 @@ export const useOption = <T extends object = Partial<timer.option.AllOption>>(op
         })
     })
 
-    return { option: option as UnwrapRef<T> }
+    return { option }
 }

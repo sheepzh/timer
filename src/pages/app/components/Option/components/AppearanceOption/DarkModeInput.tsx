@@ -6,7 +6,7 @@
  */
 import { t } from "@app/locale"
 import { ElOption, ElSelect, ElTimePicker } from "element-plus"
-import { computed, defineComponent, toRef, watch, type PropType } from "vue"
+import { computed, defineComponent } from "vue"
 
 const ALL_MODES: timer.option.DarkMode[] = ["default", "on", "off", "timed"]
 
@@ -29,65 +29,45 @@ function computeDateToSecond(date: Date) {
     return hour * 3600 + minute * 60 + second
 }
 
-const _default = defineComponent({
-    props: {
-        modelValue: {
-            type: String as PropType<timer.option.DarkMode>,
-            required: true,
-        },
-        startSecond: Number,
-        endSecond: Number
-    },
-    emits: {
-        change: (_darkMode: timer.option.DarkMode, [_startSecond, _endSecond]: [number?, number?]) => true
-    },
-    setup(props, ctx) {
-        const darkMode = toRef(props, 'modelValue')
-        const startSecond = toRef(props, 'startSecond')
-        const endSecond = toRef(props, 'endSecond')
-        const start = computed({
-            get: () => startSecond.value && computeSecondToDate(startSecond.value),
-            set: val => startSecond.value = val && computeDateToSecond(val),
-        })
-        const end = computed({
-            get: () => endSecond.value && computeSecondToDate(endSecond.value),
-            set: val => endSecond.value = val && computeDateToSecond(val),
-        })
+type Props = {
+    modelValue: timer.option.DarkMode
+    startSecond?: number
+    endSecond?: number
+    onChange?: (darkMode: timer.option.DarkMode, [startSecond, endSecond]: [number?, number?]) => void
+}
 
-        watch(
-            [startSecond, endSecond, darkMode],
-            () => ctx.emit("change", darkMode.value, [startSecond.value, endSecond.value])
-        )
+const _default = defineComponent<Props>(props => {
+    const start = computed(() => props.startSecond && computeSecondToDate(props.startSecond))
+    const end = computed(() => props.endSecond && computeSecondToDate(props.endSecond))
 
-        return () => <>
-            <ElSelect
-                modelValue={darkMode.value}
+    return () => <>
+        <ElSelect
+            modelValue={props.modelValue}
+            size="small"
+            style={{ width: "120px" }}
+            onChange={val => props.onChange?.(val as timer.option.DarkMode, [props.startSecond, props.endSecond])}
+        >
+            {
+                ALL_MODES.map(value => <ElOption value={value} label={t(msg => msg.option.appearance.darkMode.options[value])} />)
+            }
+        </ElSelect>
+        {props.modelValue === "timed" && <>
+            <ElTimePicker
+                modelValue={start.value}
                 size="small"
-                style={{ width: "120px" }}
-                onChange={val => darkMode.value = val as timer.option.DarkMode}
-            >
-                {
-                    ALL_MODES.map(value => <ElOption value={value} label={t(msg => msg.option.appearance.darkMode.options[value])} />)
-                }
-            </ElSelect>
-            {darkMode.value === "timed" && <>
-                <ElTimePicker
-                    modelValue={start.value}
-                    size="small"
-                    style={{ marginLeft: "10px" }}
-                    onUpdate:modelValue={val => start.value = val}
-                    clearable={false}
-                />
-                <a>-</a>
-                <ElTimePicker
-                    modelValue={end.value}
-                    size="small"
-                    onUpdate:modelValue={val => end.value = val}
-                    clearable={false}
-                />
-            </>}
-        </>
-    }
-})
+                style={{ marginLeft: "10px" }}
+                onUpdate:modelValue={val => props.onChange?.(props.modelValue, [computeDateToSecond(val), props.endSecond])}
+                clearable={false}
+            />
+            <a>-</a>
+            <ElTimePicker
+                modelValue={end.value}
+                size="small"
+                onUpdate:modelValue={val => props.onChange?.(props.modelValue, [props.startSecond, computeDateToSecond(val)])}
+                clearable={false}
+            />
+        </>}
+    </>
+}, { props: ['modelValue', 'startSecond', 'endSecond', 'onChange'] })
 
 export default _default

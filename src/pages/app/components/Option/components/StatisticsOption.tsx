@@ -66,8 +66,8 @@ const _default = defineComponent((_props, ctx) => {
 
     const intervalFormat = computed(() => {
         const intervalNum = option.autoPauseInterval
-        if (intervalNum > 3600) return 'HH [hr] mm [min] ss [sec]'
-        if (intervalNum > 60) return 'mm [min] ss [sec]'
+        if (intervalNum >= 3600) return 'HH [hr] mm [min] ss [sec]'
+        if (intervalNum >= 60) return 'mm [min] ss [sec]'
         return 'ss [sec]'
     })
 
