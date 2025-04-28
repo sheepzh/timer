@@ -8,7 +8,6 @@
 import { ElCard, ElScrollbar } from "element-plus"
 import { defineComponent, h, type StyleValue, useSlots } from "vue"
 import ContentCard from "./ContentCard"
-import { useMediaSize } from "@hooks/useMediaSize"
 
 const CONTAINER_STYLE: StyleValue = {
     marginTop: 'var(--timer-container-container-padding)',
@@ -34,7 +33,6 @@ const FILTER_BODY_STYLE: StyleValue = {
 
 const _default = defineComponent(() => {
     const { default: default_, filter, content } = useSlots()
-    const mediaSize = useMediaSize()
     return () => (
         <ElScrollbar>
             <div style={CONTAINER_STYLE}>

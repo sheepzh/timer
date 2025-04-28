@@ -1,36 +1,29 @@
 import { InfoFilled } from "@element-plus/icons-vue"
+import Flex from "@pages/components/Flex"
 import { ElIcon, ElTooltip } from "element-plus"
-import { defineComponent } from "vue"
-import Flex from "../../../components/Flex"
+import { defineComponent, useSlots } from "vue"
 
-const ColumnHeader = defineComponent({
-    props: {
-        label: String,
-        tooltipContent: String,
-    },
-    setup(props, ctx) {
-        return () => (
-            <Flex justify="center" align="center" gap={4}>
-                <span>
-                    {props.label}
-                </span>
-                <ElTooltip
-                    content={props.tooltipContent}
-                    placement="top"
-                    v-slots={{
-                        content: ctx.slots.tooltipContent,
-                        default: () => (
-                            <Flex height='100%'>
-                                <ElIcon>
-                                    <InfoFilled />
-                                </ElIcon>
-                            </Flex>
-                        ),
-                    }}
-                />
-            </Flex>
-        )
-    }
-})
+const ColumnHeader = defineComponent<{ label: string, tooltipContent?: string }>(({ label, tooltipContent }) => {
+    const slots = useSlots()
+    return () => (
+        <Flex justify="center" align="center" gap={4}>
+            <span>{label}</span>
+            <ElTooltip
+                content={tooltipContent}
+                placement="top"
+                v-slots={{
+                    content: slots.tooltipContent,
+                    default: () => (
+                        <Flex height='100%'>
+                            <ElIcon>
+                                <InfoFilled />
+                            </ElIcon>
+                        </Flex>
+                    ),
+                }}
+            />
+        </Flex>
+    )
+}, { props: ['label', 'tooltipContent'] })
 
 export default ColumnHeader

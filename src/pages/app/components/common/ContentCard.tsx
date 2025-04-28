@@ -8,8 +8,14 @@
 import { ElCard } from "element-plus"
 import { defineComponent, useSlots } from "vue"
 
-const _default = defineComponent((props: any) => {
-    return () => <ElCard {...props} class="container-card" v-slots={useSlots()} />
+const _default = defineComponent(() => {
+    return () => (
+        <ElCard
+            style={{ minHeight: '640px' }}
+            bodyStyle={{ height: '100%' }}
+            v-slots={useSlots()}
+        />
+    )
 })
 
 export default _default
