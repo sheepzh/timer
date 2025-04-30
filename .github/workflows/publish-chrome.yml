@@ -1,8 +1,5 @@
 name: Publish to Chrome Webstore
-on:
-    push:
-        branches:
-            - "release"
+on: [workflow_dispatch]
 jobs:
     publish:
         runs-on: ubuntu-latest

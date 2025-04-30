@@ -1,9 +1,5 @@
 name: Publish to Firefox Addon Store
-on:
-    push:
-        branches:
-            - "release"
-    workflow_dispatch:
+on: [workflow_dispatch]
 jobs:
     publish:
         runs-on: ubuntu-latest
