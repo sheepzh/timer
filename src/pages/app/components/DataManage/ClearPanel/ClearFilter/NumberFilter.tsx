@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import I18nNode from "@app/components/common/I18nNode"
+import { tN } from "@app/locale"
 import { type DataManageMessage } from "@i18n/message/app/data-manage"
 import { ElInput } from "element-plus"
 import { defineComponent, type PropType, type Ref, ref, type StyleValue, watch } from "vue"
@@ -45,13 +45,10 @@ const _default = defineComponent({
         return () => (
             <p>
                 <a style={{ marginRight: '10px' }}>{props.lineNo}.</a>
-                <I18nNode
-                    path={msg => msg.dataManage[props.translateKey]}
-                    param={{
-                        start: elInput(start, '0'),
-                        end: elInput(end, '∞')
-                    }}
-                />
+                {tN(msg => msg.dataManage[props.translateKey], {
+                    start: elInput(start, '0'),
+                    end: elInput(end, '∞'),
+                })}
             </p>
         )
     }

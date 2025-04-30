@@ -11,15 +11,15 @@ import { getRegularTextColor, getSecondaryTextColor } from "@pages/util/style"
 import weekHelper from "@service/components/week-helper"
 import { groupBy, rotate } from "@util/array"
 import { formatTime, getAllDatesBetween, MILL_PER_WEEK, parseTime } from "@util/time"
-import {
-    type ComposeOption,
-    type EffectScatterSeriesOption,
-    type GridComponentOption,
-    type TitleComponentOption,
-    type TooltipComponentOption,
-    type VisualMapComponentOption
+import type {
+    ComposeOption,
+    EffectScatterSeriesOption,
+    GridComponentOption,
+    TitleComponentOption,
+    TooltipComponentOption,
+    VisualMapComponentOption
 } from "echarts"
-import { TopLevelFormatterParams } from "echarts/types/dist/shared"
+import type { TopLevelFormatterParams } from "echarts/types/dist/shared"
 
 type EcOption = ComposeOption<
     | EffectScatterSeriesOption

@@ -1,7 +1,6 @@
 import { sendMsg2Runtime } from "@api/chrome/runtime"
-import I18nNode from "@app/components/common/I18nNode"
-import { t } from "@app/locale"
-import { locale } from "@i18n"
+import { t, tN } from "@app/locale"
+import { I18nResultItem, locale } from "@i18n"
 import { getCssVariable } from "@pages/util/style"
 import verificationProcessor from "@service/limit-service/verification/processor"
 import { dateMinute2Idx, hasLimited, isEnabledAndEffective } from "@util/limit"
@@ -120,7 +119,7 @@ export function processVerification(option: timer.option.LimitOption, context?: 
         }).catch(() => { }))
     }
     let answerValue: string | undefined
-    let messageNode: VNode | string | Element | undefined
+    let messageNode: I18nResultItem<VNode>[] | undefined | I18nResultItem<VNode>
     let incorrectMessage: string
     let countdown: number | undefined
     if (limitLevel === 'password' && limitPassword) {
@@ -137,19 +136,9 @@ export function processVerification(option: timer.option.LimitOption, context?: 
             const promptTxt = typeof prompt === 'function'
                 ? t(msg => prompt(msg.limit.verification), { ...promptParam, answer: answerValue })
                 : prompt
-            messageNode = (
-                <I18nNode
-                    path={msg => msg.limit.verification.inputTip}
-                    param={{ prompt: <b>{promptTxt}</b>, second }}
-                />
-            )
+            messageNode = tN(msg => msg.limit.verification.inputTip, { prompt: <b>{promptTxt}</b>, second })
         } else if (answerValue) {
-            messageNode = (
-                <I18nNode
-                    path={msg => msg.limit.verification.inputTip2}
-                    param={{ answer: <AnswerCanvas text={answerValue} />, second }}
-                />
-            )
+            messageNode = tN(msg => msg.limit.verification.inputTip2, { answer: <AnswerCanvas text={answerValue} />, second })
         }
     }
     if (!messageNode || !answerValue) return Promise.resolve()

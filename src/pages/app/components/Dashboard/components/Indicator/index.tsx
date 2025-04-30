@@ -5,9 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import I18nNode from "@app/components/common/I18nNode"
 import NumberGrow from "@app/components/common/NumberGrow"
-import { type I18nKey } from "@app/locale"
+import { tN, type I18nKey } from "@app/locale"
 import PeriodDatabase from "@db/period-database"
 import { Sunrise } from "@element-plus/icons-vue"
 import { useRequest } from "@hooks"
@@ -86,12 +85,10 @@ const IndicatorLabel = defineComponent<Props>(props => {
 
     return () => (
         <div class="indicator-label" >
-            {
-                param.value && <I18nNode path={props.path} param={i18nParam.value} />
-            }
+            {param.value && tN(props.path, i18nParam.value)}
         </div>
     )
-})
+}, { props: ['path', 'param', 'duration'] })
 
 const computeMost2HourParam = (value: _Value | undefined): { start: number, end: number } => {
     const most2HourIndex = value?.most2Hour

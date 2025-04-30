@@ -4,14 +4,13 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import I18nNode from "@app/components/common/I18nNode"
-import { t } from "@app/locale"
+import { t, tN } from "@app/locale"
 import { dateFormat as elDateFormat } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { formatTime, getBirthday, MILL_PER_DAY } from "@util/time"
 import { ElDatePicker } from "element-plus"
-import { defineComponent, type StyleValue, type PropType } from "vue"
+import { defineComponent, type PropType, type StyleValue } from "vue"
 
 const _default = defineComponent({
     emits: {
@@ -44,25 +43,22 @@ const _default = defineComponent({
         return () => (
             <p>
                 <a style={{ marginRight: '10px' }}>1.</a>
-                <I18nNode
-                    path={msg => msg.dataManage.filterDate}
-                    param={{
-                        picker: <ElDatePicker
-                            modelValue={props.dateRange}
-                            onUpdate:modelValue={date => ctx.emit("change", date)}
-                            size="small"
-                            style={{ width: "250px" } satisfies StyleValue}
-                            startPlaceholder={startPlaceholder}
-                            endPlaceholder={endPlaceholder}
-                            dateFormat={elDateFormat()}
-                            type="daterange"
-                            disabledDate={(date: Date) => date.getTime() > yesterday}
-                            shortcuts={pickerShortcuts}
-                            rangeSeparator="-"
-                            v-slots={getDatePickerIconSlots()}
-                        />
-                    }}
-                />
+                {tN(msg => msg.dataManage.filterDate, {
+                    picker: <ElDatePicker
+                        modelValue={props.dateRange}
+                        onUpdate:modelValue={date => ctx.emit("change", date)}
+                        size="small"
+                        style={{ width: "250px" } satisfies StyleValue}
+                        startPlaceholder={startPlaceholder}
+                        endPlaceholder={endPlaceholder}
+                        dateFormat={elDateFormat()}
+                        type="daterange"
+                        disabledDate={(date: Date) => date.getTime() > yesterday}
+                        shortcuts={pickerShortcuts}
+                        rangeSeparator="-"
+                        v-slots={getDatePickerIconSlots()}
+                    />
+                })}
             </p>
         )
     }

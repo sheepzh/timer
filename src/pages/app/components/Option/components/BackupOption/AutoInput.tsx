@@ -5,8 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import I18nNode from "@app/components/common/I18nNode"
-import { t } from "@app/locale"
+import { t, tN } from "@app/locale"
 import { useShadow } from "@hooks"
 import { locale } from "@i18n"
 import localeMessages from "@i18n/message/common/locale"
@@ -30,17 +29,14 @@ const _default = defineComponent({
             {' ' + t(msg => msg.option.backup.auto.label)}
             {!!autoBackUp.value && <>
                 {localeMessages[locale].comma || ' '}
-                <I18nNode
-                    path={msg => msg.option.backup.auto.interval}
-                    param={{
-                        input: <ElInputNumber
-                            min={10}
-                            size="small"
-                            modelValue={interval.value}
-                            onChange={setInterval}
-                        />
-                    }}
-                />
+                {tN(msg => msg.option.backup.auto.interval, {
+                    input: <ElInputNumber
+                        min={10}
+                        size="small"
+                        modelValue={interval.value}
+                        onChange={setInterval}
+                    />
+                })}
             </>}
         </>
     },
