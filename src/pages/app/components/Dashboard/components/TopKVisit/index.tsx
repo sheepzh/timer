@@ -11,6 +11,11 @@ import { MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
 import ChartTitle from "../../ChartTitle"
 import Wrapper, { type BizOption, DAY_NUM, TOP_NUM } from "./Wrapper"
+import { initProvider } from "./context"
+import Filter from "./Filter";
+import PieChart from "./PieChart";
+import BarChart from "./BarChart";
+import HalfBarChart from "./HalfBarChart";
 
 const fetchData = async () => {
     const now = new Date()
@@ -35,14 +40,21 @@ const fetchData = async () => {
 }
 
 const _default = defineComponent(() => {
-    const { elRef } = useEcharts(Wrapper, fetchData)
-    const title = t(msg => msg.dashboard.topK.title, { k: TOP_NUM, day: DAY_NUM })
-    return () => (
-        <div class="top-visit-container">
-            <ChartTitle text={title} />
-            <div style={{ flex: 1 }} ref={elRef} />
-        </div>
-    )
+    const filter = initProvider()
+    return () => {
+        const title = t(msg => msg.dashboard.topK.title, { k: filter.topK, day: DAY_NUM })
+        return (
+            <div class="top-visit-container">
+                <ChartTitle text={title} />
+                <Filter />
+                <div class="chart-container">
+                    {filter.chartType === 'pie' && <PieChart />}
+                    {filter.chartType === 'bar' && <BarChart />}
+                    {filter.chartType === 'half-pie' && <HalfBarChart />}
+                </div>
+            </div>
+        )
+    }
 })
 
 export default _default
