@@ -47,9 +47,9 @@ const _default = defineComponent(() => {
                 <ChartTitle text={title} />
                 <Filter />
                 <div class="chart-container">
-                    {filter.chartType === 'pie' && <PieChart />}
-                    {filter.chartType === 'bar' && <BarChart />}
-                    {filter.chartType === 'halfPie' && <HalfBarChart />}
+                    {filter.topKChartType === 'pie' && <PieChart />}
+                    {filter.topKChartType === 'bar' && <BarChart />}
+                    {filter.topKChartType === 'halfPie' && <HalfBarChart />}
                 </div>
             </div>
         )

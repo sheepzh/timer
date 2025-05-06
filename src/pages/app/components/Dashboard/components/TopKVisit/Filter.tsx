@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { type ChartType } from './common'
+import {type TopKChartType} from './common'
 import { useTopKFilter } from './context'
 import SelectFilterItem from "@app/components/common/filter/SelectFilterItem";
 import {ElCheckboxGroup, ElRadioButton, ElRadioGroup} from "element-plus";
@@ -20,32 +20,37 @@ function allOptions(): Record<number, string> {
     return allOptions
 }
 
-const CHART_CONFIG: { [type in ChartType]: string } = {
+const CHART_CONFIG: { [type in TopKChartType]: string } = {
     'pie': t(msg => msg.dashboard.topK.filter.chartType['pie']),
     'bar': t(msg => msg.dashboard.topK.filter.chartType['bar']),
     'halfPie': t(msg => msg.dashboard.topK.filter.chartType['halfPie']),
 }
 
 const _default = defineComponent(() => {
-    const filter = useTopKFilter()
+    const topKFilter = useTopKFilter()
 
     return () => (
         <div class="filter">
             <SelectFilterItem
                 historyName='topK'
-                defaultValue={filter.topK?.toString?.()}
+                defaultValue={topKFilter.topK?.toString?.()}
                 options={allOptions()}
                 onSelect={val => {
                     if (!val) return
                     const newTopK = parseInt(val)
                     if (isNaN(newTopK)) return
-                    filter.topK = newTopK
+                    topKFilter.topK = newTopK
                 }}
                 style={{width: "30%"}}
             />
             <ElRadioGroup
-                modelValue={filter.chartType}
-                onChange={val => val && (filter.chartType = val as ChartType)}
+                modelValue={topKFilter.topKChartType}
+                onChange={val => {
+                    if (val === undefined) return
+                    if (val === 'pie' || val === 'bar' || val === 'halfPie') {
+                        topKFilter.topKChartType = val as TopKChartType
+                    }
+                }}
             >
                 {Object.entries(CHART_CONFIG).map(([type, name]) => (
                     <ElRadioButton value={type}>

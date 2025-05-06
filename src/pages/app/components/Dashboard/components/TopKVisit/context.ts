@@ -22,7 +22,7 @@ const DAY_NUM = 30
 
 export const initProvider = () => {
     const [cachedFilter, setFilterCache] = useLocalStorage<FilterOption>(
-        'habit_period_filter', { topK: 6, chartType: 'pie' }
+        'habit_period_filter', { topK: 6, topKChartType: 'pie' }
     )
     const filter = reactive<FilterOption>(cachedFilter)
     watch(() => filter, () => setFilterCache(toRaw(filter)), { deep: true })
@@ -48,7 +48,7 @@ export const initProvider = () => {
         }
         return data
     }, {
-        deps: [() => filter.topK, () => filter.chartType],
+        deps: [() => filter.topK, () => filter.topKChartType],
         defaultValue: []
     })
 

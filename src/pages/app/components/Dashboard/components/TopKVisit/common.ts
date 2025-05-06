@@ -9,10 +9,10 @@ export const generateGridOption = (): GridComponentOption => {
     }
 }
 
-export type ChartType = 'bar' | 'pie' | 'halfPie'
+export type TopKChartType = 'bar' | 'pie' | 'halfPie'
 
 export type FilterOption = {
     topK: number
-    chartType: ChartType
+    topKChartType: TopKChartType
 }
 
