@@ -10,7 +10,7 @@
                 "chartType": {
                     "pie": "玫瑰图",
                     "bar": "条形图",
-                    "half-pie": "半环图"
+                    "halfPie": "半环图"
                 },
                 "k": {
                     "6": "前6位",
@@ -40,7 +40,7 @@
                 "chartType": {
                     "pie": "玫瑰圖",
                     "bar": "條形圖",
-                    "half-pie": "半環圖"
+                    "halfPie": "半環圖"
                 },
                 "k": {
                     "6": "前6位",
@@ -70,7 +70,7 @@
                 "chartType": {
                     "pie": "Nightingale",
                     "bar": "Bar",
-                    "half-pie": "Half Doughnut"
+                    "halfPie": "Half Doughnut"
                 },
                 "k": {
                     "6": "top 6",
@@ -95,19 +95,7 @@
             "title1": "過去 1 年間にオンラインで費やした時間は 1 時間未満"
         },
         "topK": {
-            "title": "過去 {day} 日間に最も拜訪された TOP {k}",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "過去 {day} 日間に最も拜訪された TOP {k}"
         },
         "indicator": {
             "installedDays": "使用 {number} 日",
@@ -125,19 +113,7 @@
             "title1": "Navegue por menos de 1 hora no ano passado"
         },
         "topK": {
-            "title": "TOP {k} mais visitados nos últimos {day} dias",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "TOP {k} mais visitados nos últimos {day} dias"
         },
         "indicator": {
             "installedDays": "Instalado por {number} dias",
@@ -155,19 +131,7 @@
             "title1": "Перегляд менш ніж 1 годину за минулий рік"
         },
         "topK": {
-            "title": "Найбільші {k} відвідувань за минулих {day} днів",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "Найбільші {k} відвідувань за минулих {day} днів"
         },
         "indicator": {
             "installedDays": "Встановлено впродовж {number} днів",
@@ -185,19 +149,7 @@
             "title1": "Navegó menos de 1 hora en el último año"
         },
         "topK": {
-            "title": "TOP {k} más visitado en los últimos {day} días",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "TOP {k} más visitado en los últimos {day} días"
         },
         "indicator": {
             "installedDays": "Instalado durante {number} días",
@@ -215,19 +167,7 @@
             "title1": "Durchsucht weniger als 1 Stunde im letzten Jahr"
         },
         "topK": {
-            "title": "TOP {k} am meisten besucht in den letzten {day} Tagen",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "TOP {k} am meisten besucht in den letzten {day} Tagen"
         },
         "indicator": {
             "installedDays": "Für {number} Tage installiert",
@@ -245,19 +185,7 @@
             "title1": "Parcouru moins d'une heure l'année dernière"
         },
         "topK": {
-            "title": "Top {k} des sites les plus visités les {day} derniers jours",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "Top {k} des sites les plus visités les {day} derniers jours"
         },
         "indicator": {
             "installedDays": "Installé depuis {number} jours",
@@ -275,19 +203,7 @@
             "title1": "За последний год просмотрено менее 1 часа"
         },
         "topK": {
-            "title": "ТОП-{k} самых посещаемых сайтов за последние {day} дней",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "ТОП-{k} самых посещаемых сайтов за последние {day} дней"
         },
         "indicator": {
             "installedDays": "Прошло дней с установки: {number}",
@@ -305,19 +221,7 @@
             "title1": "تم التصفح أقل من ساعة في العام الماضي"
         },
         "topK": {
-            "title": "أفضل {k} مواقع الأكثر زيارة خلال الـ {day} يوم الماضية",
-            "filter": {
-                "chartType": {
-                    "pie": "",
-                    "bar": "",
-                    "half-pie": ""
-                },
-                "k": {
-                    "6": "",
-                    "8": "",
-                    "10": ""
-                }
-            }
+            "title": "أفضل {k} مواقع الأكثر زيارة خلال الـ {day} يوم الماضية"
         },
         "indicator": {
             "installedDays": "تم التثبيت لمدة {number} أيام",

@@ -1,4 +1,3 @@
-import { t } from "@app/locale"
 import { type GridComponentOption } from "echarts/components"
 
 export const generateGridOption = (): GridComponentOption => {
@@ -10,7 +9,7 @@ export const generateGridOption = (): GridComponentOption => {
     }
 }
 
-export type ChartType = 'bar' | 'pie' | 'half-pie'
+export type ChartType = 'bar' | 'pie' | 'halfPie'
 
 export type FilterOption = {
     topK: number

@@ -2,7 +2,7 @@ import { defineComponent } from 'vue'
 import { type ChartType } from './common'
 import { useTopKFilter } from './context'
 import SelectFilterItem from "@app/components/common/filter/SelectFilterItem";
-import {ElRadioButton, ElRadioGroup} from "element-plus";
+import {ElCheckboxGroup, ElRadioButton, ElRadioGroup} from "element-plus";
 import {t} from "@app/locale";
 
 type _SizeOption = [number, string]
@@ -23,7 +23,7 @@ function allOptions(): Record<number, string> {
 const CHART_CONFIG: { [type in ChartType]: string } = {
     'pie': t(msg => msg.dashboard.topK.filter.chartType['pie']),
     'bar': t(msg => msg.dashboard.topK.filter.chartType['bar']),
-    'half-pie': t(msg => msg.dashboard.topK.filter.chartType['half-pie']),
+    'halfPie': t(msg => msg.dashboard.topK.filter.chartType['halfPie']),
 }
 
 const _default = defineComponent(() => {

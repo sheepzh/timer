@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/MIT
  */
 import { t } from "@app/locale"
-import { useEcharts } from "@hooks/useEcharts"
 import statService, { type StatQueryParam } from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
@@ -50,7 +49,7 @@ const _default = defineComponent(() => {
                 <div class="chart-container">
                     {filter.chartType === 'pie' && <PieChart />}
                     {filter.chartType === 'bar' && <BarChart />}
-                    {filter.chartType === 'half-pie' && <HalfBarChart />}
+                    {filter.chartType === 'halfPie' && <HalfBarChart />}
                 </div>
             </div>
         )
