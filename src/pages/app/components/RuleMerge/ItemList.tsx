@@ -8,9 +8,10 @@
 import { t } from "@app/locale"
 import MergeRuleDatabase from "@db/merge-rule-database"
 import { useManualRequest, useRequest } from "@hooks"
+import Flex from "@pages/components/Flex"
 import { ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, ref } from "vue"
-import AddButton, { type AddButtonInstance } from './components/AddButton'
+import AddButton from './components/AddButton'
 import Item, { type ItemInstance } from './components/Item'
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
@@ -48,32 +49,30 @@ const _default = defineComponent(() => {
         update(origin, merged)
     }
 
-    const addButton = ref<AddButtonInstance>()
-
     const { refresh: add } = useManualRequest(
         (rule: timer.merge.Rule) => mergeRuleDatabase.add(rule),
-        {
-            onSuccess: () => {
-                handleSucc()
-                addButton.value?.closeEdit?.()
-            },
-        }
+        { onSuccess: handleSucc }
     )
 
-    const handleAdd = (origin: string, merged: string | number) => {
+    const handleAdd = async (origin: string, merged: string | number): Promise<boolean> => {
         const alreadyExist = !!items.value?.find(item => item.origin === origin)
         if (alreadyExist) {
             ElMessage.warning(t(msg => msg.mergeRule.duplicateMsg, { origin }))
-            return
+            return false
         }
-
         const title = t(msg => msg.operation.confirmTitle)
         const content = t(msg => msg.mergeRule.addConfirmMsg, { origin })
-        ElMessageBox.confirm(content, title, { dangerouslyUseHTMLString: true }).then(() => add({ origin, merged }))
+        try {
+            await ElMessageBox.confirm(content, title, { dangerouslyUseHTMLString: true })
+            add({ origin, merged })
+            return true
+        } catch {
+            return false
+        }
     }
 
     return () => (
-        <div class='editable-tag-container'>
+        <Flex gap={10} wrap justify="space-between">
             {items.value?.map((item, idx) =>
                 <Item
                     ref={() => itemRefs.value[idx]}
@@ -83,8 +82,8 @@ const _default = defineComponent(() => {
                     onChange={(origin, merged) => handleChange(origin, merged, idx)}
                 />
             )}
-            <AddButton ref={addButton} onSave={handleAdd} />
-        </div>
+            <AddButton onSave={handleAdd} />
+        </Flex>
     )
 })
 

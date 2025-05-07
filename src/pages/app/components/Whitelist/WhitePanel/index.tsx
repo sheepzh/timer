@@ -6,42 +6,47 @@
  */
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
+import Flex from "@pages/components/Flex"
 import whitelistService from "@service/whitelist-service"
 import { ElMessage, ElMessageBox } from "element-plus"
-import { defineComponent, ref } from "vue"
-import AddButton, { type AddButtonInstance } from './AddButton'
+import { defineComponent } from "vue"
+import AddButton from './AddButton'
 import WhiteItem from './WhiteItem'
 
 const _default = defineComponent(() => {
     const { data: whitelist } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })
-    const addButton = ref<AddButtonInstance>()
 
-    const handleChanged = async (val: string, index: number, editAgain: () => void) => {
+    const handleChanged = async (val: string, index: number): Promise<boolean> => {
         const duplicate = whitelist.value?.find?.((white, i) => white === val && i !== index)
         if (duplicate) {
             ElMessage.warning(t(msg => msg.whitelist.duplicateMsg))
             // Reopen
-            return editAgain?.()
+            return false
         }
         await whitelistService.remove(whitelist.value[index])
         await whitelistService.add(val)
         whitelist.value[index] = val
         ElMessage.success(t(msg => msg.operation.successMsg))
+        return true
     }
 
-    const handleAdd = (val: string) => {
+    const handleAdd = async (val: string): Promise<boolean> => {
         const exists = whitelist.value?.some(item => item === val)
-        if (exists) return ElMessage.warning(t(msg => msg.whitelist.duplicateMsg))
+        if (exists) {
+            ElMessage.warning(t(msg => msg.whitelist.duplicateMsg))
+            return false
+        }
 
         const msg = t(msg => msg.whitelist.addConfirmMsg, { url: val })
         const title = t(msg => msg.operation.confirmTitle)
-        ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
+        return ElMessageBox.confirm(msg, title, { dangerouslyUseHTMLString: true })
             .then(async () => {
                 await whitelistService.add(val)
                 whitelist.value?.push(val)
                 ElMessage.success(t(msg => msg.operation.successMsg))
-                addButton.value?.closeEdit?.()
-            }).catch(() => { })
+                return true
+            })
+            .catch(() => false)
     }
 
     const handleClose = (whiteItem: string) => {
@@ -59,16 +64,16 @@ const _default = defineComponent(() => {
     }
 
     return () => (
-        <div class="editable-tag-container">
-            {
-                whitelist.value?.map((white, index) => <WhiteItem
+        <Flex gap={10} wrap justify="space-between">
+            {whitelist.value?.map((white, index) => (
+                <WhiteItem
                     white={white}
-                    onChange={(val, editAgain) => handleChanged(val, index, editAgain)}
-                    onDelete={val => handleClose(val)}
-                />)
-            }
-            <AddButton ref={addButton} onSave={handleAdd} />
-        </div>
+                    onChange={val => handleChanged(val, index)}
+                    onDelete={handleClose}
+                />
+            ))}
+            <AddButton onSave={handleAdd} />
+        </Flex>
     )
 })
 

@@ -32,26 +32,19 @@ const _default = defineComponent(() => {
             key: 'delete',
             label: t(msg => msg.button.batchDelete),
             icon: Delete,
+            onClick: batchDelete,
         }, {
             key: 'enable',
             label: t(msg => msg.button.batchEnable),
             icon: Open,
+            onClick: batchEnable,
         }, {
             key: 'disable',
             label: t(msg => msg.button.batchDisable),
             icon: TurnOff,
+            onClick: batchDisable,
         },
     ]
-
-    const handleBatchClick = (key: BatchOpt) => {
-        if (key === 'delete') {
-            batchDelete()
-        } else if (key === 'enable') {
-            batchEnable()
-        } else if (key === 'disable') {
-            batchDisable()
-        }
-    }
 
     return () => (
         <Flex justify="space-between" gap={10}>
@@ -69,7 +62,7 @@ const _default = defineComponent(() => {
                 />
             </Flex>
             <Flex gap={10}>
-                <DropdownButton items={batchItems} onClick={key => handleBatchClick(key as BatchOpt)} />
+                <DropdownButton items={batchItems} />
                 <ButtonFilterItem
                     text={t(msg => msg.limit.button.test)}
                     type="primary"

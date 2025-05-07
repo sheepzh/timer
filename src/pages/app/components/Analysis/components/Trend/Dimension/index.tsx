@@ -7,7 +7,11 @@
 import { formatValue, type DimensionEntry, type RingValue, type ValueFormatter } from "@app/components/Analysis/util"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { cvt2LocaleTime } from "@app/util/time"
-import { defineComponent, type PropType } from "vue"
+import { useXsState } from "@hooks/useMediaSize"
+import Box from "@pages/components/Box"
+import Flex from "@pages/components/Flex"
+import { defineComponent } from "vue"
+import { GRID_CELL_STYLE } from "../../../../common/grid"
 import Chart from "./Chart"
 
 export type DimensionData = {
@@ -15,48 +19,49 @@ export type DimensionData = {
     previousPeriod: DimensionEntry[]
 }
 
-const _default = defineComponent({
-    props: {
-        maxLabel: String,
-        maxValue: Number,
-        averageLabel: String,
-        maxDate: String,
-        average: [Object, Object] as PropType<RingValue>,
-        data: Object as PropType<DimensionData>,
-        valueFormatter: Function as PropType<ValueFormatter>,
-        chartTitle: String,
-    },
-    setup: p => {
-        return () => (
-            <div class="analysis-trend-dimension-container" >
-                <div class="analysis-trend-dimension-indicator-container">
-                    <div class="analysis-trend-dimension-indicator-item">
-                        <KanbanIndicatorCell
-                            mainName={p.maxLabel}
-                            mainValue={p.valueFormatter ? p.valueFormatter(p.maxValue) : p.maxValue?.toString() || '-'}
-                            subValue={p.maxDate ? `@${cvt2LocaleTime(p.maxDate)}` : ''}
-                        />
-                    </div>
-                    <div class="analysis-trend-dimension-indicator-item">
-                        <KanbanIndicatorCell
-                            mainName={p.averageLabel}
-                            mainValue={formatValue(p.average?.[0], p.valueFormatter)}
-                            subRing={p.average}
-                            valueFormatter={p.valueFormatter}
-                        />
-                    </div>
-                </div>
-                <div class="analysis-trend-dimension-chart-container">
-                    <Chart
-                        data={p.data?.thisPeriod}
-                        previous={p.data?.previousPeriod}
-                        valueFormatter={p.valueFormatter}
-                        title={p.chartTitle}
+type Props = {
+    maxLabel?: string
+    maxValue?: number
+    averageLabel?: string
+    maxDate?: string
+    average?: RingValue
+    data?: DimensionData
+    valueFormatter?: ValueFormatter
+    chartTitle?: string
+}
+
+const _default = defineComponent<Props>(p => {
+    const isXs = useXsState()
+
+    return () => (
+        <Flex flex={2} column gap={1}>
+            <Flex v-show={!isXs.value} gap={1}>
+                <Flex flex={1} style={GRID_CELL_STYLE}>
+                    <KanbanIndicatorCell
+                        mainName={p.maxLabel}
+                        mainValue={p.valueFormatter ? p.valueFormatter(p.maxValue) : p.maxValue?.toString() || '-'}
+                        subValue={p.maxDate ? `@${cvt2LocaleTime(p.maxDate)}` : ''}
                     />
-                </div>
-            </div>
-        )
-    }
-})
+                </Flex>
+                <Flex flex={1} style={GRID_CELL_STYLE}>
+                    <KanbanIndicatorCell
+                        mainName={p.averageLabel}
+                        mainValue={formatValue(p.average?.[0], p.valueFormatter)}
+                        subRing={p.average}
+                        valueFormatter={p.valueFormatter}
+                    />
+                </Flex>
+            </Flex>
+            <Box height={isXs.value ? 200 : 281} style={GRID_CELL_STYLE}>
+                <Chart
+                    data={p.data?.thisPeriod}
+                    previous={p.data?.previousPeriod}
+                    valueFormatter={p.valueFormatter}
+                    title={p.chartTitle}
+                />
+            </Box>
+        </Flex>
+    )
+}, { props: ['average', 'averageLabel', 'chartTitle', 'data', 'maxDate', 'maxLabel', 'maxValue', 'valueFormatter'] })
 
 export default _default

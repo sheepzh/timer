@@ -17,7 +17,7 @@ const _default = defineComponent(() => {
     const bizOption = computed(() => ({ rows: rows.value, timeFormat: filter.timeFormat }))
     const { elRef } = useEcharts(Wrapper, bizOption, { manual: true })
 
-    return () => <div class="top-k" ref={elRef} />
+    return () => <div style={{ width: '100%' }} ref={elRef} />
 })
 
 export default _default

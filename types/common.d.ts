@@ -14,6 +14,10 @@ type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [P in K]?: T[P] }
 
 type MakeRequired<T, K extends keyof T> = Omit<T, K> & Required<{ [P in K]: T[P] }>
 
+type PartialPick<T, K extends keyof T> = Partial<Pick<T, K>>
+
+type RequiredPick<T, K extends keyof T> = Required<Pick<T, K>>
+
 /**
  * Tuple with length
  *

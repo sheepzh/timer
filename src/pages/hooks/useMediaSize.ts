@@ -9,8 +9,10 @@ export enum MediaSize {
     xl,
 }
 
+const XS_MAX = 768
+
 const computeMediaSize = (width: number): MediaSize => {
-    if (width < 768) {
+    if (width < XS_MAX) {
         return MediaSize.xs
     } else if (width < 992) {
         return MediaSize.sm
@@ -27,6 +29,11 @@ export const useMediaSize = () => {
     const { width } = useWindowSize()
     const size = computed<MediaSize>(() => computeMediaSize(width.value))
     return size
+}
+
+export const useXsState = () => {
+    const { width } = useWindowSize()
+    return computed(() => width.value < XS_MAX)
 }
 
 export const listenMediaSizeChange = () => {

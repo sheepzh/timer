@@ -21,7 +21,7 @@ const _default = defineComponent(() => {
     }))
     const { elRef } = useEcharts(TimelineWrapper, bizOption, { manual: true })
 
-    return () => <div class="daily-trend" ref={elRef} />
+    return () => <div style={{ width: '100%' }} ref={elRef} />
 })
 
 export default _default

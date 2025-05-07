@@ -11,7 +11,7 @@ import { BottomRight, InfoFilled, TopRight } from "@element-plus/icons-vue"
 import { classNames } from "@pages/util/style"
 import { range } from "@util/array"
 import { ElIcon, ElTooltip } from "element-plus"
-import { defineComponent, type PropType, type VNode } from "vue"
+import { defineComponent, type PropType, type StyleValue, type VNode } from "vue"
 import type { JSX } from "vue/jsx-runtime"
 import "./indicator-cell.sass"
 
@@ -94,11 +94,12 @@ const _default = defineComponent({
         subValue: String,
         subInfo: String,
         subRing: [Object, Object] as PropType<RingValue>,
-        valueFormatter: Function as PropType<ValueFormatter>
+        valueFormatter: Function as PropType<ValueFormatter>,
+        containerStyle: Object as PropType<StyleValue>,
     },
     setup(props) {
         return () => (
-            <div class="kanban-indicator-cell-container">
+            <div class="kanban-indicator-cell-container" style={props.containerStyle}>
                 <div class="kanban-indicator-cell-name">{props.mainName}</div>
                 <div class="kanban-indicator-cell-val">{props.mainValue ?? '-'}</div>
                 {renderSub(props)}

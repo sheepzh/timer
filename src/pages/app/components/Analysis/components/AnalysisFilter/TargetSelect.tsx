@@ -8,7 +8,7 @@ import { identifySiteKey, parseSiteKeyFromIdentity, SiteMap } from "@util/site"
 import { useDebounce } from "@vueuse/core"
 import { ElSelectV2, ElTag, useNamespace } from "element-plus"
 import type { OptionType } from "element-plus/es/components/select-v2/src/select.types"
-import { computed, defineComponent, onMounted, ref, type PropType, type StyleValue } from "vue"
+import { computed, defineComponent, onMounted, ref, type StyleValue } from "vue"
 import { useAnalysisTarget } from "../../context"
 import type { AnalysisTarget } from "../../types"
 import { labelOfHostInfo } from "../../util"
@@ -78,41 +78,31 @@ const fetchItems = async (categories: timer.site.Cate[]): Promise<[siteItems: Ta
     return [cateItems, siteItems]
 }
 
-const SiteTypeTag = defineComponent({
-    props: {
-        text: String,
-    },
-    setup: ({ text }) => {
-        return () => (
-            <span style={{ float: "right", height: "34px" }}>
-                <ElTag size="small">{text}</ElTag>
-            </span>
-        )
-    }
-})
+const SiteTypeTag = defineComponent<{ text: string }>(({ text }) => {
+    return () => (
+        <span style={{ float: "right", height: "34px" }}>
+            <ElTag size="small">{text}</ElTag>
+        </span>
+    )
+}, { props: ['text'] })
 
-const SiteOption = defineComponent({
-    props: {
-        value: Object as PropType<timer.site.SiteInfo>
-    },
-    setup(props) {
-        const alias = computed(() => props.value?.alias)
-        const type = computed(() => props.value?.type)
-        const mergedText = t(msg => msg.analysis.common.merged)
-        const virtualText = t(msg => msg.analysis.common.virtual)
+const SiteOption = defineComponent<{ value: timer.site.SiteInfo }>(props => {
+    const alias = computed(() => props.value?.alias)
+    const type = computed(() => props.value?.type)
+    const mergedText = t(msg => msg.analysis.common.merged)
+    const virtualText = t(msg => msg.analysis.common.virtual)
 
-        return () => (
-            <Flex align="center" gap={4}>
-                <span>{props.value?.host}</span>
-                <ElTag v-show={!!alias.value} size="small" type="info">
-                    {alias.value}
-                </ElTag>
-                {type.value === 'merged' && < SiteTypeTag text={mergedText} />}
-                {type.value === 'virtual' && <SiteTypeTag text={virtualText} />}
-            </Flex>
-        )
-    },
-})
+    return () => (
+        <Flex align="center" gap={4}>
+            <span>{props.value?.host}</span>
+            <ElTag v-show={!!alias.value} size="small" type="info">
+                {alias.value}
+            </ElTag>
+            {type.value === 'merged' && < SiteTypeTag text={mergedText} />}
+            {type.value === 'virtual' && <SiteTypeTag text={virtualText} />}
+        </Flex>
+    )
+}, { props: ['value'] })
 
 const TargetSelect = defineComponent(() => {
     const { categories } = useCategories()
@@ -170,6 +160,7 @@ const TargetSelect = defineComponent(() => {
         const input = el.querySelector(`.${ns.e('input')}`) as HTMLInputElement
         (el.querySelector(`.${ns.e('wrapper')}`) as HTMLElement)?.classList?.add?.(ns.is('focused'))
         input?.click?.()
+        input?.focus?.()
     })
 
     return () => (

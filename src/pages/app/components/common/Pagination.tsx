@@ -5,33 +5,31 @@
  * https://opensource.org/licenses/MIT
  */
 
+import Flex from "@pages/components/Flex"
 import { getPaginationIconProps } from "@pages/element-ui/rtl"
 import { ElPagination } from "element-plus"
-import { type PropType, defineComponent } from "vue"
+import { defineComponent } from "vue"
 
-const _default = defineComponent({
-    props: {
-        defaultValue: Object as PropType<timer.common.PageQuery>,
-        total: Number
-    },
-    emits: {
-        change: (_val: timer.common.PageQuery) => true,
-    },
-    setup(props, ctx) {
-        return () => (
-            <div class="pagination-container">
-                <ElPagination
-                    {...getPaginationIconProps() || {}}
-                    pageSizes={[10, 20, 50]}
-                    defaultCurrentPage={(props.defaultValue as timer.common.PageQuery)?.num}
-                    defaultPageSize={(props.defaultValue as timer.common.PageQuery)?.size}
-                    layout="total, sizes, prev, pager, next, jumper"
-                    total={props.total}
-                    onChange={(currentPage, pageSize) => ctx.emit("change", { num: currentPage, size: pageSize })}
-                />
-            </div>
-        )
-    }
-})
+type Props = {
+    defaultValue?: timer.common.PageQuery
+    total?: number
+    onChange?: (val: timer.common.PageQuery) => void
+}
 
-export default _default
+const Pagination = defineComponent<Props>(props => {
+    return () => (
+        <Flex justify="center" align="center" marginTop={23}>
+            <ElPagination
+                {...getPaginationIconProps() || {}}
+                pageSizes={[10, 20, 50]}
+                defaultCurrentPage={(props.defaultValue as timer.common.PageQuery)?.num}
+                defaultPageSize={(props.defaultValue as timer.common.PageQuery)?.size}
+                layout="total, sizes, prev, pager, next, jumper"
+                total={props.total}
+                onChange={(currentPage, pageSize) => props.onChange?.({ num: currentPage, size: pageSize })}
+            />
+        </Flex>
+    )
+}, { props: ['total', 'onChange', 'defaultValue'] })
+
+export default Pagination

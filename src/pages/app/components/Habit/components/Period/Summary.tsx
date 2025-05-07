@@ -1,6 +1,9 @@
+import { GRID_CELL_STYLE } from "@app/components/common/grid"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
+import { useXsState } from "@hooks/useMediaSize"
+import Flex from "@pages/components/Flex"
 import { averageByDay } from "@util/period"
 import { formatTime } from "@util/time"
 import { computed, defineComponent } from "vue"
@@ -75,21 +78,24 @@ const _default = defineComponent(() => {
     const filter = usePeriodFilter()
     const globalFilter = useHabitFilter()
     const summary = computed(() => computeSummary(data.value?.curr, filter.periodSize))
+    const isXs = useXsState()
 
     return () => (
-        <div class="summary-container">
+        <Flex column gap={1} flex={isXs.value ? undefined : 1}>
             <KanbanIndicatorCell
                 mainName={t(msg => msg.habit.period.busiest)}
                 mainValue={summary.value?.favorite?.period}
                 subTips={msg => msg.habit.common.focusAverage}
                 subValue={periodFormatter(summary.value?.favorite?.average, { format: globalFilter.timeFormat })}
+                containerStyle={GRID_CELL_STYLE}
             />
             <KanbanIndicatorCell
                 mainName={t(msg => msg.habit.period.idle)}
                 mainValue={summary.value?.longestIdle?.length}
                 subTips={() => summary.value?.longestIdle?.period}
+                containerStyle={GRID_CELL_STYLE}
             />
-        </div>
+        </Flex>
     )
 })
 

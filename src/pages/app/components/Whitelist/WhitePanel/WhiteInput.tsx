@@ -8,14 +8,14 @@
 import { t } from "@app/locale"
 import { Check, Close } from "@element-plus/icons-vue"
 import { useRequest, useShadow } from "@hooks"
+import Box from "@pages/components/Box"
 import siteService from "@service/site-service"
 import { isRemainHost } from "@util/constant/remain-host"
 import { isValidHost, judgeVirtualFast } from "@util/pattern"
 import { ElButton, ElMessage, ElOption, ElSelect, ElTag } from "element-plus"
-import { defineComponent } from "vue"
-import './style.sass'
+import { defineComponent, StyleValue } from "vue"
 
-async function handleRemoteSearch(query: string): Promise<timer.site.SiteInfo[]> {
+async function remoteSearch(query: string): Promise<timer.site.SiteInfo[]> {
     if (!query) return []
 
     let sites: timer.site.SiteInfo[] = await siteService.selectAll({ fuzzyQuery: query })
@@ -28,31 +28,35 @@ async function handleRemoteSearch(query: string): Promise<timer.site.SiteInfo[]>
     return [target, ...sites]
 }
 
-const _default = defineComponent({
-    props: {
-        defaultValue: String,
-    },
-    emits: {
-        save: (_white: string) => true,
-        cancel: () => true,
-    },
-    setup(props, ctx) {
-        const [white, setWhite, resetWhite] = useShadow(() => props.defaultValue)
-        const { data: sites, refresh: search, loading: searching } = useRequest(handleRemoteSearch)
+type Props = {
+    defaultValue?: string
+    onSave?: (white: string) => void
+    onCancel?: () => void
+    end?: boolean
+}
 
-        const handleSubmit = () => {
-            const val = white.value
-            if (!val) return
-            if (isRemainHost(val) || isValidHost(val) || judgeVirtualFast(val)) {
-                ctx.emit("save", val)
-            } else {
-                ElMessage.warning(t(msg => msg.whitelist.errorInput))
-            }
+const _default = defineComponent<Props>(props => {
+    const [white, setWhite, resetWhite] = useShadow(() => props.defaultValue)
+    const { data: sites, refresh: search, loading: searching } = useRequest(remoteSearch)
+
+    const handleSubmit = () => {
+        const val = white.value
+        if (!val) return
+        if (isRemainHost(val) || isValidHost(val) || judgeVirtualFast(val)) {
+            props.onSave?.(val)
+        } else {
+            ElMessage.warning(t(msg => msg.whitelist.errorInput))
         }
+    }
+    const handleCancel = () => {
+        resetWhite()
+        props.onCancel?.()
+    }
 
-        return () => <div class="item-input-container">
+    return () => (
+        <Box style={{ marginInlineEnd: props.end ? 'auto' : undefined }}>
             <ElSelect
-                class="input-new-tag editable-item whitelist-item-input"
+                style={{ width: '160px' }}
                 modelValue={white.value}
                 onChange={setWhite}
                 placeholder={t(msg => msg.item.host)}
@@ -70,23 +74,10 @@ const _default = defineComponent({
                     </ElTag>
                 </ElOption>)}
             </ElSelect>
-            <ElButton
-                size="small"
-                icon={<Close />}
-                class="item-cancel-button editable-item"
-                onClick={() => {
-                    resetWhite()
-                    ctx.emit("cancel")
-                }}
-            />
-            <ElButton
-                size="small"
-                icon={<Check />}
-                class="item-check-button editable-item"
-                onClick={handleSubmit}
-            />
-        </div>
-    }
-})
+            <ElButton icon={Close} onClick={handleCancel} />
+            <ElButton icon={Check} onClick={handleSubmit} style={{ marginLeft: 0 } satisfies StyleValue} />
+        </Box>
+    )
+}, { props: ['defaultValue', 'onCancel', 'onSave', 'end'] })
 
 export default _default

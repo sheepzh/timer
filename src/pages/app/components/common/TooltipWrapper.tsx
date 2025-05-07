@@ -1,31 +1,24 @@
-import { useState } from "@hooks/useState"
-import { ElTooltip, type Placement, type PopperEffect, type PopperTrigger } from "element-plus"
-import { defineComponent, toRef, type PropType } from "vue"
+import { ElTooltip, ElTooltipProps } from "element-plus"
+import { defineComponent, ref, useSlots } from "vue"
 
-const TooltipWrapper = defineComponent({
-    props: {
-        usePopover: Boolean,
-        placement: String as PropType<Placement>,
-        effect: String as PropType<PopperEffect>,
-        trigger: String as PropType<PopperTrigger>,
-        offset: Number,
-    },
-    setup(props, ctx) {
-        const [visible, setVisible] = useState(false)
-        const usePopover = toRef(props, 'usePopover')
+type Props = PartialPick<ElTooltipProps, 'placement' | 'effect' | 'trigger' | 'offset'> & {
+    usePopover?: boolean
+}
 
-        return () => (
-            <ElTooltip
-                visible={!!usePopover.value && visible.value}
-                onUpdate:visible={setVisible}
-                placement={props.placement}
-                effect={props.effect}
-                offset={props.offset}
-                trigger={props.trigger}
-                v-slots={ctx.slots}
-            />
-        )
-    }
-})
+const TooltipWrapper = defineComponent<Props>(props => {
+    const visible = ref(false)
+
+    return () => (
+        <ElTooltip
+            visible={props.usePopover && visible.value}
+            onUpdate:visible={v => visible.value = v}
+            placement={props.placement}
+            effect={props.effect}
+            offset={props.offset}
+            trigger={props.trigger}
+            v-slots={useSlots()}
+        />
+    )
+}, { props: ['effect', 'offset', 'placement', 'trigger', 'usePopover'] })
 
 export default TooltipWrapper

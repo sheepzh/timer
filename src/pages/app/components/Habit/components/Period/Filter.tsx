@@ -8,6 +8,7 @@
 import SelectFilterItem from '@app/components/common/filter/SelectFilterItem'
 import { t } from '@app/locale'
 import { type HabitMessage } from '@i18n/message/app/habit'
+import Flex from '@pages/components/Flex'
 import { ElRadioButton, ElRadioGroup } from 'element-plus'
 import { defineComponent } from 'vue'
 import { type ChartType } from './common'
@@ -40,7 +41,7 @@ const _default = defineComponent(() => {
     const filter = usePeriodFilter()
 
     return () => (
-        <div class='habit-filter-container'>
+        <Flex justify="space-between">
             <SelectFilterItem
                 historyName='periodSize'
                 defaultValue={filter.periodSize?.toString?.()}
@@ -62,7 +63,7 @@ const _default = defineComponent(() => {
                     </ElRadioButton>
                 ))}
             </ElRadioGroup>
-        </div>
+        </Flex>
     )
 })
 

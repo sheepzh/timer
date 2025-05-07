@@ -19,13 +19,8 @@ const Waste = defineComponent({
         allowDelay: Boolean,
     },
     setup(props) {
-        const timeType = computed(() => {
-            return meetTimeLimit(props.time, props.waste, props.allowDelay, props.delayCount) ? 'danger' : 'info'
-        })
-
-        const visitType = computed(() => {
-            return meetLimit(props.count, props.visit) ? 'danger' : 'info'
-        })
+        const timeType = computed(() => meetTimeLimit(props.time, props.waste, props.allowDelay, props.delayCount) ? 'danger' : 'info')
+        const visitType = computed(() => meetLimit(props.count, props.visit) ? 'danger' : 'info')
 
         return () => (
             <Flex column gap={5}>

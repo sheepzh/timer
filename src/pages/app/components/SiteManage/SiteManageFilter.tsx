@@ -66,25 +66,18 @@ const _default = defineComponent({
             key: 'change',
             label: t(msg => msg.siteManage.cate.batchChange),
             icon: Grid,
+            onClick: () => ctx.emit('batchChangeCate'),
         }, {
             key: 'disassociate',
             label: t(msg => msg.siteManage.cate.batchDisassociate),
             icon: Connection,
+            onClick: () => ctx.emit('batchDisassociate'),
         }, {
             key: 'delete',
             label: t(msg => msg.button.batchDelete),
             icon: Delete,
+            onClick: () => ctx.emit('batchDelete'),
         }]
-
-        const handleBatchClick = (key: BatchOpt) => {
-            if (key === 'change') {
-                ctx.emit('batchChangeCate')
-            } else if (key === 'disassociate') {
-                ctx.emit('batchDisassociate')
-            } else if (key === 'delete') {
-                ctx.emit('batchDelete')
-            }
-        }
 
         return () => (
             <Flex gap={10} justify="space-between">
@@ -107,7 +100,7 @@ const _default = defineComponent({
                     />
                 </Flex>
                 <Flex gap={10}>
-                    <DropdownButton items={items} onClick={key => handleBatchClick(key as BatchOpt)} />
+                    <DropdownButton items={items} />
                     <ButtonFilterItem
                         text={t(msg => msg.button.create)}
                         icon={<Plus />}

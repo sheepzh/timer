@@ -1,6 +1,6 @@
 export type LimitReason =
-    & Required<Pick<timer.limit.Rule, 'id' | 'cond'>>
-    & Partial<Pick<timer.limit.Item, 'delayCount' | 'allowDelay'>>
+    & RequiredPick<timer.limit.Rule, 'id' | 'cond'>
+    & PartialPick<timer.limit.Item, 'delayCount' | 'allowDelay'>
     & {
         type: timer.limit.ReasonType
         getVisitTime?: () => number
