@@ -5,7 +5,19 @@
             "title1": "近一年上网总时长不足 1 小时"
         },
         "topK": {
-            "title": "近 {day} 天最常访问 TOP {k}"
+            "title": "近 {day} 天最常访问 TOP {k}",
+            "filter": {
+                "chartType": {
+                    "pie": "玫瑰图",
+                    "bar": "条形图",
+                    "halfPie": "半环图"
+                },
+                "k": {
+                    "6": "前6位",
+                    "8": "前8位",
+                    "10": "前10位"
+                }
+            }
         },
         "indicator": {
             "installedDays": "已使用 {number} 天",
@@ -23,7 +35,19 @@
             "title1": "近一年瀏覽時數少於 1 小時"
         },
         "topK": {
-            "title": "近 {day} 天最常造訪 TOP {k}"
+            "title": "近 {day} 天最常造訪 TOP {k}",
+            "filter": {
+                "chartType": {
+                    "pie": "玫瑰圖",
+                    "bar": "條形圖",
+                    "halfPie": "半環圖"
+                },
+                "k": {
+                    "6": "前6位",
+                    "8": "前8位",
+                    "10": "前10位"
+                }
+            }
         },
         "indicator": {
             "installedDays": "已使用 {number} 天",
@@ -41,7 +65,19 @@
             "title1": "Browsed less than 1 hour last year"
         },
         "topK": {
-            "title": "TOP {k} most visited in the past {day} days"
+            "title": "TOP {k} most visited in the past {day} days",
+            "filter": {
+                "chartType": {
+                    "pie": "Nightingale",
+                    "bar": "Bar",
+                    "halfPie": "Half Doughnut"
+                },
+                "k": {
+                    "6": "top 6",
+                    "8": "top 8",
+                    "10": "top 10"
+                }
+            }
         },
         "indicator": {
             "installedDays": "Installed for {number} days",
