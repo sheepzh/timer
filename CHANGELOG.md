@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [3.4.3] - 2025-05-08
+
+-   Optimized UI of top-k on the dashboard page (#466)
+-   Limited the maximum date range for habit analysis
+
 ## [3.4.2] - 2025-04-30
 
 -   Fixed the error of i18n
