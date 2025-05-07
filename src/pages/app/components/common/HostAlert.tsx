@@ -27,12 +27,22 @@ const HostAlert = defineComponent<Props>(props => {
     const style = computed<StyleValue>(() => ({ cursor: clickable.value ? "cursor" : "default" }))
     return () => <div style={{ wordBreak: "break-all" }}>
         {IS_SAFARI ? (
-            <ElLink href={href.value} target={target.value} underline={clickable.value} style={style.value}>
+            <ElLink
+                href={href.value}
+                target={target.value}
+                underline={clickable.value ? "hover" : "never"}
+                style={style.value}
+            >
                 {props.value?.host}
             </ElLink>
         ) : (
             <Flex justify="center" align="center" gap={3} >
-                <ElLink href={href.value} target={target.value} underline={clickable.value} style={style.value}>
+                <ElLink
+                    href={href.value}
+                    target={target.value}
+                    underline={clickable.value ? "hover" : "never"}
+                    style={style.value}
+                >
                     {props.value?.host}
                 </ElLink>
                 {props.iconUrl &&

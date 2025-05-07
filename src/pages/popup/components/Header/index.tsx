@@ -31,7 +31,7 @@ const Header = defineComponent(() => {
                 <Flex gap={10}>
                     <Extra />
                     <ElLink
-                        underline={false}
+                        underline="never"
                         onClick={handleAllFuncClick}
                         icon={<View />}
                         style={{ gap: '3px' }}

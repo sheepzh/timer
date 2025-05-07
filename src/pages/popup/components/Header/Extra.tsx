@@ -50,7 +50,7 @@ const Extra = defineComponent(() => {
                         reference: () => (
                             <ElLink
                                 type="success"
-                                underline={!IS_FIREFOX}
+                                underline={IS_FIREFOX ? "never" : "hover"}
                                 icon={<Download />}
                                 onClick={handleUpgradeClick}
                             >
@@ -63,7 +63,7 @@ const Extra = defineComponent(() => {
             return (
                 <ElLink
                     type="danger"
-                    underline={false}
+                    underline="never"
                     onClick={handleRateClick}
                     style={{ gap: '3px' }}
                     icon={HeartIcon}

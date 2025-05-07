@@ -10,65 +10,61 @@ import { dateFormat } from "@i18n/element"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
 import { getDatePickerIconSlots } from "@pages/element-ui/rtl"
 import { ElDatePicker } from "element-plus"
-import { defineComponent, type PropType, ref, StyleValue } from "vue"
+import { defineComponent, type StyleValue, toRaw, toRef } from "vue"
 
 const clearShortcut = (): ElementDatePickerShortcut => ({
     text: t(msg => msg.button.clear),
     value: [new Date(0), new Date(0)],
 })
 
-const _default = defineComponent({
-    props: {
-        defaultRange: {
-            type: Object as PropType<[Date, Date] | undefined>,
-            required: true,
-        },
-        disabledDate: Function,
-        startPlaceholder: String,
-        endPlaceholder: String,
-        shortcuts: Array as PropType<ElementDatePickerShortcut[]>,
-        clearable: {
-            type: Boolean,
-            default: true
-        }
-    },
-    emits: {
-        change: (_value: [Date, Date] | undefined) => true
-    },
-    setup(props, ctx) {
-        const handleChange = (newVal: [Date, Date] | undefined) => {
-            const [start, end] = newVal || []
-            const isClearChosen = start?.getTime?.() === 0 && end?.getTime?.() === 0
-            if (isClearChosen) newVal = undefined
-            ctx.emit("change", dateRange.value = newVal)
-        }
-        const shortcuts = () => {
-            const { shortcuts: value, clearable } = props
-            if (!value?.length || !clearable) return value
-            return [...value, clearShortcut()]
-        }
+type Props = {
+    modelValue: [Date, Date] | undefined
+    disabledDate?: (date: Date) => boolean
+    startPlaceholder?: string
+    endPlaceholder?: string
+    shortcuts?: ElementDatePickerShortcut[]
+    clearable?: boolean
+    onChange: (val: [Date, Date] | undefined) => void
+}
 
-        const dateRange = ref(props.defaultRange)
+const DateRangeFilterItem = defineComponent<Props>(props => {
+    const handleChange = (newVal: [Date, Date] | undefined) => {
+        const [start, end] = newVal || []
+        const isClearChosen = !start?.getTime?.() && !end?.getTime?.()
+        if (isClearChosen) newVal = undefined
+        props.onChange(newVal)
+    }
 
-        return () => <span class="filter-item">
+    const clearable = toRef(props, "clearable", true)
+
+    const shortcuts = () => {
+        const { shortcuts: value } = props
+        if (!value?.length || !clearable.value) return value
+        return [...value, clearShortcut()]
+    }
+
+    return () => (
+        <span class="filter-item">
             <ElDatePicker
-                modelValue={dateRange.value}
+                modelValue={props.modelValue}
                 format={dateFormat()}
                 type="daterange"
                 rangeSeparator="-"
                 disabledDate={props.disabledDate}
                 shortcuts={shortcuts()}
-                onUpdate:modelValue={(newVal: [Date, Date]) => handleChange(newVal)}
+                onUpdate:modelValue={newVal => handleChange(toRaw(newVal))}
                 startPlaceholder={props.startPlaceholder}
                 endPlaceholder={props.endPlaceholder}
-                clearable={props.clearable}
+                clearable={clearable.value}
                 style={{
                     "--el-date-editor-width": "240px",
                 } satisfies StyleValue}
                 v-slots={getDatePickerIconSlots()}
             />
         </span>
-    }
+    )
+}, {
+    props: ["clearable", "disabledDate", "endPlaceholder", "modelValue", "onChange", "shortcuts", "startPlaceholder"],
 })
 
-export default _default
+export default DateRangeFilterItem

@@ -10,7 +10,7 @@ import TimeFormatFilterItem from "@app/components/common/filter/TimeFormatFilter
 import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElementDatePickerShortcut } from "@pages/element-ui/date"
-import { daysAgo } from "@util/time"
+import { daysAgo, MILL_PER_DAY } from "@util/time"
 import { defineComponent } from "vue"
 import { useHabitFilter } from "./context"
 
@@ -22,7 +22,8 @@ const shortcutProps: ShortCutProp[] = [
     [t(msg => msg.calendar.range.lastDays, { n: 7 }), 7],
     [t(msg => msg.calendar.range.lastDays, { n: 15 }), 15],
     [t(msg => msg.calendar.range.lastDays, { n: 30 }), 30],
-    [t(msg => msg.calendar.range.lastDays, { n: 60 }), 60],
+    [t(msg => msg.calendar.range.lastDays, { n: 180 }), 180],
+    [t(msg => msg.calendar.range.lastDays, { n: 365 }), 365],
 ]
 
 const SHORTCUTS: ElementDatePickerShortcut[] = shortcutProps.map(([text, agoOfStart]) => ({ text, value: daysAgo(agoOfStart, 0) }))
@@ -34,9 +35,10 @@ const _default = defineComponent(() => {
         <Flex gap={10}>
             <DateRangeFilterItem
                 clearable={false}
-                defaultRange={filter.dateRange}
+                modelValue={filter.dateRange}
                 shortcuts={SHORTCUTS}
                 onChange={val => val && (filter.dateRange = val)}
+                disabledDate={d => d.getTime() < Date.now() - MILL_PER_DAY * 366}
             />
             <TimeFormatFilterItem
                 modelValue={filter.timeFormat}

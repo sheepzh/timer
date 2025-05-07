@@ -65,7 +65,7 @@ const _default = defineComponent({
                                 icon={loading.value ? <Loading /> : <RefreshRight />}
                                 onClick={refresh}
                                 type="primary"
-                                underline={false}
+                                underline="never"
                             />
                         ),
                         default: ({ row }: ElTableRowScope<timer.backup.Client>) => (

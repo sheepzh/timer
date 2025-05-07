@@ -54,7 +54,7 @@ const _default = defineComponent<Props>(props => {
                     endPlaceholder={t(msg => msg.calendar.label.endDate)}
                     disabledDate={(date: Date | number) => new Date(date) > new Date()}
                     shortcuts={dateShortcuts}
-                    defaultRange={filter.dateRange}
+                    modelValue={filter.dateRange}
                     onChange={val => filter.dateRange = val}
                 />
                 <CategoryFilter

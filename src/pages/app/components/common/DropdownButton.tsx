@@ -30,7 +30,7 @@ const DropdownButton = defineComponent<{ items: DropdownButtonItem<unknown>[] }>
                 <ElDropdown
                     placement="bottom-end"
                     v-slots={{
-                        default: () => <ElLink type="primary" underline={false} icon={ArrowDown} />,
+                        default: () => <ElLink type="primary" underline="never" icon={ArrowDown} />,
                         dropdown: () => (
                             <ElDropdownMenu>
                                 {list.value?.map(({ icon, label, key }) => (
