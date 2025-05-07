@@ -53,7 +53,7 @@ const _default = defineComponent((_, ctx) => {
         refresh?.()
     }
 
-    const instance: ModifyInstance = {
+    ctx.expose({
         create() {
             open()
             mode.value = 'create'
@@ -66,9 +66,7 @@ const _default = defineComponent((_, ctx) => {
             modifyingItem = { ...row }
             nextTick(() => sop.value?.reset?.(toRaw(row)))
         },
-    }
-
-    ctx.expose(instance)
+    } satisfies ModifyInstance)
 
     return () => (
         <ElDialog

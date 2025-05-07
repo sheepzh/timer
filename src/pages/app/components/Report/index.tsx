@@ -5,9 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { useMediaSize } from "@hooks"
-import { MediaSize } from "@hooks/useMediaSize"
-import { computed, defineComponent } from "vue"
+import { useXsState } from "@hooks/useMediaSize"
+import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
 import { initReportContext } from "./context"
 import ReportFilter from "./ReportFilter"
@@ -16,8 +15,7 @@ import ReportTable from "./ReportTable"
 
 const _default = defineComponent(() => {
     const { comp } = initReportContext()
-    const mediaSize = useMediaSize()
-    const isXs = computed(() => mediaSize.value === MediaSize.xs)
+    const isXs = useXsState()
 
     return () => <ContentContainer v-slots={{
         filter: () => <ReportFilter hideCateFilter={isXs.value} />,

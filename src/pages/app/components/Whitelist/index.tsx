@@ -5,20 +5,26 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
-import { ElCard } from "element-plus"
+import { ElAlert, ElCard } from "element-plus"
 import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import '../common/editable-tag'
-import AlertInfo from "./AlertInfo"
 import WhitePanel from "./WhitePanel"
 
-const _default = defineComponent({
-    render: () => (
+const _default = defineComponent(() => {
+    return () => (
         <ContentContainer>
             <ElCard>
-                <Flex column gap={20}>
-                    <AlertInfo />
+                <Flex gap={20} column>
+                    <ElAlert
+                        title={t(msg => msg.whitelist.infoAlertTitle)}
+                        style={{ padding: "15px 25px" }}
+                        closable={false}
+                    >
+                        <li>{t(msg => msg.whitelist.infoAlert0)}</li>
+                        <li>{t(msg => msg.whitelist.infoAlert1)}</li>
+                    </ElAlert>
                     <WhitePanel />
                 </Flex>
             </ElCard>

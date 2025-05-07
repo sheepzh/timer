@@ -11,7 +11,7 @@ type Context = {
 
 const NAMESPACE = 'report'
 
-type QueryPartial = Partial<Pick<ReportFilterOption, 'dateRange' | 'mergeDate' | 'siteMerge'>>
+type QueryPartial = PartialPick<ReportFilterOption, 'dateRange' | 'mergeDate' | 'siteMerge'>
 
 /**
  * Init the query parameters

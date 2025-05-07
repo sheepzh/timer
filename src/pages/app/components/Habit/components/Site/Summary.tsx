@@ -1,6 +1,9 @@
+import { GRID_CELL_STYLE } from "@app/components/common/grid"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
+import { useXsState } from "@hooks/useMediaSize"
+import Flex from "@pages/components/Flex"
 import { sum } from "@util/array"
 import { computed, defineComponent } from "vue"
 import { FilterOption, useHabitFilter } from "../context"
@@ -51,15 +54,20 @@ const _default = defineComponent(() => {
     const filter = useHabitFilter()
     const rows = useRows()
     const summary = computed(() => computeSummary(rows.value, filter))
+    const isXs = useXsState()
 
     return () => (
-        <div class="summary-container">
+        <Flex
+            flex={isXs.value ? undefined : 4}
+            column gap={1}
+        >
             <KanbanIndicatorCell
                 mainName={t(msg => msg.analysis.common.focusTotal)}
                 mainValue={periodFormatter(summary.value?.focus?.total, { format: filter.timeFormat })}
                 subTips={msg => msg.habit.common.focusAverage}
                 subValue={periodFormatter(summary.value?.focus?.average, { format: filter.timeFormat })}
                 subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : undefined}
+                containerStyle={GRID_CELL_STYLE}
             />
             <KanbanIndicatorCell
                 mainName={t(msg => msg.habit.site.countTotal)}
@@ -67,8 +75,9 @@ const _default = defineComponent(() => {
                 subTips={msg => msg.habit.site.siteAverage}
                 subValue={summary.value?.count?.siteAverage?.toFixed(0) || '-'}
                 subInfo={summary.value?.exclusiveToday4Average ? t(msg => msg.habit.site.exclusiveToday) : undefined}
+                containerStyle={GRID_CELL_STYLE}
             />
-        </div>
+        </Flex>
     )
 })
 

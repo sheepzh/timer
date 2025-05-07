@@ -7,12 +7,14 @@
 import { KanbanCard } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
+import { useXsState } from "@hooks/useMediaSize"
+import Flex from "@pages/components/Flex"
 import { defineComponent } from "vue"
 import { useAnalysisTimeFormat } from "../../context"
 import { initAnalysisTrend } from "./context"
 import Dimension from "./Dimension"
 import Filter from "./Filter"
-import './style.sass'
+import { GRID_WRAPPER_STYLE } from "../../../common/grid"
 import Total from "./Total"
 
 const visitFormatter = (val: number | undefined) => (Number.isInteger(val) ? val?.toString() : val?.toFixed(1)) ?? '-'
@@ -20,13 +22,14 @@ const visitFormatter = (val: number | undefined) => (Number.isInteger(val) ? val
 const _default = defineComponent(() => {
     const timeFormat = useAnalysisTimeFormat()
     const { visitData, focusData, indicators, previousIndicators } = initAnalysisTrend()
+    const isXs = useXsState()
 
     return () => (
         <KanbanCard
             title={t(msg => msg.analysis.trend.title)}
             v-slots={{ filter: () => <Filter /> }}
         >
-            <div class="analysis-trend-content">
+            <Flex gap={1} column={isXs.value} style={GRID_WRAPPER_STYLE}>
                 <Total
                     activeDay={[indicators.value?.activeDay, previousIndicators.value?.activeDay]}
                     visit={[indicators.value?.visit?.total, previousIndicators.value?.visit?.total]}
@@ -52,7 +55,7 @@ const _default = defineComponent(() => {
                     data={visitData.value}
                     chartTitle={t(msg => msg.analysis.trend.visitTitle)}
                 />
-            </div>
+            </Flex>
         </KanbanCard>
     )
 })

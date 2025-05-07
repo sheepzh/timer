@@ -9,7 +9,6 @@ import Flex from "@pages/components/Flex"
 import { ElCard } from "element-plus"
 import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
-import '../common/editable-tag'
 import AlertInfo from "./AlertInfo"
 import ItemList from "./ItemList"
 

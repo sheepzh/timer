@@ -7,48 +7,42 @@
 
 import { t } from "@app/locale"
 import { type ButtonType, ElButton, ElPopconfirm } from "element-plus"
-import { defineComponent, type PropType } from "vue"
+import { defineComponent } from "vue"
 import { type JSX } from "vue/jsx-runtime"
 
-const _default = defineComponent({
-    props: {
-        confirmText: String,
-        buttonText: String,
-        text: Boolean,
-        buttonType: String as PropType<ButtonType>,
-        buttonIcon: Object as PropType<JSX.Element>,
-        visible: {
-            type: Boolean,
-            default: true,
-        }
-    },
-    emits: {
-        confirm: () => true,
-    },
-    setup(props, ctx) {
-        return () => (
-            <ElPopconfirm
-                confirmButtonText={t(msg => msg.button.okey)}
-                cancelButtonText={t(msg => msg.button.dont)}
-                title={props.confirmText}
-                width={300}
-                onConfirm={() => ctx.emit("confirm")}
-                v-slots={{
-                    reference: () => (
-                        <ElButton
-                            v-show={props.visible}
-                            size="small"
-                            text={props.text}
-                            type={props.buttonType}
-                            icon={props.buttonIcon}
-                        >
-                            {props.buttonText}
-                        </ElButton>
-                    )
-                }}
-            />
-        )
-    }
-})
+type Props = {
+    confirmText?: string
+    buttonText?: string
+    text?: boolean
+    buttonType?: ButtonType
+    buttonIcon?: JSX.Element
+    visible?: boolean
+    onConfirm?: () => void
+}
 
-export default _default
+const PopupConfirmButton = defineComponent<Props>(props => {
+    return () => (
+        <ElPopconfirm
+            confirmButtonText={t(msg => msg.button.okey)}
+            cancelButtonText={t(msg => msg.button.dont)}
+            title={props.confirmText}
+            width={300}
+            onConfirm={props.onConfirm}
+            v-slots={{
+                reference: () => (
+                    <ElButton
+                        v-show={props.visible ?? true}
+                        size="small"
+                        text={props.text}
+                        type={props.buttonType}
+                        icon={props.buttonIcon}
+                    >
+                        {props.buttonText}
+                    </ElButton>
+                )
+            }}
+        />
+    )
+}, { props: ['buttonIcon', 'buttonText', 'buttonType', 'confirmText', 'onConfirm', 'text', 'visible'] })
+
+export default PopupConfirmButton

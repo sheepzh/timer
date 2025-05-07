@@ -9,9 +9,11 @@ import type { RingValue } from "@app/components/Analysis/util"
 import { KanbanIndicatorCell } from "@app/components/common/kanban"
 import { t } from "@app/locale"
 import { periodFormatter } from "@app/util/time"
-import { defineComponent } from "vue"
+import Flex from "@pages/components/Flex"
+import { defineComponent, StyleValue } from "vue"
 import { useAnalysisTimeFormat } from "../../context"
 import { useAnalysisTrendRangeLength } from "./context"
+import { GRID_CELL_STYLE } from "../../../common/grid"
 
 const computeDayValue = (activeDay: RingValue | undefined, rangeLength: number) => {
     const thisActiveDay = activeDay?.[0]
@@ -20,28 +22,36 @@ const computeDayValue = (activeDay: RingValue | undefined, rangeLength: number) 
 
 type Props = Record<'activeDay' | 'visit' | 'focus', RingValue>
 
+const INDICATOR_CONTAINER_STYLE: StyleValue = {
+    ...GRID_CELL_STYLE,
+    flex: 1, width: '100%',
+}
+
 const _default = defineComponent<Props>(props => {
     const rangeLength = useAnalysisTrendRangeLength()
     const timeFormat = useAnalysisTimeFormat()
     return () => (
-        <div class="analysis-trend-total-container">
+        <Flex flex={1} column gap={1}>
             <KanbanIndicatorCell
                 mainName={`${t(msg => msg.analysis.trend.activeDay)}/${t(msg => msg.analysis.trend.totalDay)}`}
                 mainValue={computeDayValue(props.activeDay, rangeLength.value)}
                 subRing={props.activeDay}
+                containerStyle={INDICATOR_CONTAINER_STYLE}
             />
             <KanbanIndicatorCell
                 mainName={t(msg => msg.analysis.common.focusTotal)}
                 mainValue={periodFormatter(props.focus?.[0], { format: timeFormat.value })}
                 subRing={props.focus}
                 valueFormatter={delta => periodFormatter(delta, { format: timeFormat.value })}
+                containerStyle={INDICATOR_CONTAINER_STYLE}
             />
             <KanbanIndicatorCell
                 mainName={t(msg => msg.analysis.common.visitTotal)}
                 mainValue={props.visit?.[0]?.toString() || '-'}
                 subRing={props.visit}
+                containerStyle={INDICATOR_CONTAINER_STYLE}
             />
-        </div>
+        </Flex>
     )
 }, { props: ['activeDay', 'focus', 'visit'] })
 

@@ -77,7 +77,7 @@ const formatTimeTooltip = (params: TopLevelFormatterParams, format: timer.app.Ti
 
 const lineOptionOf = (
     areaColor: LinearGradientObject,
-    baseOption: Required<Pick<LineSeriesOption, 'data' | 'name' | 'yAxisIndex'>>
+    baseOption: RequiredPick<LineSeriesOption, 'data' | 'name' | 'yAxisIndex'>,
 ): LineSeriesOption => {
     return {
         type: 'line',
