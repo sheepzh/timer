@@ -6,14 +6,15 @@
  */
 
 import { t } from "@app/locale"
-import { useMediaSize, useRequest } from "@hooks"
+import { useManualRequest, useMediaSize, useRequest } from "@hooks"
 import { MediaSize } from "@hooks/useMediaSize"
 import { isTranslatingLocale, locale } from "@i18n"
+import Flex from "@pages/components/Flex"
 import metaService from "@service/meta-service"
 import { REVIEW_PAGE } from "@util/constant/url"
 import { useWindowSize } from "@vueuse/core"
 import { ElRow } from "element-plus"
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, useSlots } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import Calendar from "./components/Calendar"
@@ -25,17 +26,29 @@ import "./style"
 
 const ROW_GUTTER = 15
 
+const Link = defineComponent<{ onClick?: () => void }>(({ onClick }) => {
+    const slots = useSlots()
+    return () => (
+        <Flex
+            width="100%"
+            cursor="pointer"
+            color="text-primary"
+            justify="center"
+            align="center"
+            fontSize={14}
+            onClick={onClick}
+            v-slots={slots}
+        />
+    )
+})
+
 const _default = defineComponent(() => {
     const router = useRouter()
     const jump2Help = () => router.push({ path: "/other/help" })
     const isNotEnOrZhCn = locale !== "en" && locale !== "zh_CN"
     const showHelp = isTranslatingLocale() || isNotEnOrZhCn
     const { data: showRate, refresh } = useRequest(metaService.recommendRate)
-
-    const handleRate = async () => {
-        await metaService.saveFlag("rateOpen")
-        refresh()
-    }
+    const { refresh: handleRate } = useManualRequest(() => metaService.saveFlag("rateOpen"), { onSuccess: refresh })
 
     const { width } = useWindowSize()
     const mediaSize = useMediaSize()
@@ -72,15 +85,23 @@ const _default = defineComponent(() => {
                 </DashboardCard>
             </ElRow>
             <ElRow v-show={showHelp || showRate.value}>
-                <span class="help-us-link" v-show={showRate.value}>
-                    🌟 {t(msg => msg.about.text.greet)}&ensp;
-                    <a href={REVIEW_PAGE} target="_blank" onClick={handleRate}>
-                        {t(msg => msg.about.text.rate)}
-                    </a>
-                </span>
-                <span class="help-us-link" v-show={!showRate.value} onClick={jump2Help}>
-                    💡 Help us translate this extension/addon into your native language!
-                </span>
+                {showRate.value ? (
+                    <Link>
+                        🌟 {t(msg => msg.about.text.greet)}&ensp;
+                        <a
+                            href={REVIEW_PAGE}
+                            target="_blank"
+                            onClick={handleRate}
+                            style={{ color: 'inherit' }}
+                        >
+                            {t(msg => msg.about.text.rate)}
+                        </a>
+                    </Link>
+                ) : (
+                    <Link onClick={jump2Help}>
+                        💡 Help us translate this extension/addon into your native language!
+                    </Link>
+                )}
             </ElRow>
         </ContentContainer>
     )

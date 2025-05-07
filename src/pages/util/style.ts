@@ -48,7 +48,3 @@ export function getSecondaryTextColor(): string | undefined {
 export function getInfoColor(): string | undefined {
     return getCssVariable("--el-color-info")
 }
-
-export function classNames(...names: (string | boolean | number | undefined)[]): string {
-    return names?.filter(n => typeof n === 'string' && n).join(' ')
-}

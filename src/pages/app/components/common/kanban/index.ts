@@ -7,8 +7,6 @@
 
 import Card from "./Card"
 import IndicatorCell from "./IndicatorCell"
-import IndicatorRow from "./IndicatorRow"
 
 export const KanbanIndicatorCell = IndicatorCell
 export const KanbanCard = Card
-export const KanbanIndicatorRow = IndicatorRow

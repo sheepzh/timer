@@ -9,7 +9,6 @@ import { getUrl } from "@api/chrome/runtime"
 import { t } from "@app/locale"
 import { CloseBold, Link, Menu } from "@element-plus/icons-vue"
 import { useSwitch } from "@hooks"
-import { classNames } from "@pages/util/style"
 import { ElBreadcrumb, ElBreadcrumbItem, ElIcon, ElMenu, ElMenuItem } from "element-plus"
 import { defineComponent, h, onBeforeMount, ref, watch } from "vue"
 import { useRouter } from "vue-router"
@@ -36,7 +35,7 @@ const _default = defineComponent(() => {
     onBeforeMount(() => initTitle(router))
 
     return () => (
-        <div class={classNames("nav-container", showMenu.value ? 'open' : 'close')}>
+        <div class={["nav-container", showMenu.value ? 'open' : 'close']}>
             <div class="nav-content">
                 <div class="bread-wrapper">
                     <ElIcon>

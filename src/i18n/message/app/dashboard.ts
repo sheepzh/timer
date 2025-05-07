@@ -16,10 +16,9 @@ export type DashboardMessage = {
         title: string
         filter: {
             chartType: {
-                [key: string]: string
-            }
-            k: {
-                [key: string]: string
+                pie: string
+                bar: string
+                halfPie: string
             }
         }
     }

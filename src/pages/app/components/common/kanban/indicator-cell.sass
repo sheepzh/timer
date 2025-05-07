@@ -1,41 +1,19 @@
-.kanban-indicator-cell-container
+
+.kanban-indicator-cell-sub-tip
     display: flex
-    flex-direction: column
-    justify-content: center
-    position: relative
-    padding-left: 40px
-    padding-top: 10px
-    padding-bottom: 10px
-    padding-right: 20px
-    min-height: 140px
-    box-sizing: border-box
-    .kanban-indicator-cell-name
-        font-size: 14px
-        color: var(--el-text-color-secondary)
-    .kanban-indicator-cell-val
-        font-size: 24px
-        margin-block-end: 0.6em
-        margin-block-start: 0.25em
-    .kanban-indicator-cell-sub-tip
+    flex-wrap: wrap
+    align-items: center
+    height: 17px
+    line-height: 17px
+    font-size: 12px
+    word-break: break-word
+    color: var(--el-text-color-secondary)
+    .icon-wrapper
         display: flex
-        flex-wrap: wrap
-        align-items: center
-        height: 17px
-        line-height: 17px
-        font-size: 12px
-        word-break: break-word
-        color: var(--el-text-color-secondary)
-        .icon-wrapper
-            display: flex
-        .icon-wrapper.increase
-            color: var(--timer-chart-increase-color)
-        .icon-wrapper.decrease
-            color: var(--timer-chart-decrease-color)
-    .kanban-indicator-cell-sub-val,.indicator-ring-growth-value
-        color: var(--el-text-color-primary)
-        margin: 0 3px
-    .kanban-indicator-cell-sub-info
-        display: inline-flex
-        height: 100%
-        align-items: center
-        margin-left: 2px
+    .icon-wrapper.increase
+        color: var(--timer-chart-increase-color)
+    .icon-wrapper.decrease
+        color: var(--timer-chart-decrease-color)
+.kanban-indicator-cell-sub-val,.indicator-ring-growth-value
+    color: var(--el-text-color-primary)
+    margin: 0 3px

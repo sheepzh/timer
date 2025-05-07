@@ -20,7 +20,13 @@ export const useLocalStorage = <T = StorageValue>(key: string, defaultVal?: T): 
     }
 
     try {
-        return [JSON.parse(storedVal), setter]
+        const stored = JSON.parse(storedVal) || {}
+        Object.entries(defaultVal || {}).forEach(([k, v]) => {
+            if (stored[k] === undefined || stored[k] === null) {
+                stored[k] = v
+            }
+        })
+        return [stored, setter]
     } catch { }
 
     return [defaultVal, setter]

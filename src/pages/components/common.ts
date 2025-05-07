@@ -2,29 +2,56 @@ import { type CSSProperties } from "vue"
 
 export type BaseProps = Pick<
     CSSProperties,
-    'width' | 'height' | 'minHeight' | 'boxSizing' | 'cursor' | 'maxWidth' | 'padding' | 'marginTop'
+    | 'position'
+    | 'width' | 'height' | 'minHeight' | 'maxWidth'
+    | 'boxSizing' | 'cursor'
+    | 'padding' | 'paddingBlock' | 'paddingInline'
+    | 'marginTop' | 'marginBlock' | 'marginInline'
+    | 'fontSize'
 > & {
     id?: string
     inline?: boolean
+    color?: 'text-primary' | 'text-secondary' | 'text-regular' | CSSProperties['color']
     class?: string | string[]
     style?: CSSProperties
     onClick?: (ev: MouseEvent) => void
 }
 
 export const ALL_BASE_PROPS: (keyof BaseProps)[] = [
-    'boxSizing', 'class', 'cursor', 'height', 'id', 'inline', 'marginTop', 'maxWidth', 'minHeight', 'onClick', 'padding', 'style', 'width'
+    'marginTop', 'marginBlock', 'marginInline',
+    'maxWidth', 'minHeight', 'width', 'height',
+    'padding', 'paddingBlock', 'paddingInline',
+    'position', 'boxSizing', 'cursor',
+    'color', 'fontSize',
+    'id', 'class', 'style',
+    'inline',
+    'onClick',
 ]
 
 const cvtPxScale = (val: number | string | undefined): string | undefined => typeof val === 'number' ? `${val}px` : val
 
+const cvtColor = (color: BaseProps['color']): CSSProperties['color'] => {
+    if (color === 'text-primary') return 'var(--el-text-color-primary)'
+    if (color === 'text-secondary') return 'var(--el-text-color-secondary)'
+    if (color === 'text-regular') return 'var(--el-text-color-regular)'
+    return color
+}
+
 export const cvt2BaseStyle = (props: BaseProps): CSSProperties => ({
+    position: props.position,
     width: cvtPxScale(props.width),
     height: cvtPxScale(props.height),
     minHeight: cvtPxScale(props.minHeight),
     boxSizing: props.boxSizing,
     cursor: props.cursor,
+    marginInline: cvtPxScale(props.marginInline),
+    marginBlock: cvtPxScale(props.marginBlock),
     marginTop: cvtPxScale(props.marginTop),
     maxWidth: cvtPxScale(props.maxWidth),
     padding: cvtPxScale(props.padding),
+    paddingBlock: cvtPxScale(props.paddingBlock),
+    paddingInline: cvtPxScale(props.paddingInline),
+    color: cvtColor(props.color),
+    fontSize: cvtPxScale(props.fontSize),
     ...props.style ?? {},
 })

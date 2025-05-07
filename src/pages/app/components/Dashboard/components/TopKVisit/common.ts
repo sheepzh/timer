@@ -8,11 +8,3 @@ export const generateGridOption = (): GridComponentOption => {
         right: 20,
     }
 }
-
-export type TopKChartType = 'bar' | 'pie' | 'halfPie'
-
-export type FilterOption = {
-    topK: number
-    topKChartType: TopKChartType
-}
-

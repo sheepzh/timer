@@ -8,10 +8,11 @@
 import { computeRingText, RingValue, ValueFormatter } from "@app/components/Analysis/util"
 import { tN, type I18nKey } from "@app/locale"
 import { BottomRight, InfoFilled, TopRight } from "@element-plus/icons-vue"
-import { classNames } from "@pages/util/style"
+import Box from "@pages/components/Box"
+import Flex from "@pages/components/Flex"
 import { range } from "@util/array"
 import { ElIcon, ElTooltip } from "element-plus"
-import { defineComponent, type PropType, type StyleValue, type VNode } from "vue"
+import { defineComponent, type CSSProperties, type PropType, type VNode } from "vue"
 import type { JSX } from "vue/jsx-runtime"
 import "./indicator-cell.sass"
 
@@ -30,11 +31,11 @@ function renderSubVal(valText: string) {
 function renderComparisonIcons(ring: RingValue): VNode | null {
     const [current = 0, last = 0] = ring
     if (current === last) return null
-    const clz = classNames(
+    const clz = [
         'icon-wrapper',
         current > last && 'increase',
         current < last && 'decrease',
-    )
+    ]
     const icon = current > last ? <TopRight /> : <BottomRight />
     let count = 0
     if (current === 0 || last === 0) {
@@ -76,11 +77,11 @@ function renderSub(props: SubProps): VNode | null {
             subTipsLine.push(subValueSpan)
         }
         subInfo && subTipsLine.push(
-            <span class="kanban-indicator-cell-sub-info">
+            <Flex inline align="center" height="100%" marginInline='2px 0px'>
                 <ElTooltip content={subInfo} placement="bottom">
                     <ElIcon><InfoFilled /></ElIcon>
                 </ElTooltip>
-            </span>
+            </Flex>
         )
     }
     return <div class="kanban-indicator-cell-sub-tip">{subTipsLine}</div>
@@ -95,15 +96,25 @@ const _default = defineComponent({
         subInfo: String,
         subRing: [Object, Object] as PropType<RingValue>,
         valueFormatter: Function as PropType<ValueFormatter>,
-        containerStyle: Object as PropType<StyleValue>,
+        containerStyle: Object as PropType<CSSProperties>,
     },
     setup(props) {
         return () => (
-            <div class="kanban-indicator-cell-container" style={props.containerStyle}>
-                <div class="kanban-indicator-cell-name">{props.mainName}</div>
-                <div class="kanban-indicator-cell-val">{props.mainValue ?? '-'}</div>
+            <Flex
+                column justify="center"
+                minHeight={140}
+                boxSizing="border-box"
+                position="relative"
+                paddingBlock={10}
+                paddingInline="40px 20px"
+                style={props.containerStyle}
+            >
+                <Box fontSize={14} color="text-secondary">{props.mainName}</Box>
+                <Box fontSize={24} marginBlock='.25em .6em'>
+                    {props.mainValue ?? '-'}
+                </Box>
                 {renderSub(props)}
-            </div>
+            </Flex>
         )
     }
 })

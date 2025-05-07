@@ -1,8 +1,8 @@
 import { useLocalStorage, useProvide, useProvider, useRequest } from "@hooks"
-import { computed, reactive, toRaw, watch, type Reactive, type Ref } from "vue"
-import type { FilterOption } from "./common"
 import statService, { type StatQueryParam } from "@service/stat-service"
-import { MILL_PER_DAY } from "@util/time";
+import { MILL_PER_DAY } from "@util/time"
+import { reactive, toRaw, watch, type Reactive, type Ref } from "vue"
+import "./title-select.sass"
 
 export type BizOption = {
     name: string
@@ -12,23 +12,30 @@ export type BizOption = {
     alias?: string
 }
 
+export type TopKChartType = 'bar' | 'pie' | 'halfPie'
+
+export type TopKFilterOption = {
+    topK: number
+    dayNum: number
+    topKChartType: TopKChartType
+}
+
 type Context = {
     value: Ref<BizOption[]>
-    filter: Reactive<FilterOption>
+    filter: Reactive<TopKFilterOption>
 }
 
 const NAMESPACE = 'dashboardTopKVisit'
-const DAY_NUM = 30
 
 export const initProvider = () => {
-    const [cachedFilter, setFilterCache] = useLocalStorage<FilterOption>(
-        'habit_period_filter', { topK: 6, topKChartType: 'pie' }
+    const [cachedFilter, setFilterCache] = useLocalStorage<TopKFilterOption>(
+        'habit_period_filter', { topK: 6, dayNum: 30, topKChartType: 'pie' }
     )
-    const filter = reactive<FilterOption>(cachedFilter)
+    const filter = reactive<TopKFilterOption>(cachedFilter)
     watch(() => filter, () => setFilterCache(toRaw(filter)), { deep: true })
     const { data: value } = useRequest(async () => {
         const now = new Date()
-        const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * DAY_NUM)
+        const startTime: Date = new Date(now.getTime() - MILL_PER_DAY * filter.dayNum)
         const query: StatQueryParam = {
             date: [startTime, now],
             sort: "time",
@@ -48,11 +55,11 @@ export const initProvider = () => {
         }
         return data
     }, {
-        deps: [() => filter.topK, () => filter.topKChartType],
+        deps: [() => filter.topK, () => filter.topKChartType, () => filter.dayNum],
         defaultValue: []
     })
 
-    useProvide<Context>(NAMESPACE, { value, filter });
+    useProvide<Context>(NAMESPACE, { value, filter })
 
     return filter
 }

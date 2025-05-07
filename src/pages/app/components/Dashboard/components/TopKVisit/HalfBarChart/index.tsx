@@ -1,6 +1,6 @@
 import { useEcharts } from "@hooks/useEcharts"
 import { defineComponent, type StyleValue } from "vue"
-import { useTopKFilter, useTopKValue } from "../context"
+import { useTopKValue } from "../context"
 import Wrapper from "./Wrapper"
 
 const CONTAINER_STYLE: StyleValue = {
