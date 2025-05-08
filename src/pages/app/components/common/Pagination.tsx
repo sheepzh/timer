@@ -18,7 +18,7 @@ type Props = {
 
 const Pagination = defineComponent<Props>(props => {
     return () => (
-        <Flex justify="center" align="center" marginTop={23}>
+        <Flex justify="center" align="center">
             <ElPagination
                 {...getPaginationIconProps() || {}}
                 pageSizes={[10, 20, 50]}

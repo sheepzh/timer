@@ -4,7 +4,7 @@ import { onBeforeMount, onMounted, ref, watch, type Ref, type WatchSource } from
 export type RequestOption<T, P extends any[]> = {
     manual?: boolean
     defaultValue?: T
-    loadingTarget?: string | Ref<HTMLElement>
+    loadingTarget?: string | Ref<HTMLElement | undefined>
     loadingText?: string
     defaultParam?: P
     deps?: WatchSource<unknown> | WatchSource<unknown>[]

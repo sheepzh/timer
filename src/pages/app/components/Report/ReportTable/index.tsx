@@ -8,12 +8,17 @@ import ContentCard from "@app/components/common/ContentCard"
 import Editable from "@app/components/common/Editable"
 import Pagination from "@app/components/common/Pagination"
 import { t } from "@app/locale"
-import { useRequest, useState } from "@hooks"
+import { periodFormatter } from "@app/util/time"
+import { Histogram } from "@element-plus/icons-vue"
+import { useManualRequest, useRequest, useState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
 import statService, { type StatQueryParam } from "@service/stat-service"
+import { sum } from "@util/array"
+import { isRtl } from "@util/document"
 import { siteEqual } from "@util/site"
 import { useDocumentVisibility } from "@vueuse/core"
-import { ElTable, ElTableColumn, type TableInstance } from "element-plus"
+import { ElLink, ElTable, ElTableColumn, ElText, ElTooltip, type TableInstance } from "element-plus"
 import { computed, defineComponent, ref, watch } from "vue"
 import { cvtOption2Param } from "../common"
 import { useReportFilter, useReportSort } from "../context"
@@ -43,42 +48,58 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | und
         ?.forEach(item => item.alias = newAlias)
 }
 
-const _default = defineComponent({
-    setup(_, ctx) {
-        const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
-        const sort = useReportSort()
-        const filterOption = useReportFilter()
-        const queryParam = computed(() => computeTimerQueryParam(filterOption, sort.value))
-        const { data, refresh } = useRequest(
-            () => statService.selectByPage(queryParam.value, page.value),
-            { loadingTarget: "#report-table-content", deps: [queryParam, page] },
-        )
-        const runColVisible = computed(() => !!data.value?.list?.find(r => r.run))
-        // Query data if document become visible
-        const docVisible = useDocumentVisibility()
-        watch(docVisible, () => docVisible.value && refresh())
+const _default = defineComponent((_, ctx) => {
+    const rtl = isRtl()
+    const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
+    const sort = useReportSort()
+    const filter = useReportFilter()
+    const queryParam = computed(() => computeTimerQueryParam(filter, sort.value))
+    const { data, refresh } = useRequest(
+        () => statService.selectByPage(queryParam.value, page.value),
+        {
+            loadingTarget: "#report-table-content",
+            deps: [queryParam, page],
+            defaultValue: { list: [], total: 0 },
+        },
+    )
+    const {
+        data: total,
+        refresh: refreshTotal,
+        loading: totalLoading,
+    } = useManualRequest(async () => {
+        const total = await statService.select(queryParam.value)
+        const visit = sum(total.map(e => e.time))
+        const focus = sum(total.map(e => e.focus))
+        return { visit, focus }
+    }, { defaultValue: { visit: 0, focus: 0 } })
 
-        const [selection, setSelection] = useState<timer.stat.Row[]>([])
-        ctx.expose({
-            getSelected: () => selection.value,
-            refresh,
-        } satisfies DisplayComponent)
+    const runColVisible = computed(() => !!data.value?.list?.find(r => r.run))
+    // Query data if document become visible
+    const docVisible = useDocumentVisibility()
+    watch(docVisible, () => docVisible.value && refresh())
 
-        const tableRef = ref<TableInstance>()
-        // Force to re-layout after merge change
-        watch([
-            () => filterOption?.mergeDate,
-            () => filterOption?.siteMerge,
-        ], () => tableRef.value?.doLayout?.())
+    const [selection, setSelection] = useState<timer.stat.Row[]>([])
+    ctx.expose({
+        getSelected: () => selection.value,
+        refresh,
+    } satisfies DisplayComponent)
 
-        const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
-            data.value?.list
-                ?.filter(({ siteKey }) => siteEqual(siteKey, key))
-                ?.forEach(i => i.cateId = newCateId)
-        }
+    const tableRef = ref<TableInstance>()
+    // Force to re-layout after merge change
+    watch([
+        () => filter.mergeDate,
+        () => filter.siteMerge,
+    ], () => tableRef.value?.doLayout?.())
 
-        return () => (
-            <ContentCard id="report-table-content">
+    const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
+        data.value?.list
+            ?.filter(({ siteKey }) => siteEqual(siteKey, key))
+            ?.forEach(i => i.cateId = newCateId)
+    }
+
+    return () => (
+        <ContentCard>
+            <Flex gap={23} width="100%" column>
                 <ElTable
                     ref={tableRef}
                     data={data.value?.list}
@@ -88,9 +109,9 @@ const _default = defineComponent({
                     onSelection-change={setSelection}
                     onSort-change={(val: ReportSort) => sort.value = val}
                 >
-                    {!filterOption?.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
-                    {!filterOption?.mergeDate && <DateColumn />}
-                    {filterOption?.siteMerge !== 'cate' && <>
+                    {!filter.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
+                    {!filter.mergeDate && <DateColumn />}
+                    {filter.siteMerge !== 'cate' && <>
                         <HostColumn />
                         <ElTableColumn
                             label={t(msg => msg.siteManage.column.alias)}
@@ -104,20 +125,38 @@ const _default = defineComponent({
                             )}
                         />
                     </>}
-                    {filterOption?.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
+                    {filter.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
                     <TimeColumn dimension="focus" />
                     {runColVisible.value && <TimeColumn dimension="run" />}
                     <VisitColumn />
                     <OperationColumn onDelete={refresh} />
                 </ElTable>
-                <Pagination
-                    defaultValue={page.value}
-                    total={data.value?.total || 0}
-                    onChange={setPage}
-                />
-            </ContentCard>
-        )
-    }
+                <Flex justify="center" width="100%" gap={8} align="center">
+                    <ElTooltip
+                        effect="light"
+                        placement={rtl ? 'right' : 'left'}
+                        onUpdate:visible={val => val && refreshTotal()}
+                        v-slots={{
+                            content: () => (
+                                <ElText v-loading={totalLoading.value}>
+                                    {t(msg => msg.report.total, {
+                                        visit: total.value.visit,
+                                        focus: periodFormatter(total.value.focus, { format: filter.timeFormat }),
+                                    })}
+                                </ElText>
+                            ),
+                            default: () => <ElLink underline="never" icon={Histogram} />,
+                        }}
+                    />
+                    <Pagination
+                        defaultValue={page.value}
+                        total={data.value?.total || 0}
+                        onChange={setPage}
+                    />
+                </Flex>
+            </Flex>
+        </ContentCard>
+    )
 })
 
 export default _default

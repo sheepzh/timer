@@ -9,6 +9,7 @@ import resource from './report-resource.json'
 
 export type ReportMessage = {
     exportFileName: string
+    total: string
     batchDelete: {
         noSelectedMsg: string
         confirmMsg: string
