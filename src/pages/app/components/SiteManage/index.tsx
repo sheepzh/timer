@@ -107,7 +107,7 @@ export default defineComponent(() => {
             />
         ),
         content: () => <>
-            <div id="site-manage-table-wrapper">
+            <Flex id="site-manage-table-wrapper" column width="100%" gap={23}>
                 <SiteManageTable
                     data={pagination.value?.list}
                     onSelectionChange={setSelected}
@@ -115,12 +115,12 @@ export default defineComponent(() => {
                     onRowModify={refresh}
                     onAliasGenerated={refresh}
                 />
-            </div>
-            <Pagination
-                defaultValue={page.value}
-                total={pagination.value?.total || 0}
-                onChange={setPage}
-            />
+                <Pagination
+                    defaultValue={page.value}
+                    total={pagination.value?.total || 0}
+                    onChange={setPage}
+                />
+            </Flex>
             <Modify ref={modify} onSave={refresh} />
             <ElDialog
                 title={t(msg => msg.siteManage.cate.batchChange)}

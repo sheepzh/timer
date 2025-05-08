@@ -1,4 +1,3 @@
-import type { Browser } from "puppeteer"
 import { LaunchContext } from "./base"
 
 type RecordRow = {
