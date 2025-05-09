@@ -1,7 +1,7 @@
 import manifest from "../src/manifest"
 import { E2E_NAME } from "../src/util/constant/meta"
 import { E2E_OUTPUT_PATH } from "./constant"
-import generateOption from "./webpack.common"
+import generateOption from "./rspack.common"
 
 manifest.name = E2E_NAME
 

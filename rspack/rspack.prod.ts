@@ -1,8 +1,7 @@
-import FileManagerWebpackPlugin from "filemanager-webpack-plugin"
 import path from "path"
-import type { WebpackPluginInstance } from "webpack"
 import manifest from "../src/manifest"
-import optionGenerator from "./webpack.common"
+import { FileManagerPlugin } from "./plugins/file-manager"
+import optionGenerator from "./rspack.common"
 
 const { name, version } = require(path.join(__dirname, '..', 'package.json'))
 
@@ -12,7 +11,7 @@ const marketPkgPath = path.resolve(__dirname, '..', 'market_packages')
 const normalZipFilePath = path.resolve(marketPkgPath, `${name}-${version}.mv3.zip`)
 const targetZipFilePath = path.resolve(marketPkgPath, `target.zip`)
 
-const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
+const filemanagerPlugin = new FileManagerPlugin({
     events: {
         // Archive at the end
         onEnd: [
@@ -35,7 +34,7 @@ const filemanagerWebpackPlugin = new FileManagerWebpackPlugin({
 const option = optionGenerator({ outputPath, manifest, mode: "production" })
 
 const { plugins = [] } = option
-plugins.push(filemanagerWebpackPlugin as WebpackPluginInstance)
+plugins.push(filemanagerPlugin)
 option.plugins = plugins
 
 export default option

@@ -1,6 +1,6 @@
 import path from "path"
-import generateOption from "./webpack.common"
 import manifest from "../src/manifest"
+import generateOption from "./rspack.common"
 
 manifest.name = "IS DEV"
 
