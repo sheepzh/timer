@@ -1,22 +1,24 @@
-import CopyWebpackPlugin from "copy-webpack-plugin"
-import GenerateJsonPlugin from "generate-json-webpack-plugin"
-import HtmlWebpackPlugin from "html-webpack-plugin"
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import {
+    CopyRspackPlugin, CssExtractRspackPlugin, DefinePlugin, HtmlRspackPlugin,
+    type Chunk, type Configuration,
+    type RspackPluginInstance,
+    type RuleSetRule
+} from "@rspack/core"
 import path from "path"
 import postcssRTLCSS from 'postcss-rtlcss'
-import { type Chunk, type Configuration, DefinePlugin, type RuleSetRule, type WebpackPluginInstance } from "webpack"
 import i18nChrome from "../src/i18n/chrome"
 import tsConfig from '../tsconfig.json'
+import { GenerateJsonPlugin } from "./plugins/generate-json"
 
 export const MANIFEST_JSON_NAME = "manifest.json"
 
 const tsPathAlias = tsConfig.compilerOptions.paths
 
-const generateJsonPlugins: WebpackPluginInstance[] = []
+const generateJsonPlugins: RspackPluginInstance[] = []
 
 const localeJsonFiles = Object.entries(i18nChrome)
     .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
-    .map(plugin => plugin as unknown as WebpackPluginInstance)
+    .map(plugin => plugin as unknown as RspackPluginInstance)
 generateJsonPlugins.push(...localeJsonFiles)
 
 // Process the alias of typescript modules
@@ -33,7 +35,7 @@ Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
         return
     }
     const [, index] = aliasMatchRes
-    const webpackSourceArr: string[] = []
+    const rspackSourceArr: string[] = []
     sourceArr.forEach(source => {
         const matchRes = source.match(sourcePattern)
         if (!matchRes) {
@@ -41,9 +43,9 @@ Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
             return
         }
         const [, folder] = matchRes
-        webpackSourceArr.push(path.resolve(__dirname, '..', folder))
+        rspackSourceArr.push(path.resolve(__dirname, '..', folder))
     })
-    resolveAlias[index] = webpackSourceArr
+    resolveAlias[index] = rspackSourceArr
 })
 console.log("Alias of typescript: ")
 console.log(resolveAlias)
@@ -121,10 +123,10 @@ const staticOptions: Configuration = {
                 }, 'ts-loader'],
             }, {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', POSTCSS_LOADER_CONF],
+                use: [CssExtractRspackPlugin.loader, 'css-loader', POSTCSS_LOADER_CONF],
             }, {
                 test: /\.sc|ass$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', POSTCSS_LOADER_CONF, 'sass-loader']
+                use: [CssExtractRspackPlugin.loader, 'css-loader', POSTCSS_LOADER_CONF, 'sass-loader']
             }, {
                 test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
                 exclude: /node_modules/,
@@ -171,9 +173,9 @@ type Option = {
 const generateOption = ({ outputPath, manifest, mode }: Option) => {
     const plugins = [
         ...generateJsonPlugins,
-        new GenerateJsonPlugin(MANIFEST_JSON_NAME, manifest) as unknown as WebpackPluginInstance,
+        new GenerateJsonPlugin(MANIFEST_JSON_NAME, manifest),
         // copy static resources
-        new CopyWebpackPlugin({
+        new CopyRspackPlugin({
             patterns: [
                 {
                     from: path.join(__dirname, '..', 'public', 'images'),
@@ -181,8 +183,8 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
                 }
             ]
         }),
-        new MiniCssExtractPlugin(),
-        new HtmlWebpackPlugin({
+        new CssExtractRspackPlugin(),
+        new HtmlRspackPlugin({
             filename: path.join('static', 'app.html'),
             title: 'Loading...',
             meta: {
@@ -193,15 +195,15 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
             },
             chunks: ['app'],
         }),
-        new HtmlWebpackPlugin({
+        new HtmlRspackPlugin({
             filename: path.join('static', 'popup.html'),
             chunks: ['popup'],
         }),
-        new HtmlWebpackPlugin({
+        new HtmlRspackPlugin({
             filename: path.join('static', 'popup_skeleton.html'),
             chunks: ['popup_skeleton'],
         }),
-        new HtmlWebpackPlugin({
+        new HtmlRspackPlugin({
             filename: path.join('static', 'side.html'),
             title: 'Loading...',
             chunks: ['side'],
@@ -224,8 +226,6 @@ const generateOption = ({ outputPath, manifest, mode }: Option) => {
     if (mode === "development") {
         // no eval with development, but generate *.map.js
         config.devtool = 'cheap-module-source-map'
-        // Use cache with filesystem
-        config.cache = { type: 'filesystem' }
     }
     return config
 }

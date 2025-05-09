@@ -4,7 +4,7 @@
 
 The technology stack used is:
 
--   [webpack](https://github.com/webpack/webpack) + [TypeScript](https://github.com/microsoft/TypeScript)
+-   [rspack](https://rspack.dev) + [TypeScript](https://github.com/microsoft/TypeScript)
 -   [Vue3 (Composition API + JSX)](<https://vuejs.org/api/#:~:text=defineCustomElement()-,Composition%20API,-setup()>)
 -   [sass](https://github.com/sass/sass)
 -   [Element Plus](https://element-plus.gitee.io/)
@@ -132,7 +132,7 @@ project
 |
 └───types                                  # Declarations
 |
-└───webpack                                # webpack config
+└───rspack                                 # rspack config
 
 ```
 
