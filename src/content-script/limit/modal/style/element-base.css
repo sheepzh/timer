@@ -251,11 +251,11 @@
 }
 
 .el-icon--right {
-    margin-left: 5px
+    margin-inline-start: 5px
 }
 
 .el-icon--left {
-    margin-right: 5px
+    margin-inline-end: 5px
 }
 
 @-webkit-keyframes rotating {

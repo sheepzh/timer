@@ -13,8 +13,7 @@ import { type StyleValue, defineComponent } from "vue"
 const pslStyle: StyleValue = {
     fontSize: "var(--el-alert-description-font-size)",
     color: "var(--el-color-info)",
-    marginLeft: "2px",
-    marginRight: "2px",
+    marginInline: "2px",
 }
 
 const _default = defineComponent(() => {

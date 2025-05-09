@@ -21,6 +21,7 @@ import { computed, defineComponent } from "vue"
 import DescLink from "./DescLink"
 import "./description.sass"
 import InstallationLink from "./InstallationLink"
+import Flex from "@pages/components/Flex"
 
 const computeSize = (mediaSize: MediaSize): ComponentSize => {
     if (mediaSize <= MediaSize.sm) {
@@ -36,6 +37,7 @@ const _default = defineComponent(() => {
     const feedbackUrl = FEEDBACK_QUESTIONNAIRE[locale] || GITHUB_ISSUE_ADD
     const mediaSize = useMediaSize()
     const column = computed(() => mediaSize.value <= MediaSize.md ? 1 : 2)
+    const isXs = computed(() => mediaSize.value === MediaSize.xs)
     const size = computed(() => computeSize(mediaSize.value))
 
     return () => (
@@ -80,15 +82,12 @@ const _default = defineComponent(() => {
                     {AUTHOR_EMAIL}
                 </ElDescriptionsItem>
                 <ElDescriptionsItem label={t(msg => msg.about.label.installation)} labelAlign="right">
-                    <div class="installation-container">
+                    <Flex gap={15} align="center" margin={mediaSize.value === MediaSize.xs ? '5px 0' : 10}>
                         <InstallationLink href={CHROME_HOMEPAGE} name="Chrome" source="chrome" />
-                        <ElSpace />
                         <InstallationLink href={EDGE_HOMEPAGE} name="Edge" source="edge" />
-                        <ElSpace />
                         <InstallationLink href={FIREFOX_HOMEPAGE} name="Firefox" source="firefox" />
-                        <ElSpace />
                         <InstallationLink href="https://kiwibrowser.com/" name="Kiwi" source="kiwi" />
-                    </div>
+                    </Flex>
                 </ElDescriptionsItem>
                 <ElDescriptionsItem label={t(msg => msg.about.label.thanks)} labelAlign="right">
                     <div>

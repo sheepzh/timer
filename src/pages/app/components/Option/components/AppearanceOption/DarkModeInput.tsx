@@ -6,7 +6,7 @@
  */
 import { t } from "@app/locale"
 import { ElOption, ElSelect, ElTimePicker } from "element-plus"
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, StyleValue } from "vue"
 
 const ALL_MODES: timer.option.DarkMode[] = ["default", "on", "off", "timed"]
 
@@ -55,7 +55,7 @@ const _default = defineComponent<Props>(props => {
             <ElTimePicker
                 modelValue={start.value}
                 size="small"
-                style={{ marginLeft: "10px" }}
+                style={{ marginInlineStart: "10px" } satisfies StyleValue}
                 onUpdate:modelValue={val => props.onChange?.(props.modelValue, [computeDateToSecond(val), props.endSecond])}
                 clearable={false}
             />

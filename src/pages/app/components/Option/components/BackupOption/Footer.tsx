@@ -12,7 +12,7 @@ import processor from "@service/backup/processor"
 import metaService from "@service/meta-service"
 import { formatTime } from "@util/time"
 import { ElButton, ElDivider, ElLoading, ElMessage, ElText } from "element-plus"
-import { defineComponent, toRef } from "vue"
+import { defineComponent, type StyleValue, toRef } from "vue"
 import Clear from "./Clear"
 import Download from "./Download"
 
@@ -67,7 +67,7 @@ const _default = defineComponent<{ type: timer.backup.Type }>(props => {
             <ElButton type="primary" icon={<UploadFilled />} onClick={handleBackup}>
                 {t(msg => msg.option.backup.operation)}
             </ElButton>
-            <ElText v-show={!!lastTime.value} style={{ marginLeft: "8px" }}>
+            <ElText v-show={!!lastTime.value} style={{ marginInlineStart: "8px" } satisfies StyleValue}>
                 {t(
                     msg => msg.option.backup.lastTimeTip,
                     { lastTime: (lastTime.value && formatTime(lastTime.value, TIME_FORMAT)) ?? '' }

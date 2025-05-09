@@ -9,7 +9,7 @@ import { processVerification } from "@app/util/limit"
 import { Edit } from "@element-plus/icons-vue"
 import { defaultDailyLimit } from "@util/constant/option"
 import { ElButton, ElInput, ElInputNumber, ElMessage, ElMessageBox, ElOption, ElSelect, ElSwitch } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, type StyleValue } from "vue"
 import { type OptionInstance } from "../../common"
 import { useOption } from "../../useOption"
 import OptionItem from "../OptionItem"
@@ -161,7 +161,7 @@ const _default = defineComponent((_, ctx) => {
             </ElSelect>
             <ElButton
                 size="small"
-                style={{ height: '28px', marginLeft: '5px' }}
+                style={{ height: '28px', marginInlineStart: '5px' } satisfies StyleValue}
                 onClick={() => processVerification(option)}
             >
                 {t(msg => msg.button.test)}

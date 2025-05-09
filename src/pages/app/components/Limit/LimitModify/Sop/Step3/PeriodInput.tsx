@@ -133,7 +133,7 @@ const _default = defineComponent({
                     <ElButton
                         icon={<Check />}
                         onClick={handleSave}
-                        style={{ ...BUTTON_STYLE, marginLeft: 0 } satisfies StyleValue}
+                        style={{ ...BUTTON_STYLE, marginInlineStart: 0 } satisfies StyleValue}
                     />
                 </div>
                 <ElButton
