@@ -28,7 +28,7 @@ const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: tim
             effect={Effect.LIGHT}
             offset={10}
             placement="left"
-            popperStyle={{ paddingRight: 0 }}
+            popperStyle={{ paddingInlineEnd: 0 }}
             v-slots={{
                 content: () => <TooltipSiteList modelValue={merged} />,
                 default: () => (

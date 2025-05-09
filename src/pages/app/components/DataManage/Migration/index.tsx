@@ -14,7 +14,6 @@ import { formatTime } from "@util/time"
 import { ElAlert, ElButton, ElCard } from "element-plus"
 import { defineComponent, type StyleValue } from "vue"
 import { alertProps } from "../common"
-import { useDataMemory } from "../context"
 import ImportButton from "./ImportButton"
 import ImportOtherButton from "./ImportOtherButton"
 
@@ -27,8 +26,6 @@ async function handleExport() {
 }
 
 const _default = defineComponent(() => {
-    const { refreshMemory } = useDataMemory()
-
     return () => (
         <ElCard
             style={{ width: '100%' } satisfies StyleValue}
@@ -55,7 +52,7 @@ const _default = defineComponent(() => {
                         {t(msg => msg.item.operation.exportWholeData)}
                     </ElButton>
                     <ImportButton />
-                    <ImportOtherButton onImport={refreshMemory} />
+                    <ImportOtherButton />
                 </Flex>
             </Flex>
         </ElCard>

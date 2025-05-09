@@ -9,7 +9,7 @@ import { Check, Close, Edit } from "@element-plus/icons-vue"
 import { useShadow, useSwitch } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { ElButton, ElIcon, ElInput, InputInstance } from "element-plus"
-import { defineComponent, nextTick, ref, toRef, useSlots } from "vue"
+import { defineComponent, nextTick, ref, StyleValue, toRef, useSlots } from "vue"
 
 type Props = {
     modelValue: string | undefined
@@ -56,12 +56,12 @@ const Editable = defineComponent<Props>(props => {
                     <ElButton
                         icon={<Close />}
                         onClick={handleCancel}
-                        style={{ marginRight: 0, marginLeft: 0, paddingLeft: '2px', paddingRight: '4px' }}
+                        style={{ marginRight: 0, marginLeft: 0, paddingInline: '2px 4px' } satisfies StyleValue}
                     />
                     <ElButton
                         icon={<Check />}
                         onClick={handleSave}
-                        style={{ marginRight: 0, marginLeft: 0, paddingLeft: '4px', paddingRight: '2px' }}
+                        style={{ marginRight: 0, marginLeft: 0, paddingInline: '4px 2px' } satisfies StyleValue}
                     />
                 </>
             }}

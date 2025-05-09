@@ -65,7 +65,7 @@ const _default = defineComponent(() => {
                     </h3>
                 </div>
             </Flex>
-        </ElCard >
+        </ElCard>
     )
 })
 

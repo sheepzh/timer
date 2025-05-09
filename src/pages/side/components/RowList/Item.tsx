@@ -51,7 +51,7 @@ const _default = defineComponent({
         return () => (
             <ElCard
                 shadow="hover"
-                style={{ padding: ' 0 10px', height: '70px', boxSizing: 'border-box' }}
+                style={{ padding: '0 10px', height: '70px', boxSizing: 'border-box' }}
                 bodyStyle={{ padding: '5px', display: 'flex', height: 'calc(100% - 10px)' }}
             >
                 <Flex
@@ -78,7 +78,7 @@ const _default = defineComponent({
                 </Flex>
                 <Flex
                     column flex={1}
-                    style={{ marginLeft: '10px', paddingRight: '10px' }}
+                    style={{ marginInlineStart: '10px', paddingInlineEnd: '10px' }}
                 >
                     <Flex align="center" justify="space-between" height={24}>
                         {renderTitle(siteName.value, host.value, handleJump)}

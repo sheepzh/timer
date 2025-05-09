@@ -13,10 +13,9 @@ import { MENUS, type MenuItem } from "./item"
 import { handleClick, initTitle } from "./route"
 
 const iconStyle: StyleValue = {
-    paddingRight: '4px',
-    paddingLeft: '4px',
+    paddingInline: '4px',
     height: '1em',
-    lineHeight: '0.83em'
+    lineHeight: '0.83em',
 }
 
 function renderMenuLeaf(menu: MenuItem, router: Router, currentActive: Ref<string | undefined>) {
