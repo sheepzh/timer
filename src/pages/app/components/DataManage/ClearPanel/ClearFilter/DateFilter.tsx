@@ -42,7 +42,7 @@ const _default = defineComponent({
 
         return () => (
             <p>
-                <a style={{ marginRight: '10px' }}>1.</a>
+                <a style={{ marginInlineEnd: '10px' }}>1.</a>
                 {tN(msg => msg.dataManage.filterDate, {
                     picker: <ElDatePicker
                         modelValue={props.dateRange}

@@ -44,7 +44,7 @@ const _default = defineComponent({
 
         return () => (
             <p>
-                <a style={{ marginRight: '10px' }}>{props.lineNo}.</a>
+                <a style={{ marginInlineEnd: '10px' }}>{props.lineNo}.</a>
                 {tN(msg => msg.dataManage[props.translateKey], {
                     start: elInput(start, '0'),
                     end: elInput(end, '∞'),

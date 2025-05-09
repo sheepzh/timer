@@ -75,7 +75,7 @@ const _default = defineComponent<Props>(props => {
                 </ElOption>)}
             </ElSelect>
             <ElButton icon={Close} onClick={handleCancel} />
-            <ElButton icon={Check} onClick={handleSubmit} style={{ marginLeft: 0 } satisfies StyleValue} />
+            <ElButton icon={Check} onClick={handleSubmit} style={{ marginInlineStart: 0 } satisfies StyleValue} />
         </Box>
     )
 }, { props: ['defaultValue', 'onCancel', 'onSave', 'end'] })
