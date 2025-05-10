@@ -1,6 +1,6 @@
 import { ElSelect, useNamespace } from "element-plus"
 import { defineComponent } from "vue"
-import { type TopKFilterOption, useTopKFilter } from "./context"
+import { type TopKFilterOption, useTopKFilter } from "../context"
 
 type Props = {
     field: keyof TopKFilterOption & ('topK' | 'dayNum')

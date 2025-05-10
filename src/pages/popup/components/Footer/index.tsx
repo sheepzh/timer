@@ -1,6 +1,6 @@
 import Flex from "@pages/components/Flex"
 import DurationSelect from "@popup/components/Footer/DurationSelect"
-import { usePopupContext } from "@popup/context"
+import { useQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import { ALL_DIMENSIONS } from "@util/stat"
 import { ElOption, ElSelect, ElText } from "element-plus"
@@ -8,7 +8,7 @@ import { defineComponent } from "vue"
 import Menu from "./Menu"
 
 const Footer = defineComponent(() => {
-    const { query } = usePopupContext()
+    const query = useQuery()
 
     return () => (
         <Flex justify="space-between" width="100%">

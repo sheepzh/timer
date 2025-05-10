@@ -9,13 +9,13 @@ import NumberGrow from "@app/components/common/NumberGrow"
 import { tN, type I18nKey } from "@app/locale"
 import PeriodDatabase from "@db/period-database"
 import { Sunrise } from "@element-plus/icons-vue"
-import { useRequest } from "@hooks"
+import { useRequest, useXsState } from "@hooks"
+import Flex from "@pages/components/Flex"
 import statService from "@service/stat-service"
 import { calcMostPeriodOf2Hours } from "@util/period"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElIcon } from "element-plus"
 import { computed, defineComponent, toRef, type VNode } from "vue"
-import "./style"
 
 const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
@@ -84,7 +84,7 @@ const IndicatorLabel = defineComponent<Props>(props => {
     const i18nParam = computed(() => computeI18nParam(param.value, props.duration))
 
     return () => (
-        <div class="indicator-label" >
+        <div style={{ paddingInlineStart: '10px', paddingBottom: '10px', fontSize: '15px' }}>
             {param.value && tN(props.path, i18nParam.value)}
         </div>
     )
@@ -100,15 +100,16 @@ const computeMost2HourParam = (value: _Value | undefined): { start: number, end:
 
 const _default = defineComponent(() => {
     const { data } = useRequest(query)
+    const isXs = useXsState()
     const most2HourParam = computed(() => computeMost2HourParam(data.value))
 
     return () => (
-        <div class="indicator-container">
-            <div class="indicator-icon-header">
-                <ElIcon>
+        <Flex column gap={4} style={{ textAlign: isXs.value ? 'center' : undefined }}>
+            <Flex align="center" justify="center" marginBlock="0 15px">
+                <ElIcon size={45}>
                     <Sunrise />
                 </ElIcon>
-            </div>
+            </Flex>
             <IndicatorLabel
                 v-show={data.value?.installedDays}
                 path={msg => msg.dashboard.indicator.installedDays}
@@ -130,7 +131,7 @@ const _default = defineComponent(() => {
                 param={most2HourParam.value}
                 duration={2.25}
             />
-        </div>
+        </Flex>
     )
 })
 

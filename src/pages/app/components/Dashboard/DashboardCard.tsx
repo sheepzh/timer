@@ -13,7 +13,7 @@ const _default = defineComponent<{ span: number }>(props => {
 
     return () => (
         <ElCol span={props.span}>
-            <ElCard style={{ height: "100%" }} v-slots={slots} />
+            <ElCard style={{ height: '320px' }} v-slots={slots} />
         </ElCol>
     )
 }, { props: ['span'] })

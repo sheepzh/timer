@@ -5,7 +5,7 @@ import optionService from "@service/option-service"
 import { groupBy } from "@util/array"
 import { isDarkMode, toggle } from "@util/dark-mode"
 import { CATE_NOT_SET_ID } from "@util/site"
-import { computed, type ComputedRef, reactive, type Reactive, ref, type Ref, toRaw, watch } from "vue"
+import { reactive, type Reactive, ref, type Ref, toRaw, watch } from "vue"
 import { t } from "./locale"
 
 export type PopupQuery = {
@@ -20,7 +20,6 @@ type PopupContextValue = {
     darkMode: Ref<boolean>
     setDarkMode: (val: boolean) => void
     query: Reactive<PopupQuery>
-    dimension: ComputedRef<timer.core.Dimension>
     cateNameMap: Ref<Record<number, string>>
 }
 
@@ -31,15 +30,6 @@ export const initPopupContext = (): Ref<number> => {
     const reload = () => appKey.value = Date.now()
 
     const { data: darkMode, refresh: refreshDarkMode } = useRequest(() => optionService.isDarkMode(), { defaultValue: isDarkMode() })
-
-    const [queryCache, setQueryCache] = useLocalStorage<PopupQuery>('popup-query', {
-        dimension: 'focus',
-        duration: 'today',
-        mergeMethod: undefined,
-    })
-
-    const query = reactive(queryCache)
-    watch(query, () => setQueryCache(toRaw(query)), { deep: true })
 
     const setDarkMode = async (val: boolean) => {
         const option: timer.option.DarkMode = val ? 'on' : 'off'
@@ -55,16 +45,29 @@ export const initPopupContext = (): Ref<number> => {
         return result
     }, { defaultValue: {} })
 
-    const dimension = computed(() => query.dimension)
-    useProvide<PopupContextValue>(NAMESPACE, { reload, darkMode, setDarkMode, query, cateNameMap, dimension })
+    const query = initQuery()
+    useProvide<PopupContextValue>(NAMESPACE, { reload, darkMode, setDarkMode, query, cateNameMap })
 
     return appKey
 }
 
-export const usePopupContext = () => useProvider<PopupContextValue, 'reload' | 'darkMode' | 'setDarkMode' | 'query' | 'cateNameMap'>(
-    NAMESPACE, 'reload', 'darkMode', 'setDarkMode', 'query', 'cateNameMap'
+const initQuery = () => {
+    const [queryCache, setQueryCache] = useLocalStorage<PopupQuery>('popup-query', {
+        dimension: 'focus',
+        duration: 'today',
+        mergeMethod: undefined,
+    })
+
+    const query = reactive(queryCache)
+    watch(query, () => setQueryCache(toRaw(query)), { deep: true })
+
+    return query
+}
+
+export const usePopupContext = () => useProvider<PopupContextValue, 'reload' | 'darkMode' | 'setDarkMode' | 'cateNameMap'>(
+    NAMESPACE, 'reload', 'darkMode', 'setDarkMode', 'cateNameMap'
 )
 
-export const useDimension = () => useProvider<PopupContextValue, 'dimension'>(NAMESPACE, 'dimension').dimension
+export const useQuery = () => useProvider<PopupContextValue, 'query'>(NAMESPACE, 'query').query
 
 export const useCateNameMap = () => useProvider<PopupContextValue, 'cateNameMap'>(NAMESPACE, 'cateNameMap')?.cateNameMap

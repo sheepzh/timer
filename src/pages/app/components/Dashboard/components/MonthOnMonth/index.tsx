@@ -1,5 +1,6 @@
 import { t } from "@app/locale"
 import { useEcharts } from "@hooks/useEcharts"
+import Flex from "@pages/components/Flex"
 import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
 import DateIterator from "@util/date-iterator"
@@ -46,10 +47,10 @@ const fetchData = async (): Promise<[thisMonth: Row[], lastMonth: Row[]]> => {
 const _default = defineComponent(() => {
     const { elRef } = useEcharts(Wrapper, fetchData)
     return () => (
-        <div class="mom-container">
+        <Flex height="100%" column gap={4}>
             <ChartTitle text={t(msg => msg.dashboard.monthOnMonth.title, { k: TOP_NUM })} />
             <div ref={elRef} style={{ flex: 1 }} />
-        </div>
+        </Flex>
     )
 })
 

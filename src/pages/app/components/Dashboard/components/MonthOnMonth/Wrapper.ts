@@ -75,15 +75,27 @@ function optionOf(lastPeriodItems: Row[], thisPeriodItems: Row[], domWidth: numb
                 stack: "one",
                 type: 'bar',
                 barCategoryGap: `${domWidth < 500 ? 30 : 55}%`,
-                itemStyle: { color: color1, borderRadius: [10, 10, 0, 0] },
-                data: thisPeriodItems.map(row => ({ value: row.total, row })),
+                itemStyle: { color: color1 },
+                data: thisPeriodItems.map((row, idx) => {
+                    const otherIsEmpty = lastPeriodItems[idx].total === 0
+                    return {
+                        value: row.total, row,
+                        itemStyle: { borderRadius: otherIsEmpty ? 10 : [10, 10, 0, 0] },
+                    }
+                }),
             }, {
                 name: "Last Month",
                 stack: "one",
                 type: 'bar',
-                itemStyle: { color: color2, borderRadius: [0, 0, 10, 10] },
-                data: lastPeriodItems.map(row => ({ value: -row.total, row })),
-            }
+                itemStyle: { color: color2 },
+                data: lastPeriodItems.map((row, idx) => {
+                    const otherIsEmpty = thisPeriodItems[idx].total === 0
+                    return {
+                        value: -row.total, row,
+                        itemStyle: { borderRadius: otherIsEmpty ? 10 : [0, 0, 10, 10] },
+                    }
+                }),
+            },
         ],
     }
 }

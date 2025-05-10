@@ -2,7 +2,6 @@ import { useLocalStorage, useProvide, useProvider, useRequest } from "@hooks"
 import statService, { type StatQueryParam } from "@service/stat-service"
 import { MILL_PER_DAY } from "@util/time"
 import { reactive, toRaw, watch, type Reactive, type Ref } from "vue"
-import "./title-select.sass"
 
 export type BizOption = {
     name: string

@@ -3,7 +3,7 @@ import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { Mouse, Timer } from "@element-plus/icons-vue"
 import Flex from "@pages/components/Flex"
 import { calJumpUrl } from "@popup/common"
-import { useCateNameMap, useDimension } from "@popup/context"
+import { useCateNameMap, useQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
 import { formatPeriodCommon } from "@util/time"
@@ -29,7 +29,7 @@ const Title = defineComponent({
         displaySiteName: Boolean,
     },
     setup(props) {
-        const type = useDimension()
+        const query = useQuery()
         const cateNameMap = useCateNameMap()
         const name = computed(() => {
             const { alias, siteKey: { host } = {}, cateKey } = props.value || {}
@@ -52,7 +52,7 @@ const Title = defineComponent({
             return alias ? host : ''
         })
 
-        const url = computed(() => props.value.siteKey && calJumpUrl(props.value.siteKey, props.date, type.value))
+        const url = computed(() => props.value.siteKey && calJumpUrl(props.value.siteKey, props.date, query.dimension))
 
         return () => (
             <TooltipWrapper
@@ -93,9 +93,9 @@ const Item = defineComponent({
         displaySiteName: Boolean,
     },
     setup(props, ctx) {
-        const type = useDimension()
-        const rate = computed(() => props.max ? (props.value?.[type.value] ?? 0) / props.max * 100 : 0)
-        const percentage = computed(() => props.total ? (props.value?.[type.value] ?? 0) / props.total * 100 : 0)
+        const query = useQuery()
+        const rate = computed(() => props.max ? (props.value?.[query.dimension] ?? 0) / props.max * 100 : 0)
+        const percentage = computed(() => props.total ? (props.value?.[query.dimension] ?? 0) / props.total * 100 : 0)
 
         const cateNameMap = useCateNameMap()
 
@@ -154,13 +154,13 @@ const Item = defineComponent({
                         </Flex>
                         <Flex column justify="space-around" flex={1}>
                             <Flex justify="space-between" width="100%" cursor="unset">
-                                <ElText type={type.value === 'time' ? 'primary' : 'info'} size="small">
+                                <ElText type={query.dimension === 'time' ? 'primary' : 'info'} size="small">
                                     <ElIcon>
                                         <Mouse />
                                     </ElIcon>
                                     {props.value?.time ?? 0}
                                 </ElText>
-                                <ElText type={type.value === 'focus' ? 'primary' : 'info'} size="small">
+                                <ElText type={query.dimension === 'focus' ? 'primary' : 'info'} size="small">
                                     <ElIcon>
                                         <Timer />
                                     </ElIcon>

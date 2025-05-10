@@ -1,17 +1,12 @@
 import { useEcharts } from "@hooks/useEcharts"
-import { defineComponent, type StyleValue } from "vue"
+import { defineComponent } from "vue"
 import { useTopKValue } from "../context"
 import Wrapper from "./Wrapper"
-
-const CONTAINER_STYLE: StyleValue = {
-    width: "100%",
-    height: "220%",
-}
 
 const _default = defineComponent(() => {
     const value = useTopKValue()
     const { elRef } = useEcharts(Wrapper, value, { manual: true })
-    return () => <div style={CONTAINER_STYLE} ref={elRef} />
+    return () => <div style={{ width: '100%' }} ref={elRef} />
 })
 
 export default _default

@@ -11,6 +11,7 @@ import { t } from "@app/locale"
 import { REPORT_ROUTE } from "@app/router/constants"
 import { useRequest } from "@hooks"
 import { useEcharts } from "@hooks/useEcharts"
+import Flex from "@pages/components/Flex"
 import weekHelper from "@service/components/week-helper"
 import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
@@ -80,10 +81,10 @@ const _default = defineComponent(() => {
     })
 
     return () => (
-        <div class="calendar-container">
+        <Flex height="100%" gap={4} column>
             <ChartTitle text={titleText(data.value)} />
             <div ref={elRef} style={{ flex: 1 }} />
-        </div>
+        </Flex>
     )
 })
 

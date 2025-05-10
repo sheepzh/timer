@@ -43,6 +43,7 @@ const generateOption = (data: BizOption[]): EcOption => {
             type: 'pie',
             radius: ['60%', '130%'],
             center: ['50%', '80%'],
+            itemStyle: { borderRadius: 5 },
             startAngle: 180,
             endAngle: 360,
             color: getSeriesPalette(),

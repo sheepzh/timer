@@ -14,13 +14,6 @@ export type DashboardMessage = {
     },
     topK: {
         title: string
-        filter: {
-            chartType: {
-                pie: string
-                bar: string
-                halfPie: string
-            }
-        }
     }
     indicator: {
         installedDays: string

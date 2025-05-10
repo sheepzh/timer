@@ -46,7 +46,7 @@ const generateOption = (data: BizOption[]): EcOption => {
             roseType: 'area',
             color: getSeriesPalette(),
             itemStyle: {
-                borderRadius: 7,
+                borderRadius: 4,
             },
             label: { color: textColor },
             data: data,

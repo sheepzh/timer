@@ -1,12 +1,12 @@
 import { useRequest } from "@hooks/useRequest"
-import { usePopupContext } from "@popup/context"
+import { useQuery } from "@popup/context"
 import { ElCol, ElRow, ElScrollbar } from "element-plus"
 import { defineComponent } from "vue"
 import Item from "./Item"
 import { doQuery } from "./query"
 
 const Ranking = defineComponent(() => {
-    const { query } = usePopupContext()
+    const query = useQuery()
     const { data: result } = useRequest(() => doQuery(query), { deps: () => ({ ...query }) })
 
     return () => (
