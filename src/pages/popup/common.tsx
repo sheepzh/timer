@@ -5,13 +5,7 @@ import { type StatQueryParam } from "@service/stat-service"
 import { isRemainHost } from "@util/constant/remain-host"
 import { getAppPageUrl } from "@util/constant/url"
 import { getMonthTime, MILL_PER_DAY } from "@util/time"
-
-export type PopupQuery = {
-    mergeMethod: timer.stat.MergeMethod | undefined
-    duration: timer.option.PopupDuration
-    durationNum?: number
-    type: timer.core.Dimension
-}
+import { type PopupQuery } from "./context"
 
 type DateRangeCalculator = (now: Date, num?: number) => Awaitable<Date | [Date, Date] | undefined>
 
@@ -28,12 +22,12 @@ const DATE_RANGE_CALCULATORS: { [duration in timer.option.PopupDuration]: DateRa
 }
 
 export const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> => {
-    const { duration, durationNum, mergeMethod, type } = param
+    const { duration, durationNum, mergeMethod, dimension } = param
     const stat: StatQueryParam = {
         date: await DATE_RANGE_CALCULATORS[duration]?.(new Date(), durationNum),
         mergeHost: mergeMethod === 'domain',
         mergeCate: mergeMethod === 'cate',
-        sort: type,
+        sort: dimension,
         sortOrder: 'DESC',
         mergeDate: true,
         exclusiveVirtual: true,

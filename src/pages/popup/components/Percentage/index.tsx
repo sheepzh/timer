@@ -14,7 +14,7 @@ use([CanvasRenderer, PieChart, AriaComponent, LegendComponent, TitleComponent, T
 
 const Percentage = defineComponent(() => {
     const { query } = usePopupContext()
-    const { data } = useRequest(() => doQuery(query.value), { deps: [query] })
+    const { data } = useRequest(() => doQuery(query), { deps: () => ({ ...query }) })
 
     return () => (
         <ElCard
@@ -22,7 +22,7 @@ const Percentage = defineComponent(() => {
             style={{ width: '100%', height: '100%' }}
             bodyStyle={{ height: '100%', boxSizing: 'border-box', padding: 0 }}
         >
-            {query.value?.mergeMethod === 'cate'
+            {query.mergeMethod === 'cate'
                 ? <Cate value={data.value} />
                 : <Site value={data.value} />}
         </ElCard>

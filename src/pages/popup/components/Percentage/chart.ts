@@ -72,9 +72,9 @@ function formatTotalStr(rows: timer.stat.Row[], type: timer.core.Dimension | und
 }
 
 function calculateSubTitleText(result: PercentageResult): string {
-    let { date, dataDate, rows, query: { type } = {} } = result
+    let { date, dataDate, rows, query: { dimension } = {} } = result
     const dateStr = dataDate ? formatDateStr(date, dataDate) : ''
-    const totalStr = formatTotalStr(rows, type)
+    const totalStr = formatTotalStr(rows, dimension)
     let parts = [totalStr, dateStr].filter(str => !!str)
     isRtl() && (parts = parts.reverse())
     return parts.join(' @ ')
@@ -195,9 +195,9 @@ type CustomOption = Pick<
 >
 
 export function generateSiteSeriesOption(rows: timer.stat.Row[], result: PercentageResult, customOption: CustomOption): PieSeriesOption {
-    const { displaySiteName, query: { type }, itemCount } = result || {}
+    const { displaySiteName, query: { dimension }, itemCount } = result || {}
 
-    const chartRows = cvt2ChartRows(rows, type, itemCount)
+    const chartRows = cvt2ChartRows(rows, dimension, itemCount)
     const iconRich: PieLabelRichOption = {}
     const data = chartRows.map(d => {
         const { siteKey, cateKey, alias, isOther, iconUrl } = d
@@ -207,7 +207,7 @@ export function generateSiteSeriesOption(rows: timer.stat.Row[], result: Percent
         iconUrl && (richValue.backgroundColor = { image: iconUrl })
         iconRich[legend2LabelStyle(legend)] = richValue
 
-        return { name: legend, value: d[type] || 0, siteKey, cateKey, isOther, iconUrl } satisfies PieSeriesItemOption
+        return { name: legend, value: d[dimension] || 0, siteKey, cateKey, isOther, iconUrl } satisfies PieSeriesItemOption
     })
 
     const textColor = getPrimaryTextColor()
@@ -258,13 +258,13 @@ export function formatTooltip({ query, dateLength }: PercentageResult, params: C
     const label = host ? generateSiteLabel(host, name) : name
     let result = label
     const itemValue = typeof value === 'number' ? value as number : 0
-    const { type } = query
-    const valueText = type === 'time' ? itemValue : formatPeriodCommon(itemValue)
+    const { dimension } = query
+    const valueText = dimension === 'time' ? itemValue : formatPeriodCommon(itemValue)
     result += '<br/>' + valueText
     // Display percent only when query focus time
-    type === 'focus' && (result += ` (${percent}%)`)
+    dimension === 'focus' && (result += ` (${percent}%)`)
     if (!data.isOther && dateLength && dateLength > 1) {
-        const averageValueText = calculateAverageText(type, itemValue / dateLength)
+        const averageValueText = calculateAverageText(dimension, itemValue / dateLength)
         averageValueText && (result += `<br/>${averageValueText}`)
     }
     return result

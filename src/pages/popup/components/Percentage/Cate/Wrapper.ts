@@ -64,8 +64,8 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
                 return
             }
 
-            const { query: { type } = {}, date } = this.resultCache || {}
-            type && handleClick(data as PieSeriesItemOption, date, type)
+            const { query: { dimension } = {}, date } = this.resultCache || {}
+            dimension && handleClick(data as PieSeriesItemOption, date, dimension)
         })
     }
 
@@ -83,7 +83,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
         if (!result) return {}
 
         const { rows, query } = result
-        const { type } = query || {}
+        const { dimension } = query
         const selected: timer.stat.Row | undefined = this.selectedCache ? rows?.filter(r => r?.cateKey === this.selectedCache)?.[0] : undefined
 
         const textColor = getPrimaryTextColor()
@@ -112,7 +112,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             selectedMode: 'single',
             startAngle: 180,
             data: rows.map(row => ({
-                value: row[type],
+                value: row[dimension],
                 cateKey: row.cateKey,
                 selected: row.cateKey === selected?.cateKey,
                 name: cateNameMap[row.cateKey ?? ''],
@@ -133,7 +133,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             },
         }]
         if (selected) {
-            const mergedRows = (selected?.mergedRows || []).sort((a, b) => (b[type] ?? 0) - (a[type] ?? 0))
+            const mergedRows = (selected?.mergedRows || []).sort((a, b) => (b[dimension] ?? 0) - (a[dimension] ?? 0))
 
             const siteSeries = generateSiteSeriesOption(mergedRows, result, {
                 center: ['60%', '58%'],
