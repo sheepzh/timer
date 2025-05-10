@@ -5,20 +5,14 @@
  * https://opensource.org/licenses/MIT
  */
 
-type PopupRequired = MakeRequired<timer.option.PopupOption, 'defaultDurationNum'>
-
-export function defaultPopup(): PopupRequired {
+export function defaultPopup(): timer.option.PopupOption {
     // Use template
     return {
         popupMax: 10,
-        defaultType: 'focus',
-        defaultDuration: "today",
-        defaultDurationNum: 7,
         /**
          * Change the default value to 'true' since v0.5.4
          */
         displaySiteName: true,
-        defaultMergeMethod: undefined,
     }
 }
 
@@ -86,7 +80,7 @@ export function defaultAccessibility(): timer.option.AccessibilityOption {
 }
 
 export type DefaultOption =
-    & PopupRequired & AppearanceRequired & StatisticsRequired & DailyLimitRequired
+    & timer.option.PopupOption & AppearanceRequired & StatisticsRequired & DailyLimitRequired
     & timer.option.BackupOption & timer.option.AccessibilityOption
 
 export function defaultOption(): DefaultOption {

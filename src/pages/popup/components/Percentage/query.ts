@@ -1,4 +1,5 @@
-import { cvt2StatQuery, type PopupQuery } from "@popup/common"
+import { cvt2StatQuery, } from "@popup/common"
+import { type PopupQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import optionHolder from "@service/components/option-holder"
 import statService from "@service/stat-service"

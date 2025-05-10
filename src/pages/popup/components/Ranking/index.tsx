@@ -7,7 +7,7 @@ import { doQuery } from "./query"
 
 const Ranking = defineComponent(() => {
     const { query } = usePopupContext()
-    const { data: result } = useRequest(() => doQuery(query.value), { deps: query })
+    const { data: result } = useRequest(() => doQuery(query), { deps: () => ({ ...query }) })
 
     return () => (
         <ElScrollbar noresize style={{ width: '100%' }}>

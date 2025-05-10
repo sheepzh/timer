@@ -3,17 +3,6 @@ import { type DefaultOption, defaultOption } from "@util/constant/option"
 
 const db = new OptionDatabase(chrome.storage.local)
 
-function migrateOld<T extends timer.option.AllOption>(result: T): T {
-    const newRes = { ...result }
-    const duration = newRes['defaultDuration']
-    if (duration as string === 'last30Days') {
-        // old option, deprecated since v2.5.3, Nov 23 2024
-        newRes.defaultDuration = 'lastDays'
-        newRes.defaultDurationNum = 30
-    }
-    return newRes
-}
-
 type ChangeListener = (option: timer.option.AllOption) => void
 
 class OptionHolder {
@@ -31,9 +20,8 @@ class OptionHolder {
         const exist: Partial<timer.option.AllOption> = await db.getOption()
         const result = defaultOption()
         Object.entries(exist).forEach(([key, val]) => (result as any)[key] = val)
-        const newVal = migrateOld(result)
-        this.option = newVal
-        return newVal
+        this.option = result
+        return result
     }
 
     async get(): Promise<DefaultOption> {

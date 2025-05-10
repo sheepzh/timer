@@ -52,8 +52,8 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             const { type: evType, componentType, data } = params || {}
             if (evType !== 'click' || componentType !== 'series') return
 
-            const { query: { type } = {}, date } = this.resultCache || {}
-            type && handleClick(data as PieSeriesItemOption, date, type)
+            const { query: { dimension } = {}, date } = this.resultCache || {}
+            dimension && handleClick(data as PieSeriesItemOption, date, dimension)
         })
     }
 
