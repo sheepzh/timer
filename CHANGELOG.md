@@ -4,6 +4,11 @@ All notable changes to Time Tracker will be documented in this file.
 
 It is worth mentioning that the release time of each change refers to the time when the installation package is submitted to the webstore. It is about one week for Edge to moderate packages, while only 1-2 days for Chrome and Firefox.
 
+## [3.4.4] - 2025-05-15
+
+-   Removed default filter option of the popup page
+-   Add total stat of record table
+
 ## [3.4.3] - 2025-05-08
 
 -   Optimized UI of top-k on the dashboard page (#466)
