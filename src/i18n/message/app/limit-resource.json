@@ -56,6 +56,7 @@
     },
     "zh_TW": {
         "filterDisabled": "過濾無效規則",
+        "wildcardTip": "你可以使用萬用字元來匹配子網域或子頁面！",
         "item": {
             "name": "規則名稱",
             "condition": "限制網址",
@@ -67,6 +68,7 @@
             "visitTime": "單次造訪時長限制",
             "period": "限制時段",
             "enabled": "是否啟用",
+            "locked": "已鎖定",
             "effectiveDay": "生效日期",
             "delayAllowed": "允許延遲",
             "delayAllowedInfo": "當使用時間超過限制時，可點擊【再看5分鐘】暫時延長。若關閉此功能則無法延時。",
@@ -86,10 +88,12 @@
             "noUrl": "未填寫限制網址",
             "noRule": "未設定任何規則",
             "deleteConfirm": "確定要刪除規則「{name}」嗎？",
+            "lockConfirm": "如果鎖定，所有操作都需要驗證，即使規則未觸發也一樣。",
             "inputTestUrl": "請輸入要測試的網址",
             "clickTestButton": "輸入完成後請點擊【{buttonText}】按鈕",
             "noRuleMatched": "此網址未符合任何規則",
-            "rulesMatched": "此網址符合以下規則："
+            "rulesMatched": "此網址符合以下規則：",
+            "timeout": "時間到啦！XDDD"
         },
         "verification": {
             "inputTip": "規則已觸發或鎖定，請於 {second} 秒內回答：{prompt}",
@@ -206,24 +210,26 @@
         "reminder": "制限時間まで {min} 分未満！"
     },
     "pt_PT": {
-        "filterDisabled": "Apenas Habilitadas",
+        "filterDisabled": "Apenas ativos",
+        "wildcardTip": "Pode usar wildcards para corresponder a subdomínios ou subpáginas!",
         "item": {
             "name": "Nome da regra",
-            "condition": "Restrito URL",
+            "condition": "URL restrito",
             "daily": "Limite diário",
             "weekly": "Limite semanal",
-            "weekStartInfo": "O primeiro dia de cada semana é {weekStart}, pode alterar este valor nas opções de estatísticas",
-            "delayCount": "Contagem de atraso",
+            "weekStartInfo": "O primeiro dia da semana é {weekStart}. Pode alterar nas opções de estatísticas",
+            "delayCount": "Atrasos permitidos",
             "detail": "Detalhe da regra",
-            "visitTime": "Limitar por visita",
-            "period": "Períodos não permitidos",
-            "enabled": "Ativado",
-            "effectiveDay": "Efetivo ativado",
-            "delayAllowed": "Mais 5 minutos",
-            "delayAllowedInfo": "Se expirar, permita um atraso temporário de 5 minutos",
+            "visitTime": "Tempo limite por visita",
+            "period": "Períodos bloqueados",
+            "enabled": "Ativo",
+            "locked": "Bloqueado",
+            "effectiveDay": "Dias de aplicação",
+            "delayAllowed": "Permitir atraso",
+            "delayAllowedInfo": "Se expirar, permite um atraso temporário de 5 minutos",
             "visits": "visitas",
             "or": "ou",
-            "notEffective": "Não é eficaz"
+            "notEffective": "Não aplicável"
         },
         "step": {
             "base": "Informação básica",
@@ -234,25 +240,27 @@
             "test": "Testar URL"
         },
         "message": {
-            "noUrl": "URL limitada não preenchida",
+            "noUrl": "Nenhum URL configurado",
             "noRule": "Nenhuma regra preenchida",
-            "deleteConfirm": "Pretende eliminar a regra [{name}]?",
-            "inputTestUrl": "Por favor insira o link de URL para testar primeiro",
-            "clickTestButton": "Após a entrada, por favor, clique no botão ({buttonText})",
-            "noRuleMatched": "O URL não atinge nenhuma regra",
-            "rulesMatched": "A URL atinge as seguintes regras:"
+            "deleteConfirm": "Eliminar a regra [{name}]?",
+            "lockConfirm": "Se bloqueado, exigirá verificação mesmo sem ser acionado",
+            "inputTestUrl": "Introduza primeiro o URL a testar",
+            "clickTestButton": "Clique no botão ({buttonText}) após introduzir",
+            "noRuleMatched": "O URL não corresponde a nenhuma regra",
+            "rulesMatched": "O URL corresponde às seguintes regras:",
+            "timeout": "Tempo esgotado! XD"
         },
         "verification": {
-            "inputTip": "A regra foi acionada ou bloqueada. Para continuar, introduza a resposta à seguinte questão em {second} segundos: {prompt}",
-            "inputTip2": "A regra foi acionada ou bloqueada. Para continuar, digite-o tal como está em {segundos} segundos: {resposta}",
-            "pswInputTip": "Esta regra já foi acionada. Para continuar, digite a sua senha de desbloqueio",
-            "strictTip": "A regra de limite já foi acionada e o desbloqueio manual não é permitido!",
+            "inputTip": "Regra acionada/bloqueada. Responda em {second}s: {prompt}",
+            "inputTip2": "Regra acionada/bloqueada. Repita em {second}s: {answer}",
+            "pswInputTip": "Regra acionada/bloqueada. Introduza a palavra-passe",
+            "strictTip": "Acionado - operações bloqueadas até libertação!",
             "incorrectPsw": "Palavra-passe incorreta",
             "incorrectAnswer": "Resposta incorreta",
-            "pi": "{digitCount} dígitos de {startIndex} a {endIndex} da parte decimal de π",
-            "confession": "Tempo é dinheiro"
+            "pi": "{digitCount} dígitos (posições {startIndex}-{endIndex}) da parte decimal de π",
+            "confession": "O tempo é efémero"
         },
-        "reminder": "Faltam menos de {min} minutos para o tempo limite!"
+        "reminder": "Menos de {min} minutos até ao limite!"
     },
     "uk": {
         "filterDisabled": "Лише увімкнені",
@@ -285,15 +293,13 @@
         "message": {
             "noUrl": "Не заповнена обмежена URL-адреса",
             "noRule": "Не заповнено жодного правила",
-            "deleteConfirm": "Ви бажаєте видалити правило [{name}]?",
+            "deleteConfirm": "Ви дійсно хочете видалити правило {cond}?",
             "inputTestUrl": "Спочатку введіть URL-адресу посилання для перевірки",
             "clickTestButton": "Після введення натисніть кнопку ({buttonText})",
             "noRuleMatched": "URL не відповідає жодному правилу",
             "rulesMatched": "URL-адреса отримує такі правила:"
         },
         "verification": {
-            "inputTip": "Правило було запущено або заблоковано. Щоб продовжити, введіть відповідь на таке запитання протягом {second} секунд: {prompt}",
-            "inputTip2": "Правило було запущено або заблоковано. Щоб продовжити, введіть його таким, яким він є, протягом {second} секунд: {answer}",
             "pswInputTip": "Правило обмеження вже було запущено. Щоб продовжити, введіть пароль",
             "strictTip": "Правило обмеження вже активовано і ручне розблокування не дозволено!",
             "incorrectPsw": "Неправильний пароль",
@@ -330,7 +336,7 @@
         "message": {
             "noUrl": "URL restringida sin completar",
             "noRule": "No hay reglas llenadas",
-            "deleteConfirm": "¿Quieres eliminar la regla [{name}]?",
+            "deleteConfirm": "¿Deseas eliminar la regla de {cond}?",
             "inputTestUrl": "Por favor, introduce primero el enlace URL a ser probado",
             "clickTestButton": "Después de ingresarla, haz clic en el botón ({buttonText})",
             "noRuleMatched": "La URL no sigue ninguna regla",

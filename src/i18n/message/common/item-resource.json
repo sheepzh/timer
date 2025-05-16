@@ -71,17 +71,17 @@
         "date": "Data",
         "host": "Domínio",
         "focus": "Duração",
-        "run": "Tempo de execução",
+        "run": "Tempo de Execução",
         "time": "Visitas",
         "operation": {
-            "add2Whitelist": "Lista branca",
+            "add2Whitelist": "Lista de Permissões",
             "analysis": "Analisar",
-            "deleteConfirmMsgAll": "Todos os registros de visita de {url} serão excluídos",
-            "deleteConfirmMsgRange": "Registros de visita de {url} entre {start} e {end} serão excluídos",
-            "deleteConfirmMsg": "Registro de visita de {url} em {date} será excluído",
+            "deleteConfirmMsgAll": "Todos os registos de visitas de {url} serão eliminados",
+            "deleteConfirmMsgRange": "Os registos de visitas de {url} entre {start} e {end} serão eliminados",
+            "deleteConfirmMsg": "O registo de visita de {url} de {date} será eliminado",
             "exportWholeData": "Exportar",
             "importWholeData": "Importar",
-            "importOtherData": "Importar de extensões"
+            "importOtherData": "Importar de Extensões"
         }
     },
     "uk": {
@@ -93,11 +93,11 @@
         "operation": {
             "add2Whitelist": "Білий список",
             "analysis": "Аналіз",
-            "deleteConfirmMsgAll": "Усі записи відвідування {url} будуть видалені",
-            "deleteConfirmMsgRange": "Записи відвідування {url} з {start} по {end} будуть видалені",
-            "deleteConfirmMsg": "Запис відвідування {url} за {date} буде видалено",
-            "exportWholeData": "Експорт даних",
-            "importWholeData": "Імпорт даних",
+            "deleteConfirmMsgAll": "Усі записи для {url} будуть видалені!",
+            "deleteConfirmMsgRange": "Усі записи для {url} між {start} і {end} будуть видалені!",
+            "deleteConfirmMsg": "Запис для {url} {date} буде видалено!",
+            "exportWholeData": "Експортувати дані",
+            "importWholeData": "Імпортувати дані",
             "importOtherData": "Імпорт з інших розширень"
         }
     },
@@ -143,7 +143,6 @@
             "analysis": "Analyser",
             "deleteConfirmMsgAll": "Tous les enregistrements de {url} seront supprimés",
             "deleteConfirmMsgRange": "Les enregistrements de {url} entre {start} et {end} seront supprimés",
-            "deleteConfirmMsg": "L'enregistrement du {date} sera supprimé",
             "exportWholeData": "Exporter",
             "importWholeData": "Importer",
             "importOtherData": "Depuis d'autres extensions"
@@ -153,6 +152,7 @@
         "date": "Дата",
         "host": "Сайт",
         "focus": "Длительность",
+        "run": "Время работы",
         "time": "Визиты",
         "operation": {
             "add2Whitelist": "Белый список",
@@ -172,7 +172,6 @@
         "time": "الزيارات",
         "operation": {
             "add2Whitelist": "القائمة البيضاء",
-            "removeFromWhitelist": "إزالة من القائمة البيضاء",
             "analysis": "تحليل",
             "deleteConfirmMsgAll": "سيتم حذف جميع سجلات {url}",
             "deleteConfirmMsgRange": "سيتم حذف سجلات {url} بين {start} و{end}",

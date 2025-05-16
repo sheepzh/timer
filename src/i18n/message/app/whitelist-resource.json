@@ -36,13 +36,13 @@
         "errorInput": "無効なURL"
     },
     "pt_PT": {
-        "addConfirmMsg": "{url} não será mais contado após adicionado à lista ignorada.",
-        "removeConfirmMsg": "{url} será removido da lista ignorada.",
+        "addConfirmMsg": "{url} não será contabilizado após ser adicionado à lista de permissões.",
+        "removeConfirmMsg": "{url} será removido da lista de permissões.",
         "duplicateMsg": "Duplicado",
-        "infoAlertTitle": "Você pode definir uma lista de sites ignorados nesta página",
-        "infoAlert0": "Sites na lista ignorada não serão contados",
-        "infoAlert1": "Sites na lista ignorada não serão restritos",
-        "errorInput": "URL inválido do site"
+        "infoAlertTitle": "Pode adicionar sites à lista de permissões nesta página",
+        "infoAlert0": "Os sites na lista de permissões não serão contabilizados",
+        "infoAlert1": "Os sites na lista de permissões não serão restringidos",
+        "errorInput": "URL do site inválido"
     },
     "uk": {
         "addConfirmMsg": "{url} не враховуватиметься після додавання до білого списку.",

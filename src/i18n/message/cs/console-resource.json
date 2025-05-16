@@ -16,7 +16,7 @@
         "closeAlert": "[{appName}]の設定でこの通知を無効にできます"
     },
     "pt_PT": {
-        "consoleLog": "Hoje abriu {host} {time} vez(es), gastando {focus} a navegar.",
+        "consoleLog": "Hoje abriu {host} {time} vezes, gastou {focus} a navegar nele.",
         "closeAlert": "Pode desativar estas notificações nas definições do [{appName}]!"
     },
     "uk": {

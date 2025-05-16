@@ -90,9 +90,9 @@
     "pt_PT": {
         "weekDays": "Seg|Ter|Qua|Qui|Sex|Sáb|Dom",
         "months": "Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez",
-        "dateFormat": "{d}/{m}/{y}",
-        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
-        "simpleTimeFormat": "{d}/{m} {h}:{i}",
+        "dateFormat": "{m}/{d}/{y}",
+        "timeFormat": "{m}/{d}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{m}/{d} {h}:{i}",
         "label": {
             "startDate": "Data inicial",
             "endDate": "Data final"
@@ -100,13 +100,13 @@
         "range": {
             "today": "Hoje",
             "yesterday": "Ontem",
-            "everyday": "Diariamente",
+            "everyday": "Todos os dias",
             "thisWeek": "Esta semana",
             "thisMonth": "Este mês",
             "lastDays": "Últimos {n} dias",
             "tillYesterday": "Até ontem",
-            "tillDaysAgo": "Até {n} dias atrás",
-            "allTime": "Todo o tempo"
+            "tillDaysAgo": "Até há {n} dias",
+            "allTime": "Todo o período"
         }
     },
     "uk": {
@@ -116,16 +116,16 @@
         "timeFormat": "{d}.{m}.{y} {h}:{i}:{s}",
         "simpleTimeFormat": "{d}.{m} {h}:{i}",
         "label": {
-            "startDate": "Початкова дата",
-            "endDate": "Кінцева дата"
+            "startDate": "Дата початку",
+            "endDate": "Дата завершення"
         },
         "range": {
             "today": "Сьогодні",
-            "yesterday": "Вчора",
+            "yesterday": "Учора",
             "everyday": "Щодня",
             "thisWeek": "Цього тижня",
             "thisMonth": "Цього місяця",
-            "lastDays": "Останні {n} дні",
+            "lastDays": "Минулі {n} днів",
             "tillYesterday": "До вчора",
             "tillDaysAgo": "До {n} днів тому",
             "allTime": "Весь час"

@@ -22,6 +22,7 @@
     },
     "zh_TW": {
         "exportFileName": "我的上網時間紀錄",
+        "total": "總造訪次數：{visit} 次，總使用時長：{focus}",
         "batchDelete": {
             "noSelectedMsg": "請先勾選要刪除的資料列",
             "confirmMsg": "將刪除 {example} 等網站於 {date} 的 {count} 筆紀錄！",

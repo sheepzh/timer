@@ -20,8 +20,8 @@
         "feedbackPage": "フィードバックの欠如"
     },
     "pt_PT": {
-        "add2Whitelist": "Ignorar {host}",
-        "removeFromWhitelist": "Habilitar {host}",
+        "add2Whitelist": "Adicionar {host} à lista de permissões",
+        "removeFromWhitelist": "Remover {host} da lista de permissões",
         "feedbackPage": "Problemas"
     },
     "uk": {

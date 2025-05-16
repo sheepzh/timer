@@ -57,12 +57,12 @@
     },
     "pt_PT": {
         "merge": {
-            "mergeBy": "Mesclar por",
+            "mergeBy": "Agrupar por",
             "mergeMethod": {
                 "date": "Data",
                 "domain": "URL",
                 "cate": "Categoria",
-                "notMerge": "Não Mesclar"
+                "notMerge": "Não Agrupar"
             }
         },
         "cate": {

@@ -125,33 +125,33 @@
     },
     "pt_PT": {
         "target": {
-            "site": "Site",
+            "site": "Website",
             "cate": "Categoria"
         },
         "common": {
             "focusTotal": "Tempo total de navegação",
             "visitTotal": "Total de visitas",
-            "merged": "Mesclado",
+            "merged": "Agrupado",
             "virtual": "Virtual",
-            "hostPlaceholder": "Procure um site para analisar",
-            "emptyDesc": "Nenhum site selecionado"
+            "hostPlaceholder": "Selecione o site ou categoria",
+            "emptyDesc": "Nenhum item selecionado"
         },
         "summary": {
             "title": "Resumo",
             "day": "Total de dias ativos",
             "firstDay": "Primeira visita {value}",
-            "calendarTitle": "Atividade em semanas recentes"
+            "calendarTitle": "Atividade nas últimas semanas"
         },
         "trend": {
             "title": "Tendências",
             "activeDay": "Dias ativos",
-            "totalDay": "Dias de período",
-            "maxFocus": "Tempo máximo de navegação diário",
-            "averageFocus": "Tempo médio de navegação diário",
-            "maxVisit": "Máximo diário de visitas",
-            "averageVisit": "Média diária de visitas",
-            "focusTitle": "Tendências do Tempo de Navegação",
-            "visitTitle": "Tendências de Visita"
+            "totalDay": "Total dias",
+            "maxFocus": "Máx. tempo navegação",
+            "averageFocus": "Méd. tempo navegação",
+            "maxVisit": "Máx. visitas",
+            "averageVisit": "Méd. visitas",
+            "focusTitle": "Tempo navegação",
+            "visitTitle": "Visitas"
         }
     },
     "uk": {

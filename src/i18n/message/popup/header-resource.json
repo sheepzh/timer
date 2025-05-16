@@ -26,7 +26,7 @@
     "pt_PT": {
         "updateVersion": "Atualizar",
         "updateVersionInfo": "Versão mais recente: {version}",
-        "updateVersionInfo4Firefox": "Atualize para {version} em about:addons",
+        "updateVersionInfo4Firefox": "Atualize para {version} através do about:addons",
         "rate": "Avaliar"
     },
     "uk": {
@@ -42,7 +42,7 @@
         "rate": "Calificar"
     },
     "de": {
-        "updateVersion": "Update",
+        "updateVersion": "Aktualisierbar",
         "updateVersionInfo": "Neueste Version: {version}",
         "updateVersionInfo4Firefox": "Bitte aktualisieren Sie auf {version} über about:addons",
         "rate": "Bewerten"

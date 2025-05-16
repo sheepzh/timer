@@ -41,48 +41,48 @@
     },
     "uk": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "Файли JSON",
+            "pdf": "Файли PDF",
             "pic": "Зображення",
-            "txt": "Текст"
+            "txt": "Текстові файли"
         }
     },
     "es": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "Archivos JSON",
+            "pdf": "Archivos PDF",
             "pic": "Imágenes",
             "txt": "Texto"
         }
     },
     "de": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "JSON-Dateien",
+            "pdf": "PDF-Dateien",
             "pic": "Bilder",
-            "txt": "Text"
+            "txt": "Text-Dateien"
         }
     },
     "fr": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "Fichiers JSON",
+            "pdf": "Fichiers PDF",
             "pic": "Images",
             "txt": "Texte"
         }
     },
     "ru": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "JSON файлы",
+            "pdf": "PDF файлы",
             "pic": "Изображения",
             "txt": "Текст"
         }
     },
     "ar": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "ملفات JSON",
+            "pdf": "ملفات PDF",
             "pic": "الصور",
             "txt": "نص"
         }

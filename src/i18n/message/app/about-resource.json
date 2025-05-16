@@ -54,29 +54,29 @@
         "label": {
             "name": "Назва",
             "version": "Версія",
-            "website": "Сайт",
+            "website": "Офіційний вебсайт",
             "installation": "Встановити",
             "thanks": "Подяки",
-            "privacy": "Приватність",
-            "license": "Ліцензія",
+            "privacy": "Положення про приватність",
+            "license": "Ліцензія відкритого коду",
             "support": "Підтримка"
         },
         "text": {
             "greet": "Вам подобається це розширення?",
-            "rate": "Оцініть на 5 зірок!",
-            "feedback": "Чекаємо на ваші відгуки!"
+            "rate": "Поставте оцінку 5 зірок, щоб допомогти іншим дізнатися про нього~~",
+            "feedback": "Також ми з радістю розглянемо ваші відгуки та запити щодо функцій!!"
         }
     },
     "de": {
         "label": {
-            "name": "Name",
-            "version": "Version",
-            "website": "Website",
+            "name": "Namen",
+            "version": "Aktuelle Version",
+            "website": "Offizielle Website",
             "installation": "Installation",
             "thanks": "Dank",
             "privacy": "Datenschutz",
             "license": "Lizenz",
-            "support": "Support"
+            "support": "Kundendienst"
         },
         "text": {
             "greet": "Gefällt Ihnen die Erweiterung?",
@@ -105,29 +105,29 @@
         "label": {
             "name": "Nome",
             "version": "Versão",
-            "website": "Site",
+            "website": "Website",
             "installation": "Instalar",
             "thanks": "Créditos",
-            "privacy": "Privacidade",
+            "privacy": "Política de Privacidade",
             "license": "Licença",
-            "support": "Apoio"
+            "support": "Suporte"
         },
         "text": {
-            "greet": "Gosta da extensão?",
-            "rate": "Avalie com 5 estrelas!",
-            "feedback": "Envie-nos o seu feedback!"
+            "greet": "A gostar desta extensão?",
+            "rate": "Avalie-nos com 5 estrelas para nos apoiar!",
+            "feedback": "As suas ideias tornam-nos melhores!"
         }
     },
     "fr": {
         "label": {
             "name": "Nom",
-            "version": "Version",
+            "version": "Version actuelle",
             "website": "Site web",
             "installation": "Installation",
             "thanks": "Crédits",
             "privacy": "Confidentialité",
             "license": "Licence open source",
-            "support": "Support"
+            "support": "Soutien"
         },
         "text": {
             "greet": "Vous aimez cette extension?",

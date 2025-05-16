@@ -33,19 +33,19 @@
     },
     "pt_PT": {
         "sidebar": "Barra Lateral",
-        "allFunction": "Todas Funções",
-        "guidePage": "Guia de Utilização",
+        "allFunction": "Todas as Funcionalidades",
+        "guidePage": "Guia do Utilizador",
         "option": "Definições",
         "sourceCode": "Código Fonte",
-        "changeLog": "Notas de Versão"
+        "changeLog": "Notas de Lançamento"
     },
     "uk": {
         "sidebar": "Бічна панель",
         "allFunction": "Усі функції",
-        "guidePage": "Інструкція",
+        "guidePage": "Посібник",
         "option": "Налаштування",
         "sourceCode": "Вихідний код",
-        "changeLog": "Оновлення"
+        "changeLog": "Журнал змін"
     },
     "es": {
         "sidebar": "Barra Lateral",

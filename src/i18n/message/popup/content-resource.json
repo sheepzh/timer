@@ -31,8 +31,8 @@
                 "allTime": "全部紀錄"
             },
             "saveAsImageTitle": "儲存圖片",
-            "averageTime": "平均每日 {value}",
             "averageCount": "平均每日 {value} 次",
+            "averageTime": "平均每日 {value}",
             "totalTime": "總計 {totalTime}",
             "totalCount": "總計 {totalCount} 次",
             "otherLabel": "其他{count}個網站"
@@ -87,21 +87,21 @@
         "percentage": {
             "title": {
                 "today": "Dados de Hoje",
-                "yesterday": "Dados de ontem",
+                "yesterday": "Dados de Ontem",
                 "thisWeek": "Dados desta Semana",
                 "thisMonth": "Dados deste Mês",
                 "lastDays": "Dados dos últimos {n} dias",
                 "allTime": "Todos os dados"
             },
             "saveAsImageTitle": "Captura",
-            "averageCount": "{value} vezes por dia em média",
-            "averageTime": "{value} por dia em média",
-            "totalTime": "Total {totalTime}",
-            "totalCount": "Total {totalCount} vezes",
+            "averageCount": "Média de {value} vezes por dia",
+            "averageTime": "Média de {value} por dia",
+            "totalTime": "Total: {totalTime}",
+            "totalCount": "Total: {totalCount} vezes",
             "otherLabel": "Outros {count} sites"
         },
         "ranking": {
-            "includingCount": "Incluindo {siteCount} sites"
+            "includingCount": "Inclui {siteCount} sites"
         }
     },
     "uk": {

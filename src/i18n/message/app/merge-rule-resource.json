@@ -76,22 +76,22 @@
         }
     },
     "pt_PT": {
-        "removeConfirmMsg": "{origin} será removido das regras personalizadas de mesclagem.",
+        "removeConfirmMsg": "{origin} será removido das regras de agrupamento personalizadas.",
         "originPlaceholder": "Site original",
-        "mergedPlaceholder": "Mesclado",
-        "errorOrigin": "O formato do site original é inválido.",
+        "mergedPlaceholder": "Agrupado",
+        "errorOrigin": "Formato do site original inválido.",
         "duplicateMsg": "A regra já existe: {origin}",
-        "addConfirmMsg": "Regras de mesclagem personalizadas serão definidas para {origin}",
-        "infoAlertTitle": "Você pode definir as regras de mesclagem ao contar sites nesta página",
-        "infoAlert0": "Clique no botão [Criar], as caixas de entrada do site de origem e o site de mesclagem serão exibidas, preencherão e salvarão a regra",
-        "infoAlert1": "O site original pode ser preenchido com um site específico ou expressão regular, como www.baidu.com, *.baidu.com, *.google.com.*, para determinar quais sites corresponderão a essa regra ao mesclar",
-        "infoAlert2": "O site mesclado pode ser preenchido com um site específico, um número ou em branco",
-        "infoAlert3": "Um número significa o nível de um site unificado. Por exemplo, há uma regra '*.*.edu.cn >>> 3', em seguida, 'www.hust.edu.cn' será fundida com 'hust.edu.cn'",
-        "infoAlert4": "Em branco significa que o site original não será mesclado",
-        "infoAlert5": "Se nenhuma regra for correspondida, o padrão será o nível antes de {psl}",
+        "addConfirmMsg": "Será criada uma regra de agrupamento para {origin}",
+        "infoAlertTitle": "Regras de agrupamento para contagem de sites nesta página",
+        "infoAlert0": "Clique em [Novo] para mostrar os campos do site original e do site agrupado",
+        "infoAlert1": "O site original pode ser um URL específico ou expressão regular (ex: www.baidu.com, *.baidu.com, *.google.com.*)",
+        "infoAlert2": "O site agrupado pode ser um URL específico, um número ou ficar em branco",
+        "infoAlert3": "Um número indica o nível de agrupamento. Ex: com a regra '*.*.edu.cn >>> 3', 'www.hust.edu.cn' será agrupado como 'hust.edu.cn'",
+        "infoAlert4": "Em branco significa que o site original não será agrupado",
+        "infoAlert5": "Se nenhuma regra for encontrada, usará o nível anterior a {psl}",
         "tagResult": {
-            "blank": "Não Mesclar",
-            "level": "Mantenha o Nível {level}"
+            "blank": "Não Agrupar",
+            "level": "Manter Nível {level}"
         }
     },
     "uk": {

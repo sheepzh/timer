@@ -16,8 +16,8 @@
         "successMsg": "正常に動作しました！"
     },
     "pt_PT": {
-        "confirmTitle": "Confirmação de Ação",
-        "successMsg": "Com êxito!"
+        "confirmTitle": "Confirmação",
+        "successMsg": "Sucesso!"
     },
     "uk": {
         "confirmTitle": "Підтвердження",

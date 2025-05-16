@@ -517,128 +517,130 @@
         "yes": "Sim",
         "no": "Não",
         "popup": {
-            "title": "Página de Pop-up",
-            "max": "Mostrar os primeiros {input} itens de dados",
-            "displaySiteName": "{input}  Se deve exibir {siteName} em vez de URL"
+            "title": "Página Pop-up",
+            "max": "Mostrar os primeiros {input} itens",
+            "displaySiteName": "{input} Mostrar {siteName} em vez do URL"
         },
         "appearance": {
             "title": "Aparência",
-            "displayWhitelist": "{input}  Se deseja exibir {whitelist} em {contextMenu}",
-            "whitelistItem": "atalhos relacionados à lista ignorada",
-            "contextMenu": "o ementa de contexto",
-            "displayBadgeText": "{input} Se deve exibir {timeInfo} no {icon}",
-            "badgeBgColor": "A cor de fundo do texto no ícone {input}",
+            "displayWhitelist": "{input} Mostrar {whitelist} no {contextMenu}",
+            "whitelistItem": "atalhos da lista branca",
+            "contextMenu": "menu de contexto",
+            "displayBadgeText": "{input} Mostrar {timeInfo} no {icon}",
+            "badgeBgColor": "Cor de fundo do texto no ícone {input}",
             "icon": "ícone da extensão",
-            "badgeTextContent": "o tempo de navegação do site atual",
+            "badgeTextContent": "tempo de navegação no site atual",
             "locale": {
                 "label": "Idioma {input}",
-                "default": "Siga o navegador",
-                "changeConfirm": "O idioma foi alterado com sucesso, por favor, recarregue esta página!",
+                "default": "Usar do navegador",
+                "changeConfirm": "Idioma alterado! Recarregue a página.",
                 "reloadButton": "Recarregar"
             },
             "printInConsole": {
-                "label": "{input}  Se deseja imprimir {info} no {console}",
+                "label": "{input} Mostrar {info} na {console}",
                 "console": "consola",
-                "info": "a contagem de visitas do site atual hoje"
+                "info": "visitas ao site atual hoje"
             },
             "darkMode": {
                 "label": "Modo escuro {input}",
                 "options": {
-                    "default": "Siga o navegador",
-                    "on": "Sempre ligado",
-                    "off": "Sempre desativado",
-                    "timed": "Cronometrando"
+                    "default": "Usar do navegador",
+                    "on": "Sempre ativo",
+                    "off": "Sempre inativo",
+                    "timed": "Ativo por tempo"
                 }
-            }
+            },
+            "animationDuration": "Duração da animação inicial {input}"
         },
         "statistics": {
             "title": "Estatísticas",
-            "autoPauseTrack": "{input} Pausar o rastreio se não for detetada qualquer atividade {info} por {maxTime}",
-            "noActivityInfo": "O rato e o teclado estão inativos e não estão no modo de ecrã inteiro",
-            "countLocalFiles": "{input}  Se quer contar o tempo até {localFileTime} {info} no navegador",
-            "localFileTime": "ler um arquivo local",
-            "localFilesInfo": "Suporta arquivos de tipos como PDF, imagem, TXT e JSON",
-            "collectSiteName": "{input}  Se deseja coletar automaticamente o {siteName} {siteNameUsage} quando visitar a página inicial do site",
-            "siteName": "o nome do site",
-            "siteNameUsage": "Os dados são armazenados apenas localmente e serão exibidos em vez da URL para aumentar o reconhecimento. F, também pode personalizar o nome de cada site.",
-            "fileAccessDisabled": "O acesso aos URL dos ficheiros não é permitido de momento. Ative-o primeiro na página de gestão",
-            "fileAccessFirefox": "Lamentamos, esta funcionalidade não é compatível com o Firefox",
-            "weekStart": "O primeiro dia de cada semana {input}",
+            "autoPauseTrack": "{input} Pausar sem atividade {info} por {maxTime}",
+            "noActivityInfo": "Sem atividade do rato/teclado e não em ecrã completo",
+            "countLocalFiles": "{input} Contar tempo a {localFileTime} {info}",
+            "localFileTime": "ler ficheiros locais",
+            "localFilesInfo": "Suporta PDF, imagens, txt e json.",
+            "collectSiteName": "{input} Recolher {siteName} {siteNameUsage}",
+            "siteName": "nome do site",
+            "siteNameUsage": "Dados armazenados localmente para substituir URLs. Pode personalizar nomes.",
+            "fileAccessDisabled": "Acesso a URLs de ficheiro não permitido. Ative na página de gestão.",
+            "fileAccessFirefox": "Não suportado no Firefox",
+            "weekStart": "Primeiro dia da semana {input}",
             "weekStartAsNormal": "Normal"
         },
         "dailyLimit": {
-            "prompt": "Prompt exibido quando restrito {input}",
-            "reminder": "{input} Lembrete {minInput} minutos antes do tempo terminar",
+            "prompt": "Aviso quando restrito {input}",
+            "reminder": "{input} Aviso {minInput} minutos antes",
             "level": {
-                "label": "Como desbloquear enquanto restrito {input}",
-                "nothing": "Permitir o desbloqueio direto na página de administração",
-                "password": "É necessário digitar a senha para desbloquear",
-                "verification": "É necessário digitar o código de verificação para desbloquear",
+                "label": "Como desbloquear {input}",
+                "nothing": "Desbloqueio direto na página",
+                "password": "Requer senha",
+                "verification": "Requer código de verificação",
                 "passwordLabel": "Senha para desbloquear {input}",
-                "verificationLabel": "A dificuldade do código de verificação {input}",
+                "verificationLabel": "Dificuldade do código {input}",
                 "verificationDifficulty": {
                     "easy": "Fácil",
                     "hard": "Difícil",
-                    "disgusting": "Nojento"
+                    "disgusting": "Muito difícil"
                 },
-                "strict": "Não permitir desbloqueio mesmo assim",
-                "strictTitle": "Confirmação de operação",
-                "strictContent": "Ao selecionar esta opção, se um site acionar o limite diário, você não poderá desbloqueá-lo manualmente, a não ser esperar até o dia seguinte. Se as regras não forem configuradas corretamente, elas podem atrapalhar suas rotinas!",
-                "pswFormLabel": "Palavra-passe",
-                "pswFormAgain": "Reinsira"
+                "strict": "Não permitir desbloqueio",
+                "strictTitle": "Confirmação",
+                "strictContent": "Se selecionado, não poderá desbloquear manualmente - apenas esperar até ao dia seguinte. Configurações incorretas podem afetar sua rotina!",
+                "pswFormLabel": "Senha",
+                "pswFormAgain": "Confirmar senha"
             }
         },
         "backup": {
-            "title": "Backup de Dados",
+            "title": "Cópia de Segurança",
             "type": "Tipo remoto {input}",
             "client": "Nome do cliente {input}",
             "meta": {
                 "none": {
-                    "label": "Sempre desativado"
+                    "label": "Sempre inativo"
                 },
                 "gist": {
-                    "authInfo": "É necessário um token com pelo menos gist permissão"
+                    "authInfo": "Necessário token com permissão gist"
                 },
                 "obsidian_local_rest_api": {
-                    "endpointInfo": "Somente HTTP está disponível porque não é possível configurar CORS para páginas de extensões"
-                }
+                    "endpointInfo": "Apenas HTTP disponível (limitação CORS)"
+                },
+                "web_dav": {}
             },
             "label": {
-                "endpoint": "Endereço Intendente {info} {input}",
-                "path": "O caminho do diretório {input}",
-                "account": "Nome de utilizador {input}",
+                "endpoint": "Endereço {info} {input}",
+                "path": "Diretório {input}",
+                "account": "Utilizador {input}",
                 "password": "Senha {input}"
             },
-            "operation": "Backup",
+            "operation": "Cópia",
             "download": {
                 "btn": "Transferir",
                 "step2": "Confirmar dados",
-                "willDownload": "Para ser transferido",
-                "confirmTip": "{size} dados de [{clientName}] serão baixados"
+                "willDownload": "Dados a transferir",
+                "confirmTip": "{size} dados de [{clientName}] serão transferidos"
             },
             "clear": {
                 "btn": "Limpar",
-                "confirmTip": "{rowCount} peças de dados para sites {hostCount} rastreadas por [{clientName}] serão excluídas!"
+                "confirmTip": "{rowCount} dados de {hostCount} sites de [{clientName}] serão eliminados!"
             },
             "clientTable": {
                 "selectTip": "Selecionar cliente",
                 "dataRange": "Intervalo de dados",
-                "notSelected": "Cliente não selecionado",
-                "current": "Corrente"
+                "notSelected": "Nenhum cliente selecionado",
+                "current": "Atual"
             },
-            "lastTimeTip": "Hora do último backup: {lastTime}",
+            "lastTimeTip": "Última cópia: {lastTime}",
             "auto": {
-                "label": "Se deseja ativar o backup automático",
-                "interval": "e executar a cada {input} minutos"
+                "label": "Cópia automática",
+                "interval": "executar a cada {input} minutos"
             }
         },
         "accessibility": {
             "title": "Acessibilidade",
-            "chartDecal": "{input} Se deve exibir o decalque do gráfico"
+            "chartDecal": "{input} Mostrar decalque no gráfico"
         },
-        "resetButton": "Reiniciar",
-        "resetSuccess": "Redefinido para padrão com sucesso!",
-        "defaultValue": "Padrão: {default}"
+        "resetButton": "Repor",
+        "resetSuccess": "Reposição concluída!",
+        "defaultValue": "Predefinido: {default}"
     },
     "uk": {
         "yes": "Так",
@@ -1157,7 +1159,34 @@
             "whitelistItem": "список связанных ярлыков",
             "contextMenu": "контекстное меню",
             "displayBadgeText": "{input} Отображать ли {timeInfo} в {icon}",
-            "icon": "иконка расширения"
+            "badgeBgColor": "Цвет фона текста на иконке {input}",
+            "icon": "иконка расширения",
+            "badgeTextContent": "время просмотра текущего веб-сайта",
+            "locale": {
+                "label": "Язык {input}",
+                "reloadButton": "Обновить"
+            },
+            "printInConsole": {
+                "console": "консоль"
+            },
+            "darkMode": {
+                "label": "Тёмный режим {input}",
+                "options": {
+                    "on": "Всегда включен"
+                }
+            },
+            "animationDuration": "Длительность начальной анимации графика {input}"
+        },
+        "statistics": {
+            "title": "Статистика",
+            "localFilesInfo": "Поддержка типов файлов, таких как PDF, изображения, txt и json."
+        },
+        "backup": {
+            "title": "Резервное копирование данных",
+            "operation": "Резервное копирование",
+            "download": {
+                "btn": "Скачать"
+            }
         },
         "resetButton": "Сброс",
         "resetSuccess": "Сброс к настройкам по умолчанию выполнен успешно!",

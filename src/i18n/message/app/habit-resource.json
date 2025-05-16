@@ -153,39 +153,39 @@
     },
     "pt_PT": {
         "common": {
-            "focusAverage": "Média de {value} por dia"
+            "focusAverage": "Média diária: {value}"
         },
         "period": {
-            "title": "Hábito de períodos de tempo",
-            "busiest": "Hora do dia da compra",
-            "idle": "Período ocioso mais longo",
+            "title": "Hábitos por períodos",
+            "busiest": "Período mais ativo",
+            "idle": "Período mais inativo",
             "chartType": {
                 "average": "Média diária",
-                "trend": "Tendências",
-                "stack": "Conjunto"
+                "trend": "Tendência",
+                "stack": "Agrupado"
             },
             "sizes": {
-                "fifteen": "Por 15 minutos",
-                "halfHour": "Por meia hora",
-                "hour": "Por 1 hora",
-                "twoHour": "Por 2 horas"
+                "fifteen": "A cada 15 minutos",
+                "halfHour": "A cada meia hora",
+                "hour": "A cada hora",
+                "twoHour": "A cada 2 horas"
             }
         },
         "site": {
-            "title": "Hábito de sites",
+            "title": "Hábitos de websites",
             "histogramTitle": "TOP {n} mais visitados",
-            "exclusiveToday": "Os dados de hoje não estão incluídos na média",
+            "exclusiveToday": "Dados de hoje não incluídos na média",
             "countTotal": "Total de visitas/sites",
-            "siteAverage": "Média de visitas a {value} sites por dia",
+            "siteAverage": "Média diária: {value} sites visitados",
             "distribution": {
-                "title": "Distribuição média diária de frequência",
-                "aveTime": "Tempo médio diário de navegação",
-                "aveVisit": "Contagem média de visitas diárias",
-                "tooltip": "Total de sites de {value}"
+                "title": "Distribuição de frequência média",
+                "aveTime": "Tempo médio de navegação",
+                "aveVisit": "Média diária de visitas",
+                "tooltip": "Total: {value} sites"
             },
             "trend": {
                 "title": "Tendências diárias",
-                "siteCount": "Contagem de sites"
+                "siteCount": "Número de websites"
             }
         }
     },

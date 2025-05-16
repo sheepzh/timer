@@ -73,20 +73,20 @@
     },
     "pt_PT": {
         "heatMap": {
-            "title0": "Navegou mais de {hour} horas no último ano",
-            "title1": "Navegue por menos de 1 hora no ano passado"
+            "title0": "Navegou {hour}h no último ano",
+            "title1": "Navegou <1h no último ano"
         },
         "topK": {
-            "title": "TOP {k} mais visitados nos últimos {day} dias"
+            "title": "TOP {k} mais visitados em {day} dias"
         },
         "indicator": {
-            "installedDays": "Instalado por {number} dias",
-            "visitCount": "Visite {site} sites {visit} vezes",
-            "browsingTime": "Navegado por {minute} minutos",
-            "mostUse": "Navegação favorita entre {start} e {end} horas"
+            "installedDays": "Instalado há {number} dias",
+            "visitCount": "{visit} visitas a {site} sites",
+            "browsingTime": "Navegou {minute} min",
+            "mostUse": "Prefere navegar entre {start}h-{end}h"
         },
         "monthOnMonth": {
-            "title": "Tendência mês a mês do tempo de navegação"
+            "title": "Tendência mensal de tempo de navegação"
         }
     },
     "uk": {

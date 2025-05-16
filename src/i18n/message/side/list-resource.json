@@ -20,12 +20,12 @@
         "title": "瀏覽紀錄統計"
     },
     "pt_PT": {
-        "searchPlaceholder": "Inserir domínio ou URL",
+        "searchPlaceholder": "Insira um domínio ou URL",
         "title": "Análise de Navegação"
     },
     "uk": {
-        "searchPlaceholder": "Введіть домен або URL",
-        "title": "Аналіз перегляду"
+        "searchPlaceholder": "Пошук за URL",
+        "title": "Усі дані перегляду"
     },
     "fr": {
         "searchPlaceholder": "Saisir un domaine ou URL",

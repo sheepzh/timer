@@ -96,16 +96,16 @@
         "contributors": "貢献者一覧"
     },
     "pt_PT": {
-        "title": "Sinta-se livre para ajudar a melhorar a localização das traduções!",
+        "title": "Ajude a melhorar as traduções da extensão!",
         "alert": {
-            "l1": "Devido à capacidade linguística do autor, a extensão suporta naturalmente apenas o chinês simplificado e o inglês, e outras línguas estão em falta ou dependem fortemente da tradução automática.",
-            "l2": "Para proporcionar uma melhor experiência ao utilizador, alojo tarefas de tradução para outros idiomas no Crowdin. O Crowdin é um sistema de gestão de tradução gratuito para software de código aberto.",
-            "l3": "Se achar esta extensão útil e estiver disposto a melhorar a sua tradução, clique no botão abaixo para ir para a página inicial do projeto no Crowdin.",
-            "l4": "Quando o progresso da tradução de uma língua atingir os 50%, considerarei apoiá-lo nesta extensão."
+            "l1": "Devido às limitações linguísticas do autor, esta extensão só suporta Chinês Simplificado e Inglês nativamente. Outras línguas podem estar incompletas ou conter traduções automáticas.",
+            "l2": "Para melhorar a experiência de todos, disponibilizei as traduções no Crowdin - um sistema de gestão de traduções gratuito para software open source.",
+            "l3": "Se esta extensão lhe for útil e quiser ajudar a melhorar as traduções, clique no botão abaixo para aceder à página do projeto no Crowdin.",
+            "l4": "Quando uma língua atingir 50% de tradução, considerarei adicionar suporte nativo na extensão."
         },
-        "button": "Vá Crowdin",
-        "loading": "A verificar o progresso da tradução...",
-        "contributors": "Lista de colaboradores"
+        "button": "Ir para o Crowdin",
+        "loading": "A verificar progresso das traduções...",
+        "contributors": "Lista de Contribuidores"
     },
     "ru": {
         "title": "Не стесняйтесь помочь улучшить локализацию расширений!",

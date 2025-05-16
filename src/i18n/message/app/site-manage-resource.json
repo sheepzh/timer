@@ -172,45 +172,46 @@
         }
     },
     "pt_PT": {
-        "deleteConfirmMsg": "{host} será excluído",
+        "deleteConfirmMsg": "{host} será eliminado",
+        "genAliasConfirmMsg": "Preencher automaticamente nomes de sites em lote?",
         "column": {
-            "type": "Categoria de Sítio Web",
+            "type": "Tipo de Site",
             "alias": "Nome do Site",
-            "cate": "Categoria do site",
+            "cate": "Categoria",
             "icon": "Ícone"
         },
         "type": {
             "normal": {
                 "name": "normal",
-                "info": "estatísticas por nome de domínio"
+                "info": "estatísticas por domínio"
             },
             "merged": {
-                "name": "mesclado",
-                "info": "estatísticas de mesclagem de vários domínios relacionados, e as regras de mesclagem podem ser personalizadas"
+                "name": "agrupado",
+                "info": "agrupa estatísticas de múltiplos domínios relacionados (regras personalizáveis)"
             },
             "virtual": {
                 "name": "virtual",
-                "info": "conta qualquer URL no formato Ant Pattern, pode adicionar um site personalizado no canto superior direito"
+                "info": "contabiliza URLs no formato Ant Pattern (adicione sites personalizados no canto superior direito)"
             }
         },
         "cate": {
             "name": "Nome",
-            "relatedMsg": "Esta categoria foi associada aos sites {siteCount} e não pode ser eliminada",
-            "removeConfirm": "Confirmar para eliminar categoria: {category}?",
+            "relatedMsg": "Esta categoria está associada a {siteCount} sites e não pode ser eliminada",
+            "removeConfirm": "Eliminar categoria: {category}?",
             "batchChange": "Alterar categorias",
             "batchDisassociate": "Desassociar categorias"
         },
         "form": {
-            "emptyAlias": "Por favor, insira um nome de site",
-            "emptyHost": "Por favor, insira um URL de site"
+            "emptyAlias": "Introduza o nome do site",
+            "emptyHost": "Introduza o URL do site"
         },
         "msg": {
-            "hostExistWarn": "{host} existe",
-            "existedTag": "EXISTADO",
+            "hostExistWarn": "{host} já existe",
+            "existedTag": "EXISTENTE",
             "noSelected": "Nenhum site selecionado",
-            "noSupported": "Os sites selecionados não podem definir as categorias",
-            "disassociatedMsg": "Quer limpar as categorias de todos os sites selecionados?",
-            "batchDeleteMsg": "Deseja eliminar todos os sites selecionados?"
+            "noSupported": "Sites selecionados não suportam categorias",
+            "disassociatedMsg": "Limpar categorias de todos os sites selecionados?",
+            "batchDeleteMsg": "Eliminar todos os sites selecionados?"
         }
     },
     "uk": {

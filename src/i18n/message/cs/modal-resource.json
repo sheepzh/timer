@@ -26,14 +26,14 @@
     "pt_PT": {
         "defaultPrompt": "Esta página foi bloqueada!",
         "more5Minutes": "Mais 5 minutos",
-        "browsingTime": "Tempo de navegação",
-        "ruleDetail": "Detalhes da regra"
+        "browsingTime": "Tempo de Navegação",
+        "ruleDetail": "Detalhes da Regra"
     },
     "uk": {
         "defaultPrompt": "Цю сторінку заблоковано!",
         "more5Minutes": "Ще 5 хвилин",
         "browsingTime": "Час перегляду",
-        "ruleDetail": "Деталі правила"
+        "ruleDetail": "Подробиці правила"
     },
     "fr": {
         "defaultPrompt": "Cette page a été bloquée!",

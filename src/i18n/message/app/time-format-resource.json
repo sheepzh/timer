@@ -24,7 +24,7 @@
         "second": "秒単位で表示"
     },
     "pt_PT": {
-        "default": "Formato padrão da hora",
+        "default": "Formato de hora padrão",
         "hour": "Exibir em horas",
         "minute": "Exibir em minutos",
         "second": "Exibir em segundos"
