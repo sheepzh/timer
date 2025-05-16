@@ -20,6 +20,7 @@ jobs:
               with:
                   addon-guid: "{a8cf72f7-09b7-4cd4-9aaa-7a023bf09916}"
                   xpi-path: market_packages/target.firefox.zip
+                  source-file-path: market_packages/target.src.zip
                   compatibility: firefox, android
                   jwt-issuer: ${{ secrets.FIREFOX_JWD_ISSUER }}
                   jwt-secret: ${{ secrets.FIREFOX_JWD_SECRET }}

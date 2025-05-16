@@ -10,7 +10,8 @@ const marketPkgPath = path.resolve(__dirname, '..', 'market_packages')
 
 const normalZipFilePath = path.resolve(marketPkgPath, `${name}-${version}.firefox.zip`)
 const targetZipFilePath = path.resolve(marketPkgPath, 'target.firefox.zip')
-const sourceCodePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.zip`)
+const normalSourceCodePath = path.resolve(__dirname, '..', 'market_packages', `${name}-${version}-src.zip`)
+const targetSourceCodePath = path.resolve(__dirname, '..', 'market_packages', 'target.src.zip')
 const readmeForFirefox = path.join(__dirname, '..', 'doc', 'for-fire-fox.md')
 // Temporary directory for source code to archive on Firefox
 const sourceTempDir = path.resolve(__dirname, '..', 'source_temp')
@@ -41,7 +42,8 @@ const filemanagerPlugin = new FileManagerPlugin({
                     ...copyMapper
                 ],
                 archive: [
-                    { source: sourceTempDir, destination: sourceCodePath },
+                    { source: sourceTempDir, destination: normalSourceCodePath },
+                    { source: sourceTempDir, destination: targetSourceCodePath },
                 ],
                 delete: [sourceTempDir],
             },
