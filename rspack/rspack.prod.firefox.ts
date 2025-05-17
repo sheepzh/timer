@@ -22,7 +22,6 @@ const filemanagerPlugin = new FileManagerPlugin({
     events: {
         // Archive at the end
         onEnd: [
-            { delete: [path.join(outputPath, '*.LICENSE.txt')] },
             // Define plugin to archive zip for different markets
             {
                 delete: [normalZipFilePath],
@@ -38,7 +37,6 @@ const filemanagerPlugin = new FileManagerPlugin({
             {
                 copy: [
                     { source: readmeForFirefox, destination: path.join(sourceTempDir, 'README.md') },
-                    { source: readmeForFirefox, destination: path.join(sourceTempDir, 'doc', 'for-fire-fox.md') },
                     ...copyMapper
                 ],
                 archive: [
@@ -55,5 +53,6 @@ const option = optionGenerator({ outputPath, manifest: manifestFirefox, mode: "p
 const { plugins = [] } = option
 plugins.push(filemanagerPlugin)
 option.plugins = plugins
+option.devtool = false
 
 export default option

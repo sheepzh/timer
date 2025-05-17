@@ -1,23 +1,14 @@
-## How to Build for Development
-
-```shell
- npm install
- npm run dev
-```
-
-The output directory is _firefox_dev_
-
-## How to Build for Production
+## How to build for Firefox
 
 ```shell
 npm install
-npm run build
+npm run build:firefox
 ```
 
-The output directory is _dist_prod_ and _market_packages_
+The output directory is `dist_prod_firefox` and you can find a zip file named `target.firefox.zip` in the `market_packages` directory
 
 ## Another
 
-Also you could visit the repository in GitHub
+Also you could visit the sourcecode on GitHub
 
 [sheepzh/timer](https://github.com/sheepzh/timer)

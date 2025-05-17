@@ -123,7 +123,10 @@ export class FileManagerPlugin {
                     const folder = zip.folder(entry.name)
                     addToZip(fullPath, folder!)
                 } else {
-                    zip.file(entry.name, fs.readFileSync(fullPath))
+                    zip.file(
+                        entry.name, fs.readFileSync(fullPath),
+                        { compression: 'DEFLATE', compressionOptions: { level: 9 } },
+                    )
                 }
             }
         }

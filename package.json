@@ -1,7 +1,7 @@
 {
-    "name": "time_tracker_for_browser",
+    "name": "timer",
     "version": "3.4.4",
-    "description": "Time tracker",
+    "description": "Time tracker for browser",
     "homepage": "https://www.wfhg.cc",
     "scripts": {
         "dev": "rspack --config=rspack/rspack.dev.ts --watch",
