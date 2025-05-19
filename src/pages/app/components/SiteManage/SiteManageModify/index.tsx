@@ -9,7 +9,7 @@ import { Check } from "@element-plus/icons-vue"
 import { useSwitch } from "@hooks"
 import siteService from "@service/site-service"
 import { supportCategory } from "@util/site"
-import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, type FormInstance } from "element-plus"
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, type FormInstance, type FormItemRule } from "element-plus"
 import { computed, defineComponent, reactive, ref } from "vue"
 import CategorySelect from "../../common/category/CategorySelect"
 import HostSelect from "./HostSelect"
@@ -27,21 +27,17 @@ type _FormData = {
     category: number | undefined
 }
 
-const formRule = {
-    alias: [
-        {
-            required: true,
-            message: t(msg => msg.siteManage.form.emptyAlias),
-            trigger: 'blur',
-        }
-    ],
-    key: [
-        {
-            required: true,
-            message: t(msg => msg.siteManage.form.emptyHost),
-            trigger: 'blur'
-        }
-    ]
+const formRule: Record<string, FormItemRule | FormItemRule[]> = {
+    alias: {
+        required: true,
+        message: t(msg => msg.siteManage.form.emptyAlias),
+        trigger: 'blur',
+    },
+    key: {
+        required: true,
+        message: t(msg => msg.siteManage.form.emptyHost),
+        trigger: 'blur',
+    },
 }
 
 function validateForm(form: FormInstance | undefined): Promise<boolean> {
@@ -68,52 +64,43 @@ async function handleAdd(siteInfo: timer.site.SiteInfo): Promise<boolean> {
     return !existed
 }
 
-function initData(): _FormData {
-    return {
-        key: undefined,
-        alias: undefined,
-        category: undefined,
+const initData = (): _FormData => ({
+    key: undefined,
+    alias: undefined,
+    category: undefined,
+})
+
+const _default = defineComponent<{ onSave: NoArgCallback }>((props, ctx) => {
+    const [visible, open, close] = useSwitch()
+    const formData = reactive(initData())
+    const showCate = computed(() => supportCategory(formData.key))
+    const form = ref<FormInstance>()
+
+    const add = () => {
+        formData.key = formData.alias = undefined
+        open()
     }
-}
+    ctx.expose({ add } satisfies ModifyInstance)
 
-const _default = defineComponent({
-    emits: {
-        save: (_siteKey: timer.site.SiteKey, _name: string | undefined) => true
-    },
-    setup: (_, ctx) => {
-        const [visible, open, close] = useSwitch()
-        const formData = reactive(initData())
-        const showCate = computed(() => supportCategory(formData.key))
-        const form = ref<FormInstance>()
+    const handleSave = async () => {
+        const valid: boolean = await validateForm(form.value)
+        if (!valid) return false
 
-        const instance: ModifyInstance = {
-            add: () => {
-                formData.key = undefined
-                formData.alias = undefined
-                open()
-            },
+        let { key: siteKey, alias } = formData
+        if (!siteKey) return false
+
+        alias = alias?.trim()
+        const siteInfo: timer.site.SiteInfo = { ...siteKey, alias, cate: formData.category }
+        const saved = await handleAdd(siteInfo)
+        if (saved) {
+            close()
+            ElMessage.success(t(msg => msg.operation.successMsg))
+            props.onSave?.()
         }
+    }
 
-        ctx.expose(instance)
-
-        const handleSave = async () => {
-            const valid: boolean = await validateForm(form.value)
-            if (!valid) return false
-
-            let { key: siteKey, alias } = formData
-            if (!siteKey) return false
-
-            alias = alias?.trim()
-            const siteInfo: timer.site.SiteInfo = { ...siteKey, alias, cate: formData.category }
-            const saved = await handleAdd(siteInfo)
-            if (saved) {
-                close()
-                ElMessage.success(t(msg => msg.operation.successMsg))
-                ctx.emit("save", siteKey, alias)
-            }
-        }
-
-        return () => <ElDialog
+    return () => (
+        <ElDialog
             width={450}
             title={t(msg => msg.button.create)}
             modelValue={visible.value}
@@ -121,7 +108,7 @@ const _default = defineComponent({
             onClose={close}
             v-slots={{
                 footer: () => (
-                    <ElButton type="primary" icon={<Check />} onClick={handleSave}>
+                    <ElButton type="primary" icon={Check} onClick={handleSave}>
                         {t(msg => msg.button.save)}
                     </ElButton>
                 )
@@ -129,10 +116,7 @@ const _default = defineComponent({
         >
             <ElForm model={formData} rules={formRule} ref={form}>
                 <ElFormItem prop="key" label={t(msg => msg.item.host)}>
-                    <HostSelect
-                        modelValue={formData.key}
-                        onChange={val => formData.key = val}
-                    />
+                    <HostSelect modelValue={formData.key} onChange={val => formData.key = val} />
                 </ElFormItem>
                 <ElFormItem prop="alias" label={t(msg => msg.siteManage.column.alias)}>
                     <ElInput
@@ -152,7 +136,7 @@ const _default = defineComponent({
                 )}
             </ElForm>
         </ElDialog>
-    }
-})
+    )
+}, { props: ['onSave'] })
 
 export default _default

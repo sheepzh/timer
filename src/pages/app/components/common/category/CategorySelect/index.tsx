@@ -1,5 +1,5 @@
 import { useCategories } from "@app/context"
-import { ElOption, ElSelect } from "element-plus"
+import { ElOption, ElSelect, type SelectInstance } from "element-plus"
 import { defineComponent, type PropType, ref } from "vue"
 import OptionItem from "./OptionItem"
 import SelectFooter from "./SelectFooter"
@@ -22,7 +22,7 @@ const CategorySelect = defineComponent({
     setup(props, ctx) {
         const { categories } = useCategories()
 
-        const selectRef = ref<{ selectOption: () => void }>()
+        const selectRef = ref<SelectInstance>()
         ctx.expose({
             openOptions: () => selectRef.value?.selectOption?.()
         } satisfies CategorySelectInstance)

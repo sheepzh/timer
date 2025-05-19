@@ -10,7 +10,7 @@ import statService from "@service/stat-service"
 import { MERGED_HOST, ALL_HOSTS as REMAIN_HOSTS } from "@util/constant/remain-host"
 import { isValidVirtualHost, judgeVirtualFast } from "@util/pattern"
 import { ElOption, ElSelect, ElTag } from "element-plus"
-import { defineComponent, type PropType } from "vue"
+import { computed, defineComponent } from "vue"
 import { cvt2OptionValue, cvt2SiteKey, EXIST_MSG, labelOf, MERGED_MSG, VIRTUAL_MSG } from "../common"
 
 type _OptionInfo = {
@@ -32,14 +32,14 @@ function cleanQuery(query: string) {
 async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
     query = cleanQuery(query)
     if (!query) return []
-    const { normal, merged } = (await statService.listHosts(query)) || {}
+    const { normal, merged } = await statService.listHosts(query)
     const allAlias: timer.site.SiteKey[] = [
-        ...normal?.map(host => ({ host, type: 'normal' } satisfies timer.site.SiteKey)) ?? [],
-        ...merged?.map(host => ({ host, type: 'merged' } satisfies timer.site.SiteKey)) ?? [],
+        ...normal.map(host => ({ host, type: 'normal' } satisfies timer.site.SiteKey)),
+        ...merged.map(host => ({ host, type: 'merged' } satisfies timer.site.SiteKey)),
     ]
     // Add local files
-    REMAIN_HOSTS.forEach(remain => allAlias.push({ host: remain, type: 'normal' }))
-    allAlias.push({ host: MERGED_HOST, type: 'merged' })
+    REMAIN_HOSTS.filter(h => h.includes(query)).forEach(remain => allAlias.push({ host: remain, type: 'normal' }))
+    MERGED_HOST.includes(query) && allAlias.push({ host: MERGED_HOST, type: 'merged' })
     const existedAliasSet = new Set()
     const existedKeys = await siteService.existBatch(allAlias)
     existedKeys.forEach(key => existedAliasSet.add(cvt2OptionValue(key)))
@@ -71,41 +71,35 @@ async function handleRemoteSearch(query: string): Promise<_OptionInfo[]> {
     return result
 }
 
-const renderOption = ({ siteKey, hasAlias }: _OptionInfo) => {
-    const { host, type } = siteKey
-    return (
-        <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
-            <span>{host}</span>
-            <ElTag v-show={type === 'merged'} size="small">{MERGED_MSG}</ElTag>
-            <ElTag v-show={type === 'virtual'} size="small">{VIRTUAL_MSG}</ElTag>
-            <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
-        </ElOption>
-    )
+type Props = {
+    modelValue: timer.site.SiteKey | undefined
+    onChange?: (_siteKey: timer.site.SiteKey | undefined) => void
 }
 
-const _default = defineComponent({
-    props: {
-        modelValue: Object as PropType<timer.site.SiteKey>
-    },
-    emits: {
-        change: (_siteKey: timer.site.SiteKey | undefined) => true
-    },
-    setup(props, ctx) {
-        const { data: options, loading: searching, refresh: searchOption } = useManualRequest(handleRemoteSearch)
-        return () => (
-            <ElSelect
-                style={{ width: '100%' }}
-                modelValue={cvt2OptionValue(props.modelValue)}
-                filterable
-                remote
-                loading={searching.value}
-                remoteMethod={searchOption}
-                onChange={val => ctx.emit("change", val ? cvt2SiteKey(val) : undefined)}
-            >
-                {options.value?.map(renderOption)}
-            </ElSelect>
-        )
-    }
-})
+const _default = defineComponent<Props>(props => {
+    const value = computed(() => cvt2OptionValue(props.modelValue))
+    const { data: options, loading: searching, refresh: searchOption } = useManualRequest(handleRemoteSearch)
+
+    return () => (
+        <ElSelect
+            style={{ width: '100%' }}
+            modelValue={value.value}
+            filterable
+            remote
+            loading={searching.value}
+            remoteMethod={searchOption}
+            onChange={val => props.onChange?.(cvt2SiteKey(val))}
+        >
+            {options.value?.map(({ siteKey, hasAlias }) => (
+                <ElOption value={cvt2OptionValue(siteKey)} disabled={hasAlias} label={labelOf(siteKey, hasAlias)}>
+                    <span>{siteKey.host}</span>
+                    <ElTag v-show={siteKey.type === 'merged'} size="small">{MERGED_MSG}</ElTag>
+                    <ElTag v-show={siteKey.type === 'virtual'} size="small">{VIRTUAL_MSG}</ElTag>
+                    <ElTag v-show={hasAlias} size="small" type="info">{EXIST_MSG}</ElTag>
+                </ElOption>
+            ))}
+        </ElSelect>
+    )
+}, { props: ['modelValue', 'onChange'] })
 
 export default _default
