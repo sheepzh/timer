@@ -1,7 +1,7 @@
 # Time Tracker
 
 [![codecov](https://codecov.io/gh/sheepzh/timer/branch/main/graph/badge.svg?token=S98QSBSKCR&style=flat-square)](https://codecov.io/gh/sheepzh/timer)
-[![codebeat badge](https://codebeat.co/badges/69a88b51-2a07-4944-98dc-603a99d8a9f9)](https://codebeat.co/projects/github-com-sheepzh-timer-main)
+[![codebeat badge](https://codebeat.co/badges/b26df573-8143-4a53-8617-1e1eb4fe7b86)](https://codebeat.co/projects/github-com-sheepzh-timer-main)
 [![](https://www.travis-ci.com/sheepzh/timer.svg?branch=main)](https://www.travis-ci.com/sheepzh/timer.svg?branch=main)
 [![](https://img.shields.io/badge/license-Anti%20996-blue)](https://github.com/996icu/996.ICU)
 [![](https://img.shields.io/github/v/release/sheepzh/timer)](https://github.com/sheepzh/timer/releases)
