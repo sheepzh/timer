@@ -32,18 +32,23 @@ function dateStrBetween(startDate: timer.period.Key, endDate: timer.period.Key):
     return result
 }
 
-
 async function listBetween(param: PeriodQueryParam): Promise<timer.period.Result[]> {
-    const [start, end] = param?.periodRange || []
+    const [start, end] = param.periodRange
     const allDates = dateStrBetween(start, end)
     return periodDatabase.getBatch(allDates)
 }
 
-
+async function batchDeleteBetween(param: PeriodQueryParam): Promise<void> {
+    const [start, end] = param.periodRange
+    if (!start || !end) return
+    const allDates = dateStrBetween(start, end)
+    await periodDatabase.batchDelete(allDates)
+}
 
 class PeriodService {
     add = add
     listBetween = listBetween
+    batchDeleteBetween = batchDeleteBetween
     listAll = () => periodDatabase.getAll()
 }
 

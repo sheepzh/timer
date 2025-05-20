@@ -98,6 +98,11 @@ class PeriodDatabase extends BaseDatabase {
         return db2PeriodInfos(periodItems)
     }
 
+    async batchDelete(dates: string[]) {
+        const keys = dates.map(generateKey)
+        await this.storage.remove(keys)
+    }
+
     async importData(data: any): Promise<void> {
         if (typeof data !== "object") return
         const items = await this.storage.get()
