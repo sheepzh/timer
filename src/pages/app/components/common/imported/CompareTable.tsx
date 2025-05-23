@@ -9,23 +9,24 @@ import HostAlert from "@app/components/common/HostAlert"
 import { t } from "@app/locale"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { useState } from "@hooks"
-import { ElTable, ElTableColumn, type Sort } from "element-plus"
-import { computed, defineComponent, toRef, type PropType, type VNode } from "vue"
+import { Column, ElTableColumn, ElTableV2, type SortBy, TableV2SortOrder } from "element-plus"
+import { computed, defineComponent, toRef, type VNode } from "vue"
 
-type SortInfo = Sort & {
-    prop: keyof timer.imported.Row
+type SortInfo = SortBy & {
+    key: keyof timer.imported.Row
 }
 
 function computeList(sort: SortInfo, originRows: timer.imported.Row[]): timer.imported.Row[] {
-    const { prop, order } = sort || {}
+    const { key, order } = sort || {}
     originRows = originRows || []
-    if (!prop) {
+    if (!key) {
         return originRows
     }
+    const prop = key as keyof timer.imported.Row
     const comparator = (a: timer.imported.Row, b: timer.imported.Row): number => {
         const av = a[prop] ?? 0, bv = b[prop] ?? 0
         if (av == bv) return 0
-        if (order === 'descending') {
+        if (order === TableV2SortOrder.DESC) {
             return av > bv ? -1 : 1
         } else {
             return av > bv ? 1 : -1
@@ -59,6 +60,13 @@ const renderFocus = (data: timer.imported.Data, comparedColName: string): VNode 
     )
 }
 
+const FOCUS_COLUMN: Column<timer.imported.Row> = {
+    width: 100,
+    headerCellRenderer: () => <>
+        {/** TODO: finish level headers */}
+    </>,
+}
+
 const renderTime = (data: timer.imported.Data, comparedColName: string): VNode | undefined => {
     if (!data?.time) return
     return (
@@ -80,54 +88,69 @@ const renderTime = (data: timer.imported.Data, comparedColName: string): VNode |
     )
 }
 
-const _default = defineComponent({
-    props: {
-        data: {
-            type: Object as PropType<timer.imported.Data>,
-            required: true,
-        },
-        comparedColName: {
-            type: String,
-            required: true,
-        },
-    },
-    setup(props) {
-        const data = toRef(props, 'data')
-        const [sort, setSort] = useState<SortInfo>({ order: 'ascending', prop: 'date' })
-        const list = computed(() => computeList(sort.value, data.value?.rows))
-        return () => (
-            <ElTable
-                size="small"
-                maxHeight="45vh"
-                border
-                highlightCurrentRow
-                fit
-                defaultSort={sort.value}
-                onSort-change={setSort}
-                data={list.value || []}
-            >
-                <ElTableColumn type="index" align="center" />
-                <ElTableColumn
-                    prop="date"
-                    label={t(msg => msg.item.date)}
-                    sortable
-                    align="center"
-                    minWidth={120}
-                    formatter={(row: timer.imported.Row) => cvt2LocaleTime(row.date)}
-                />
-                <ElTableColumn
-                    prop="host"
-                    label={t(msg => msg.item.host)}
-                    sortable
-                    minWidth={300}
-                    align="center"
-                    formatter={({ host }: timer.imported.Row) => <HostAlert value={{ host, type: 'normal' }} clickable={false} />}
-                />
-                {renderFocus(data.value, props.comparedColName)}
-                {renderTime(data.value, props.comparedColName)}
-            </ElTable>
-        )
+type Props = {
+    data: timer.imported.Data
+    comparedColName: string
+}
+
+const COLUMNS: Column<timer.imported.Row>[] = [
+    {
+        align: 'center',
+        width: 80,
+        fixed: true,
+    }, {
+        width: 140,
+        sortable: true,
+        align: 'center',
+        minWidth: 120,
+        headerCellRenderer: () => <span>{t(msg => msg.item.date)}</span>,
+        cellRenderer: ({ cellData }) => <span>{cvt2LocaleTime(cellData.date)}</span>,
+    }, {
+        width: 200,
+        minWidth: 300,
+        sortable: true,
+        align: 'center',
+        headerCellRenderer: () => <span>{t(msg => msg.item.host)}</span>,
+        cellRenderer: ({ cellData: { host } }) => <HostAlert value={{ host, type: 'normal' }} clickable={false} />,
     }
-})
+]
+
+const _default = defineComponent<Props>((props) => {
+    const data = toRef(props, 'data')
+    const [sort, setSort] = useState<SortInfo>({ order: TableV2SortOrder.ASC, key: 'date' })
+    const list = computed(() => computeList(sort.value, data.value?.rows))
+
+    return () => (
+        <ElTableV2
+            // style={{ maxHeight: '45vh' }}
+            height={400}
+            width={1200}
+            sortBy={sort.value}
+            onSort-change={setSort}
+            data={list.value || []}
+            columns={[...COLUMNS]}
+        >
+            <ElTableColumn type="index" align="center" />
+            <ElTableColumn
+                prop="date"
+                label={t(msg => msg.item.date)}
+                sortable
+                align="center"
+                minWidth={120}
+                formatter={(row: timer.imported.Row) => cvt2LocaleTime(row.date)}
+            />
+            <ElTableColumn
+                prop="host"
+                label={t(msg => msg.item.host)}
+                sortable
+                minWidth={300}
+                align="center"
+                formatter={({ host }: timer.imported.Row) => <HostAlert value={{ host, type: 'normal' }} clickable={false} />}
+            />
+            {renderFocus(data.value, props.comparedColName)}
+            {renderTime(data.value, props.comparedColName)}
+        </ElTableV2>
+    )
+}, { props: ['data', 'comparedColName'] })
 
 export default _default
