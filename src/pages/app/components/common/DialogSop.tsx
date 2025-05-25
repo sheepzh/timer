@@ -1,83 +1,60 @@
 import { t } from "@app/locale"
 import { Back, Check, Close, Right } from "@element-plus/icons-vue"
+import Box from "@pages/components/Box"
 import Flex from "@pages/components/Flex"
 import { ElButton } from "element-plus"
-import { defineComponent, h } from "vue"
+import { defineComponent, h, useSlots } from "vue"
 import "./dialog-sop.sass"
 
-export type SopStepInstance<T> = {
-    parseData: () => Promise<T> | T
+export type SopStepInstance<T> = { parseData: Getter<T> }
+
+export type SopInstance = { init: NoArgCallback }
+
+const FLAGS = ['first', 'last', 'nextLoading', 'finishLoading'] as const
+const EMITS = ['onBack', 'onNext', 'onCancel', 'onFinish'] as const
+
+type Props = {
+    [F in typeof FLAGS[number]]?: boolean
+} & {
+    [C in typeof EMITS[number]]?: NoArgCallback
 }
 
-export type SopInstance = {
-    init: () => void
-}
+const DialogSop = defineComponent<Props>(props => {
+    const { steps, content } = useSlots()
 
-const DialogSop = defineComponent({
-    props: {
-        first: Boolean,
-        last: Boolean,
-        nextLoading: Boolean,
-        finishLoading: Boolean,
-    },
-    emits: {
-        back: () => true,
-        next: () => true,
-        cancel: () => true,
-        finish: () => true,
-    },
-    setup(props, ctx) {
-        const { steps, content } = ctx.slots
-
-        return () => (
-            <Flex
-                column
-                align="center"
-                gap={40}
-                style={{ marginTop: '25px' }}
-            >
-                <div class="dialog-sop-step-container">
-                    {!!steps && h(steps)}
-                </div>
-                <div style={{ padding: '0 20px', boxSizing: 'border-box', width: '100%' }}>
-                    {!!content && h(content)}
-                </div>
+    return () => (
+        <Flex column align="center" gap={40} marginTop={25}>
+            <div class="dialog-sop-step-container">
+                {!!steps && h(steps)}
+            </div>
+            <Box padding="0 20px" boxSizing="border-box" width="100%">
+                {!!content && h(content)}
+            </Box>
+            <Flex>
                 <Flex>
-                    <Flex>
-                        {props.first ? (
-                            <ElButton type="info" icon={<Close />} onClick={() => ctx.emit("cancel")}>
-                                {t(msg => msg.button.cancel)}
+                    {props.first ? (
+                        <ElButton type="info" icon={Close} onClick={props.onCancel}>
+                            {t(msg => msg.button.cancel)}
+                        </ElButton>
+                    ) : (
+                        <ElButton type="info" icon={Back} onClick={props.onBack}>
+                            {t(msg => msg.button.previous)}
+                        </ElButton>
+                    )}{
+                        props.last ? (
+                            <ElButton type='success' icon={Check} onClick={props.onFinish} loading={props.finishLoading}>
+                                {t(msg => msg.button.save)}
                             </ElButton>
                         ) : (
-                            <ElButton type="info" icon={<Back />} onClick={() => ctx.emit("back")}>
-                                {t(msg => msg.button.previous)}
+                            <ElButton type="primary" icon={Right} onClick={props.onNext} loading={props.nextLoading}>
+                                {t(msg => msg.button.next)}
                             </ElButton>
-                        )}{
-                            props.last ? (
-                                <ElButton
-                                    type='success'
-                                    icon={<Check />}
-                                    onClick={() => ctx.emit("finish")}
-                                    loading={props.finishLoading}
-                                >
-                                    {t(msg => msg.button.save)}
-                                </ElButton>
-                            ) : (
-                                <ElButton
-                                    type="primary"
-                                    icon={<Right />}
-                                    onClick={() => ctx.emit("next")}
-                                    loading={props.nextLoading}
-                                >
-                                    {t(msg => msg.button.next)}
-                                </ElButton>
-                            )
-                        }
-                    </Flex>
+                        )
+                    }
                 </Flex>
             </Flex>
-        )
-    }
-})
+        </Flex>
+    )
+}, { props: [...FLAGS, ...EMITS] })
 
 export default DialogSop

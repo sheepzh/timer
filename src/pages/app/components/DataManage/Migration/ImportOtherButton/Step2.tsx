@@ -7,7 +7,7 @@
 
 import { type SopStepInstance } from "@app/components/common/DialogSop"
 import CompareTable from "@app/components/common/imported/CompareTable"
-import ResolutionRadio from "@app/components/common/imported/conflict"
+import ResolutionRadio from "@app/components/common/imported/ResolutionRadio"
 import { t } from "@app/locale"
 import { useState } from "@hooks"
 import Flex from "@pages/components/Flex"
