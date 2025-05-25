@@ -33,7 +33,7 @@ const TYPE_NAMES: { [t in timer.backup.Type]: string } = {
     web_dav: 'WebDAV'
 }
 
-const _default = defineComponent((_props, ctx) => {
+const _default = defineComponent((_, ctx) => {
     const {
         backupType, clientName, reset,
         autoBackUp, autoBackUpInterval,
@@ -63,10 +63,8 @@ const _default = defineComponent((_props, ctx) => {
             <AutoInput
                 autoBackup={autoBackUp.value}
                 interval={autoBackUpInterval.value}
-                onChange={(autoBackUpVal, intervalVal) => {
-                    autoBackUp.value = autoBackUpVal
-                    autoBackUpInterval.value = intervalVal
-                }}
+                onAutoBackupChange={val => autoBackUp.value = val}
+                onIntervalChange={val => autoBackUpInterval.value = val}
             />
         </OptionItem>
         {backupType.value === 'gist' && (
