@@ -1,18 +1,18 @@
-import { defineComponent } from "vue"
-import "./installation-link.sass"
 import Flex from "@pages/components/Flex"
+import type { FunctionalComponent } from "vue"
+import "./installation-link.sass"
 
 type _Source = 'chrome' | 'firefox' | 'edge' | 'kiwi'
 
-const _default = defineComponent<{ source: _Source, name: string, href: string }>(({ source, name, href }) => {
-    return () => (
-        <Flex justify="center" boxSizing="border-box" class="installation-link-container">
-            <a href={href} target="_blank" class="installation-link">
-                <div class={`i-logos i-logos-${source}`} />
-                <span class="installation-name">{name}</span>
-            </a>
-        </Flex>
-    )
-}, { props: ['source', 'name', 'href'] })
+type Props = { source: _Source, name: string, href: string }
 
-export default _default
+const InstallationLink: FunctionalComponent<Props> = ({ href, source }) => (
+    <Flex justify="center" boxSizing="border-box" class="installation-link-container">
+        <a href={href} target="_blank" class="installation-link">
+            <div class={`i-logos i-logos-${source}`} />
+            <span class="installation-name">{name}</span>
+        </a>
+    </Flex>
+)
+
+export default InstallationLink

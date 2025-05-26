@@ -8,7 +8,7 @@ import { identifySiteKey, parseSiteKeyFromIdentity, SiteMap } from "@util/site"
 import { useDebounce } from "@vueuse/core"
 import { ElSelectV2, ElTag, useNamespace } from "element-plus"
 import type { OptionType } from "element-plus/es/components/select-v2/src/select.types"
-import { computed, defineComponent, onMounted, ref, type StyleValue } from "vue"
+import { computed, defineComponent, type FunctionalComponent, onMounted, ref, type StyleValue } from "vue"
 import { useAnalysisTarget } from "../../context"
 import type { AnalysisTarget } from "../../types"
 import { labelOfHostInfo } from "../../util"
@@ -78,13 +78,11 @@ const fetchItems = async (categories: timer.site.Cate[]): Promise<[siteItems: Ta
     return [cateItems, siteItems]
 }
 
-const SiteTypeTag = defineComponent<{ text: string }>(({ text }) => {
-    return () => (
-        <span style={{ float: "right", height: "34px" }}>
-            <ElTag size="small">{text}</ElTag>
-        </span>
-    )
-}, { props: ['text'] })
+const SiteTypeTag: FunctionalComponent<{ text: string }> = ({ text }) => (
+    <span style={{ float: "right", height: "34px" }}>
+        <ElTag size="small">{text}</ElTag>
+    </span>
+)
 
 const SiteOption = defineComponent<{ value: timer.site.SiteInfo }>(props => {
     const alias = computed(() => props.value?.alias)
