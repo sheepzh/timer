@@ -9,21 +9,19 @@ import { t } from "@app/locale"
 import { cvt2LocaleTime } from "@app/util/time"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import { ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
+import { type FunctionalComponent } from "vue"
 import type { ReportSort } from "../../types"
 
-const _default = defineComponent(() => {
-    return () => (
-        <ElTableColumn
-            prop={'date' satisfies ReportSort['prop']}
-            label={t(msg => msg.item.date)}
-            minWidth={135}
-            align="center"
-            sortable="custom"
-        >
-            {({ row }: ElTableRowScope<timer.stat.Row>) => <span>{cvt2LocaleTime(row.date)}</span>}
-        </ElTableColumn>
-    )
-})
+const DateColumn: FunctionalComponent = () => (
+    <ElTableColumn
+        prop={'date' satisfies ReportSort['prop']}
+        label={t(msg => msg.item.date)}
+        minWidth={135}
+        align="center"
+        sortable="custom"
+    >
+        {({ row }: ElTableRowScope<timer.stat.Row>) => <span>{cvt2LocaleTime(row.date)}</span>}
+    </ElTableColumn>
+)
 
-export default _default
+export default DateColumn

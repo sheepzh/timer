@@ -9,8 +9,9 @@ import { getTranslationStatus, type TranslationStatusInfo } from "@api/crowdin"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import localeMessages from "@i18n/message/common/locale"
-import { ElProgress, ProgressProps } from "element-plus"
-import { defineComponent } from "vue"
+import Flex from "@pages/components/Flex"
+import { ElProgress, type ProgressProps } from "element-plus"
+import { defineComponent, ref, type StyleValue } from "vue"
 
 type SupportedLocale = timer.Locale | timer.TranslatingLocale
 
@@ -73,7 +74,17 @@ function computeType(progress: number): ProgressProps["status"] {
     }
 }
 
-const CONTAINER_CLZ = 'progress-container'
+const CONTAINER_STYLE: StyleValue = {
+    display: 'grid',
+    paddingInline: '30px',
+    boxSizing: 'border-box',
+    width: '100%',
+    minHeight: '200px',
+    gridTemplateColumns: 'repeat(3, 30%)',
+    columnGap: '5%',
+    rowGap: '30px',
+    marginBottom: '40px',
+}
 
 async function queryData(): Promise<ProgressInfo[]> {
     const langList = await getTranslationStatus()
@@ -81,16 +92,24 @@ async function queryData(): Promise<ProgressInfo[]> {
 }
 
 const _default = defineComponent(() => {
+    const container = ref<HTMLDivElement>()
     const { data: list } = useRequest(
         queryData,
-        { loadingTarget: `.${CONTAINER_CLZ}`, loadingText: t(msg => msg.helpUs.loading) },
+        { loadingTarget: container, loadingText: t(msg => msg.helpUs.loading) },
     )
     return () => (
-        <div class={CONTAINER_CLZ}>
+        <div ref={container} style={CONTAINER_STYLE}>
             {list.value?.map?.(({ locale, progress }) => (
-                <ElProgress percentage={progress} strokeWidth={22} status={computeType(progress)}>
-                    <span class="progress-text">{`${progress}%`}</span>
-                    <span class="language-name">{localeMessages[locale as timer.Locale]?.name || locale}</span>
+                <ElProgress
+                    percentage={progress}
+                    strokeWidth={22}
+                    status={computeType(progress)}
+                    style={{ fontSize: '16px' } satisfies StyleValue}
+                >
+                    <Flex width={70} gap={10} fontSize={12} column align="end" color="var(--el-text-color-regular)">
+                        <span>{`${progress}%`}</span>
+                        <span>{localeMessages[locale as timer.Locale]?.name ?? locale}</span>
+                    </Flex>
                 </ElProgress>
             ))}
         </div>

@@ -137,17 +137,21 @@ const generateOption = (biz: BizOption): EcOption => {
                 type: "bar",
                 stack: 'one',
                 large: true,
-                data: currData,
+                data: currData.map((value, idx) => ({
+                    value,
+                    itemStyle: { borderRadius: prevData[idx] ? [borderRadius, borderRadius, 0, 0] : borderRadius },
+                })),
                 barCategoryGap: '50%',
                 color: CURR_COLOR,
-                itemStyle: { borderRadius: [borderRadius, borderRadius, 0, 0] },
             }, {
                 type: "bar",
                 stack: 'one',
                 large: true,
-                data: prevData,
+                data: prevData.map((value, idx) => ({
+                    value,
+                    itemStyle: { borderRadius: currData[idx] ? [0, 0, borderRadius, borderRadius] : borderRadius },
+                })),
                 color: PREV_COLOR,
-                itemStyle: { borderRadius: [0, 0, borderRadius, borderRadius] },
             }
         ],
     }
