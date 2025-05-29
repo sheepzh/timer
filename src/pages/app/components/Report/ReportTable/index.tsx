@@ -50,14 +50,14 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | und
 
 const _default = defineComponent((_, ctx) => {
     const rtl = isRtl()
-    const [page, setPage] = useState<timer.common.PageQuery>({ size: 10, num: 1 })
+    const [page, setPage] = useState<timer.common.PageQuery>({ size: 20, num: 1 })
     const sort = useReportSort()
     const filter = useReportFilter()
     const queryParam = computed(() => computeTimerQueryParam(filter, sort.value))
-    const { data, refresh } = useRequest(
+    const { data, refresh, loading } = useRequest(
         () => statService.selectByPage(queryParam.value, page.value),
         {
-            loadingTarget: "#report-table-content",
+            loadingTarget: () => table.value?.$el as HTMLDivElement,
             deps: [queryParam, page],
             defaultValue: { list: [], total: 0 },
         },
@@ -84,12 +84,12 @@ const _default = defineComponent((_, ctx) => {
         refresh,
     } satisfies DisplayComponent)
 
-    const tableRef = ref<TableInstance>()
+    const table = ref<TableInstance>()
     // Force to re-layout after merge change
     watch([
         () => filter.mergeDate,
         () => filter.siteMerge,
-    ], () => tableRef.value?.doLayout?.())
+    ], () => table.value?.doLayout?.())
 
     const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
         data.value?.list
@@ -99,38 +99,40 @@ const _default = defineComponent((_, ctx) => {
 
     return () => (
         <ContentCard>
-            <Flex gap={23} width="100%" column>
-                <ElTable
-                    ref={tableRef}
-                    data={data.value?.list}
-                    border fit highlightCurrentRow
-                    style={{ width: "100%" }}
-                    defaultSort={sort.value}
-                    onSelection-change={setSelection}
-                    onSort-change={(val: ReportSort) => sort.value = val}
-                >
-                    {!filter.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
-                    {!filter.mergeDate && <DateColumn />}
-                    {filter.siteMerge !== 'cate' && <>
-                        <HostColumn />
-                        <ElTableColumn
-                            label={t(msg => msg.siteManage.column.alias)}
-                            minWidth={140}
-                            align="center"
-                            v-slots={({ row }: { row: timer.stat.Row }) => (
-                                <Editable
-                                    modelValue={row?.alias}
-                                    onChange={newAlias => row.siteKey && handleAliasChange(row.siteKey, newAlias, data.value?.list ?? [])}
-                                />
-                            )}
-                        />
-                    </>}
-                    {filter.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
-                    <TimeColumn dimension="focus" />
-                    {runColVisible.value && <TimeColumn dimension="run" />}
-                    <VisitColumn />
-                    <OperationColumn onDelete={refresh} />
-                </ElTable>
+            <Flex gap={23} width="100%" height="100%" column>
+                <Flex flex={1} height={0}>
+                    <ElTable
+                        ref={table}
+                        data={data.value?.list}
+                        border fit highlightCurrentRow
+                        height="100%"
+                        defaultSort={sort.value}
+                        onSelection-change={setSelection}
+                        onSort-change={(val: ReportSort) => sort.value = val}
+                    >
+                        {!filter.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
+                        {!filter.mergeDate && <DateColumn />}
+                        {filter.siteMerge !== 'cate' && <>
+                            <HostColumn />
+                            <ElTableColumn
+                                label={t(msg => msg.siteManage.column.alias)}
+                                minWidth={140}
+                                align="center"
+                                v-slots={({ row }: { row: timer.stat.Row }) => (
+                                    <Editable
+                                        modelValue={row?.alias}
+                                        onChange={newAlias => row.siteKey && handleAliasChange(row.siteKey, newAlias, data.value?.list ?? [])}
+                                    />
+                                )}
+                            />
+                        </>}
+                        {filter.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
+                        <TimeColumn dimension="focus" />
+                        {runColVisible.value && <TimeColumn dimension="run" />}
+                        <VisitColumn />
+                        <OperationColumn onDelete={refresh} />
+                    </ElTable>
+                </Flex>
                 <Flex justify="center" width="100%" gap={8} align="center">
                     <ElTooltip
                         effect="light"
@@ -149,6 +151,7 @@ const _default = defineComponent((_, ctx) => {
                         }}
                     />
                     <Pagination
+                        disabled={loading.value}
                         defaultValue={page.value}
                         total={data.value?.total || 0}
                         onChange={setPage}

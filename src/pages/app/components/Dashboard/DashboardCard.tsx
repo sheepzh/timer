@@ -6,16 +6,16 @@
  */
 
 import { ElCard, ElCol } from "element-plus"
-import { defineComponent, useSlots } from "vue"
+import type { FunctionalComponent, StyleValue } from "vue"
 
-const _default = defineComponent<{ span: number }>(props => {
-    const slots = useSlots()
+const DashboardCard: FunctionalComponent<{ span: number }> = (props, ctx) => (
+    <ElCol span={props.span}>
+        <ElCard
+            style={{ height: '320px', marginBlockEnd: '15px' } satisfies StyleValue}
+            bodyStyle={{ padding: '20px', width: '100%', height: '100%', boxSizing: 'border-box' }}
+            v-slots={ctx.slots}
+        />
+    </ElCol>
+)
 
-    return () => (
-        <ElCol span={props.span}>
-            <ElCard style={{ height: '320px' }} v-slots={slots} />
-        </ElCol>
-    )
-}, { props: ['span'] })
-
-export default _default
+export default DashboardCard

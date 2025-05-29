@@ -8,7 +8,7 @@
 import { initAppContext } from "@app/context"
 import { CLZ_HIDDEN_MD_AND_UP, CLZ_HIDDEN_SM_AND_DOWN } from "@pages/element-ui/style"
 import { ElAside, ElContainer, ElHeader, ElScrollbar } from "element-plus"
-import { defineComponent } from "vue"
+import { defineComponent, type StyleValue } from "vue"
 import { RouterView } from "vue-router"
 import HeadNav from "./menu/Nav"
 import SideMenu from "./menu/Side"
@@ -24,7 +24,10 @@ const _default = defineComponent(() => {
                 <HeadNav />
             </ElHeader>
             <ElContainer>
-                <ElAside class={['app-aside', CLZ_HIDDEN_SM_AND_DOWN]}>
+                <ElAside
+                    class={CLZ_HIDDEN_SM_AND_DOWN}
+                    style={{ width: '240px' } satisfies StyleValue}
+                >
                     <ElScrollbar>
                         <SideMenu />
                     </ElScrollbar>

@@ -12,6 +12,7 @@ export type BaseProps = Pick<
     id?: string
     inline?: boolean
     color?: 'text-primary' | 'text-secondary' | 'text-regular' | CSSProperties['color']
+    bgColor?: CSSProperties['backgroundColor']
     class?: string | string[]
     style?: CSSProperties
     onClick?: (ev: MouseEvent) => void
@@ -22,7 +23,7 @@ export const ALL_BASE_PROPS: (keyof BaseProps)[] = [
     'maxWidth', 'minHeight', 'width', 'height',
     'padding', 'paddingBlock', 'paddingInline',
     'position', 'boxSizing', 'cursor',
-    'color', 'fontSize',
+    'color', 'fontSize', 'bgColor',
     'id', 'class', 'style',
     'inline',
     'onClick',
@@ -53,6 +54,7 @@ export const cvt2BaseStyle = (props: BaseProps): CSSProperties => ({
     paddingBlock: cvtPxScale(props.paddingBlock),
     paddingInline: cvtPxScale(props.paddingInline),
     color: cvtColor(props.color),
+    backgroundColor: props.bgColor,
     fontSize: cvtPxScale(props.fontSize),
     ...props.style ?? {},
 })

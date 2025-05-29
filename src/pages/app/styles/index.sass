@@ -36,8 +36,6 @@ a
     width: 100%
     background: var(--timer-app-container-bg-color)
     margin: auto
-    >.el-scrollbar
-        width: 100%
 
 #app
     height: 100%
@@ -69,7 +67,6 @@ a
 \:root
     --el-menu-item-height: 48px
     --el-menu-active-color: var(--el-menu-text-color)
-    --el-menu-item-active-bg-color: var(--el-color-primary)
     --el-menu-bg-color: #1d222d
     --el-menu-text-color: #c1c6c8
     --el-menu-hover-bg-color: #262f3e
@@ -78,15 +75,12 @@ a
     --timer-app-container-bg-color: var(--el-fill-color-blank)
     --timer-chart-increase-color: var(--el-color-danger)
     --timer-chart-decrease-color: var(--el-color-success-light-3)
-    --timer-container-container-padding: 30px
 
 html[data-theme='dark']:root
     // timer
     --timer-app-container-bg-color: var(--el-fill-color-lighter)
 
 @media (max-width: 600px)
-    \:root
-        --timer-container-container-padding: 20px
     .filter-container .el-card__body
         flex-direction: column
         gap: 10px
