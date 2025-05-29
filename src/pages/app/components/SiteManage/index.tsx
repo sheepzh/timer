@@ -23,8 +23,8 @@ import SiteManageTable from "./SiteManageTable"
 export default defineComponent(() => {
     const [filterOption, setFilterOption] = useState<FilterOption>()
     const modify = ref<ModifyInstance>()
-    const [page, setPage] = useState<timer.common.PageQuery>({ num: 1, size: 10 })
-    const { data: pagination, refresh } = useRequest(() => {
+    const [page, setPage] = useState<timer.common.PageQuery>({ num: 1, size: 20 })
+    const { data: pagination, refresh, loading } = useRequest(() => {
         const { query: fuzzyQuery, cateIds, types } = filterOption.value || {}
         const param: SiteQueryParam = { fuzzyQuery, cateIds, types }
         return siteService.selectByPage(param, page.value)
@@ -107,19 +107,24 @@ export default defineComponent(() => {
             />
         ),
         content: () => <>
-            <Flex id="site-manage-table-wrapper" column width="100%" gap={23}>
-                <SiteManageTable
-                    data={pagination.value?.list}
-                    onSelectionChange={setSelected}
-                    onRowDelete={refresh}
-                    onRowModify={refresh}
-                    onAliasGenerated={refresh}
-                />
-                <Pagination
-                    defaultValue={page.value}
-                    total={pagination.value?.total || 0}
-                    onChange={setPage}
-                />
+            <Flex id="site-manage-table-wrapper" column width="100%" height="100%" gap={23}>
+                <Flex flex={1} height={0}>
+                    <SiteManageTable
+                        data={pagination.value?.list}
+                        onSelectionChange={setSelected}
+                        onRowDelete={refresh}
+                        onRowModify={refresh}
+                        onAliasGenerated={refresh}
+                    />
+                </Flex>
+                <Flex justify="center">
+                    <Pagination
+                        disabled={loading.value}
+                        defaultValue={page.value}
+                        total={pagination.value?.total || 0}
+                        onChange={setPage}
+                    />
+                </Flex>
             </Flex>
             <Modify ref={modify} onSave={refresh} />
             <ElDialog

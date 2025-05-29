@@ -6,13 +6,13 @@
  */
 
 import { ElCard } from "element-plus"
-import { type FunctionalComponent, useSlots } from "vue"
+import type { FunctionalComponent, StyleValue } from "vue"
 
-const ContentCard: FunctionalComponent = () => (
+const ContentCard: FunctionalComponent = (_, ctx) => (
     <ElCard
-        style={{ minHeight: '640px' }}
-        bodyStyle={{ height: '100%' }}
-        v-slots={useSlots()}
+        style={{ flex: 1, height: 0 } satisfies StyleValue}
+        bodyStyle={{ height: '100%', boxSizing: 'border-box' }}
+        v-slots={ctx.slots}
     />
 )
 

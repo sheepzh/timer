@@ -4,9 +4,9 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import ContentContainer from "@app/components/common/ContentContainer"
-import Flex from "@pages/components/Flex"
-import { defineComponent } from "vue"
+import ContentContainer, { FilterContainer } from "@app/components/common/ContentContainer"
+import { ElScrollbar } from "element-plus"
+import { defineComponent, type StyleValue } from "vue"
 import HabitFilter from "./components/HabitFilter"
 import Period from "./components/Period"
 import Site from "./components/Site"
@@ -16,15 +16,15 @@ const _default = defineComponent(() => {
     initHabit()
 
     return () => (
-        <ContentContainer v-slots={{
-            filter: () => <HabitFilter />,
-            default: () => (
-                <Flex direction="column" gap={15}>
-                    <Site />
-                    <Period />
-                </Flex>
-            )
-        }} />
+        <ElScrollbar height="100%" style={{ width: '100%' } satisfies StyleValue}>
+            <ContentContainer >
+                <FilterContainer>
+                    <HabitFilter />
+                </FilterContainer>
+                <Site />
+                <Period />
+            </ContentContainer>
+        </ElScrollbar>
     )
 
 })

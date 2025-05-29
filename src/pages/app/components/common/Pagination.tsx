@@ -11,6 +11,7 @@ import { ElPagination } from "element-plus"
 import { defineComponent } from "vue"
 
 type Props = {
+    disabled?: boolean
     defaultValue?: timer.common.PageQuery
     total?: number
     onChange?: (val: timer.common.PageQuery) => void
@@ -20,6 +21,7 @@ const Pagination = defineComponent<Props>(props => {
     return () => (
         <Flex justify="center" align="center">
             <ElPagination
+                disabled={props.disabled}
                 {...getPaginationIconProps() || {}}
                 pageSizes={[10, 20, 50]}
                 defaultCurrentPage={(props.defaultValue as timer.common.PageQuery)?.num}

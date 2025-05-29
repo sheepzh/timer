@@ -4,7 +4,7 @@ import { onBeforeMount, onMounted, ref, watch, type Ref, type WatchSource } from
 export type RequestOption<T, P extends any[]> = {
     manual?: boolean
     defaultValue?: T
-    loadingTarget?: string | Ref<HTMLElement | undefined>
+    loadingTarget?: string | Ref<HTMLElement | undefined> | Getter<HTMLElement | undefined>
     loadingText?: string
     defaultParam?: P
     deps?: WatchSource<unknown> | WatchSource<unknown>[]
@@ -22,6 +22,21 @@ export type RequestResult<T, P extends any[]> = {
     param: Ref<P | undefined>
 }
 
+const findLoadingEl = async (target: RequestOption<unknown, unknown[]>['loadingTarget']): Promise<string | HTMLElement | undefined> => {
+    if (!target) return undefined
+    if (typeof target === 'string') {
+        return target
+    } else if (typeof target === 'function') {
+        const res = await target?.()
+        if (res instanceof HTMLElement) {
+            return res
+        }
+    } else {
+        return target.value
+    }
+    return undefined
+}
+
 export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> | T, option?: RequestOption<T, P>): RequestResult<T, P> => {
     const {
         manual = false,
@@ -37,7 +52,7 @@ export const useRequest = <P extends any[], T>(getter: (...p: P) => Promise<T> |
 
     const refreshAsync = async (...p: P) => {
         loading.value = true
-        const loadingEl = typeof loadingTarget === "string" ? loadingTarget : loadingTarget?.value
+        const loadingEl = await findLoadingEl(loadingTarget)
         const loadingInstance = loadingEl ? ElLoadingService({ target: loadingEl, text: loadingText }) : null
         try {
             param.value = p

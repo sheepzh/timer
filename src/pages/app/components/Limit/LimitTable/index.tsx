@@ -47,6 +47,7 @@ const _default = defineComponent(() => {
         <ElTable
             border fit highlightCurrentRow
             style={{ width: "100%" }}
+            maxHeight="100%"
             data={list.value}
             defaultSort={historySort.value}
             onSort-change={(val: Sort) => historySort.value = { prop: val?.prop, order: val?.order }}
