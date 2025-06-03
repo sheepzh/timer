@@ -7,20 +7,22 @@
 
 import Flex from "@pages/components/Flex"
 import { ElCard } from "element-plus"
-import { type FunctionalComponent } from "vue"
+import { defineComponent } from "vue"
 import ContentContainer from "../common/ContentContainer"
 import AlertInfo from "./AlertInfo"
 import ItemList from "./ItemList"
 
-const RuleMerge: FunctionalComponent = () => (
-    <ContentContainer>
-        <ElCard>
-            <Flex column gap={20}>
-                <AlertInfo />
-                <ItemList />
-            </Flex>
-        </ElCard>
-    </ContentContainer>
-)
+const RuleMerge = defineComponent(() => {
+    return () => (
+        <ContentContainer>
+            <ElCard>
+                <Flex column gap={20}>
+                    <AlertInfo />
+                    <ItemList />
+                </Flex>
+            </ElCard>
+        </ContentContainer>
+    )
+})
 
 export default RuleMerge

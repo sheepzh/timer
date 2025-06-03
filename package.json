@@ -53,7 +53,7 @@
         "postcss": "^8.5.4",
         "postcss-loader": "^8.1.1",
         "postcss-rtlcss": "^5.7.1",
-        "puppeteer": "^24.9.0",
+        "puppeteer": "^24.10.0",
         "sass": "^1.89.1",
         "sass-loader": "^16.0.5",
         "style-loader": "^4.0.0",
@@ -67,7 +67,7 @@
     "dependencies": {
         "@element-plus/icons-vue": "^2.3.1",
         "@vueuse/core": "^13.3.0",
-        "countup.js": "^2.8.2",
+        "countup.js": "^2.9.0",
         "echarts": "^5.6.0",
         "element-plus": "2.9.11",
         "js-base64": "^3.7.7",
