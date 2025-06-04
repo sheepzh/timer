@@ -1,6 +1,7 @@
 import { getTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { getWindow } from "@api/chrome/window"
 import optionHolder from "@service/components/option-holder"
+import whitelistHolder from "@service/components/whitelist-holder"
 import itemService from "@service/item-service"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
@@ -10,8 +11,8 @@ import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
 import badgeManager from "./badge-manager"
 import MessageDispatcher from "./message-dispatcher"
 
-async function handleTime(host: string, url: string, dateRange: [number, number], tabId: number | undefined): Promise<number> {
-    const [start, end] = dateRange
+async function handleTime(host: string, url: string, timeRange: [number, number], tabId: number | undefined): Promise<number> {
+    const [start, end] = timeRange
     const focusTime = end - start
     // 1. Save async
     await itemService.addFocusTime(host, url, focusTime)
@@ -26,17 +27,25 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
     return focusTime
 }
 
+async function handleGroupTime(timeRange: [number, number], groupId: number): Promise<void> {
+    // todo
+}
+
 async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
     const { url, start, end, ignoreTabCheck } = event
-    const { id: tabId, windowId } = sender?.tab || {}
+    const { id: tabId, windowId, groupId } = sender?.tab || {}
     if (!ignoreTabCheck) {
         if (await windowNotFocused(windowId)) return
         if (await tabNotActive(tabId)) return
     }
     const { protocol, host } = extractHostname(url) || {}
     const option = await optionHolder.get()
+
     if (protocol === "file" && !option?.countLocalFiles) return
+    if (whitelistHolder.contains(host, url)) return
+
     await handleTime(host, url, [start, end], tabId)
+    option.countTabGroup && groupId && await handleGroupTime([start, end], groupId)
     if (tabId) {
         const winTabs = await listTabs({ active: true, windowId })
         const firstActiveTab = winTabs?.[0]
@@ -108,7 +117,7 @@ async function handleTrackRunTimeEvent(event: timer.core.Event): Promise<void> {
     const realStart = Math.max(RUN_TIME_END_CACHE[host] ?? 0, start)
     const byDate = splitRunTime(realStart, end)
     if (!Object.keys(byDate).length) return
-    await itemService.addRunTime(host, url, byDate)
+    await itemService.addRunTime(host, byDate)
     RUN_TIME_END_CACHE[host] = Math.max(end, realStart)
 }
 
