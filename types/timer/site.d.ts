@@ -19,7 +19,7 @@ declare namespace timer.site {
          */
         run?: boolean
     }
-    type Type = 'normal' | 'merged' | 'virtual' | 'group'
+    type Type = 'normal' | 'merged' | 'virtual'
     /**
      * Site tag
      *

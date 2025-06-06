@@ -294,6 +294,15 @@ class StatService {
     async batchDeleteBase(keys: timer.core.RowKey[]): Promise<void> {
         await statDatabase.delete(keys)
     }
+
+    async selectGroupByPage(param?: StatQueryParam, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> {
+        const { date } = param ?? {}
+        const condition: StatCondition = { date, onlyGroup: true }
+        const list = await statDatabase.select(condition)
+        let rows: timer.stat.Row[] = list.map(({ date, time, focus, run, host }) => ({ date, groupKey: parseInt(host), run, focus, time }))
+        param?.mergeDate && (rows = mergeDate(rows))
+        return slicePageResult(rows, page)
+    }
 }
 
 export default new StatService()

@@ -27,8 +27,10 @@ async function handleTime(host: string, url: string, timeRange: [number, number]
     return focusTime
 }
 
-async function handleGroupTime(timeRange: [number, number], groupId: number): Promise<void> {
-    // todo
+async function handleGroupTime(start: number, end: number, groupId: number): Promise<void> {
+    if (groupId === chrome.tabGroups.TAB_GROUP_ID_NONE) return
+    const focusTime = end - start
+    await itemService.addGroupFocusTime(groupId, focusTime)
 }
 
 async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
@@ -45,7 +47,7 @@ async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessa
     if (whitelistHolder.contains(host, url)) return
 
     await handleTime(host, url, [start, end], tabId)
-    option.countTabGroup && groupId && await handleGroupTime([start, end], groupId)
+    option.countTabGroup && groupId && await handleGroupTime(start, end, groupId)
     if (tabId) {
         const winTabs = await listTabs({ active: true, windowId })
         const firstActiveTab = winTabs?.[0]

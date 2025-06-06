@@ -5,11 +5,16 @@ import virtualSiteHolder from "./components/virtual-site-holder"
 const db = new StatDatabase(chrome.storage.local)
 
 async function addFocusTime(host: string, url: string, focusTime: number): Promise<void> {
-    const resultSet: timer.stat.ResultSet = { [host]: resultOf(focusTime, 0) }
+    const resultSet: Record<string, timer.core.Result> = { [host]: resultOf(focusTime, 0) }
     const virtualHosts = virtualSiteHolder.findMatched(url)
     virtualHosts.forEach(virtualHost => resultSet[virtualHost] = resultOf(focusTime, 0))
 
     await db.accumulateBatch(resultSet, new Date())
+}
+
+async function addGroupFocusTime(groupId: number, focusTime: number): Promise<void> {
+    console.log(focusTime)
+    await db.accumulateGroup(groupId, new Date(), resultOf(focusTime, 0))
 }
 
 async function addRunTime(host: string, dateTime: Record<string, number>) {
@@ -19,7 +24,7 @@ async function addRunTime(host: string, dateTime: Record<string, number>) {
 }
 
 async function increaseVisit(host: string, url: string) {
-    const resultSet: timer.stat.ResultSet = { [host]: resultOf(0, 1) }
+    const resultSet = { [host]: resultOf(0, 1) }
     virtualSiteHolder.findMatched(url).forEach(virtualHost => resultSet[virtualHost] = resultOf(0, 1))
     await db.accumulateBatch(resultSet, new Date())
 }
@@ -30,6 +35,7 @@ const selectItems = (cond: StatCondition) => db.select(cond)
 
 export default {
     addFocusTime,
+    addGroupFocusTime,
     addRunTime,
     increaseVisit,
     getResult,

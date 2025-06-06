@@ -1,6 +1,7 @@
 import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD } from "@util/time"
 import StatDatabase, { type StatCondition } from "."
+import { GROUP_PREFIX } from "./constants"
 
 type _StatCondition = StatCondition & {
     // Use exact date condition
@@ -120,13 +121,22 @@ function processCondition(condition: StatCondition): _StatCondition {
  */
 export async function filter(this: StatDatabase, condition?: StatCondition): Promise<_FilterResult[]> {
     condition = condition || {}
+    const { onlyGroup } = condition
     const cond = processCondition(condition)
     const items = await this.refresh()
-    return Object.entries(items).map(
-        ([key, value]) => {
-            const date = key.substring(0, 8)
-            const host = key.substring(8)
-            return { date, host, value: value as timer.core.Result }
+    const result: _FilterResult[] = []
+    Object.entries(items).forEach(([key, value]) => {
+        const date = key.substring(0, 8)
+        let host = key.substring(8)
+        if (onlyGroup) {
+            // console.log(date, host,)
+            if (host.startsWith(GROUP_PREFIX)) {
+                host = host.substring(GROUP_PREFIX.length)
+                result.push({ date, host, value: value as timer.core.Result })
+            }
+        } else if (!host.startsWith(GROUP_PREFIX)) {
+            result.push({ date, host, value: value as timer.core.Result })
         }
-    ).filter(item => filterByCond(item, cond))
+    })
+    return result.filter(item => filterByCond(item, cond))
 }

@@ -1,14 +1,8 @@
 declare namespace timer.stat {
-    /**
-     * A set of results
-     *
-     * @since 0.3.3
-     */
-    type ResultSet = { [host: string]: core.Result }
-
     type StatKey = {
         siteKey?: timer.site.SiteKey
         cateKey?: number
+        groupKey?: number
         // Absent if date merged
         date?: string
     }
@@ -75,5 +69,5 @@ declare namespace timer.stat {
     /**
      * @since 3.0.0
      */
-    type MergeMethod = 'cate' | 'date' | 'domain'
+    type MergeMethod = 'cate' | 'date' | 'domain' | 'group'
 }

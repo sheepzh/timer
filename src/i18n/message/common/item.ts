@@ -10,6 +10,7 @@ import resource from './item-resource.json'
 export type ItemMessage = {
     date: string
     host: string
+    group: string
     operation: {
         add2Whitelist: string
         deleteConfirmMsgAll: string

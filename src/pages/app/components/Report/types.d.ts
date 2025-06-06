@@ -34,7 +34,7 @@ export type ReportFilterOption = {
     host: string | undefined
     dateRange: [Date, Date] | undefined
     mergeDate: boolean
-    siteMerge?: timer.stat.MergeMethod & ('cate' | 'domain')
+    siteMerge?: timer.stat.MergeMethod & ('cate' | 'domain' | 'group')
     cateIds?: number[]
     /**
      * @since 1.1.7

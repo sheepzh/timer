@@ -25,6 +25,7 @@ import { useReportFilter, useReportSort } from "../context"
 import type { DisplayComponent, ReportFilterOption, ReportSort } from "../types"
 import CateColumn from "./columns/CateColumn"
 import DateColumn from "./columns/DateColumn"
+import GroupColumn from "./columns/GroupColumn"
 import HostColumn from "./columns/HostColumn"
 import OperationColumn from "./columns/OperationColumn"
 import TimeColumn from "./columns/TimeColumn"
@@ -48,14 +49,30 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | und
         ?.forEach(item => item.alias = newAlias)
 }
 
+type ColumnVisible = Record<'index' | 'date' | 'site' | 'cate' | 'group', boolean>
+
+const computeVisible = (filter: ReportFilterOption): ColumnVisible => {
+    const { siteMerge, mergeDate } = filter
+    return {
+        index: !siteMerge || siteMerge === 'group',
+        date: !mergeDate,
+        site: !siteMerge || siteMerge === 'domain',
+        cate: !siteMerge || siteMerge === 'cate',
+        group: siteMerge === 'group',
+    }
+}
+
 const _default = defineComponent((_, ctx) => {
     const rtl = isRtl()
     const [page, setPage] = useState<timer.common.PageQuery>({ size: 20, num: 1 })
     const sort = useReportSort()
     const filter = useReportFilter()
+    const visible = computed(() => computeVisible(filter))
     const queryParam = computed(() => computeTimerQueryParam(filter, sort.value))
     const { data, refresh, loading } = useRequest(
-        () => statService.selectByPage(queryParam.value, page.value),
+        () => filter.siteMerge === 'group'
+            ? statService.selectGroupByPage(queryParam.value, page.value)
+            : statService.selectByPage(queryParam.value, page.value),
         {
             loadingTarget: () => table.value?.$el as HTMLDivElement,
             deps: [queryParam, page],
@@ -110,9 +127,9 @@ const _default = defineComponent((_, ctx) => {
                         onSelection-change={setSelection}
                         onSort-change={(val: ReportSort) => sort.value = val}
                     >
-                        {!filter.siteMerge && <ElTableColumn type="selection" align="center" fixed="left" />}
-                        {!filter.mergeDate && <DateColumn />}
-                        {filter.siteMerge !== 'cate' && <>
+                        {visible.value.index && <ElTableColumn type="selection" align="center" fixed="left" />}
+                        {visible.value.date && <DateColumn />}
+                        {visible.value.site && <>
                             <HostColumn />
                             <ElTableColumn
                                 label={t(msg => msg.siteManage.column.alias)}
@@ -126,7 +143,8 @@ const _default = defineComponent((_, ctx) => {
                                 )}
                             />
                         </>}
-                        {filter.siteMerge !== 'domain' && <CateColumn onChange={handleCateChange} />}
+                        {visible.value.group && <GroupColumn />}
+                        {visible.value.cate && <CateColumn onChange={handleCateChange} />}
                         <TimeColumn dimension="focus" />
                         {runColVisible.value && <TimeColumn dimension="run" />}
                         <VisitColumn />
