@@ -1,20 +1,30 @@
+import { isValidGroup } from "@api/chrome/tabGroups"
 import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
+import optionHolder from "./components/option-holder"
 import virtualSiteHolder from "./components/virtual-site-holder"
 
 const db = new StatDatabase(chrome.storage.local)
 
-async function addFocusTime(host: string, url: string, focusTime: number): Promise<void> {
+export type ItemIncContext = {
+    host: string
+    url: string
+    groupId?: number
+}
+
+async function addFocusTime(context: ItemIncContext, focusTime: number): Promise<void> {
+    const { host, url, groupId } = context
+
     const resultSet: Record<string, timer.core.Result> = { [host]: resultOf(focusTime, 0) }
     const virtualHosts = virtualSiteHolder.findMatched(url)
     virtualHosts.forEach(virtualHost => resultSet[virtualHost] = resultOf(focusTime, 0))
 
-    await db.accumulateBatch(resultSet, new Date())
-}
+    const now = new Date()
 
-async function addGroupFocusTime(groupId: number, focusTime: number): Promise<void> {
-    console.log(focusTime)
-    await db.accumulateGroup(groupId, new Date(), resultOf(focusTime, 0))
+    await db.accumulateBatch(resultSet, now)
+
+    const { countTabGroup } = await optionHolder.get()
+    countTabGroup && isValidGroup(groupId) && db.accumulateGroup(groupId, now, resultOf(focusTime, 0))
 }
 
 async function addRunTime(host: string, dateTime: Record<string, number>) {
@@ -23,10 +33,17 @@ async function addRunTime(host: string, dateTime: Record<string, number>) {
     }
 }
 
-async function increaseVisit(host: string, url: string) {
+async function increaseVisit(context: ItemIncContext) {
+    const { host, url, groupId } = context
     const resultSet = { [host]: resultOf(0, 1) }
     virtualSiteHolder.findMatched(url).forEach(virtualHost => resultSet[virtualHost] = resultOf(0, 1))
-    await db.accumulateBatch(resultSet, new Date())
+
+    const now = new Date()
+
+    await db.accumulateBatch(resultSet, now)
+
+    const { countTabGroup } = await optionHolder.get()
+    countTabGroup && isValidGroup(groupId) && await db.accumulateGroup(groupId, now, resultOf(0, 1))
 }
 
 const getResult = (host: string, date: Date | string) => db.get(host, date)
@@ -35,7 +52,6 @@ const selectItems = (cond: StatCondition) => db.select(cond)
 
 export default {
     addFocusTime,
-    addGroupFocusTime,
     addRunTime,
     increaseVisit,
     getResult,

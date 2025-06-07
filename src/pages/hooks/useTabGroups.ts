@@ -1,5 +1,5 @@
-import { listAllGroups } from "@api/chrome/tabGroups"
-import { computed, onUnmounted } from "vue"
+import { listAllGroups, onChanged, removeChangedHandler } from "@api/chrome/tabGroups"
+import { computed, onMounted } from "vue"
 import { useRequest } from "."
 
 export const useTabGroups = () => {
@@ -10,14 +10,9 @@ export const useTabGroups = () => {
         return map
     })
 
-    chrome.tabGroups.onCreated.addListener(refresh)
-    chrome.tabGroups.onRemoved.addListener(refresh)
-    chrome.tabGroups.onUpdated.addListener(refresh)
-
-    onUnmounted(() => {
-        chrome.tabGroups.onCreated.removeListener(refresh)
-        chrome.tabGroups.onRemoved.removeListener(refresh)
-        chrome.tabGroups.onUpdated.removeListener(refresh)
+    onMounted(() => {
+        onChanged(refresh)
+        return () => removeChangedHandler(refresh)
     })
 
     return { groups, groupMap }

@@ -2,7 +2,7 @@ import { getTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { getWindow } from "@api/chrome/window"
 import optionHolder from "@service/components/option-holder"
 import whitelistHolder from "@service/components/whitelist-holder"
-import itemService from "@service/item-service"
+import itemService, { type ItemIncContext } from "@service/item-service"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import { IS_ANDROID } from "@util/constant/environment"
@@ -11,11 +11,12 @@ import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
 import badgeManager from "./badge-manager"
 import MessageDispatcher from "./message-dispatcher"
 
-async function handleTime(host: string, url: string, timeRange: [number, number], tabId: number | undefined): Promise<number> {
+async function handleTime(context: ItemIncContext, timeRange: [number, number], tabId: number | undefined): Promise<number> {
+    const { host, url } = context
     const [start, end] = timeRange
     const focusTime = end - start
     // 1. Save async
-    await itemService.addFocusTime(host, url, focusTime)
+    await itemService.addFocusTime(context, focusTime)
     // 2. Process limit
     const { limited, reminder } = await limitService.addFocusTime(host, url, focusTime)
     // If time limited after this operation, send messages
@@ -25,12 +26,6 @@ async function handleTime(host: string, url: string, timeRange: [number, number]
     // 3. Add period time
     await periodService.add(start, focusTime)
     return focusTime
-}
-
-async function handleGroupTime(start: number, end: number, groupId: number): Promise<void> {
-    if (groupId === chrome.tabGroups.TAB_GROUP_ID_NONE) return
-    const focusTime = end - start
-    await itemService.addGroupFocusTime(groupId, focusTime)
 }
 
 async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
@@ -46,8 +41,7 @@ async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessa
     if (protocol === "file" && !option?.countLocalFiles) return
     if (whitelistHolder.contains(host, url)) return
 
-    await handleTime(host, url, [start, end], tabId)
-    option.countTabGroup && groupId && await handleGroupTime(start, end, groupId)
+    await handleTime({ host, url, groupId }, [start, end], tabId)
     if (tabId) {
         const winTabs = await listTabs({ active: true, windowId })
         const firstActiveTab = winTabs?.[0]
@@ -84,19 +78,21 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
     }
 }
 
-async function handleVisit(host: string, url: string) {
-    await itemService.increaseVisit(host, url)
+async function handleVisit(context: ItemIncContext) {
+    await itemService.increaseVisit(context)
+    const { host, url } = context
     const metLimits = await limitService.incVisit(host, url)
     // If time limited after this operation, send messages
     metLimits?.length && sendLimitedMessage(metLimits)
 }
 
-async function handleIncVisitEvent(param: { host: string, url: string }): Promise<void> {
+async function handleIncVisitEvent(param: { host: string, url: string }, sender: ChromeMessageSender): Promise<void> {
     const { host, url } = param || {}
+    const { groupId } = sender?.tab ?? {}
     const { protocol } = extractHostname(url) || {}
     const option = await optionHolder.get()
     if (protocol === "file" && !option.countLocalFiles) return
-    await handleVisit(host, url)
+    await handleVisit({ host, url, groupId })
 }
 
 function splitRunTime(start: number, end: number): Record<string, number> {
