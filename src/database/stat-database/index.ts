@@ -229,6 +229,11 @@ class StatDatabase extends BaseDatabase {
         return this.storage.remove(key)
     }
 
+    async deleteByGroupAndDate(groupId: number, date: Date | string): Promise<void> {
+        const key = generateGroupKey(groupId, date)
+        return this.storage.remove(key)
+    }
+
     /**
      * Delete by key
      *
@@ -273,6 +278,18 @@ class StatDatabase extends BaseDatabase {
         return keys.map(k => k.substring(0, 8))
     }
 
+    async deleteByGroupBetween(groupId: number, start?: Date, end?: Date): Promise<void> {
+        const startStr = start ? formatTimeYMD(start) : undefined
+        const endStr = end ? formatTimeYMD(end) : undefined
+        const dateFilter = (date: string) => (startStr ? startStr <= date : true) && (endStr ? date <= endStr : true)
+        const items = await this.refresh()
+
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(`${GROUP_PREFIX}${groupId}`))
+        const keys: string[] = Object.keys(items).filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
+
+        await this.storage.remove(keys)
+    }
+
     /**
      * Delete the record
      *
@@ -288,6 +305,13 @@ class StatDatabase extends BaseDatabase {
         await this.storage.remove(keys)
 
         return keys.map(k => k.substring(0, 8))
+    }
+
+    async deleteByGroup(groupId: number): Promise<void> {
+        const items = await this.refresh()
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(`${GROUP_PREFIX}${groupId}`))
+        const keys: string[] = Object.keys(items).filter(key => keyReg.test(key))
+        await this.storage.remove(keys)
     }
 
     async importData(data: any): Promise<void> {

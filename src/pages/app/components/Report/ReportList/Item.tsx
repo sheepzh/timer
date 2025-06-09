@@ -3,6 +3,7 @@ import PopupConfirmButton from "@app/components/common/PopupConfirmButton"
 import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { Calendar, Delete, Mouse, QuartzWatch } from "@element-plus/icons-vue"
+import { useTabGroups } from "@hooks/useTabGroups"
 import { Effect, ElCheckbox, ElDivider, ElIcon, ElTag } from "element-plus"
 import { computed, defineComponent, type PropType, ref, watch } from "vue"
 import { computeDeleteConfirmMsg, handleDelete } from "../common"
@@ -23,6 +24,7 @@ const _default = defineComponent({
     },
     setup(props, ctx) {
         const filter = useReportFilter()
+        const { groupMap } = useTabGroups()
         const mergeHost = computed(() => filter?.siteMerge === 'domain')
         const formatter = (focus: number): string => periodFormatter(focus, { format: filter?.timeFormat })
         const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value
@@ -66,7 +68,7 @@ const _default = defineComponent({
                     <PopupConfirmButton
                         buttonIcon={<Delete />}
                         buttonType="danger"
-                        confirmText={computeDeleteConfirmMsg(props.value, filter)}
+                        confirmText={computeDeleteConfirmMsg(props.value, filter, groupMap.value)}
                         visible={canDelete.value}
                         onConfirm={onDelete}
                         text

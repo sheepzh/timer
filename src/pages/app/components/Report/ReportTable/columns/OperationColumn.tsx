@@ -10,6 +10,7 @@ import { t } from "@app/locale"
 import { ANALYSIS_ROUTE } from "@app/router/constants"
 import { Delete, Open, Plus, Stopwatch } from "@element-plus/icons-vue"
 import { useRequest } from "@hooks"
+import { useTabGroups } from "@hooks/useTabGroups"
 import { locale } from "@i18n"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import whitelistService from "@service/whitelist-service"
@@ -34,93 +35,97 @@ const LOCALE_WIDTH: { [locale in timer.Locale]: number } = {
     ar: 320,
 }
 
-const _default = defineComponent({
-    emits: {
-        delete: (_row: timer.stat.Row) => true,
-    },
-    setup(_, ctx) {
-        const filter = useReportFilter()
-        const canOperate = computed(() => !filter?.siteMerge)
-        const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
-        const router = useRouter()
-        const {
-            data: whitelist,
-            refresh: refreshWhitelist,
-        } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })
+type Props = {
+    onDelete?: ArgCallback<timer.stat.Row>
+}
 
-        const jump2Analysis = (row: timer.stat.Row) => {
-            let query: AnalysisQuery
-            const siteMerge = filter?.siteMerge
-            if (siteMerge === 'cate') {
-                query = { cateId: row?.cateKey?.toString?.() }
-            } else {
-                query = { ...row.siteKey }
-            }
-            router.push({ path: ANALYSIS_ROUTE, query })
+const _default = defineComponent<Props>(({ onDelete }) => {
+    const filter = useReportFilter()
+    const { groupMap } = useTabGroups()
+    const canOperate = computed(() => {
+        const siteMerge = filter.siteMerge
+        return !siteMerge || siteMerge === 'group'
+    })
+    const canAnalysis = computed(() => filter.siteMerge !== 'group')
+    const width = computed(() => canOperate.value ? LOCALE_WIDTH[locale] : 110)
+    const router = useRouter()
+    const {
+        data: whitelist,
+        refresh: refreshWhitelist,
+    } = useRequest(() => whitelistService.listAll(), { defaultValue: [] })
+
+    const jump2Analysis = (row: timer.stat.Row) => {
+        let query: AnalysisQuery
+        const siteMerge = filter?.siteMerge
+        if (siteMerge === 'cate') {
+            query = { cateId: row?.cateKey?.toString?.() }
+        } else {
+            query = { ...row.siteKey }
         }
-
-        return () => (
-            <ElTableColumn
-                width={width.value}
-                label={t(msg => msg.button.operation)}
-                align="center"
-            >
-                {({ row }: ElTableRowScope<timer.stat.Row>) => <>
-                    {/* Analysis */}
-                    {row.cateKey !== CATE_NOT_SET_ID && (
-                        <ElButton
-                            icon={<Stopwatch />}
-                            size="small"
-                            type="primary"
-                            onClick={() => jump2Analysis(row)}
-                        >
-                            {t(msg => msg.item.operation.analysis)}
-                        </ElButton>
-                    )}
-                    {/* Delete button */}
-                    <PopupConfirmButton
-                        buttonIcon={<Delete />}
-                        buttonType="danger"
-                        buttonText={t(msg => msg.button.delete)}
-                        confirmText={computeDeleteConfirmMsg(row, filter)}
-                        visible={canOperate.value}
-                        onConfirm={async () => {
-                            await handleDelete(row, filter)
-                            ctx.emit("delete", row)
-                        }}
-                    />
-                    {/* Add 2 whitelist */}
-                    <PopupConfirmButton
-                        buttonIcon={<Plus />}
-                        buttonType="warning"
-                        buttonText={t(msg => msg.item.operation.add2Whitelist)}
-                        confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.siteKey?.host })}
-                        visible={canOperate.value && !!row.siteKey?.host && !whitelist.value?.includes(row.siteKey?.host)}
-                        onConfirm={async () => {
-                            const host = row.siteKey?.host
-                            host && await whitelistService.add(host)
-                            refreshWhitelist()
-                            ElMessage.success(t(msg => msg.operation.successMsg))
-                        }}
-                    />
-                    {/* Remove from whitelist */}
-                    <PopupConfirmButton
-                        buttonIcon={<Open />}
-                        buttonType="primary"
-                        buttonText={t(msg => msg.button.enable)}
-                        confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.siteKey?.host })}
-                        visible={canOperate.value && !!row.siteKey?.host && whitelist.value?.includes(row.siteKey?.host)}
-                        onConfirm={async () => {
-                            const host = row.siteKey?.host
-                            host && await whitelistService.remove(host)
-                            refreshWhitelist()
-                            ElMessage.success(t(msg => msg.operation.successMsg))
-                        }}
-                    />
-                </>}
-            </ElTableColumn>
-        )
+        router.push({ path: ANALYSIS_ROUTE, query })
     }
-})
+
+    return () => (
+        <ElTableColumn
+            width={width.value}
+            label={t(msg => msg.button.operation)}
+            align="center"
+        >
+            {({ row }: ElTableRowScope<timer.stat.Row>) => <>
+                {/* Analysis */}
+                {row.cateKey !== CATE_NOT_SET_ID && canAnalysis.value && (
+                    <ElButton
+                        icon={<Stopwatch />}
+                        size="small"
+                        type="primary"
+                        onClick={() => jump2Analysis(row)}
+                    >
+                        {t(msg => msg.item.operation.analysis)}
+                    </ElButton>
+                )}
+                {/* Delete button */}
+                <PopupConfirmButton
+                    buttonIcon={<Delete />}
+                    buttonType="danger"
+                    buttonText={t(msg => msg.button.delete)}
+                    confirmText={computeDeleteConfirmMsg(row, filter, groupMap.value)}
+                    visible={canOperate.value}
+                    onConfirm={async () => {
+                        await handleDelete(row, filter)
+                        onDelete?.(row)
+                    }}
+                />
+                {/* Add 2 whitelist */}
+                <PopupConfirmButton
+                    buttonIcon={<Plus />}
+                    buttonType="warning"
+                    buttonText={t(msg => msg.item.operation.add2Whitelist)}
+                    confirmText={t(msg => msg.whitelist.addConfirmMsg, { url: row.siteKey?.host })}
+                    visible={canOperate.value && !!row.siteKey?.host && !whitelist.value?.includes(row.siteKey?.host)}
+                    onConfirm={async () => {
+                        const host = row.siteKey?.host
+                        host && await whitelistService.add(host)
+                        refreshWhitelist()
+                        ElMessage.success(t(msg => msg.operation.successMsg))
+                    }}
+                />
+                {/* Remove from whitelist */}
+                <PopupConfirmButton
+                    buttonIcon={<Open />}
+                    buttonType="primary"
+                    buttonText={t(msg => msg.button.enable)}
+                    confirmText={t(msg => msg.whitelist.removeConfirmMsg, { url: row.siteKey?.host })}
+                    visible={canOperate.value && !!row.siteKey?.host && whitelist.value?.includes(row.siteKey?.host)}
+                    onConfirm={async () => {
+                        const host = row.siteKey?.host
+                        host && await whitelistService.remove(host)
+                        refreshWhitelist()
+                        ElMessage.success(t(msg => msg.operation.successMsg))
+                    }}
+                />
+            </>}
+        </ElTableColumn>
+    )
+}, { props: ['onDelete'] })
 
 export default _default

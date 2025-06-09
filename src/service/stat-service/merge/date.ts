@@ -1,15 +1,15 @@
-import { identifySiteKey } from "@util/site"
+import { identifyStatKey } from "@util/stat"
 import { mergeResult } from "./common"
 
 export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
     const map: Record<string, MakeRequired<timer.stat.Row, 'mergedDates' | 'mergedRows'>> = {}
     origin.forEach(ele => {
-        const { date, siteKey, cateKey, iconUrl, alias, cateId } = ele || {}
-        const key = [identifySiteKey(siteKey), cateKey?.toString?.() ?? ''].join('_')
+        const { date, siteKey, groupKey, cateKey, iconUrl, alias, cateId } = ele || {}
+        const key = identifyStatKey(ele)
         let exist = map[key]
         if (!exist) {
             exist = map[key] = {
-                siteKey, cateKey,
+                siteKey, cateKey, groupKey,
                 iconUrl, alias, cateId,
                 focus: 0,
                 time: 0,

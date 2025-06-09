@@ -7,6 +7,15 @@ export async function listAllGroups(): Promise<chrome.tabGroups.TabGroup[]> {
     }
 }
 
+export async function getGroup(id: number | undefined): Promise<chrome.tabGroups.TabGroup | undefined> {
+    if (!id) return undefined
+    try {
+        return chrome.tabGroups.get(id)
+    } catch (e) {
+        return undefined
+    }
+}
+
 export function onChanged(handler: ArgCallback<chrome.tabGroups.TabGroup>): void {
     try {
         chrome.tabGroups.onCreated.addListener(handler)

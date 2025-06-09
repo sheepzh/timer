@@ -43,9 +43,10 @@ function computeRangeConfirmText(url: string, dateRange: [Date, Date] | undefine
         : t(msg => msg.item.operation.deleteConfirmMsgRange, { url, start, end })
 }
 
-export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: ReportFilterOption): string {
-    const { siteKey, date } = row || {}
-    const host = siteKey?.host ?? 'Unknown Host'
+export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: ReportFilterOption, groupMap: Record<number, chrome.tabGroups.TabGroup>): string {
+    const { siteKey, date, groupKey } = row || {}
+    const { siteMerge } = filterOption
+    const host = (siteMerge === 'group' && groupKey ? (groupMap[groupKey])?.title : siteKey?.host) ?? 'Unknown Host'
     const { mergeDate, dateRange } = filterOption || {}
     return mergeDate
         ? computeRangeConfirmText(host, dateRange)
@@ -53,12 +54,13 @@ export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: Repor
 }
 
 export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilterOption) {
-    const { siteKey, date } = row || {}
+    const { siteKey, date, groupKey } = row || {}
     const { host } = siteKey || {}
     const { mergeDate, dateRange } = filterOption || {}
     if (!mergeDate) {
         // Delete one day
         host && date && await statDatabase.deleteByUrlAndDate(host, date)
+        groupKey && date && await statDatabase.deleteByGroupAndDate(groupKey, date)
         return
     }
     const start = dateRange?.[0]
@@ -66,9 +68,11 @@ export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilt
     if (!start && !end) {
         // Delete all
         host && await statDatabase.deleteByUrl(host)
+        groupKey && await statDatabase.deleteByGroup(groupKey)
         return
     }
 
     // Delete by range
     host && await statDatabase.deleteByUrlBetween(host, start, end)
+    groupKey && await statDatabase.deleteByGroupBetween(groupKey, start, end)
 }

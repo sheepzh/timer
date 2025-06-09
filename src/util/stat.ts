@@ -17,6 +17,7 @@ export function resultOf(focus: number, time: number): timer.core.Result {
 export const ALL_DIMENSIONS: timer.core.Dimension[] = ['focus', 'time']
 
 export function identifyStatKey(rowKey: timer.stat.StatKey) {
-    const { siteKey, date, cateKey } = rowKey || {}
-    return [date ?? '', identifySiteKey(siteKey), cateKey ?? ''].join('_')
+    const { siteKey, date, cateKey, groupKey } = rowKey || {}
+
+    return [date ?? '', identifySiteKey(siteKey), cateKey ?? '', groupKey ?? ''].join('_')
 }
