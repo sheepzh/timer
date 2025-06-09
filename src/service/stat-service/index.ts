@@ -10,6 +10,7 @@ import SiteDatabase from "@db/site-database"
 import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { judgeVirtualFast } from "@util/pattern"
 import { CATE_NOT_SET_ID, distinctSites, SiteMap } from "@util/site"
+import { getHost, isCate, isGroup, isNormalSite, isSite } from "@util/stat"
 import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import { slicePageResult } from "../components/page-info"
@@ -65,24 +66,23 @@ export type StatQueryParam = StatCondition & {
 }
 
 function cvtStatRow2BaseKey(statRow: timer.stat.Row): timer.core.RowKey | undefined {
-    const { siteKey, date } = statRow || {}
+    if (!isNormalSite(statRow)) return undefined
+    const { date, siteKey: { host } } = statRow
     if (!date) return undefined
-    const { type, host } = siteKey || {}
-    if (!host || type !== 'normal') return undefined
     return { date, host }
 }
 
 function extractAllSiteKeys(rows: timer.stat.Row[], container: timer.site.SiteKey[]) {
     rows?.forEach(row => {
-        const { siteKey, mergedRows } = row || {}
-        siteKey && container.push(siteKey)
+        const { mergedRows } = row
+        isSite(row) && container.push(row.siteKey)
         mergedRows?.length && extractAllSiteKeys(mergedRows, container)
     })
 }
 
 function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.SiteInfo>): void {
-    const { siteKey, mergedRows } = row || {}
-    if (!siteKey) return
+    if (!isSite(row)) return
+    const { siteKey, mergedRows } = row
 
     mergedRows?.map(m => fillRowWithSiteInfo(m, siteMap))
     const siteInfo = siteMap.get(siteKey)
@@ -95,10 +95,12 @@ function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.Si
 }
 
 function filterByCateIds(rows: timer.stat.Row[], cateIds: number[]): timer.stat.Row[] {
-    return rows?.filter(({ siteKey, cateId }) => {
-        const siteType = siteKey?.type
-        if (siteType && siteType !== 'normal') return false
-        return cateIds?.includes?.(cateId ?? CATE_NOT_SET_ID)
+    return rows?.filter(item => {
+        if (isGroup(item)) return false
+        if (isCate(item)) return cateIds.includes(item.cateKey)
+        const siteType = item.siteKey.type
+        if (siteType !== 'normal') return false
+        return cateIds.includes(item.cateId ?? CATE_NOT_SET_ID)
     })
 }
 
@@ -167,7 +169,7 @@ class StatService {
 
         const order = sortOrder || 'ASC'
         const sortValue: (row: timer.stat.Row) => string | number | undefined = sort === 'host'
-            ? r => r.siteKey?.host ?? ''
+            ? r => isSite(r) ? r.siteKey.host : ''
             : r => r[sort] ?? 0
         origin.sort((a, b) => {
             const aa = sortValue(a)
@@ -208,7 +210,7 @@ class StatService {
         param = param || {}
         let origin = await this.selectBase(param)
 
-        let statRows = origin?.map(cvt2StatRow) ?? []
+        let statRows: timer.stat.Row[] = origin?.map(cvt2StatRow) ?? []
         if (param.inclusiveRemote) {
             statRows = await processRemote(param, statRows)
         }
@@ -223,7 +225,7 @@ class StatService {
         }
         param.mergeDate && (statRows = mergeDate(statRows))
         // Filter merged host if full host
-        fullHost && (statRows = statRows.filter(dataItem => dataItem.siteKey?.host === fullHost))
+        fullHost && (statRows = statRows.filter(dataItem => !isSite(dataItem) || dataItem.siteKey.host === fullHost))
         return statRows
     }
 
@@ -273,8 +275,8 @@ class StatService {
     }
 
     private filter(origin: timer.stat.Row[], param: StatCondition) {
-        const paramHost = (param.host || '').trim()
-        return paramHost ? origin.filter(o => o.siteKey?.host?.includes?.(paramHost)) : origin
+        const paramHost = (param.host ?? '').trim()
+        return paramHost ? origin.filter(o => getHost(o)?.includes?.(paramHost)) : origin
     }
 
     /**

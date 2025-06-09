@@ -1,5 +1,6 @@
 import { useLocalStorage, useProvide, useProvider, useRequest } from "@hooks"
 import statService, { type StatQueryParam } from "@service/stat-service"
+import { isSite } from "@util/stat"
 import { MILL_PER_DAY } from "@util/time"
 import { reactive, toRaw, watch, type Reactive, type Ref } from "vue"
 
@@ -43,7 +44,7 @@ export const initProvider = () => {
         }
         const SIZE = filter.topK
         const top = (await statService.selectByPage(query, { num: 1, size: SIZE })).list
-        const data: BizOption[] = top.map(({ time, siteKey, alias }) => ({
+        const data: BizOption[] = top.filter(isSite).map(({ time, siteKey, alias }) => ({
             name: alias ?? siteKey?.host ?? '',
             host: siteKey?.host ?? '',
             alias,

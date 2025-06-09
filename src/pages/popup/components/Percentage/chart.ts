@@ -147,7 +147,7 @@ function cvt2ChartRows(rows: timer.stat.Row[], type: timer.core.Dimension, itemC
 
 // The declaration of data item
 export type PieSeriesItemOption = Exclude<PieSeriesOption['data'], undefined>[0]
-    & Pick<ChartRow, 'siteKey' | 'cateKey' | 'iconUrl' | 'isOther'>
+    & timer.stat.TargetKey & Pick<ChartRow, 'iconUrl' | 'isOther'>
 
 // The declarations of labels
 type PieLabelRichOption = Exclude<PieSeriesOption['label'], undefined>['rich']
@@ -274,8 +274,9 @@ export function formatTooltip({ query, dateLength }: PercentageResult, params: C
  * Handle click
  */
 export function handleClick(data: PieSeriesItemOption, date: PercentageResult['date'], type: timer.core.Dimension): void {
+    if (!('siteKey' in data)) return
     const { siteKey, isOther } = data || {}
-    if (!siteKey || isOther) return
+    if (isOther) return
     const url = calJumpUrl(siteKey, date, type)
     url && createTab(url)
 }

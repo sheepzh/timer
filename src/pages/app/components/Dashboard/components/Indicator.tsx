@@ -13,6 +13,7 @@ import { useRequest, useXsState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import statService from "@service/stat-service"
 import { calcMostPeriodOf2Hours } from "@util/period"
+import { isSite } from "@util/stat"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElIcon } from "element-plus"
 import { computed, defineComponent, toRef, type VNode } from "vue"
@@ -40,7 +41,7 @@ async function query(): Promise<_Value> {
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0
-    allData.forEach(({ siteKey, focus, time }) => {
+    allData.filter(isSite).forEach(({ siteKey, focus, time }) => {
         const { host } = siteKey || {}
         host && hostSet.add(host)
         visits += time

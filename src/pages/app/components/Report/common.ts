@@ -1,6 +1,7 @@
 import { t } from "@app/locale"
 import StatDatabase from "@db/stat-database"
 import { type StatQueryParam } from "@service/stat-service"
+import { isGroup, isSite } from "@util/stat"
 import { formatTime } from "@util/time"
 import type { ReportFilterOption } from "./types"
 
@@ -44,35 +45,39 @@ function computeRangeConfirmText(url: string, dateRange: [Date, Date] | undefine
 }
 
 export function computeDeleteConfirmMsg(row: timer.stat.Row, filterOption: ReportFilterOption, groupMap: Record<number, chrome.tabGroups.TabGroup>): string {
-    const { siteKey, date, groupKey } = row || {}
-    const { siteMerge } = filterOption
-    const host = (siteMerge === 'group' && groupKey ? (groupMap[groupKey])?.title : siteKey?.host) ?? 'Unknown Host'
+    let name: string | undefined
+    if (isGroup(row)) {
+        name = groupMap[row.groupKey]?.title
+    } else if (isSite(row)) {
+        name = row.siteKey.host
+    }
+    const { date } = row
     const { mergeDate, dateRange } = filterOption || {}
+    name = name ?? 'NaN'
     return mergeDate
-        ? computeRangeConfirmText(host, dateRange)
-        : computeSingleConfirmText(host, date ?? '')
+        ? computeRangeConfirmText(name, dateRange)
+        : computeSingleConfirmText(name, date ?? '')
 }
 
 export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilterOption) {
-    const { siteKey, date, groupKey } = row || {}
-    const { host } = siteKey || {}
-    const { mergeDate, dateRange } = filterOption || {}
+    const { date } = row
+    const { mergeDate, dateRange } = filterOption
     if (!mergeDate) {
         // Delete one day
-        host && date && await statDatabase.deleteByUrlAndDate(host, date)
-        groupKey && date && await statDatabase.deleteByGroupAndDate(groupKey, date)
+        isSite(row) && date && await statDatabase.deleteByUrlAndDate(row.siteKey.host, date)
+        isGroup(row) && date && await statDatabase.deleteByGroupAndDate(row.groupKey, date)
         return
     }
     const start = dateRange?.[0]
     const end = dateRange?.[1]
     if (!start && !end) {
         // Delete all
-        host && await statDatabase.deleteByUrl(host)
-        groupKey && await statDatabase.deleteByGroup(groupKey)
+        isSite(row) && await statDatabase.deleteByUrl(row.siteKey.host)
+        isGroup(row) && await statDatabase.deleteByGroup(row.groupKey)
         return
     }
 
     // Delete by range
-    host && await statDatabase.deleteByUrlBetween(host, start, end)
-    groupKey && await statDatabase.deleteByGroupBetween(groupKey, start, end)
+    isSite(row) && await statDatabase.deleteByUrlBetween(row.siteKey.host, start, end)
+    isGroup(row) && await statDatabase.deleteByGroupBetween(row.groupKey, start, end)
 }
