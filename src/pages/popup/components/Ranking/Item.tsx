@@ -6,6 +6,7 @@ import { calJumpUrl } from "@popup/common"
 import { useCateNameMap, useQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
+import { getHost, isCate, isSite } from "@util/stat"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText } from "element-plus"
 import { computed, defineComponent, type PropType, type StyleValue } from "vue"
@@ -32,10 +33,13 @@ const Title = defineComponent({
         const query = useQuery()
         const cateNameMap = useCateNameMap()
         const name = computed(() => {
-            const { alias, siteKey: { host } = {}, cateKey } = props.value || {}
-            if (!!cateKey) return cateNameMap.value?.[cateKey] ?? 'NaN'
-
-            return props.displaySiteName ? alias ?? host : host
+            const row = props.value
+            if (isCate(row)) return cateNameMap.value?.[row.cateKey] ?? 'NaN'
+            if (isSite(row)) {
+                const host = getHost(row)
+                return props.displaySiteName ? row.alias ?? host : host
+            }
+            return 'NaN'
         })
         const tooltipContent = computed(() => {
             const {

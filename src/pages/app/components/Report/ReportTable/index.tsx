@@ -45,7 +45,7 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | und
     } else {
         await siteService.saveAlias(key, newAlias)
     }
-    data?.filter(item => siteEqual(item?.siteKey, key))
+    data?.filter(item => 'siteKey' in item && siteEqual(item.siteKey, key))
         ?.forEach(item => item.alias = newAlias)
 }
 
@@ -110,7 +110,7 @@ const _default = defineComponent((_, ctx) => {
 
     const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
         data.value?.list
-            ?.filter(({ siteKey }) => siteEqual(siteKey, key))
+            ?.filter(item => 'siteKey' in item && siteEqual(item.siteKey, key))
             ?.forEach(i => i.cateId = newCateId)
     }
 
@@ -138,7 +138,7 @@ const _default = defineComponent((_, ctx) => {
                                 v-slots={({ row }: { row: timer.stat.Row }) => (
                                     <Editable
                                         modelValue={row?.alias}
-                                        onChange={newAlias => row.siteKey && handleAliasChange(row.siteKey, newAlias, data.value?.list ?? [])}
+                                        onChange={newAlias => 'siteKey' in row && handleAliasChange(row.siteKey, newAlias, data.value?.list ?? [])}
                                     />
                                 )}
                             />

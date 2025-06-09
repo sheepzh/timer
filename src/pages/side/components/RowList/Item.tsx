@@ -2,6 +2,7 @@ import { createTab } from "@api/chrome/tab"
 import { useShadow } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { isRemainHost } from "@util/constant/remain-host"
+import { getHost } from "@util/stat"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
 import { computed, defineComponent, type PropType } from "vue"
@@ -19,9 +20,9 @@ const renderTitle = (siteName: string | undefined, host: string | undefined, han
 }
 
 const renderAvatarText = (row: timer.stat.Row) => {
-    const { siteKey, alias } = row || {}
+    const { alias } = row
     if (alias) return alias.substring(0, 1)?.toUpperCase?.()
-    return siteKey?.host?.substring?.(0, 1)?.toUpperCase?.()
+    return getHost(row)?.substring?.(0, 1)?.toUpperCase?.()
 }
 
 const _default = defineComponent({
@@ -35,7 +36,7 @@ const _default = defineComponent({
     },
     setup(props) {
         const [iconUrl] = useShadow(() => props.value?.iconUrl)
-        const [host] = useShadow(() => props.value?.siteKey?.host)
+        const [host] = useShadow(() => getHost(props.value))
         const [siteName] = useShadow(() => props.value?.alias)
         const clickable = computed(() => host?.value && !isRemainHost(host.value))
         const [rate] = useShadow(() => {

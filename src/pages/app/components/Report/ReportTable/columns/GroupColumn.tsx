@@ -1,6 +1,7 @@
 import { t } from "@app/locale"
 import { useTabGroups } from "@hooks/useTabGroups"
 import { type ElTableRowScope } from "@pages/element-ui/table"
+import { isGroup } from "@util/stat"
 import { ElTableColumn, ElTag } from "element-plus"
 import { defineComponent, StyleValue } from "vue"
 
@@ -28,8 +29,8 @@ const GroupColumn = defineComponent(() => {
             label={t(msg => msg.item.group)}
             width={140}
             v-slots={({ row }: ElTableRowScope<timer.stat.Row>) => {
-                const { groupKey } = row ?? {}
-                if (!groupKey) return
+                if (!isGroup(row)) return
+                const { groupKey } = row
                 const { color, title } = groupMap.value[groupKey] ?? {}
                 return (
                     <ElTag

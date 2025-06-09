@@ -1,8 +1,15 @@
 declare namespace timer.stat {
-    type StatKey = {
-        siteKey?: timer.site.SiteKey
-        cateKey?: number
-        groupKey?: number
+    type SiteTarget = {
+        siteKey: timer.site.SiteKey
+    }
+    type CateTarget = {
+        cateKey: number
+    }
+    type GroupTarget = {
+        groupKey: number
+    }
+    type TargetKey = SiteTarget | CateTarget | GroupTarget
+    type StatKey = TargetKey & {
         // Absent if date merged
         date?: string
     }

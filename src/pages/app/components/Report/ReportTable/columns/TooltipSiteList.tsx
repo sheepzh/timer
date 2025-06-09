@@ -13,7 +13,7 @@ const TooltipSiteList = defineComponent<Props>(props => {
     const { modelValue, clickDisabled: clickable } = toRefs(props)
     const iconMap = computed(() => {
         const siteMap = new SiteMap<string>()
-        modelValue?.value?.forEach(({ siteKey, iconUrl }) => siteKey && siteMap.put(siteKey, iconUrl))
+        modelValue?.value?.forEach(item => "siteKey" in item && siteMap.put(item.siteKey, item.iconUrl))
         return siteMap
     })
     return () => (

@@ -1,25 +1,30 @@
-import { identifyStatKey } from "@util/stat"
+import { identifyTargetKey } from "@util/stat"
 import { mergeResult } from "./common"
+
+function isSiteMerged(row: timer.stat.Row): boolean {
+    if (!('siteKey' in row)) return false
+    return row.siteKey.type === 'merged'
+}
 
 export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
     const map: Record<string, MakeRequired<timer.stat.Row, 'mergedDates' | 'mergedRows'>> = {}
     origin.forEach(ele => {
-        const { date, siteKey, groupKey, cateKey, iconUrl, alias, cateId } = ele || {}
-        const key = identifyStatKey(ele)
+        const { date, iconUrl, alias, cateId } = ele || {}
+        const key = identifyTargetKey(ele)
         let exist = map[key]
         if (!exist) {
             exist = map[key] = {
-                siteKey, cateKey, groupKey,
+                ...ele,
                 iconUrl, alias, cateId,
                 focus: 0,
                 time: 0,
                 mergedRows: [],
                 mergedDates: [],
                 composition: { focus: [], time: [], run: [] },
-            }
+            } satisfies timer.stat.Row
         }
         mergeResult(exist, ele)
-        if (ele.siteKey?.type === 'merged') {
+        if (isSiteMerged(ele)) {
             exist.mergedRows.push(...ele.mergedRows ?? [])
         }
         date && exist.mergedDates.push(date)

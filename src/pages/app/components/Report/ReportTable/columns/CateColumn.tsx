@@ -4,7 +4,7 @@ import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import { CATE_NOT_SET_ID, SiteMap } from "@util/site"
-import { identifyStatKey } from "@util/stat"
+import { identifyStatKey, isCate, isSite } from "@util/stat"
 import { Effect, ElTableColumn, ElText, ElTooltip } from "element-plus"
 import { defineComponent } from "vue"
 import TooltipSiteList from "./TooltipSiteList"
@@ -13,7 +13,7 @@ const renderMerged = (cateId: number, categories: timer.site.Cate[], merged: tim
     let cateName: string
     let isNotSet = false
     const siteMap = new SiteMap<string>()
-    merged?.forEach(({ siteKey, iconUrl }) => siteKey && siteMap.put(siteKey, iconUrl))
+    merged.forEach(row => isSite(row) && siteMap.put(row.siteKey, row.iconUrl))
 
     if (cateId === CATE_NOT_SET_ID) {
         cateName = t(msg => msg.shared.cate.notSet)
@@ -50,17 +50,17 @@ const CateColumn = defineComponent<Props>(props => {
     return () => (
         <ElTableColumn label={t(msg => msg.siteManage.column.cate)} minWidth={140}>
             {({ row }: ElTableRowScope<timer.stat.Row>) => {
-                const { cateId, cateKey, mergedRows, siteKey } = row || {}
+                const { cateId, mergedRows } = row || {}
                 return (
                     <Flex key={`${identifyStatKey(row)}_${cateId}`} justify="center">
-                        {cateKey
-                            ? renderMerged(cateKey, categories.value, mergedRows ?? [])
-                            : <CategoryEditable
-                                siteKey={siteKey!}
+                        {isCate(row) && renderMerged(row.cateKey, categories.value, mergedRows ?? [])}
+                        {isSite(row) && (
+                            <CategoryEditable
+                                siteKey={row.siteKey}
                                 cateId={cateId}
-                                onChange={newCateId => props.onChange(siteKey!, newCateId)}
+                                onChange={newCateId => props.onChange(row.siteKey, newCateId)}
                             />
-                        }
+                        )}
                     </Flex>
                 )
             }}

@@ -1,11 +1,12 @@
 import { CATE_NOT_SET_ID } from "@util/site"
 import { mergeResult } from "./common"
+import { isNormalSite } from "@util/stat"
 
 export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
     const rowMap: Record<string, MakeRequired<timer.stat.Row, 'mergedRows'>> = {}
     origin?.forEach(ele => {
-        let { siteKey, date, cateId } = ele || {}
-        if (siteKey?.type !== 'normal') return
+        if (!isNormalSite(ele)) return
+        let { date, cateId } = ele || {}
 
         cateId = cateId ?? CATE_NOT_SET_ID
         const key = (date ?? '') + cateId.toString()
