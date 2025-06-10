@@ -26,7 +26,7 @@ const Footer = defineComponent(() => {
                         style={{ width: '90px' }}
                     >
                         <ElOption value='' label={t(msg => msg.shared.merge.mergeMethod.notMerge)} />
-                        {(['domain', 'cate'] satisfies timer.stat.MergeMethod[]).map(method => (
+                        {(['domain', 'cate', 'group'] satisfies timer.stat.MergeMethod[]).map(method => (
                             <ElOption value={method} label={t(msg => msg.shared.merge.mergeMethod[method])} />
                         ))}
                     </ElSelect>

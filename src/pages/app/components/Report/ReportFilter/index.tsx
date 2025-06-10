@@ -46,7 +46,6 @@ const _default = defineComponent<Props>(props => {
             <Flex gap={10} wrap>
                 <InputFilterItem
                     defaultValue={filter.host}
-                    placeholder={t(msg => msg.item.host)}
                     onSearch={str => filter.host = str}
                 />
                 <DateRangeFilterItem

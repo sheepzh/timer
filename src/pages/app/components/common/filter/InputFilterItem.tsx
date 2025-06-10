@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { Search } from "@element-plus/icons-vue"
 import { useState } from "@hooks"
 import { ElIcon, ElInput } from "element-plus"
 import { computed, defineComponent, ref, toRef, type StyleValue } from "vue"
@@ -24,7 +25,6 @@ type Props = {
     placeholder?: string
     enter?: boolean
     width?: number | string
-    disabled?: boolean
     onSearch?: ArgCallback<string>
 }
 
@@ -43,7 +43,6 @@ const InputFilterItem = defineComponent<Props>(props => {
         setFocused(false)
         props.onSearch?.(modelValue.value)
     }
-
     return () => (
         <ElInput
             modelValue={modelValue.value}
@@ -56,8 +55,9 @@ const InputFilterItem = defineComponent<Props>(props => {
             onFocus={() => setFocused(true)}
             style={{ width: width.value } satisfies StyleValue}
             suffixIcon={enter.value ? <EnterIcon focused={focused.value} /> : undefined}
+            prefixIcon={<Search />}
         />
     )
-}, { props: ['defaultValue', 'disabled', 'enter', 'placeholder', 'width', 'onSearch'] })
+}, { props: ['defaultValue', 'enter', 'placeholder', 'width', 'onSearch'] })
 
 export default InputFilterItem

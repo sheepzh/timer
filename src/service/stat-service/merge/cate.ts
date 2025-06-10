@@ -1,6 +1,6 @@
 import { CATE_NOT_SET_ID } from "@util/site"
-import { mergeResult } from "./common"
 import { isNormalSite } from "@util/stat"
+import { mergeResult } from "./common"
 
 export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
     const rowMap: Record<string, MakeRequired<timer.stat.Row, 'mergedRows'>> = {}

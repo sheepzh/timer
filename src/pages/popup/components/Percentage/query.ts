@@ -48,7 +48,7 @@ export const doQuery = async (query: PopupQuery): Promise<PercentageResult> => {
     const option = await optionHolder.get()
     const itemCount = option.popupMax
     const statQuery = await cvt2StatQuery(query)
-    const rows = await statService.select(statQuery, true)
+    const rows = query.mergeMethod === 'group' ? await statService.selectGroup() : await statService.select(statQuery, true)
     const date = statQuery.date
 
     return {

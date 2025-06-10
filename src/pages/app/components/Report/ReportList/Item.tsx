@@ -4,114 +4,111 @@ import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { Calendar, Delete, Mouse, QuartzWatch } from "@element-plus/icons-vue"
 import { useTabGroups } from "@hooks/useTabGroups"
+import { isSite } from "@util/stat"
 import { Effect, ElCheckbox, ElDivider, ElIcon, ElTag } from "element-plus"
-import { computed, defineComponent, type PropType, ref, watch } from "vue"
+import { computed, defineComponent, ref, watch } from "vue"
 import { computeDeleteConfirmMsg, handleDelete } from "../common"
 import CompositionTable from "../CompositionTable"
 import { useReportFilter } from "../context"
 import TooltipSiteList from "../ReportTable/columns/TooltipSiteList"
 
-const _default = defineComponent({
-    props: {
-        value: {
-            type: Object as PropType<timer.stat.Row>,
-            required: true,
-        },
-    },
-    emits: {
-        selectedChange: (_val: boolean) => true,
-        delete: (_val: timer.stat.Row) => true,
-    },
-    setup(props, ctx) {
-        const filter = useReportFilter()
-        const { groupMap } = useTabGroups()
-        const mergeHost = computed(() => filter?.siteMerge === 'domain')
-        const formatter = (focus: number): string => periodFormatter(focus, { format: filter?.timeFormat })
-        const { siteKey, iconUrl, mergedRows, date, focus, composition, time } = props.value
-        const selected = ref(false)
-        watch(selected, val => ctx.emit('selectedChange', val))
+type Props = {
+    value: timer.stat.Row
+    onSelectedChange: ArgCallback<boolean>
+    onDelete?: ArgCallback<timer.stat.Row>
+}
 
-        const canDelete = computed(() => !mergeHost.value && !filter.readRemote)
-        const onDelete = async () => {
-            await handleDelete(props.value, filter)
-            ctx.emit('delete', props.value)
-        }
-        return () => (
-            <div class="report-item">
-                <div class="report-item-head">
-                    <div class="report-item-title">
-                        <ElCheckbox
-                            v-show={canDelete.value}
-                            size="small"
-                            value={selected.value}
-                            onChange={val => selected.value = !!val}
-                        />
-                        {!!siteKey && (
-                            <TooltipWrapper
-                                placement="bottom"
-                                effect={Effect.LIGHT}
-                                offset={10}
-                                trigger="click"
-                                usePopover={mergeHost.value}
-                                v-slots={{
-                                    content: () => <TooltipSiteList modelValue={mergedRows} />,
-                                }}
-                            >
-                                <HostAlert
-                                    value={siteKey}
-                                    iconUrl={mergeHost.value ? undefined : iconUrl}
-                                    clickable={false}
-                                />
-                            </TooltipWrapper>
-                        )}
-                    </div>
+const _default = defineComponent<Props>(props => {
+    const filter = useReportFilter()
+    const { groupMap } = useTabGroups()
+    const mergeHost = computed(() => filter?.siteMerge === 'domain')
+    const formatter = (focus: number): string => periodFormatter(focus, { format: filter?.timeFormat })
+    const { iconUrl, mergedRows, date, focus, composition, time } = props.value
+    const selected = ref(false)
+    watch(selected, val => props.onSelectedChange?.(val))
+
+    const canDelete = computed(() => !mergeHost.value && !filter.readRemote)
+    const onDelete = async () => {
+        await handleDelete(props.value, filter)
+        props.onDelete?.(props.value)
+    }
+    return () => (
+        <div class="report-item">
+            <div class="report-item-head">
+                <div class="report-item-title">
+                    <ElCheckbox
+                        v-show={canDelete.value}
+                        size="small"
+                        value={selected.value}
+                        onChange={val => selected.value = !!val}
+                    />
+                    {isSite(props.value) && (
+                        <TooltipWrapper
+                            placement="bottom"
+                            effect={Effect.LIGHT}
+                            offset={10}
+                            trigger="click"
+                            usePopover={mergeHost.value}
+                            v-slots={{
+                                content: () => <TooltipSiteList modelValue={mergedRows} />,
+                            }}
+                        >
+                            <HostAlert
+                                value={props.value.siteKey}
+                                iconUrl={mergeHost.value ? undefined : iconUrl}
+                                clickable={false}
+                            />
+                        </TooltipWrapper>
+                    )}
+                </div>
+                {canDelete.value && (
                     <PopupConfirmButton
                         buttonIcon={<Delete />}
                         buttonType="danger"
                         confirmText={computeDeleteConfirmMsg(props.value, filter, groupMap.value)}
-                        visible={canDelete.value}
+
                         onConfirm={onDelete}
                         text
                     />
-                </div>
-                <ElDivider style={{ margin: "5px 0" }} />
-                <div class="report-item-content">
-                    <ElTag v-show={!filter?.mergeDate} type="info" size="small">
-                        <ElIcon><Calendar /></ElIcon>
-                        <span>{cvt2LocaleTime(date)}</span>
-                    </ElTag>
-                    <TooltipWrapper
-                        placement="top"
-                        effect={Effect.LIGHT}
-                        offset={10}
-                        trigger="click"
-                        v-slots={{
-                            content: () => <CompositionTable valueFormatter={formatter} data={composition?.focus || []} />,
-                        }}
-                    >
-                        <ElTag type="primary" size="small">
-                            <ElIcon><QuartzWatch /></ElIcon>
-                            <span>{periodFormatter(focus, { format: filter?.timeFormat })}</span>
-                        </ElTag>
-                    </TooltipWrapper>
-                    <TooltipWrapper
-                        placement="top"
-                        effect={Effect.LIGHT}
-                        offset={10}
-                        trigger="click"
-                        v-slots={{
-                            content: () => <CompositionTable data={composition?.time || []} />,
-                        }}
-                    >
-                        <ElTag type="warning" size="small">
-                            <ElIcon><Mouse /></ElIcon>
-                            <span>{time ?? 0}</span>
-                        </ElTag>
-                    </TooltipWrapper>
-                </div>
+                )}
             </div>
-        )
-    },
-})
+            <ElDivider style={{ margin: "5px 0" }} />
+            <div class="report-item-content">
+                <ElTag v-show={!filter?.mergeDate} type="info" size="small">
+                    <ElIcon><Calendar /></ElIcon>
+                    <span>{cvt2LocaleTime(date)}</span>
+                </ElTag>
+                <TooltipWrapper
+                    placement="top"
+                    effect={Effect.LIGHT}
+                    offset={10}
+                    trigger="click"
+                    v-slots={{
+                        content: () => <CompositionTable valueFormatter={formatter} data={composition?.focus || []} />,
+                    }}
+                >
+                    <ElTag type="primary" size="small">
+                        <ElIcon><QuartzWatch /></ElIcon>
+                        <span>{periodFormatter(focus, { format: filter?.timeFormat })}</span>
+                    </ElTag>
+                </TooltipWrapper>
+                <TooltipWrapper
+                    placement="top"
+                    effect={Effect.LIGHT}
+                    offset={10}
+                    trigger="click"
+                    v-slots={{
+                        content: () => <CompositionTable data={composition?.time || []} />,
+                    }}
+                >
+                    <ElTag type="warning" size="small">
+                        <ElIcon><Mouse /></ElIcon>
+                        <span>{time ?? 0}</span>
+                    </ElTag>
+                </TooltipWrapper>
+            </div>
+        </div>
+    )
+}, { props: ['onDelete', 'onSelectedChange', 'value'] })
 
 export default _default

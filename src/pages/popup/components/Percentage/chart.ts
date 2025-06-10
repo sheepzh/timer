@@ -6,6 +6,7 @@ import { sum } from "@util/array"
 import { IS_SAFARI } from "@util/constant/environment"
 import { isRtl } from "@util/document"
 import { generateSiteLabel } from "@util/site"
+import { isCate, isSite } from "@util/stat"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
 import { type PieSeriesOption } from "echarts/charts"
 import { type TitleComponentOption, type ToolboxComponentOption } from "echarts/components"
@@ -138,8 +139,7 @@ function cvt2ChartRows(rows: timer.stat.Row[], type: timer.core.Dimension, itemC
             otherCount++
         }
     }
-    const { siteKey } = other
-    siteKey && (siteKey.host = t(msg => msg.content.percentage.otherLabel, { count: otherCount }))
+    'siteKey' in other && (other.siteKey.host = t(msg => msg.content.percentage.otherLabel, { count: otherCount }))
     popupRows.push(other)
     const data = popupRows.filter(item => !!item[type])
     return data
@@ -180,9 +180,8 @@ type CallbackFormat = {
 function formatLabel(params: CallbackDataParams): string {
     const format = (Array.isArray(params) ? params[0] : params) as CallbackFormat
     const { name, data } = format || {}
-    const { siteKey, isOther, iconUrl } = (data as PieSeriesItemOption) || {}
-    const { type } = siteKey || {}
-    if (type === 'normal' && iconUrl && !isOther && !IS_SAFARI) {
+    const { isOther, iconUrl } = (data as PieSeriesItemOption) || {}
+    if ('siteKey' in data && iconUrl && !isOther && !IS_SAFARI) {
         // Not supported to get favicon url in Safari
         return `{${legend2LabelStyle(name)}|} {a|${name}}`
     }
@@ -199,15 +198,23 @@ export function generateSiteSeriesOption(rows: timer.stat.Row[], result: Percent
 
     const chartRows = cvt2ChartRows(rows, dimension, itemCount)
     const iconRich: PieLabelRichOption = {}
-    const data = chartRows.map(d => {
-        const { siteKey, cateKey, alias, isOther, iconUrl } = d
-        const host = siteKey?.host
-        const legend = (displaySiteName ? (alias ?? host) : host) ?? ''
+
+    const data: PieSeriesItemOption[] = []
+    chartRows.forEach(d => {
+        const { alias, isOther, iconUrl } = d
         const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
         iconUrl && (richValue.backgroundColor = { image: iconUrl })
-        iconRich[legend2LabelStyle(legend)] = richValue
 
-        return { name: legend, value: d[dimension] || 0, siteKey, cateKey, isOther, iconUrl } satisfies PieSeriesItemOption
+        if (isSite(d)) {
+            const { siteKey } = d
+            const { host } = siteKey
+            const legend = displaySiteName ? (alias ?? host) : host
+            iconRich[legend2LabelStyle(legend)] = richValue
+            data.push({ name: legend, value: d[dimension] || 0, siteKey, isOther, iconUrl } satisfies PieSeriesItemOption)
+        } else if (isCate(d)) {
+            const { cateKey } = d
+            data.push({ value: d[dimension] || 0, cateKey, isOther } satisfies PieSeriesItemOption)
+        }
     })
 
     const textColor = getPrimaryTextColor()
@@ -252,11 +259,15 @@ function calculateAverageText(type: timer.core.Dimension, averageValue: number):
 export function formatTooltip({ query, dateLength }: PercentageResult, params: CallbackDataParams): string {
     const format = (Array.isArray(params) ? params[0] : params) as CallbackFormat
     const { name, value, percent, data } = format || {}
+    let result: string = ''
+    if ('siteKey' in data) {
+        const { siteKey } = data
+        const { host } = siteKey
+        result = generateSiteLabel(host, name)
+    } else {
+        result = name
+    }
 
-    const host = data.siteKey?.host
-    // Host is null means cate tooltip
-    const label = host ? generateSiteLabel(host, name) : name
-    let result = label
     const itemValue = typeof value === 'number' ? value as number : 0
     const { dimension } = query
     const valueText = dimension === 'time' ? itemValue : formatPeriodCommon(itemValue)

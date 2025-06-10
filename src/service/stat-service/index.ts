@@ -30,6 +30,22 @@ export type SortDirect = 'ASC' | 'DESC'
 
 export type StatQueryParam = StatCondition & {
     /**
+     * Query keyword
+     */
+    query?: string
+    /**
+     * Whether to enable full host search, default is false
+     *
+     * @since 0.0.8
+     */
+    fullHost?: boolean
+    /**
+     * Whether to exclusive virtual sites
+     *
+     * @since 1.6.1
+     */
+    exclusiveVirtual?: boolean
+    /**
      * Inclusive remote data
      *
      * If true the date range MUST NOT be unlimited
@@ -199,16 +215,25 @@ class StatService {
         return rows
     }
 
+    async selectGroup(param?: StatQueryParam): Promise<timer.stat.Row[]> {
+        const { date, mergeDate: needMergeDate } = param ?? {}
+        const condition: StatCondition = { date, onlyGroup: true }
+        const list = await statDatabase.select(condition)
+        let rows: timer.stat.Row[] = list.map(({ date, time, focus, run, host }) => ({ date, groupKey: parseInt(host), run, focus, time }))
+        needMergeDate && (rows = mergeDate(rows))
+        return rows
+    }
+
     private async filterRows(param?: StatQueryParam): Promise<timer.stat.Row[]> {
         // Need match full host after merged
         let fullHost: string | undefined = undefined
         // If merged and full host
         // Then set the host blank
         // And filter them after merge
-        param?.mergeHost && param?.fullHost && !(param.fullHost = false) && (fullHost = param?.host) && (param.host = undefined)
+        param?.mergeHost && param?.fullHost && !(param.fullHost = false) && (fullHost = param?.query) && (param.query = undefined)
 
         param = param || {}
-        let origin = await this.selectBase(param)
+        let origin = await statDatabase.select(param)
 
         let statRows: timer.stat.Row[] = origin?.map(cvt2StatRow) ?? []
         if (param.inclusiveRemote) {
@@ -242,10 +267,6 @@ class StatService {
         return true
     }
 
-    async selectBase(cond: StatCondition): Promise<timer.core.Row[]> {
-        return statDatabase.select(cond)
-    }
-
     async selectByPage(
         param?: StatQueryParam,
         page?: timer.common.PageQuery,
@@ -275,7 +296,7 @@ class StatService {
     }
 
     private filter(origin: timer.stat.Row[], param: StatCondition) {
-        const paramHost = (param.host ?? '').trim()
+        const paramHost = (param.query ?? '').trim()
         return paramHost ? origin.filter(o => getHost(o)?.includes?.(paramHost)) : origin
     }
 
@@ -298,11 +319,7 @@ class StatService {
     }
 
     async selectGroupByPage(param?: StatQueryParam, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> {
-        const { date } = param ?? {}
-        const condition: StatCondition = { date, onlyGroup: true }
-        const list = await statDatabase.select(condition)
-        let rows: timer.stat.Row[] = list.map(({ date, time, focus, run, host }) => ({ date, groupKey: parseInt(host), run, focus, time }))
-        param?.mergeDate && (rows = mergeDate(rows))
+        const rows = await this.selectGroup(param)
         return slicePageResult(rows, page)
     }
 }

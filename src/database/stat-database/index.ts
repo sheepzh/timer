@@ -21,10 +21,6 @@ export type StatCondition = {
      */
     date?: Date | [Date, Date?]
     /**
-     * Host name for query
-     */
-    host?: string
-    /**
      * Focus range, milliseconds
      *
      * @since 0.0.9
@@ -36,18 +32,6 @@ export type StatCondition = {
      * @since 0.0.9
      */
     timeRange?: [number, number?]
-    /**
-     * Whether to enable full host search, default is false
-     *
-     * @since 0.0.8
-     */
-    fullHost?: boolean
-    /**
-     * Whether to exclusive virtual sites
-     *
-     * @since 1.6.1
-     */
-    exclusiveVirtual?: boolean
     /**
      * Whether to query group time
      *
@@ -94,7 +78,7 @@ function generateGroupKey(groupId: number, date: Date | string) {
 function migrate(exists: { [key: string]: timer.core.Result }, data: any): Record<string, timer.core.Result> {
     const result: Record<string, timer.core.Result> = {}
     Object.entries(data)
-        .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
+        .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key) && !key.substring(8).startsWith(GROUP_PREFIX))
         .forEach(([key, value]) => {
             if (typeof value !== "object") return
             const exist = exists[key]

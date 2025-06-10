@@ -56,7 +56,7 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(6)
 
         let cond: StatCondition = {}
-        cond.host = 'google'
+        cond.query = 'google'
 
         let list = await db.select(cond)
         expect(list.length).toEqual(3)
@@ -65,7 +65,7 @@ describe('stat-database', () => {
         cond.fullHost = true
         expect((await db.select(cond)).length).toEqual(0)
 
-        cond.host = google
+        cond.query = google
         expect((await db.select(cond)).length).toEqual(3)
 
         // By date range
@@ -116,11 +116,11 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
-        const cond: StatCondition = { host: baidu, fullHost: true }
+        const cond: StatCondition = { query: baidu, fullHost: true }
         // Nothing of baidu remained
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
-        cond.host = google
+        cond.query = google
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again
@@ -206,12 +206,12 @@ describe('stat-database', () => {
         await db.accumulate(google, formatTimeYMD(yesterday), resultOf(4, 1))
         // Count by host
         expect(await db.count({
-            host: baidu,
+            query: baidu,
             fullHost: true
         })).toEqual(2)
         // Count by fuzzy
-        expect(await db.count({ host: "www", fullHost: false })).toEqual(4)
+        expect(await db.count({ query: "www", fullHost: false })).toEqual(4)
         // Count by date
-        expect(await db.count({ host: google, fullHost: true, date: now })).toEqual(1)
+        expect(await db.count({ query: google, fullHost: true, date: now })).toEqual(1)
     })
 })

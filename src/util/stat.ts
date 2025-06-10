@@ -33,7 +33,7 @@ export function identifyStatKey(rowKey: timer.stat.StatKey) {
 }
 
 export const isNormalSite = (row: timer.stat.Row): row is timer.stat.Row & timer.stat.SiteTarget => {
-    return 'siteKey' in row && row.siteKey.type === 'merged'
+    return 'siteKey' in row && row.siteKey.type === 'normal'
 }
 
 export const isGroup = (row: timer.stat.Row): row is timer.stat.Row & timer.stat.GroupTarget => {

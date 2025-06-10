@@ -1,6 +1,7 @@
 import { t } from "@app/locale"
 import { useScrollRequest } from "@hooks/useScrollRequest"
 import statService from "@service/stat-service"
+import { getHost } from "@util/stat"
 import { ElCard } from "element-plus"
 import { computed, defineComponent, ref } from "vue"
 import { cvtOption2Param } from "../common"
@@ -41,7 +42,7 @@ const _default = defineComponent((_, ctx) => {
                 {data.value?.map((row, idx) => (
                     <ElCard>
                         <Item
-                            key={`row-${row.siteKey?.host}-${idx}`}
+                            key={`row-${getHost(row)}-${idx}`}
                             value={row}
                             onSelectedChange={val => handleSelectedChange(val, idx)}
                             onDelete={() => reset()}
