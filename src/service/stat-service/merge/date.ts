@@ -6,7 +6,7 @@ function isSiteMerged(row: timer.stat.Row): boolean {
     return row.siteKey.type === 'merged'
 }
 
-export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
+export function mergeDate<T extends timer.stat.Row>(origin: T[]): T[] {
     const map: Record<string, MakeRequired<timer.stat.Row, 'mergedDates' | 'mergedRows'>> = {}
     origin.forEach(ele => {
         const { date, iconUrl, alias, cateId } = ele || {}
@@ -30,5 +30,5 @@ export function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
         date && exist.mergedDates.push(date)
     })
     const newRows = Object.values(map)
-    return newRows
+    return newRows as T[]
 }

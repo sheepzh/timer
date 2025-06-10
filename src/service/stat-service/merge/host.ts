@@ -5,8 +5,8 @@ import { mergeResult } from "./common"
 
 const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
-export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const map: Record<string, MakeRequired<timer.stat.Row, 'mergedRows'>> = {}
+export async function mergeHost(origin: timer.stat.SiteRow[]): Promise<timer.stat.SiteRow[]> {
+    const map: Record<string, MakeRequired<timer.stat.SiteRow, 'mergedRows'>> = {}
 
     // Generate ruler
     const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()

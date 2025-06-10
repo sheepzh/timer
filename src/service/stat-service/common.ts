@@ -1,6 +1,6 @@
 import { judgeVirtualFast } from "@util/pattern"
 
-export function cvt2StatRow(rowBase: timer.core.Row): (timer.stat.Row & timer.stat.SiteTarget) {
+export function cvt2StatRow(rowBase: timer.core.Row): timer.stat.SiteRow {
     const { host, ...otherFields } = rowBase
     return {
         siteKey: { host, type: judgeVirtualFast(host) ? 'virtual' : 'normal' },

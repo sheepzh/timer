@@ -6,14 +6,15 @@
  */
 
 import { t } from "@app/locale"
-import { type StatCondition } from "@db/stat-database"
-import statService from "@service/stat-service"
+import StatDatabase, { type StatCondition } from "@db/stat-database"
 import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import { ElAlert, ElCard, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, type StyleValue } from "vue"
 import { alertProps } from "../common"
 import { useDataMemory } from "../context"
 import ClearFilter from "./ClearFilter"
+
+const db = new StatDatabase(chrome.storage.local)
 
 type FilterOption = {
     date: [Date, Date] | undefined
@@ -35,7 +36,7 @@ async function generateParamAndSelect(option: FilterOption): Promise<timer.core.
         dateEnd = new Date(new Date().getTime() - MILL_PER_DAY)
     }
     param.date = dateStart ? [dateStart, dateEnd] : undefined
-    return await statService.selectBase(param)
+    return await db.select(param)
 }
 
 /**
@@ -95,7 +96,7 @@ const _default = defineComponent(() => {
             cancelButtonText: t(msg => msg.button.cancel),
             confirmButtonText: t(msg => msg.button.confirm)
         }).then(async () => {
-            await statService.batchDeleteBase(result)
+            await db.delete(result)
             ElMessage.success(t(msg => msg.operation.successMsg))
             refreshMemory?.()
         }).catch(() => { })

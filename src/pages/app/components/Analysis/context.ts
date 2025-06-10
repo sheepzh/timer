@@ -6,10 +6,10 @@
  */
 
 import { useLocalStorage, useProvide, useProvider, useRequest } from "@hooks"
-import { ref, watch, type Ref } from "vue"
-import { AnalysisTarget } from "./types"
-import { useRoute, useRouter } from "vue-router"
 import statService, { type StatQueryParam } from "@service/stat-service"
+import { ref, watch, type Ref } from "vue"
+import { useRoute, useRouter } from "vue-router"
+import type { AnalysisTarget } from "./types"
 
 type Context = {
     target: Ref<AnalysisTarget | undefined>
@@ -43,7 +43,7 @@ async function queryRows(target: AnalysisTarget | undefined): Promise<timer.stat
         param.mergeCate = true
     } else if (target?.type === 'site') {
         const { host, type: siteType } = target.key || {}
-        param.host = host
+        param.query = host
         param.mergeHost = siteType === 'merged'
         param.fullHost = true
     } else {

@@ -24,7 +24,7 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
     }
     const count2Delete: number = mergeDate
         // All the items
-        ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ host, fullHost: true, date: dateRange }))))
+        ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ hostQuery: host, date: dateRange }))))
         // The count of row
         : selected?.length || 0
     const i18nParam: Record<string, string | number | undefined> = {

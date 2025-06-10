@@ -5,18 +5,18 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { type StatCondition } from "@db/stat-database"
+import type { StatCondition } from "@db/stat-database"
 import processor from "@service/backup/processor"
 import { identifyStatKey } from "@util/stat"
 import { getBirthday } from "@util/time"
 import { cvt2StatRow } from "./common"
 
-export async function processRemote(param: StatCondition, origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
+export async function processRemote(param: StatCondition, origin: timer.stat.SiteRow[]): Promise<timer.stat.SiteRow[]> {
     if (!await canReadRemote()) {
         return origin
     }
     // Map to merge
-    const originMap: Record<string, MakeRequired<timer.stat.Row, 'composition'>> = {}
+    const originMap: Record<string, MakeRequired<timer.stat.SiteRow, 'composition'>> = {}
     origin.forEach(row => originMap[identifyStatKey(row)] = {
         ...row,
         composition: {
@@ -26,26 +26,17 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Row
         }
     })
     // Predicate with host
-    const { host, fullHost } = param
-    const predicate: (row: timer.core.Row) => boolean = host
-        // With host condition
-        ? fullHost
-            // Full match
-            ? r => r.host === host
-            // Fuzzy match
-            : r => !!r.host && r.host.includes(host)
-        // Without host condition
-        : _r => true
+    const { hostQuery, date } = param
+    const predicate = (row: timer.core.Row) => !hostQuery || row.host === hostQuery
     // 1. query remote
     let start: Date | undefined = undefined, end: Date | undefined = undefined
-    if (param.date instanceof Array) {
-        start = param.date?.[0]
-        end = param.date?.[1]
+    if (date instanceof Array) {
+        [start, end] = date
     } else {
-        start = param.date
+        start = date
     }
-    start = start || getBirthday()
-    end = end || new Date()
+    start = start ?? getBirthday()
+    end = end ?? new Date()
     const remote = await processor.query({ excludeLocal: true, start, end })
     remote.filter(predicate).forEach(row => processRemoteRow(originMap, row))
     return Object.values(originMap)
@@ -62,7 +53,7 @@ export async function canReadRemote(): Promise<boolean> {
     return !errorMsg
 }
 
-function processRemoteRow(rowMap: Record<string, MakeRequired<timer.stat.Row, 'composition'>>, remoteBase: timer.core.Row) {
+function processRemoteRow(rowMap: Record<string, MakeRequired<timer.stat.SiteRow, 'composition'>>, remoteBase: timer.core.Row) {
     const row = cvt2StatRow(remoteBase)
     const key = identifyStatKey(row)
     let exist = rowMap[key]

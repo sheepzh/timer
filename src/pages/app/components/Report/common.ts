@@ -7,8 +7,8 @@ import type { ReportFilterOption } from "./types"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
-export const cvtOption2Param = ({ host, dateRange, mergeDate, siteMerge, cateIds, readRemote }: ReportFilterOption): StatQueryParam => ({
-    host: host,
+export const cvtOption2Param = ({ query, dateRange, mergeDate, siteMerge, cateIds, readRemote }: ReportFilterOption): StatQueryParam => ({
+    query,
     date: dateRange,
     mergeDate,
     mergeHost: siteMerge === 'domain',

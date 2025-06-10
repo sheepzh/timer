@@ -42,10 +42,10 @@ type FilterStorageValue = Omit<ReportFilterOption, 'dateRange' | 'readRemote'> &
 }
 
 const cvtStorage2Filter = (storage: FilterStorageValue | undefined): ReportFilterOption => {
-    const { host, dateStart, dateEnd, mergeDate, siteMerge, cateIds, timeFormat } = storage || {}
+    const { query, dateStart, dateEnd, mergeDate, siteMerge, cateIds, timeFormat } = storage || {}
     const now = new Date()
     return {
-        host,
+        query,
         dateRange: [dateStart ? new Date(dateStart) : now, dateEnd ? new Date(dateEnd) : now],
         mergeDate: mergeDate ?? false,
         siteMerge,
@@ -56,9 +56,9 @@ const cvtStorage2Filter = (storage: FilterStorageValue | undefined): ReportFilte
 }
 
 const cvtFilter2Storage = (filter: ReportFilterOption): FilterStorageValue => {
-    const { host, dateRange, mergeDate, siteMerge, cateIds, timeFormat } = filter
+    const { query, dateRange, mergeDate, siteMerge, cateIds, timeFormat } = filter
     return {
-        host,
+        query,
         mergeDate, siteMerge,
         dateStart: dateRange?.[0]?.getTime?.(),
         dateEnd: dateRange?.[1]?.getTime?.(),

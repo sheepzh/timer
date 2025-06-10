@@ -33,6 +33,16 @@ export type StatCondition = {
      */
     timeRange?: [number, number?]
     /**
+     * Whether to exclusive virtual sites
+     *
+     * @since 1.6.1
+     */
+    exclusiveVirtual?: boolean
+    /**
+     * Host, full match
+     */
+    hostQuery?: string
+    /**
      * Whether to query group time
      *
      * @since 3.5.0
@@ -175,19 +185,6 @@ class StatDatabase extends BaseDatabase {
             const { focus, time, run } = value
             return { date, host, focus, time, run }
         })
-    }
-
-    /**
-     * Count by condition
-     *
-     * @param condition
-     * @returns count
-     * @since 1.0.2
-     */
-    async count(condition: StatCondition): Promise<number> {
-        log("select:{condition}", condition)
-        const filterResults = await this.filter(condition)
-        return filterResults.length || 0
     }
 
     /**

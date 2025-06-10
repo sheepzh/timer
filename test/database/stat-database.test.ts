@@ -56,16 +56,15 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(6)
 
         let cond: StatCondition = {}
-        cond.query = 'google'
+        cond.hostQuery = 'google'
 
         let list = await db.select(cond)
         expect(list.length).toEqual(3)
 
         // full host is not correct, result is empty
-        cond.fullHost = true
         expect((await db.select(cond)).length).toEqual(0)
 
-        cond.query = google
+        cond.hostQuery = google
         expect((await db.select(cond)).length).toEqual(3)
 
         // By date range
@@ -116,11 +115,11 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
-        const cond: StatCondition = { query: baidu, fullHost: true }
+        const cond: StatCondition = { hostQuery: baidu }
         // Nothing of baidu remained
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
-        cond.query = google
+        cond.hostQuery = google
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again
@@ -197,21 +196,5 @@ describe('stat-database', () => {
         expect(await db.select()).toEqual([])
         await db.importData(false)
         expect(await db.select()).toEqual([])
-    })
-
-    test("count", async () => {
-        await db.accumulate(baidu, nowStr, resultOf(1, 1))
-        await db.accumulate(baidu, formatTimeYMD(yesterday), resultOf(2, 1))
-        await db.accumulate(google, nowStr, resultOf(3, 1))
-        await db.accumulate(google, formatTimeYMD(yesterday), resultOf(4, 1))
-        // Count by host
-        expect(await db.count({
-            query: baidu,
-            fullHost: true
-        })).toEqual(2)
-        // Count by fuzzy
-        expect(await db.count({ query: "www", fullHost: false })).toEqual(4)
-        // Count by date
-        expect(await db.count({ query: google, fullHost: true, date: now })).toEqual(1)
     })
 })

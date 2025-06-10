@@ -13,8 +13,8 @@ const _default = defineComponent(() => {
 
     const { data, refresh, loading } = useRequest(() => {
         const statParam: StatQueryParam = {
-            date: date.value || new Date(),
-            host: query.value,
+            date: date.value ?? new Date(),
+            query: query.value,
             exclusiveVirtual: true,
             sort: "focus",
             sortOrder: "DESC",

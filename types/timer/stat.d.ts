@@ -52,6 +52,8 @@ declare namespace timer.stat {
         composition?: RemoteComposition
     }
 
+    type SiteRow = Row & SiteTarget
+
     type RemoteCompositionVal =
         // Means local data
         number | {
