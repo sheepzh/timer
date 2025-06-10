@@ -1,4 +1,4 @@
-# Time Tracker
+# Time Tracker for Browser
 
 [![codecov](https://codecov.io/gh/sheepzh/timer/branch/main/graph/badge.svg?token=S98QSBSKCR&style=flat-square)](https://codecov.io/gh/sheepzh/timer)
 [![codebeat badge](https://codebeat.co/badges/b26df573-8143-4a53-8617-1e1eb4fe7b86)](https://codebeat.co/projects/github-com-sheepzh-timer-main)
