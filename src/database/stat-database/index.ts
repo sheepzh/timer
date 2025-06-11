@@ -39,15 +39,9 @@ export type StatCondition = {
      */
     exclusiveVirtual?: boolean
     /**
-     * Host, full match
+     * Host or groupId, full match
      */
-    hostQuery?: string
-    /**
-     * Whether to query group time
-     *
-     * @since 3.5.0
-     */
-    onlyGroup?: boolean
+    key?: string
 }
 
 function increase(a: timer.core.Result, b: timer.core.Result) {
@@ -178,9 +172,7 @@ class StatDatabase extends BaseDatabase {
     }
 
     async selectGroup(condition?: StatCondition): Promise<timer.core.Row[]> {
-        condition = condition ?? {}
-        condition.onlyGroup = true
-        const filterResults = await this.filter(condition)
+        const filterResults = await this.filter(condition, true)
         return filterResults.map(({ date, host, value }) => {
             const { focus, time, run } = value
             return { date, host, focus, time, run }

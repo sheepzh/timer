@@ -56,7 +56,7 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(6)
 
         let cond: StatCondition = {}
-        cond.hostQuery = 'google'
+        cond.key = 'google'
 
         let list = await db.select(cond)
         expect(list.length).toEqual(3)
@@ -64,7 +64,7 @@ describe('stat-database', () => {
         // full host is not correct, result is empty
         expect((await db.select(cond)).length).toEqual(0)
 
-        cond.hostQuery = google
+        cond.key = google
         expect((await db.select(cond)).length).toEqual(3)
 
         // By date range
@@ -115,11 +115,11 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
-        const cond: StatCondition = { hostQuery: baidu }
+        const cond: StatCondition = { key: baidu }
         // Nothing of baidu remained
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
-        cond.hostQuery = google
+        cond.key = google
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again

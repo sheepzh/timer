@@ -24,11 +24,11 @@ type _FilterResult = {
 }
 
 function filterHost(host: string, condition: _StatCondition): boolean {
-    const { hostQuery, exclusiveVirtual } = condition
+    const { key, exclusiveVirtual } = condition
     // 1. virtual
     if (exclusiveVirtual && judgeVirtualFast(host)) return false
     // 2. host
-    if (hostQuery && hostQuery !== host) return false
+    if (key && key !== host) return false
     return true
 }
 
@@ -114,9 +114,8 @@ function processCondition(condition: StatCondition): _StatCondition {
 /**
  * Filter by query parameters
  */
-export async function filter(this: StatDatabase, condition?: StatCondition): Promise<_FilterResult[]> {
+export async function filter(this: StatDatabase, condition?: StatCondition, onlyGroup?: boolean): Promise<_FilterResult[]> {
     condition = condition || {}
-    const { onlyGroup } = condition
     const cond = processCondition(condition)
     const items = await this.refresh()
     const result: _FilterResult[] = []

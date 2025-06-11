@@ -166,10 +166,8 @@ class StatService {
      */
     async count(condition: StatCondition): Promise<number> {
         log("service: count: {condition}", condition)
-        const row = condition.onlyGroup
-            ? await statDatabase.selectGroup(condition)
-            : await statDatabase.select(condition)
-        const count = row.length
+        const rows = await statDatabase.select(condition)
+        const count = rows.length
         log("service: count: {result}", count)
         return count
     }
@@ -208,11 +206,10 @@ class StatService {
         return rows
     }
 
-    async selectGroup(param?: StatQueryParam): Promise<timer.stat.Row[]> {
+    async selectGroup(param?: StatQueryParam): Promise<timer.stat.GroupRow[]> {
         const { date, mergeDate: needMergeDate } = param ?? {}
-        const condition: StatCondition = { date, onlyGroup: true }
-        const list = await statDatabase.select(condition)
-        let rows: timer.stat.Row[] = list.map(({ date, time, focus, run, host }) => ({ date, groupKey: parseInt(host), run, focus, time }))
+        const list = await statDatabase.selectGroup({ date })
+        let rows: timer.stat.GroupRow[] = list.map(({ date, time, focus, run, host }) => ({ date, groupKey: parseInt(host), run, focus, time }))
         needMergeDate && (rows = mergeDate(rows))
         return rows
     }
@@ -222,7 +219,7 @@ class StatService {
         const { date, fullHost, query, timeRange, focusRange, exclusiveVirtual } = param
         const condition: StatCondition = {
             date, timeRange, focusRange, exclusiveVirtual,
-            hostQuery: fullHost ? query : undefined,
+            key: fullHost ? query : undefined,
         }
 
         let origin = await statDatabase.select(condition)
@@ -278,18 +275,18 @@ class StatService {
             rows = await mergeCate(origin)
         }
 
-        this.processSort(origin, param)
-        let result = slicePageResult(origin, page)
+        this.processSort(rows, param)
+        let result = slicePageResult(rows, page)
 
-        if (!siteFilled) await this.fillSite(result?.list)
+        if (!siteFilled) await this.fillSite(result.list.filter(isSite))
 
         log("result of selectByPage:{param}, {page}, {result}", param, page, result)
         return result
     }
 
     private filter(origin: timer.stat.SiteRow[], param: StatCondition) {
-        const { hostQuery } = param
-        return origin.filter(o => !hostQuery || o.siteKey.host === hostQuery)
+        const { key } = param
+        return origin.filter(o => !key || o.siteKey.host === key)
     }
 
     /**

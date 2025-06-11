@@ -26,8 +26,8 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Sit
         }
     })
     // Predicate with host
-    const { hostQuery, date } = param
-    const predicate = (row: timer.core.Row) => !hostQuery || row.host === hostQuery
+    const { key, date } = param
+    const predicate = (row: timer.core.Row) => !key || row.host === key
     // 1. query remote
     let start: Date | undefined = undefined, end: Date | undefined = undefined
     if (date instanceof Array) {

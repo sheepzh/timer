@@ -54,6 +54,10 @@ declare namespace timer.stat {
 
     type SiteRow = Row & SiteTarget
 
+    type CateRow = Row & CateTarget
+
+    type GroupRow = Row & GroupTarget
+
     type RemoteCompositionVal =
         // Means local data
         number | {
