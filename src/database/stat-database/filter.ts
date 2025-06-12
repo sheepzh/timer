@@ -102,7 +102,6 @@ function processParamFocusCondition(cond: _StatCondition, paramFocus?: Vector<2>
     paramFocus.length >= 1 && (cond.focusStart = paramFocus[0])
 }
 
-
 function processCondition(condition: StatCondition): _StatCondition {
     const result: _StatCondition = { ...condition }
     processDateCondition(result, condition.date)
@@ -115,8 +114,7 @@ function processCondition(condition: StatCondition): _StatCondition {
  * Filter by query parameters
  */
 export async function filter(this: StatDatabase, condition?: StatCondition, onlyGroup?: boolean): Promise<_FilterResult[]> {
-    condition = condition || {}
-    const cond = processCondition(condition)
+    const cond = processCondition(condition ?? {})
     const items = await this.refresh()
     const result: _FilterResult[] = []
     Object.entries(items).forEach(([key, value]) => {

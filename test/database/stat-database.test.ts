@@ -56,7 +56,7 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(6)
 
         let cond: StatCondition = {}
-        cond.key = 'google'
+        cond.key = google
 
         let list = await db.select(cond)
         expect(list.length).toEqual(3)
