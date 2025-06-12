@@ -60,6 +60,10 @@ export const getAlias = (row: timer.stat.Row): string | undefined => {
     return 'alias' in row ? row.alias : undefined
 }
 
+export const getIconUrl = (row: timer.stat.Row): string | undefined => {
+    return 'iconUrl' in row ? row.iconUrl : undefined
+}
+
 export const getRelatedCateId = (row: timer.stat.Row): number | undefined => {
     if ('cateId' in row) return row.cateId
     if ('cateKey' in row) return row.cateKey

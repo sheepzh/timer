@@ -63,9 +63,9 @@ const _default = defineComponent((_, ctx) => {
     const sort = useReportSort()
     const filter = useReportFilter()
     const visible = computed(() => computeVisible(filter))
-    const { data, refresh, loading } = useRequest(() => queryPage(filter, page.value), {
+    const { data, refresh, loading } = useRequest(() => queryPage(filter, sort.value, page.value), {
         loadingTarget: () => table.value?.$el as HTMLDivElement,
-        deps: [() => ({ ...filter }), page],
+        deps: [() => ({ ...filter }), () => ({ ...sort }), page],
         defaultValue: { list: [], total: 0 },
     })
     const {

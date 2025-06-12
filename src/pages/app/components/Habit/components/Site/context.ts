@@ -22,7 +22,7 @@ const NAMESPACE = 'habitSite'
 export const initProvider = () => {
     const filter = useHabitFilter()
 
-    const { data: rows } = useRequest(() => statService.selectSite({ exclusiveVirtual: true, date: filter.dateRange }), {
+    const { data: rows } = useRequest(() => statService.selectSite({ date: filter.dateRange }), {
         deps: [() => filter.dateRange],
         defaultValue: [],
     })

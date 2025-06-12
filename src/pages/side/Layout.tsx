@@ -15,10 +15,8 @@ const _default = defineComponent(() => {
         return statService.selectSite({
             date: date.value ?? new Date(),
             query: query.value,
-            exclusiveVirtual: true,
-            // todo order
-            // sort: "focus",
-            // sortOrder: "DESC",
+            sortKey: 'focus',
+            sortDirection: 'DESC',
         })
     })
 

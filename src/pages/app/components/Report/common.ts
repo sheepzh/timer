@@ -1,9 +1,9 @@
 import { t } from "@app/locale"
 import StatDatabase from "@db/stat-database"
-import statService, { SiteQuery } from "@service/stat-service"
+import statService, { type CateQuery, type GroupQuery, type SiteQuery } from "@service/stat-service"
 import { isGroup, isSite } from "@util/stat"
 import { formatTime } from "@util/time"
-import type { ReportFilterOption } from "./types"
+import type { ReportFilterOption, ReportSort } from "./types"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
 
@@ -72,15 +72,57 @@ export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilt
     isGroup(row) && await statDatabase.deleteByGroupBetween(row.groupKey, start, end)
 }
 
-export const queryPage = (filter: ReportFilterOption, page: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> => {
-    const { siteMerge, dateRange: date, mergeDate, query, cateIds, readRemote: inclusiveRemote } = filter
-    // todo add sort
+const cvtOrderDir = (order: ReportSort['order']): timer.common.SortDirection | undefined => {
+    if (order === 'ascending') return 'ASC'
+    else if (order === 'descending') return 'DESC'
+    else return undefined
+}
+
+const cvt2GroupQuery = (
+    { query, mergeDate, dateRange: date }: ReportFilterOption,
+    { prop, order }: ReportSort,
+): GroupQuery => ({
+    date, mergeDate, query,
+    sortKey: prop !== 'host' && prop !== 'run' ? prop : undefined,
+    sortDirection: cvtOrderDir(order),
+})
+
+const cvt2SiteQuery = (
+    { dateRange: date, mergeDate, siteMerge, query, cateIds, readRemote: inclusiveRemote }: ReportFilterOption,
+    { prop, order }: ReportSort,
+): SiteQuery => ({
+    date, mergeDate, mergeHost: siteMerge === 'domain', query, cateIds, inclusiveRemote,
+    sortKey: prop,
+    sortDirection: cvtOrderDir(order),
+})
+
+const cvt2CateQuery = (
+    { dateRange: date, mergeDate, query, cateIds, readRemote: inclusiveRemote }: ReportFilterOption,
+    { prop, order }: ReportSort,
+): CateQuery => ({
+    date, mergeDate, query, cateIds, inclusiveRemote,
+    sortKey: prop !== 'host' && prop !== 'run' ? prop : undefined,
+    sortDirection: cvtOrderDir(order),
+})
+
+export const queryPage = (filter: ReportFilterOption, sort: ReportSort, page: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> => {
+    const { siteMerge } = filter
     if (siteMerge === 'group') {
-        return statService.selectGroupPage({ date, mergeDate, query }, page)
+        return statService.selectGroupPage(cvt2GroupQuery(filter, sort), page)
     } else if (siteMerge === 'cate') {
-        return statService.selectCatePage({ date, mergeDate, query, cateIds, inclusiveRemote }, page)
+        return statService.selectCatePage(cvt2CateQuery(filter, sort), page)
     } else {
-        const param: SiteQuery = { date, mergeDate, mergeHost: siteMerge === 'domain', query, cateIds, inclusiveRemote }
-        return statService.selectSitePage(param, page)
+        return statService.selectSitePage(cvt2SiteQuery(filter, sort), page)
+    }
+}
+
+export const queryAll = (filter: ReportFilterOption, sort: ReportSort): Promise<timer.stat.Row[]> => {
+    const { siteMerge } = filter
+    if (siteMerge === 'group') {
+        return statService.selectGroup(cvt2GroupQuery(filter, sort))
+    } else if (siteMerge === 'cate') {
+        return statService.selectCate(cvt2CateQuery(filter, sort))
+    } else {
+        return statService.selectSite(cvt2SiteQuery(filter, sort))
     }
 }

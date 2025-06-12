@@ -36,7 +36,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData = await statService.selectSite({ exclusiveVirtual: true })
+    const allData = await statService.selectSite()
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0

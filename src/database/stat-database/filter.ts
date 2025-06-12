@@ -24,9 +24,9 @@ type _FilterResult = {
 }
 
 function filterHost(host: string, condition: _StatCondition): boolean {
-    const { key, exclusiveVirtual } = condition
+    const { key, virtual } = condition
     // 1. virtual
-    if (exclusiveVirtual && judgeVirtualFast(host)) return false
+    if (!virtual && judgeVirtualFast(host)) return false
     // 2. host
     if (key && key !== host) return false
     return true

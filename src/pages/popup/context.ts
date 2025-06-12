@@ -12,7 +12,7 @@ export type PopupQuery = {
     mergeMethod: Exclude<timer.stat.MergeMethod, 'date'> | undefined
     duration: timer.option.PopupDuration
     durationNum?: number
-    dimension: timer.core.Dimension
+    dimension: Exclude<timer.core.Dimension, 'run'>
 }
 
 type PopupContextValue = {

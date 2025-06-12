@@ -58,8 +58,8 @@ function compareSortVal(a: string | number, b: string | number, direction?: time
     return direction === 'DESC' ? -val : val
 }
 
-export type SiteQuery = Pick<StatCondition, 'date' | 'focusRange' | 'timeRange' | 'exclusiveVirtual'>
-    & timer.common.SortBy<'date' | 'focus' | 'time' | 'host'>
+export type SiteQuery = Pick<StatCondition, 'date' | 'focusRange' | 'timeRange' | 'virtual'>
+    & timer.common.SortBy<'date' | 'host' | timer.core.Dimension>
     & {
         query?: string
         host?: string
@@ -178,12 +178,12 @@ class StatServiceImpl implements StatService {
             mergeHost: needMerge, mergeDate: needMergeDate,
             date, query, host, cateIds,
             timeRange, focusRange,
-            exclusiveVirtual, ignoreSite, inclusiveRemote,
+            virtual, ignoreSite, inclusiveRemote,
             sortKey, sortDirection,
         } = param ?? {}
 
         const condition: StatCondition = {
-            date, timeRange, focusRange, exclusiveVirtual,
+            date, timeRange, focusRange, virtual,
             key: host && !needMerge ? host : undefined,
         }
         let origin = await statDatabase.select(condition)
@@ -230,7 +230,7 @@ class StatServiceImpl implements StatService {
             sortKey, sortDirection,
         } = param ?? {}
 
-        let origin = await statDatabase.select({ date, exclusiveVirtual: true })
+        let origin = await statDatabase.select({ date, virtual: true })
 
         let siteRows = origin.map(cvt2SiteRow)
         inclusiveRemote && (siteRows = await processRemote(siteRows, param))

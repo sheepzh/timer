@@ -1,8 +1,7 @@
-import { cvt2StatQuery, } from "@popup/common"
+import { queryRows, } from "@popup/common"
 import { type PopupQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import optionHolder from "@service/components/option-holder"
-import statService from "@service/stat-service"
 import { getDayLength } from "@util/time"
 
 export type PercentageResult = {
@@ -47,9 +46,7 @@ const findDateRange = (rows: timer.stat.Row[]): [string, string] | undefined => 
 export const doQuery = async (query: PopupQuery): Promise<PercentageResult> => {
     const option = await optionHolder.get()
     const itemCount = option.popupMax
-    const statQuery = await cvt2StatQuery(query)
-    const rows = query.mergeMethod === 'group' ? await statService.selectGroup() : await statService.select(statQuery, true)
-    const date = statQuery.date
+    const [rows, date] = await queryRows(query)
 
     return {
         query, rows,

@@ -6,7 +6,7 @@ import { calJumpUrl } from "@popup/common"
 import { useCateNameMap, useQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
-import { isCate, isNormalSite, isSite } from "@util/stat"
+import { getIconUrl, isCate, isNormalSite, isSite } from "@util/stat"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText } from "element-plus"
 import { computed, defineComponent, type StyleValue } from "vue"
@@ -84,7 +84,7 @@ const Item = defineComponent<ItemProps>(props => {
     const rate = computed(() => props.max ? (props.value?.[query.dimension] ?? 0) / props.max * 100 : 0)
     const percentage = computed(() => props.total ? (props.value?.[query.dimension] ?? 0) / props.total * 100 : 0)
     const clickable = computed(() => isNormalSite(props.value) && !isRemainHost(props.value.siteKey.host))
-    const iconUrl = computed(() => props.value?.iconUrl)
+    const iconUrl = computed(() => getIconUrl(props.value))
 
     const emitJump = () => clickable.value && props.onJump?.()
 

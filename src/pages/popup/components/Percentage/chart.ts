@@ -6,7 +6,7 @@ import { sum } from "@util/array"
 import { IS_SAFARI } from "@util/constant/environment"
 import { isRtl } from "@util/document"
 import { generateSiteLabel } from "@util/site"
-import { isCate, isSite } from "@util/stat"
+import { getAlias, getIconUrl, isCate, isSite } from "@util/stat"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
 import { type PieSeriesOption } from "echarts/charts"
 import { type TitleComponentOption, type ToolboxComponentOption } from "echarts/components"
@@ -147,7 +147,9 @@ function cvt2ChartRows(rows: timer.stat.Row[], type: timer.core.Dimension, itemC
 
 // The declaration of data item
 export type PieSeriesItemOption = Exclude<PieSeriesOption['data'], undefined>[0]
-    & timer.stat.TargetKey & Pick<ChartRow, 'iconUrl' | 'isOther'>
+    & timer.stat.TargetKey
+    & Pick<ChartRow, 'isOther'>
+    & Pick<timer.stat.SiteRow, 'iconUrl'>
 
 // The declarations of labels
 type PieLabelRichOption = Exclude<PieSeriesOption['label'], undefined>['rich']
@@ -201,7 +203,9 @@ export function generateSiteSeriesOption(rows: timer.stat.Row[], result: Percent
 
     const data: PieSeriesItemOption[] = []
     chartRows.forEach(d => {
-        const { alias, isOther, iconUrl } = d
+        const alias = getAlias(d)
+        const iconUrl = getIconUrl(d)
+        const { isOther } = d
         const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
         iconUrl && (richValue.backgroundColor = { image: iconUrl })
 

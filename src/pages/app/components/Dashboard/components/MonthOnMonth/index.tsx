@@ -37,9 +37,9 @@ const fetchData = async (): Promise<[thisMonth: Row[], lastMonth: Row[]]> => {
 
     // Query with alias
     // @since 1.1.8
-    const lastPeriodItems = await statService.selectSite({ date: [lastPeriodStart, lastPeriodEnd], exclusiveVirtual: true })
+    const lastPeriodItems = await statService.selectSite({ date: [lastPeriodStart, lastPeriodEnd] })
     const lastRows = cvtRow(lastPeriodItems, lastPeriodStart, lastPeriodEnd)
-    const thisPeriodItems = await statService.selectSite({ date: [thisPeriodStart, thisPeriodEnd], exclusiveVirtual: true })
+    const thisPeriodItems = await statService.selectSite({ date: [thisPeriodStart, thisPeriodEnd] })
     const thisRows = cvtRow(thisPeriodItems, thisPeriodStart, thisPeriodEnd)
     return [lastRows, thisRows]
 }

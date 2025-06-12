@@ -12,7 +12,11 @@ import "./style"
 const _default = defineComponent((_, ctx) => {
     const filterOption = useReportFilter()
     const { data, loading, loadMoreAsync, end, reset } = useScrollRequest(async (num, size) => {
-        const pagination = await queryPage(filterOption, { num, size })
+        const pagination = await queryPage(
+            filterOption,
+            { order: "descending", prop: "focus" },
+            { num, size },
+        )
         return pagination.list
     }, { manual: true, resetDeps: () => ({ ...filterOption }) })
 

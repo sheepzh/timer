@@ -33,11 +33,11 @@ export type StatCondition = {
      */
     timeRange?: [number, number?]
     /**
-     * Whether to exclusive virtual sites
+     * Whether to include virtual sites
      *
      * @since 1.6.1
      */
-    exclusiveVirtual?: boolean
+    virtual?: boolean
     /**
      * Host or groupId, full match
      */
