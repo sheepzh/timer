@@ -32,22 +32,40 @@ export function identifyStatKey(rowKey: timer.stat.StatKey) {
     return [identifyTargetKey(rowKey), date ?? ''].join('_')
 }
 
-export const isNormalSite = (row: timer.stat.Row): row is timer.stat.Row & timer.stat.SiteTarget => {
+export const isNormalSite = (row: timer.stat.Row): row is timer.stat.SiteRow => {
     return 'siteKey' in row && row.siteKey.type === 'normal'
 }
 
-export const isGroup = (row: timer.stat.Row): row is timer.stat.Row & timer.stat.GroupTarget => {
+export const isMergedSite = (row: timer.stat.Row): row is timer.stat.SiteRow => {
+    return 'siteKey' in row && row.siteKey.type === 'merged'
+}
+
+export const isGroup = (row: timer.stat.Row): row is timer.stat.GroupRow => {
     return 'groupKey' in row
 }
 
-export const isSite = (row: timer.stat.Row): row is timer.stat.Row & timer.stat.SiteTarget => {
+export const isSite = (row: timer.stat.Row): row is timer.stat.SiteRow => {
     return 'siteKey' in row
 }
 
-export const isCate = (row: timer.stat.Row): row is timer.stat.Row & timer.stat.CateTarget => {
+export const isCate = (row: timer.stat.Row): row is timer.stat.CateRow => {
     return 'cateKey' in row
 }
 
 export const getHost = (row: timer.stat.Row): string | undefined => {
     return 'siteKey' in row ? row.siteKey.host : undefined
+}
+
+export const getAlias = (row: timer.stat.Row): string | undefined => {
+    return 'alias' in row ? row.alias : undefined
+}
+
+export const getRelatedCateId = (row: timer.stat.Row): number | undefined => {
+    if ('cateId' in row) return row.cateId
+    if ('cateKey' in row) return row.cateKey
+    return undefined
+}
+
+export const getComposition = (row: timer.stat.Row, dimension: timer.core.Dimension): timer.stat.RemoteCompositionVal[] => {
+    return 'composition' in row ? row.composition?.[dimension] ?? [] : []
 }

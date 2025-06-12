@@ -12,7 +12,7 @@ import {
     exportJson as exportJson_,
 } from "@util/file"
 import { CATE_NOT_SET_ID } from "@util/site"
-import { getHost } from "@util/stat"
+import { getAlias, getHost, getRelatedCateId } from "@util/stat"
 import { formatTimeYMD } from "@util/time"
 import type { ReportFilterOption } from "./types"
 
@@ -46,14 +46,14 @@ function computeFileName(filterParam: ReportFilterOption): string {
 const generateJsonData = (rows: timer.stat.Row[], categories: timer.site.Cate[]) => rows.map(row => ({
     host: getHost(row) ?? '',
     date: row.date,
-    alias: row.alias,
+    alias: getAlias(row),
     cate: getCateName(row, categories),
     focus: periodFormatter(row.focus, { format: 'second', hideUnit: true }),
     time: row.time
 } satisfies ExportInfo))
 
 const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string => {
-    const cateId = 'cateKey' in row ? row.cateKey : row.cateId
+    const cateId = getRelatedCateId(row)
     let cate: string = ''
     if (cateId === CATE_NOT_SET_ID) {
         cate = t(msg => msg.shared.cate.notSet)
@@ -98,7 +98,7 @@ const CSV_COLUMN_CONFIGS: Record<CsvColumn, CsvColumnConfig> = {
     alias: {
         visible: (_, siteMerge) => siteMerge !== 'cate',
         i18n: msg => msg.siteManage.column.alias,
-        formatter: row => row?.alias ?? '',
+        formatter: row => getAlias(row) ?? '',
     },
     cate: {
         visible: (_, siteMerge) => siteMerge !== 'domain',

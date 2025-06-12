@@ -13,14 +13,15 @@ import { Histogram } from "@element-plus/icons-vue"
 import { useManualRequest, useRequest, useState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import siteService from "@service/site-service"
-import statService, { type StatQueryParam } from "@service/stat-service"
+import statService, { type SiteQuery } from "@service/stat-service"
 import { sum } from "@util/array"
 import { isRtl } from "@util/document"
 import { siteEqual } from "@util/site"
+import { getAlias, isSite } from "@util/stat"
 import { useDocumentVisibility } from "@vueuse/core"
 import { ElLink, ElTable, ElTableColumn, ElText, ElTooltip, type TableInstance } from "element-plus"
 import { computed, defineComponent, ref, watch } from "vue"
-import { cvtOption2Param } from "../common"
+import { queryPage } from "../common"
 import { useReportFilter, useReportSort } from "../context"
 import type { DisplayComponent, ReportFilterOption, ReportSort } from "../types"
 import CateColumn from "./columns/CateColumn"
@@ -31,13 +32,6 @@ import OperationColumn from "./columns/OperationColumn"
 import TimeColumn from "./columns/TimeColumn"
 import VisitColumn from "./columns/VisitColumn"
 
-function computeTimerQueryParam(filterOption: ReportFilterOption, sort: ReportSort): StatQueryParam {
-    const param = cvtOption2Param(filterOption) || {}
-    param.sort = sort.prop
-    param.sortOrder = sort.order === 'ascending' ? 'ASC' : 'DESC'
-    return param
-}
-
 async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | undefined, data: timer.stat.Row[]) {
     newAlias = newAlias?.trim?.()
     if (!newAlias) {
@@ -45,7 +39,8 @@ async function handleAliasChange(key: timer.site.SiteKey, newAlias: string | und
     } else {
         await siteService.saveAlias(key, newAlias)
     }
-    data?.filter(item => 'siteKey' in item && siteEqual(item.siteKey, key))
+    data?.filter(isSite)
+        ?.filter(item => siteEqual(item.siteKey, key))
         ?.forEach(item => item.alias = newAlias)
 }
 
@@ -68,25 +63,31 @@ const _default = defineComponent((_, ctx) => {
     const sort = useReportSort()
     const filter = useReportFilter()
     const visible = computed(() => computeVisible(filter))
-    const queryParam = computed(() => computeTimerQueryParam(filter, sort.value))
-    const { data, refresh, loading } = useRequest(
-        () => filter.siteMerge === 'group'
-            ? statService.selectGroupByPage(queryParam.value, page.value)
-            : statService.selectByPage(queryParam.value, page.value),
-        {
-            loadingTarget: () => table.value?.$el as HTMLDivElement,
-            deps: [queryParam, page],
-            defaultValue: { list: [], total: 0 },
-        },
-    )
+    const { data, refresh, loading } = useRequest(() => queryPage(filter, page.value), {
+        loadingTarget: () => table.value?.$el as HTMLDivElement,
+        deps: [() => ({ ...filter }), page],
+        defaultValue: { list: [], total: 0 },
+    })
     const {
         data: total,
         refresh: refreshTotal,
         loading: totalLoading,
     } = useManualRequest(async () => {
-        const total = await statService.select(queryParam.value)
-        const visit = sum(total.map(e => e.time))
-        const focus = sum(total.map(e => e.focus))
+        const { siteMerge, dateRange: date, query, readRemote: inclusiveRemote, cateIds } = filter
+        let rows: timer.stat.Row[] = []
+        if (siteMerge === 'group') {
+            rows = await statService.selectGroup({ date, query })
+        } else if (siteMerge === 'cate') {
+            rows = await statService.selectCate({ date, query, cateIds, inclusiveRemote })
+        } else {
+            const param: SiteQuery = {
+                date, query, cateIds, inclusiveRemote,
+                mergeHost: siteMerge === 'domain',
+            }
+            rows = await statService.selectSite(param)
+        }
+        const visit = sum(rows.map(e => e.time))
+        const focus = sum(rows.map(e => e.focus))
         return { visit, focus }
     }, { defaultValue: { visit: 0, focus: 0 } })
 
@@ -110,7 +111,8 @@ const _default = defineComponent((_, ctx) => {
 
     const handleCateChange = (key: timer.site.SiteKey, newCateId: number | undefined) => {
         data.value?.list
-            ?.filter(item => 'siteKey' in item && siteEqual(item.siteKey, key))
+            ?.filter(isSite)
+            ?.filter(item => siteEqual(item.siteKey, key))
             ?.forEach(i => i.cateId = newCateId)
     }
 
@@ -137,7 +139,7 @@ const _default = defineComponent((_, ctx) => {
                                 align="center"
                                 v-slots={({ row }: { row: timer.stat.Row }) => (
                                     <Editable
-                                        modelValue={row?.alias}
+                                        modelValue={getAlias(row)}
                                         onChange={newAlias => 'siteKey' in row && handleAliasChange(row.siteKey, newAlias, data.value?.list ?? [])}
                                     />
                                 )}

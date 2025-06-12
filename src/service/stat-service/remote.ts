@@ -9,9 +9,9 @@ import type { StatCondition } from "@db/stat-database"
 import processor from "@service/backup/processor"
 import { identifyStatKey } from "@util/stat"
 import { getBirthday } from "@util/time"
-import { cvt2StatRow } from "./common"
+import { cvt2SiteRow } from "./common"
 
-export async function processRemote(param: StatCondition, origin: timer.stat.SiteRow[]): Promise<timer.stat.SiteRow[]> {
+export async function processRemote(origin: timer.stat.SiteRow[], param?: StatCondition): Promise<timer.stat.SiteRow[]> {
     if (!await canReadRemote()) {
         return origin
     }
@@ -26,7 +26,7 @@ export async function processRemote(param: StatCondition, origin: timer.stat.Sit
         }
     })
     // Predicate with host
-    const { key, date } = param
+    const { key, date } = param ?? {}
     const predicate = (row: timer.core.Row) => !key || row.host === key
     // 1. query remote
     let start: Date | undefined = undefined, end: Date | undefined = undefined
@@ -54,7 +54,7 @@ export async function canReadRemote(): Promise<boolean> {
 }
 
 function processRemoteRow(rowMap: Record<string, MakeRequired<timer.stat.SiteRow, 'composition'>>, remoteBase: timer.core.Row) {
-    const row = cvt2StatRow(remoteBase)
+    const row = cvt2SiteRow(remoteBase)
     const key = identifyStatKey(row)
     let exist = rowMap[key]
     !exist && (exist = rowMap[key] = {
@@ -67,7 +67,7 @@ function processRemoteRow(rowMap: Record<string, MakeRequired<timer.stat.SiteRow
             time: [],
             run: [],
         },
-    } satisfies MakeRequired<timer.stat.Row, 'composition'>)
+    } satisfies MakeRequired<timer.stat.SiteRow, 'composition'>)
 
     const { focus = 0, time = 0, run = 0, cid = '', cname } = row
 

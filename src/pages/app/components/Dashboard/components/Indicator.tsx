@@ -13,7 +13,6 @@ import { useRequest, useXsState } from "@hooks"
 import Flex from "@pages/components/Flex"
 import statService from "@service/stat-service"
 import { calcMostPeriodOf2Hours } from "@util/period"
-import { isSite } from "@util/stat"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElIcon } from "element-plus"
 import { computed, defineComponent, toRef, type VNode } from "vue"
@@ -37,11 +36,11 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: timer.stat.Row[] = await statService.select({ exclusiveVirtual: true })
+    const allData = await statService.selectSite({ exclusiveVirtual: true })
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0
-    allData.filter(isSite).forEach(({ siteKey, focus, time }) => {
+    allData.forEach(({ siteKey, focus, time }) => {
         const { host } = siteKey || {}
         host && hostSet.add(host)
         visits += time

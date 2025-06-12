@@ -1,10 +1,9 @@
 import { t } from "@app/locale"
 import { useScrollRequest } from "@hooks/useScrollRequest"
-import statService from "@service/stat-service"
 import { getHost } from "@util/stat"
 import { ElCard } from "element-plus"
-import { computed, defineComponent, ref } from "vue"
-import { cvtOption2Param } from "../common"
+import { defineComponent, ref } from "vue"
+import { queryPage } from "../common"
 import { useReportFilter } from "../context"
 import type { DisplayComponent } from "../types"
 import Item from "./Item"
@@ -12,12 +11,10 @@ import "./style"
 
 const _default = defineComponent((_, ctx) => {
     const filterOption = useReportFilter()
-    const param = computed(() => cvtOption2Param(filterOption))
-
     const { data, loading, loadMoreAsync, end, reset } = useScrollRequest(async (num, size) => {
-        const pagination = await statService.selectByPage(param.value, { num, size })
-        return pagination?.list
-    }, { manual: true, resetDeps: param })
+        const pagination = await queryPage(filterOption, { num, size })
+        return pagination.list
+    }, { manual: true, resetDeps: () => ({ ...filterOption }) })
 
     const selected = ref<number[]>([])
 

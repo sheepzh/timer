@@ -5,16 +5,19 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { listAllGroups } from "@api/chrome/tabGroups"
 import MergeRuleDatabase from "@db/merge-rule-database"
+import SiteCateDatabase from "@db/site-cate-database"
 import SiteDatabase from "@db/site-database"
 import StatDatabase, { type StatCondition } from "@db/stat-database"
+import { groupBy } from "@util/array"
 import { judgeVirtualFast } from "@util/pattern"
-import { CATE_NOT_SET_ID, distinctSites, SiteMap } from "@util/site"
-import { isNormalSite, isSite } from "@util/stat"
+import { distinctSites, SiteMap } from "@util/site"
+import { isSite } from "@util/stat"
 import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import { slicePageResult } from "../components/page-info"
-import { cvt2StatRow } from "./common"
+import { cvt2SiteRow } from "./common"
 import { mergeCate } from "./merge/cate"
 import { mergeDate } from "./merge/date"
 import { mergeHost } from "./merge/host"
@@ -25,72 +28,17 @@ const storage = chrome.storage.local
 const statDatabase = new StatDatabase(storage)
 const mergeRuleDatabase = new MergeRuleDatabase(storage)
 const siteDatabase = new SiteDatabase(storage)
+const cateDatabase = new SiteCateDatabase(storage)
 
-export type SortDirect = 'ASC' | 'DESC'
-
-export type StatQueryParam = Pick<StatCondition, 'date' | 'focusRange' | 'timeRange' | 'exclusiveVirtual'> & {
-    /**
-     * Query keyword
-     */
-    query?: string
-    /**
-     * Whether to enable full host search, default is false
-     *
-     * @since 0.0.8
-     */
-    fullHost?: boolean
-    /**
-     * Inclusive remote data
-     *
-     * If true the date range MUST NOT be unlimited
-     *
-     * @since 1.2.0
-     */
-    inclusiveRemote?: boolean
-    /**
-     * Group by the root host
-     */
-    mergeHost?: boolean
-    /**
-     * Group by the category
-     */
-    mergeCate?: boolean
-    /**
-     * Merge items of the same host from different days
-     */
-    mergeDate?: boolean
-    /**
-     * Categories
-     *
-     * @since 3.0.0
-     */
-    cateIds?: number[]
-    /**
-     * The name of sorted column
-     */
-    sort?: keyof timer.core.Row
-    /**
-     * 1 asc, -1 desc
-     */
-    sortOrder?: SortDirect
-}
-
-function cvtStatRow2BaseKey(statRow: timer.stat.Row): timer.core.RowKey | undefined {
-    if (!isNormalSite(statRow)) return undefined
-    const { date, siteKey: { host } } = statRow
-    if (!date) return undefined
-    return { date, host }
-}
-
-function extractAllSiteKeys(rows: timer.stat.Row[], container: timer.site.SiteKey[]) {
-    rows?.forEach(row => {
+function extractAllSiteKeys(rows: timer.stat.SiteRow[], container: timer.site.SiteKey[]) {
+    rows.forEach(row => {
         const { mergedRows } = row
-        isSite(row) && container.push(row.siteKey)
+        container.push(row.siteKey)
         mergedRows?.length && extractAllSiteKeys(mergedRows, container)
     })
 }
 
-function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.SiteInfo>): void {
+function fillRowWithSiteInfo(row: timer.stat.SiteRow, siteMap: SiteMap<timer.site.SiteInfo>): void {
     if (!isSite(row)) return
     const { siteKey, mergedRows } = row
 
@@ -104,19 +52,71 @@ function fillRowWithSiteInfo(row: timer.stat.Row, siteMap: SiteMap<timer.site.Si
     }
 }
 
-function filterByCateIds(rows: timer.stat.SiteRow[], cateIds: number[]): timer.stat.SiteRow[] {
-    return rows.filter(item => {
-        const siteType = item.siteKey.type
-        if (siteType !== 'normal') return false
-        return cateIds.includes(item.cateId ?? CATE_NOT_SET_ID)
-    })
+function compareSortVal(a: string | number, b: string | number, direction?: timer.common.SortDirection): number {
+    if (a === b) return 0
+    const val = a > b ? 1 : -1
+    return direction === 'DESC' ? -val : val
+}
+
+export type SiteQuery = Pick<StatCondition, 'date' | 'focusRange' | 'timeRange' | 'exclusiveVirtual'>
+    & timer.common.SortBy<'date' | 'focus' | 'time' | 'host'>
+    & {
+        query?: string
+        host?: string
+        mergeDate?: boolean
+        mergeHost?: boolean
+        /**
+         * Inclusive remote data
+         *
+         * If true the date range MUST NOT be unlimited
+         *
+         * @since 1.2.0
+         */
+        inclusiveRemote?: boolean
+        /**
+         * Categories
+         *
+         * @since 3.0.0
+         */
+        cateIds?: number[]
+        ignoreSite?: boolean
+    }
+
+export type CateQuery = Pick<StatCondition, 'date'>
+    & timer.common.SortBy<'date' | 'focus' | 'time'>
+    & {
+        query?: string
+        mergeDate?: boolean
+        inclusiveRemote?: boolean
+        cateIds?: number[]
+    }
+
+export type GroupQuery = Pick<StatCondition, 'date'>
+    & timer.common.SortBy<'date' | 'title' | 'focus' | 'time'>
+    & {
+        query?: string
+        mergeDate?: boolean
+    }
+
+interface StatService {
+    selectSite(query?: SiteQuery): Promise<timer.stat.SiteRow[]>
+    selectSitePage(param?: SiteQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.SiteRow>>
+    selectCate(query?: CateQuery): Promise<timer.stat.CateRow[]>
+    selectCatePage(query?: CateQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.CateRow>>
+    selectGroup(query?: GroupQuery): Promise<timer.stat.GroupRow[]>
+    selectGroupPage(query?: GroupQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.GroupRow>>
+
+    listHosts(fuzzyQuery?: string): Promise<Record<timer.site.Type, string[]>>
+    batchDelete(rows: timer.stat.Row[]): Promise<void>
+    count(condition: StatCondition): Promise<number>
+    canReadRemote(): Promise<boolean>
 }
 
 /**
  * Service of timer
  * @since 0.0.5
  */
-class StatService {
+class StatServiceImpl implements StatService {
     /**
      * Query hosts
      *
@@ -172,74 +172,89 @@ class StatService {
         return count
     }
 
-    private processSort(origin: timer.stat.Row[], param?: StatQueryParam) {
-        const { sort, sortOrder } = param || {}
-        if (!sort) return
-
-        const order = sortOrder || 'ASC'
-        const sortValue: (row: timer.stat.Row) => string | number | undefined = sort === 'host'
-            ? r => isSite(r) ? r.siteKey.host : ''
-            : r => r[sort] ?? 0
-        origin.sort((a, b) => {
-            const aa = sortValue(a)
-            const bb = sortValue(b)
-            if (aa === bb) return 0
-            if (aa === undefined) return -1
-            if (bb === undefined) return 1
-            return (order === 'ASC' ? 1 : -1) * (aa > bb ? 1 : -1)
-        })
-    }
-
-    async select(param?: StatQueryParam, fillSiteInfo?: boolean): Promise<timer.stat.Row[]> {
+    async selectSite(param?: SiteQuery): Promise<timer.stat.SiteRow[]> {
         log("service: select:{param}", param)
-        let originRows = await this.filterRows(param)
-        const { mergeCate: needMergeCate, cateIds } = param || {}
+        const {
+            mergeHost: needMerge, mergeDate: needMergeDate,
+            date, query, host, cateIds,
+            timeRange, focusRange,
+            exclusiveVirtual, ignoreSite, inclusiveRemote,
+            sortKey, sortDirection,
+        } = param ?? {}
 
-        if (fillSiteInfo || needMergeCate || cateIds?.length) {
-            await this.fillSite(originRows)
-        }
-        if (cateIds?.length) {
-            originRows = filterByCateIds(originRows, cateIds)
-        }
-        let rows: timer.stat.Row[] = needMergeCate ? await mergeCate(originRows) : originRows
-        this.processSort(rows, param)
-        return rows
-    }
-
-    async selectGroup(param?: StatQueryParam): Promise<timer.stat.GroupRow[]> {
-        const { date, mergeDate: needMergeDate } = param ?? {}
-        const list = await statDatabase.selectGroup({ date })
-        let rows: timer.stat.GroupRow[] = list.map(({ date, time, focus, run, host }) => ({ date, groupKey: parseInt(host), run, focus, time }))
-        needMergeDate && (rows = mergeDate(rows))
-        return rows
-    }
-
-    private async filterRows(param?: StatQueryParam): Promise<(timer.stat.Row & timer.stat.SiteTarget)[]> {
-        param = param ?? {}
-        const { date, fullHost, query, timeRange, focusRange, exclusiveVirtual } = param
         const condition: StatCondition = {
             date, timeRange, focusRange, exclusiveVirtual,
-            key: fullHost ? query : undefined,
+            key: host && !needMerge ? host : undefined,
         }
-
         let origin = await statDatabase.select(condition)
 
-        let statRows = origin.map(cvt2StatRow)
-        const { inclusiveRemote } = param ?? {}
-        if (inclusiveRemote) {
-            statRows = await processRemote(param, statRows)
+        let siteRows = origin.map(cvt2SiteRow)
+        inclusiveRemote && (siteRows = await processRemote(siteRows, param))
+
+        // Merge with rules
+        needMerge && (siteRows = await mergeHost(siteRows))
+        // Fill site info
+        !ignoreSite || query && this.fillSite(siteRows)
+        // Filter
+        siteRows = siteRows
+            .filter(({ siteKey: { host: siteHost } }) => !host || host === siteHost)
+            .filter(({ siteKey: { host: siteHost }, alias }) => !query || siteHost.includes(query) || !!alias?.includes(query))
+            .filter(({ cateId }) => !cateIds?.length || (cateId && cateIds.includes(cateId)))
+        // Merge by date
+        needMergeDate && (siteRows = mergeDate(siteRows))
+        // Sort
+        if (sortKey) {
+            const sortVal = (a: timer.stat.SiteRow) => sortKey === 'host' ? a.siteKey.host : a[sortKey] ?? 0
+            siteRows.sort((a, b) => compareSortVal(sortVal(a), sortVal(b), sortDirection))
         }
 
-        // Process after select
-        // 1st merge
-        if (param.mergeHost) {
-            // Merge with rules
-            statRows = await mergeHost(statRows)
-            // filter again, cause of the exchange of the host, if the param.mergeHost is true
-            statRows = this.filter(statRows, param)
+        return siteRows
+    }
+
+    async selectSitePage(
+        param?: SiteQuery,
+        page?: timer.common.PageQuery,
+    ): Promise<timer.common.PageResult<timer.stat.SiteRow>> {
+        log("selectByPage:{param},{page}", param, page)
+        const rows = await this.selectSite(param)
+        let result = slicePageResult(rows, page)
+        log("result of selectByPage:{param}, {page}, {result}", param, page, result)
+        return result
+    }
+
+    async selectCate(param?: CateQuery): Promise<timer.stat.CateRow[]> {
+        const {
+            mergeDate: needMergeDate,
+            date, query, cateIds,
+            inclusiveRemote,
+            sortKey, sortDirection,
+        } = param ?? {}
+
+        let origin = await statDatabase.select({ date, exclusiveVirtual: true })
+
+        let siteRows = origin.map(cvt2SiteRow)
+        inclusiveRemote && (siteRows = await processRemote(siteRows, param))
+
+        // Fill site info
+        this.fillSite(siteRows)
+        const categories = await cateDatabase.listAll()
+        let cateRows = mergeCate(siteRows, categories)
+        // Filter
+        cateRows = cateRows
+            .filter(({ cateKey }) => !cateIds?.length || cateIds.includes(cateKey))
+            .filter(({ cateName }) => !query || cateName?.includes(query))
+        // Merge by date
+        needMergeDate && (cateRows = mergeDate(cateRows))
+        // Sort
+        if (sortKey) {
+            siteRows.sort((a, b) => compareSortVal(a[sortKey] ?? 0, b[sortKey] ?? 0, sortDirection))
         }
-        param.mergeDate && (statRows = mergeDate(statRows))
-        return statRows
+        return cateRows
+    }
+
+    async selectCatePage(query?: CateQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.CateRow>> {
+        const rows = await this.selectCate(query)
+        return slicePageResult(rows, page)
     }
 
     private async fillSite(rows: timer.stat.SiteRow[]): Promise<true> {
@@ -255,38 +270,33 @@ class StatService {
         return true
     }
 
-    async selectByPage(
-        param?: StatQueryParam,
-        page?: timer.common.PageQuery,
-    ): Promise<timer.common.PageResult<timer.stat.Row>> {
-        log("selectByPage:{param},{page}", param, page)
-        // Not fill at first
-        let origin = await this.filterRows(param)
-        const { mergeCate: needMergeCate, cateIds } = param || {}
-        let siteFilled = false
-        if (cateIds?.length) {
-            siteFilled = await this.fillSite(origin)
-            origin = filterByCateIds(origin, cateIds)
+    async selectGroup(param?: GroupQuery): Promise<timer.stat.GroupRow[]> {
+        const {
+            date, query, mergeDate: needMergeDate,
+            sortKey, sortDirection,
+        } = param ?? {}
+        const list = await statDatabase.selectGroup({ date })
+        const groups = await listAllGroups()
+        const groupMap = groupBy(groups, g => g.id, l => l[0])
+        let rows: timer.stat.GroupRow[] = list.map(({ date, time, focus, run, host }) => {
+            const groupKey = parseInt(host)
+            const { title, color } = groupMap[groupKey] ?? {}
+            return ({ date, groupKey, title, color, run, focus, time })
+        })
+        rows = rows.filter(({ title }) => !query || title?.includes(query))
+        needMergeDate && (rows = mergeDate(rows))
+        if (sortKey) {
+            rows.sort((a, b) => compareSortVal(a[sortKey] ?? 0, b[sortKey] ?? 0, sortDirection))
         }
-        let rows: timer.stat.Row[] = origin
-        if (needMergeCate) {
-            // If merge cate, fill firstly
-            siteFilled = siteFilled || await this.fillSite(origin)
-            rows = await mergeCate(origin)
-        }
-
-        this.processSort(rows, param)
-        let result = slicePageResult(rows, page)
-
-        if (!siteFilled) await this.fillSite(result.list.filter(isSite))
-
-        log("result of selectByPage:{param}, {page}, {result}", param, page, result)
-        return result
+        return rows
     }
 
-    private filter(origin: timer.stat.SiteRow[], param: StatCondition) {
-        const { key } = param
-        return origin.filter(o => !key || o.siteKey.host === key)
+    async selectGroupPage(
+        param?: GroupQuery,
+        page?: timer.common.PageQuery,
+    ) {
+        const rows = await this.selectGroup(param)
+        return slicePageResult(rows, page)
     }
 
     /**
@@ -297,20 +307,21 @@ class StatService {
      */
     canReadRemote = canReadRemote
 
-    async batchDelete(rows: timer.stat.Row[]) {
-        if (!rows?.length) return
+    async batchDelete(targets: timer.stat.SiteRow[]) {
+        if (!targets?.length) return
         const baseKeys: timer.core.RowKey[] = []
-        rows.forEach(r => {
-            const key = cvtStatRow2BaseKey(r)
-            key && baseKeys.push(key)
+        targets.forEach(({ siteKey: { host, type }, date }) => {
+            type === 'normal' && date && baseKeys.push({ host, date })
         })
         await statDatabase.delete(baseKeys)
     }
 
-    async selectGroupByPage(param?: StatQueryParam, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> {
+    async selectGroupByPage(param?: GroupQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> {
         const rows = await this.selectGroup(param)
         return slicePageResult(rows, page)
     }
 }
 
-export default new StatService()
+const statService: StatService = new StatServiceImpl()
+
+export default statService

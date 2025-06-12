@@ -4,7 +4,7 @@ import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { Calendar, Delete, Mouse, QuartzWatch } from "@element-plus/icons-vue"
 import { useTabGroups } from "@hooks/useTabGroups"
-import { isSite } from "@util/stat"
+import { getComposition, isNormalSite, isSite } from "@util/stat"
 import { Effect, ElCheckbox, ElDivider, ElIcon, ElTag } from "element-plus"
 import { computed, defineComponent, ref, watch } from "vue"
 import { computeDeleteConfirmMsg, handleDelete } from "../common"
@@ -21,13 +21,12 @@ type Props = {
 const _default = defineComponent<Props>(props => {
     const filter = useReportFilter()
     const { groupMap } = useTabGroups()
-    const mergeHost = computed(() => filter?.siteMerge === 'domain')
     const formatter = (focus: number): string => periodFormatter(focus, { format: filter?.timeFormat })
-    const { iconUrl, mergedRows, date, focus, composition, time } = props.value
+    const { mergedRows, date, focus, time } = props.value
     const selected = ref(false)
     watch(selected, val => props.onSelectedChange?.(val))
 
-    const canDelete = computed(() => !mergeHost.value && !filter.readRemote)
+    const canDelete = computed(() => isNormalSite(props.value) && !filter.readRemote)
     const onDelete = async () => {
         await handleDelete(props.value, filter)
         props.onDelete?.(props.value)
@@ -48,14 +47,14 @@ const _default = defineComponent<Props>(props => {
                             effect={Effect.LIGHT}
                             offset={10}
                             trigger="click"
-                            usePopover={mergeHost.value}
+                            usePopover={props.value.siteKey.type === 'merged'}
                             v-slots={{
                                 content: () => <TooltipSiteList modelValue={mergedRows} />,
                             }}
                         >
                             <HostAlert
                                 value={props.value.siteKey}
-                                iconUrl={mergeHost.value ? undefined : iconUrl}
+                                iconUrl={props.value.iconUrl}
                                 clickable={false}
                             />
                         </TooltipWrapper>
@@ -84,7 +83,7 @@ const _default = defineComponent<Props>(props => {
                     offset={10}
                     trigger="click"
                     v-slots={{
-                        content: () => <CompositionTable valueFormatter={formatter} data={composition?.focus || []} />,
+                        content: () => <CompositionTable valueFormatter={formatter} data={getComposition(props.value, 'focus')} />,
                     }}
                 >
                     <ElTag type="primary" size="small">
@@ -98,7 +97,7 @@ const _default = defineComponent<Props>(props => {
                     offset={10}
                     trigger="click"
                     v-slots={{
-                        content: () => <CompositionTable data={composition?.time || []} />,
+                        content: () => <CompositionTable data={getComposition(props.value, 'time')} />,
                     }}
                 >
                     <ElTag type="warning" size="small">

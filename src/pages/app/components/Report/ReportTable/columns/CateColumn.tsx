@@ -4,7 +4,7 @@ import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import { CATE_NOT_SET_ID, SiteMap } from "@util/site"
-import { identifyStatKey, isCate, isSite } from "@util/stat"
+import { getRelatedCateId, identifyStatKey, isCate, isSite } from "@util/stat"
 import { Effect, ElTableColumn, ElText, ElTooltip } from "element-plus"
 import { defineComponent } from "vue"
 import TooltipSiteList from "./TooltipSiteList"
@@ -50,7 +50,8 @@ const CateColumn = defineComponent<Props>(props => {
     return () => (
         <ElTableColumn label={t(msg => msg.siteManage.column.cate)} minWidth={140}>
             {({ row }: ElTableRowScope<timer.stat.Row>) => {
-                const { cateId, mergedRows } = row || {}
+                const { mergedRows } = row || {}
+                const cateId = getRelatedCateId(row)
                 return (
                     <Flex key={`${identifyStatKey(row)}_${cateId}`} justify="center">
                         {isCate(row) && renderMerged(row.cateKey, categories.value, mergedRows ?? [])}

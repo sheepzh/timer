@@ -1,21 +1,11 @@
 import { t } from "@app/locale"
 import StatDatabase from "@db/stat-database"
-import { type StatQueryParam } from "@service/stat-service"
+import statService, { SiteQuery } from "@service/stat-service"
 import { isGroup, isSite } from "@util/stat"
 import { formatTime } from "@util/time"
 import type { ReportFilterOption } from "./types"
 
 const statDatabase = new StatDatabase(chrome.storage.local)
-
-export const cvtOption2Param = ({ query, dateRange, mergeDate, siteMerge, cateIds, readRemote }: ReportFilterOption): StatQueryParam => ({
-    query,
-    date: dateRange,
-    mergeDate,
-    mergeHost: siteMerge === 'domain',
-    mergeCate: siteMerge === 'cate',
-    inclusiveRemote: readRemote,
-    cateIds,
-})
 
 /**
  * Compute the confirm text for one item to delete
@@ -80,4 +70,17 @@ export async function handleDelete(row: timer.stat.Row, filterOption: ReportFilt
     // Delete by range
     isSite(row) && await statDatabase.deleteByUrlBetween(row.siteKey.host, start, end)
     isGroup(row) && await statDatabase.deleteByGroupBetween(row.groupKey, start, end)
+}
+
+export const queryPage = (filter: ReportFilterOption, page: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> => {
+    const { siteMerge, dateRange: date, mergeDate, query, cateIds, readRemote: inclusiveRemote } = filter
+    // todo add sort
+    if (siteMerge === 'group') {
+        return statService.selectGroupPage({ date, mergeDate, query }, page)
+    } else if (siteMerge === 'cate') {
+        return statService.selectCatePage({ date, mergeDate, query, cateIds, inclusiveRemote }, page)
+    } else {
+        const param: SiteQuery = { date, mergeDate, mergeHost: siteMerge === 'domain', query, cateIds, inclusiveRemote }
+        return statService.selectSitePage(param, page)
+    }
 }
