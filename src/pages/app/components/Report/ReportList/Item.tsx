@@ -4,7 +4,7 @@ import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { Calendar, Delete, Mouse, QuartzWatch } from "@element-plus/icons-vue"
 import { useTabGroups } from "@hooks/useTabGroups"
-import { getComposition, isNormalSite, isSite } from "@util/stat"
+import { getComposition, isGroup, isNormalSite, isSite } from "@util/stat"
 import { Effect, ElCheckbox, ElDivider, ElIcon, ElTag } from "element-plus"
 import { computed, defineComponent, ref, watch } from "vue"
 import { computeDeleteConfirmMsg, handleDelete } from "../common"
@@ -22,7 +22,8 @@ const _default = defineComponent<Props>(props => {
     const filter = useReportFilter()
     const { groupMap } = useTabGroups()
     const formatter = (focus: number): string => periodFormatter(focus, { format: filter?.timeFormat })
-    const { mergedRows, date, focus, time } = props.value
+    const { date, focus, time } = props.value
+    const mergedRows = isGroup(props.value) ? [] : props.value?.mergedRows ?? []
     const selected = ref(false)
     watch(selected, val => props.onSelectedChange?.(val))
 

@@ -11,7 +11,7 @@ import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import { identifySiteKey } from "@util/site"
-import { isSite } from "@util/stat"
+import { isGroup, isSite } from "@util/stat"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { useReportFilter } from "../../context"
@@ -36,7 +36,7 @@ const _default = defineComponent(() => {
                         offset={10}
                         placement="left"
                         v-slots={{
-                            content: () => <TooltipSiteList modelValue={row.mergedRows} />,
+                            content: () => <TooltipSiteList modelValue={isGroup(row) ? undefined : row.mergedRows} />,
                             default: () => isSite(row) ? <HostAlert value={row.siteKey} iconUrl={row.iconUrl} /> : '',
                         }}
                     />

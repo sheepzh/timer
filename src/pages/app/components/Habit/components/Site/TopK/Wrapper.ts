@@ -56,7 +56,11 @@ const formatFocusTooltip = (params: TopLevelFormatterParams, format: timer.app.T
 }
 
 function mergeDate(origin: timer.stat.Row[]): timer.stat.Row[] {
-    const map: Record<string, MakeRequired<timer.stat.Row, 'mergedDates' | 'mergedRows'>> = {}
+    const map: Record<
+        string,
+        | MakeRequired<timer.stat.SiteRow | timer.stat.CateRow, 'mergedDates' | 'mergedRows'>
+        | MakeRequired<timer.stat.GroupRow, 'mergedDates'>
+    > = {}
     origin.forEach(ele => {
         const { date = '', focus, time } = ele
         const key = identifyTargetKey(ele)

@@ -4,6 +4,7 @@ import weekHelper from "@service/components/week-helper"
 import statService from "@service/stat-service"
 import { isRemainHost } from "@util/constant/remain-host"
 import { getAppPageUrl } from "@util/constant/url"
+import { isSite } from "@util/stat"
 import { getMonthTime, MILL_PER_DAY } from "@util/time"
 import { type PopupQuery } from "./context"
 
@@ -45,7 +46,7 @@ export const queryRows = async (param: PopupQuery): Promise<[rows: timer.stat.Ro
 function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): ReportQueryParam {
     const query: ReportQueryParam = {}
     // Merge host
-    siteType === 'merged' && (query.mh = "1")
+    siteType === 'merged' && (query.mm = 'domain')
     // Date
     query.md = '1'
     if (Array.isArray(date)) {
@@ -65,14 +66,17 @@ function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?] 
     return query
 }
 
-export function calJumpUrl(siteKey: timer.site.SiteKey | undefined, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): string | undefined {
-    if (!siteKey) return
-    const { host, type: siteType } = siteKey
+export function calJumpUrl(row: timer.stat.Row | undefined, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): string | undefined {
+    if (!row) return
+    if (isSite(row)) {
+        const { siteKey: { host, type: siteType } } = row
 
-    if (siteType === 'normal' && !isRemainHost(host)) {
-        return `http://${host}`
+        if (siteType === 'normal' && !isRemainHost(host)) {
+            return `http://${host}`
+        }
+
+        const query = buildReportQuery(siteType, date, type)
+        query.q = host
+        return getAppPageUrl(REPORT_ROUTE, query)
     }
-
-    const query = buildReportQuery(siteType, date, type)
-    return getAppPageUrl(REPORT_ROUTE, query)
 }

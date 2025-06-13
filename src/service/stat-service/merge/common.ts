@@ -55,5 +55,4 @@ export function mergeResult(target: timer.stat.Row, delta: timer.stat.Row) {
     if (!isGroup(target) && !isGroup(delta)) {
         target.composition = mergeComposition(target.composition, delta.composition)
     }
-
 }

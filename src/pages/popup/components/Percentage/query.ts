@@ -18,11 +18,11 @@ export type PercentageResult = {
 
 const findAllDates = (row: timer.stat.Row): Set<string> => {
     const set = new Set<string>()
-    const { date, mergedDates, mergedRows } = row
+    const { date, mergedDates } = row
     date && set.add(date)
     mergedDates?.forEach(d => set.add(d))
-    mergedRows?.forEach(row => {
-        const child = findAllDates(row)
+    'mergedRows' in row && row.mergedRows?.forEach(r => {
+        const child = findAllDates(r)
         child.forEach(dd => set.add(dd))
     })
     return set

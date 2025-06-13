@@ -12,14 +12,17 @@ declare namespace timer.stat {
     type DateKey = { date?: string }
     type StatKey = TargetKey & DateKey
 
-    type MergeExtend<T> = {
+    type SiteMergeExtend = {
         /**
          * The merged domains
          * Can't be empty if merged
          *
          * @since 0.1.5
          */
-        mergedRows?: Omit<T, 'mergedRows'>[]
+        mergedRows?: Omit<timer.stat.SiteRow, 'mergedRows'>[]
+    }
+
+    type DateMergeExtend = {
         /**
          * The merged dates
          *
@@ -35,7 +38,7 @@ declare namespace timer.stat {
         composition?: RemoteComposition
     }
 
-    interface SiteRow extends SiteTarget, DateKey, core.Result, backup.RowExtend, MergeExtend<SiteRow>, RemoteExtend {
+    interface SiteRow extends SiteTarget, DateKey, core.Result, backup.RowExtend, SiteMergeExtend, DateMergeExtend, RemoteExtend {
         /**
          * Icon url
          */
@@ -50,11 +53,11 @@ declare namespace timer.stat {
         cateId?: number
     }
 
-    interface CateRow extends CateTarget, DateKey, core.Result, backup.RowExtend, MergeExtend<SiteRow>, RemoteExtend {
+    interface CateRow extends CateTarget, DateKey, core.Result, backup.RowExtend, SiteMergeExtend, DateMergeExtend, RemoteExtend {
         cateName: string | undefined
     }
 
-    interface GroupRow extends GroupTarget, DateKey, core.Result, MergeExtend<GroupRow> {
+    interface GroupRow extends GroupTarget, DateKey, DateMergeExtend, core.Result {
         color: `${chrome.tabGroups.Color}` | undefined
         title: string | undefined
     }

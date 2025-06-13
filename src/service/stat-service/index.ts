@@ -194,7 +194,7 @@ class StatServiceImpl implements StatService {
         // Merge with rules
         needMerge && (siteRows = await mergeHost(siteRows))
         // Fill site info
-        !ignoreSite || query && this.fillSite(siteRows)
+        if (!ignoreSite || query) await this.fillSite(siteRows)
         // Filter
         siteRows = siteRows
             .filter(({ siteKey: { host: siteHost } }) => !host || host === siteHost)
@@ -207,7 +207,6 @@ class StatServiceImpl implements StatService {
             const sortVal = (a: timer.stat.SiteRow) => sortKey === 'host' ? a.siteKey.host : a[sortKey] ?? 0
             siteRows.sort((a, b) => compareSortVal(sortVal(a), sortVal(b), sortDirection))
         }
-
         return siteRows
     }
 
@@ -230,7 +229,7 @@ class StatServiceImpl implements StatService {
             sortKey, sortDirection,
         } = param ?? {}
 
-        let origin = await statDatabase.select({ date, virtual: true })
+        let origin = await statDatabase.select({ date })
 
         let siteRows = origin.map(cvt2SiteRow)
         inclusiveRemote && (siteRows = await processRemote(siteRows, param))
@@ -247,7 +246,7 @@ class StatServiceImpl implements StatService {
         needMergeDate && (cateRows = mergeDate(cateRows))
         // Sort
         if (sortKey) {
-            siteRows.sort((a, b) => compareSortVal(a[sortKey] ?? 0, b[sortKey] ?? 0, sortDirection))
+            cateRows.sort((a, b) => compareSortVal(a[sortKey] ?? 0, b[sortKey] ?? 0, sortDirection))
         }
         return cateRows
     }

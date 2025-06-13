@@ -11,28 +11,27 @@ type Context = {
 
 const NAMESPACE = 'report'
 
-type QueryPartial = PartialPick<ReportFilterOption, 'dateRange' | 'mergeDate' | 'siteMerge'>
+type QueryPartial = PartialPick<ReportFilterOption, 'query' | 'dateRange' | 'mergeDate' | 'siteMerge'>
 
 /**
  * Init the query parameters
  */
 function parseQuery(route: RouteLocation, router: Router): [QueryPartial, ReportSort['prop'] | undefined] {
     const routeQuery = route.query as unknown as ReportQueryParam
-    const { mh, md, ds, de, sc } = routeQuery
+    const { q, mm, md, ds, de, sc } = routeQuery
     const dateStart = ds ? new Date(Number.parseInt(ds)) : undefined
     const dateEnd = de ? new Date(Number.parseInt(de)) : undefined
     // Remove queries
     router.replace({ query: {} })
 
-    let siteMerge: ReportFilterOption['siteMerge']
-    if (mh === "true" || mh === "1") siteMerge = 'domain'
-
     const now = new Date()
     const partial: QueryPartial = {
+        ...(q && { query: q }),
         ...((md === 'true' || md === '1') && { mergeDate: true }),
         ...((dateStart ?? dateEnd) && { dateRange: [dateStart ?? now, dateEnd ?? now] }),
-        ...(siteMerge && { siteMerge })
+        ...(mm && { siteMerge: mm })
     }
+    console.log(routeQuery, partial)
     return [partial, sc ? sc satisfies ReportSort['prop'] : undefined]
 }
 

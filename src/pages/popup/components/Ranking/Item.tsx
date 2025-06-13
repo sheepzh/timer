@@ -6,7 +6,7 @@ import { calJumpUrl } from "@popup/common"
 import { useCateNameMap, useQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import { isRemainHost } from "@util/constant/remain-host"
-import { getIconUrl, isCate, isNormalSite, isSite } from "@util/stat"
+import { getIconUrl, isCate, isGroup, isNormalSite, isSite } from "@util/stat"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElIcon, ElLink, ElProgress, ElTag, ElText } from "element-plus"
 import { computed, defineComponent, type StyleValue } from "vue"
@@ -27,12 +27,17 @@ const Title = defineComponent<TitleProps>(props => {
     const cateNameMap = useCateNameMap()
     const nameAndTooltip = computed((): [name: string, tooltip?: string] => {
         const { value: row, displaySiteName = false } = props
-        const { mergedRows } = row
-        const mergedTooltip = t(msg => msg.content.ranking.includingCount, { siteCount: mergedRows?.length ?? 0 })
-        if (isCate(row)) {
+        if (isGroup(row)) {
+            // todo
+            return ['NaN']
+        } else if (isCate(row)) {
+            const { mergedRows } = row
+            const mergedTooltip = t(msg => msg.content.ranking.includingCount, { siteCount: mergedRows?.length ?? 0 })
             const name = cateNameMap.value[row.cateKey] ?? 'NaN'
             return [name, mergedTooltip]
         } else if (isSite(row)) {
+            const { mergedRows } = row
+            const mergedTooltip = t(msg => msg.content.ranking.includingCount, { siteCount: mergedRows?.length ?? 0 })
             const { siteKey: { host, type: siteType }, alias } = row
             const name = displaySiteName ? alias ?? host : host
             const tooltip = siteType === 'merged' ? mergedTooltip : (displaySiteName ? host : undefined)
@@ -41,7 +46,7 @@ const Title = defineComponent<TitleProps>(props => {
         return ['NaN']
     })
 
-    const url = computed(() => isSite(props.value) && calJumpUrl(props.value.siteKey, props.date, query.dimension))
+    const url = computed(() => calJumpUrl(props.value, props.date, query.dimension))
 
     return () => (
         <TooltipWrapper

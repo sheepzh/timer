@@ -9,9 +9,13 @@ export type ReportSort = Omit<Sort, 'prop'> & {
 */
 export type ReportQueryParam = {
     /**
-     * Merge host
+     * Query
      */
-    mh?: string
+    q?: string
+    /**
+     * Merge method
+     */
+    mm?: Exclude<timer.stat.MergeMethod, 'date'>
     /**
      * Merge date
      */

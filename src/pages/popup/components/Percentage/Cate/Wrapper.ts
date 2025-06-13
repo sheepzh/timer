@@ -55,7 +55,8 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
             const option = this.instance?.getOption() as EcOption
             const selectedItem = (option.series as PieSeriesOption[])?.[0]?.data?.[dataIndexInside] as PieSeriesItemOption
-            const selectedId = 'cateKey' in selectedItem ? selectedItem.cateKey : undefined
+            const { row } = selectedItem ?? {}
+            const selectedId = isCate(row) ? row.cateKey : undefined
             selectedId && this.handleSelect(selectedId)
         })
 
@@ -115,8 +116,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             selectedMode: 'single',
             startAngle: 180,
             data: rows.filter(isCate).map(row => ({
-                value: row[dimension],
-                cateKey: row.cateKey,
+                value: row[dimension], row,
                 selected: row.cateKey === selected?.cateKey,
                 name: cateNameMap[row.cateKey ?? ''],
             } satisfies PieSeriesItemOption)),
