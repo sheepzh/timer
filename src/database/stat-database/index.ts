@@ -11,6 +11,7 @@ import { formatTimeYMD } from "@util/time"
 import { log } from "../../common/logger"
 import BaseDatabase from "../common/base-database"
 import { REMAIN_WORD_PREFIX } from "../common/constant"
+import { GROUP_PREFIX } from "./constants"
 import { filter } from "./filter"
 
 export type StatCondition = {
@@ -19,10 +20,6 @@ export type StatCondition = {
      * {y}{m}{d}
      */
     date?: Date | [Date, Date?]
-    /**
-     * Host name for query
-     */
-    host?: string
     /**
      * Focus range, milliseconds
      *
@@ -36,17 +33,15 @@ export type StatCondition = {
      */
     timeRange?: [number, number?]
     /**
-     * Whether to enable full host search, default is false
-     *
-     * @since 0.0.8
-     */
-    fullHost?: boolean
-    /**
-     * Whether to exclusive virtual sites
+     * Whether to include virtual sites
      *
      * @since 1.6.1
      */
-    exclusiveVirtual?: boolean
+    virtual?: boolean
+    /**
+     * Host or groupId, full match
+     */
+    key?: string
 }
 
 function increase(a: timer.core.Result, b: timer.core.Result) {
@@ -79,10 +74,15 @@ function generateKey(host: string, date: Date | string) {
     return str + host
 }
 
-function migrate(exists: { [key: string]: timer.core.Result }, data: any): timer.stat.ResultSet {
-    const result: timer.stat.ResultSet = {}
+function generateGroupKey(groupId: number, date: Date | string) {
+    const str = typeof date === 'object' ? formatTimeYMD(date as Date) : date
+    return str + GROUP_PREFIX + groupId
+}
+
+function migrate(exists: { [key: string]: timer.core.Result }, data: any): Record<string, timer.core.Result> {
+    const result: Record<string, timer.core.Result> = {}
     Object.entries(data)
-        .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key))
+        .filter(([key]) => /^20\d{2}[01]\d[0-3]\d.*/.test(key) && !key.substring(8).startsWith(GROUP_PREFIX))
         .forEach(([key, value]) => {
             if (typeof value !== "object") return
             const exist = exists[key]
@@ -96,7 +96,7 @@ class StatDatabase extends BaseDatabase {
 
     async refresh(): Promise<{ [key: string]: unknown }> {
         const result = await this.storage.get()
-        const items: timer.stat.ResultSet = {}
+        const items: Record<string, timer.core.Result> = {}
         Object.entries(result)
             .filter(([key]) => !key.startsWith(REMAIN_WORD_PREFIX))
             .forEach(([key, value]) => items[key] = value)
@@ -107,8 +107,21 @@ class StatDatabase extends BaseDatabase {
      * @param host host
      * @since 0.1.3
      */
-    async accumulate(host: string, date: Date | string, item: timer.core.Result): Promise<timer.core.Result> {
+    accumulate(host: string, date: Date | string, item: timer.core.Result): Promise<timer.core.Result> {
         const key = generateKey(host, date)
+        return this.accumulateInner(key, item)
+    }
+
+    /**
+     * @param host host
+     * @since 0.1.3
+     */
+    accumulateGroup(groupId: number, date: Date | string, item: timer.core.Result): Promise<timer.core.Result> {
+        const key = generateGroupKey(groupId, date)
+        return this.accumulateInner(key, item)
+    }
+
+    private async accumulateInner(key: string, item: timer.core.Result): Promise<timer.core.Result> {
         let exist = await this.storage.getOne<timer.core.Result>(key)
         exist = increase(exist || createZeroResult(), item)
         await this.setByKey(key, exist)
@@ -122,7 +135,7 @@ class StatDatabase extends BaseDatabase {
      * @param date date
      * @since 0.1.8
      */
-    async accumulateBatch(data: timer.stat.ResultSet, date: Date | string): Promise<timer.stat.ResultSet> {
+    async accumulateBatch(data: Record<string, timer.core.Result>, date: Date | string): Promise<Record<string, timer.core.Result>> {
         const hosts = Object.keys(data)
         if (!hosts.length) return {}
         const dateStr = typeof date === 'string' ? date : formatTimeYMD(date)
@@ -131,8 +144,8 @@ class StatDatabase extends BaseDatabase {
 
         const items = await this.storage.get(Object.values(keys))
 
-        const toUpdate: timer.stat.ResultSet = {}
-        const afterUpdated: timer.stat.ResultSet = {}
+        const toUpdate: Record<string, timer.core.Result> = {}
+        const afterUpdated: Record<string, timer.core.Result> = {}
         Object.entries(keys).forEach(([host, key]) => {
             const item = data[host]
             const exist: timer.core.Result = increase(items[key] as timer.core.Result || createZeroResult(), item)
@@ -158,17 +171,12 @@ class StatDatabase extends BaseDatabase {
         })
     }
 
-    /**
-     * Count by condition
-     *
-     * @param condition
-     * @returns count
-     * @since 1.0.2
-     */
-    async count(condition: StatCondition): Promise<number> {
-        log("select:{condition}", condition)
-        const filterResults = await this.filter(condition)
-        return filterResults.length || 0
+    async selectGroup(condition?: StatCondition): Promise<timer.core.Row[]> {
+        const filterResults = await this.filter(condition, true)
+        return filterResults.map(({ date, host, value }) => {
+            const { focus, time, run } = value
+            return { date, host, focus, time, run }
+        })
     }
 
     /**
@@ -191,6 +199,11 @@ class StatDatabase extends BaseDatabase {
      */
     async deleteByUrlAndDate(host: string, date: Date | string): Promise<void> {
         const key = generateKey(host, date)
+        return this.storage.remove(key)
+    }
+
+    async deleteByGroupAndDate(groupId: number, date: Date | string): Promise<void> {
+        const key = generateGroupKey(groupId, date)
         return this.storage.remove(key)
     }
 
@@ -238,6 +251,18 @@ class StatDatabase extends BaseDatabase {
         return keys.map(k => k.substring(0, 8))
     }
 
+    async deleteByGroupBetween(groupId: number, start?: Date, end?: Date): Promise<void> {
+        const startStr = start ? formatTimeYMD(start) : undefined
+        const endStr = end ? formatTimeYMD(end) : undefined
+        const dateFilter = (date: string) => (startStr ? startStr <= date : true) && (endStr ? date <= endStr : true)
+        const items = await this.refresh()
+
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(`${GROUP_PREFIX}${groupId}`))
+        const keys: string[] = Object.keys(items).filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
+
+        await this.storage.remove(keys)
+    }
+
     /**
      * Delete the record
      *
@@ -253,6 +278,13 @@ class StatDatabase extends BaseDatabase {
         await this.storage.remove(keys)
 
         return keys.map(k => k.substring(0, 8))
+    }
+
+    async deleteByGroup(groupId: number): Promise<void> {
+        const items = await this.refresh()
+        const keyReg = RegExp('\\d{8}' + escapeRegExp(`${GROUP_PREFIX}${groupId}`))
+        const keys: string[] = Object.keys(items).filter(key => keyReg.test(key))
+        await this.storage.remove(keys)
     }
 
     async importData(data: any): Promise<void> {

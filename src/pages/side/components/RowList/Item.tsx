@@ -2,6 +2,7 @@ import { createTab } from "@api/chrome/tab"
 import { useShadow } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { isRemainHost } from "@util/constant/remain-host"
+import { getAlias, getHost, isSite } from "@util/stat"
 import { formatPeriodCommon } from "@util/time"
 import { ElAvatar, ElCard, ElLink, ElProgress, ElTag, ElText, ElTooltip } from "element-plus"
 import { computed, defineComponent, type PropType } from "vue"
@@ -19,9 +20,9 @@ const renderTitle = (siteName: string | undefined, host: string | undefined, han
 }
 
 const renderAvatarText = (row: timer.stat.Row) => {
-    const { siteKey, alias } = row || {}
+    const alias = getAlias(row)
     if (alias) return alias.substring(0, 1)?.toUpperCase?.()
-    return siteKey?.host?.substring?.(0, 1)?.toUpperCase?.()
+    return getHost(row)?.substring?.(0, 1)?.toUpperCase?.()
 }
 
 const _default = defineComponent({
@@ -34,9 +35,9 @@ const _default = defineComponent({
         total: Number,
     },
     setup(props) {
-        const [iconUrl] = useShadow(() => props.value?.iconUrl)
-        const [host] = useShadow(() => props.value?.siteKey?.host)
-        const [siteName] = useShadow(() => props.value?.alias)
+        const [iconUrl] = useShadow(() => 'iconUrl' in props.value ? props.value?.iconUrl : undefined)
+        const [host] = useShadow(() => getHost(props.value))
+        const [siteName] = useShadow(() => getAlias(props.value))
         const clickable = computed(() => host?.value && !isRemainHost(host.value))
         const [rate] = useShadow(() => {
             if (!props.max) return 0
@@ -67,7 +68,7 @@ const _default = defineComponent({
                         shape="square"
                         fit="fill"
                         style={{
-                            backgroundColor: props.value?.iconUrl ? "transparent" : null,
+                            backgroundColor: isSite(props.value) && props.value.iconUrl ? "transparent" : null,
                             padding: '2px',
                             userSelect: 'none',
                             fontSize: '22px',

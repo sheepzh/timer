@@ -9,9 +9,13 @@ export type ReportSort = Omit<Sort, 'prop'> & {
 */
 export type ReportQueryParam = {
     /**
-     * Merge host
+     * Query
      */
-    mh?: string
+    q?: string
+    /**
+     * Merge method
+     */
+    mm?: Exclude<timer.stat.MergeMethod, 'date'>
     /**
      * Merge date
      */
@@ -31,10 +35,10 @@ export type ReportQueryParam = {
 }
 
 export type ReportFilterOption = {
-    host: string | undefined
+    query: string | undefined
     dateRange: [Date, Date] | undefined
     mergeDate: boolean
-    siteMerge?: timer.stat.MergeMethod & ('cate' | 'domain')
+    siteMerge?: timer.stat.MergeMethod & ('cate' | 'domain' | 'group')
     cateIds?: number[]
     /**
      * @since 1.1.7

@@ -12,7 +12,9 @@ declare type EmbeddedPartial<T> = {
  */
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [P in K]?: T[P] }
 
-type MakeRequired<T, K extends keyof T> = Omit<T, K> & Required<{ [P in K]: T[P] }>
+type MakeRequired<T, K extends keyof T = keyof T> = T extends any
+    ? Omit<T, K> & Required<Pick<T, K extends keyof T ? K : never>>
+    : never
 
 type PartialPick<T, K extends keyof T> = Partial<Pick<T, K>>
 

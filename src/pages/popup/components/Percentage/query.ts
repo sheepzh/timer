@@ -1,8 +1,7 @@
-import { cvt2StatQuery, } from "@popup/common"
+import { queryRows, } from "@popup/common"
 import { type PopupQuery } from "@popup/context"
 import { t } from "@popup/locale"
 import optionHolder from "@service/components/option-holder"
-import statService from "@service/stat-service"
 import { getDayLength } from "@util/time"
 
 export type PercentageResult = {
@@ -19,11 +18,11 @@ export type PercentageResult = {
 
 const findAllDates = (row: timer.stat.Row): Set<string> => {
     const set = new Set<string>()
-    const { date, mergedDates, mergedRows } = row
+    const { date, mergedDates } = row
     date && set.add(date)
     mergedDates?.forEach(d => set.add(d))
-    mergedRows?.forEach(row => {
-        const child = findAllDates(row)
+    'mergedRows' in row && row.mergedRows?.forEach(r => {
+        const child = findAllDates(r)
         child.forEach(dd => set.add(dd))
     })
     return set
@@ -47,9 +46,7 @@ const findDateRange = (rows: timer.stat.Row[]): [string, string] | undefined => 
 export const doQuery = async (query: PopupQuery): Promise<PercentageResult> => {
     const option = await optionHolder.get()
     const itemCount = option.popupMax
-    const statQuery = await cvt2StatQuery(query)
-    const rows = await statService.select(statQuery, true)
-    const date = statQuery.date
+    const [rows, date] = await queryRows(query)
 
     return {
         query, rows,

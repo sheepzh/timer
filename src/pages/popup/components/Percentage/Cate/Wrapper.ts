@@ -4,6 +4,7 @@ import { t } from "@popup/locale"
 import cateService from "@service/cate-service"
 import { groupBy } from "@util/array"
 import { CATE_NOT_SET_ID } from "@util/site"
+import { isCate } from "@util/stat"
 import { type PieSeriesOption } from "echarts/charts"
 import {
     type LegendComponentOption,
@@ -54,7 +55,8 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
             const option = this.instance?.getOption() as EcOption
             const selectedItem = (option.series as PieSeriesOption[])?.[0]?.data?.[dataIndexInside] as PieSeriesItemOption
-            const selectedId = selectedItem?.cateKey
+            const { row } = selectedItem ?? {}
+            const selectedId = isCate(row) ? row.cateKey : undefined
             selectedId && this.handleSelect(selectedId)
         })
 
@@ -71,7 +73,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
     protected async generateOption(result: PercentageResult): Promise<EcOption> {
         // Let not set to the end
-        const rows = result.rows?.sort((_, a) => a.cateKey === CATE_NOT_SET_ID ? -1 : 0)
+        const rows = result.rows.filter(isCate).sort((_, a) => a.cateKey === CATE_NOT_SET_ID ? -1 : 0)
         this.resultCache = { ...result, rows }
 
         return this.generateInner()
@@ -84,7 +86,9 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
 
         const { rows, query } = result
         const { dimension } = query
-        const selected: timer.stat.Row | undefined = this.selectedCache ? rows?.filter(r => r?.cateKey === this.selectedCache)?.[0] : undefined
+        const selected: timer.stat.Row | undefined = this.selectedCache
+            ? rows.filter(isCate).filter(r => r.cateKey === this.selectedCache)[0]
+            : undefined
 
         const textColor = getPrimaryTextColor()
         const inactiveColor = getInfoColor()
@@ -102,7 +106,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             textStyle: { color: textColor },
             pageTextStyle: { color: textColor },
             inactiveColor,
-            data: rows.map(({ cateKey }) => ({ name: cateNameMap[cateKey ?? ''] ?? `${cateKey}`, cateKey })),
+            data: rows.filter(isCate).map(({ cateKey }) => ({ name: cateNameMap[cateKey] ?? `${cateKey}`, cateKey })),
         }
 
         const series: PieSeriesOption[] = [{
@@ -111,9 +115,8 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             radius: selected ? '30%' : '55%',
             selectedMode: 'single',
             startAngle: 180,
-            data: rows.map(row => ({
-                value: row[dimension],
-                cateKey: row.cateKey,
+            data: rows.filter(isCate).map(row => ({
+                value: row[dimension], row,
                 selected: row.cateKey === selected?.cateKey,
                 name: cateNameMap[row.cateKey ?? ''],
             } satisfies PieSeriesItemOption)),

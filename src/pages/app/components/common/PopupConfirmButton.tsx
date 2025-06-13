@@ -7,42 +7,39 @@
 
 import { t } from "@app/locale"
 import { type ButtonType, ElButton, ElPopconfirm } from "element-plus"
-import { defineComponent } from "vue"
-import { type JSX } from "vue/jsx-runtime"
+import type { Component, FunctionalComponent } from "vue"
 
 type Props = {
     confirmText?: string
     buttonText?: string
     text?: boolean
     buttonType?: ButtonType
-    buttonIcon?: JSX.Element
-    visible?: boolean
+    buttonIcon?: Component
     onConfirm?: () => void
 }
 
-const PopupConfirmButton = defineComponent<Props>(props => {
-    return () => (
-        <ElPopconfirm
-            confirmButtonText={t(msg => msg.button.okey)}
-            cancelButtonText={t(msg => msg.button.dont)}
-            title={props.confirmText}
-            width={300}
-            onConfirm={props.onConfirm}
-            v-slots={{
-                reference: () => (
-                    <ElButton
-                        v-show={props.visible ?? true}
-                        size="small"
-                        text={props.text}
-                        type={props.buttonType}
-                        icon={props.buttonIcon}
-                    >
-                        {props.buttonText}
-                    </ElButton>
-                )
-            }}
-        />
-    )
-}, { props: ['buttonIcon', 'buttonText', 'buttonType', 'confirmText', 'onConfirm', 'text', 'visible'] })
+const PopupConfirmButton: FunctionalComponent<Props> = props => (
+    <ElPopconfirm
+        confirmButtonText={t(msg => msg.button.okey)}
+        cancelButtonText={t(msg => msg.button.dont)}
+        title={props.confirmText}
+        width={300}
+        onConfirm={props.onConfirm}
+        v-slots={{
+            reference: () => (
+                <ElButton
+                    size="small"
+                    text={props.text}
+                    type={props.buttonType}
+                    icon={props.buttonIcon}
+                >
+                    {props.buttonText}
+                </ElButton>
+            )
+        }}
+    />
+)
+
+PopupConfirmButton.displayName = "PopupConfirmButton"
 
 export default PopupConfirmButton

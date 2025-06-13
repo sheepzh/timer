@@ -1,23 +1,23 @@
+import { groupBy } from "@util/array"
 import { CATE_NOT_SET_ID } from "@util/site"
 import { mergeResult } from "./common"
 
-export async function mergeCate(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const rowMap: Record<string, MakeRequired<timer.stat.Row, 'mergedRows'>> = {}
-    origin?.forEach(ele => {
-        let { siteKey, date, cateId } = ele || {}
-        if (siteKey?.type !== 'normal') return
-
-        cateId = cateId ?? CATE_NOT_SET_ID
-        const key = (date ?? '') + cateId.toString()
+export function mergeCate(origin: timer.stat.SiteRow[], cates: timer.site.Cate[]): timer.stat.CateRow[] {
+    const cateNameMap = groupBy(cates, c => c.id, l => l[0]?.name)
+    const rowMap: Record<string, MakeRequired<timer.stat.CateRow, 'mergedRows'>> = {}
+    origin.forEach(ele => {
+        if (ele.siteKey.type !== 'normal') return
+        let { date = '', cateId = CATE_NOT_SET_ID } = ele
+        const key = `${date}${cateId}`
         let exist = rowMap[key]
         if (!exist) {
             exist = rowMap[key] = {
-                cateKey: cateId, date,
+                cateKey: cateId, date, cateName: cateNameMap[cateId],
                 focus: 0,
                 time: 0,
                 mergedRows: [],
                 composition: { focus: [], time: [], run: [] },
-            } satisfies timer.stat.Row
+            } satisfies timer.stat.CateRow
         }
         mergeResult(exist, ele)
         exist.mergedRows.push(ele)

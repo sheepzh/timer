@@ -3,6 +3,7 @@ import { getPieBorderColor, getSeriesPalette } from "@app/util/echarts"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { getPrimaryTextColor, getRegularTextColor } from "@pages/util/style"
 import { groupBy, sum } from "@util/array"
+import { getHost } from "@util/stat"
 import { MILL_PER_HOUR, MILL_PER_MINUTE, MILL_PER_SECOND } from "@util/time"
 import {
     type ComposeOption,
@@ -142,8 +143,8 @@ function generateOption(bizOption: BizOption): EcOption {
         rows = rows.filter(r => r.date !== exclusiveDate)
     }
 
-    const focusAve = groupBy(rows, r => r.siteKey?.host, l => sum(l.map(e => e.focus ?? 0)) / averageLen)
-    const visitAve = groupBy(rows, r => r.siteKey?.host, l => sum(l.map(e => e.time ?? 0)) / averageLen)
+    const focusAve = groupBy(rows, r => getHost(r), l => sum(l.map(e => e.focus ?? 0)) / averageLen)
+    const visitAve = groupBy(rows, r => getHost(r), l => sum(l.map(e => e.time ?? 0)) / averageLen)
 
     const focusGroup = groupBy(
         Object.entries(focusAve),

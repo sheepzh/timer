@@ -3,6 +3,7 @@ import StatDatabase from "@db/stat-database"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import statService from "@service/stat-service"
 import { groupBy, sum } from "@util/array"
+import { getHost } from "@util/stat"
 import { formatTime } from "@util/time"
 import { ElButton, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent } from "vue"
@@ -13,8 +14,7 @@ const statDatabase = new StatDatabase(chrome.storage.local)
 
 async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date] | undefined): Promise<string> {
     // host => total focus
-    const hostFocus: { [host: string]: number } = groupBy(selected,
-        a => a.siteKey?.host,
+    const hostFocus: { [host: string]: number } = groupBy(selected, getHost,
         grouped => grouped.map(a => a.focus).reduce((a, b) => a + b, 0)
     )
     const hosts = Object.keys(hostFocus)
@@ -24,7 +24,7 @@ async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: bool
     }
     const count2Delete: number = mergeDate
         // All the items
-        ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ host, fullHost: true, date: dateRange }))))
+        ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ key: host, date: dateRange }))))
         // The count of row
         : selected?.length || 0
     const i18nParam: Record<string, string | number | undefined> = {
@@ -99,7 +99,7 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
         // Delete according to the date range
         const start = dateRange?.[0]
         const end = dateRange?.[1]
-        const hosts = selected.map(d => d.siteKey?.host)
+        const hosts = selected.map(getHost)
         await Promise.all(hosts.map(async h => h && await statDatabase.deleteByUrlBetween(h, start, end)))
     } else {
         // If not merge date, batch delete

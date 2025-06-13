@@ -52,7 +52,7 @@ const _default = defineComponent(() => {
         <div class='footer-container'>
             <ElButton
                 round
-                icon={<Trend />}
+                icon={Trend}
                 type="success"
                 onClick={() => sendMsg2Runtime('cs.openAnalysis')}
             >
@@ -62,14 +62,14 @@ const _default = defineComponent(() => {
                 v-show={showDelay.value}
                 type="primary"
                 round
-                icon={<Plus />}
+                icon={Plus}
                 onClick={() => handleMore5Minutes(rule.value, delayHandler)}
             >
                 {t(msg => msg.modal.more5Minutes)}
             </ElButton>
             <ElButton
                 round
-                icon={<Timer />}
+                icon={Timer}
                 onClick={() => sendMsg2Runtime('cs.openLimit')}
             >
                 {t(msg => msg.modal.ruleDetail)}

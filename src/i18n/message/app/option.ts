@@ -47,6 +47,7 @@ export type OptionMessage = {
         autoPauseTrack: string
         noActivityInfo: string
         countLocalFiles: string
+        countTabGroup: string
         localFileTime: string
         localFilesInfo: string
         collectSiteName: string

@@ -54,12 +54,12 @@ const Editable = defineComponent<Props>(props => {
             v-slots={{
                 append: () => <>
                     <ElButton
-                        icon={<Close />}
+                        icon={Close}
                         onClick={handleCancel}
                         style={{ marginInline: 0, paddingInline: '2px 4px' } satisfies StyleValue}
                     />
                     <ElButton
-                        icon={<Check />}
+                        icon={Check}
                         onClick={handleSave}
                         style={{ marginInline: 0, paddingInline: '4px 2px' } satisfies StyleValue}
                     />

@@ -9,10 +9,10 @@ import { reactive, type Reactive, ref, type Ref, toRaw, watch } from "vue"
 import { t } from "./locale"
 
 export type PopupQuery = {
-    mergeMethod: timer.stat.MergeMethod | undefined
+    mergeMethod: Exclude<timer.stat.MergeMethod, 'date'> | undefined
     duration: timer.option.PopupDuration
     durationNum?: number
-    dimension: timer.core.Dimension
+    dimension: Exclude<timer.core.Dimension, 'run'>
 }
 
 type PopupContextValue = {
