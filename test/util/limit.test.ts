@@ -52,17 +52,11 @@ describe('util/limit', () => {
     })
 
     test('isEffective', () => {
-        const rule = (weekdays?: number[]): timer.limit.Rule => ({
-            id: 1, name: 'foobar',
-            cond: [],
-            time: 0, weekdays,
-            enabled: true, allowDelay: false, locked: false,
-        })
         expect(isEffective(undefined)).toBe(true)
         expect(isEffective([])).toBe(true)
 
         Object.defineProperty(global, 'performance', { writable: true })
-        jest.useFakeTimers()
+        jest.useFakeTimers({ doNotFake: ['performance'] })
         const monday = new Date()
         monday.setFullYear(2025)
         monday.setMonth(0)
@@ -75,7 +69,7 @@ describe('util/limit', () => {
 
     test('isEffectiveAndEnabled', () => {
         Object.defineProperty(global, 'performance', { writable: true })
-        jest.useFakeTimers()
+        jest.useFakeTimers({ doNotFake: ['performance'] })
         const monday = new Date()
         monday.setFullYear(2025)
         monday.setMonth(0)
