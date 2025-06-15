@@ -25,7 +25,7 @@ const _default = defineComponent(() => {
         <ElButton
             size="large"
             type="warning"
-            icon={<Upload />}
+            icon={Upload}
             onClick={open}
             style={{ margin: 0, flex: 1, width: '100%', textWrap: 'wrap', lineHeight: '1.4em' }}
         >

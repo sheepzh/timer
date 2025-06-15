@@ -41,7 +41,7 @@ const _default = defineComponent(() => {
         <ElButton
             size="large"
             type="primary"
-            icon={<Upload />}
+            icon={Upload}
             onClick={() => fileInput.value?.click()}
             style={{ margin: 0, flex: 1 }}
         >

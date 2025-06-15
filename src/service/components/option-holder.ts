@@ -1,7 +1,5 @@
-import OptionDatabase from "@db/option-database"
+import db from "@db/option-database"
 import { type DefaultOption, defaultOption } from "@util/constant/option"
-
-const db = new OptionDatabase(chrome.storage.local)
 
 type ChangeListener = (option: timer.option.AllOption) => void
 

@@ -51,6 +51,9 @@ const _default: chrome.runtime.ManifestV3 = {
         'scripting',
         'sidePanel',
     ],
+    optional_permissions: [
+        'tabGroups',
+    ],
     host_permissions: [
         "<all_urls>",
     ],

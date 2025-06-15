@@ -6,16 +6,13 @@
  */
 
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
-import LimitDatabase from "@db/limit-database"
+import db from "@db/limit-database"
 import optionHolder from "@service/components/option-holder"
 import weekHelper from "@service/components/week-helper"
 import { sum } from "@util/array"
 import { calcTimeState, hasLimited, isEnabledAndEffective, matches } from "@util/limit"
 import { formatTimeYMD, MILL_PER_MINUTE } from "@util/time"
 import whitelistHolder from '../components/whitelist-holder'
-
-const storage = chrome.storage.local
-const db: LimitDatabase = new LimitDatabase(storage)
 
 export type QueryParam = {
     filterDisabled: boolean

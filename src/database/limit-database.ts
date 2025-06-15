@@ -269,4 +269,6 @@ class LimitDatabase extends BaseDatabase {
     }
 }
 
-export default LimitDatabase
+const limitDatabase = new LimitDatabase()
+
+export default limitDatabase

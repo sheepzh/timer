@@ -1,20 +1,19 @@
-import MergeRuleDatabase from "@db/merge-rule-database"
+import mergeRuleDatabase from "@db/merge-rule-database"
 import CustomizedHostMergeRuler from "@service/components/host-merge-ruler"
+import { isNormalSite } from "@util/stat"
 import { mergeResult } from "./common"
 
-const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
-
-export async function mergeHost(origin: timer.stat.Row[]): Promise<timer.stat.Row[]> {
-    const map: Record<string, MakeRequired<timer.stat.Row, 'mergedRows'>> = {}
+export async function mergeHost(origin: timer.stat.SiteRow[]): Promise<timer.stat.SiteRow[]> {
+    const map: Record<string, MakeRequired<timer.stat.SiteRow, 'mergedRows'>> = {}
 
     // Generate ruler
     const mergeRuleItems: timer.merge.Rule[] = await mergeRuleDatabase.selectAll()
     const mergeRuler = new CustomizedHostMergeRuler(mergeRuleItems)
 
     origin.forEach(ele => {
-        const { siteKey, date } = ele || {}
-        const { host, type } = siteKey || {}
-        if (type !== 'normal' || !host) return
+        if (!isNormalSite(ele)) return
+        const { siteKey, date } = ele
+        const { host } = siteKey
         let mergedHost = mergeRuler.merge(host)
         const key = (date ?? '') + mergedHost
         let exist = map[key]

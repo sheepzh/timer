@@ -7,7 +7,7 @@
 
 import NumberGrow from "@app/components/common/NumberGrow"
 import { tN, type I18nKey } from "@app/locale"
-import PeriodDatabase from "@db/period-database"
+import periodDatabase from "@db/period-database"
 import { Sunrise } from "@element-plus/icons-vue"
 import { useRequest, useXsState } from "@hooks"
 import Flex from "@pages/components/Flex"
@@ -16,8 +16,6 @@ import { calcMostPeriodOf2Hours } from "@util/period"
 import { getStartOfDay, MILL_PER_DAY, MILL_PER_MINUTE } from "@util/time"
 import { ElIcon } from "element-plus"
 import { computed, defineComponent, toRef, type VNode } from "vue"
-
-const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
 type _Value = {
     installedDays?: number
@@ -36,7 +34,7 @@ function calculateInstallDays(installTime: Date, now: Date): number {
 }
 
 async function query(): Promise<_Value> {
-    const allData: timer.stat.Row[] = await statService.select({ exclusiveVirtual: true })
+    const allData = await statService.selectSite()
     const hostSet = new Set<string>()
     let visits = 0
     let browsingTime = 0

@@ -1,14 +1,14 @@
-import MergeRuleDatabase from "@db/merge-rule-database"
-import storage from "../__mock__/storage"
-
-const db = new MergeRuleDatabase(storage.local)
+import db from "@db/merge-rule-database"
+import { mockStorage } from "../__mock__/storage"
 
 function of(origin: string, merged?: string | number): timer.merge.Rule {
     return { origin, merged: merged || '' }
 }
 
 describe('merge-rule-database.test', () => {
-    beforeEach(async () => storage.local.clear())
+    beforeAll(mockStorage)
+
+    beforeEach(async () => chrome.storage.local.clear())
 
     test('1', async () => {
         let toAdd: timer.merge.Rule[] = [of('4', 2)]
@@ -37,7 +37,7 @@ describe('merge-rule-database.test', () => {
         )
         const data2Import = await db.storage.get()
         data2Import.foo = "bar"
-        await storage.local.clear()
+        await chrome.storage.local.clear()
         expect(await db.selectAll()).toEqual([])
 
         await db.importData(data2Import)

@@ -7,11 +7,10 @@
 
 import { useCategories } from "@app/context"
 import { Download } from "@element-plus/icons-vue"
-import statService from "@service/stat-service"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { defineComponent } from "vue"
-import { cvtOption2Param } from "../common"
-import { useReportFilter } from "../context"
+import { queryAll } from "../common"
+import { useReportFilter, useReportSort } from "../context"
 import { exportCsv, exportJson } from "../file-export"
 import { ICON_BTN_STYLE } from "./common"
 
@@ -20,12 +19,12 @@ type FileFormat = typeof ALL_FILE_FORMATS[number]
 
 const DownloadFile = defineComponent(() => {
     const filter = useReportFilter()
+    const sort = useReportSort()
     const { categories } = useCategories()
 
     const handleDownload = async (format: FileFormat) => {
         const categoriesVal = categories.value
-        const param = cvtOption2Param(filter)
-        const rows = await statService.select(param, true)
+        const rows = await queryAll(filter, sort.value)
         format === 'json' && exportJson(filter, rows, categoriesVal)
         format === 'csv' && exportCsv(filter, rows, categoriesVal)
     }

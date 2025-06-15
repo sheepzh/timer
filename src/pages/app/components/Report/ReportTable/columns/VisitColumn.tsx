@@ -8,6 +8,7 @@
 import TooltipWrapper from "@app/components/common/TooltipWrapper"
 import { t } from "@app/locale"
 import { type ElTableRowScope } from "@pages/element-ui/table"
+import { getComposition } from "@util/stat"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import CompositionTable from "../../CompositionTable"
@@ -31,11 +32,10 @@ const VisitColumn = defineComponent(() => {
                     effect={Effect.LIGHT}
                     offset={10}
                     v-slots={{
-                        content: () => <CompositionTable data={row.composition?.time || []} />
+                        default: () => row.time?.toString?.() ?? '0',
+                        content: () => <CompositionTable data={getComposition(row, 'time')} />,
                     }}
-                >
-                    {row.time?.toString?.() || '0'}
-                </TooltipWrapper>
+                />
             )}
         </ElTableColumn>
     )

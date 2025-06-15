@@ -56,7 +56,7 @@ const _default = defineComponent((_, ctx) => {
             </ElFormItem>
             <ElFormItem label={t(msg => msg.dataManage.importOther.file)} required>
                 <Flex gap={10}>
-                    <ElButton icon={<Document />} onClick={() => fileInput.value?.click?.()}>
+                    <ElButton icon={Document} onClick={() => fileInput.value?.click?.()}>
                         {t(msg => msg.dataManage.importOther.selectFileBtn)}
                         <input
                             ref={fileInput}

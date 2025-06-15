@@ -134,4 +134,6 @@ function migrate(exist: _Value | undefined, toMigrate: _Value) {
     return result
 }
 
-export default PeriodDatabase
+const periodDatabase = new PeriodDatabase()
+
+export default periodDatabase

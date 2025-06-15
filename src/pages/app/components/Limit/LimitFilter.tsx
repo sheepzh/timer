@@ -66,19 +66,19 @@ const _default = defineComponent(() => {
                 <ButtonFilterItem
                     text={t(msg => msg.limit.button.test)}
                     type="primary"
-                    icon={<Operation />}
+                    icon={Operation}
                     onClick={test}
                 />
                 <ButtonFilterItem
                     text={t(msg => msg.base.option)}
-                    icon={<SetUp />}
+                    icon={SetUp}
                     type="primary"
                     onClick={() => createTabAfterCurrent(optionPageUrl)}
                 />
                 <ButtonFilterItem
                     text={t(msg => msg.button.create)}
                     type="success"
-                    icon={<Plus />}
+                    icon={Plus}
                     onClick={create}
                 />
             </Flex>

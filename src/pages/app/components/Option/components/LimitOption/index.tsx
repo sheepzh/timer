@@ -140,7 +140,7 @@ const _default = defineComponent((_, ctx) => {
                 showPassword={verified.value}
                 style={{ width: "300px" }}
                 v-slots={{
-                    append: () => <ElButton icon={<Edit />} onClick={handlePswEdit} />,
+                    append: () => <ElButton icon={Edit} onClick={handlePswEdit} />,
                 }}
             />
         </OptionItem>

@@ -42,13 +42,13 @@ const _default = defineComponent(() => {
         align="center"
         fixed="right"
         v-slots={({ row }: ElTableRowScope<timer.limit.Item>) => <>
-            <ElButton type="danger" size="small" icon={<Delete />} onClick={() => deleteRow(row)}>
+            <ElButton type="danger" size="small" icon={Delete} onClick={() => deleteRow(row)}>
                 {t(msg => msg.button.delete)}
             </ElButton>
             <ElButton
                 type="primary"
                 size="small"
-                icon={<Edit />}
+                icon={Edit}
                 onClick={() => handleModify(row)}
             >
                 {t(msg => msg.button.modify)}

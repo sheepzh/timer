@@ -6,13 +6,10 @@
  */
 
 import { listTabs, sendMsg2Tab } from "@api/chrome/tab"
-import SiteDatabase, { type SiteCondition } from "@db/site-database"
+import siteDatabase, { type SiteCondition } from "@db/site-database"
 import { groupBy } from "@util/array"
 import { identifySiteKey, SiteMap, supportCategory } from "@util/site"
 import { slicePageResult } from "./components/page-info"
-
-const storage = chrome.storage.local
-const siteDatabase = new SiteDatabase(storage)
 
 export type SiteQueryParam = SiteCondition
 

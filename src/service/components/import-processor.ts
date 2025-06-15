@@ -5,10 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import StatDatabase from "@db/stat-database"
+import statDatabase from "@db/stat-database"
 import { isNotZeroResult } from "@util/stat"
-
-const statDatabase = new StatDatabase(chrome.storage.local)
 
 /**
  * Process imported data from other extensions of remote

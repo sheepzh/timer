@@ -7,12 +7,12 @@
 
 import BaseDatabase from "@db/common/base-database"
 import StoragePromise from "@db/common/storage-promise"
-import LimitDatabase from "@db/limit-database"
-import MergeRuleDatabase from "@db/merge-rule-database"
-import PeriodDatabase from "@db/period-database"
-import SiteCateDatabase from "@db/site-cate-database"
-import StatDatabase from "@db/stat-database"
-import WhitelistDatabase from "@db/whitelist-database"
+import limitDatabase from "@db/limit-database"
+import mergeRuleDatabase from "@db/merge-rule-database"
+import periodDatabase from "@db/period-database"
+import siteCateDatabase from "@db/site-cate-database"
+import statDatabase from "@db/stat-database"
+import whitelistDatabase from "@db/whitelist-database"
 import packageInfo from "@src/package"
 
 type MetaInfo = {
@@ -24,14 +24,14 @@ export type BackupData = {
     __meta__: MetaInfo
 } & any
 
-function initDatabase(storage: chrome.storage.StorageArea): BaseDatabase[] {
+function initDatabase(): BaseDatabase[] {
     const result: BaseDatabase[] = [
-        new StatDatabase(storage),
-        new PeriodDatabase(storage),
-        new LimitDatabase(storage),
-        new MergeRuleDatabase(storage),
-        new WhitelistDatabase(storage),
-        new SiteCateDatabase(storage),
+        statDatabase,
+        periodDatabase,
+        limitDatabase,
+        mergeRuleDatabase,
+        whitelistDatabase,
+        siteCateDatabase,
     ]
 
     return result
@@ -49,7 +49,7 @@ class Immigration {
     constructor() {
         const localStorage = chrome.storage.local
         this.storage = new StoragePromise(localStorage)
-        this.databaseArray = initDatabase(localStorage)
+        this.databaseArray = initDatabase()
     }
 
     async getExportingData(): Promise<BackupData> {

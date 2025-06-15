@@ -17,8 +17,8 @@ export function groupBy<T, R>(
     arr: T[],
     keyFunc: (e: T, idx: number) => string | number | undefined | null,
     downstream: (grouped: T[], key: string) => R
-): Record<string, R> {
-    const groupedMap: { [key: string]: T[] } = {}
+): Record<string | number, R> {
+    const groupedMap: Record<string | number, T[]> = {}
     arr.forEach((e, i) => {
         const key = keyFunc(e, i)
         if (key === undefined || key === null) {

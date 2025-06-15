@@ -61,7 +61,9 @@
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
         "typescript": "5.8.3",
-        "url-loader": "^4.1.1",
+        "url-loader": "^4.1.1"
+    },
+    "optionalDependencies": {
         "web-ext": "^8.7.1"
     },
     "dependencies": {
@@ -69,7 +71,7 @@
         "@vueuse/core": "^13.3.0",
         "countup.js": "^2.9.0",
         "echarts": "^5.6.0",
-        "element-plus": "2.10.1",
+        "element-plus": "2.10.2",
         "js-base64": "^3.7.7",
         "punycode": "^2.3.1",
         "stream-browserify": "^3.0.0",

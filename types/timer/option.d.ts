@@ -125,6 +125,10 @@ declare namespace timer.option {
          */
         countLocalFiles: boolean
         /**
+         * Whether to count the tile of tab group
+         */
+        countTabGroup: boolean
+        /**
          * The start of one week
          * @since 2.4.1
          */

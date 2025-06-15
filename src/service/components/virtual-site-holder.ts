@@ -1,6 +1,4 @@
-import SiteDatabase from "@db/site-database"
-
-const siteDatabase = new SiteDatabase(chrome.storage.local)
+import siteDatabase from "@db/site-database"
 
 export function compileAntPattern(antPattern: string): RegExp {
     const segments = antPattern.split('/')

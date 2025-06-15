@@ -5,10 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import WhitelistDatabase from "@db/whitelist-database"
+import whitelistDatabase from "@db/whitelist-database"
 import { log } from "../common/logger"
-
-const whitelistDatabase = new WhitelistDatabase(chrome.storage.local)
 
 /**
  * Service of whitelist

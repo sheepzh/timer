@@ -1,6 +1,7 @@
 import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD } from "@util/time"
-import StatDatabase, { type StatCondition } from "."
+import { type StatCondition, type StatDatabase } from "."
+import { GROUP_PREFIX } from "./constants"
 
 type _StatCondition = StatCondition & {
     // Use exact date condition
@@ -23,16 +24,12 @@ type _FilterResult = {
 }
 
 function filterHost(host: string, condition: _StatCondition): boolean {
-    const paramHost = condition.host?.trim() || ''
-    const exclusiveVirtual = condition.exclusiveVirtual
+    const { keys, virtual } = condition
+    const keyArr = typeof keys === 'string' ? [keys] : keys
     // 1. virtual
-    if (exclusiveVirtual && judgeVirtualFast(host)) return false
+    if (!virtual && judgeVirtualFast(host)) return false
     // 2. host
-    if (paramHost) {
-        const fullHost = condition.fullHost
-        if (fullHost && host !== paramHost) return false
-        if (!fullHost && !host.includes(paramHost)) return false
-    }
+    if (keyArr?.length && !keyArr.includes(host)) return false
     return true
 }
 
@@ -106,7 +103,6 @@ function processParamFocusCondition(cond: _StatCondition, paramFocus?: Vector<2>
     paramFocus.length >= 1 && (cond.focusStart = paramFocus[0])
 }
 
-
 function processCondition(condition: StatCondition): _StatCondition {
     const result: _StatCondition = { ...condition }
     processDateCondition(result, condition.date)
@@ -118,15 +114,22 @@ function processCondition(condition: StatCondition): _StatCondition {
 /**
  * Filter by query parameters
  */
-export async function filter(this: StatDatabase, condition?: StatCondition): Promise<_FilterResult[]> {
-    condition = condition || {}
-    const cond = processCondition(condition)
+export async function filter(this: StatDatabase, condition?: StatCondition, onlyGroup?: boolean): Promise<_FilterResult[]> {
+    const cond = processCondition(condition ?? {})
     const items = await this.refresh()
-    return Object.entries(items).map(
-        ([key, value]) => {
-            const date = key.substring(0, 8)
-            const host = key.substring(8)
-            return { date, host, value: value as timer.core.Result }
+    const result: _FilterResult[] = []
+    Object.entries(items).forEach(([key, value]) => {
+        const date = key.substring(0, 8)
+        let host = key.substring(8)
+        if (onlyGroup) {
+            // console.log(date, host,)
+            if (host.startsWith(GROUP_PREFIX)) {
+                host = host.substring(GROUP_PREFIX.length)
+                result.push({ date, host, value: value as timer.core.Result })
+            }
+        } else if (!host.startsWith(GROUP_PREFIX)) {
+            result.push({ date, host, value: value as timer.core.Result })
         }
-    ).filter(item => filterByCond(item, cond))
+    })
+    return result.filter(item => filterByCond(item, cond))
 }
