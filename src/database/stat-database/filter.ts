@@ -1,6 +1,6 @@
 import { judgeVirtualFast } from "@util/pattern"
 import { formatTimeYMD } from "@util/time"
-import StatDatabase, { type StatCondition } from "."
+import { type StatCondition, type StatDatabase } from "."
 import { GROUP_PREFIX } from "./constants"
 
 type _StatCondition = StatCondition & {
@@ -24,11 +24,12 @@ type _FilterResult = {
 }
 
 function filterHost(host: string, condition: _StatCondition): boolean {
-    const { key, virtual } = condition
+    const { keys, virtual } = condition
+    const keyArr = typeof keys === 'string' ? [keys] : keys
     // 1. virtual
     if (!virtual && judgeVirtualFast(host)) return false
     // 2. host
-    if (key && key !== host) return false
+    if (keyArr?.length && !keyArr.includes(host)) return false
     return true
 }
 

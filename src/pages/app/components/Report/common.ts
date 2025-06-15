@@ -1,11 +1,9 @@
 import { t } from "@app/locale"
-import StatDatabase from "@db/stat-database"
+import statDatabase from "@db/stat-database"
 import statService, { type CateQuery, type GroupQuery, type SiteQuery } from "@service/stat-service"
 import { isGroup, isSite } from "@util/stat"
 import { formatTime } from "@util/time"
 import type { ReportFilterOption, ReportSort } from "./types"
-
-const statDatabase = new StatDatabase(chrome.storage.local)
 
 /**
  * Compute the confirm text for one item to delete

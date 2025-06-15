@@ -26,8 +26,12 @@ export async function processRemote(origin: timer.stat.SiteRow[], param?: StatCo
         }
     })
     // Predicate with host
-    const { key, date } = param ?? {}
-    const predicate = (row: timer.core.Row) => !key || row.host === key
+    const { keys, date } = param ?? {}
+    const keyArr = typeof keys === 'string' ? [keys] : keys
+    const predicate = keyArr?.length
+        ? ({ host }: timer.core.Row) => keyArr.includes(host)
+        : () => true
+
     // 1. query remote
     let start: Date | undefined = undefined, end: Date | undefined = undefined
     if (date instanceof Array) {

@@ -1,6 +1,4 @@
-import SiteCateDatabase from "@db/site-cate-database"
-
-const siteCateDatabase = new SiteCateDatabase(chrome.storage.local)
+import siteCateDatabase from "@db/site-cate-database"
 
 class CateService {
 

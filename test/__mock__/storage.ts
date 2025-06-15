@@ -69,6 +69,15 @@ const onChanged = {
     hasListener: jest.fn()
 } as unknown as chrome.storage.StorageChangedEvent
 
-export default { local, sync, managed, onChanged }
+export const mockStorage = () => {
+    global.chrome.storage = {
+        local, sync, managed, onChanged,
+        session: local,
+        AccessLevel: {
+            TRUSTED_AND_UNTRUSTED_CONTEXTS: "TRUSTED_AND_UNTRUSTED_CONTEXTS",
+            TRUSTED_CONTEXTS: "TRUSTED_CONTEXTS",
+        },
+    }
+}
 
 export const localPromise = new StoragePromise(local)

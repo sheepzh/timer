@@ -63,7 +63,7 @@ const _default = defineComponent<Props>(props => {
                 </div>
                 {canDelete.value && (
                     <PopupConfirmButton
-                        buttonIcon={<Delete />}
+                        buttonIcon={Delete}
                         buttonType="danger"
                         confirmText={computeDeleteConfirmMsg(props.value, filter, groupMap.value)}
 

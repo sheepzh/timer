@@ -103,7 +103,7 @@ const _default = defineComponent({
                     <DropdownButton items={items} />
                     <ButtonFilterItem
                         text={t(msg => msg.button.create)}
-                        icon={<Plus />}
+                        icon={Plus}
                         type="success"
                         onClick={() => ctx.emit("create")}
                     />

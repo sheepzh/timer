@@ -88,7 +88,7 @@ const SelectFooter = defineComponent(() => {
                 </Flex>
             </> : (
                 <Flex width="100%" justify="end">
-                    <ElButton size="small" icon={<Plus />} type="success" onClick={onNewClick}>
+                    <ElButton size="small" icon={Plus} type="success" onClick={onNewClick}>
                         {t(msg => msg.button.create)}
                     </ElButton>
                 </Flex>

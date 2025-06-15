@@ -41,7 +41,7 @@ export type StatCondition = {
     /**
      * Host or groupId, full match
      */
-    key?: string
+    keys?: string[] | string
 }
 
 function increase(a: timer.core.Result, b: timer.core.Result) {
@@ -74,10 +74,14 @@ function generateKey(host: string, date: Date | string) {
     return str + host
 }
 
+const generateHostReg = (host: string): RegExp => RegExp(`^\\d{8}${escapeRegExp(host)}$`)
+
 function generateGroupKey(groupId: number, date: Date | string) {
     const str = typeof date === 'object' ? formatTimeYMD(date as Date) : date
     return str + GROUP_PREFIX + groupId
 }
+
+const generateGroupReg = (groupId: number): RegExp => RegExp(`^\\d{8}${escapeRegExp(`${GROUP_PREFIX}${groupId}`)}$`)
 
 function migrate(exists: { [key: string]: timer.core.Result }, data: any): Record<string, timer.core.Result> {
     const result: Record<string, timer.core.Result> = {}
@@ -92,7 +96,7 @@ function migrate(exists: { [key: string]: timer.core.Result }, data: any): Recor
     return result
 }
 
-class StatDatabase extends BaseDatabase {
+export class StatDatabase extends BaseDatabase {
 
     async refresh(): Promise<{ [key: string]: unknown }> {
         const result = await this.storage.get()
@@ -214,7 +218,12 @@ class StatDatabase extends BaseDatabase {
      * @since 0.0.9
      */
     async delete(rows: timer.core.RowKey[]): Promise<void> {
-        const keys: string[] = rows.filter(({ date, host }) => !!host && !!date).map(({ host, date }) => generateKey(host, date))
+        const keys: string[] = rows.map(({ host, date }) => generateKey(host, date))
+        return this.storage.remove(keys)
+    }
+
+    async deleteGroup(rows: [groupId: number, date: string][]): Promise<void> {
+        const keys: string[] = rows.map(([groupId, date]) => generateGroupKey(groupId, date))
         return this.storage.remove(keys)
     }
 
@@ -243,7 +252,7 @@ class StatDatabase extends BaseDatabase {
         const items = await this.refresh()
 
         // Key format: 20201112www.google.com
-        const keyReg = RegExp('\\d{8}' + escapeRegExp(host))
+        const keyReg = generateHostReg(host)
         const keys: string[] = Object.keys(items)
             .filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
 
@@ -257,7 +266,7 @@ class StatDatabase extends BaseDatabase {
         const dateFilter = (date: string) => (startStr ? startStr <= date : true) && (endStr ? date <= endStr : true)
         const items = await this.refresh()
 
-        const keyReg = RegExp('\\d{8}' + escapeRegExp(`${GROUP_PREFIX}${groupId}`))
+        const keyReg = generateGroupReg(groupId)
         const keys: string[] = Object.keys(items).filter(key => keyReg.test(key) && dateFilter(key.substring(0, 8)))
 
         await this.storage.remove(keys)
@@ -273,7 +282,7 @@ class StatDatabase extends BaseDatabase {
         const items = await this.refresh()
 
         // Key format: 20201112www.google.com
-        const keyReg = RegExp('\\d{8}' + escapeRegExp(host))
+        const keyReg = generateHostReg(host)
         const keys: string[] = Object.keys(items).filter(key => keyReg.test(key))
         await this.storage.remove(keys)
 
@@ -282,7 +291,7 @@ class StatDatabase extends BaseDatabase {
 
     async deleteByGroup(groupId: number): Promise<void> {
         const items = await this.refresh()
-        const keyReg = RegExp('\\d{8}' + escapeRegExp(`${GROUP_PREFIX}${groupId}`))
+        const keyReg = generateGroupReg(groupId)
         const keys: string[] = Object.keys(items).filter(key => keyReg.test(key))
         await this.storage.remove(keys)
     }
@@ -295,4 +304,6 @@ class StatDatabase extends BaseDatabase {
     }
 }
 
-export default StatDatabase
+const statDatabase = new StatDatabase()
+
+export default statDatabase

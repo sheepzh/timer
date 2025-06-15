@@ -55,7 +55,7 @@ const InputFilterItem = defineComponent<Props>(props => {
             onFocus={() => setFocused(true)}
             style={{ width: width.value } satisfies StyleValue}
             suffixIcon={enter.value ? <EnterIcon focused={focused.value} /> : undefined}
-            prefixIcon={<Search />}
+            prefixIcon={Search}
         />
     )
 }, { props: ['defaultValue', 'enter', 'placeholder', 'width', 'onSearch'] })

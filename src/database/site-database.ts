@@ -223,4 +223,6 @@ class SiteDatabase extends BaseDatabase {
     }
 }
 
-export default SiteDatabase
+const siteDatabase = new SiteDatabase()
+
+export default siteDatabase

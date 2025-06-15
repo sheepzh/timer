@@ -1,9 +1,7 @@
-import MergeRuleDatabase from "@db/merge-rule-database"
+import mergeRuleDatabase from "@db/merge-rule-database"
 import CustomizedHostMergeRuler from "@service/components/host-merge-ruler"
 import { isNormalSite } from "@util/stat"
 import { mergeResult } from "./common"
-
-const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 export async function mergeHost(origin: timer.stat.SiteRow[]): Promise<timer.stat.SiteRow[]> {
     const map: Record<string, MakeRequired<timer.stat.SiteRow, 'mergedRows'>> = {}

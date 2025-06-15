@@ -44,9 +44,9 @@
         "operation": {
             "add2Whitelist": "Whitelist",
             "analysis": "Analyze",
-            "deleteConfirmMsgAll": "All visit records of {url} will be deleted",
-            "deleteConfirmMsgRange": "Visit records of {url} between {start} and {end} will be deleted",
-            "deleteConfirmMsg": "Visit record of {url} on {date} will be deleted",
+            "deleteConfirmMsgAll": "All visit records for [{url}] will be deleted",
+            "deleteConfirmMsgRange": "Visit records for [{url}] between {start} and {end} will be deleted",
+            "deleteConfirmMsg": "Visit record for [{url}] of {date} will be deleted",
             "exportWholeData": "Export",
             "importWholeData": "Import",
             "importOtherData": "Import from Extensions"

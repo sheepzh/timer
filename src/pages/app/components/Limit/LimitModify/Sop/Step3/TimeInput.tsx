@@ -208,7 +208,7 @@ const TimeInput = defineComponent({
                     reference: () => (
                         <ElInput
                             class={[nsDate.b('editor'), nsDate.bm('editor', 'time')]}
-                            prefixIcon={<Clock />}
+                            prefixIcon={Clock}
                             modelValue={inputText.value}
                             inputStyle={{ cursor: 'pointer', width: '100px' }}
                             readonly

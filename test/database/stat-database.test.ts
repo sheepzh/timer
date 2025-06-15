@@ -1,9 +1,8 @@
-import StatDatabase, { type StatCondition } from "@db/stat-database"
+import db, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
 import { formatTimeYMD, MILL_PER_DAY } from "@util/time"
-import storage from "../__mock__/storage"
+import { mockStorage } from "../__mock__/storage"
 
-const db = new StatDatabase(storage.local)
 const now = new Date()
 const nowStr = formatTimeYMD(now)
 const yesterday = new Date(now.getTime() - MILL_PER_DAY)
@@ -12,7 +11,9 @@ const baidu = 'www.baidu.com'
 const google = 'www.google.com.hk'
 
 describe('stat-database', () => {
-    beforeEach(async () => storage.local.clear())
+    beforeAll(mockStorage)
+
+    beforeEach(async () => chrome.storage.local.clear())
 
     test('1', async () => {
         await db.accumulate(baidu, nowStr, resultOf(100, 0))
@@ -56,7 +57,7 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(6)
 
         let cond: StatCondition = {}
-        cond.key = google
+        cond.keys = google
 
         let list = await db.select(cond)
         expect(list.length).toEqual(3)
@@ -64,7 +65,7 @@ describe('stat-database', () => {
         // full host is not correct, result is empty
         expect((await db.select(cond)).length).toEqual(0)
 
-        cond.key = google
+        cond.keys = google
         expect((await db.select(cond)).length).toEqual(3)
 
         // By date range
@@ -115,11 +116,11 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
-        const cond: StatCondition = { key: baidu }
+        const cond: StatCondition = { keys: baidu }
         // Nothing of baidu remained
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
-        cond.key = google
+        cond.keys = google
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again
@@ -154,7 +155,7 @@ describe('stat-database', () => {
         const foo = resultOf(1, 1)
         await db.accumulate(baidu, nowStr, foo)
         const data2Import = await db.storage.get()
-        storage.local.clear()
+        chrome.storage.local.clear()
 
         data2Import.foo = "bar"
         await db.importData(data2Import)

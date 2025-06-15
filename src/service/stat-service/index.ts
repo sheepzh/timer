@@ -6,14 +6,14 @@
  */
 
 import { listAllGroups } from "@api/chrome/tabGroups"
-import MergeRuleDatabase from "@db/merge-rule-database"
-import SiteCateDatabase from "@db/site-cate-database"
-import SiteDatabase from "@db/site-database"
-import StatDatabase, { type StatCondition } from "@db/stat-database"
+import mergeRuleDatabase from "@db/merge-rule-database"
+import cateDatabase from "@db/site-cate-database"
+import siteDatabase from "@db/site-database"
+import statDatabase, { type StatCondition } from "@db/stat-database"
 import { groupBy } from "@util/array"
 import { judgeVirtualFast } from "@util/pattern"
 import { distinctSites, SiteMap } from "@util/site"
-import { isSite } from "@util/stat"
+import { isGroup, isNormalSite, isSite } from "@util/stat"
 import { log } from "../../common/logger"
 import CustomizedHostMergeRuler from "../components/host-merge-ruler"
 import { slicePageResult } from "../components/page-info"
@@ -22,13 +22,6 @@ import { mergeCate } from "./merge/cate"
 import { mergeDate } from "./merge/date"
 import { mergeHost } from "./merge/host"
 import { canReadRemote, processRemote } from "./remote"
-
-const storage = chrome.storage.local
-
-const statDatabase = new StatDatabase(storage)
-const mergeRuleDatabase = new MergeRuleDatabase(storage)
-const siteDatabase = new SiteDatabase(storage)
-const cateDatabase = new SiteCateDatabase(storage)
 
 function extractAllSiteKeys(rows: timer.stat.SiteRow[], container: timer.site.SiteKey[]) {
     rows.forEach(row => {
@@ -98,17 +91,24 @@ export type GroupQuery = Pick<StatCondition, 'date'>
         mergeDate?: boolean
     }
 
+export type CountQuery = Pick<StatCondition, 'date'> & {
+    keys: timer.stat.TargetKey
+}
+
 interface StatService {
     selectSite(query?: SiteQuery): Promise<timer.stat.SiteRow[]>
-    selectSitePage(param?: SiteQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.SiteRow>>
+    selectSitePage(query?: SiteQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.SiteRow>>
+    countSiteByHosts(hosts: string[], dateRange: StatCondition['date']): Promise<number>
+
     selectCate(query?: CateQuery): Promise<timer.stat.CateRow[]>
     selectCatePage(query?: CateQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.CateRow>>
+
     selectGroup(query?: GroupQuery): Promise<timer.stat.GroupRow[]>
     selectGroupPage(query?: GroupQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.GroupRow>>
+    countGroupByIds(groupIds: number[], dateRange: StatCondition['date']): Promise<number>
 
     listHosts(fuzzyQuery?: string): Promise<Record<timer.site.Type, string[]>>
     batchDelete(rows: timer.stat.Row[]): Promise<void>
-    count(condition: StatCondition): Promise<number>
     canReadRemote(): Promise<boolean>
 }
 
@@ -158,18 +158,12 @@ class StatServiceImpl implements StatService {
         return { normal, merged, virtual }
     }
 
-    /**
-     * Count the items
-     *
-     * @param condition condition to count
-     * @since 1.0.2
-     */
-    async count(condition: StatCondition): Promise<number> {
-        log("service: count: {condition}", condition)
-        const rows = await statDatabase.select(condition)
-        const count = rows.length
-        log("service: count: {result}", count)
-        return count
+    async countSiteByHosts(hosts: string[], dateRange: StatCondition['date']): Promise<number> {
+        log("service: countSiteByHosts: {hosts}, {dateRange}", hosts, dateRange)
+        const rows = await statDatabase.select({ keys: hosts, date: dateRange })
+        const result = rows.length
+        log("service: countSiteByHosts: {result}", result)
+        return result
     }
 
     async selectSite(param?: SiteQuery): Promise<timer.stat.SiteRow[]> {
@@ -184,7 +178,7 @@ class StatServiceImpl implements StatService {
 
         const condition: StatCondition = {
             date, timeRange, focusRange, virtual,
-            key: host && !needMerge ? host : undefined,
+            keys: host && !needMerge ? host : undefined,
         }
         let origin = await statDatabase.select(condition)
 
@@ -298,6 +292,15 @@ class StatServiceImpl implements StatService {
         return slicePageResult(rows, page)
     }
 
+    async countGroupByIds(groupIds: number[], dateRange: StatCondition["date"]): Promise<number> {
+        log("service: countGroupByIds: {groupIds}, {dateRange}", groupIds, dateRange)
+        const keys = groupIds.map(gid => `${gid}`)
+        const rows = await statDatabase.selectGroup({ keys, date: dateRange })
+        const result = rows.length
+        log("service: countGroupByIds: {result}", result)
+        return result
+    }
+
     /**
      * Enable to read remote backup data
      *
@@ -306,13 +309,18 @@ class StatServiceImpl implements StatService {
      */
     canReadRemote = canReadRemote
 
-    async batchDelete(targets: timer.stat.SiteRow[]) {
+    async batchDelete(targets: timer.stat.Row[]) {
         if (!targets?.length) return
-        const baseKeys: timer.core.RowKey[] = []
-        targets.forEach(({ siteKey: { host, type }, date }) => {
-            type === 'normal' && date && baseKeys.push({ host, date })
+        const siteKeys: timer.core.RowKey[] = []
+        const groupKeys: [groupId: number, date: string][] = []
+        targets.forEach(row => {
+            const { date } = row
+            if (!date) return
+            isNormalSite(row) && siteKeys.push({ host: row.siteKey.host, date })
+            isGroup(row) && groupKeys.push([row.groupKey, date])
         })
-        await statDatabase.delete(baseKeys)
+        await statDatabase.delete(siteKeys)
+        await statDatabase.deleteGroup(groupKeys)
     }
 
     async selectGroupByPage(param?: GroupQuery, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.stat.Row>> {

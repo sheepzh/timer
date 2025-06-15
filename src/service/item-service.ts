@@ -1,10 +1,8 @@
 import { isValidGroup } from "@api/chrome/tabGroups"
-import StatDatabase, { type StatCondition } from "@db/stat-database"
+import db, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
 import optionHolder from "./components/option-holder"
 import virtualSiteHolder from "./components/virtual-site-holder"
-
-const db = new StatDatabase(chrome.storage.local)
 
 export type ItemIncContext = {
     host: string

@@ -50,4 +50,6 @@ class OptionDatabase extends BaseDatabase {
     }
 }
 
-export default OptionDatabase
+const optionDatabase = new OptionDatabase()
+
+export default optionDatabase
