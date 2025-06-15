@@ -12,7 +12,7 @@ export default abstract class BaseDatabase {
     storage: StoragePromise
 
     constructor(storageArea?: chrome.storage.StorageArea) {
-        this.storage = new StoragePromise(storageArea ?? chrome.storage.local)
+        this.storage = new StoragePromise(storageArea)
     }
 
     /**

@@ -1,4 +1,5 @@
 import StoragePromise from "@db/common/storage-promise"
+import { glob } from "fs"
 
 let store: Record<string, any> = {}
 
@@ -70,14 +71,16 @@ const onChanged = {
 } as unknown as chrome.storage.StorageChangedEvent
 
 export const mockStorage = () => {
-    global.chrome.storage = {
-        local, sync, managed, onChanged,
-        session: local,
-        AccessLevel: {
-            TRUSTED_AND_UNTRUSTED_CONTEXTS: "TRUSTED_AND_UNTRUSTED_CONTEXTS",
-            TRUSTED_CONTEXTS: "TRUSTED_CONTEXTS",
-        },
-    }
+    global.chrome = {
+        storage: {
+            local, sync, managed, onChanged,
+            session: local,
+            AccessLevel: {
+                TRUSTED_AND_UNTRUSTED_CONTEXTS: "TRUSTED_AND_UNTRUSTED_CONTEXTS",
+                TRUSTED_CONTEXTS: "TRUSTED_CONTEXTS",
+            },
+        }
+    } as unknown as typeof global.chrome
 }
 
 export const localPromise = new StoragePromise(local)
