@@ -65,7 +65,7 @@ const _default = defineComponent((_, ctx) => {
     const visible = computed(() => computeVisible(filter))
     const { data, refresh, loading } = useRequest(() => queryPage(filter, sort.value, page.value), {
         loadingTarget: () => table.value?.$el as HTMLDivElement,
-        deps: [() => ({ ...filter }), () => ({ ...sort }), page],
+        deps: [() => ({ ...filter }), sort, page],
         defaultValue: { list: [], total: 0 },
     })
     const {
