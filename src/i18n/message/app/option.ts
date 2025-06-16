@@ -124,6 +124,11 @@ export type OptionMessage = {
     }
     resetButton: string
     resetSuccess: string
+    exportButton: string
+    importButton: string
+    exportSuccess: string
+    importSuccess: string
+    importError: string
     defaultValue: string
 }
 

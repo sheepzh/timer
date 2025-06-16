@@ -126,6 +126,11 @@
         },
         "resetButton": "恢复默认",
         "resetSuccess": "成功重置为默认值",
+        "exportButton": "导出设置",
+        "importButton": "导入设置",
+        "exportSuccess": "设置导出成功",
+        "importSuccess": "设置导入成功",
+        "importError": "导入失败：无效的设置文件",
         "defaultValue": "默认值: {default}"
     },
     "zh_TW": {
@@ -254,6 +259,11 @@
         },
         "resetButton": "重設",
         "resetSuccess": "已恢復預設值！",
+        "exportButton": "匯出設定",
+        "importButton": "匯入設定",
+        "exportSuccess": "設定匯出成功",
+        "importSuccess": "設定匯入成功",
+        "importError": "匯入失敗：無效的設定檔案",
         "defaultValue": "預設值：{default}"
     },
     "en": {
@@ -381,9 +391,14 @@
             "title": "Accessibility",
             "chartDecal": "{input} Whether to display the chart decal"
         },
-        "resetButton": "Reset",
-        "resetSuccess": "Reset to default successfully!",
-        "defaultValue": "Default: {default}"
+    "resetButton": "Reset",
+    "resetSuccess": "Reset to default successfully!",
+    "exportButton": "Export Settings",
+    "importButton": "Import Settings",
+    "exportSuccess": "Settings exported successfully",
+    "importSuccess": "Settings imported successfully",
+    "importError": "Import failed: Invalid settings file",
+    "defaultValue": "Default: {default}"
     },
     "ja": {
         "yes": "はい",
@@ -511,6 +526,11 @@
         },
         "resetButton": "リセット",
         "resetSuccess": "デフォルトに正常にリセット",
+        "exportButton": "設定をエクスポート",
+        "importButton": "設定をインポート",
+        "exportSuccess": "設定が正常にエクスポートされました",
+        "importSuccess": "設定が正常にインポートされました",
+        "importError": "インポートに失敗しました：無効な設定ファイル",
         "defaultValue": "デフォルト値：{default}"
     },
     "pt_PT": {
