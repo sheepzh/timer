@@ -13,6 +13,9 @@ class OptionHolder {
             const option = await this.reset()
             this.listeners.forEach(listener => listener?.(option))
         })
+        onPermRemoved(perm => {
+            perm.permissions?.includes('tabGroups') && this.set({ countTabGroup: false })
+        })
     }
 
     listenPermChange() {

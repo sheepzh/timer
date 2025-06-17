@@ -74,7 +74,7 @@ export USE_HEADLESS_PUPPETEER=true
 
 7. Submit a PR
 
-Please PR to the milestone branch of the main repository, which is usually the next minor version number (x.x.0). If it is not there, please contact the author to create it
+Please PR to the main branch of this repository.
 
 ## 3. Application architecture design
 
