@@ -18,10 +18,6 @@ function cacheKeyOf(type: timer.backup.Type) {
 
 class BackupDatabase extends BaseDatabase {
 
-    constructor(storage: chrome.storage.StorageArea) {
-        super(storage)
-    }
-
     async getSnapshot(type: timer.backup.Type): Promise<timer.backup.Snapshot | undefined> {
         const cache = await this.storage.getOne<timer.backup.SnapshotCache>(SNAPSHOT_KEY)
         return cache?.[type]
@@ -46,4 +42,6 @@ class BackupDatabase extends BaseDatabase {
     }
 }
 
-export default BackupDatabase
+const backupDatabase = new BackupDatabase()
+
+export default backupDatabase

@@ -2,14 +2,15 @@ import { createTab } from "@api/chrome/tab"
 import { getCssVariable, getPrimaryTextColor, getSecondaryTextColor } from "@pages/util/style"
 import { calJumpUrl } from "@popup/common"
 import { t } from "@popup/locale"
-import { sum } from "@util/array"
+import { groupBy, sum } from "@util/array"
 import { IS_SAFARI } from "@util/constant/environment"
 import { isRtl } from "@util/document"
 import { generateSiteLabel } from "@util/site"
+import { getGroupName, isGroup, isSite } from "@util/stat"
 import { formatPeriodCommon, formatTime, parseTime } from "@util/time"
 import { type PieSeriesOption } from "echarts/charts"
 import { type TitleComponentOption, type ToolboxComponentOption } from "echarts/components"
-import { type CallbackDataParams } from "echarts/types/dist/shared"
+import { type CallbackDataParams, type TopLevelFormatterParams } from "echarts/types/dist/shared"
 import { type PercentageResult } from "./query"
 
 function combineDate(start: Date, end: Date, format: string): string {
@@ -110,44 +111,36 @@ export function generateToolboxOption(): ToolboxComponentOption {
     }
 }
 
-type ChartRow = timer.stat.Row & { isOther?: boolean }
+type OtherRow = Record<Exclude<timer.core.Dimension, 'run'>, number> & {
+    other: true
+    count: number
+}
 
-const otherChartRow = (): ChartRow => ({
-    siteKey: {
-        host: t(msg => msg.content.percentage.otherLabel, { count: 0 }),
-        type: 'normal',
-    },
-    focus: 0,
-    date: '0000-00-00',
-    time: 0,
-    isOther: true,
-    iconUrl: undefined,
-    alias: undefined,
-})
+type ChartRow = timer.stat.Row | OtherRow
 
-function cvt2ChartRows(rows: timer.stat.Row[], type: timer.core.Dimension, itemCount: number): ChartRow[] {
+export const isOther = (row: ChartRow): row is OtherRow => 'other' in row
+
+function cvt2ChartRows(rows: timer.stat.Row[], dimension: Exclude<timer.core.Dimension, 'run'>, itemCount: number): ChartRow[] {
+    rows = rows.filter(item => !!item[dimension]).sort((a, b) => (b[dimension] ?? 0) - (a[dimension] ?? 0))
     const popupRows: ChartRow[] = []
-    const other = otherChartRow()
-    let otherCount = 0
+    const other: OtherRow = { focus: 0, time: 0, count: 0, other: true }
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
         if (i < itemCount) {
             popupRows.push(row)
         } else {
             other.focus += row.focus
-            otherCount++
+            other.time += row.time
+            other.count++
         }
     }
-    const { siteKey } = other
-    siteKey && (siteKey.host = t(msg => msg.content.percentage.otherLabel, { count: otherCount }))
-    popupRows.push(other)
-    const data = popupRows.filter(item => !!item[type])
-    return data
+    other.count && popupRows.push(other)
+    return popupRows
 }
 
 // The declaration of data item
 export type PieSeriesItemOption = Exclude<PieSeriesOption['data'], undefined>[0]
-    & Pick<ChartRow, 'siteKey' | 'cateKey' | 'iconUrl' | 'isOther'>
+    & { row: ChartRow }
 
 // The declarations of labels
 type PieLabelRichOption = Exclude<PieSeriesOption['label'], undefined>['rich']
@@ -177,14 +170,24 @@ type CallbackFormat = {
     percent: number
 }
 
-function formatLabel(params: CallbackDataParams): string {
+function formatLabel(params: CallbackDataParams, groupMap: Record<number, chrome.tabGroups.TabGroup>): string {
     const format = (Array.isArray(params) ? params[0] : params) as CallbackFormat
     const { name, data } = format || {}
-    const { siteKey, isOther, iconUrl } = (data as PieSeriesItemOption) || {}
-    const { type } = siteKey || {}
-    if (type === 'normal' && iconUrl && !isOther && !IS_SAFARI) {
-        // Not supported to get favicon url in Safari
-        return `{${legend2LabelStyle(name)}|} {a|${name}}`
+    const { row } = (data as PieSeriesItemOption) || {}
+
+    if (!row) return 'NaN'
+    if (isOther(row)) {
+        const { count } = row
+        return t(msg => msg.content.percentage.otherLabel, { count })
+    } else if (isSite(row)) {
+        const { siteKey, iconUrl } = row
+        const { type } = siteKey || {}
+        if (type === 'normal' && iconUrl && !IS_SAFARI) {
+            // Not supported to get favicon url in Safari
+            return `{${legend2LabelStyle(name)}|} {a|${name}}`
+        }
+    } else if (isGroup(row)) {
+        return getGroupName(groupMap, row)
     }
     return name
 }
@@ -195,19 +198,29 @@ type CustomOption = Pick<
 >
 
 export function generateSiteSeriesOption(rows: timer.stat.Row[], result: PercentageResult, customOption: CustomOption): PieSeriesOption {
-    const { displaySiteName, query: { dimension }, itemCount } = result || {}
+    const { displaySiteName, query: { dimension }, itemCount, groups } = result || {}
+    const groupMap = groupBy(groups, g => g.id, l => l[0])
 
     const chartRows = cvt2ChartRows(rows, dimension, itemCount)
     const iconRich: PieLabelRichOption = {}
-    const data = chartRows.map(d => {
-        const { siteKey, cateKey, alias, isOther, iconUrl } = d
-        const host = siteKey?.host
-        const legend = (displaySiteName ? (alias ?? host) : host) ?? ''
-        const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
-        iconUrl && (richValue.backgroundColor = { image: iconUrl })
-        iconRich[legend2LabelStyle(legend)] = richValue
+    const data = chartRows.map(row => {
+        const value = row[dimension]
+        let name = 'NaN'
+        if (isOther(row)) {
+            const { count } = row
+            name = t(msg => msg.content.percentage.otherLabel, { count })
+        } else if (isSite(row)) {
+            const { siteKey, alias, iconUrl } = row
+            const { host } = siteKey || {}
+            name = (displaySiteName ? (alias ?? host) : host) ?? ''
+            const richValue: PieLabelRichValueOption = { ...BASE_LABEL_RICH_VALUE }
+            iconUrl && (richValue.backgroundColor = { image: iconUrl })
+            iconRich[legend2LabelStyle(name)] = richValue
+        } else if (isGroup(row)) {
+            name = getGroupName(groupMap, row)
+        }
 
-        return { name: legend, value: d[dimension] || 0, siteKey, cateKey, isOther, iconUrl } satisfies PieSeriesItemOption
+        return { name, value, row } satisfies PieSeriesItemOption
     })
 
     const textColor = getPrimaryTextColor()
@@ -225,7 +238,7 @@ export function generateSiteSeriesOption(rows: timer.stat.Row[], result: Percent
             },
         },
         label: {
-            formatter: formatLabel,
+            formatter: params => formatLabel(params, groupMap),
             color: textColor,
             rich: {
                 a: { fontSize: LABEL_FONT_SIZE },
@@ -249,33 +262,40 @@ function calculateAverageText(type: timer.core.Dimension, averageValue: number):
 /**
  * Generate tooltip text
  */
-export function formatTooltip({ query, dateLength }: PercentageResult, params: CallbackDataParams): string {
-    const format = (Array.isArray(params) ? params[0] : params) as CallbackFormat
-    const { name, value, percent, data } = format || {}
-
-    const host = data.siteKey?.host
-    // Host is null means cate tooltip
-    const label = host ? generateSiteLabel(host, name) : name
-    let result = label
-    const itemValue = typeof value === 'number' ? value as number : 0
+export function formatTooltip({ query, dateLength }: PercentageResult, params: TopLevelFormatterParams): string {
+    const format = (Array.isArray(params) ? params[0] : params)
+    const { name, value, percent, data } = format ?? {}
+    const { row } = data as PieSeriesItemOption
     const { dimension } = query
-    const valueText = dimension === 'time' ? itemValue : formatPeriodCommon(itemValue)
-    result += '<br/>' + valueText
+    const itemValue = typeof value === 'number' ? value as number : 0
+
+    let valueLine = dimension === 'time' ? itemValue : formatPeriodCommon(itemValue)
     // Display percent only when query focus time
-    dimension === 'focus' && (result += ` (${percent}%)`)
-    if (!data.isOther && dateLength && dateLength > 1) {
-        const averageValueText = calculateAverageText(dimension, itemValue / dateLength)
-        averageValueText && (result += `<br/>${averageValueText}`)
+    dimension === 'focus' && (valueLine += ` (${percent}%)`)
+
+    let nameLine = name
+    let averageLine: string | undefined = undefined
+    if (!isOther(row)) {
+        if (isSite(row)) {
+            const { siteKey: { host } } = row
+            nameLine = generateSiteLabel(host, name)
+        }
+        if (dateLength && dateLength > 1) {
+            averageLine = calculateAverageText(dimension, itemValue / dateLength)
+        }
     }
-    return result
+
+    return [nameLine, valueLine, averageLine].filter(l => !!l).join('<br />')
 }
 
 /**
  * Handle click
  */
 export function handleClick(data: PieSeriesItemOption, date: PercentageResult['date'], type: timer.core.Dimension): void {
-    const { siteKey, isOther } = data || {}
-    if (!siteKey || isOther) return
-    const url = calJumpUrl(siteKey, date, type)
+    const { row } = data
+    if (isOther(row)) {
+        return
+    }
+    const url = calJumpUrl(row, date, type)
     url && createTab(url)
 }

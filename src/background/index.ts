@@ -7,6 +7,7 @@
 
 import { listTabs } from "@api/chrome/tab"
 import { isNoneWindowId, onNormalWindowFocusChanged } from "@api/chrome/window"
+import optionHolder from "@service/components/option-holder"
 import { isBrowserUrl } from "@util/pattern"
 import { openLog } from "../common/logger"
 import ActiveTabListener from "./active-tab-listener"
@@ -78,3 +79,6 @@ onNormalWindowFocusChanged(async windowId => {
         badgeTextManager.updateFocus({ url, tabId })
     })
 })
+
+// listen permission change event
+optionHolder.listenPermChange()

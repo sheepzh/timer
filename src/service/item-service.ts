@@ -1,39 +1,56 @@
-import StatDatabase, { type StatCondition } from "@db/stat-database"
+import { isValidGroup } from "@api/chrome/tabGroups"
+import db, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
+import optionHolder from "./components/option-holder"
 import virtualSiteHolder from "./components/virtual-site-holder"
-import whitelistHolder from "./components/whitelist-holder"
 
-const db = new StatDatabase(chrome.storage.local)
+export type ItemIncContext = {
+    host: string
+    url: string
+    groupId?: number
+}
 
-async function addFocusTime(host: string, url: string, focusTime: number): Promise<void> {
-    if (whitelistHolder.contains(host, url)) return
+async function addFocusTime(context: ItemIncContext, focusTime: number): Promise<void> {
+    const { host, url, groupId } = context
 
-    const resultSet: timer.stat.ResultSet = { [host]: resultOf(focusTime, 0) }
+    const resultSet: Record<string, timer.core.Result> = { [host]: resultOf(focusTime, 0) }
     const virtualHosts = virtualSiteHolder.findMatched(url)
     virtualHosts.forEach(virtualHost => resultSet[virtualHost] = resultOf(focusTime, 0))
 
-    await db.accumulateBatch(resultSet, new Date())
+    const now = new Date()
+
+    await db.accumulateBatch(resultSet, now)
+
+    const { countTabGroup } = await optionHolder.get()
+    countTabGroup && isValidGroup(groupId) && db.accumulateGroup(groupId, now, resultOf(focusTime, 0))
 }
 
-async function addRunTime(host: string, url: string, dateTime: Record<string, number>) {
-    if (whitelistHolder.contains(host, url)) return
-
+async function addRunTime(host: string, dateTime: Record<string, number>) {
     for (const [date, run] of Object.entries(dateTime)) {
         await db.accumulate(host, date, { focus: 0, time: 0, run })
     }
 }
 
-async function increaseVisit(host: string, url: string) {
-    if (whitelistHolder.contains(host, url)) return
-
-    const resultSet: timer.stat.ResultSet = { [host]: resultOf(0, 1) }
+async function increaseVisit(context: ItemIncContext) {
+    const { host, url, groupId } = context
+    const resultSet = { [host]: resultOf(0, 1) }
     virtualSiteHolder.findMatched(url).forEach(virtualHost => resultSet[virtualHost] = resultOf(0, 1))
-    await db.accumulateBatch(resultSet, new Date())
+
+    const now = new Date()
+
+    await db.accumulateBatch(resultSet, now)
+
+    const { countTabGroup } = await optionHolder.get()
+    countTabGroup && isValidGroup(groupId) && await db.accumulateGroup(groupId, now, resultOf(0, 1))
 }
 
 const getResult = (host: string, date: Date | string) => db.get(host, date)
 
 const selectItems = (cond: StatCondition) => db.select(cond)
+
+async function batchDeleteGroupById(groupId: number): Promise<void> {
+    await db.batchDeleteGroup(groupId)
+}
 
 export default {
     addFocusTime,
@@ -41,4 +58,5 @@ export default {
     increaseVisit,
     getResult,
     selectItems,
+    batchDeleteGroupById,
 }

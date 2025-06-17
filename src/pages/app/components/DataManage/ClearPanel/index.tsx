@@ -6,8 +6,7 @@
  */
 
 import { t } from "@app/locale"
-import { type StatCondition } from "@db/stat-database"
-import statService from "@service/stat-service"
+import db, { type StatCondition } from "@db/stat-database"
 import { MILL_PER_DAY, MILL_PER_SECOND } from "@util/time"
 import { ElAlert, ElCard, ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, type StyleValue } from "vue"
@@ -35,7 +34,7 @@ async function generateParamAndSelect(option: FilterOption): Promise<timer.core.
         dateEnd = new Date(new Date().getTime() - MILL_PER_DAY)
     }
     param.date = dateStart ? [dateStart, dateEnd] : undefined
-    return await statService.selectBase(param)
+    return await db.select(param)
 }
 
 /**
@@ -95,7 +94,7 @@ const _default = defineComponent(() => {
             cancelButtonText: t(msg => msg.button.cancel),
             confirmButtonText: t(msg => msg.button.confirm)
         }).then(async () => {
-            await statService.batchDeleteBase(result)
+            await db.delete(result)
             ElMessage.success(t(msg => msg.operation.successMsg))
             refreshMemory?.()
         }).catch(() => { })

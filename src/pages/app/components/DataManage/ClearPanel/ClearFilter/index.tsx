@@ -39,7 +39,7 @@ const _default = defineComponent({
                 />
                 <div style={{ paddingTop: '40px' }}>
                     <ElButton
-                        icon={<Delete />}
+                        icon={Delete}
                         type="danger"
                         size="small"
                         onClick={() => ctx.emit("delete", date.value, focus.value, time.value)}

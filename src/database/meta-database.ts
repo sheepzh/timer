@@ -37,4 +37,6 @@ class MetaDatabase extends BaseDatabase {
     }
 }
 
-export default MetaDatabase
+const metaDatabase = new MetaDatabase()
+
+export default metaDatabase

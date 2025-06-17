@@ -1,13 +1,16 @@
 import type { ReportQueryParam } from "@app/components/Report/types"
 import { REPORT_ROUTE } from "@app/router/constants"
 import weekHelper from "@service/components/week-helper"
-import { type StatQueryParam } from "@service/stat-service"
+import statService from "@service/stat-service"
 import { isRemainHost } from "@util/constant/remain-host"
 import { getAppPageUrl } from "@util/constant/url"
+import { isSite } from "@util/stat"
 import { getMonthTime, MILL_PER_DAY } from "@util/time"
 import { type PopupQuery } from "./context"
 
-type DateRangeCalculator = (now: Date, num?: number) => Awaitable<Date | [Date, Date] | undefined>
+type DateRange = Date | [Date, Date] | undefined
+
+type DateRangeCalculator = (now: Date, num?: number) => Awaitable<DateRange>
 
 const DATE_RANGE_CALCULATORS: { [duration in timer.option.PopupDuration]: DateRangeCalculator } = {
     today: now => now,
@@ -21,24 +24,29 @@ const DATE_RANGE_CALCULATORS: { [duration in timer.option.PopupDuration]: DateRa
     allTime: () => undefined,
 }
 
-export const cvt2StatQuery = async (param: PopupQuery): Promise<StatQueryParam> => {
-    const { duration, durationNum, mergeMethod, dimension } = param
-    const stat: StatQueryParam = {
-        date: await DATE_RANGE_CALCULATORS[duration]?.(new Date(), durationNum),
-        mergeHost: mergeMethod === 'domain',
-        mergeCate: mergeMethod === 'cate',
-        sort: dimension,
-        sortOrder: 'DESC',
-        mergeDate: true,
-        exclusiveVirtual: true,
+export const queryRows = async (param: PopupQuery): Promise<[rows: timer.stat.Row[], date: DateRange]> => {
+    const { duration, durationNum, mergeMethod, dimension: sortKey } = param
+    const date = await DATE_RANGE_CALCULATORS[duration]?.(new Date(), durationNum)
+    const sortDirection: timer.common.SortDirection = 'DESC'
+    let rows: timer.stat.Row[]
+    if (mergeMethod === 'cate') {
+        rows = await statService.selectCate({ date, mergeDate: true, sortKey, sortDirection })
+    } else if (mergeMethod === 'group') {
+        rows = await statService.selectGroup({ date, mergeDate: true, sortKey, sortDirection })
+    } else {
+        rows = await statService.selectSite({
+            date, mergeDate: true,
+            mergeHost: mergeMethod === 'domain',
+            sortKey, sortDirection,
+        })
     }
-    return stat
+    return [rows, date]
 }
 
 function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): ReportQueryParam {
     const query: ReportQueryParam = {}
     // Merge host
-    siteType === 'merged' && (query.mh = "1")
+    siteType === 'merged' && (query.mm = 'domain')
     // Date
     query.md = '1'
     if (Array.isArray(date)) {
@@ -58,14 +66,17 @@ function buildReportQuery(siteType: timer.site.Type, date: Date | [Date, Date?] 
     return query
 }
 
-export function calJumpUrl(siteKey: timer.site.SiteKey | undefined, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): string | undefined {
-    if (!siteKey) return
-    const { host, type: siteType } = siteKey
+export function calJumpUrl(row: timer.stat.Row | undefined, date: Date | [Date, Date?] | undefined, type: timer.core.Dimension): string | undefined {
+    if (!row) return
+    if (isSite(row)) {
+        const { siteKey: { host, type: siteType } } = row
 
-    if (siteType === 'normal' && !isRemainHost(host)) {
-        return `http://${host}`
+        if (siteType === 'normal' && !isRemainHost(host)) {
+            return `http://${host}`
+        }
+
+        const query = buildReportQuery(siteType, date, type)
+        query.q = host
+        return getAppPageUrl(REPORT_ROUTE, query)
     }
-
-    const query = buildReportQuery(siteType, date, type)
-    return getAppPageUrl(REPORT_ROUTE, query)
 }

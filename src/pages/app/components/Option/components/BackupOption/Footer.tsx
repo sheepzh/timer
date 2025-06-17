@@ -34,8 +34,6 @@ async function handleTest() {
 const TIME_FORMAT = t(msg => msg.calendar.timeFormat)
 
 const _default = defineComponent<{ type: timer.backup.Type }>(props => {
-    const type = toRef(props, 'type')
-
     const [lastTime, setLastTime] = useState<number>()
 
     useRequest(async () => {

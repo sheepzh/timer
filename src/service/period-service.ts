@@ -5,11 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import PeriodDatabase from "@db/period-database"
+import periodDatabase from "@db/period-database"
 import { after, compare, getDateString } from "@util/period"
 import { calculate } from "./components/period-calculator"
-
-const periodDatabase = new PeriodDatabase(chrome.storage.local)
 
 export type PeriodQueryParam = {
     /**

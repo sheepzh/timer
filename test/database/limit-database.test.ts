@@ -1,11 +1,11 @@
-import LimitDatabase from "@db/limit-database"
-import storage from "../__mock__/storage"
+import db from "@db/limit-database"
 import { formatTimeYMD } from "@util/time"
-
-const db = new LimitDatabase(storage.local)
+import { mockStorage } from "../__mock__/storage"
 
 describe('limit-database', () => {
-    beforeEach(async () => storage.local.clear())
+    beforeAll(() => mockStorage())
+
+    beforeEach(async () => chrome.storage.local.clear())
     test('test1', async () => {
         const toAdd: timer.limit.Rule = {
             id: 1,
@@ -100,7 +100,7 @@ describe('limit-database', () => {
         const data2Import = await db.storage.get()
 
         // clear
-        storage.local.clear()
+        chrome.storage.local.clear()
         expect(await db.all()).toEqual([])
 
         await db.importData(data2Import)

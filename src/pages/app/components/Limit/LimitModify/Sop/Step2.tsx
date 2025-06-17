@@ -73,11 +73,7 @@ const _default = defineComponent(() => {
                             style={{ backgroundColor: 'var(--el-fill-color)', borderRadius: 'var(--el-border-radius-large)' }}
                         >
                             <ElText type="primary">{url}</ElText>
-                            <ElLink
-                                icon={<Delete />}
-                                type="danger"
-                                onClick={() => handleRemove(idx)}
-                            />
+                            <ElLink icon={Delete} type="danger" onClick={() => handleRemove(idx)} />
                         </Flex>
                     ))}
                 </Flex>

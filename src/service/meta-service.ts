@@ -5,12 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import MetaDatabase from "@db/meta-database"
+import db from "@db/meta-database"
 import { REVIEW_PAGE } from "@util/constant/url"
 import { getDayLength } from "@util/time"
-
-const storage = chrome.storage.local
-const db: MetaDatabase = new MetaDatabase(storage)
 
 async function getInstallTime() {
     const meta: timer.ExtensionMeta = await db.getMeta()

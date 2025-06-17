@@ -4,9 +4,9 @@
         "total": "合计访问 {visit} 次, 共 {focus}",
         "batchDelete": {
             "noSelectedMsg": "请先在表格中勾选需要删除的行",
-            "confirmMsg": "{example} 等网站在 {date} 的 {count} 条记录将会被删除！",
-            "confirmMsgAll": "{example} 等网站的 {count} 条记录将会被删除！",
-            "confirmMsgRange": "{example} 等网站在 {start} 至 {end} 之间的 {count} 条记录将会被删除！"
+            "confirmMsg": "{example} 等在 {date} 的 {count} 条记录将会被删除！",
+            "confirmMsgAll": "{example} 等的 {count} 条记录将会被删除！",
+            "confirmMsgRange": "{example} 等在 {start} 至 {end} 之间的 {count} 条记录将会被删除！"
         },
         "remoteReading": {
             "on": "正在查询远端备份数据",
@@ -25,9 +25,9 @@
         "total": "總造訪次數：{visit} 次，總使用時長：{focus}",
         "batchDelete": {
             "noSelectedMsg": "請先勾選要刪除的資料列",
-            "confirmMsg": "將刪除 {example} 等網站於 {date} 的 {count} 筆紀錄！",
-            "confirmMsgAll": "將刪除 {example} 等網站的 {count} 筆紀錄！",
-            "confirmMsgRange": "將刪除 {example} 等網站從 {start} 至 {end} 的 {count} 筆紀錄！"
+            "confirmMsg": "將刪除 {example} 等於 {date} 的 {count} 筆紀錄！",
+            "confirmMsgAll": "將刪除 {example} 等的 {count} 筆紀錄！",
+            "confirmMsgRange": "將刪除 {example} 等從 {start} 至 {end} 的 {count} 筆紀錄！"
         },
         "remoteReading": {
             "on": "正在查詢遠端備份資料",
@@ -46,9 +46,9 @@
         "total": "Total visits: {visit} times, total duration: {focus}",
         "batchDelete": {
             "noSelectedMsg": "Please select the row you want to delete in the table first",
-            "confirmMsg": "{count} records for sites like {example} on {date} will be deleted!",
-            "confirmMsgAll": "{count} records for sites like {example} will be deleted!",
-            "confirmMsgRange": "{count} records for sites like {example} between {start} and {end} will be deleted!"
+            "confirmMsg": "{count} records such as [{example}] of {date} will be deleted!",
+            "confirmMsgAll": "{count} records such as [{example}] will be deleted!",
+            "confirmMsgRange": "{count} records such as [{example}] between {start} and {end} will be deleted!"
         },
         "remoteReading": {
             "on": "Reading remote backuped data",

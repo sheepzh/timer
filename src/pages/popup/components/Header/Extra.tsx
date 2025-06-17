@@ -51,7 +51,7 @@ const Extra = defineComponent(() => {
                             <ElLink
                                 type="success"
                                 underline={IS_FIREFOX ? "never" : "hover"}
-                                icon={<Download />}
+                                icon={Download}
                                 onClick={handleUpgradeClick}
                             >
                                 {t(msg => msg.header.updateVersion)}

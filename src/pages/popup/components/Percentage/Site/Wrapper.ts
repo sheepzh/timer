@@ -8,6 +8,7 @@ import {
     type TooltipComponentOption,
 } from "echarts/components"
 import { type ComposeOption, type ECElementEvent } from "echarts/core"
+import type { TopLevelFormatterParams } from "echarts/types/dist/shared"
 import {
     formatTooltip, generateSiteSeriesOption, generateTitleOption, generateToolboxOption, handleClick,
     type PieSeriesItemOption,
@@ -77,7 +78,7 @@ export default class SiteWrapper extends EchartsWrapper<PercentageResult, EcOpti
             title: generateTitleOption(result),
             tooltip: {
                 trigger: 'item',
-                formatter: (params: any) => formatTooltip(result, params),
+                formatter: (params: TopLevelFormatterParams) => formatTooltip(result, params),
                 position: (point: (number | string)[]) => calcPositionOfTooltip(this.getDom(), point)
             },
             legend: {

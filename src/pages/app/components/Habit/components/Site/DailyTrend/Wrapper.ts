@@ -4,6 +4,7 @@ import { getLineSeriesPalette, tooltipDot, tooltipFlexLine, tooltipSpaceLine } f
 import { cvt2LocaleTime, periodFormatter } from "@app/util/time"
 import { EchartsWrapper } from "@hooks/useEcharts"
 import { groupBy, sum } from "@util/array"
+import { getHost } from "@util/stat"
 import { getAllDatesBetween } from "@util/time"
 import {
     type ComposeOption,
@@ -100,7 +101,7 @@ function generateOption(bizOption: BizOption): EcOption {
     const allDates = getAllDatesBetween(start, end)
     const focusMap = groupBy(rows, r => r.date, l => sum(l.map(e => e.focus)))
     const visitMap = groupBy(rows, r => r.date, l => sum(l.map(e => e.time)))
-    const siteMap = groupBy(rows, r => r.date, l => new Set(l.map(e => e.siteKey?.host)).size)
+    const siteMap = groupBy(rows, r => r.date, l => new Set(l.map(e => getHost(e))).size)
     const countData = allDates.map(date => ({ date, value: siteMap[date] ?? 0 }))
     const visitData = allDates.map(date => ({ date, value: visitMap[date] ?? 0 }))
     const focusData = allDates.map(date => ({ date, value: focusMap[date] ?? 0 }))

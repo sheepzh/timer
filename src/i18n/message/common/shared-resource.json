@@ -6,6 +6,7 @@
                 "date": "Date",
                 "domain": "URL",
                 "cate": "Category",
+                "group": "Tab Group",
                 "notMerge": "Not Merge"
             }
         },
@@ -20,6 +21,7 @@
                 "date": "按日期",
                 "domain": "按域名",
                 "cate": "按类目",
+                "group": "标签组",
                 "notMerge": "不合并"
             }
         },
