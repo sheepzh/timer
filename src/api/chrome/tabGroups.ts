@@ -2,6 +2,7 @@ import { IS_MV3 } from "@util/constant/environment"
 import { handleError } from "./common"
 
 export async function listAllGroups(): Promise<chrome.tabGroups.TabGroup[]> {
+    if (!chrome.tabGroups) return []
     if (IS_MV3) {
         try {
             return chrome.tabGroups.query({})
@@ -20,6 +21,7 @@ export async function listAllGroups(): Promise<chrome.tabGroups.TabGroup[]> {
 
 export async function getGroup(id: number | undefined): Promise<chrome.tabGroups.TabGroup | undefined> {
     if (!id) return undefined
+    if (!chrome.tabGroups) return undefined
     try {
         if (IS_MV3) {
             const group = await chrome.tabGroups.get(id)
@@ -37,6 +39,7 @@ export async function getGroup(id: number | undefined): Promise<chrome.tabGroups
 
 export function onChanged(handler: ArgCallback<chrome.tabGroups.TabGroup>): void {
     try {
+        if (!chrome.tabGroups) return
         chrome.tabGroups.onCreated.addListener(handler)
         chrome.tabGroups.onRemoved.addListener(handler)
         chrome.tabGroups.onUpdated.addListener(handler)
@@ -47,6 +50,7 @@ export function onChanged(handler: ArgCallback<chrome.tabGroups.TabGroup>): void
 
 export function removeChangedHandler(handler: ArgCallback<chrome.tabGroups.TabGroup>): void {
     try {
+        if (!chrome.tabGroups) return
         chrome.tabGroups.onCreated.removeListener(handler)
         chrome.tabGroups.onRemoved.removeListener(handler)
         chrome.tabGroups.onUpdated.removeListener(handler)
