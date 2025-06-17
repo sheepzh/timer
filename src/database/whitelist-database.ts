@@ -61,4 +61,6 @@ class WhitelistDatabase extends BaseDatabase {
     }
 }
 
-export default WhitelistDatabase
+const whitelistDatabase = new WhitelistDatabase()
+
+export default whitelistDatabase

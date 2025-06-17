@@ -1,4 +1,4 @@
-import OptionDatabase from "@db/option-database"
+import optionDatabase from "@db/option-database"
 import { locale } from "@i18n"
 import { formatTimeYMD, getWeekDay, MILL_PER_DAY } from "@util/time"
 
@@ -36,14 +36,13 @@ function getWeekTime(now: Date, weekStart: number): [Date, Date] {
 }
 
 class WeekHelper {
-    private optionDb = new OptionDatabase(chrome.storage.local)
     private weekStart: timer.option.WeekStartOption | undefined
     private initialized: boolean = false
 
     private async init(): Promise<void> {
-        const option = await this.optionDb.getOption()
+        const option = await optionDatabase.getOption()
         this.weekStart = option?.weekStart
-        this.optionDb.addOptionChangeListener(val => this.weekStart = val?.weekStart)
+        optionDatabase.addOptionChangeListener(val => this.weekStart = val?.weekStart)
         this.initialized = true
     }
 

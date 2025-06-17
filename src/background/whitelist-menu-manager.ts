@@ -8,14 +8,12 @@
 import { createContextMenu, updateContextMenu } from "@api/chrome/context-menu"
 import { getRuntimeId } from "@api/chrome/runtime"
 import { getTab, onTabActivated, onTabUpdated } from "@api/chrome/tab"
-import WhitelistDatabase from "@db/whitelist-database"
+import db from "@db/whitelist-database"
 import { t2Chrome } from "@i18n/chrome/t"
 import { type ContextMenusMessage } from "@i18n/message/common/context-menus"
 import optionHolder from "@service/components/option-holder"
 import { IS_ANDROID } from "@util/constant/environment"
 import { extractHostname, isBrowserUrl } from "@util/pattern"
-
-const db = new WhitelistDatabase(chrome.storage.local)
 
 const menuId = '_timer_menu_item_' + getRuntimeId()
 let currentActiveId: number

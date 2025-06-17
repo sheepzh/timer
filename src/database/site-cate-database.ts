@@ -104,4 +104,6 @@ class SiteCateDatabase extends BaseDatabase {
     }
 }
 
-export default SiteCateDatabase
+const siteCateDatabase = new SiteCateDatabase()
+
+export default siteCateDatabase

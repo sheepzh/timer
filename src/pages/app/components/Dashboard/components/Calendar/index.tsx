@@ -40,7 +40,7 @@ const fetchData = async (): Promise<Result> => {
     const endTime = new Date()
     const yearAgo = new Date(endTime.getTime() - MILL_PER_DAY * 365)
     const [startTime] = await weekHelper.getWeekDate(yearAgo)
-    const items = await statService.select({ date: [startTime, endTime], sort: "date" })
+    const items = await statService.selectSite({ date: [startTime, endTime], sortKey: 'date' })
     const value = groupBy(
         items,
         i => i.date,

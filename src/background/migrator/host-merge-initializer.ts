@@ -5,10 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
-import MergeRuleDatabase from "@db/merge-rule-database"
+import mergeRuleDatabase from "@db/merge-rule-database"
 import { type Migrator } from "./common"
-
-const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 /**
  * v0.1.2

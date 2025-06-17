@@ -7,4 +7,9 @@ declare namespace timer.common {
         list: T[]
         total: number
     }
+    type SortDirection = 'ASC' | 'DESC'
+    type SortBy<T extends string> = {
+        sortKey?: T
+        sortDirection?: SortDirection
+    }
 }

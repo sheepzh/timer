@@ -1,7 +1,6 @@
-import { cvt2StatQuery } from "@popup/common"
+import { queryRows } from "@popup/common"
 import { type PopupQuery } from "@popup/context"
 import optionHolder from "@service/components/option-holder"
-import statService from "@service/stat-service"
 import { sum } from "@util/array"
 
 export type RankingResult = {
@@ -13,13 +12,11 @@ export type RankingResult = {
 }
 
 export const doQuery = async (query: PopupQuery): Promise<RankingResult> => {
-    const statQuery = await cvt2StatQuery(query)
-    const rows = await statService.select(statQuery, true)
+    const [rows, date] = await queryRows(query)
     const { dimension } = query
     const values = rows?.map(r => r?.[dimension] ?? 0) ?? []
     const max = values.sort((a, b) => (b ?? 0) - (a ?? 0))[0] ?? 0
     const total = sum(values)
-    const date = statQuery.date
     const { displaySiteName } = await optionHolder.get() || {}
     return { max, total, rows, date, displaySiteName }
 }

@@ -64,4 +64,6 @@ class MergeRuleDatabase extends BaseDatabase {
     }
 }
 
-export default MergeRuleDatabase
+const mergeRuleDatabase = new MergeRuleDatabase()
+
+export default mergeRuleDatabase

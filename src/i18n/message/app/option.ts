@@ -49,6 +49,9 @@ export type OptionMessage = {
         countLocalFiles: string
         localFileTime: string
         localFilesInfo: string
+        countTabGroup: string
+        tabGroupInfo: string
+        tabGroupsPermGrant: string
         collectSiteName: string
         siteNameUsage: string
         siteName: string

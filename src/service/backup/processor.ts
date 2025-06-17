@@ -5,7 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import BackupDatabase from "@db/backup-database"
+import syncDb from "@db/backup-database"
 import optionHolder from "@service/components/option-holder"
 import itemService from "@service/item-service"
 import metaService from "@service/meta-service"
@@ -13,9 +13,6 @@ import { formatTimeYMD, getBirthday } from "@util/time"
 import GistCoordinator from "./gist/coordinator"
 import ObsidianCoordinator from "./obsidian/coordinator"
 import WebDAVCoordinator from "./web-dav/coordinator"
-
-const storage = chrome.storage.local
-const syncDb = new BackupDatabase(storage)
 
 export type AuthCheckResult = {
     option: timer.option.BackupOption

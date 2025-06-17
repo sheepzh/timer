@@ -86,14 +86,14 @@ const OptionItem = defineComponent<{ value: timer.site.Cate }>(props => {
                     <ElButton
                         size="small"
                         link
-                        icon={<Close />}
+                        icon={Close}
                         type="info"
                         onClick={ev => stopPropagationAfter(ev, closeEditing)}
                     />
                     <ElButton
                         size="small"
                         link
-                        icon={<Check />}
+                        icon={Check}
                         type="primary"
                         onClick={onSaveClick}
                     />
@@ -104,14 +104,14 @@ const OptionItem = defineComponent<{ value: timer.site.Cate }>(props => {
                     <ElButton
                         size="small"
                         link
-                        icon={<Edit />}
+                        icon={Edit}
                         type="primary"
                         onClick={e => stopPropagationAfter(e, onEditClick)}
                     />
                     <ElButton
                         size="small"
                         link
-                        icon={<Delete />}
+                        icon={Delete}
                         type="danger"
                         disabled={queryingSites.value}
                         onClick={onRemoveClick}

@@ -142,10 +142,10 @@ export default defineComponent(() => {
                     </>,
                     footer: () => <>
                         <Flex justify="end">
-                            <ElButton icon={<Close />} type="info" onClick={closeCateChange}>
+                            <ElButton icon={Close} type="info" onClick={closeCateChange}>
                                 {t(msg => msg.button.cancel)}
                             </ElButton>
-                            <ElButton icon={<Check />} type="primary" onClick={onCateChangeConfirm}>
+                            <ElButton icon={Check} type="primary" onClick={onCateChangeConfirm}>
                                 {t(msg => msg.button.confirm)}
                             </ElButton>
                         </Flex>

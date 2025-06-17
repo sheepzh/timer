@@ -5,6 +5,7 @@ import { periodFormatter } from "@app/util/time"
 import { useXsState } from "@hooks/useMediaSize"
 import Flex from "@pages/components/Flex"
 import { sum } from "@util/array"
+import { getHost } from "@util/stat"
 import { computed, defineComponent } from "vue"
 import { FilterOption, useHabitFilter } from "../context"
 import { computeAverageLen } from "./common"
@@ -28,7 +29,7 @@ const computeSummary = (rows: timer.stat.Row[] = [], filter: FilterOption): Resu
     const totalFocus = sum(rows.map(r => r.focus))
     const totalFocus4Average = exclusiveDate ? sum(rows.filter(r => r.date !== exclusiveDate).map(r => r.focus)) : totalFocus
     const totalTime = sum(rows.map(r => r.time))
-    const totalSite = new Set(rows.map(row => row.siteKey?.host)).size
+    const totalSite = new Set(rows.map(getHost)).size
     const totalSite4Average = exclusiveDate ? rows.filter(r => r.date !== exclusiveDate).length : rows.length
 
     return {

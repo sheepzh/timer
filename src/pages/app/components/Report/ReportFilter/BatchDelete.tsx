@@ -1,37 +1,44 @@
+import { getGroup } from "@api/chrome/tabGroups"
 import { type I18nKey, t } from "@app/locale"
-import StatDatabase from "@db/stat-database"
+import statDatabase from "@db/stat-database"
 import { DeleteFilled } from "@element-plus/icons-vue"
 import statService from "@service/stat-service"
-import { groupBy, sum } from "@util/array"
+import { isGroup, isNormalSite, isSite } from "@util/stat"
 import { formatTime } from "@util/time"
 import { ElButton, ElMessage, ElMessageBox } from "element-plus"
-import { defineComponent } from "vue"
+import { computed, defineComponent } from "vue"
 import { useReportComponent, useReportFilter } from "../context"
 import type { DisplayComponent, ReportFilterOption } from "../types"
 
-const statDatabase = new StatDatabase(chrome.storage.local)
-
 async function computeBatchDeleteMsg(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date] | undefined): Promise<string> {
-    // host => total focus
-    const hostFocus: { [host: string]: number } = groupBy(selected,
-        a => a.siteKey?.host,
-        grouped => grouped.map(a => a.focus).reduce((a, b) => a + b, 0)
-    )
-    const hosts = Object.keys(hostFocus)
-    if (!hosts.length) {
+    const hosts: string[] = []
+    const groupIds: number[] = []
+    selected.forEach(row => {
+        isSite(row) && hosts.push(row.siteKey.host)
+        isGroup(row) && groupIds.push(row.groupKey)
+    })
+    let example: string | undefined = hosts[0]
+    if (!example) {
+        const groupId = groupIds[0]
+        const group = groupId ? await getGroup(groupId) : undefined
+        example = group?.title ?? `ID:${groupId}`
+    }
+    if (!example) {
         // Never happen
         return t(msg => msg.report.batchDelete.noSelectedMsg)
     }
-    const count2Delete: number = mergeDate
+    let count2Delete = selected.length ?? 0
+    if (mergeDate) {
         // All the items
-        ? sum(await Promise.all(Array.from(hosts).map(host => statService.count({ host, fullHost: true, date: dateRange }))))
-        // The count of row
-        : selected?.length || 0
+        const siteCount = hosts.length ? await statService.countSiteByHosts(hosts, dateRange) : 0
+        const groupCount = groupIds.length ? await statService.countGroupByIds(groupIds, dateRange) : 0
+        count2Delete = siteCount + groupCount
+    }
     const i18nParam: Record<string, string | number | undefined> = {
         // count
         count: count2Delete,
         // example for hosts
-        example: hosts[0],
+        example,
         // Start date, if range
         start: undefined,
         // End date, if range
@@ -97,10 +104,11 @@ async function handleBatchDelete(displayComp: DisplayComponent | undefined, filt
 async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateRange: [Date, Date] | undefined) {
     if (mergeDate) {
         // Delete according to the date range
-        const start = dateRange?.[0]
-        const end = dateRange?.[1]
-        const hosts = selected.map(d => d.siteKey?.host)
-        await Promise.all(hosts.map(async h => h && await statDatabase.deleteByUrlBetween(h, start, end)))
+        const [start, end] = dateRange ?? []
+        for (const row of selected) {
+            isNormalSite(row) && await statDatabase.deleteByUrlBetween(row.siteKey.host, start, end)
+            isGroup(row) && await statDatabase.deleteByGroupBetween(row.groupKey, start, end)
+        }
     } else {
         // If not merge date, batch delete
         await statService.batchDelete(selected)
@@ -109,15 +117,19 @@ async function deleteBatch(selected: timer.stat.Row[], mergeDate: boolean, dateR
 
 const BatchDelete = defineComponent(() => {
     const filter = useReportFilter()
+    const disabled = computed(() => {
+        const { siteMerge } = filter
+        return !!siteMerge && siteMerge !== 'group'
+    })
     const comp = useReportComponent()
 
     return () => (
         <ElButton
             v-show={!filter.readRemote}
-            disabled={!!filter.siteMerge}
+            disabled={disabled.value}
             type="primary"
             link
-            icon={<DeleteFilled />}
+            icon={DeleteFilled}
             onClick={() => handleBatchDelete(comp.value, filter)}
         >
             {t(msg => msg.button.batchDelete)}

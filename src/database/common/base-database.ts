@@ -11,7 +11,7 @@ export default abstract class BaseDatabase {
 
     storage: StoragePromise
 
-    constructor(storageArea: chrome.storage.StorageArea) {
+    constructor(storageArea?: chrome.storage.StorageArea) {
         this.storage = new StoragePromise(storageArea)
     }
 

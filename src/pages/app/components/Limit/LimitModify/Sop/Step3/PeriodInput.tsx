@@ -126,19 +126,19 @@ const _default = defineComponent({
                         clearable={false}
                     />
                     <ElButton
-                        icon={<Close />}
+                        icon={Close}
                         onClick={closeEditing}
                         style={{ ...BUTTON_STYLE, borderRadius: 0 } satisfies StyleValue}
                     />
                     <ElButton
-                        icon={<Check />}
+                        icon={Check}
                         onClick={handleSave}
                         style={{ ...BUTTON_STYLE, marginInlineStart: 0 } satisfies StyleValue}
                     />
                 </div>
                 <ElButton
                     v-show={!editing.value}
-                    icon={<Plus />}
+                    icon={Plus}
                     onClick={handleEdit}
                     style={BUTTON_STYLE}
                 >

@@ -2,6 +2,7 @@
     "zh_CN": {
         "date": "日期",
         "host": "域名",
+        "group": "标签组",
         "focus": "浏览时长",
         "run": "运行时长",
         "time": "访问次数",
@@ -36,15 +37,16 @@
     "en": {
         "date": "Date",
         "host": "Domain",
+        "group": "Tab Group",
         "focus": "Duration",
         "run": "Run Time",
         "time": "Visits",
         "operation": {
             "add2Whitelist": "Whitelist",
             "analysis": "Analyze",
-            "deleteConfirmMsgAll": "All visit records of {url} will be deleted",
-            "deleteConfirmMsgRange": "Visit records of {url} between {start} and {end} will be deleted",
-            "deleteConfirmMsg": "Visit record of {url} on {date} will be deleted",
+            "deleteConfirmMsgAll": "All visit records for [{url}] will be deleted",
+            "deleteConfirmMsgRange": "Visit records for [{url}] between {start} and {end} will be deleted",
+            "deleteConfirmMsg": "Visit record for [{url}] of {date} will be deleted",
             "exportWholeData": "Export",
             "importWholeData": "Import",
             "importOtherData": "Import from Extensions"
