@@ -18,6 +18,12 @@ class OptionHolder {
         })
     }
 
+    listenPermChange() {
+        onPermRemoved(perm => {
+            perm.permissions?.includes('tabGroups') && this.set({ countTabGroup: false })
+        })
+    }
+
     private async reset(): Promise<DefaultOption> {
         const exist: Partial<timer.option.AllOption> = await db.getOption()
         const result = defaultOption()

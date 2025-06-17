@@ -112,6 +112,7 @@ const RUN_TIME_END_CACHE: { [host: string]: number } = {}
 async function handleTrackRunTimeEvent(event: timer.core.Event): Promise<void> {
     const { start, end, url, host } = event || {}
     if (!host || !start || !end) return
+    if (whitelistHolder.contains(host, url)) return
     const realStart = Math.max(RUN_TIME_END_CACHE[host] ?? 0, start)
     const byDate = splitRunTime(realStart, end)
     if (!Object.keys(byDate).length) return

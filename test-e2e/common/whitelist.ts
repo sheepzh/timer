@@ -16,7 +16,5 @@ export async function createWhitelist(context: LaunchContext, white: string) {
     await whitePage.click('.el-button:nth-child(3)')
     const checkBtn = await whitePage.waitForSelector('.el-overlay.is-message-box .el-button.el-button--primary')
     await checkBtn?.click()
-    await sleep(.2)
-
-    await whitePage.close()
+    setTimeout(() => whitePage.close(), 200)
 }

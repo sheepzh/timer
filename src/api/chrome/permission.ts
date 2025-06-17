@@ -36,5 +36,5 @@ export async function requestPerm(perm: chrome.runtime.ManifestPermissions): Pro
 }
 
 export async function onPermRemoved(callback: ArgCallback<chrome.permissions.Permissions>) {
-    chrome.permissions.onRemoved.addListener(callback)
+    chrome.permissions?.onRemoved.addListener(callback)
 }
