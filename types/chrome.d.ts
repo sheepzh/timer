@@ -9,7 +9,7 @@ declare type ChromeTabChangeInfo = chrome.tabs.TabChangeInfo
 declare type ChromeWindow = chrome.windows.Window
 // chrome.contextMenus
 declare type ChromeContextMenuCreateProps = chrome.contextMenus.CreateProperties
-declare type ChromeContextMenuUpdateProps = chrome.contextMenus.UpdateProperties
+declare type ChromeContextMenuUpdateProps = Omit<chrome.contextMenus.CreateProperties, "id">
 // chrome.alarms
 declare type ChromeAlarm = chrome.alarms.Alarm
 // chrome.runtime
@@ -22,7 +22,7 @@ declare namespace chrome {
         type ManifestFirefox = Pick<
             ManifestV2,
             | 'name' | 'description' | 'version' | 'manifest_version'
-            | 'icons' | 'background' | 'content_scripts' | 'permissions' | 'browser_action'
+            | 'icons' | 'background' | 'content_scripts' | 'permissions' | 'optional_permissions' | 'browser_action'
             | 'default_locale' | 'homepage_url' | 'key'
         > & {
             // "author" must be string for Firefox

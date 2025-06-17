@@ -1,7 +1,6 @@
-import OptionDatabase from "@db/option-database"
+import { onPermRemoved } from "@api/chrome/permission"
+import db from "@db/option-database"
 import { type DefaultOption, defaultOption } from "@util/constant/option"
-
-const db = new OptionDatabase(chrome.storage.local)
 
 type ChangeListener = (option: timer.option.AllOption) => void
 
@@ -13,6 +12,9 @@ class OptionHolder {
         db.addOptionChangeListener(async () => {
             const option = await this.reset()
             this.listeners.forEach(listener => listener?.(option))
+        })
+        onPermRemoved(perm => {
+            perm.permissions?.includes('tabGroups') && this.set({ countTabGroup: false })
         })
     }
 

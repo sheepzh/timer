@@ -71,7 +71,7 @@ const SelectFooter = defineComponent(() => {
                     <ElButton
                         size="small"
                         disabled={loading.value}
-                        icon={<Close />}
+                        icon={Close}
                         onClick={closeEditing}
                     >
                         {t(msg => msg.button.cancel)}
@@ -79,7 +79,7 @@ const SelectFooter = defineComponent(() => {
                     <ElButton
                         size="small"
                         type="primary"
-                        icon={<Check />}
+                        icon={Check}
                         onClick={onConfirm}
                         loading={loading.value}
                     >
@@ -88,7 +88,7 @@ const SelectFooter = defineComponent(() => {
                 </Flex>
             </> : (
                 <Flex width="100%" justify="end">
-                    <ElButton size="small" icon={<Plus />} type="success" onClick={onNewClick}>
+                    <ElButton size="small" icon={Plus} type="success" onClick={onNewClick}>
                         {t(msg => msg.button.create)}
                     </ElButton>
                 </Flex>

@@ -1,19 +1,44 @@
 declare namespace timer.stat {
-    /**
-     * A set of results
-     *
-     * @since 0.3.3
-     */
-    type ResultSet = { [host: string]: core.Result }
+    type SiteTarget = {
+        siteKey: timer.site.SiteKey
+    }
+    type CateTarget = {
+        cateKey: number
+    }
+    type GroupTarget = {
+        groupKey: number
+    }
+    type TargetKey = SiteTarget | CateTarget | GroupTarget
+    type DateKey = { date?: string }
+    type StatKey = TargetKey & DateKey
 
-    type StatKey = {
-        siteKey?: timer.site.SiteKey
-        cateKey?: number
-        // Absent if date merged
-        date?: string
+    type SiteMergeExtend = {
+        /**
+         * The merged domains
+         * Can't be empty if merged
+         *
+         * @since 0.1.5
+         */
+        mergedRows?: Omit<timer.stat.SiteRow, 'mergedRows'>[]
     }
 
-    type SiteExtend = {
+    type DateMergeExtend = {
+        /**
+         * The merged dates
+         *
+         * @since 2.4.7
+         */
+        mergedDates?: string[]
+    }
+
+    type RemoteExtend = {
+        /**
+         * The composition of data when querying remote
+         */
+        composition?: RemoteComposition
+    }
+
+    interface SiteRow extends SiteTarget, DateKey, core.Result, backup.RowExtend, SiteMergeExtend, DateMergeExtend, RemoteExtend {
         /**
          * Icon url
          */
@@ -28,28 +53,19 @@ declare namespace timer.stat {
         cateId?: number
     }
 
+    interface CateRow extends CateTarget, DateKey, core.Result, backup.RowExtend, SiteMergeExtend, DateMergeExtend, RemoteExtend {
+        cateName: string | undefined
+    }
+
+    interface GroupRow extends GroupTarget, DateKey, DateMergeExtend, core.Result {
+        color: `${chrome.tabGroups.Color}` | undefined
+        title: string | undefined
+    }
+
     /**
      * Row of each statistics result
      */
-    type Row = StatKey & core.Result & backup.RowExtend & SiteExtend & {
-        /**
-         * The merged domains
-         * Can't be empty if merged
-         *
-         * @since 0.1.5
-         */
-        mergedRows?: Row[]
-        /**
-         * The merged dates
-         *
-         * @since 2.4.7
-         */
-        mergedDates?: string[]
-        /**
-         * The composition of data when querying remote
-         */
-        composition?: RemoteComposition
-    }
+    type Row = SiteRow | CateRow | GroupRow
 
     type RemoteCompositionVal =
         // Means local data
@@ -75,5 +91,5 @@ declare namespace timer.stat {
     /**
      * @since 3.0.0
      */
-    type MergeMethod = 'cate' | 'date' | 'domain'
+    type MergeMethod = 'cate' | 'date' | 'domain' | 'group'
 }

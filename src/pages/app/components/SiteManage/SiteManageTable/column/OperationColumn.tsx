@@ -10,32 +10,29 @@ import { Delete } from "@element-plus/icons-vue"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import siteService from "@service/site-service"
 import { ElTableColumn } from "element-plus"
-import { defineComponent } from "vue"
+import type { FunctionalComponent } from "vue"
 
-const _default = defineComponent({
-    emits: {
-        delete: (_row: timer.site.SiteInfo) => true,
-    },
-    setup(_, ctx) {
-        return () => <ElTableColumn
-            width={150}
-            label={t(msg => msg.button.operation)}
-            align="center"
-            v-slots={
-                ({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
-                    <PopupConfirmButton
-                        buttonIcon={<Delete />}
-                        buttonType="danger"
-                        buttonText={t(msg => msg.button.delete)}
-                        confirmText={t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host })}
-                        onConfirm={async () => {
-                            await siteService.remove(row)
-                            ctx.emit("delete", row)
-                        }}
-                    />
-                )}
-        />
-    }
-})
+type Props = { onDelete?: ArgCallback<timer.site.SiteInfo> }
+
+const _default: FunctionalComponent<Props> = props => (
+    <ElTableColumn
+        width={150}
+        label={t(msg => msg.button.operation)}
+        align="center"
+        v-slots={
+            ({ row }: ElTableRowScope<timer.site.SiteInfo>) => (
+                <PopupConfirmButton
+                    buttonIcon={Delete}
+                    buttonType="danger"
+                    buttonText={t(msg => msg.button.delete)}
+                    confirmText={t(msg => msg.siteManage.deleteConfirmMsg, { host: row.host })}
+                    onConfirm={async () => {
+                        await siteService.remove(row)
+                        props.onDelete?.(row)
+                    }}
+                />
+            )}
+    />
+)
 
 export default _default

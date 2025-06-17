@@ -11,6 +11,7 @@ import { t } from "@app/locale"
 import Flex from "@pages/components/Flex"
 import { type ElTableRowScope } from "@pages/element-ui/table"
 import { identifySiteKey } from "@util/site"
+import { isGroup, isSite } from "@util/stat"
 import { Effect, ElTableColumn } from "element-plus"
 import { defineComponent } from "vue"
 import { useReportFilter } from "../../context"
@@ -27,16 +28,16 @@ const _default = defineComponent(() => {
             sortable="custom"
             align="center"
         >
-            {({ row: { mergedRows, siteKey, iconUrl } }: ElTableRowScope<timer.stat.Row>) => (
-                <Flex key={identifySiteKey(siteKey)} justify="center">
+            {({ row }: ElTableRowScope<timer.stat.Row>) => (
+                <Flex key={isSite(row) ? identifySiteKey(row.siteKey) : ''} justify="center">
                     <TooltipWrapper
                         usePopover={filter?.siteMerge === 'domain'}
                         effect={Effect.LIGHT}
                         offset={10}
                         placement="left"
                         v-slots={{
-                            content: () => <TooltipSiteList modelValue={mergedRows} />,
-                            default: () => siteKey?.host ? <HostAlert value={siteKey} iconUrl={iconUrl} /> : '',
+                            content: () => <TooltipSiteList modelValue={isGroup(row) ? undefined : row.mergedRows} />,
+                            default: () => isSite(row) ? <HostAlert value={row.siteKey} iconUrl={row.iconUrl} /> : '',
                         }}
                     />
                 </Flex>

@@ -1,9 +1,8 @@
-import StatDatabase, { type StatCondition } from "@db/stat-database"
+import db, { type StatCondition } from "@db/stat-database"
 import { resultOf } from "@util/stat"
 import { formatTimeYMD, MILL_PER_DAY } from "@util/time"
-import storage from "../__mock__/storage"
+import { mockStorage } from "../__mock__/storage"
 
-const db = new StatDatabase(storage.local)
 const now = new Date()
 const nowStr = formatTimeYMD(now)
 const yesterday = new Date(now.getTime() - MILL_PER_DAY)
@@ -12,7 +11,9 @@ const baidu = 'www.baidu.com'
 const google = 'www.google.com.hk'
 
 describe('stat-database', () => {
-    beforeEach(async () => storage.local.clear())
+    beforeAll(mockStorage)
+
+    beforeEach(async () => chrome.storage.local.clear())
 
     test('1', async () => {
         await db.accumulate(baidu, nowStr, resultOf(100, 0))
@@ -55,22 +56,12 @@ describe('stat-database', () => {
         )
         expect((await db.select()).length).toEqual(6)
 
-        let cond: StatCondition = {}
-        cond.host = 'google'
-
+        let cond: StatCondition = { keys: google }
         let list = await db.select(cond)
         expect(list.length).toEqual(3)
 
-        // full host is not correct, result is empty
-        cond.fullHost = true
-        expect((await db.select(cond)).length).toEqual(0)
-
-        cond.host = google
-        expect((await db.select(cond)).length).toEqual(3)
-
         // By date range
-        cond = {}
-        cond.date = [now, now]
+        cond = { date: [now, now] }
         const expectedResult: timer.core.Row[] = [
             { date: nowStr, focus: 11, host: google, time: 0 },
             { date: nowStr, focus: 1, host: baidu, time: 0 },
@@ -116,11 +107,11 @@ describe('stat-database', () => {
         expect((await db.select()).length).toEqual(3)
         // Delete all the baidu
         await db.deleteByUrl(baidu)
-        const cond: StatCondition = { host: baidu, fullHost: true }
+        const cond: StatCondition = { keys: baidu }
         // Nothing of baidu remained
         expect((await db.select(cond)).length).toEqual(0)
         // But google remained
-        cond.host = google
+        cond.keys = google
         const list = await db.select(cond)
         expect(list.length).toEqual(1)
         // Add one item of baidu again again
@@ -155,7 +146,7 @@ describe('stat-database', () => {
         const foo = resultOf(1, 1)
         await db.accumulate(baidu, nowStr, foo)
         const data2Import = await db.storage.get()
-        storage.local.clear()
+        chrome.storage.local.clear()
 
         data2Import.foo = "bar"
         await db.importData(data2Import)
@@ -197,21 +188,5 @@ describe('stat-database', () => {
         expect(await db.select()).toEqual([])
         await db.importData(false)
         expect(await db.select()).toEqual([])
-    })
-
-    test("count", async () => {
-        await db.accumulate(baidu, nowStr, resultOf(1, 1))
-        await db.accumulate(baidu, formatTimeYMD(yesterday), resultOf(2, 1))
-        await db.accumulate(google, nowStr, resultOf(3, 1))
-        await db.accumulate(google, formatTimeYMD(yesterday), resultOf(4, 1))
-        // Count by host
-        expect(await db.count({
-            host: baidu,
-            fullHost: true
-        })).toEqual(2)
-        // Count by fuzzy
-        expect(await db.count({ host: "www", fullHost: false })).toEqual(4)
-        // Count by date
-        expect(await db.count({ host: google, fullHost: true, date: now })).toEqual(1)
     })
 })

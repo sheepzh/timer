@@ -16,6 +16,8 @@ declare namespace timer.mq {
         | 'askHitVisit'
         // @since 3.2.0
         | 'siteRunChange'
+        // @since 3.5.0
+        | "enableTabGroup"
         // Request by content script
         // @since 1.3.0
         | "cs.isInWhitelist"

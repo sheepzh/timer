@@ -50,6 +50,9 @@ const _default: chrome.runtime.ManifestFirefox = {
         'alarms',
         '<all_urls>',
     ],
+    optional_permissions: [
+        "tabGroups",
+    ],
     browser_action: {
         default_popup: "static/popup_skeleton.html",
         default_icon: "static/images/icon.png",

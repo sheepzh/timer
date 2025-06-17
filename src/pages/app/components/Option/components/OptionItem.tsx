@@ -19,10 +19,10 @@ const _default = defineComponent<Props>(props => {
             <div>
                 <ElDivider v-show={!props.hideDivider} />
                 <Flex class="option-line" align="center" justify="space-between" gap={10}>
-                    <a class="option-label">
+                    <Flex class="option-label" align="center" gap={4}>
                         {!!props.required && <span class="option-item-required">*</span>}
                         {tN(props.label, param)}
-                    </a>
+                    </Flex>
                     {props.defaultValue && (
                         <a class="option-default">
                             {tN(

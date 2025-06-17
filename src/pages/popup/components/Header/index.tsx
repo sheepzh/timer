@@ -33,7 +33,7 @@ const Header = defineComponent(() => {
                     <ElLink
                         underline="never"
                         onClick={handleAllFuncClick}
-                        icon={<View />}
+                        icon={View}
                         style={{ gap: '3px' }}
                     >
                         {t(msg => msg.base.allFunction)}

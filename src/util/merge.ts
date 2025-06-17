@@ -1,6 +1,6 @@
 type Method = timer.stat.MergeMethod
 
-export const ALL_MERGE_METHODS: Method[] = ['date', 'domain', 'cate']
+export const ALL_MERGE_METHODS: Method[] = ['date', 'domain', 'cate', 'group']
 
 function judgeAdded(target: Method, newVal: Method[], oldVal: Method[]): boolean {
     return newVal?.includes?.(target) && !oldVal?.includes?.(target)

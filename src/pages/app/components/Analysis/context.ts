@@ -6,10 +6,10 @@
  */
 
 import { useLocalStorage, useProvide, useProvider, useRequest } from "@hooks"
+import statService from "@service/stat-service"
 import { ref, watch, type Ref } from "vue"
-import { AnalysisTarget } from "./types"
 import { useRoute, useRouter } from "vue-router"
-import statService, { type StatQueryParam } from "@service/stat-service"
+import type { AnalysisTarget } from "./types"
 
 type Context = {
     target: Ref<AnalysisTarget | undefined>
@@ -31,26 +31,19 @@ function parseQuery(): AnalysisTarget | undefined {
     return undefined
 }
 
-async function queryRows(target: AnalysisTarget | undefined): Promise<timer.stat.Row[]> {
-    if (!target?.key) return []
+async function queryRows(target: AnalysisTarget | undefined): Promise<(timer.stat.CateRow | timer.stat.SiteRow)[]> {
+    const { key, type } = target ?? {}
+    if (!key) return []
 
-    let param: StatQueryParam = {
-        sort: 'date',
-        sortOrder: 'ASC',
-    }
-    if (target?.type === 'cate') {
-        param.cateIds = [target.key]
-        param.mergeCate = true
-    } else if (target?.type === 'site') {
-        const { host, type: siteType } = target.key || {}
-        param.host = host
-        param.mergeHost = siteType === 'merged'
-        param.fullHost = true
+    if (type === 'cate') {
+        return statService.selectCate({ cateIds: [key], sortKey: 'date' })
+    } else if (type === 'site') {
+        const { host, type: siteType } = key ?? {}
+        return statService.selectSite({ host, mergeHost: siteType === 'merged', sortKey: 'date' })
     } else {
+        // Not supported yet
         return []
     }
-
-    return await statService.select(param)
 }
 
 const NAMESPACE = 'siteAnalysis'

@@ -67,7 +67,7 @@ const _default = defineComponent((_, ctx) => {
                 onIntervalChange={val => autoBackUpInterval.value = val}
             />
         </OptionItem>
-        {backupType.value === 'gist' && (
+        {backupType.value === 'gist' && <>
             <OptionItem
                 label={_ => 'Personal Access Token {info} {input}'}
                 v-slots={{
@@ -83,7 +83,7 @@ const _default = defineComponent((_, ctx) => {
                     onInput={val => auth.value = val?.trim?.() || ''}
                 />
             </OptionItem>
-        )}
+        </>}
         {backupType.value === 'obsidian_local_rest_api' && <>
             <OptionItem
                 label={msg => msg.option.backup.label.endpoint}
@@ -176,7 +176,7 @@ const _default = defineComponent((_, ctx) => {
                 onInput={val => clientName.value = val?.trim?.() || ''}
             />
         </OptionItem>
-        <Footer v-show={isNotNone.value} type={backupType.value} />
+        {isNotNone.value && <Footer type={backupType.value} />}
     </>
 })
 

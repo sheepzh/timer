@@ -6,7 +6,7 @@
  */
 
 import { useProvide, useProvider, useRequest } from "@hooks"
-import statService, { type StatQueryParam } from "@service/stat-service"
+import statService from "@service/stat-service"
 import { mergeDate } from "@service/stat-service/merge/date"
 import { getDayLength } from "@util/time"
 import { computed, type Ref } from "vue"
@@ -22,13 +22,7 @@ const NAMESPACE = 'habitSite'
 export const initProvider = () => {
     const filter = useHabitFilter()
 
-    const { data: rows } = useRequest(() => {
-        const param: StatQueryParam = {
-            exclusiveVirtual: true,
-            date: filter.dateRange,
-        }
-        return statService.select(param, true)
-    }, {
+    const { data: rows } = useRequest(() => statService.selectSite({ date: filter.dateRange }), {
         deps: [() => filter.dateRange],
         defaultValue: [],
     })

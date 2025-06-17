@@ -20,13 +20,13 @@ const Footer = defineComponent(() => {
                     <ElText>{t(msg => msg.shared.merge.mergeBy)}</ElText>
                     <ElSelect
                         modelValue={query.mergeMethod}
-                        onChange={v => query.mergeMethod = v}
+                        onChange={v => query.mergeMethod = v ?? undefined}
                         placeholder={t(msg => msg.shared.merge.mergeMethod.notMerge)}
                         popperOptions={{ placement: 'top' }}
                         style={{ width: '90px' }}
                     >
                         <ElOption value='' label={t(msg => msg.shared.merge.mergeMethod.notMerge)} />
-                        {(['domain', 'cate'] satisfies timer.stat.MergeMethod[]).map(method => (
+                        {(['domain', 'cate', 'group'] satisfies timer.stat.MergeMethod[]).map(method => (
                             <ElOption value={method} label={t(msg => msg.shared.merge.mergeMethod[method])} />
                         ))}
                     </ElSelect>

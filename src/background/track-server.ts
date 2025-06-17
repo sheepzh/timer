@@ -1,7 +1,8 @@
 import { getTab, listTabs, sendMsg2Tab } from "@api/chrome/tab"
 import { getWindow } from "@api/chrome/window"
 import optionHolder from "@service/components/option-holder"
-import itemService from "@service/item-service"
+import whitelistHolder from "@service/components/whitelist-holder"
+import itemService, { type ItemIncContext } from "@service/item-service"
 import limitService from "@service/limit-service"
 import periodService from "@service/period-service"
 import { IS_ANDROID } from "@util/constant/environment"
@@ -10,11 +11,12 @@ import { formatTimeYMD, getStartOfDay, MILL_PER_DAY } from "@util/time"
 import badgeManager from "./badge-manager"
 import MessageDispatcher from "./message-dispatcher"
 
-async function handleTime(host: string, url: string, dateRange: [number, number], tabId: number | undefined): Promise<number> {
-    const [start, end] = dateRange
+async function handleTime(context: ItemIncContext, timeRange: [number, number], tabId: number | undefined): Promise<number> {
+    const { host, url } = context
+    const [start, end] = timeRange
     const focusTime = end - start
     // 1. Save async
-    await itemService.addFocusTime(host, url, focusTime)
+    await itemService.addFocusTime(context, focusTime)
     // 2. Process limit
     const { limited, reminder } = await limitService.addFocusTime(host, url, focusTime)
     // If time limited after this operation, send messages
@@ -28,15 +30,18 @@ async function handleTime(host: string, url: string, dateRange: [number, number]
 
 async function handleTrackTimeEvent(event: timer.core.Event, sender: ChromeMessageSender): Promise<void> {
     const { url, start, end, ignoreTabCheck } = event
-    const { id: tabId, windowId } = sender?.tab || {}
+    const { id: tabId, windowId, groupId } = sender?.tab || {}
     if (!ignoreTabCheck) {
         if (await windowNotFocused(windowId)) return
         if (await tabNotActive(tabId)) return
     }
     const { protocol, host } = extractHostname(url) || {}
     const option = await optionHolder.get()
+
     if (protocol === "file" && !option?.countLocalFiles) return
-    await handleTime(host, url, [start, end], tabId)
+    if (whitelistHolder.contains(host, url)) return
+
+    await handleTime({ host, url, groupId }, [start, end], tabId)
     if (tabId) {
         const winTabs = await listTabs({ active: true, windowId })
         const firstActiveTab = winTabs?.[0]
@@ -73,19 +78,21 @@ async function sendLimitedMessage(items: timer.limit.Item[]) {
     }
 }
 
-async function handleVisit(host: string, url: string) {
-    await itemService.increaseVisit(host, url)
+async function handleVisit(context: ItemIncContext) {
+    await itemService.increaseVisit(context)
+    const { host, url } = context
     const metLimits = await limitService.incVisit(host, url)
     // If time limited after this operation, send messages
     metLimits?.length && sendLimitedMessage(metLimits)
 }
 
-async function handleIncVisitEvent(param: { host: string, url: string }): Promise<void> {
+async function handleIncVisitEvent(param: { host: string, url: string }, sender: ChromeMessageSender): Promise<void> {
     const { host, url } = param || {}
+    const { groupId } = sender?.tab ?? {}
     const { protocol } = extractHostname(url) || {}
     const option = await optionHolder.get()
     if (protocol === "file" && !option.countLocalFiles) return
-    await handleVisit(host, url)
+    await handleVisit({ host, url, groupId })
 }
 
 function splitRunTime(start: number, end: number): Record<string, number> {
@@ -108,8 +115,21 @@ async function handleTrackRunTimeEvent(event: timer.core.Event): Promise<void> {
     const realStart = Math.max(RUN_TIME_END_CACHE[host] ?? 0, start)
     const byDate = splitRunTime(realStart, end)
     if (!Object.keys(byDate).length) return
-    await itemService.addRunTime(host, url, byDate)
+    await itemService.addRunTime(host, byDate)
     RUN_TIME_END_CACHE[host] = Math.max(end, realStart)
+}
+
+function handleTabGroupRemove(group: chrome.tabGroups.TabGroup) {
+    itemService.batchDeleteGroupById(group.id)
+}
+
+function handleTabGroupEnabled() {
+    try {
+        chrome.tabGroups.onRemoved.removeListener(handleTabGroupRemove)
+        chrome.tabGroups.onRemoved.addListener(handleTabGroupRemove)
+    } catch (e) {
+        console.warn('failed to handle event: enableTabGroup', e)
+    }
 }
 
 export default function initTrackServer(messageDispatcher: MessageDispatcher) {
@@ -118,4 +138,5 @@ export default function initTrackServer(messageDispatcher: MessageDispatcher) {
         .register<timer.core.Event, void>('cs.trackRunTime', handleTrackRunTimeEvent)
         .register<{ host: string, url: string }, void>('cs.incVisitCount', handleIncVisitEvent)
         .register<string, timer.core.Result>('cs.getTodayInfo', host => itemService.getResult(host, new Date()))
+        .register<void, void>('enableTabGroup', handleTabGroupEnabled)
 }

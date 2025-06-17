@@ -12,12 +12,14 @@ import {
     exportJson as exportJson_,
 } from "@util/file"
 import { CATE_NOT_SET_ID } from "@util/site"
+import { getAlias, getGroupName, getHost, getRelatedCateId, isGroup } from "@util/stat"
 import { formatTimeYMD } from "@util/time"
 import type { ReportFilterOption } from "./types"
 
 type ExportInfo = {
+    host?: string
+    group?: string
     date?: string
-    host: string
     alias?: string
     cate?: string
     focus?: string
@@ -42,18 +44,19 @@ function computeFileName(filterParam: ReportFilterOption): string {
     return baseName
 }
 
-const generateJsonData = (rows: timer.stat.Row[], categories: timer.site.Cate[]) => rows.map(row => ({
-    host: row.siteKey?.host ?? '',
+const generateJsonData = ({ rows, categories, groupMap }: ExportParam): ExportInfo[] => rows.map(row => ({
+    host: getHost(row) ?? undefined,
+    group: isGroup(row) ? getGroupName(groupMap, row) : undefined,
     date: row.date,
-    alias: row.alias,
+    alias: getAlias(row),
     cate: getCateName(row, categories),
     focus: periodFormatter(row.focus, { format: 'second', hideUnit: true }),
     time: row.time
-} satisfies ExportInfo))
+}))
 
-const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string => {
-    const cateId = row?.cateId || row?.cateKey
-    let cate: string = ''
+const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string | undefined => {
+    const cateId = getRelatedCateId(row)
+    let cate: string | undefined = undefined
     if (cateId === CATE_NOT_SET_ID) {
         cate = t(msg => msg.shared.cate.notSet)
     } else if (cateId) {
@@ -63,15 +66,22 @@ const getCateName = (row: timer.stat.Row, categories: timer.site.Cate[]): string
     return cate
 }
 
+export type ExportParam = {
+    rows: timer.stat.Row[]
+    filter: ReportFilterOption
+    categories: timer.site.Cate[]
+    groupMap: Record<number, chrome.tabGroups.TabGroup>
+}
+
 /**
  * Export json data
  *
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportJson(filterParam: ReportFilterOption, rows: timer.stat.Row[], categories: timer.site.Cate[]): void {
-    const fileName = computeFileName(filterParam)
-    const jsonData = generateJsonData(rows, categories)
+export function exportJson(param: ExportParam): void {
+    const fileName = computeFileName(param.filter)
+    const jsonData = generateJsonData(param)
     exportJson_(jsonData, fileName)
 }
 
@@ -80,7 +90,7 @@ type CsvColumn = keyof ExportInfo
 type CsvColumnConfig = {
     visible: (mergeDate: boolean, siteMerge: ReportFilterOption['siteMerge']) => boolean
     i18n: I18nKey
-    formatter: (row: timer.stat.Row, categories: timer.site.Cate[]) => string
+    formatter: (row: timer.stat.Row, categories: timer.site.Cate[], groupMap: Record<number, chrome.tabGroups.TabGroup>) => string
 }
 
 const CSV_COLUMN_CONFIGS: Record<CsvColumn, CsvColumnConfig> = {
@@ -90,19 +100,24 @@ const CSV_COLUMN_CONFIGS: Record<CsvColumn, CsvColumnConfig> = {
         formatter: row => row.date ?? '',
     },
     host: {
-        visible: (_, siteMerge) => siteMerge !== 'cate',
+        visible: (_, siteMerge) => !siteMerge || siteMerge === 'domain',
         i18n: msg => msg.item.host,
-        formatter: row => row.siteKey?.host ?? '',
+        formatter: row => getHost(row) ?? '',
+    },
+    group: {
+        visible: (_, siteMerge) => siteMerge === 'group',
+        i18n: msg => msg.item.group,
+        formatter: (row, _, groupMap) => isGroup(row) ? getGroupName(groupMap, row) : 'NaN'
     },
     alias: {
-        visible: (_, siteMerge) => siteMerge !== 'cate',
+        visible: (_, siteMerge) => !siteMerge || siteMerge === 'domain',
         i18n: msg => msg.siteManage.column.alias,
-        formatter: row => row?.alias ?? '',
+        formatter: row => getAlias(row) ?? '',
     },
     cate: {
-        visible: (_, siteMerge) => siteMerge !== 'domain',
+        visible: (_, siteMerge) => !siteMerge || siteMerge === 'cate',
         i18n: msg => msg.siteManage.column.cate,
-        formatter: (row, categories) => getCateName(row, categories),
+        formatter: (row, categories) => getCateName(row, categories) ?? '',
     },
     focus: {
         visible: () => true,
@@ -116,13 +131,13 @@ const CSV_COLUMN_CONFIGS: Record<CsvColumn, CsvColumnConfig> = {
     },
 }
 
-function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption, categories: timer.site.Cate[]): string[][] {
-    const { siteMerge, mergeDate } = filterParam
+function generateCsvData({ filter, rows, categories, groupMap }: ExportParam): string[][] {
+    const { siteMerge, mergeDate } = filter
 
     const colConfigs = Object.values(CSV_COLUMN_CONFIGS).filter(({ visible }) => visible?.(mergeDate, siteMerge))
 
     const columnTitles = colConfigs.map(({ i18n }) => t(i18n))
-    const lines = rows.map(row => colConfigs.map(({ formatter }) => formatter(row, categories)))
+    const lines = rows.map(row => colConfigs.map(({ formatter }) => formatter(row, categories, groupMap)))
     return [columnTitles, ...lines]
 }
 
@@ -132,8 +147,8 @@ function generateCsvData(rows: timer.stat.Row[], filterParam: ReportFilterOption
  * @param filterParam filter params
  * @param rows row data
  */
-export function exportCsv(filterParam: ReportFilterOption, rows: timer.stat.Row[], categories: timer.site.Cate[]): void {
-    const fileName = computeFileName(filterParam)
-    const csvData = generateCsvData(rows, filterParam, categories)
+export function exportCsv(param: ExportParam): void {
+    const fileName = computeFileName(param.filter)
+    const csvData = generateCsvData(param)
     exportCsv_(csvData, fileName)
 }

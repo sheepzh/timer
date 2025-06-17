@@ -1,10 +1,10 @@
-import WhitelistDatabase from "@db/whitelist-database"
-import storage from "../__mock__/storage"
-
-const db = new WhitelistDatabase(storage.local)
+import db from "@db/whitelist-database"
+import { mockStorage } from "../__mock__/storage"
 
 describe('timer-database', () => {
-    beforeEach(async () => storage.local.clear())
+    beforeAll(mockStorage)
+
+    beforeEach(async () => chrome.storage.local.clear())
 
     test('1', async () => {
         await db.add('www.baidu.com')

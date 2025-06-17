@@ -7,12 +7,12 @@
 
 import { useCategories } from "@app/context"
 import { Download } from "@element-plus/icons-vue"
-import statService from "@service/stat-service"
+import { useTabGroups } from "@hooks/useTabGroups"
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from "element-plus"
 import { defineComponent } from "vue"
-import { cvtOption2Param } from "../common"
-import { useReportFilter } from "../context"
-import { exportCsv, exportJson } from "../file-export"
+import { queryAll } from "../common"
+import { useReportFilter, useReportSort } from "../context"
+import { exportCsv, exportJson, ExportParam } from "../file-export"
 import { ICON_BTN_STYLE } from "./common"
 
 const ALL_FILE_FORMATS = ["json", "csv"] as const
@@ -20,14 +20,19 @@ type FileFormat = typeof ALL_FILE_FORMATS[number]
 
 const DownloadFile = defineComponent(() => {
     const filter = useReportFilter()
+    const sort = useReportSort()
     const { categories } = useCategories()
+    const { groupMap } = useTabGroups()
 
     const handleDownload = async (format: FileFormat) => {
-        const categoriesVal = categories.value
-        const param = cvtOption2Param(filter)
-        const rows = await statService.select(param, true)
-        format === 'json' && exportJson(filter, rows, categoriesVal)
-        format === 'csv' && exportCsv(filter, rows, categoriesVal)
+        const rows = await queryAll(filter, sort.value)
+        const param: ExportParam = {
+            rows, filter,
+            categories: categories.value,
+            groupMap: groupMap.value,
+        }
+        format === 'json' && exportJson(param)
+        format === 'csv' && exportCsv(param)
     }
 
     return () => (

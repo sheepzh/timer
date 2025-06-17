@@ -1,16 +1,16 @@
-import PeriodDatabase from "@db/period-database"
+import db from "@db/period-database"
 import { keyOf, MILL_PER_PERIOD } from "@util/period"
 import { formatTimeYMD } from "@util/time"
-import storage from "../__mock__/storage"
-
-const db = new PeriodDatabase(storage.local)
+import { mockStorage } from "../__mock__/storage"
 
 function resultOf(date: Date, orderNum: number, milliseconds: number): timer.period.Result {
     return { ...keyOf(date, orderNum), milliseconds }
 }
 
 describe('period-database', () => {
-    beforeEach(async () => storage.local.clear())
+    beforeAll(mockStorage)
+
+    beforeEach(async () => chrome.storage.local.clear())
 
     test('1', async () => {
         const date = new Date(2021, 5, 7)
@@ -62,7 +62,7 @@ describe('period-database', () => {
         await db.accumulate(toAdd)
 
         const data2Import = await db.storage.get()
-        storage.local.clear()
+        chrome.storage.local.clear()
         expect(await db.getAll()).toEqual([])
         data2Import.foo = "bar"
         db.importData(data2Import)

@@ -4,7 +4,8 @@
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
-import { isAllowedFileSchemeAccess } from "@api/chrome/runtime"
+import { hasPerm, requestPerm } from "@api/chrome/permission"
+import { isAllowedFileSchemeAccess, sendMsg2Runtime } from "@api/chrome/runtime"
 import { t } from "@app/locale"
 import { useRequest } from "@hooks"
 import { locale } from "@i18n"
@@ -12,7 +13,7 @@ import { rotate } from "@util/array"
 import { IS_ANDROID, IS_FIREFOX } from "@util/constant/environment"
 import { defaultStatistics } from "@util/constant/option"
 import { MILL_PER_SECOND } from "@util/time"
-import { ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
+import { ElMessage, ElMessageBox, ElOption, ElSelect, ElSwitch, ElTimePicker, ElTooltip } from "element-plus"
 import { computed, defineComponent } from "vue"
 import { type OptionInstance } from "../common"
 import { useOption } from "../useOption"
@@ -32,6 +33,7 @@ allWeekDays.forEach(weekDayInfo => weekStartOptionPairs.push(weekDayInfo))
 function copy(target: timer.option.StatisticsOption, source: timer.option.StatisticsOption) {
     target.collectSiteName = source.collectSiteName
     target.countLocalFiles = source.countLocalFiles
+    target.countTabGroup = source.countTabGroup
     target.weekStart = source.weekStart
     target.autoPauseTracking = source.autoPauseTracking
     target.autoPauseInterval = source.autoPauseInterval
@@ -70,6 +72,23 @@ const _default = defineComponent((_props, ctx) => {
         if (intervalNum >= 60) return 'mm [min] ss [sec]'
         return 'ss [sec]'
     })
+
+    const handleTabGroupChange = async (val: boolean) => {
+        if (val && !await hasPerm("tabGroups")) {
+            try {
+                const granted = await ElMessageBox.confirm(t(msg => msg.option.statistics.tabGroupsPermGrant), { type: 'primary' })
+                    .then(() => requestPerm("tabGroups"))
+                if (!granted) {
+                    ElMessage.error("Grant permission failed")
+                    return
+                }
+            } catch {
+                return
+            }
+        }
+        option.countTabGroup = val
+        val && sendMsg2Runtime("enableTabGroup")
+    }
 
     return () => <>
         {!IS_ANDROID && <>
@@ -121,6 +140,14 @@ const _default = defineComponent((_props, ctx) => {
                                 default: () => <ElSwitch modelValue={false} disabled />,
                             }}
                         />,
+                }}
+            />
+            <OptionItem
+                label={msg => msg.option.statistics.countTabGroup}
+                defaultValue={t(msg => msg.option.no)}
+                v-slots={{
+                    info: () => <OptionTooltip>{t(msg => msg.option.statistics.tabGroupInfo)}</OptionTooltip>,
+                    default: () => <ElSwitch modelValue={option.countTabGroup} onChange={val => handleTabGroupChange(!!val)} />
                 }}
             />
         </>}

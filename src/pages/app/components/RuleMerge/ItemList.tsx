@@ -6,15 +6,13 @@
  */
 
 import { t } from "@app/locale"
-import MergeRuleDatabase from "@db/merge-rule-database"
+import mergeRuleDatabase from "@db/merge-rule-database"
 import { useManualRequest, useRequest } from "@hooks"
 import Flex from "@pages/components/Flex"
 import { ElMessage, ElMessageBox } from "element-plus"
 import { defineComponent, ref } from "vue"
 import AddButton from './components/AddButton'
 import Item, { type ItemInstance } from './components/Item'
-
-const mergeRuleDatabase = new MergeRuleDatabase(chrome.storage.local)
 
 const _default = defineComponent(() => {
     const { data: items, refresh } = useRequest(() => mergeRuleDatabase.selectAll())

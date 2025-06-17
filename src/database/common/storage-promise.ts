@@ -14,16 +14,20 @@ type NoInferX<T> = T[][T extends any ? 0 : never]
  * Wrap the storage with promise
  */
 export default class StoragePromise {
-    private storage: chrome.storage.StorageArea
+    private storage: chrome.storage.StorageArea | undefined
 
-    constructor(storage: chrome.storage.StorageArea) {
+    constructor(storage?: chrome.storage.StorageArea) {
         this.storage = storage
+    }
+
+    private getStorage(): chrome.storage.StorageArea {
+        return this.storage ?? chrome.storage.local
     }
 
     get<T = { [key: string]: any }>(
         keys?: NoInferX<keyof T> | Array<NoInferX<keyof T>> | Partial<NoInferX<T>> | null,
     ): Promise<T> {
-        return new Promise(resolve => this.storage.get(keys ?? null, resolve))
+        return new Promise(resolve => this.getStorage().get(keys ?? null, resolve))
     }
 
     /**
@@ -34,7 +38,7 @@ export default class StoragePromise {
     }
 
     set(obj: any): Promise<void> {
-        return new Promise<void>(resolve => this.storage.set(obj, resolve))
+        return new Promise<void>(resolve => this.getStorage().set(obj, resolve))
     }
 
     /**
@@ -45,12 +49,12 @@ export default class StoragePromise {
     }
 
     remove(key: string | string[]): Promise<void> {
-        return new Promise(resolve => this.storage.remove(key, resolve))
+        return new Promise(resolve => this.getStorage().remove(key, resolve))
     }
 
     async getUsedMemory(): Promise<number> {
-        if (this.storage.getBytesInUse) {
-            return new Promise(resolve => this.storage.getBytesInUse(resolve))
+        if (this.getStorage().getBytesInUse) {
+            return new Promise(resolve => this.getStorage().getBytesInUse(resolve))
         } else {
             const store = await this.get()
             return JSON.stringify(store).length

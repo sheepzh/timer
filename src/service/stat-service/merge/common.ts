@@ -5,6 +5,8 @@
  * https://opensource.org/licenses/MIT
  */
 
+import { isGroup } from "@util/stat"
+
 type _RemoteCompositionMap = Record<'_' | string, timer.stat.RemoteCompositionVal>
 
 function mergeComposition(c1: timer.stat.RemoteComposition | undefined, c2: timer.stat.RemoteComposition | undefined): timer.stat.RemoteComposition {
@@ -47,8 +49,10 @@ function accCompositionValue(map: _RemoteCompositionMap, value: timer.stat.Remot
 }
 
 export function mergeResult(target: timer.stat.Row, delta: timer.stat.Row) {
-    const { focus, time, composition } = delta || {}
+    const { focus, time } = delta
     target.focus += focus ?? 0
     target.time += time ?? 0
-    target.composition = mergeComposition(target.composition, composition)
+    if (!isGroup(target) && !isGroup(delta)) {
+        target.composition = mergeComposition(target.composition, delta.composition)
+    }
 }
