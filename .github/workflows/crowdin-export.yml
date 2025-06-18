@@ -24,8 +24,8 @@ jobs:
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
-            - name: Test build
-              run: npm run dev:e2e
+            - name: Test typescript
+              uses: icrawl/action-tsc@v1
             - name: Create Pull Request
               uses: peter-evans/create-pull-request@v7
               with:
@@ -33,4 +33,5 @@ jobs:
                   branch: crowdin-export/patch
                   title: "i18n(download): download translations by bot"
                   body: "Automated download translations from [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)"
+                  author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
                   labels: "i18n"
