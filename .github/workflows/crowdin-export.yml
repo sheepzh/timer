@@ -11,11 +11,10 @@ jobs:
               with:
                   fetch-depth: 1
                   token: ${{secrets.GITHUB_TOKEN}}
-                  ref: i18n-export
             - name: Test using Node.js
               uses: actions/setup-node@v1
               with:
-                  node-version: "v20.11.0"
+                  node-version: "v22"
             - name: Install ts-node
               run: npm i -g ts-node
             - name: Install dependencies
@@ -27,6 +26,6 @@ jobs:
                   git config --global user.name 'Crowdin Bot'
                   git config --global user.email 'returnzhy1996@outlook.com'
                   git add .
-                  git commit -m "Export translations by Github Action"
+                  git commit -m "i18n(download): download translations by bot"
             - name: Push change
               run: git push
