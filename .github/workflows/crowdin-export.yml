@@ -34,4 +34,5 @@ jobs:
                   title: "i18n(download): download translations by bot"
                   body: "Automated download translations from [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)"
                   author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+                  sign-commits: true
                   labels: "i18n"
