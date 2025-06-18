@@ -125,7 +125,7 @@
     },
     "pt_PT": {
         "target": {
-            "site": "Website",
+            "site": "Site",
             "cate": "Categoria"
         },
         "common": {
@@ -156,7 +156,7 @@
     },
     "uk": {
         "target": {
-            "site": "Сайт",
+            "site": "Вебсайт",
             "cate": "Категорія"
         },
         "common": {

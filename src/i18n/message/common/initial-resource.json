@@ -33,8 +33,8 @@
     },
     "pt_PT": {
         "localFile": {
-            "json": "JSON",
-            "pdf": "PDF",
+            "json": "Arquivos JSON",
+            "pdf": "Arquivos PDF",
             "pic": "Imagens",
             "txt": "Texto"
         }
