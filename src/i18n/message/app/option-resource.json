@@ -608,8 +608,7 @@
                 },
                 "obsidian_local_rest_api": {
                     "endpointInfo": "Apenas HTTP disponível (limitação CORS)"
-                },
-                "web_dav": {}
+                }
             },
             "label": {
                 "endpoint": "Endereço {info} {input}",
