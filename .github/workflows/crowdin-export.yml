@@ -1,32 +1,37 @@
 name: Export translations from Crowdin
-on: [workflow_dispatch]
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 0 * * *"
 jobs:
     sync:
         runs-on: ubuntu-latest
         env:
             TIMER_CROWDIN_AUTH: ${{ secrets.TIMER_CROWDIN_AUTH }}
         steps:
-            - name: Checkout branch i18n-export
+            - name: Prepare branch
               uses: actions/checkout@v4
               with:
                   fetch-depth: 1
                   token: ${{secrets.GITHUB_TOKEN}}
-                  ref: i18n-export
             - name: Test using Node.js
               uses: actions/setup-node@v1
               with:
-                  node-version: "v20.11.0"
+                  node-version: "v22"
             - name: Install ts-node
               run: npm i -g ts-node
             - name: Install dependencies
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
-            - name: Commit change
-              run: |
-                  git config --global user.name 'Crowdin Bot'
-                  git config --global user.email 'returnzhy1996@outlook.com'
-                  git add .
-                  git commit -m "Export translations by Github Action"
-            - name: Push change
-              run: git push
+            - name: Test typescript
+              uses: icrawl/action-tsc@v1
+            - name: Create Pull Request
+              uses: peter-evans/create-pull-request@v7
+              with:
+                  commit-message: "i18n(download): download translations by bot"
+                  branch: crowdin-export/patch
+                  title: "i18n(download): download translations by bot"
+                  body: "Automated download translations from [Crowdin](https://crowdin.com/project/timer-chrome-edge-firefox)"
+                  author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+                  labels: "i18n"

@@ -16,6 +16,7 @@
         "resolveJsonModule": true,
         "importHelpers": true,
         "moduleResolution": "node",
+        "skipLibCheck": true,
         "paths": {
             "@api/*": [
                 "src/api/*"
