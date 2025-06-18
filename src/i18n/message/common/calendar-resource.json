@@ -90,9 +90,9 @@
     "pt_PT": {
         "weekDays": "Seg|Ter|Qua|Qui|Sex|Sáb|Dom",
         "months": "Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez",
-        "dateFormat": "{m}/{d}/{y}",
-        "timeFormat": "{m}/{d}/{y} {h}:{i}:{s}",
-        "simpleTimeFormat": "{m}/{d} {h}:{i}",
+        "dateFormat": "{d}/{m}/{y}",
+        "timeFormat": "{d}/{m}/{y} {h}:{i}:{s}",
+        "simpleTimeFormat": "{d}/{m} {h}:{i}",
         "label": {
             "startDate": "Data inicial",
             "endDate": "Data final"
