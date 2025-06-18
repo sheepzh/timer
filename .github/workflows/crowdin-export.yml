@@ -6,7 +6,7 @@ jobs:
         env:
             TIMER_CROWDIN_AUTH: ${{ secrets.TIMER_CROWDIN_AUTH }}
         steps:
-            - name: Checkout branch i18n-export
+            - name: Prepare branch
               uses: actions/checkout@v4
               with:
                   fetch-depth: 1
@@ -21,11 +21,11 @@ jobs:
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
-            - name: Commit change
-              run: |
-                  git config --global user.name 'Crowdin Bot'
-                  git config --global user.email 'returnzhy1996@outlook.com'
-                  git add .
-                  git commit -m "i18n(download): download translations by bot"
-            - name: Push change
-              run: git push
+            - name: Create Pull Request
+              uses: peter-evans/create-pull-request@v7
+              with:
+                  commit-message: "i18n(download): download translations by bot"
+                  author: returnzhy1996@outlook.com
+                  branch: crowdin-export/patch
+                  title: "i18n(download): download translations by bot"
+                  labels: "i18n"
