@@ -25,8 +25,8 @@ jobs:
               uses: peter-evans/create-pull-request@v7
               with:
                   commit-message: "i18n(download): download translations by bot"
-                  committer: github-actions[bot] <${{github.actor_id}}+github-actions[bot]@users.noreply.github.com>
-                  author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+                  committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+                  author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
                   branch: crowdin-export/patch
                   title: "i18n(download): download translations by bot"
                   labels: "i18n"
