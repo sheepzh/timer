@@ -21,6 +21,8 @@ jobs:
               run: npm install
             - name: Export translations
               run: ts-node ./script/crowdin/export-translation.ts
+            - name: Test build
+              run: npm run dev:e2e
             - name: Create Pull Request
               uses: peter-evans/create-pull-request@v7
               with:
