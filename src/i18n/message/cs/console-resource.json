@@ -20,7 +20,7 @@
         "closeAlert": "Pode desativar estas notificações nas definições do [{appName}]!"
     },
     "uk": {
-        "consoleLog": "Сьогодні ви відкривали {host} {time} разів, проводячи {focus} на перегляді.",
+        "consoleLog": "Сьогодні ви відкривали {host} {time} разів, витративши {focus}.",
         "closeAlert": "Ви можете вимкнути ці сповіщення в налаштуваннях [{appName}]!"
     },
     "es": {
