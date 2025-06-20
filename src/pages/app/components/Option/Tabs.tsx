@@ -36,6 +36,11 @@ const _default = defineComponent({
             } else if (activeName === importButtonName) {
                 try {
                     const fileContent = await createFileInput()
+                    if (fileContent === null) {
+                        // User cancelled file selection, don't show any message
+                        return Promise.reject()
+                    }
+
                     await importSettings(fileContent)
                     ElMessageBox({
                         message: t(msg => msg.option.importConfirm),
@@ -47,12 +52,7 @@ const _default = defineComponent({
                         window.location.reload()
                     }).catch(() => {/* do nothing */ })
                 } catch (error) {
-                    const errorMessage = (error as Error).message
-                    if (errorMessage === 'File selection cancelled' || errorMessage === 'No file selected') {
-                        // User cancelled, don't show error message
-                    } else {
-                        ElMessage.error(t(msg => msg.option.importError))
-                    }
+                    ElMessage.error(t(msg => msg.option.importError))
                 }
                 return Promise.reject()
             }

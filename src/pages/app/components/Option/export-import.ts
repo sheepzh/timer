@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2025 Hengyang Zhang
- *
+ * Copyright (c) 2025 Aka Sai Lalith Kumar
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -79,8 +78,9 @@ async function validateAndMergeSettings(importedSettings: Partial<timer.option.A
 
 /**
  * Create a file input element to select JSON file for import
+ * @returns Promise that resolves with file content string, or null if user cancels
  */
-export function createFileInput(): Promise<string> {
+export function createFileInput(): Promise<string | null> {
     return new Promise((resolve, reject) => {
         const input = document.createElement('input')
         input.type = 'file'
@@ -90,7 +90,8 @@ export function createFileInput(): Promise<string> {
         input.onchange = (event) => {
             const file = (event.target as HTMLInputElement).files?.[0]
             if (!file) {
-                reject(new Error('No file selected'))
+                // User didn't select a file (cancelled or closed dialog)
+                resolve(null)
                 return
             }
 
@@ -103,7 +104,7 @@ export function createFileInput(): Promise<string> {
             reader.readAsText(file)
         }
 
-        input.oncancel = () => reject(new Error('File selection cancelled'))
+        input.oncancel = () => resolve(null)
 
         document.body.appendChild(input)
         input.click()
