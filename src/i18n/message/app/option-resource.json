@@ -131,6 +131,8 @@
         "exportSuccess": "设置导出成功",
         "importSuccess": "设置导入成功",
         "importError": "导入失败：无效的设置文件",
+        "importConfirm": "设置导入成功，请刷新页面以应用更改！",
+        "reloadButton": "刷新",
         "defaultValue": "默认值: {default}"
     },
     "zh_TW": {
@@ -264,6 +266,8 @@
         "exportSuccess": "設定匯出成功",
         "importSuccess": "設定匯入成功",
         "importError": "匯入失敗：無效的設定檔案",
+        "importConfirm": "設定匯入成功，請重新整理頁面以套用變更！",
+        "reloadButton": "重新整理",
         "defaultValue": "預設值：{default}"
     },
     "en": {
@@ -398,6 +402,8 @@
     "exportSuccess": "Settings exported successfully",
     "importSuccess": "Settings imported successfully",
     "importError": "Import failed: Invalid settings file",
+    "importConfirm": "Settings imported successfully, please reload the page to apply changes!",
+    "reloadButton": "Reload",
     "defaultValue": "Default: {default}"
     },
     "ja": {
@@ -531,6 +537,8 @@
         "exportSuccess": "設定が正常にエクスポートされました",
         "importSuccess": "設定が正常にインポートされました",
         "importError": "インポートに失敗しました：無効な設定ファイル",
+        "importConfirm": "設定が正常にインポートされました。変更を適用するためにページをリロードしてください！",
+        "reloadButton": "リロード",
         "defaultValue": "デフォルト値：{default}"
     },
     "pt_PT": {

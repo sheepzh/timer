@@ -129,6 +129,8 @@ export type OptionMessage = {
     exportSuccess: string
     importSuccess: string
     importError: string
+    importConfirm: string
+    reloadButton: string
     defaultValue: string
 }
 

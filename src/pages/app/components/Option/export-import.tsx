@@ -42,7 +42,7 @@ export async function importSettings(jsonString: string): Promise<void> {
     }
 
     // Validate the imported settings structure
-    const validatedSettings = validateAndMergeSettings(importData.settings)
+    const validatedSettings = await validateAndMergeSettings(importData.settings)
 
     // Set the imported settings
     await optionHolder.set(validatedSettings)
@@ -51,8 +51,9 @@ export async function importSettings(jsonString: string): Promise<void> {
 /**
  * Validate imported settings and merge with defaults to ensure all required fields exist
  */
-function validateAndMergeSettings(importedSettings: Partial<timer.option.AllOption>): timer.option.AllOption {
-    const defaults = defaultOption()
+async function validateAndMergeSettings(importedSettings: Partial<timer.option.AllOption>): Promise<timer.option.AllOption> {
+    // Get current user settings as defaults instead of default options
+    const defaults = await optionHolder.get()
 
     // Merge imported settings with defaults, giving preference to imported values
     const mergedSettings: timer.option.AllOption = {

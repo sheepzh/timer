@@ -1,6 +1,6 @@
 import { t } from "@app/locale"
 import { Download, Refresh, Upload } from "@element-plus/icons-vue"
-import { ElIcon, ElMessage, ElTabPane, ElTabs, TabPaneName } from "element-plus"
+import { ElIcon, ElMessage, ElMessageBox, ElTabPane, ElTabs, TabPaneName } from "element-plus"
 import { defineComponent, h, ref, useSlots } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
@@ -37,9 +37,15 @@ const _default = defineComponent({
                 try {
                     const fileContent = await createFileInput()
                     await importSettings(fileContent)
-                    ElMessage.success(t(msg => msg.option.importSuccess))
-                    // Reload the page to reflect the imported settings
-                    window.location.reload()
+                    ElMessageBox({
+                        message: t(msg => msg.option.importConfirm),
+                        type: "success",
+                        confirmButtonText: t(msg => msg.option.reloadButton),
+                        closeOnPressEscape: false,
+                        closeOnClickModal: false
+                    }).then(() => {
+                        window.location.reload()
+                    }).catch(() => {/* do nothing */ })
                 } catch (error) {
                     const errorMessage = (error as Error).message
                     if (errorMessage === 'File selection cancelled' || errorMessage === 'No file selected') {
@@ -84,11 +90,10 @@ const _default = defineComponent({
                         name={exportButtonName}
                         v-slots={{
                             label: () => (
-                                <div>
+                                <div title={t(msg => msg.option.exportButton)}>
                                     <ElIcon>
                                         <Download />
                                     </ElIcon>
-                                    {t(msg => msg.option.exportButton)}
                                 </div>
                             )
                         }}
@@ -97,11 +102,10 @@ const _default = defineComponent({
                         name={importButtonName}
                         v-slots={{
                             label: () => (
-                                <div>
+                                <div title={t(msg => msg.option.importButton)}>
                                     <ElIcon>
                                         <Upload />
                                     </ElIcon>
-                                    {t(msg => msg.option.importButton)}
                                 </div>
                             )
                         }}
