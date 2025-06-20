@@ -4,15 +4,12 @@ import {
     type RspackPluginInstance,
     type RuleSetRule
 } from "@rspack/core"
-import path from "path"
+import path, { join } from "path"
 import postcssRTLCSS from 'postcss-rtlcss'
 import i18nChrome from "../src/i18n/chrome"
-import tsConfig from '../tsconfig.json'
 import { GenerateJsonPlugin } from "./plugins/generate-json"
 
 export const MANIFEST_JSON_NAME = "manifest.json"
-
-const tsPathAlias = tsConfig.compilerOptions.paths
 
 const generateJsonPlugins: RspackPluginInstance[] = []
 
@@ -20,35 +17,6 @@ const localeJsonFiles = Object.entries(i18nChrome)
     .map(([locale, message]) => new GenerateJsonPlugin(`_locales/${locale}/messages.json`, message))
     .map(plugin => plugin as unknown as RspackPluginInstance)
 generateJsonPlugins.push(...localeJsonFiles)
-
-// Process the alias of typescript modules
-const resolveAlias: { [index: string]: string | false | string[] } = {}
-const aliasPattern = /^(@.*)\/\*$/
-const sourcePattern = /^(src(\/.*)?)\/\*$/
-Object.entries(tsPathAlias).forEach(([alias, sourceArr]) => {
-    if (!sourceArr.length) {
-        return
-    }
-    const aliasMatchRes = alias.match(aliasPattern)
-    if (!aliasMatchRes) {
-        // Only process the alias starts with '@'
-        return
-    }
-    const [, index] = aliasMatchRes
-    const rspackSourceArr: string[] = []
-    sourceArr.forEach(source => {
-        const matchRes = source.match(sourcePattern)
-        if (!matchRes) {
-            // Only set alias which is in /src folder
-            return
-        }
-        const [, folder] = matchRes
-        rspackSourceArr.push(path.resolve(__dirname, '..', folder))
-    })
-    resolveAlias[index] = rspackSourceArr
-})
-console.log("Alias of typescript: ")
-console.log(resolveAlias)
 
 type EntryConfig = {
     name: string
@@ -140,7 +108,7 @@ const staticOptions: Configuration = {
     },
     resolve: {
         extensions: ['.ts', '.tsx', ".js", '.css', '.scss', '.sass'],
-        alias: resolveAlias,
+        tsConfig: join(__dirname, '..', 'tsconfig.json'),
         fallback: {
             // fallbacks of axios's dependencies start
             stream: require.resolve('stream-browserify'),

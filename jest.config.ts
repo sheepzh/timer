@@ -1,7 +1,7 @@
 import { type Config } from "@jest/types"
-import tsConfig from './tsconfig.json'
+import { compilerOptions } from './tsconfig.json'
 
-const paths = tsConfig.compilerOptions.paths
+const { paths } = compilerOptions
 
 const aliasPattern = /^(@.*)\/\*$/
 const sourcePattern = /^(.*)\/\*$/

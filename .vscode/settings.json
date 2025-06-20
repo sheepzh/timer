@@ -9,7 +9,11 @@
     "javascript.format.insertSpaceAfterCommaDelimiter": true,
     "javascript.preferences.quoteStyle": "single",
     "javascript.format.semicolons": "remove",
-    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+    "typescript.format.insertSpaceAfterCommaDelimiter": true,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.format.semicolons": "remove",
+    "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
     "files.eol": "\n",
     "cSpell.words": [
         "Arrayable",
