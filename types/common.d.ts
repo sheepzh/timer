@@ -4,7 +4,7 @@ declare type EmbeddedPartial<T> = {
     ? Array<EmbeddedPartial<U>>
     : T[P] extends ReadonlyArray<infer U>
     ? ReadonlyArray<EmbeddedPartial<U>>
-    : EmbeddedPartial<T[P]>;
+    : EmbeddedPartial<T[P]>
 }
 
 /**

@@ -28,7 +28,7 @@ function migrate(exist: Items, toMigrate: any) {
         if (!n || existLabels.has(n)) return
 
         const id = idBase
-        idBase++;
+        idBase++
         exist[id] = { n }
     })
 }

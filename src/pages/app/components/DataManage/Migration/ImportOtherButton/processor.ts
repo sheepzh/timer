@@ -119,12 +119,12 @@ function parseHistoryTrendsUnlimitedLine(line: string, data: { [dateAndHost: str
     const tsMaybe = cells?.[1]?.trim?.()
     if (/^U\d{13,}(\.\d*)?$/.test(tsMaybe)) {
         // Backup data
-        let date: string;
+        let date: string
         try {
             date = formatTimeYMD(parseFloat(tsMaybe.substring(1)))
         } catch {
             console.error("Invalid line: " + line)
-            return;
+            return
         }
         const host = extractHostname(url)?.host
         if (!host) return

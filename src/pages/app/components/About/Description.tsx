@@ -2,6 +2,7 @@ import { t } from "@app/locale"
 import { useMediaSize } from "@hooks"
 import { MediaSize } from "@hooks/useMediaSize"
 import { locale } from "@i18n"
+import Flex from "@pages/components/Flex"
 import metaService from "@service/meta-service"
 import packageInfo, { AUTHOR_EMAIL } from "@src/package"
 import {
@@ -16,12 +17,11 @@ import {
     REVIEW_PAGE,
     SOURCE_CODE_PAGE,
 } from "@util/constant/url"
-import { type ComponentSize, ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElSpace, ElText } from "element-plus"
+import { type ComponentSize, ElCard, ElDescriptions, ElDescriptionsItem, ElDivider, ElText } from "element-plus"
 import { computed, defineComponent } from "vue"
 import DescLink from "./DescLink"
 import "./description.sass"
 import InstallationLink from "./InstallationLink"
-import Flex from "@pages/components/Flex"
 
 const computeSize = (mediaSize: MediaSize): ComponentSize => {
     if (mediaSize <= MediaSize.sm) {

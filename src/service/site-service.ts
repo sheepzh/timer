@@ -93,7 +93,7 @@ class SiteService {
 
     async selectByPage(param?: SiteQueryParam, page?: timer.common.PageQuery): Promise<timer.common.PageResult<timer.site.SiteInfo>> {
         const origin: timer.site.SiteInfo[] = await siteDatabase.select(param)
-        const result: timer.common.PageResult<timer.site.SiteInfo> = slicePageResult(origin, page);
+        const result: timer.common.PageResult<timer.site.SiteInfo> = slicePageResult(origin, page)
         return result
     }
 
