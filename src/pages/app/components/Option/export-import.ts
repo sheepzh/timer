@@ -5,9 +5,8 @@
  */
 
 import optionHolder from "@service/components/option-holder"
-import { exportJson } from "@util/file"
-import { deserialize } from "@util/file"
-import { defaultOption } from "@util/constant/option"
+import { deserialize, exportJson } from "@util/file"
+import { mergeObject } from '@util/lang'
 
 export interface ExportedSettings {
     version: string
@@ -23,7 +22,7 @@ export async function exportSettings(): Promise<void> {
     const exportData: ExportedSettings = {
         version: '1.0',
         timestamp: Date.now(),
-        settings
+        settings,
     }
 
     const fileName = `timer-settings-${new Date().toISOString().split('T')[0]}`
@@ -53,27 +52,9 @@ export async function importSettings(jsonString: string): Promise<void> {
 async function validateAndMergeSettings(importedSettings: Partial<timer.option.AllOption>): Promise<timer.option.AllOption> {
     // Get current user settings as defaults instead of default options
     const defaults = await optionHolder.get()
-
-    // Merge imported settings with defaults, giving preference to imported values
-    const mergedSettings: timer.option.AllOption = {
-        ...defaults,
-        ...importedSettings
-    }
-
-    // Ensure critical nested objects exist
-    if (importedSettings.backupAuths) {
-        mergedSettings.backupAuths = { ...defaults.backupAuths, ...importedSettings.backupAuths }
-    }
-
-    if (importedSettings.backupLogin) {
-        mergedSettings.backupLogin = { ...defaults.backupLogin, ...importedSettings.backupLogin }
-    }
-
-    if (importedSettings.backupExts) {
-        mergedSettings.backupExts = { ...defaults.backupExts, ...importedSettings.backupExts }
-    }
-
-    return mergedSettings
+    // Delete client name
+    delete importedSettings['clientName']
+    return mergeObject(defaults, importedSettings)
 }
 
 /**

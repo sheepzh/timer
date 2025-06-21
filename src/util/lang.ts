@@ -24,3 +24,13 @@ export const deepCopy = <T = any | null | undefined>(obj: T): T => {
     })
     return deep as T
 }
+
+export const mergeObject = <T extends Record<string, any>>(defaults: T, newVal: Partial<T>): T => {
+    Object.entries(newVal).forEach(([k, v]) => {
+        if (typeof v === 'object' && !!v && !Array.isArray(v)) {
+            (defaults as any)[k] = mergeObject(defaults[k], v as Record<string, any>)
+        }
+        (defaults as any)[k] = v
+    })
+    return defaults
+}

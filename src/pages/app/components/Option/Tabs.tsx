@@ -1,64 +1,94 @@
 import { t } from "@app/locale"
 import { Download, Refresh, Upload } from "@element-plus/icons-vue"
-import { ElIcon, ElMessage, ElMessageBox, ElTabPane, ElTabs, TabPaneName } from "element-plus"
+import Flex from "@pages/components/Flex"
+import { ElLink, ElMessage, ElMessageBox, ElTabPane, ElTabs, ElTooltip, TabPaneName } from "element-plus"
 import { defineComponent, h, ref, useSlots } from "vue"
 import { useRouter } from "vue-router"
 import ContentContainer from "../common/ContentContainer"
 import { CATE_LABELS, changeQuery, type OptionCategory, parseQuery } from "./common"
-import { exportSettings, importSettings, createFileInput } from "./export-import"
+import { createFileInput, exportSettings, importSettings } from "./export-import"
 
-const resetButtonName = "reset"
-const exportButtonName = "export"
-const importButtonName = "import"
+const TOOLBAR_NAME = "toolbar"
 
-const _default = defineComponent({
-    emits: {
-        reset: (_cate: OptionCategory, _callback: () => void) => Promise.resolve(true),
-    },
-    setup: (_, ctx) => {
-        const tab = ref(parseQuery() || 'appearance')
+type TooltipProps = {
+    onReset?: NoArgCallback
+}
+
+const Toolbar = defineComponent<TooltipProps>(props => {
+    const handleExport = async () => {
+        try {
+            await exportSettings()
+            ElMessage.success(t(msg => msg.option.exportSuccess))
+        } catch (error) {
+            ElMessage.error('Export failed: ' + (error as Error).message)
+        }
+    }
+
+    const handleImport = async () => {
+        try {
+            const fileContent = await createFileInput()
+            // User cancelled, don't show error message
+            if (!fileContent) return
+            await importSettings(fileContent)
+            ElMessageBox({
+                message: t(msg => msg.option.importConfirm),
+                type: "success",
+                confirmButtonText: t(msg => msg.option.reloadButton),
+                closeOnPressEscape: false,
+                closeOnClickModal: false
+            }).then(() => {
+                window.location.reload()
+            }).catch(() => {/* do nothing */ })
+        } catch (error) {
+            ElMessage.error(t(msg => msg.option.importError))
+        }
+    }
+
+    return () => (
+        <Flex align="center" gap={10} onClick={ev => ev.stopPropagation()}>
+            <ElTooltip content={t(msg => msg.option.exportButton)}>
+                <ElLink
+                    icon={Download}
+                    underline="never"
+                    onClick={handleExport}
+                />
+            </ElTooltip>
+            <ElTooltip content={t(msg => msg.option.importButton)}>
+                <ElLink
+                    icon={Upload}
+                    underline="never"
+                    onClick={handleImport}
+                />
+            </ElTooltip>
+            <ElLink
+                icon={Refresh}
+                underline="never"
+                onClick={() => props.onReset?.()}
+            >
+                {t(msg => msg.option.resetButton)}
+            </ElLink>
+        </Flex>
+    )
+}, {
+    props: ['onReset']
+})
+
+type Props = { onReset: (cate: OptionCategory) => Promise<void> | void }
+
+const _default = defineComponent<Props>(
+    props => {
+        const tab = ref(parseQuery() ?? 'appearance')
         const router = useRouter()
+        const handleReset = () => props.onReset?.(tab.value)
 
-        const handleBeforeLeave = async (activeName: TabPaneName, oldActiveName: TabPaneName): Promise<boolean> => {
-            if (activeName === resetButtonName) {
-                const cate: OptionCategory = oldActiveName as OptionCategory
-                await new Promise<void>(res => ctx.emit('reset', cate, res))
-                ElMessage.success(t(msg => msg.option.resetSuccess))
-                return Promise.reject()
-            } else if (activeName === exportButtonName) {
-                try {
-                    await exportSettings()
-                    ElMessage.success(t(msg => msg.option.exportSuccess))
-                } catch (error) {
-                    ElMessage.error('Export failed: ' + (error as Error).message)
-                }
-                return Promise.reject()
-            } else if (activeName === importButtonName) {
-                try {
-                    const fileContent = await createFileInput()
-                    if (fileContent === null) {
-                        // User cancelled file selection, don't show any message
-                        return Promise.reject()
-                    }
-
-                    await importSettings(fileContent)
-                    ElMessageBox({
-                        message: t(msg => msg.option.importConfirm),
-                        type: "success",
-                        confirmButtonText: t(msg => msg.option.reloadButton),
-                        closeOnPressEscape: false,
-                        closeOnClickModal: false
-                    }).then(() => {
-                        window.location.reload()
-                    }).catch(() => {/* do nothing */ })
-                } catch (error) {
-                    ElMessage.error(t(msg => msg.option.importError))
-                }
+        const handleBeforeLeave = (activeName: TabPaneName): Promise<boolean> => {
+            if (activeName === TOOLBAR_NAME) {
+                // do nothing, and never happen
                 return Promise.reject()
             }
             // Change the query of current route
             changeQuery(activeName as OptionCategory, router)
-            return true
+            return Promise.resolve(true)
         }
         return () => (
             <ContentContainer>
@@ -74,46 +104,12 @@ const _default = defineComponent({
                         </ElTabPane>
                     ))}
                     <ElTabPane
-                        name={resetButtonName}
-                        v-slots={{
-                            label: () => (
-                                <div>
-                                    <ElIcon>
-                                        <Refresh />
-                                    </ElIcon>
-                                    {t(msg => msg.option.resetButton)}
-                                </div>
-                            )
-                        }}
-                    />
-                    <ElTabPane
-                        name={exportButtonName}
-                        v-slots={{
-                            label: () => (
-                                <div title={t(msg => msg.option.exportButton)}>
-                                    <ElIcon>
-                                        <Download />
-                                    </ElIcon>
-                                </div>
-                            )
-                        }}
-                    />
-                    <ElTabPane
-                        name={importButtonName}
-                        v-slots={{
-                            label: () => (
-                                <div title={t(msg => msg.option.importButton)}>
-                                    <ElIcon>
-                                        <Upload />
-                                    </ElIcon>
-                                </div>
-                            )
-                        }}
+                        name={TOOLBAR_NAME}
+                        v-slots={{ label: () => <Toolbar onReset={handleReset} /> }}
                     />
                 </ElTabs>
             </ContentContainer>
         )
-    }
-})
+    }, { props: ['onReset'] })
 
 export default _default

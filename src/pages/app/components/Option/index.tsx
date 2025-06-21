@@ -39,10 +39,7 @@ const _default = defineComponent(() => {
         backup: () => <BackupOption ref={paneRefMap.backup} />,
     }
 
-    const handleReset = async (cate: OptionCategory, callback: () => void) => {
-        await paneRefMap[cate]?.value?.reset?.()
-        callback?.()
-    }
+    const handleReset = (cate: OptionCategory) => paneRefMap[cate]?.value?.reset?.()
 
     return () => mediaSize.value <= MediaSize.sm
         ? <Select v-slots={slots} />

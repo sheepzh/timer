@@ -26,7 +26,7 @@ export function exportCsv(titleAndData: any[][], fileName: string) {
  * @since 0.0.7
  */
 export function exportJson(data: any, fileName: string) {
-    const jsonStr = JSON.stringify(data)
+    const jsonStr = JSON.stringify(data, null, 4)
     var blob = new Blob([jsonStr], { type: 'text/json' })
 
     exportBlob(blob, fileName + '.json')
