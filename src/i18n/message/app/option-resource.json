@@ -401,16 +401,16 @@
             "title": "Accessibility",
             "chartDecal": "{input} Whether to display the chart decal"
         },
-    "resetButton": "Reset",
-    "resetSuccess": "Reset to default successfully!",
-    "exportButton": "Export Settings",
-    "importButton": "Import Settings",
-    "exportSuccess": "Settings exported successfully",
-    "importSuccess": "Settings imported successfully",
-    "importError": "Import failed: Invalid settings file",
-    "importConfirm": "Settings imported successfully, please reload the page to apply changes!",
-    "reloadButton": "Reload",
-    "defaultValue": "Default: {default}"
+        "resetButton": "Reset",
+        "resetSuccess": "Reset to default successfully!",
+        "exportButton": "Export Settings",
+        "importButton": "Import Settings",
+        "exportSuccess": "Settings exported successfully",
+        "importSuccess": "Settings imported successfully",
+        "importError": "Import failed: Invalid settings file",
+        "importConfirm": "Settings imported successfully, please reload the page to apply changes!",
+        "reloadButton": "Reload",
+        "defaultValue": "Default: {default}"
     },
     "ja": {
         "yes": "はい",
